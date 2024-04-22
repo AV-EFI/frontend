@@ -1,0 +1,23 @@
+[
+{
+    "$formkit": "toggle",
+    "label": "Erweitert",
+    "name": "searchToggle",
+    "id": "searchToggle"
+  },
+  {
+    "name": "regularSearch",
+    "if": "searchToggle",
+    "$formkit": "group",
+    "children": [ 
+        {
+        "$formkit": "autocomplete",
+          "name":"movie",
+          "placeholder":"Titelsuche",
+          "popover":true,
+          "select-icon":"caretDown",
+          "load-on-created":true
+        }
+    ]
+  }
+]

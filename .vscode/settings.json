@@ -1,0 +1,7 @@
+{
+    "eslint.run": "onSave",
+    "eslint.options": {      
+    },
+    "vs-code-prettier-eslint.prettierLast": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

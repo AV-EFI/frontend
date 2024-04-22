@@ -1,0 +1,4641 @@
+[
+  {
+    "data": [
+      {
+        "id": 7924237283098624,
+        "attributes": {
+          "Title": "veniam corrupti asperiores",
+          "createdAt": "2024-04-14T15:58:42.685Z",
+          "updatedAt": "2024-04-14T18:24:35.529Z",
+          "publishedAt": "2024-04-14T11:48:40.634Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "corporis aperiam exercitationem",
+          "LastModified": "2024-04-14T08:45:06.262Z",
+          "YearOfReference": [
+            {
+              "id": 6177006525874176,
+              "yearOfReferenceDate": "2024-04-15T06:27:15.594Z",
+              "yearOfReferenceStart": 1964,
+              "yearOfReferenceEnd": 1900,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 4525297657446400,
+              "yearOfReferenceDate": "2024-04-14T09:10:36.772Z",
+              "yearOfReferenceStart": 1976,
+              "yearOfReferenceEnd": 2007,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 6334484584595456,
+                "attributes": {
+                  "SeriesTitle": "quas doloribus debitis",
+                  "createdAt": "2024-04-14T15:58:42.685Z",
+                  "updatedAt": "2024-04-14T18:24:35.529Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "velit",
+                  "SeriesTitleType": "hic"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 4638749143072768,
+                "attributes": {
+                  "CastName": "Ceylin Kallabis",
+                  "CastFirstName": "Toni",
+                  "CastLastName": "Plass",
+                  "CastIdentifier": "asperiores",
+                  "createdAt": "2024-04-14T15:58:42.685Z",
+                  "updatedAt": "2024-04-14T18:24:35.529Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 791641610780672,
+              "attributes": {
+                "ProductionCompanyName": "Kloss-Brehmer",
+                "ProductionCompanyIdentifier": "explicabo",
+                "createdAt": "2024-04-14T15:58:42.685Z",
+                "updatedAt": "2024-04-14T18:24:35.529Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 739939029352448
+          },
+          "FirstKnownManifestation": {
+            "id": 2240154521567232,
+            "OriginalLength": 7481490931712000,
+            "OriginalLengthUnit": "ipsam",
+            "OriginalDuration": "103:26"
+          },
+          "Genre": [
+            {
+              "id": 5148097170636800,
+              "GenreName": "Home Movie"
+            },
+            {
+              "id": 7013256478588928,
+              "GenreName": "Newsreel"
+            },
+            {
+              "id": 7055199512297472,
+              "GenreName": "Propaganda Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 7924237283098624,
+              "attributes": {
+                "SourceName": "Dittmer AG",
+                "SourceIdentifier": "quos",
+                "SourceAttribution": "Quis a asperiores.",
+                "SourceAttributionDate": "2024-04-15T07:49:37.332Z",
+                "SourceAttributionType": "Attributed",
+                "createdAt": "2024-04-14T15:58:42.685Z",
+                "updatedAt": "2024-04-14T18:24:35.529Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 7924237283098624,
+                "attributes": {
+                  "LangDe": "consectetur sapiente ipsa",
+                  "LangEn": "nam eveniet explicabo",
+                  "ref_AAT": "ex",
+                  "ref_GND": "voluptates",
+                  "createdAt": "2024-04-14T15:58:42.685Z",
+                  "updatedAt": "2024-04-14T18:24:35.529Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 4929132515295232,
+              "VersionName": "similique",
+              "VersionNumber": 1655623831781376
+            }
+          ],
+          "TitleType": {
+            "id": 3432895928598528,
+            "TitleTypeName": "nihil"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "nihil necessitatibus iure",
+                  "createdAt": "2024-04-14T14:22:20.378Z",
+                  "updatedAt": "2024-04-14T16:40:25.505Z",
+                  "publishedAt": "2024-04-14T13:53:20.295Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "id porro numquam",
+                  "LastModified": "2024-04-14T08:57:53.070Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "sunt iure doloremque",
+                  "createdAt": "2024-04-14T19:02:23.457Z",
+                  "updatedAt": "2024-04-15T07:42:00.084Z",
+                  "publishedAt": "2024-04-14T22:55:29.592Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "quae mollitia ab",
+                  "LastModified": "2024-04-14T08:58:55.891Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "dolores facilis quas",
+                  "createdAt": "2024-04-14T12:01:32.235Z",
+                  "updatedAt": "2024-04-14T19:05:55.324Z",
+                  "publishedAt": "2024-04-14T17:26:31.232Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "beatae fugit iure",
+                  "LastModified": "2024-04-15T04:20:38.198Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "nobis provident voluptate",
+                  "createdAt": "2024-04-14T16:22:32.671Z",
+                  "updatedAt": "2024-04-14T23:45:40.840Z",
+                  "publishedAt": "2024-04-15T07:35:44.687Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "qui ratione qui",
+                  "LastModified": "2024-04-14T15:43:46.425Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 1076843564236800,
+        "attributes": {
+          "Title": "consequatur numquam repellendus",
+          "createdAt": "2024-04-15T06:37:04.129Z",
+          "updatedAt": "2024-04-14T21:37:59.905Z",
+          "publishedAt": "2024-04-14T09:28:59.912Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "tempora qui voluptas",
+          "LastModified": "2024-04-15T03:51:22.829Z",
+          "YearOfReference": [
+            {
+              "id": 6915055377448960,
+              "yearOfReferenceDate": "2024-04-14T17:00:21.949Z",
+              "yearOfReferenceStart": 1976,
+              "yearOfReferenceEnd": 1998,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 1409504371539968,
+                "attributes": {
+                  "SeriesTitle": "perferendis adipisci voluptas",
+                  "createdAt": "2024-04-15T06:37:04.129Z",
+                  "updatedAt": "2024-04-14T21:37:59.905Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "odio",
+                  "SeriesTitleType": "ea"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 3536096761741312,
+                "attributes": {
+                  "CastName": "Niels Wierig",
+                  "CastFirstName": "Tristan",
+                  "CastLastName": "Kaesmacher",
+                  "CastIdentifier": "blanditiis",
+                  "createdAt": "2024-04-15T06:37:04.129Z",
+                  "updatedAt": "2024-04-14T21:37:59.905Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 4526876236185600,
+              "attributes": {
+                "ProductionCompanyName": "Schönbeck, Hingst und Reiber",
+                "ProductionCompanyIdentifier": "quas",
+                "createdAt": "2024-04-15T06:37:04.129Z",
+                "updatedAt": "2024-04-14T21:37:59.905Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 188450124857344
+          },
+          "FirstKnownManifestation": {
+            "id": 4762083398778880,
+            "OriginalLength": 9004109447299072,
+            "OriginalLengthUnit": "unde",
+            "OriginalDuration": "39:50"
+          },
+          "Genre": [
+            {
+              "id": 7497546830184448,
+              "GenreName": "Industrial Film"
+            },
+            {
+              "id": 8706341432459264,
+              "GenreName": "Fiction"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 1076843564236800,
+              "attributes": {
+                "SourceName": "Jungbluth GmbH & Co. KG",
+                "SourceIdentifier": "magnam",
+                "SourceAttribution": "Reprehenderit culpa deleniti.",
+                "SourceAttributionDate": "2024-04-15T01:34:23.871Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-15T06:37:04.129Z",
+                "updatedAt": "2024-04-14T21:37:59.905Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 1076843564236800,
+                "attributes": {
+                  "LangDe": "consequatur recusandae animi",
+                  "LangEn": "sint voluptatibus rem",
+                  "ref_AAT": "velit",
+                  "ref_GND": "quam",
+                  "createdAt": "2024-04-15T06:37:04.129Z",
+                  "updatedAt": "2024-04-14T21:37:59.905Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 8938915455041536,
+              "VersionName": "cupiditate",
+              "VersionNumber": 2255095014096896
+            }
+          ],
+          "TitleType": {
+            "id": 2102578479366144,
+            "TitleTypeName": "impedit"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "placeat minus officia",
+                  "createdAt": "2024-04-14T10:31:02.058Z",
+                  "updatedAt": "2024-04-14T11:14:38.480Z",
+                  "publishedAt": "2024-04-14T13:56:46.161Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "corrupti nostrum ex",
+                  "LastModified": "2024-04-14T20:06:27.938Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "tenetur rem fuga",
+                  "createdAt": "2024-04-14T12:25:47.043Z",
+                  "updatedAt": "2024-04-14T19:08:00.719Z",
+                  "publishedAt": "2024-04-15T07:41:56.447Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "nesciunt maiores autem",
+                  "LastModified": "2024-04-15T05:10:05.662Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "exercitationem dolores excepturi",
+                  "createdAt": "2024-04-14T16:40:16.661Z",
+                  "updatedAt": "2024-04-14T19:00:24.743Z",
+                  "publishedAt": "2024-04-15T01:36:20.929Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "vitae harum quam",
+                  "LastModified": "2024-04-14T22:20:33.393Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 8190691337306112,
+        "attributes": {
+          "Title": "delectus similique placeat",
+          "createdAt": "2024-04-14T09:49:53.168Z",
+          "updatedAt": "2024-04-15T01:10:44.507Z",
+          "publishedAt": "2024-04-14T13:48:22.098Z",
+          "locale": "en",
+          "CountryOfReference": "UK",
+          "RelatedIdentifier": "facilis non ullam",
+          "LastModified": "2024-04-15T03:46:59.570Z",
+          "YearOfReference": [
+            {
+              "id": 2883061278572544,
+              "yearOfReferenceDate": "2024-04-14T12:25:51.861Z",
+              "yearOfReferenceStart": 1956,
+              "yearOfReferenceEnd": 1983,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 1066029859995648,
+              "yearOfReferenceDate": "2024-04-14T18:14:07.477Z",
+              "yearOfReferenceStart": 1917,
+              "yearOfReferenceEnd": 1921,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 8863356978987008,
+              "yearOfReferenceDate": "2024-04-14T18:41:37.570Z",
+              "yearOfReferenceStart": 1957,
+              "yearOfReferenceEnd": 1979,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 1811391149244416,
+                "attributes": {
+                  "SeriesTitle": "tenetur sed quis",
+                  "createdAt": "2024-04-14T09:49:53.168Z",
+                  "updatedAt": "2024-04-15T01:10:44.507Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "fugiat",
+                  "SeriesTitleType": "hic"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 2116585615523840,
+                "attributes": {
+                  "CastName": "Marko Normann",
+                  "CastFirstName": "Leana",
+                  "CastLastName": "Heidelmann",
+                  "CastIdentifier": "ea",
+                  "createdAt": "2024-04-14T09:49:53.168Z",
+                  "updatedAt": "2024-04-15T01:10:44.507Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6009243054374912,
+              "attributes": {
+                "ProductionCompanyName": "Krohn-Co",
+                "ProductionCompanyIdentifier": "voluptate",
+                "createdAt": "2024-04-14T09:49:53.168Z",
+                "updatedAt": "2024-04-15T01:10:44.507Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 7842894970880000
+          },
+          "FirstKnownManifestation": {
+            "id": 3224677608587264,
+            "OriginalLength": 8562682550550528,
+            "OriginalLengthUnit": "dolores",
+            "OriginalDuration": "32:13"
+          },
+          "Genre": [
+            {
+              "id": 520025226084352,
+              "GenreName": "Documentary Drama"
+            },
+            {
+              "id": 6350026529832960,
+              "GenreName": "Documentary Drama"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 8190691337306112,
+              "attributes": {
+                "SourceName": "Plotzitzka GmbH & Co. KG",
+                "SourceIdentifier": "soluta",
+                "SourceAttribution": "Iure ullam aspernatur tempora eligendi maiores aut qui sit ducimus.",
+                "SourceAttributionDate": "2024-04-14T10:19:06.493Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T09:49:53.168Z",
+                "updatedAt": "2024-04-15T01:10:44.507Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 8190691337306112,
+                "attributes": {
+                  "LangDe": "praesentium perferendis aperiam",
+                  "LangEn": "molestias nemo corrupti",
+                  "ref_AAT": "voluptatum",
+                  "ref_GND": "blanditiis",
+                  "createdAt": "2024-04-14T09:49:53.168Z",
+                  "updatedAt": "2024-04-15T01:10:44.507Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 248936451276800,
+              "VersionName": "rem",
+              "VersionNumber": 3010451090702336
+            }
+          ],
+          "TitleType": {
+            "id": 5692030676107264,
+            "TitleTypeName": "reprehenderit"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "veniam accusantium quia",
+                  "createdAt": "2024-04-14T15:19:06.048Z",
+                  "updatedAt": "2024-04-14T11:15:16.729Z",
+                  "publishedAt": "2024-04-14T13:44:46.204Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "autem illum illum",
+                  "LastModified": "2024-04-15T01:23:21.805Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 1777129675030528,
+        "attributes": {
+          "Title": "cumque vitae earum",
+          "createdAt": "2024-04-14T10:19:59.673Z",
+          "updatedAt": "2024-04-14T10:06:23.126Z",
+          "publishedAt": "2024-04-14T12:56:47.015Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "aliquid placeat eligendi",
+          "LastModified": "2024-04-14T14:01:46.518Z",
+          "YearOfReference": [
+            {
+              "id": 6407318581280768,
+              "yearOfReferenceDate": "2024-04-14T17:10:14.517Z",
+              "yearOfReferenceStart": 1954,
+              "yearOfReferenceEnd": 2000,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 5377372589129728,
+              "yearOfReferenceDate": "2024-04-15T00:54:26.051Z",
+              "yearOfReferenceStart": 1904,
+              "yearOfReferenceEnd": 1912,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 5620669792387072,
+              "yearOfReferenceDate": "2024-04-15T05:51:39.214Z",
+              "yearOfReferenceStart": 1983,
+              "yearOfReferenceEnd": 1956,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 1156315235745792,
+                "attributes": {
+                  "SeriesTitle": "laborum occaecati autem",
+                  "createdAt": "2024-04-14T10:19:59.673Z",
+                  "updatedAt": "2024-04-14T10:06:23.126Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "cumque",
+                  "SeriesTitleType": "officiis"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 3438468103405568,
+                "attributes": {
+                  "CastName": "Ludwig Lischka",
+                  "CastFirstName": "Milana",
+                  "CastLastName": "Reif",
+                  "CastIdentifier": "rerum",
+                  "createdAt": "2024-04-14T10:19:59.673Z",
+                  "updatedAt": "2024-04-14T10:06:23.126Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 3726552441290752,
+              "attributes": {
+                "ProductionCompanyName": "Poeschl, Knobel und Walz",
+                "ProductionCompanyIdentifier": "quam",
+                "createdAt": "2024-04-14T10:19:59.673Z",
+                "updatedAt": "2024-04-14T10:06:23.126Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 2501230936981504
+          },
+          "FirstKnownManifestation": {
+            "id": 8651514245545984,
+            "OriginalLength": 5720826674413568,
+            "OriginalLengthUnit": "sapiente",
+            "OriginalDuration": "4:28"
+          },
+          "Genre": [
+            {
+              "id": 127839636553728,
+              "GenreName": "Trailer"
+            },
+            {
+              "id": 6270690573418496,
+              "GenreName": "Non Fiction"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 1777129675030528,
+              "attributes": {
+                "SourceName": "Lakomy GmbH",
+                "SourceIdentifier": "cupiditate",
+                "SourceAttribution": "Eligendi autem officiis tempora magnam ut.",
+                "SourceAttributionDate": "2024-04-14T10:48:12.192Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T10:19:59.673Z",
+                "updatedAt": "2024-04-14T10:06:23.126Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 1777129675030528,
+                "attributes": {
+                  "LangDe": "cupiditate officiis possimus",
+                  "LangEn": "exercitationem labore at",
+                  "ref_AAT": "quisquam",
+                  "ref_GND": "debitis",
+                  "createdAt": "2024-04-14T10:19:59.673Z",
+                  "updatedAt": "2024-04-14T10:06:23.126Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 2361647666561024,
+              "VersionName": "sunt",
+              "VersionNumber": 1859568017604608
+            }
+          ],
+          "TitleType": {
+            "id": 8651370917789696,
+            "TitleTypeName": "ipsam"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "voluptates sequi laudantium",
+                  "createdAt": "2024-04-14T12:00:58.497Z",
+                  "updatedAt": "2024-04-14T08:04:53.027Z",
+                  "publishedAt": "2024-04-14T11:11:28.339Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "occaecati repudiandae eum",
+                  "LastModified": "2024-04-14T17:01:42.212Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "vel suscipit aliquam",
+                  "createdAt": "2024-04-14T23:07:19.412Z",
+                  "updatedAt": "2024-04-15T01:35:20.948Z",
+                  "publishedAt": "2024-04-14T15:50:44.010Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "modi vero temporibus",
+                  "LastModified": "2024-04-14T22:57:48.966Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "recusandae eum doloribus",
+                  "createdAt": "2024-04-14T23:11:04.803Z",
+                  "updatedAt": "2024-04-14T08:38:39.906Z",
+                  "publishedAt": "2024-04-14T08:14:31.019Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "a maiores omnis",
+                  "LastModified": "2024-04-14T17:28:08.339Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "et consequuntur non",
+                  "createdAt": "2024-04-14T20:56:02.548Z",
+                  "updatedAt": "2024-04-14T08:59:44.538Z",
+                  "publishedAt": "2024-04-14T12:15:36.950Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "eius veritatis architecto",
+                  "LastModified": "2024-04-14T18:58:39.587Z"
+                }
+              },
+              {
+                "id": 4,
+                "attributes": {
+                  "Title": "numquam occaecati occaecati",
+                  "createdAt": "2024-04-14T13:07:04.210Z",
+                  "updatedAt": "2024-04-15T04:06:00.511Z",
+                  "publishedAt": "2024-04-14T12:32:25.388Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "officiis deleniti magnam",
+                  "LastModified": "2024-04-14T19:01:40.012Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 2572911550398464,
+        "attributes": {
+          "Title": "eaque voluptatem repudiandae",
+          "createdAt": "2024-04-15T05:51:59.802Z",
+          "updatedAt": "2024-04-14T18:01:22.371Z",
+          "publishedAt": "2024-04-15T07:37:43.512Z",
+          "locale": "de",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "necessitatibus odio officia",
+          "LastModified": "2024-04-14T10:32:33.714Z",
+          "YearOfReference": [
+            {
+              "id": 6289209482543104,
+              "yearOfReferenceDate": "2024-04-15T00:53:22.589Z",
+              "yearOfReferenceStart": 1928,
+              "yearOfReferenceEnd": 2014,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 4255330519220224,
+              "yearOfReferenceDate": "2024-04-14T13:48:30.041Z",
+              "yearOfReferenceStart": 1987,
+              "yearOfReferenceEnd": 1952,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 5533181751066624,
+                "attributes": {
+                  "SeriesTitle": "quo omnis saepe",
+                  "createdAt": "2024-04-15T05:51:59.802Z",
+                  "updatedAt": "2024-04-14T18:01:22.371Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "nobis",
+                  "SeriesTitleType": "sint"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 3546369107165184,
+                "attributes": {
+                  "CastName": "Veit Walter",
+                  "CastFirstName": "Lino",
+                  "CastLastName": "Wimmer",
+                  "CastIdentifier": "quae",
+                  "createdAt": "2024-04-15T05:51:59.802Z",
+                  "updatedAt": "2024-04-14T18:01:22.371Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6043790712242176,
+              "attributes": {
+                "ProductionCompanyName": "Strege-Liebold",
+                "ProductionCompanyIdentifier": "reprehenderit",
+                "createdAt": "2024-04-15T05:51:59.802Z",
+                "updatedAt": "2024-04-14T18:01:22.371Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6867590263603200
+          },
+          "FirstKnownManifestation": {
+            "id": 1735193276710912,
+            "OriginalLength": 7600623147024384,
+            "OriginalLengthUnit": "eligendi",
+            "OriginalDuration": "100:43"
+          },
+          "Genre": [
+            {
+              "id": 3537802702618624,
+              "GenreName": "Anthology Film"
+            },
+            {
+              "id": 533149498998784,
+              "GenreName": "Fiction"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 2572911550398464,
+              "attributes": {
+                "SourceName": "Wiese AG",
+                "SourceIdentifier": "possimus",
+                "SourceAttribution": "Esse magnam libero dolores dolorem dolores quam.",
+                "SourceAttributionDate": "2024-04-15T06:16:58.428Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-15T05:51:59.802Z",
+                "updatedAt": "2024-04-14T18:01:22.371Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 2572911550398464,
+                "attributes": {
+                  "LangDe": "porro illum quae",
+                  "LangEn": "laborum delectus magnam",
+                  "ref_AAT": "nesciunt",
+                  "ref_GND": "ea",
+                  "createdAt": "2024-04-15T05:51:59.802Z",
+                  "updatedAt": "2024-04-14T18:01:22.371Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 3085057442971648,
+              "VersionName": "porro",
+              "VersionNumber": 4879373045858304
+            }
+          ],
+          "TitleType": {
+            "id": 2990337228275712,
+            "TitleTypeName": "perferendis"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "ducimus error doloribus",
+                  "createdAt": "2024-04-14T21:00:46.971Z",
+                  "updatedAt": "2024-04-14T19:42:23.967Z",
+                  "publishedAt": "2024-04-15T01:04:00.041Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "veniam et quas",
+                  "LastModified": "2024-04-14T17:24:28.334Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "praesentium tempora aliquam",
+                  "createdAt": "2024-04-14T16:02:00.008Z",
+                  "updatedAt": "2024-04-14T09:40:56.877Z",
+                  "publishedAt": "2024-04-14T18:37:21.021Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "quam non ab",
+                  "LastModified": "2024-04-14T15:12:39.128Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "veritatis nemo illo",
+                  "createdAt": "2024-04-14T09:34:51.485Z",
+                  "updatedAt": "2024-04-14T22:08:11.269Z",
+                  "publishedAt": "2024-04-14T13:41:17.215Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "accusantium neque commodi",
+                  "LastModified": "2024-04-14T08:51:49.558Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "aliquid earum autem",
+                  "createdAt": "2024-04-15T01:03:56.408Z",
+                  "updatedAt": "2024-04-14T19:52:41.906Z",
+                  "publishedAt": "2024-04-15T01:51:40.889Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "sit earum iste",
+                  "LastModified": "2024-04-14T16:12:07.759Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 1119335481344000,
+        "attributes": {
+          "Title": "doloribus repellendus perferendis",
+          "createdAt": "2024-04-14T10:31:01.493Z",
+          "updatedAt": "2024-04-14T08:39:53.924Z",
+          "publishedAt": "2024-04-14T21:48:37.344Z",
+          "locale": "de",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "aspernatur cupiditate a",
+          "LastModified": "2024-04-14T14:14:16.316Z",
+          "YearOfReference": [
+            {
+              "id": 1412117913665536,
+              "yearOfReferenceDate": "2024-04-15T01:41:14.892Z",
+              "yearOfReferenceStart": 1997,
+              "yearOfReferenceEnd": 1936,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 2434170099859456,
+              "yearOfReferenceDate": "2024-04-15T05:40:20.561Z",
+              "yearOfReferenceStart": 1953,
+              "yearOfReferenceEnd": 2015,
+              "yearOfReferenceType": "Created"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 3854758211223552,
+                "attributes": {
+                  "SeriesTitle": "eos repudiandae quo",
+                  "createdAt": "2024-04-14T10:31:01.493Z",
+                  "updatedAt": "2024-04-14T08:39:53.924Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "quasi",
+                  "SeriesTitleType": "repudiandae"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 6614962688491520,
+                "attributes": {
+                  "CastName": "Kira Diezel",
+                  "CastFirstName": "Diego",
+                  "CastLastName": "Kurrat",
+                  "CastIdentifier": "aut",
+                  "createdAt": "2024-04-14T10:31:01.493Z",
+                  "updatedAt": "2024-04-14T08:39:53.924Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 7770841519489024,
+              "attributes": {
+                "ProductionCompanyName": "Hönig-Döbel",
+                "ProductionCompanyIdentifier": "voluptates",
+                "createdAt": "2024-04-14T10:31:01.493Z",
+                "updatedAt": "2024-04-14T08:39:53.924Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 8987230487969792
+          },
+          "FirstKnownManifestation": {
+            "id": 489123980771328,
+            "OriginalLength": 4946354044403712,
+            "OriginalLengthUnit": "eligendi",
+            "OriginalDuration": "69:40"
+          },
+          "Genre": [
+            {
+              "id": 3081374162485248,
+              "GenreName": "Newsreel"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 1119335481344000,
+              "attributes": {
+                "SourceName": "Axmann GmbH & Co. KG",
+                "SourceIdentifier": "in",
+                "SourceAttribution": "Deleniti eligendi quaerat rerum.",
+                "SourceAttributionDate": "2024-04-15T06:03:33.566Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T10:31:01.493Z",
+                "updatedAt": "2024-04-14T08:39:53.924Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 1119335481344000,
+                "attributes": {
+                  "LangDe": "quia hic maxime",
+                  "LangEn": "numquam laboriosam id",
+                  "ref_AAT": "sunt",
+                  "ref_GND": "iste",
+                  "createdAt": "2024-04-14T10:31:01.493Z",
+                  "updatedAt": "2024-04-14T08:39:53.924Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 6558214659244032,
+              "VersionName": "quas",
+              "VersionNumber": 8639532159205376
+            }
+          ],
+          "TitleType": {
+            "id": 4389275466465280,
+            "TitleTypeName": "totam"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "rerum occaecati suscipit",
+                  "createdAt": "2024-04-14T11:42:22.154Z",
+                  "updatedAt": "2024-04-14T12:24:47.112Z",
+                  "publishedAt": "2024-04-14T21:44:07.158Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "iste neque dignissimos",
+                  "LastModified": "2024-04-14T16:12:39.425Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "quis enim ratione",
+                  "createdAt": "2024-04-14T10:39:35.216Z",
+                  "updatedAt": "2024-04-14T18:10:08.849Z",
+                  "publishedAt": "2024-04-14T23:59:52.749Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "dolores suscipit fugit",
+                  "LastModified": "2024-04-14T23:58:24.668Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "assumenda soluta veniam",
+                  "createdAt": "2024-04-14T22:35:52.193Z",
+                  "updatedAt": "2024-04-14T13:19:13.162Z",
+                  "publishedAt": "2024-04-14T22:21:57.965Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "nobis numquam ex",
+                  "LastModified": "2024-04-15T02:09:50.908Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 8893595708817408,
+        "attributes": {
+          "Title": "veritatis quo dolores",
+          "createdAt": "2024-04-14T15:58:49.914Z",
+          "updatedAt": "2024-04-15T02:44:10.768Z",
+          "publishedAt": "2024-04-15T07:13:03.762Z",
+          "locale": "de",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "aperiam fugit quam",
+          "LastModified": "2024-04-14T09:02:35.011Z",
+          "YearOfReference": [
+            {
+              "id": 6464770246967296,
+              "yearOfReferenceDate": "2024-04-15T06:34:13.581Z",
+              "yearOfReferenceStart": 1954,
+              "yearOfReferenceEnd": 1972,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 7803072988315648,
+              "yearOfReferenceDate": "2024-04-14T23:13:33.700Z",
+              "yearOfReferenceStart": 1979,
+              "yearOfReferenceEnd": 2022,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 6681084339159040,
+              "yearOfReferenceDate": "2024-04-15T04:14:36.143Z",
+              "yearOfReferenceStart": 1982,
+              "yearOfReferenceEnd": 1958,
+              "yearOfReferenceType": "Created"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 378943385370624,
+                "attributes": {
+                  "SeriesTitle": "dolorum quibusdam dolores",
+                  "createdAt": "2024-04-14T15:58:49.914Z",
+                  "updatedAt": "2024-04-15T02:44:10.768Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "ratione",
+                  "SeriesTitleType": "natus"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 5834479748775936,
+                "attributes": {
+                  "CastName": "Lee Venghaus",
+                  "CastFirstName": "Mirko",
+                  "CastLastName": "Krämer",
+                  "CastIdentifier": "unde",
+                  "createdAt": "2024-04-14T15:58:49.914Z",
+                  "updatedAt": "2024-04-15T02:44:10.768Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 258310888488960,
+              "attributes": {
+                "ProductionCompanyName": "Klink-Crews",
+                "ProductionCompanyIdentifier": "earum",
+                "createdAt": "2024-04-14T15:58:49.914Z",
+                "updatedAt": "2024-04-15T02:44:10.768Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 3805517730283520
+          },
+          "FirstKnownManifestation": {
+            "id": 2815743743754240,
+            "OriginalLength": 7203980862029824,
+            "OriginalLengthUnit": "et",
+            "OriginalDuration": "75:32"
+          },
+          "Genre": [
+            {
+              "id": 2406829348880384,
+              "GenreName": "Industrial Film"
+            },
+            {
+              "id": 8434146001027072,
+              "GenreName": "Essay Film"
+            },
+            {
+              "id": 6247848926511104,
+              "GenreName": "Animation"
+            },
+            {
+              "id": 4205535928778752,
+              "GenreName": "Animation with Live Action"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 8893595708817408,
+              "attributes": {
+                "SourceName": "Hadfield GmbH",
+                "SourceIdentifier": "iusto",
+                "SourceAttribution": "Est vero quae natus cum iure veritatis sed ab consequatur.",
+                "SourceAttributionDate": "2024-04-15T01:43:27.344Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T15:58:49.914Z",
+                "updatedAt": "2024-04-15T02:44:10.768Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 8893595708817408,
+                "attributes": {
+                  "LangDe": "vitae ipsum recusandae",
+                  "LangEn": "deserunt nulla officia",
+                  "ref_AAT": "aperiam",
+                  "ref_GND": "nihil",
+                  "createdAt": "2024-04-14T15:58:49.914Z",
+                  "updatedAt": "2024-04-15T02:44:10.768Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 5870940156067840,
+              "VersionName": "magni",
+              "VersionNumber": 4183992326684672
+            }
+          ],
+          "TitleType": {
+            "id": 1928119231447040,
+            "TitleTypeName": "ad"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "accusantium cumque cumque",
+                  "createdAt": "2024-04-15T04:43:40.520Z",
+                  "updatedAt": "2024-04-14T22:46:59.227Z",
+                  "publishedAt": "2024-04-14T23:20:27.793Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "itaque dicta quibusdam",
+                  "LastModified": "2024-04-14T20:35:36.935Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "ad dolore nisi",
+                  "createdAt": "2024-04-15T05:38:53.740Z",
+                  "updatedAt": "2024-04-14T20:02:44.702Z",
+                  "publishedAt": "2024-04-14T21:56:59.645Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "maiores temporibus exercitationem",
+                  "LastModified": "2024-04-14T20:16:59.701Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "reiciendis tenetur vel",
+                  "createdAt": "2024-04-15T04:06:46.802Z",
+                  "updatedAt": "2024-04-14T20:48:44.109Z",
+                  "publishedAt": "2024-04-14T08:37:37.553Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "accusantium voluptatum quidem",
+                  "LastModified": "2024-04-15T04:29:01.951Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "non voluptate consequuntur",
+                  "createdAt": "2024-04-14T17:27:56.121Z",
+                  "updatedAt": "2024-04-14T15:19:03.963Z",
+                  "publishedAt": "2024-04-15T01:23:40.483Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "libero molestiae quis",
+                  "LastModified": "2024-04-14T23:29:14.126Z"
+                }
+              },
+              {
+                "id": 4,
+                "attributes": {
+                  "Title": "animi asperiores debitis",
+                  "createdAt": "2024-04-14T09:44:28.492Z",
+                  "updatedAt": "2024-04-14T08:42:21.670Z",
+                  "publishedAt": "2024-04-14T14:28:01.828Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "esse blanditiis modi",
+                  "LastModified": "2024-04-15T02:32:22.031Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 6384682866311168,
+        "attributes": {
+          "Title": "optio consectetur ullam",
+          "createdAt": "2024-04-14T14:34:26.046Z",
+          "updatedAt": "2024-04-15T00:19:30.326Z",
+          "publishedAt": "2024-04-14T16:31:36.100Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "vel necessitatibus labore",
+          "LastModified": "2024-04-15T02:33:53.929Z",
+          "YearOfReference": [
+            {
+              "id": 1126632970518528,
+              "yearOfReferenceDate": "2024-04-14T15:59:43.999Z",
+              "yearOfReferenceStart": 1928,
+              "yearOfReferenceEnd": 2019,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 6161518622146560,
+              "yearOfReferenceDate": "2024-04-15T07:55:03.283Z",
+              "yearOfReferenceStart": 1974,
+              "yearOfReferenceEnd": 1932,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 6501165573341184,
+              "yearOfReferenceDate": "2024-04-14T22:27:13.969Z",
+              "yearOfReferenceStart": 2020,
+              "yearOfReferenceEnd": 1979,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 8469312998211584,
+                "attributes": {
+                  "SeriesTitle": "error alias ea",
+                  "createdAt": "2024-04-14T14:34:26.046Z",
+                  "updatedAt": "2024-04-15T00:19:30.326Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "corrupti",
+                  "SeriesTitleType": "voluptatibus"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 1493666464006144,
+                "attributes": {
+                  "CastName": "Ariana Platzer",
+                  "CastFirstName": "Charlotta",
+                  "CastLastName": "Reifenrath",
+                  "CastIdentifier": "quos",
+                  "createdAt": "2024-04-14T14:34:26.046Z",
+                  "updatedAt": "2024-04-15T00:19:30.326Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6348509483630592,
+              "attributes": {
+                "ProductionCompanyName": "Spielvogel, Vokuhl und Gabius",
+                "ProductionCompanyIdentifier": "aliquam",
+                "createdAt": "2024-04-14T14:34:26.046Z",
+                "updatedAt": "2024-04-15T00:19:30.326Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6306789901467648
+          },
+          "FirstKnownManifestation": {
+            "id": 6246025320726528,
+            "OriginalLength": 8752952137220096,
+            "OriginalLengthUnit": "nemo",
+            "OriginalDuration": "81:57"
+          },
+          "Genre": [
+            {
+              "id": 8078647409770496,
+              "GenreName": "Propaganda Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 6384682866311168,
+              "attributes": {
+                "SourceName": "Nöh GmbH",
+                "SourceIdentifier": "blanditiis",
+                "SourceAttribution": "Amet optio quasi ad consequatur explicabo error.",
+                "SourceAttributionDate": "2024-04-14T15:15:15.112Z",
+                "SourceAttributionType": "Attributed",
+                "createdAt": "2024-04-14T14:34:26.046Z",
+                "updatedAt": "2024-04-15T00:19:30.326Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 6384682866311168,
+                "attributes": {
+                  "LangDe": "odio iste quam",
+                  "LangEn": "similique consectetur odio",
+                  "ref_AAT": "magnam",
+                  "ref_GND": "quidem",
+                  "createdAt": "2024-04-14T14:34:26.046Z",
+                  "updatedAt": "2024-04-15T00:19:30.326Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 7717557731590144,
+              "VersionName": "nulla",
+              "VersionNumber": 355475797311488
+            }
+          ],
+          "TitleType": {
+            "id": 223698055331840,
+            "TitleTypeName": "modi"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "iure tempora fugit",
+                  "createdAt": "2024-04-14T19:35:54.779Z",
+                  "updatedAt": "2024-04-14T13:41:22.336Z",
+                  "publishedAt": "2024-04-14T15:29:52.367Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "amet nam quaerat",
+                  "LastModified": "2024-04-14T21:18:53.141Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "voluptates eaque repellat",
+                  "createdAt": "2024-04-14T20:59:21.169Z",
+                  "updatedAt": "2024-04-14T21:30:58.887Z",
+                  "publishedAt": "2024-04-14T12:26:25.711Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "quos quo ipsum",
+                  "LastModified": "2024-04-14T20:06:39.166Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 8157682548604928,
+        "attributes": {
+          "Title": "eveniet itaque saepe",
+          "createdAt": "2024-04-14T23:40:47.301Z",
+          "updatedAt": "2024-04-14T10:13:46.252Z",
+          "publishedAt": "2024-04-15T07:01:49.967Z",
+          "locale": "en",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "velit itaque ullam",
+          "LastModified": "2024-04-14T18:27:22.772Z",
+          "YearOfReference": [
+            {
+              "id": 8058928361373696,
+              "yearOfReferenceDate": "2024-04-14T11:40:36.842Z",
+              "yearOfReferenceStart": 1905,
+              "yearOfReferenceEnd": 1983,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 533434915094528,
+              "yearOfReferenceDate": "2024-04-14T16:48:39.726Z",
+              "yearOfReferenceStart": 2010,
+              "yearOfReferenceEnd": 1907,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 2662219963695104,
+              "yearOfReferenceDate": "2024-04-14T14:39:34.920Z",
+              "yearOfReferenceStart": 2019,
+              "yearOfReferenceEnd": 1912,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 1640839136673792,
+                "attributes": {
+                  "SeriesTitle": "accusamus occaecati praesentium",
+                  "createdAt": "2024-04-14T23:40:47.301Z",
+                  "updatedAt": "2024-04-14T10:13:46.252Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "corporis",
+                  "SeriesTitleType": "placeat"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 8608244576550912,
+                "attributes": {
+                  "CastName": "Sena Poser",
+                  "CastFirstName": "Nathalie",
+                  "CastLastName": "Kreissig",
+                  "CastIdentifier": "iusto",
+                  "createdAt": "2024-04-14T23:40:47.301Z",
+                  "updatedAt": "2024-04-14T10:13:46.252Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 3468395775262720,
+              "attributes": {
+                "ProductionCompanyName": "Schaffarzik GmbH",
+                "ProductionCompanyIdentifier": "placeat",
+                "createdAt": "2024-04-14T23:40:47.301Z",
+                "updatedAt": "2024-04-14T10:13:46.252Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6671011067985920
+          },
+          "FirstKnownManifestation": {
+            "id": 4050735866052608,
+            "OriginalLength": 2816212870365184,
+            "OriginalLengthUnit": "blanditiis",
+            "OriginalDuration": "111:5"
+          },
+          "Genre": [
+            {
+              "id": 6584698975289344,
+              "GenreName": "Compilation Film"
+            },
+            {
+              "id": 4728336668426240,
+              "GenreName": "Animation with Live Action"
+            },
+            {
+              "id": 4495809320058880,
+              "GenreName": "Newsreel"
+            },
+            {
+              "id": 8135309694861312,
+              "GenreName": "Compilation Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 8157682548604928,
+              "attributes": {
+                "SourceName": "Goedicke AG",
+                "SourceIdentifier": "recusandae",
+                "SourceAttribution": "Placeat rerum corrupti minus odit eos.",
+                "SourceAttributionDate": "2024-04-14T23:42:28.784Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T23:40:47.301Z",
+                "updatedAt": "2024-04-14T10:13:46.252Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 8157682548604928,
+                "attributes": {
+                  "LangDe": "aut praesentium at",
+                  "LangEn": "natus exercitationem veritatis",
+                  "ref_AAT": "sapiente",
+                  "ref_GND": "tenetur",
+                  "createdAt": "2024-04-14T23:40:47.301Z",
+                  "updatedAt": "2024-04-14T10:13:46.252Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 6109657395363840,
+              "VersionName": "totam",
+              "VersionNumber": 684241805377536
+            }
+          ],
+          "TitleType": {
+            "id": 1341874459639808,
+            "TitleTypeName": "vero"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "optio cumque nisi",
+                  "createdAt": "2024-04-14T15:48:54.035Z",
+                  "updatedAt": "2024-04-14T14:07:35.957Z",
+                  "publishedAt": "2024-04-15T02:23:50.768Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "magni provident ut",
+                  "LastModified": "2024-04-14T11:20:05.618Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 2957054555717632,
+        "attributes": {
+          "Title": "magni consequuntur assumenda",
+          "createdAt": "2024-04-15T05:27:48.467Z",
+          "updatedAt": "2024-04-15T03:38:51.776Z",
+          "publishedAt": "2024-04-14T21:57:25.754Z",
+          "locale": "en",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "sint nesciunt magnam",
+          "LastModified": "2024-04-14T22:44:35.344Z",
+          "YearOfReference": [
+            {
+              "id": 729065591930880,
+              "yearOfReferenceDate": "2024-04-15T07:24:17.683Z",
+              "yearOfReferenceStart": 1990,
+              "yearOfReferenceEnd": 1983,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 4338388473741312,
+              "yearOfReferenceDate": "2024-04-14T12:23:46.256Z",
+              "yearOfReferenceStart": 1984,
+              "yearOfReferenceEnd": 2020,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 1146003375783936,
+                "attributes": {
+                  "SeriesTitle": "necessitatibus maiores a",
+                  "createdAt": "2024-04-15T05:27:48.467Z",
+                  "updatedAt": "2024-04-15T03:38:51.776Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "dolorum",
+                  "SeriesTitleType": "consectetur"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 3187442010030080,
+                "attributes": {
+                  "CastName": "Mio Huneke",
+                  "CastFirstName": "Amina",
+                  "CastLastName": "Hajek",
+                  "CastIdentifier": "nesciunt",
+                  "createdAt": "2024-04-15T05:27:48.467Z",
+                  "updatedAt": "2024-04-15T03:38:51.776Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6691364307730432,
+              "attributes": {
+                "ProductionCompanyName": "Gauder OHG",
+                "ProductionCompanyIdentifier": "eius",
+                "createdAt": "2024-04-15T05:27:48.467Z",
+                "updatedAt": "2024-04-15T03:38:51.776Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 2561614184185856
+          },
+          "FirstKnownManifestation": {
+            "id": 815036041789440,
+            "OriginalLength": 1987779544219648,
+            "OriginalLengthUnit": "neque",
+            "OriginalDuration": "23:10"
+          },
+          "Genre": [
+            {
+              "id": 3941626110017536,
+              "GenreName": "Documentary Drama"
+            },
+            {
+              "id": 3186195955712000,
+              "GenreName": "Advertising Film"
+            },
+            {
+              "id": 2975331134734336,
+              "GenreName": "Short Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 2957054555717632,
+              "attributes": {
+                "SourceName": "Florczak GmbH & Co. KG",
+                "SourceIdentifier": "corporis",
+                "SourceAttribution": "Blanditiis officiis dicta occaecati explicabo aspernatur cupiditate illum occaecati.",
+                "SourceAttributionDate": "2024-04-15T00:07:23.756Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-15T05:27:48.467Z",
+                "updatedAt": "2024-04-15T03:38:51.776Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 2957054555717632,
+                "attributes": {
+                  "LangDe": "alias quam veniam",
+                  "LangEn": "nam exercitationem quaerat",
+                  "ref_AAT": "illo",
+                  "ref_GND": "voluptatibus",
+                  "createdAt": "2024-04-15T05:27:48.467Z",
+                  "updatedAt": "2024-04-15T03:38:51.776Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 1195655261323264,
+              "VersionName": "id",
+              "VersionNumber": 6313543760609280
+            }
+          ],
+          "TitleType": {
+            "id": 3156703551946752,
+            "TitleTypeName": "officia"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "reprehenderit repellat accusantium",
+                  "createdAt": "2024-04-15T03:19:03.686Z",
+                  "updatedAt": "2024-04-14T08:39:07.425Z",
+                  "publishedAt": "2024-04-14T11:38:31.065Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "fugiat cupiditate eligendi",
+                  "LastModified": "2024-04-15T01:55:20.773Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "aut ducimus autem",
+                  "createdAt": "2024-04-14T12:01:20.585Z",
+                  "updatedAt": "2024-04-15T04:11:36.200Z",
+                  "publishedAt": "2024-04-14T23:50:07.499Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "nobis repellendus corrupti",
+                  "LastModified": "2024-04-15T05:54:28.730Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "suscipit tenetur cumque",
+                  "createdAt": "2024-04-14T18:52:03.173Z",
+                  "updatedAt": "2024-04-15T07:54:34.966Z",
+                  "publishedAt": "2024-04-14T18:51:38.635Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "repellendus id a",
+                  "LastModified": "2024-04-15T00:47:38.731Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "distinctio rerum omnis",
+                  "createdAt": "2024-04-14T21:35:09.231Z",
+                  "updatedAt": "2024-04-14T20:19:22.621Z",
+                  "publishedAt": "2024-04-15T06:04:42.750Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "aspernatur nostrum tempora",
+                  "LastModified": "2024-04-14T21:17:15.707Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 8605192339587072,
+        "attributes": {
+          "Title": "neque provident ea",
+          "createdAt": "2024-04-14T20:50:10.972Z",
+          "updatedAt": "2024-04-14T23:24:12.809Z",
+          "publishedAt": "2024-04-14T22:09:54.261Z",
+          "locale": "en",
+          "CountryOfReference": "UK",
+          "RelatedIdentifier": "aliquid consectetur consectetur",
+          "LastModified": "2024-04-15T07:46:45.561Z",
+          "YearOfReference": [
+            {
+              "id": 6460330167238656,
+              "yearOfReferenceDate": "2024-04-14T12:42:24.658Z",
+              "yearOfReferenceStart": 1906,
+              "yearOfReferenceEnd": 1947,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 2484456524873728,
+              "yearOfReferenceDate": "2024-04-14T13:57:48.018Z",
+              "yearOfReferenceStart": 2003,
+              "yearOfReferenceEnd": 1973,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 3520784446259200,
+                "attributes": {
+                  "SeriesTitle": "neque quod voluptatibus",
+                  "createdAt": "2024-04-14T20:50:10.972Z",
+                  "updatedAt": "2024-04-14T23:24:12.809Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "eum",
+                  "SeriesTitleType": "earum"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 5079709524164608,
+                "attributes": {
+                  "CastName": "Nela Többen",
+                  "CastFirstName": "Meik",
+                  "CastLastName": "Schlechtweg",
+                  "CastIdentifier": "fugit",
+                  "createdAt": "2024-04-14T20:50:10.972Z",
+                  "updatedAt": "2024-04-14T23:24:12.809Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6800494496317440,
+              "attributes": {
+                "ProductionCompanyName": "Cronjäger, Orthmann und Hirschberg",
+                "ProductionCompanyIdentifier": "doloribus",
+                "createdAt": "2024-04-14T20:50:10.972Z",
+                "updatedAt": "2024-04-14T23:24:12.809Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 5386768075456512
+          },
+          "FirstKnownManifestation": {
+            "id": 2445295373778944,
+            "OriginalLength": 6455325643243520,
+            "OriginalLengthUnit": "illo",
+            "OriginalDuration": "90:44"
+          },
+          "Genre": [
+            {
+              "id": 4495226070630400,
+              "GenreName": "Anthology Film"
+            },
+            {
+              "id": 6476420649844736,
+              "GenreName": "Amateur Film"
+            },
+            {
+              "id": 5768671110627328,
+              "GenreName": "Newsreel"
+            },
+            {
+              "id": 6418638783381504,
+              "GenreName": "Trailer"
+            },
+            {
+              "id": 1435438562672640,
+              "GenreName": "Home Movie"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 8605192339587072,
+              "attributes": {
+                "SourceName": "Bichler-Lenz",
+                "SourceIdentifier": "repellat",
+                "SourceAttribution": "Perferendis animi assumenda sapiente fugiat laborum.",
+                "SourceAttributionDate": "2024-04-15T00:13:39.974Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T20:50:10.972Z",
+                "updatedAt": "2024-04-14T23:24:12.809Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 8605192339587072,
+                "attributes": {
+                  "LangDe": "doloremque repudiandae illum",
+                  "LangEn": "voluptates neque sapiente",
+                  "ref_AAT": "quisquam",
+                  "ref_GND": "aut",
+                  "createdAt": "2024-04-14T20:50:10.972Z",
+                  "updatedAt": "2024-04-14T23:24:12.809Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 3849991583956992,
+              "VersionName": "corporis",
+              "VersionNumber": 123598704476160
+            }
+          ],
+          "TitleType": {
+            "id": 3725400301633536,
+            "TitleTypeName": "culpa"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "dolorum odit illum",
+                  "createdAt": "2024-04-14T14:14:09.396Z",
+                  "updatedAt": "2024-04-15T06:18:56.088Z",
+                  "publishedAt": "2024-04-14T19:32:05.897Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "neque minima quae",
+                  "LastModified": "2024-04-14T13:48:47.891Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "blanditiis doloremque inventore",
+                  "createdAt": "2024-04-14T09:03:52.713Z",
+                  "updatedAt": "2024-04-14T14:27:44.516Z",
+                  "publishedAt": "2024-04-14T10:19:03.303Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "libero dolore totam",
+                  "LastModified": "2024-04-14T22:07:49.256Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "similique nulla dolorum",
+                  "createdAt": "2024-04-14T14:14:27.822Z",
+                  "updatedAt": "2024-04-14T12:25:29.031Z",
+                  "publishedAt": "2024-04-15T03:44:03.792Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "aspernatur unde optio",
+                  "LastModified": "2024-04-14T21:24:49.836Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 7115964229353472,
+        "attributes": {
+          "Title": "nam nisi quasi",
+          "createdAt": "2024-04-14T11:00:39.045Z",
+          "updatedAt": "2024-04-15T05:41:16.127Z",
+          "publishedAt": "2024-04-14T11:44:54.694Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "laboriosam maiores doloribus",
+          "LastModified": "2024-04-14T23:44:36.174Z",
+          "YearOfReference": [
+            {
+              "id": 4617116795797504,
+              "yearOfReferenceDate": "2024-04-15T05:37:08.766Z",
+              "yearOfReferenceStart": 1985,
+              "yearOfReferenceEnd": 1984,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 3534014709235712,
+                "attributes": {
+                  "SeriesTitle": "vel odio optio",
+                  "createdAt": "2024-04-14T11:00:39.045Z",
+                  "updatedAt": "2024-04-15T05:41:16.127Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "sapiente",
+                  "SeriesTitleType": "ab"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 2268238685667328,
+                "attributes": {
+                  "CastName": "Elijah Stube",
+                  "CastFirstName": "Luiz",
+                  "CastLastName": "Schäning",
+                  "CastIdentifier": "odit",
+                  "createdAt": "2024-04-14T11:00:39.045Z",
+                  "updatedAt": "2024-04-15T05:41:16.127Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 8649032010301440,
+              "attributes": {
+                "ProductionCompanyName": "Frauen-Mintzlaff",
+                "ProductionCompanyIdentifier": "dicta",
+                "createdAt": "2024-04-14T11:00:39.045Z",
+                "updatedAt": "2024-04-15T05:41:16.127Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 3157746520162304
+          },
+          "FirstKnownManifestation": {
+            "id": 5336658838814720,
+            "OriginalLength": 1638051348480000,
+            "OriginalLengthUnit": "ab",
+            "OriginalDuration": "56:4"
+          },
+          "Genre": [
+            {
+              "id": 7508705872445440,
+              "GenreName": "Experimental Film"
+            },
+            {
+              "id": 3280922457669632,
+              "GenreName": "Music Video"
+            },
+            {
+              "id": 3119607728570368,
+              "GenreName": "Documentary Drama"
+            },
+            {
+              "id": 1028120318574592,
+              "GenreName": "Propaganda Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 7115964229353472,
+              "attributes": {
+                "SourceName": "Schorr Gruppe",
+                "SourceIdentifier": "quis",
+                "SourceAttribution": "Ratione unde labore saepe quod expedita.",
+                "SourceAttributionDate": "2024-04-14T20:52:25.112Z",
+                "SourceAttributionType": "Attributed",
+                "createdAt": "2024-04-14T11:00:39.045Z",
+                "updatedAt": "2024-04-15T05:41:16.127Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 7115964229353472,
+                "attributes": {
+                  "LangDe": "inventore delectus officiis",
+                  "LangEn": "mollitia tempore amet",
+                  "ref_AAT": "consequuntur",
+                  "ref_GND": "ullam",
+                  "createdAt": "2024-04-14T11:00:39.045Z",
+                  "updatedAt": "2024-04-15T05:41:16.127Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 2333670310412288,
+              "VersionName": "officiis",
+              "VersionNumber": 2070167381082112
+            }
+          ],
+          "TitleType": {
+            "id": 2346049853194240,
+            "TitleTypeName": "labore"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "praesentium hic distinctio",
+                  "createdAt": "2024-04-15T03:30:50.179Z",
+                  "updatedAt": "2024-04-14T16:48:56.117Z",
+                  "publishedAt": "2024-04-14T09:35:55.492Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "expedita beatae rem",
+                  "LastModified": "2024-04-15T05:37:37.507Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "natus quam doloribus",
+                  "createdAt": "2024-04-14T19:01:09.044Z",
+                  "updatedAt": "2024-04-15T03:19:36.343Z",
+                  "publishedAt": "2024-04-14T16:10:47.476Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "perferendis aliquam non",
+                  "LastModified": "2024-04-14T09:19:06.791Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "mollitia quaerat voluptatem",
+                  "createdAt": "2024-04-14T10:26:09.494Z",
+                  "updatedAt": "2024-04-14T22:03:26.472Z",
+                  "publishedAt": "2024-04-14T19:10:50.386Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "voluptate veritatis nulla",
+                  "LastModified": "2024-04-14T23:18:20.042Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "at nemo voluptatum",
+                  "createdAt": "2024-04-15T05:19:18.624Z",
+                  "updatedAt": "2024-04-14T23:15:23.505Z",
+                  "publishedAt": "2024-04-15T07:35:06.530Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "repellendus delectus hic",
+                  "LastModified": "2024-04-14T10:26:24.754Z"
+                }
+              },
+              {
+                "id": 4,
+                "attributes": {
+                  "Title": "doloremque odit iste",
+                  "createdAt": "2024-04-14T13:28:24.394Z",
+                  "updatedAt": "2024-04-14T14:55:06.169Z",
+                  "publishedAt": "2024-04-14T17:44:42.555Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "quae veritatis quas",
+                  "LastModified": "2024-04-14T16:47:57.100Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 277099550081024,
+        "attributes": {
+          "Title": "voluptate molestias porro",
+          "createdAt": "2024-04-14T11:35:54.986Z",
+          "updatedAt": "2024-04-14T08:47:57.591Z",
+          "publishedAt": "2024-04-15T03:20:57.183Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "molestiae nihil ducimus",
+          "LastModified": "2024-04-15T01:41:18.990Z",
+          "YearOfReference": [
+            {
+              "id": 5317153095942144,
+              "yearOfReferenceDate": "2024-04-14T19:52:33.160Z",
+              "yearOfReferenceStart": 1906,
+              "yearOfReferenceEnd": 2007,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 783250612027392,
+              "yearOfReferenceDate": "2024-04-14T16:37:56.303Z",
+              "yearOfReferenceStart": 1949,
+              "yearOfReferenceEnd": 2008,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 7533449082568704,
+              "yearOfReferenceDate": "2024-04-15T06:47:04.065Z",
+              "yearOfReferenceStart": 2008,
+              "yearOfReferenceEnd": 1957,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 267613789749248,
+                "attributes": {
+                  "SeriesTitle": "nostrum molestiae accusantium",
+                  "createdAt": "2024-04-14T11:35:54.986Z",
+                  "updatedAt": "2024-04-14T08:47:57.591Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "fuga",
+                  "SeriesTitleType": "nostrum"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 6358709378744320,
+                "attributes": {
+                  "CastName": "Louisa Leberer",
+                  "CastFirstName": "Marta",
+                  "CastLastName": "Zümsande",
+                  "CastIdentifier": "explicabo",
+                  "createdAt": "2024-04-14T11:35:54.986Z",
+                  "updatedAt": "2024-04-14T08:47:57.591Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 1785813314568192,
+              "attributes": {
+                "ProductionCompanyName": "Taufratshofer-Aigner",
+                "ProductionCompanyIdentifier": "provident",
+                "createdAt": "2024-04-14T11:35:54.986Z",
+                "updatedAt": "2024-04-14T08:47:57.591Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 42646638690304
+          },
+          "FirstKnownManifestation": {
+            "id": 2859108950605824,
+            "OriginalLength": 1817125601673216,
+            "OriginalLengthUnit": "molestias",
+            "OriginalDuration": "35:42"
+          },
+          "Genre": [
+            {
+              "id": 509841508401152,
+              "GenreName": "Animation with Live Action"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 277099550081024,
+              "attributes": {
+                "SourceName": "Feuerbach, Haaf und Schneider",
+                "SourceIdentifier": "dolorem",
+                "SourceAttribution": "Nulla consequatur nisi omnis velit unde perferendis tempore.",
+                "SourceAttributionDate": "2024-04-15T03:26:17.597Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T11:35:54.986Z",
+                "updatedAt": "2024-04-14T08:47:57.591Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 277099550081024,
+                "attributes": {
+                  "LangDe": "quam laboriosam tempora",
+                  "LangEn": "sunt et blanditiis",
+                  "ref_AAT": "facilis",
+                  "ref_GND": "similique",
+                  "createdAt": "2024-04-14T11:35:54.986Z",
+                  "updatedAt": "2024-04-14T08:47:57.591Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 5493590807543808,
+              "VersionName": "eligendi",
+              "VersionNumber": 584853214986240
+            }
+          ],
+          "TitleType": {
+            "id": 8492968858091520,
+            "TitleTypeName": "possimus"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "saepe odit corporis",
+                  "createdAt": "2024-04-15T07:05:02.366Z",
+                  "updatedAt": "2024-04-14T11:57:57.860Z",
+                  "publishedAt": "2024-04-14T18:51:13.741Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "accusantium sed dolore",
+                  "LastModified": "2024-04-14T11:54:21.259Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "commodi deserunt aut",
+                  "createdAt": "2024-04-14T15:50:49.386Z",
+                  "updatedAt": "2024-04-14T08:03:45.879Z",
+                  "publishedAt": "2024-04-14T20:51:00.672Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "odio minus molestiae",
+                  "LastModified": "2024-04-14T14:59:58.116Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "impedit tenetur harum",
+                  "createdAt": "2024-04-14T11:04:24.888Z",
+                  "updatedAt": "2024-04-14T19:41:46.560Z",
+                  "publishedAt": "2024-04-14T18:04:59.746Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "ut molestias unde",
+                  "LastModified": "2024-04-14T14:10:45.654Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 6233421397360640,
+        "attributes": {
+          "Title": "mollitia est dicta",
+          "createdAt": "2024-04-14T19:14:08.993Z",
+          "updatedAt": "2024-04-15T00:10:05.054Z",
+          "publishedAt": "2024-04-14T14:57:36.160Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "vel dolorum at",
+          "LastModified": "2024-04-14T13:54:45.327Z",
+          "YearOfReference": [
+            {
+              "id": 4390396503261184,
+              "yearOfReferenceDate": "2024-04-14T23:36:45.071Z",
+              "yearOfReferenceStart": 1998,
+              "yearOfReferenceEnd": 1984,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 1335547895218176,
+              "yearOfReferenceDate": "2024-04-14T13:58:04.198Z",
+              "yearOfReferenceStart": 1935,
+              "yearOfReferenceEnd": 1997,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 1166102778347520,
+                "attributes": {
+                  "SeriesTitle": "earum laudantium error",
+                  "createdAt": "2024-04-14T19:14:08.993Z",
+                  "updatedAt": "2024-04-15T00:10:05.054Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "aliquam",
+                  "SeriesTitleType": "dolorem"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 7110822744555520,
+                "attributes": {
+                  "CastName": "Levent Kosenkow",
+                  "CastFirstName": "Helin",
+                  "CastLastName": "Hooss",
+                  "CastIdentifier": "tempore",
+                  "createdAt": "2024-04-14T19:14:08.993Z",
+                  "updatedAt": "2024-04-15T00:10:05.054Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 2114471642267648,
+              "attributes": {
+                "ProductionCompanyName": "Rossberg-Kneifel",
+                "ProductionCompanyIdentifier": "culpa",
+                "createdAt": "2024-04-14T19:14:08.993Z",
+                "updatedAt": "2024-04-15T00:10:05.054Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6542226914017280
+          },
+          "FirstKnownManifestation": {
+            "id": 6289678114226176,
+            "OriginalLength": 1354165766848512,
+            "OriginalLengthUnit": "aliquid",
+            "OriginalDuration": "73:51"
+          },
+          "Genre": [
+            {
+              "id": 2219218678317056,
+              "GenreName": "Amateur Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 6233421397360640,
+              "attributes": {
+                "SourceName": "Liebich-Schondelmaier",
+                "SourceIdentifier": "sed",
+                "SourceAttribution": "Consequuntur recusandae facere quas ex ullam cum.",
+                "SourceAttributionDate": "2024-04-15T04:45:36.165Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T19:14:08.993Z",
+                "updatedAt": "2024-04-15T00:10:05.054Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 6233421397360640,
+                "attributes": {
+                  "LangDe": "magni asperiores laudantium",
+                  "LangEn": "veritatis ipsa voluptatum",
+                  "ref_AAT": "corrupti",
+                  "ref_GND": "quos",
+                  "createdAt": "2024-04-14T19:14:08.993Z",
+                  "updatedAt": "2024-04-15T00:10:05.054Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 7630825346564096,
+              "VersionName": "inventore",
+              "VersionNumber": 3821698509963264
+            }
+          ],
+          "TitleType": {
+            "id": 5596181421883392,
+            "TitleTypeName": "blanditiis"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "inventore harum ullam",
+                  "createdAt": "2024-04-14T23:02:54.429Z",
+                  "updatedAt": "2024-04-14T15:25:36.769Z",
+                  "publishedAt": "2024-04-14T19:37:07.427Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "architecto autem expedita",
+                  "LastModified": "2024-04-14T10:07:46.989Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "dolor provident error",
+                  "createdAt": "2024-04-14T13:30:37.873Z",
+                  "updatedAt": "2024-04-14T13:18:14.792Z",
+                  "publishedAt": "2024-04-14T10:10:58.193Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "omnis non facilis",
+                  "LastModified": "2024-04-15T05:42:42.687Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "pariatur aliquam nihil",
+                  "createdAt": "2024-04-14T17:19:28.611Z",
+                  "updatedAt": "2024-04-14T14:00:59.333Z",
+                  "publishedAt": "2024-04-14T16:55:53.975Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "harum vel voluptate",
+                  "LastModified": "2024-04-14T18:53:51.741Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 8659407722250240,
+        "attributes": {
+          "Title": "alias reiciendis quod",
+          "createdAt": "2024-04-15T00:04:44.796Z",
+          "updatedAt": "2024-04-14T20:09:07.346Z",
+          "publishedAt": "2024-04-15T03:29:30.235Z",
+          "locale": "de",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "corrupti eaque cum",
+          "LastModified": "2024-04-14T08:21:08.714Z",
+          "YearOfReference": [
+            {
+              "id": 6301969218011136,
+              "yearOfReferenceDate": "2024-04-14T22:51:49.079Z",
+              "yearOfReferenceStart": 1936,
+              "yearOfReferenceEnd": 1973,
+              "yearOfReferenceType": "Created"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 6244542953029632,
+                "attributes": {
+                  "SeriesTitle": "sunt quasi pariatur",
+                  "createdAt": "2024-04-15T00:04:44.796Z",
+                  "updatedAt": "2024-04-14T20:09:07.346Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "blanditiis",
+                  "SeriesTitleType": "magni"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 5164166604128256,
+                "attributes": {
+                  "CastName": "Pius Sinnhuber",
+                  "CastFirstName": "Dario",
+                  "CastLastName": "Ahrens",
+                  "CastIdentifier": "dolorem",
+                  "createdAt": "2024-04-15T00:04:44.796Z",
+                  "updatedAt": "2024-04-14T20:09:07.346Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 8683209525035008,
+              "attributes": {
+                "ProductionCompanyName": "Karrass-Schedler",
+                "ProductionCompanyIdentifier": "est",
+                "createdAt": "2024-04-15T00:04:44.796Z",
+                "updatedAt": "2024-04-14T20:09:07.346Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 4373179011170304
+          },
+          "FirstKnownManifestation": {
+            "id": 931013421170688,
+            "OriginalLength": 2550007748100096,
+            "OriginalLengthUnit": "autem",
+            "OriginalDuration": "93:54"
+          },
+          "Genre": [
+            {
+              "id": 3749157879676928,
+              "GenreName": "Home Movie"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 8659407722250240,
+              "attributes": {
+                "SourceName": "Kühn GmbH",
+                "SourceIdentifier": "commodi",
+                "SourceAttribution": "Eveniet tempore non facere mollitia.",
+                "SourceAttributionDate": "2024-04-14T16:36:51.137Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-15T00:04:44.796Z",
+                "updatedAt": "2024-04-14T20:09:07.346Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 8659407722250240,
+                "attributes": {
+                  "LangDe": "doloribus cupiditate eligendi",
+                  "LangEn": "autem itaque velit",
+                  "ref_AAT": "incidunt",
+                  "ref_GND": "fuga",
+                  "createdAt": "2024-04-15T00:04:44.796Z",
+                  "updatedAt": "2024-04-14T20:09:07.346Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 8145451192680448,
+              "VersionName": "repudiandae",
+              "VersionNumber": 5102300079063040
+            }
+          ],
+          "TitleType": {
+            "id": 2222462121017344,
+            "TitleTypeName": "quasi"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "quia quam voluptatibus",
+                  "createdAt": "2024-04-15T05:32:16.628Z",
+                  "updatedAt": "2024-04-14T20:20:52.901Z",
+                  "publishedAt": "2024-04-14T09:18:28.352Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "accusamus alias non",
+                  "LastModified": "2024-04-15T07:14:14.914Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 6257937724997632,
+        "attributes": {
+          "Title": "ad recusandae explicabo",
+          "createdAt": "2024-04-14T17:30:07.047Z",
+          "updatedAt": "2024-04-14T17:34:17.464Z",
+          "publishedAt": "2024-04-14T09:37:43.101Z",
+          "locale": "de",
+          "CountryOfReference": "UK",
+          "RelatedIdentifier": "minima magni accusamus",
+          "LastModified": "2024-04-15T06:25:59.481Z",
+          "YearOfReference": [
+            {
+              "id": 8535167849201664,
+              "yearOfReferenceDate": "2024-04-14T10:24:26.377Z",
+              "yearOfReferenceStart": 1990,
+              "yearOfReferenceEnd": 1962,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 519826036490240,
+              "yearOfReferenceDate": "2024-04-15T07:38:39.441Z",
+              "yearOfReferenceStart": 1987,
+              "yearOfReferenceEnd": 2015,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 4547283303530496,
+                "attributes": {
+                  "SeriesTitle": "libero eaque natus",
+                  "createdAt": "2024-04-14T17:30:07.047Z",
+                  "updatedAt": "2024-04-14T17:34:17.464Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "natus",
+                  "SeriesTitleType": "distinctio"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 2660948844216320,
+                "attributes": {
+                  "CastName": "Dr. Nadja Henry",
+                  "CastFirstName": "Felix",
+                  "CastLastName": "Schlitzer",
+                  "CastIdentifier": "error",
+                  "createdAt": "2024-04-14T17:30:07.047Z",
+                  "updatedAt": "2024-04-14T17:34:17.464Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 2962868389543936,
+              "attributes": {
+                "ProductionCompanyName": "Leyckes GmbH & Co. KG",
+                "ProductionCompanyIdentifier": "ullam",
+                "createdAt": "2024-04-14T17:30:07.047Z",
+                "updatedAt": "2024-04-14T17:34:17.464Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 4924677162008576
+          },
+          "FirstKnownManifestation": {
+            "id": 6462910815535104,
+            "OriginalLength": 4640268760383488,
+            "OriginalLengthUnit": "nihil",
+            "OriginalDuration": "99:59"
+          },
+          "Genre": [
+            {
+              "id": 2505825037844480,
+              "GenreName": "Music Video"
+            },
+            {
+              "id": 8848356042342400,
+              "GenreName": "Newsreel"
+            },
+            {
+              "id": 405360418488320,
+              "GenreName": "Compilation Film"
+            },
+            {
+              "id": 7916387477487616,
+              "GenreName": "Animation"
+            },
+            {
+              "id": 3306535400767488,
+              "GenreName": "Amateur Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 6257937724997632,
+              "attributes": {
+                "SourceName": "Hasler UG",
+                "SourceIdentifier": "amet",
+                "SourceAttribution": "Soluta quia tempore.",
+                "SourceAttributionDate": "2024-04-14T11:27:17.708Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T17:30:07.047Z",
+                "updatedAt": "2024-04-14T17:34:17.464Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 6257937724997632,
+                "attributes": {
+                  "LangDe": "iure laboriosam hic",
+                  "LangEn": "qui illum cum",
+                  "ref_AAT": "inventore",
+                  "ref_GND": "ea",
+                  "createdAt": "2024-04-14T17:30:07.047Z",
+                  "updatedAt": "2024-04-14T17:34:17.464Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 4156332477251584,
+              "VersionName": "minus",
+              "VersionNumber": 47003662811136
+            }
+          ],
+          "TitleType": {
+            "id": 465683328532480,
+            "TitleTypeName": "sapiente"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "repellendus dolor aperiam",
+                  "createdAt": "2024-04-14T09:16:10.553Z",
+                  "updatedAt": "2024-04-15T05:57:41.560Z",
+                  "publishedAt": "2024-04-14T16:56:37.794Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "quisquam ab delectus",
+                  "LastModified": "2024-04-14T10:47:39.103Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "dolore illo odio",
+                  "createdAt": "2024-04-15T07:31:24.140Z",
+                  "updatedAt": "2024-04-14T19:20:57.284Z",
+                  "publishedAt": "2024-04-14T21:47:53.655Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "culpa necessitatibus odio",
+                  "LastModified": "2024-04-14T17:21:18.559Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "itaque architecto dolorem",
+                  "createdAt": "2024-04-15T06:58:14.440Z",
+                  "updatedAt": "2024-04-15T00:57:09.616Z",
+                  "publishedAt": "2024-04-14T11:14:35.031Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "repudiandae voluptatum error",
+                  "LastModified": "2024-04-15T00:45:26.165Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "non neque quaerat",
+                  "createdAt": "2024-04-15T00:26:47.489Z",
+                  "updatedAt": "2024-04-14T16:04:09.606Z",
+                  "publishedAt": "2024-04-14T12:45:33.059Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "laborum veniam iste",
+                  "LastModified": "2024-04-15T06:06:44.228Z"
+                }
+              },
+              {
+                "id": 4,
+                "attributes": {
+                  "Title": "et vitae nam",
+                  "createdAt": "2024-04-14T23:18:38.087Z",
+                  "updatedAt": "2024-04-14T18:03:28.272Z",
+                  "publishedAt": "2024-04-14T20:43:00.596Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "repellendus deleniti adipisci",
+                  "LastModified": "2024-04-14T17:54:16.134Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 5479928327831552,
+        "attributes": {
+          "Title": "tenetur rem velit",
+          "createdAt": "2024-04-14T16:56:46.111Z",
+          "updatedAt": "2024-04-14T21:34:01.605Z",
+          "publishedAt": "2024-04-15T07:39:23.276Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "dignissimos molestias ipsam",
+          "LastModified": "2024-04-15T02:30:19.603Z",
+          "YearOfReference": [
+            {
+              "id": 3009467635466240,
+              "yearOfReferenceDate": "2024-04-14T23:08:35.299Z",
+              "yearOfReferenceStart": 2010,
+              "yearOfReferenceEnd": 1935,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 3146656818135040,
+              "yearOfReferenceDate": "2024-04-14T10:58:55.916Z",
+              "yearOfReferenceStart": 1935,
+              "yearOfReferenceEnd": 1911,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 8406804815937536,
+              "yearOfReferenceDate": "2024-04-14T17:05:38.711Z",
+              "yearOfReferenceStart": 1967,
+              "yearOfReferenceEnd": 2020,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 7354294986604544,
+                "attributes": {
+                  "SeriesTitle": "consequatur mollitia laudantium",
+                  "createdAt": "2024-04-14T16:56:46.111Z",
+                  "updatedAt": "2024-04-14T21:34:01.605Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "perspiciatis",
+                  "SeriesTitleType": "aut"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 2848547454058496,
+                "attributes": {
+                  "CastName": "Leann Fuchs",
+                  "CastFirstName": "Rico",
+                  "CastLastName": "Koenig",
+                  "CastIdentifier": "aspernatur",
+                  "createdAt": "2024-04-14T16:56:46.111Z",
+                  "updatedAt": "2024-04-14T21:34:01.605Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6086671109980160,
+              "attributes": {
+                "ProductionCompanyName": "Faulhaber Gruppe",
+                "ProductionCompanyIdentifier": "quidem",
+                "createdAt": "2024-04-14T16:56:46.111Z",
+                "updatedAt": "2024-04-14T21:34:01.605Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 8825358614790144
+          },
+          "FirstKnownManifestation": {
+            "id": 1001725706108928,
+            "OriginalLength": 3900487290060800,
+            "OriginalLengthUnit": "dicta",
+            "OriginalDuration": "104:22"
+          },
+          "Genre": [
+            {
+              "id": 8397299594035200,
+              "GenreName": "Short Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 5479928327831552,
+              "attributes": {
+                "SourceName": "Kufahl-Moll",
+                "SourceIdentifier": "officia",
+                "SourceAttribution": "Eos aut libero aspernatur illum iste ad sapiente aspernatur.",
+                "SourceAttributionDate": "2024-04-14T13:32:01.231Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T16:56:46.111Z",
+                "updatedAt": "2024-04-14T21:34:01.605Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 5479928327831552,
+                "attributes": {
+                  "LangDe": "suscipit ut sunt",
+                  "LangEn": "impedit eaque ipsam",
+                  "ref_AAT": "neque",
+                  "ref_GND": "sapiente",
+                  "createdAt": "2024-04-14T16:56:46.111Z",
+                  "updatedAt": "2024-04-14T21:34:01.605Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 5923225974341632,
+              "VersionName": "cum",
+              "VersionNumber": 7010391412441088
+            }
+          ],
+          "TitleType": {
+            "id": 8323050338516992,
+            "TitleTypeName": "ducimus"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "delectus aspernatur officia",
+                  "createdAt": "2024-04-15T01:42:28.184Z",
+                  "updatedAt": "2024-04-15T04:57:31.936Z",
+                  "publishedAt": "2024-04-14T22:05:35.255Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "eos possimus deleniti",
+                  "LastModified": "2024-04-14T14:26:06.494Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "officia qui officiis",
+                  "createdAt": "2024-04-14T22:37:04.007Z",
+                  "updatedAt": "2024-04-15T04:07:37.992Z",
+                  "publishedAt": "2024-04-15T03:27:01.019Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "cum adipisci debitis",
+                  "LastModified": "2024-04-14T12:44:30.392Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "earum aut reprehenderit",
+                  "createdAt": "2024-04-15T07:32:31.205Z",
+                  "updatedAt": "2024-04-14T21:57:44.553Z",
+                  "publishedAt": "2024-04-15T00:30:18.520Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "debitis officiis magni",
+                  "LastModified": "2024-04-14T09:07:20.938Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "nobis voluptatum possimus",
+                  "createdAt": "2024-04-14T15:54:47.254Z",
+                  "updatedAt": "2024-04-15T05:46:27.179Z",
+                  "publishedAt": "2024-04-14T18:24:29.132Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "id fuga doloremque",
+                  "LastModified": "2024-04-14T15:17:23.557Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 2965225315762176,
+        "attributes": {
+          "Title": "odit deserunt magnam",
+          "createdAt": "2024-04-14T13:00:01.959Z",
+          "updatedAt": "2024-04-14T13:54:22.370Z",
+          "publishedAt": "2024-04-14T15:30:43.209Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "aut nobis nam",
+          "LastModified": "2024-04-14T15:38:27.456Z",
+          "YearOfReference": [
+            {
+              "id": 2134676009385984,
+              "yearOfReferenceDate": "2024-04-14T15:34:15.157Z",
+              "yearOfReferenceStart": 1950,
+              "yearOfReferenceEnd": 1931,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 4834696127053824,
+              "yearOfReferenceDate": "2024-04-14T23:18:07.514Z",
+              "yearOfReferenceStart": 1913,
+              "yearOfReferenceEnd": 1911,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 5469288888532992,
+                "attributes": {
+                  "SeriesTitle": "tempora deleniti eligendi",
+                  "createdAt": "2024-04-14T13:00:01.959Z",
+                  "updatedAt": "2024-04-14T13:54:22.370Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "quia",
+                  "SeriesTitleType": "iusto"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 5936440624021504,
+                "attributes": {
+                  "CastName": "Saphira Räntsch",
+                  "CastFirstName": "Emilia",
+                  "CastLastName": "Hujo",
+                  "CastIdentifier": "molestias",
+                  "createdAt": "2024-04-14T13:00:01.959Z",
+                  "updatedAt": "2024-04-14T13:54:22.370Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 2529270041673728,
+              "attributes": {
+                "ProductionCompanyName": "Kozakiewicz-Kelm",
+                "ProductionCompanyIdentifier": "temporibus",
+                "createdAt": "2024-04-14T13:00:01.959Z",
+                "updatedAt": "2024-04-14T13:54:22.370Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 7903171942809600
+          },
+          "FirstKnownManifestation": {
+            "id": 1932114616385536,
+            "OriginalLength": 5005742249607168,
+            "OriginalLengthUnit": "aspernatur",
+            "OriginalDuration": "37:6"
+          },
+          "Genre": [
+            {
+              "id": 3464849474453504,
+              "GenreName": "Animation"
+            },
+            {
+              "id": 8816677691064320,
+              "GenreName": "Animation with Live Action"
+            },
+            {
+              "id": 5468779035230208,
+              "GenreName": "Compilation Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 2965225315762176,
+              "attributes": {
+                "SourceName": "Lutje, Logsch und Hallmann",
+                "SourceIdentifier": "a",
+                "SourceAttribution": "Id animi eaque occaecati neque ut corporis laborum.",
+                "SourceAttributionDate": "2024-04-14T22:04:01.724Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T13:00:01.959Z",
+                "updatedAt": "2024-04-14T13:54:22.370Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 2965225315762176,
+                "attributes": {
+                  "LangDe": "et nesciunt aut",
+                  "LangEn": "odio iusto pariatur",
+                  "ref_AAT": "qui",
+                  "ref_GND": "porro",
+                  "createdAt": "2024-04-14T13:00:01.959Z",
+                  "updatedAt": "2024-04-14T13:54:22.370Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 7499489338195968,
+              "VersionName": "eligendi",
+              "VersionNumber": 4633140408614912
+            }
+          ],
+          "TitleType": {
+            "id": 593868410060800,
+            "TitleTypeName": "harum"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "eius illum vel",
+                  "createdAt": "2024-04-14T21:03:25.401Z",
+                  "updatedAt": "2024-04-14T09:37:57.623Z",
+                  "publishedAt": "2024-04-15T06:16:59.746Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "adipisci ipsum quas",
+                  "LastModified": "2024-04-15T00:37:55.892Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "id ullam fuga",
+                  "createdAt": "2024-04-14T18:29:05.734Z",
+                  "updatedAt": "2024-04-14T17:29:35.584Z",
+                  "publishedAt": "2024-04-14T14:49:06.964Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "magnam quasi sapiente",
+                  "LastModified": "2024-04-14T19:06:31.603Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "autem mollitia vel",
+                  "createdAt": "2024-04-14T09:23:05.679Z",
+                  "updatedAt": "2024-04-14T11:27:13.132Z",
+                  "publishedAt": "2024-04-14T16:46:26.425Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "laudantium est incidunt",
+                  "LastModified": "2024-04-14T11:50:46.980Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "expedita iste in",
+                  "createdAt": "2024-04-15T01:02:19.050Z",
+                  "updatedAt": "2024-04-15T06:17:46.107Z",
+                  "publishedAt": "2024-04-15T02:18:54.081Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "dolores facilis incidunt",
+                  "LastModified": "2024-04-14T23:24:09.299Z"
+                }
+              },
+              {
+                "id": 4,
+                "attributes": {
+                  "Title": "voluptas alias assumenda",
+                  "createdAt": "2024-04-14T20:52:51.548Z",
+                  "updatedAt": "2024-04-14T11:52:58.330Z",
+                  "publishedAt": "2024-04-14T17:31:20.448Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "recusandae sequi ipsa",
+                  "LastModified": "2024-04-15T06:29:56.849Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 1151453003513856,
+        "attributes": {
+          "Title": "fugit ut similique",
+          "createdAt": "2024-04-15T00:21:53.221Z",
+          "updatedAt": "2024-04-14T15:16:28.616Z",
+          "publishedAt": "2024-04-14T18:01:44.824Z",
+          "locale": "en",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "placeat pariatur in",
+          "LastModified": "2024-04-14T22:22:08.494Z",
+          "YearOfReference": [
+            {
+              "id": 7373744211230720,
+              "yearOfReferenceDate": "2024-04-14T16:42:31.141Z",
+              "yearOfReferenceStart": 1926,
+              "yearOfReferenceEnd": 2007,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 765554138808320,
+                "attributes": {
+                  "SeriesTitle": "earum impedit optio",
+                  "createdAt": "2024-04-15T00:21:53.221Z",
+                  "updatedAt": "2024-04-14T15:16:28.616Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "eaque",
+                  "SeriesTitleType": "facere"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 3197206542680064,
+                "attributes": {
+                  "CastName": "Hermine Stifel",
+                  "CastFirstName": "Tayler",
+                  "CastLastName": "Greb",
+                  "CastIdentifier": "ipsum",
+                  "createdAt": "2024-04-15T00:21:53.221Z",
+                  "updatedAt": "2024-04-14T15:16:28.616Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 5095649689206784,
+              "attributes": {
+                "ProductionCompanyName": "Hördt-Gierisch",
+                "ProductionCompanyIdentifier": "possimus",
+                "createdAt": "2024-04-15T00:21:53.221Z",
+                "updatedAt": "2024-04-14T15:16:28.616Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6698556513583104
+          },
+          "FirstKnownManifestation": {
+            "id": 161358326792192,
+            "OriginalLength": 2498855023149056,
+            "OriginalLengthUnit": "excepturi",
+            "OriginalDuration": "9:43"
+          },
+          "Genre": [
+            {
+              "id": 4909520805429248,
+              "GenreName": "Trailer"
+            },
+            {
+              "id": 5790327896014848,
+              "GenreName": "Music Video"
+            },
+            {
+              "id": 475463243792384,
+              "GenreName": "Home Movie"
+            },
+            {
+              "id": 277294352433152,
+              "GenreName": "Industrial Film"
+            },
+            {
+              "id": 5976533200011264,
+              "GenreName": "Animation with Live Action"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 1151453003513856,
+              "attributes": {
+                "SourceName": "Kaiser, Losch und Bigdeli",
+                "SourceIdentifier": "commodi",
+                "SourceAttribution": "Ratione ex tenetur repellat.",
+                "SourceAttributionDate": "2024-04-15T05:55:04.296Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-15T00:21:53.221Z",
+                "updatedAt": "2024-04-14T15:16:28.616Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 1151453003513856,
+                "attributes": {
+                  "LangDe": "fuga vitae distinctio",
+                  "LangEn": "unde nihil nobis",
+                  "ref_AAT": "omnis",
+                  "ref_GND": "ipsam",
+                  "createdAt": "2024-04-15T00:21:53.221Z",
+                  "updatedAt": "2024-04-14T15:16:28.616Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 2096649268625408,
+              "VersionName": "ea",
+              "VersionNumber": 6929846305292288
+            }
+          ],
+          "TitleType": {
+            "id": 778299473133568,
+            "TitleTypeName": "placeat"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "nihil optio praesentium",
+                  "createdAt": "2024-04-14T20:56:02.979Z",
+                  "updatedAt": "2024-04-15T04:48:37.279Z",
+                  "publishedAt": "2024-04-15T07:47:59.552Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "rem aliquid corporis",
+                  "LastModified": "2024-04-14T12:18:04.321Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 6094219305287680,
+        "attributes": {
+          "Title": "repellendus blanditiis asperiores",
+          "createdAt": "2024-04-14T17:11:56.571Z",
+          "updatedAt": "2024-04-15T04:28:19.976Z",
+          "publishedAt": "2024-04-14T11:38:05.265Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "quia iste non",
+          "LastModified": "2024-04-14T20:07:59.814Z",
+          "YearOfReference": [
+            {
+              "id": 2547061908045824,
+              "yearOfReferenceDate": "2024-04-14T23:07:38.980Z",
+              "yearOfReferenceStart": 2013,
+              "yearOfReferenceEnd": 1961,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 3465107948437504,
+              "yearOfReferenceDate": "2024-04-14T15:52:26.797Z",
+              "yearOfReferenceStart": 1992,
+              "yearOfReferenceEnd": 1943,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 955333784633344,
+                "attributes": {
+                  "SeriesTitle": "voluptatem alias laudantium",
+                  "createdAt": "2024-04-14T17:11:56.571Z",
+                  "updatedAt": "2024-04-15T04:28:19.976Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "eaque",
+                  "SeriesTitleType": "ab"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 6856002185986048,
+                "attributes": {
+                  "CastName": "Gina Wiese",
+                  "CastFirstName": "Enna",
+                  "CastLastName": "Krauel",
+                  "CastIdentifier": "neque",
+                  "createdAt": "2024-04-14T17:11:56.571Z",
+                  "updatedAt": "2024-04-15T04:28:19.976Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 4510787716513792,
+              "attributes": {
+                "ProductionCompanyName": "Schönbeck-Kirch",
+                "ProductionCompanyIdentifier": "illum",
+                "createdAt": "2024-04-14T17:11:56.571Z",
+                "updatedAt": "2024-04-15T04:28:19.976Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 2651045211668480
+          },
+          "FirstKnownManifestation": {
+            "id": 8716201733652480,
+            "OriginalLength": 7067765261205504,
+            "OriginalLengthUnit": "inventore",
+            "OriginalDuration": "74:5"
+          },
+          "Genre": [
+            {
+              "id": 7311767560519680,
+              "GenreName": "Compilation Film"
+            },
+            {
+              "id": 7612954157514752,
+              "GenreName": "Amateur Film"
+            },
+            {
+              "id": 2792281333563392,
+              "GenreName": "Industrial Film"
+            },
+            {
+              "id": 350646721052672,
+              "GenreName": "Trailer"
+            },
+            {
+              "id": 6187664665477120,
+              "GenreName": "Non Fiction"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 6094219305287680,
+              "attributes": {
+                "SourceName": "Glatting OHG",
+                "SourceIdentifier": "harum",
+                "SourceAttribution": "Iste numquam eius sapiente itaque totam quo et.",
+                "SourceAttributionDate": "2024-04-15T03:48:32.670Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T17:11:56.571Z",
+                "updatedAt": "2024-04-15T04:28:19.976Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 6094219305287680,
+                "attributes": {
+                  "LangDe": "nobis optio ad",
+                  "LangEn": "et consectetur non",
+                  "ref_AAT": "perferendis",
+                  "ref_GND": "vero",
+                  "createdAt": "2024-04-14T17:11:56.571Z",
+                  "updatedAt": "2024-04-15T04:28:19.976Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 2120083868483584,
+              "VersionName": "repellendus",
+              "VersionNumber": 6258612225703936
+            }
+          ],
+          "TitleType": {
+            "id": 745669394432000,
+            "TitleTypeName": "voluptas"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "quasi aut sequi",
+                  "createdAt": "2024-04-14T14:15:46.465Z",
+                  "updatedAt": "2024-04-14T20:24:11.704Z",
+                  "publishedAt": "2024-04-14T14:53:55.237Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "perspiciatis sunt ducimus",
+                  "LastModified": "2024-04-14T11:05:02.486Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "facilis error placeat",
+                  "createdAt": "2024-04-14T12:18:14.766Z",
+                  "updatedAt": "2024-04-14T12:53:39.819Z",
+                  "publishedAt": "2024-04-14T21:39:40.466Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "ea quidem exercitationem",
+                  "LastModified": "2024-04-15T03:12:01.863Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 7623511870799872,
+        "attributes": {
+          "Title": "quod exercitationem magnam",
+          "createdAt": "2024-04-14T18:33:31.434Z",
+          "updatedAt": "2024-04-14T09:04:37.708Z",
+          "publishedAt": "2024-04-15T01:59:28.690Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "distinctio maxime neque",
+          "LastModified": "2024-04-14T15:08:55.138Z",
+          "YearOfReference": [
+            {
+              "id": 3583897851920384,
+              "yearOfReferenceDate": "2024-04-14T15:28:44.610Z",
+              "yearOfReferenceStart": 2001,
+              "yearOfReferenceEnd": 1994,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 7811561936650240,
+              "yearOfReferenceDate": "2024-04-15T07:26:38.828Z",
+              "yearOfReferenceStart": 1946,
+              "yearOfReferenceEnd": 1918,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 4812809676259328,
+              "yearOfReferenceDate": "2024-04-14T15:41:31.291Z",
+              "yearOfReferenceStart": 1943,
+              "yearOfReferenceEnd": 2007,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 2527786384228352,
+                "attributes": {
+                  "SeriesTitle": "hic quod eaque",
+                  "createdAt": "2024-04-14T18:33:31.434Z",
+                  "updatedAt": "2024-04-14T09:04:37.708Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "magni",
+                  "SeriesTitleType": "quae"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 7139243115675648,
+                "attributes": {
+                  "CastName": "Thilo Goldkühle",
+                  "CastFirstName": "Anneke",
+                  "CastLastName": "Teufel",
+                  "CastIdentifier": "beatae",
+                  "createdAt": "2024-04-14T18:33:31.434Z",
+                  "updatedAt": "2024-04-14T09:04:37.708Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 8992844589039616,
+              "attributes": {
+                "ProductionCompanyName": "Holtfreter, Pfingsten und Ahrenberg",
+                "ProductionCompanyIdentifier": "voluptatem",
+                "createdAt": "2024-04-14T18:33:31.434Z",
+                "updatedAt": "2024-04-14T09:04:37.708Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 5444725039431680
+          },
+          "FirstKnownManifestation": {
+            "id": 8007603860799488,
+            "OriginalLength": 465786661502976,
+            "OriginalLengthUnit": "repellat",
+            "OriginalDuration": "27:52"
+          },
+          "Genre": [
+            {
+              "id": 4170646680502272,
+              "GenreName": "Trailer"
+            },
+            {
+              "id": 8625849869795328,
+              "GenreName": "Essay Film"
+            },
+            {
+              "id": 1146351966486528,
+              "GenreName": "Trailer"
+            },
+            {
+              "id": 5991109658411008,
+              "GenreName": "Experimental Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 7623511870799872,
+              "attributes": {
+                "SourceName": "Heidelmann-Verniest",
+                "SourceIdentifier": "doloribus",
+                "SourceAttribution": "Voluptatem maxime assumenda architecto cum consequatur odit porro est.",
+                "SourceAttributionDate": "2024-04-14T15:00:35.876Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T18:33:31.434Z",
+                "updatedAt": "2024-04-14T09:04:37.708Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 7623511870799872,
+                "attributes": {
+                  "LangDe": "tempore tempore beatae",
+                  "LangEn": "facere sint animi",
+                  "ref_AAT": "iusto",
+                  "ref_GND": "quod",
+                  "createdAt": "2024-04-14T18:33:31.434Z",
+                  "updatedAt": "2024-04-14T09:04:37.708Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 6373768029011968,
+              "VersionName": "sapiente",
+              "VersionNumber": 7498274848112640
+            }
+          ],
+          "TitleType": {
+            "id": 6404076799524864,
+            "TitleTypeName": "est"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "dicta facilis expedita",
+                  "createdAt": "2024-04-14T19:33:44.692Z",
+                  "updatedAt": "2024-04-14T14:12:33.072Z",
+                  "publishedAt": "2024-04-14T09:20:09.147Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "autem eaque consequatur",
+                  "LastModified": "2024-04-14T08:39:15.780Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "fuga esse totam",
+                  "createdAt": "2024-04-15T06:20:08.563Z",
+                  "updatedAt": "2024-04-14T10:50:50.848Z",
+                  "publishedAt": "2024-04-15T00:45:19.683Z",
+                  "locale": "de",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "nihil tempore voluptatibus",
+                  "LastModified": "2024-04-14T22:55:13.495Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "magni recusandae quam",
+                  "createdAt": "2024-04-14T18:08:29.331Z",
+                  "updatedAt": "2024-04-14T20:22:48.167Z",
+                  "publishedAt": "2024-04-15T05:42:41.310Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "facere quo reiciendis",
+                  "LastModified": "2024-04-14T21:55:02.435Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "tenetur ducimus porro",
+                  "createdAt": "2024-04-15T06:24:45.044Z",
+                  "updatedAt": "2024-04-14T18:42:34.143Z",
+                  "publishedAt": "2024-04-15T00:27:53.146Z",
+                  "locale": "en",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "fuga ut ducimus",
+                  "LastModified": "2024-04-15T06:11:39.209Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 4046076510208000,
+        "attributes": {
+          "Title": "facere ipsum omnis",
+          "createdAt": "2024-04-14T23:37:23.444Z",
+          "updatedAt": "2024-04-14T11:30:07.583Z",
+          "publishedAt": "2024-04-15T03:05:09.013Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "ipsa mollitia pariatur",
+          "LastModified": "2024-04-14T12:23:26.036Z",
+          "YearOfReference": [
+            {
+              "id": 8629752170545152,
+              "yearOfReferenceDate": "2024-04-14T16:54:04.230Z",
+              "yearOfReferenceStart": 1957,
+              "yearOfReferenceEnd": 1930,
+              "yearOfReferenceType": "Created"
+            },
+            {
+              "id": 2297693877567488,
+              "yearOfReferenceDate": "2024-04-15T03:56:18.752Z",
+              "yearOfReferenceStart": 1960,
+              "yearOfReferenceEnd": 1964,
+              "yearOfReferenceType": "Issued"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 8326272755171328,
+                "attributes": {
+                  "SeriesTitle": "voluptatibus ex quod",
+                  "createdAt": "2024-04-14T23:37:23.444Z",
+                  "updatedAt": "2024-04-14T11:30:07.583Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "sapiente",
+                  "SeriesTitleType": "voluptatibus"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 783590952534016,
+                "attributes": {
+                  "CastName": "Frau Lia Fuhlbrügge",
+                  "CastFirstName": "Lilian",
+                  "CastLastName": "Rath",
+                  "CastIdentifier": "quisquam",
+                  "createdAt": "2024-04-14T23:37:23.444Z",
+                  "updatedAt": "2024-04-14T11:30:07.583Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 7497393362698240,
+              "attributes": {
+                "ProductionCompanyName": "Schwanitz Gruppe",
+                "ProductionCompanyIdentifier": "nobis",
+                "createdAt": "2024-04-14T23:37:23.444Z",
+                "updatedAt": "2024-04-14T11:30:07.583Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6999064365236224
+          },
+          "FirstKnownManifestation": {
+            "id": 6352307549634560,
+            "OriginalLength": 7581289515319296,
+            "OriginalLengthUnit": "dignissimos",
+            "OriginalDuration": "61:59"
+          },
+          "Genre": [
+            {
+              "id": 8972966410846208,
+              "GenreName": "Non Fiction"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 4046076510208000,
+              "attributes": {
+                "SourceName": "Frauen-Boruschewski",
+                "SourceIdentifier": "id",
+                "SourceAttribution": "Omnis cupiditate aut.",
+                "SourceAttributionDate": "2024-04-14T09:17:47.465Z",
+                "SourceAttributionType": "Created",
+                "createdAt": "2024-04-14T23:37:23.444Z",
+                "updatedAt": "2024-04-14T11:30:07.583Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 4046076510208000,
+                "attributes": {
+                  "LangDe": "odit dolore sunt",
+                  "LangEn": "beatae quos aliquam",
+                  "ref_AAT": "magnam",
+                  "ref_GND": "voluptatum",
+                  "createdAt": "2024-04-14T23:37:23.444Z",
+                  "updatedAt": "2024-04-14T11:30:07.583Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 4328417218527232,
+              "VersionName": "ex",
+              "VersionNumber": 4228774138740736
+            }
+          ],
+          "TitleType": {
+            "id": 2837166103199744,
+            "TitleTypeName": "rem"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "magnam cumque aut",
+                  "createdAt": "2024-04-14T13:35:50.029Z",
+                  "updatedAt": "2024-04-14T22:30:15.337Z",
+                  "publishedAt": "2024-04-14T12:28:27.996Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "nisi tempore est",
+                  "LastModified": "2024-04-14T09:05:44.596Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "aliquid asperiores voluptatem",
+                  "createdAt": "2024-04-14T23:47:28.865Z",
+                  "updatedAt": "2024-04-15T03:21:11.033Z",
+                  "publishedAt": "2024-04-14T17:37:21.309Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "officiis perferendis delectus",
+                  "LastModified": "2024-04-15T01:06:05.484Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 668123980103680,
+        "attributes": {
+          "Title": "quos harum atque",
+          "createdAt": "2024-04-14T10:15:25.366Z",
+          "updatedAt": "2024-04-14T17:42:50.833Z",
+          "publishedAt": "2024-04-15T04:58:44.583Z",
+          "locale": "en",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "repellendus assumenda quos",
+          "LastModified": "2024-04-14T20:07:29.546Z",
+          "YearOfReference": [
+            {
+              "id": 2728139773968384,
+              "yearOfReferenceDate": "2024-04-15T07:51:23.342Z",
+              "yearOfReferenceStart": 1978,
+              "yearOfReferenceEnd": 1942,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 5758418816073728,
+                "attributes": {
+                  "SeriesTitle": "excepturi quos similique",
+                  "createdAt": "2024-04-14T10:15:25.366Z",
+                  "updatedAt": "2024-04-14T17:42:50.833Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "nostrum",
+                  "SeriesTitleType": "voluptatibus"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 7729745114431488,
+                "attributes": {
+                  "CastName": "Hasan Weller",
+                  "CastFirstName": "Martin",
+                  "CastLastName": "Hold",
+                  "CastIdentifier": "distinctio",
+                  "createdAt": "2024-04-14T10:15:25.366Z",
+                  "updatedAt": "2024-04-14T17:42:50.833Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 7466280741240832,
+              "attributes": {
+                "ProductionCompanyName": "Benzing OHG",
+                "ProductionCompanyIdentifier": "repellendus",
+                "createdAt": "2024-04-14T10:15:25.366Z",
+                "updatedAt": "2024-04-14T17:42:50.833Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 6139793220042752
+          },
+          "FirstKnownManifestation": {
+            "id": 2700046296416256,
+            "OriginalLength": 5129166714306560,
+            "OriginalLengthUnit": "tenetur",
+            "OriginalDuration": "17:13"
+          },
+          "Genre": [
+            {
+              "id": 6491034162823168,
+              "GenreName": "Music Video"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 668123980103680,
+              "attributes": {
+                "SourceName": "Dertmann-Muckenthaler",
+                "SourceIdentifier": "sapiente",
+                "SourceAttribution": "Eveniet maxime adipisci nostrum facere.",
+                "SourceAttributionDate": "2024-04-14T19:13:39.877Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T10:15:25.366Z",
+                "updatedAt": "2024-04-14T17:42:50.833Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 668123980103680,
+                "attributes": {
+                  "LangDe": "voluptatem eius voluptatem",
+                  "LangEn": "sed excepturi ut",
+                  "ref_AAT": "provident",
+                  "ref_GND": "corrupti",
+                  "createdAt": "2024-04-14T10:15:25.366Z",
+                  "updatedAt": "2024-04-14T17:42:50.833Z",
+                  "locale": "en"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 6376290953199616,
+              "VersionName": "quidem",
+              "VersionNumber": 301983814647808
+            }
+          ],
+          "TitleType": {
+            "id": 988625353310208,
+            "TitleTypeName": "necessitatibus"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "distinctio suscipit similique",
+                  "createdAt": "2024-04-14T13:50:09.424Z",
+                  "updatedAt": "2024-04-14T14:29:23.661Z",
+                  "publishedAt": "2024-04-14T13:16:42.782Z",
+                  "locale": "en",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "animi ad quod",
+                  "LastModified": "2024-04-14T10:04:44.781Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "ab repellendus pariatur",
+                  "createdAt": "2024-04-15T03:54:15.094Z",
+                  "updatedAt": "2024-04-15T00:54:19.278Z",
+                  "publishedAt": "2024-04-15T03:56:20.441Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "expedita magnam saepe",
+                  "LastModified": "2024-04-15T07:51:24.913Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "magni id doloremque",
+                  "createdAt": "2024-04-15T07:25:47.313Z",
+                  "updatedAt": "2024-04-14T22:36:27.226Z",
+                  "publishedAt": "2024-04-15T04:51:44.508Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "cumque ratione odio",
+                  "LastModified": "2024-04-15T00:49:01.315Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 4121844959412224,
+        "attributes": {
+          "Title": "velit reprehenderit iste",
+          "createdAt": "2024-04-14T10:42:24.583Z",
+          "updatedAt": "2024-04-15T05:50:51.837Z",
+          "publishedAt": "2024-04-14T09:08:57.305Z",
+          "locale": "de",
+          "CountryOfReference": "US",
+          "RelatedIdentifier": "sapiente dicta illo",
+          "LastModified": "2024-04-14T21:02:02.924Z",
+          "YearOfReference": [
+            {
+              "id": 8183518410571776,
+              "yearOfReferenceDate": "2024-04-15T01:56:10.973Z",
+              "yearOfReferenceStart": 1906,
+              "yearOfReferenceEnd": 1950,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 6484388208443392,
+              "yearOfReferenceDate": "2024-04-14T20:42:36.709Z",
+              "yearOfReferenceStart": 1927,
+              "yearOfReferenceEnd": 1987,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 8235720680407040,
+              "yearOfReferenceDate": "2024-04-15T00:07:28.782Z",
+              "yearOfReferenceStart": 1924,
+              "yearOfReferenceEnd": 1974,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 3533414886014976,
+                "attributes": {
+                  "SeriesTitle": "doloribus porro quae",
+                  "createdAt": "2024-04-14T10:42:24.583Z",
+                  "updatedAt": "2024-04-15T05:50:51.837Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "illo",
+                  "SeriesTitleType": "quis"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 7661898094870528,
+                "attributes": {
+                  "CastName": "Juna Fenske",
+                  "CastFirstName": "Fine",
+                  "CastLastName": "Prange",
+                  "CastIdentifier": "reprehenderit",
+                  "createdAt": "2024-04-14T10:42:24.583Z",
+                  "updatedAt": "2024-04-15T05:50:51.837Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 2024182185459712,
+              "attributes": {
+                "ProductionCompanyName": "Cierpinski KG",
+                "ProductionCompanyIdentifier": "minima",
+                "createdAt": "2024-04-14T10:42:24.583Z",
+                "updatedAt": "2024-04-15T05:50:51.837Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 97454299021312
+          },
+          "FirstKnownManifestation": {
+            "id": 8246881257783296,
+            "OriginalLength": 6138272703053824,
+            "OriginalLengthUnit": "explicabo",
+            "OriginalDuration": "108:57"
+          },
+          "Genre": [
+            {
+              "id": 6149016790237184,
+              "GenreName": "Experimental Film"
+            },
+            {
+              "id": 6282806655188992,
+              "GenreName": "Newsreel"
+            },
+            {
+              "id": 5261195829313536,
+              "GenreName": "Home Movie"
+            },
+            {
+              "id": 3434883269525504,
+              "GenreName": "Short Film"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 4121844959412224,
+              "attributes": {
+                "SourceName": "Hetzler, Giehl und Höhne",
+                "SourceIdentifier": "quo",
+                "SourceAttribution": "Quas debitis assumenda iusto.",
+                "SourceAttributionDate": "2024-04-14T08:53:27.719Z",
+                "SourceAttributionType": "Modified",
+                "createdAt": "2024-04-14T10:42:24.583Z",
+                "updatedAt": "2024-04-15T05:50:51.837Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 4121844959412224,
+                "attributes": {
+                  "LangDe": "optio saepe aspernatur",
+                  "LangEn": "facilis repudiandae non",
+                  "ref_AAT": "earum",
+                  "ref_GND": "suscipit",
+                  "createdAt": "2024-04-14T10:42:24.583Z",
+                  "updatedAt": "2024-04-15T05:50:51.837Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 6915732050804736,
+              "VersionName": "nesciunt",
+              "VersionNumber": 4647259853553664
+            }
+          ],
+          "TitleType": {
+            "id": 397029115166720,
+            "TitleTypeName": "necessitatibus"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "necessitatibus laudantium quos",
+                  "createdAt": "2024-04-15T06:36:59.599Z",
+                  "updatedAt": "2024-04-14T10:33:33.196Z",
+                  "publishedAt": "2024-04-14T23:59:03.074Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "ea corporis veritatis",
+                  "LastModified": "2024-04-15T04:16:10.686Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "tempora eligendi sit",
+                  "createdAt": "2024-04-14T10:37:09.502Z",
+                  "updatedAt": "2024-04-14T19:11:34.408Z",
+                  "publishedAt": "2024-04-14T16:21:20.937Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "nam maxime aliquid",
+                  "LastModified": "2024-04-15T02:44:25.840Z"
+                }
+              },
+              {
+                "id": 2,
+                "attributes": {
+                  "Title": "cumque temporibus quod",
+                  "createdAt": "2024-04-15T03:58:25.019Z",
+                  "updatedAt": "2024-04-15T05:44:24.704Z",
+                  "publishedAt": "2024-04-14T09:55:13.706Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "debitis incidunt iure",
+                  "LastModified": "2024-04-14T18:42:13.856Z"
+                }
+              },
+              {
+                "id": 3,
+                "attributes": {
+                  "Title": "porro sapiente minus",
+                  "createdAt": "2024-04-15T00:32:44.684Z",
+                  "updatedAt": "2024-04-14T11:44:55.742Z",
+                  "publishedAt": "2024-04-14T20:56:24.839Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "minus blanditiis distinctio",
+                  "LastModified": "2024-04-15T06:13:37.061Z"
+                }
+              },
+              {
+                "id": 4,
+                "attributes": {
+                  "Title": "odit atque veritatis",
+                  "createdAt": "2024-04-14T21:37:37.329Z",
+                  "updatedAt": "2024-04-14T09:05:44.856Z",
+                  "publishedAt": "2024-04-15T04:17:56.826Z",
+                  "locale": "en",
+                  "CountryOfReference": "UK",
+                  "RelatedIdentifier": "eum eum quam",
+                  "LastModified": "2024-04-14T19:55:28.234Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  },
+  {
+    "data": [
+      {
+        "id": 1955527626063872,
+        "attributes": {
+          "Title": "laboriosam totam officiis",
+          "createdAt": "2024-04-14T20:08:09.745Z",
+          "updatedAt": "2024-04-14T23:32:38.366Z",
+          "publishedAt": "2024-04-14T12:51:07.313Z",
+          "locale": "de",
+          "CountryOfReference": "DE",
+          "RelatedIdentifier": "voluptates unde aspernatur",
+          "LastModified": "2024-04-14T21:07:06.667Z",
+          "YearOfReference": [
+            {
+              "id": 2569568417480704,
+              "yearOfReferenceDate": "2024-04-14T11:44:57.265Z",
+              "yearOfReferenceStart": 1982,
+              "yearOfReferenceEnd": 2004,
+              "yearOfReferenceType": "Copyrighted"
+            },
+            {
+              "id": 232969220390912,
+              "yearOfReferenceDate": "2024-04-14T16:19:43.520Z",
+              "yearOfReferenceStart": 2012,
+              "yearOfReferenceEnd": 1992,
+              "yearOfReferenceType": "Issued"
+            },
+            {
+              "id": 2889281955692544,
+              "yearOfReferenceDate": "2024-04-15T01:23:44.427Z",
+              "yearOfReferenceStart": 1970,
+              "yearOfReferenceEnd": 1916,
+              "yearOfReferenceType": "Copyrighted"
+            }
+          ],
+          "Series": {
+            "data": [
+              {
+                "id": 2968979022807040,
+                "attributes": {
+                  "SeriesTitle": "cum exercitationem vitae",
+                  "createdAt": "2024-04-14T20:08:09.745Z",
+                  "updatedAt": "2024-04-14T23:32:38.366Z",
+                  "publishedAt": null,
+                  "SeriesIdentifier": "tempore",
+                  "SeriesTitleType": "maiores"
+                }
+              }
+            ]
+          },
+          "Cast": {
+            "data": [
+              {
+                "id": 3926106516226048,
+                "attributes": {
+                  "CastName": "Dilara Badane",
+                  "CastFirstName": "Aylin",
+                  "CastLastName": "Kuprion",
+                  "CastIdentifier": "architecto",
+                  "createdAt": "2024-04-14T20:08:09.745Z",
+                  "updatedAt": "2024-04-14T23:32:38.366Z"
+                }
+              }
+            ]
+          },
+          "ProductionCompany": {
+            "data": {
+              "id": 6379958786064384,
+              "attributes": {
+                "ProductionCompanyName": "Jaros-Vogt",
+                "ProductionCompanyIdentifier": "vitae",
+                "createdAt": "2024-04-14T20:08:09.745Z",
+                "updatedAt": "2024-04-14T23:32:38.366Z",
+                "publishedAt": null
+              }
+            }
+          },
+          "OriginalFormat": {
+            "id": 4858885978456064
+          },
+          "FirstKnownManifestation": {
+            "id": 6786950939803648,
+            "OriginalLength": 6069789311107072,
+            "OriginalLengthUnit": "saepe",
+            "OriginalDuration": "50:6"
+          },
+          "Genre": [
+            {
+              "id": 8558409588670464,
+              "GenreName": "Fiction"
+            }
+          ],
+          "Source": {
+            "data": {
+              "id": 1955527626063872,
+              "attributes": {
+                "SourceName": "Heinke OHG",
+                "SourceIdentifier": "debitis",
+                "SourceAttribution": "Voluptatum dolorum atque quidem ex voluptatem.",
+                "SourceAttributionDate": "2024-04-14T13:58:45.700Z",
+                "SourceAttributionType": "Attributed",
+                "createdAt": "2024-04-14T20:08:09.745Z",
+                "updatedAt": "2024-04-14T23:32:38.366Z"
+              }
+            }
+          },
+          "Subject": {
+            "data": [
+              {
+                "id": 1955527626063872,
+                "attributes": {
+                  "LangDe": "ducimus doloremque dolorem",
+                  "LangEn": "rerum ipsum voluptatibus",
+                  "ref_AAT": "enim",
+                  "ref_GND": "inventore",
+                  "createdAt": "2024-04-14T20:08:09.745Z",
+                  "updatedAt": "2024-04-14T23:32:38.366Z",
+                  "locale": "de"
+                }
+              }
+            ]
+          },
+          "SchemaVersion": [
+            {
+              "id": 8306742574186496,
+              "VersionName": "non",
+              "VersionNumber": 8226434959015936
+            }
+          ],
+          "TitleType": {
+            "id": 4585040495247360,
+            "TitleTypeName": "culpa"
+          },
+          "localizations": {
+            "data": [
+              {
+                "id": 0,
+                "attributes": {
+                  "Title": "odit dolorum iste",
+                  "createdAt": "2024-04-15T01:57:46.345Z",
+                  "updatedAt": "2024-04-14T14:10:45.627Z",
+                  "publishedAt": "2024-04-14T19:11:24.593Z",
+                  "locale": "de",
+                  "CountryOfReference": "DE",
+                  "RelatedIdentifier": "molestias iusto dolores",
+                  "LastModified": "2024-04-14T11:23:52.443Z"
+                }
+              },
+              {
+                "id": 1,
+                "attributes": {
+                  "Title": "repellat doloremque eos",
+                  "createdAt": "2024-04-14T16:48:25.130Z",
+                  "updatedAt": "2024-04-14T14:04:50.261Z",
+                  "publishedAt": "2024-04-14T17:02:18.702Z",
+                  "locale": "de",
+                  "CountryOfReference": "US",
+                  "RelatedIdentifier": "numquam veniam impedit",
+                  "LastModified": "2024-04-14T14:36:16.992Z"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {}
+  }
+]

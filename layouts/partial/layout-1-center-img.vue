@@ -1,0 +1,23 @@
+<template>
+  <section>
+    <div class="w-full sm:w-3/4 lg:w-1/2 mx-auto card card-side bg-neutral-50 dark:dark:bg-gray-800 shadow-xl">
+      <slot name="figure">
+        <figure class="hidden h-60 lg:p-4 lg:inline-flex self-center">
+          <img
+            class="hidden h-4/5 lg:inline-flex"
+            src="/img/login_placeholder.jpg"
+            alt="Login Figure"
+          >
+        </figure>
+      </slot>
+      <div class="card-body">
+        <h2 class="text-xl">
+          <slot name="title" />
+        </h2>
+        <slot name="cardBody">
+          Card content
+        </slot>
+      </div>
+    </div>
+  </section>
+</template>

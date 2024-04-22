@@ -1,0 +1,65 @@
+[
+  {
+    "$formkit": "text",
+    "label": "Username",
+    "name": "username",
+    "help": "Username",
+    "readonly": false
+  },
+  {
+    "$formkit": "email",
+    "label": "Email: with icons",
+    "name": "email",
+    "help": "Some input help text.",
+    "prefixIcon": "email"
+  },
+  {
+    "$formkit": "text",
+    "label": "UserID",
+    "name":"id",
+    "help": "Interne UserID",
+    "readonly": true
+  },
+  {
+    "$formkit": "text",
+    "label": "Avatar URL",
+    "name": "Avatar",
+    "help": "Avatar URL",
+    "readonly": true
+  },
+  {
+    "$formkit": "text",
+    "name": "role.name"
+  },
+  {
+    "$formkit": "radio",
+    "id": "roleSelection",
+    "label": "Role",
+    "help": "User Roles",
+    "validation": "required",
+    "validationVisibility": "live",
+    "name":"role",
+    "decorator-icon": "check",
+    "options": [
+      {
+        "label": "Editor",
+        "value": 2
+      },
+      {
+        "label": "Authenticated",
+        "value": 1
+      },
+      {
+        "label": "Admin",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "$formkit": "checkbox",
+    "label": "Gesperrt",
+    "name": "blocked",
+    "help": "Status gesperrt",
+    "decorator-icon": "check"
+  }
+]

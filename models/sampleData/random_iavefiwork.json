@@ -1,0 +1,1026 @@
+[
+  {
+    "data": {
+      "id": 7947545818955776,
+      "attributes": {
+        "Title": "perspiciatis magni perspiciatis",
+        "createdAt": "2024-04-11T03:13:12.528Z",
+        "updatedAt": "2024-04-10T19:17:58.261Z",
+        "publishedAt": "2024-04-11T02:36:58.589Z",
+        "locale": "en",
+        "CountryOfReference": "UK",
+        "RelatedIdentifier": "inventore vel distinctio",
+        "LastModified": "2024-04-10T20:31:15.024Z",
+        "Series": {
+          "data": [
+            {
+              "id": 7947545818955776,
+              "attributes": {
+                "SeriesTitle": "nobis laborum quia",
+                "createdAt": "2024-04-11T03:13:12.528Z",
+                "updatedAt": "2024-04-10T19:17:58.261Z",
+                "SeriesIdentifier": "consectetur"
+              }
+            }
+          ]
+        },
+        "Cast": {
+          "data": [
+            {
+              "id": 7947545818955776,
+              "attributes": {
+                "CastName": "Salih Marten",
+                "CastFirstName": "Jaden",
+                "CastLastName": "Wolf",
+                "CastIdentifier": "saepe",
+                "createdAt": "2024-04-11T03:13:12.528Z",
+                "updatedAt": "2024-04-10T19:17:58.261Z"
+              }
+            }
+          ]
+        },
+        "ProductionCompany": {
+          "data": {
+            "id": 7947545818955776,
+            "attributes": {
+              "ProductionCompanyName": "Morgenstern-Brix",
+              "ProductionCompanyIdentifier": "quas",
+              "createdAt": "2024-04-11T03:13:12.528Z",
+              "updatedAt": "2024-04-10T19:17:58.261Z"
+            }
+          }
+        },
+        "FirstKnownManifestation": {
+          "id": 7947545818955776,
+          "OriginalDuration": "89:21"
+        },
+        "Genre": [
+          {
+            "id": 8691525665947648,
+            "GenreName": "Amateur Film"
+          },
+          {
+            "id": 2091437386629120,
+            "GenreName": "Animation"
+          },
+          {
+            "id": 8252246347218944,
+            "GenreName": "Animation with Live Action"
+          },
+          {
+            "id": 2259041105477632,
+            "GenreName": "Non Fiction"
+          },
+          {
+            "id": 407548779823104,
+            "GenreName": "Documentary Drama"
+          },
+          {
+            "id": 6601063863943168,
+            "GenreName": "Anthology Film"
+          },
+          {
+            "id": 3848283539636224,
+            "GenreName": "Essay Film"
+          },
+          {
+            "id": 1552191867322368,
+            "GenreName": "Experimental Film"
+          },
+          {
+            "id": 8211307490705408,
+            "GenreName": "Home Movie"
+          },
+          {
+            "id": 1066668214190080,
+            "GenreName": "Industrial Film"
+          },
+          {
+            "id": 2115466415833088,
+            "GenreName": "Compilation Film"
+          },
+          {
+            "id": 8263679684378624,
+            "GenreName": "Short Film"
+          },
+          {
+            "id": 4808579745841152,
+            "GenreName": "Educational Film"
+          },
+          {
+            "id": 8688833837137920,
+            "GenreName": "Music Video"
+          },
+          {
+            "id": 6735975296270336,
+            "GenreName": "Propaganda Film"
+          },
+          {
+            "id": 2040782036926464,
+            "GenreName": "Fiction"
+          },
+          {
+            "id": 3785197306773504,
+            "GenreName": "Trailer"
+          },
+          {
+            "id": 3802843765014528,
+            "GenreName": "Advertising Film"
+          },
+          {
+            "id": 8383128594808832,
+            "GenreName": "Newsreel"
+          }
+        ],
+        "Source": {
+          "data": {
+            "id": 7947545818955776,
+            "attributes": {
+              "SourceName": "Bichler, Steinert und Vontein",
+              "SourceIdentifier": "vel",
+              "SourceAttribution": "Necessitatibus corporis cum veniam repellendus unde.",
+              "SourceAttributionDate": "2024-04-10T15:07:12.340Z",
+              "SourceAttributionType": "Attributed",
+              "createdAt": "2024-04-11T03:13:12.528Z",
+              "updatedAt": "2024-04-10T19:17:58.261Z"
+            }
+          }
+        },
+        "Subject": {
+          "data": [
+            {
+              "id": 7947545818955776,
+              "attributes": {
+                "LangDe": "illum deserunt quae",
+                "LangEn": "eius nulla natus",
+                "ref_AAT": "repellendus",
+                "ref_GND": "incidunt",
+                "createdAt": "2024-04-11T03:13:12.528Z",
+                "updatedAt": "2024-04-10T19:17:58.261Z",
+                "locale": "en"
+              }
+            }
+          ]
+        },
+        "localizations": {
+          "data": [
+            {
+              "id": 0,
+              "attributes": {
+                "Title": "quos blanditiis consectetur",
+                "createdAt": "2024-04-10T21:37:58.020Z",
+                "updatedAt": "2024-04-11T01:02:45.234Z",
+                "publishedAt": "2024-04-11T05:00:42.360Z",
+                "locale": "de",
+                "CountryOfReference": "US",
+                "RelatedIdentifier": "accusamus eos voluptatibus",
+                "LastModified": "2024-04-11T05:09:00.331Z"
+              }
+            },
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "libero a omnis",
+                "createdAt": "2024-04-10T18:12:13.940Z",
+                "updatedAt": "2024-04-10T23:43:14.426Z",
+                "publishedAt": "2024-04-11T11:00:25.293Z",
+                "locale": "en",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "recusandae unde labore",
+                "LastModified": "2024-04-11T11:46:11.092Z"
+              }
+            },
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "magni sit tempore",
+                "createdAt": "2024-04-10T18:00:59.322Z",
+                "updatedAt": "2024-04-11T06:34:26.464Z",
+                "publishedAt": "2024-04-10T17:25:37.548Z",
+                "locale": "en",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "quas minima alias",
+                "LastModified": "2024-04-11T10:09:14.246Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "meta": {}
+  },
+  {
+    "data": {
+      "id": 3767716588552192,
+      "attributes": {
+        "Title": "dicta beatae quas",
+        "createdAt": "2024-04-11T00:09:59.659Z",
+        "updatedAt": "2024-04-11T02:59:49.447Z",
+        "publishedAt": "2024-04-10T18:23:44.750Z",
+        "locale": "en",
+        "CountryOfReference": "DE",
+        "RelatedIdentifier": "fugiat nemo reprehenderit",
+        "LastModified": "2024-04-10T13:00:47.206Z",
+        "Series": {
+          "data": [
+            {
+              "id": 3767716588552192,
+              "attributes": {
+                "SeriesTitle": "sunt vel similique",
+                "createdAt": "2024-04-11T00:09:59.659Z",
+                "updatedAt": "2024-04-11T02:59:49.447Z",
+                "SeriesIdentifier": "perferendis"
+              }
+            }
+          ]
+        },
+        "Cast": {
+          "data": [
+            {
+              "id": 3767716588552192,
+              "attributes": {
+                "CastName": "Prof. Dr. Eddi Moedl",
+                "CastFirstName": "Ron",
+                "CastLastName": "Wallstab",
+                "CastIdentifier": "nam",
+                "createdAt": "2024-04-11T00:09:59.659Z",
+                "updatedAt": "2024-04-11T02:59:49.447Z"
+              }
+            }
+          ]
+        },
+        "ProductionCompany": {
+          "data": {
+            "id": 3767716588552192,
+            "attributes": {
+              "ProductionCompanyName": "Schwarzkopf, Achkinadze und Bürger",
+              "ProductionCompanyIdentifier": "voluptate",
+              "createdAt": "2024-04-11T00:09:59.659Z",
+              "updatedAt": "2024-04-11T02:59:49.447Z"
+            }
+          }
+        },
+        "FirstKnownManifestation": {
+          "id": 3767716588552192,
+          "OriginalDuration": "61:56"
+        },
+        "Genre": [
+          {
+            "id": 1802783831359488,
+            "GenreName": "Amateur Film"
+          },
+          {
+            "id": 977683496304640,
+            "GenreName": "Animation"
+          },
+          {
+            "id": 4311289815891968,
+            "GenreName": "Animation with Live Action"
+          },
+          {
+            "id": 4400618370236416,
+            "GenreName": "Non Fiction"
+          },
+          {
+            "id": 3556130701705216,
+            "GenreName": "Documentary Drama"
+          },
+          {
+            "id": 4644892309454848,
+            "GenreName": "Anthology Film"
+          },
+          {
+            "id": 4607739554693120,
+            "GenreName": "Essay Film"
+          },
+          {
+            "id": 7392334067007488,
+            "GenreName": "Experimental Film"
+          },
+          {
+            "id": 5944467104202752,
+            "GenreName": "Home Movie"
+          },
+          {
+            "id": 7986232799789056,
+            "GenreName": "Industrial Film"
+          },
+          {
+            "id": 4642096600317952,
+            "GenreName": "Compilation Film"
+          },
+          {
+            "id": 4955828442365952,
+            "GenreName": "Short Film"
+          },
+          {
+            "id": 7803086282162176,
+            "GenreName": "Educational Film"
+          },
+          {
+            "id": 1809330831622144,
+            "GenreName": "Music Video"
+          },
+          {
+            "id": 3433930594189312,
+            "GenreName": "Propaganda Film"
+          },
+          {
+            "id": 8221501643816960,
+            "GenreName": "Fiction"
+          },
+          {
+            "id": 5298924929679360,
+            "GenreName": "Trailer"
+          },
+          {
+            "id": 7023581896638464,
+            "GenreName": "Advertising Film"
+          },
+          {
+            "id": 4062421507375104,
+            "GenreName": "Newsreel"
+          }
+        ],
+        "Source": {
+          "data": {
+            "id": 3767716588552192,
+            "attributes": {
+              "SourceName": "Lienshöft, Tasche und Oeser",
+              "SourceIdentifier": "laborum",
+              "SourceAttribution": "Nisi placeat magnam aperiam provident sapiente aut eaque.",
+              "SourceAttributionDate": "2024-04-10T14:40:24.735Z",
+              "SourceAttributionType": "Attributed",
+              "createdAt": "2024-04-11T00:09:59.659Z",
+              "updatedAt": "2024-04-11T02:59:49.447Z"
+            }
+          }
+        },
+        "Subject": {
+          "data": [
+            {
+              "id": 3767716588552192,
+              "attributes": {
+                "LangDe": "eveniet numquam officiis",
+                "LangEn": "accusamus excepturi aut",
+                "ref_AAT": "eaque",
+                "ref_GND": "facere",
+                "createdAt": "2024-04-11T00:09:59.659Z",
+                "updatedAt": "2024-04-11T02:59:49.447Z",
+                "locale": "en"
+              }
+            }
+          ]
+        },
+        "localizations": {
+          "data": [
+            {
+              "id": 0,
+              "attributes": {
+                "Title": "nostrum in voluptates",
+                "createdAt": "2024-04-11T02:22:39.625Z",
+                "updatedAt": "2024-04-10T23:59:11.880Z",
+                "publishedAt": "2024-04-11T00:35:45.613Z",
+                "locale": "de",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "perferendis totam optio",
+                "LastModified": "2024-04-11T00:20:47.933Z"
+              }
+            },
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "eius esse odit",
+                "createdAt": "2024-04-10T15:04:37.328Z",
+                "updatedAt": "2024-04-11T05:05:30.466Z",
+                "publishedAt": "2024-04-11T04:23:16.542Z",
+                "locale": "de",
+                "CountryOfReference": "UK",
+                "RelatedIdentifier": "inventore maxime eligendi",
+                "LastModified": "2024-04-11T09:43:56.299Z"
+              }
+            },
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "nihil alias nihil",
+                "createdAt": "2024-04-10T20:27:20.431Z",
+                "updatedAt": "2024-04-11T06:39:53.189Z",
+                "publishedAt": "2024-04-11T11:23:59.359Z",
+                "locale": "de",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "culpa doloremque veritatis",
+                "LastModified": "2024-04-11T08:48:45.564Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "meta": {}
+  },
+  {
+    "data": {
+      "id": 2662567348535296,
+      "attributes": {
+        "Title": "hic fuga cum",
+        "createdAt": "2024-04-10T16:52:50.125Z",
+        "updatedAt": "2024-04-10T20:06:07.760Z",
+        "publishedAt": "2024-04-10T16:55:11.964Z",
+        "locale": "de",
+        "CountryOfReference": "US",
+        "RelatedIdentifier": "quos sapiente vitae",
+        "LastModified": "2024-04-11T07:10:12.020Z",
+        "Series": {
+          "data": [
+            {
+              "id": 2662567348535296,
+              "attributes": {
+                "SeriesTitle": "dolores quos earum",
+                "createdAt": "2024-04-10T16:52:50.125Z",
+                "updatedAt": "2024-04-10T20:06:07.760Z",
+                "SeriesIdentifier": "corporis"
+              }
+            }
+          ]
+        },
+        "Cast": {
+          "data": [
+            {
+              "id": 2662567348535296,
+              "attributes": {
+                "CastName": "Prof. Dr. Sude Kesselschläger",
+                "CastFirstName": "Yves",
+                "CastLastName": "Fincke",
+                "CastIdentifier": "repellat",
+                "createdAt": "2024-04-10T16:52:50.125Z",
+                "updatedAt": "2024-04-10T20:06:07.760Z"
+              }
+            }
+          ]
+        },
+        "ProductionCompany": {
+          "data": {
+            "id": 2662567348535296,
+            "attributes": {
+              "ProductionCompanyName": "Schüppel, Roleder und Voelkel",
+              "ProductionCompanyIdentifier": "nobis",
+              "createdAt": "2024-04-10T16:52:50.125Z",
+              "updatedAt": "2024-04-10T20:06:07.760Z"
+            }
+          }
+        },
+        "FirstKnownManifestation": {
+          "id": 2662567348535296,
+          "OriginalDuration": "89:36"
+        },
+        "Genre": [
+          {
+            "id": 3353616700145664,
+            "GenreName": "Amateur Film"
+          },
+          {
+            "id": 4239555964174336,
+            "GenreName": "Animation"
+          },
+          {
+            "id": 5363776951943168,
+            "GenreName": "Animation with Live Action"
+          },
+          {
+            "id": 1553921791229952,
+            "GenreName": "Non Fiction"
+          },
+          {
+            "id": 3290320332652544,
+            "GenreName": "Documentary Drama"
+          },
+          {
+            "id": 1360233699999744,
+            "GenreName": "Anthology Film"
+          },
+          {
+            "id": 8233826633383936,
+            "GenreName": "Essay Film"
+          },
+          {
+            "id": 3828301401423872,
+            "GenreName": "Experimental Film"
+          },
+          {
+            "id": 2965185883013120,
+            "GenreName": "Home Movie"
+          },
+          {
+            "id": 7847310956429312,
+            "GenreName": "Industrial Film"
+          },
+          {
+            "id": 5965764074930176,
+            "GenreName": "Compilation Film"
+          },
+          {
+            "id": 7578666198368256,
+            "GenreName": "Short Film"
+          },
+          {
+            "id": 7897313978613760,
+            "GenreName": "Educational Film"
+          },
+          {
+            "id": 7902623705333760,
+            "GenreName": "Music Video"
+          },
+          {
+            "id": 2620316786360320,
+            "GenreName": "Propaganda Film"
+          },
+          {
+            "id": 1078003035537408,
+            "GenreName": "Fiction"
+          },
+          {
+            "id": 5847601087774720,
+            "GenreName": "Trailer"
+          },
+          {
+            "id": 3935524093952000,
+            "GenreName": "Advertising Film"
+          },
+          {
+            "id": 2436035980034048,
+            "GenreName": "Newsreel"
+          }
+        ],
+        "Source": {
+          "data": {
+            "id": 2662567348535296,
+            "attributes": {
+              "SourceName": "Schwirkschlies-Morhelfer",
+              "SourceIdentifier": "voluptas",
+              "SourceAttribution": "Quos omnis suscipit saepe.",
+              "SourceAttributionDate": "2024-04-11T07:00:28.290Z",
+              "SourceAttributionType": "Modified",
+              "createdAt": "2024-04-10T16:52:50.125Z",
+              "updatedAt": "2024-04-10T20:06:07.760Z"
+            }
+          }
+        },
+        "Subject": {
+          "data": [
+            {
+              "id": 2662567348535296,
+              "attributes": {
+                "LangDe": "corporis vitae illo",
+                "LangEn": "laboriosam aperiam illo",
+                "ref_AAT": "delectus",
+                "ref_GND": "deserunt",
+                "createdAt": "2024-04-10T16:52:50.125Z",
+                "updatedAt": "2024-04-10T20:06:07.760Z",
+                "locale": "de"
+              }
+            }
+          ]
+        },
+        "localizations": {
+          "data": [
+            {
+              "id": 0,
+              "attributes": {
+                "Title": "culpa quae rem",
+                "createdAt": "2024-04-11T10:11:04.661Z",
+                "updatedAt": "2024-04-11T09:15:49.722Z",
+                "publishedAt": "2024-04-11T05:26:14.211Z",
+                "locale": "en",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "totam nihil dolores",
+                "LastModified": "2024-04-10T16:20:32.883Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "meta": {}
+  },
+  {
+    "data": {
+      "id": 3306853507268608,
+      "attributes": {
+        "Title": "nobis placeat tempora",
+        "createdAt": "2024-04-11T10:15:26.721Z",
+        "updatedAt": "2024-04-11T08:23:29.601Z",
+        "publishedAt": "2024-04-10T19:23:44.349Z",
+        "locale": "de",
+        "CountryOfReference": "UK",
+        "RelatedIdentifier": "corporis ullam nostrum",
+        "LastModified": "2024-04-11T08:44:21.706Z",
+        "Series": {
+          "data": [
+            {
+              "id": 3306853507268608,
+              "attributes": {
+                "SeriesTitle": "animi nisi nam",
+                "createdAt": "2024-04-11T10:15:26.721Z",
+                "updatedAt": "2024-04-11T08:23:29.601Z",
+                "SeriesIdentifier": "iure"
+              }
+            }
+          ]
+        },
+        "Cast": {
+          "data": [
+            {
+              "id": 3306853507268608,
+              "attributes": {
+                "CastName": "Laurence Muller",
+                "CastFirstName": "Mareike",
+                "CastLastName": "Heist",
+                "CastIdentifier": "beatae",
+                "createdAt": "2024-04-11T10:15:26.721Z",
+                "updatedAt": "2024-04-11T08:23:29.601Z"
+              }
+            }
+          ]
+        },
+        "ProductionCompany": {
+          "data": {
+            "id": 3306853507268608,
+            "attributes": {
+              "ProductionCompanyName": "Lubina, Zandt und Osenberg",
+              "ProductionCompanyIdentifier": "nobis",
+              "createdAt": "2024-04-11T10:15:26.721Z",
+              "updatedAt": "2024-04-11T08:23:29.601Z"
+            }
+          }
+        },
+        "FirstKnownManifestation": {
+          "id": 3306853507268608,
+          "OriginalDuration": "26:42"
+        },
+        "Genre": [
+          {
+            "id": 3818844344811520,
+            "GenreName": "Amateur Film"
+          },
+          {
+            "id": 4171961961807872,
+            "GenreName": "Animation"
+          },
+          {
+            "id": 4174976762511360,
+            "GenreName": "Animation with Live Action"
+          },
+          {
+            "id": 2008192932380672,
+            "GenreName": "Non Fiction"
+          },
+          {
+            "id": 5045004076580864,
+            "GenreName": "Documentary Drama"
+          },
+          {
+            "id": 4795174198706176,
+            "GenreName": "Anthology Film"
+          },
+          {
+            "id": 2034778427621376,
+            "GenreName": "Essay Film"
+          },
+          {
+            "id": 6360978084069376,
+            "GenreName": "Experimental Film"
+          },
+          {
+            "id": 8142292346994688,
+            "GenreName": "Home Movie"
+          },
+          {
+            "id": 5918099016515584,
+            "GenreName": "Industrial Film"
+          },
+          {
+            "id": 2351865599623168,
+            "GenreName": "Compilation Film"
+          },
+          {
+            "id": 6158618401439744,
+            "GenreName": "Short Film"
+          },
+          {
+            "id": 7742835235225600,
+            "GenreName": "Educational Film"
+          },
+          {
+            "id": 1646983966097408,
+            "GenreName": "Music Video"
+          },
+          {
+            "id": 2002399342362624,
+            "GenreName": "Propaganda Film"
+          },
+          {
+            "id": 1121603402334208,
+            "GenreName": "Fiction"
+          },
+          {
+            "id": 2093470736973824,
+            "GenreName": "Trailer"
+          },
+          {
+            "id": 4616212929576960,
+            "GenreName": "Advertising Film"
+          },
+          {
+            "id": 5983275281547264,
+            "GenreName": "Newsreel"
+          }
+        ],
+        "Source": {
+          "data": {
+            "id": 3306853507268608,
+            "attributes": {
+              "SourceName": "Stephan-Kohlmann",
+              "SourceIdentifier": "pariatur",
+              "SourceAttribution": "Provident aliquam qui dignissimos corrupti.",
+              "SourceAttributionDate": "2024-04-10T13:51:14.721Z",
+              "SourceAttributionType": "Modified",
+              "createdAt": "2024-04-11T10:15:26.721Z",
+              "updatedAt": "2024-04-11T08:23:29.601Z"
+            }
+          }
+        },
+        "Subject": {
+          "data": [
+            {
+              "id": 3306853507268608,
+              "attributes": {
+                "LangDe": "tempora dignissimos sequi",
+                "LangEn": "quo laborum ad",
+                "ref_AAT": "fuga",
+                "ref_GND": "sequi",
+                "createdAt": "2024-04-11T10:15:26.721Z",
+                "updatedAt": "2024-04-11T08:23:29.601Z",
+                "locale": "de"
+              }
+            }
+          ]
+        },
+        "localizations": {
+          "data": [
+            {
+              "id": 0,
+              "attributes": {
+                "Title": "animi dignissimos blanditiis",
+                "createdAt": "2024-04-10T20:45:21.119Z",
+                "updatedAt": "2024-04-10T19:43:32.650Z",
+                "publishedAt": "2024-04-10T14:42:49.161Z",
+                "locale": "de",
+                "CountryOfReference": "UK",
+                "RelatedIdentifier": "quaerat inventore a",
+                "LastModified": "2024-04-10T18:16:22.869Z"
+              }
+            },
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "itaque ipsum quaerat",
+                "createdAt": "2024-04-11T03:11:17.295Z",
+                "updatedAt": "2024-04-11T09:05:52.144Z",
+                "publishedAt": "2024-04-10T16:12:47.858Z",
+                "locale": "en",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "soluta quas placeat",
+                "LastModified": "2024-04-11T10:42:32.106Z"
+              }
+            },
+            {
+              "id": 2,
+              "attributes": {
+                "Title": "impedit corrupti ea",
+                "createdAt": "2024-04-10T17:06:44.852Z",
+                "updatedAt": "2024-04-10T15:46:49.577Z",
+                "publishedAt": "2024-04-11T02:53:16.280Z",
+                "locale": "en",
+                "CountryOfReference": "UK",
+                "RelatedIdentifier": "at incidunt ab",
+                "LastModified": "2024-04-10T21:51:33.331Z"
+              }
+            },
+            {
+              "id": 3,
+              "attributes": {
+                "Title": "quae esse et",
+                "createdAt": "2024-04-10T20:43:59.731Z",
+                "updatedAt": "2024-04-11T03:30:38.730Z",
+                "publishedAt": "2024-04-11T06:40:01.944Z",
+                "locale": "en",
+                "CountryOfReference": "US",
+                "RelatedIdentifier": "nisi autem quidem",
+                "LastModified": "2024-04-11T03:55:59.941Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "meta": {}
+  },
+  {
+    "data": {
+      "id": 8754043176353792,
+      "attributes": {
+        "Title": "nisi sapiente beatae",
+        "createdAt": "2024-04-10T19:57:52.565Z",
+        "updatedAt": "2024-04-10T21:31:03.600Z",
+        "publishedAt": "2024-04-11T07:40:30.854Z",
+        "locale": "de",
+        "CountryOfReference": "US",
+        "RelatedIdentifier": "minus ducimus perferendis",
+        "LastModified": "2024-04-11T02:41:36.468Z",
+        "Series": {
+          "data": [
+            {
+              "id": 8754043176353792,
+              "attributes": {
+                "SeriesTitle": "laboriosam ea est",
+                "createdAt": "2024-04-10T19:57:52.565Z",
+                "updatedAt": "2024-04-10T21:31:03.600Z",
+                "SeriesIdentifier": "quae"
+              }
+            }
+          ]
+        },
+        "Cast": {
+          "data": [
+            {
+              "id": 8754043176353792,
+              "attributes": {
+                "CastName": "Leif Kölotzei",
+                "CastFirstName": "Joyce",
+                "CastLastName": "Weis",
+                "CastIdentifier": "quibusdam",
+                "createdAt": "2024-04-10T19:57:52.565Z",
+                "updatedAt": "2024-04-10T21:31:03.600Z"
+              }
+            }
+          ]
+        },
+        "ProductionCompany": {
+          "data": {
+            "id": 8754043176353792,
+            "attributes": {
+              "ProductionCompanyName": "Koj, Kohle und Waschbüsch",
+              "ProductionCompanyIdentifier": "ipsam",
+              "createdAt": "2024-04-10T19:57:52.565Z",
+              "updatedAt": "2024-04-10T21:31:03.600Z"
+            }
+          }
+        },
+        "FirstKnownManifestation": {
+          "id": 8754043176353792,
+          "OriginalDuration": "5:54"
+        },
+        "Genre": [
+          {
+            "id": 1859563024285696,
+            "GenreName": "Amateur Film"
+          },
+          {
+            "id": 8573036638765056,
+            "GenreName": "Animation"
+          },
+          {
+            "id": 1573416557608960,
+            "GenreName": "Animation with Live Action"
+          },
+          {
+            "id": 4280965920718848,
+            "GenreName": "Non Fiction"
+          },
+          {
+            "id": 8457859647930368,
+            "GenreName": "Documentary Drama"
+          },
+          {
+            "id": 173099196612608,
+            "GenreName": "Anthology Film"
+          },
+          {
+            "id": 3975821272285184,
+            "GenreName": "Essay Film"
+          },
+          {
+            "id": 5105335270375424,
+            "GenreName": "Experimental Film"
+          },
+          {
+            "id": 955191572561920,
+            "GenreName": "Home Movie"
+          },
+          {
+            "id": 3787596788400128,
+            "GenreName": "Industrial Film"
+          },
+          {
+            "id": 8899815603699712,
+            "GenreName": "Compilation Film"
+          },
+          {
+            "id": 7732885993816064,
+            "GenreName": "Short Film"
+          },
+          {
+            "id": 8839301294981120,
+            "GenreName": "Educational Film"
+          },
+          {
+            "id": 8254448879009792,
+            "GenreName": "Music Video"
+          },
+          {
+            "id": 7170299495710720,
+            "GenreName": "Propaganda Film"
+          },
+          {
+            "id": 5547346916016128,
+            "GenreName": "Fiction"
+          },
+          {
+            "id": 6620472143773696,
+            "GenreName": "Trailer"
+          },
+          {
+            "id": 7836283195883520,
+            "GenreName": "Advertising Film"
+          },
+          {
+            "id": 6714783107645440,
+            "GenreName": "Newsreel"
+          }
+        ],
+        "Source": {
+          "data": {
+            "id": 8754043176353792,
+            "attributes": {
+              "SourceName": "Weber-Kesselring",
+              "SourceIdentifier": "dignissimos",
+              "SourceAttribution": "Quas unde suscipit quaerat ullam eligendi harum libero possimus.",
+              "SourceAttributionDate": "2024-04-10T21:00:37.076Z",
+              "SourceAttributionType": "Attributed",
+              "createdAt": "2024-04-10T19:57:52.565Z",
+              "updatedAt": "2024-04-10T21:31:03.600Z"
+            }
+          }
+        },
+        "Subject": {
+          "data": [
+            {
+              "id": 8754043176353792,
+              "attributes": {
+                "LangDe": "rem delectus distinctio",
+                "LangEn": "aperiam deserunt rerum",
+                "ref_AAT": "iure",
+                "ref_GND": "corrupti",
+                "createdAt": "2024-04-10T19:57:52.565Z",
+                "updatedAt": "2024-04-10T21:31:03.600Z",
+                "locale": "de"
+              }
+            }
+          ]
+        },
+        "localizations": {
+          "data": [
+            {
+              "id": 0,
+              "attributes": {
+                "Title": "ab dolores voluptatem",
+                "createdAt": "2024-04-10T21:54:36.825Z",
+                "updatedAt": "2024-04-10T13:40:44.884Z",
+                "publishedAt": "2024-04-10T16:31:00.361Z",
+                "locale": "de",
+                "CountryOfReference": "DE",
+                "RelatedIdentifier": "nesciunt harum magni",
+                "LastModified": "2024-04-10T18:35:16.509Z"
+              }
+            },
+            {
+              "id": 1,
+              "attributes": {
+                "Title": "consectetur praesentium eos",
+                "createdAt": "2024-04-11T00:45:54.837Z",
+                "updatedAt": "2024-04-11T12:29:41.890Z",
+                "publishedAt": "2024-04-10T17:42:49.373Z",
+                "locale": "de",
+                "CountryOfReference": "US",
+                "RelatedIdentifier": "repudiandae harum necessitatibus",
+                "LastModified": "2024-04-10T15:29:45.684Z"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "meta": {}
+  }
+]

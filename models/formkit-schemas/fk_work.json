@@ -1,0 +1,622 @@
+[
+  {
+    "$el": "h1",
+    "children": "$attributes.Title",
+    "attrs": {
+      "class": "text-xl mb-2"
+    }
+  },
+  {
+    "$formkit": "text",
+    "label": "ID",
+    "name": "id",
+    "readonly": true
+  },
+  {
+    "name": "attributes",
+    "$formkit": "group",
+    "if": "$attributes",
+    "children": [
+      {
+        "$formkit": "text",
+        "label": "Title",
+        "name": "Title",
+        "readonly": false
+      },
+      {
+        "$formkit": "text",
+        "label": "CountryofReference",
+        "name": "CountryOfReference",
+        "readonly": false
+      },
+      {
+        "$formkit": "text",
+        "label": "RelatedIdentifier",
+        "name": "RelatedIdentifier",
+        "readonly": false
+      },
+      {
+        "$formkit": "text",
+        "label": "LastModified",
+        "name": "LastModified",
+        "readonly": false
+      },
+      {
+        "$formkit": "text",
+        "label": "locale",
+        "name": "locale",
+        "readonly": false
+      },
+      {
+        "name": "YearOfReference",
+        "label": "YearOfReference []",
+        "classes": {
+          "inner": "align-start",
+          "li": "align-start",
+          "label": "super-red"
+        },
+        "$formkit": "repeater",
+        "add-button": false,
+        "remove-control": false,
+        "up-control": false,
+        "down-control": false,
+        "children": [
+          {
+            "$formkit": "text",
+            "label": "YearOfReference.id",
+            "name": "id",
+            "readonly": false
+          },
+          {
+            "$formkit": "text",
+            "label": "YearOfReference.yearOfReferenceDate",
+            "name": "yearOfReferenceDate",
+            "readonly": false
+          },
+          {
+            "$formkit": "text",
+            "label": "YearOfReference.yearOfReferenceStart",
+            "name": "yearOfReferenceStart",
+            "readonly": false
+          },
+          {
+            "$formkit": "text",
+            "label": "YearOfReference.yearOfReferenceEnd",
+            "name": "yearOfReferenceEnd",
+            "readonly": false
+          },
+          {
+            "$formkit": "text",
+            "label": "YearOfReference.yearOfReferenceType",
+            "name": "yearOfReferenceType",
+            "readonly": false
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "children": "Series []",
+        "attrs": {
+          "class": {
+            "if": "Series",
+            "then":"block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        }
+      },
+      {
+        "name": "Series",
+        "label": "Series []",
+        "$formkit": "group",
+        "if": "Series",
+        "children": [
+          {
+            "name": "data",
+            "$formkit": "repeater",
+            "add-button": false,
+            "remove-control": false,
+            "up-control": false,
+            "down-control": false,
+            "children": [
+              {
+                "name": "id",
+                "label": "id",
+                "$formkit": "text"
+              },
+              {
+                "name": "attributes",
+                "$formkit": "group",
+                "children": [
+                  {
+                    "name": "SeriesTitle",
+                    "label": "SeriesTitle",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "createdAt",
+                    "label": "createdAt",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "updatedAt",
+                    "label": "updatedAt",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "SeriesIdentifier",
+                    "label": "SeriesIdentifier",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "SeriesTitleType",
+                    "label": "SeriesTitleType",
+                    "$formkit": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "children": "Cast []",
+        "attrs": {
+          "class": {
+            "if": "Cast",
+            "then": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        }
+      },
+      {
+        "name": "Cast",
+        "label": "Cast []",
+        "$formkit": "group",
+        "if": "Cast",
+        "children": [
+          {
+            "name": "data",
+            "$formkit": "repeater",
+            "add-button": false,
+            "remove-control": false,
+            "up-control": false,
+            "down-control": false,
+            "children": [
+              {
+                "name": "id",
+                "label": "id",
+                "$formkit": "text"
+              },
+              {
+                "name": "attributes",
+                "$formkit": "group",
+                "children": [
+                  {
+                    "name": "CastName",
+                    "label": "CastName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CastFirstName",
+                    "label": "CastFirstName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CastLastName",
+                    "label": "CastLastName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CastIdentifier",
+                    "label": "CastIdentifier",
+                    "$formkit": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": {
+            "if": "Cast",
+            "then": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        },
+        "children": "Credits"
+      },
+      {
+        "name": "Credits",
+        "label": "Credits []",
+        "$formkit": "group",
+        "if": "Credits",
+        "children": [
+          {
+            "name": "data",
+            "$formkit": "repeater",
+            "add-button": false,
+            "remove-control": false,
+            "up-control": false,
+            "down-control": false,
+            "children": [
+              {
+                "name": "id",
+                "label": "id",
+                "$formkit": "text"
+              },
+              {
+                "name": "attributes",
+                "$formkit": "group",
+                "children": [
+                  {
+                    "name": "CreditsName",
+                    "label": "CreditsName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CreditsFirstName",
+                    "label": "CreditsFirstName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CreditsLastName",
+                    "label": "CreditsLastName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CreditsIdentifier",
+                    "label": "CreditsIdentifier",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "CreditsRole",
+                    "label": "CreditsRole",
+                    "$formkit": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": {
+            "if": "ProductionCompany",
+            "then": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        },
+        "children": "ProductionCompany"
+      },
+      {
+        "name": "ProductionCompany",
+        "label": "ProductionCompany []",
+        "$formkit": "group",
+        "if": "ProductionCompany",
+        "children": [
+          {
+            "name": "data",
+            "$formkit": "group",
+            "children": [
+              {
+                "name": "id",
+                "label": "id",
+                "$formkit": "text"
+              },
+              {
+                "name": "attributes",
+                "$formkit": "group",
+                "children": [
+                  {
+                    "name": "ProductionCompanyName",
+                    "label": "ProductionCompanyName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "ProductionCompanyIdentifier",
+                    "label": "ProductionCompanyIdentifier",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "createdAt",
+                    "label": "createdAt",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "updatedAt",
+                    "label": "updatedAt",
+                    "$formkit": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": {
+            "if": "OriginalFormat",
+            "then": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        },
+        "children": "OriginalFormat"
+      },
+      {
+        "name": "OriginalFormat",
+        "label": "OriginalFormat",
+        "$formkit": "group",
+        "if": "OriginalFormat",
+        "children": [
+          {
+            "name": "id",
+            "label": "OriginalFormat.id",
+            "$formkit": "text"
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": {
+            "if": "FirstKnownManifestation",
+            "then": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        },
+        "children": "FirstKnownManifestation"
+      },
+      {
+        "name": "FirstKnownManifestation",
+        "label": "FirstKnownManifestation",
+        "$formkit": "group",
+        "if": "FirstKnownManifestation",
+        "children": [
+          {
+            "name": "id",
+            "label": "FirstKnownManifestation.id",
+            "$formkit": "text"
+          },
+          {
+            "name": "OriginalLength",
+            "label": "FirstKnownManifestation.OriginalLength",
+            "$formkit": "text"
+          },
+          {
+            "name": "OriginalLengthUnit",
+            "label": "FirstKnownManifestation.OriginalLengthUnit",
+            "$formkit": "text"
+          },
+          {
+            "name": "OriginalDuration",
+            "label": "FirstKnownManifestation.OriginalDuration",
+            "$formkit": "text"
+          }
+        ]
+      },
+      {
+        "name": "Genre",
+        "label": "Genre []",
+        "add-button": false,
+        "remove-control": false,
+        "up-control": false,
+        "down-control": false,
+        "$formkit": "repeater",
+        "if": "Genre",
+        "children": [
+          {
+            "name": "id",
+            "label": "Genre.id",
+            "$formkit": "text"
+          },
+          {
+            "name": "GenreName",
+            "label": "Genre.GenreName",
+            "$formkit": "text"
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label"
+        },
+        "children": "Source"
+      },
+      {
+        "name": "Source",
+        "label": "Source",
+        "$formkit": "group",
+        "if": "Source.data",
+        "children": [
+          {
+            "name": "data",
+            "$formkit": "group",
+            "children": [
+              {
+                "name": "id",
+                "label": "Source.id",
+                "$formkit": "text"
+              },
+              {
+                "name": "attributes",
+                "$formkit": "group",
+                "children": [
+                  {
+                    "name": "SourceName",
+                    "label": "Source.SourceName",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "SourceIdentifier",
+                    "label": "Source.SourceIdentifier",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "SourceAttribution",
+                    "label": "Source.SourceAttribution",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "SourceAttributionDate",
+                    "label": "Source.SourceAttributionDate",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "SourceAttributionType",
+                    "label": "Source.SourceAttributionType",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "createdAt",
+                    "label": "Source.createdAt",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "updatedAt",
+                    "label": "Source.updatedAt",
+                    "$formkit": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": {
+            "if": "Subject",
+            "then": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label",
+            "else": "block text-red-500 text-xs font-bold dark:text-red-500 !inline-flex mb-1 mb-0.5 formkit-label w-full"
+          }
+        },
+        "children": "Subject"
+      },
+      {
+        "name": "Subject",
+        "label": "Subject",
+        "if": "Subject",
+        "$formkit": "group",
+        "children": [
+          {
+            "name": "data",
+            "$formkit": "repeater",
+            "add-button": false,
+            "remove-control": false,
+            "up-control": false,
+            "down-control": false,
+            "children": [
+              {
+                "name": "id",
+                "label": "id",
+                "$formkit": "text"
+              },
+              {
+                "name": "attributes",
+                "$formkit": "group",
+                "children": [
+                  {
+                    "name": "LangDe",
+                    "label": "LangDe",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "LangEn",
+                    "label": "LangEn",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "ref_AAT",
+                    "label": "ref_AAT",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "ref_GND",
+                    "label": "ref_GND",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "locale",
+                    "label": "locale",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "createdAt",
+                    "label": "createdAt",
+                    "$formkit": "text"
+                  },
+                  {
+                    "name": "updatedAt",
+                    "label": "updatedAt",
+                    "$formkit": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SchemaVersion",
+        "label": "SchemaVersion []",
+        "add-button": false,
+        "remove-control": false,
+        "up-control": false,
+        "down-control": false,
+        "if": "SchemaVersion",
+        "$formkit": "repeater",
+        "children": [
+          {
+            "name": "id",
+            "label": "SchemaVersion.id",
+            "$formkit": "text"
+          },
+          {
+            "name": "VersionName",
+            "label": "SchemaVersion.VersionName",
+            "$formkit": "text"
+          },
+          {
+            "name": "VersionNumber",
+            "label": "SchemaVersion.VersionNumber",
+            "$formkit": "text"
+          }
+        ]
+      },
+      {
+        "$el": "label",
+        "attrs": {
+          "class": "block text-zinc-700 text-xs font-bold dark:text-zinc-300 !inline-flex mb-1 mb-0.5 formkit-label"
+        },
+        "children": "TitleType"
+      },
+      {
+        "name": "TitleType",
+        "label": "TitleType",
+        "$formkit": "group",
+        "children": [
+          {
+            "name": "id",
+            "label": "TitleType.id",
+            "$formkit": "text"
+          },
+          {
+            "name": "TitleTypeName",
+            "label": "TitleType.TitleTypeName",
+            "$formkit": "text"
+          }
+        ]
+      }
+    ]
+  }
+]
