@@ -28,10 +28,10 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "Running build-job..."
     - echo "Stopping service avefi-frontend ..."
-    - systemctl stop avefi-frontend
+    - sudo systemctl stop avefi-frontend
     - echo "Stopping service avefi-frontend successful"
     - echo "Starting service avefi-frontend ..."
-    - systemctl start avefi-frontend
+    - sudo systemctl start avefi-frontend
     - echo "Starting service avefi-frontend successful"
     - echo "Build-job complete."
 
