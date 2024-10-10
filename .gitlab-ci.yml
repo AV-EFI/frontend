@@ -38,13 +38,13 @@ deploy-job:      # This job runs in the deploy stage.
   tags:
     - "deploy-prod"
   before_script:
-    - apt-get -yq update
-    - apt-get -yqq install ssh
+    #- apt-get -yq update
+    #- apt-get -yqq install ssh
     - install -m 600 -D /dev/null /gitlab/.ssh/id_ed25519
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > gitlab/.ssh/id_ed25519
-    - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > /gitlab/.ssh/id_ed25519
+    - ssh-keyscan -H $SSH_HOST > /gitlab/.ssh/known_hosts
   script:
-    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
+    - ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
     - echo "Stopping service avefi-frontend ..."
     - /usr/local/bin/gitlab_avefi_stop.sh
     - echo "Stopping service avefi-frontend successful"
