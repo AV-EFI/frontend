@@ -44,6 +44,7 @@ deploy-job:      # This job runs in the deploy stage.
   tags:
     - "deploy-prod"
   before_script:
+    - whoami
     #- apt-get -yq update
     #- apt-get -yqq install ssh
     #- install -m 600 -D /dev/null ~/.ssh/id_ed25519
