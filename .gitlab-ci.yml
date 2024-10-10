@@ -43,10 +43,10 @@ deploy-job:      # This job runs in the deploy stage.
     #- install -m 600 -D /dev/null ~/.ssh/id_ed25519
     #- echo "$SSH_PUBLIC_KEY" | base64 -d > ~/.ssh/id_ed25519
     #- ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
-    - ssh-keyscan -t ed25519 avefi-server >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+    - ssh-keyscan -t ed25519 avefi-server >> /home/gitlab-runner/.ssh/known_hosts
+    - chmod 644 /home/gitlab-runner/.ssh/known_hosts
   script:
     - whoami
     - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
   after_script:
-    - rm -rf ~/.ssh
+    - rm -rf /home/gitlab-runner/.ssh
