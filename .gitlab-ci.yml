@@ -46,7 +46,7 @@ deploy-job:      # This job runs in the deploy stage.
     
   script:
     - echo "Deploying application..."
-    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
+    - cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit
     - echo "Running build-job..."
     - echo "Stopping service avefi-frontend ..."
     - /usr/local/bin/gitlab_avefi_stop.sh
