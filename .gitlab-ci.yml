@@ -43,7 +43,7 @@ deploy-job:      # This job runs in the deploy stage.
     #- install -m 600 -D /dev/null ~/.ssh/id_ed25519
     #- echo "$SSH_PUBLIC_KEY" | base64 -d > ~/.ssh/id_ed25519
     #- ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
-    - ssh-keyscan -t rsa,ed25519 avefi-server >> ~/.ssh/known_hosts
+    - ssh-keyscan -t ed25519 avefi-server >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
     - whoami
