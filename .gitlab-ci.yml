@@ -27,7 +27,7 @@ build-job:       # This job runs in the build stage, which runs first.
   tags:
     - "deploy-prod"
   script:
-    - echo "build-job"
+    - echo "running build-job"
     - echo $SSH_PRIVATE_KEY
 
 deploy-job:      # This job runs in the deploy stage.
