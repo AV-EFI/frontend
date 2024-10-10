@@ -28,6 +28,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - "deploy-prod"
   script:
     - echo "running build-job"
+    - whoami
     - echo $SSH_PRIVATE_KEY_ED25519
 
 deploy-job:      # This job runs in the deploy stage.
@@ -48,4 +49,4 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - whoami
     - ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
-    
+
