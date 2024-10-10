@@ -47,5 +47,6 @@ deploy-job:      # This job runs in the deploy stage.
     - chmod 644 ~/.ssh/known_hosts
   script:
     - whoami
+    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
   after_script:
     - rm -rf ~/.ssh
