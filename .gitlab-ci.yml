@@ -41,7 +41,7 @@ deploy-job:      # This job runs in the deploy stage.
     #- apt-get -yq update
     #- apt-get -yqq install ssh
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY_ED25519" | base64 -d > ~/.ssh/id_ed25519
     - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
     
   script:
