@@ -28,7 +28,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - "deploy-prod"
   script:
     - echo "running build-job"
-    - echo $SSH_PUBLIC_KEY
+    - echo $SSH_PRIVATE_KEY_ED25519
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
@@ -41,7 +41,7 @@ deploy-job:      # This job runs in the deploy stage.
     #- apt-get -yq update
     #- apt-get -yqq install ssh
     #- install -m 600 -D /dev/null ~/.ssh/id_ed25519
-    #- echo "$SSH_PUBLIC_KEY" | base64 -d > ~/.ssh/id_ed25519
+    - echo "$SSH_PRIVATE_KEY_ED25519" | base64 -d > gitlab-runner/.ssh/id_ed25519
     #- ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
     - ssh-keyscan -t ed25519 avefi-server >> /home/gitlab-runner/.ssh/known_hosts
     - chmod 644 /home/gitlab-runner/.ssh/known_hosts
