@@ -37,21 +37,14 @@ deploy-job:      # This job runs in the deploy stage.
     - main
   tags:
     - "deploy-prod"
-  before_script:
-    - whoami
-    - ssh-keyscan -t ed25519 $SSH_HOST >> ~/.ssh/known_hosts
-  # - chmod 644 ~/.ssh/known_hosts
-    #- apt-get -yq update
-    #- apt-get -yqq install ssh
-    #- install -m 600 -D /dev/null ~/.ssh/id_ed25519
-    #- echo "$SSH_PRIVATE_KEY_ED25519" | base64 -d > ~/.ssh/id_ed25519
-    #- ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
-    
-  script:
-    - echo "Deploying application..."
-    - ssh $SSH_USER@$SSH_HOST
-    - cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit
-    - echo "Running build-job..."
+before_script:
+    - apt-get -yq update
+    - apt-get -yqq install ssh
+    - install -m 600 -D /dev/null ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
+script:
+    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
     - echo "Stopping service avefi-frontend ..."
     - /usr/local/bin/gitlab_avefi_stop.sh
     - echo "Stopping service avefi-frontend successful"
