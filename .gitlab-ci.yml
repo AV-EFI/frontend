@@ -34,6 +34,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
+    - ssh $SSH_HOST
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
 deploy-job:      # This job runs in the deploy stage.
