@@ -46,5 +46,6 @@ deploy-job:      # This job runs in the deploy stage.
     - ssh-keyscan -t rsa,ed25519 avefi-server >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - whoami
   after_script:
     - rm -rf ~/.ssh
