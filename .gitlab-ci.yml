@@ -39,6 +39,8 @@ deploy-job:      # This job runs in the deploy stage.
     - "deploy-prod"
   before_script:
     - whoami
+    - ssh-keyscan -t ed25519 $SSH_HOST >> ~/.ssh/known_hosts
+  # - chmod 644 ~/.ssh/known_hosts
     #- apt-get -yq update
     #- apt-get -yqq install ssh
     #- install -m 600 -D /dev/null ~/.ssh/id_ed25519
