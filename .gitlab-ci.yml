@@ -30,6 +30,7 @@ build-job:       # This job runs in the build stage, which runs first.
     #- cd $WORK_DIR
     - ls -la
     - systemctl stop avefi-frontend
+    - cd $WORK_DIR
     - yarn build
     - systemctl start avefi-frontend
 
