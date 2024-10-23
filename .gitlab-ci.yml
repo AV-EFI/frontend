@@ -26,25 +26,9 @@ build-job:       # This job runs in the build stage, which runs first.
     - "deploy-prod"
   before_script:
     - whoami
-    - su --shell /bin/bash --login cloud
-    - whoami
-    - ls -la
-    - apt-get -yq update
-    - apt-get -yqq install ssh
-    - install -m 600 -D /dev/null ~/.ssh/id_ed25519
-    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" -d > ~/.ssh/id_ed25519
-    - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
   script:
-    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
-    - ssh $SSH_USER@$SSH_HOST
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  after_script:
-    - rm -rf ~/.ssh
+    - cd $WORKING_DIR
+    - ls -la
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
