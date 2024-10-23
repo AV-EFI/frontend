@@ -27,7 +27,7 @@ build-job:       # This job runs in the build stage, which runs first.
   before_script:
     - whoami
   script:
-    - cd $WORKING_DIR
+    - cd $WORK_DIR
     - ls -la
 
 deploy-job:      # This job runs in the deploy stage.
