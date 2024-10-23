@@ -27,9 +27,11 @@ build-job:       # This job runs in the build stage, which runs first.
   before_script:
     - whoami
     - cd $WORK_DIR 
+    - apt-get install -y nodejs
     - systemctl stop avefi-frontend
   script:
     #- cd $WORK_DIR
+    - nodejs -v
     - cd $WORK_DIR
     - ls -la    
     - yarn update
