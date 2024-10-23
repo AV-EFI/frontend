@@ -26,12 +26,14 @@ build-job:       # This job runs in the build stage, which runs first.
     - "deploy-prod"
   before_script:
     - whoami
+    - cd $WORK_DIR 
+    - systemctl stop avefi-frontend
   script:
     #- cd $WORK_DIR
     - ls -la
-    - systemctl stop avefi-frontend
     - cd $WORK_DIR
     - yarn build
+  after_script:
     - systemctl start avefi-frontend
 
 deploy-job:      # This job runs in the deploy stage.
