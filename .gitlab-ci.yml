@@ -28,7 +28,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - whoami
     - sudo su cloud
     - whoami
-    - nodejs -v
+    - node -v
     - yarn -v
     - cd $WORK_DIR
     - sudo systemctl stop avefi-frontend
