@@ -26,9 +26,10 @@ build-job:       # This job runs in the build stage, which runs first.
     - "deploy-prod"
   before_script:
     - whoami
+    - sudo su cloud
     - node -v
     - yarn -v
-    - cd $WORK_DIR 
+    - cd $WORK_DIR
     - apt-get install -y node
     - systemctl stop avefi-frontend
   script:
