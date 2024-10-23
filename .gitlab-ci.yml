@@ -30,6 +30,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - whoami
     - su --shell /bin/bash --login cloud
     - whoami
+    - ls -la
     - apt-get -yq update
     - apt-get -yqq install ssh
     - install -m 600 -D /dev/null ~/.ssh/id_ed25519
