@@ -25,13 +25,13 @@ build-job:       # This job runs in the build stage, which runs first.
   tags:
     - "deploy-prod"
   before_script:
-    #- whoami
+    - whoami
     #- su cloud
     #- whoami
     #- node -v
     #- yarn -v
     #- cd $WORK_DIR
-    #- sudo systemctl stop avefi-frontend
+    - sudo systemctl stop avefi-frontend
   script:
     #- cd $WORK_DIR
     - cd $WORK_DIR
