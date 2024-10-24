@@ -31,8 +31,8 @@ build-job:       # This job runs in the build stage, which runs first.
     #- node -v
     #- yarn -v
     #- cd $WORK_DIR
-    - apt-get install nodejs
-    - npm install --global yarn
+    - sudo apt-get install nodejs
+    #- npm install --global yarn
     - sudo chmod 777 /home/cloud/avefi-frontend-dev -R
     - sudo systemctl stop avefi-frontend
   script:
