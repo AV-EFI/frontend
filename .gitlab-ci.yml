@@ -38,7 +38,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - ls -la 
     #- npx nuxi cleanup
     - yarn cache clean
-    - yarn up
+    - yarn install
     - yarn build
     - yarn start
   after_script:
