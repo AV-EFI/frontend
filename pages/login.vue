@@ -1,5 +1,24 @@
 <template>
   <div>
+    <div
+      role="alert"
+      class="alert bg-neutral-100"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        class="stroke-info h-6 w-6 shrink-0"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <span>Login später über AcademicCloud</span>
+    </div>
     <NuxtLayout name="partial-layout-1-center-img">
       <template #title>
         Login
@@ -17,21 +36,24 @@
           submit-label="Login"
           :submit-attrs="{
             inputClass: 'btn btn-primary',
-            'data-theme': `avefi_light`,
             'prefix-icon': 'submit',
-            ignore: false
+            ignore: false,
           }"
-          @submit="submit"
+          @submit="submitTemp"
         >
           <FormKit
             name="identifier"            
             label="Email"
+            value="123@academic.id"
+            placeholder="123@academic.id"
             validation="required|email"
           />
           <FormKit
             type="password"
             label="Password"
             name="password"
+            value="AVefiSecretPassword"
+            placeholder="AVefiSecretPassword"
             prefix-icon="password"
             suffix-icon="eyeClosed"
             suffix-icon-class="hover:text-blue-500"
@@ -39,24 +61,21 @@
           />
         </FormKit>
       </template>
-      <pre>
-        "identifier": "regular@tib.eu",
-        "password": "regular.user123" 
-      </pre>
     </NuxtLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import Credentials from 'next-auth/providers/credentials';
-import { string } from 'zod';
+const Credentials = null;
 
 definePageMeta({
+    /*
     middleware: 'auth',
     auth: {
         unauthenticatedOnly: true,
         navigateAuthenticatedTo: '/protected/me'
     }
+        */
 });
 
 /*
@@ -77,8 +96,10 @@ if(coo.value) {
 //const headers = useRequestHeaders(['cookie']) as HeadersInit;
 //console.log(headers);
 
-const { signIn, getSession } = await useAuth();
-console.log(await getSession());
+//const { signIn, getSession } = await useAuth();
+const signIn = null; 
+const getSession = null;
+//console.log(await getSession());
 
 
 //const { login } = useStrapiAuth();
@@ -90,8 +111,14 @@ const handleIconClick = (node:FormKitNode, e:Event) => {
     console.log(e);
 };
 
+async function submitTemp (data:any) {
+    const t = setTimeout(() => {
+        return navigateTo('/protected/filmedit');
+    }, 1000);
+}
 
 async function submit(data:any){
+    /*
     try {
         const {error, url} = await signIn(Credentials, { callbackUrl: '/protected/me', redirect: true, external:true, identifier: data.identifier, password: data.password } );
         if(error) {
@@ -105,5 +132,6 @@ async function submit(data:any){
     catch (e) {
         console.error(e);
     }
+        */
 }
 </script>

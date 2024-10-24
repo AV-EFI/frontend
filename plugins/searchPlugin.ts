@@ -9,7 +9,6 @@ function SearchPlugin({ store }: PiniaPluginContext) {
 
     store.$subscribe((mutation) => {
         // react to store changes
-        console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`);
         if (mutation.storeId === 'searchParamsStore') {
             searchResultsStore.updateResults(searchParamsStore.$state.formData);
         }

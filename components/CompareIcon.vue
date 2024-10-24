@@ -10,6 +10,6 @@ const props = defineProps({
 <template>
   <Icon
     :alt="alt"
-    name="fa-regular:object-ungroup"
+    name="formkit:add"
   />
 </template>

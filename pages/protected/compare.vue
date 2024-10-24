@@ -3,36 +3,33 @@ definePageMeta({
     //middleware: 'auth'
 });
 const route = useRoute();
-let arr = [];
-if(route.query.compare) {
-    arr = JSON.parse(route.query.compare);
-}
-const objectListStore = useObjectListStore();
-
-const navigateToComparisonAltern = () => {
-    const objectIds: number[] = objectListStore.getObjectIds;
-    if(objectIds.length == 2) {
-        navigateTo(`/protected/compare_altern?compare=[${objectIds[0]},${objectIds[1]}]`);
-    }
-};
+const items = new Array();
+items[0] = route.query.prev;
+items[1] = route.query.next;
 
 
 </script>
 <template>
   <div>
-    <h1>Filmident</h1>
-    <button
-      title="Navigate to Alternate View"
-      class="btn btn-primary btn-ghost"
-      @click="navigateToComparisonAltern"
-    >
-      Alternativ
-    </button>
-    <div v-if="arr">
-      <GlobalCompareView :items="objectListStore.getObjectIds" />
+    <div class="container">
+      <div class="breadcrumbs text-sm">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li>
+            <span class="text-accent">
+              {{ $t('filmidentification') }}
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div v-else>
-      no data to compare
+    <div class="container">
+      <div v-if="items">
+        <GlobalCompareViewRaw :items="items" />
+      </div>
+      <div v-else>
+        no data to compare
+      </div>
     </div>
   </div>
 </template>

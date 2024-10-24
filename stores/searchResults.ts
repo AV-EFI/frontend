@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-import type IAVefiListResponse from '../models/interfaces/IAVefiWork.ts';
+import type { IAVefiListResponse } from '../models/interfaces/IAVefiWork.ts';
 
 export const useSearchResultsStore = defineStore({
-    id: 'searchResultsStore',
+    id: 'searchResults',
     state: () => {
         return {
             searchResults: null as IAVefiListResponse | null,

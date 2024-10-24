@@ -29,13 +29,15 @@
   </div>
 </template>
 <script setup lang="ts">
+import {useObjectListStore} from '../../stores/compareList';
+
 const searchResultsStore = useSearchResultsStore();
 const objectListStore = useObjectListStore();
 
-const addToComparison = ((filmId:number, filmTitle?:string) => {
+const addToComparison = ((filmId:string, filmTitle?:string) => {
     objectListStore.addObject({ filmId: filmId, filmTitle: filmTitle? filmTitle:undefined });
     console.log(objectListStore.objects);
-    objectListStore.toggleDrawerState();
+    objectListStore.toggleComparisonDrawerState();
 });
 
 </script>

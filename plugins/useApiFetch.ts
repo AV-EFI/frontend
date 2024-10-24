@@ -32,7 +32,7 @@ export default defineNuxtPlugin(() => {
             }
             return null;
         }
-    })
+    });
     // Expose to useNuxtApp().$apiFetch
     return {
         provide: {

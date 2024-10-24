@@ -1,4 +1,5 @@
-import { Diff } from 'vue-diff';
+import pkg from 'vue-diff';
+const { Diff } = pkg;
 import 'vue-diff/dist/index.css';
 
 export default defineNuxtPlugin((nuxtApp) => {

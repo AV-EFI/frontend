@@ -1,31 +1,28 @@
 import { toast } from "vue3-toastify";
+import {useObjectListStore} from '../stores/compareList';
 
-export default defineNuxtPlugin(() => {
-
+export default defineNuxtPlugin((nuxtApp) => {
     const useObjectStore = useObjectListStore();
 
-    const $addToComparison = ((filmId: number, filmTitle?: string): void => {
+    const $i18n:any = nuxtApp.$i18n;
+    const t = $i18n.t;
+
+    const $addToComparison = ((filmId: string, filmTitle?: string): void => {
         if (filmId) {
             useObjectStore.addObject({ filmId, filmTitle })
                 .then((added) => {
                     if (added == "listfull") {
-                        toast.warn('Comparison already contains two items');
+                        toast.warn(t('comparisonfull'), { autoClose: 4000 });
                     }
                     else if (added == "already") {
-                        toast.warn('Item already in comparison', { autoClose: 3000 });
+                        toast.warn(t('comparisonalready'), { autoClose: 3000 });
                     }
                     else if (added == "succ") {
-                        toast.success("Item added to comparison");
+                        toast.success(t('addedtocomparisonparam', {'name': filmTitle}));
                     } else {
                         toast('Something happened');
                     }
                 });
-            /*
-        const t = setTimeout(() => {
-            useObjectStore.toggleDrawerState();
-            clearTimeout(t);
-        }, 300);
-        */
         }
     });
 
@@ -33,7 +30,8 @@ export default defineNuxtPlugin(() => {
         provide: {
             addToComparison: $addToComparison,
             //ref by $toggleDrawerState
-            toggleDrawerState: useObjectStore.toggleDrawerState
+            toggleComparisonDrawerState: useObjectStore.toggleComparisonDrawerState,
+            toggleFacetDrawerState: useObjectStore.toggleFacetDrawerState
         }
     };
 });

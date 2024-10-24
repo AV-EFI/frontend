@@ -1,4 +1,3 @@
-import type IAVefiListResponse from '../models/interfaces/IAVefiWork.ts';
 import { defineStore } from 'pinia';
 
 export const useSearchParamsStore = defineStore({
@@ -24,6 +23,7 @@ export const useSearchParamsStore = defineStore({
         };
     },
     actions: {
+        /*
         async searchMovies({ search }: { search?: string }) {
             let apiUrl = `${useRuntimeConfig().public.frontendUrl}/api/work-levels/sampleData`;
             if (search) {
@@ -47,12 +47,13 @@ export const useSearchParamsStore = defineStore({
             }
             return null;
         }
+            */
     },
     getters: {
     },
     persist: {
         key: 'avefi-searchparams',
-        storage: persistedState.localStorage,
+        storage: persistedState.sessionStorage,
         paths: ['formData']
     }
 }

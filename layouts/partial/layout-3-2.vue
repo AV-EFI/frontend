@@ -11,12 +11,12 @@
         </div>
         <div class="container">
           <div class="flex flex-col xl:flex-row container mx-auto">
-            <div class="xl:w-2/3 card m-2 p-4 bg-neutral-50 dark:dark:bg-gray-800 shadow-xl">
+            <div class="xl:w-2/3 card m-2 p-4 bg-neutral-50 dark:bg-gray-800 shadow-xl">
               <slot name="containerLeft">
-                ContentLeft 123
+                ContentLeft
               </slot>
             </div>
-            <div class="xl:w-1/3 m-2 p-4 bg-neutral-50 dark:dark:bg-gray-800 card shadow-xl">
+            <div class="xl:w-1/3 m-2 p-4 bg-neutral-50 dark:bg-gray-800 card shadow-xl">
               <slot name="containerRight">
                 ContentRight
               </slot>

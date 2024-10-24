@@ -56,14 +56,14 @@ const searchFeature = (node: FormKitNode) => {
                 selection: (e: any) => {
                     // This handler is called when entering data into the search input.
                     switch (e.key) {
-                        case 'Enter':
-                            return setValue(e);
-                        case 'ArrowDown':
-                            e.preventDefault();
-                            return select(1);
-                        case 'ArrowUp':
-                            e.preventDefault();
-                            return select(-1);
+                    case 'Enter':
+                        return setValue(e);
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        return select(1);
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        return select(-1);
                     }
                     return null;
                 },
@@ -121,7 +121,7 @@ const schema = [
         id: 'searchTerm',
         attrs: {
             //id: '$id',
-            class: 'w-full appearance-none dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:text-zinc-400 group-data-[disabled]:!cursor-not-allowed dark:placeholder-zinc-400/50 dark:text-zinc-300 border-none p-0 focus:ring-0 formkit-input',
+            class: 'w-full appearance-none dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:text-zinc-400 group-data-[disabled]:!cursor-not-allowed dark:placeholder-zinc-400/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input',
             onKeydown: '$handlers.selection',
             onInput: '$handlers.search',
             value: '$_value',

@@ -8,13 +8,13 @@ export default eventHandler(async (event) => {
     }
 });
 */
-import { getServerSession, getToken } from '#auth';
+//import { getServerSession, getToken } from '#auth';
 import { H3Event } from 'h3';
 
 export default eventHandler(async (event: H3Event) => {
-    console.log("### server middleware eventhandler called");
+    //console.log("### server middleware eventhandler called");
     //console.log(event);
-    const token = await getToken({ event });
+    //const token = await getToken({ event });
     //console.log("###token++");
     //console.log(token);
     //const session = await getServerSession(event);

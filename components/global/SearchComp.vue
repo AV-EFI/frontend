@@ -41,7 +41,7 @@
         />
         <FormKit
           type="text"
-          placeholder="Suchbegriff"
+          :placeholder="`$t{'searchterm')`"
           name="searchTermExtended"
         />
         <FormKit 
@@ -79,7 +79,7 @@
             <FormKit
               label="Wert"
               name="searchTerm"
-              placeholder="Suchbegriff"
+              :placeholder="`$t{'searchterm')`"
               type="text"
             />
           </div>

@@ -3,12 +3,11 @@
 import { FormKitSchema } from '@formkit/vue';
 
 definePageMeta({
-    middleware: 'auth'
+    //middleware: 'auth'
 });
 
 import type IAVefiUser from '../../models/interfaces/IAVefiUser';
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
-console.log(schemaFk);
 
 async function getCollectionType ():Promise<IAVefiUser|null> {  
     const { data } = await useApiFetch<IAVefiUser>(`/api/users-permissions/meProfile`, {method: 'GET'});

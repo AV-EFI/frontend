@@ -1,0 +1,275 @@
+[
+  {
+    "$formkit": "group",
+    "name": "has_record",
+    "label": "has_record",
+    "children": [
+      {
+        "$el": "h2",
+        "children": "has_record",
+        "attrs": {
+          "class": "text-md mb-2"
+        }
+      },
+      {
+        "$formkit": "text",
+        "name": "category",
+        "label": "category"
+      },
+      {
+        "$formkit": "text",
+        "name": "id",
+        "label": "id"
+      },
+      {
+        "$formkit": "text",
+        "label": "type",
+        "name": "type"
+      },
+      {
+        "$formkit": "group",
+        "classes": {
+          "outer": "!max-w-[30em]"
+        },
+        "name": "has_primary_title",
+        "label": "has_primary_title",
+        "children": [
+          {
+            "$el": "h2",
+            "children": "has_primary_title",
+            "attrs": {
+              "class": "text-md mb-2"
+            }
+          },
+          {
+            "$formkit": "text",
+            "name": "has_name",
+            "label": "has_name",
+            "data-avefitype": "hussa"
+          },
+          {
+            "$formkit": "text",
+            "name": "type",
+            "label": "type"
+          }
+        ]
+      },
+      {
+        "$formkit": "group",
+        "classes": {
+          "outer": "!max-w-[30em] !ml-5"
+        },
+        "name": "described_by",
+        "label": "described_by",
+        "children": [
+          {
+            "$el": "h2",
+            "children": "described_by",
+            "attrs": {
+              "class": "text-md mb-2"
+            }
+          },
+          {
+            "$formkit": "text",
+            "name": "has_issuer_id",
+            "label": "has_issuer_id"
+          },
+          {
+            "$formkit": "text",
+            "name": "has_issuer_name",
+            "label": "has_issuer_name"
+          },
+          {
+            "$formkit": "text",
+            "name": "last_modified",
+            "label": "last_modified",
+            "classes": {
+              "outer": "max-w-[30em]"
+            }
+          }
+        ]
+      },
+      {
+        "$formkit": "repeater",
+        "name": "has_event",
+        "label": "has_event",
+        "classes": {
+          "legend": {
+            "$reset": true,
+            "font-serif block text-zinc-700 font-bold dark:text-zinc-300 formkit-legend text-md mb-2": true
+          }
+        },
+        "children": [
+          {
+            "$el": "h3",
+            "children": "$: 'has_event #'+($index + 1)",
+            "attrs": {
+              "class": "text-md mb-2"
+            }
+          },
+          {
+            "$formkit": "text",
+            "name": "category",
+            "label": "category"
+          },
+          {
+            "$formkit": "repeater",
+            "name": "has_activity",
+            "label": "has_activity",
+            "children": [
+              {
+                "$el": "h3",
+                "children": "$: 'has_activity #'+($index + 1)",
+                "attrs": {
+                  "class": "text-md mb-2"                  
+                }
+              },
+              {
+                "$formkit": "text",
+                "label": "$value.type",
+                "attrs": {
+                  "class": "text-md mb-2"
+                }
+              },
+              {
+                "$formkit": "text",
+                "name": "category",
+                "label": "category"
+              },
+              {
+                "$formkit": "text",
+                "name": "type",
+                "label": "type"
+              },
+              {
+                "$formkit": "repeater",
+                "name": "has_agent",
+                "label": "has_agent",
+                "children": [
+                  {
+                    "$el": "h3",
+                    "children": "$: 'has_agent #'+($index + 1)",
+                    "attrs": {
+                      "class": "text-md mb-2"
+                    }
+                  },
+                  {
+                    "$formkit": "text",
+                    "name": "has_name",
+                    "label": "has_name"
+                  },
+                  {
+                    "$formkit": "text",
+                    "name": "type",
+                    "label": "type"
+                  },
+                  {
+                    "$formkit": "repeater",
+                    "id": "has_agent-repeater-same_as",
+                    "name": "same_as",
+                    "label": "same_as",
+                    "min": 0,
+                    "children": [
+                      {
+                        "$el": "h3",
+                        "children": "$: 'same_as #'+($index + 1)",
+                        "attrs": {
+                          "class": "text-md mb-2"
+                        }
+                      },
+                      {
+                        "$formkit": "text",
+                        "name": "category",
+                        "label": "category"
+                      },
+                      {
+                        "$formkit": "text",
+                        "name": "id",
+                        "label": "id"
+                      },
+                      {
+                        "$el": "a",
+                        "label": "Link",
+                        "attrs": {
+                          "target": "_blank",
+                          "href": "$: 'https://explore.gnd.network/gnd/' + $value.id",
+                          "class": "external-link group max-w-[30em] min-w-0 ml-2 grow mb-3.5 data-[disabled]:select-none data-[disabled]:opacity-50 text-sm formkit-outer text-primary-400"
+                        },
+                        "children": "$: 'https://explore.gnd.network/gnd/' + $value.id"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$formkit": "repeater",
+        "name": "has_genre",
+        "label": "has_genre",
+        "classes": {
+          "legend": {
+            "$reset": true,
+            "font-serif block text-zinc-700 font-bold dark:text-zinc-300 formkit-legend text-md mb-2": true
+          }
+        },
+        "children": [
+          {
+            "$el": "h3",
+            "children": "$: 'has_genre #'+($index + 1)",
+            "attrs": {
+              "class": "text-md mb-2"
+            }
+          },
+          {
+            "$formkit": "text",
+            "name": "has_name",
+            "label": "has_name"
+          }
+        ]
+      },
+      {
+        "$formkit": "repeater",
+        "name": "same_as",
+        "label": "same_as",
+        "classes": {
+          "legend": {
+            "$reset": true,
+            "font-serif block text-zinc-700 font-bold dark:text-zinc-300 formkit-legend text-md mb-2": true
+          }
+        },
+        "children": [
+          {
+            "$el": "h3",
+            "children": "$: 'same_as #'+($index + 1)",
+            "attrs": {
+              "class": "text-md mb-2"
+            }
+          },
+          {
+            "$formkit": "text",
+            "name": "category",
+            "label": "category"
+          },
+          {
+            "$formkit": "text",
+            "name": "id",
+            "label": "id"
+          },
+          {
+            "$el": "a",
+            "label": "Link",
+            "attrs": {
+              "target": "_blank",
+              "href": "$: 'https://www.filmportal.de/film/' + $value.id",
+              "class": "external-link group max-w-[30em] min-w-0 ml-2 grow mb-3.5 data-[disabled]:select-none data-[disabled]:opacity-50 text-sm formkit-outer"
+            },
+            "children": "$: 'https://www.filmportal.de/film/' + $value.id"
+          }
+        ]
+      }
+    ]
+  }
+]

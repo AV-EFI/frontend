@@ -1,6 +1,27 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
 export default defineNuxtConfig({
+    devtools: { 
+        enabled: false 
+    },
+    nitro: {
+        preset: 'node-server'
+    },
+    modules: [
+        "nitro-cloudflare-dev",
+        "@nuxtjs/eslint-module",
+        "@nuxtjs/i18n",
+        "@nuxtjs/tailwindcss",
+        "@nuxtjs/color-mode",
+        '@nuxt/image',
+        '@pinia/nuxt',
+        '@pinia-plugin-persistedstate/nuxt',
+        '@nuxt/content',
+        '@formkit/nuxt',
+        '@nuxt/icon',
+        '@vueuse/nuxt',
+        "@nuxtjs/robots",
+        "nuxt3-winston-log"
+    ],
     extends: './pages',
     imports: {
         dirs: ['~/types/*.ts', '~/stores/*.ts', '~/plugins/*.ts']
@@ -24,19 +45,28 @@ export default defineNuxtConfig({
             cmsUrl: process.env.CMS_URL,
             analyticsUrl: process.env.ANALYTICS_URL,
             origin: process.env.ORIGIN,
-            frontendUrl: process.env.ORIGIN
+            frontendUrl: process.env.ORIGIN,
+            ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
+            ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
+            ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
+            ELASTIC_INDEX: process.env.ELASTIC_INDEX,
+            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
+            AVEFI_DATA_API: process.env.AVEFI_DATA_API
         },
         private: {
-            NUXT_SECRET: process.env.NUXT_SECRET
+            NUXT_SECRET: process.env.NUXT_SECRET,
+            ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
+            ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
         }
     },
     //https://nuxt.com/docs/guide/concepts/rendering
     routeRules: {
-        // Generated at build time for SEO purpose
+    // Generated at build time for SEO purpose
         "/": { ssr: false },
         "/search": { ssr: false },
         "/contact": { isr: true },
         "/login": { ssr: false },
+        "/film/**": {ssr:false},
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
         // Redirection to avoid 404
@@ -45,18 +75,26 @@ export default defineNuxtConfig({
         },
     },
     css: ["~/assets/scss/main.scss"],
-    vite: {
-        optimizeDeps: {
-            include: [
-                '@appbaseio/reactivecore',
-                '@appbaseio/reactivesearch-vue',
-                'fast-deep-equal',
-            ],
-        },
+    nuxt3WinstonLog: {
+        maxSize: "2048m",
+        maxFiles: "14d",
+    },
+    vite: {        
         build: {
-            commonjsOptions: {
-                include: [/reactivecore/, /reactivesearch/, /node_modules/],
-            },
+            /*
+            rollupOptions: {
+                // make sure to externalize deps that shouldn't be bundled
+                // into your library
+                external: ['vue'],
+                output: {
+                    // Provide global variables to use in the UMD build
+                    // for externalized deps
+                    globals: {
+                        vue: 'Vue',
+                    },
+                },
+            }
+                */
         },
         css: {
             preprocessorOptions: {
@@ -66,35 +104,18 @@ export default defineNuxtConfig({
             },
         }
     },
-    devtools: {
-        enabled: true
-    },
-    modules: [
-        //"@nuxt/typescript-build",
-        "@nuxtjs/eslint-module",
-        "@nuxtjs/i18n",
-        "@nuxtjs/tailwindcss",
-        "@nuxtjs/color-mode",
-        '@nuxt/image',
-        '@pinia/nuxt',
-        '@pinia-plugin-persistedstate/nuxt',
-        '@nuxt/content',
-        '@formkit/nuxt',
-        'nuxt-icon',
-        '@sidebase/nuxt-auth',
-        '@vueuse/nuxt',
-        '@nuxtjs/strapi'
-    ],
     typescript: {
-        includeWorkspace: true
+        includeWorkspace: true,
     },
     i18n: {
-        /* module options */
+    /* module options */
         vueI18n: "./i18n.config.ts", // if you are using custom path, default
     },
     colorMode: {
         preference: 'avefi_light',
         classSuffix: '',
+        dataValue: 'theme',
+        disableTransition: false,
         storageKey: 'avefi-color-mode'
     },
     image: {
@@ -106,7 +127,7 @@ export default defineNuxtConfig({
         ]
     },
     formkit: {
-        // Experimental support for auto loading (see note):
+    // Experimental support for auto loading (see note):
         autoImport: true,
     },
     eslint: {
@@ -119,59 +140,6 @@ export default defineNuxtConfig({
     },
     tailwindcss: {
         exposeConfig: true,
-        viewer: true,
-    },
-    strapi: {
-        url: process.env.API_URL,
-        cookie: {
-            path: '/',
-            maxAge: 14 * 24 * 60 * 60,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: true
-        }
-    },
-    alias: {
-        //pinia: process.env.NODE_ENV === 'production' ? '/node_modules/pinia/dist/pinia.mjs' : '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
-    },
-    /*
-    auth: {
-        baseURL: '/api/auth',
-        provider: {
-            type: 'local',
-            endpoints: {
-                getSession: false
-            }
-        }
-    },
-    */
-    auth: {
-        origin: process.env.ORIGIN,
-        baseURL: `${process.env.API_URL}/api`,
-        provider: {
-            type: 'local',
-            endpoints: {
-                getSession: { path: '/users/me' },
-                login: { path: '/auth/local' },
-                signIn: { path: '/auth/local' },
-                signOut: false,
-
-            },
-            pages: {
-                login: '/login'
-            },
-            token: {
-                signInResponseTokenPointer: '/jwt'
-            },
-            sessionDataType: { id: 'string', email: 'string', username: 'string', role: '{id: number, name: string}', organisation: '{id: number, name: string}', avatar: '{id: number, url: string}' }
-        },
-        session: {
-            // Whether to refresh the session every time the browser window is refocused.
-            enableRefreshOnWindowFocus: true,
-            // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
-            enableRefreshPeriodically: 30000
-        },
-        globalAppMiddleware: {
-            isEnabled: false
-        }
+        viewer: false,
     }
 });

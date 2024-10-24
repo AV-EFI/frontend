@@ -3,14 +3,14 @@
     <input
       v-model="newObjectName"
       type="text"
-      placeholder="Enter object name"
+      :placeholder="$t('enterobjectname')"
     >
     <button
-      title="Add to comparison"
+      :title="$t('addtocomparison')"
       class="btn btn-primary"
       @click="addObject"
     >
-      Add to Comparison
+      {{ $t('addtocomparison') }}
     </button>
     
     <ul>
@@ -20,35 +20,34 @@
       >
         {{ object.filmTitle }}
         <button
-          title="Remove"
+          :title="$t('remove').toUpperCase"
           class="btn btn-warning"
           @click="removeObject(index)"
         >
-          Remove
+          {{ $t('remove').toUpperCase() }}
         </button>
       </li>
     </ul>
 
     <button
-      title="Clear all"
+      :title="$t('clearalllist')"
       class="btn btn-error"
       @click="removeAllObjects"
     >
-      Clear All
+      {{ $t('clearalllist') }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-//import { useObjectListStore } from '@/store';
-
+import {useObjectListStore} from '../../stores/compareList';
 const objectListStore = useObjectListStore();
 //const objects = objectListStore.objects;
 let newObjectName = '';
 
 const addObject = () => {
     if (newObjectName.trim() !== '') {
-        objectListStore.addObject({ filmId: 1, filmTitle: newObjectName });
+        objectListStore.addObject({ filmId: "1", filmTitle: newObjectName });
         newObjectName = ''; // Clear input field after adding object
     }
 };
@@ -58,7 +57,6 @@ const removeObject = (index) => {
 };
 
 const removeAllObjects = () => {
-    console.log("removeAll");
     objectListStore.removeAllObjects();
     console.log('Objects after removal:', objectListStore.objects);
 };
