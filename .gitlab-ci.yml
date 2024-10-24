@@ -35,7 +35,7 @@ build-job:       # This job runs in the build stage, which runs first.
     #- npm install --global yarn@4.3.1
     - yarn set version berry
     #- npm install --global yarn
-    - rm -r /home/cloud/avefi-frontend-test/*
+    - rm -r /home/cloud/avefi-frontend-test/
     #- mkdir /home/cloud/avefi-frontend-test
     - sudo chown cloud:adm /home/cloud/avefi-frontend-test
     - sudo chmod 777 /home/cloud/avefi-frontend-dev -R
