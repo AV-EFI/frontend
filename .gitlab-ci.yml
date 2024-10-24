@@ -31,16 +31,20 @@ build-job:       # This job runs in the build stage, which runs first.
     #- node -v
     #- yarn -v
     #- cd $WORK_DIR
+    - apt-get install nodejs
+    - npm install --global yarn
+    - sudo chmod 777 /home/cloud/avefi-frontend-dev -R
     - sudo systemctl stop avefi-frontend
   script:
     #- cd $WORK_DIR
-    - cd $WORK_DIR
+    #- cd $WORK_DIR
     - ls -la 
     #- npx nuxi cleanup
     - yarn cache clean
-    - yarn up
+    - YARN_CHECKSUM_BEHAVIOR=update yarn
+    - yarn install
     - yarn build
-    - yarn start
+    #- node .output/server/index.mjs
   after_script:
     - sudo systemctl start avefi-frontend
 
