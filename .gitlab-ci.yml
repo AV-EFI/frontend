@@ -36,7 +36,7 @@ build-job:       # This job runs in the build stage, which runs first.
     #- cd $WORK_DIR
     - cd $WORK_DIR
     - ls -la 
-    - npx nuxi cleanup
+    #- npx nuxi cleanup
     - yarn cache clean
     - yarn up
     - yarn build
