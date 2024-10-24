@@ -35,17 +35,17 @@ build-job:       # This job runs in the build stage, which runs first.
     #- npm install --global yarn@4.3.1
     - yarn set version berry
     #- npm install --global yarn
-    - mkdir -p /home/cloud/avefi-frontend-test
-    - rm -rf /home/cloud/avefi-frontend-test/*
-    - sudo chown cloud:adm /home/cloud/avefi-frontend-test
+    - mkdir -p /home/cloud/avefi-frontend-dev
+    - rm -rf /home/cloud/avefi-frontend-dev/*
+    - sudo chown cloud:adm /home/cloud/avefi-frontend-dev
     - sudo chmod 777 /home/cloud/avefi-frontend-dev -R
     - sudo systemctl stop avefi-frontend
   script:
     #- cd $WORK_DIR
     #- cd $WORK_DIR    
     - ls -la
-    - cp -r ./ /home/cloud/avefi-frontend-test
-    - cd /home/cloud/avefi-frontend-test
+    - cp -r ./ /home/cloud/avefi-frontend-dev
+    - cd /home/cloud/avefi-frontend-dev
     #- npx nuxi cleanup
     - yarn cache clean
     - YARN_CHECKSUM_BEHAVIOR=update yarn
