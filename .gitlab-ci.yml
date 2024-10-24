@@ -26,7 +26,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - "deploy-prod"
   before_script:
     - whoami
-    - sudo su cloud
+    - su cloud
     - whoami
     - node -v
     - yarn -v
