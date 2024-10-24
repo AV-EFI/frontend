@@ -12,7 +12,7 @@
         class="drawer-overlay z-99"
         @click="toggleDrawer"
       />
-      <div class="menu p-4 w-[100vw] md:w-80 min-h-full bg-neutral text-base-content">
+      <div class="menu p-4 w-[100vw] md:w-80 min-h-full bg-neutral dark:bg-slate-950 text-base-content">
         <div class="flex flex-row justify-end">
           <button 
             class="btn btn-outline btn-ghost w-16 md:hidden"
