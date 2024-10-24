@@ -42,7 +42,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - YARN_CHECKSUM_BEHAVIOR=update yarn
     - yarn install
     - yarn build
-    - node .output/server/index.mjs
+    #- node .output/server/index.mjs
   after_script:
     - sudo systemctl start avefi-frontend
 
