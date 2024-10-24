@@ -19,7 +19,7 @@
     </div>
     <div
       v-else
-      class="max-h-full overflow-y-auto"
+      class="max-h-96 overflow-y-auto"
     >
       <ul>
         <li
