@@ -35,7 +35,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - sudo systemctl stop avefi-frontend
   script:
     #- cd $WORK_DIR
-    - cd $WORK_DIR
+    #- cd $WORK_DIR
     - ls -la 
     #- npx nuxi cleanup
     - yarn cache clean
