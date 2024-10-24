@@ -65,4 +65,3 @@ deploy-job:      # This job runs in the deploy stage.
     - whoami
     #- ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout $MAIN_BRANCH && git pull && exit"
 
-
