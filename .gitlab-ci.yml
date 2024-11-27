@@ -52,7 +52,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - yarn install
     - yarn build
     #- node .output/server/index.mjs
-    - ls -la
+    #- ls -la
   after_script:
     - sudo systemctl start avefi-frontend
 
