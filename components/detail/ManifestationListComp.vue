@@ -60,8 +60,8 @@
             />
             <DetailKeyValueListComp
               v-if="manifestation._source.has_record?.has_note"
-              class="col-span-full"
-              keytxt="avefi:Note"
+              class="col-span-full text-justify"
+              keytxt="avefi:Note"              
               :valtxt="manifestation._source.has_record?.has_note"
               :ul="true"
             />
@@ -70,7 +70,7 @@
             <DetailKeyValueComp
               v-if="manifestation._source.has_record?.has_duration?.has_value"
               keytxt="avefi:Duration"
-              :valtxt="manifestation._source.has_record?.has_duration?.has_value"
+              :valtxt="manifestation._source.has_record?.has_duration?.has_value_clean?? manifestation._source.has_record?.has_duration?.has_value"
               class="w-full"
             />
             <DetailKeyValueComp
@@ -109,8 +109,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Header } from 'vue3-easy-data-table';
-import type { Item, Manifestation, MovingImageRecord, MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
+import type { Item, MovingImageRecord } from '../../models/interfaces/av_efi_schema.ts';
 
 const manifestationList = defineModel({type: Array as PropType<AVefiFEManifestation[]>, required: true});
 
@@ -127,5 +126,16 @@ interface Source {
     has_record: MovingImageRecord;
     items: Item[];
 }
+
+manifestationList.value.forEach((mani) => {
+    if(mani._source.has_record?.has_duration?.has_value) {
+        const duration = mani._source.has_record.has_duration.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
+        duration[0] = String(duration[0]).padStart(2, '0');
+        if(duration.length > 1) {
+            duration[1] = String(duration[1]).padStart(2, '0');
+        }
+        mani._source.has_record.has_duration.has_value_clean = duration.join(':');
+    }
+});
 
 </script>

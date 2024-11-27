@@ -23,7 +23,7 @@
         <NuxtLayout name="partial-grid-2-1">
           <template #left>
             <h2
-              class="text-lg !text-primary-900 !dark:text-primary-100 col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+              class="text-lg text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
               :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
             >
               {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
@@ -139,9 +139,6 @@ definePageMeta({
 
 </script>
 <style scoped>
-  h2,h3 {
-    color: var(--primary-500);
-  }
   legend, label {
     color: var(--primary-600)!important;
   }

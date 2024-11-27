@@ -23,9 +23,6 @@ interface FAQ {
 definePageMeta({
     auth: false
 });
-//const response:ApiPage = await $fetch<ApiPage>(`http://localhost:1337/api/pages/1?populate=*`);
-//http://localhost:1337/api/articles/1?populate=*
-const response = null;
 
 </script>
 <template>
@@ -64,62 +61,106 @@ const response = null;
           id="c7273"
           class="frame frame-default frame-type-text frame-layout-0 w-2/3 text-balance text-justify"
         >
-          <section class="mt-2">
-            <h2>{{ $t('contact.about.heading') }}</h2>
-            <p>
+          <div class="collapse collapse-arrow mt-2">
+            <input
+              type="checkbox"
+              checked
+            >
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <h2>
+                {{ $t('contact.about.heading') }}
+              </h2>
+            </div>
+            <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               {{ $t('contact.about') }}
-            </p>
-          </section>
+            </div>
+          </div>
 
-          <section class="mt-2">
-            <h2>{{ $t('availableMetadata') }}</h2>
-            <p>{{ $t('availableMetadataContent') }}</p>
-          </section>
+          <div class="collapse collapse-arrow mt-2">
+            <input type="checkbox">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <h2>
+                {{ $t('availableMetadata') }}
+              </h2>
+            </div>
+            <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+              {{ $t('availableMetadataContent') }}
+            </div>
+          </div>
 
-          <section class="mt-2">
-            <h2>{{ $t('definitions') }}</h2>
-        
-            <h3>{{ $t('work') }}</h3>
-            <p>{{ $t('workContent') }}</p>
-        
-            <h3>{{ $t('manifestation') }}</h3>
-            <p>{{ $t('manifestationContent') }}</p>
-        
-            <h3>{{ $t('item') }}</h3>
-            <p>{{ $t('itemContent') }}</p>
-          </section>
+          <div class="collapse collapse-arrow mt-2">
+            <input type="checkbox">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <h2>
+                {{ $t('definitions') }}
+              </h2>
+            </div>
+            <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+              {{ $t('work') }}
+              {{ $t('workContent') }}
+              {{ $t('manifestation') }}
+              {{ $t('manifestationContent') }}
+              {{ $t('item') }}
+              {{ $t('itemContent') }}
+            </div>
 
-          <section class="mt-2">
-            <h2>{{ $t('keywords') }}</h2>
-            <p>{{ $t('keywordsContent') }}</p>
-          </section>
+            <div class="collapse collapse-arrow mt-2">
+              <input type="checkbox">
+              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+                <h2>
+                  {{ $t('keywords') }}
+                </h2>
+              </div>
+              <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+                {{ $t('keywordsContent') }}
+              </div>
+            </div>
 
-          <section class="mt-2">
-            <h2>{{ $t('usage') }}</h2>
-        
-            <h3>{{ $t('filmsViewable') }}</h3>
-            <p>{{ $t('filmsViewableContent') }}</p>
-        
-            <h3>{{ $t('resultsUsage') }}</h3>
-            <p>{{ $t('resultsUsageContent') }}</p>
-        
-            <h3>{{ $t('licensing') }}</h3>
-            <p>{{ $t('licensingContent') }}</p>
-          </section>
+            <div class="collapse collapse-arrow mt-2">
+              <input type="checkbox">
+              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+                <h2>
+                  {{ $t('usage') }}
+                </h2>
+              </div>
+              <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+                {{ $t('filmsViewable') }}
+                {{ $t('filmsViewableContent') }}
+                {{ $t('resultsUsage') }}
+                {{ $t('resultsUsageContent') }}
+                {{ $t('licensing') }}
+                {{ $t('licensingContent') }}
+              </div>
+            </div>
+          </div>
 
-          <section class="mt-2">
-            <h2>{{ $t('pids') }}</h2>
-            <p>{{ $t('pidsContent') }}</p>
-          </section>
+          <div class="collapse collapse-arrow mt-2">
+            <input type="checkbox">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <h2>
+                {{ $t('pids') }}
+              </h2>
+            </div>
+            <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+              {{ $t('pidsContent') }}
+            </div>
+          </div>
 
-          <section class="mt-2">
-            <h2>{{ $t('dataProviders') }}</h2>
-            <p>{{ $t('dataProvidersContent') }}</p>
-            <ul>
-              <li><a href="#">{{ $t('howToDoc') }}</a></li>
-              <li><a href="#">{{ $t('manual') }}</a></li>
-            </ul>
-          </section>
+          <div class="collapse collapse-arrow mt-2">
+            <input type="checkbox">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <h2>
+                {{ $t('dataProviders') }}
+              </h2>
+            </div>
+            <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+              {{ $t('dataProvidersContent') }}
+              <ul>
+                <li><a href="#">{{ $t('howToDoc') }}</a></li>
+                <li><a href="#">{{ $t('manual') }}</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </article>
     </div>

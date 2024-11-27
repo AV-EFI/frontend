@@ -50,6 +50,7 @@
         #item-_source.has_record.has_webresource="item"
       >
         <a
+          v-if="item._source.has_record.has_webresource"
           :href="item._source.has_record.has_webresource"
           target="_blank"
           class="link link-primary dark:link-accent"
@@ -107,7 +108,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-const itemList = defineModel({type: Array as PropType<AVefiFEManifestation[]>, required: true});
+import type { Header } from 'vue3-easy-data-table';
+
+const itemList = defineModel({type: Array as PropType<Object>, required: true});
 const headers: Header[] = [
     { text: "Institution", value: "_source.has_record.described_by.has_issuer_name", sortable:true },
     { text: "SpokenLanguage", value: "_source.has_record.in_language.spoken", sortable:true },

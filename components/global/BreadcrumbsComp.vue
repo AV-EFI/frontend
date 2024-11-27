@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full md:w-fit center-content justify-center mx-auto text-slate-600"
+    class="w-full md:w-fit center-content justify-center mx-auto text-slate-600 dark:text-slate-200"
   >
     <div class="breadcrumbs text-sm">
       <ul>

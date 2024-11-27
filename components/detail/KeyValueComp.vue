@@ -3,9 +3,14 @@
     <MicroLabelComp :label-text="keytxt" />
     <div class="flex flex-row">
       <GlobalClipboardComp
+        v-if="clip"
         class="text-sm"
         :display-text="valtxt"
       />
+      <span
+        v-else
+        class="text-sm"
+      >{{ valtxt }}</span>
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
@@ -27,6 +32,10 @@ const props = defineProps({
     'sameAs': {
         type: Boolean,
         default: false
+    },
+    'clip': {
+        type: Boolean,
+        default: true
     }
 });
 const sameAsData = {

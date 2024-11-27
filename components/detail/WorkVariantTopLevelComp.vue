@@ -33,23 +33,12 @@
           />
           <!-- Described by -->
           <div class="grid col-span-12 md:col-span-6 grid-cols-12 gap-1">
-            <MicroLabelComp
+            <DetailKeyValueComp
               class="col-span-full"
-              label-text="Descbribed by"
+              keytxt="lastedit"
+              :clip="false"
+              :valtxt="new Date(esTimestamp??'').toLocaleString('de-DE')"
             />
-            <div class="col-span-full text-sm">
-              <p>{{ workVar.described_by?.has_issuer_name }}</p>
-              <a 
-                :href="workVar.described_by?.has_issuer_id"
-                class="link link-primary link-hover dark:link-accent"
-                alt="Referenz bei ISIL"
-                title="Referenz bei ISIL"
-                target="_blank"
-              >
-                {{ workVar.described_by?.has_issuer_id }}
-              </a>
-              <p>{{ new Date(esTimestamp??'').toLocaleString('de-DE') }}</p>
-            </div>
           </div>
         </template>
         <template #right>
