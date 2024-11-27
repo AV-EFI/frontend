@@ -5,17 +5,15 @@ export default defineEventHandler(async (event) => {
         const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
 
         const body = await readBody(event);
-        const documentId:string = body.documentId.toString();
-
+        const documentIds:string[] = body.documentId;
         const result = await client.search({
             index: useRuntimeConfig().public.ELASTIC_INDEX,
             query: {
                 "ids" : {
-                    "values" : [documentId]
+                    "values" : typeof (documentIds) !== 'string' ? [...documentIds]: documentIds
                 }
             },
         });
-
         return result.hits.hits;
     }
     catch(ex) {

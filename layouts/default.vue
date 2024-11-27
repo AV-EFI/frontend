@@ -8,7 +8,6 @@
         <GlobalIndicatorComp />
       </ClientOnly>
       <slot />
-
       <GlobalComparisonDrawer />
     </main>
     <LazyGlobalFooter />

@@ -2,7 +2,7 @@ export default defineNuxtPlugin(() => {
     const userAuth = useCookie('auth:token');
     const config = useRuntimeConfig();
 
-    const $apiFetchLocal = $fetch.create({
+    const apiFetchLocal = $fetch.create({
         baseURL: config.public.frontendUrl,
         onRequest({ options }) {
             const headers = new Headers();
@@ -32,11 +32,11 @@ export default defineNuxtPlugin(() => {
             }
             return null;
         }
-    })
+    });
     // Expose to useNuxtApp().$apiFetch
     return {
         provide: {
-            $apiFetchLocal: $apiFetchLocal
+            apiFetchLocal: apiFetchLocal
         }
     };
 });

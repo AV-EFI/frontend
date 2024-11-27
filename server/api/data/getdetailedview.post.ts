@@ -1,6 +1,4 @@
 import {Client} from '@elastic/elasticsearch';
-import { SearchHit } from '@elastic/elasticsearch/lib/api/types';
-import { WorkVariant } from '~/models/interfaces/av_efi_schema';
 
 export default defineEventHandler(async (event) => {
     try {
@@ -17,13 +15,6 @@ export default defineEventHandler(async (event) => {
                 }
             },
         });
-
-        /*
-        (result.hits.hits as SearchHit<WorkVariant>[]).forEach((wv) => {
-            console.log(wv._source);
-        }); 
-        */
-
         return result.hits.hits;
     }
     catch(ex) {

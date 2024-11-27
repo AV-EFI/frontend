@@ -3,11 +3,12 @@ export default defineNuxtConfig({
     devtools: { 
         enabled: false 
     },
+
     nitro: {
         preset: 'node-server'
     },
+
     modules: [
-        "nitro-cloudflare-dev",
         "@nuxtjs/eslint-module",
         "@nuxtjs/i18n",
         "@nuxtjs/tailwindcss",
@@ -20,19 +21,22 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@vueuse/nuxt',
         "@nuxtjs/robots",
-        "nuxt3-winston-log"
+        "nuxt3-winston-log",
     ],
     extends: './pages',
     imports: {
         dirs: ['~/types/*.ts', '~/stores/*.ts', '~/plugins/*.ts']
     },
+
     build: {
         transpile: ['@appbaseio/reactivesearch-vue'],
     },
+
     components: {
         global: true,
         dirs: ['~/components']
     },
+
     runtimeConfig: {
         public: {
             dbHost: process.env.POSTGRES_HOST,
@@ -59,9 +63,10 @@ export default defineNuxtConfig({
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
         }
     },
+
     //https://nuxt.com/docs/guide/concepts/rendering
     routeRules: {
-    // Generated at build time for SEO purpose
+        // Generated at build time for SEO purpose
         "/": { ssr: false },
         "/search": { ssr: false },
         "/contact": { isr: true },
@@ -79,22 +84,8 @@ export default defineNuxtConfig({
         maxSize: "2048m",
         maxFiles: "14d",
     },
-    vite: {        
+    vite: {
         build: {
-            /*
-            rollupOptions: {
-                // make sure to externalize deps that shouldn't be bundled
-                // into your library
-                external: ['vue'],
-                output: {
-                    // Provide global variables to use in the UMD build
-                    // for externalized deps
-                    globals: {
-                        vue: 'Vue',
-                    },
-                },
-            }
-                */
         },
         css: {
             preprocessorOptions: {
@@ -108,7 +99,7 @@ export default defineNuxtConfig({
         includeWorkspace: true,
     },
     i18n: {
-    /* module options */
+        /* module options */
         vueI18n: "./i18n.config.ts", // if you are using custom path, default
     },
     colorMode: {
@@ -127,7 +118,7 @@ export default defineNuxtConfig({
         ]
     },
     formkit: {
-    // Experimental support for auto loading (see note):
+        // Experimental support for auto loading (see note):
         autoImport: true,
     },
     eslint: {
@@ -141,5 +132,6 @@ export default defineNuxtConfig({
     tailwindcss: {
         exposeConfig: true,
         viewer: false,
-    }
+    },
+    compatibilityDate: '2024-11-25'
 });

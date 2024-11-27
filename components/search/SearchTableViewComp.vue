@@ -37,20 +37,28 @@
         >
           {{ $t('productioncompany').toUpperCase() }}
         </th>
+        <th
+          class="border border-slate-300 max-w-16 text-ellipsis overflow-hidden"
+          :alt="$t('countries')"
+          :title="$t('countries')"
+        >
+          {{ $t('countries').toUpperCase() }}
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr
         v-for="item in items"
         :key="item._id"
-        :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-neutral-800 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-neutral-900 bg-slate-100':'dark:bg-neutral-700', 'hover:bg-blend-darken']"
+        :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-slate-800 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-slate-900 bg-slate-100':'dark:bg-slate-700', 'hover:bg-blend-darken']"
       >
         <td
-          class="border border-slate-200 min-w-12 max-w-80 md:max-w-96 xxl:max-w-128"
+          class="border border-slate-200 dark:border-slate-600 min-w-12 max-w-80 md:max-w-96 xxl:max-w-128"
           style="word-wrap: break-word; overflow-wrap:break-word;}"
           :title="item.has_record.has_primary_title.has_name"
         >
           <a
+            v-if="item.has_record.category == 'avefi:WorkVariant'"
             :href="`/film/${item.objectID}`"
             :title="$t('detailviewlink')"
             target="_blank"
@@ -66,9 +74,16 @@
               {{ item?.has_record?.has_primary_title.has_name }}
             </span>
           </a>
+          <span
+            v-else
+            :title="$t('detailviewlink')"
+            class=""
+          >
+            {{ item?.has_record?.has_primary_title.has_name }}
+          </span>
         </td>
         <td
-          class="border border-slate-200"
+          class="border border-slate-200 dark:border-slate-600"
           style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
           :title="$t(item?.has_record?.category)"
         >
@@ -78,7 +93,7 @@
           />
         </td>
         <td
-          class="border border-slate-200"
+          class="border border-slate-200 dark:border-slate-600"
           style="max-width: 95px;
                  overflow: hidden;
                  text-overflow: ellipsis;
@@ -87,28 +102,39 @@
           <span class="float-right">{{ getProductionYearFromWorkVariation(item) }}</span>
         </td>
         <td
-          class="border border-slate-200 w-[150px]"
-          style="
-                 max-width: 200px;
-                 overflow: hidden;
-                 text-overflow: ellipsis;
-                 white-space: nowrap;"
-          :title="getAgentNameFromWorkVariation(item, 'avefi:DirectingActivity')??''"
-        >
-          <span>
-            {{ getAgentNameFromWorkVariation(item, "avefi:DirectingActivity") }}                       
-          </span>
-        </td>
-        <td
-          class="border border-slate-200"
+          class="border border-slate-200 dark:border-slate-600 w-[150px]"
           style="max-width: 200px;
                  overflow: hidden;
                  text-overflow: ellipsis;
                  white-space: nowrap;"
-          :title="getAgentNameFromWorkVariation(item, 'avefi:ProducingActivity')??''"
+          :title="item?.directors?.join(', ')"
         >
           <span>
-            {{ getAgentNameFromWorkVariation(item, "avefi:ProducingActivity") }}                       
+            {{ item?.directors?.join(', ') }}                       
+          </span>
+        </td>
+        <td
+          class="border border-slate-200 dark:border-slate-600"
+          style="max-width: 200px;
+                 overflow: hidden;
+                 text-overflow: ellipsis;
+                 white-space: nowrap;"
+          :title="item.producers?.join(', ')"
+        >
+          <span>
+            {{ item?.producers?.join(', ') }}
+          </span>
+        </td>
+        <td
+          class="border border-slate-200 dark:border-slate-600"
+          style="max-width: 200px;
+                 overflow: hidden;
+                 text-overflow: ellipsis;
+                 white-space: nowrap;"
+          :title="item.country?.join(', ')"
+        >
+          <span>
+            {{ item?.country?.join(', ') }}
           </span>
         </td>
       </tr>
@@ -126,5 +152,4 @@ const props = defineProps({
         required:true
     }
 });
-
 </script>

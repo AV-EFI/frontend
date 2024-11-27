@@ -2,46 +2,83 @@
   <div
     v-for="item in items"
     :key="item._id"
-    :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-neutral-900 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-neutral-800 bg-slate-100':'', 'hover:bg-blend-darken px-2']"
+    class="p-2"
   >
     <div
-      v-if="item.has_record.category"
-      class="card bg-base-100 w-full shadow-lg hover:shadow-xl mb-2"
+      v-if="item.has_record?.category"
+      class="card bg-base-100 w-full shadow-lg hover:shadow-xl m-2"
     >
-      <div class="card-body">
+      <div
+        class="flex flex-row min-h-12 w-full pl-[2rem] pr-[2rem] pt-2 pb-2 rounded-tl-xl rounded-tr-xl"
+        :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-slate-800 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-slate-900 bg-slate-100':'dark:bg-slate-700', 'hover:bg-blend-darken']"
+      >
+        <div class="w-3/4 content-center">
+          <h2 class="text-md">
+            <a
+              v-if="item._highlightResult?.has_record"
+              :href="`/film/${item.objectID}`"
+              :title="$t('detailviewlink')"
+              class="align-text-top"
+              target="_blank"
+            >
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />
+            </a>
+            <a
+              v-else
+              :href="`/film/${item.objectID}`"
+              :title="$t('detailviewlink')"
+              class="align-text-top"
+              target="_blank"
+            >
+              {{ item?.has_record?.has_primary_title.has_name }}
+            </a>
+          </h2>
+        </div>
+        <div class="w-1/4 grid justify-items-center content-center">
+          <MicroBadgeCategoryComp :category="item.has_record?.category" />
+        </div>
+      </div>
+      <div
+        class="card-body pt-4"
+      >
         <div class="flex flex-row">
-          <div class="w-3/4">
-            <h2 class="text-md">
-              <span v-if="item._highlightResult?.has_record">
-                <ais-highlight
-                  attribute="has_record.has_primary_title.has_name"
-                  :hit="item"
-                />
-              </span>
-              <span v-else>
-                {{ item?.has_record?.has_primary_title.has_name }}
-              </span>
-            </h2>
-          </div>
-          <div class="w-1/4 grid justify-items-center">
-            <MicroBadgeCategoryComp :category="item.has_record?.catgegory" />
+          <div class="w-100 flex flex-col">
+            <KeyValueComp
+              keytxt="EFI"
+              :valtxt="item?.handle"
+              class="mb-2"
+            />
           </div>
         </div>
         <div class="flex flex-row">
           <div class="w-1/2 flex flex-col">
-            <span class="capitalize font-semibold">{{ $t('year') }}:</span>
-            <span>{{ getProductionYearFromWorkVariation(item) }}</span>
-            <span class="capitalize font-semibold mt-2">EFI:</span>
-            <span>{{ item?.handle }}</span>
+            <KeyValueListComp
+              keytxt="year"
+              :valtxt="item?.productionyear"
+              class="mb-2"
+            />
+            <KeyValueListComp
+              keytxt="countries"
+              :valtxt="item?.country"
+            />
           </div>
-          <div class="w-1/2  flex flex-col">
-            <span class="capitalize font-semibold">{{ $t('Director') }}:</span>
-            <span> {{ getAgentNameFromWorkVariation(item, "avefi:DirectingActivity") || '-' }}</span>
-            <span class="capitalize font-semibold mt-2">{{ $t('productioncompany') }}:</span>
-            <span> {{ getAgentNameFromWorkVariation(item, "avefi:ProducingActivity") || '-' }}</span>
+          <div class="w-1/2 flex flex-col">
+            <KeyValueListComp
+              keytxt="Director"
+              :valtxt="item?.directors"
+              class="mb-2"
+            />
+            <KeyValueListComp
+              keytxt="productioncompany"
+              :valtxt="item?.producers"
+              :ul="true"
+            />
           </div>
         </div>
-        <div class="card-actions justify-end">
+        <!--div class="card-actions justify-end">
           <button
             type="button"
             class="btn btn-outline btn-primary"
@@ -57,7 +94,7 @@
               />
             </a>
           </button>
-        </div>
+        </div-->
       </div>
     </div>
   </div>
@@ -66,6 +103,8 @@
 import {toast } from 'vue3-toastify';
 import type {Activity, DirectingActivity, MovingImageRecord, ProductionEvent} from '../../models/interfaces/av_efi_schema.ts';
 import type { WorkVariant } from '../../models/interfaces/av_efi_schema_type_utils.ts';
+import KeyValueComp from '../detail/KeyValueComp.vue';
+import KeyValueListComp from '../detail/KeyValueListComp.vue';
 const props = defineProps({
     'items': {
         type: Array as PropType<Array<MovingImageRecord>>,

@@ -34,7 +34,6 @@ export default {
 
 
 <style>
-@import url("https://cdn.jsdelivr.net/npm/instantsearch.css@8.2.1/themes/satellite-min.css");
 body,
 h1 {
   margin: 0;
@@ -58,12 +57,6 @@ em {
   color: var(--primary-900);
   padding: .1rem;
   font-weight: 700;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
 }
 
 .search-panel {

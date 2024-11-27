@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+import type { AggregationsFiltersAggregate, AggregationsFiltersBucket } from "@elastic/elasticsearch/lib/api/types";
 import type { SearchkitConfig } from "searchkit";
 
 //move creds to server-side for runtime.private access
@@ -24,8 +25,14 @@ export const config:SearchkitConfig = {
             'has_record.category',
             'has_record.has_colour_type',
             'has_record.has_event',
-            'handle'
-        ],
+            'handle',
+            'directors',
+            'castmembers',
+            'producers',
+            'productionyear',
+            'country'
+            
+        ],    
         facet_attributes: [
             { 
                 attribute: 'has_record.category', 
@@ -46,6 +53,31 @@ export const config:SearchkitConfig = {
                 attribute: 'has_record.has_subject.has_name', 
                 field: 'has_record.has_subject.has_name.keyword',  // field must be a keyword type field
                 type: 'string',
+            },
+            {
+                field: "directors",
+                attribute: "directors",
+                type: "string"
+            },
+            {
+                field: "castmembers",
+                attribute: "castmembers",
+                type: "string"
+            },
+            {
+                field: "producers",
+                attribute: "producers",
+                type: "string"
+            },
+            {
+                field: "productionyear",
+                attribute: "productionyear",
+                type: "string"
+            },
+            {
+                field: "country",
+                attribute: "country",
+                type: "string"
             }
         ],        
         sorting: {

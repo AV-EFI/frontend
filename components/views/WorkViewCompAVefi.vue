@@ -20,8 +20,7 @@
       </div>
     </div>
     <div v-if="status === 'pending'">
-      {{ status }}
-      Loading Manifestations ...
+      <GlobalSkeletonLoaderComp class="mt-2" />
     </div>
     <div
       v-else
@@ -68,7 +67,7 @@ interface ApiResponseItemList extends Promise<Response> {
   onFetchError: EventHookOn
 }
 
-const { status, data: manifestations } = useFetch<ApiResponseManifestationList>('/api/elastic/searchmanifestbyworkid', 
+const { status, data: manifestations } = useFetch<ApiResponseManifestationList>('/api/elastic/getmanifestbyworkid', 
     {
         method: 'POST',
         lazy: true,

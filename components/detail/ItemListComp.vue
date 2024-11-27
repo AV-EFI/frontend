@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/valid-v-slot -->
 <template>
   <div class="ml-2">
     <NuxtLayout
@@ -113,6 +114,4 @@ const headers: Header[] = [
     { text: "Subtitles", value: "_source.has_record.in_language.subtitles", sortable:true },
     { text: "webresource", value: "_source.has_record.has_webresource", sortable:false },    
 ];
-
-console.log(itemList);
 </script>

@@ -1,23 +1,8 @@
 <template>
-  <div class="mt-2">
-    <NuxtLayout name="partial-grid-2-1">
-      <template #left>
-        <h2
-          class="text-lg col-span-full text-primary-900 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-          :alt="workVar.has_primary_title.has_name"
-        >
-          {{ workVar.has_primary_title.has_name }}
-        </h2>  
-      </template>
-      <template #right>
-        <MicroBadgeCategoryComp
-          class="col-span-6"
-          :category="workVar.type"
-        />
-      </template>
-    </NuxtLayout>
+  <div>
     <MicroDividerComp
       in-class="work-variant"
+      class="mt-0"
       :label-text="workVar.category"
     />
     <div class="mt-4 mb-2">

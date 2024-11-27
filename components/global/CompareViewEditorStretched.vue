@@ -3,10 +3,12 @@
     <section>
       <div class="grid grid-cols-7 xl:grid-cols-8 gap-2 w-100 grid-rows-[48px_64px_64px_auto_auto_auto_64px_64px_auto_auto_auto_auto_auto_auto] auto-rows-fr">
         <ViewsWorkViewEditorStretched
+          v-if="prev"
           v-model="prev"
           @update-target-model-g-p="onUpdateTargetModelGP"
         />
         <ViewsWorkViewEditorStretched
+          v-if="current"
           v-model="current"
           @update-target-model-g-p="onUpdateTargetModelGP"
         />
@@ -33,7 +35,7 @@ const props = defineProps({
 });
 const mergedDataset = ref({
     title: "",
-    other_ids: [],
+    otherIds: [],
     countries: [],
     directors: [],
     actors: [],
@@ -44,7 +46,7 @@ function onUpdateTargetModelGP (targetPropertyValue:string, targetPropertyName:s
     if(["countries", "directors", "actors", "keywords"].includes(targetPropertyName)) {
         mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, gnd: 12345});
     }
-    else if(["other_ids"].includes(targetPropertyName)) {
+    else if(["otherIds"].includes(targetPropertyName)) {
         mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, type: "defaultType"});
     } else {
         mergedDataset.value[targetPropertyName] = targetPropertyValue;

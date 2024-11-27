@@ -1,15 +1,15 @@
 <template>
   <button
-    class="btn bg-compare-list hover:bg-compare-list-dark text-white"
+    class="btn bg-shopping-cart hover:bg-shopping-cart-dark text-white"
     :class="[btnSize]"
-    :alt="$t('addtocomparisonparam', { name: filmTitle })"
-    :title="$t('addtocomparisonparam', { name: filmTitle })"
+    :alt="$t('addtoshoppingcartparam', { name: props.filmTitle })"
+    :title="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     :data-id="filmId"
     :data-title="filmTitle"
-    @click="$addToComparison(props.filmId, props.filmTitle)"
+    @click="$addToComparison(props.filmId, props.filmTitle, 'shoppingcart')"
   >
-    <span class="hidden md:block">{{ $t('comparison') }}</span>
-    <MicroCompareIcon
+    <span class="hidden md:block">{{ $t('shoppingcart') }}</span>
+    <MicroShoppingCartIcon
       :alt="$t('addtocomparisonparam', { name: filmTitle })"
     />
   </button>

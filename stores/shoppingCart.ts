@@ -8,16 +8,16 @@ interface ObjectItem {
 }
 
 // Define the state shape of the store
-interface ObjectListState {
+interface ShoppingCartState {
     objects: ObjectItem[];
     comparisonDrawerOpen: boolean;
     facetDrawerOpen: boolean;
 }
 
 // Define and export the store
-export const useObjectListStore = defineStore({
-    id: 'objectList',
-    state: (): ObjectListState => ({
+export const useShoppingCart = defineStore({
+    id: 'shoppingCart',
+    state: (): ShoppingCartState => ({
         objects: [],
         comparisonDrawerOpen: false as boolean,
         facetDrawerOpen: false as boolean
@@ -32,7 +32,7 @@ export const useObjectListStore = defineStore({
     },
     actions: {
         async addObject(object: ObjectItem): Promise<String> {
-            if (this.objects.length >= 2) {
+            if (this.objects.length >= 10) {
                 return "listfull";
             }
             const existingObject = this.objects.find(obj => obj.filmId === object.filmId);
@@ -65,7 +65,7 @@ export const useObjectListStore = defineStore({
         }
     },
     persist: {
-        key: 'avefi-objectList',
+        key: 'avefi-shoppingCart',
         storage: persistedState.localStorage,
     }
 });

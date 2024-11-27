@@ -11,40 +11,40 @@
       </div>      
       <div class="grid-container mb-2">
         <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min">
-          <div class="md:col-span-8 col-span-12">
+          <div class="md:col-span-12 col-span-12">
             <label class="text-md font-bold text-primary-900 dark:text-primary-100">PID:</label>
             <p
-              class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+              class=" mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
               :alt="data._id"
             >
-              21.T11998/{{ data._id }}
+              {{ data._source.handle }}
             </p>
           </div>
         </div>
         <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min">
           <div class="md:col-span-8 col-span-12">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Countries:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100 capitalize">{{$t('country')}}:</label>
             <p class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
-              {{ data._source.countries.join(', ') }}
+              {{ getProductionCountryFromWorkVariation(data?._source) }}
             </p>
           </div>
         </div>
         <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min">
           <div class="md:col-span-8 col-span-12">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Directors:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100 capitalize">{{$t('directors')}}:</label>
             <p class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
-              {{ data._source.directors.join(', ') }}
+              {{ getAgentNameFromWorkVariation(data?._source, 'avefi:DirectingActivity') }}
             </p>
           </div>
         </div>
         <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min">
           <div class="md:col-span-8 col-span-12">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Year:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100 capitalize">{{$t('year')}}:</label>
             <p
               class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-              :alt="data._source.year"
+              :alt="data._source?.year"
             >
-              {{ data._source.year }}
+              {{ getProductionYearFromWorkVariation(data?._source) }}
             </p>
           </div>
         </div>
@@ -53,6 +53,8 @@
   </div>
 </template>
 <script setup lang="ts">
-const dataJson = defineModel({type: String, required: true});
+  const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);
+console.log(data);
+console.log(getProductionCountryFromWorkVariation(data._source))
 </script>

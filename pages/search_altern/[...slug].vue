@@ -1,17 +1,11 @@
 <template>
   <div>
-    <div class="container">
-      <div class="breadcrumbs text-sm">
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li>
-            <span class="text-accent">
-              {{ $t('filmresearch') }}
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <GlobalBreadcrumbsComp
+      :breadcrumbs="[
+        ['Home', '/'],
+        [$t('filmresearch'), '/search_altern'],
+      ]"
+    />
     <SearchSection :search-term="searchTerm" />
   </div>
 </template>
@@ -32,5 +26,11 @@ if(params.value.slug) {
 
 .ais-SearchBox-input:focus {
   border-color:var(--primary);
+}
+
+.ais-Pagination-item--selected
+{
+  background-color:var(--primary);
+  color:white;
 }
 </style>

@@ -21,6 +21,29 @@ export function getProductionYearFromWorkVariation (item:MovingImageRecordContai
     return null;
 }
 
+export function getProductionCountryFromWorkVariation (item:MovingImageRecordContainer, activityName:String = "avefi:ProducingActivity") {
+    try {
+        const productionEventList:ProductionEvent[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent" || "avefi:PublictationEvent";});
+        if(productionEventList) {
+            const directingActivities:string[]|undefined = [];
+            
+            productionEventList?.forEach((pe:ProductionEvent) => {
+                if(pe?.located_in) {
+                    pe.located_in.forEach((i) => {
+                        directingActivities.push(i?.has_name);
+                    });
+                }
+            });
+
+            return directingActivities.join(', ');            
+        }
+    }
+    catch(ex) {
+        console.error(ex);
+    }
+    return null;
+}
+
 
 export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, activityName:String) {
     try {

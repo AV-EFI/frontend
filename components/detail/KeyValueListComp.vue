@@ -61,7 +61,6 @@ const props = defineProps({
 });
 let sameAsData = {};
 if(props.keytext !== 'avefi:Subject') {
-    console.log(props.valtxt);
     sameAsData = {
         item: {
             id: props.valtxt?.same_as?.id,

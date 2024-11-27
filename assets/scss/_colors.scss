@@ -1,76 +1,89 @@
 /*cf. tailwind.config.ts */
-:root {
---bali-hai-50: #f3f7f8;
---bali-hai-100: #dfe9ee;
---bali-hai-200: #c3d5de;
---bali-hai-300: #9ab8c6;
---bali-hai-400: #80a3b5;
---bali-hai-500: #4d768d;
---bali-hai-600: #436277;
---bali-hai-700: #3b5263;
---bali-hai-800: #364754;
---bali-hai-900: #313d48;
---bali-hai-950: #1d262f;
---base-50: #efefef;
---base-400: #666667;
---base-600: #444445;
---primary: #80a3b5;
---primary-50: #f3f7f8;
---primary-100: #dfe9ee;
---primary-200: #c3d5de;
---primary-300: #9ab8c6;
---primary-400: #80a3b5;
---primary-500: #4d768d;
---primary-600: #436277;
---primary-700: #3b5263;
---primary-800: #364754;
---primary-900: #313d48;
---primary-950: #1d262f;
---accent: #ff1d25;
---accenttwo: #D7BF83;
---accenttwo-50: #fbf9f1;
---accenttwo-100: #f5f0df;
---accenttwo-200: #eadfbe;
---accenttwo-300: #d7bf83;
---accenttwo-400: #ceab69;
---accenttwo-500: #c3954c;
---accenttwo-600: #b68140;
---accenttwo-700: #976737;
---accenttwo-800: #7a5332;
---accenttwo-900: #63442b;
---accenttwo-950: #352315;
+@layer {
+    :root {
+        --bali-hai-50: #f3f7f8;
+        --bali-hai-100: #dfe9ee;
+        --bali-hai-200: #c3d5de;
+        --bali-hai-300: #9ab8c6;
+        --bali-hai-400: #80a3b5;
+        --bali-hai-500: #4d768d;
+        --bali-hai-600: #436277;
+        --bali-hai-700: #3b5263;
+        --bali-hai-800: #364754;
+        --bali-hai-900: #313d48;
+        --bali-hai-950: #1d262f;
+        --base-50: #efefef;
+        --base-400: #666667;
+        --base-600: #444445;
+        --primary: #80a3b5;
+        --primary-50: #f3f7f8;
+        --primary-100: #dfe9ee;
+        --primary-200: #c3d5de;
+        --primary-300: #9ab8c6;
+        --primary-400: #80a3b5;
+        --primary-500: #4d768d;
+        --primary-600: #436277;
+        --primary-700: #3b5263;
+        --primary-800: #364754;
+        --primary-900: #313d48;
+        --primary-950: #1d262f;
+        --accent: #ff1d25;
+        --accenttwo: #D7BF83;
+        --accenttwo-50: #fbf9f1;
+        --accenttwo-100: #f5f0df;
+        --accenttwo-200: #eadfbe;
+        --accenttwo-300: #d7bf83;
+        --accenttwo-400: #ceab69;
+        --accenttwo-500: #c3954c;
+        --accenttwo-600: #b68140;
+        --accenttwo-700: #976737;
+        --accenttwo-800: #7a5332;
+        --accenttwo-900: #63442b;
+        --accenttwo-950: #352315;
 
-/*wcag distinctive colours*/
---wcag-violet: #332288;
---wcag-blue: #6699cc;
---wcag-lightblue: #88CCEE;
---wcag-greenblue: #44AA99;
---wcag-darkgreen: #117733;
---wcag-lightgreen: #999933;
---wcag-yellow: #DDCC77;
---wcag-darkred: #661100;
---wcag-lightred1: #CC6677;
---wcag-lightred2: #AA4466;
---wcag-red: #882255;
---wcag-pink: #AA4499;
+        /*wcag distinctive colours*/
+        --wcag-violet: #332288;
+        --wcag-blue: #6699cc;
+        --wcag-lightblue: #88CCEE;
+        --wcag-greenblue: #44AA99;
+        --wcag-darkgreen: #117733;
+        --wcag-lightgreen: #999933;
+        --wcag-yellow: #DDCC77;
+        --wcag-darkred: #661100;
+        --wcag-lightred1: #CC6677;
+        --wcag-lightred2: #AA4466;
+        --wcag-red: #882255;
+        --wcag-pink: #AA4499;
 
 
 
-/*vue-slider color vars*/
---slider-bg: var(--accent);
---slider-connect-bg: var(--accenttwo);
---slider-connect-bg-disabled: var(--accentwo);
---slider-height: 6px;
---slider-vertical-height: 300px;
---slider-radius: 9999px;
+        /*vue-slider color vars*/
+        --slider-bg: var(--accent);
+        --slider-connect-bg: var(--accenttwo);
+        --slider-connect-bg-disabled: var(--accentwo);
+        --slider-height: 6px;
+        --slider-vertical-height: 300px;
+        --slider-radius: 9999px;
 
---slider-handle-bg: #fff;
---slider-handle-border: 0;
---slider-handle-width: 16px;
---slider-handle-height: 16px;
---slider-handle-radius: 9999px;
---slider-handle-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
---slider-handle-shadow-active: 0.5px 0.5px 2px 1px rgba(0,0,0,.42);
---slider-handle-ring-width: 3px;
---slider-handle-ring-color: #10B98130;
+        --slider-handle-bg: #fff;
+        --slider-handle-border: 0;
+        --slider-handle-width: 16px;
+        --slider-handle-height: 16px;
+        --slider-handle-radius: 9999px;
+        --slider-handle-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
+        --slider-handle-shadow-active: 0.5px 0.5px 2px 1px rgba(0,0,0,.42);
+        --slider-handle-ring-width: 3px;
+        --slider-handle-ring-color: #10B98130;
+        --compare-list: rgba(226, 29, 72, 1);
+    }
+}
+
+.btn-compare-list {
+    @apply text-white outline-compare-list;
+    @supports (color: oklch(0 0 0)) {
+      --btn-color: var(--compare-list);
+    }
+    @supports not (color: oklch(0 0 0)) {
+      --btn-color: var(--red);
+    }
 }

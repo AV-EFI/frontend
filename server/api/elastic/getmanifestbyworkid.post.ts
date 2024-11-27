@@ -1,6 +1,6 @@
 import {Client} from '@elastic/elasticsearch';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event:any) => {
     try {
         const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
 
@@ -41,7 +41,6 @@ export default defineEventHandler(async (event) => {
 
 /*helpers*/
 async function getitemsbymanifestid (manifest_id:string) {
-    console.log("getitemsbymanifestid");
     const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
     const resultItems = await client.search({
         index: useRuntimeConfig().public.ELASTIC_INDEX,
@@ -55,8 +54,6 @@ async function getitemsbymanifestid (manifest_id:string) {
             }
         }
     });
-    console.log("####################");
-    console.log(resultItems.hits.hits);
     if(resultItems.hits.hits) {
         return resultItems.hits.hits;
     }

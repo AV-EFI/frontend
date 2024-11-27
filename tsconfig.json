@@ -2,14 +2,16 @@
   // https://nuxt.com/docs/guide/concepts/typescript
 "extends": "./.nuxt/tsconfig.json",
 "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "types": [
         "node",
-        "@cloudflare/workers-types/2023-07-01",
         "@nuxtjs/i18n",
         //"vitest/globals"
     ],
     "rootDir": ".",
-    "baseUrl": ".",
     "target": "ESNext", // Or whatever you want
     "module": "ESNext", // Or whatever you want
     "allowJs": true,

@@ -9,6 +9,7 @@
         :routing="routing"
         :future="{preserveSharedStateOnUnmount: true}"
       >
+        <pre>{{ indexName }}</pre>
         <ais-configure :hits-per-page.camel="20" />
         <ais-menu attribute="categories" />
         <div class="search-panel">
@@ -19,14 +20,38 @@
             <div class="search-panel__results w-full">
               <div class="searchbox">
                 <ais-search-box
-                  autofocus 
-                  :placeholder="$t('searchterm')"
-                  show-loading-indicator
-                  :class-names="{
-                    'ais-SearchBox-input': 'appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl',
-                    'ais-SearchBox-form': 'MySearchBoxForm',
-                  }"
-                />
+                  class="p-1"
+                >
+                  <template #default="{ currentRefinement, isSearchStalled, refine }">
+                    <div
+                      class="text-sm flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-zinc-300 dark:group-data-[disabled]:bg-zinc-800/5 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
+                    >
+                      <label
+                        class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon"
+                        for="input_0"
+                      ><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 15 16"
+                      ><path
+                        d="M6.5,13.02c-1.41,0-2.82-.54-3.89-1.61-1.04-1.04-1.61-2.42-1.61-3.89s.57-2.85,1.61-3.89c2.14-2.14,5.63-2.14,7.78,0,1.04,1.04,1.61,2.42,1.61,3.89s-.57,2.85-1.61,3.89c-1.07,1.07-2.48,1.61-3.89,1.61Zm0-10c-1.15,0-2.3,.44-3.18,1.32-.85,.85-1.32,1.98-1.32,3.18s.47,2.33,1.32,3.18c1.75,1.75,4.61,1.75,6.36,0,.85-.85,1.32-1.98,1.32-3.18s-.47-2.33-1.32-3.18c-.88-.88-2.03-1.32-3.18-1.32Z"
+                        fill="currentColor"
+                      /><path
+                        d="M13.5,15c-.13,0-.26-.05-.35-.15l-3.38-3.38c-.2-.2-.2-.51,0-.71,.2-.2,.51-.2,.71,0l3.38,3.38c.2,.2,.2,.51,0,.71-.1,.1-.23,.15-.35,.15Z"
+                        fill="currentColor"
+                      /></svg>
+                      </label>
+                      <input
+                        type="search"
+                        class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
+                        :value="currentRefinement"
+                        @input="refine($event.currentTarget.value)"
+                      >
+                      <span
+                        :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm']"
+                      />
+                    </div>
+                  </template>
+                </ais-search-box>
               </div>
               
               <div
@@ -88,8 +113,10 @@
                 </h2>
                 <ais-current-refinements 
                   :class-names="{
-                    'ais-CurrentRefinements-item': '!bg-primary-500 !text-white !rounded-2xl !p-2',
-                    'ais-CurrentRefinements-delete': '!text-white'
+                    'ais-CurrentRefinements-list': 'flex flex-row',
+                    'ais-CurrentRefinements-item': 'border-2 border-primary-200 text-primary-600 dark:text-primary-200 dark:border-primary-400 w-full !rounded-2xl p-2 md:w-fit md:p-4 md:max-w-1/4 md:mr-1',
+                    'ais-CurrentRefinements-delete': 'text-white',
+                    'ais-ClearRefinements-button': 'btn btn-error bg-error',
                   }"
                 >
                   <template #item="{ item, refine, createURL }">
@@ -145,7 +172,7 @@
                   </label>
                 </div>
               </div>
-              <div class="overflow-x-auto  w-full">
+              <div class="overflow-x-auto w-full">
                 <ais-hits>
                   <template #default="{ items }">          
                     <SearchTableViewComp
@@ -222,7 +249,7 @@ const props = defineProps({
     indexName: {
         type: String,
         required: true,
-        default: '21.11155'
+        default: '21.11155-dev-runtime'
     },
 });
 </script>
@@ -236,18 +263,6 @@ html[data-theme="avefi_dark"] .ais-Pagination-link {
 
 html[data-theme="avefi_dark"] .ais-Pagination-item--disabled .ais-Pagination-link {
   background-image: none!important;
-}
-
-.ais-HierarchicalMenu-showMore:hover, .ais-Menu-showMore:hover, .ais-RefinementList-showMore:hover, .ais-ClearRefinements-button:hover, .ais-InfiniteHits-loadMore:hover, .ais-RangeInput-submit:hover, .ais-InfiniteHits-loadPrevious:hover, .ais-Pagination-item:not(.ais-Pagination-item--selected):not(.ais-Pagination-item--disabled) .ais-Pagination-link:hover, .ais-GeoSearch-redo:hover, .ais-GeoSearch-reset:hover, .ais-VoiceSearch-button:hover {
-  background-image: none!important;
-  border-color: none;
-  border: 0;
-  box-shadow:none;
-}
-
-.ais-ClearRefinements-button {
-  background-color: transparent;;
-  background-image: none!important;;
 }
 
 </style>

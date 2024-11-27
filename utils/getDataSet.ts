@@ -1,0 +1,29 @@
+import type { IAVefiListResponse } from '../models/interfaces/IAVefiWork';
+
+const getDataSet = async function (routeParamsId:string[]):Promise<IAVefiListResponse | null> { 
+
+    const config = useRuntimeConfig();
+
+    const { data } = await useApiFetchLocal<IAVefiListResponse>(
+        `${config.public.AVEFI_ELASTIC_API}/getworkvariantbyid`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `ApiKey ${config.public.ELASTIC_IMDB_APIKEY}`
+            },
+            body: {
+                documentId: routeParamsId
+            }
+        }
+    );
+    
+    if(data.value) {
+        //category.value = data?.value[0]?._source?.has_record.category.trim();
+        //return JSON.stringify(data?.value[0], null, 2);
+        return data.length == 1 ? data?.value[0] : data.value;
+        //return data.value;
+    }
+    return null;
+};
+
+export default getDataSet;

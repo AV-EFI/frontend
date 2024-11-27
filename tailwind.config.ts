@@ -86,6 +86,10 @@ module.exports = {
                 'work-variant':  colors.cyan[500],
                 'manifestation':  colors.cyan[700],
                 'item':  colors.cyan[900],
+                'shopping-cart': colors.indigo[800],
+                'shopping-cart-dark': colors.indigo[900],
+                'compare-list': colors.rose[600],
+                'compare-list-dark': colors.rose[700],
             }
         }
     },
@@ -168,7 +172,9 @@ module.exports = {
                     "--wcag-red": "#882255",
                     'base-100': "#fefefe",
                     'base-200': "#fdfdfd",
-                    'base-content': '#222222'
+                    'base-content': '#222222',
+                    '--compare-list': colors.rose[200],
+                    '--shopping-cart': colors.indigo[600],
                     /* below syntax not valid in theme */
                     /*
                     'base': {
@@ -206,6 +212,8 @@ module.exports = {
                     "error": "#FF9DA0",
                     "--balihai": "#80a3b5",
                     "--wcag-red": "#882255",
+                    '--compare-list': colors.rose[600],
+                    '--shopping-cart': colors.indigo[600]
                 }
             }
         ],

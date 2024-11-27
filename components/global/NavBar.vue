@@ -12,17 +12,19 @@ const triggerSignout = () => {
     signOut({callbackUrl: '/', external:true});
 };
 import {useObjectListStore} from '../../stores/compareList';
+import { useShoppingCart } from '../../stores/shoppingCart';
 
 const objectListStore = useObjectListStore();
+const shoppingCart = useShoppingCart();
 
 //console.log(data.value);
 </script>
 
 <template>
-  <nav class="h-24 md:h-full navbar border-b-2 bg-neutral-50 dark:bg-gray-800 dark:text-white dark:border-gray-700">
+  <nav class="md:h-full navbar border-b-2 bg-neutral-50 dark:bg-gray-800 dark:text-white dark:border-gray-700">
     <ClientOnly>
-      <div class="container flex justify-between mx-auto">
-        <div class="navbar-start w-full flex justify-between lg:justify-start">
+      <div class="container flex justify-between mx-auto p-0">
+        <div class="navbar-start w-1/4 flex justify-between lg:justify-start">
           <div class="dropdown">
             <div
               tabindex="0"
@@ -95,6 +97,19 @@ const objectListStore = useObjectListStore();
                   </button>
                 </ClientOnly>
               </li>
+              <li v-if="shoppingCart.objects?.length > 0">
+                <ClientOnly>
+                  <button
+                    title="Show shoppingCart items"
+                    @click="$toggleComparisonDrawerState"
+                  >
+                    {{ $t("comparison") }}
+                    <span class="indicator-item badge badge-secondary text-white">
+                      {{ shoppingCart.objects?.length }}
+                    </span>
+                  </button>
+                </ClientOnly>
+              </li>
               <li v-if="data?.username">
                 <a href="/protected/filmident">
                   {{ $t("filmidentification") }}
@@ -114,15 +129,26 @@ const objectListStore = useObjectListStore();
               height="auto"
             ></a>
         </div>
-        <div class="navbar-end flex hidden xl:flex">
-          <ul class="menu menu-horizontal items-center mb-2 justify-self-end px-1">
+        <div class="navbar-end w-3/4 flex hidden xl:flex">
+          <ul class="menu w-full justify-end menu-horizontal items-center mb-2 justify-self-end px-1">
+            <li v-if="shoppingCart.objects?.length > 0">
+              <button
+                title="Show comparison items"
+                @click="$toggleComparisonDrawerState"
+              >
+                {{ $t("shoppingcart") }}
+                <span class="indicator-item badge bg-shopping-cart text-white">
+                  {{ shoppingCart.objects?.length }}
+                </span>
+              </button>
+            </li>
             <li v-if="objectListStore.objects?.length > 0">
               <button
                 title="Show comparison items"
                 @click="$toggleComparisonDrawerState"
               >
                 {{ $t("comparison") }}
-                <span class="indicator-item badge badge-secondary text-white">
+                <span class="indicator-item badge bg-compare-list text-white">
                   {{ objectListStore.objects?.length }}
                 </span>
               </button>
@@ -211,7 +237,7 @@ const objectListStore = useObjectListStore();
                   class="btn btn-outline w-1/2"
                   @click="toggleComparisonDrawerState"
                 >
-                  <CompareIcon alt="Comparison" />
+                  <MicroCompareIcon alt="Comparison" />
                 </button>
               </ClientOnly>
             </div>

@@ -1,5 +1,5 @@
-@import '_variables';
-@import '_colors';
+@use '_variables';
+@use '_colors';
 
 @font-face {
     font-family: 'BreeSerif';
@@ -79,4 +79,8 @@ html[data-theme="avefi_dark"] .customize_table {
   --easy-table-scrollbar-corner-color: #2d3a4f;
 
   --easy-table-loading-mask-background-color: #2d3a4f;
+}
+
+.ais-HierarchicalMenu-label, .ais-Menu-label, .ais-RefinementList-labelText {
+  max-width: 10em;
 }

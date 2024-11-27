@@ -1,29 +1,60 @@
 <template>
   <div>
+    <GlobalBreadcrumbsComp
+      :breadcrumbs="[
+        ['Home', '/'],
+        ['Search', '/search_altern'],
+        ['Detail', '/film/' + params.id]
+      ]"
+    />
     <NuxtLayout name="partial-layout-1-center">
+      <template #navigation>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/search_altern">{{ $t('filmresearch') }}</a></li>
+          <li>
+            <span class="text-accent">
+              {{ $t('detailview') }}
+            </span>
+          </li>
+        </ul>
+      </template>
+      <template #title>
+        <NuxtLayout name="partial-grid-2-1">
+          <template #left>
+            <h2
+              class="text-lg !text-primary-900 !dark:text-primary-100 col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+              :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
+            >
+              {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
+            </h2>  
+          </template>
+          <template #right>
+            <div class="flex flex-row">
+              <AddToShoppingCartComp
+                :film-id="params.id"
+                :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
+                class="ml-2"
+              />
+              <AddToComparisonComp
+                :film-id="params.id"
+                :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
+                class="ml-2"
+              />
+              <GlobalExportDataComp
+                :data-set-id="params.id"
+                :data-set-json="JSON.stringify(dataJson,null,2)"
+                class="ml-2"
+              />
+            </div>
+          </template>
+        </NuxtLayout>
+      </template>
       <template #actions>
-        <a
-          class="link link-accent"
-          href="/search_altern"
-        >
-          <Icon
-            name="fa-regular:arrow-alt-circle-left"
-            size="1em"
-            alt="Referenz bei GND"
-          />&nbsp;{{ $t('backtosearch') }}
-        </a>
-
-        <div class="hidden">
-          <div v-if="dataJson">
-            <!--
-            <AddToComparisonComp
-              :film-id="dataJson.has_record.id"
-              :film-title="dataJson.has_record.has_primary_title.has_name"
-            />
-            
-            -->
-          </div>
-        </div>
+        <MicroBadgeCategoryComp
+          class="col-span-6"
+          :category="dataJson?._source?.has_record?.type"
+        />
       </template>
       <template #cardBody>
         <div>
@@ -35,7 +66,8 @@
               fallback="Loading data..."
             >
               <ViewsWorkViewCompAVefi
-                v-model="dataJson"                
+                :model-value="JSON.stringify(dataJson, null, 2)"
+                @update:model-value="val => dataJson = JSON.parse(val)"
               />
             </ClientOnly>
           </div>
@@ -46,7 +78,10 @@
               fallback-tag="span"
               fallback="Loading data..."
             >
-              <ViewsManifestationViewCompAVefi v-model="dataJson" />
+              <ViewsManifestationViewCompAVefi
+                :model-value="JSON.stringify(dataJson, null, 2)"
+                @update:model-value="val => dataJson = JSON.parse(val)"
+              />
             </ClientOnly>
           </div>
           <div
@@ -56,7 +91,10 @@
               fallback-tag="span"
               fallback="Loading data..."
             >
-              <ViewsItemViewCompAVefi v-model="dataJson" />
+              <ViewsItemViewCompAVefi
+                :model-value="JSON.stringify(dataJson, null, 2)"
+                @update:model-value="val => dataJson = JSON.parse(val)"
+              />
             </ClientOnly>
           </div>
           <div v-else>
@@ -82,34 +120,16 @@ import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
 const route = useRoute();
 const params = ref(route.params);
-const category = ref('');
-console.log(useRuntimeConfig().public.AVEFI_DATA_API);
-async function getCollectionType (routeParamsId:string):Promise<string> {  
-    const { data } = await useApiFetchLocal<IAVefiListResponse>(
-        `${useRuntimeConfig().public.AVEFI_DATA_API}/getdetailedview`,
-        {
-            method: 'POST',
-            headers: {
-                'Authorization': `ApiKey ${useRuntimeConfig().public.ELASTIC_IMDB_APIKEY}`
-            },
-            body: {
-                documentId: routeParamsId
-            }
-        }
-    );
-    
-    if(data.value && data.value.length == 1) {
-        console.log(data.value);
-        category.value = data?.value[0]?._source?.has_record.category.trim();
-        console.log(category.value);
-        return JSON.stringify(data?.value[0], null, 2);
+const category = ref('avefi:WorkVariant');
+//const { getDataSet } = useNuxtApp();
+const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
+    const data = await getDataSet(params.value.id);
+    console.log(data);
+    if(data?.value?.has_record.category){
+        category.value = data.value?.has_record.category;
     }
-    return "";
-}
-
-const { data: dataJson } = await useAsyncData<string>('dataJson', () =>
-    getCollectionType(params.value.id)
-);
+    return data[0] as IAVefiListResponse;
+});
 
 
 definePageMeta({

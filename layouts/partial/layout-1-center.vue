@@ -7,9 +7,7 @@
             no actions available
           </slot>
         </div>        
-        <h2 class="text-md">
-          <slot name="title" />
-        </h2>
+        <slot name="title" />
         <slot name="cardBody">
           Card content
         </slot>

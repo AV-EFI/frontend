@@ -12,7 +12,7 @@
         class="drawer-overlay z-99"
         @click="toggleDrawer"
       />
-      <div class="menu p-4 w-[100vw] md:w-80 min-h-full bg-neutral dark:bg-slate-950 text-base-content">
+      <div class="menu p-4 w-[100vw] md:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content">
         <div class="flex flex-row justify-end">
           <button 
             class="btn btn-outline btn-ghost w-16 md:hidden"
@@ -22,18 +22,16 @@
             <Icon name="formkit:caretleft" />
           </button>
         </div>
-        <div class="w-100 flex flex-row p-2">
-          <div class="search-panel__filters md:mr-1">
-            <ais-panel>
+        <div class="w-full flex flex-row p-2">
+          <div class="search-panel__filters md:mr-1 max-w-full">
+            <!--
+            <ais-panel class="md:collapse md:collapse-arrow md:border-base-300 md:bg-base-200 md:border">
               <template #header>
                 <p class="text-base text-primary-400 mb-4">
                   {{ $t('facetyear') }}
-                </p>
+                </h4>
               </template>
               <template #default="{ hasRefinements }">
-                <!-- https://www.algolia.com/doc/api-reference/widgets/range-slider/vue/?client=Vue+3 -->
-                
-                <!--
                  <ais-range-input
                   attribute="has_record.has_event.has_date.keyword"
                   class="mt-4 p-4 md:mr-4"
@@ -67,132 +65,85 @@
                   <template #submitLabel>
                     Submit
                   </template>
-                </ais-range-input>
-                
-                 -->
-                <ais-range-input
-                  attribute="has_record.has_event.has_date"
-                  :precision="0"
-                  :min="1850"
-                  :max="2024"
-                  :class-names="{
-                    'ais-RefinementList-label': 'p-0',
-                    'ais-RefinementList-labelText': 'dark:text-primary-50',
-                    'ais-SearchBox-input': 'appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent !text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:text-zinc-400 group-data-[disabled]:!cursor-not-allowed dark:placeholder-zinc-400/50 dark:text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2',
-                    'ais-RangeInput-input':'max-w-20 dark:bg-transparent',
-                    'ais-RangeInput-form': 'flex justify-between',
-                    'ais-RangeInput-submit': 'btn btn-sm btn-primary'
-                  }"
-                >
-                  <template #submitLabel>
-                    {{ $t('filter') }}
-                  </template>
-                </ais-range-input>
+                </ais-range-input>                
               </template>
             </ais-panel>
-            <ais-panel>
-              <template #header>
-                <p class="text-base text-primary-400">
-                  {{ $t('avefi:Subject') }}
-                </p>
-              </template>
-              
-              <ais-refinement-list
-                attribute="has_record.has_subject.has_name"
-                :searchable="true"
-              >
-                <template
-                  #default="{
-                    items,
-                    isFromSearch,
-                    refine,
-                    createURL,
-                    searchForItems
-                  }"
-                >
-                  <input
-                    class="ais-SearchBox-input appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none focus:ring-0 formkit-input !p-3 !rounded-3xl"
-                    :placeholder="$t('search')"
-                    @input="searchForItems($event?.currentTarget?.value)"
-                  >
-                  <ul>
-                    <li v-if="isFromSearch && !items.length">
-                      No results.
-                    </li>
-                    <li
-                      v-for="item in items"
-                      :key="item.value"
-                    >
-                      <a
-                        :href="createURL(item)"
-                        :style="{ fontWeight: item.isRefined ? 'bold' : '' }"
-                        @click.prevent="refine(`${item.value.replace('avefi:','*')}`)"
-                      >
-                        <span>{{ $t(item.label) }}</span>
-                        <div class="badge text-white badge-secondary">{{ item.count.toLocaleString() }}</div>
-                      </a>
-                    </li>
-                  </ul>
-                </template>
-              </ais-refinement-list>
-            </ais-panel>
-            
+            -->
+            <SearchPanelRefinementListComp
+              header-text="avefi:ProductionYear"
+              attribute-name="productionyear"
+              tab-index="1"
+            />
+            <SearchPanelRefinementListComp
+              header-text="avefi:Country"
+              attribute-name="country"
+              tab-index="2"
+            />
+            <SearchPanelRefinementListComp
+              header-text="avefi:Director"
+              attribute-name="directors"
+              tab-index="3"
+            />
+            <SearchPanelRefinementListComp
+              header-text="avefi:Producer"
+              attribute-name="producers"
+              tab-index="4"
+            />
+            <SearchPanelRefinementListComp
+              header-text="avefi:CastMembers"
+              attribute-name="castmembers"
+              tab-index="5"
+            />
+            <SearchPanelRefinementListComp
+              header-text="avefi:Subject"
+              attribute-name="has_record.has_subject.has_name"
+              tab-index="6"
+            />
+                                                
             <div class="pb-4">
-              <p class="text-base text-primary-400">
+              <h4>
                 TBD:
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Filmh. Institution / Herausgeber
-              </p>
-              <p class="text-base text-primary-400">
-                Produktionsland
-              </p>
-              <p class="text-base text-primary-400">
-                Produktionsjahr
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Materialart (z.B. Dupnegativ)
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Manifestationstyp
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Materialformat (z.B. 35mm)
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Länge in Metern/Dauer in Minuten
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Sprachangaben
-              </p>
-              <p class="text-base text-primary-400">
+              </h4>
+              <h4>
                 Ton
-              </p>
-              <p class="text-base text-primary-400">
-                Schlagwörter
-              </p>
-              <p class="text-base text-primary-400">
-                Filmhaltende Institution?
-              </p>
+              </h4>
             </div>
             <!-- TBD -->
             <!--
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Produktionsland
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
 
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Produktionsjahr
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
               <ais-range-input
                 attribute="string"
                 :min="1900"
@@ -203,67 +154,67 @@
 
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Regie
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Manifestationstyp
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Materialart (z.B. Dupnegativ)
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Materialformat (z.B. 35mm)
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Länge in Metern/Dauer in Minuten
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Sprachangaben
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Farbigkeit
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
             <ais-panel>
               <template #header>
-                <p class="text-base text-primary-400">
+                <h4>
                   Ton
-                </p>
+                </h4>
               </template>
-              <p>TBD</p>
+              <h4>TBD</h4>
             </ais-panel>
           -->
           </div>
@@ -300,9 +251,52 @@ const formatMaxValue = (maxValue, maxRange) => {
     return maxValue !== null && maxValue !== maxRange ? maxValue : '';
 };
 
+onMounted(() => {
+    console.log('mounted');
+    (function() {
+        function addCollapseCheckboxDom() {
+            const collapsePanels = document.querySelectorAll('.ais-Panel');
+            console.log(collapsePanels);
+            collapsePanels.forEach((panel) => {
+                const collapseCheckbox = document.createElement('input');
+                collapseCheckbox.type = 'checkbox';
+                collapseCheckbox.classList.add('collapse-checkbox');
+                panel?.prepend(collapseCheckbox);
+            });
+        }
+
+        addCollapseCheckboxDom();
+    })();
+});
+
+function customCollapseToggle(e) {
+    console.log(e.target.parentElement);
+    if(e.target.parentElement.classList.contains('collapse-open')) {
+        e.target.parentElement.classList.remove('collapse-open');
+        e.target.parentElement.classList.add('collapse-close');
+    } else {
+        e.target.parentElement.classList.remove('collapse-close');
+        e.target.parentElement.classList.add('collapse-open');
+    }
+}
+
 </script>
 <style scoped>
 .ais-RangeInput-submit {
   background-color: none;
+}
+
+.ais-Panel {
+  margin-bottom: .25rem!important;
+}
+
+.ais-Panel-header {
+  margin-bottom: 0px!important;
+}
+
+.collapse-title {
+  min-height: 1rem!important;
+  padding-top: 0.25rem!important;
+  padding-bottom: 0.25rem!important;
 }
 </style>
