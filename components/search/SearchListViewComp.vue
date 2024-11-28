@@ -15,10 +15,10 @@
         <div class="w-3/4 content-center">
           <h2 class="text-md">
             <a
-              v-if="item._highlightResult?.has_record"
+              v-if="item._highlightResult?.has_record && item.has_record?.category == 'avefi:WorkVariant'"
               :href="`/film/${item.objectID}`"
-              :title="$t('detailviewlink')"
-              class="align-text-top"
+              :title="$t('detailviewlink')"              
+              class="align-text-top link link-primary"
               target="_blank"
             >
               <ais-highlight
@@ -27,14 +27,38 @@
               />
             </a>
             <a
-              v-else
+              v-else-if="item.has_record.category == 'avefi:WorkVariant'"
               :href="`/film/${item.objectID}`"
               :title="$t('detailviewlink')"
-              class="align-text-top"
+              class="align-text-top link link-primary"
               target="_blank"
             >
-              {{ item?.has_record?.has_primary_title.has_name }}
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />
             </a>
+            <a
+              v-else-if="item.has_record.is_manifestation_of"
+              :href="`/film/${item.has_record.is_manifestation_of[0]?.id.replace('21.11155/','')}`"
+              :title="$t('detailviewlink')"
+              class="align-text-top link link-primary"
+              target="_blank"
+            >
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />            
+            </a>
+            <span
+              v-else
+              :title="$t('pleaseusemanifestationlink')"
+            >
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />
+            </span>          
           </h2>
         </div>
         <div class="w-1/4 grid justify-items-center content-center">
@@ -57,12 +81,12 @@
           <div class="w-1/2 flex flex-col">
             <KeyValueListComp
               keytxt="year"
-              :valtxt="item?.productionyear"
+              :valtxt="item?.productionyears"
               class="mb-2"
             />
             <KeyValueListComp
-              keytxt="countries"
-              :valtxt="item?.country"
+              keytxt="country"
+              :valtxt="item.countries"
             />
           </div>
           <div class="w-1/2 flex flex-col">
@@ -72,7 +96,7 @@
               class="mb-2"
             />
             <KeyValueListComp
-              keytxt="productioncompany"
+              keytxt="avefi:ProductionEvent"
               :valtxt="item?.producers"
               :ul="true"
             />
@@ -100,9 +124,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {toast } from 'vue3-toastify';
-import type {Activity, DirectingActivity, MovingImageRecord, ProductionEvent} from '../../models/interfaces/av_efi_schema.ts';
-import type { WorkVariant } from '../../models/interfaces/av_efi_schema_type_utils.ts';
+import type { MovingImageRecord} from '../../models/interfaces/av_efi_schema.ts';
 import KeyValueComp from '../detail/KeyValueComp.vue';
 import KeyValueListComp from '../detail/KeyValueListComp.vue';
 const props = defineProps({
@@ -113,7 +135,4 @@ const props = defineProps({
     }
 });
 
-//DFF53D88-158D-4C70-A1E3-1646CDA3B094-SDK-TEST
-console.log(props.items.filter((i) => {return i.has_record?.is_manifestation_of?.id.indexOf('DFF53D88-158D-4C70-A1E3-1646CDA3B094-SDK-TEST') > 0;}));
-console.log(props.items);
 </script>

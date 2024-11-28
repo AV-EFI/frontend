@@ -13,9 +13,6 @@ const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:a
 export default defineEventHandler(async (event) => {
     const apiClient = Client(config, {debug: true});
     const body = await readBody(event);
-    console.log("body");
-    console.log(body);
-    console.log("body");
     try {
         //body = body.replace("avefi:", "avefi\:");
         const response = await apiClient.searchkit.handleInstantSearchRequests(body, {            
@@ -24,13 +21,13 @@ export default defineEventHandler(async (event) => {
                     return responses;
                 },
                 beforeSearch: async (searchRequests) => {
-                    //add "fields":["directors", "producers", "country", "productionyear"]
+                    //add "fields":["directors", "producers", "countries", "productionyears"]
                     return searchRequests.map((sr) => {
                         return {
                             ...sr,
                             body: {
                                 ...sr.body,
-                                fields: ["directors", "producers", "country", "productionyear"],
+                                fields: ["directors", "producers", "countries", "productionyears"],
                                 track_total_hits: true
                             }
                         };

@@ -3,11 +3,9 @@ export default defineNuxtConfig({
     devtools: { 
         enabled: false 
     },
-
     nitro: {
         preset: 'node-server'
     },
-
     modules: [
         "@nuxtjs/eslint-module",
         "@nuxtjs/i18n",
@@ -21,7 +19,7 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@vueuse/nuxt',
         "@nuxtjs/robots",
-        "nuxt3-winston-log",
+        "nuxt3-winston-log"
     ],
     extends: './pages',
     imports: {

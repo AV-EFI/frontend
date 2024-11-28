@@ -14,23 +14,29 @@ export const config:SearchkitConfig = {
     },
     search_settings: {        
         highlight_attributes: [
-            'has_record.has_primary_title.has_name'
+            'has_record.has_primary_title.has_name',
+            'producers'
         ],
         search_attributes: [
             { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
-            'has_record.category.keyword',
+            { field: 'has_record.category.keyword',weight: 3 },
+            { field: 'countries',weight: 3 },
+            { field: 'directors',weight: 3 },
+            { field: 'productionyears',weight: 3 },
+            { field: 'producers', weight: 3 },
         ],
         result_attributes: [
             'has_record.has_primary_title.has_name',             
             'has_record.category',
             'has_record.has_colour_type',
             'has_record.has_event',
+            'has_record.is_manifestation_of',
             'handle',
             'directors',
             'castmembers',
             'producers',
-            'productionyear',
-            'country'
+            'productionyears',
+            'countries'
             
         ],    
         facet_attributes: [
@@ -70,13 +76,13 @@ export const config:SearchkitConfig = {
                 type: "string"
             },
             {
-                field: "productionyear",
-                attribute: "productionyear",
+                field: "productionyears",
+                attribute: "productionyears",
                 type: "string"
             },
             {
-                field: "country",
-                attribute: "country",
+                field: "countries",
+                attribute: "countries",
                 type: "string"
             }
         ],        

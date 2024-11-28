@@ -11,10 +11,17 @@
         </th>
         <th
           class="border border-slate-300"
-          :alt="$t('title')"
-          :title="$t('title')"
+          :alt="$t('category')"
+          :title="$t('category')"
         >
           {{ $t('category').toUpperCase() }}
+        </th>
+        <th
+          class="border border-slate-300 max-w-16 text-ellipsis overflow-hidden"
+          :alt="$t('countries')"
+          :title="$t('countries')"
+        >
+          {{ $t('country').toUpperCase() }}
         </th>
         <th
           class="border border-slate-300 w-6 text-ellipsis overflow-hidden"
@@ -32,17 +39,10 @@
         </th>
         <th
           class="border border-slate-300 max-w-16 text-ellipsis overflow-hidden"
-          :alt="$t('productioncompany')"
-          :title="$t('productioncompany')"
+          :alt="$t('avefi:ProductionEvent')"
+          :title="$t('avefi:ProductionEvent')"
         >
-          {{ $t('productioncompany').toUpperCase() }}
-        </th>
-        <th
-          class="border border-slate-300 max-w-16 text-ellipsis overflow-hidden"
-          :alt="$t('countries')"
-          :title="$t('countries')"
-        >
-          {{ $t('countries').toUpperCase() }}
+          {{ $t('avefi:ProductionEvent').toUpperCase() }}
         </th>
       </tr>
     </thead>
@@ -64,14 +64,16 @@
             target="_blank"
             class="link dark:link-white"
           >
-            <span v-if="item._highlightResult?.has_record">
+            <span 
+              v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
+            >
               <ais-highlight
                 attribute="has_record.has_primary_title.has_name"
                 :hit="item"
               />
             </span>
             <span v-else>
-              {{ item?.has_record?.has_primary_title.has_name }}
+              {{ item?.has_record?.has_primary_title?.has_name }}
             </span>
           </a>
           <span
@@ -94,12 +96,32 @@
         </td>
         <td
           class="border border-slate-200 dark:border-slate-600"
+          style="max-width: 200px;
+                 overflow: hidden;
+                 text-overflow: ellipsis;
+                 white-space: nowrap;"
+          :title="item.countries?.join(', ')"
+        >
+          <span>
+            <SearchHighlightListComp 
+              :items="item?.countries"
+              :highlight="item._highlightResult?.countries"
+            />
+          </span>
+        </td>
+        <td
+          class="border border-slate-200 dark:border-slate-600"
           style="max-width: 95px;
                  overflow: hidden;
                  text-overflow: ellipsis;
                  white-space: nowrap;"
         >
-          <span class="float-right">{{ getProductionYearFromWorkVariation(item) }}</span>
+          <span class="float-right">
+            <SearchHighlightListComp 
+              :items="item?.productionyears"
+              :highlight="item._highlightResult?.productionyears"
+            />
+          </span>
         </td>
         <td
           class="border border-slate-200 dark:border-slate-600 w-[150px]"
@@ -109,9 +131,10 @@
                  white-space: nowrap;"
           :title="item?.directors?.join(', ')"
         >
-          <span>
-            {{ item?.directors?.join(', ') }}                       
-          </span>
+          <SearchHighlightListComp 
+            :items="item?.directors"
+            :highlight="item._highlightResult?.directors"
+          />
         </td>
         <td
           class="border border-slate-200 dark:border-slate-600"
@@ -120,30 +143,17 @@
                  text-overflow: ellipsis;
                  white-space: nowrap;"
           :title="item.producers?.join(', ')"
-        >
-          <span>
-            {{ item?.producers?.join(', ') }}
-          </span>
-        </td>
-        <td
-          class="border border-slate-200 dark:border-slate-600"
-          style="max-width: 200px;
-                 overflow: hidden;
-                 text-overflow: ellipsis;
-                 white-space: nowrap;"
-          :title="item.country?.join(', ')"
-        >
-          <span>
-            {{ item?.country?.join(', ') }}
-          </span>
+        > 
+          <SearchHighlightListComp 
+            :items="item?.producers"
+            :highlight="item._highlightResult?.producers.matched_words"
+          />
         </td>
       </tr>
     </tbody>
   </table>
 </template>
 <script lang="ts" setup>
-import {toast } from 'vue3-toastify';
-//import {getAgentNameFromWorkVariation} from '../../utils/index.ts';
 import type {MovingImageRecordContainer} from '../../models/interfaces/av_efi_schema.ts';
 const props = defineProps({
     'items': {

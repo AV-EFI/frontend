@@ -70,28 +70,28 @@
             </ais-panel>
             -->
             <SearchPanelRefinementListComp
-              header-text="avefi:ProductionYear"
-              attribute-name="productionyear"
+              header-text="country"
+              attribute-name="countries"
               tab-index="1"
             />
             <SearchPanelRefinementListComp
-              header-text="avefi:Country"
-              attribute-name="country"
+              header-text="year"
+              attribute-name="productionyears"
               tab-index="2"
             />
             <SearchPanelRefinementListComp
-              header-text="avefi:Director"
+              header-text="Director"
               attribute-name="directors"
               tab-index="3"
             />
             <SearchPanelRefinementListComp
-              header-text="avefi:Producer"
-              attribute-name="producers"
+              header-text="CastMember"
+              attribute-name="castmembers"
               tab-index="4"
             />
             <SearchPanelRefinementListComp
-              header-text="avefi:CastMembers"
-              attribute-name="castmembers"
+              header-text="avefi:ProductionEvent"
+              attribute-name="producers"
               tab-index="5"
             />
             <SearchPanelRefinementListComp
@@ -100,7 +100,7 @@
               tab-index="6"
             />
                                                 
-            <div class="pb-4">
+            <div class="p-4 text-slate-600">
               <h4>
                 TBD:
               </h4>
