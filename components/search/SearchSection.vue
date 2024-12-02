@@ -53,7 +53,7 @@ em {
 }
 
 .ais-Highlight-highlighted, .ais-Snippet-highlighted {
-  background: var(--accenttwo-200);
+  background: var(--accenttwo);
   color: var(--primary-900);
   padding: .1rem;
   font-weight: 700;

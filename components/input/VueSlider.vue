@@ -64,8 +64,8 @@ function sliderUpdateHandler(valuesArray:Array<number>) {
     try {
         console.log(valuesArray);
         if(valuesArray && valuesArray.length == 2){
-            valueLow.value = valuesArray.at(0);
-            valueHigh.value = valuesArray.at(1);
+            valueLow.value = valuesArray.at(0) ?? valueLow.value;
+            valueHigh.value = valuesArray.at(1) ?? valueHigh.value;
         }
     }
     catch(ex) {

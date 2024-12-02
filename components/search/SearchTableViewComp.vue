@@ -105,7 +105,7 @@
           <span>
             <SearchHighlightListComp 
               :items="item?.countries"
-              :highlight="item._highlightResult?.countries"
+              :hilite="item._highlightResult?.countries?.matchedWords"
             />
           </span>
         </td>
@@ -119,7 +119,7 @@
           <span class="float-right">
             <SearchHighlightListComp 
               :items="item?.productionyears"
-              :highlight="item._highlightResult?.productionyears"
+              :hilite="item._highlightResult?.productionyears?.matchedWords"
             />
           </span>
         </td>
@@ -133,7 +133,7 @@
         >
           <SearchHighlightListComp 
             :items="item?.directors"
-            :highlight="item._highlightResult?.directors"
+            :hilite="item._highlightResult?.directors?.matchedWords"
           />
         </td>
         <td
@@ -143,10 +143,10 @@
                  text-overflow: ellipsis;
                  white-space: nowrap;"
           :title="item.producers?.join(', ')"
-        > 
+        >
           <SearchHighlightListComp 
             :items="item?.producers"
-            :highlight="item._highlightResult?.producers.matched_words"
+            :hilite="item._highlightResult?.producers?.matchedWords"
           />
         </td>
       </tr>

@@ -15,15 +15,16 @@ export const config:SearchkitConfig = {
     search_settings: {        
         highlight_attributes: [
             'has_record.has_primary_title.has_name',
-            'producers'
+            'producers',
+            'directors',
+            'castmembers'
         ],
         search_attributes: [
-            { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
-            { field: 'has_record.category.keyword',weight: 3 },
-            { field: 'countries',weight: 3 },
-            { field: 'directors',weight: 3 },
-            { field: 'productionyears',weight: 3 },
             { field: 'producers', weight: 3 },
+            { field: 'directors', weight: 3 },
+            { field: 'castmembers', weight: 3 },
+            { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
+            { field: 'has_record.category.keyword',weight: 3 }
         ],
         result_attributes: [
             'has_record.has_primary_title.has_name',             
@@ -32,12 +33,9 @@ export const config:SearchkitConfig = {
             'has_record.has_event',
             'has_record.is_manifestation_of',
             'handle',
-            'directors',
-            'castmembers',
             'producers',
-            'productionyears',
-            'countries'
-            
+            'directors',
+            'castmembers'
         ],    
         facet_attributes: [
             { 

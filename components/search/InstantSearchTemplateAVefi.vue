@@ -4,7 +4,6 @@
       <ais-instant-search
         :search-client="searchClient"
         :index-name="indexName"
-        :stalled-search-delay="1000"
         :show-loading-indicator="true"
         :routing="routing"
         :future="{preserveSharedStateOnUnmount: true}"
