@@ -12,7 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
         console.log("addToComparison", filmId, filmTitle, listType);
         if (filmId) {
-            if(listType == "shoppingCart") {
+            if(listType == "shoppingcart") {
                 shoppingCartStore.addObject({ filmId, filmTitle })
                     .then((added) => {
                         if (added == "listfull") {

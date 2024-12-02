@@ -43,7 +43,7 @@
         :current="current"
         :folding="true"
         :input-delay="10"
-        :virtual-scroll="true"
+        :virtual-scroll="false"
       />
     </section>
   </div>

@@ -1,1 +1,12 @@
-# see cms project for docker containers
+version: "3"
+
+services:
+  avefi-frontend:
+    container_name: avefi-frontend
+    build:
+      context: .
+      dockerfile: DockerFile
+    ports:
+      - "3000:3000"
+    volumes:
+      - './components:/app/components'
