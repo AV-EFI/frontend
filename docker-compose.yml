@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   avefi-frontend:
     container_name: avefi-frontend

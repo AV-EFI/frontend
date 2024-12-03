@@ -1,0 +1,15 @@
+services:
+  avefi-frontend-dev:
+    container_name: avefi-frontend-dev
+    build:
+      context: .
+      dockerfile: DockerFile.dev
+    ports:
+      - "3000:3000"
+      - '24678:24678'
+    volumes:
+      - '.:/app'
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
