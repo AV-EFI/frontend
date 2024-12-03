@@ -58,12 +58,7 @@ const shoppingCart = useShoppingCart();
                       alt="This is you"
                       class="btn btn-ghost btn-circle avatar"
                     >
-                      <div class="w-10 rounded-full">
-                        <NuxtImg
-                          provider="strapi"
-                          :src="data.Avatar"
-                        />
-                      </div>
+                      <div class="w-10 rounded-full" />
                     </div>
                   </div>
                   <div v-else-if="data?.username">
@@ -171,13 +166,7 @@ const shoppingCart = useShoppingCart();
                       alt="This is you"
                       class="avatar"
                     >
-                      <div class="w-10 rounded-full">
-                        <NuxtImg
-                          provider="strapi"
-                          :src="data.Avatar"
-                          :alt="data.username"                  
-                        />
-                      </div>
+                      <div class="w-10 rounded-full" />
                     </div>
                   </div>
                   <div v-else>
