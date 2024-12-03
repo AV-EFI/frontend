@@ -11,7 +11,6 @@ export default defineNuxtConfig({
         "@nuxtjs/i18n",
         "@nuxtjs/tailwindcss",
         "@nuxtjs/color-mode",
-        '@nuxt/image',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
         '@nuxt/content',
@@ -131,5 +130,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2024-11-25'
+    compatibilityDate: '2024-12-01'
 });

@@ -107,6 +107,7 @@ export default defineI18nConfig(() => ({
             "dataProvidersContent": "Institutions can contribute their data to AVefi. Information on the necessary steps can be found in the following resources:",
             "howToDoc": "How-to Document (One-Pager)",
             "manual": "Detailed Manual",
+            "home.welcome": 'Find, discover and compare comprehensive data on film holdings of all genres. You can research both film works and versions from various participating film archives and collections.',
             ...avefiLocales.en
         },
         de: {
