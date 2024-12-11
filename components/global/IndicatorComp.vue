@@ -20,16 +20,16 @@
     <div class="join items-center justify-center w-full grow group transition-all transition ease-in-out delay-150 ">
       <div
         class="badge bg-shopping-cart hover:bg-shopping-cart font-bold text-white text-center join-item"
-        alt="Elemente in Merkliste"
-        title="Elemente in Merkliste"
+        :alt="$t('elementsincomparison')"
+        :title="$t('elementsincomparison')"
       >
         <span class="hidden text-xs transition-all transition ease-in-out delay-150">Merkliste:</span>
         {{ shoppingCart.objects?.length }}
       </div>
       <div
         class="badge bg-compare-list font-bold text-white text-center join-item"
-        alt="Elemente in Vergleichsliste"
-        title="Elemente in Vergleichsliste"
+        :alt="$t('elementsinshoppingcart')"
+        :title="$t('elementsinshoppingcart')"
       >
         <span class="hidden text-xs">Vergleichsliste:</span>
         {{ objectListStore.objects?.length }}

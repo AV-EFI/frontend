@@ -69,6 +69,9 @@
           >Details →</a>
         </div>
       </template>
+      <template #item-_source.has_record.has_format="item">
+        {{ item._source.has_record?.has_format?.map(function (has_format_item) {return $t(has_format_item.type); }).join(',') }}
+      </template>
       <template #item-_source.has_record.in_language.spoken="item">
         {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'SpokenLanguage';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
       </template>
@@ -81,26 +84,48 @@
       <template
         #expand="item"
       >
-        <div
-          v-if="item._source?.has_record?.in_language"
-          class="flex flex-col p-4 ml-4"
-        >
-          <MicroLabelComp
-            label-text="language"
-          />
-          <div class="flex flex-col">
-            <ul>
-              <li
-                v-for="in_lang in item._source?.has_record?.in_language"
-                :key="in_lang.code"
-                :value="in_lang"
-                class="flex flex-row"
-              >
-                <span>{{ $t(in_lang.code) }}</span>
-                &nbsp;
-                (<span>{{ in_lang.usage.map(function (usage) {return $t(usage); }).join(',') }}</span>)
-              </li>
-            </ul>
+        <div class="flex flex-row flex-wrap p-4 ml-4">
+          <div
+            v-if="item._source?.has_record?.in_language"
+            class="flex flex-col"
+          >
+            <MicroLabelComp
+              label-text="language"
+            />
+            <div class="flex flex-col">
+              <ul>
+                <li
+                  v-for="in_lang in item._source?.has_record?.in_language"
+                  :key="in_lang.code"
+                  :value="in_lang"
+                  class="flex flex-row"
+                >
+                  <span>{{ $t(in_lang.code) }}</span>
+                  &nbsp;
+                  (<span>{{ in_lang.usage.map(function (usage) {return $t(usage); }).join(',') }}</span>)
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            v-if="item._source?.has_record?.has_format"
+            class="flex flex-col"
+          >
+            <MicroLabelComp
+              label-text="format"
+            />
+            <div class="flex flex-col">
+              <ul>
+                <li
+                  v-for="format_item in item._source?.has_record?.has_format"
+                  :key="format_item.type"
+                  :value="format_item"
+                  class="flex flex-row"
+                >
+                  <span>{{ $t(format_item.type) }}</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </template>
@@ -115,6 +140,7 @@ const headers: Header[] = [
     { text: "Institution", value: "_source.has_record.described_by.has_issuer_name", sortable:true },
     { text: "SpokenLanguage", value: "_source.has_record.in_language.spoken", sortable:true },
     { text: "Subtitles", value: "_source.has_record.in_language.subtitles", sortable:true },
-    { text: "webresource", value: "_source.has_record.has_webresource", sortable:false },    
+    { text: "Format", value: "_source.has_record.has_format", sortable:true },
+    { text: "webresource", value: "_source.has_record.has_webresource", sortable:false },
 ];
 </script>

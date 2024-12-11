@@ -66,6 +66,6 @@ export const useShoppingCart = defineStore({
     },
     persist: {
         key: 'avefi-shoppingCart',
-        storage: persistedState.localStorage,
+        storage: persistedState.cookies,
     }
 });

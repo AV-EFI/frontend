@@ -17,30 +17,36 @@ export const config:SearchkitConfig = {
             'has_record.has_primary_title.has_name',
             'producers',
             'directors',
-            'castmembers'
+            'castmembers',
+            //'has_record.has_subject.has_name.keyword',
+            'subjects'
         ],
         search_attributes: [
             { field: 'producers', weight: 3 },
             { field: 'directors', weight: 3 },
             { field: 'castmembers', weight: 3 },
             { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
+            { field: 'subjects', weight: 3 }, 
             { field: 'has_record.category.keyword',weight: 3 }
         ],
         result_attributes: [
             'has_record.has_primary_title.has_name',             
             'has_record.category',
-            'has_record.has_colour_type',
             'has_record.has_event',
             'has_record.is_manifestation_of',
+            'subjects',
             'handle',
             'producers',
             'directors',
-            'castmembers'
+            'castmembers',
+            'productionyears',
+            'countries',
+            'category_clean'
         ],    
         facet_attributes: [
             { 
-                attribute: 'has_record.category', 
-                field: 'has_record.category.keyword',  // field must be a keyword type field
+                attribute: 'category_clean', 
+                field: 'category_clean',  // field must be a keyword type field
                 type: 'string',
             },
             { 
@@ -54,8 +60,8 @@ export const config:SearchkitConfig = {
                 type: 'string',
             },
             { 
-                attribute: 'has_record.has_subject.has_name', 
-                field: 'has_record.has_subject.has_name.keyword',  // field must be a keyword type field
+                attribute: 'subjects', 
+                field: 'subjects',  // field must be a keyword type field
                 type: 'string',
             },
             {

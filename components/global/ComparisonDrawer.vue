@@ -10,7 +10,7 @@
       <div class="drawer-side z-50">
         <label
           :aria-label="$t('close')"
-          class="drawer-overlay z-99"
+          class="drawer-overlay z-40"
           @click="toggleDrawer"
         />
         <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content">
@@ -31,8 +31,9 @@
               type="radio"
               name="drawer_tabs"
               role="tab"
+              checked="checked"
               :class="['tab !w-full', shoppingCart.objects.length === 0 && 'tab-disabled disabled']"
-              aria-label="Merkliste"
+              :aria-label="$t('shoppingcart')"
             >
             <div
               role="tabpanel"
@@ -90,7 +91,7 @@
               name="drawer_tabs"
               role="tab"
               :class="['tab !w-full', objectListStore.objects.length === 0 && 'tab-disabled disabled']" 
-              aria-label="Vergleichsliste"
+              :aria-label="$t('comparison')"
             >
             <div
               role="tabpanel"

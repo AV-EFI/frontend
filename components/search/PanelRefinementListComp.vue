@@ -65,7 +65,7 @@
             <li
               v-for="item in items"
               :key="item.value"
-              class="ais-RefinementList-item"
+              class="ais-RefinementList-item max-w-[250px]"
             >
               <label
                 class="ais-RefinementList-label"
@@ -79,9 +79,17 @@
                   :value="item.value"
                   :checked="item.isRefined??'checked'"
                 >
+                <span v-if="translateLabel">
+                  {{ $t(item.label.replace('_',':')) }}
+                </span>
                 <ais-highlight
+                  v-else
                   attribute="item"
-                  :hit="item"
+                  :title="item.label"                  
+                  :class-names="{
+                    'ais-Highlight': 'max-w-[200px] overflow-hidden text-ellipsis'
+                  }"
+                  :hit="item"                  
                 />
                 <span class="ais-RefinementList-count badge badge-secondary text-xs font-bold text-white">{{ item.count }}</span>
               </label>
@@ -111,6 +119,10 @@ const props = defineProps({
     isSearchable: {
         type: Boolean,
         default: true
+    },
+    translateLabel: {
+        type: Boolean,
+        default: false
     }
 });
 </script>

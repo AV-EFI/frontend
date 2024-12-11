@@ -3,15 +3,14 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        ['Search', '/search_altern'],
-        ['Detail', '/film/' + params.id]
+        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`], ['Detail', '/film/' + params.id]
       ]"
     />
     <NuxtLayout name="partial-layout-1-center">
       <template #navigation>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/search_altern">{{ $t('filmresearch') }}</a></li>
+          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}`">{{ $t('filmresearch') }}</a></li>
           <li>
             <span class="text-accent">
               {{ $t('detailview') }}
@@ -30,7 +29,7 @@
             </h2>  
           </template>
           <template #right>
-            <div class="flex flex-row">
+            <div class="flex flex-row flex-wrap">
               <AddToShoppingCartComp
                 :film-id="params.id"
                 :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
@@ -121,7 +120,6 @@ import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
-//const { getDataSet } = useNuxtApp();
 const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
     const data = await getDataSet(params.value.id);
     console.log(data);

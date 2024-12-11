@@ -17,7 +17,7 @@
     <div
       v-for="manifestation in manifestationList"
       :key="manifestation._id"
-      class="mt-2 collapse collapse-plus"
+      class="mt-2 collapse collapse-arrow"
     >    
       <input
         type="radio"
@@ -29,6 +29,12 @@
           <template #left>
             <h4 class="col-span-full text-sm">
               {{ manifestation._source?.handle }}
+            </h4>
+            <h4 class="col-span-full text-sm">
+              {{ manifestation._source.has_record?.described_by?.has_issuer_name }}
+            </h4>
+            <h4 class="col-span-full text-sm">
+              {{ manifestation._source.has_record?.has_event?.map(event => {return `${event?.has_date} (${$t(event?.type)})`;}).join(', ') }}
             </h4>
           </template>
           <template #right />

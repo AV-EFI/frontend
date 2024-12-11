@@ -21,7 +21,7 @@
     </div>
 
     <!--right-->
-    <div class="grid col-span-full md:col-span-3">
+    <div class="grid col-span-full md:col-span-4">
       <div class="flex flex-col">
         <slot name="right" />
       </div>

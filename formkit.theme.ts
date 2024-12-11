@@ -1146,38 +1146,6 @@ const classes: Record<string, Record<string, boolean>> = {
     "focus:[&::-webkit-datetime-edit-week-field]:bg-primary-100": true,
     "focus:[&::-webkit-datetime-edit-year-field]:bg-primary-100": true
   },
-  "autocomplete__selections": {
-    "flex": true,
-    "absolute": true,
-    "inset-0": true,
-    "group-data-[multiple]:static": true,
-    "group-data-[multiple]:block": true,
-    "group-data-[empty]:hidden": true,
-    "group-data-[multiple]:mt-1": true
-  },
-  "autocomplete__selectionWrapper": {
-    "bg-zinc-100": true,
-    "rounded-xl": true,
-    "group-data-[multiple]:border": true,
-    "group-data-[multiple]:border-zinc-200": true,
-    "group-data-[multiple]:mb-1": true,
-    "outline-none": true,
-    "data-[active-selection=true]:ring-2": true,
-    "data-[active-selection=true]:ring-primary-400": true,
-    "dark:bg-zinc-600": true,
-    "dark:group-data-[multiple]:border-zinc-300": true,
-    "[&.formkit-dropZone]:opacity-25": true,
-    "[&.formkit-touchDropZone]:opacity-25": true,
-    "[&.formkit-touchDragging]:!flex": true,
-    "[&.formkit-longTouch]:opacity-25": true
-  },
-  "autocomplete__selection": {
-    "rounded-xl": true,
-    "just": true,
-    "pl-1.5": true,
-    "[&>*]:ml-0": true,
-    "dark:text-zinc-200": true
-  },
   "colorpicker__outer": {
     "group": true,
     "max-w-[20em]": true,

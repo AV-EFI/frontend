@@ -93,17 +93,6 @@ if(coo.value) {
 
 }
 */
-//const headers = useRequestHeaders(['cookie']) as HeadersInit;
-//console.log(headers);
-
-//const { signIn, getSession } = await useAuth();
-const signIn = null; 
-const getSession = null;
-//console.log(await getSession());
-
-
-//const { login } = useStrapiAuth();
-//const router = useRouter();
 
 const handleIconClick = (node:FormKitNode, e:Event) => {
     node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye';

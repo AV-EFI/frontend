@@ -54,6 +54,7 @@
             v-if="workVar.has_subject"
             class="col-span-full mt-1"
             keytxt="avefi:Subject"
+            :bg-color="true"
             :valtxt="workVar.has_subject"
             :same-as="true"
             :ul="true"

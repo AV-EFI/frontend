@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
                             ...sr,
                             body: {
                                 ...sr.body,
-                                fields: ["directors", "producers", "countries", "productionyears"],
+                                fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"],
                                 track_total_hits: true
                             }
                         };

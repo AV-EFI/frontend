@@ -24,16 +24,10 @@ export default defineNuxtConfig({
     imports: {
         dirs: ['~/types/*.ts', '~/stores/*.ts', '~/plugins/*.ts']
     },
-
-    build: {
-        transpile: ['@appbaseio/reactivesearch-vue'],
-    },
-
     components: {
         global: true,
         dirs: ['~/components']
     },
-
     runtimeConfig: {
         public: {
             dbHost: process.env.POSTGRES_HOST,
@@ -52,7 +46,9 @@ export default defineNuxtConfig({
             ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
-            AVEFI_DATA_API: process.env.AVEFI_DATA_API
+            AVEFI_DATA_API: process.env.AVEFI_DATA_API,
+            SEARCH_URL: process.env.SEARCH_URL,
+            SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,
@@ -60,21 +56,16 @@ export default defineNuxtConfig({
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
         }
     },
-
     //https://nuxt.com/docs/guide/concepts/rendering
     routeRules: {
         // Generated at build time for SEO purpose
-        "/": { ssr: false },
+        "/": { prerender: true },
         "/search": { ssr: false },
-        "/contact": { isr: true },
+        "/contact": { prerender: true },
         "/login": { ssr: false },
         "/film/**": {ssr:false},
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
-        // Redirection to avoid 404
-        "/old-page": {
-            redirect: { to: "/new-page", statusCode: 302 },
-        },
     },
     css: ["~/assets/scss/main.scss"],
     nuxt3WinstonLog: {
@@ -87,8 +78,10 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
+                    api: 'modern',
                     additionalData: '@use "~/assets/scss/_colors.scss" as *;'
                 },
+                
             },
         }
     },
@@ -106,14 +99,6 @@ export default defineNuxtConfig({
         disableTransition: false,
         storageKey: 'avefi-color-mode'
     },
-    image: {
-        strapi: {
-            baseURL: 'http://localhost:1337/'
-        },
-        domains: [
-            process.env.API_URL || ""
-        ]
-    },
     formkit: {
         // Experimental support for auto loading (see note):
         autoImport: true,
@@ -130,5 +115,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2024-12-01'
+    compatibilityDate: '2024-12-04'
 });

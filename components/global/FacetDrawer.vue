@@ -9,7 +9,7 @@
     <div class="drawer-side z-20 h-full">
       <label
         aria-label="close sidebar"
-        class="drawer-overlay z-99"
+        class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
       <div class="menu p-4 w-[100vw] md:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content">
@@ -70,6 +70,13 @@
             </ais-panel>
             -->
             <SearchPanelRefinementListComp
+              header-text="category"
+              attribute-name="category_clean"
+              :translate-label="true"
+              :is-searchable="false"
+              tab-index="0"
+            />
+            <SearchPanelRefinementListComp
               header-text="country"
               attribute-name="countries"
               tab-index="1"
@@ -96,7 +103,7 @@
             />
             <SearchPanelRefinementListComp
               header-text="avefi:Subject"
-              attribute-name="has_record.has_subject.has_name"
+              attribute-name="subjects"
               tab-index="6"
             />
                                                 

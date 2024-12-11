@@ -5,8 +5,9 @@
         :search-client="searchClient"
         :index-name="indexName"
         :show-loading-indicator="true"
-        :routing="routing"
+        :routing="true"
         :future="{preserveSharedStateOnUnmount: true}"
+        :initial-ui-state="searchClient.uiState"
       >
         <pre>{{ indexName }}</pre>
         <ais-configure :hits-per-page.camel="20" />
@@ -17,10 +18,8 @@
           <!-- Center -->
           <div class="drawer-content w-full flex flex-col items-center justify-center">
             <div class="search-panel__results w-full">
-              <div class="searchbox">
-                <ais-search-box
-                  class="p-1"
-                >
+              <div class="searchbox p-2">
+                <ais-search-box>
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
                       class="text-sm flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-zinc-300 dark:group-data-[disabled]:bg-zinc-800/5 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
@@ -52,64 +51,26 @@
                   </template>
                 </ais-search-box>
               </div>
-              
-              <div
-                class="w-full flex flex-col md:flex-row justify-between md:justify-between"
-                mb-2
-              >
-                <div class="w-full md:w-1/3 mb-1 flex flex-col justify-center">
-                  <ais-stats>
-                    <template #default="{ nbHits }">
-                      <h3 class="text-lg">
-                        {{ nbHits }} {{ $t('results') }}
-                      </h3>
-                    </template>
-                  </ais-stats>
+              <div class="mb-4 p-2 flex flex-row justify-between w-full">
+                <div class="w-1/2 flex flex-row justify-start">
+                  <h2>
+                    {{ $t('activefiltering') }}
+                  </h2>
                 </div>
-                <div class="w-full md:w-1/3 mb-1">
-                  <FormKit
-                    type="select"
-                    :label="$t('sorting')"
-                    :disabled="true"
-                    name="sort"
-                    :options="[
-                      'Standard',
-                      'Titel aufst.',
-                      'Titel abst.',
-                    ]"
-                  />
-                  <!--
-                  <p class="label text-xs font-bold">
-                    Sortierung (nicht aktiv)
-                  </p>
-                  <ais-sort-by
-                    class="input-md text-md w-full p-0 dark:bg-transparent"
-                    :classes="{
-                      'ais-SortBy-select': '!dark:bg-transparent'
+                <div class="w-1/2 flex flex-row justify-end">
+                  <ais-clear-refinements 
+                    :class-names="{
+                      'ais-ClearRefinements-button': 'btn !btn-error btn-sm',
+                      'ais-CurrentRefinements-delete': '!text-white'
                     }"
-                    aria-disabled="true"
-                    disabled="disabled"
-                    :select="{'disabeld': 'disabled'}"
-                    :items="[
-                      { value: 'imdb_movies', label: 'Standard' },
-                    ]"
-                  />
-                -->
+                  >
+                    <template #resetLabel>
+                      <Icon name="formkit:trash" /> {{ $t('clearallfilters') }}
+                    </template>
+                  </ais-clear-refinements>
                 </div>
               </div>
-              <div class="mt-2 mb-2">
-                <button
-                  class="btn btn-primary md:hidden"
-                  title="Show facet items"
-                  @click="$toggleFacetDrawerState"
-                >
-                  <Icon name="formkit:caretright" />&nbsp;Show Facet Items
-                </button>
-              </div>
-              <div class="mb-4">
-                <h2 class="mb-2">
-                  {{ $t('activefiltering') }}
-                </h2>
+              <div class="w-full">
                 <ais-current-refinements 
                   :class-names="{
                     'ais-CurrentRefinements-list': 'flex flex-row',
@@ -135,7 +96,7 @@
                           :href="createURL(refinement)"
                           @click.prevent="refine(refinement)"
                         >
-                          &nbsp;{{ refinement.label }}&nbsp;
+                          &nbsp;{{ $t(refinement.label) }}&nbsp;
                           |&nbsp;
                           <Icon
                             class="!align-middle text-lg"
@@ -147,53 +108,88 @@
                   </template>
                 </ais-current-refinements>
               </div>
-              <div class="mb-4">
-                <ais-clear-refinements 
-                  :class-names="{
-                    'ais-ClearRefinements-button': 'btn !btn-error',
-                    'ais-CurrentRefinements-delete': '!text-white'
-                  }"
+              <div class="mt-2 mb-2 w-full">
+                <button
+                  class="btn btn-primary md:hidden"
+                  title="Show facet items"
+                  @click="$toggleFacetDrawerState"
                 >
-                  <template #resetLabel>
-                    {{ $t('clearallfilters') }}
-                  </template>
-                </ais-clear-refinements>
-              </div>
-              <div class="w-full">
-                <div class="form-control float-right w-36">
-                  <label class="label cursor-pointer">
-                    <span class="label-text">Tabelle / Liste</span>
-                    <input
-                      v-model="checked"
-                      type="checkbox"
-                      class="toggle"
-                    >
-                  </label>
+                  <Icon name="formkit:caretright" />&nbsp;Show Facet Items
+                </button>
+                <div
+                  class="w-full flex flex-col md:flex-row justify-between md:justify-between p-2 mb-2"
+                >
+                  <div class="w-full md:w-1/3 mb-1 flex flex-col justify-center" />
+                  <div class="w-full md:w-1/3 mb-1" />
                 </div>
               </div>
-              <div class="overflow-x-auto w-full">
-                <ais-hits>
-                  <template #default="{ items }">          
-                    <SearchTableViewComp
-                      v-if="!checked"
-                      :items="items"
+              <div class="w-full">
+                <div class="w-full p-2 flex flex-row justify-between">
+                  <div class=" w-full md:w-1/3 flex flex-col justify-end">
+                    <ais-stats>
+                      <template #default="{ nbHits }">
+                        <h2 class="">
+                          {{ nbHits }} {{ $t('results') }}
+                        </h2>
+                      </template>
+                    </ais-stats>
+                  </div>
+                  <div class=" w-full md:w-1/3 flex flex-col justify-end">
+                    <FormKit
+                      type="select"
+                      :label="$t('sorting')"
+                      :disabled="true"
+                      name="sort"
+                      outer-class="!mb-0"
+                      wrapper-class="!mb-0"
+                      :options="[
+                        'Standard',
+                        'Titel aufst.',
+                        'Titel abst.',
+                      ]"
                     />
-                    <SearchListViewComp
-                      v-else
-                      :items="items"
-                    />
-                  </template>
-                </ais-hits>
-              </div>
+                  </div>
+                  <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
+                    <label class="label cursor-pointer w-40 ml-auto">
+                      <span class="label-text">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
+                      </span>
+                      <input
+                        v-model="checked"
+                        type="checkbox"
+                        class="toggle"
+                      >
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="overflow-x-auto w-full"
+                  style="overflow-y:hidden;"
+                >
+                  <ais-hits
+                    class="p-2"
+                  >
+                    <template #default="{ items }">          
+                      <SearchTableViewComp
+                        v-if="checked"
+                        :items="items"
+                      />
+                      <SearchListViewComp
+                        v-else
+                        :items="items"
+                      />
+                    </template>
+                  </ais-hits>
+                </div>
 
-              <div class="pagination flex justify-center">
-                <ais-pagination
-                  :class-names="{
-                    'ais-Pagination-list': 'join',
-                    'ais-Pagination-item': 'join-item max-w-8 md:max-w-24',
-                    'ais-Pagination-link': 'p-1 md:p-4'
-                  }"
-                />
+                <div class="pagination flex justify-center">
+                  <ais-pagination
+                    :class-names="{
+                      'ais-Pagination-list': 'join w-full md:w-auto',
+                      'ais-Pagination-item': 'join-item w-8 md:max-w-24',
+                      'ais-Pagination-link': 'p-1 md:p-4'
+                    }"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -208,38 +204,6 @@
 import { history } from 'instantsearch.js/es/lib/routers';
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 const checked = ref(false);
-
-const routing = {
-    stateMapping: {
-        stateToRoute(uiState) {
-            const indexUiState = uiState[props.indexName];
-            return {
-                q: indexUiState.query,
-                categories: indexUiState.menu && indexUiState.menu.categories,
-                type: indexUiState.refinementList && indexUiState.refinementList.type,
-                page: indexUiState.page,
-            };
-        },
-        routeToState(routeState) {
-            return {
-                [props.indexName]: {
-                    query: routeState.q,
-                    menu: {
-                        categories: routeState.categories,
-                    },
-                    refinementList: {
-                        type: routeState.type,
-                    },
-                    page: routeState.page,
-                },
-            };
-        },
-    },
-    router: history({
-        cleanUrlOnDispose: false,
-    })
-};
-
 const props = defineProps({
     searchClient: {
         type: Object,
@@ -251,6 +215,48 @@ const props = defineProps({
         default: '21.11155-dev-runtime'
     },
 });
+
+/*
+const routing = {
+      {
+        stateToRoute(uiState) {
+            const indexUiState = uiState[props.indexName];
+            return {
+                q: indexUiState.query,
+                categories: indexUiState.menu && indexUiState.menu.categories,
+                cat: indexUiState.refinementList && indexUiState.refinementList.category_clean,
+                cnt: indexUiState.refinementList && indexUiState.refinementList.countries !== undefined ? indexUiState.refinementList.countries : null,
+                yr: indexUiState.refinementList && indexUiState.refinementList.productionyears,
+                dir: indexUiState.refinementList && indexUiState.refinementList.directors,
+                cast: indexUiState.refinementList && indexUiState.refinementList.castmembers,
+                pro: indexUiState.refinementList && indexUiState.refinementList.producers,
+                sub: indexUiState.refinementList && indexUiState.refinementList.subjects,
+                page: indexUiState.page,
+            };
+        },
+        routeToState(routeState) {
+            return {
+                [props.indexName]: {
+                    query: routeState.q,
+                    refinementList: {
+                        //category_clean: [routeState.cat],
+                        countries: [routeState.cnt !== undefined ? routeState.cnt : null],
+                        productionyears: [routeState.yr],
+                        directors: [routeState.dir],
+                        castmembers: [routeState.cast],
+                        producers: [routeState.pro],
+                        subjects: [routeState.sub],
+                    },
+                    page: routeState.page,
+                },
+            };
+        },
+    },
+    router: history({
+        cleanUrlOnDispose: false,
+    })
+};
+*/
 </script>
 <style>
 

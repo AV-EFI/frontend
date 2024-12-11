@@ -8,7 +8,7 @@
           </h2>
           <div class="w-1/2 p-1">
             <h3 class="text-xl mb-4">
-              Prev
+              {{ $t('dataset1') }}
             </h3>
             <textarea
               v-if="prev"
@@ -18,7 +18,7 @@
           </div>
           <div class="w-1/2 p-1">
             <h3 class="text-xl mb-4">
-              Current
+              {{ $t('dataset2') }}
             </h3>
             <textarea
               class="p-4 rounded-lg border-2 border-gray-500"

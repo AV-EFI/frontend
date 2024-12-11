@@ -4,13 +4,13 @@
       <div class="flex flex-row justify-center">
         <div class="w-96">
           <h3 class="text-xl mb-4">
-            Datensatz 1
+            {{ $t('dataset1') }}
           </h3>
           <ViewsWorkViewReduced v-model="prev" />
         </div>
         <div class="w-96 ml-2">
           <h3 class="text-xl mb-4">
-            Datensatz 2
+            {{ $t('dataset2') }}
           </h3>
           <ViewsWorkViewReduced v-model="current" />
         </div>

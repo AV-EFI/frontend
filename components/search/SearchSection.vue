@@ -5,6 +5,7 @@
         :search-client="searchClient"
         :index-name="useRuntimeConfig().public.ELASTIC_INDEX"
         :routing="true"
+        :ui-state="searchClient.uiState"
       />
     </ClientOnly>
   </div>
@@ -16,10 +17,19 @@ import {config} from '@/searchConfig_avefi.ts';
 </script>
 
 <script>
+const uiState = {
+    refinementList: {
+        category_clean: 'avefi:WorkVariant',
+    },
+    query: 'hussa',
+};
+
 const searchClient = SearchkitInstantSearchClient({
     url: "/api/elastic/msearch",
-
+    uiState: uiState,
 });
+
+
 export default {
     data() {
         return {
@@ -29,9 +39,6 @@ export default {
     }
 };
 </script>
-
-
-
 
 <style>
 body,

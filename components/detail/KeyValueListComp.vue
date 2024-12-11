@@ -19,7 +19,8 @@
     </div>
     <div
       v-else
-      class="max-h-96 overflow-y-auto"
+      class="max-h-64 overflow-y-auto"
+      :class="{' bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}"
     >
       <ul>
         <li
@@ -55,6 +56,10 @@ const props = defineProps({
         default: false
     },
     'ul': {
+        type: Boolean,
+        default: false
+    },
+    'bgColor': {
         type: Boolean,
         default: false
     }

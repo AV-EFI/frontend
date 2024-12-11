@@ -75,7 +75,9 @@ const shoppingCart = useShoppingCart();
                 </div>
               </li>
               <li>
-                <a href="/search_altern">
+                <a 
+                  :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`"
+                >
                   {{ $t("filmresearch") }}
                 </a>
               </li>
@@ -149,7 +151,7 @@ const shoppingCart = useShoppingCart();
               </button>
             </li>
             <li>
-              <a href="/search_altern">{{ $t("filmresearch") }}</a>
+              <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
             </li>
             <li v-if="data?.username">
               <a href="/protected/filmident">{{ $t("filmidentification") }}

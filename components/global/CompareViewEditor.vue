@@ -59,9 +59,11 @@ function onUpdateTargetModelGP (targetPropertyValue:string, targetPropertyName:s
 const objectListStore = useObjectListStore();
 
 async function getCollectionType (routeParamsId:string):Promise<string> {  
-    const { data } = await useApiFetchLocal<IAVefiListResponse>(
-        `${useRuntimeConfig().public.ELASTIC_HOST_PUBLIC}/${useRuntimeConfig().public.ELASTIC_INDEX}/_doc/${routeParamsId}`,
-        {method: 'GET',
+    const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
+        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/getworkvariantbyid`,
+        {
+            method: 'POST',
+            body: JSON.stringify({documentId: routeParamsId}),
             headers: {
                 'Authorization': `ApiKey ${useRuntimeConfig().public.ELASTIC_IMDB_APIKEY}`
             }
@@ -69,7 +71,7 @@ async function getCollectionType (routeParamsId:string):Promise<string> {
     );
     
     if(data) {
-        return JSON.stringify(data.value, null, 2);
+        return JSON.stringify(data?.value?.at(0), null, 2);
     }
     return "";
 }

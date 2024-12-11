@@ -38,7 +38,8 @@ import  {useSearchParamsStore} from '../../stores/searchParams';
 const searchTerm = ref('');
 const searchDataStore = useSearchParamsStore();
 function redirectToSearchScreen () {
-    navigateTo('/search_altern/index?q=' + searchTerm.value);
+    //navigateTo('/search_altern/index?[query]=' + searchTerm.value + useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS);
+    navigateTo('/'+useRuntimeConfig().public.SEARCH_URL+'/index?'+ useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS + '&21.11155-dev-runtime[query]='+searchTerm.value);
 }
 
 </script>

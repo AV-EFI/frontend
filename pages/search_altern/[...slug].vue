@@ -3,7 +3,7 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('filmresearch'), '/search_altern'],
+        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`],
       ]"
     />
     <SearchSection :search-term="searchTerm" />

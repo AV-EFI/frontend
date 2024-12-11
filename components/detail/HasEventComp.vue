@@ -99,7 +99,7 @@
           name="partial-grid-2-1"
         >
           <template #heading>
-            {{ $t(has_event_item.category) }}
+            {{ $t(has_event_item.type??has_event_item.category??'Event') }}
           </template>
           <template #left>
             <!-- has_activity -->
