@@ -13,7 +13,7 @@
           class="drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content">
+        <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral z-40 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content">
           <div class="w-100 flex flex-row justify-between p-2 mb-2">
             <button 
               class="btn btn-outline btn-sm btn-primary w-1/4"
@@ -63,7 +63,7 @@
                 >
                   <div class="flex justify-between w-full">
                     <a
-                      class="link link-primary w-3/4"
+                      class="link w-3/4"
                       :href="`/film/${ shoppingCartItem.filmId }`"
                       target="_blank"
                     >
@@ -129,7 +129,7 @@
                 >
                   <div class="flex justify-between w-full">
                     <a
-                      class="link link-primary w-3/4"
+                      class="link w-3/4"
                       :href="`/film/${ object.filmId }`"
                       target="_blank"
                     >

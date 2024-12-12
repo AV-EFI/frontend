@@ -6,6 +6,9 @@ export default defineNuxtConfig({
     nitro: {
         preset: 'node-server'
     },
+    build: {
+        transpile: ['vue-diff']
+    },
     modules: [
         "@nuxtjs/eslint-module",
         "@nuxtjs/i18n",
@@ -73,8 +76,6 @@ export default defineNuxtConfig({
         maxFiles: "14d",
     },
     vite: {
-        build: {
-        },
         css: {
             preprocessorOptions: {
                 scss: {

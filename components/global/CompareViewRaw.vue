@@ -4,7 +4,7 @@
       <div class="editor mt-2">
         <section>
           <h2 class="text-2xl font-bold mb-4">
-            Editor
+            {{ $t('comparison') }}
           </h2>
           <div class="w-1/2 p-1">
             <h3 class="text-xl mb-4">
