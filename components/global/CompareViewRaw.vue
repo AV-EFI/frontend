@@ -65,7 +65,7 @@ const props = defineProps({
 });
 
 //import type { Mode, Theme } from 'types/VueDiffTypes';
-import type { IAVefiSingleResponse} from '../../models/interfaces/IAVefiWork';
+import type { IAVefiListResponse, IAVefiSingleResponse} from '../../models/interfaces/IAVefiWork';
 const objectListStore = useObjectListStore();
 
 interface ListItem {
@@ -83,10 +83,19 @@ interface ListItem {
 }
 
 async function getCollectionType (routeParamsId:string):Promise<string> {  
-    const { data } = await useApiFetchLocal<IAVefiSingleResponse>(`${useRuntimeConfig().public.ELASTIC_HOST_PUBLIC}/${useRuntimeConfig().public.ELASTIC_INDEX}/_doc/${routeParamsId}`, {method: 'GET'});
+    const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
+        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/getworkvariantbyid`,
+        {
+            method: 'POST',
+            body: JSON.stringify({documentId: routeParamsId}),
+            headers: {
+                'Authorization': `ApiKey ${useRuntimeConfig().public.ELASTIC_IMDB_APIKEY}`
+            }
+        }
+    );
     
     if(data) {
-        return JSON.stringify(data.value, null, 2);
+        return JSON.stringify(data?.value?.at(0), null, 2);
     }
     return "";
 }
