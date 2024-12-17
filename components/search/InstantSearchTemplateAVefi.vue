@@ -201,7 +201,6 @@
 
 
 <script setup lang="ts">
-import { history } from 'instantsearch.js/es/lib/routers';
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 const checked = ref(false);
 const props = defineProps({
@@ -215,7 +214,7 @@ const props = defineProps({
         default: '21.11155-dev-runtime'
     },
 });
-
+console.log(props.searchClient);
 /*
 const routing = {
       {

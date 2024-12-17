@@ -20,8 +20,7 @@ import {config} from '@/searchConfig_avefi.ts';
 const uiState = {
     refinementList: {
         category_clean: 'avefi:WorkVariant',
-    },
-    query: 'hussa',
+    }
 };
 
 const searchClient = SearchkitInstantSearchClient({
