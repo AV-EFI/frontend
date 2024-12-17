@@ -185,8 +185,8 @@
                   <ais-pagination
                     :class-names="{
                       'ais-Pagination-list': 'join w-full md:w-auto',
-                      'ais-Pagination-item': 'join-item w-8 md:max-w-24',
-                      'ais-Pagination-link': 'p-1 md:p-4'
+                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-8 md:max-w-24 p-1 md:p-2',
+                      'ais-Pagination-link': ''
                     }"
                   />
                 </div>
@@ -260,6 +260,7 @@ const routing = {
 </script>
 <style>
 
+/*
 html[data-theme="avefi_dark"] .ais-Pagination-link {
   background-color: var(--primary-800)!important;
   background-image: none!important;
@@ -269,5 +270,6 @@ html[data-theme="avefi_dark"] .ais-Pagination-link {
 html[data-theme="avefi_dark"] .ais-Pagination-item--disabled .ais-Pagination-link {
   background-image: none!important;
 }
+  */
 
 </style>

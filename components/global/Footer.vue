@@ -18,9 +18,19 @@
               <h6 class="footer-title">
                 Info
               </h6>
+              <ul>
+                <li>
+                  <a
+                    href="https://datenschutz.gwdg.de/services/av-efi"
+                    target="_blank"
+                  >
+                    {{ $t('Datenschutzerklärung') }}
+                  </a>
+                </li>
+              </ul>
               <div
                 role="alert"
-                class="alert bg-neutral md:w-48"
+                class="alert bg-neutral md:w-48 mt-4"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

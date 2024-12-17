@@ -193,7 +193,7 @@ module.exports = {
                 'avefi_dark': {
                     //night,
                     ...require("daisyui/src/theming/themes")["night"],
-                    'primary': '#4d768d',
+                    'primary': '#c3d5de',
                     'primary-50': '#f3f7f8',
                     'primary-100': '#dfe9ee',
                     'primary-200': '#c3d5de',

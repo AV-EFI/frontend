@@ -1,7 +1,6 @@
 import QueryDslTextQueryType, { SearchRequest } from '@searchkit/api';
 import Client, { SearchkitConfig } from '@searchkit/api';
 import {config} from '@/searchConfig_avefi';
-import { QueryDslQueryContainer } from '@elastic/elasticsearch/lib/api/types';
 
 const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:any) => {
     if (typeof obj[cur] === 'object') {

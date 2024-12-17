@@ -3,14 +3,22 @@
     :class-names="{
       'ais-Panel': 'collapse collapse-arrow',
       'ais-Panel-body': 'collapse-content !pl-0 pr-0! bg-slate-50 dark:bg-slate-900 dark:text-white text-xs',
-      'ais-Panel-header': 'collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white!min-h-5 !mb-0 flex flex-col justify-center'
+      'ais-Panel-header': 'collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white!min-h-5 !mb-0 flex flex-row justify-between'
     }"
     tabindex="4"
   >
     <template #header="{ hasRefinements }">
-      <h4 :class="!hasRefinements?'text-primary-200':'text-primary-600'">
+      <h4 
+        class="my-auto"
+        :class="!hasRefinements?'text-primary-200 dark:text-primary-400':'text-primary-600 dark:text-primary-200'"
+      >
         {{ $t(headerText) }}
       </h4>
+      <MicroBadgeCategoryComp
+        v-if="category"
+        :category="category"
+        class="my-auto"
+      />
     </template>
     <template #default>
       <ais-refinement-list
@@ -109,6 +117,7 @@
 </template>
 
 <script lang="ts" setup>
+
 const props = defineProps({
     headerText: String,
     attributeName: String,
@@ -123,6 +132,10 @@ const props = defineProps({
     translateLabel: {
         type: Boolean,
         default: false
+    },
+    category: {
+        type: String,
+        default: null
     }
 });
 </script>

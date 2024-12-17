@@ -74,36 +74,43 @@
               attribute-name="category_clean"
               :translate-label="true"
               :is-searchable="false"
+              category="avefi:WorkVariant"
               tab-index="0"
             />
             <SearchPanelRefinementListComp
               header-text="country"
               attribute-name="countries"
+              category="avefi:WorkVariant"
               tab-index="1"
             />
             <SearchPanelRefinementListComp
               header-text="year"
               attribute-name="productionyears"
+              category="avefi:WorkVariant"
               tab-index="2"
             />
             <SearchPanelRefinementListComp
               header-text="Director"
               attribute-name="directors"
+              category="avefi:WorkVariant"
               tab-index="3"
             />
             <SearchPanelRefinementListComp
               header-text="CastMember"
               attribute-name="castmembers"
+              category="avefi:WorkVariant"
               tab-index="4"
             />
             <SearchPanelRefinementListComp
               header-text="avefi:ProductionEvent"
               attribute-name="producers"
+              category="avefi:WorkVariant"
               tab-index="5"
             />
             <SearchPanelRefinementListComp
               header-text="avefi:Subject"
               attribute-name="subjects"
+              category="avefi:WorkVariant"
               tab-index="6"
             />
                                                 

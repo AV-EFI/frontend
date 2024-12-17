@@ -5,11 +5,11 @@
   >
     <div
       v-if="item.has_record?.category"
-      class="card bg-base-100 w-full shadow-lg hover:shadow-xl mt-2"
+      class="card bg-base-100 dark:bg-slate-900 w-full shadow-lg hover:shadow-xl mt-2"
     >
       <div
         class="flex flex-row min-h-12 w-full pl-[2rem] pr-[2rem] pt-2 pb-2 rounded-tl-xl rounded-tr-xl"
-        :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-slate-800 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-slate-900 bg-slate-100':'dark:bg-slate-700 border-b-2 border-slate-200 dark:border-slate-700', 'hover:bg-blend-darken']"
+        :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-slate-700 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-slate-800 bg-slate-100':'dark:bg-slate-600 border-b-2 border-slate-200 dark:border-slate-700', 'hover:bg-blend-darken']"
       >
         <div class="w-2/5 content-center">
           <h2 class="text-md">
@@ -17,7 +17,7 @@
               v-if="item._highlightResult?.has_record && item.has_record?.category == 'avefi:WorkVariant'"
               :href="`/film/${item.objectID}`"
               :title="$t('detailviewlink')"              
-              class="align-text-top link link-primary"
+              class="align-text-top link text-primary dark:text-white"
               target="_blank"
             >
               <ais-highlight
@@ -31,7 +31,7 @@
               v-else-if="item.has_record.category == 'avefi:WorkVariant'"
               :href="`/film/${item.objectID}`"
               :title="$t('detailviewlink')"
-              class="align-text-top link link-primary"
+              class="align-text-top link  text-primary dark:text-white"
               target="_blank"
             >
               <ais-highlight
@@ -45,7 +45,7 @@
               v-else-if="item.has_record.is_manifestation_of"
               :href="`/film/${item.has_record.is_manifestation_of[0]?.id.replace('21.11155/','')}`"
               :title="$t('detailviewlink')"
-              class="align-text-top link link-primary"
+              class="align-text-top link text-primary dark:text-white"
               target="_blank"
             >
               <ais-highlight
