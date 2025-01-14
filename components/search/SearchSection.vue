@@ -13,7 +13,7 @@
 
 <script setup>
 import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
-import {config} from '@/searchConfig_avefi.ts';
+import { config } from '@/searchConfig_avefi.ts';
 </script>
 
 <script>

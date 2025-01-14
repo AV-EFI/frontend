@@ -6,50 +6,30 @@ definePageMeta({
     //middleware: 'auth'
 });
 
-import type IAVefiUser from '../../models/interfaces/IAVefiUser';
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
-
-async function getCollectionType ():Promise<IAVefiUser|null> {  
-    const { data } = await useApiFetch<IAVefiUser>(`/api/users-permissions/meProfile`, {method: 'GET'});
-    console.log(data.value);
-    if(data) {
-        return data.value;
-    }
-    return null;
-}
-const { data: apiData, pending } = await useAsyncData<IAVefiUser|null>('apiData', () =>
-    getCollectionType()
-);
-const refresh = () => refreshNuxtData("apiData");
+const { data, getSession } = useAuth();
 
 </script>
 
 <template>
   <div>
-    <pre :class="(pending)?'skeleton':''">{{ pending? "" : apiData }}</pre>
     <NuxtLayout name="partial-layout-1-center">
       <template #title>
-        Profile
+        <h2>{{ $t('profile') }}</h2>
       </template>
       <template #cardBody>
         <Suspense>
           <FormKit
-            v-model="apiData"
+            v-model="data"
             type="form"
+            :actions="false"
           >
             <FormKitSchema
-              :data="apiData"
+              :data="data"
               :schema="schemaFk"
             />
           </FormKit>
         </Suspense>
-        <button
-          title="Refresh"
-          class="btn btn-secondary btn-outline"
-          @click="refresh"
-        >
-          Refresh
-        </button>
       </template>
     </NuxtLayout>
   </div>

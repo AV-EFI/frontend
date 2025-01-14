@@ -1,12 +1,12 @@
 <script setup lag="ts">
 
-/*
 const {
     data,
-    signOut
+    signOut,
+    signIn
 } = useAuth();
-*/
-const data = null;
+
+//const data = null;
 
 const triggerSignout = () => {
     signOut({callbackUrl: '/', external:true});
@@ -61,17 +61,17 @@ const shoppingCart = useShoppingCart();
                       <div class="w-10 rounded-full" />
                     </div>
                   </div>
-                  <div v-else-if="data?.username">
-                    {{ $t("hello") }} {{ data.username }}
+                  <div v-else-if="data?.user?.name">
+                    {{ $t("hello") }} {{ data?.user?.name }}
                   </div>              
                 </div>
                 <div v-else>
-                  <a href="/login"><Icon
+                  <Icon
                     name="fa-regular:user"
                     size="1.2em"
                     alt="Login"
+                    @click="signIn('keycloak')"
                   />
-                  </a>
                 </div>
               </li>
               <li>
@@ -107,11 +107,6 @@ const shoppingCart = useShoppingCart();
                   </button>
                 </ClientOnly>
               </li>
-              <li v-if="data?.username">
-                <a href="/protected/filmident">
-                  {{ $t("filmidentification") }}
-                </a>
-              </li>
               <li><a href="/contact">{{ $t("help") }}</a></li>
             </ul>
           </div>
@@ -127,7 +122,7 @@ const shoppingCart = useShoppingCart();
             ></a>
         </div>
         <div class="navbar-end w-3/4 flex hidden xl:flex">
-          <ul class="menu w-full justify-end menu-horizontal items-center mb-2 justify-self-end px-1">
+          <ul class="menu w-full justify-end menu-horizontal items-center mb-2 justify-self-end px-1 z-20">
             <li v-if="shoppingCart.objects?.length > 0">
               <button
                 title="Show comparison items"
@@ -153,10 +148,6 @@ const shoppingCart = useShoppingCart();
             <li>
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
             </li>
-            <li v-if="data?.username">
-              <a href="/protected/filmident">{{ $t("filmidentification") }}
-              </a>
-            </li>
             <li><a href="/contact">{{ $t("help") }}</a></li>
             <li v-if="data">
               <details>
@@ -172,35 +163,59 @@ const shoppingCart = useShoppingCart();
                     </div>
                   </div>
                   <div v-else>
-                    Hello {{ data?.username }}
+                    Hello {{ data?.user?.name }}
                   </div>
                 </summary>
                 <ul class="p-2">
                   <li>
                     <a
+                      href="/protected/dashboard"
+                      :alt="$t('dashboard')"
+                    >{{ $t('dashboard') }}</a>
+                  </li>
+                  <li>
+                    <a
+                      href="/protected/mergetool"
+                      :alt="$t('mergeTool')"
+                    >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
+                  </li>
+                  <li>
+                    <a
+                      href="/protected/institutionlist"
+                      :alt="$t('myDatasets')"
+                    >{{ $t('myDatasets') }}</a>
+                  </li>
+                  <li>
+                    <a
+                      href="/protected/favouriteslist"
+                      :alt="$t('favourites')"
+                    >{{ $t('favourites') }}</a>
+                  </li>
+                  <li>
+                    <a
                       href="/protected/me"
-                      alt="Profil"
-                    >Profil</a>
+                      :alt="$t('profile')"
+                    >{{ $t('profile') }}</a>
                   </li>
                   <li>
                     <button
                       Logout
                       title="Logout"
-                      @click="triggerSignout()"
+                      @click="signOut()"
                     >
-                      Abmelden
+                      {{ $t('Logout') }}
                     </button>
                   </li>
                 </ul>
               </details>
             </li>
             <li v-else>
-              <a href="/login"><Icon
+              <Icon
                 name="fa-regular:user"
                 size="1.2em"
                 alt="Login"
+                @click="signIn('keycloak')"
               />
-              </a>
             </li>
           </ul>
 
@@ -213,15 +228,12 @@ const shoppingCart = useShoppingCart();
               class="btn btn-ghost btn-circle avatar"
             >
               <div class="w-10 rounded-full">
-                <a
-                  alt="Zur Anmeldung"
-                  href="/login"
-                ><Icon
+                <Icon
                   name="fa-regular:user"
                   size="1.2em"
                   alt="Login"
+                  @click="signIn('keycloak')"
                 />
-                </a>
               </div>
               <ClientOnly>
                 <button 

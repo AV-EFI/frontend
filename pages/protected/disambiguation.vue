@@ -18,9 +18,6 @@
   </div>
 </template>
 <script setup lang="ts">
-definePageMeta({
-    //middleware: 'auth'
-});
 const route = useRoute();
 const items = new Array();
 items[0] = route.query.prev;

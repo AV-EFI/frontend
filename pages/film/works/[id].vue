@@ -6,7 +6,7 @@
         Raw data
       </div>
       <div class="collapse-content"> 
-        <pre :class="(pending)?'skeleton':''">{{ pending? "" : apiData?.data }}</pre>
+        <pre>{{ apiData?.data }}</pre>
       </div>
     </div>
 
@@ -84,7 +84,7 @@ async function getCollectionType ():Promise<IAVefiSingleResponse|null> {
     return null;
 }
 
-const { data: apiData, pending } = await useAsyncData<IAVefiSingleResponse|null>(collectionName, () => {
+const { data: apiData } = await useAsyncData<IAVefiSingleResponse|null>(collectionName, () => {
     return getCollectionType();
 }
 );

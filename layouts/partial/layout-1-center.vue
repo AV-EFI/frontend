@@ -1,11 +1,28 @@
 <template>
   <section>
-    <div class="w-full lg:w-3/4 mx-auto card card-side bg-white dark:bg-gray-900 shadow-xl">
+    <div 
+      class="w-full mx-auto card card-side bg-white dark:bg-gray-900 shadow-xl"
+      :class="isFullWidth ? 'lg:!w-full' : 'lg:!w-3/4'"
+    >
       <div class="card-body max-w-full">
         <div class="w-full flex flex-row items-center">
-          <slot name="actions">
-            no actions available
-          </slot>
+          <slot name="actions" />
+          <div
+            v-if="showExpandToggle"
+            class="form-control w-full flex flex-col justify-end"
+          >
+            <label class="label cursor-pointer w-40 ml-auto">
+              <span
+                class="label-text"
+              >{{ `${$t('regular')} / ${$t('wide')}` }}&nbsp;
+              </span>
+              <input
+                v-model="isFullWidth"
+                type="checkbox"
+                class="toggle"
+              >
+            </label>
+          </div>
         </div>        
         <slot name="title" />
         <slot name="cardBody">
@@ -15,3 +32,16 @@
     </div>
   </section>
 </template>
+<script setup lang="ts">
+const props = defineProps({
+    showExpandToggle: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const isFullWidth = ref(false);
+const toggleWidth = () => {
+    isFullWidth.value = !isFullWidth.value;
+};
+</script>

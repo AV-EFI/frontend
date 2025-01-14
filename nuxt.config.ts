@@ -10,18 +10,19 @@ export default defineNuxtConfig({
         transpile: ['vue-diff']
     },
     modules: [
-        "@nuxtjs/eslint-module",
-        "@nuxtjs/i18n",
-        "@nuxtjs/tailwindcss",
-        "@nuxtjs/color-mode",
+        '@sidebase/nuxt-auth',
+        '@nuxtjs/eslint-module',
+        '@nuxtjs/i18n',
+        '@nuxtjs/tailwindcss',
+        '@nuxtjs/color-mode',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
         '@nuxt/content',
         '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
-        "@nuxtjs/robots",
-        "nuxt3-winston-log"
+        '@nuxtjs/robots',
+        'nuxt3-winston-log'
     ],
     extends: './pages',
     imports: {
@@ -51,7 +52,10 @@ export default defineNuxtConfig({
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
             AVEFI_DATA_API: process.env.AVEFI_DATA_API,
             SEARCH_URL: process.env.SEARCH_URL,
-            SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS
+            SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
+            KEYCLOAK_URL: process.env.KEYCLOAK_URL,
+            KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
+            KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,
@@ -67,8 +71,29 @@ export default defineNuxtConfig({
         "/contact": { prerender: true },
         "/login": { ssr: false },
         "/film/**": {ssr:false},
+        "/protected/institutionlist": {ssr:false},
+        "/protected/dashboard": {ssr:false},
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
+    },
+    auth: {
+        //baseURL: process.env.KEYCLOAK_URL,
+        baseURL: 'http://localhost:3000/api/auth',
+        provider: {
+            type: 'authjs',
+            defaultProvider: 'keycloak',
+            addDefaultCallbackUrl: true,
+        },
+        /*
+        session: {
+            enableRefreshOnWindowFocus: true,
+            enableRefreshPeriodically: 10000
+        },
+        */
+        globalAppMiddleware: {
+            isEnabled: true,
+            allow404WithoutAuth: true,            
+        }
     },
     css: ["~/assets/scss/main.scss"],
     nuxt3WinstonLog: {
@@ -116,5 +141,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2024-12-04'
+    compatibilityDate: '2025-01-06'
 });

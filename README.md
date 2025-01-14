@@ -1,73 +1,69 @@
 # AVefi Frontend
 
-## Setup
+![AVefi Logo](/public/img/avefi_logo_lg.jpg)
 
-Make sure to install the dependencies:
+## Prerequisites
 
+### Docker / Production
+
+1. **Install Docker**: [Download Docker](https://www.docker.com/products/docker-desktop) and follow the installation instructions.
+2. **Run Docker Compose**: In the project directory, run:
+    ```bash
+    docker compose up --build
+    ```
+
+### Local Development
+
+1. **Install Node.js and npm**: [Download Node.js 18.x](https://nodejs.org/).
+2. **Install Yarn**: [Install Yarn 2+](https://yarnpkg.com/getting-started/install).
+
+### Docker Development
+
+1. **Install Docker**: Follow the Docker installation instructions above.
+2. **Run Docker Compose for Development**: In the project directory, run:
+    ```bash
+    docker compose -f docker-compose.dev.yml up --build --watch
+    ```
+
+### Local Commands
+
+Install dependencies:
 ```bash
-# npm
 npm install
-
-# pnpm
 pnpm install
-
-# yarn
 yarn install
-
-# bun
 bun install
 ```
 
-## Development Server
+### Development Server
 
-Start the development server on `http://localhost:3000`:
-
+Start the server at `http://localhost:3000`:
 ```bash
-# npm
 npm run dev
-
-# pnpm
 pnpm run dev
-
-# yarn
 yarn dev
-
-# bun
 bun run dev
 ```
 
-## Production
-
-Build the application for production:
-
+Build for production:
 ```bash
-# npm
 npm run build
-
-# pnpm
 pnpm run build
-
-# yarn
 yarn build
-
-# bun
 bun run build
 ```
 
-Locally preview production build:
-
+Preview production build:
 ```bash
-# npm
 npm run preview
-
-# pnpm
 pnpm run preview
-
-# yarn
 yarn preview
-
-# bun
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+[Deployment documentation]
+(https://nuxt.com/docs/getting-started/deployment)
+
+## More Information
+
+For more information about the entire project, visit [AVefi Project](https://projects.tib.eu/av-efi).

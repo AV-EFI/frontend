@@ -17,7 +17,7 @@
     <MicroDividerComp
       in-class="item"
       label-text="avefi:Item"
-    /> 
+    />
     <EasyDataTable
       table-class-name="customize_table"
       table-theme-color="var(--primary)"

@@ -35,11 +35,13 @@ const props = defineProps({
 });
 const mergedDataset = ref({
     title: "",
-    otherIds: [],
+    other_ids: [],
     countries: [],
     directors: [],
-    actors: [],
-    keywords: []
+    castmembers: [],
+    producers: [],
+    productionyears: [],
+    subjects: []
 });
 
 function onUpdateTargetModelGP (targetPropertyValue:string, targetPropertyName:string) {

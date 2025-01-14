@@ -10,6 +10,10 @@
   </div>
 </template>
 <script setup lang="ts">
+definePageMeta({
+    auth: false
+});
+
 //can be deleted?
 //use for index search?
 const route = useRoute();

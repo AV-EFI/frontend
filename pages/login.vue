@@ -39,21 +39,21 @@
             'prefix-icon': 'submit',
             ignore: false,
           }"
-          @submit="submitTemp"
+          @submit="submit"
         >
           <FormKit
-            name="identifier"            
-            label="Email"
-            value="123@academic.id"
-            placeholder="123@academic.id"
-            validation="required|email"
+            name="username"            
+            label="Username"
+            value="test_regular"
+            placeholder="test_regular"
+            validation="required"
           />
           <FormKit
             type="password"
             label="Password"
             name="password"
-            value="AVefiSecretPassword"
-            placeholder="AVefiSecretPassword"
+            value="test_regular"
+            placeholder="test_regular"
             prefix-icon="password"
             suffix-icon="eyeClosed"
             suffix-icon-class="hover:text-blue-500"
@@ -67,15 +67,13 @@
 
 <script setup lang="ts">
 const Credentials = null;
-
-definePageMeta({
-    /*
-    middleware: 'auth',
+const { signIn } = useAuth();
+definePageMeta({    
+    middleware: 'sidebase-auth',
     auth: {
         unauthenticatedOnly: true,
         navigateAuthenticatedTo: '/protected/me'
     }
-        */
 });
 
 /*
@@ -100,16 +98,17 @@ const handleIconClick = (node:FormKitNode, e:Event) => {
     console.log(e);
 };
 
-async function submitTemp (data:any) {
-    const t = setTimeout(() => {
-        return navigateTo('/protected/filmedit');
-    }, 1000);
-}
-
 async function submit(data:any){
-    /*
     try {
-        const {error, url} = await signIn(Credentials, { callbackUrl: '/protected/me', redirect: true, external:true, identifier: data.identifier, password: data.password } );
+        const result = await signIn('keycloak');//, Credentials, { callbackUrl: '/protected/me', redirect: true, external:false, identifier: data.username, password: data.password } );
+        if (result.error) {
+            console.log(result.error);
+            alert("error");
+        }
+        if (result.url) {
+            console.log(result.url);
+        }
+        //const {error, url} = await signIn(Credentials, { callbackUrl: '/protected/me', redirect: true, external:true, identifier: data.identifier, password: data.password } );
         if(error) {
             console.log(error);
             alert("error");
@@ -121,6 +120,5 @@ async function submit(data:any){
     catch (e) {
         console.error(e);
     }
-        */
 }
 </script>

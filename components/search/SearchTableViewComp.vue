@@ -1,5 +1,5 @@
 <template>
-  <table class="table border-collapse border border-slate-400 table-sm">
+  <table class="table border-collapse border border-slate-400 table-sm max-w-full">
     <thead class="bg-primary-500 text-white">
       <tr>
         <th
@@ -29,14 +29,14 @@
           {{ $t('year').toUpperCase() }}
         </th>
         <th
-          class="border border-slate-300 max-w-16 text-ellipsis"
+          class="border border-slate-300 max-w-18 text-ellipsis"
           :alt="$t('directors')"
           :title="$t('directors')"
         >
           {{ $t('directors').toUpperCase() }}
         </th>
         <th
-          class="border border-slate-300 max-w-16 text-ellipsis"
+          class="border border-slate-300 max-w-18 text-ellipsis"
           :alt="$t('avefi:ProductionEvent')"
           :title="$t('avefi:ProductionEvent')"
         >
@@ -53,7 +53,7 @@
       >
         <td
           class="border border-slate-200 dark:border-slate-600 min-w-12 max-w-80 md:max-w-128 xxl:max-w-128"
-          style="width:200px; word-wrap: break-word; overflow-wrap:break-word;}"
+          style="min-width:200px; word-wrap: break-word; overflow-wrap:break-word;}"
           :title="item.has_record.has_primary_title.has_name"
         >
           <div class="flex w-[250px]">
@@ -86,14 +86,15 @@
           </div>
         </td>
         <td
-          class="border border-slate-200 w-96 dark:border-slate-600"
-          style="width:120px;"
+          class="border border-slate-200 max-w-96 dark:border-slate-600"
+          style=""
           :title="$t(item?.has_record?.category)"
         >
           <div class="flex flex-row justify-center items-center w-[80px]">
             <MicroBadgeCategoryComp
               :category="item.has_record.category"
               :dense="true"
+              class="text-xs"
             />
             <GlobalActionContextComp
               v-if="item.has_record.category == 'avefi:WorkVariant'"
@@ -103,9 +104,8 @@
           </div>
         </td>
         <td
-          class="border border-slate-200 dark:border-slate-600"
-          style="max-width: 200px;
-                 overflow:hidden;
+          class="border border-slate-200 max-w-32 dark:border-slate-600"
+          style="overflow:hidden;
                  text-overflow: ellipsis;
                  white-space: nowrap;"
           :title="item.countries?.join(', ')"
@@ -134,10 +134,8 @@
           </span>
         </td>
         <td
-          class="border border-slate-200 dark:border-slate-600 w-[150px]"
-          style="max-width: 250px;
-                 
-                 text-overflow: ellipsis;
+          class="border border-slate-200 dark:border-slate-600 w-[200px]"
+          style="text-overflow: ellipsis;
                  white-space: nowrap;"
           :title="item?.directors?.join(', ')"
         >
@@ -148,7 +146,7 @@
           />
         </td>
         <td
-          class="border border-slate-200 dark:border-slate-600"
+          class="border border-slate-200 dark:border-slate-600 w-[200px]"
           style="max-width: 250px;
                  
                  text-overflow: ellipsis;

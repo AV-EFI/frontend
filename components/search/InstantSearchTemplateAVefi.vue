@@ -13,8 +13,7 @@
         <ais-configure :hits-per-page.camel="20" />
         <ais-menu attribute="categories" />
         <div class="search-panel">
-          <GlobalFacetDrawer />
-          
+          <GlobalFacetDrawer />          
           <!-- Center -->
           <div class="drawer-content w-full flex flex-col items-center justify-center">
             <div class="search-panel__results w-full">
@@ -42,7 +41,7 @@
                         type="search"
                         class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
                         :value="currentRefinement"
-                        @input="refine($event.currentTarget.value)"
+                        @input="refine($event?.currentTarget?.value)"
                       >
                       <span
                         :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm']"
@@ -154,7 +153,7 @@
                       <span class="label-text">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input
-                        v-model="checked"
+                        v-model="viewTypeChecked"
                         type="checkbox"
                         class="toggle"
                       >
@@ -170,7 +169,7 @@
                   >
                     <template #default="{ items }">          
                       <SearchTableViewComp
-                        v-if="checked"
+                        v-if="viewTypeChecked"
                         :items="items"
                       />
                       <SearchListViewComp
@@ -185,7 +184,7 @@
                   <ais-pagination
                     :class-names="{
                       'ais-Pagination-list': 'join w-full md:w-auto',
-                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-8 md:max-w-24 p-1 md:p-2',
+                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2',
                       'ais-Pagination-link': ''
                     }"
                   />
@@ -202,7 +201,7 @@
 
 <script setup lang="ts">
 const {$toggleFacetDrawerState}:any = useNuxtApp();
-const checked = ref(false);
+const viewTypeChecked = ref(false);
 const props = defineProps({
     searchClient: {
         type: Object,
@@ -214,7 +213,6 @@ const props = defineProps({
         default: '21.11155-dev-runtime'
     },
 });
-console.log(props.searchClient);
 /*
 const routing = {
       {

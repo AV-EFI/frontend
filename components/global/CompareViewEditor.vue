@@ -2,13 +2,15 @@
   <div class="mt-4 snap-y">
     <section>
       <div class="flex min-h-[80vh]">
-        <div class="w-1/2 overflow-auto min-h-screen grid grid-cols-4 grid-rows-[64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_64px_64px_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr">
+        <div class="w-1/2 overflow-auto min-h-screen grid grid-cols-4 grid-rows-[48px_minmax(64px,max-content)_auto_64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr">
           <ViewsWorkViewEditor
             v-model="prev"
+            :title="$t('Dataset1')"
             @update-target-model-g-p="onUpdateTargetModelGP"
           />
           <ViewsWorkViewEditor
-            v-model="current" 
+            v-model="current"
+            :title="$t('Dataset2')" 
             @update-target-model-g-p="onUpdateTargetModelGP"
           />
         </div>
@@ -40,14 +42,16 @@ const mergedDataset = ref({
     other_ids: [],
     countries: [],
     directors: [],
-    actors: [],
-    keywords: []
+    castmembers: [],
+    producers: [],
+    productionyears: [],
+    subjects: []
 });
 
 function onUpdateTargetModelGP (targetPropertyValue:string, targetPropertyName:string) {
 
-    if(["countries", "directors", "actors", "keywords"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, gnd: 12345});
+    if(["directors", "producers", "countries", "productionyears", "castmembers", "subjects"].includes(targetPropertyName)) {
+        mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, gnd: null});
     }
     else if(["other_ids"].includes(targetPropertyName)) {
         mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, type: "defaultType"});

@@ -3,7 +3,7 @@
     v-if="objectListStore.objects?.length > 0 || shoppingCart.objects?.length > 0"
     :alt="$t('gotocomp')"
     :title="$t('gotocomp')"
-    class="avefi_indicator indicator-item indicator-middle rounded-l-xl bg-neutral-200 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30
+    class="avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-neutral-200 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30
     focus:outline-none focus:ring focus:ring-violet-300"
   >
     <button
@@ -53,7 +53,7 @@ const shoppingCart = useShoppingCart();
     position: fixed;
     display: inline-flex;
     right: 0;
-    top: calc(50% - 51px);
+    top: calc(66% - 51px);
 }
 }
 </style>

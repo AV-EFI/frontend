@@ -80,11 +80,11 @@ definePageMeta({
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
               <h2>
-                {{ $t('availableMetadata') }}
+                {{ $t('contact.availableMetadata') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-              {{ $t('availableMetadataContent') }}
+              {{ $t('contact.availableMetadataContent') }}
             </div>
           </div>
 
@@ -92,7 +92,7 @@ definePageMeta({
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
               <h2>
-                {{ $t('definitions') }}
+                {{ $t('contact.definitions') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
@@ -150,11 +150,11 @@ definePageMeta({
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
               <h2>
-                {{ $t('dataProviders') }}
+                {{ $t('contact.dataProviders') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-              {{ $t('dataProvidersContent') }}
+              {{ $t('contact.dataProvidersContent') }}
               <ul>
                 <li><a href="#">{{ $t('howToDoc') }}</a></li>
                 <li><a href="#">{{ $t('manual') }}</a></li>

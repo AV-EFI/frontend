@@ -1,44 +1,46 @@
 [
   {
-    "$formkit": "text",
-    "label": "Username",
-    "name": "username",
-    "help": "Username",
-    "readonly": false
+    "$formkit": "group",
+    "name": "user",
+    "label": "User",
+    "children": [
+      {
+        "$formkit": "text",
+        "name": "name",
+        "label": "Name",
+        "readonly": true
+      },
+      {
+        "$formkit": "email",
+        "label": "Email",
+        "name": "email",
+        "prefixIcon": "email",
+        "readonly": true
+      },
+      {
+        "$formkit": "text",
+        "label": "Institution",
+        "name": "institution",
+        "prefixIcon": "happy",
+        "readonly": true,
+        "help": "ISIL ID"
+      }
+    ]
   },
-  {
-    "$formkit": "email",
-    "label": "Email: with icons",
-    "name": "email",
-    "help": "Some input help text.",
-    "prefixIcon": "email"
-  },
-  {
-    "$formkit": "text",
-    "label": "UserID",
-    "name":"id",
-    "help": "Interne UserID",
-    "readonly": true
-  },
-  {
-    "$formkit": "text",
-    "label": "Avatar URL",
-    "name": "Avatar",
-    "help": "Avatar URL",
-    "readonly": true
-  },
-  {
-    "$formkit": "text",
-    "name": "role.name"
-  },
+      {
+        "$formkit": "text",
+        "name": "expires",
+        "label": "Session expires",
+        "readonly": true
+      },
   {
     "$formkit": "radio",
     "id": "roleSelection",
-    "label": "Role",
+    "label": "Roles",
     "help": "User Roles",
     "validation": "required",
     "validationVisibility": "live",
-    "name":"role",
+    "name": "role",
     "decorator-icon": "check",
     "options": [
       {

@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
                     "values" : typeof (documentIds) !== 'string' ? [...documentIds]: documentIds
                 }
             },
+            fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"]
         });
         return result.hits.hits;
     }
