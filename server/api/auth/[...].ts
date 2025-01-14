@@ -40,9 +40,9 @@ export default NuxtAuthHandler({
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
         KeycloakProvider.default({
             id: 'keycloak',
-            clientId: process.env.KEYCLOAK_CLIENT_ID,
-            clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
-            issuer: `${process.env.KEYCLOAK_URL}/realms/${process.env.KEYCLOAK_REALM}`,
+            clientId: useRuntimeConfig().private.KEYCLOAK_CLIENT_ID,
+            clientSecret: useRuntimeConfig().private.KEYCLOAK_CLIENT_SECRET,
+            issuer: `${useRuntimeConfig().private.KEYCLOAK_URL}/realms/${useRuntimeConfig().private.KEYCLOAK_REALM}`,
             checks: ['none'],
 
         })

@@ -61,6 +61,9 @@ export default defineNuxtConfig({
             NUXT_SECRET: process.env.NUXT_SECRET,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
+            KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
+            KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+            KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET
         }
     },
     //https://nuxt.com/docs/guide/concepts/rendering
@@ -141,5 +144,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2025-01-06'
+    compatibilityDate: '2025-01-09'
 });
