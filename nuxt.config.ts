@@ -63,7 +63,8 @@ export default defineNuxtConfig({
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
             KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
-            KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET
+            KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET,
+            KEYCLOAK_URL: process.env.KEYCLOAK_URL,
         }
     },
     //https://nuxt.com/docs/guide/concepts/rendering
@@ -81,7 +82,7 @@ export default defineNuxtConfig({
     },
     auth: {
         //baseURL: process.env.KEYCLOAK_URL,
-        baseURL: 'http://localhost:3000/api/auth',
+        baseURL: '/api/auth',
         provider: {
             type: 'authjs',
             defaultProvider: 'keycloak',
@@ -99,7 +100,7 @@ export default defineNuxtConfig({
         }
     },
     css: ["~/assets/scss/main.scss"],
-    nuxt3WinstonLog: {
+    nuxt3WinstonLog: {        
         maxSize: "2048m",
         maxFiles: "14d",
     },
@@ -144,5 +145,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2025-01-09'
+    compatibilityDate: '2025-01-11'
 });

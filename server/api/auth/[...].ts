@@ -1,6 +1,6 @@
 import KeycloakProvider from 'next-auth/providers/keycloak';
-import type { JWT } from 'next-auth/jwt';
 import { NuxtAuthHandler } from '#auth';
+const runtime = useRuntimeConfig();
 /*
 async function refreshAccessToken (token: JWT) {
     try {
@@ -35,14 +35,14 @@ async function refreshAccessToken (token: JWT) {
 }
 */
 export default NuxtAuthHandler({
-    secret: process.env.KEYCLOAK_CLIENT_SECRET,
+    secret: runtime.private.KEYCLOAK_CLIENT_SECRET,
     providers: [
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
         KeycloakProvider.default({
             id: 'keycloak',
-            clientId: useRuntimeConfig().private.KEYCLOAK_CLIENT_ID,
-            clientSecret: useRuntimeConfig().private.KEYCLOAK_CLIENT_SECRET,
-            issuer: `${useRuntimeConfig().private.KEYCLOAK_URL}/realms/${useRuntimeConfig().private.KEYCLOAK_REALM}`,
+            clientId: runtime.private.KEYCLOAK_CLIENT_ID,
+            clientSecret: runtime.private.KEYCLOAK_CLIENT_SECRET,
+            issuer: `${runtime.public.KEYCLOAK_URL}/realms/${runtime.public.KEYCLOAK_REALM}`,
             checks: ['none'],
 
         })
