@@ -94,7 +94,7 @@ export default defineNuxtConfig({
         },
         */
         globalAppMiddleware: {
-            isEnabled: false,
+            isEnabled: true,
             allow404WithoutAuth: true,            
         }
     },
