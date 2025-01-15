@@ -81,8 +81,7 @@ export default defineNuxtConfig({
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
     auth: {
-        //baseURL: process.env.KEYCLOAK_URL,
-        baseURL: '/api/auth',
+        baseURL: process.env.AUTH_ORIGIN + '/api/auth',
         provider: {
             type: 'authjs',
             defaultProvider: 'keycloak',
