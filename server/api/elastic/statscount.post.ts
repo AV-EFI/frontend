@@ -3,10 +3,10 @@ import { Client } from '@elastic/elasticsearch';
 
 
 export default defineEventHandler(async (event) => {
-    const index = process.env.ELASTIC_INDEX;
+    const index = useRuntimeConfig().public.ELASTIC_INDEX;
     // Initialize the ElasticSearch client
     const client = new Client({
-        node: process.env.ELASTIC_HOST_PUBLIC || 'http://localhost:9200',
+        node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC || 'http://localhost:9200',
     });
 
     try {
@@ -20,7 +20,6 @@ export default defineEventHandler(async (event) => {
 
         // Destructure the request body
         const { query } = body;
-        console.log(query);
         const institutionid:string = `https://w3id.org/isil/${query.term}`;
 
 
