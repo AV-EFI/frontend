@@ -193,6 +193,12 @@ const shoppingCart = useShoppingCart();
                   </li>
                   <li>
                     <a
+                      href="/protected/loglist"
+                      :alt="$t('logList')"
+                    >{{ $t('logList') }}</a>
+                  </li>
+                  <li>
+                    <a
                       href="/protected/me"
                       :alt="$t('profile')"
                     >{{ $t('profile') }}</a>
@@ -200,10 +206,10 @@ const shoppingCart = useShoppingCart();
                   <li>
                     <button
                       Logout
-                      title="Logout"
+                      title="logout"
                       @click="signOut()"
                     >
-                      {{ $t('Logout') }}
+                      {{ $t('logout') }}
                     </button>
                   </li>
                 </ul>
@@ -218,8 +224,6 @@ const shoppingCart = useShoppingCart();
               />
             </li>
           </ul>
-
-
           <div class="dropdown dropdown-end inline-flex md:hidden">
             <div
               tabindex="0"
@@ -254,7 +258,6 @@ const shoppingCart = useShoppingCart();
                   <span class="badge">New</span>
                 </a>
               </li>
-              <li><a>Settings</a></li>
               <li><a>Logout</a></li>
             </ul>
           </div>

@@ -3,7 +3,7 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('LogList'), `/protected/loglist`],
+        [$t('logList'), `/protected/loglist`],
       ]"
     />
     <div>

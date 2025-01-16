@@ -101,25 +101,25 @@
               <a
                 href="/protected/mergetool"
                 class="hover:bg-base-200 link link-primary"
-              >{{ $t('MergeTool') }}<span class="badge badge-accent text-white">1</span></a>
+              >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
             </li>
             <li>
               <a
                 href="/protected/institutionlist"
                 class="hover:bg-base-200 link link-primary"
-              >{{ $t('MyDatasets') }}</a>
+              >{{ $t('myDatasets') }}</a>
             </li>
             <li>
               <a
                 href="/protected/favouriteslist"
                 class="hover:bg-base-200 link link-primary"
-              >{{ $t('Favourites') }}</a>
+              >{{ $t('favourites') }}</a>
             </li>
             <li>
               <a
                 href="/protected/loglist"
                 class="hover:bg-base-200 link link-primary"
-              >{{ $t('LogList') }}</a>
+              >{{ $t('logList') }}</a>
             </li>
           </ul>
         </template>

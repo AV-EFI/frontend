@@ -3,7 +3,7 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('MergeTool'), `/protected/mergetool`],
+        [$t('mergeTool'), `/protected/mergetool`],
       ]"
     />
     <div class="mt-4">
@@ -13,7 +13,7 @@
       >
         <template #title>
           <h2 class="font-semibold">
-            Merges für {{ authData?.user?.name }} | {{ authData?.user?.institution }}
+            Merges {{ authData?.user?.name }} | {{ authData?.user?.institution }}
           </h2>
         </template>
         <template #cardBody>
