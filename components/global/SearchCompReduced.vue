@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full min-w-48 lg:min-w-64 min-h-24 flex justify-center">
+  <div class="w-full min-w-48 lg:min-w-64 min-h-24 flex justify-center mx-auto">
     <ClientOnly>
       <FormKit
         v-if="searchDataStore && searchDataStore.formData"
@@ -10,36 +10,44 @@
         name="searchComp"
         @submit="redirectToSearchScreen"
       >
-        <FormKit
-          v-model="searchTerm"
-          name="searchTerm"
-          :placeholder="$t('searchterm')"
-          type="text"
-          prefix-icon="search"
-          outer-class="w-full !ml-0 md:ml-2 !max-w-none md:w-96 xl:w-128"
-          inner-class="!rounded-3xl"
-          input-class="!text-lg p-2"
-          autofocus
-        />
-        <FormKit
-          type="submit"
-          :label="$t('search')"
-          :title="$t('search')"
-          class="btn-secondary"
-          @click="redirectToSearchScreen"
-        />
-      </Formkit>
+        <div class="flex w-full mx-auto !max-w-none md:w-96 xl:w-128 justify-center">
+          <FormKit
+            v-model="searchTerm"
+            name="searchTerm"
+            :placeholder="$t('searchterm')"
+            type="text"
+            prefix-icon="search"
+            outer-class="flex-grow !max-w-none w-full"
+            inner-class="!rounded-l-3xl rounded-r-none h-full w-full"
+            input-class="!text-lg p-2 w-full"
+            autofocus
+          />
+          <FormKit
+            type="submit"
+            :label="$t('search')"
+            :title="$t('search')"
+            outer-class="!rounded-l-none !mb-0 !rounded-r-3xl !h-full flex items-center justify-start"
+            inner-class="!rounded-l-3xl !h-full"
+            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-3xl flex items-center justify-center"
+            @click="redirectToSearchScreen"
+          />
+        </div>
+      </FormKit>
     </ClientOnly>
   </div>
 </template>
+
 <script setup lang="ts">
-import {ref} from 'vue';
-import  {useSearchParamsStore} from '../../stores/searchParams';
+import { useSearchParamsStore } from '../../stores/searchParams';
 const searchTerm = ref('');
 const searchDataStore = useSearchParamsStore();
-function redirectToSearchScreen () {
-    //navigateTo('/search_altern/index?[query]=' + searchTerm.value + useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS);
-    navigateTo('/'+useRuntimeConfig().public.SEARCH_URL+'/index?'+ useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS + '&21.11155-dev-runtime[query]='+searchTerm.value);
+function redirectToSearchScreen() {
+    navigateTo('/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS + '&21.11155-dev-runtime[query]=' + searchTerm.value);
 }
-
 </script>
+
+<style scoped>
+.btn-secondary {
+  height: 100%;
+}
+</style>

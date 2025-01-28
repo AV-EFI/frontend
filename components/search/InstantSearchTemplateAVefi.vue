@@ -21,7 +21,7 @@
                 <ais-search-box>
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
-                      class="text-sm flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-zinc-300 dark:group-data-[disabled]:bg-zinc-800/5 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
+                      class="text-sm flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-zinc-800 dark:border-zinc-600 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
                     >
                       <label
                         class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon"
@@ -50,13 +50,13 @@
                   </template>
                 </ais-search-box>
               </div>
-              <div class="mb-4 p-2 flex flex-row justify-between w-full">
-                <div class="w-1/2 flex flex-row justify-start">
-                  <h2>
+              <div class="mb-4 p-2 flex flex-col md:flex-row justify-between w-full">
+                <div class="w-full md:w-1/2 flex flex-row justify-start">
+                  <h2 class="text-lg">
                     {{ $t('activefiltering') }}
                   </h2>
                 </div>
-                <div class="w-1/2 flex flex-row justify-end">
+                <div class="w-full md:w-1/2 flex flex-row justify-end">
                   <ais-clear-refinements 
                     :class-names="{
                       'ais-ClearRefinements-button': 'btn !btn-error btn-sm',
@@ -83,12 +83,7 @@
                     <ul>
                       <li
                         v-for="refinement in item.refinements"
-                        :key="[
-                          refinement.attribute,
-                          refinement.type,
-                          refinement.value,
-                          refinement.operator
-                        ].join(':')"
+                        :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
                         class="flex-start"
                       >
                         <a
@@ -123,17 +118,17 @@
                 </div>
               </div>
               <div class="w-full">
-                <div class="w-full p-2 flex flex-row justify-between">
-                  <div class=" w-full md:w-1/3 flex flex-col justify-end">
+                <div class="w-full p-2 flex flex-col md:flex-row justify-between">
+                  <div class="w-full md:w-1/3 flex flex-col justify-end">
                     <ais-stats>
                       <template #default="{ nbHits }">
-                        <h2 class="">
+                        <h2 class="text-lg">
                           {{ nbHits }} {{ $t('results') }}
                         </h2>
                       </template>
                     </ais-stats>
                   </div>
-                  <div class=" w-full md:w-1/3 flex flex-col justify-end">
+                  <div class="w-full md:w-1/3 flex flex-col justify-end">
                     <FormKit
                       type="select"
                       :label="$t('sorting')"
@@ -141,11 +136,7 @@
                       name="sort"
                       outer-class="!mb-0"
                       wrapper-class="!mb-0"
-                      :options="[
-                        'Standard',
-                        'Titel aufst.',
-                        'Titel abst.',
-                      ]"
+                      :options="['Standard', 'Titel aufst.', 'Titel abst.']"
                     />
                   </div>
                   <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
@@ -164,9 +155,7 @@
                   class="overflow-x-auto w-full"
                   style="overflow-y:hidden;"
                 >
-                  <ais-hits
-                    class="p-2"
-                  >
+                  <ais-hits class="p-2">
                     <template #default="{ items }">          
                       <SearchTableViewComp
                         v-if="viewTypeChecked"
@@ -198,7 +187,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 const viewTypeChecked = ref(false);
@@ -213,60 +201,8 @@ const props = defineProps({
         default: '21.11155-dev-runtime'
     },
 });
-/*
-const routing = {
-      {
-        stateToRoute(uiState) {
-            const indexUiState = uiState[props.indexName];
-            return {
-                q: indexUiState.query,
-                categories: indexUiState.menu && indexUiState.menu.categories,
-                cat: indexUiState.refinementList && indexUiState.refinementList.category_clean,
-                cnt: indexUiState.refinementList && indexUiState.refinementList.countries !== undefined ? indexUiState.refinementList.countries : null,
-                yr: indexUiState.refinementList && indexUiState.refinementList.productionyears,
-                dir: indexUiState.refinementList && indexUiState.refinementList.directors,
-                cast: indexUiState.refinementList && indexUiState.refinementList.castmembers,
-                pro: indexUiState.refinementList && indexUiState.refinementList.producers,
-                sub: indexUiState.refinementList && indexUiState.refinementList.subjects,
-                page: indexUiState.page,
-            };
-        },
-        routeToState(routeState) {
-            return {
-                [props.indexName]: {
-                    query: routeState.q,
-                    refinementList: {
-                        //category_clean: [routeState.cat],
-                        countries: [routeState.cnt !== undefined ? routeState.cnt : null],
-                        productionyears: [routeState.yr],
-                        directors: [routeState.dir],
-                        castmembers: [routeState.cast],
-                        producers: [routeState.pro],
-                        subjects: [routeState.sub],
-                    },
-                    page: routeState.page,
-                },
-            };
-        },
-    },
-    router: history({
-        cleanUrlOnDispose: false,
-    })
-};
-*/
 </script>
+
 <style>
-
-/*
-html[data-theme="avefi_dark"] .ais-Pagination-link {
-  background-color: var(--primary-800)!important;
-  background-image: none!important;
-  color:#fefefe;
-}
-
-html[data-theme="avefi_dark"] .ais-Pagination-item--disabled .ais-Pagination-link {
-  background-image: none!important;
-}
-  */
-
+/* Add any additional styles here */
 </style>

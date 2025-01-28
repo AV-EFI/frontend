@@ -22,7 +22,7 @@
         <NuxtLayout name="partial-grid-2-1">
           <template #left>
             <h2
-              class="text-lg text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+              class="text-lg xl:text-2xl text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
               :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
             >
               {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
@@ -33,17 +33,17 @@
               <AddToShoppingCartComp
                 :film-id="params.id"
                 :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
-                class="ml-2"
+                class=""
               />
               <AddToComparisonComp
                 :film-id="params.id"
                 :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
-                class="ml-2"
+                class="ml-1"
               />
               <GlobalExportDataComp
                 :data-set-id="params.id"
                 :data-set-json="JSON.stringify(dataJson,null,2)"
-                class="ml-2"
+                class="ml-1"
               />
             </div>
           </template>
@@ -133,12 +133,6 @@ const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', as
     return data[0] as IAVefiListResponse;
 });
 
-
-definePageMeta({
-    //middleware: ["auth"]
-    // or middleware: 'auth'
-});
-
 </script>
 <style scoped>
   legend, label {
@@ -155,5 +149,14 @@ definePageMeta({
         vertical-align: middle;
         font-weight: 400;
         color: var(--primary-400)!important;
+  }
+  .dark legend, .dark label {
+    color: var(--primary-300)!important;
+  }
+  .dark a.external-link {
+    color: var(--primary-200)!important;
+  }
+  .dark a.external-link:before {
+    color: var(--primary-200)!important;
   }
 </style>

@@ -3,12 +3,12 @@
     {{ $t($props.labelText) }}:
   </label>
 </template>
+
 <script lang="ts" setup>
-defineProps ({
-    'labelText': {
+defineProps({
+    labelText: {
         type: String,
         required: true
     }
 });
-
 </script>

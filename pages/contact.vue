@@ -8,7 +8,7 @@ interface ApiPage {
             "updatedAt": string,
             "publishedAt": string,
             "locale": string,
-            "FAQs": FAQ[]
+            "FAQs": FAQ[],
             "DescriptionCK": string
         }
     },
@@ -23,10 +23,10 @@ interface FAQ {
 definePageMeta({
     auth: false
 });
-
 </script>
+
 <template>
-  <div>
+  <div class="container mx-auto p-2 mb-2">
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
@@ -38,7 +38,7 @@ definePageMeta({
       <div>
         <div
           role="alert"
-          class="alert bg-neutral"
+          class="alert bg-neutral dark:bg-neutral-dark"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

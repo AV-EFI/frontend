@@ -12,7 +12,7 @@
         </figure>
       </slot>
       <div class="card-body">
-        <h2 class="text-xl">
+        <h2 class="text-xl xl:text-2xl">
           <slot name="title" />
         </h2>
         <slot name="cardBody">
@@ -22,3 +22,11 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (min-width: 1280px) {
+  .card-body {
+    font-size: 1.25rem; /* Increase text size for xl screens */
+  }
+}
+</style>

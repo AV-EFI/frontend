@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 
-import type { AggregationsFiltersAggregate, AggregationsFiltersBucket } from "@elastic/elasticsearch/lib/api/types";
 import type { SearchkitConfig } from "searchkit";
 
 //move creds to server-side for runtime.private access

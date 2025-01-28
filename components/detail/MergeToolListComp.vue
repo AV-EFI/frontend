@@ -26,7 +26,7 @@
           <td>
             TUNGUSKA - DIE KISTEN SIND DA
           </td>
-          <td :class="{'text-orange-500': true}">
+          <td :class="{'text-orange-500 dark:text-orange-300': true}">
             Open
           </td>
           <td :class="getColor(75)">
@@ -49,7 +49,7 @@
           <td>{{ pair.items[0].title }}</td>
           <td>{{ pair.items[1]?.id || 'N/A' }}</td>
           <td>{{ pair.items[1]?.title || 'N/A' }}</td>
-          <td :class="{'text-green-500': true}">
+          <td :class="{'text-green-500 dark:text-green-300': true}">
             Resolved
           </td>
           <td :class="getColor(pair.similarity)">
@@ -123,15 +123,14 @@ const itemPairs = computed(() => {
 });
 
 const getColor = (similarity) => {
-    if (similarity >= 90) return 'text-red-600';
-    if (similarity >= 75) return 'text-orange-400';
-    return 'text-black';
+    if (similarity >= 90) return 'text-red-600 dark:text-red-400';
+    if (similarity >= 75) return 'text-orange-400 dark:text-orange-200';
+    return 'text-black dark:text-white';
 };
 
 const showDetails = (id1,id2) => {
     if(id1 && id2) {
         navigateTo(`/protected/disambiguation?prev=${id1}&next=${id2}`);
     }
-    //alert(`Details:\n\nItem 1:\nID: ${pair[0].id}\nTitle: ${pair[0].title}\n\nItem 2:\nID: ${pair[1]?.id || 'N/A'}\nTitle: ${pair[1]?.title || 'N/A'}`);
 };
 </script>

@@ -1,60 +1,78 @@
 <template>
   <ClientOnly>
-    <footer class="footer bg-primary-800 text-white dark:bg-gray-800 dark:text-white dark:border-gray-700">
-      <div class="container mx-auto flex p-4 !pb-[10em] md:pb-auto md:p-4">
-        <div class="flex flex-row flex-wrap w-full justify-start md:justify-start md:justify-between">
-          <nav class="flex-1 flex flex-row justify-start md:justify-center w-full min-w-80 md:min-w-48 mb-2">
-            <div class="flex flex-col">
-              <h6 class="footer-title">
-                {{ $t("language") }}
-              </h6>
-              <Suspense>
-                <GlobalLanguageSwitch />
-              </Suspense>
-            </div>
+    <footer class="footer bg-primary-800 text-white dark:bg-gray-950 dark:text-white dark:border-gray-700 px-6">
+      <div class="container mx-auto p-4 pb-10 md:pb-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+          <nav class="flex flex-col col-span-1">
+            <h6 class="footer-title">
+              {{ $t("language") }}
+            </h6>
+            <Suspense>
+              <GlobalLanguageSwitch />
+            </Suspense>
           </nav>
-          <nav class="flex-1 flex flex-row justify-start md:justify-center w-full min-w-80 md:min-w-48 mb-2">
-            <div class="flex flex-col">
-              <h6 class="footer-title">
-                Info
-              </h6>
-              <ul>
-                <li>
-                  <a
-                    href="https://datenschutz.gwdg.de/services/av-efi"
-                    target="_blank"
-                  >
-                    {{ $t('Datenschutzerklärung') }}
-                  </a>
-                </li>
-              </ul>
-              <div
-                role="alert"
-                class="alert bg-neutral md:w-48 mt-4"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  class="stroke-info h-6 w-6 shrink-0"
+          <nav class="flex flex-col col-span-1">
+            <h6 class="footer-title">
+              Info
+            </h6>
+            <ul>
+              <li>
+                <a
+                  href="https://datenschutz.gwdg.de/services/av-efi"
+                  target="_blank"
+                  class="dark:text-gray-300"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{{ $t('todolinks') }}</span>                
-              </div>
+                  {{ $t('Datenschutzerklärung') }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/imprint"
+                  class="dark:text-gray-300"
+                >
+                  {{ $t('imprint') }}
+                </a>
+              </li>
+            </ul>
+            <div
+              role="alert"
+              class="alert bg-neutral dark:bg-gray-700 md:w-48 mt-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="stroke-info dark:stroke-gray-300 h-6 w-6 shrink-0"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span class="dark:text-gray-300">{{ $t('todolinks') }}</span>                
             </div>
           </nav>
-          <nav class="flex-1  flex flex-row justify-start md:justify-center w-full min-w-80 md:min-w-48">
-            <div class="flex flex-col">
-              <h6 class="footer-title">
-                {{ $t("theme") }}
-              </h6>
+          <nav class="flex flex-col col-span-1">
+            <h6 class="footer-title">
+              {{ $t("theme") }}
+            </h6>
+            <div class="flex items-start">
               <GlobalThemeSwitch />
+            </div>
+            <div class="bg-transparent mt-4">
+              <a
+                href="https://www.dfg.de/de"
+                target="_blank"
+              >
+                <img
+                  alt="Sponsoring by DFG"
+                  title="❤️"
+                  class="object-contain h-24 w-full md:h-48 md:w-96 dark:opacity-75"
+                  src="/img/dfg_logo.jpg"                
+                >
+              </a>
             </div>
           </nav>
         </div>

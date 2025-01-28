@@ -4,7 +4,7 @@
       <li
         v-for="(group, status) in favouritesList"
         :key="status"
-        class="p-4 border rounded-lg shadow-md bg-base-100"
+        class="p-4 border rounded-lg shadow-md bg-base-100 dark:bg-gray-800"
       >
         <div class="collapse collapse-arrow">
           <input
@@ -12,21 +12,21 @@
             :checked="!collapsedGroups[status]"
             @change="toggleGroup(status)"
           >
-          <div class="collapse-title text-xl font-semibold cursor-pointer">
+          <div class="collapse-title text-xl font-semibold cursor-pointer dark:text-gray-200">
             {{ group.title }}
           </div>
           <div class="collapse-content">
-            <div class="text-sm text-gray-700">
+            <div class="text-sm text-gray-700 dark:text-gray-400">
               Date: {{ group.date }}
             </div>
-            <div class="text-sm text-gray-700">
+            <div class="text-sm text-gray-700 dark:text-gray-400">
               Number of Items: {{ group.numberOfItems }}
             </div>
             <ul class="mt-2 space-y-2">
               <li
                 v-for="log in group.items"
                 :key="log.id"
-                class="p-4 border rounded-lg shadow-md bg-base-200"
+                class="p-4 border rounded-lg shadow-md bg-base-200 dark:bg-gray-700"
               >
                 <div class="collapse collapse-arrow">
                   <input
@@ -34,32 +34,32 @@
                     :checked="!collapsedItems[log.id]"
                     @change="toggleItem(log.id)"
                   >
-                  <div class="collapse-title text-sm text-gray-700 cursor-pointer">
+                  <div class="collapse-title text-sm text-gray-700 cursor-pointer dark:text-gray-300">
                     ID: {{ log.id }} - {{ log.has_primary_title.title }}
                   </div>
-                  <div class="collapse-content grid grid-cols-2 gap-4">
-                    <div class="text-sm text-gray-700">
+                  <div class="collapse-content grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Title: {{ log.title }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Described By: {{ log.described_by?.description || 'N/A' }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Has Event: {{ log.has_event?.map(event => event.name).join(', ') || 'N/A' }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Has Identifier: {{ log.has_identifier?.map(identifier => identifier.id).join(', ') || 'N/A' }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Has Source Key: {{ log.has_source_key?.join(', ') || 'N/A' }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       In Language: {{ log.in_language?.map(language => language.name).join(', ') || 'N/A' }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Has Alternative Title: {{ log.has_alternative_title?.map(title => title.title).join(', ') || 'N/A' }}
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
                       Has Primary Title: {{ log.has_primary_title.title }}
                     </div>
                   </div>

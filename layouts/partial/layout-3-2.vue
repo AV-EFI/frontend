@@ -1,9 +1,9 @@
 <template>
   <section>
-    <div class="container flex justify-items flex-col xl:flex-row w-full mx-auto">
+    <div class="container flex flex-col xl:flex-row w-full mx-auto">
       <div class="flex flex-col">
         <div class="container p-2">
-          <h1 class="text-xl">
+          <h1 class="text-xl xl:text-2xl">
             <slot name="title">
               Title will be overridden
             </slot>

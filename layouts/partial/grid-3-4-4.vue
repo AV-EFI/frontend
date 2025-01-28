@@ -6,9 +6,7 @@
         <slot name="heading" />
       </h5>
     </div>
-    <div        
-      class="grid col-span-12 md:col-span-4 grid-cols-12 gap-2"
-    >
+    <div class="grid col-span-12 md:col-span-4 grid-cols-12 gap-2">
       <div class="grid col-span-full md:col-span-12 gap-2">
         <slot name="left" />
       </div>
@@ -19,7 +17,7 @@
         <slot name="center" />
       </div>
     </div>
-    <div class="grid col-span-12 md:col-span-3 grid-cols-12 gap-2">
+    <div class="grid col-span-12 md:col-span-4 grid-cols-12 gap-2">
       <div class="grid grid-rows-[36px_minmax(100px,_1fr)_100px] col-span-full md:col-span-12 gap-2">
         <!-- has_activity -->
         <slot name="right" />

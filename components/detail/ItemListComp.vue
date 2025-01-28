@@ -29,22 +29,24 @@
       :rows-per-page="10"
     >
       <template #header-_source.has_record.in_language.spoken="header">
-        <div class="customize-header">
+        <div class="customize-header dark:text-primary-100">
           {{ $t(header.text) }}
         </div>
       </template>
       <template #header-_source.has_record.in_language.subtitles="header">
-        <div class="customize-header">
+        <div class="customize-header dark:text-primary-100">
           {{ $t(header.text) }}
         </div>
       </template>
       <template #header-_source.has_record.has_webresource="header">
-        <div class="customize-header">
+        <div class="customize-header dark:text-primary-100">
           {{ $t(header.text) }}
         </div>
       </template>
       <template #loading>
-        loading items ...
+        <div class="dark:text-primary-100">
+          loading items ...
+        </div>
       </template>
       <template
         #item-_source.has_record.has_webresource="item"
@@ -65,21 +67,27 @@
           <a
             target="_blank"
             :href="`/film/${item._id}`"
-            class="btn btn-primary btn-xs"
+            class="btn btn-primary btn-xs dark:btn-accent"
           >Details →</a>
         </div>
       </template>
       <template #item-_source.has_record.has_format="item">
-        {{ item._source.has_record?.has_format?.map(function (has_format_item) {return $t(has_format_item.type); }).join(',') }}
+        <div class="dark:text-primary-100">
+          {{ item._source.has_record?.has_format?.map(function (has_format_item) {return $t(has_format_item.type); }).join(',') }}
+        </div>
       </template>
       <template #item-_source.has_record.in_language.spoken="item">
-        {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'SpokenLanguage';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
+        <div class="dark:text-primary-100">
+          {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'SpokenLanguage';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
+        </div>
       </template>
       <template #item-_source.has_record.in_language.subtitles="item">
-        {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'Subtitles';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
+        <div class="dark:text-primary-100">
+          {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'Subtitles';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
+        </div>
       </template>
       <template #empty-message>
-        <span>nothing here</span>
+        <span class="dark:text-primary-100">nothing here</span>
       </template>
       <template
         #expand="item"
@@ -100,9 +108,9 @@
                   :value="in_lang"
                   class="flex flex-row"
                 >
-                  <span>{{ $t(in_lang.code) }}</span>
+                  <span class="dark:text-primary-100">{{ $t(in_lang.code) }}</span>
                   &nbsp;
-                  (<span>{{ in_lang.usage.map(function (usage) {return $t(usage); }).join(',') }}</span>)
+                  (<span class="dark:text-primary-100">{{ in_lang.usage.map(function (usage) {return $t(usage); }).join(',') }}</span>)
                 </li>
               </ul>
             </div>
@@ -122,7 +130,7 @@
                   :value="format_item"
                   class="flex flex-row"
                 >
-                  <span>{{ $t(format_item.type) }}</span>
+                  <span class="dark:text-primary-100">{{ $t(format_item.type) }}</span>
                 </li>
               </ul>
             </div>

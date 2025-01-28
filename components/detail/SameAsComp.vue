@@ -1,13 +1,11 @@
 <template>
-  <span
-    v-if="sameAsData"
-  >
+  <span v-if="sameAsData">
     <span
       v-for="(same_as_item, same_as_index) in sameAsData"
       :key="same_as_index"
       class="text-sm"
     >
-        &nbsp;
+      &nbsp;
       <a
         v-if="same_as_item.category === 'avefi:GNDResource'"
         class="link link-primary link-hover dark:link-accent"
@@ -21,7 +19,7 @@
           size="1em"
           class="!align-text-bottom"
           alt="Referenz bei GND"
-        /> 
+        />
         &nbsp;{{ $t(same_as_item.category) }}
       </a>
       <a
@@ -37,7 +35,7 @@
           size="1em"
           class="!align-text-bottom"
           alt="Referenz bei VIAF"
-        /> 
+        />
         &nbsp;{{ $t(same_as_item.category) }}
       </a>
       <a
@@ -53,7 +51,7 @@
           size="1em"
           class="!align-text-bottom"
           alt="Referenz bei Wikidata"
-        /> 
+        />
         &nbsp;{{ $t(same_as_item.category) }}
       </a>
       <a
@@ -110,15 +108,14 @@
     </span>
   </span>
 </template>
-<script setup lang="ts">
 
+<script setup lang="ts">
 import type {} from '../../models/interfaces/av_efi_schema.ts';
 
-defineProps ( {
-    'sameAsData': {
+defineProps({
+    sameAsData: {
         type: Object,
-        default: null
-    }
-}); 
-
+        default: null,
+    },
+});
 </script>

@@ -8,13 +8,13 @@
     </div>
 
     <!--left-->
-    <div        
-      class="grid col-span-full md:col-span-8 grid-cols-12 gap-2"
-    >
+    <div class="grid col-span-full md:col-span-8 grid-cols-12 gap-2">
       <div class="col-span-full md:col-span-12">
         <div class="grid col-span-8 grid-cols-12 gap-2">
           <slot name="left">
-            Left
+            <div class="dark:text-white">
+              Left
+            </div>
           </slot>
         </div>
       </div>
@@ -22,7 +22,7 @@
 
     <!--right-->
     <div class="grid col-span-full md:col-span-4">
-      <div class="flex flex-col">
+      <div class="flex flex-col dark:text-white">
         <slot name="right" />
       </div>
     </div>

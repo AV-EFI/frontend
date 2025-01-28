@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container col-span-full">
+  <div class="grid-container col-span-full dark:bg-gray-900">
     <div class="grid grid-cols-12 gap-2">
       <!-- has_event -->
       <!-- papa grid -->       
@@ -13,7 +13,7 @@
           name="partial-grid-3-4-4"
         >
           <template #heading>
-            {{ $t(has_event_item.category) }}
+            <span class="dark:text-white">{{ $t(has_event_item.category) }}</span>
           </template>
           <template #left>
             <!-- has_activity -->
@@ -24,7 +24,7 @@
             >
               <MicroLabelComp
                 :label-text="has_activity_item.type"
-                class="text-ellipsis"
+                class="text-ellipsis dark:text-gray-300"
               />
               <!-- has_agent -->
               <ul>
@@ -32,7 +32,7 @@
                   v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
                   :key="agent_index"
                 >
-                  <span class="break-words inline text-sm">
+                  <span class="break-words inline text-sm dark:text-gray-300">
                     {{ has_agent_item.has_name }}
                     <DetailSameAsComp
                       v-if="has_agent_item.same_as"
@@ -50,23 +50,19 @@
               :key="activity_index"
               class="grid col-span-12 grid-cols-8 activity"
             >
-              <div
-                class="col-span-full md:col-span-full"
-              >
+              <div class="col-span-full md:col-span-full">
                 <MicroLabelComp
                   :label-text="has_activity_item.type"
-                  class="text-ellipsis"
+                  class="text-ellipsis dark:text-gray-300"
                 />
                 <!-- has_agent -->
-                <div
-                  class="col-span-full md:col-span-full"
-                >
+                <div class="col-span-full md:col-span-full">
                   <ul>
                     <li
                       v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
                       :key="agent_index"
                     >
-                      <span class="break-words text-sm">
+                      <span class="break-words text-sm dark:text-gray-300">
                         {{ has_agent_item.has_name }}
                         <DetailSameAsComp
                           v-if="has_agent_item.same_as"
@@ -83,13 +79,13 @@
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
               keytxt="year"
-              class="col-span-full"
+              class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
             />
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
-              class="col-span-full"
+              class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.located_in"
             />
           </template>
@@ -99,7 +95,7 @@
           name="partial-grid-2-1"
         >
           <template #heading>
-            {{ $t(has_event_item.type??has_event_item.category??'Event') }}
+            <span class="dark:text-white">{{ $t(has_event_item.type ?? has_event_item.category ?? 'Event') }}</span>
           </template>
           <template #left>
             <!-- has_activity -->
@@ -110,7 +106,7 @@
             >
               <MicroLabelComp
                 :label-text="has_activity_item.type"
-                class="text-ellipsis"
+                class="text-ellipsis dark:text-gray-300"
               />
               <!-- has_agent -->
               <ul>
@@ -118,7 +114,7 @@
                   v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
                   :key="agent_index"
                 >
-                  <span class="break-words inline text-sm">
+                  <span class="break-words inline text-sm dark:text-gray-300">
                     {{ has_agent_item.has_name }}
                     <DetailSameAsComp
                       v-if="has_agent_item.same_as"
@@ -133,14 +129,13 @@
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
               keytxt="year"
-              class="col-span-full"
-
+              class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
             />
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
-              class="col-span-full"
+              class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.located_in"
             />
           </template>
@@ -153,8 +148,6 @@
 <script lang="ts" setup>
 import type { Event } from '../../models/interfaces/av_efi_schema';
 const eventList = defineModel({type: Array as PropType<Event[]>, required: true});
-
-//).length > 0
 
 function getCastMemberList (hasEvent: Event) {
     try {

@@ -6,6 +6,7 @@ export default defineI18nConfig(() => ({
     locale: 'de',
     messages: {
         en: {
+            // English messages
             '$vuetify.open': 'hä?',
             'activefiltering': 'Active Filtering',
             'addtocomparisonparam': ({ named }) => `Add ${named('name')} to comparison`,
@@ -53,6 +54,7 @@ export default defineI18nConfig(() => ({
             'help': 'Help',
             'home.welcome': 'Find, discover and compare comprehensive data on film holdings of all genres. You can research both film works and versions from various participating film archives and collections.',
             'hours': 'hours',
+            'imprint': 'Imprint',
             'items': 'items',
             'keywords': 'Keywords and Authority Data',
             'keywordsContent': 'All keywords assigned by the contributing institution are included. Authority data, such as from the Integrated Authority File (GND), are utilized and displayed accordingly.',
@@ -111,12 +113,43 @@ export default defineI18nConfig(() => ({
             'result': 'Result',
             'updateallproperties': 'Update all properties',
             'resetFormData': 'Reset Form Data',
+            'cookiesDescription': 'We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.',
+            'cookiesModalDescription': 'Here you can adjust your cookie settings. You have the option to enable or disable certain cookies used for the functionality and improvement of our website. Please note that disabling some cookies may affect your use of the website.',
             'contact.availableMetadata': 'What Film Metadata Can I Find Here?',
             'contact.availableMetadataContent': 'Film metadata of all genres and types are available, with a particular focus on educational, instructional, and scientific films, as well as ephemeral and amateur footage',
             'contact.definitions': 'What Is the Difference Between Work, Manifestation, and Item?',
             'contact.dataProviders': 'Help for Data Providers',
             'contact.dataProvidersContent': 'Werden Sie als Datengeber Teil von AVefi Informationen zu den notwendigen Schritten finden Sie im Folgenden. How-to-Dokument (One-Pager) einbinden. Link auf Manual',
-            ...avefiLocales.en
+            'bannerText': 'Selected collections and highlights from the world of film metadata',
+            'bannerDescription': 'AVefi presents selected collections and key insights from the field of film metadata. Explore a variety of datasets, from comprehensive filmographies to detailed technical specifications, enabling in-depth analysis and new insights into the cinematic landscape.',
+            'coreFunctionsTitle': 'Core Functions',
+            'coreFunctions': [
+                'Detailed metadata according to FIAF standards.',
+                'Persistent IDs (PIDs) for long-term identification.',
+                'Compliance with FAIR principles for optimal data usage.',
+                'Easy search across various institutions.',
+                'Central, regularly updated database.'
+            ],
+            'learnMore': 'Learn more',
+            'forFilmResearchersTitle': 'For Film Researchers',
+            'forFilmResearchers': [
+                'Time savings through efficient search.',
+                'New insights through untapped collections.',
+                'Reproducible research thanks to PIDs.',
+                'Better collaboration between researchers.'
+            ],
+            'technicalBasicsTitle': 'Technical Basics',
+            'technicalBasics': [
+                'Solid technical foundation: Based on the Handle System, ensuring long-term data identification.',
+                'Flexible integration: Allows easy integration into existing systems and workflows.',
+                'High data quality: Through the use of a type registry and data model.'
+            ],
+            'videoTitle': 'AVefi',
+            'videoDescription': 'Find, discover and compare comprehensive data on film holdings of all genres. You can research both film works and versions from various participating film archives and collections.',
+            'videoNotSupported': 'Your browser does not support the video tag.',
+            'partnersTitle': 'Partners',
+            'partnersDescription': 'AVefi is developed in cooperation with the following partners:',
+            ...avefiLocales.en,
         },
         de: {
             '$vuetify.open': 'hä?',
@@ -135,6 +168,8 @@ export default defineI18nConfig(() => ({
             'clearallfilters': 'Alle Filter entfernen',
             'clearalllist': 'Liste leeren',
             'close': 'Schließen',
+            'cookiesDescription': 'Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige Cookies sind notwendig, um die grundlegenden Funktionen der Website zu gewährleisten, während andere uns helfen, die Website zu verbessern und Ihnen personalisierte Inhalte anzubieten. Sie können Ihre Cookie-Einstellungen jederzeit ändern.',
+            'cookiesModalDescription': 'Hier können Sie Ihre Cookie-Einstellungen anpassen. Sie haben die Möglichkeit, bestimmte Cookies zu aktivieren oder zu deaktivieren, die für die Funktionalität und Verbesserung unserer Website verwendet werden. Bitte beachten Sie, dass das Deaktivieren einiger Cookies die Nutzung der Website beeinträchtigen kann.',
             'comparison': 'Vergleich',
             'comparisonalready': 'Das Element befindet sich bereits im Vergleich',
             'comparisonfull': 'Der Vergleich darf maximal zwei Elemente beinhalten. Um ein neues Element hinzufügen, bitte eines aus der Liste entfernen.',
@@ -173,6 +208,7 @@ export default defineI18nConfig(() => ({
             'help': 'Hilfe',
             'home.welcome': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
             'hours': 'Stunden',
+            'imprint': 'Impressum',
             'item': 'Exemplar',
             'itemContent': 'Ein Exemplar ist eine physische oder digitale Kopie eines Films oder einer Variante. Diese Ebene beschreibt, was tatsächlich in den Archivbeständen vorhanden ist. Zum Beispiel könnte eine archivierte Kopie eines Films kürzer sein als die ursprüngliche Laufzeit, weil Material fehlt.',
             'items': 'Exemplare',
@@ -242,6 +278,35 @@ export default defineI18nConfig(() => ({
             'contact.definitions': 'Was ist der Unterschied zwischen Werk, Manifestation und Exemplar?',
             'contact.dataProviders': 'Hilfe für Datengeber',
             'contact.dataProvidersContent': 'Werden Sie als Datengeber Teil von AVefi Informationen zu den notwendigen Schritten finden Sie im Folgenden. How-to-Dokument (One-Pager) einbinden. Link auf Manual',
+            'bannerText': 'Ausgewählte Kollektionen und Highlights aus der Welt der Film-Metadaten',
+            'bannerDescription': 'AVefi präsentiert ausgewählte Sammlungen und wichtige Erkenntnisse aus dem Bereich der Film-Metadaten. Erkunden Sie eine Vielzahl von Datensätzen, von umfassenden Filmographien bis hin zu detaillierten technischen Spezifikationen, die eine eingehende Analyse und neue Einblicke in die filmische Landschaft ermöglichen.',
+            'coreFunctionsTitle': 'Kernfunktionen',
+            'coreFunctions': [
+                'Detaillierte Metadaten nach FIAF-Standard.',
+                'Persistente IDs (PIDs) für langfristige Identifizierung.',
+                'Erfüllung der FAIR-Prinzipien für optimale Datennutzung.',
+                'Einfache Suche über verschiedene Institutionen.',
+                'Zentrale, regelmäßig aktualisierte Datenbank.'
+            ],
+            'learnMore': 'Mehr erfahren',
+            'forFilmResearchersTitle': 'Für Filmwissenschaftler*innen',
+            'forFilmResearchers': [
+                'Zeitersparnis durch effiziente Suche.',
+                'Neue Erkenntnisse durch unerschlossene Bestände.',
+                'Reproduzierbare Forschung dank PIDs.',
+                'Bessere Zusammenarbeit zwischen Forschenden.'
+            ],
+            'technicalBasicsTitle': 'Technische Grundlagen',
+            'technicalBasics': [
+                'Solide technische Grundlage: Basiert auf dem Handle-System und gewährleistet die langfristige Identifizierung von Daten.',
+                'Flexible Integration: Ermöglicht die einfache Einbindung in bestehende Systeme und Workflows.',
+                'Hohe Datenqualität: Durch die Verwendung einer Type-Registry und Datenmodell.'
+            ],
+            'videoTitle': 'AVefi',
+            'videoDescription': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
+            'videoNotSupported': 'Ihr Browser unterstützt das Video-Tag nicht.',
+            'partnersTitle': 'Verbundpartner',
+            'partnersDescription': 'AVefi wird in Kooperation mit folgenden Partnern entwickelt:',
             ...avefiLocales.de
         }
     }

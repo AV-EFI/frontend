@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mx-auto p-2">
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],

@@ -6,22 +6,22 @@
           <h2 class="text-2xl font-bold mb-4">
             {{ $t('comparison') }}
           </h2>
-          <div class="w-1/2 p-1">
+          <div class="w-full md:w-1/2 p-1">
             <h3 class="text-xl mb-4">
               {{ $t('dataset1') }}
             </h3>
             <textarea
               v-if="prev"
-              class="p-4 rounded-lg border-2 border-gray-500"
+              class="p-4 rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
               v-html="prev"
             />
           </div>
-          <div class="w-1/2 p-1">
+          <div class="w-full md:w-1/2 p-1">
             <h3 class="text-xl mb-4">
               {{ $t('dataset2') }}
             </h3>
             <textarea
-              class="p-4 rounded-lg border-2 border-gray-500"
+              class="p-4 rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
               v-html="current"
             />
           </div>
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div class="viewer flex flex-row flex-wrap w-full">
+  <div class="viewer flex flex-col md:flex-row flex-wrap w-full">
     <section class="mt-4 w-full min-w-96 min-h-96">
       <h2 class="text-2xl font-bold mb-4">
         Diff
@@ -50,12 +50,6 @@
 </template>
 
 <script setup lang="ts">
-/*
-const route = useRoute();
-const items = new Array();
-items[0] = route.query.prev;
-items[1] = route.query.next;
-*/
 const props = defineProps({
     'items': {
         type: Array<string>,
@@ -64,23 +58,8 @@ const props = defineProps({
     }
 });
 
-//import type { Mode, Theme } from 'types/VueDiffTypes';
-import type { IAVefiListResponse, IAVefiSingleResponse} from '../../models/interfaces/IAVefiWork';
+import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 const objectListStore = useObjectListStore();
-
-interface ListItem {
-  key: string;
-  title: string;
-  language: string;
-  inputDelay: number;
-  virtualScroll:
-    | false
-    | {
-        height: number;
-        lineMinHeight: number;
-        delay: number;
-      };
-}
 
 async function getCollectionType (routeParamsId:string):Promise<string> {  
     const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
@@ -113,7 +92,6 @@ onMounted(() => {
         objectListStore.comparisonDrawerOpen = false;
     }
 });
-
 </script>
 
 <style lang="scss" scoped>

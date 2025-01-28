@@ -13,8 +13,8 @@
           class="drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral z-40 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content">
-          <div class="w-100 flex flex-row justify-between p-2 mb-2">
+        <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral z-40 dark:bg-primary-800 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white">
+          <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
               class="btn btn-outline btn-sm btn-primary w-1/4"
               :title="$t('close')"
@@ -44,7 +44,7 @@
                   class="btn btn-error text-white join-item w-1/2"
                   :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
-                  @click="removeAllObjects('objectListStore')"
+                  @click="removeAllObjects('shoppingCart')"
                 >
                   {{ $t('clearalllist') }}
                 </button>
@@ -161,6 +161,7 @@
     </ClientOnly>
   </div>
 </template>
+
 <script setup lang="ts">
 import {useObjectListStore} from '../../stores/compareList';
 import {useShoppingCart} from '../../stores/shoppingCart';
@@ -196,6 +197,7 @@ const navigateToComparison = () => {
     }
 };
 </script>
+
 <style lang="css" scoped>
 .tab:is(input[type="radio"]):after {
   width: 100%;

@@ -66,7 +66,6 @@
 </template>
 
 <script setup lang="ts">
-const Credentials = null;
 const { signIn } = useAuth();
 definePageMeta({    
     middleware: 'sidebase-auth',
@@ -95,7 +94,6 @@ if(coo.value) {
 const handleIconClick = (node:FormKitNode, e:Event) => {
     node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye';
     node.props.type = node.props.type === 'password' ? 'text' : 'password';
-    console.log(e);
 };
 
 async function submit(data:any){

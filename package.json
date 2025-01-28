@@ -11,6 +11,7 @@
     "deploy": "npm run build"
   },
   "dependencies": {
+    "@dargmuesli/nuxt-cookie-control": "8.5.0",
     "@elastic/elasticsearch": "^8.17.0",
     "@formkit/addons": "^1.6.9",
     "@formkit/core": "^1.6.9",
@@ -44,6 +45,7 @@
     "@vueuse/core": "^12.0.0",
     "@vueuse/nuxt": "^10.11.1",
     "algoliasearch": "^5.17.1",
+    "cookie-control": "^0.1.1",
     "daisyui": "^4.12.22",
     "elasticsearch": "^16.7.3",
     "esbuild": "^0.23.1",

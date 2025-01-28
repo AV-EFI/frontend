@@ -1,15 +1,17 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <header>
+    <header class="dark:bg-slate-800">
       <GlobalNavBar />
     </header>
-    <main class="main grow bg-neutral dark:bg-slate-950">
+    <main class="main grow bg-neutral dark:bg-slate-950 2xl:p-6">
       <ClientOnly>
         <GlobalIndicatorComp />
       </ClientOnly>
       <slot />
       <GlobalComparisonDrawer />
     </main>
-    <LazyGlobalFooter />
+    <footer class="dark:bg-slate-800">
+      <LazyGlobalFooter />
+    </footer>
   </div>
 </template>
