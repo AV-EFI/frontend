@@ -117,10 +117,6 @@
 <script setup lang="ts">
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
-definePageMeta({
-    auth: false
-});
-
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
@@ -131,12 +127,6 @@ const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', as
         category.value = data.value?.has_record.category;
     }
     return data[0] as IAVefiListResponse;
-});
-
-
-definePageMeta({
-    //middleware: ["auth"]
-    // or middleware: 'auth'
 });
 
 </script>
