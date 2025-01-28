@@ -121,6 +121,7 @@ definePageMeta({
     auth: false
 });
 
+
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
