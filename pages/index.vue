@@ -49,16 +49,18 @@
         </div>
       </div>
     </div>
-    <div class="mx-auto min-h-[66vh] flex flex-col justify-center h-full  p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 dark:hover:bg-gray-700">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2 my-4 px-6 py-2 relative group h-full">
-        <img
-          src="/img/AV-EFI-Logo.png"
-          alt="AV-EFI Logo"
-          class="mx-auto md:col-start-1 md:col-span-1 max-w-64 md:max-w-none"
-        >
-        <h2 class="text-xl text-center dark:text-gray-200 mt-4 md:mt-0 md:col-start-2 md:col-span-1">
-          {{ $t('slogan') }}
-        </h2>
+    <div class="mx-auto min-h-[66vh] flex flex-col justify-center h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 dark:hover:bg-gray-700">
+      <div class="grid grid-cols-1 gap-4 mb-2 my-4 px-6 py-2 relative group h-full text-center">
+        <div class="flex flex-col items-center">
+          <img
+            src="/img/AV-EFI-Logo.png"
+            alt="AV-EFI Logo"
+            class="max-w-64"
+          >
+          <h2 class="text-xl dark:text-gray-200 mt-4 max-w-64">
+            {{ $t('slogan') }}
+          </h2>
+        </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
         <div class="card bg-base-100 h-full flex flex-col dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200">
@@ -187,12 +189,12 @@
             {{ $t('videoNotSupported') }}
           </video>
         </div>
-        <div class="w-full md:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
-          <h2 class="hidden md:visible text-2xl text-center w-full leading-tight max-w-80 dark:text-gray-200">
+        <div class="w-full flex flex-col justify-center items-center p-2 relative mx-auto">
+          <h2 class="text-2xl text-center w-full leading-tight max-w-80 dark:text-gray-200 mb-4">
             <img
               src="/img/AV-EFI-Logo.png"
               alt="AV-EFI Logo"
-              class="mx-auto md:col-start-1 md:col-span-1 max-w-64 md:max-w-none"
+              class="mx-auto max-w-64"
             >
           </h2>
           <p class="text-justify max-w-80 dark:text-gray-300">

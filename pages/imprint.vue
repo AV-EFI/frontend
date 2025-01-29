@@ -105,3 +105,10 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+
+definePageMeta({
+    auth: false,
+});
+
+</script>
