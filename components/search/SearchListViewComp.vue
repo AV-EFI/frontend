@@ -6,10 +6,10 @@
   >
     <div
       v-if="item.has_record?.category"
-      class="flex flex-col md:flex-row min-h-12 w-full p-4 rounded-tl-xl rounded-tr-xl"
+      class="flex flex-row md:flex-row min-h-12 w-full p-4 rounded-tl-xl rounded-tr-xl"
       :class="getCategoryClass(item.has_record.category)"
     >
-      <div class="w-full md:w-2/5 content-center">
+      <div class="w-3/5 md:w-2/5 content-center">
         <h2 class="text-lg dark:text-white">
           <a
             v-if="item._highlightResult?.has_record && item.has_record?.category == 'avefi:WorkVariant'"
@@ -66,10 +66,10 @@
           </span>
         </h2>
       </div>
-      <div class="w-full md:w-1/5 grid justify-items-center content-center mt-2 md:mt-0">
+      <div class="w-1/5 md:w-1/5 grid justify-items-center content-center mt-2 md:mt-0">
         <MicroBadgeCategoryComp :category="item.has_record?.category" />
       </div>
-      <div class="w-full md:w-2/5 grid justify-items-end content-end my-auto mt-2 md:mt-0">
+      <div class="w-1/5 md:w-2/5 grid justify-items-end content-end my-auto mt-2 md:mt-0">
         <GlobalActionContextComp :item="item" />
       </div>
     </div>
@@ -107,7 +107,7 @@
             class="max-h-48 overflow-y-auto"
           />
         </div>
-        <div class="w-full md:w-1/2 ml-2 flex flex-col">
+        <div class="w-full md:w-1/2 md:ml-2 flex flex-col">
           <KeyValueListComp
             keytxt="year"
             :valtxt="item?.productionyears"

@@ -37,7 +37,7 @@
       <Diff
         mode="unified"
         class="w-full min-w-96"
-        theme="light"
+        theme="diffTheme"
         language="json"
         :prev="prev"
         :current="current"
@@ -57,9 +57,23 @@ const props = defineProps({
         default: () => []
     }
 });
-
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
+
 const objectListStore = useObjectListStore();
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return 'avefi_light';
+}
+
+const colorModeCookie = ref(getCookie('avefi-color-mode') || 'avefi_light');
+console.log('Color mode cookie:', colorModeCookie.value);
+
+watch(colorModeCookie, (newValue) => {
+    console.log('Color mode changed:', newValue);
+});
 
 async function getCollectionType (routeParamsId:string):Promise<string> {  
     const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
@@ -95,7 +109,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-  @import '/assets/scss/vs.css'; // import theme
+//@import '/assets/scss/vs.css'; // import theme
+@import '/assets/scss/monokai.css'; // import theme
+
 .editor {
   section {
     display: flex;
@@ -115,7 +131,6 @@ onMounted(() => {
   }
 }
 
-.vue-diff-theme-custom {
-  background-color: #000; // Set background color
-}
+
+
 </style>

@@ -59,96 +59,108 @@ definePageMeta({
       <article class="container flex justify-center">
         <div
           id="c7273"
-          class="frame frame-default frame-type-text frame-layout-0 w-2/3 text-balance text-justify"
+          class="frame frame-default frame-type-text frame-layout-0 w-full md:w-2/3 text-balance text-justify"
         >
           <div class="collapse collapse-arrow mt-2">
             <input
               type="checkbox"
               checked
             >
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.about.heading') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-              {{ $t('contact.about') }}
+              <p class="my-2">
+                {{ $t('contact.about') }}
+              </p>
             </div>
           </div>
 
           <div class="collapse collapse-arrow mt-2">
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.availableMetadata') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-              {{ $t('contact.availableMetadataContent') }}
+              <p class="my-2">
+                {{ $t('contact.availableMetadataContent') }}
+              </p>
             </div>
           </div>
 
           <div class="collapse collapse-arrow mt-2">
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.definitions') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-              {{ $t('work') }}
-              {{ $t('workContent') }}
-              {{ $t('manifestation') }}
-              {{ $t('manifestationContent') }}
-              {{ $t('item') }}
-              {{ $t('itemContent') }}
+              <p class="my-2">
+                {{ $t('work') }}
+                {{ $t('workContent') }}
+                {{ $t('manifestation') }}
+                {{ $t('manifestationContent') }}
+                {{ $t('item') }}
+                {{ $t('itemContent') }}
+              </p>
             </div>
 
             <div class="collapse collapse-arrow mt-2">
               <input type="checkbox">
-              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
                   {{ $t('keywords') }}
                 </h2>
               </div>
               <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-                {{ $t('keywordsContent') }}
+                <p class="my-2">
+                  {{ $t('keywordsContent') }}
+                </p>
               </div>
             </div>
 
             <div class="collapse collapse-arrow mt-2">
               <input type="checkbox">
-              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
                   {{ $t('usage') }}
                 </h2>
               </div>
               <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-                {{ $t('filmsViewable') }}
-                {{ $t('filmsViewableContent') }}
-                {{ $t('resultsUsage') }}
-                {{ $t('resultsUsageContent') }}
-                {{ $t('licensing') }}
-                {{ $t('licensingContent') }}
+                <p class="my-2">
+                  {{ $t('filmsViewable') }}
+                  {{ $t('filmsViewableContent') }}
+                  {{ $t('resultsUsage') }}
+                  {{ $t('resultsUsageContent') }}
+                  {{ $t('licensing') }}
+                  {{ $t('licensingContent') }}
+                </p>
               </div>
             </div>
           </div>
 
           <div class="collapse collapse-arrow mt-2">
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
                 {{ $t('pids') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-              {{ $t('pidsContent') }}
+              <p class="my-2">
+                {{ $t('pidsContent') }}
+              </p>
             </div>
           </div>
 
           <div class="collapse collapse-arrow mt-2">
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white">
+            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.dataProviders') }}
               </h2>

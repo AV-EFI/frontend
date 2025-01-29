@@ -10,7 +10,7 @@
       <div class="drawer-side z-50">
         <label
           :aria-label="$t('close')"
-          class="drawer-overlay z-40"
+          class="hidden md: visible drawer-overlay z-40"
           @click="toggleDrawer"
         />
         <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral z-40 dark:bg-primary-800 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white">

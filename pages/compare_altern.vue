@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-    //middleware: 'auth'
+    auth: false,
 });
 const route = useRoute();
 const items = new Array();
@@ -16,7 +16,7 @@ items[1] = route.query.next;
         [$t('comparison'), ''],
       ]"
     />
-    <div class="container mt-4 snap-y snap-mandatory">
+    <div class="container mt-4 snap-y snap-mandatory md:px-4">
       <div
         role="tablist"
         class="tabs tabs-bordered"
@@ -31,7 +31,7 @@ items[1] = route.query.next;
         >
         <div
           role="tabpanel"
-          class="tab-content bg-base-100 border-base-300 rounded-box p-6 snap-always snap-start"
+          class="tab-content bg-base-100 border-base-300 rounded-box p-2 md:p-6 snap-always snap-start"
         >
           <ClientOnly
             fallback-tag="span"
@@ -49,14 +49,13 @@ items[1] = route.query.next;
         >
         <div
           role="tabpanel"
-          class="tab-content bg-base-100 border-base-300 rounded-box p-6 snap-always snap-start"
+          class="tab-content bg-base-100 border-base-300 p-6 snap-always snap-start"
         >
           <div>
             <ClientOnly
               fallback-tag="span"
               fallback="Loading datasets ..."
             >
-            
               <LazyGlobalCompareViewRaw :items="items" />
             </ClientOnly>
           </div>  

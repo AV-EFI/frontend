@@ -60,10 +60,11 @@ header {
     border: none!important;
   }
 }
+
 html[data-theme="avefi_dark"] .customize_table {
   --easy-table-border: 1px solid #445269;
   --easy-table-row-border: 1px solid #445269;
-
+  --easy-table-body-row-background-color: #2d3a4f;
   --easy-table-header-font-color: #c1cad4;
   --easy-table-header-background-color: #2d3a4f;
 

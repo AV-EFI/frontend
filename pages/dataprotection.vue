@@ -18,7 +18,7 @@ definePageMeta({
       <article class="container flex justify-center">
         <div
           id="c7273"
-          class="frame frame-default frame-type-text frame-layout-0 w-2/3 text-balance text-justify"
+          class="frame frame-default frame-type-text frame-layout-0 w-full md:w-2/3 text-balance text-justify"
         >
           <div class="card">
             <div class="card-body">

@@ -1,22 +1,22 @@
 <template>
-  <div class="carousel-container flex items-center">
+  <div class="carousel-container flex items-center relative">
     <button
-      class="p-2 bg-gray-800 text-white rounded-full bg-opacity-50 w-10 h-10 flex items-center justify-center mr-4 dark:bg-gray-600 dark:text-gray-200"
+      class="md:flex z-20 p-2 md:bg-gray-800 md:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 absolute md:relative top-1/2 transform -translate-y-1/2 md:left-2"
       @click="prevSlide"
     >
       <Icon name="fa:chevron-left" />
     </button>
-    <div class="carousel rounded-box w-96 relative overflow-hidden text-gray-700 dark:text-gray-300">
+    <div class="carousel rounded-box w-[384px] md:w-96 relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
         class="carousel-inner flex transition-transform duration-500 ease-in-out"
-        :style="{ transform: `translateX(-${currentIndex * 24}rem)` }"
+        :style="{ transform: `translateX(-${currentIndex * 384}px)` }"
       >
         <div
           v-for="(item, index) in items"
           :key="index"
-          class="carousel-item w-96 flex-shrink-0 justify-center"
+          class="carousel-item w-[384px] md:w-96 flex-shrink-0 justify-center"
         >
-          <div class="card w-96 bg-base-100 shadow-xl h-full max-w-full dark:bg-gray-800 dark:shadow-gray-700">
+          <div class="card w-[384px] md:w-96 bg-base-100 shadow-xl h-full max-w-full dark:bg-gray-800 dark:shadow-gray-700">
             <figure
               v-if="item.imgSrc"
               class="flex flex-col items-center"
@@ -59,9 +59,15 @@
               <h2 class="card-title dark:text-gray-200">
                 {{ item.title }}
               </h2>
-              <p class="text-gray-700 text-base mt-2 dark:text-gray-300">
+              <p :class="['text-gray-700 text-base mt-2 dark:text-gray-300  md:!line-clamp-none', { 'line-clamp-4': !showFullText }]">
                 {{ item.description }}
               </p>
+              <a
+                class="md:hidden link link-secondary"
+                @click="toggleText"
+              >
+                {{ showFullText ? $t('showLess') : $t('showMore') }}
+              </a>
               <div class="card-actions justify-end">
                 <a
                   :href="item.link"
@@ -74,7 +80,7 @@
       </div>
     </div>
     <button
-      class="p-2 bg-gray-800 text-white rounded-full bg-opacity-50 w-10 h-10 flex items-center justify-center ml-4 dark:bg-gray-600 dark:text-gray-200"
+      class="z-20 md:flex p-2 md:bg-gray-800 text-black md:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 absolute md:relative top-1/2 transform -translate-y-1/2 right-0 md:right-2"
       @click="nextSlide"
     >
       <Icon name="fa:chevron-right" />
@@ -83,7 +89,6 @@
 </template>
 
 <script lang="ts" setup>
-
 interface CarouselItem {
   title: string;
   imgSrc: string;
@@ -106,6 +111,13 @@ const props = defineProps({
     }
 });
 
+const showFullText = ref(false);
+
+const toggleText = (e) => {
+    e.preventDefault();
+    showFullText.value = !showFullText.value;
+};
+
 const currentIndex = ref(0);
 
 const prevSlide = () => {
@@ -121,6 +133,7 @@ const nextSlide = () => {
 .carousel-container {
   display: flex;
   align-items: center;
+  position: relative;
 }
 .carousel-inner {
   display: flex;
@@ -128,7 +141,7 @@ const nextSlide = () => {
 }
 .carousel-item {
   flex-shrink: 0;
-  width: 24rem; /* Fixed width of w-96 */
+  width: 24rem; /* Fixed width of w-[384px] md:w-96 */
 }
 .card {
   max-width: 100%; /* Ensure card does not exceed parent width */

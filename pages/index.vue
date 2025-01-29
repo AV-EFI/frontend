@@ -32,9 +32,9 @@
         </div>
       </div>
     </div>
-    <div class="mx-auto min-h-[75vh] flex flex-col justify-center h-full bg-gradient-to-r from-secondary-600 via-secondary to-secondary-600 text-white p-6 shadow-lg transition duration-500 ease-in-out hover:bg-gradient-to-r hover:from-secondary-700 hover:via-secondary hover:to-secondary-700 relative group dark:bg-gradient-to-r dark:from-secondary-800 dark:via-secondary-700 dark:to-secondary-800 dark:hover:bg-gradient-to-r dark:hover:from-secondary-600 dark:hover:via-secondary-500 dark:hover:to-secondary-600">
-      <div class="flex justify-center mt-2">
-        <div class="w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
+    <div class="mx-auto min-h-[75vh] flex flex-col justify-center h-full bg-gradient-to-r from-secondary-600 via-secondary-400 to-secondary-600 text-white p-6 shadow-lg transition duration-500 ease-in-out hover:bg-gradient-to-r hover:from-secondary-700 hover:via-secondary hover:to-secondary-700 relative group dark:bg-gradient-to-r dark:from-secondary-800 dark:via-secondary-700 dark:to-secondary-800 dark:hover:bg-gradient-to-r dark:hover:from-secondary-600 dark:hover:via-secondary-500 dark:hover:to-secondary-600">
+      <div class="flex flex-wrap justify-center mt-2">
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
           <h2 class="text-2xl text-center w-full leading-tight mb-2 max-w-80 dark:text-gray-200">
             {{ $t('bannerText') }}
           </h2>
@@ -42,15 +42,22 @@
             {{ $t('bannerDescription') }}
           </p>
         </div>
-        <div class="w-1/2 flex justify-center p-2 relative">
-          <GlobalCarouselCardComp :items="cardItems" />
+        <div class="w-full md:w-1/2 flex justify-center md:p-2 relative">
+          <GlobalCarouselCardComp
+            :items="cardItems"
+          />
         </div>
       </div>
     </div>
     <div class="mx-auto min-h-[66vh] flex flex-col justify-center h-full  p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 dark:hover:bg-gray-700">
-      <div class="grid grid-cols-3 gap-4 mb-2 my-4 px-6 py-2 relative group h-full">
-        <h2 class="text-2xl text-center col-start-2 col-span-1 dark:text-gray-200">
-          {{ $t('coreFunctionsTitle') }}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2 my-4 px-6 py-2 relative group h-full">
+        <img
+          src="/img/AV-EFI-Logo.png"
+          alt="AV-EFI Logo"
+          class="mx-auto md:col-start-1 md:col-span-1 max-w-64 md:max-w-none"
+        >
+        <h2 class="text-xl text-center dark:text-gray-200 mt-4 md:mt-0 md:col-start-2 md:col-span-1">
+          {{ $t('slogan') }}
         </h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
@@ -167,8 +174,8 @@
       </div>
     </div>
     <div class="mx-auto min-h-[75vh] flex flex-col justify-center h-full bg-gradient-to-r from-secondary-600 via-secondary to-secondary-600 text-white p-6 shadow-lg transition duration-500 ease-in-out hover:bg-gradient-to-r hover:from-secondary-700 hover:via-secondary hover:to-secondary-700 relative group dark:bg-gradient-to-r dark:from-secondary-800 dark:via-secondary-700 dark:to-secondary-800 dark:hover:bg-gradient-to-r dark:hover:from-secondary-600 dark:hover:via-secondary-500 dark:hover:to-secondary-600">
-      <div class="flex justify-center mt-4">
-        <div class="w-1/2 flex justify-center p-2 relative">          
+      <div class="flex flex-col md:flex-row justify-center mt-4">
+        <div class="w-full md:w-1/2 flex justify-center p-2 relative">          
           <video
             controls
             class="w-full h-auto"
@@ -180,27 +187,31 @@
             {{ $t('videoNotSupported') }}
           </video>
         </div>
-        <div class="w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
-          <h2 class="text-2xl text-center w-full leading-tight  max-w-80 dark:text-gray-200">
-            {{ $t('videoTitle') }}
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
+          <h2 class="hidden md:visible text-2xl text-center w-full leading-tight max-w-80 dark:text-gray-200">
+            <img
+              src="/img/AV-EFI-Logo.png"
+              alt="AV-EFI Logo"
+              class="mx-auto md:col-start-1 md:col-span-1 max-w-64 md:max-w-none"
+            >
           </h2>
-          <p class="text-justify  max-w-80 dark:text-gray-300">
+          <p class="text-justify max-w-80 dark:text-gray-300">
             {{ $t('videoDescription') }}
           </p>
         </div>
       </div>
     </div>
-    <div class="mx-auto min-h-[66vh] flex flex-col justify-center h-full  p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 dark:hover:bg-gray-700">
-      <div class="flex justify-center mt-4">
-        <div class="w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
-          <h2 class="text-2xl text-center w-full leading-tight  max-w-80 dark:text-gray-200">
+    <div class="mx-auto min-h-[66vh] flex flex-col justify-center h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 dark:hover:bg-gray-700">
+      <div class="flex flex-col md:flex-row justify-center mt-4">
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
+          <h2 class="text-2xl text-center w-full leading-tight max-w-80 dark:text-gray-200">
             {{ $t('partnersTitle') }}
           </h2>
-          <p class="text-justify  max-w-80 dark:text-gray-300">
+          <p class="text-justify max-w-80 dark:text-gray-300">
             {{ $t('partnersDescription') }}
           </p>
         </div>
-        <div class="w-1/2 flex justify-center p-2 relative">
+        <div class="w-full md:w-1/2 flex justify-center p-2 relative">
           <GlobalCarouselComp :items="items" />
         </div>
       </div>

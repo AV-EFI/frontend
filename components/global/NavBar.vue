@@ -26,7 +26,7 @@ const shoppingCart = useShoppingCart();
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
+                class="h-8 w-8"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -43,43 +43,71 @@ const shoppingCart = useShoppingCart();
               tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52"
             >
+              <li v-if="shoppingCart.objects?.length > 0">
+                <button
+                  title="Show comparison items"
+                  @click="$toggleComparisonDrawerState"
+                >
+                  {{ $t("shoppingcart") }}
+                  <span class="indicator-item badge bg-shopping-cart text-white">
+                    {{ shoppingCart.objects?.length }}
+                  </span>
+                </button>
+              </li>
+              <li v-if="objectListStore.objects?.length > 0">
+                <button
+                  title="Show comparison items"
+                  @click="$toggleComparisonDrawerState"
+                >
+                  {{ $t("comparison") }}
+                  <span class="indicator-item badge bg-compare-list text-white">
+                    {{ objectListStore.objects?.length }}
+                  </span>
+                </button>
+              </li>
               <li>
+                <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
+              </li>
+              <li>
+                <a href="/contact">{{ $t("help") }}</a>
+              </li>
+              <li v-if="data">
                 <a
                   href="/protected/dashboard"
                   :alt="$t('dashboard')"
                 >{{ $t('dashboard') }}</a>
               </li>
-              <li>
+              <li v-if="data">
                 <a
                   href="/protected/mergetool"
                   :alt="$t('mergeTool')"
                 >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
               </li>
-              <li>
+              <li v-if="data">
                 <a
                   href="/protected/institutionlist"
                   :alt="$t('myDatasets')"
                 >{{ $t('myDatasets') }}</a>
               </li>
-              <li>
+              <li v-if="data">
                 <a
                   href="/protected/favouriteslist"
                   :alt="$t('favourites')"
                 >{{ $t('favourites') }}</a>
               </li>
-              <li>
+              <li v-if="data">
                 <a
                   href="/protected/loglist"
                   :alt="$t('logList')"
                 >{{ $t('logList') }}</a>
               </li>
-              <li>
+              <li v-if="data">
                 <a
                   href="/protected/me"
                   :alt="$t('profile')"
                 >{{ $t('profile') }}</a>
               </li>
-              <li>
+              <li v-if="data">
                 <button
                   Logout
                   title="logout"

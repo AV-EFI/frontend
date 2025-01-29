@@ -19,7 +19,7 @@
       label-text="avefi:Item"
     />
     <EasyDataTable
-      table-class-name="customize_table"
+      table-class-name="customize_table w-[300px] md:w-auto"
       table-theme-color="var(--primary)"
       :headers="headers"
       :items="itemList"
