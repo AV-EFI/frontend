@@ -182,7 +182,7 @@
           >
             <source
               type="video/mp4"
-              src="/vid/look_comp.mp4"
+              src="/vid/roll_comp.mp4"
             >
             {{ $t('videoNotSupported') }}
           </video>
