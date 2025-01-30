@@ -73,8 +73,12 @@ definePageMeta({
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               <p class="my-2">
-                {{ $t('contact.about') }}
+                {{ $t('contact.about.0') }}
               </p>
+              <p class="my-2">
+                {{ $t('contact.about.1') }}
+              </p>
+              <p v-html="$t('contact.about.2')" />
             </div>
           </div>
 
@@ -101,12 +105,25 @@ definePageMeta({
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               <p class="my-2">
-                {{ $t('work') }}
-                {{ $t('workContent') }}
-                {{ $t('manifestation') }}
-                {{ $t('manifestationContent') }}
-                {{ $t('item') }}
-                {{ $t('itemContent') }}
+                {{ $t('contact.workContent.0') }}
+              </p>
+              <p class="my-2">
+                {{ $t('contact.workContent.1') }}
+              </p>
+              <p class="my-2">
+                {{ $t('contact.workContent.2') }}
+              </p>
+              <p class="my-2">
+                {{ $t('contact.workContent.3') }}
+              </p>
+              <p class="my-2">
+                {{ $t('contact.workContent.4') }}
+              </p>
+              <p class="my-2">
+                {{ $t('contact.workContent.5') }}
+              </p>
+              <p class="my-2">
+                {{ $t('contact.workContent.6') }}
               </p>
             </div>
 
@@ -114,31 +131,39 @@ definePageMeta({
               <input type="checkbox">
               <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
-                  {{ $t('keywords') }}
+                  {{ $t('contact.keywords') }}
                 </h2>
               </div>
               <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
                 <p class="my-2">
-                  {{ $t('keywordsContent') }}
+                  {{ $t('contact.keywordsContent') }}
                 </p>
               </div>
             </div>
-
             <div class="collapse collapse-arrow mt-2">
               <input type="checkbox">
               <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
-                  {{ $t('usage') }}
+                  {{ $t('contact.normdata') }}
+                </h2>
+              </div>
+              <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
+                <p
+                  class="my-2"
+                  v-html="$t('contact.normdataContent')"
+                />
+              </div>
+            </div>
+            <div class="collapse collapse-arrow mt-2">
+              <input type="checkbox">
+              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+                <h2>
+                  {{ $t('contact.availability') }}
                 </h2>
               </div>
               <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
                 <p class="my-2">
-                  {{ $t('filmsViewable') }}
-                  {{ $t('filmsViewableContent') }}
-                  {{ $t('resultsUsage') }}
-                  {{ $t('resultsUsageContent') }}
-                  {{ $t('licensing') }}
-                  {{ $t('licensingContent') }}
+                  {{ $t('contact.availabilityContent') }}
                 </p>
               </div>
             </div>
@@ -148,12 +173,15 @@ definePageMeta({
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
-                {{ $t('pids') }}
+                {{ $t('contact.pids') }}
               </h2>
             </div>
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               <p class="my-2">
-                {{ $t('pidsContent') }}
+                {{ $t('contact.pidsContent.0') }}
+              </p>
+              <p>
+                {{ $t('contact.pidsContent.1') }}
               </p>
             </div>
           </div>

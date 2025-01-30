@@ -14,7 +14,7 @@
             style="filter: blur(5px) opacity(0.8);"
           >
             <source          
-              src="/vid/look_comp_2.mp4"
+              src="/vid/archive_closeup.mp4"
               type="video/mp4"
             >
             {{ $t('videoNotSupported') }}
@@ -263,7 +263,7 @@ const cardItems = ref(
         {
             title: 'Hermann Schlenker',
             description: 'Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind heute wichtiger denn je, da sie ein wertvolles Zeitzeugnis von Kulturen darstellen, die sich im Wandel befinden oder bereits verschwunden sind.',
-            link: 'http://localhost:3000/search_altern/index?21.11155-dev-runtime%5BrefinementList%5D%5Bproducers%5D%5B0%5D=Schlenker%2C%20Hermann&21.11155-dev-runtime%5BrefinementList%5D%5Bproducers%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion',
+            link: '/search_altern/index?21.11155-dev-runtime%5BrefinementList%5D%5Bproducers%5D%5B0%5D=Schlenker%2C%20Hermann&21.11155-dev-runtime%5BrefinementList%5D%5Bproducers%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion',
             linkText: 'Hermann Schlenker bei AVefi'
         },
         {
@@ -271,7 +271,7 @@ const cardItems = ref(
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
             imgAlt: 'Georg Stefan Troller',
             description: 'Georg Stefan Troller, ein österreichisch-französischer Filmemacher und Journalist, war bekannt für seinen tief empfundenen Humanismus. Seine Dokumentarfilme boten intime Porträts von Menschen und ihren Geschichten, indem sie persönliche Erfahrungen und soziale Themen auf eindringliche Weise miteinander verbanden.',
-            link: 'https://projects.tib.eu/av-efi/metadaten/',
+            link: '/search_altern/index?21.11155-dev-runtime%5BrefinementList%5D%5Bcategory_clean%5D%5B0%5D=avefi_WorkVariant&21.11155-dev-runtime%5BrefinementList%5D%5Bdirectors%5D%5B0%5D=Troller%2C%20Georg%20Stefan',
             linkText: 'Georg Stefan Troller bei AVefi',
             imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
             imgSourceText: 'Wikimedia Commons',
@@ -283,7 +283,7 @@ const cardItems = ref(
         {
             title: 'Filmgeschichte der DDR',
             description: 'Diese Sammlung stellt eine einzigartige Ressource dar, die sich mit der Filmgeschichte der DDR beschäftigen. Durch die Bereitstellung umfassender Metadaten ermöglicht sie anspruchsvolle Forschungsvorhaben und trägt zur Weiterentwicklung wissenschaftlicher Erkenntnisse über die Kultur und Gesellschaft der DDR bei.',
-            link: 'http://localhost:3000/search_altern/?21.11155-dev-runtime%5BrefinementList%5D%5Bcountries%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29',
+            link: '/search_altern/?21.11155-dev-runtime%5BrefinementList%5D%5Bcountries%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29',
             linkText: 'Unsere Kollektion an DDR-Filmen'
         }
     ]
