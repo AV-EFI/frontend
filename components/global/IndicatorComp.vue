@@ -3,7 +3,7 @@
     v-if="objectListStore.objects?.length > 0 || shoppingCart.objects?.length > 0"
     :alt="$t('gotocomp')"
     :title="$t('gotocomp')"
-    class="avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-neutral-200 dark:bg-neutral-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
+    class="hidden avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-neutral-200 dark:bg-neutral-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
   >
     <button
       class="btn btn-primary rounded-l-xl rounded-r-none md:w-10 h-full"

@@ -10,10 +10,32 @@ const triggerSignout = () => {
 
 const objectListStore = useObjectListStore();
 const shoppingCart = useShoppingCart();
+
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+    isScrolled.value = window.scrollY > 50;
+};
+
+onMounted(() => {
+    const header = document.querySelector('header');
+    if (header) {
+        const headerHeight = header.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+    }
+    window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
-  <nav class="navbar border-b-2 bg-neutral-50 dark:bg-gray-950 dark:text-white dark:border-gray-700">
+  <nav
+    class="navbar border-b-2 bg-neutral-50 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
+    :class="isScrolled? 'md:mix-blend-multiply md:opacity-90' : ''"
+  >
     <ClientOnly>
       <div class="container flex justify-between mx-auto p-0">
         <div class="navbar-start w-1/4 flex justify-between lg:justify-start">

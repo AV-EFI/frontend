@@ -1,7 +1,9 @@
 <template>
   <div>
     <pre class="hidden">{{ $i18n.locale }}</pre>
-    <label class="swap swap-flip">
+    <label
+      class="swap swap-flip"
+    >
       <!-- this hidden checkbox controls the state -->
       <input
         v-model="$i18n.locale"
@@ -11,26 +13,27 @@
         :value="$i18n.locale"
         class="checkbox theme-controller hidden"
       >
-
       <div
         class="swap-off"
         alt="Deutsche Sprache"
         title="Deutsche Sprache"
+        @click="toggleLocale"
       >
         <Suspense>
           <Icon
             id="localeGerman"
             class="h-8 w-8"
-            alt="Deutsche Sprache"
-            title="Deutsche Sprache"
+            alt="Anzeige in deutscher Sprache"
+            title="Anzeige in deutscher Sprache"
             name="emojione:flag-for-germany"
           />
         </Suspense>
       </div>
       <div
         class="swap-on"
-        alt="English language"
-        title="English language"
+        alt="Switch to English language"
+        title="Switch to English language"
+        @click="toggleLocale"
       >
         <Suspense>
           <Icon
@@ -45,3 +48,12 @@
     </label>
   </div>
 </template>
+
+<script lang="ts" setup>
+const i18n:any = useNuxtApp().$i18n;
+i18n.setLocale(i18n.getLocaleCookie() || i18n.getBrowserLocale());
+watch(() => i18n.locale.value, (newLocale) => {
+    i18n.setLocale(newLocale);
+    i18n.setLocaleCookie(newLocale);
+});
+</script>

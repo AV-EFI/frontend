@@ -80,7 +80,7 @@
     "@nuxt/types": "^2.18.1",
     "@nuxt/typescript-build": "^3.0.2",
     "@nuxtjs/eslint-module": "^4.1.0",
-    "@nuxtjs/i18n": "^8.5.6",
+    "@nuxtjs/i18n": "^9.1.5",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@pinia/nuxt": "^0.5.5",
     "@types/node": "^20.17.10",

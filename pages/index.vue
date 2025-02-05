@@ -3,7 +3,7 @@
     <!-- Top row with full width banner -->
     <div class="w-full relative container">
       <div
-        class="min-h-96 w-full flex-col lg:flex-row-reverse relative overflow-hidden flex items-center justify-center"
+        class="min-h-128 w-full flex-col lg:flex-row-reverse relative overflow-hidden flex items-center justify-center"
       >
         <ClientOnly>
           <video
@@ -176,8 +176,8 @@
       </div>
     </div>
     <div class="mx-auto min-h-[75vh] flex flex-col justify-center h-full bg-gradient-to-r from-secondary-600 via-secondary to-secondary-600 text-white p-6 shadow-lg transition duration-500 ease-in-out hover:bg-gradient-to-r hover:from-secondary-700 hover:via-secondary hover:to-secondary-700 relative group dark:bg-gradient-to-r dark:from-secondary-800 dark:via-secondary-700 dark:to-secondary-800 dark:hover:bg-gradient-to-r dark:hover:from-secondary-600 dark:hover:via-secondary-500 dark:hover:to-secondary-600">
-      <div class="flex flex-col md:flex-row justify-center mt-4">
-        <div class="w-full md:w-1/2 flex justify-center p-2 relative">          
+      <div class="flex flex-wrap justify-center mt-4">
+        <div class="w-full md:w-1/2 flex justify-center p-2 relative">
           <video
             controls
             class="w-full h-auto"
@@ -189,7 +189,7 @@
             {{ $t('videoNotSupported') }}
           </video>
         </div>
-        <div class="w-full flex flex-col justify-center items-center p-2 relative mx-auto">
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
           <h2 class="text-2xl text-center w-full leading-tight max-w-80 dark:text-gray-200 mb-4">
             <img
               src="/img/AV-EFI-Logo.png"
@@ -224,7 +224,8 @@
 <script setup lang="ts">
 definePageMeta(
     { 
-        auth: false 
+        auth: false,
+        layout: 'default'
     }
 );
 

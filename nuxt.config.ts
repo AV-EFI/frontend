@@ -212,6 +212,16 @@ export default defineNuxtConfig({
     },
     i18n: {
         /* module options */
+        strategy: 'no_prefix',
+        locales: ['de', 'en'],
+        lazy: true,
+        skipSettingLocaleOnNavigate: true,
+        detectBrowserLanguage: {
+            useCookie: true,
+            cookieKey: 'i18n_redirected', // Name of the cookie
+            alwaysRedirect: false, // Redirect even if language is already set
+            fallbackLocale: 'de'
+        },
         vueI18n: "./i18n.config.ts", // if you are using custom path, default
     },
     colorMode: {

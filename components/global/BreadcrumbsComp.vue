@@ -1,8 +1,8 @@
 <template>
   <div
-    class="w-full md:w-fit center-content justify-center mx-auto text-slate-600 dark:text-slate-200"
+    class="w-full md:w-fit center-content justify-center mx-auto my-2 text-slate-600 dark:text-slate-200"
   >
-    <div class="breadcrumbs text-sm dark:text-slate-400">
+    <div class="breadcrumbs ml-2 md:ml-auto text-sm dark:text-slate-400">
       <ul class="flex flex-wrap gap-2">
         <li
           v-for="el in breadcrumbs"

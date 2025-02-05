@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container col-span-full dark:bg-gray-900">
+  <div class="grid-container col-span-full">
     <div class="grid grid-cols-12 gap-2">
       <!-- has_event -->
       <!-- papa grid -->       
