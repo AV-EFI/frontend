@@ -1,21 +1,21 @@
 <template>
   <div class="editor mt-8">
-    <section>
-      <div class="flex flex-col md:flex-row justify-center">
-        <div class="w-full md:w-96 mb-4 md:mb-0">
-          <h3 class="text-xl mb-4 dark:text-white">
-            {{ $t('dataset1') }}
-          </h3>
-          <ViewsWorkViewReduced v-model="prev" />
-        </div>
-        <div class="w-full md:w-96 md:ml-2">
-          <h3 class="text-xl mb-4 dark:text-white">
-            {{ $t('dataset2') }}
-          </h3>
-          <ViewsWorkViewReduced v-model="current" />
-        </div>
+    <div class="grid grid-cols-2">
+      <div class="grid grid-cols-1 md:w-[420px] grid-rows-5 mr-0 ml-auto">
+        <ViewsWorkViewReduced
+          v-model="prev"
+          :title="$t('dataset1')"
+          class="col-span-full"
+        />
       </div>
-    </section>    
+      <div class="grid grid-cols-1 md:w-[420px] grid-rows-5 ml-0 mr-auto">
+        <ViewsWorkViewReduced
+          v-model="current"
+          :title="$t('dataset2')"
+          class="col-span-full"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

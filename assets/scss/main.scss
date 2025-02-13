@@ -61,7 +61,47 @@ header {
   }
 }
 
+.customize_table {
+  .vue3-easy-data-table__main {
+    overflow-y: hidden!important;
+  }
+  --primary-color: var(--primary-500);
+  --secondary-color: var(--secondary-500);
+  --easy-table-body-row-font-size: 14px;
+  --easy-table-border: 1px solid #e0e0e0;
+  --easy-table-row-border: 1px solid #e0e0e0;
+  --easy-table-body-row-background-color: #ffffff;
+  --easy-table-header-font-color: #333333;
+  --easy-table-header-background-color: #f5f5f5;
+
+  --easy-table-body-even-row-font-color: #333333;
+  --easy-table-body-even-row-background-color: #f9f9f9;
+
+  --easy-table-body-row-font-color: #333333;
+  --easy-table-body-row-background-color: #ffffff;
+
+  --easy-table-body-row-hover-font-color: #000000;
+  --easy-table-body-row-hover-background-color: #e0e0e0;
+
+  --easy-table-footer-background-color: #f5f5f5;
+  --easy-table-footer-font-color: #333333;
+
+  --easy-table-rows-per-page-selector-width: 70px;
+  --easy-table-rows-per-page-selector-option-padding: 10px;
+  --easy-table-rows-per-page-selector-z-index: 1;
+
+  --easy-table-scrollbar-track-color: #f5f5f5;
+  --easy-table-scrollbar-color: #f5f5f5;
+  --easy-table-scrollbar-thumb-color: #cccccc;
+  --easy-table-scrollbar-corner-color: #f5f5f5;
+
+  --easy-table-loading-mask-background-color: #ffffff;
+}
+
+
 html[data-theme="avefi_dark"] .customize_table {
+  
+  --easy-table-body-row-font-size: 14px;
   --easy-table-border: 1px solid #445269;
   --easy-table-row-border: 1px solid #445269;
   --easy-table-body-row-background-color: #2d3a4f;
@@ -72,7 +112,7 @@ html[data-theme="avefi_dark"] .customize_table {
   --easy-table-body-even-row-background-color: var(--slate-900);
 
   --easy-table-body-row-font-color: #fff;
-  --easy-table-body-row-background-color: var(--  slate-800);
+  --easy-table-body-row-background-color: var(--slate-800);
 
   --easy-table-body-row-hover-font-color: #efefef;
   --easy-table-body-row-hover-background-color: var(--slate-950);

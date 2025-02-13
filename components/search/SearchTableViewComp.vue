@@ -1,175 +1,238 @@
 <template>
-  <table class="table border-collapse border border-slate-400 table-sm max-w-full">
-    <thead class="bg-primary-500 text-white">
-      <tr>
-        <th
-          class="border border-slate-300"
-          :alt="$t('title')"
-          :title="$t('title')"
-        >
-          {{ $t('title').toUpperCase() }}
-        </th>
-        <th
-          class="border border-slate-300"
-          :alt="$t('category')"
-          :title="$t('category')"
-        />
-        <th
-          class="border border-slate-300 max-w-16 text-ellipsis"
-          :alt="$t('countries')"
-          :title="$t('countries')"
-        >
-          {{ $t('country').toUpperCase() }}
-        </th>
-        <th
-          class="border border-slate-300 w-6 text-ellipsis"
-          :alt="$t('productionyear')"
-          :title="$t('productionyear')"
-        >
-          {{ $t('year').toUpperCase() }}
-        </th>
-        <th
-          class="border border-slate-300 max-w-18 text-ellipsis"
-          :alt="$t('directors')"
-          :title="$t('directors')"
-        >
-          {{ $t('directors').toUpperCase() }}
-        </th>
-        <th
-          class="border border-slate-300 max-w-18 text-ellipsis"
-          :alt="$t('avefi:ProductionEvent')"
-          :title="$t('avefi:ProductionEvent')"
-        >
-          {{ $t('avefi:ProductionEvent').toUpperCase() }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="item in items"
-        :key="item._id"
-        :class="[item.has_record.category == 'avefi:Manifestation'? 'dark:bg-slate-800 bg-slate-50': item.has_record.category == 'avefi:Item' ? 'dark:bg-slate-900 bg-slate-100':'dark:bg-slate-700', 'hover:bg-blend-darken']"
-        class=""
-      >
-        <td
-          class="border border-slate-200 dark:border-slate-600 min-w-12 max-w-80 md:max-w-128 xxl:max-w-128"
-          style="min-width:200px; word-wrap: break-word; overflow-wrap:break-word;}"
-          :title="item.has_record.has_primary_title.has_name"
-        >
-          <div class="flex w-[250px]">
-            <a
-              v-if="item.has_record.category == 'avefi:WorkVariant'"
-              :href="`/film/${item.objectID}`"
-              :title="$t('detailviewlink')"
-              target="_blank"
-              class="link dark:link-white"
+  <EasyDataTable
+    table-class-name="customize_table w-[300px] md:w-auto"
+    table-theme-color="var(--primary)"
+    :headers="headers"
+    :items="items"
+    alternating
+    buttons-pagination
+    show-index
+    hide-footer
+    :rows-per-page="10"
+  >
+    <template #header-has_record.has_primary_title.has_name="header">
+      <div class="customize-header dark:text-primary-100">
+        {{ $t(header.text) }}
+      </div>
+    </template>
+    <template #header-has_record.has_event.located_in.has_name="header">
+      <div class="customize-header dark:text-primary-100">
+        {{ $t(header.text) }}
+      </div>
+    </template>
+    <template #header-years="header">
+      <div class="customize-header dark:text-primary-100">
+        {{ $t(header.text) }}
+      </div>
+    </template>
+    <template #header-directors_or_editors="header">
+      <div class="customize-header dark:text-primary-100">
+        {{ $t(header.text) }}
+      </div>
+    </template>
+    <template #header-production="header">
+      <div class="customize-header dark:text-primary-100">
+        {{ $t(header.text) }}
+      </div>
+    </template>
+    <template #loading>
+      <div class="dark:text-primary-100">
+        loading items ...
+      </div>
+    </template>
+    <template #item-has_record.has_primary_title.has_name="item">
+      <div class="w-full flex flex-row">
+        <div class="dark:text-primary-100 w-4/5 my-auto">
+          <a
+            :href="`/film/${item.objectID}`"
+            :title="$t('detailviewlink')"
+            target="_blank"
+            class="link dark:link-white no-underline hover:underline"
+          >
+            <span 
+              v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
             >
-              <span 
-                v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              >
-                <ais-highlight
-                  attribute="has_record.has_primary_title.has_name"
-                  :hit="item"
-                />
-              </span>
-              <span v-else>
-                {{ item?.has_record?.has_primary_title?.has_name }}
-              </span>
-            </a>
-            <span
-              v-else
-              :title="$t('detailviewlink')"
-              class=""
-            >
-              {{ item?.has_record?.has_primary_title.has_name }}
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />
             </span>
+            <span v-else>
+              {{ item?.has_record?.has_primary_title?.has_name }}
+            </span>
+          </a>
+        </div>
+        <GlobalActionContextComp
+          v-if="item.has_record.category == 'avefi:WorkVariant'"
+          :item="item"
+          comp-size="sm"
+          class="w-1/5 justify-center items-center my-auto"
+        />          
+      </div>
+    </template>
+    <template #item-has_record.has_event.located_in.has_name="item">
+      <DetailKeyValueListComp
+        :valtxt="item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null)"
+        :ul="true"
+        font-size="text-sm"
+        overflow-y="overflow-y-clip"
+        class="mb-2"
+      />
+    </template>
+    <template #item-years="item">
+      <DetailKeyValueListComp
+        :valtxt="item?.years"
+        class="mb-2"
+        font-size="text-sm"
+        :ul="true"
+      />
+    </template>
+    <template #item-directors_or_editors="item">
+      <SearchHighlightListComp
+        :items="item?.directors_or_editors"
+        :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
+        font-size="text-sm"
+        class="mb-2"
+      />
+    </template>
+    <template #item-production="item">
+      <SearchHighlightListComp
+        :items="item?.production"
+        :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
+        font-size="text-sm"
+        class="mb-2"
+      />
+    </template>      
+    <template
+      #expand="item"
+    >
+      <div
+        v-for="manifestation in item?.manifestations"
+        :key="manifestation.id"
+        class="collapse collapse-arrow rounded-none md:pl-[64px]"
+      >
+        <input
+          type="checkbox"
+          class="manifestation-checkbox"
+        >
+        <div class="collapse-title py-2 bg-slate-100 dark:bg-slate-700 dark:text-whitefont-medium">
+          <p class="text-xs">
+            {{ manifestation?.handle }}
+          </p>
+          <h3 class="font-bold text-xs text-primary-900 dark:text-primary-200">
+            {{ manifestation?.has_record?.described_by?.has_issuer_name }}
+          </h3>
+        </div>
+        <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div class="col-span-1">
+              <MicroLabelComp 
+                label-text="in_language_code"
+                font-size="text-xs"
+              />
+              <SearchHighlightListComp
+                :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
+                :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
+                font-size="text-xs"
+                class="mb-2"
+              />
+            </div>
+            <div class="col-span-1">
+              <MicroLabelComp 
+                label-text="has_colour"
+                font-size="text-xs"
+              />
+              <SearchHighlightSingleComp 
+                :item="manifestation?.has_record?.has_colour_type"
+                :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"
+                font-size="text-xs"                  
+                class="mb-2"
+              />
+            </div>
           </div>
-        </td>
-        <td
-          class="border border-slate-200 max-w-96 dark:border-slate-600"
-          style=""
-          :title="$t(item?.has_record?.category)"
-        >
-          <div class="flex flex-row justify-center items-center w-[80px]">
-            <MicroBadgeCategoryComp
-              :category="item.has_record.category"
-              :dense="true"
-              class="text-xs"
-            />
-            <GlobalActionContextComp
-              v-if="item.has_record.category == 'avefi:WorkVariant'"
-              :item="item"
-              comp-size="sm"
-            />
-          </div>
-        </td>
-        <td
-          class="border border-slate-200 max-w-32 dark:border-slate-600"
-          style="overflow:hidden;
-                 text-overflow: ellipsis;
-                 white-space: nowrap;"
-          :title="item.countries?.join(', ')"
-        >
-          <span>
-            <SearchHighlightListComp 
-              :items="item?.countries"
-              :hilite="item._highlightResult?.countries?.matchedWords"
-              font-size="text-sm"
-            />
-          </span>
-        </td>
-        <td
-          class="border border-slate-200 dark:border-slate-600"
-          style="max-width: 95px;
-                 
-                 text-overflow: ellipsis;
-                 white-space: nowrap;"
-        >
-          <span class="float-right">
-            <SearchHighlightListComp 
-              :items="item?.productionyears"
-              :hilite="item._highlightResult?.productionyears?.matchedWords"
-              font-size="text-sm"
-            />
-          </span>
-        </td>
-        <td
-          class="border border-slate-200 dark:border-slate-600 w-[200px]"
-          style="text-overflow: ellipsis;
-                 white-space: nowrap;"
-          :title="item?.directors?.join(', ')"
-        >
-          <SearchHighlightListComp 
-            :items="item?.directors"
-            :hilite="item._highlightResult?.directors?.matchedWords"
-            font-size="text-sm"
-          />
-        </td>
-        <td
-          class="border border-slate-200 dark:border-slate-600 w-[200px]"
-          style="max-width: 250px;
-                 
-                 text-overflow: ellipsis;
-                 white-space: nowrap;"
-          :title="item.producers?.join(', ')"
-        >
-          <SearchHighlightListComp 
-            :items="item?.producers"
-            :hilite="item._highlightResult?.producers?.matchedWords"
-            font-size="text-sm"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <hr class="my-2">
+          <h4 class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item">
+            {{ $t('items') }}
+          </h4>
+          <table class="table border-collapse border border-slate-400 table-sm max-w-full mt-2">
+            <thead class="bg-slate-200 dark:bg-slate-900 dark:text-white">
+              <tr>
+                <th class="border border-slate-300">
+                  {{ $t('EFI') }}
+                </th>
+                <th class="border border-slate-300">
+                  {{ $t('has_format') }}
+                </th>
+                <th class="border border-slate-300">
+                  {{ $t('in_language_code') }}
+                </th>
+                <th class="border border-slate-300">
+                  {{ $t('webresource') }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="exemplar in manifestation.items"
+                :key="exemplar.id"
+                class="bg-slate-100 dark:bg-slate-800 dark:text-white"
+              >
+                <td class="border border-slate-200 dark:border-slate-600">
+                  <GlobalClipboardComp
+                    font-size="text-xs"
+                    :display-text="item?.handle"
+                  />
+                </td>
+                <td class="border border-slate-200 dark:border-slate-600">
+                  <SearchHighlightListComp
+                    :items="exemplar?.has_record?.has_format?.map(form => form.type)"
+                    :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
+                    font-size="text-xs"
+                    class="mb-2"
+                  />
+                </td>
+                <td class="border border-slate-200 dark:border-slate-600">
+                  <SearchHighlightSingleComp
+                    :item="exemplar?.has_record?.in_language?.code"
+                    :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
+                    font-size="text-xs"
+                    class="mb-2"
+                  />
+                </td>
+                <td class="border border-slate-200 dark:border-slate-600">
+                  <a
+                    v-if="exemplar?.has_record?.has_webresource"
+                    :href="exemplar?.has_record?.has_webresource"
+                    target="_blank"
+                    class="link link-primary dark:link-accent text-xs"
+                  >
+                    <Icon
+                      name="formkit:linkexternal"
+                    />&nbsp;{{ $t('webresource') }}</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </template>
+  </EasyDataTable>
 </template>
 <script lang="ts" setup>
 import type {MovingImageRecordContainer} from '../../models/interfaces/av_efi_schema.ts';
 const props = defineProps({
     'items': {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
-        //type: Array,
         required:true
     }
 });
+
+const headers = [
+    { text: 'title', value: 'has_record.has_primary_title.has_name' },
+    { text: 'country', value: 'has_record.has_event.located_in.has_name' },
+    { text: 'year', value: 'years' },
+    { text: 'directors_or_editors', value: 'directors_or_editors' },
+    { text: 'avefi:ProductionEvent', value: 'production' }
+];
+
 </script>

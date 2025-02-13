@@ -1,14 +1,22 @@
 <template>
-  <span v-if="isSupported">{{ displayText }}
+  <span
+    v-if="isSupported"
+    :class="fontSize"
+  >
+    {{ displayText }}
     <Icon
       class="text-primary-400 dark:text-primary-300 !align-text-bottom cursor-pointer"
+      :class="fontSize"
       name="mdi:clipboard-play-multiple-outline"
       :alt="`Copy ${displayText}`"
       :title="`Copy ${displayText}`"
       @click="copyExtended(displayText)"
     />
   </span>
-  <span v-else>
+  <span
+    v-else
+    :class="fontSize"
+  >
     {{ String(displayText) }}
   </span>
 </template>
@@ -19,6 +27,10 @@ const props = defineProps ({
     'displayText': {
         type: String,
         default: 'AVefi'
+    },
+    'fontSize': {
+        type: String,
+        default: 'text-base'
     }
 });
 const source = ref('AVefi');

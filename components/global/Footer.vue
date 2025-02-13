@@ -63,13 +63,13 @@
             </div>
             <div class="bg-transparent mt-4">
               <a
-                href="https://www.dfg.de/de"
+                href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"
                 target="_blank"
               >
                 <img
                   alt="Sponsoring by DFG"
                   title="❤️"
-                  class="object-contain h-24 w-full md:h-48 md:w-96 dark:opacity-75"
+                  class="object-contain h-24 w-full md:h-48 md:w-96"
                   src="/img/dfg_logo.jpg"                
                 >
               </a>

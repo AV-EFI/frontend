@@ -12,7 +12,7 @@
         class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
-      <div class="menu p-4 w-[100vw] md:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white">
+      <div class="menu md:px-4 w-[100vw] md:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white">
         <div class="flex flex-row justify-end">
           <button 
             class="btn btn-outline btn-ghost w-16 md:hidden"
@@ -25,28 +25,27 @@
         <div class="w-full flex flex-row p-2">
           <div class="search-panel__filters md:mr-1 max-w-full">
             <SearchPanelRefinementListComp
-              header-text="category"
-              attribute-name="category_clean"
-              :translate-label="true"
-              :is-searchable="false"
-              category="avefi:WorkVariant"
-              tab-index="0"
-            />
-            <SearchPanelRefinementListComp
-              header-text="country"
-              attribute-name="countries"
+              header-text="Genre"
+              attribute-name="has_genre_has_name"
               category="avefi:WorkVariant"
               tab-index="1"
             />
             <SearchPanelRefinementListComp
-              header-text="year"
-              attribute-name="productionyears"
+              header-text="country"
+              attribute-name="located_in_has_name"
               category="avefi:WorkVariant"
               tab-index="2"
             />
             <SearchPanelRefinementListComp
-              header-text="Director"
-              attribute-name="directors"
+              header-text="years"
+              attribute-name="years"
+              category="avefi:WorkVariant"
+              tab-index="2"
+            />
+
+            <SearchPanelRefinementListComp
+              header-text="directors_or_editors"
+              attribute-name="directors_or_editors"
               category="avefi:WorkVariant"
               tab-index="3"
             />
@@ -58,7 +57,7 @@
             />
             <SearchPanelRefinementListComp
               header-text="avefi:ProductionEvent"
-              attribute-name="producers"
+              attribute-name="production"
               category="avefi:WorkVariant"
               tab-index="5"
             />
@@ -68,15 +67,52 @@
               category="avefi:WorkVariant"
               tab-index="6"
             />
+            <SearchPanelRefinementListComp
+              header-text="dataholding"
+              attribute-name="has_issuer_name"
+              category="avefi:Manifestation"
+              :is-searchable="false"
+              tab-index="2"
+            />
+            <SearchPanelRefinementListComp
+              header-text="in_language_code"
+              attribute-name="in_language_code"
+              category="avefi:Manifestation"
+              tab-index="1"
+            />
+            <SearchPanelRefinementListComp
+              header-text="has_sound_type"
+              attribute-name="has_sound_type"
+              category="avefi:Manifestation"
+              :is-searchable="false"
+              tab-index="1"
+            />
+            <SearchPanelRefinementListComp
+              header-text="has_duration"
+              attribute-name="has_duration_has_value"
+              category="avefi:Manifestation"
+              :is-searchable="false"
+              tab-index="2"
+            />
+            <SearchPanelRefinementListComp
+              header-text="has_format"
+              attribute-name="has_format_type"
+              category="avefi:Item"
+              :is-searchable="false"
+              tab-index="2"
+            />
+            <SearchPanelRefinementListComp
+              header-text="has_colour"
+              attribute-name="has_colour_type"
+              :is-searchable="false"
+              category="avefi:Item"
+              tab-index="0"
+            />
+
+
             <div class="p-4 text-slate-600 dark:text-slate-300">
-              <h4>TBD:</h4>
-              <h4>Filmh. Institution / Herausgeber</h4>
-              <h4>Materialart (z.B. Dupnegativ)</h4>
-              <h4>Manifestationstyp</h4>
-              <h4>Materialformat (z.B. 35mm)</h4>
-              <h4>Länge in Metern/Dauer in Minuten</h4>
-              <h4>Sprachangaben</h4>
-              <h4>Ton</h4>
+              <h4>Materialart (z.B. Dupnegativ)?</h4>
+              <h4>Manifestationstyp?</h4>
             </div>
           </div>
         </div>

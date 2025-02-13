@@ -14,7 +14,7 @@
           <FormKit
             v-model="searchTerm"
             name="searchTerm"
-            :placeholder="$t('searchterm')"
+            :placeholder="$t('searchplaceholder')"
             type="text"
             prefix-icon="search"
             outer-class="flex-grow !max-w-none w-full"
@@ -42,7 +42,7 @@ import { useSearchParamsStore } from '../../stores/searchParams';
 const searchTerm = ref('');
 const searchDataStore = useSearchParamsStore();
 function redirectToSearchScreen() {
-    navigateTo('/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS + '&21.11155-dev-runtime[query]=' + searchTerm.value);
+    navigateTo('/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS + '&' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + searchTerm.value);
 }
 </script>
 

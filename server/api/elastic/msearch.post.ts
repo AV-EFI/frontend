@@ -1,5 +1,4 @@
-import QueryDslTextQueryType, { SearchRequest } from '@searchkit/api';
-import Client, { SearchkitConfig } from '@searchkit/api';
+import Client from '@searchkit/api';
 import {config} from '@/searchConfig_avefi';
 
 const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:any) => {
@@ -26,28 +25,13 @@ export default defineEventHandler(async (event) => {
                             ...sr,
                             body: {
                                 ...sr.body,
-                                fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"],
+                                //fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"],
                                 track_total_hits: true
                             }
                         };
                     });            
                 }
             },
-            getBaseFilters: () => {
-                return [
-                    {
-                        bool: {
-                            must: [
-                                {
-                                    exists: {
-                                        field: "has_record.category"
-                                    }
-                                }
-                            ],
-                        },
-                    }
-                ];        
-            }
         });
         return response;
     }

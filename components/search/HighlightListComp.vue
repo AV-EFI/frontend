@@ -9,10 +9,10 @@
         v-show="showAll || index < 5"
         :key="index"
         :title="item"
-        :class="{ 'bg-secondary font-bold': ishiliteed(item), [fontSize]: true }"
+        :class="{ 'bg-secondary font-bold  dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
         class="w-full max-w-[200px] overflow-hidden text-ellipsis"
       >
-        {{ item }}
+        {{ $t(item) }}
       </li>
     </ul>
     <ul v-else>
@@ -68,6 +68,6 @@ function ishiliteed(item) {
     if (!props.hilite) return false;
     // Ensure hilite is an array for consistency
     const hilites = Array.isArray(props.hilite) ? props.hilite : [props.hilite];
-    return hilites.includes(item);
+    return hilites.some(hilite => item.includes(hilite));
 }
 </script>

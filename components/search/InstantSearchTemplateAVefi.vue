@@ -9,19 +9,17 @@
         :future="{preserveSharedStateOnUnmount: true}"
         :initial-ui-state="searchClient.uiState"
       >
-        <pre>{{ indexName }}</pre>
         <ais-configure :hits-per-page.camel="20" />
-        <ais-menu attribute="categories" />
         <div class="search-panel">
           <GlobalFacetDrawer />          
           <!-- Center -->
           <div class="drawer-content w-full flex flex-col items-center justify-center">
-            <div class="search-panel__results w-full">
+            <div class="search-panel__results w-full py-2">
               <div class="searchbox p-2">
                 <ais-search-box>
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
-                      class="text-sm flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
+                      class="flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
                     >
                       <label
                         class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon"
@@ -41,7 +39,8 @@
                         type="search"
                         class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
                         :value="currentRefinement"
-                        @input="refine($event?.currentTarget?.value)"
+                        :placeholder="$t('searchplaceholder')"
+                        @input="handleRefine(refine, $event.target.value)"
                       >
                       <span
                         :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm']"
@@ -122,7 +121,7 @@
                   <div class="w-full md:w-1/3 flex flex-col justify-end">
                     <ais-stats>
                       <template #default="{ nbHits }">
-                        <h2 class="text-lg">
+                        <h2 class="font-bold">
                           {{ nbHits }} {{ $t('results') }}
                         </h2>
                       </template>
@@ -140,11 +139,39 @@
                     />
                   </div>
                   <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
-                    <label class="label cursor-pointer w-40 ml-auto">
+                    <label class="label cursor-pointer w-48 ml-auto">
                       <span class="label-text">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input
                         v-model="viewTypeChecked"
+                        type="checkbox"
+                        class="toggle"
+                      >
+                    </label>
+                    <label
+                      class="label cursor-pointer w-48 ml-auto"
+                    >
+                      <span class="label-text">
+                        <LazyIcon
+                          v-if="!expandAllChecked"
+                          class="dark:text-white"
+                          name="fa:expand"
+                        />
+                        <LazyIcon
+                          v-else
+                          class="dark:text-white"
+                          name="fa:compress" 
+                        />
+                      &nbsp;
+                        <span v-if="!expandAllChecked">
+                          {{ $t('expandAll') }}
+                        </span>
+                        <span v-else>
+                          {{ $t('collapseAll') }}
+                        </span>
+                      </span>
+                      <input
+                        v-model="expandAllChecked"
                         type="checkbox"
                         class="toggle"
                       >
@@ -156,15 +183,11 @@
                   style="overflow-y:hidden;"
                 >
                   <ais-hits class="p-2">
-                    <template #default="{ items }">          
-                      <SearchTableViewComp
-                        v-if="viewTypeChecked"
+                    <template #default="{ items }">
+                      <SearchHitsComp
                         :items="items"
-                      />
-                      <SearchListViewComp
-                        v-else
-                        :items="items"
-                      />
+                        :view-type-checked="viewTypeChecked"
+                      />      
                     </template>
                   </ais-hits>
                 </div>
@@ -188,8 +211,12 @@
 </template>
 
 <script setup lang="ts">
+
 const {$toggleFacetDrawerState}:any = useNuxtApp();
+
 const viewTypeChecked = ref(false);
+const expandAllChecked = ref(false);
+
 const props = defineProps({
     searchClient: {
         type: Object,
@@ -198,11 +225,38 @@ const props = defineProps({
     indexName: {
         type: String,
         required: true,
-        default: '21.11155-dev-runtime'
+        default: '21.11155-denormalised-work'
     },
 });
-</script>
 
-<style>
-/* Add any additional styles here */
-</style>
+let refineTimeout;
+
+watch(expandAllChecked, (newValue) => {
+    expandAllItems();
+});
+
+watch(viewTypeChecked, (newValue) => {
+    expandAllChecked.value = false;
+});
+
+const expandAllItems = () => {
+    const expandIcons = document.querySelectorAll('.expand-icon');
+    expandIcons.forEach(icon => {
+        icon.click();
+    });
+    setTimeout(() => {
+        const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = !checkbox.checked;
+        });
+    }, 300);
+};
+
+const handleRefine = (refine, value) => {
+    clearTimeout(refineTimeout);
+    refineTimeout = setTimeout(() => {
+        refine(value);
+    }, 500);
+};
+
+</script>

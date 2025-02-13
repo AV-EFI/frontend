@@ -16,6 +16,17 @@
     <footer class="dark:bg-slate-800">
       <LazyGlobalFooter />
     </footer>
+    <button
+      v-if="showScrollToTop"
+      class="fixed bottom-20 right-[20px] p-2 bg-secondary-400 h-[40px] w-[40px] text-white rounded-full"
+      :title="$t('scrollToTop')"
+      @click="scrollToTop"
+    >
+      <Icon
+        name="heroicons:chevron-up"
+        class="text-lg"
+      />
+    </button>
   </div>
 </template>
 
@@ -23,7 +34,8 @@
 export default {
     data() {
         return {
-            isScrolled: false
+            isScrolled: false,
+            showScrollToTop: false
         };
     },
     mounted() {
@@ -32,6 +44,7 @@ export default {
         document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
 
         window.addEventListener('scroll', this.handleScroll);
+        this.checkPageHeight();
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -39,6 +52,13 @@ export default {
     methods: {
         handleScroll() {
             this.isScrolled = window.scrollY > 50;
+            this.showScrollToTop = window.scrollY > window.innerHeight * 3;
+        },
+        scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+        checkPageHeight() {
+            this.showScrollToTop = document.documentElement.scrollHeight > window.innerHeight * 3;
         }
     }
 };

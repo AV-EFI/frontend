@@ -3,20 +3,21 @@
     :class-names="{
       'ais-Panel': 'collapse collapse-arrow',
       'ais-Panel-body': 'collapse-content !pl-0 pr-0! bg-slate-50 dark:bg-slate-900 dark:text-white text-xs',
-      'ais-Panel-header': 'collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white!min-h-5 !mb-0 flex flex-row justify-between'
+      'ais-Panel-header': 'collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
     }"
     tabindex="4"
   >
     <template #header="{ hasRefinements }">
       <h4 
-        class="my-auto"
-        :class="!hasRefinements?'text-primary-200 dark:text-primary-400':'text-primary-600 dark:text-primary-200'"
+        class="my-auto font-bold"
+        :class="!hasRefinements?'text-primary-200 dark:text-primary-600':'text-primary-600 dark:text-primary-100'"
       >
         {{ $t(headerText) }}
       </h4>
       <MicroBadgeCategoryComp
         v-if="category"
         :category="category"
+        :dense="true"
         class="my-auto"
       />
     </template>

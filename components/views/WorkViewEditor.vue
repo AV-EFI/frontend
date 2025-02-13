@@ -142,7 +142,7 @@
       </label>
       <ul>
         <li
-          v-for="(subjects_item, subjects_index) in cont?.fields.subjects"
+          v-for="(subjects_item, subjects_index) in cont?.fields?.subjects"
           :key="subjects_index"
           class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         >

@@ -2,7 +2,7 @@
   <div>
     <ais-instant-search
       :search-client="searchClient"
-      index-name="21.11155-dev-runtime"
+      index-name="21.11155-denormalised-work"
       :show-loading-indicator="true"
       :routing="true"
       :future="{preserveSharedStateOnUnmount: true}"
@@ -48,12 +48,12 @@
           </div>
         </div>
       </div>
-      <ais-configure :hits-per-page.camel="20" />
+      <ais-configure :hits-per-page.camel="10" />
       <div class="w-full flex flex-col md:flex-row">
         <div class="w-full md:w-1/3 flex flex-col justify-end">
           <ais-stats>
             <template #default="{ nbHits }">
-              <h2 class="text-zinc-700 dark:text-zinc-300">
+              <h2 class="text-zinc-700 font-bold dark:text-zinc-300">
                 {{ nbHits }} {{ $t('results') }}
               </h2>
             </template>

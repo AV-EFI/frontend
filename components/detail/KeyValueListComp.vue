@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col">
-    <MicroLabelComp :label-text="keytxt" />    
+    <MicroLabelComp
+      v-if="keytxt"
+      :label-text="keytxt"
+    />    
     <div
       v-if="!ul"
       class="flex flex-row flex-wrap"
@@ -8,32 +11,30 @@
       <GlobalClipboardComp
         v-for="val in valtxt"
         :key="val?.has_name ?? val"
-        class="text-sm"
+        :class="fontSize"
         :display-text="val?.has_name ?? val"
       />
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
-        class="text-sm"
+        :class="fontSize"
       />        
     </div>
     <div
       v-else
-      class="max-h-64 overflow-y-auto"
-      :class="{'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}"
+      :class="['max-h-64', overflowY, {'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}]"
     >
       <ul>
         <li
           v-for="val in valtxt"
           :key="val?.has_name ?? val"
-          class="py-1"
         >
-          <span class="text-sm">
+          <span :class="fontSize">
             {{ val?.has_name ?? val }}
             <DetailSameAsComp
               v-if="sameAs"
               :same-as-data="val.same_as"
-              class="text-sm"
+              :class="fontSize"
             />
           </span>
         </li>
@@ -46,7 +47,8 @@
 const props = defineProps({
     keytxt: {
         type: String,
-        required: true
+        required: false,
+        default: null
     },
     valtxt: {
         type: Array<Object>,
@@ -63,6 +65,15 @@ const props = defineProps({
     bgColor: {
         type: Boolean,
         default: false
+    },
+    fontSize: {
+        type: String,
+        required: false,
+        default: "text-base",
+    },
+    overflowY: {
+        type: String,
+        default: 'overflow-y-auto'
     }
 });
 

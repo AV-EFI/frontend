@@ -3,7 +3,7 @@
     <span
       v-for="(same_as_item, same_as_index) in sameAsData"
       :key="same_as_index"
-      class="text-sm"
+      :class="fontSize"
     >
       &nbsp;
       <a
@@ -17,7 +17,7 @@
         <Icon
           name="carbon:notebook-reference"
           size="1em"
-          class="!align-text-bottom"
+          class="!align-text-baseline"
           alt="Referenz bei GND"
         />
         &nbsp;{{ $t(same_as_item.category) }}
@@ -33,7 +33,7 @@
         <Icon
           name="carbon:notebook-reference"
           size="1em"
-          class="!align-text-bottom"
+          class="!align-text-baseline"
           alt="Referenz bei VIAF"
         />
         &nbsp;{{ $t(same_as_item.category) }}
@@ -49,7 +49,7 @@
         <Icon
           name="carbon:notebook-reference"
           size="1em"
-          class="!align-text-bottom"
+          class="!align-text-baseline"
           alt="Referenz bei Wikidata"
         />
         &nbsp;{{ $t(same_as_item.category) }}
@@ -65,7 +65,7 @@
         <Icon
           name="carbon:notebook-reference"
           size="1em"
-          class="!align-text-bottom"
+          class="!align-text-baseline"
           alt="Referenz bei Filmportal"
         />
         &nbsp;{{ $t(same_as_item.category) }}
@@ -81,7 +81,7 @@
         <Icon
           name="carbon:notebook-reference"
           size="1em"
-          class="!align-text-bottom"
+          class="!align-text-baseline"
           alt="Referenz bei DOI"
         />
         &nbsp;{{ $t(same_as_item.category) }}
@@ -97,7 +97,7 @@
         <Icon
           name="carbon:notebook-reference"
           size="1em"
-          class="!align-text-bottom"
+          class="!align-text-baseline"
           alt="Referenz bei EIDR"
         />
         &nbsp;{{ $t(same_as_item.category) }}
@@ -110,12 +110,17 @@
 </template>
 
 <script setup lang="ts">
+import { _fontSize } from '#tailwind-config/theme';
 import type {} from '../../models/interfaces/av_efi_schema.ts';
 
 defineProps({
     sameAsData: {
         type: Object,
         default: null,
+    },
+    fontSize: {
+        type: String,
+        default: _fontSize,
     },
 });
 </script>

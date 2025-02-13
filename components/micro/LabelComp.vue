@@ -1,5 +1,8 @@
 <template>
-  <label class="text-xs tracking-wide font-bold dark:text-primary-100 text-primary-500 uppercase">
+  <label 
+    class="tracking-wide font-bold dark:text-primary-100 text-primary-500 uppercase"
+    :class="fontSize"
+  >
     {{ $t($props.labelText) }}:
   </label>
 </template>
@@ -9,6 +12,11 @@ defineProps({
     labelText: {
         type: String,
         required: true
+    },
+    fontSize: {
+        type: String,
+        required: false,
+        default: "text-sm"
     }
 });
 </script>

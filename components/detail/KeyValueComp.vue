@@ -4,17 +4,17 @@
     <div class="flex flex-row">
       <GlobalClipboardComp
         v-if="clip"
-        class="text-sm"
+        :class="fontSize"
         :display-text="valtxt"
       />
       <span
         v-else
-        class="text-sm"
+        :class="fontSize"
       >{{ valtxt }}</span>
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
-        class="text-sm"
+        :class="fontSize"
       />        
     </div>
   </div>
@@ -36,6 +36,10 @@ const props = defineProps({
     'clip': {
         type: Boolean,
         default: true
+    },
+    fontSize: {
+        type: String,
+        default: 'text-base'
     }
 });
 const sameAsData = {
