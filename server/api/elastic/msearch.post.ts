@@ -13,6 +13,9 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     try {
         //body = body.replace("avefi:", "avefi\:");
+        console.log(body);
+        console.log(apiClient);
+        
         const response = await apiClient.searchkit.handleInstantSearchRequests(body, {            
             hooks: {
                 afterSearch: async (requests, responses) => {
