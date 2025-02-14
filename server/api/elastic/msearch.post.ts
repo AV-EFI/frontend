@@ -9,16 +9,20 @@ const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:a
 }, {});
 
 export default defineEventHandler(async (event) => {
+
     const apiClient = Client(config, {debug: true});
+    console.log(apiClient);
+    console.log(config);
+
     const body = await readBody(event);
     try {
         //body = body.replace("avefi:", "avefi\:");
         console.log(body);
-        console.log(apiClient);
-        
+
         const response = await apiClient.searchkit.handleInstantSearchRequests(body, {            
             hooks: {
                 afterSearch: async (requests, responses) => {
+                    console.log(requests);
                     return responses;
                 },
                 beforeSearch: async (searchRequests) => {
@@ -29,7 +33,7 @@ export default defineEventHandler(async (event) => {
                             body: {
                                 ...sr.body,
                                 //fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"],
-                                track_total_hits: true
+                                //track_total_hits: false
                             }
                         };
                     });            
