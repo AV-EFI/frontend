@@ -1,16 +1,17 @@
 <template>
-  <div class="ml-2">
+  <div class="">
     <NuxtLayout
       name="partial-grid-2-1"
       class="mt-4"
     >
       <template #left>
-        <h2
-          class="font-bold col-span-full text-primary-900 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+        <h3
+          class="font-bold text-sm uppercase col-span-full pl-1 text-primary-800 dark:text-primary-100 decoration-manifestation"
           :alt="$t('manifestations')"
         >
           {{ $t('manifestations') }}
-        </h2>  
+        </h3>
+        <hr class="my-2 col-span-full">
       </template>
       <template #right />
     </NuxtLayout>
@@ -54,7 +55,7 @@
             />
             <DetailKeyValueComp
               v-if="manifestation._source?.has_record?.described_by?.has_issuer_name"
-              keytxt="Described by"
+              keytxt="dataholding"
               :valtxt="manifestation._source?.has_record?.described_by?.has_issuer_name"
               class="col-span-full"
             />
@@ -85,6 +86,11 @@
               :valtxt="`${manifestation._source.has_record?.has_extent?.has_value} ${manifestation._source.has_record?.has_extent?.has_unit}`"
               class="w-full mt-1"
             />
+            <MicroLabelComp
+              v-if="manifestation._source.has_record?.in_language"
+              label-text="avefi:Language"
+              class="w-full mt-1"
+            />
             <ul
               v-if="manifestation._source.has_record?.in_language"
               class="w-full mt-1"
@@ -93,7 +99,7 @@
                 v-for="lang in manifestation._source.has_record?.in_language"
                 :key="lang.code"
               >
-                <span class="uppercase">{{ $t(lang?.code) }}</span>&nbsp;
+                <span class="">{{ $t(lang?.code) }}</span>&nbsp;
                 <span
                   v-for="usage in lang?.usage"
                   :key="usage"

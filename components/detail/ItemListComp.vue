@@ -1,22 +1,22 @@
 <!-- eslint-disable vue/valid-v-slot -->
 <template>
-  <div class="ml-2">
+  <div class="">
     <NuxtLayout
       name="partial-grid-2-1"
       class="mt-2"
     >
       <template #left>
         <h4
-          class="text-md capitalize col-span-full text-primary-900 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          class="font-bold col-span-full text-primary-800 dark:text-primary-200 pl-1"
           :alt="$t('items')"
         >
           {{ $t('items') }}
         </h4>  
+        <hr class="my-1 col-span-full">
       </template>
     </NuxtLayout>
     <MicroDividerComp
       in-class="item"
-      label-text="avefi:Item"
     />
     <EasyDataTable
       table-class-name="customize_table w-[300px] md:w-auto"
@@ -29,17 +29,17 @@
       :rows-per-page="10"
     >
       <template #header-_source.has_record.in_language.spoken="header">
-        <div class="customize-header dark:text-primary-100">
+        <div class="customize-header dark:text-primary-100 text-left">
           {{ $t(header.text) }}
         </div>
       </template>
       <template #header-_source.has_record.in_language.subtitles="header">
-        <div class="customize-header dark:text-primary-100">
+        <div class="customize-header dark:text-primary-100 text-left">
           {{ $t(header.text) }}
         </div>
       </template>
       <template #header-_source.has_record.has_webresource="header">
-        <div class="customize-header dark:text-primary-100">
+        <div class="customize-header dark:text-primary-100 text-left">
           {{ $t(header.text) }}
         </div>
       </template>
@@ -55,10 +55,13 @@
           v-if="item._source.has_record.has_webresource"
           :href="item._source.has_record.has_webresource"
           target="_blank"
+          :title="$t('webresource')"
+          :alt="$t('webresource')"
           class="link link-primary dark:link-accent"
         ><Icon
           name="formkit:linkexternal"
-        />&nbsp;{{ $t('webresource') }}</a>
+          class=""
+        /><span class="hidden 2xl:inline">{{ $t('webresource') }}</span></a>
       </template>
       <template
         #item-actions="item"

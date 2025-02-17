@@ -26,12 +26,12 @@
             v-if="item._highlightResult?.has_record && item.has_record?.category == 'avefi:WorkVariant'"
             :href="`/film/${item.objectID}`"
             :title="$t('detailviewlink')"
-            class="align-text-top link text-primary dark:text-white no-underline"
+            class="align-text-top link text-primary dark:text-white no-underline hover:underline"
             target="_blank"
           >
             <ais-highlight
               v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              attribute="has_record.has_primary_title.has_name no-underline"
+              attribute="has_record.has_primary_title.has_name no-underline hover:underline"
               :hit="item"
             />
             <span v-else>{{ item.has_record?.has_primary_title?.has_name }}</span>
@@ -40,12 +40,12 @@
             v-else-if="item.has_record.category == 'avefi:WorkVariant'"
             :href="`/film/${item.objectID}`"
             :title="$t('detailviewlink')"
-            class="align-text-top link text-primary dark:text-white no-underline"
+            class="align-text-top link text-primary dark:text-white no-underline hover:underline"
             target="_blank"
           >
             <ais-highlight
               v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              attribute="has_record.has_primary_title.has_name no-underline"
+              attribute="has_record.has_primary_title.has_name no-underline hover:underline"
               :hit="item"
             />
             <span v-else>{{ item.has_record?.has_primary_title?.has_name }}</span>
@@ -54,7 +54,7 @@
             v-else-if="item.has_record.is_manifestation_of"
             :href="`/film/${item.has_record.is_manifestation_of[0]?.id.replace('21.11155/','')}`"
             :title="$t('detailviewlink')"
-            class="align-text-top link text-primary dark:text-white no-underline"
+            class="align-text-top link text-primary dark:text-white no-underline hover:underline"
             target="_blank"
           >
             <ais-highlight

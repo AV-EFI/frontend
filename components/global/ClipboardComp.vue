@@ -2,10 +2,12 @@
   <span
     v-if="isSupported"
     :class="fontSize"
+    class="flex flex-row items-center"
   >
     {{ displayText }}
+    &nbsp;
     <Icon
-      class="text-primary-400 dark:text-primary-300 !align-text-bottom cursor-pointer"
+      class="text-primary-400 dark:text-primary-300 my-auto cursor-pointer"
       :class="fontSize"
       name="mdi:clipboard-play-multiple-outline"
       :alt="`Copy ${displayText}`"

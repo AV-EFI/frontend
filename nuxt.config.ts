@@ -50,6 +50,7 @@ export default defineNuxtConfig({
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
             ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
+            ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
             AVEFI_DATA_API: process.env.AVEFI_DATA_API,
             SEARCH_URL: process.env.SEARCH_URL,

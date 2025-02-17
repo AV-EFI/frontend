@@ -48,6 +48,7 @@
             class="col-span-full"
             :ul="true"
             :same-as="true"
+            :valtxt="workVar.has_genre"
           />
           <DetailKeyValueListComp
             v-if="workVar.has_subject"
@@ -78,7 +79,3 @@ const props = defineProps({
     }
 });
 </script>
-
-<style scoped>
-/* Add any additional styles here */
-</style>

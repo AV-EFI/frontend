@@ -6,7 +6,7 @@
     />    
     <div
       v-if="!ul"
-      class="flex flex-row flex-wrap"
+      class="flex flex-row flex-wrap items-center"
     >
       <GlobalClipboardComp
         v-for="val in valtxt"
@@ -18,6 +18,7 @@
         v-if="sameAs"
         :same-as-data="sameAsData"
         :class="fontSize"
+        class="flex items-center"
       />        
     </div>
     <div
@@ -28,15 +29,16 @@
         <li
           v-for="val in valtxt"
           :key="val?.has_name ?? val"
+          class="flex flex-row items-center flex-wrap"
+          :class="`${fontSize}`"
         >
-          <span :class="fontSize">
-            {{ val?.has_name ?? val }}
-            <DetailSameAsComp
-              v-if="sameAs"
-              :same-as-data="val.same_as"
-              :class="fontSize"
-            />
-          </span>
+          {{ val?.has_name ?? val }}
+          &nbsp;
+          <DetailSameAsComp
+            v-if="sameAs"
+            :same-as-data="val.same_as"
+            :class="fontSize"
+          />
         </li>
       </ul>
     </div>

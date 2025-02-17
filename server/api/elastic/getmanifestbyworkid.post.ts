@@ -8,7 +8,7 @@ export default defineEventHandler(async (event:any) => {
         const documentId:string = body.id.toString();
 
         const resultManifest = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX,
+            index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
             query: {
                 bool: {
                     must: {
@@ -23,8 +23,6 @@ export default defineEventHandler(async (event:any) => {
         for (const manifest of resultManifest.hits.hits) {
             if(manifest._source?.handle) {
                 const resultItems = await getitemsbymanifestid(manifest._source?.handle);
-                console.log("*****************");
-                console.log(resultItems);
                 manifest._source.items = resultItems;
             }
         }
@@ -43,7 +41,7 @@ export default defineEventHandler(async (event:any) => {
 async function getitemsbymanifestid (manifest_id:string) {
     const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
     const resultItems = await client.search({
-        index: useRuntimeConfig().public.ELASTIC_INDEX,
+        index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
         query: {
             bool: {
                 must: {

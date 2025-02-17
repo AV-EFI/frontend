@@ -22,25 +22,14 @@
               :key="activity_index"
               class="col-span-full"
             >
-              <MicroLabelComp
-                :label-text="has_activity_item.type"
-                class="text-ellipsis dark:text-gray-300"
+              <DetailKeyValueListComp
+                v-if="has_activity_item.has_agent"
+                :keytxt="has_activity_item.type"
+                class="col-span-full dark:text-gray-300"
+                :ul="true"
+                :same-as="true"
+                :valtxt="has_activity_item.has_agent"
               />
-              <!-- has_agent -->
-              <ul>
-                <li
-                  v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
-                  :key="agent_index"
-                >
-                  <span class="break-words inline text-sm dark:text-gray-300">
-                    {{ has_agent_item.has_name }}
-                    <DetailSameAsComp
-                      v-if="has_agent_item.same_as"
-                      :same-as-data="has_agent_item.same_as"
-                    />
-                  </span>
-                </li>
-              </ul>
             </div>
           </template>
           <template #center>
@@ -51,26 +40,15 @@
               class="grid col-span-12 grid-cols-8 activity"
             >
               <div class="col-span-full md:col-span-full">
-                <MicroLabelComp
-                  :label-text="has_activity_item.type"
-                  class="text-ellipsis dark:text-gray-300"
-                />
-                <!-- has_agent -->
                 <div class="col-span-full md:col-span-full">
-                  <ul>
-                    <li
-                      v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
-                      :key="agent_index"
-                    >
-                      <span class="break-words text-sm dark:text-gray-300">
-                        {{ has_agent_item.has_name }}
-                        <DetailSameAsComp
-                          v-if="has_agent_item.same_as"
-                          :same-as-data="has_agent_item.same_as"
-                        />
-                      </span>
-                    </li>
-                  </ul>
+                  <DetailKeyValueListComp
+                    v-if="has_activity_item.has_agent"
+                    :keytxt="has_activity_item.type"
+                    class="col-span-full dark:text-gray-300"
+                    :ul="true"
+                    :same-as="true"
+                    :valtxt="has_activity_item.has_agent"
+                  />
                 </div>
               </div>
             </div>
@@ -114,7 +92,7 @@
                   v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
                   :key="agent_index"
                 >
-                  <span class="break-words inline text-sm dark:text-gray-300">
+                  <span class="break-words inline dark:text-gray-300">
                     {{ has_agent_item.has_name }}
                     <DetailSameAsComp
                       v-if="has_agent_item.same_as"

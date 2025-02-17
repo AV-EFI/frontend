@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         const documentId:string = body.id.toString();
 
         const result = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX,
+            index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
             query: {
                 bool: {
                     must: {

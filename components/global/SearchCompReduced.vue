@@ -42,7 +42,7 @@ import { useSearchParamsStore } from '../../stores/searchParams';
 const searchTerm = ref('');
 const searchDataStore = useSearchParamsStore();
 function redirectToSearchScreen() {
-    navigateTo('/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS + '&' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + searchTerm.value);
+    navigateTo('/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + searchTerm.value);
 }
 </script>
 

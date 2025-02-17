@@ -2,7 +2,7 @@
   <div>
     <div class="mb-2">
       <h2
-        class="text-lg mb-2  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+        class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         :alt="dataJson.has_record.has_primary_title.has_name"
       >
         {{ dataJson.has_record.has_primary_title.has_name }}
@@ -19,7 +19,7 @@
                 <a
                   :href="`https://www.filmportal.de/film/${has_record_same_as_item.id}`"
                   class="link link-primary dark:link-accent link-hover"
-                  alt="Referenz bei  Filmportal"
+                  alt="Referenz bei Filmportal"
                   title="Referenz bei Filmportal"
                   target="_blank"
                 >

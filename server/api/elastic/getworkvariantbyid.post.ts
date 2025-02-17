@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const documentIds:string[] = body.documentId;
         const result = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX,
+            index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
             query: {
                 "ids" : {
                     "values" : typeof (documentIds) !== 'string' ? [...documentIds]: documentIds
