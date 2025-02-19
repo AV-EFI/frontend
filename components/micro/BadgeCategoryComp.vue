@@ -6,6 +6,11 @@
     :alt="$t(category ?? '')"
   >  
     {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+    <Icon
+      v-if="icon"
+      name="fa:caret-down"
+      class="w-2 h-2 text-white ml-1"
+    />
   </span>
   <span
     v-else-if="category.indexOf('Serial') > -1"
@@ -14,6 +19,11 @@
     :alt="$t(category ?? '')"
   >
     {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+    <Icon
+      v-if="icon"
+      name="fa:caret-down"
+      class="w-2 h-2 text-white ml-1"
+    />
   </span>
 </template>
 <script lang="ts" setup>
@@ -23,6 +33,10 @@ defineProps({
         default: 'avefi:WorkVariant'
     },
     'dense': {
+        type: Boolean,
+        default: false
+    },
+    'icon': {
         type: Boolean,
         default: false
     }

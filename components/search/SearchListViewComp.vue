@@ -9,9 +9,9 @@
       class="flex flex-row md:flex-row min-h-12 w-full p-4 rounded-tl-xl rounded-tr-xl"
       :class="getCategoryClass(item.has_record.category)"
     >
-      <div class="w-3/5 md:w-3/5 content-center">
+      <div class="w-4/5 md:w-4/5 content-center">
         <p
-          class="text-sm text-primary-900 dark:text-white"
+          class=" text-xs 2xl:text-base text-primary-900 dark:text-white"
           alt="EFI"
           title="EFI"
         >
@@ -23,66 +23,41 @@
           :title="$t('title')"
         >
           <a
-            v-if="item._highlightResult?.has_record && item.has_record?.category == 'avefi:WorkVariant'"
             :href="`/film/${item.objectID}`"
             :title="$t('detailviewlink')"
-            class="align-text-top link text-primary dark:text-white no-underline hover:underline"
             target="_blank"
+            class="link dark:link-white no-underline hover:underline"
           >
-            <ais-highlight
+            <span 
               v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              attribute="has_record.has_primary_title.has_name no-underline hover:underline"
-              :hit="item"
-            />
-            <span v-else>{{ item.has_record?.has_primary_title?.has_name }}</span>
+            >
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />
+            </span>
+            <span v-else>
+              {{ item?.has_record?.has_primary_title?.has_name }}
+            </span>
           </a>
-          <a
-            v-else-if="item.has_record.category == 'avefi:WorkVariant'"
-            :href="`/film/${item.objectID}`"
-            :title="$t('detailviewlink')"
-            class="align-text-top link text-primary dark:text-white no-underline hover:underline"
-            target="_blank"
-          >
-            <ais-highlight
-              v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              attribute="has_record.has_primary_title.has_name no-underline hover:underline"
-              :hit="item"
-            />
-            <span v-else>{{ item.has_record?.has_primary_title?.has_name }}</span>
-          </a>
-          <a
-            v-else-if="item.has_record.is_manifestation_of"
-            :href="`/film/${item.has_record.is_manifestation_of[0]?.id.replace('21.11155/','')}`"
-            :title="$t('detailviewlink')"
-            class="align-text-top link text-primary dark:text-white no-underline hover:underline"
-            target="_blank"
-          >
-            <ais-highlight
-              v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              attribute="has_record.has_primary_title.has_name"
-              :hit="item"
-            />
-            <span v-else>{{ item.has_record?.has_primary_title?.has_name }}</span>
-          </a>
-          <span
-            v-else
-            :title="$t('pleaseusemanifestationlink')"
-          >
-            <ais-highlight
-              v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-              attribute="has_record.has_primary_title.has_name"
-              :hit="item"
-            />
-            <span v-else>{{ item.has_record?.has_primary_title?.has_name }}</span>
-          </span>
         </h2>
       </div>
-      <div class="w-1/5 md:w-1/5 grid justify-items-center content-end  mt-2 md:my-auto">
+      <div class="w-1/5 md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+        <MicroEfiCopyComp :handle="item?.handle" />
         <GlobalActionContextComp :item="item" />
       </div>
     </div>
-    <div class="card-body p-4">
-      <div class="flex flex-col md:flex-row">
+    <div class="card-body p-4 pt-0">
+      <!--top-->
+      <div class="grid col-span-full md:col-span-12 grid-cols-12 gap-2">
+        <div class="col-span-full md:col-span-12">
+          <MicroDividerComp
+            class="mx-auto"
+            label-text="avefi:WorkVariant" 
+          />
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row hidden">
         <div class="w-full md:w-100 flex flex-col">
           <DetailKeyValueComp
             keytxt="EFI"
@@ -118,8 +93,7 @@
           <MicroLabelComp label-text="avefi:Subject" />
           <SearchHighlightListComp
             :items="item?.subjects"
-            :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"
-            
+            :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"            
             class="max-h-48 overflow-y-auto"
           />
         </div>
@@ -146,7 +120,7 @@
       </div>
       <hr class="my-2">
       <div class="w-full flex flex-col">
-        <h3 class="font-bold mb-2 pl-1 text-manifestation dark:text-manifestation-300 underline decoration-manifestation">
+        <h3 class="font-bold text-sm mb-2 pl-1 uppercase text-primary-900 dark:text-primary-100">
           {{ $t('manifestations') }}
         </h3>
         <div
@@ -159,21 +133,28 @@
             class="manifestation-checkbox"
           >
           <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-whitefont-medium">
-            <p class="text-sm">
-              {{ manifestation?.handle }}
-            </p>
-            <h3 class="font-bold text-primary-900 dark:text-primary-200">
-              {{ manifestation?.has_record?.described_by?.has_issuer_name }}
-            </h3>
+            <DetailManifestationHeaderComp
+              :manifestation="manifestation"
+              type="searchresult"
+            />
           </div>
+          
           <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <!--top-->
+              <div class="grid col-span-full md:col-span-12 grid-cols-12 gap-2">
+                <div class="col-span-full md:col-span-12">
+                  <MicroDividerComp
+                    class="mx-auto mb-0"
+                    label-text="avefi:Manifestation" 
+                  />
+                </div>
+              </div>
               <div class="col-span-1">
                 <MicroLabelComp label-text="in_language_code" />
                 <SearchHighlightListComp
                   :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
-                  :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"
-                  
+                  :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
                   class="mb-2"
                 />
               </div>
@@ -181,30 +162,51 @@
                 <MicroLabelComp label-text="has_colour" />
                 <SearchHighlightSingleComp 
                   :item="manifestation?.has_record?.has_colour_type"
-                  :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"
-                  
+                  :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"                  
                   class="mb-2"
                 />
               </div>
             </div>
             <hr class="my-2">
-            <h4 class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item">
+            <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 uppercase">
               {{ $t('items') }}
             </h4>
             <div
               v-for="exemplar in manifestation.items"
               :key="exemplar.id"
-              class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-slate-200 rounded-lg p-2 dark:bg-slate-900 dark:text-white mt-2"
+              class="grid grid-cols-1 md:grid-cols-5 gap-2 bg-slate-200 rounded-lg p-2 dark:bg-slate-900 dark:text-white mt-2"
             >
-              <div class="row-start-1 col-span-3">
-                <DetailKeyValueComp
-                  keytxt="EFI"
-                  :valtxt="exemplar?.handle"
-                  :clip="true"                  
+              <div class="col-span-full">
+                <MicroDividerComp
+                  class="mx-auto"
+                  label-text="avefi:Item" 
+                />
+              </div>
+              <div class="col-span-1">
+                <MicroLabelComp label-text="has_format" />
+                <SearchHighlightListComp
+                  :items="exemplar?.has_record?.has_format?.map(form => form.type)"
+                  :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"                  
                   class="mb-2"
                 />
               </div>
-              <div class="row-start-1 col-start-4 col-span-1 flex flex-col justify-center">
+              <div class="col-span-1">
+                <MicroLabelComp label-text="item_element_type" />
+                <SearchHighlightSingleComp
+                  :item="exemplar?.has_record.element_type"
+                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
+                  class="mb-2"
+                />
+              </div>
+              <div class="col-span-1">
+                <MicroLabelComp label-text="in_language_code" />
+                <SearchHighlightSingleComp
+                  :item="exemplar?.has_record?.in_language?.code"
+                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
+                  class="mb-2"
+                />
+              </div>
+              <div class="col-span-1 flex flex-col justify-center">
                 <a
                   v-if="exemplar?.has_record?.has_webresource"
                   :href="exemplar?.has_record?.has_webresource"
@@ -215,23 +217,8 @@
                 />&nbsp;{{ $t('webresource') }}</a>
               </div>
 
-              <div class="row-start-2 col-span-1">
-                <MicroLabelComp label-text="has_format" />
-                <SearchHighlightListComp
-                  :items="exemplar?.has_record?.has_format?.map(form => form.type)"
-                  :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
-                  
-                  class="mb-2"
-                />
-              </div>
-              <div class="row-start-2 col-span-1">
-                <MicroLabelComp label-text="in_language_code" />
-                <SearchHighlightSingleComp
-                  :item="exemplar?.has_record?.in_language?.code"
-                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
-                  
-                  class="mb-2"
-                />
+              <div class="col-span-1 col-start-5 flex flex-col justify-center items-center">
+                <MicroEfiCopyComp :handle="exemplar?.handle" />
               </div>
             </div>
           </div>
@@ -263,7 +250,7 @@ function getCategoryClass(category: string) {
     case 'avefi:Item':
         return 'dark:bg-slate-800 bg-slate-100';
     default:
-        return 'dark:bg-slate-600 border-b-2 border-work-variant dark:border-work-variant hover:bg-blend-darken';
+        return 'dark:bg-slate-600 border-none pb-2 hover:bg-blend-darken';
     }
 }
 </script>

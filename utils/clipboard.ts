@@ -1,0 +1,25 @@
+import { useClipboard } from '@vueuse/core';
+import { toast } from 'vue3-toastify';
+import { ref } from 'vue';
+
+export function useClipboardUtil() {
+    const source = ref('AVefi');
+    const { copy, isSupported } = useClipboard({ source });
+
+    function copyExtended(copyText: string) {
+        try {
+            if (typeof copyText === 'number') {
+                copyText = String(copyText);
+            }
+            copy(copyText);
+            toast.info(`'${copyText}' copied to clipboard`);
+        } catch (e) {
+            toast.error('Copy to clipboard error');
+        }
+    }
+
+    return {
+        copyExtended,
+        isSupported
+    };
+}

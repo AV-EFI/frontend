@@ -1,23 +1,21 @@
 <template>
   <div>
-    <div>
-      <div
-        v-if="mir"
-      >
-        <DetailWorkVariantTopLevelComp
-          v-model="mir"
-          :handle="dataObject?._source?.handle"
-          :es-timestamp="dataObject._source['@timestamp']"
-        />
-        <DetailHasEventComp
-          v-if="mir.has_event"
-          v-model="mir.has_event"
-          class="mt-4"
-        />      
-      </div>
-      <div v-else>
-        <pre>{{ mir }}</pre>
-      </div>
+    <div
+      v-if="mir"
+    >
+      <DetailWorkVariantTopLevelComp
+        v-model="mir"
+        :handle="dataObject?._source?.handle"
+        :es-timestamp="dataObject._source['@timestamp']"
+      />
+      <DetailHasEventComp
+        v-if="mir.has_event"
+        v-model="mir.has_event"
+        class="mt-4"
+      />      
+    </div>
+    <div v-else>
+      <pre>{{ mir }}</pre>
     </div>
     <div v-if="status === 'pending'">
       <GlobalSkeletonLoaderComp class="mt-2" />

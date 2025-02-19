@@ -33,7 +33,6 @@
           :class="`${fontSize}`"
         >
           {{ val?.has_name ?? val }}
-          &nbsp;
           <DetailSameAsComp
             v-if="sameAs"
             :same-as-data="val.same_as"

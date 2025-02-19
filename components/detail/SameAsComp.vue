@@ -13,6 +13,7 @@
         title="Referenz bei GND"
         target="_blank"
       >
+      &nbsp;
         <img
           src="https://explore.gnd.network/images/icons/favicon.ico"
           alt="GND"

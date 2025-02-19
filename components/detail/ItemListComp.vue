@@ -5,19 +5,16 @@
       name="partial-grid-2-1"
       class="mt-2"
     >
-      <template #left>
+      <template #heading>
         <h4
-          class="font-bold col-span-full text-primary-800 dark:text-primary-200 pl-1"
+          class="font-bold uppercase text-sm col-span-full text-primary-800 dark:text-primary-200 pl-1"
           :alt="$t('items')"
         >
           {{ $t('items') }}
-        </h4>  
-        <hr class="my-1 col-span-full">
+        </h4>
+        <hr class="my-2">        
       </template>
     </NuxtLayout>
-    <MicroDividerComp
-      in-class="item"
-    />
     <EasyDataTable
       table-class-name="customize_table w-[300px] md:w-auto"
       table-theme-color="var(--primary)"
@@ -63,6 +60,15 @@
           class=""
         /><span class="hidden 2xl:inline">{{ $t('webresource') }}</span></a>
       </template>
+      <template #item-_source.has_record.described_by.has_issuer_name="item">
+        <div class="flex flex-row">
+          <p>{{ item?._source.has_record.described_by.has_issuer_name }}</p>
+          <MicroBadgeCategoryComp
+            category="avefi:Item"
+            class="my-auto"
+          />
+        </div>
+      </template>
       <template
         #item-actions="item"
       >
@@ -95,7 +101,7 @@
       <template
         #expand="item"
       >
-        <div class="flex flex-row flex-wrap p-4 ml-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 p-4 ml-4">
           <div
             v-if="item._source?.has_record?.in_language"
             class="flex flex-col"
@@ -122,21 +128,28 @@
             v-if="item._source?.has_record?.has_format"
             class="flex flex-col"
           >
-            <MicroLabelComp
-              label-text="format"
+            <LazyDetailKeyValueComp
+              :keytxt="$t('has_format')"
+              :valtxt="item?._source?.has_record?.has_format.flatMap(function (has_format_item) {return $t(has_format_item.type); }).join(',')"
+              class="w-full"
+              :clip="false"
             />
-            <div class="flex flex-col">
-              <ul>
-                <li
-                  v-for="format_item in item._source?.has_record?.has_format"
-                  :key="format_item.type"
-                  :value="format_item"
-                  class="flex flex-row"
-                >
-                  <span class="dark:text-primary-100">{{ $t(format_item.type) }}</span>
-                </li>
-              </ul>
-            </div>
+          </div>
+          <div
+            v-if="item._source?.has_record?.element_type"
+            class="flex flex-col"
+          >
+            <LazyDetailKeyValueComp
+              :keytxt="$t('item_element_type')"
+              :valtxt="item._source?.has_record?.element_type"
+              class="w-full"
+              :clip="false"
+            />
+          </div>
+          <div class="col-start-4 col-span-1 flex flex-col items-end">
+            <MicroEfiCopyComp
+              :handle="item._source?.handle"
+            />
           </div>
         </div>
       </template>

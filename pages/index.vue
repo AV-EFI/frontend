@@ -14,7 +14,7 @@
             style="filter: blur(5px) opacity(0.8);"
           >
             <source          
-              src="/vid/archive_closeup.mp4"
+              src="/vid/roll_comp.mp4"
               type="video/mp4"
             >
             {{ $t('videoNotSupported') }}
@@ -38,7 +38,7 @@
           <h2 class="text-2xl text-center w-full leading-tight mb-2 max-w-80 dark:text-gray-200">
             {{ $t('bannerText') }}
           </h2>
-          <p class="text-justify mb-2 max-w-80 dark:text-gray-300">
+          <p class="text-left mb-2 max-w-80 dark:text-gray-300">
             {{ $t('bannerDescription') }}
           </p>
         </div>
@@ -197,7 +197,7 @@
               class="mx-auto max-w-64"
             >
           </h2>
-          <p class="text-justify max-w-80 dark:text-gray-300">
+          <p class="text-left max-w-80 dark:text-gray-300">
             {{ $t('videoDescription') }}
           </p>
         </div>
@@ -209,7 +209,7 @@
           <h2 class="text-2xl text-center w-full leading-tight max-w-80 dark:text-gray-200">
             {{ $t('partnersTitle') }}
           </h2>
-          <p class="text-justify max-w-80 dark:text-gray-300">
+          <p class="text-left max-w-80 dark:text-gray-300">
             {{ $t('partnersDescription') }}
           </p>
         </div>

@@ -95,6 +95,13 @@
               tab-index="2"
             />
             <SearchPanelRefinementListComp
+              header-text="manifestation_event_type"
+              attribute-name="manifestation_event_type"
+              category="avefi:Manifestation"
+              :is-searchable="false"
+              tab-index="2"
+            />
+            <SearchPanelRefinementListComp
               header-text="has_format"
               attribute-name="has_format_type"
               category="avefi:Item"
@@ -108,12 +115,13 @@
               category="avefi:Item"
               tab-index="0"
             />
-
-
-            <div class="p-4 text-slate-600 dark:text-slate-300">
-              <h4>Materialart (z.B. Dupnegativ)?</h4>
-              <h4>Manifestationstyp?</h4>
-            </div>
+            <SearchPanelRefinementListComp
+              header-text="item_element_type"
+              attribute-name="item_element_type"
+              category="avefi:Item"
+              :is-searchable="false"
+              tab-index="2"
+            />
           </div>
         </div>
       </div>

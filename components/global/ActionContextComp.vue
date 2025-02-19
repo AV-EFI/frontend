@@ -23,7 +23,7 @@
         class=""
       >
         <AddToShoppingCartComp
-          :film-id="item?.objectID"
+          :film-id="id?? item?.objectID"
           :film-title="item?.has_record?.has_primary_title.has_name"
           class="ml-2"
         />
@@ -32,7 +32,7 @@
         class=""
       >
         <AddToComparisonComp
-          :film-id="item?.objectID"
+          :film-id="id?? item?.objectID"
           :film-title="item?.has_record?.has_primary_title.has_name"
           class="ml-2"
         />
@@ -41,7 +41,7 @@
         class=""
       >
         <GlobalExportDataComp
-          :data-set-id="item.objectID"
+          :data-set-id="id?? item.objectID"
           :data-set-json="JSON.stringify(item,null,2)"
           class="ml-2"
         />
@@ -59,5 +59,9 @@ defineProps({
         type: String,
         default: 'xl',
     },
+    id: {
+        type: String,
+        required: false,
+    }
 });
 </script>

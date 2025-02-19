@@ -4,7 +4,7 @@
       name="partial-grid-2-1"
       class="mt-4"
     >
-      <template #left>
+      <template #heading>
         <h3
           class="font-bold text-sm uppercase col-span-full pl-1 text-primary-800 dark:text-primary-100 decoration-manifestation"
           :alt="$t('manifestations')"
@@ -26,32 +26,21 @@
         :checked="manifestationList.length < 2?'true':false"
       >
       <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white">
-        <NuxtLayout name="partial-grid-2-1">
-          <template #left>
-            <h4 class="col-span-full text-xs 2xl:text-base">
-              {{ manifestation._source?.handle }}
-            </h4>
-            <h4 class="col-span-full font-bold text-primary-900 dark:text-primary-200 text-sm xl:text-base">
-              {{ manifestation._source.has_record?.described_by?.has_issuer_name }}
-            </h4>
-            <h4 class="col-span-full text-sm xl:text-base">
-              {{ manifestation._source.has_record?.has_event?.map(event => {return `${event?.has_date} (${$t(event?.type)})`;}).join(', ') }}
-            </h4>
-          </template>
-          <template #right />
-        </NuxtLayout>
+        <DetailManifestationHeaderComp
+          :manifestation="manifestation"
+          type="other"
+        />
       </div>
       <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
-        <MicroDividerComp
-          in-class="manifestation"
-          :label-text="manifestation._source.has_record.category"
-        />
+        <div class="w-full">
+          <LazyMicroDividerComp label-text="avefi:Manifestation" />
+        </div>
         <NuxtLayout name="partial-grid-2-1">
           <template #left>
             <DetailKeyValueComp
               keytxt="EFI"
               :valtxt="manifestation._source?.handle"
-              class="col-span-full"
+              class="col-span-full hidden"
             />
             <DetailKeyValueComp
               v-if="manifestation._source?.has_record?.described_by?.has_issuer_name"

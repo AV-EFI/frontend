@@ -1,17 +1,15 @@
 <template>
   <div class="dark:text-white">
-    <MicroDividerComp
-      in-class="work-variant"
-      class="mt-0"
-      :label-text="workVar.category"
-    />
     <div class="mt-4 mb-2">
+      <div class="w-full">
+        <LazyMicroDividerComp label-text="avefi:WorkVariant" />
+      </div>
       <NuxtLayout name="partial-grid-2-1">
         <template #left>
           <DetailKeyValueComp
             keytxt="EFI"
             :valtxt="handle"
-            class="col-span-full"
+            class="col-span-full hidden"
           />
           <div
             v-for="sas in workVar.same_as"

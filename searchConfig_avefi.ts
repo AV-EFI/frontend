@@ -42,6 +42,8 @@ export const config:SearchkitConfig = {
             'manifestations.has_record.described_by.has_issuer_name',
             'manifestations.items.has_record.has_format.type',
             'manifestations.has_record.has_colour_type',
+            'manifestations.has_record.element_type',
+            'manifestations.items.has_record.element_type',
             'manifestations.has_record.has_sound_type',
             'manifestations.has_record.in_language.code',
             'manifestations.items'
@@ -115,6 +117,12 @@ export const config:SearchkitConfig = {
                 nestedPath: 'manifestations.items'
             },
             {
+                attribute: "manifestation_event_type",
+                field: "type.keyword",
+                type: "string",
+                nestedPath: 'manifestations.has_record.has_event'
+            },
+            {
                 attribute: "has_issuer_name",
                 field: "items.has_record.described_by.has_issuer_name.keyword",
                 type: "string",
@@ -125,6 +133,12 @@ export const config:SearchkitConfig = {
                 field: 'has_record.has_colour_type.keyword',  // field must be a keyword type field
                 type: 'string',
                 nestedPath: 'manifestations'
+            },
+            {
+                attribute: "item_element_type",
+                field: "has_record.element_type.keyword",
+                type: "string",
+                nestedPath: 'manifestations.items'
             }
         ],        
         sorting: {

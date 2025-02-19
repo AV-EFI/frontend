@@ -3,6 +3,7 @@
     <MicroBadgeCategoryComp
       v-if="labelText"
       :category="labelText"
+      :icon="true"
     />
   </div>
 </template>

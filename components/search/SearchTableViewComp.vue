@@ -62,6 +62,10 @@
             </span>
           </a>
         </div>
+        <MicroEfiCopyComp
+          :handle="item?.handle"
+          comp-size="sm"
+        />
         <GlobalActionContextComp
           v-if="item.has_record.category == 'avefi:WorkVariant'"
           :item="item"
@@ -102,7 +106,7 @@
         font-size="text-sm"
         class="mb-2"
       />
-    </template>      
+    </template>
     <template
       #expand="item"
     >
@@ -116,12 +120,10 @@
           class="manifestation-checkbox"
         >
         <div class="collapse-title py-2 bg-slate-100 dark:bg-slate-700 dark:text-whitefont-medium">
-          <p class="text-xs">
-            {{ manifestation?.handle }}
-          </p>
-          <h3 class="font-bold text-xs text-primary-900 dark:text-primary-200">
-            {{ manifestation?.has_record?.described_by?.has_issuer_name }}
-          </h3>
+          <DetailManifestationHeaderComp
+            :manifestation="manifestation"
+            type="searchresult"
+          />
         </div>
         <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -164,6 +166,9 @@
                   {{ $t('has_format') }}
                 </th>
                 <th class="border border-slate-300">
+                  {{ $t('item_element_type') }}
+                </th>
+                <th class="border border-slate-300">
                   {{ $t('in_language_code') }}
                 </th>
                 <th class="border border-slate-300">
@@ -177,10 +182,14 @@
                 :key="exemplar.id"
                 class="bg-slate-100 dark:bg-slate-800 dark:text-white"
               >
-                <td class="border border-slate-200 dark:border-slate-600">
-                  <GlobalClipboardComp
-                    font-size="text-xs"
-                    :display-text="item?.handle"
+                <td class="border border-slate-200 dark:border-slate-600 flex flex-row items-center justify-between">
+                  <p class="text-xs">
+                    {{ exemplar.handle }}
+                  </p>
+                  <LazyMicroEfiCopyComp
+                    :handle="exemplar.handle"
+                    comp-size="sm"
+                    class="z-10 relative"
                   />
                 </td>
                 <td class="border border-slate-200 dark:border-slate-600">
@@ -188,6 +197,13 @@
                     :items="exemplar?.has_record?.has_format?.map(form => form.type)"
                     :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
                     font-size="text-xs"
+                    class="mb-2"
+                  />
+                </td>
+                <td class="border border-slate-200 dark:border-slate-600">
+                  <SearchHighlightSingleComp
+                    :item="exemplar?.has_record.element_type"
+                    :hitlite="item._highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
                     class="mb-2"
                   />
                 </td>

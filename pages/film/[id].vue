@@ -21,6 +21,9 @@
       <template #title>
         <NuxtLayout name="partial-grid-2-1">
           <template #left>
+            <p class=" text-xs 2xl:text-base col-span-full">
+              {{ dataJson?._source?.handle }}
+            </p>
             <h2
               class="text-lg xl:text-2xl text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
               :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
@@ -29,21 +32,15 @@
             </h2>  
           </template>
           <template #right>
-            <div class="flex flex-row flex-wrap">
-              <AddToShoppingCartComp
-                :film-id="params.id"
-                :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
-                class=""
+            <div class="flex flex-row flex-wrap justify-center items-center">
+              <GlobalActionContextComp
+                :id="dataJson?._source?.handle"
+                :item="dataJson?._source"
+                class="w-1/5 justify-center items-center my-auto"
               />
-              <AddToComparisonComp
-                :film-id="params.id"
-                :film-title="dataJson?._source?.has_record?.has_primary_title.has_name"
-                class="ml-1"
-              />
-              <GlobalExportDataComp
-                :data-set-id="params.id"
-                :data-set-json="JSON.stringify(dataJson,null,2)"
-                class="ml-1"
+              <MicroEfiCopyComp
+                :handle="dataJson?._source?.handle"
+                class="col-span-3"
               />
             </div>
           </template>
@@ -51,7 +48,7 @@
       </template>
       <template #actions>
         <MicroBadgeCategoryComp
-          class="col-span-6"
+          class="col-span-3"
           :category="dataJson?._source?.has_record?.type"
         />
       </template>
@@ -69,35 +66,6 @@
                 @update:model-value="val => dataJson = JSON.parse(val)"
               />
             </ClientOnly>
-          </div>
-          <div
-            v-else-if="category == 'avefi:Manifestation'"
-          >
-            <ClientOnly
-              fallback-tag="span"
-              fallback="Loading data..."
-            >
-              <ViewsManifestationViewCompAVefi
-                :model-value="JSON.stringify(dataJson, null, 2)"
-                @update:model-value="val => dataJson = JSON.parse(val)"
-              />
-            </ClientOnly>
-          </div>
-          <div
-            v-else-if="category == 'avefi:Item'"
-          >
-            <ClientOnly
-              fallback-tag="span"
-              fallback="Loading data..."
-            >
-              <ViewsItemViewCompAVefi
-                :model-value="JSON.stringify(dataJson, null, 2)"
-                @update:model-value="val => dataJson = JSON.parse(val)"
-              />
-            </ClientOnly>
-          </div>
-          <div v-else>
-            Unknown Category: {{ category }}
           </div>
         </div>
       </template>
