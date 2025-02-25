@@ -12,6 +12,7 @@
         v-for="val in valtxt"
         :key="val?.has_name ?? val"
         :class="fontSize"
+        class="flex items-center mr-2 min-w-6"
         :display-text="val?.has_name ?? val"
       />
       <DetailSameAsComp
@@ -25,7 +26,7 @@
       v-else
       :class="['max-h-64', overflowY, {'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}]"
     >
-      <ul>
+      <ul v-if="valtxt">
         <li
           v-for="val in valtxt"
           :key="val?.has_name ?? val"
@@ -40,6 +41,9 @@
           />
         </li>
       </ul>
+      <span v-else>
+        -
+      </span>
     </div>
   </div>
 </template>

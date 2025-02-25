@@ -1,6 +1,6 @@
 <template>
   <label 
-    class="tracking-wide text-xs font-bold dark:text-primary-100 text-primary-500 uppercase"
+    class="tracking-wide text-xs font-bold dark:text-slate-300 text-slate-500 uppercase"
     :class="fontSize"
   >
     {{ $t($props.labelText) }}:

@@ -16,19 +16,18 @@ export const config:SearchkitConfig = {
             { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
             { field: 'production', weight: 1 },
             { field: 'directors_or_editors', weight: 1 },
-            { field: 'castmembers', weight: 1 },
             { field: 'subjects', weight: 1 },
         ],
         highlight_attributes: [
             'has_record.has_primary_title.has_name',
             'production',
             'directors_or_editors',
-            'castmembers',
             'subjects',
         ],
         result_attributes: [
             'has_record.has_primary_title.has_name',
             'has_record.category',
+            'has_record.has_form',
             'subjects',
             'handle',
             'production',
@@ -60,7 +59,7 @@ export const config:SearchkitConfig = {
                 field: 'has_record.in_language.code.keyword',  // field must be a keyword type field
                 type: 'string',
                 nestedPath: 'manifestations'
-            },
+            },            
             { 
                 attribute: 'has_genre_has_name', 
                 field: 'has_record.has_genre.has_name.keyword',  // field must be a keyword type field
@@ -124,7 +123,7 @@ export const config:SearchkitConfig = {
             },
             {
                 attribute: "has_issuer_name",
-                field: "items.has_record.described_by.has_issuer_name.keyword",
+                field: "has_record.described_by.has_issuer_name.keyword",
                 type: "string",
                 nestedPath: 'manifestations'
             },
@@ -139,7 +138,13 @@ export const config:SearchkitConfig = {
                 field: "has_record.element_type.keyword",
                 type: "string",
                 nestedPath: 'manifestations.items'
+            },
+            {
+                attribute: "has_form",
+                field: "has_record.has_form.keyword",
+                type: "string",
             }
+
         ],        
         sorting: {
             default: [

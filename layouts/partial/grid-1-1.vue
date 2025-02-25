@@ -8,18 +8,18 @@
     </div>
 
     <!--left-->
-    <div class="grid col-span-full md:col-span-8 grid-cols-12 gap-2">
+    <div class="grid col-span-full md:col-span-6 grid-cols-12 gap-2">
       <div class="col-span-full md:col-span-12">
-        <div class="grid col-span-8 grid-cols-12 gap-2">
+        <div class="grid col-span-12 grid-cols-12 gap-2">
           <slot name="left" />
         </div>
       </div>
     </div>
 
     <!--right-->
-    <div class="grid col-span-full md:col-span-4 gap-2">
+    <div class="grid col-span-full md:col-span-6 gap-2">
       <div class="col-span-full md:col-span-12">
-        <div class="grid col-span-8 grid-cols-12 gap-2">
+        <div class="grid col-span-12 grid-cols-12 gap-2">
           <slot name="right" />
         </div>
       </div>

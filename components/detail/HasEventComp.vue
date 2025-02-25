@@ -9,7 +9,7 @@
         class="grid grid-cols-12 gap-2 col-span-12 event"
       >
         <NuxtLayout
-          v-if="getCastMemberList(has_event_item)?.length > 0"
+          v-if="getCastMemberList(has_event_item)?.length > 0 && getCrewMemberList(has_event_item)?.length > 0"
           name="partial-grid-3-4-4"
         >
           <template #heading>
@@ -23,7 +23,6 @@
               class="col-span-full"
             >
               <DetailKeyValueListComp
-                v-if="has_activity_item.has_agent"
                 :keytxt="has_activity_item.type"
                 class="col-span-full dark:text-gray-300"
                 :ul="true"
@@ -69,18 +68,18 @@
           </template>
         </NuxtLayout>
         <NuxtLayout
-          v-else
-          name="partial-grid-2-1"
+          v-else-if="getCrewMemberList(has_event_item)?.length > 0 && getCastMemberList(has_event_item)?.length < 1"
+          name="partial-grid-1-1"
         >
           <template #heading>
-            <span class="dark:text-white">{{ $t(has_event_item.type ?? has_event_item.category ?? 'Event') }}</span>
+            <span class="dark:text-white">{{ $t(has_event_item.category) }}</span>
           </template>
           <template #left>
             <!-- has_activity -->
             <div 
               v-for="(has_activity_item, activity_index) in getCrewMemberList(has_event_item)"
               :key="activity_index"
-              class="col-span-6"
+              class="col-span-full"
             >
               <MicroLabelComp
                 :label-text="has_activity_item.type"
@@ -104,6 +103,45 @@
             </div>
           </template>
           <template #right>
+            <DetailKeyValueComp
+              v-if="has_event_item?.has_date"
+              keytxt="year"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.has_date"
+            />
+            <DetailKeyValueListComp
+              v-if="has_event_item?.located_in"
+              keytxt="place"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.located_in"
+            />
+          </template>
+        </NuxtLayout>
+        <NuxtLayout
+          v-else-if="getCastMemberList(has_event_item)?.length > 0"
+          name="partial-grid-1-1"
+        >
+          <template #heading>
+            <span class="dark:text-white">{{ $t(has_event_item.category) }}</span>
+          </template>
+          <template #left>
+            <!-- has_activity -->
+            <div 
+              v-for="(has_activity_item, activity_index) in getCastMemberList(has_event_item)"
+              :key="activity_index"
+              class="col-span-full"
+            >
+              <DetailKeyValueListComp
+                :keytxt="has_activity_item.type"
+                class="col-span-full dark:text-gray-300"
+                :ul="true"
+                :same-as="true"
+                :valtxt="has_activity_item.has_agent"
+              />
+            </div>
+          </template>
+          <template #center>
+            <!-- has_activity -->
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
               keytxt="year"

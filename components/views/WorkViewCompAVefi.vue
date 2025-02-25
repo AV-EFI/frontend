@@ -3,16 +3,41 @@
     <div
       v-if="mir"
     >
-      <DetailWorkVariantTopLevelComp
-        v-model="mir"
-        :handle="dataObject?._source?.handle"
-        :es-timestamp="dataObject._source['@timestamp']"
-      />
-      <DetailHasEventComp
-        v-if="mir.has_event"
-        v-model="mir.has_event"
-        class="mt-4"
-      />      
+      <div class="w-full">
+        <LazyMicroDividerComp label-text="avefi:WorkVariant" />
+      </div>
+      <NuxtLayout name="partial-grid-2-1-no-heading">
+        <template #left>
+          <DetailWorkVariantTopLevelComp
+            v-model="mir"
+            :handle="dataObject?._source?.handle"
+            :es-timestamp="dataObject._source['@timestamp']"
+          />
+          <DetailHasEventComp
+            v-if="mir.has_event"
+            v-model="mir.has_event"
+          />
+        </template>
+        <template #right>
+          <DetailKeyValueListComp
+            v-if="mir.has_genre"
+            keytxt="avefi:Genre"
+            class="col-span-full mb-2"
+            :ul="true"
+            :same-as="true"
+            :valtxt="mir.has_genre"
+          />
+          <DetailKeyValueListComp
+            v-if="mir.has_subject"
+            class="col-span-full mt-1"
+            keytxt="avefi:Subject"
+            :bg-color="true"
+            :valtxt="mir.has_subject"
+            :same-as="true"
+            :ul="true"
+          />
+        </template>
+      </Nuxtlayout>
     </div>
     <div v-else>
       <pre>{{ mir }}</pre>
@@ -39,6 +64,14 @@
           />
         </div>
       </ClientOnly>
+    </div>
+    <div class="w-full mt-4 justify-center items-center">
+      <DetailKeyValueComp
+        class="col-span-full mx-auto"
+        keytxt="lastedit"
+        :clip="false"
+        :valtxt="new Date(dataObject._source['@timestamp']??'').toLocaleString('de-DE')"
+      />
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <NuxtLayout
-      name="partial-grid-2-1"
+      name="partial-grid-2-1-flex"
       class="mt-4"
     >
       <template #heading>
@@ -35,7 +35,7 @@
         <div class="w-full">
           <LazyMicroDividerComp label-text="avefi:Manifestation" />
         </div>
-        <NuxtLayout name="partial-grid-2-1">
+        <NuxtLayout name="partial-grid-2-1-flex">
           <template #left>
             <DetailKeyValueComp
               keytxt="EFI"
@@ -73,16 +73,16 @@
               v-if="manifestation._source.has_record?.has_extent?.has_value"
               keytxt="avefi:Extent"
               :valtxt="`${manifestation._source.has_record?.has_extent?.has_value} ${manifestation._source.has_record?.has_extent?.has_unit}`"
-              class="w-full mt-1"
+              class="w-full mt-2"
             />
             <MicroLabelComp
               v-if="manifestation._source.has_record?.in_language"
               label-text="avefi:Language"
-              class="w-full mt-1"
+              class="w-full mt-2"
             />
             <ul
               v-if="manifestation._source.has_record?.in_language"
-              class="w-full mt-1"
+              class="w-full mt-2"
             >
               <li
                 v-for="lang in manifestation._source.has_record?.in_language"
@@ -98,7 +98,7 @@
           </template>
         </NuxtLayout>
         <DetailHasEventComp
-          class="mt-2"
+          class="mt-4"
           :model-value="manifestation._source.has_record?.has_event"
         />
         <DetailItemListComp

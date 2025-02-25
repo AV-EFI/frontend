@@ -3,6 +3,8 @@
     <header
       :class="{'scrolled': isScrolled}"
       class="fixed top-0 left-0 w-full z-20"
+      @mouseenter="removeScrolledClass"
+      @mouseleave="addScrolledClass"
     >
       <GlobalNavBar />
     </header>
@@ -59,6 +61,12 @@ export default {
         },
         checkPageHeight() {
             this.showScrollToTop = document.documentElement.scrollHeight > window.innerHeight * 3;
+        },
+        removeScrolledClass() {
+            this.isScrolled = false;
+        },
+        addScrolledClass() {
+            this.isScrolled = window.scrollY > 50;
         }
     }
 };

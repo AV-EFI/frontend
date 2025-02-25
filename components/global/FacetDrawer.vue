@@ -31,13 +31,19 @@
               tab-index="1"
             />
             <SearchPanelRefinementListComp
+              header-text="has_form"
+              attribute-name="has_form"
+              category="avefi:WorkVariant"
+              tab-index="1"
+            />
+            <SearchPanelRefinementListComp
               header-text="country"
               attribute-name="located_in_has_name"
               category="avefi:WorkVariant"
               tab-index="2"
             />
             <SearchPanelRefinementListComp
-              header-text="years"
+              header-text="productionyear"
               attribute-name="years"
               category="avefi:WorkVariant"
               tab-index="2"

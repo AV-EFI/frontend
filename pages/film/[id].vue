@@ -19,13 +19,13 @@
         </ul>
       </template>
       <template #title>
-        <NuxtLayout name="partial-grid-2-1">
+        <NuxtLayout name="partial-grid-2-1-flex">
           <template #left>
             <p class=" text-xs 2xl:text-base col-span-full">
               {{ dataJson?._source?.handle }}
             </p>
             <h2
-              class="text-lg xl:text-2xl text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+              class="text-lg font-bold xl:text-2xl text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
               :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
             >
               {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
@@ -33,14 +33,14 @@
           </template>
           <template #right>
             <div class="flex flex-row flex-wrap justify-center items-center">
+              <MicroEfiCopyComp
+                :handle="dataJson?._source?.handle"
+                class="col-span-3"
+              />
               <GlobalActionContextComp
                 :id="dataJson?._source?.handle"
                 :item="dataJson?._source"
                 class="w-1/5 justify-center items-center my-auto"
-              />
-              <MicroEfiCopyComp
-                :handle="dataJson?._source?.handle"
-                class="col-span-3"
               />
             </div>
           </template>
@@ -51,7 +51,7 @@
           class="col-span-3"
           :category="dataJson?._source?.has_record?.type"
         />
-      </template>
+      </template>      
       <template #cardBody>
         <div>
           <div

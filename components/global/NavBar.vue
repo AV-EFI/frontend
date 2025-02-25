@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
               tabindex="0"
               role="button"
               alt="Menu"
-              class="btn btn-ghost xl:hidden"
+              class="btn btn-ghost xl:hidden h-12"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,9 +63,12 @@ onBeforeUnmount(() => {
             </div>
             <ul
               tabindex="0"
-              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52"
+              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li v-if="shoppingCart.objects?.length > 0">
+              <li
+                v-if="shoppingCart.objects?.length > 0"
+                class="h-12 flex justify-center"
+              >
                 <button
                   title="Show comparison items"
                   @click="$toggleComparisonDrawerState"
@@ -76,7 +79,10 @@ onBeforeUnmount(() => {
                   </span>
                 </button>
               </li>
-              <li v-if="objectListStore.objects?.length > 0">
+              <li
+                v-if="objectListStore.objects?.length > 0"
+                class="h-12 flex justify-center"
+              >
                 <button
                   title="Show comparison items"
                   @click="$toggleComparisonDrawerState"
@@ -87,49 +93,76 @@ onBeforeUnmount(() => {
                   </span>
                 </button>
               </li>
-              <li>
+              <li class="h-12 flex justify-center">
+                <GlobalLanguageSwitch />
+              </li>
+              <li class="h-12 flex justify-center">
+                <GlobalThemeSwitch />
+              </li>
+              <li class="h-12 flex justify-center">
                 <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
               </li>
-              <li>
+              <li class="h-12 flex justify-center">
                 <a href="/contact">{{ $t("help") }}</a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <a
                   href="/protected/dashboard"
                   :alt="$t('dashboard')"
                 >{{ $t('dashboard') }}</a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <a
                   href="/protected/mergetool"
                   :alt="$t('mergeTool')"
                 >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <a
                   href="/protected/institutionlist"
                   :alt="$t('myDatasets')"
                 >{{ $t('myDatasets') }}</a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <a
                   href="/protected/favouriteslist"
                   :alt="$t('favourites')"
                 >{{ $t('favourites') }}</a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <a
                   href="/protected/loglist"
                   :alt="$t('logList')"
                 >{{ $t('logList') }}</a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <a
                   href="/protected/me"
                   :alt="$t('profile')"
                 >{{ $t('profile') }}</a>
               </li>
-              <li v-if="data">
+              <li
+                v-if="data"
+                class="h-12 flex justify-center"
+              >
                 <button
                   Logout
                   title="logout"
@@ -141,7 +174,7 @@ onBeforeUnmount(() => {
             </ul>
           </div>
           <a
-            class="btn btn-ghost text-xl dark:bg-gray-700"
+            class="btn btn-ghost text-xl dark:bg-gray-700 h-12"
             href="/"
           >
             <img
@@ -153,8 +186,11 @@ onBeforeUnmount(() => {
           </a>
         </div>
         <div class="navbar-end w-3/4 flex hidden xl:flex">
-          <ul class="menu w-full justify-end menu-horizontal items-center mb-2 justify-self-end px-1 z-20">
-            <li v-if="shoppingCart.objects?.length > 0">
+          <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
+            <li
+              v-if="shoppingCart.objects?.length > 0"
+              class="h-12 flex justify-center"
+            >
               <button
                 title="Show comparison items"
                 @click="$toggleComparisonDrawerState"
@@ -165,7 +201,10 @@ onBeforeUnmount(() => {
                 </span>
               </button>
             </li>
-            <li v-if="objectListStore.objects?.length > 0">
+            <li
+              v-if="objectListStore.objects?.length > 0"
+              class="h-12 flex justify-center"
+            >
               <button
                 title="Show comparison items"
                 @click="$toggleComparisonDrawerState"
@@ -176,11 +215,22 @@ onBeforeUnmount(() => {
                 </span>
               </button>
             </li>
-            <li>
+            <li class="h-12 flex justify-center">
+              <GlobalLanguageSwitch />
+            </li>
+            <li class="h-12 flex justify-center">
+              <GlobalThemeSwitch />
+            </li>
+            <li class="h-12 flex justify-center">
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
             </li>
-            <li><a href="/contact">{{ $t("help") }}</a></li>
-            <li v-if="data">
+            <li class="h-12 flex justify-center">
+              <a href="/contact">{{ $t("help") }}</a>
+            </li>
+            <li
+              v-if="data"
+              class="h-12 flex justify-center"
+            >
               <details>
                 <summary>
                   <div v-if="data?.Avatar != null">
@@ -197,44 +247,44 @@ onBeforeUnmount(() => {
                     Hello {{ data?.user?.name }}
                   </div>
                 </summary>
-                <ul class="p-2 dark:bg-gray-800">
-                  <li>
+                <ul class="p-2 dark:bg-gray-800 menu-items">
+                  <li class="h-12 flex justify-center">
                     <a
                       href="/protected/dashboard"
                       :alt="$t('dashboard')"
                     >{{ $t('dashboard') }}</a>
                   </li>
-                  <li>
+                  <li class="h-12 flex justify-center">
                     <a
                       href="/protected/mergetool"
                       :alt="$t('mergeTool')"
                     >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
                   </li>
-                  <li>
+                  <li class="h-12 flex justify-center">
                     <a
                       href="/protected/institutionlist"
                       :alt="$t('myDatasets')"
                     >{{ $t('myDatasets') }}</a>
                   </li>
-                  <li>
+                  <li class="h-12 flex justify-center">
                     <a
                       href="/protected/favouriteslist"
                       :alt="$t('favourites')"
                     >{{ $t('favourites') }}</a>
                   </li>
-                  <li>
+                  <li class="h-12 flex justify-center">
                     <a
                       href="/protected/loglist"
                       :alt="$t('logList')"
                     >{{ $t('logList') }}</a>
                   </li>
-                  <li>
+                  <li class="h-12 flex justify-center">
                     <a
                       href="/protected/me"
                       :alt="$t('profile')"
                     >{{ $t('profile') }}</a>
                   </li>
-                  <li>
+                  <li class="h-12 flex justify-center">
                     <button
                       Logout
                       title="logout"
@@ -246,7 +296,10 @@ onBeforeUnmount(() => {
                 </ul>
               </details>
             </li>
-            <li v-else>
+            <li
+              v-else
+              class="h-12 flex justify-center"
+            >
               <Icon
                 name="fa-regular:user"
                 size="1.2em"
@@ -260,7 +313,7 @@ onBeforeUnmount(() => {
               tabindex="0"
               role="button"
               title="This is you"
-              class="btn btn-ghost btn-circle avatar"
+              class="btn btn-ghost btn-circle avatar h-12"
             >
               <div class="w-10 rounded-full">
                 <Icon
@@ -272,7 +325,7 @@ onBeforeUnmount(() => {
               </div>
               <ClientOnly>
                 <button 
-                  class="btn btn-outline w-1/2"
+                  class="btn btn-outline w-1/2 h-12"
                   @click="toggleComparisonDrawerState"
                 >
                   <MicroCompareIcon alt="Comparison" />
@@ -281,15 +334,17 @@ onBeforeUnmount(() => {
             </div>
             <ul
               tabindex="0"
-              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52"
+              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li>
+              <li class="h-12 flex justify-center">
                 <a class="justify-between">
                   Profile
                   <span class="badge">New</span>
                 </a>
               </li>
-              <li><a>Logout</a></li>
+              <li class="h-12 flex justify-center">
+                <a>Logout</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -297,3 +352,9 @@ onBeforeUnmount(() => {
     </ClientOnly>
   </nav>
 </template>
+
+<style scoped>
+.menu-items li {
+  height: 3rem; /* Adjust the height as needed */
+}
+</style>

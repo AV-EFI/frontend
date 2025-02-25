@@ -146,6 +146,16 @@
               :clip="false"
             />
           </div>
+          <div class="col-span-1 flex flex-col justify-center">
+            <a
+              v-if="item?._source.has_record?.has_webresource"
+              :href="item?._source.has_record?.has_webresource"
+              target="_blank"
+              class="link link-primary dark:link-accent"
+            ><Icon
+              name="formkit:linkexternal"
+            />&nbsp;{{ $t('webresource') }}</a>
+          </div>
           <div class="col-start-4 col-span-1 flex flex-col items-end">
             <MicroEfiCopyComp
               :handle="item._source?.handle"

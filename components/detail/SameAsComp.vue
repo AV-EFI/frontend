@@ -7,7 +7,7 @@
     >
       <a
         v-if="same_as_item.category === 'avefi:GNDResource'"
-        class="link link-primary link-hover dark:link-accent flex flex-row items-center"
+        class="link link-primary link-hover dark:link-accent inline-flex flex-row items-center"
         :href="`https://explore.gnd.network/gnd/${same_as_item.id}`"
         alt="Referenz bei GND"
         title="Referenz bei GND"

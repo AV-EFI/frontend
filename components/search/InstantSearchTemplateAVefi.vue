@@ -51,19 +51,19 @@
               </div>
               <div class="mb-4 p-2 flex flex-col md:flex-row justify-between w-full">
                 <div class="w-full md:w-1/2 flex flex-row justify-start">
-                  <h2 class="text-lg">
+                  <h2 class="font-bold text-gray-800 dark:text-gray-200">
                     {{ $t('activefiltering') }}
                   </h2>
                 </div>
                 <div class="w-full md:w-1/2 flex flex-row justify-end">
                   <ais-clear-refinements 
                     :class-names="{
-                      'ais-ClearRefinements-button': 'btn !btn-error btn-sm',
-                      'ais-CurrentRefinements-delete': '!text-white'
+                      'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-gray-300 text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
+                      'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                     }"
                   >
                     <template #resetLabel>
-                      <Icon name="formkit:trash" /> {{ $t('clearallfilters') }}
+                      <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                     </template>
                   </ais-clear-refinements>
                 </div>
@@ -71,28 +71,28 @@
               <div class="w-full">
                 <ais-current-refinements 
                   :class-names="{
-                    'ais-CurrentRefinements-list': 'flex flex-row',
-                    'ais-CurrentRefinements-item': 'border-2 border-primary-200 text-primary-600 dark:text-primary-200 dark:border-primary-400 w-full !rounded-2xl p-2 md:w-fit md:p-4 md:max-w-1/4 md:mr-1',
-                    'ais-CurrentRefinements-delete': 'text-white',
-                    'ais-ClearRefinements-button': 'btn btn-error bg-error',
+                    'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
+                    'ais-CurrentRefinements-item': 'border border-gray-300 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
+                    'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
+                    'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                   }"
                 >
                   <template #item="{ item, refine, createURL }">
-                    <strong>{{ $t(item.label.split(".").at(-1)) }}:</strong>
-                    <ul>
+                    <strong class="font-semibold accent">{{ $t(item.label.split(".").at(-1)) }}:</strong>
+                    <ul class="list-none p-0 m-0">
                       <li
                         v-for="refinement in item.refinements"
                         :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
-                        class="flex-start"
+                        class="flex items-center"
                       >
                         <a
                           :href="createURL(refinement)"
+                          class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
                           @click.prevent="refine(refinement)"
                         >
-                          &nbsp;{{ $t(refinement.label) }}&nbsp;
-                          |&nbsp;
+                          {{ $t(refinement.label) }}
                           <Icon
-                            class="!align-middle text-lg"
+                            class="text-lg"
                             name="formkit:trash"
                           />
                         </a>
@@ -121,7 +121,7 @@
                   <div class="w-full md:w-1/3 flex flex-col justify-end">
                     <ais-stats>
                       <template #default="{ nbHits }">
-                        <h2 class="font-bold">
+                        <h2 class="font-bold text-gray-800 dark:text-gray-200">
                           {{ nbHits }} {{ $t('results') }}
                         </h2>
                       </template>
@@ -133,25 +133,26 @@
                       :label="$t('sorting')"
                       :disabled="true"
                       name="sort"
-                      outer-class="!mb-0"
+                      outer-class="!mb-0 flex items-end"
                       wrapper-class="!mb-0"
                       :options="['Standard', 'Titel aufst.', 'Titel abst.']"
+                      input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg"
                     />
                   </div>
                   <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
                     <label class="label cursor-pointer w-48 ml-auto">
-                      <span class="label-text">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
+                      <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input
                         v-model="viewTypeChecked"
                         type="checkbox"
-                        class="toggle"
+                        class="toggle toggle-primary"
                       >
                     </label>
                     <label
                       class="label cursor-pointer w-48 ml-auto"
                     >
-                      <span class="label-text">
+                      <span class="label-text text-gray-800 dark:text-gray-200">
                         <LazyIcon
                           v-if="!expandAllChecked"
                           class="dark:text-white"
@@ -162,7 +163,7 @@
                           class="dark:text-white"
                           name="fa:compress" 
                         />
-                      &nbsp;
+                    &nbsp;
                         <span v-if="!expandAllChecked">
                           {{ $t('expandAll') }}
                         </span>
@@ -173,7 +174,7 @@
                       <input
                         v-model="expandAllChecked"
                         type="checkbox"
-                        class="toggle"
+                        class="toggle toggle-primary"
                       >
                     </label>
                   </div>
@@ -182,22 +183,32 @@
                   class="overflow-x-auto w-full"
                   style="overflow-y:hidden;"
                 >
-                  <ais-hits class="p-2">
-                    <template #default="{ items }">
-                      <SearchHitsComp
-                        :items="items"
-                        :view-type-checked="viewTypeChecked"
-                      />      
+                  <ais-state-results>
+                    <template #default="{ results: { hits, query } }">
+                      <ais-hits
+                        v-if="hits.length > 0"
+                        class="p-2"
+                      >
+                        <template #default="{ items }">
+                          <SearchHitsComp
+                            :items="items"
+                            :view-type-checked="viewTypeChecked"
+                          />
+                        </template>
+                      </ais-hits>
+                      <div v-else>
+                        <SearchNoResultsComp />
+                      </div>
                     </template>
-                  </ais-hits>
+                  </ais-state-results>
                 </div>
 
                 <div class="pagination flex justify-center">
                   <ais-pagination
                     :class-names="{
                       'ais-Pagination-list': 'join w-full md:w-auto',
-                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2',
-                      'ais-Pagination-link': ''
+                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg',
+                      'ais-Pagination-link': 'text-gray-800 dark:text-gray-200'
                     }"
                   />
                 </div>
