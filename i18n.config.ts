@@ -390,7 +390,7 @@ export default defineI18nConfig(() => ({
             'videoDescription': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
             'videoNotSupported': 'Ihr Browser unterstützt das Video-Tag nicht.',
             'partnersTitle': 'Verbundpartner',
-            'partnersDescription': 'AVefi ist ein Projekt, das von den Verbundpartnern TIB - Leibniz-Informationszentrum Technik und Naturwissenschaften, Stiftung Deutsche Kinemathek – Museum für Film und Fernsehen (SDK), Filmmuseum Düsseldorf (FMD) sowie Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG) entwickelt und betrieben wird. Unterstützt und begleitet - in Form von beratender Expertise und konkreter Beteiligung - werden wir von folgenden Praxispartnern:',
+            'partnersDescription': 'AVefi ist ein Projekt der TIB, SDK, FMD und GWDG. Es wird mit beratender Expertise und konkreter Beteiligung von Praxispartnern unterstützt.',
             ...avefiLocales.de
         }
     }

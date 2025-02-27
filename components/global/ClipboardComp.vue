@@ -1,7 +1,7 @@
 <template>
   <span
     :class="fontSize"
-    class="flex flex-row items-center"
+    class="flex flex-row items-center flex-wrap"
   >
     {{ displayText }}
     &nbsp;

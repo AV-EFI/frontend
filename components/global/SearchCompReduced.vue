@@ -18,8 +18,8 @@
             type="text"
             prefix-icon="search"
             outer-class="flex-grow !max-w-none w-full"
-            inner-class="!rounded-l-3xl rounded-r-none h-full w-full"
-            input-class="!text-lg p-2 w-full"
+            inner-class="!rounded-l-3xl rounded-r-none dark:!bg-slate-950 dark:!text-white  !h-[56px] w-full"
+            input-class="!text-lg p-2 w-full dark:!text-white"
             autofocus
           />
           <FormKit
@@ -28,7 +28,7 @@
             :title="$t('search')"
             outer-class="!rounded-l-none !mb-0 !rounded-r-3xl !h-full flex items-center justify-start"
             inner-class="!rounded-l-3xl !h-full"
-            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-3xl flex items-center justify-center"
+            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-3xl flex items-center justify-center border-3 border-primary !my-auto"
             @click="redirectToSearchScreen"
           />
         </div>

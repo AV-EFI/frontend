@@ -20,7 +20,7 @@
     </footer>
     <button
       v-if="showScrollToTop"
-      class="fixed bottom-20 right-[20px] p-2 bg-secondary-400 h-[40px] w-[40px] text-white rounded-full"
+      class="fixed bottom-20 right-[20px] p-2 bg-tertiary dark:bg-secondary-600 h-[40px] w-[40px] text-white rounded-full"
       :title="$t('scrollToTop')"
       @click="scrollToTop"
     >

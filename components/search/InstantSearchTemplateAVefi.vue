@@ -103,7 +103,7 @@
               </div>
               <div class="mt-2 mb-2 w-full">
                 <button
-                  class="btn btn-primary md:hidden"
+                  class="btn btn-primary lg:hidden"
                   title="Show facet items"
                   @click="$toggleFacetDrawerState"
                 >
@@ -140,7 +140,7 @@
                     />
                   </div>
                   <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
-                    <label class="label cursor-pointer w-48 ml-auto">
+                    <label class="label cursor-pointer w-48 ml-auto hidden md:block">
                       <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input

@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['btn btn-accent btn-outline btn-circle mr-2 transition-all duration-300 ease-in-out', compSize == 'sm'? 'btn-sm p-1' : 'p-2']"
+    :class="['btn dark:btn-accent dark:btn-outline btn-circle mr-2 transition-all duration-300 ease-in-out', compSize == 'sm'? 'btn-sm p-1' : 'p-2']"
     :title="$t('copyEFI')"
     :alt="$t('copyEFI')"
     @click="handleClick"
@@ -52,12 +52,10 @@ const handleClick = () => {
 <style scoped>
 button {
   border: none;
-  background-color: transparent;
   cursor: pointer;
 }
 
 button:hover .svg-icon {
-  fill: var(--primary-50);
   transform: scale(1.1);
 }
 

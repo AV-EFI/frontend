@@ -39,7 +39,7 @@
             </span>
           </a>
         </h2>
-        <div class="flex flex-row text-sm text-primary-700 dark:text-gray-200 mt-2">
+        <div class="flex flex-col md:flex-row text-sm text-primary-700 dark:text-gray-200 mt-2">
           <span
             v-if="item?.has_record?.has_event?.map((loc) => loc)"
             class="flex items-center"
@@ -76,7 +76,7 @@
           </span>
         </div>
       </div>
-      <div class="w-1/5 md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+      <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
         <MicroEfiCopyComp :handle="item?.handle" />
         <GlobalActionContextComp :item="item" />
       </div>
@@ -100,7 +100,7 @@
           />
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <div class="flex flex-col">
           <MicroLabelComp label-text="directors_or_editors" />
           <SearchHighlightListComp
@@ -173,7 +173,7 @@
               type="searchresult"
             />
           </div>
-          
+        
           <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]">
               <!--top-->
@@ -185,7 +185,7 @@
                   />
                 </div>
               </div>
-              <div class="col-span-1">
+              <div class="col-span-1 md:flex-row">
                 <MicroLabelComp label-text="in_language_code" />
                 <SearchHighlightListComp
                   :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
@@ -193,7 +193,7 @@
                   class="mb-2"
                 />
               </div>
-              <div class="col-span-1">
+              <div class="col-span-1 md:flex-row">
                 <MicroLabelComp label-text="has_colour" />
                 <SearchHighlightSingleComp 
                   :item="manifestation?.has_record?.has_colour_type"
@@ -209,15 +209,15 @@
             <div
               v-for="exemplar in manifestation.items"
               :key="exemplar.id"
-              class="grid grid-cols-1 md:grid-cols-5 gap-1 bg-gray-50 rounded-lg p-2 dark:bg-slate-800 dark:text-white grid-rows-[minmax(0,1fr)] px-1 py-0"
+              class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]"
             >
               <div class="col-span-full">
                 <MicroDividerComp
-                  class="mx-auto my-[5px]"
+                  class="mx-auto lg:my-[5px]"
                   label-text="avefi:Item" 
                 />
               </div>
-              <div class="col-span-1">
+              <div class="col-span-full md:col-span-1">
                 <MicroLabelComp label-text="has_format" />
                 <SearchHighlightListComp
                   :items="exemplar?.has_record?.has_format?.map(form => form.type)"
@@ -225,7 +225,7 @@
                   class="mb-2"
                 />
               </div>
-              <div class="col-span-1">
+              <div class="col-span-full md:col-span-1">
                 <MicroLabelComp label-text="item_element_type" />
                 <SearchHighlightSingleComp
                   :item="exemplar?.has_record.element_type"
@@ -233,7 +233,7 @@
                   class="mb-2"
                 />
               </div>
-              <div class="col-span-1">
+              <div class="col-span-full md:col-span-1">
                 <MicroLabelComp label-text="in_language_code" />
                 <SearchHighlightSingleComp
                   :item="exemplar?.has_record?.in_language?.code"
@@ -241,7 +241,7 @@
                   class="mb-2"
                 />
               </div>
-              <div class="col-span-1 flex flex-col justify-center">
+              <div class="col-span-full md:col-span-1">
                 <a
                   v-if="exemplar?.has_record?.has_webresource"
                   :href="exemplar?.has_record?.has_webresource"
@@ -251,17 +251,17 @@
                   name="formkit:linkexternal"
                 />&nbsp;{{ $t('webresource') }}</a>
               </div>
-              <div class="col-span-1 col-start-5 flex flex-col justify-center items-center">
+              <div class="col-span-full md:col-span-1">
                 <MicroEfiCopyComp :handle="exemplar?.handle" />
               </div>
             </div>
           </div>
         </div>
-        <!-- TODO replace above with component -->
-        <!--        
-        <LazySearchResultManifestation
-          :manifestation_items="item?.manifestations"
-        />-->
+      <!-- TODO replace above with component -->
+      <!--        
+      <LazySearchResultManifestation
+        :manifestation_items="item?.manifestations"
+      />-->
       </div>
     </div>
   </div>

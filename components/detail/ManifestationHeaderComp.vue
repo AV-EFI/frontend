@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-row justify-between items-center">
+  <div class="flex flex-col lg:flex-row justify-between lg:items-center">
     <div
       v-if="type == 'searchresult'"
-      class="flex flex-col justify-center"
+      :class="['flex justify-center flex-col lg:flex-row w-4/5']"
     >
       <h4 class="col-span-full text-xs 2xl:text-sm">
         {{ manifestation?.handle }}

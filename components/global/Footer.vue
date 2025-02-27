@@ -56,12 +56,9 @@
           </nav>
           <nav class="flex flex-col col-span-1">
             <h6 class="footer-title">
-              {{ $t("theme") }}
+              {{ $t("sponsoring") }}
             </h6>
-            <div class="flex items-start">
-              <GlobalThemeSwitch />
-            </div>
-            <div class="bg-transparent mt-4">
+            <div class="bg-transparent">
               <a
                 href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"
                 target="_blank"

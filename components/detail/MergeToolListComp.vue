@@ -119,6 +119,7 @@ const itemPairs = computed(() => {
             similarity: getRandomSimilarity()
         });
     }
+    console.log(pairs);
     return pairs;
 });
 

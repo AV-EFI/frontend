@@ -1,21 +1,21 @@
 <template>
-  <div class="drawer w-0 md:w-[20em] drawer-start md:drawer-open">
+  <div class="drawer w-0 lg:w-[20em] drawer-start lg:drawer-open">
     <input
       id="facet_drawer"
       type="checkbox"
       class="drawer-toggle"
       :checked="objectListStore.facetDrawerOpen"
     >
-    <div class="drawer-side z-20 md:z-10 h-full">
+    <div class="drawer-side z-20 lg:z-10 h-full">
       <label
         aria-label="close sidebar"
         class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
-      <div class="menu md:px-4 w-[100vw] md:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white">
+      <div class="menu lg:px-4 w-[100vw] lg:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white z-30">
         <div class="flex flex-row justify-end">
           <button 
-            class="btn btn-outline btn-ghost w-16 md:hidden"
+            class="btn btn-outline btn-ghost w-16 lg:hidden"
             title="Close drawer"
             @click="$toggleFacetDrawerState"
           >
@@ -23,7 +23,7 @@
           </button>
         </div>
         <div class="w-full flex flex-row p-2">
-          <div class="search-panel__filters md:mr-1 max-w-full">
+          <div class="search-panel__filters lg:mr-1 max-w-full">
             <SearchPanelRefinementListComp
               header-text="Genre"
               attribute-name="has_genre_has_name"
@@ -145,26 +145,6 @@ const toggleDrawer = () => {
     objectListStore.facetDrawerOpen = !objectListStore.facetDrawerOpen;
 };
 
-const customRefine = (param1, param2) => {
-    console.log(param1);
-    console.log(param2);
-};
-
-const toValue = (value, range) => {
-    return [
-        typeof value.min === 'number' ? value.min : range.min,
-        typeof value.max === 'number' ? value.max : range.max,
-    ];
-};
-
-const formatMinValue = (minValue, minRange) => {
-    return minValue !== null && minValue !== minRange ? minValue : '';
-};
-
-const formatMaxValue = (maxValue, maxRange) => {
-    return maxValue !== null && maxValue !== maxRange ? maxValue : '';
-};
-
 onMounted(() => {
     console.log('mounted');
     (function () {
@@ -183,16 +163,6 @@ onMounted(() => {
     })();
 });
 
-function customCollapseToggle(e) {
-    console.log(e.target.parentElement);
-    if (e.target.parentElement.classList.contains('collapse-open')) {
-        e.target.parentElement.classList.remove('collapse-open');
-        e.target.parentElement.classList.add('collapse-close');
-    } else {
-        e.target.parentElement.classList.remove('collapse-close');
-        e.target.parentElement.classList.add('collapse-open');
-    }
-}
 </script>
 
 <style scoped>

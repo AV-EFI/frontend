@@ -100,7 +100,7 @@
                   }"
                   :hit="item"                  
                 />
-                <span class="ais-RefinementList-count badge badge-secondary text-xs font-bold text-white">{{ item.count }}</span>
+                <span class="ais-RefinementList-count badge bg-tertiary text-xs font-bold text-white">{{ item.count }}</span>
               </label>
             </li>
           </ul>

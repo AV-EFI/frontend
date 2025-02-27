@@ -6,17 +6,17 @@
     >
       <Icon name="fa:chevron-left" />
     </button>
-    <div class="carousel rounded-box w-[384px] md:w-96 relative overflow-hidden text-gray-700 dark:text-gray-300">
+    <div class="carousel rounded-box w-[300px] md:w-[384px] lg:w-96 relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
         class="carousel-inner flex transition-transform duration-500 ease-in-out"
-        :style="{ transform: `translateX(-${currentIndex * 384}px)` }"
+        :class="carouselTransformClass"
       >
         <div
           v-for="(item, index) in items"
           :key="index"
-          class="carousel-item w-[384px] md:w-96 flex-shrink-0 justify-center"
+          class="carousel-item !w-[300px] md:!w-[384px] lg:!w-96 flex-shrink-0 justify-center"
         >
-          <div class="card w-[384px] md:w-96 bg-base-100 shadow-xl h-full max-w-full dark:bg-gray-800 dark:shadow-gray-700">
+          <div class="card w-[300px] md:w-[384px] lg:w-96 opacity-90 shadow-xl h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
             <figure
               v-if="item.imgSrc"
               class="flex flex-col items-center"
@@ -41,7 +41,7 @@
               class="flex flex-col items-center"
             >
               <img
-                src="/img/avefi_ph_hq.jpeg"
+                src="/img/avefi_ph_blue.jpeg"
                 alt="Avefi"
                 :class="`w-full h-48 2xl:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
               >
@@ -127,6 +127,15 @@ const prevSlide = () => {
 const nextSlide = () => {
     currentIndex.value = (currentIndex.value + 1) % props.items.length;
 };
+
+watch(currentIndex, (newIndex) => {
+    const width = window.innerWidth;
+    const itemWidth = width < 768 ? 300 : 384; // Adjust item width based on screen size
+    const carouselInner = document.querySelector('.carousel-inner');
+    if (carouselInner) {
+        carouselInner.style.transform = `translateX(-${newIndex * itemWidth}px)`;
+    }
+});
 </script>
 
 <style scoped>
@@ -138,10 +147,6 @@ const nextSlide = () => {
 .carousel-inner {
   display: flex;
   transition: transform 0.5s ease-in-out;
-}
-.carousel-item {
-  flex-shrink: 0;
-  width: 24rem; /* Fixed width of w-[384px] md:w-96 */
 }
 .card {
   max-width: 100%; /* Ensure card does not exceed parent width */

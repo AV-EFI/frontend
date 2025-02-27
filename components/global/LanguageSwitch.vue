@@ -17,31 +17,23 @@
         title="Deutsche Sprache"
         @click="toggleLocale"
       >
-        <Suspense>
-          <Icon
-            id="localeGerman"
-            class="h-6 w-6"
-            alt="Anzeige in deutscher Sprache"
-            title="Anzeige in deutscher Sprache"
-            name="emojione:flag-for-germany"
-          />
-        </Suspense>
+        <div class="avatar placeholder">
+          <div class="bg-neutral text-neutral-content w-12 rounded-full">
+            <span class="flex flex-row items-center"><Icon name="fa:language" />&nbsp;De</span>
+          </div>
+        </div>
       </div>
       <div
-        class="swap-on animated"
+        class="swap-on animated circle"
         alt="Switch to English language"
         title="Switch to English language"
         @click="toggleLocale"
       >
-        <Suspense>
-          <Icon
-            id="localeEnglish"
-            name="emojione:globe-showing-europe-africa"
-            class="h-6 w-6"
-            alt="English language"
-            title="English language"
-          />
-        </Suspense>
+        <div class="avatar placeholder">
+          <div class="bg-neutral text-neutral-content w-12 rounded-full">
+            <span class="flex flex-row items-center"><Icon name="fa:language" />&nbsp;En</span>
+          </div>
+        </div>
       </div>
     </label>
   </div>

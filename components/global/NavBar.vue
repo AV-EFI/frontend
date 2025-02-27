@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 <template>
   <nav
     class="navbar border-b-2 bg-neutral-50 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
-    :class="isScrolled? 'md:mix-blend-multiply md:opacity-90' : ''"
+    :class="isScrolled? 'md:mix-blend-multiply lg:opacity-90' : ''"
   >
     <ClientOnly>
       <div class="container flex justify-between mx-auto p-0">
@@ -65,34 +65,6 @@ onBeforeUnmount(() => {
               tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li
-                v-if="shoppingCart.objects?.length > 0"
-                class="h-12 flex justify-center"
-              >
-                <button
-                  title="Show comparison items"
-                  @click="$toggleComparisonDrawerState"
-                >
-                  {{ $t("shoppingcart") }}
-                  <span class="indicator-item badge bg-shopping-cart text-white">
-                    {{ shoppingCart.objects?.length }}
-                  </span>
-                </button>
-              </li>
-              <li
-                v-if="objectListStore.objects?.length > 0"
-                class="h-12 flex justify-center"
-              >
-                <button
-                  title="Show comparison items"
-                  @click="$toggleComparisonDrawerState"
-                >
-                  {{ $t("comparison") }}
-                  <span class="indicator-item badge bg-compare-list text-white">
-                    {{ objectListStore.objects?.length }}
-                  </span>
-                </button>
-              </li>
               <li class="h-12 flex justify-center">
                 <GlobalLanguageSwitch />
               </li>
@@ -174,7 +146,7 @@ onBeforeUnmount(() => {
             </ul>
           </div>
           <a
-            class="btn btn-ghost text-xl dark:bg-gray-700 h-12"
+            class="btn btn-ghost text-xl dark:bg-slate-100 h-12"
             href="/"
           >
             <img
@@ -184,6 +156,38 @@ onBeforeUnmount(() => {
               height="auto"
             >
           </a>
+        </div>
+        <div class="navbar-end w-3/4 flex lg:hidden">
+          <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
+            <li
+              v-if="shoppingCart.objects?.length > 0"
+              class="h-12 flex justify-center"
+            >
+              <button
+                title="Show comparison items"
+                @click="$toggleComparisonDrawerState"
+              >
+                <span class="hidden md:inline">{{ $t("shoppingcart") }}</span>
+                <span class="indicator-item badge bg-shopping-cart text-white">
+                  {{ shoppingCart.objects?.length }}
+                </span>
+              </button>
+            </li>
+            <li
+              v-if="objectListStore.objects?.length > 0"
+              class="h-12 flex justify-center"
+            >
+              <button
+                title="Show comparison items"
+                @click="$toggleComparisonDrawerState"
+              >
+                <span class="hidden md:inline">{{ $t("comparison") }}</span>
+                <span class="indicator-item badge bg-compare-list text-white">
+                  {{ objectListStore.objects?.length }}
+                </span>
+              </button>
+            </li>
+          </ul>
         </div>
         <div class="navbar-end w-3/4 flex hidden xl:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
@@ -247,7 +251,7 @@ onBeforeUnmount(() => {
                     Hello {{ data?.user?.name }}
                   </div>
                 </summary>
-                <ul class="p-2 dark:bg-gray-800 menu-items">
+                <ul class="p-2 dark:bg-gray-800 w-64 menu-items right-4">
                   <li class="h-12 flex justify-center">
                     <a
                       href="/protected/dashboard"

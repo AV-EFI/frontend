@@ -23,7 +23,7 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxtjs/robots',
         'nuxt3-winston-log',
-        '@dargmuesli/nuxt-cookie-control',
+        '@dargmuesli/nuxt-cookie-control'
     ],
     extends: './pages',
     imports: {
@@ -72,7 +72,7 @@ export default defineNuxtConfig({
     //https://nuxt.com/docs/guide/concepts/rendering
     routeRules: {
         // Generated at build time for SEO purpose
-        "/": { prerender: true },
+        "/": { ssr: false },
         "/search": { ssr: false },
         "/contact": { prerender: true },
         "/login": { ssr: false },
