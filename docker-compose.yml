@@ -1,11 +1,18 @@
 services:
-  avefi-frontend:
-    container_name: avefi-frontend
+  av-efi-frontend:
+    container_name: av-efi-frontend
     build:
       context: .
       dockerfile: DockerFile
     ports:
-      - "3000:3000"
+      - 127.0.0.1:3000:3000
     volumes:
       - './components:/app/components'
       - './logs:/app/logs'
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
