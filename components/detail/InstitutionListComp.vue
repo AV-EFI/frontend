@@ -140,7 +140,7 @@
                     />
                   </div>
                   <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
-                    <label class="label cursor-pointer w-48 ml-auto hidden md:block">
+                    <label class="label cursor-pointer w-48 ml-auto hidden lg:flex">
                       <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input

@@ -16,9 +16,9 @@
       </button>
     </div>
     <div
-      class="flex flex-row min-h-12 w-full p-4 pb-2 rounded-tl-xl rounded-tr-xl"
+      class="flex flex-col md:flex-row min-h-12 w-full p-4 pb-2 rounded-tl-xl rounded-tr-xl"
     >
-      <div class="w-4/5 md:w-4/5 content-center">
+      <div class="max-md:w-full w-4/5 md:w-4/5 content-center">
         <p
           class=" text-xs 2xl:text-sm text-primary-600 dark:text-gray-300"
           alt="efi"
@@ -220,7 +220,7 @@
             <div
               v-for="exemplar in manifestation.items"
               :key="exemplar.id"
-              class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-2 grid-rows-[minmax(0,1fr)]"
+              class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-2 grid-rows-[minmax(0,1fr)]"
             >
               <div class="col-span-full">
                 <MicroDividerComp
@@ -252,7 +252,10 @@
                   class="mb-2"
                 />
               </div>
-              <div class="col-span-full md:col-span-1">
+              <div
+                v-if="exemplar?.has_record?.has_webresource"
+                class="col-span-full md:col-span-1"
+              >
                 <a
                   v-if="exemplar?.has_record?.has_webresource"
                   :href="exemplar?.has_record?.has_webresource"
@@ -262,7 +265,7 @@
                   name="formkit:linkexternal"
                 />&nbsp;{{ $t('webresource') }}</a>
               </div>
-              <div class="col-span-full md:col-span-1">
+              <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1">
                 <MicroEfiCopyComp :handle="exemplar?.handle" />
               </div>
             </div>

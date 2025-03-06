@@ -318,7 +318,7 @@ function updateAllProperties() {
         ...(data.has_record.has_event[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
         { value: data.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear' },
         ...(data.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category.replace('avefi:','') })),
-        { value: data.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
+        //{ value: data.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
     ];
 
     properties.forEach((property) => {

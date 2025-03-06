@@ -7,7 +7,7 @@
         <li
           v-for="el in breadcrumbs"
           :key="el[1]"
-          class="dark:hover:text-slate-300"
+          class="dark:hover:text-slate2300"
         >
           <a
             :href="el[1]"

@@ -92,7 +92,7 @@ watch(valueHigh, (newValueHigh) => {
 
   .slider-primary {
   --slider-connect-bg: var(--primary-50)!important;
-  --slider-tooltip-bg: var(--accenttwo)!important;
+  --slider-tooltip-bg: var(--secondary)!important;
   --slider-handle-ring-color: var(--accent)!important;
 }
 

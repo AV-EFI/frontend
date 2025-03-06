@@ -26,7 +26,7 @@
         </ClientOnly>
         <div class="absolute inset-0 bg-tertiary opacity-70" />
         <div class="card shrink-0 w-full relative z-10">
-          <div class="card-body p-2 md:p-4 w-full">
+          <div class="card-body sm:p-2 md:p-4 w-full">
             <GlobalSearchCompReduced />
           </div>
         </div>
@@ -41,7 +41,7 @@
       />
       <div class="relative flex flex-col lg:flex-row justify-between content-center items-center mt-2 lg:group-hover:bg-opacity-90">
         <div class="w-full lg:w-1/2">
-          <div class="flex flex-col justify-center items-center bg-white opacity-90 rounded-lg p-[25px] relative mx-auto max-h-96 lg:group-hover:bg-opacity-100 max-w-96 lg:group-hover:shadow-xl dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800 mb-4">
+          <div class="flex flex-col justify-center items-center bg-white lg:opacity-90 rounded-lg p-[25px] relative mx-auto max-h-96 lg:group-hover:bg-opacity-100 max-w-96 lg:group-hover:shadow-xl dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800 mb-4">
             <h2 class="text-xl font-bold text-left w-full leading-tight mb-2 max-w-80 dark:text-gray-200">
               {{ $t('bannerText') }}
             </h2>
@@ -59,11 +59,11 @@
     </div>
     <div class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700">
       <div class="grid grid-cols-1 gap-4 mb-2 my-4 px-6 py-2 relative group h-full text-center">
-        <div class="flex flex-col items-center bg-white dark:bg-transparent bg-opacity-90 p-4 rounded-lg">
+        <div class="flex flex-col items-center bg-white dark:bg-transparent lg:bg-opacity-90 p-4 rounded-lg">
           <img
             src="/img/AV-EFI-Logo.png"
             alt="AV-EFI Logo"
-            class="max-w-64 mx-auto dark:bg-slate-100 rounded-xl p-2"
+            class="md:max-w-64 mx-auto dark:bg-slate-100 rounded-xl p-2"
           >
           <h2 class="text-xl dark:text-gray-200 mt-4 max-w-64">
             {{ $t('slogan') }}
@@ -107,7 +107,7 @@
             <a
               href="https://projects.tib.eu/av-efi/projekt/"
               target="_blank"
-              class="btn btn-primary dark:btn-primary-300"
+              class="btn btn-primary dark:btn-primary-300 max-md:btn-block"
             >{{ $t('learnMore') }}</a>
           </div>
         </div>
@@ -144,7 +144,7 @@
             <a
               href="https://projects.tib.eu/av-efi/metadaten/"
               target="_blank"
-              class="btn btn-primary dark:btn-primary-300"
+              class="btn btn-primary dark:btn-primary-300 max-md:btn-block"
             >{{ $t('learnMore') }}</a>
           </div>
         </div>
@@ -186,7 +186,7 @@
             <a
               href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/"
               target="_blank"
-              class="btn btn-primary dark:btn-primary-300"
+              class="btn btn-primary dark:btn-primary-300 max-md:btn-block"
             >{{ $t('learnMore') }}</a>
           </div>
         </div>
@@ -212,8 +212,8 @@
             {{ $t('videoNotSupported') }}
           </video>
         </div>
-        <div class="w-full hidden lg:inline-flex lg:w-1/2 flex flex-col justify-center items-center">
-          <div class="flex flex-col justify-center items-center bg-white opacity-90 rounded-lg p-[25px] relative mx-auto max-h-96 lg:group-hover:bg-opacity-100 lg:max-w-96 lg:group-hover:shadow-xl dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800">
+        <div class="w-full lg:inline-flex lg:w-1/2 flex flex-col justify-center items-center">
+          <div class="flex flex-col justify-center items-center bg-white lg:opacity-90 rounded-lg p-[25px] relative mx-auto max-h-96 lg:group-hover:bg-opacity-100 lg:max-w-96 lg:group-hover:shadow-xl dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800">
             <h2 class="text-2xl text-left w-full leading-tight lg:max-w-80 dark:text-gray-200 mb-4">
               <img
                 src="/img/AV-EFI-Logo.png"
@@ -231,7 +231,7 @@
     <div class="mx-auto lg:min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700">
       <div class="flex flex-col lg:flex-row justify-around lg:justify-between mt-4 lg:mt-auto lg:mb-auto">
         <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
-          <div class="flex flex-col items-center bg-white dark:bg-gray-700 lg:dark:group-hover:bg-gray-800 bg-opacity-90 p-4 rounded-lg">
+          <div class="flex flex-col items-center bg-white dark:bg-gray-700 lg:dark:group-hover:bg-gray-800 lg:bg-opacity-90 p-4 rounded-lg">
             <h2 class="text-2xl text-left font-bold mb-2 w-full leading-tight max-w-80 dark:text-gray-200">
               {{ $t('partnersTitle') }}
             </h2>

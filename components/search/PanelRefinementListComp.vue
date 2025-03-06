@@ -38,13 +38,23 @@
             'ais-RefinementList-count' : 'badge badge-secondary font-bold text-white text-xs'
           }"
       >
+        <template #noResults="{ query }">
+          {{ $t('noResults') }}
+        </template>
         <template #showMoreLabel="{ isShowingMore }">
           {{ !isShowingMore ? 'More' : 'Less' }}
         </template>
         <template #default="{items, refine, searchForItems, isShowingMore, canToggleShowMore, toggleShowMore}">
+          <div
+            v-if="!items.length"
+            class="max-w-[250px] mx-auto my-2"
+          >
+            <p>{{ $t('noResults') }}</p>
+            <p>{{ $t('tryAdjustingFacets') }}</p>
+          </div>
           <ais-search-box
-            v-if="isSearchable"
-            class="p-1"
+            v-if="isSearchable && items.length > 0"
+            class="p-1 max-w-[250px] mx-auto"
           >
             <div
               class="text-sm flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-zinc-300 dark:group-data-[disabled]:bg-zinc-800/5 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
@@ -71,7 +81,10 @@
               >
             </div>
           </ais-search-box>
-          <ul class="ais-RefinementList">
+          <ul
+            v-if="items.length > 0"
+            class="ais-RefinementList py-2"
+          >
             <li
               v-for="item in items"
               :key="item.value"
@@ -106,6 +119,7 @@
             </li>
           </ul>
           <button
+            v-if="items.length > 0"
             class="btn btn-sm btn-primary btn-outline btn-block"
             :disabled="!canToggleShowMore"
             @click="toggleShowMore"

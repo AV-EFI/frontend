@@ -22,7 +22,7 @@
                   target="_blank"
                   class="dark:text-gray-300"
                 >
-                  {{ $t('Datenschutzerklärung') }}
+                  {{ $t('dataprotection') }}
                 </a>
               </li>
               <li>

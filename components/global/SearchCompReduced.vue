@@ -10,7 +10,7 @@
         name="searchComp"
         @submit="redirectToSearchScreen"
       >
-        <div class="flex w-full mx-auto !max-w-none md:w-96 xl:w-128 justify-center">
+        <div class="flex w-full mx-auto !max-w-none lg:w-96 xl:w-128 justify-center">
           <FormKit
             v-model="searchTerm"
             name="searchTerm"

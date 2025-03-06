@@ -149,7 +149,6 @@ onMounted(() => {
     (function () {
         function addCollapseCheckboxDom() {
             const collapsePanels = document.querySelectorAll('.ais-Panel');
-            console.log(collapsePanels);
             collapsePanels.forEach((panel) => {
                 const collapseCheckbox = document.createElement('input');
                 collapseCheckbox.type = 'checkbox';

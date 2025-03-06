@@ -13,14 +13,14 @@
           class="hidden md: visible drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu p-4 w-[100vw] md:w-96 min-h-full bg-base-50 bg-neutral z-40 dark:bg-primary-800 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white">
+        <div class="menu md:p-4 md:w-[100vw] lg:w-128 min-h-full bg-base-50 bg-neutral z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white">
           <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
               class="btn btn-outline btn-sm btn-primary w-1/4"
               :title="$t('close')"
               @click="$toggleComparisonDrawerState"
             >
-              <Icon name="formkit:caretright" />
+              <Icon name="formkit:close" />
             </button>
           </div>
           <div
@@ -104,7 +104,10 @@
                   :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
-                  <Icon name="material-symbols:compare" />
+                  <Icon
+                    class="text-xl text-white"
+                    name="carbon:compare"
+                  />
                 </button>
                 <button 
                   class="btn btn-error text-white join-item w-1/3"

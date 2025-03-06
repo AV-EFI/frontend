@@ -16,7 +16,7 @@
       </template>
     </NuxtLayout>
     <EasyDataTable
-      table-class-name="customize_table w-[300px] md:w-auto"
+      table-class-name="customize_table w-[250px] mx-auto sm:w-auto"
       table-theme-color="var(--primary)"
       :headers="headers"
       :items="itemList"

@@ -10,6 +10,6 @@ const props = defineProps({
 <template>
   <Icon
     :alt="alt"
-    name="formkit:list"
+    name="i-fa:heart-o"
   />
 </template>

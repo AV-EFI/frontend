@@ -25,7 +25,7 @@
       @click="scrollToTop"
     >
       <Icon
-        name="heroicons:chevron-up"
+        name="i-fa:chevron-up"
         class="text-lg"
       />
     </button>

@@ -6,7 +6,7 @@
     >
       <Icon name="fa:chevron-left" />
     </button>
-    <div class="carousel rounded-box w-[300px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
+    <div class="carousel rounded-box w-[250px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
         class="carousel-inner flex transition-transform duration-500 ease-in-out"
         :class="carouselTransformClass"
@@ -14,9 +14,9 @@
         <div
           v-for="(item, index) in items"
           :key="index"
-          class="carousel-item !w-[300px] md:!w-[384px] lg:!w-128 flex-shrink-0 justify-center"
+          class="carousel-item !w-[250px] md:!w-[384px] lg:!w-128 flex-shrink-0 justify-center"
         >
-          <div class="card w-[300px] md:w-[384px] lg:w-128  opacity-90 shadow-xl h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
+          <div class="card w-[250px] md:w-[384px] lg:w-128 shadow-xl md:h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
             <figure
               v-if="item.imgSrc"
               class="flex flex-col items-center"
@@ -71,7 +71,7 @@
               <div class="card-actions justify-end">
                 <a
                   :href="item.link"
-                  class="btn btn-primary"
+                  class="btn btn-primary max-md:btn-block"
                 >{{ $t(item.linkText) }} <Icon name="fa-regular:arrow-alt-circle-right" /></a>
               </div>
             </div>
@@ -130,7 +130,7 @@ const nextSlide = () => {
 
 watch(currentIndex, (newIndex) => {
     const width = window.innerWidth;
-    const itemWidth = width < 768 ? 300 : 512; // Adjust item width based on screen size
+    const itemWidth = width < 768 ? 250 : 512; // Adjust item width based on screen size
     const carouselInner = document.querySelector('.carousel-inner');
     if (carouselInner) {
         carouselInner.style.transform = `translateX(-${newIndex * itemWidth}px)`;

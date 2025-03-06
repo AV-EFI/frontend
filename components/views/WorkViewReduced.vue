@@ -1,10 +1,10 @@
 <template>
-  <div class="row-span-1 card-title flex flex-col items-start ml-0">
-    <p class="text-sm">
+  <div class="row-span-1 flex flex-col items-start ml-0">
+    <p class="text-primary-900 dark:text-primary-100 font-bold">
       {{ title }}
     </p>
     <h2
-      class="text-lg font-normal dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+      class="font-normal dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
       :alt="data?._source?.has_record?.has_primary_title?.has_name"
     >
       {{ data?._source?.has_record?.has_primary_title?.has_name }}
@@ -13,7 +13,7 @@
   <div class="row-span-1 grid-container ">
     <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min grid-sub-container">
       <div class="md:col-span-12 col-span-12">
-        <label class="text-md font-bold text-primary-900 dark:text-primary-100">PID:</label>
+        <label class="font-bold text-primary-900 dark:text-primary-100">PID:</label>
         <p
           class="  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
           :alt="data?._source?.handle"
@@ -25,25 +25,25 @@
   </div>
   <div class="row-span-1 grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min grid-sub-container">
     <div class="md:col-span-12 col-span-12">
-      <label class="text-md font-bold text-primary-900 dark:text-primary-100 capitalize">{{ $t('country') }}:</label>
-      <p class="text-lg  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
+      <label class="font-bold text-primary-900 dark:text-primary-100 capitalize">{{ $t('country') }}:</label>
+      <p class="dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
         {{ getProductionCountryFromWorkVariation(data?._source) }}
       </p>
     </div>
   </div>
   <div class="row-span-1 grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min grid-sub-container">
     <div class="md:col-span-12 col-span-12">
-      <label class="text-md font-bold text-primary-900 dark:text-primary-100 capitalize">{{ $t('directors') }}:</label>
-      <p class="text-lg  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
+      <label class="font-bold text-primary-900 dark:text-primary-100 capitalize">{{ $t('directors') }}:</label>
+      <p class="dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
         {{ getAgentNameFromWorkVariation(data?._source, 'avefi:DirectingActivity') }}
       </p>
     </div>
   </div>
   <div class="row-span-1 grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min grid-sub-container">
     <div class="md:col-span-8 col-span-12">
-      <label class="text-md font-bold text-primary-900 dark:text-primary-100 capitalize">{{ $t('year') }}:</label>
+      <label class="font-bold text-primary-900 dark:text-primary-100 capitalize">{{ $t('year') }}:</label>
       <p
-        class="text-lg  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+        class="dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         :alt="data?._source?.year"
       >
         {{ getProductionYearFromWorkVariation(data?._source) }}

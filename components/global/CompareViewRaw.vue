@@ -12,7 +12,7 @@
             </h3>
             <textarea
               v-if="prev"
-              class="p-4 rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
+              class="p-4 w-[80vw] h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
               v-html="prev"
             />
           </div>
@@ -21,7 +21,7 @@
               {{ $t('dataset2') }}
             </h3>
             <textarea
-              class="p-4 rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
+              class="p-4 w-[80vw] h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
               v-html="current"
             />
           </div>
@@ -30,13 +30,13 @@
     </div>
   </div>
   <div class="viewer flex flex-col md:flex-row flex-wrap w-full">
-    <section class="mt-4 w-full min-w-96 min-h-96">
+    <section class="mt-4 w-full min-h-96">
       <h2 class="text-2xl font-bold mb-4">
         Diff
       </h2>
       <Diff
         mode="unified"
-        class="w-full min-w-96"
+        class="w-[80vw] lg:w-full"
         theme="diffTheme"
         language="json"
         :prev="prev"
@@ -122,11 +122,6 @@ onMounted(() => {
 
     h2 {
       width: 100%;
-    }
-
-    textarea {
-      width: 100%;
-      height: 200px;
     }
   }
 }

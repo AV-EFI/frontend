@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
                   class="btn btn-outline w-1/2 h-12"
                   @click="toggleComparisonDrawerState"
                 >
-                  <MicroCompareIcon alt="Comparison" />
+                  <MicroCompareIcon :alt="$t('comparison')" />
                 </button>
               </ClientOnly>
             </div>

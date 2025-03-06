@@ -90,7 +90,7 @@
         </span>
       </div>
     </div>
-    <div>
+    <div class="max-md:flex max-md:justify-end ">
       <MicroEfiCopyComp
         :handle="manifestation?.handle?? manifestation._source?.handle"
         class="z-10 relative"
