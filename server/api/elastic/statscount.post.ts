@@ -3,7 +3,7 @@ import { Client } from '@elastic/elasticsearch';
 
 
 export default defineEventHandler(async (event) => {
-    const index = useRuntimeConfig().public.ELASTIC_INDEX;
+    const index = useRuntimeConfig().public.ELASTIC_INDEX_DETAIL;
     // Initialize the ElasticSearch client
     const client = new Client({
         node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC || 'http://localhost:9200',

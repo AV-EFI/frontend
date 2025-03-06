@@ -30,7 +30,7 @@
       </p>
     </div>
     <div class="col-span-full row-span-1 row-start-4">
-      <label class="text-md font-bold text-primary-900 dark:text-primary-100">Andere IDs:</label>
+      <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('other_ids') }}:</label>
       <p
         class="text-lg dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
       >
@@ -47,7 +47,7 @@
         >
           <GlobalSendValueComp
             :target-property-value="countries_item"
-            target-property-name="countries"
+            target-property-name="countries"            
             @update-target-model="onUpdateTargetModel"
           />
         </li>

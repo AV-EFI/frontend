@@ -36,7 +36,7 @@
             </ul>
             <div
               role="alert"
-              class="alert bg-neutral dark:bg-gray-700 md:w-48 mt-4"
+              class="alert bg-neutral dark:bg-gray-700 md:w-64 mt-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span class="dark:text-gray-300">{{ $t('todolinks') }}</span>                
+              <span class="dark:text-gray-300">{{ $t('alpha') }}</span>                
             </div>
           </nav>
           <nav class="flex flex-col col-span-1">

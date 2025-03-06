@@ -6,7 +6,7 @@
     >
       <Icon name="fa:chevron-left" />
     </button>
-    <div class="carousel rounded-box w-[300px] md:w-[384px] lg:w-96 relative overflow-hidden text-gray-700 dark:text-gray-300">
+    <div class="carousel rounded-box w-[300px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
         class="carousel-inner flex transition-transform duration-500 ease-in-out"
         :class="carouselTransformClass"
@@ -14,9 +14,9 @@
         <div
           v-for="(item, index) in items"
           :key="index"
-          class="carousel-item !w-[300px] md:!w-[384px] lg:!w-96 flex-shrink-0 justify-center"
+          class="carousel-item !w-[300px] md:!w-[384px] lg:!w-128 flex-shrink-0 justify-center"
         >
-          <div class="card w-[300px] md:w-[384px] lg:w-96 opacity-90 shadow-xl h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
+          <div class="card w-[300px] md:w-[384px] lg:w-128  opacity-90 shadow-xl h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
             <figure
               v-if="item.imgSrc"
               class="flex flex-col items-center"
@@ -24,15 +24,15 @@
               <img
                 :src="item.imgSrc"
                 :alt="item.imgAlt"
-                :class="`w-full h-48 2xl:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
+                :class="`w-full h-48 lg:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
               >
               <figcaption class="text-xs text-gray-500 h-8 mt-2 px-4 dark:text-gray-400">
                 <div v-if="item.imgSourceText">
-                  Bildquelle: <a
+                  {{ $t('imageSource') }}: <a
                     :href="item.imgSourceLink"
                     target="_blank"
                     class="underline"
-                  >{{ item.imgSourceText }}</a>, Urheber: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{ item.imgLicenseLink }})
+                  >{{ item.imgSourceText }}</a>, {{ $t('author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{ item.imgLicenseLink }})
                 </div>              
               </figcaption>
             </figure>
@@ -43,24 +43,24 @@
               <img
                 src="/img/avefi_ph_blue.jpeg"
                 alt="Avefi"
-                :class="`w-full h-48 2xl:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
+                :class="`w-full h-48 lg:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
               >
               <figcaption class="text-xs text-gray-500 h-8 mt-2 px-4 dark:text-gray-400">
                 <div v-if="item.imgSourceText">
-                  Bildquelle: <a
+                  {{ $t('imageSource') }}: <a
                     :href="item.imgSourceLink"
                     target="_blank"
                     class="underline"
-                  >{{ item.imgSourceText }}</a>, Urheber: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{ item.imgLicenseLink }})
+                  >{{ item.imgSourceText }}</a>, {{ $t('author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{ item.imgLicenseLink }})
                 </div>              
               </figcaption>
             </figure>
             <div class="card-body pt-2">
               <h2 class="card-title dark:text-gray-200">
-                {{ item.title }}
+                {{ $t(item.title) }}
               </h2>
               <p :class="['text-gray-700 text-base mt-2 dark:text-gray-300  md:!line-clamp-none', { 'line-clamp-4': !showFullText }]">
-                {{ item.description }}
+                {{ $t(item.description) }}
               </p>
               <a
                 class="md:hidden link link-secondary"
@@ -72,7 +72,7 @@
                 <a
                   :href="item.link"
                   class="btn btn-primary"
-                >{{ item.linkText }} <Icon name="fa-regular:arrow-alt-circle-right" /></a>
+                >{{ $t(item.linkText) }} <Icon name="fa-regular:arrow-alt-circle-right" /></a>
               </div>
             </div>
           </div>
@@ -130,7 +130,7 @@ const nextSlide = () => {
 
 watch(currentIndex, (newIndex) => {
     const width = window.innerWidth;
-    const itemWidth = width < 768 ? 300 : 384; // Adjust item width based on screen size
+    const itemWidth = width < 768 ? 300 : 512; // Adjust item width based on screen size
     const carouselInner = document.querySelector('.carousel-inner');
     if (carouselInner) {
         carouselInner.style.transform = `translateX(-${newIndex * itemWidth}px)`;

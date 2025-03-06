@@ -19,7 +19,7 @@
         <DetailSameAsComp :same-as-data="has_agent_item?.same_as" />
       </span>
       <div>
-        <span class="text-sm xl:text-base font-bold text-gray-700 dark:text-gray-300">has_alternate_name:</span>
+        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">has_alternate_name:</span>
         <ul class="list-disc list-inside">
           <li
             v-for="(alternate_name_item, alternate_name_index) in has_agent_item?.has_alternate_name"

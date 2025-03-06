@@ -1,25 +1,22 @@
 <template>
-  <div class="mt-4 snap-y dark:bg-gray-900">
+  <div class="mt-4 snap-y px-2">
     <section>
-      <div class="flex flex-col md:flex-row min-h-[80vh]">
-        <div class="w-full md:w-1/2 overflow-auto min-h-screen grid grid-cols-1 md:grid-cols-4 grid-rows-[48px_minmax(64px,max-content)_auto_64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr">
+      <div class="flex flex-col lg:flex-row min-h-[80vh]">
+        <div class="w-full lg:w-2/3 overflow-auto min-h-screen flex flex-col lg:grid gap-1 lg:grid-cols-8 lg:grid-rows-[48px_minmax(64px,max-content)_minmax(64px,max-content)_64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr lg:pr-1">
           <ViewsWorkViewEditor
             v-model="prev"
             :title="$t('Dataset1')"
-            class="dark:bg-gray-800"
             @update-target-model-g-p="onUpdateTargetModelGP"
           />
           <ViewsWorkViewEditor
             v-model="current"
             :title="$t('Dataset2')" 
-            class="dark:bg-gray-800"
             @update-target-model-g-p="onUpdateTargetModelGP"
           />
         </div>
-        <div class="w-full md:w-1/2 overflow-scroll">
+        <div class="w-full lg:w-1/3 overflow-scroll">
           <ViewsWorkViewEditorResult
             v-model="mergedDataset"
-            class="dark:bg-gray-800"
           />
         </div>
       </div>
@@ -38,22 +35,28 @@ const props = defineProps({
     }
 });
 const mergedDataset = ref({
+    efi: "",
     title: "",
-    other_ids: [],
-    countries: [],
-    directors: [],
-    castmembers: [],
-    producers: [],
-    productionyears: [],
-    subjects: []
+    alternative_title: "",
+    location: [],
+    productionyear: [],
+    director: [],
+    castmember: [],
+    producer: [],
+    genre: [],
+    subject: [],
+    other_id: [],
+    last_edit: "Deutsche Kinemathek - Museum für Film und Fernsehen"
 });
 
-function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: string) {
-    if (["directors", "producers", "countries", "productionyears", "castmembers", "subjects"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, gnd: null });
-    } else if (["other_ids"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, type: "defaultType" });
+function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
+    console.log(targetPropertyValue, targetPropertyName, sameAsId);
+    if (["director", "producer", "location", "productionyear", "castmember", "subject", "genre"].includes(targetPropertyName)) {
+        mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, same_as_id: sameAsId });
+    } else if (["other_id"].includes(targetPropertyName)) {
+        mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, type: sameAsId });
     } else {
+        console.log(targetPropertyName, targetPropertyValue);
         mergedDataset.value[targetPropertyName] = targetPropertyValue;
     }
 }

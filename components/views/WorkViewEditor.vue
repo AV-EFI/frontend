@@ -1,13 +1,13 @@
 <template>
-  <div
-    class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-2 col-span-2"
-  >
+  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto">
     <div class="col-span-full">
       <h2>{{ title }}</h2>
     </div>
     <div class="col-span-full">
       <button
         class="btn btn-primary btn-sm"
+        :alt="$t('updateallproperties')"
+        :title="$t('updateallproperties')"
         @click="updateAllProperties"
       >
         {{ $t('updateallproperties') }}
@@ -17,148 +17,274 @@
         />
       </button>
     </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">Title:</label>
-      <p
-        class="text-sm font-normal dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-        :alt="data.has_record.has_primary_title.has_name"
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">efi:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
+        <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-white dark:bg-gray-700">
+          <span class="col-span-6 my-auto">
+            {{ data?.handle }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="data?.handle"
+              target-property-name="efi"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('title') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
+        <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-800">
+          <span class="col-span-6 my-auto">
+            {{ data.has_record?.has_primary_title?.has_name }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="data.has_record?.has_primary_title?.has_name"
+              target-property-name="title"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('AlternativeTitle') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
+        <li
+          v-for="(altTitle, index) in data.has_record?.has_alternative_title"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
+        >
+          <span class="col-span-6 my-auto">
+            {{ altTitle.has_name }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="altTitle.has_name"
+              target-property-name="alternative_title"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+    
+
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('location') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
+        <li
+          v-for="(country, index) in data.has_record.has_event[0]?.located_in"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
+        >
+          <span class="col-span-3">
+            {{ country?.has_name }}
+          </span>
+          <span class="col-span-3">
+            {{ country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="country?.has_name"
+              target-property-name="location"
+              :same-as-id="country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('productionyear') }}:</label>
+      <ul 
+        v-if="data.has_record.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
+        class="grid grid-cols-7 subgrid gap-1 col-span-full"
       >
-        <GlobalSendValueComp
-          :target-property-value="data.has_record.has_primary_title.has_name"
-          target-property-name="title"
-          @update-target-model="onUpdateTargetModel"
-        />
-      </p>
-    </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">EFI:</label>
-      <p
-        class="text-sm font-normal dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-        :alt="data.has_record.has_primary_title.has_name"
-      >
-        <GlobalSendValueComp
-          :target-property-value="data?.handle"
-          target-property-name="pid"
-          @update-target-model="onUpdateTargetModel"
-        />
-      </p>
-    </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">Andere IDs:</label>
-    </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">
-        {{ $t('countries') }}:
-      </label>
-      <ul>
         <li
-          v-for="(countries_item, countries_index) in cont.fields?.countries"
-          :key="countries_index"
-          class="text-sm dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
-          <GlobalSendValueComp
-            :target-property-value="countries_item"
-            target-property-name="countries"
-            @update-target-model="onUpdateTargetModel"
-          />
+          <span class="col-span-6">
+            {{ data.has_record.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="data.has_record.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
+              target-property-name="productionyear"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
         </li>
       </ul>
     </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">
-        {{ $t('directors') }}:
-      </label>
-      <ul>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('Director') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(directors_item, directors_index) in cont.fields?.directors"
-          :key="directors_index"
-          class="text-sm dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          v-for="(director, index) in data.has_record.has_event[0].has_activity.find(activity => activity.type === 'Director')?.has_agent"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
-          <GlobalSendValueComp
-            :target-property-value="directors_item"
-            target-property-name="directors"
-            @update-target-model="onUpdateTargetModel"
-          />
+          <span class="col-span-3">
+            {{ director.has_name }}
+          </span>
+          <span class="col-span-3">
+            {{ director?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="director.has_name"
+              target-property-name="director"
+              :same-as-id="director?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
         </li>
       </ul>
     </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">
-        {{ $t('productionyears') }}:
-      </label>
-      <ul>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('production') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(years_item, years_index) in cont.fields?.productionyears"
-          :key="years_index"
-          class="text-sm dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          v-for="(producer, index) in data.has_record.has_event[0].has_activity.find(activity => activity.type === 'Producer')?.has_agent"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
-          <GlobalSendValueComp
-            :target-property-value="years_item"
-            target-property-name="productionyears"
-            @update-target-model="onUpdateTargetModel"
-          />
+          <span class="col-span-3">
+            {{ producer.has_name }}
+          </span>
+          <span class="col-span-3">
+            {{ producer?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="producer.has_name"
+              target-property-name="producer"
+              :same-as-id="producer?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
         </li>
       </ul>
     </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">
-        {{ $t('producers') }}:
-      </label>
-      <ul v-if="cont.fields?.producers">
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('castmembers') }}</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(producers_item, producers_index) in cont.fields?.producers"
-          :key="producers_index"
-          class="text-sm dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          v-for="(castMember, index) in data.has_record.has_event[0].has_activity.find(activity => activity.type === 'CastMember')?.has_agent"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
-          <GlobalSendValueComp
-            :target-property-value="producers_item"
-            target-property-name="producers"
-            @update-target-model="onUpdateTargetModel"
-          />
+          <span class="col-span-3">
+            {{ castMember.has_name }}
+          </span>
+          <span class="col-span-3">
+            {{ castMember?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="castMember.has_name"
+              target-property-name="castmember"
+              :same-as-id="castMember?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
         </li>
       </ul>
     </div>
-    <div class="col-span-full ">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">
-        {{ $t('castmembers') }}:
-      </label>
-      <ul v-if="cont.fields?.castmembers">
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold">{{ $t('Genre') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(actors_item, actors_index) in cont?.fields.castmembers"
-          :key="actors_index"
-          class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          v-for="(genre, index) in data.has_record?.has_genre"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
-          <GlobalSendValueComp
-            :target-property-value="actors_item"
-            target-property-name="castmembers"
-            @update-target-model="onUpdateTargetModel"
-          />
+          <span class="col-span-3">
+            {{ genre.has_name }}
+          </span>
+          <span class="col-span-3">
+            {{ genre?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="genre.has_name"
+              target-property-name="genre"
+              :same-as-id="genre?.same_as?.flatMap((sameAs) => sameAs?.id).join(', ')"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
         </li>
       </ul>
     </div>
-    <div class="col-span-full">
-      <label class="text-sm font-bold text-primary-900 dark:text-primary-100">
-        {{ $t('subjects') }}:
-      </label>
-      <ul>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('subject') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(subjects_item, subjects_index) in cont?.fields?.subjects"
-          :key="subjects_index"
-          class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+          v-for="(subject, index) in data.has_record?.has_subject"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
-          <GlobalSendValueComp
-            :target-property-value="subjects_item"
-            target-property-name="subjects"
-            @update-target-model="onUpdateTargetModel"
-          />
+          <span class="col-span-3">
+            {{ subject.has_name }}
+          </span>
+          <span class="col-span-3">
+            {{ subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="subject.has_name"
+              target-property-name="subject"
+              :same-as-id="subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
         </li>
       </ul>
+    </div>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('other_ids') }}:</label>
+      <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
+        <li
+          v-for="(otherId, index) in data.has_record?.same_as"
+          :key="index"
+          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
+        >
+          <span class="col-span-3 break-all">
+            {{ otherId.id }}
+          </span>
+          <span class="col-span-3">
+            {{ otherId?.category?.replace('avefi:','') }}
+          </span>
+          <div class="col-span-1 flex flex-row justify-center my-auto">
+            <GlobalSendValueComp
+              :target-property-value="otherId.id"
+              target-property-name="other_id"
+              :same-as-id="`${otherId?.category?.replace('avefi:','')}`"
+              @update-target-model="onUpdateTargetModel"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] text-sm gap-1 mt-2">
+      <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('lastedit') }}:</label>
+      <span class="col-span-6 my-auto">
+        {{ data.has_record?.described_by?.has_issuer_name }}
+      </span>
     </div>
     <div class="col-span-full hidden">
-      <pre>{{ cont }}</pre>
+      <GlobalRawDataCollapse
+        :data="data"
+      />
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { MovingImageRecordContainer } from 'models/interfaces/av_efi_schema';
 const props = defineProps({
@@ -167,36 +293,40 @@ const props = defineProps({
         required: true,
     },
 });
-const dataJson = defineModel({type: String, required: true});
+const dataJson = defineModel({ type: String, required: true });
 const cont = JSON.parse(dataJson.value);
 const data = cont._source as MovingImageRecordContainer;
 
-function onUpdateTargetModel (targetPropertyValue:string, targetPropertyName:string) {
+function onUpdateTargetModel(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
     console.log("onUpdateTargetModel");
     console.log(targetPropertyValue);
     console.log(targetPropertyName);
-    emit("updateTargetModelGP", targetPropertyValue, targetPropertyName);
+    console.log(sameAsId);
+    emit("updateTargetModelGP", targetPropertyValue, targetPropertyName, sameAsId);
 }
+
 function updateAllProperties() {
     const properties = [
         { value: data.has_record.has_primary_title.has_name, name: 'title' },
-        { value: data?.handle, name: 'pid' },
-        ...(cont.fields?.countries || []).map((item) => ({ value: item, name: 'countries' })),
-        ...(cont.fields?.directors || []).map((item) => ({ value: item, name: 'directors' })),
-        ...(cont.fields?.productionyears || []).map((item) => ({ value: item, name: 'productionyears' })),
-        ...(cont.fields?.producers || []).map((item) => ({ value: item, name: 'producers' })),
-        ...(cont.fields?.castmembers || []).map((item) => ({ value: item, name: 'castmembers' })),
-        ...(cont.fields?.subjects || []).map((item) => ({ value: item, name: 'subjects' })),
+        { value: data.handle, name: 'efi' },
+        ...(data.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: item?.has_name, name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title' })),
+        ...(data.has_record?.has_genre || []).map((item) => ({ value: item?.has_name, name: 'genre', sameAsId: item?.same_as?.flatMap((sameAs) => sameAs.id).join(', ') })),
+        ...(data.has_record.has_event[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        { value: data.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear' },
+        ...(data.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category.replace('avefi:','') })),
+        { value: data.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
     ];
 
     properties.forEach((property) => {
-        emit('updateTargetModelGP', property.value, property.name);
+        emit('updateTargetModelGP', property.value, property.name, property.sameAsId);
     });
 }
 
-//event chaining :(
 const emit = defineEmits<{
-  (e: 'updateTargetModelGP', targetPropertyValue:string, targetPropertyName:string)
+  (e: 'updateTargetModelGP', targetPropertyValue: string, targetPropertyName: string, sameAsId: string): void;
 }>();
-
 </script>

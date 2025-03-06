@@ -3,7 +3,7 @@
     <FormKit
       id="work-view-editor-result"
       v-model="dataJson"
-      :classes="{form: 'bg-neutral-100 dark:bg-neutral-900 p-2 rounded-xl'}"
+      :classes="{form: 'bg-neutral-100 dark:bg-slate-900 p-2 rounded-xl'}"
       type="form"
       :actions="false"
       @submit="customSubmitHandler"
@@ -12,7 +12,7 @@
         <h2
           class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         >
-          {{ $t('Result') }}
+          {{ $t('result') }}
         </h2>
       </div>
       <div class="col-span-full">
@@ -24,83 +24,48 @@
           <Icon name="formkit:close" />
         </button>
       </div>  
-
+      <div class="col-span-full">
+        <FormKit
+          type="text"
+          name="efi"
+          label="efi:"
+          validation="required"
+        />
+      </div>
       <div class="col-span-full">
         <FormKit
           type="text"
           name="title"
-          label="Title:"
+          :label="`${$t('title')}`"
           validation="required"
         />
       </div>
       <div class="col-span-full">
         <FormKit
           type="text"
-          name="pid"
-          label="EFI:"
+          name="alternative_title"
+          :label="`${$t('AlternativeTitle')}`"
           validation="required"
         />
       </div>
+
       <div class="col-span-full">
-        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">Andere IDs:</label>
+        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('location') }}:</label>
         <FormKit
           type="repeater"
-          name="other_ids"
-          min="0"
-        >
-          <FormKit
-            type="text"
-            name="id"
-            label="ID:"
-            validation="required"
-          />
-          <FormKit
-            type="text"
-            name="type"
-            label="Type:"
-            validation="required"
-          />
-        </FormKit>
-      </div>
-      <div class="col-span-full">
-        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">Countries:</label>
-        <FormKit
-          type="repeater"
-          name="countries"
+          name="location"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            label="Country Name"
+            :label="$t('location')"
             validation="required"
           />
           <FormKit
             type="text"
-            name="gnd"
-            label="Country GND"
-            help="Leave blank for automatic GND"
-          />
-        </FormKit>
-      </div>
-      <div class="0 col-span-full">
-        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('directors') }}:</label>
-        <FormKit
-          type="repeater"
-          name="directors"
-          min="0"
-        >
-          <FormKit
-            type="text"
-            name="name"
-            label="Directors"
-            validation="required"
-          />
-          <FormKit
-            type="text"
-            name="gnd"
-            label="Directors GND"
-            help="Leave blank for automatic GND"
+            name="same_as_id"
+            :label="`${$t('location')} same_as_id`"
           />
         </FormKit>
       </div>
@@ -108,14 +73,34 @@
         <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('productionyears') }}:</label>
         <FormKit
           type="repeater"
-          name="productionyears"
+          name="productionyear"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            label="productionyears"
+            :label="`${$t('productionyear')}`"
             validation="required"
+          />
+        </FormKit>
+      </div>
+      <div class="0 col-span-full">
+        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('directors') }}:</label>
+        <FormKit
+          type="repeater"
+          name="director"
+          min="0"
+        >
+          <FormKit
+            type="text"
+            name="name"
+            :label="`${$t('Director')} Name`"
+            validation="required"
+          />
+          <FormKit
+            type="text"
+            name="same_as_id"
+            :label="`${$t('Director')} same_as_id`"
           />
         </FormKit>
       </div>
@@ -123,20 +108,19 @@
         <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('producers') }}:</label>
         <FormKit
           type="repeater"
-          name="producers"
+          name="producer"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            label="Producers"
+            :label="`${$t('production')} Name`"
             validation="required"
           />
           <FormKit
             type="text"
-            name="gnd"
-            label="Producers GND"
-            help="Leave blank for automatic GND"
+            name="same_as_id"
+            :label="`${$t('production')} same_as_id`"
           />
         </FormKit>
       </div>
@@ -144,43 +128,92 @@
         <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('castmembers') }}:</label>
         <FormKit
           type="repeater"
-          name="castmembers"
+          name="castmember"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            label="castmembers"
+            :label="`${$t('castmembers')} Name`"
             validation="required"
           />
           <FormKit
             type="text"
-            name="gnd"
-            label="castmembers GND"
-            help="Leave blank for automatic GND"
+            name="same_as_id"
+            :label="`${$t('castmembers')} same_as_id`"
           />
         </FormKit>
       </div>
       <div class="6 col-span-full">
-        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">Schlagwörter:</label>
+        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('Genre') }}:</label>
         <FormKit
           type="repeater"
-          name="subjects"
+          name="genre"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            label="Schlagwort Name"
+            :label="`${$t('Genre')} Name`"
             validation="required"
           />
           <FormKit
             type="text"
-            name="gnd"
-            label="Schlagwort GND"
-            help="Leave blank for automatic GND"
+            name="same_as_id"
+            :label="`${$t('Genre')} same_as_id`"
           />
         </FormKit>
+      </div>
+      <div class="6 col-span-full">
+        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('subject') }}:</label>
+        <FormKit
+          type="repeater"
+          name="subject"
+          min="0"
+        >
+          <FormKit
+            type="text"
+            name="name"
+            :label="`${$t('subject')} Name`"
+            validation="required"
+          />
+          <FormKit
+            type="text"
+            name="same_as_id"
+            :label="`${$t('subject')} same_as_id`"
+          />
+        </FormKit>
+      </div>
+      <div class="col-span-full">
+        <label class="text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('other_ids') }}:</label>
+        <FormKit
+          type="repeater"
+          name="other_id"
+          min="0"
+        >
+          <FormKit
+            type="text"
+            name="name"
+            :label="`${$t('other_ids')} ID`"
+            validation="required"
+          />
+          <FormKit
+            type="text"
+            name="type"
+            :label="`${$t('other_ids')} Type`"
+            validation="required"
+          />
+        </FormKit>
+      </div>
+      <div class="col-span-full">
+        <FormKit
+          type="text"
+          name="last_edit"
+          :readonly="true"
+          value="Deutsche Kinemathek - Museum für Film und Fernsehen"
+          :label="$t('lastedit')"
+          validation="required"
+        />
       </div>
       <div class="9 col-span-full">
         <FormKit
@@ -194,7 +227,7 @@
           }"
         />
       </div>
-      <div>
+      <div class="hidden">
         <pre>{{ dataJson }}</pre>
       </div>
     </FormKit>
@@ -202,15 +235,18 @@
 </template>
 <script setup lang="ts">
 const initialState = {
+    efi: "",
     title: "",
-    pid: "",
-    other_ids: [],
-    countries: [],
-    directors: [],
-    castmembers: [],
-    producers: [],
-    productionyears: [],
-    subjects: []
+    alternative_title: "",
+    location: [],
+    productionyear: [],
+    director: [],
+    castmember: [],
+    producer: [],
+    genre: [],
+    subject: [],
+    other_id: [],
+    last_edit: "Deutsche Kinemathek - Museum für Film und Fernsehen"
 };
 import { toast } from "vue3-toastify";
 const dataJson = defineModel({type: Object, required: true});
@@ -218,8 +254,6 @@ const dataJson = defineModel({type: Object, required: true});
 function customReset () {
     //deep copy of initialState
     dataJson.value = JSON.parse(JSON.stringify(initialState));
-    console.log(dataJson.value);
-    console.log(initialState);
 }
 
 function customSubmitHandler (e) 

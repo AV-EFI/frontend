@@ -1,12 +1,12 @@
 <template>
   <button
-    :class="['btn dark:btn-accent dark:btn-outline btn-circle mr-2 transition-all duration-300 ease-in-out', compSize == 'sm'? 'btn-sm p-1' : 'p-2']"
+    :class="['btn btn-accent dark:btn-accent dark:btn-outline btn-circle mr-2 transition-all duration-300 ease-in-out', compSize == 'sm'? 'btn-sm p-1' : 'p-2']"
     :title="$t('copyEFI')"
     :alt="$t('copyEFI')"
     @click="handleClick"
   >
     <svg
-      class="fill-accent stroke-primary mb-1 svg-icon transition-transform duration-300 ease-in-out"
+      class="fill-white stroke-primary mb-1 svg-icon transition-transform duration-300 ease-in-out"
       :class="[compSize == 'sm'? 'w-4 h-auto' : 'w-6 h-auto']"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

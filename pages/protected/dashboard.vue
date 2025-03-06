@@ -115,12 +115,6 @@
                 class="hover:bg-base-200 link link-primary"
               >{{ $t('favourites') }}</a>
             </li>
-            <li>
-              <a
-                href="/protected/loglist"
-                class="hover:bg-base-200 link link-primary"
-              >{{ $t('logList') }}</a>
-            </li>
           </ul>
         </template>
       </NuxtLayout>

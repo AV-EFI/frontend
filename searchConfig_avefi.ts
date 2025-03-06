@@ -25,6 +25,8 @@ export const config:SearchkitConfig = {
             'subjects',
         ],
         result_attributes: [
+            '@timestamp',
+            'has_record.described_by',
             'has_record.has_primary_title.has_name',
             'has_record.category',
             'has_record.has_form',

@@ -175,8 +175,14 @@ definePageMeta({
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               {{ $t('contact.dataProvidersContent') }}
               <ul>
-                <li><a href="#">{{ $t('howToDoc') }}</a></li>
-                <li><a href="#">{{ $t('manual') }}</a></li>
+                <li
+                  class="link"
+                  v-html="$t('howToDoc')"
+                />
+                <li
+                  class="link"
+                  v-html="$t('manual')"
+                />
               </ul>
             </div>
           </div>

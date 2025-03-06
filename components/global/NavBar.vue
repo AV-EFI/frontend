@@ -118,15 +118,6 @@ onBeforeUnmount(() => {
                 class="h-12 flex justify-center"
               >
                 <a
-                  href="/protected/loglist"
-                  :alt="$t('logList')"
-                >{{ $t('logList') }}</a>
-              </li>
-              <li
-                v-if="data"
-                class="h-12 flex justify-center"
-              >
-                <a
                   href="/protected/me"
                   :alt="$t('profile')"
                 >{{ $t('profile') }}</a>
@@ -146,7 +137,7 @@ onBeforeUnmount(() => {
             </ul>
           </div>
           <a
-            class="btn btn-ghost text-xl dark:bg-slate-100 h-12"
+            class="btn btn-ghost dark:bg-primary-100 hover:bg-primary-200 text-xl h-12"
             href="/"
           >
             <img
@@ -156,6 +147,11 @@ onBeforeUnmount(() => {
               height="auto"
             >
           </a>
+          <pre
+            :title="$t('alpha')"
+            :alt="$t('alpha')" 
+            class="my-auto"
+          > alpha</pre>
         </div>
         <div class="navbar-end w-3/4 flex lg:hidden">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
@@ -275,12 +271,6 @@ onBeforeUnmount(() => {
                       href="/protected/favouriteslist"
                       :alt="$t('favourites')"
                     >{{ $t('favourites') }}</a>
-                  </li>
-                  <li class="h-12 flex justify-center">
-                    <a
-                      href="/protected/loglist"
-                      :alt="$t('logList')"
-                    >{{ $t('logList') }}</a>
                   </li>
                   <li class="h-12 flex justify-center">
                     <a

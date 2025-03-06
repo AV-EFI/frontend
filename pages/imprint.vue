@@ -10,12 +10,9 @@
         </h1>
         <p>
           Die nachstehenden Informationen enthalten die gesetzlich vorgesehenen Pflichtangaben zur Anbieterkennzeichnung, zu den datenschutzrechtlichen Informationspflichten sowie wichtige rechtliche Hinweise zur Internet-Präsenz der Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG), die sich aus den Seiten <a
-            href="http://www.gwdg.de"
+            href="http://www.av-efi.net"
             class="link link-primary"
-          >http://www.gwdg.de</a> und <a
-            href="http://info.gwdg.de"
-            class="link link-primary"
-          >http://info.gwdg.de</a> zusammensetzt.
+          >http://www.av-efi.net</a> zusammensetzt.
         </p>
                 
         <h2 class="text-xl font-semibold mt-4">
@@ -66,7 +63,7 @@
         <h2 class="text-xl font-semibold mt-4">
           Redaktionsverantwortlicher
         </h2>
-        <p>Redaktionsverantwortlicher für die Internet-Präsenz der GWDG ist: Dr. Thomas Otto, GWDG, Burckhardtweg 4, 37077 Göttingen.</p>
+        <p>Redaktionsverantwortlicher für die Internet-Präsenz des AVefi Projekts ist: Dr. Sven Bingert, GWDG, Burckhardtweg 4, 37077 Göttingen.</p>
                 
         <h2 class="text-xl font-semibold mt-4">
           Rechtliche Hinweise zur Organisationsform
@@ -88,18 +85,7 @@
           Rechtliche Hinweise zu Verknüpfungen auf externe Seiten
         </h2>
         <p>Auf dieser Internet-Präsenz befinden sich Verknüpfungen zu externen Seiten.</p>
-        <p>Für die Inhalte der verlinkten externen Seiten ist stets der jeweilige Anbieter verantwortlich. Die GWDG hat bei der erstmaligen Verknüpfung den fremden Inhalt daraufhin überprüft, ob durch ihn eine mögliche zivilrechtliche oder strafrechtliche Verantwortlichkeit ausgelöst wird. Eine permanente inhaltliche Kontrolle der verknüpften externen Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Wenn die GWDG feststellt oder von anderen darauf hingewiesen wird, dass ein externes Angebot, auf das sie per Link verknüpft hat, eine zivil- oder strafrechtliche Verantwortlichkeit auslöst, wird sie den Link auf dieses Angebot unverzüglich aufheben. Die GWDG distanziert sich ausdrücklich von derartigen Inhalten.</p>
-                
-        <h2 class="text-xl font-semibold mt-4">
-          Rechtliche Hinweise zum Urheberrecht
-        </h2>
-        <p>
-          Das Layout der Internet-Präsenz, die Grafiken, ein Teil der Bilder und die sonstigen Inhalte sind urheberrechtlich geschützt. Die meisten der in der Internet-Präsenz verwendeten Bilder sind durch Adobe Stock urheberrechtlich geschützt ( <a
-            href="https://stock.adobe.com/de"
-            class="link link-primary"
-          >https://stock.adobe.com/de</a>).
-        </p>
-                
+        <p>Für die Inhalte der verlinkten externen Seiten ist stets der jeweilige Anbieter verantwortlich. Die GWDG hat bei der erstmaligen Verknüpfung den fremden Inhalt daraufhin überprüft, ob durch ihn eine mögliche zivilrechtliche oder strafrechtliche Verantwortlichkeit ausgelöst wird. Eine permanente inhaltliche Kontrolle der verknüpften externen Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Wenn die GWDG feststellt oder von anderen darauf hingewiesen wird, dass ein externes Angebot, auf das sie per Link verknüpft hat, eine zivil- oder strafrechtliche Verantwortlichkeit auslöst, wird sie den Link auf dieses Angebot unverzüglich aufheben. Die GWDG distanziert sich ausdrücklich von derartigen Inhalten.</p>               
         <p>© GWDG. Alle Rechte vorbehalten.</p>
       </div>
     </div>

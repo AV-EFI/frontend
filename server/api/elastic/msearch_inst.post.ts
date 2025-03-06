@@ -13,7 +13,6 @@ const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:a
 export default defineEventHandler(async (event) => {
 
     const session = await getServerSession(event);
-    console.log('session123', session);
     if (!session) {
         return { status: 'unauthenticated!' };
     }

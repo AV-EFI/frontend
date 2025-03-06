@@ -1,7 +1,7 @@
 <template>
   <div class="carousel carousel-center w-full relative overflow-hidden">
     <button
-      class="lg:flex my-auto z-20 p-2 lg:bg-gray-800 lg:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:left-[-3rem]"
+      class="lg:flex my-auto z-20 p-2 lg:bg-gray-800 lg:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2"
       @click="prevSlide"
     >
       <Icon name="fa:chevron-left" />
@@ -31,7 +31,7 @@
       </div>
     </div>
     <button
-      class="z-20 my-auto lg:flex p-2 lg:bg-gray-800 text-black lg:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-[-3rem]"
+      class="z-20 my-auto lg:flex p-2 lg:bg-gray-800 text-black lg:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-0"
       @click="nextSlide"
     >
       <Icon name="fa:chevron-right" />

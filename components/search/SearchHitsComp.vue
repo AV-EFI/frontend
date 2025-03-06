@@ -8,10 +8,12 @@
     <SearchTableViewComp
       v-else-if="viewTypeChecked && items"
       :items="items"
+      :show-admin-stats="showAdminStats"
     />
     <SearchListViewComp
       v-else-if="items"
       :items="items"
+      :show-admin-stats="showAdminStats"
     />
     <div v-else>
       <pre>error</pre>
@@ -28,6 +30,11 @@ defineProps({
     viewTypeChecked: {
         type: Boolean,
         required: true,
+    },
+    showAdminStats: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 });
 

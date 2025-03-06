@@ -59,7 +59,7 @@
     </div>
     <div class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700">
       <div class="grid grid-cols-1 gap-4 mb-2 my-4 px-6 py-2 relative group h-full text-center">
-        <div class="flex flex-col items-center bg-white dark:bg-gray-800 lg:dark:group-hover:bg-gray-700 bg-opacity-90 p-4 rounded-lg">
+        <div class="flex flex-col items-center bg-white dark:bg-transparent bg-opacity-90 p-4 rounded-lg">
           <img
             src="/img/AV-EFI-Logo.png"
             alt="AV-EFI Logo"
@@ -193,7 +193,7 @@
       </div>
     </div>
     <div
-      class="mx-auto lg:min-h-[75vh] flex flex-col flex-wrap justify-between h-full p-6 shadow-lg transition duration-900 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      class="mx-auto lg:min-h-[75vh] flex flex-col lg:justify-center flex-wrap justify-between h-full p-6 shadow-lg transition duration-900 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       style="background-image: url('/img/movietape.png'); background-blend-mode: overlay; background-position: left bottom; background-size: cover; animation: fadeIn 2s, moveBg 60s linear infinite;"
     >
       <div
@@ -212,7 +212,7 @@
             {{ $t('videoNotSupported') }}
           </video>
         </div>
-        <div class="w-full hidden lg:visible lg:w-1/2 flex flex-col justify-center items-center">
+        <div class="w-full hidden lg:inline-flex lg:w-1/2 flex flex-col justify-center items-center">
           <div class="flex flex-col justify-center items-center bg-white opacity-90 rounded-lg p-[25px] relative mx-auto max-h-96 lg:group-hover:bg-opacity-100 lg:max-w-96 lg:group-hover:shadow-xl dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800">
             <h2 class="text-2xl text-left w-full leading-tight lg:max-w-80 dark:text-gray-200 mb-4">
               <img
@@ -229,7 +229,7 @@
       </div>
     </div>
     <div class="mx-auto lg:min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700">
-      <div class="flex flex-col lg:flex-row justify-around lg:justify-between mt-4">
+      <div class="flex flex-col lg:flex-row justify-around lg:justify-between mt-4 lg:mt-auto lg:mb-auto">
         <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
           <div class="flex flex-col items-center bg-white dark:bg-gray-700 lg:dark:group-hover:bg-gray-800 bg-opacity-90 p-4 rounded-lg">
             <h2 class="text-2xl text-left font-bold mb-2 w-full leading-tight max-w-80 dark:text-gray-200">
@@ -276,18 +276,22 @@ const items = ref([
 const cardItems = ref(
     [
         {
-            title: 'Hermann Schlenker',
-            description: 'Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind heute wichtiger denn je, da sie ein wertvolles Zeitzeugnis von Kulturen darstellen, die sich im Wandel befinden oder bereits verschwunden sind.',
+            title: 'schlenkerTitle',
+            description: 'schlenkerDescription',
+            linkText: 'schlenkerLinkText',
+            //title: 'Hermann Schlenker',
+            //description: 'Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind heute wichtiger denn je, da sie ein wertvolles Zeitzeugnis von Kulturen darstellen, die sich im Wandel befinden oder bereits verschwunden sind.',
             link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B0%5D=Schlenker%2C%20Hermann&${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion`,
-            linkText: 'Hermann Schlenker bei AVefi'
+            //linkText: 'Hermann Schlenker bei AVefi'
         },
         {
-            title: 'Georg Stefan Troller',
+            title: 'trollerTitle',
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
             imgAlt: 'Georg Stefan Troller',
-            description: 'Georg Stefan Troller, ein österreichisch-französischer Filmemacher und Journalist, war bekannt für seinen tief empfundenen Humanismus. Seine Dokumentarfilme boten intime Porträts von Menschen und ihren Geschichten, indem sie persönliche Erfahrungen und soziale Themen auf eindringliche Weise miteinander verbanden.',
+            description: 'trollerDescription',
+            //description: 'Georg Stefan Troller, ein österreichisch-französischer Filmemacher und Journalist, war bekannt für seinen tief empfundenen Humanismus. Seine Dokumentarfilme boten intime Porträts von Menschen und ihren Geschichten, indem sie persönliche Erfahrungen und soziale Themen auf eindringliche Weise miteinander verbanden.',
             link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bdirectors_or_editors%5D%5B0%5D=Troller%2C%20Georg%20Stefan`,
-            linkText: 'Georg Stefan Troller bei AVefi',
+            linkText: 'trollerLinkText',
             imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
             imgSourceText: 'Wikimedia Commons',
             imgAuthor: 'ZDF',
@@ -296,10 +300,10 @@ const cardItems = ref(
             imgCoverType: 'object-top'            
         },
         {
-            title: 'Filmgeschichte der DDR',
-            description: 'Diese Sammlung stellt eine einzigartige Ressource dar, die sich mit der Filmgeschichte der DDR beschäftigen. Durch die Bereitstellung umfassender Metadaten ermöglicht sie anspruchsvolle Forschungsvorhaben und trägt zur Weiterentwicklung wissenschaftlicher Erkenntnisse über die Kultur und Gesellschaft der DDR bei.',
+            title: 'ddrTitle',//'Filmgeschichte der DDR',
+            description: 'ddrDescription',//'Diese Sammlung stellt eine einzigartige Ressource dar, die sich mit der Filmgeschichte der DDR beschäftigen. Durch die Bereitstellung umfassender Metadaten ermöglicht sie anspruchsvolle Forschungsvorhaben und trägt zur Weiterentwicklung wissenschaftlicher Erkenntnisse über die Kultur und Gesellschaft der DDR bei.',
             link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bcountries%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
-            linkText: 'Unsere DDR-Filme'
+            linkText: 'ddrLinkText'//'Unsere DDR-Filme'
         }
     ]
 );

@@ -5,13 +5,24 @@
     class="card bg-base-100 dark:bg-slate-900 w-full shadow-lg hover:shadow-xl mt-4"
   >
     <div
-      class="flex flex-row md:flex-row min-h-12 w-full p-4 pb-2 rounded-tl-xl rounded-tr-xl"
+      v-if="showAdminStats"
+      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary-100 dark:bg-slate-800 text-primary-900 dark:text-white text-sm p-2"
+    >
+      <span>Status: <span class="badge badge-success text-white">Public</span></span>
+      <span>{{ $t('lastedit') }}: {{ new Date(item?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
+      <span>{{ item?.has_record?.described_by?.has_issuer_name }}</span>
+      <button class="btn btn-xs btn-primary">
+        {{ $t('showHistory') }}
+      </button>
+    </div>
+    <div
+      class="flex flex-row min-h-12 w-full p-4 pb-2 rounded-tl-xl rounded-tr-xl"
     >
       <div class="w-4/5 md:w-4/5 content-center">
         <p
           class=" text-xs 2xl:text-sm text-primary-600 dark:text-gray-300"
-          alt="EFI"
-          title="EFI"
+          alt="efi"
+          title="efi"
         >
           {{ item?.handle }}
         </p>
@@ -209,7 +220,7 @@
             <div
               v-for="exemplar in manifestation.items"
               :key="exemplar.id"
-              class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]"
+              class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-2 grid-rows-[minmax(0,1fr)]"
             >
               <div class="col-span-full">
                 <MicroDividerComp
@@ -274,8 +285,14 @@ const props = defineProps({
     items: {
         type: Array as PropType<Array<MovingImageRecord>>,
         required: true
-    }
+    },
+    showAdminStats: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
+
 
 function getCategoryClass(category: string) {
     switch (category) {

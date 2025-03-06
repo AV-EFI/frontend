@@ -65,9 +65,39 @@
         <MicroEfiCopyComp
           :handle="item?.handle"
           comp-size="sm"
+          class="my-auto"
         />
+        <div
+          v-if="showAdminStats"
+          class="w-full flex flex-col items-start py-1 text-primary-900 dark:text-white text-xs"
+        >
+          <span
+            alt="Status"
+            title="Status"
+            class="badge badge-success badge-xs text-white"
+          >Public
+          </span>
+          <span
+            :alt="$t('lastedit')"
+            :title="$t('lastedit')"
+          >{{ new Date(item?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
+          <span
+            :alt="$t('lastedit')"
+            :title="$t('lastedit')"
+          >{{ item?.has_record?.described_by?.has_issuer_name }}</span>
+          <button
+            :alt="$t('showHistory')"
+            :title="$t('showHistory')"
+            class="btn btn-xs btn-primary"
+          >
+            <Icon
+              name="material-symbols:history"
+              class="w-4 h-4 mr-1 inline-block"
+            />
+          </button>
+        </div>
         <GlobalActionContextComp
-          v-if="item.has_record.category == 'avefi:WorkVariant'"
+          v-if="!showAdminStats"
           :item="item"
           comp-size="sm"
           class="w-1/5 justify-center items-center my-auto"
@@ -123,6 +153,7 @@
           <DetailManifestationHeaderComp
             :manifestation="manifestation"
             type="searchresult"
+            comp-size="sm"
           />
         </div>
         <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
@@ -160,7 +191,7 @@
             <thead class="bg-slate-200 dark:bg-slate-900 dark:text-white">
               <tr>
                 <th class="border border-slate-300">
-                  {{ $t('EFI') }}
+                  efi
                 </th>
                 <th class="border border-slate-300">
                   {{ $t('has_format') }}
@@ -240,6 +271,11 @@ const props = defineProps({
     'items': {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
         required:true
+    },
+    showAdminStats: {
+        type: Boolean,
+        required: false,
+        default: false,
     }
 });
 

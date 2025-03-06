@@ -1,6 +1,13 @@
 <template>
-  <span v-if="isSupported">
-    {{ String(displayText || targetPropertyValue) }}
+  <button
+    class="btn btn-xs btn-primary"
+    :alt="`Copy value to target model property name (${targetPropertyName})`"
+    :title="`Copy value to target model property name (${targetPropertyName})`"
+    @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)"
+  >
+    <Icon name="formkit:arrowright" />
+  </button>
+  <!--
     <Icon
       class="text-primary-600 dark:text-primary-300 !align-baseline cursor-pointer"
       name="mdi:clipboard-play-multiple-outline"
@@ -8,13 +15,9 @@
       :title="`Copy ${displayText || targetPropertyValue}`"
       @click="copyExtended(targetPropertyValue, targetPropertyName)"
     />
-  </span>
-  <span v-else>
-    {{ String(displayText || targetPropertyValue) }}
-  </span>
+    -->
 </template>
 <script setup lang="ts">
-import { useClipboard } from '@vueuse/core';
 import {toast} from 'vue3-toastify';
 const props = defineProps ({
     'targetPropertyValue': {
@@ -31,19 +34,23 @@ const props = defineProps ({
         required: true,
         default: 'AVefi'
     },
-
+    'sameAsId': {
+        type: String,
+        required: false,
+        default: null
+    }
 });
 const source = ref('AVefi');
-const { text, copy, copied, isSupported } = useClipboard({ source });
 
-function copyExtended (copyValue:string|number, copyPropertyName:string)  {
+function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsId:string)  {
     try {
+        console.log(copyValue, copyPropertyName, sameAsId);
         if(typeof (copyValue) == 'number') {
             copyValue = String(copyValue);
         } 
         //copy(copyValue);
-        emit("updateTargetModel", copyValue, copyPropertyName);
-        toast.info(`'${copyValue}' transferred`, {autoClose: 1000} );
+        emit("updateTargetModel", copyValue, copyPropertyName, sameAsId);
+        toast.info(`'${copyValue}', ${sameAsId} transferred`, {autoClose: 1000} );
     }
     catch(e) {
         toast.error('Copy error');
@@ -52,7 +59,7 @@ function copyExtended (copyValue:string|number, copyPropertyName:string)  {
 
 //const emit= defineEmits(["updateTargetModel"]);
 const emit = defineEmits<{
-  (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string)
+  (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string)
 }>();
 
 </script>
