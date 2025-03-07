@@ -214,7 +214,7 @@
         </div>
         <div class="w-full lg:inline-flex lg:w-1/2 flex flex-col justify-center items-center">
           <div class="flex flex-col justify-center items-center bg-white lg:opacity-90 rounded-lg p-[25px] relative mx-auto max-h-96 lg:group-hover:bg-opacity-100 lg:max-w-96 lg:group-hover:shadow-xl dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800">
-            <h2 class="text-2xl text-left w-full leading-tight lg:max-w-80 dark:text-gray-200 mb-4">
+            <h2 class="text-2xl text-left w-full leading-tight lg:max-w-80 dark:text-gray-200 mb-4 py-2 dark:bg-white rounded-xl">
               <img
                 src="/img/AV-EFI-Logo.png"
                 alt="AV-EFI Logo"

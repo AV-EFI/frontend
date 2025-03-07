@@ -79,6 +79,7 @@ export default defineNuxtConfig({
         "/film/**": {ssr:false},
         "/protected/institutionlist": {ssr:false},
         "/protected/dashboard": {ssr:false},
+        "/protected/mergetool": {ssr:false},
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
@@ -188,12 +189,6 @@ export default defineNuxtConfig({
             ]
         }
     },
-    /*
-    cookieConsent: {
-        provider: 'cookieinformation',
-        culture: 'DE' // Replace with the culture you want to apply
-    },
-    */
     vite: {
         build: {
             chunkSizeWarningLimit: 750
@@ -248,5 +243,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2025-03-06'
+    compatibilityDate: '2025-03-07'
 });

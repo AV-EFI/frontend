@@ -12,7 +12,7 @@
         class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
-      <div class="menu w-[100vw] lg:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white z-30">
+      <div class="menu w-full md:w-[100vw] lg:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white z-30">
         <div class="flex flex-row justify-end">
           <button 
             class="btn btn-outline btn-ghost w-16 lg:hidden"
@@ -25,10 +25,10 @@
         <div class="w-full flex flex-row p-2">
           <div class="search-panel__filters lg:mr-1 max-w-full">
             <SearchPanelRefinementListComp
-              header-text="Genre"
-              attribute-name="has_genre_has_name"
+              header-text="CastMember"
+              attribute-name="castmembers"
               category="avefi:WorkVariant"
-              tab-index="1"
+              tab-index="6"
             />
             <SearchPanelRefinementListComp
               header-text="has_form"
@@ -37,16 +37,10 @@
               tab-index="2"
             />
             <SearchPanelRefinementListComp
-              header-text="country"
-              attribute-name="located_in_has_name"
+              header-text="Genre"
+              attribute-name="has_genre_has_name"
               category="avefi:WorkVariant"
-              tab-index="3"
-            />
-            <SearchPanelRefinementListComp
-              header-text="productionyear"
-              attribute-name="years"
-              category="avefi:WorkVariant"
-              tab-index="4"
+              tab-index="1"
             />
             <SearchPanelRefinementListComp
               header-text="directors_or_editors"
@@ -55,16 +49,22 @@
               tab-index="5"
             />
             <SearchPanelRefinementListComp
-              header-text="CastMember"
-              attribute-name="castmembers"
-              category="avefi:WorkVariant"
-              tab-index="6"
-            />
-            <SearchPanelRefinementListComp
               header-text="avefi:ProductionEvent"
               attribute-name="production"
               category="avefi:WorkVariant"
               tab-index="7"
+            />
+            <SearchPanelRefinementListComp
+              header-text="productionyear"
+              attribute-name="years"
+              category="avefi:WorkVariant"
+              tab-index="4"
+            />
+            <SearchPanelRefinementListComp
+              header-text="country"
+              attribute-name="located_in_has_name"
+              category="avefi:WorkVariant"
+              tab-index="3"
             />
             <SearchPanelRefinementListComp
               header-text="avefi:Subject"
@@ -78,19 +78,6 @@
               category="avefi:Manifestation"
               :is-searchable="false"
               tab-index="9"
-            />
-            <SearchPanelRefinementListComp
-              header-text="in_language_code"
-              attribute-name="in_language_code"
-              category="avefi:Manifestation"
-              tab-index="10"
-            />
-            <SearchPanelRefinementListComp
-              header-text="has_sound_type"
-              attribute-name="has_sound_type"
-              category="avefi:Manifestation"
-              :is-searchable="false"
-              tab-index="11"
             />
             <SearchPanelRefinementListComp
               header-text="has_duration"
@@ -107,11 +94,17 @@
               tab-index="13"
             />
             <SearchPanelRefinementListComp
-              header-text="has_format"
-              attribute-name="has_format_type"
-              category="avefi:Item"
+              header-text="in_language_code"
+              attribute-name="in_language_code"
+              category="avefi:Manifestation"
+              tab-index="10"
+            />
+            <SearchPanelRefinementListComp
+              header-text="has_sound_type"
+              attribute-name="has_sound_type"
+              category="avefi:Manifestation"
               :is-searchable="false"
-              tab-index="14"
+              tab-index="11"
             />
             <SearchPanelRefinementListComp
               header-text="has_colour"
@@ -126,6 +119,13 @@
               category="avefi:Item"
               :is-searchable="false"
               tab-index="16"
+            />
+            <SearchPanelRefinementListComp
+              header-text="has_format"
+              attribute-name="has_format_type"
+              category="avefi:Item"
+              :is-searchable="false"
+              tab-index="14"
             />
           </div>
         </div>

@@ -104,10 +104,10 @@
               <div class="mt-2 mb-2 w-full">
                 <button
                   class="btn btn-primary lg:hidden"
-                  title="Show facet items"
+                  :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;Show Facet Items
+                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
                 <div
                   class="w-full flex flex-col md:flex-row justify-between md:justify-between p-2 mb-2"

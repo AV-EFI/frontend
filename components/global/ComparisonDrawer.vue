@@ -13,10 +13,10 @@
           class="hidden md: visible drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu md:p-4 md:w-[100vw] lg:w-128 min-h-full bg-base-50 bg-neutral z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white">
+        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-128 min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg">
           <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
-              class="btn btn-outline btn-sm btn-primary w-1/4"
+              class="btn btn-outline btn-ghost w-16"
               :title="$t('close')"
               @click="$toggleComparisonDrawerState"
             >
@@ -37,9 +37,9 @@
             >
             <div
               role="tabpanel"
-              class="tab-content"
+              class="tab-content bg-neutral-100 dark:bg-slate-800 dark:text-white"
             >
-              <div class="join w-full mt-2">
+              <div class="join w-full mt-2 p-2">
                 <button 
                   class="btn btn-error text-white join-item w-1/2"
                   :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
@@ -95,9 +95,9 @@
             >
             <div
               role="tabpanel"
-              class="tab-content"
+              class="tab-content bg-neutral-100 dark:bg-slate-800 dark:text-white"
             >
-              <div class="join w-full mt-2">
+              <div class="join w-full mt-2 p-2">
                 <button
                   :title="$t('gotocomp')"
                   class="btn btn-secondary join-item w-1/3"

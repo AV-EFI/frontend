@@ -104,10 +104,10 @@
               <div class="mt-2 mb-2 w-full">
                 <button
                   class="btn btn-primary lg:hidden"
-                  title="Show facet items"
+                  :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;Show Facet Items
+                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
                 <div
                   class="w-full flex flex-col md:flex-row justify-between md:justify-between p-2 mb-2"
@@ -207,7 +207,7 @@
                   <ais-pagination
                     :class-names="{
                       'ais-Pagination-list': 'join w-full md:w-auto',
-                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg',
+                      'ais-Pagination-item': 'join-item bg-slate-100 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg',
                       'ais-Pagination-link': 'text-gray-800 dark:text-gray-200'
                     }"
                   />

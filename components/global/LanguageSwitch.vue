@@ -19,7 +19,10 @@
       >
         <div class="avatar placeholder">
           <div class="bg-neutral text-neutral-content w-12 rounded-full">
-            <span class="flex flex-row items-center"><Icon name="fa:language" />&nbsp;De</span>
+            <span class="flex flex-row items-center"><Icon
+              class="text-lg"
+              name="mdi:language"
+            />De</span>
           </div>
         </div>
       </div>
@@ -31,7 +34,10 @@
       >
         <div class="avatar placeholder">
           <div class="bg-neutral text-neutral-content w-12 rounded-full">
-            <span class="flex flex-row items-center"><Icon name="fa:language" />&nbsp;En</span>
+            <span class="flex flex-row items-center"><Icon
+              class="text-lg"
+              name="mdi:language"
+            />En</span>
           </div>
         </div>
       </div>

@@ -5,11 +5,20 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
           <nav class="flex flex-col col-span-1">
             <h6 class="footer-title">
-              {{ $t("language") }}
+              {{ $t("preferences") }}
             </h6>
-            <Suspense>
-              <GlobalLanguageSwitch />
-            </Suspense>
+            <ul>
+              <li>
+                <Suspense>
+                  <GlobalThemeSwitch class="w-12 h-12" />
+                </Suspense>
+              </li>
+              <li>
+                <Suspense>
+                  <GlobalLanguageSwitch />
+                </Suspense>
+              </li>
+            </ul>
           </nav>
           <nav class="flex flex-col col-span-1">
             <h6 class="footer-title">
@@ -36,7 +45,7 @@
             </ul>
             <div
               role="alert"
-              class="alert bg-neutral dark:bg-gray-700 md:w-64 mt-4"
+              class="alert bg-neutral dark:bg-gray-700 w-full md:max-w-64 mt-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

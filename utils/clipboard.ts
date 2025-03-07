@@ -12,7 +12,7 @@ export function useClipboardUtil() {
                 copyText = String(copyText);
             }
             copy(copyText);
-            toast.info(`'${copyText}' copied to clipboard`);
+            toast.info(`'${copyText}' in Clipboard`);
         } catch (e) {
             toast.error('Copy to clipboard error');
         }

@@ -37,8 +37,8 @@ onBeforeUnmount(() => {
     :class="isScrolled? 'md:mix-blend-multiply lg:opacity-90' : ''"
   >
     <ClientOnly>
-      <div class="container flex justify-between mx-auto p-0">
-        <div class="navbar-start w-1/4 flex justify-between lg:justify-start">
+      <div class="container flex flex-wrap justify-between mx-auto p-0">
+        <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-1/4 flex justify-start">
           <div class="dropdown">
             <div
               tabindex="0"
@@ -65,12 +65,6 @@ onBeforeUnmount(() => {
               tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li class="h-12 flex justify-center">
-                <GlobalLanguageSwitch />
-              </li>
-              <li class="h-12 flex justify-center">
-                <GlobalThemeSwitch />
-              </li>
               <li class="h-12 flex justify-center">
                 <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
               </li>
@@ -137,7 +131,7 @@ onBeforeUnmount(() => {
             </ul>
           </div>
           <a
-            class="btn btn-ghost dark:bg-primary-100 hover:bg-primary-200 text-xl h-12"
+            class="btn btn-ghost dark:bg-white hover:bg-primary-100 text-xl h-12"
             href="/"
           >
             <img
@@ -153,7 +147,7 @@ onBeforeUnmount(() => {
             class="my-auto"
           > alpha</pre>
         </div>
-        <div class="navbar-end w-3/4 flex lg:hidden">
+        <div class="navbar-end max-[400px]:w-full sm:w-1/2 md:w-3/4 flex xl:hidden">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -214,12 +208,6 @@ onBeforeUnmount(() => {
                   {{ objectListStore.objects?.length }}
                 </span>
               </button>
-            </li>
-            <li class="h-12 flex justify-center">
-              <GlobalLanguageSwitch />
-            </li>
-            <li class="h-12 flex justify-center">
-              <GlobalThemeSwitch />
             </li>
             <li class="h-12 flex justify-center">
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>

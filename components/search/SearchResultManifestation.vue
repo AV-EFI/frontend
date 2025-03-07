@@ -22,8 +22,7 @@
           <MicroLabelComp label-text="in_language_code" />
           <SearchHighlightListComp
             :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
-            :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"
-                  
+            :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
             class="mb-2"
           />
         </div>
@@ -31,8 +30,7 @@
           <MicroLabelComp label-text="has_colour" />
           <SearchHighlightSingleComp 
             :item="manifestation?.has_record?.has_colour_type"
-            :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"
-                  
+            :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"                  
             class="mb-2"
           />
         </div>

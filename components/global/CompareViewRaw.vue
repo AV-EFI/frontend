@@ -12,7 +12,7 @@
             </h3>
             <textarea
               v-if="prev"
-              class="p-4 w-[80vw] h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
+              class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
               v-html="prev"
             />
           </div>
@@ -21,7 +21,7 @@
               {{ $t('dataset2') }}
             </h3>
             <textarea
-              class="p-4 w-[80vw] h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
+              class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
               v-html="current"
             />
           </div>
