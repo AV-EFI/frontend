@@ -14,12 +14,14 @@ export const config:SearchkitConfig = {
     search_settings: {        
         search_attributes: [
             { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
+            { field: 'has_record.has_alternative_title.has_name', weight: 2 }, 
             { field: 'production', weight: 1 },
             { field: 'directors_or_editors', weight: 1 },
             { field: 'subjects', weight: 1 },
         ],
         highlight_attributes: [
             'has_record.has_primary_title.has_name',
+            'has_record.has_alternative_title.has_name',
             'production',
             'directors_or_editors',
             'subjects',
@@ -28,6 +30,7 @@ export const config:SearchkitConfig = {
             '@timestamp',
             'has_record.described_by',
             'has_record.has_primary_title.has_name',
+            'has_record.has_alternative_title',
             'has_record.category',
             'has_record.has_form',
             'subjects',
@@ -47,6 +50,7 @@ export const config:SearchkitConfig = {
             'manifestations.items.has_record.element_type',
             'manifestations.has_record.has_sound_type',
             'manifestations.has_record.in_language.code',
+            'manifestations.has_record.is_manifestation_of',
             'manifestations.items'
         ],    
         facet_attributes: [

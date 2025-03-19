@@ -2,7 +2,7 @@
   <ais-refinement-list
     :attribute="attributeName"
     :searchable="true"
-    @click="(event) => event.stopPropagation()"
+    @click="(event) => event.stopPropagation()"    
   >
     <template
       #default="{

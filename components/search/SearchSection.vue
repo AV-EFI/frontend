@@ -1,44 +1,21 @@
 <template>
   <div>
     <ClientOnly>
-      <SearchInstantSearchTemplateAVefi
-        :search-client="searchClient"
-        :index-name="useRuntimeConfig().public.ELASTIC_INDEX"
-        :routing="true"
-        :ui-state="searchClient.uiState"
-      />
+      <SearchInstantSearchTemplateAVefi :search-client="searchClient" />
     </ClientOnly>
   </div>
 </template>
+<script setup lang="ts">
 
-<script setup>
-import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
-import { config } from '@/searchConfig_avefi.ts';
-</script>
-
-<script>
-const uiState = {
-    refinementList: {
-        category_clean: 'avefi:WorkVariant',
-    }
-};
-
-const searchClient = SearchkitInstantSearchClient({
-    url: "/api/elastic/msearch",
-    uiState: uiState,
+const props = defineProps({
+    searchClient: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 
-export default {
-    data() {
-        return {
-            searchClient,
-            routing: true
-        };
-    }
-};
 </script>
-
 <style>
 body,
 h1 {

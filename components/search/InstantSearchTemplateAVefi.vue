@@ -6,8 +6,8 @@
         :index-name="indexName"
         :show-loading-indicator="true"
         :routing="true"
-        :future="{preserveSharedStateOnUnmount: true}"
-        :initial-ui-state="searchClient.uiState"
+        :insights="false"
+        :future="{preserveSharedStateOnUnmount: true }"
       >
         <ais-configure :hits-per-page.camel="20" />
         <div class="search-panel">
@@ -16,7 +16,7 @@
           <div class="drawer-content w-full flex flex-col items-center justify-center">
             <div class="search-panel__results w-full py-2">
               <div class="searchbox p-2">
-                <ais-search-box>
+                <ais-search-box ignore-composition-events="true">
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
                       class="flex items-center w-full py-1.5 px-2.5 rounded-xl border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner !rounded-3xl"
@@ -183,24 +183,16 @@
                   class="overflow-x-auto w-full"
                   style="overflow-y:hidden;"
                 >
-                  <ais-state-results>
-                    <template #default="{ results: { hits, query } }">
-                      <ais-hits
-                        v-if="hits.length > 0"
-                        class="p-2"
-                      >
-                        <template #default="{ items }">
-                          <SearchHitsComp
-                            :items="items"
-                            :view-type-checked="viewTypeChecked"
-                          />
-                        </template>
-                      </ais-hits>
-                      <div v-else>
-                        <SearchNoResultsComp />
-                      </div>
+                  <ais-hits
+                    class="p-2"
+                  >
+                    <template #default="{ items }">
+                      <SearchHitsComp
+                        :items="items"
+                        :view-type-checked="viewTypeChecked"
+                      />
                     </template>
-                  </ais-state-results>
+                  </ais-hits>
                 </div>
 
                 <div class="pagination flex justify-center">
@@ -224,23 +216,27 @@
 <script setup lang="ts">
 
 const {$toggleFacetDrawerState}:any = useNuxtApp();
-
 const viewTypeChecked = ref(false);
 const expandAllChecked = ref(false);
 
+import Client from '@searchkit/instantsearch-client';
+import { config } from '../../searchConfig_avefi.ts';
+
+import {useDebounceFn} from '@vueuse/core';
+
+const searchClient = Client({
+    config: config,
+    url: "/api/elastic/msearch",
+    // Removed invalid property 'searchOnLoad'
+});
+
 const props = defineProps({
-    searchClient: {
-        type: Object,
-        required: true,
-    },
     indexName: {
         type: String,
         required: true,
         default: '21.11155-denormalised-work'
     },
 });
-
-let refineTimeout;
 
 watch(expandAllChecked, (newValue) => {
     expandAllItems();
@@ -263,11 +259,8 @@ const expandAllItems = () => {
     }, 300);
 };
 
-const handleRefine = (refine, value) => {
-    clearTimeout(refineTimeout);
-    refineTimeout = setTimeout(() => {
-        refine(value);
-    }, 500);
-};
+const handleRefine = useDebounceFn((refine, value) => {
+    refine(value);
+}, 300);
 
 </script>

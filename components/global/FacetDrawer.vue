@@ -145,7 +145,6 @@ const toggleDrawer = () => {
 };
 
 onMounted(() => {
-    console.log('mounted');
     (function () {
         function addCollapseCheckboxDom() {
             const collapsePanels = document.querySelectorAll('.ais-Panel');

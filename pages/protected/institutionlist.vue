@@ -23,7 +23,6 @@
             :search-client="searchClient"
             :index-name="useRuntimeConfig().public.ELASTIC_INDEX"
             :routing="true"
-            :ui-state="searchClient.uiState"
           />
         </template>
       </NuxtLayout>

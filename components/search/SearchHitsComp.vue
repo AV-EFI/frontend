@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div v-if="state && state.searchMetadata.isSearchStalled">
     <GlobalSkeletonLoaderComp
       v-for="index in 5"
-      v-if="state && state.searchMetadata.isSearchStalled"
       :key="index"
     />
+  </div>
+  <div v-else>
     <SearchTableViewComp
-      v-else-if="viewTypeChecked && items"
+      v-if="viewTypeChecked && items"
       :items="items"
       :show-admin-stats="showAdminStats"
     />

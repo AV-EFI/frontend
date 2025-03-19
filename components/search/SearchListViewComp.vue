@@ -112,6 +112,14 @@
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="flex flex-col col-span-full">
+          <MicroLabelComp label-text="AlternativeTitle" />
+          <SearchHighlightListComp
+            :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
+            :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
+            class="mb-2"
+          />
+        </div>
         <div class="flex flex-col">
           <MicroLabelComp label-text="directors_or_editors" />
           <SearchHighlightListComp
@@ -179,12 +187,14 @@
             class="manifestation-checkbox"
           >
           <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-whitefont-medium">
-            <DetailManifestationHeaderComp
+            <LazyDetailManifestationHeaderComp
+              v-if="componentInfoReady"
               :manifestation="manifestation"
               type="searchresult"
+              :is-twin="manifestation.isTwin"
+              :all-items-empty="manifestation.allItemsEmpty"
             />
-          </div>
-        
+          </div>        
           <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]">
               <!--top-->
@@ -254,16 +264,16 @@
               </div>
               <div
                 v-if="exemplar?.has_record?.has_webresource"
-                class="col-span-full md:col-span-1"
+                class="col-span-full md:col-span-1 flex flex-col justify-end"
               >
                 <a
                   v-if="exemplar?.has_record?.has_webresource"
                   :href="exemplar?.has_record?.has_webresource"
                   target="_blank"
-                  class="link link-primary dark:link-accent"
-                ><Icon
-                  name="formkit:linkexternal"
-                />&nbsp;{{ $t('webresource') }}</a>
+                  class="link link-primary dark:link-accent mt-auto md:mb-2"
+                >
+                  <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
+                </a>
               </div>
               <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1">
                 <MicroEfiCopyComp :handle="exemplar?.handle" />
@@ -282,11 +292,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { MovingImageRecord } from '../../models/interfaces/av_efi_schema.ts';
+import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
 
 const props = defineProps({
     items: {
-        type: Array as PropType<Array<MovingImageRecord>>,
+        type: Array as PropType<Array<MovingImageRecordContainer>>,
         required: true
     },
     showAdminStats: {
@@ -296,15 +306,56 @@ const props = defineProps({
     },
 });
 
+const componentInfoReady = ref(false);
 
-function getCategoryClass(category: string) {
-    switch (category) {
-    case 'avefi:Manifestation':
-        return 'dark:bg-slate-700 bg-slate-50';
-    case 'avefi:Item':
-        return 'dark:bg-slate-800 bg-slate-100';
-    default:
-        return 'dark:bg-slate-600 border-none pb-2 hover:bg-blend-darken';
+async function checkEmptyProperties(manifestations: any[]): Promise<void> {
+    for (const manifestation of manifestations) {
+        let allItemsEmpty = true;
+        for (const item of manifestation.items) {
+            if (!item.has_record?.has_format && !item.has_record?.in_language?.code && !item.has_record?.element_type && !item.has_record?.has_webresource) {
+                item.isEmpty = true;
+            } else {
+                item.isEmpty = false;
+                allItemsEmpty = false;
+            }
+        }
+        manifestation.allItemsEmpty = allItemsEmpty;
     }
+    console.log(manifestations);
 }
+
+async function markDuplicateManifestations(manifestations: any[]): Promise<void> {
+    const seen = new Map();
+    if(manifestations.length === 0) return;
+    for (const manifestation of manifestations) {
+        if(manifestation?.has_record?.in_language !== undefined || manifestation?.has_record?.has_colour_type !== undefined || manifestation?.has_record?.is_manifestation_of !== undefined || manifestation?.has_record?.is_manifestation_of.length > 0) {
+            let alterTitles;  
+            if(manifestation?.has_record?.is_manifestation_of !== undefined) {
+                alterTitles = props.items
+                    ?.filter(item => manifestation?.has_record?.is_manifestation_of.flatMap(imo => imo?.id).includes(item?.handle))
+                    ?.flatMap(mir => mir.has_record?.has_alternative_title?.flatMap(alt => alt.has_name))
+                    .join(',');
+            }
+            const key = `${manifestation?.has_record?.in_language?.map(lang => lang.code).join(',')}-${manifestation?.has_record?.has_colour_type}-${manifestation?.has_record?.is_manifestation_of?.flatMap(imo => imo?.id)}-${alterTitles??''}`;
+            if (seen.has(key)) {
+                manifestation.isTwin = true;
+                seen.get(key).isTwin = true;
+            } else {
+                manifestation.isTwin = false;
+                seen.set(key, manifestation);
+            }
+        }
+    }
+    console.log(seen);
+}
+
+Promise.all([
+    checkEmptyProperties(props.items.flatMap(item => item.manifestations)),
+    markDuplicateManifestations(props.items.flatMap(item => item.manifestations))
+]).then(() => {
+    componentInfoReady.value = true;
+    console.log(componentInfoReady.value);
+});
+
+
 </script>

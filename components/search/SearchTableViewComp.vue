@@ -15,6 +15,11 @@
         {{ $t(header.text) }}
       </div>
     </template>
+    <template #header-has_record.has_alternative_title.has_name="header">
+      <div class="customize-header dark:text-primary-100">
+        {{ $t('AlternativeTitle') }}
+      </div>
+    </template>
     <template #header-has_record.has_event.located_in.has_name="header">
       <div class="customize-header dark:text-primary-100">
         {{ $t(header.text) }}
@@ -51,12 +56,7 @@
           >
             <span 
               v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-            >
-              <ais-highlight
-                attribute="has_record.has_primary_title.has_name"
-                :hit="item"
-              />
-            </span>
+            />
             <span v-else>
               {{ item?.has_record?.has_primary_title?.has_name }}
             </span>
@@ -103,6 +103,14 @@
           class="w-1/5 justify-center items-center my-auto"
         />          
       </div>
+    </template>
+    <template #item-has_record.has_alternative_title.has_name="item">
+      <SearchHighlightListComp
+        :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
+        :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
+        font-size="text-sm"
+        class="mb-2"
+      />
     </template>
     <template #item-has_record.has_event.located_in.has_name="item">
       <DetailKeyValueListComp
@@ -281,6 +289,7 @@ const props = defineProps({
 
 const headers = [
     { text: 'title', value: 'has_record.has_primary_title.has_name' },
+    { text: 'alternativetitle', value: 'has_record.has_alternative_title.has_name' },
     { text: 'country', value: 'has_record.has_event.located_in.has_name' },
     { text: 'year', value: 'years' },
     { text: 'directors_or_editors', value: 'directors_or_editors' },

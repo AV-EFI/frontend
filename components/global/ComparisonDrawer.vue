@@ -166,6 +166,7 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue3-toastify';
 import {useObjectListStore} from '../../stores/compareList';
 import {useShoppingCart} from '../../stores/shoppingCart';
 const {$toggleComparisonDrawerState}:any = useNuxtApp();
@@ -194,9 +195,15 @@ const removeAllObjects = (type: string) => {
 };
 
 const navigateToComparison = () => {
-    const objectIds: string[] = objectListStore.getObjectIds;
-    if(objectIds.length == 2) {
-        navigateTo(`/compare_altern?prev=${objectIds[0]}&next=${objectIds[1]}`);
+    try {
+        const objectIds: string[] = objectListStore.getObjectIds;
+        if(objectIds.length == 2) {
+            navigateTo(`/compare_altern?prev=${objectIds[0]}&next=${objectIds[1]}`);
+        }
+    }
+    catch(e) {
+        console.error(e);
+        toast.error($t('error'));
     }
 };
 </script>

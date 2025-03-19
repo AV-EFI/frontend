@@ -6,8 +6,7 @@
         :index-name="indexName"
         :show-loading-indicator="true"
         :routing="true"
-        :future="{preserveSharedStateOnUnmount: true}"
-        :initial-ui-state="searchClient.uiState"
+        :future="{preserveSharedStateOnUnmount: true, cleanUrlOnDispose: false}"
       >
         <ais-configure :hits-per-page.camel="20" />
         <div class="search-panel">

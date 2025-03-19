@@ -6,22 +6,29 @@
         [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`],
       ]"
     />
-    <SearchSection :search-term="searchTerm" />
+    <keep-alive>
+      <ClientOnly>      
+        <SearchSection
+          :search-client="searchClient"
+        />
+      </ClientOnly>
+    </keep-alive>
   </div>
 </template>
 <script setup lang="ts">
 definePageMeta({
-    auth: false
+    auth: false,
+    ssr: false,
 });
 
-//can be deleted?
-//use for index search?
-const route = useRoute();
-const params = ref(route.params);
-const searchTerm = ref('');
-if(params.value.slug) {
-    searchTerm.value = params.value.slug[0];
-}
+import Client from '@searchkit/instantsearch-client';
+import { config } from '../../searchConfig_avefi.ts';
+
+const searchClient = Client({
+    config: config,
+    url: "/api/elastic/msearch",  
+});
+
 </script>
 <style>
 .ais-SearchBox-form, .ais-SearchBox-input, .ais-SortBy-select {

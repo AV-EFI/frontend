@@ -1,14 +1,14 @@
 <template>
   <div class="editor mt-8">
     <div class="grid grid-cols-2">
-      <div class="grid grid-cols-1 md:w-[420px] grid-rows-5 mr-0 ml-auto">
+      <div class="grid grid-cols-1 md:w-[420px] grid-rows-6 mr-0 ml-auto">
         <ViewsWorkViewReduced
           v-model="prev"
           :title="$t('dataset1')"
           class="col-span-full"
         />
       </div>
-      <div class="grid grid-cols-1 md:w-[420px] grid-rows-5 ml-0 mr-auto">
+      <div class="grid grid-cols-1 md:w-[420px] grid-rows-6 ml-0 mr-auto">
         <ViewsWorkViewReduced
           v-model="current"
           :title="$t('dataset2')"

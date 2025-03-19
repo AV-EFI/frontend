@@ -10,7 +10,7 @@
         :key="index"
         :title="item"
         :class="{ 'bg-secondary font-bold  dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
-        class="w-full max-w-[200px] overflow-hidden text-ellipsis"
+        class="w-full overflow-hidden text-ellipsis"
       >
         {{ $t(item) }}
       </li>

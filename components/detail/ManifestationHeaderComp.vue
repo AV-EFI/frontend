@@ -8,11 +8,11 @@
         {{ manifestation?.handle }}
       </h4>
       <h4 class="col-span-full font-bold text-primary-900 dark:text-primary-200 text-sm my-1">
-        {{ manifestation.has_record?.described_by?.has_issuer_name }}
+        {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
       <div class="col-span-full text-sm 2xl:text-md text-primary-700 dark:text-neutral-200 flex flex-row">
         <span
-          v-if="manifestation.has_record?.has_event?.has_date"
+          v-if="manifestation?.has_record?.has_event?.has_date"
           class="flex flex-row justify-start items-center"
         >
           {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
@@ -43,6 +43,34 @@
           />
           {{ manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
         </span>
+      </div>
+      <div class="flex flex-row mt-1">
+        <div
+          v-if="isTwin == true"
+          class="badge bg-info-300 text-white z-10"
+          :title="$t('twinManifestationLong')"
+          :alt="$t('twinManifestationLong')"
+        >
+          <Icon
+            class="text-lg"
+            name="pepicons-pencil:persons"
+          />
+              &nbsp;
+          {{ $t('twinManifestationShort') }}
+        </div>
+        <div
+          v-if="allItemsEmpty"
+          class="badge bg-warning-300 text-white z-10"
+          :title="$t('emptyItemsLong')"
+          :alt="$t('emptyItemsLong')"
+        >
+          <Icon
+            class="text-lg"
+            name="mi:document-empty"
+          />
+              &nbsp;
+          {{ $t('emptyItemsShort') }}
+        </div>
       </div>
     </div>
     <div
@@ -89,13 +117,41 @@
           {{ manifestation._source?.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
         </span>
       </div>
-    </div>
-    <div class="max-md:flex max-md:justify-end ">
-      <MicroEfiCopyComp
-        :handle="manifestation?.handle?? manifestation._source?.handle"
-        class="z-10 relative"
-        :comp-size="compSize"
-      />
+      <div class="flex flex-row mt-1">
+        <div
+          v-if="isTwin == true"
+          class="badge bg-info-300 text-white z-10"
+          :title="$t('twinManifestationLong')"
+          :alt="$t('twinManifestationLong')"
+        >
+          <Icon
+            class="text-lg"
+            name="pepicons-pencil:persons"
+          />
+              &nbsp;
+          {{ $t('twinManifestationShort') }}
+        </div>
+        <div
+          v-if="allItemsEmpty"
+          class="badge bg-warning-300 text-white z-10"
+          :title="$t('emptyItemsLong')"
+          :alt="$t('emptyItemsLong')"
+        >
+          <Icon
+            class="text-lg"
+            name="mi:document-empty"
+          />
+              &nbsp;
+          {{ $t('emptyItemsShort') }}
+        </div>
+      </div>
+      <div class="max-md:flex max-md:justify-end ">
+        <MicroEfiCopyComp
+          :handle="manifestation?.handle?? manifestation._source?.handle"
+          class="z-10 relative"
+          :comp-size="compSize"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -107,6 +163,14 @@ const props = defineProps({
     compSize: {
         type: String as PropType<string>,
         default: 'md',
+    },
+    isTwin: {
+        type: Boolean as PropType<boolean>,
+        default: false,
+    },
+    allItemsEmpty: {
+        type: Boolean as PropType<boolean>,
+        default: false,
     },
 });
 </script>
