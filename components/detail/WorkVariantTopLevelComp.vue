@@ -2,6 +2,29 @@
   <NuxtLayout name="partial-grid-1">
     <template #center>
       <div
+        v-if="workVar.is_part_of"
+        class="col-span-full"
+      >
+        <MicroLabelComp
+          class="col-span-full"
+          :label-text="$t('isPartOf')"
+        />
+        <ul>
+          <li
+            v-for="ipo in workVar.is_part_of"
+            :key="ipo.id"
+          >
+            <router-link
+              target="_blank"
+              :to="`/film/${ipo.id.replace('21.11155/', '')}`"
+              class="link lin-primary"
+            >
+              {{ ipo.id.replace('21.11155/', '') }}&nbsp;({{ $t(ipo.category) }})
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <div
         v-for="sas in workVar.same_as"
         :key="sas.id"
         class="col-span-full"
