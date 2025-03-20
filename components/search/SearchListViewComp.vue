@@ -78,12 +78,29 @@
             v-if="item.has_record?.has_form"
             class="flex items-center"
           >
-            <template v-if="item.has_record?.has_event || item.years"><span class="flex items-center">&nbsp;&nbsp;</span></template>
+            <template v-if="item.has_record?.has_event || item.years">
+              <span class="flex items-center">&nbsp;&nbsp;</span>
+            </template>
             <Icon
               name="fa:film"
               class="mr-1"
             />
             {{ item.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
+          </span>
+          <span
+            v-if="item?.has_record?.is_part_of"
+            class="flex items-center"
+          >
+            <template v-if="item.has_record?.has_event || item.years || item.has_record?.has_form">
+              <span class="flex items">
+                &nbsp;&nbsp;
+              </span>
+              <Icon
+                name="carbon:logical-partition"
+                class="mr-1"
+              />
+              {{ $t('Episode/Part') }}
+            </template>
           </span>
         </div>
       </div>
@@ -114,11 +131,23 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <div class="flex flex-col col-span-full">
           <MicroLabelComp label-text="AlternativeTitle" />
-          <SearchHighlightListComp
-            :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
-            :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
-            class="mb-2"
-          />
+          <span 
+            v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
+          >
+            <ais-highlight
+              attribute="has_record.has_alternative_title.has_name"
+              :hit="item"
+            />
+          </span>
+          <ul v-else-if="item?.has_record?.has_alternative_title">
+            <li
+              v-for="alt in item?.has_record?.has_alternative_title"
+              :key="alt.id"
+            >
+              {{ alt.has_name }}
+            </li>
+          </ul>
+          <span v-else>-</span>
         </div>
         <div class="flex flex-col">
           <MicroLabelComp label-text="directors_or_editors" />
@@ -292,6 +321,7 @@
 </template>
 
 <script lang="ts" setup>
+import { on } from 'events';
 import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
 
 const props = defineProps({
@@ -348,14 +378,22 @@ async function markDuplicateManifestations(manifestations: any[]): Promise<void>
     }
     console.log(seen);
 }
-
+/*
 Promise.all([
     checkEmptyProperties(props.items.flatMap(item => item.manifestations)),
     markDuplicateManifestations(props.items.flatMap(item => item.manifestations))
 ]).then(() => {
     componentInfoReady.value = true;
-    console.log(componentInfoReady.value);
 });
+*/
 
+watch(() => props.items, (newVal, oldVal) => {
+    Promise.all([
+        checkEmptyProperties(newVal.flatMap(item => item.manifestations)),
+        markDuplicateManifestations(newVal.flatMap(item => item.manifestations))
+    ]).then(() => {
+        componentInfoReady.value = true;
+    });
+});
 
 </script>

@@ -33,6 +33,7 @@ export const config:SearchkitConfig = {
             'has_record.has_alternative_title',
             'has_record.category',
             'has_record.has_form',
+            'has_record.is_part_of',
             'subjects',
             'handle',
             'production',
