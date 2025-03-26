@@ -34,7 +34,7 @@ const objectListStore = useObjectListStore();
 
 async function getCollectionType(routeParamsId: string): Promise<string> {  
     const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
-        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/getworkvariantbyid`,
+        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
         {
             method: 'POST',
             body: JSON.stringify({ documentId: routeParamsId }),

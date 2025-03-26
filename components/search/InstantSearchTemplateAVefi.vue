@@ -241,7 +241,7 @@ import {useDebounceFn} from '@vueuse/core';
 
 const searchClient = Client({
     config: config,
-    url: "/api/elastic/msearch",
+    url: "https://testbed.av-efi.net/api/v1/frontend/search",
     // Removed invalid property 'searchOnLoad'
 });
 

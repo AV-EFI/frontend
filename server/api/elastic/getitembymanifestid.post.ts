@@ -2,23 +2,17 @@ import {Client} from '@elastic/elasticsearch';
 
 export default defineEventHandler(async (event) => {
     try {
-        const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
-
         const body = await readBody(event);
         const documentId:string = body.id.toString();
 
-        const result = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
-            query: {
-                bool: {
-                    must: {
-                        match: {
-                            "has_record.is_item_of.id.keyword": documentId
-                        }
-                    }
-                }
-            }
+        const result = await $fetch(`${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_ITEM_BY_MANIFEST}`, {
+            method: 'POST',
+            body: { documentId }
         });
+
+        if (!result) {
+            throw new Error('Failed to fetch data from the API');
+        }
 
         return result.hits.hits;
 

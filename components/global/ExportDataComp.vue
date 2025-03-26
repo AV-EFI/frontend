@@ -39,8 +39,6 @@ const props = defineProps({
 //TODO2: rewrite for list of objects
 async function exportData(dataSetId: Array<string>) {
     const exportData = props.dataSetJson ?? await getDataSet(dataSetId);
-    console.log(exportData);
-    console.log(typeof (exportData));
     if(typeof (exportData) === 'string') {
         const test2 = [deepFlattenToObject(JSON.parse(exportData))];
         const csv = await generateCsv(csvConfig)(test2);
@@ -49,10 +47,9 @@ async function exportData(dataSetId: Array<string>) {
         }
         return;
     } 
-    const test2 = [];
-    test2.push(exportData.map((item) => deepFlattenToObject(item)));
-    console.log(test2);
-    const csv = await generateCsv(csvConfig)(test2[0]);
+    const arr = [];
+    arr.push(exportData.map((item) => deepFlattenToObject(item)));
+    const csv = await generateCsv(csvConfig)(arr[0]);
     if(csv) {
         download(csvConfig)(csv);
     }

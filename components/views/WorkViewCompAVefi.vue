@@ -98,7 +98,7 @@ interface ApiResponseItemList extends Promise<Response> {
   onFetchError: EventHookOn
 }
 
-const { status, data: manifestations } = useFetch<ApiResponseManifestationList>('/api/elastic/getmanifestbyworkid', 
+const { status, data: manifestations } = useFetch<ApiResponseManifestationList>(`${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/${useRuntimeConfig().public.AVEFI_GET_MANIFEST_BY_WORK}`,
     {
         method: 'POST',
         lazy: true,

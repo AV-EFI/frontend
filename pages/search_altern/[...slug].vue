@@ -26,7 +26,7 @@ import { config } from '../../searchConfig_avefi.ts';
 
 const searchClient = Client({
     config: config,
-    url: "/api/elastic/msearch",  
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_SEARCH}`,  
 });
 
 </script>

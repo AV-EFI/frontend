@@ -1,34 +1,9 @@
-import {Client} from '@elastic/elasticsearch';
-
 export default defineEventHandler(async (event:any) => {
     try {
-        const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
-
         const body = await readBody(event);
         const documentId:string = body.id.toString();
-
-        const resultManifest = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
-            query: {
-                bool: {
-                    must: {
-                        match: {
-                            "has_record.is_manifestation_of.id.keyword": documentId
-                        }
-                    }
-                }
-            }
-        });
-
-        for (const manifest of resultManifest.hits.hits) {
-            if(manifest._source?.handle) {
-                const resultItems = await getitemsbymanifestid(manifest._source?.handle);
-                manifest._source.items = resultItems;
-            }
-        }
-
-        return resultManifest.hits.hits;
-
+        const result = await getmanifestbyworkid(documentId);
+        return result;
     }
     catch (e:any) {
         console.log((e as Error).message);
@@ -38,22 +13,41 @@ export default defineEventHandler(async (event:any) => {
 });
 
 /*helpers*/
-async function getitemsbymanifestid (manifest_id:string) {
-    const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
-    const resultItems = await client.search({
-        index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
-        query: {
-            bool: {
-                must: {
-                    match: {
-                        "has_record.is_item_of.id.keyword": manifest_id
-                    }
-                }
+async function getmanifestbyworkid(documentId: string) {
+    try {
+        const resultManifest = await $fetch(`${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_MANIFEST_BY_WORK}/${documentId}`, {
+            method: 'POST',
+            body: { documentId }
+        });
+
+        for (const manifest of resultManifest?.hits?.hits) {
+            if (manifest._source?.handle) {
+                const resultItems = await getitemsbymanifestid(manifest._source?.handle);
+                manifest._source.items = resultItems;
             }
         }
-    });
-    if(resultItems.hits.hits) {
-        return resultItems.hits.hits;
+
+        return resultManifest.hits.hits;
+
+    } catch (e: any) {
+        console.log((e as Error).message);
+        console.error((e as Error).stack);
     }
     return null;
+}
+
+async function getitemsbymanifestid(handle: string) {
+    try {
+        const resultItems = await $fetch(`${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_ITEMS_BY_MANIFEST}/${handle}`, {
+            method: 'POST',
+            body: { handle }
+        });
+
+        return resultItems?.hits?.hits || [];
+
+    } catch (e: any) {
+        console.log((e as Error).message);
+        console.error((e as Error).stack);
+    }
+    return [];
 }
