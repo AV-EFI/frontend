@@ -1,6 +1,6 @@
 <template>
-  <table class="table table-xs table-fixed w-full">
-    <thead>
+  <table class="table table-xs table-fixed w-full dark:bg-gray-800 dark:text-gray-200">
+    <thead class="dark:bg-gray-700">
       <tr>
         <th>ID 1</th>
         <th>Title 1</th>
@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="dark:bg-gray-900 dark:hover:bg-gray-700 even:bg-gray-100 odd:bg-white dark:even:bg-gray-800 dark:odd:bg-gray-900">
         <td>
           6B1DA15A-E1F1-40C3-8BB5-12A4221EBED7-SDK-TEST
         </td>
@@ -37,7 +37,7 @@
         </td>
         <td>
           <button
-            class="btn btn-primary btn-xs"
+            class="btn btn-primary btn-xs dark:bg-blue-600 dark:hover:bg-blue-500"
             @click="showDetails('6B1DA15A-E1F1-40C3-8BB5-12A4221EBED7-SDK-TEST','0FE417A7-D2E8-45B8-90AD-3BF376E3C425')"
           >
             Show Details
@@ -47,6 +47,7 @@
       <tr
         v-for="(pair, index) in itemPairs"
         :key="index"
+        class="dark:bg-gray-900 dark:hover:bg-gray-700 even:bg-gray-100 odd:bg-white dark:even:bg-gray-800 dark:odd:bg-gray-900"
       >
         <td>{{ pair.items[0].id }}</td>
         <td>
@@ -87,7 +88,7 @@
         </td>
         <td>
           <button
-            class="btn btn-primary btn-disabled btn-xs"
+            class="btn btn-primary btn-disabled btn-xs dark:bg-blue-600 dark:hover:bg-blue-500"
             @click="showDetails(pair.items)"
           >
             Show Details
@@ -293,13 +294,3 @@ const showDetails = (id1,id2) => {
     }
 };
 </script>
-
-<style lang="css" scoped>
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:nth-child(odd) {
-  background-color: #ffffff;
-}
-</style>
