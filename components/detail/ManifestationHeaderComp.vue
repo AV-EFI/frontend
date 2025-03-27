@@ -46,19 +46,6 @@
       </div>
       <div class="flex flex-row mt-1">
         <div
-          v-if="isTwin == true"
-          class="badge bg-info-300 text-white z-10"
-          :title="$t('twinManifestationLong')"
-          :alt="$t('twinManifestationLong')"
-        >
-          <Icon
-            class="text-lg"
-            name="pepicons-pencil:persons"
-          />
-              &nbsp;
-          {{ $t('twinManifestationShort') }}
-        </div>
-        <div
           v-if="allItemsEmpty"
           class="badge bg-warning-300 text-white z-10"
           :title="$t('emptyItemsLong')"
@@ -118,19 +105,6 @@
         </span>
       </div>
       <div class="flex flex-row mt-1">
-        <div
-          v-if="isTwin == true"
-          class="badge bg-info-300 text-white z-10"
-          :title="$t('twinManifestationLong')"
-          :alt="$t('twinManifestationLong')"
-        >
-          <Icon
-            class="text-lg"
-            name="pepicons-pencil:persons"
-          />
-              &nbsp;
-          {{ $t('twinManifestationShort') }}
-        </div>
         <div
           v-if="allItemsEmpty"
           class="badge bg-warning-300 text-white z-10"
