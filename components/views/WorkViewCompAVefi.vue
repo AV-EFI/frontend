@@ -56,7 +56,8 @@
         />
         <div
           v-else
-          class="alert alert-warning text-white max-w-96 mt-4"
+          class="alert alert-warning alert-outline text-white max-w-96 mt-4"
+          role="alert"
         >
           <MicroIconTextComp
             icon-name="mdi:emoticon-cry-outline"
@@ -84,6 +85,8 @@ import type {WorkVariant, Manifestation, Item} from '../../models/interfaces/av_
 const dataJson = defineModel({type: String, required: true});
 const dataObject = JSON.parse(dataJson.value);
 const mir:WorkVariant = dataObject?._source?.has_record;
+const manifestations:Manifestation[] = dataObject?._source?.manifestations;
+console.log(manifestations);
 
 interface ApiResponseManifestationList extends Promise<Response> {
   status: string
@@ -98,12 +101,4 @@ interface ApiResponseItemList extends Promise<Response> {
   onFetchError: EventHookOn
 }
 
-const { status, data: manifestations } = useFetch<ApiResponseManifestationList>(`${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/${useRuntimeConfig().public.AVEFI_GET_MANIFEST_BY_WORK}`,
-    {
-        method: 'POST',
-        lazy: true,
-        body: {
-            id: "21.11155/"+dataObject._id
-        }
-    });
 </script>

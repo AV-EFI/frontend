@@ -23,9 +23,12 @@
       <input
         type="radio"
         :name="`manifestation-accordion`"
-        :checked="manifestationList.length < 2?'true':false"
+        :checked="manifestationList?.length < 2?'true':false"
       >
-      <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white">
+      <div
+        :id="manifestation.handle"
+        class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white"
+      >
         <DetailManifestationHeaderComp
           :manifestation="manifestation"
           type="other"
@@ -39,53 +42,53 @@
           <template #left>
             <DetailKeyValueComp
               keytxt="EFI"
-              :valtxt="manifestation._source?.handle"
+              :valtxt="manifestation?.handle"
               class="col-span-full hidden"
             />
             <DetailKeyValueComp
-              v-if="manifestation._source?.has_record?.described_by?.has_issuer_name"
+              v-if="manifestation?.has_record?.described_by?.has_issuer_name"
               keytxt="dataholding"
-              :valtxt="manifestation._source?.has_record?.described_by?.has_issuer_name"
+              :valtxt="manifestation?.has_record?.described_by?.has_issuer_name"
               class="col-span-full"
             />
             <DetailKeyValueListComp
-              v-if="manifestation._source?.has_record?.has_webresource"
+              v-if="manifestation?.has_record?.has_webresource"
               keytxt="Webresource"
-              :valtxt="manifestation._source?.has_record?.has_webresource"
+              :valtxt="manifestation?.has_record?.has_webresource"
               class="col-span-full"
             />
             <DetailKeyValueListComp
-              v-if="manifestation._source.has_record?.has_note"
+              v-if="manifestation?.has_record?.has_note"
               class="col-span-full text-justify"
               keytxt="avefi:Note"              
-              :valtxt="manifestation._source.has_record?.has_note"
+              :valtxt="manifestation?.has_record?.has_note"
               :ul="true"
             />
           </template>
           <template #right>
             <DetailKeyValueComp
-              v-if="manifestation._source.has_record?.has_duration?.has_value"
+              v-if="manifestation?.has_record?.has_duration?.has_value"
               keytxt="avefi:Duration"
-              :valtxt="manifestation._source.has_record?.has_duration?.has_value_clean?? manifestation._source.has_record?.has_duration?.has_value"
+              :valtxt="manifestation?.has_record?.has_duration?.has_value_clean?? manifestation?.has_record?.has_duration?.has_value"
               class="w-full"
             />
             <DetailKeyValueComp
-              v-if="manifestation._source.has_record?.has_extent?.has_value"
+              v-if="manifestation?.has_record?.has_extent?.has_value"
               keytxt="avefi:Extent"
-              :valtxt="`${manifestation._source.has_record?.has_extent?.has_value} ${manifestation._source.has_record?.has_extent?.has_unit}`"
+              :valtxt="`${manifestation?.has_record?.has_extent?.has_value} ${manifestation?.has_record?.has_extent?.has_unit}`"
               class="w-full mt-2"
             />
             <MicroLabelComp
-              v-if="manifestation._source.has_record?.in_language"
+              v-if="manifestation?.has_record?.in_language"
               label-text="avefi:Language"
               class="w-full mt-2"
             />
             <ul
-              v-if="manifestation._source.has_record?.in_language"
+              v-if="manifestation?.has_record?.in_language"
               class="w-full mt-2"
             >
               <li
-                v-for="lang in manifestation._source.has_record?.in_language"
+                v-for="lang in manifestation?.has_record?.in_language"
                 :key="lang.code"
               >
                 <span class="">{{ $t(lang?.code) }}</span>&nbsp;
@@ -99,10 +102,10 @@
         </NuxtLayout>
         <DetailHasEventComp
           class="mt-4"
-          :model-value="manifestation._source.has_record?.has_event"
+          :model-value="manifestation?.has_record?.has_event"
         />
         <DetailItemListComp
-          v-model="manifestation._source.items"
+          v-model="manifestation.items"
         />
       </div>
     </div>
@@ -119,6 +122,7 @@ interface AVefiFEManifestation {
     _id: string;
     index: string;
     _score: number;
+    items: Item[]; // Added 'items' property to the interface
 }
 
 interface Source {
@@ -129,14 +133,45 @@ interface Source {
 }
 
 manifestationList.value.forEach((mani) => {
-    if(mani._source.has_record?.has_duration?.has_value) {
-        const duration = mani._source.has_record.has_duration.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
+    if(mani?.has_record?.has_duration?.has_value) {
+        const duration = mani?.has_record.has_duration.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
         duration[0] = String(duration[0]).padStart(2, '0');
         if(duration.length > 1) {
             duration[1] = String(duration[1]).padStart(2, '0');
         }
-        mani._source.has_record.has_duration.has_value_clean = duration.join(':');
+        mani.has_record.has_duration.has_value_clean = duration.join(':');
+    }
+});
+
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    const urlFragment = window.location.hash.substring(1); // Get the fragment without the '#' symbol
+    if (urlFragment) {
+        const element = document.getElementById(urlFragment);
+        console.log(element);
+        if (element) {
+            let targetElement = element;
+            console.log(element.getAttribute('data-type'));
+            if (element.getAttribute('data-type') === 'item') {
+                targetElement = element.closest('tr'); // Find the closest <tr> if the data attribute-type is "item"
+            }
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetElement.classList.add('bg-secondary'); // Add a highlight class for styling
+                const t = setTimeout(function() {
+                    targetElement.classList.remove('bg-secondary'); // Remove the highlight class after 2 seconds
+                }, 5000);
+            }
+        }
     }
 });
 
 </script>
+<style>
+tr.bg-secondary > td {
+    background-color: var(--tw-bg-opacity) !important;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    transition: background-color 0.5s ease-in-out;
+}
+</style>
