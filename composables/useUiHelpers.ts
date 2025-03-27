@@ -99,7 +99,7 @@ export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, a
                         agentList.push(ag?.has_name);}
                     );
                 });
-                return agentList?.join(', ');
+                return agentList?.join('; ');
             }
         }
     }

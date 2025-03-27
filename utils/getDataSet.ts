@@ -5,7 +5,7 @@ const getDataSet = async function (routeParamsId:string[]):Promise<IAVefiListRes
     const config = useRuntimeConfig();
 
     const { data } = await useApiFetchLocal<IAVefiListResponse>(
-        `${config.public.AVEFI_ELASTIC_API}/getworkvariantbyid`,
+        `${config.public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
         {
             method: 'POST',
             headers: {

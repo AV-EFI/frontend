@@ -1,8 +1,7 @@
 # Nuxt dev/build outputs
-.output
-.data
 .nuxt
 .nitro
+.output
 .cache
 dist
 
@@ -12,17 +11,26 @@ node_modules
 # Logs
 logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Misc
 .DS_Store
-.fleet
 .idea
+.fleet
+.vscode
 
 # Local env files
-.env
-.env.*
+#.env
+#.env.*
 !.env.example
 
 # wrangler files
 .wrangler
 .dev.vars
+
+# Lock files
+package-lock.json*
+yarn.lock
+pnpm-lock.yaml
