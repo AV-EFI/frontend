@@ -85,7 +85,6 @@ export default defineNuxtConfig({
         "/protected/institutionlist": {ssr:false},
         "/protected/dashboard": {ssr:false},
         "/protected/mergetool": {ssr:false},
-        "/fe-api/**": {proxy: "/api/**"}
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
