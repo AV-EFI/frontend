@@ -302,7 +302,7 @@ const cardItems = ref(
         {
             title: 'ddrTitle',//'Filmgeschichte der DDR',
             description: 'ddrDescription',//'Diese Sammlung stellt eine einzigartige Ressource dar, die sich mit der Filmgeschichte der DDR beschäftigen. Durch die Bereitstellung umfassender Metadaten ermöglicht sie anspruchsvolle Forschungsvorhaben und trägt zur Weiterentwicklung wissenschaftlicher Erkenntnisse über die Kultur und Gesellschaft der DDR bei.',
-            link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bcountries%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
+            link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
             linkText: 'ddrLinkText'//'Unsere DDR-Filme'
         }
     ]
