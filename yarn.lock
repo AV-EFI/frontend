@@ -1457,6 +1457,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify-json/fa@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@iconify-json/fa@npm:1.2.1"
+  dependencies:
+    "@iconify/types": "npm:*"
+  checksum: 10c0/04de3629ee1b72921c4ac349b84a2df021f84544b41b47bd4748e8729e34f4bee1a2cfa190206972101903d1ffff92aae6cae9909b98579942b2a00010dc34e2
+  languageName: node
+  linkType: hard
+
 "@iconify-json/material-symbols@npm:^1.2.12":
   version: 1.2.12
   resolution: "@iconify-json/material-symbols@npm:1.2.12"
@@ -10586,6 +10595,7 @@ __metadata:
     "@formkit/pro": "npm:^0.122.21"
     "@formkit/themes": "npm:^1.6.9"
     "@formkit/utils": "npm:^1.6.9"
+    "@iconify-json/fa": "npm:^1.2.1"
     "@iconify-json/material-symbols": "npm:^1.2.12"
     "@iconify-json/mdi": "npm:^1.2.2"
     "@nuxt/content": "npm:^2.13.4"

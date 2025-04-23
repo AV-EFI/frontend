@@ -149,58 +149,67 @@
           </ul>
           <span v-else>-</span>
         </div>
-        <div class="flex flex-col">
-          <MicroLabelComp label-text="directors_or_editors" />
-          <SearchHighlightListComp
-            :items="item?.directors_or_editors"
-            :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
-            class="mb-2"
-          />
-        </div>
-        <div class="flex flex-col">
-          <MicroLabelComp label-text="avefi:ProductionEvent" />
-          <SearchHighlightListComp
-            :items="item?.production"
-            :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
-            class="mb-2"
-          />
-        </div>
-        <div class="flex flex-col">
-          <DetailKeyValueListComp
-            keytxt="productionyear"
-            :valtxt="item?.years"
-            class="mb-2"
-            :ul="true"
-          />
-          <DetailKeyValueListComp
-            keytxt="country"
-            :valtxt="item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null)"
-            :ul="true"
-            class="mb-2"
-          />
-        </div>
-        <div class="flex flex-col">
-          <MicroLabelComp label-text="has_form" />
-          <SearchHighlightListComp
-            :items="item?.has_record?.has_form || null"
-            :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
-            class="max-h-48 overflow-y-auto mb-2"
-          />
-          <MicroLabelComp label-text="avefi:Genre" />
-          <SearchHighlightListComp
-            :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || null"
-            :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
-            class="max-h-48 overflow-y-auto mb-2"
-          />
+        <div
+          v-if="productionDetailsChecked"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full col-span-full"
+        >
+          <div          
+            class="flex flex-col"
+          >
+            <MicroLabelComp label-text="directors_or_editors" />
+            <SearchHighlightListComp
+              :items="item?.directors_or_editors"
+              :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
+              class="mb-2"
+            />
+          </div>
+          <div class="flex flex-col">
+            <MicroLabelComp label-text="avefi:ProductionEvent" />
+            <SearchHighlightListComp
+              :items="item?.production"
+              :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
+              class="mb-2"
+            />
+          </div>
+          <div class="flex flex-col">
+            <DetailKeyValueListComp
+              keytxt="productionyear"
+              :valtxt="item?.years"
+              class="mb-2"
+              :ul="true"
+            />
+            <DetailKeyValueListComp
+              keytxt="country"
+              :valtxt="item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null)"
+              :ul="true"
+              class="mb-2"
+            />
+          </div>
+          <div class="flex flex-col">
+            <MicroLabelComp label-text="has_form" />
+            <SearchHighlightListComp
+              :items="item?.has_record?.has_form || null"
+              :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
+              class="max-h-48 overflow-y-auto mb-2"
+            />
+            <MicroLabelComp label-text="avefi:Genre" />
+            <SearchHighlightListComp
+              :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || null"
+              :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
+              class="max-h-48 overflow-y-auto mb-2"
+            />
 
-          <MicroLabelComp label-text="avefi:Subject" />
-          <SearchHighlightListComp
-            :items="item?.subjects"
-            :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"            
-            class="max-h-48 overflow-y-auto"
-          />
+            <MicroLabelComp label-text="avefi:Subject" />
+            <SearchHighlightListComp
+              :items="item?.subjects"
+              :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"            
+              class="max-h-48 overflow-y-auto"
+            />
+          </div>
         </div>
       </div>
+      <!-- EO WorkVariant -->
+      <!-- Manifestations -->
       <hr class="my-2">
       <div class="w-full flex flex-col">
         <h3 class="font-bold text-sm mb-2 pl-1 uppercase text-primary-800 dark:text-gray-200">
@@ -329,6 +338,10 @@ const props = defineProps({
         type: Array as PropType<Array<MovingImageRecordContainer>>,
         required: true
     },
+    productionDetailsChecked: {
+        type: Boolean,
+        required: true,
+    },
     showAdminStats: {
         type: Boolean,
         required: false,
@@ -351,7 +364,6 @@ async function checkEmptyProperties(manifestations: any[]): Promise<void> {
         }
         manifestation.allItemsEmpty = allItemsEmpty;
     }
-    console.log(manifestations);
 }
 
 async function markDuplicateManifestations(manifestations: any[]): Promise<void> {
@@ -376,7 +388,6 @@ async function markDuplicateManifestations(manifestations: any[]): Promise<void>
             }
         }
     }
-    console.log(seen);
 }
 /*
 Promise.all([

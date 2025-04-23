@@ -155,7 +155,7 @@
                     />
                   </div>
                   <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
-                    <label class="label cursor-pointer w-48 ml-auto hidden md:flex">
+                    <label class="label cursor-pointer w-64 ml-auto hidden md:flex">
                       <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input
@@ -164,8 +164,40 @@
                         class="toggle toggle-primary"
                       >
                     </label>
+
                     <label
-                      class="label cursor-pointer w-48 ml-auto"
+                      class="label cursor-pointer w-64 ml-auto"
+                    >
+                      <span class="label-text text-gray-800 dark:text-gray-200">
+                        <LazyIcon
+                          v-if="!productionDetailsChecked"
+                          class="dark:text-white"
+                          :title="$t('productionDetailsOn')"
+                          name="mdi:list-box-outline"
+                        />
+                        <LazyIcon
+                          v-else
+                          class="dark:text-white"
+                          :title="$t('productionDetailsOff')"
+                          name="mdi:list-box" 
+                        />
+                    &nbsp;
+                        <span v-if="!productionDetailsChecked">
+                          {{ $t('productionDetailsOnShort') }}
+                        </span>
+                        <span v-else>
+                          {{ $t('productionDetailsOffShort') }}
+                        </span>
+                      </span>
+                      <input
+                        v-model="productionDetailsChecked"
+                        type="checkbox"
+                        class="toggle toggle-primary"
+                      >
+                    </label>
+
+                    <label
+                      class="label cursor-pointer w-64 ml-auto"
                     >
                       <span class="label-text text-gray-800 dark:text-gray-200">
                         <LazyIcon
@@ -205,6 +237,7 @@
                       <SearchHitsComp
                         :items="items"
                         :view-type-checked="viewTypeChecked"
+                        :production-details-checked="productionDetailsChecked"
                       />
                     </template>
                   </ais-hits>
@@ -233,11 +266,13 @@
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 const viewTypeChecked = ref(false);
 const expandAllChecked = ref(false);
+const productionDetailsChecked = ref(true);
 
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi.ts';
 
 import {useDebounceFn} from '@vueuse/core';
+import { title } from 'process';
 
 const searchClient = Client({
     config: config,

@@ -44,9 +44,10 @@ export default {
         const header = document.querySelector('header');
         const headerHeight = header.offsetHeight;
         document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-
-        window.addEventListener('scroll', this.handleScroll);
-        this.checkPageHeight();
+        if(window) {
+            window.addEventListener('scroll', this.handleScroll);
+            this.checkPageHeight();
+        }
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.handleScroll);

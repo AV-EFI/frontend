@@ -86,8 +86,13 @@
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
 definePageMeta({
-    auth: false
+    auth: false,
+    middleware: ['check-category'],
 });
+
+import { useHash } from '../../composables/useHash';
+const { hash } = useHash(); // auto-scroll is enabled by default
+console.log(hash); // hash.value is a ref, so you can use it in your template as well
 
 
 const route = useRoute();
@@ -95,7 +100,6 @@ const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
 const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
     const data = await getDataSet(params.value.id);
-    console.log(data);
     if(data?.value?.has_record.category){
         category.value = data.value?.has_record.category;
     }

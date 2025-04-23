@@ -38,9 +38,10 @@
         <NuxtLayout name="partial-grid-2-1-flex">
           <template #left>
             <DetailKeyValueComp
+              :id="manifestation._id"
               keytxt="EFI"
               :valtxt="manifestation._source?.handle"
-              class="col-span-full hidden"
+              class="col-span-full"
             />
             <DetailKeyValueComp
               v-if="manifestation._source?.has_record?.described_by?.has_issuer_name"

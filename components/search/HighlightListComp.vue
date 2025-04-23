@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="items">
     <ul
       v-if="items && items?.length > 0"
       class="max-w-full"
@@ -26,8 +26,11 @@
       {{ showAll ? $t('showLess') : $t('showMore') }}
     </button>
   </div>
+  <span v-else>
+    -
+  </span>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     items: {
         type: Array,

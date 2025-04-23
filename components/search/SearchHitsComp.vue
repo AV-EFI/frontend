@@ -9,11 +9,13 @@
     <SearchTableViewComp
       v-if="viewTypeChecked && items"
       :items="items"
+      :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
     />
     <SearchListViewComp
       v-else-if="items"
       :items="items"
+      :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
     />
     <div v-else>
@@ -29,6 +31,10 @@ defineProps({
         required: true,
     },
     viewTypeChecked: {
+        type: Boolean,
+        required: true,
+    },
+    productionDetailsChecked: {
         type: Boolean,
         required: true,
     },

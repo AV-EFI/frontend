@@ -5,6 +5,7 @@
     >
       <div class="mb-2">
         <h2
+          :id="mir._id"
           class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
           :alt="mir.has_primary_title.has_name"
         >
@@ -47,9 +48,6 @@
               </li>
             </ul>
           </div>
-
-
-
           <div
             class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min"
           >
@@ -372,5 +370,4 @@ import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);
 const mir:Manifestation = data?._source?.has_record; 
-
 </script>

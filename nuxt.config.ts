@@ -4,7 +4,14 @@ export default defineNuxtConfig({
         enabled: false 
     },
     nitro: {
-        preset: 'node-server'
+        preset: 'node-server',
+        compressPublicAssets: true,
+        experimental: {
+            tasks: true,
+        },
+        scheduledTasks: {
+            '0 */12 * * *': 'wmi_mapping_refresh', // Runs every 12 hours
+        }
     },
     build: {
         transpile: ['vue-diff']
@@ -51,6 +58,7 @@ export default defineNuxtConfig({
             ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
+            ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
             AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
             AVEFI_GET_MANIFEST: process.env.AVEFI_GET_MANIFEST,
@@ -61,6 +69,7 @@ export default defineNuxtConfig({
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
             KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+            WMI_CACHE_KEY: 'WMI_CACHE_KEY'
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,
