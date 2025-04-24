@@ -16,11 +16,20 @@ export function useHash(scroll = true) {
                     if (el) {
                         console.log('Scrolling to element:', el);
                         // Scroll to the element smoothly
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        el.classList.add('bg-secondary'); // Add a class for highlighting
+                        const parent = el.closest('.collapse').querySelector('.manifestation-accordion-toggle');
+                        console.log('parent', parent);
+                        if(parent)
+                        {
+                            (parent as HTMLInputElement).checked = true; // Check the parent checkbox
+                            console.log(parent);
+                        }
+                        setTimeout(() => {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            el.classList.add('bg-secondary'); // Add a class for highlighting
+                        }, 600);
                         setTimeout(() => {
                             el.classList.remove('bg-secondary'); // Remove the class after a delay
-                        }, 10000); // Adjust the delay as needed
+                        }, 3000); // Adjust the delay as needed
                     }
                 }, 1000); // Add a small timeout before looking for the element
             }

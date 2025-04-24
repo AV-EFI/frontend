@@ -61,7 +61,10 @@
         /><span class="hidden 2xl:inline">{{ $t('webresource') }}</span></a>
       </template>
       <template #item-_source.has_record.described_by.has_issuer_name="item">
-        <div class="flex flex-row">
+        <div
+          :id="item._id"
+          class="flex flex-row"
+        >
           <p>{{ item?._source.has_record.described_by.has_issuer_name }}</p>
           <MicroBadgeCategoryComp
             category="avefi:Item"
@@ -102,6 +105,14 @@
         #expand="item"
       >
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 p-4 ml-4">
+          <div class="col-span-full">
+            <DetailKeyValueComp 
+              :keytxt="$t('EFI')"
+              :valtxt="item._id"
+              class="w-full"
+              :clip="false"
+            />
+          </div>
           <div
             v-if="item._source?.has_record?.in_language"
             class="flex flex-col"
@@ -152,12 +163,14 @@
               :href="item?._source.has_record?.has_webresource"
               target="_blank"
               class="link link-primary dark:link-accent"
-            ><Icon
-              name="formkit:linkexternal"
-            />&nbsp;{{ $t('webresource') }}</a>
+            >
+              <Icon
+                name="formkit:linkexternal"
+              />&nbsp;{{ $t('webresource') }}</a>
           </div>
           <div class="col-start-4 col-span-1 flex flex-col items-end">
             <MicroEfiCopyComp
+              :id="item._id"
               :handle="item._source?.handle"
             />
           </div>

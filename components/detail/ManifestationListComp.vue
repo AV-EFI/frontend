@@ -22,7 +22,8 @@
     >    
       <input
         type="radio"
-        :name="`manifestation-accordion`"
+        name="manifestation-accordion"
+        class="manifestation-accordion-toggle"
         :checked="manifestationList.length < 2?'true':false"
       >
       <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white">

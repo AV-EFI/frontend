@@ -30,7 +30,8 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxtjs/robots',
         'nuxt3-winston-log',
-        '@dargmuesli/nuxt-cookie-control'
+        '@dargmuesli/nuxt-cookie-control',
+        'nuxt-mail'
     ],
     extends: './pages',
     imports: {
@@ -115,6 +116,18 @@ export default defineNuxtConfig({
         }
     },
     css: ["~/assets/scss/main.scss"],
+    mail: {
+        message: {
+            to: 'stefan.stretz@tib.eu',
+        },
+        smtp: {
+            service: 'gmail',
+            auth: {
+                user: "superiphone88@gmail.com",
+                pass: "mjvi rzyk jrau zsaf",
+            }
+        },
+    },
     nuxt3WinstonLog: {        
         maxSize: "2048m",
         maxFiles: "14d",

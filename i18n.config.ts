@@ -296,7 +296,7 @@ export default defineI18nConfig(() => ({
             'elementsincomparison': 'Elemente im Vergleich',
             'elementsinshoppingcart': 'Elemente in Favoriten-Liste',
             'emptyItemsShort': 'Exemplare ohne Metadaten',
-            'emptyItemsLong': 'Exemplare der Manifestation beinhalten keine weiteführenden Informationen',
+            'emptyItemsLong': 'Exemplare der Manifestation beinhalten keine weiterführenden Informationen',
             'enterobjectname': 'Objektname eingeben',
             'exportdata': 'Daten exportieren',
             'Episode/Part': 'Folge/Teil',

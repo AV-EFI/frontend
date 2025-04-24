@@ -58,9 +58,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if(category === 'avefi:Manifestation') {
         const is_manifest_of_id = response[0]._source?.is_manifestation_of_ids;
         
-        if(is_manifest_of_id.length < 1) {
+        if(is_manifest_of_id.length < 2) {
             console.log('is_manifest_of_id', is_manifest_of_id);
-            return navigateTo(`/film/${is_manifest_of_id[0]}#${id}`);
+            return navigateTo(`/film/${is_manifest_of_id[0].replace('21.11155/','')}#${id}`);
         }
 
         return navigateTo(`/film/multi?ids=${is_manifest_of_id.map((m) => m.replace('21.11155/','')).join(',')}&itemid=${id}`);
