@@ -16,7 +16,8 @@ export function useHash(scroll = true) {
                     if (el) {
                         console.log('Scrolling to element:', el);
                         // Scroll to the element smoothly
-                        const parent = el.closest('.collapse').querySelector('.manifestation-accordion-toggle');
+                        const collapseElement = el.closest('.collapse');
+                        const parent = collapseElement ? collapseElement.querySelector('.manifestation-accordion-toggle') : null;
                         console.log('parent', parent);
                         if(parent)
                         {
