@@ -22,6 +22,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    auth: false,
+});
 const route = useRoute();
 const queryParams = route.query;
 const workIds = queryParams.ids;

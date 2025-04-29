@@ -38,7 +38,7 @@
         <td>
           <button
             class="btn btn-primary btn-xs dark:bg-blue-600 dark:hover:bg-blue-500"
-            @click="showDetails('6B1DA15A-E1F1-40C3-8BB5-12A4221EBED7-SDK-TEST','0FE417A7-D2E8-45B8-90AD-3BF376E3C425')"
+            @click="showDetails('0FE417A7-D2E8-45B8-90AD-3BF376E3C425','357A73F8-F9C4-4B0A-A333-E943EB3C3F84')"
           >
             Show Details
           </button>
