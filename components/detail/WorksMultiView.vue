@@ -75,7 +75,7 @@
             </template>
           </span>
         </div>
-        <div class="text-sm text-gray-500">
+        <div class="text-sm text-gray-500 w-full mt-2">
           <MicroLabelComp label-text="AlternativeTitle" />
           <ul>
             <li
@@ -86,7 +86,7 @@
             </li>
           </ul>
         </div>
-        <div class="w-full flex flex-col">
+        <div class="w-full flex flex-col mt-2">
           <h3 class="font-bold text-sm mb-2 pl-1 uppercase text-primary-800 dark:text-gray-200">
             {{ $t('manifestations') }}
           </h3>
@@ -99,7 +99,7 @@
               type="checkbox"
               class="manifestation-checkbox"
             >
-            <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-whitefont-medium">
+            <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-white font-medium">
               <LazyDetailManifestationHeaderComp
                 :manifestation="manifestation"
                 type="searchresult"
@@ -146,6 +146,14 @@
                   <MicroDividerComp
                     class="mx-auto lg:my-[5px]"
                     label-text="avefi:Item" 
+                  />
+                </div>
+                <div class="col-span-full md:col-full">
+                  <DetailKeyValueComp
+                    keytxt="EFI"
+                    :valtxt="exemplar?.handle"
+                    :clip="true"                  
+                    class="mb-2"
                   />
                 </div>
                 <div class="col-span-full md:col-span-1">

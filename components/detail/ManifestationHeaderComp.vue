@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col lg:flex-row justify-between lg:items-center">
     <div
-      v-if="type == 'searchresult'"
+      v-if="type === 'searchresult'"
       :class="['flex justify-center flex-col w-4/5']"
     >
       <h4 class="col-span-full text-xs 2xl:text-sm">
@@ -18,7 +18,7 @@
           {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
         </span>
         <span
-          v-if="manifestation.has_record?.has_colour_type"
+          v-if="manifestation?.has_record?.has_colour_type"
           class="flex flex-row items-center"
         >
           <template v-if="manifestation.has_record?.has_event?.has_date">
@@ -31,7 +31,7 @@
           {{ $t(manifestation.has_record?.has_colour_type) }}
         </span>
         <span
-          v-if="manifestation.has_record?.in_language"
+          v-if="manifestation?.has_record?.in_language"
           class="flex flex-row items-center"
         >
           <template v-if="manifestation.has_record?.has_event?.has_date || manifestation.has_record?.has_colour_type">
@@ -41,7 +41,7 @@
             class="w-4 h-4 mr-1 inline-block"
             :alt="$t('in_language_code')"
           />
-          {{ manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
+          {{ manifestation?.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
         </span>
       </div>
       <div class="flex flex-row mt-1">
@@ -121,7 +121,7 @@
       </div>
       <div class="max-md:flex max-md:justify-end ">
         <MicroEfiCopyComp
-          :handle="manifestation?.handle?? manifestation._source?.handle"
+          :handle="manifestation?.handle ?? manifestation._source?.handle"
           class="z-10 relative"
           :comp-size="compSize"
         />
@@ -131,6 +131,13 @@
 </template>
 
 <script setup lang="ts">
+
+//const manifestation = defineModel({type: Object as PropType<any>, required: true});
+
+onMounted(() => {
+    console.log(props.manifestation);
+});
+
 const props = defineProps({
     manifestation: Object as PropType<any>,
     type: String as PropType<string>,
@@ -147,10 +154,11 @@ const props = defineProps({
         default: false,
     },
 });
+
 </script>
 
 <style lang="css">
 .collapse-arrow > .collapse-title:after {
-top: 50%;
+  top: 50%;
 }
 </style>

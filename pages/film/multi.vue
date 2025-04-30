@@ -11,7 +11,7 @@
         <h2>{{ $t('multiResults') }}</h2>
       </template>
       <template #cardBody>
-        <p>{{ $t('multihelptext', {'name': itemId}) }}</p>
+        <p v-html="$t('multihelptext', {'name': itemId})" />
         <DetailWorksMultiView
           :work-ids="workIds"
           :item-id="itemId"

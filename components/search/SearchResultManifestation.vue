@@ -8,7 +8,7 @@
       type="checkbox"
       class="manifestation-checkbox"
     >
-    <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-whitefont-medium">
+    <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white font-medium">
       <p class="text-sm">
         {{ manifestation?.handle }}
       </p>

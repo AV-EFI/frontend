@@ -216,16 +216,16 @@
           {{ $t('manifestations') }}
         </h3>
         <div
-          v-for="manifestation in item?.manifestations"
-          :key="manifestation.id"
+          v-for="(manifestation, index) in item?.manifestations"
+          :key="index"
           class="collapse collapse-arrow"
         >
           <input
             type="checkbox"
             class="manifestation-checkbox"
           >
-          <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-whitefont-medium">
-            <LazyDetailManifestationHeaderComp
+          <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-white font-medium">
+            <DetailManifestationHeaderComp
               v-if="componentInfoReady"
               :manifestation="manifestation"
               type="searchresult"
@@ -398,13 +398,19 @@ Promise.all([
 });
 */
 
-watch(() => props.items, (newVal, oldVal) => {
-    Promise.all([
-        checkEmptyProperties(newVal.flatMap(item => item.manifestations)),
-        markDuplicateManifestations(newVal.flatMap(item => item.manifestations))
-    ]).then(() => {
-        componentInfoReady.value = true;
-    });
+watch(() => props.items, async (newVal, oldVal) => {
+    await Promise.all([
+        checkEmptyProperties(newVal?.flatMap(item => item?.manifestations)),
+        markDuplicateManifestations(newVal?.flatMap(item => item?.manifestations))
+    ]);
+    componentInfoReady.value = true;
 });
 
+onMounted(() => {
+    componentInfoReady.value = true;
+    //console.log(props.items);
+    //console.log(componentInfoReady.value);
+    //console.log(props.items.flatMap(item => item.manifestations));
+    //console.log(props.items.flat
+});
 </script>

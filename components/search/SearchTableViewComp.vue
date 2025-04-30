@@ -16,7 +16,10 @@
       </div>
     </template>
     <template #header-has_record.has_alternative_title.has_name="header">
-      <div class="customize-header dark:text-primary-100">
+      <div
+        v-if="productionDetailsChecked"
+        class="customize-header dark:text-primary-100"
+      >
         {{ $t('AlternativeTitle') }}
       </div>
     </template>
@@ -31,12 +34,18 @@
       </div>
     </template>
     <template #header-directors_or_editors="header">
-      <div class="customize-header dark:text-primary-100">
+      <div
+        v-if="productionDetailsChecked"
+        class="customize-header dark:text-primary-100"
+      >
         {{ $t(header.text) }}
       </div>
     </template>
     <template #header-production="header">
-      <div class="customize-header dark:text-primary-100">
+      <div 
+        v-if="productionDetailsChecked"
+        class="customize-header dark:text-primary-100"
+      >
         {{ $t(header.text) }}
       </div>
     </template>
@@ -56,7 +65,12 @@
           >
             <span 
               v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-            />
+            >
+              <ais-highlight
+                attribute="has_record.has_primary_title.has_name"
+                :hit="item"
+              />
+            </span>
             <span v-else>
               {{ item?.has_record?.has_primary_title?.has_name }}
             </span>
@@ -106,6 +120,7 @@
     </template>
     <template #item-has_record.has_alternative_title.has_name="item">
       <SearchHighlightListComp
+        v-if="productionDetailsChecked"
         :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
         :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
         font-size="text-sm"
@@ -131,6 +146,7 @@
     </template>
     <template #item-directors_or_editors="item">
       <SearchHighlightListComp
+        v-if="productionDetailsChecked"
         :items="item?.directors_or_editors"
         :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
         font-size="text-sm"
@@ -139,6 +155,7 @@
     </template>
     <template #item-production="item">
       <SearchHighlightListComp
+        v-if="productionDetailsChecked"
         :items="item?.production"
         :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
         font-size="text-sm"
@@ -149,6 +166,41 @@
       #expand="item"
     >
       <div
+        v-if="!productionDetailsChecked" 
+        class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 py-2 md:ml-[64px] md:pl-4 bg-slate-50 dark:bg-slate-800 dark:text-white"
+      >
+        <div class="flex flex-col">
+          <MicroLabelComp label-text="AlternativeTitle" />
+          <SearchHighlightListComp
+            v-if="!productionDetailsChecked"
+            :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
+            :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
+            font-size="text-sm"
+            class="mb-2"
+          />
+        </div>
+        <div class="flex flex-col">
+          <MicroLabelComp label-text="directors_or_editors" />
+          <SearchHighlightListComp
+            v-if="!productionDetailsChecked"
+            :items="item?.directors_or_editors"
+            :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
+            font-size="text-sm"
+            class="mb-2"
+          />
+        </div>    
+        <div class="flex flex-col">
+          <MicroLabelComp label-text="avefi:ProductionEvent" />
+          <SearchHighlightListComp
+            v-if="!productionDetailsChecked"
+            :items="item?.production"
+            :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
+            font-size="text-sm"
+            class="mb-2"
+          />
+        </div>    
+      </div>
+      <div
         v-for="manifestation in item?.manifestations"
         :key="manifestation.id"
         class="collapse collapse-arrow rounded-none md:pl-[64px]"
@@ -157,7 +209,7 @@
           type="checkbox"
           class="manifestation-checkbox"
         >
-        <div class="collapse-title py-2 bg-slate-100 dark:bg-slate-700 dark:text-whitefont-medium">
+        <div class="collapse-title py-2 bg-slate-100 dark:bg-slate-700 dark:text-white font-medium">
           <DetailManifestationHeaderComp
             :manifestation="manifestation"
             type="searchresult"
@@ -284,6 +336,10 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false,
+    },
+    productionDetailsChecked: {
+        type: Boolean,
+        required: true,
     }
 });
 
@@ -297,3 +353,14 @@ const headers = [
 ];
 
 </script>
+<style lang="css">
+.vue3-easy-data-table__body.customize_table td.expand, td.expand, td.expand:hover {
+  background-color: var(--primary-900)!important;
+}
+
+.avefi-dark .vue3-easy-data-table__body.customize_table td.expand, td.expand, td.expand:hover {
+  background-color: var(--slate-950)!important;
+}
+
+
+</style>

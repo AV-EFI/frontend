@@ -19,7 +19,7 @@
               :to="`/film/${ipo.id.replace('21.11155/', '')}`"
               class="link lin-primary"
             >
-              {{ ipo.id.replace('21.11155/', '') }}&nbsp;({{ $t(ipo.category) }})
+              {{ ipo?.id }}&nbsp;({{ $t(ipo.category) }})
             </router-link>
           </li>
         </ul>

@@ -29,7 +29,6 @@
       <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white">
         <DetailManifestationHeaderComp
           :manifestation="manifestation"
-          type="other"
         />
       </div>
       <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
@@ -101,7 +100,7 @@
         </NuxtLayout>
         <DetailHasEventComp
           class="mt-4"
-          :model-value="manifestation._source.has_record?.has_event"
+          :model-value="manifestation._source.has_record?.has_event ?? []"
         />
         <DetailItemListComp
           v-model="manifestation._source.items"

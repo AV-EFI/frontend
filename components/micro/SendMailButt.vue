@@ -20,35 +20,35 @@
       <form @submit.prevent="sendMail">
         <div class="form-control mb-4">
           <label class="label">
-            <span class="label-text">Your Email</span>
+            <span class="label-text">E-Mail</span>
           </label>
           <input 
             v-model="email" 
             type="email" 
-            placeholder="Enter your email" 
+            :placeholder="$t('enterYourEmail')" 
             class="input input-bordered w-full" 
             required 
           >
         </div>
         <div class="form-control mb-4">
           <label class="label">
-            <span class="label-text">Message</span>
+            <span class="label-text">{{ $t('message') }}</span>
           </label>
           <textarea 
             v-model="message" 
-            placeholder="Enter your message" 
+            :placeholder="$t('enterYourMessage')" 
             class="textarea textarea-bordered w-full" 
             required
           />
         </div>
         <div class="form-control mb-4">
           <label class="label">
-            <span class="label-text">What is {{ captchaQuestion }}?</span>
+            <span class="label-text">{{ $t('captchaText', { name: captchaQuestion }) }}</span>
           </label>
           <input 
             v-model="captchaAnswer" 
             type="text" 
-            placeholder="Enter your answer" 
+            :placeholder="$t('enterYourAnswer')" 
             class="input input-bordered w-full" 
             required 
           >
@@ -57,7 +57,7 @@
           type="submit" 
           class="btn btn-secondary w-full"
         >
-          Send
+          {{ $t('send') }}
         </button>
       </form>
     </div>
@@ -67,7 +67,6 @@
 <script setup lang="ts">
 import {toast} from 'vue3-toastify';
 const mail = useMail();
-console.log('mail', mail);
 
 const showForm = ref(false);
 const email = ref('');
@@ -88,7 +87,6 @@ const generateCaptcha = () => {
     const num2 = Math.floor(Math.random() * 10);
     captchaQuestion.value = `${num1} + ${num2}`;
     captchaCorrectAnswer.value = (num1 + num2).toString();
-    console.log('Captcha:', captchaQuestion.value, 'Answer:', captchaCorrectAnswer.value);
 };
 
 const sendMail = () => {
@@ -98,9 +96,6 @@ const sendMail = () => {
         generateCaptcha();
         return;
     }
-    // Handle sending mail logic here
-    console.log('Email:', email.value);
-    console.log('Message:', message.value);
 
     mail.send({
         from: email.value, 

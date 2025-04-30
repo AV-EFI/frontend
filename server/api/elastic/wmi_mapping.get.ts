@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
         const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
 
         const documentId = String(await getQuery(event).documentId);
-        console.log('documentId', documentId);
+
         if (!documentId) {
             return { error: 'documentId is required' };
         }
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
                 }
             },
         });
-        console.log(result);
+
         return result.hits.hits;
     }
     catch(ex) {

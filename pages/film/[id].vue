@@ -55,7 +55,7 @@
       <template #cardBody>
         <div>
           <div
-            v-if="category == 'avefi:WorkVariant'"
+            v-if="category == 'avefi:WorkVariant' && type == 'Monographic'"
           >
             <ClientOnly
               fallback-tag="span"
@@ -67,6 +67,9 @@
               />
             </ClientOnly>
           </div>
+          <span>
+            Serial!!!
+          </span>
         </div>
       </template>
     </NuxtLayout>
@@ -98,12 +101,22 @@ console.log(hash); // hash.value is a ref, so you can use it in your template as
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
+const type = ref('Monographic');
+
 const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
     const data = await getDataSet(params.value.id);
+    console.log('Data:', data);
     if(data?.value?.has_record.category){
         category.value = data.value?.has_record.category;
     }
+
+    if(data?.value?.has_record.type){
+        type.value = data.value?.has_record.type;
+        console.log('Type:', type.value);
+    }
+
     return data[0] as IAVefiListResponse;
+
 });
 
 </script>
