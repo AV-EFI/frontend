@@ -4,10 +4,10 @@
       v-if="type === 'searchresult'"
       :class="['flex justify-center flex-col w-4/5']"
     >
-      <h4 class="col-span-full text-xs 2xl:text-sm">
+      <h4 class="col-span-full text-xs text-primary-700 dark:text-primary-300 text-sm">
         {{ manifestation?.handle }}
       </h4>
-      <h4 class="col-span-full font-bold text-primary-900 dark:text-primary-200 text-sm my-1">
+      <h4 class="col-span-full font-bold text-primary-950 dark:text-primary-200 my-1">
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
       <div class="col-span-full text-sm 2xl:text-md text-primary-700 dark:text-neutral-200 flex flex-row">
@@ -62,12 +62,12 @@
     </div>
     <div
       v-else
-      class="flex flex-col justify-center"
+      class="flex flex-col justify-center w-4/5"
     >
-      <h4 class="col-span-full text-xs 2xl:text-sm">
+      <h4 class="col-span-full text-xs text-primary-700 dark:text-primary-300 text-sm">
         {{ manifestation._source?.handle }}
       </h4>
-      <h4 class="col-span-full font-bold text-primary-900 dark:text-primary-200 text-sm my-1 xl:text-base">
+      <h4 class="col-span-full font-bold text-primary-950 dark:text-primary-200 my-1 xl:text-base">
         {{ manifestation._source.has_record?.described_by?.has_issuer_name }}
       </h4>
       <div class="col-span-full text-sm 2xl:text-md text-primary-700 dark:text-neutral-200 flex flex-row">
@@ -119,24 +119,18 @@
           {{ $t('emptyItemsShort') }}
         </div>
       </div>
-      <div class="max-md:flex max-md:justify-end ">
-        <MicroEfiCopyComp
-          :handle="manifestation?.handle ?? manifestation._source?.handle"
-          class="z-10 relative"
-          :comp-size="compSize"
-        />
-      </div>
+    </div>
+    <div class="max-md:flex max-md:justify-end ">
+      <MicroEfiCopyComp
+        :handle="manifestation?.handle ?? manifestation._source?.handle"
+        class="z-10 relative"
+        :comp-size="compSize"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
-//const manifestation = defineModel({type: Object as PropType<any>, required: true});
-
-onMounted(() => {
-    console.log(props.manifestation);
-});
 
 const props = defineProps({
     manifestation: Object as PropType<any>,

@@ -58,12 +58,14 @@
               keytxt="year"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
+              :clip="false"
             />
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.located_in"
+              :ul="true"
             />
           </template>
         </NuxtLayout>
@@ -147,12 +149,15 @@
               keytxt="year"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
+              :ul="true"
+              :clip="false"
             />
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.located_in"
+              :ul="true"
             />
           </template>
         </NuxtLayout>

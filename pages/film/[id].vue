@@ -67,9 +67,6 @@
               />
             </ClientOnly>
           </div>
-          <span>
-            Serial!!!
-          </span>
         </div>
       </template>
     </NuxtLayout>

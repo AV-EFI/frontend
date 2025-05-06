@@ -11,32 +11,30 @@ const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:a
 export default defineEventHandler(async (event) => {
 
     const apiClient = Client(config, {debug: true});
-    console.log(apiClient);
-    console.log(config);
-
     const body = await readBody(event);
     try {
-        //body = body.replace("avefi:", "avefi\:");
-        console.log(body);
-
         const response = await apiClient.searchkit.handleInstantSearchRequests(body, {            
             hooks: {
                 afterSearch: async (requests, responses) => {
-                    console.log(requests);
                     return responses;
                 },
                 beforeSearch: async (searchRequests) => {
+                    //console.log("Before search", searchRequests.map((sr) => sr.body.query));
                     //add "fields":["directors", "producers", "countries", "productionyears"]
                     return searchRequests.map((sr) => {
                         return {
                             ...sr,
                             body: {
                                 ...sr.body,
-                                //fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"],
-                                //track_total_hits: false
+                                query: JSON.parse(
+                                    JSON.stringify(sr.body.query).replace(
+                                        /"fuzziness":"AUTO:4,8"/g,
+                                        '"fuzziness":"1"'
+                                    )
+                                )
                             }
                         };
-                    });            
+                    });
                 }
             },
         });

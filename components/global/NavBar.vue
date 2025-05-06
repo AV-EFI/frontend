@@ -23,7 +23,7 @@ onMounted(() => {
         const headerHeight = header.offsetHeight;
         document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
     }
-    window.addEventListener('scroll', handleScroll);
+    window?.addEventListener('scroll', handleScroll);
 });
 
 onBeforeUnmount(() => {
@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
             >
               <button
                 title="Show comparison items"
-                @click="$toggleComparisonDrawerState"
+                @click="$toggleComparisonDrawerState('shopping')"
               >
                 <span class="hidden md:inline">{{ $t("shoppingcart") }}</span>
                 <span class="indicator-item badge bg-shopping-cart text-white">
@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
             >
               <button
                 title="Show comparison items"
-                @click="$toggleComparisonDrawerState"
+                @click="$toggleComparisonDrawerState('comparison')"
               >
                 <span class="hidden md:inline">{{ $t("comparison") }}</span>
                 <span class="indicator-item badge bg-compare-list text-white">
@@ -188,7 +188,7 @@ onBeforeUnmount(() => {
             >
               <button
                 title="Show comparison items"
-                @click="$toggleComparisonDrawerState"
+                @click="$toggleComparisonDrawerState('shopping')"
               >
                 {{ $t("shoppingcart") }}
                 <span class="indicator-item badge bg-shopping-cart text-white">
@@ -202,7 +202,7 @@ onBeforeUnmount(() => {
             >
               <button
                 title="Show comparison items"
-                @click="$toggleComparisonDrawerState"
+                @click="$toggleComparisonDrawerState('comparison')"
               >
                 {{ $t("comparison") }}
                 <span class="indicator-item badge bg-compare-list text-white">
@@ -310,7 +310,7 @@ onBeforeUnmount(() => {
               <ClientOnly>
                 <button 
                   class="btn btn-outline w-1/2 h-12"
-                  @click="toggleComparisonDrawerState"
+                  @click="$toggleComparisonDrawerState('comparison')"
                 >
                   <MicroCompareIcon :alt="$t('comparison')" />
                 </button>

@@ -49,12 +49,28 @@
               :valtxt="manifestation._source?.has_record?.described_by?.has_issuer_name"
               class="col-span-full"
             />
-            <DetailKeyValueListComp
+            <MicroLabelComp
               v-if="manifestation._source?.has_record?.has_webresource"
-              keytxt="Webresource"
-              :valtxt="manifestation._source?.has_record?.has_webresource"
+              label-text="webresource"
               class="col-span-full"
             />
+            <div
+              v-for="webresource in manifestation._source?.has_record?.has_webresource"
+              class="col-span-full"
+            >
+              <a
+                v-if="webresource"
+                :href="webresource"
+                target="_blank"
+                :title="$t('webresource')"
+                :alt="$t('webresource')"
+                class="link link-primary dark:link-accent"
+              ><span class="">{{ $t('webresource') }}&nbsp;
+                <Icon
+                  name="formkit:linkexternal"
+                  class=""
+                /></span></a>
+            </div>
             <DetailKeyValueListComp
               v-if="manifestation._source.has_record?.has_note"
               class="col-span-full text-justify"

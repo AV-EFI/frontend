@@ -79,7 +79,11 @@ const props = defineProps({
     overflowY: {
         type: String,
         default: 'overflow-y-auto'
-    }
+    },
+    clip: {
+        type: Boolean,
+        default: true
+    },
 });
 
 let sameAsData = {};

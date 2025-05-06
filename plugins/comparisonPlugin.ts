@@ -1,5 +1,5 @@
 import { toast } from "vue3-toastify";
-import {useObjectListStore} from '../stores/compareList';
+import { useObjectListStore } from '../stores/compareList';
 import { useShoppingCart } from "../stores/shoppingCart";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -10,7 +10,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     const t = $i18n.t;
 
     const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
-        console.log("addToComparison", filmId, filmTitle, listType);
         if (filmId) {
             if(listType == "shoppingcart") {
                 shoppingCartStore.addObject({ filmId, filmTitle })

@@ -20,7 +20,7 @@
     >
       <div class="max-md:w-full w-4/5 md:w-4/5 content-center">
         <p
-          class=" text-xs 2xl:text-sm text-primary-600 dark:text-gray-300"
+          class=" text-xs text-primary-800 dark:text-gray-300"
           alt="efi"
           title="efi"
         >
@@ -274,6 +274,14 @@
                 <MicroDividerComp
                   class="mx-auto lg:my-[5px]"
                   label-text="avefi:Item" 
+                />
+              </div>
+              <div class="col-span-full">
+                <DetailKeyValueComp 
+                  :keytxt="$t('EFI')"
+                  :valtxt="exemplar.handle"
+                  class="w-full"
+                  :clip="false"
                 />
               </div>
               <div class="col-span-full md:col-span-1">

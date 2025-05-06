@@ -65,7 +65,7 @@
           :id="item._id"
           class="flex flex-row"
         >
-          <p>{{ item?._source.has_record.described_by.has_issuer_name }}</p>
+          <p>{{ item?._source?.has_record?.described_by?.has_issuer_name }}</p>
           <MicroBadgeCategoryComp
             category="avefi:Item"
             class="my-auto"
@@ -104,7 +104,7 @@
       <template
         #expand="item"
       >
-        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 p-4 ml-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 p-4 ml-4">          
           <div class="col-span-full">
             <DetailKeyValueComp 
               :keytxt="$t('EFI')"

@@ -17,25 +17,29 @@
     </div>
     <ul
       tabindex="0"
-      class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 z-[1]"
+      class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-64 z-[1]"
     >
       <li
         class=""
       >
-        <AddToShoppingCartComp
-          :film-id="id?? item?.objectID"
-          :film-title="item?.has_record?.has_primary_title.has_name"
-          class="ml-2"
-        />
+        <div class="w-full p-0 my-0 mx-auto justify-center items-center">
+          <AddToShoppingCartComp
+            :film-id="id?? item?.objectID"
+            :film-title="item?.has_record?.has_primary_title.has_name"
+            class="w-48 btn-block btn-sm"
+          />
+        </div>
       </li>
       <li
         class=""
       >
-        <AddToComparisonComp
-          :film-id="id?? item?.objectID"
-          :film-title="item?.has_record?.has_primary_title.has_name"
-          class="ml-2"
-        />
+        <div class="w-full p-0 my-0 mx-auto justify-center items-center">
+          <AddToComparisonComp
+            :film-id="id?? item?.objectID"
+            :film-title="item?.has_record?.has_primary_title.has_name"
+            class="btn-block btn-sm w-48"
+          />
+        </div>
       </li>
       <li
         class=""
@@ -43,7 +47,8 @@
         <GlobalExportDataComp
           :data-set-id="id?? item.objectID"
           :data-set-json="JSON.stringify(item,null,2)"
-          class="ml-2"
+          class="w-full p-0 mx-auto justify-center items-center flex"
+          btn-size="btn-block btn-sm !w-48"
         />
       </li>
     </ul>

@@ -5,15 +5,11 @@ import type { SearchkitConfig } from "searchkit";
 //move creds to server-side for runtime.private access
 export const config:SearchkitConfig = {
     connection: {
-        //host: 'https://commerce-demo.es.us-east4.gcp.elastic-cloud.com:9243',
         host: 'http://141.5.105.237:9200',
-        // if you are authenticating with api key
-        // https://www.searchkit.co/docs/guides/setup-elasticsearch#connecting-with-api-key
-        //apiKey: 'a2Rha1VJTUJMcGU4ajA3Tm9fZ0Y6MjAzX2pLbURTXy1hNm9SUGZGRlhJdw=='
     },
     search_settings: {        
         search_attributes: [
-            { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
+            { field: 'has_record.has_primary_title.has_name', weight: 2 }, 
             { field: 'has_record.has_alternative_title.has_name', weight: 2 }, 
             { field: 'production', weight: 1 },
             { field: 'directors_or_editors', weight: 1 },
@@ -164,9 +160,9 @@ export const config:SearchkitConfig = {
                     order: 'asc'
                 },
                 {
-                    field: 'has_record.category.keyword',
-                    order: 'desc'
-                },
+                    field: 'has_record.has_alternative_title.has_name.keyword',
+                    order: 'asc'
+                }
             ],
             _title_asc: {
                 field: 'has_record.has_primary_title.has_name',

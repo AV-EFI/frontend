@@ -37,10 +37,10 @@ export function useHash(scroll = true) {
         };
 
         updateHash();
-        window.addEventListener('hashchange', updateHash);
+        window?.addEventListener('hashchange', updateHash);
 
         onBeforeUnmount(() => {
-            window.removeEventListener('hashchange', updateHash);
+            window?.removeEventListener('hashchange', updateHash);
         });
     });
 
