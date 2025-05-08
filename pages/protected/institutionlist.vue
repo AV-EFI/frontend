@@ -32,7 +32,6 @@
 <script lang="ts" setup>
 const { data:authData } = useAuth();
 import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
-import { config } from '@/searchConfig_avefi.ts';
 
 const uiState = {
     refinementList: {

@@ -54,12 +54,20 @@
               category="avefi:WorkVariant"
               tab-index="7"
             />
+            <InputVueSlider
+              tab-index="8"
+              header-text="productionyear"
+              category="avefi:WorkVariant"
+            />
+            <!--
             <SearchPanelRefinementListComp
               header-text="productionyear"
               attribute-name="years"
               category="avefi:WorkVariant"
               tab-index="4"
             />
+            
+            -->
             <SearchPanelRefinementListComp
               header-text="country"
               attribute-name="located_in_has_name"

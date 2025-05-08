@@ -9,18 +9,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
         method: 'GET',
         params: { documentId: id }
     });
-    console.log('###');
-    console.log('response', response);
-    console.log('###');
 
     if (!response) {
         return navigateTo('/404'); // Handle error or redirect to a 404 page
     }
     const category = Array.isArray(response) && response.length > 0 ? response[0]._source?.category : undefined;
     const type = Array.isArray(response) && response.length > 0 ? response[0]._source?.type : undefined;
-
-    console.log('category', category);
-    console.log('type', type);
 
     if(type !== 'Serial') {
         if (category === 'avefi:Item') {

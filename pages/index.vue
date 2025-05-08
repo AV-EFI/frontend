@@ -66,7 +66,12 @@
             class="md:max-w-64 mx-auto dark:bg-slate-100 rounded-xl p-2"
           >
           <h2 class="text-xl dark:text-gray-200 mt-4 max-w-64">
-            {{ $t('slogan') }}
+            <img
+              src="/public/img/avefi_claim_de.svg"
+              class="w-full text-black"
+              :alt="$t('avefiClaim')"
+              :title="$t('avefiClaim')"
+            >
           </h2>
         </div>
       </div>

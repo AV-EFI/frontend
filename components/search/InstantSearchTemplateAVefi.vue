@@ -11,7 +11,9 @@
       >
         <ais-configure :hits-per-page.camel="20" />
         <div class="search-panel">
-          <GlobalFacetDrawer />          
+          <ClientOnly>
+            <GlobalFacetDrawer />
+          </ClientOnly>
           <!-- Center -->
           <div class="drawer-content w-full flex flex-col items-center justify-center">
             <div class="search-panel__results w-full py-2">
@@ -284,7 +286,7 @@ const props = defineProps({
     indexName: {
         type: String,
         required: true,
-        default: '21.11155-denormalised-work'
+        default: useRuntimeConfig().public.ELASTIC_INDEX,
     },
 });
 
@@ -308,6 +310,7 @@ const expandAllItems = () => {
         });
     }, 300);
 };
+
 
 const handleRefine = useDebounceFn((refine, value) => {
     refine(value);

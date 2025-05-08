@@ -14,15 +14,12 @@ export function useHash(scroll = true) {
                     const el = document.getElementById(hash.value);
                     console.log(hash.value);
                     if (el) {
-                        console.log('Scrolling to element:', el);
                         // Scroll to the element smoothly
                         const collapseElement = el.closest('.collapse');
                         const parent = collapseElement ? collapseElement.querySelector('.manifestation-accordion-toggle') : null;
-                        console.log('parent', parent);
                         if(parent)
                         {
                             (parent as HTMLInputElement).checked = true; // Check the parent checkbox
-                            console.log(parent);
                         }
                         setTimeout(() => {
                             el.scrollIntoView({ behavior: 'smooth', block: 'center' });

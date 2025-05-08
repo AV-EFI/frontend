@@ -48,9 +48,22 @@ export const config:SearchkitConfig = {
             'manifestations.has_record.has_sound_type',
             'manifestations.has_record.in_language.code',
             'manifestations.has_record.is_manifestation_of',
-            'manifestations.items'
-        ],    
+            'manifestations.items',
+            'production_in_year',
+            'production_year_start',
+            'production_year_end'
+        ],
         facet_attributes: [
+            {
+                attribute: 'production_year_start',
+                field: 'production_year_start',
+                type: 'numeric',
+            },
+            {
+                attribute: 'production_year_end',
+                field: 'production_year_end',
+                type: 'numeric',
+            },
             { 
                 attribute: 'has_sound_type', 
                 field: 'has_record.has_sound_type.keyword',  // field must be a keyword type field
@@ -88,11 +101,13 @@ export const config:SearchkitConfig = {
                 field: "production.keyword",
                 type: "string"
             },
+            /*
             {
                 attribute: "years",
-                field: "years.keyword",
-                type: "string"
+                field: "production_in_year.keyword",
+                type: "numeric"
             },
+            */
             {
                 attribute: "located_in_has_name",
                 field: "located_in.has_name.keyword",
@@ -159,10 +174,6 @@ export const config:SearchkitConfig = {
                     field: 'has_record.has_primary_title.has_name.keyword',
                     order: 'asc'
                 },
-                {
-                    field: 'has_record.has_alternative_title.has_name.keyword',
-                    order: 'asc'
-                }
             ],
             _title_asc: {
                 field: 'has_record.has_primary_title.has_name',

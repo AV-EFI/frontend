@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
   >
     <ClientOnly>
       <div class="container flex flex-wrap justify-between mx-auto p-0">
-        <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-1/4 flex justify-start">
+        <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-[calc(50%-48px)] flex justify-start">
           <div class="dropdown">
             <div
               tabindex="0"
@@ -142,13 +142,18 @@ onBeforeUnmount(() => {
               height="auto"
             >
           </a>
-          <pre
-            :title="$t('alpha')"
-            :alt="$t('alpha')" 
-            class="my-auto"
-          > alpha</pre>
+          <img
+            src="/public/img/avefi_claim_de.svg"
+            alt=""
+            class="hidden lg:inline-block h-12 w-auto"
+          >
         </div>
-        <div class="navbar-end max-[400px]:w-full sm:w-1/2 md:w-3/4 flex xl:hidden">
+        <pre
+          class="ml-auto mr-auto my-auto text-center w-24"
+          :title="$t('alpha')"
+          :alt="$t('alpha')" 
+        > alpha</pre>
+        <div class="navbar-end max-[400px]:w-full sm:w-1/2 md:w-[calc(50%-48px)] flex xl:hidden">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -180,7 +185,7 @@ onBeforeUnmount(() => {
             </li>
           </ul>
         </div>
-        <div class="navbar-end w-3/4 flex hidden xl:flex">
+        <div class="navbar-end w-2/5 flex-grow flex hidden xl:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
