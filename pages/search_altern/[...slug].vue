@@ -3,7 +3,7 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`],
+        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
       ]"
     />
     <keep-alive>
@@ -28,6 +28,10 @@ const searchClient = Client({
     config: config,
     url: "/api/elastic/msearch",  
 });
+
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+const { currentUrlState } = useCurrentUrlState();
+
 
 </script>
 <style>

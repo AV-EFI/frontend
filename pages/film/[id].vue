@@ -3,14 +3,14 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`], ['Detail', '/film/' + params.id]
+        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`], ['Detail', '/film/' + params.id]
       ]"
     />
     <NuxtLayout name="partial-layout-1-center">
       <template #navigation>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}`">{{ $t('filmresearch') }}</a></li>
+          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`">{{ $t('filmresearch') }}</a></li>
           <li>
             <span class="text-accent">
               {{ $t('detailview') }}
@@ -92,7 +92,8 @@ definePageMeta({
 
 import { useHash } from '../../composables/useHash';
 const { hash } = useHash(); // auto-scroll is enabled by default
-console.log(hash); // hash.value is a ref, so you can use it in your template as well
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+const { currentUrlState } = useCurrentUrlState();
 
 
 const route = useRoute();

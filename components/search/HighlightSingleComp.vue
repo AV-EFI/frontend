@@ -1,7 +1,7 @@
 <template>
   <div v-if="item">
     <p
-      :class="{ 'bg-secondary font-bold dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
+      :class="{ 'bg-secondary-200 font-bold dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
     >
       {{ $t(item) }}
     </p>

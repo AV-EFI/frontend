@@ -3,7 +3,7 @@
     :class-names="{
       'ais-Panel': 'collapse collapse-arrow',
       'ais-Panel-body': 'collapse-content !pl-0 pr-0! bg-slate-50 dark:bg-slate-900 dark:text-white text-xs',
-      'ais-Panel-header': 'collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
+      'ais-Panel-header': 'collapse-title bg-slate-50 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
     }"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"

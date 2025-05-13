@@ -14,7 +14,7 @@
           <!-- Center -->
           <div class="drawer-content w-full flex flex-col items-center justify-center">
             <div class="search-panel__results w-full py-2">
-              <div class="searchbox p-2">
+              <div class="searchbox py-2">
                 <ais-search-box>
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
@@ -186,7 +186,7 @@
                     <template #default="{ results: { hits, query } }">
                       <ais-hits
                         v-if="hits.length > 0"
-                        class="p-2"
+                        class=""
                       >
                         <template #default="{ items }">
                           <SearchHitsComp

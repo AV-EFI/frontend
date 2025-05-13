@@ -19,18 +19,9 @@
     <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
         <div class="col-span-1">
-          <MicroLabelComp label-text="in_language_code" />
-          <SearchHighlightListComp
-            :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
-            :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
-            class="mb-2"
-          />
-        </div>
-        <div class="col-span-1">
           <MicroLabelComp label-text="has_colour" />
           <SearchHighlightSingleComp 
             :item="manifestation?.has_record?.has_colour_type"
-            :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"                  
             class="mb-2"
           />
         </div>
@@ -67,8 +58,6 @@
           <MicroLabelComp label-text="has_format" />
           <SearchHighlightListComp
             :items="exemplar?.has_record?.has_format?.map(form => form.type)"
-            :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
-                  
             class="mb-2"
           />
         </div>
@@ -76,8 +65,6 @@
           <MicroLabelComp label-text="in_language_code" />
           <SearchHighlightSingleComp
             :item="exemplar?.has_record?.in_language?.code"
-            :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
-                  
             class="mb-2"
           />
         </div>
@@ -86,7 +73,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-
 const props = defineProps({
     manifestation_items: {
         type: Object,

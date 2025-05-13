@@ -99,7 +99,7 @@ const sendMail = () => {
 
     mail.send({
         from: email.value, 
-        text: 'Von: \n'+email.value + '\n\n Nachricht:\n' + message.value + `\nURL: ${window.location.href}`,
+        text: 'Von: \n'+email.value + '\n\n Nachricht:\n' + message.value + `\nURL: ${window?.location?.href}`,
         subject: 'AVefi Kontaktformular',
     }).then(() => {
         toast.success('Mail sent successfully!');

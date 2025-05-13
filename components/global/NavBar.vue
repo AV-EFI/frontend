@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useObjectListStore } from '../../stores/compareList';
 import { useShoppingCart } from '../../stores/shoppingCart';
-
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+const { currentUrlState } = useCurrentUrlState();
 const { data, signOut, signIn } = useAuth();
 
 const triggerSignout = () => {
@@ -38,7 +39,7 @@ onBeforeUnmount(() => {
   >
     <ClientOnly>
       <div class="container flex flex-wrap justify-between mx-auto p-0">
-        <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-[calc(50%-48px)] flex justify-start">
+        <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-2/5 flex justify-start">
           <div class="dropdown">
             <div
               tabindex="0"
@@ -67,7 +68,7 @@ onBeforeUnmount(() => {
             >
               <li><MicroSendMailButt /></li>
               <li class="h-12 flex justify-center">
-                <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
+                <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
                 <a href="/contact">{{ $t("help") }}</a>
@@ -131,29 +132,32 @@ onBeforeUnmount(() => {
               </li>
             </ul>
           </div>
-          <a
-            class="btn btn-ghost dark:bg-white hover:bg-primary-100 text-xl h-12"
-            href="/"
-          >
-            <img
-              src="/img/AV-EFI-Logo.png"
-              alt="AVefi Logo"
-              width="64"
-              height="auto"
+          <div class="mb-2 ml-2 flex items-center justify-center h-12">
+            <a
+              class="btn btn-ghost dark:bg-white hover:bg-primary-100 text-xl h-12"
+              href="/"
             >
-          </a>
-          <img
-            src="/public/img/avefi_claim_de.svg"
-            alt=""
-            class="hidden lg:inline-block h-12 w-auto"
-          >
+              <img
+                src="/img/AV-EFI-Logo.png"
+                alt="AVefi Logo"
+                width="64"
+                height="auto"
+              >
+            </a>
+            <img
+              src="/public/img/avefi_claim_de.svg"
+              :alt="$t('avefiClaim')"
+              :title="$t('avefiClaim')"
+              class="hidden lg:inline-block h-12 w-auto"
+            >
+            <pre
+              class="mr-auto my-auto text-left h-6 w-24"
+              :title="$t('alpha')"
+              :alt="$t('alpha')" 
+            > alpha</pre>
+          </div>
         </div>
-        <pre
-          class="ml-auto mr-auto my-auto text-center w-24"
-          :title="$t('alpha')"
-          :alt="$t('alpha')" 
-        > alpha</pre>
-        <div class="navbar-end max-[400px]:w-full sm:w-1/2 md:w-[calc(50%-48px)] flex xl:hidden">
+        <div class="navbar-end max-[400px]:w-full sm:w-1/2 md:w-3/5 flex xl:hidden">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -185,7 +189,7 @@ onBeforeUnmount(() => {
             </li>
           </ul>
         </div>
-        <div class="navbar-end w-2/5 flex-grow flex hidden xl:flex">
+        <div class="navbar-end w-3/5 flex-grow flex hidden xl:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -217,7 +221,7 @@ onBeforeUnmount(() => {
             </li>
             <li><MicroSendMailButt /></li>
             <li class="h-12 flex justify-center">
-              <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`">{{ $t("filmresearch") }}</a>
+              <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
               <a href="/contact">{{ $t("help") }}</a>
@@ -341,6 +345,7 @@ onBeforeUnmount(() => {
     </ClientOnly>
   </nav>
 </template>
+
 
 <style scoped>
 .menu-items li {

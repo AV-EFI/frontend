@@ -9,14 +9,14 @@
         v-show="showAll || index < 5"
         :key="index"
         :title="item"
-        :class="{ 'bg-secondary font-bold  dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
+        :class="{ 'bg-secondary-200 font-bold  dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
         class="w-full overflow-hidden text-ellipsis"
       >
         {{ $t(item) }}
       </li>
     </ul>
     <ul v-else>
-      -
+      <li>-</li>
     </ul>
     <button
       v-if="items && items?.length > 5"
@@ -26,9 +26,9 @@
       {{ showAll ? $t('showLess') : $t('showMore') }}
     </button>
   </div>
-  <span v-else>
+  <p v-else>
     -
-  </span>
+  </p>
 </template>
 <script setup lang="ts">
 const props = defineProps({

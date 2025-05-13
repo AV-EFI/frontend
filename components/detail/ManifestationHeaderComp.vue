@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col lg:flex-row justify-between lg:items-center">
+  <div class="flex flex-row lg:flex-row justify-between lg:items-center">
     <div
       v-if="type === 'searchresult'"
       :class="['flex justify-center flex-col w-4/5']"
@@ -68,7 +68,7 @@
         {{ manifestation._source?.handle }}
       </h4>
       <h4 class="col-span-full font-bold text-primary-950 dark:text-primary-200 my-1 xl:text-base">
-        {{ manifestation._source.has_record?.described_by?.has_issuer_name }}
+        {{ manifestation._source?.has_record?.described_by?.has_issuer_name }}
       </h4>
       <div class="col-span-full text-sm 2xl:text-md text-primary-700 dark:text-neutral-200 flex flex-row">
         <span
@@ -120,7 +120,7 @@
         </div>
       </div>
     </div>
-    <div class="max-md:flex max-md:justify-end ">
+    <div class="max-md:flex max-md:justify-end">
       <MicroEfiCopyComp
         :handle="manifestation?.handle ?? manifestation._source?.handle"
         class="z-10 relative"

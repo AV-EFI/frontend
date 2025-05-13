@@ -42,12 +42,14 @@
               keytxt="EFI"
               :valtxt="manifestation._source?.handle"
               class="col-span-full"
+              :clip="false"
             />
             <DetailKeyValueComp
               v-if="manifestation._source?.has_record?.described_by?.has_issuer_name"
               keytxt="dataholding"
               :valtxt="manifestation._source?.has_record?.described_by?.has_issuer_name"
               class="col-span-full"
+              :clip="false"
             />
             <MicroLabelComp
               v-if="manifestation._source?.has_record?.has_webresource"
@@ -56,6 +58,7 @@
             />
             <div
               v-for="webresource in manifestation._source?.has_record?.has_webresource"
+              :key="webresource"
               class="col-span-full"
             >
               <a
@@ -109,7 +112,7 @@
                 <span
                   v-for="usage in lang?.usage"
                   :key="usage"
-                >{{ $t(usage) }}</span>
+                >({{ $t(usage) }})</span>
               </li>
             </ul>
           </template>

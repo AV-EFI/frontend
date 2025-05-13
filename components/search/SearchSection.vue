@@ -36,7 +36,7 @@ em {
 }
 
 .ais-Highlight-highlighted, .ais-Snippet-highlighted {
-  background: var(--secondary);
+  background: var(--secondary-200);
   color: var(--primary-900);
   padding: .1rem;
   font-weight: 700;
@@ -56,10 +56,5 @@ em {
 
 .searchbox {
   margin-bottom: 2rem;
-}
-
-.pagination {
-  margin: 2rem auto;
-  text-align: center;
 }
 </style>

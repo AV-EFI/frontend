@@ -105,7 +105,7 @@
         #expand="item"
       >
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 p-4 ml-4">          
-          <div class="col-span-full">
+          <div class="col-span-full md:col-span-3 row-start-1">
             <DetailKeyValueComp 
               :keytxt="$t('EFI')"
               :valtxt="item._id"
@@ -113,6 +113,13 @@
               :clip="false"
             />
           </div>
+          <div class="col-span-full md:col-span-1 row-start-1 flex flex-col items-end">
+            <MicroEfiCopyComp
+              :id="item._id"
+              :handle="item._source?.handle"
+            />
+          </div>
+
           <div
             v-if="item._source?.has_record?.in_language"
             class="flex flex-col"
@@ -167,12 +174,6 @@
               <Icon
                 name="formkit:linkexternal"
               />&nbsp;{{ $t('webresource') }}</a>
-          </div>
-          <div class="col-start-4 col-span-1 flex flex-col items-end">
-            <MicroEfiCopyComp
-              :id="item._id"
-              :handle="item._source?.handle"
-            />
           </div>
         </div>
       </template>

@@ -38,7 +38,7 @@ watch(
       current?.includes('google-analytics')
         ) {
             // cookie with id `google-analytics` got added
-            window.location.reload(); // placeholder for your custom change handler
+            window?.location?.reload(); // placeholder for your custom change handler
         }
     },
     { deep: true },

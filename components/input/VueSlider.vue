@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow mt-2 mb-2"
+    class="collapse collapse-arrow mt-1 mb-1"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     tabindex="0"
@@ -11,7 +11,7 @@
     >
 
     <!-- Panel Header -->
-    <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title bg-slate-50 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
         {{ $t(headerText) }}
       </h4>
@@ -25,8 +25,13 @@
 
     <!-- Panel Body -->
     <div class="collapse-content !pl-0 pr-0 bg-slate-50 dark:bg-slate-900 dark:text-white text-xs">
+      <!-- Hidden configure filter -->
       <ais-configure
-        :numeric-filters="numericFilters"
+        :numeric-filters="[
+          `production_in_year >= ${appliedSliderValue[0]}`,
+          `production_in_year <= ${appliedSliderValue[1]}`
+        ]"
+        :optional-filters="appliedIncludeMissing ? ['production_in_year IS NULL'] : []"
         class="hidden"
       />
 
@@ -38,7 +43,6 @@
           :step="1"
           thumb-label
           class="w-full h-8"
-          @end="onSliderEnd"
         />
       </div>
 
@@ -68,13 +72,42 @@
           number="integer"
         />
       </div>
+
+      <!-- Include missing years checkbox -->
+      <div
+        class="text-center mt-2 py-2 px-4"
+        :alt="$t('includeMissingProductionYearExtended')"
+        :title="$t('includeMissingProductionYearExtended')"
+      >
+        <label class="label cursor-pointer text-xs">
+          <input
+            v-model="includeMissingYears"
+            type="checkbox"
+            class="checkbox checkbox-xs"
+          >
+          <span class="label-text ml-2">{{ $t('includeMissingProductionYear') }}</span>
+        </label>
+      </div>
+
+      <!-- Apply Button -->
       <!-- Reset Button -->
-      <div class="text-center mt-4">
+      <div class="text-center flex flex-row mt-4">
         <button
-          class="btn btn-xs btn-outline btn-secondary"
+          class="btn btn-block btn-sm w-1/2 btn-outline btn-secondary"
           @click="resetSlider"
         >
           {{ $t('reset') }}
+        </button>
+        <button
+          class="btn btn-block btn-sm w-1/2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="!hasUnsavedChanges"
+          @click="applySlider"
+        >
+          {{ $t('apply') }}
+          <span
+            v-if="hasUnsavedChanges"
+            class="ml-1 text-xs align-top text-red-500"
+          >•</span>
         </button>
       </div>
     </div>
@@ -82,64 +115,145 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
 
 const props = defineProps({
     headerText: { type: String, default: 'Production Year' },
     category: { type: String, default: null },
-    min: { type: Number, default: 1850 },
+    min: { type: Number, default: 1896 },
     max: { type: Number, default: 2025 }
 });
 
-const resetSlider = () => {
-    sliderValue.value = [props.min, props.max];
-    onSliderEnd(sliderValue.value);
-};
+const appliedSliderValue = ref<[number, number]>([props.min, props.max]);
+const appliedIncludeMissing = ref(true);
+
 
 const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
 const route = useRoute();
 const router = useRouter();
 
-// Reactive slider state
 const sliderValue = ref<[number, number]>([props.min, props.max]);
+const includeMissingYears = ref(false);
 
-// Watch for query param changes and update slider
+onMounted(() => {
+    const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][>=]`] as string);
+    const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][<=]`] as string);
+    const missing = route.query?.[`${indexName}[includeMissingProductionYear]`] === '1';
+
+    sliderValue.value = [
+        !isNaN(start) ? start : props.min,
+        !isNaN(end) ? end : props.max
+    ];
+    includeMissingYears.value = missing;
+
+    // Initialize applied values
+    appliedSliderValue.value = [...sliderValue.value];
+    appliedIncludeMissing.value = missing;
+});
+
+const resetSlider = () => {
+    sliderValue.value = [props.min, props.max];
+    applySlider();
+};
+
 watchEffect(() => {
-    const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_year_start][>=]`] as string);
-    const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_year_end][<=]`] as string);
+    const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][>=]`] as string);
+    const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][<=]`] as string);
     sliderValue.value = [
         !isNaN(start) ? start : props.min,
         !isNaN(end) ? end : props.max
     ];
 });
 
-// Update URL query when slider drag ends
+// Sync slider value to query string
+/*
 const onSliderEnd = ([from, to]: number[]) => {
     router.replace({
         path: route.path,
         query: {
             ...route.query,
-            [`${indexName}[numericRefinement][production_year_start][>=]`]: from.toString(),
-            [`${indexName}[numericRefinement][production_year_end][<=]`]: to.toString()
+            [`${indexName}[numericRefinement][production_in_year][>=]`]: from.toString(),
+            [`${indexName}[numericRefinement][production_in_year][<=]`]: to.toString()
         }
     });
 };
+*/
+const applySlider = () => {
+    const [from, to] = sliderValue.value;
 
+    // Update applied state (drives <ais-configure>)
+    appliedSliderValue.value = [from, to];
+    appliedIncludeMissing.value = includeMissingYears.value;
+
+    // Update URL
+    const updatedQuery = {
+        ...route.query,
+        [`${indexName}[numericRefinement][production_in_year][>=]`]: from.toString(),
+        [`${indexName}[numericRefinement][production_in_year][<=]`]: to.toString()
+    };
+
+    if (includeMissingYears.value) {
+        updatedQuery[`${indexName}[includeMissingProductionYear]`] = '1';
+    } else {
+        delete updatedQuery[`${indexName}[includeMissingProductionYear]`];
+    }
+
+    router.replace({
+        path: route.path,
+        query: updatedQuery
+    });
+};
+
+const hasUnsavedChanges = computed(() => {
+    const [from, to] = sliderValue.value;
+    const [appliedFrom, appliedTo] = appliedSliderValue.value;
+    return (
+        from !== appliedFrom ||
+    to !== appliedTo ||
+    includeMissingYears.value !== appliedIncludeMissing.value
+    );
+});
+
+// Sync checkbox state to query string
+/*
+const updateCheckboxQuery = () => {
+    if (includeMissingYears.value) {
+        router.replace({
+            path: route.path,
+            query: {
+                ...route.query,
+                [`${indexName}[includeMissingProductionYear]`]: '1'
+            }
+        });
+    } else {
+        const { [`${indexName}[includeMissingProductionYear]`]: _, ...rest } = route.query;
+        router.replace({
+            path: route.path,
+            query: rest
+        });
+    }
+};
+*/
+// InstantSearch numeric filters
 const numericFilters = computed(() => [
-    `production_year_start >= ${sliderValue.value[0]}`,
-    `production_year_end <= ${sliderValue.value[1]}`
+    `production_in_year >= ${sliderValue.value[0]}`,
+    `production_in_year <= ${sliderValue.value[1]}`
 ]);
 
+// Optional: can be used by Searchkit if you customize the backend to pick this up
+const optionalFilters = computed(() => {
+    return includeMissingYears.value ? [`production_in_year IS NULL`] : [];
+});
 </script>
 
 <style lang="scss">
 @import '../../assets/scss/slider_tailwind.scss';
 
 .slider-primary {
-  --slider-connect-bg: var(--primary-50)!important;
-  --slider-tooltip-bg: var(--secondary)!important;
-  --slider-handle-ring-color: var(--accent)!important;
+  --slider-connect-bg: var(--primary-50) !important;
+  --slider-tooltip-bg: var(--secondary) !important;
+  --slider-handle-ring-color: var(--accent) !important;
 }
 </style>

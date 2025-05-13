@@ -2,7 +2,7 @@
   <div
     v-for="item in items"
     :key="item._id"
-    class="card bg-base-100 dark:bg-slate-900 w-full shadow-lg hover:shadow-xl mt-4"
+    class="card bg-base-100 dark:bg-slate-900 w-full shadow-lg hover:shadow-xl mb-4"
   >
     <div
       v-if="showAdminStats"
@@ -153,9 +153,7 @@
           v-if="productionDetailsChecked"
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full col-span-full"
         >
-          <div          
-            class="flex flex-col"
-          >
+          <div class="flex flex-col">
             <MicroLabelComp label-text="directors_or_editors" />
             <SearchHighlightListComp
               :items="item?.directors_or_editors"
@@ -236,7 +234,7 @@
           <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]">
               <!--top-->
-              <div class="col-span-full md:col-span-12 grid-cols-12 gap-2">
+              <div class="col-span-full md:col-span-12 grid-cols-12 gap-2 row-start-1">
                 <div class="col-span-full md:col-span-12">
                   <MicroDividerComp
                     class="mx-auto my-[5px]"
@@ -244,7 +242,14 @@
                   />
                 </div>
               </div>
-              <div class="col-span-1 md:flex-row">
+              <div class="col-span-full row-start-2">
+                <DetailKeyValueComp 
+                  keytxt="EFI"
+                  :valtxt="manifestation?.handle"
+                  :clip="false"
+                />
+              </div>
+              <div class="col-span-1 row-start-3 md:flex-row">
                 <MicroLabelComp label-text="in_language_code" />
                 <SearchHighlightListComp
                   :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
@@ -252,7 +257,7 @@
                   class="mb-2"
                 />
               </div>
-              <div class="col-span-1 md:flex-row">
+              <div class="col-span-1 row-start-3 md:flex-row">
                 <MicroLabelComp label-text="has_colour" />
                 <SearchHighlightSingleComp 
                   :item="manifestation?.has_record?.has_colour_type"
@@ -270,13 +275,13 @@
               :key="exemplar.id"
               class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-2 grid-rows-[minmax(0,1fr)]"
             >
-              <div class="col-span-full">
+              <div class="col-span-full row-start-1">
                 <MicroDividerComp
                   class="mx-auto lg:my-[5px]"
                   label-text="avefi:Item" 
                 />
               </div>
-              <div class="col-span-full">
+              <div class="col-span-full lg:col-span-3 row-start-2">
                 <DetailKeyValueComp 
                   :keytxt="$t('EFI')"
                   :valtxt="exemplar.handle"
@@ -284,34 +289,8 @@
                   :clip="false"
                 />
               </div>
-              <div class="col-span-full md:col-span-1">
-                <MicroLabelComp label-text="has_format" />
-                <SearchHighlightListComp
-                  :items="exemplar?.has_record?.has_format?.map(form => form.type)"
-                  :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"                  
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-span-full md:col-span-1">
-                <MicroLabelComp label-text="item_element_type" />
-                <SearchHighlightSingleComp
-                  :item="exemplar?.has_record.element_type"
-                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-span-full md:col-span-1">
-                <MicroLabelComp label-text="in_language_code" />
-                <SearchHighlightSingleComp
-                  :item="exemplar?.has_record?.in_language?.code"
-                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
-                  class="mb-2"
-                />
-              </div>
-              <div
-                v-if="exemplar?.has_record?.has_webresource"
-                class="col-span-full md:col-span-1 flex flex-col justify-end"
-              >
+              <div class="col-span-full lg:col-span-1 row-start-2 flex flex-col justify-end mr-4">
+                <MicroLabelComp label-text="webresource" />
                 <a
                   v-if="exemplar?.has_record?.has_webresource"
                   :href="exemplar?.has_record?.has_webresource"
@@ -320,10 +299,44 @@
                 >
                   <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
                 </a>
+                <p v-else>
+                  -
+                </p>
               </div>
-              <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1">
-                <MicroEfiCopyComp :handle="exemplar?.handle" />
+              <div class="col-span-full lg:col-span-1 row-start-2 flex flex-col justify-end mr-4">
+                <MicroEfiCopyComp
+                  :handle="exemplar?.handle"
+                  class="ml-auto mr-4"
+                />
               </div>
+              <div class="col-span-full md:col-span-1 row-start-3">
+                <MicroLabelComp label-text="has_format" />
+                <SearchHighlightListComp
+                  :items="exemplar?.has_record?.has_format?.map(form => form.type)"
+                  :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"                  
+                  class="mb-2"
+                />
+              </div>
+              <div class="col-span-full md:col-span-1 row-start-3">
+                <MicroLabelComp label-text="item_element_type" />
+                <SearchHighlightSingleComp
+                  :item="exemplar?.has_record.element_type"
+                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
+                  class="mb-2"
+                />
+              </div>
+              <div class="col-span-full md:col-span-2 row-start-3">
+                <MicroLabelComp label-text="in_language_code" />
+                <SearchHighlightListComp
+                  :items="exemplar?.has_record?.in_language?.flatMap((il) => `${$t(il?.code)} (${il?.usage?.map((usage) => $t(usage)).join(', ')})`)"
+                  :hilite="item._highlightResult?.manifestations?.items?.has_record?.in_language?.code?.matchedWords"
+                  class="mb-2"
+                />
+              </div>
+              <div
+                v-if="exemplar?.has_record?.has_webresource"
+                class="col-span-full md:col-span-1 flex flex-col justify-end  row-start-3"
+              />
             </div>
           </div>
         </div>

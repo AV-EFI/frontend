@@ -49,19 +49,21 @@ export const config:SearchkitConfig = {
             'manifestations.has_record.in_language.code',
             'manifestations.has_record.is_manifestation_of',
             'manifestations.items',
-            'production_in_year',
-            'production_year_start',
-            'production_year_end'
+            
+            'production_in_year.lte',
+            'production_in_year.gte',            
+            //'production_year_start',
+            //'production_year_end'
         ],
         facet_attributes: [
             {
                 attribute: 'production_year_start',
-                field: 'production_year_start',
+                field: 'production_in_year.lte',
                 type: 'numeric',
             },
             {
                 attribute: 'production_year_end',
-                field: 'production_year_end',
+                field: 'production_in_year.gte',
                 type: 'numeric',
             },
             { 
