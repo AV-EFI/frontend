@@ -1,0 +1,118 @@
+stages:
+  - build
+  - prepare
+  - release
+  - deploy
+
+# Build a docker image when a push is made to a non-default branch.
+build_docker:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [ "" ]
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+  script:
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+
+prepare_job:
+  stage: prepare
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - echo "TAG=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[:space:]')" >> variables.env
+  artifacts:
+    reports:
+      dotenv: variables.env  # Use artifacts:reports:dotenv to expose the variables to other jobs
+
+release_gitlab:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: prepare_job
+      artifacts: true
+  script:
+    - echo 'Running release_job for $TAG'
+  release:
+    name: 'Release $TAG'
+    description: './CHANGELOG.md'
+    tag_name: '$TAG'
+    ref: '$CI_COMMIT_SHA'
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never                                  # Do not run this job when a tag is created manually
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH  # Run this job when commits are pushed or merged to the default branch
+  allow_failure: true
+
+# Build a docker image with tag as current version and latest when commits are pushed or merged to the default branch
+release_docker:
+  stage: release
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [ "" ]
+  needs:
+    - job: prepare_job
+      artifacts: true
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - echo "Building image with tag $TAG and latest"
+  script:
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile
+      --destination $CI_REGISTRY_IMAGE:$TAG
+      --destination $CI_REGISTRY_IMAGE:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+.deploy:
+  stage: deploy
+  image: alpine:latest
+  variables:
+    TAG: $CI_COMMIT_REF_SLUG 
+    ## To be set as CI/CD variables:
+    #DEPLOY_USER
+    #DEPLOY_PATH
+  before_script:
+    # Install required packages
+    - apk add --no-cache gettext openssh-client
+    # Setup SSH
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | base64 -d | tr -d '\r' | ssh-add -
+    - touch ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
+  script:
+    - envsubst < docker-compose.tmpl > docker-compose.yml
+    - cat docker-compose.yml
+    # Create the new deployment directory if it doesn't exist
+    - ssh $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p $DEPLOY_PATH"
+    # Upload docker-compose.yml to server
+    - scp docker-compose.yml $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH/
+    # Login to Docker registry and restart containers
+    - ssh $DEPLOY_USER@$DEPLOY_SERVER "cd $DEPLOY_PATH && 
+      echo 'Logging into registry $CI_REGISTRY' &&
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+      echo 'Pulling latest images' &&
+      docker compose pull &&
+      echo 'Starting containers' &&
+      docker compose up -d"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "testbed"
+
+deploy-staging:
+  variables:
+    DEPLOY_SERVER: $STAGING_SERVER
+    SSH_PRIVATE_KEY: $STAGING_PRIVATE_KEY
+    DEPLOY_PATH: "/home/cloud/avefi-frontend"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "testbed"
+  extends: .deploy

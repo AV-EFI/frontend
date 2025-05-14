@@ -1,0 +1,20 @@
+services:
+  av-efi-frontend:
+    image: ${CI_REGISTRY_IMAGE}:${TAG:-testbed}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - './components:/app/components'
+      - './logs:/app/logs'
+      - './.env:/app/.env:ro'
+    networks:
+      proxy-network:
+        aliases:
+          - av-efi-frontend
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
+    # Create once: docker network create --opt mtu=1450 proxy-network
