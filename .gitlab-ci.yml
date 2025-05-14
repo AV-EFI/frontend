@@ -25,7 +25,7 @@ prepare_job:
       when: never
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
-    - echo "TAG=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[:space:]')" >> variables.env
+    - echo "prepare job TO BE IMPLEMENTED"
   artifacts:
     reports:
       dotenv: variables.env  # Use artifacts:reports:dotenv to expose the variables to other jobs
