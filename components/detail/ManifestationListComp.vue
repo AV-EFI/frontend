@@ -35,7 +35,10 @@
         <div class="w-full">
           <LazyMicroDividerComp label-text="avefi:Manifestation" />
         </div>
-        <NuxtLayout name="partial-grid-2-1-flex">
+        <NuxtLayout
+          name="partial-grid-2-1-flex"
+          left-class="border-l-2 border-manifestation pl-2"
+        >
           <template #left>
             <DetailKeyValueComp
               :id="manifestation._id"
@@ -95,6 +98,13 @@
               :valtxt="`${manifestation._source.has_record?.has_extent?.has_value} ${manifestation._source.has_record?.has_extent?.has_unit}`"
               class="w-full mt-2"
             />
+            <DetailKeyValueComp
+              v-if="manifestation._source.has_record?.has_colour_type"
+              keytxt="has_colour"
+              :valtxt="manifestation._source.has_record?.has_colour_type"
+              class="w-full mt-2"
+              :clip="false"
+            />
             <MicroLabelComp
               v-if="manifestation._source.has_record?.in_language"
               label-text="avefi:Language"
@@ -121,8 +131,9 @@
           class="mt-4"
           :model-value="manifestation._source.has_record?.has_event ?? []"
         />
-        <DetailItemListComp
-          v-model="manifestation._source.items"
+        <DetailItemListNewComp
+          v-if="manifestation._source.items.length > 0"
+          :items="manifestation._source.items"
         />
       </div>
     </div>

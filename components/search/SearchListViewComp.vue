@@ -111,10 +111,10 @@
     </div>
     <div class="card-body p-4 pt-0">
       <!--top-->
-      <div class="grid col-span-full md:col-span-12 grid-cols-12 gap-2">
-        <div class="col-span-full md:col-span-12">
+      <div class="grid col-span-full grid-cols-12 gap-2">
+        <div class="col-span-full">
           <MicroDividerComp
-            class="mx-auto my-[8px]"
+            class="mx-auto my-[8px] mt-2"
             label-text="avefi:WorkVariant" 
           />
         </div>
@@ -214,7 +214,7 @@
           {{ $t('manifestations') }}
         </h3>
         <div
-          v-for="(manifestation, index) in item?.manifestations"
+          v-for="(manifestation, index) in getFilteredManifestations(item)"
           :key="index"
           class="collapse collapse-arrow"
         >
@@ -232,12 +232,12 @@
             />
           </div>        
           <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]">
+            <div class="grid grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)] border-l-2 border-manifestation px-2">
               <!--top-->
-              <div class="col-span-full md:col-span-12 grid-cols-12 gap-2 row-start-1">
-                <div class="col-span-full md:col-span-12">
+              <div class="col-span-full grid-cols-4 gap-2 row-start-1">
+                <div class="col-span-full">
                   <MicroDividerComp
-                    class="mx-auto my-[5px]"
+                    class="mx-auto my-[5px] mb-2"
                     label-text="avefi:Manifestation" 
                   />
                 </div>
@@ -267,77 +267,15 @@
               </div>
             </div>
             <hr class="mt-4 mb-2 dark:border-gray-500">
-            <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 uppercase mt-4">
+            <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase mt-4">
               {{ $t('items') }}
             </h4>
-            <div
-              v-for="exemplar in manifestation.items"
-              :key="exemplar.id"
-              class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-2 grid-rows-[minmax(0,1fr)]"
-            >
-              <div class="col-span-full row-start-1">
-                <MicroDividerComp
-                  class="mx-auto lg:my-[5px]"
-                  label-text="avefi:Item" 
-                />
-              </div>
-              <div class="col-span-full lg:col-span-3 row-start-2">
-                <DetailKeyValueComp 
-                  :keytxt="$t('EFI')"
-                  :valtxt="exemplar.handle"
-                  class="w-full"
-                  :clip="false"
-                />
-              </div>
-              <div class="col-span-full lg:col-span-1 row-start-2 flex flex-col justify-end mr-4">
-                <MicroLabelComp label-text="webresource" />
-                <a
-                  v-if="exemplar?.has_record?.has_webresource"
-                  :href="exemplar?.has_record?.has_webresource"
-                  target="_blank"
-                  class="link link-primary dark:link-accent mt-auto md:mb-2"
-                >
-                  <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
-                </a>
-                <p v-else>
-                  -
-                </p>
-              </div>
-              <div class="col-span-full lg:col-span-1 row-start-2 flex flex-col justify-end mr-4">
-                <MicroEfiCopyComp
-                  :handle="exemplar?.handle"
-                  class="ml-auto mr-4"
-                />
-              </div>
-              <div class="col-span-full md:col-span-1 row-start-3">
-                <MicroLabelComp label-text="has_format" />
-                <SearchHighlightListComp
-                  :items="exemplar?.has_record?.has_format?.map(form => form.type)"
-                  :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"                  
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-span-full md:col-span-1 row-start-3">
-                <MicroLabelComp label-text="item_element_type" />
-                <SearchHighlightSingleComp
-                  :item="exemplar?.has_record.element_type"
-                  :hitlite="item._highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-span-full md:col-span-2 row-start-3">
-                <MicroLabelComp label-text="in_language_code" />
-                <SearchHighlightListComp
-                  :items="exemplar?.has_record?.in_language?.flatMap((il) => `${$t(il?.code)} (${il?.usage?.map((usage) => $t(usage)).join(', ')})`)"
-                  :hilite="item._highlightResult?.manifestations?.items?.has_record?.in_language?.code?.matchedWords"
-                  class="mb-2"
-                />
-              </div>
-              <div
-                v-if="exemplar?.has_record?.has_webresource"
-                class="col-span-full md:col-span-1 flex flex-col justify-end  row-start-3"
-              />
-            </div>
+            <DetailItemListNewComp 
+              :items="manifestation?.items"
+              :production-details-checked="productionDetailsChecked"
+              :show-admin-stats="showAdminStats"
+              :highlightresult="item?._highlightResult"
+            />
           </div>
         </div>
       <!-- TODO replace above with component -->
@@ -351,8 +289,8 @@
 </template>
 
 <script lang="ts" setup>
-import { on } from 'events';
 import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
+const filteredManifestationCache = new WeakMap();
 
 const props = defineProps({
     items: {
@@ -371,6 +309,30 @@ const props = defineProps({
 });
 
 const componentInfoReady = ref(false);
+
+function getFilteredManifestations(item: any) {
+    if (filteredManifestationCache.has(item)) {
+        return filteredManifestationCache.get(item);
+    }
+
+    const innerHits = item?.inner_hits || {};
+    const matchingKeys = Object.keys(innerHits).filter(key =>
+        key.startsWith('matching_')
+    );
+
+    for (const key of matchingKeys) {
+        const hits = innerHits[key]?.hits?.hits;
+        if (hits && hits.length > 0) {
+            const result = hits.map((hit: any) => hit._source);
+            filteredManifestationCache.set(item, result);
+            return result;
+        }
+    }
+
+    const result = item?.manifestations || [];
+    filteredManifestationCache.set(item, result);
+    return result;
+}
 
 async function checkEmptyProperties(manifestations: any[]): Promise<void> {
     for (const manifestation of manifestations) {
@@ -419,19 +381,19 @@ Promise.all([
 });
 */
 
-watch(() => props.items, async (newVal, oldVal) => {
+watch(() => props.items, async (newVal) => {
+    const allFilteredManifestations = newVal
+        .flatMap(item => getFilteredManifestations(item));
+
     await Promise.all([
-        checkEmptyProperties(newVal?.flatMap(item => item?.manifestations)),
-        markDuplicateManifestations(newVal?.flatMap(item => item?.manifestations))
+        checkEmptyProperties(allFilteredManifestations),
+        markDuplicateManifestations(allFilteredManifestations)
     ]);
+
     componentInfoReady.value = true;
 });
 
 onMounted(() => {
     componentInfoReady.value = true;
-    //console.log(props.items);
-    //console.log(componentInfoReady.value);
-    //console.log(props.items.flatMap(item => item.manifestations));
-    //console.log(props.items.flat
 });
 </script>

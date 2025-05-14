@@ -10,8 +10,13 @@
     <!--left-->
     <div class="grid col-span-full md:col-span-8 grid-cols-12 gap-2">
       <div class="col-span-full md:col-span-12">
-        <div class="grid col-span-8 grid-cols-12 gap-2">
-          <slot name="left" />
+        <div
+          class="grid col-span-8 grid-cols-12 gap-2"
+          :class="leftClass"
+        >
+          <slot
+            name="left"
+          />
         </div>
       </div>
     </div>
@@ -24,3 +29,11 @@
     </div>
   </div>
 </template>
+<script lang="ts" setup>
+defineProps({
+    leftClass: {
+        type: String,
+        default: '',
+    },
+});
+</script>

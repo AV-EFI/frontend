@@ -10,7 +10,7 @@
       <span
         v-else
         :class="fontSize"
-      >{{ valtxt }}</span>
+      >{{ $t(valtxt) }}</span>
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
