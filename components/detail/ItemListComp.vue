@@ -108,7 +108,7 @@
           <div class="col-span-full md:col-span-3 row-start-1">
             <DetailKeyValueComp 
               :keytxt="$t('EFI')"
-              :valtxt="item._id"
+              :valtxt="item?.handle"
               class="w-full"
               :clip="false"
             />
@@ -116,7 +116,7 @@
           <div class="col-span-full md:col-span-1 row-start-1 flex flex-col items-end">
             <MicroEfiCopyComp
               :id="item._id"
-              :handle="item._source?.handle"
+              :handle="item?.handle"
             />
           </div>
 

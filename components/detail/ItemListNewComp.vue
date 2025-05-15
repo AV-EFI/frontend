@@ -1,7 +1,7 @@
 <template>
   <div
     v-for="exemplar in items"
-    :key="exemplar.id"
+    :key="exemplar?.id"
     class="grid grid-cols-4 gap-x-2 gap-y-0 mb-4 grid-rows-[minmax(0,1fr)] px-4 py-2 dark:text-white"
   >
     <div class="col-span-full row-start-1">
@@ -13,7 +13,7 @@
     <div class="col-span-full lg:col-span-2 row-start-2 border-l-2 border-item pl-2">
       <DetailKeyValueComp 
         :keytxt="$t('EFI')"
-        :valtxt="exemplar.handle"
+        :valtxt="exemplar?.handle"
         class="w-full"
         :clip="false"
       />

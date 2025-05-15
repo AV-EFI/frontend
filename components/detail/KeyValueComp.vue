@@ -27,7 +27,8 @@ const props = defineProps({
     },
     'valtxt': {
         type: String,
-        required: true
+        required: false,
+        default: '-'
     },
     'sameAs': {
         type: Boolean,

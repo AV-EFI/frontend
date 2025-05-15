@@ -99,6 +99,15 @@ interface ApiResponseItemList extends Promise<Response> {
   onFetchError: EventHookOn
 }
 
+const manifestations = ref([] as Manifestation[]);
+if(dataObject?._source?.manifestations?.length > 0) {
+    manifestations.value = dataObject._source?.manifestations;
+} else {
+    manifestations.value = [] as Manifestation[];
+}
+console.log('manifestations', manifestations.value);
+
+/*
 const { status, data: manifestations } = useFetch<ApiResponseManifestationList>(`${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_MANIFEST_BY_WORK}`, 
     {
         method: 'POST',
@@ -107,4 +116,5 @@ const { status, data: manifestations } = useFetch<ApiResponseManifestationList>(
             id: "21.11155/"+dataObject._id
         }
     });
+    */
 </script>

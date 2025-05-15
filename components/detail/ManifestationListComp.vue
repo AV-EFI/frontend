@@ -43,24 +43,24 @@
             <DetailKeyValueComp
               :id="manifestation._id"
               keytxt="EFI"
-              :valtxt="manifestation._source?.handle"
+              :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="false"
             />
             <DetailKeyValueComp
-              v-if="manifestation._source?.has_record?.described_by?.has_issuer_name"
+              v-if="manifestation?.has_record?.described_by?.has_issuer_name"
               keytxt="dataholding"
-              :valtxt="manifestation._source?.has_record?.described_by?.has_issuer_name"
+              :valtxt="manifestation?.has_record?.described_by?.has_issuer_name"
               class="col-span-full"
               :clip="false"
             />
             <MicroLabelComp
-              v-if="manifestation._source?.has_record?.has_webresource"
+              v-if="manifestation?.has_record?.has_webresource"
               label-text="webresource"
               class="col-span-full"
             />
             <div
-              v-for="webresource in manifestation._source?.has_record?.has_webresource"
+              v-for="webresource in manifestation?.has_record?.has_webresource"
               :key="webresource"
               class="col-span-full"
             >
@@ -78,44 +78,44 @@
                 /></span></a>
             </div>
             <DetailKeyValueListComp
-              v-if="manifestation._source.has_record?.has_note"
+              v-if="manifestation?.has_record?.has_note"
               class="col-span-full text-justify"
               keytxt="avefi:Note"              
-              :valtxt="manifestation._source.has_record?.has_note"
+              :valtxt="manifestation?.has_record?.has_note"
               :ul="true"
             />
           </template>
           <template #right>
             <DetailKeyValueComp
-              v-if="manifestation._source.has_record?.has_duration?.has_value"
+              v-if="manifestation?.has_record?.has_duration?.has_value"
               keytxt="avefi:Duration"
-              :valtxt="manifestation._source.has_record?.has_duration?.has_value_clean?? manifestation._source.has_record?.has_duration?.has_value"
+              :valtxt="manifestation?.has_record?.has_duration?.has_value_clean?? manifestation?.has_record?.has_duration?.has_value"
               class="w-full"
             />
             <DetailKeyValueComp
-              v-if="manifestation._source.has_record?.has_extent?.has_value"
+              v-if="manifestation?.has_record?.has_extent?.has_value"
               keytxt="avefi:Extent"
-              :valtxt="`${manifestation._source.has_record?.has_extent?.has_value} ${manifestation._source.has_record?.has_extent?.has_unit}`"
+              :valtxt="`${manifestation?.has_record?.has_extent?.has_value} ${manifestation?.has_record?.has_extent?.has_unit}`"
               class="w-full mt-2"
             />
             <DetailKeyValueComp
-              v-if="manifestation._source.has_record?.has_colour_type"
+              v-if="manifestation?.has_record?.has_colour_type"
               keytxt="has_colour"
-              :valtxt="manifestation._source.has_record?.has_colour_type"
+              :valtxt="manifestation?.has_record?.has_colour_type"
               class="w-full mt-2"
               :clip="false"
             />
             <MicroLabelComp
-              v-if="manifestation._source.has_record?.in_language"
+              v-if="manifestation?.has_record?.in_language"
               label-text="avefi:Language"
               class="w-full mt-2"
             />
             <ul
-              v-if="manifestation._source.has_record?.in_language"
+              v-if="manifestation?.has_record?.in_language"
               class="w-full mt-2"
             >
               <li
-                v-for="lang in manifestation._source.has_record?.in_language"
+                v-for="lang in manifestation?.has_record?.in_language"
                 :key="lang.code"
               >
                 <span class="">{{ $t(lang?.code) }}</span>&nbsp;
@@ -129,11 +129,11 @@
         </NuxtLayout>
         <DetailHasEventComp
           class="mt-4"
-          :model-value="manifestation._source.has_record?.has_event ?? []"
+          :model-value="manifestation?.has_record?.has_event ?? []"
         />
         <DetailItemListNewComp
-          v-if="manifestation._source.items.length > 0"
-          :items="manifestation._source.items"
+          v-if="manifestation?.items?.length > 0"
+          :items="manifestation?.items"
         />
       </div>
     </div>
@@ -160,13 +160,13 @@ interface Source {
 }
 
 manifestationList.value.forEach((mani) => {
-    if(mani._source.has_record?.has_duration?.has_value) {
-        const duration = mani._source.has_record.has_duration.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
+    if (mani.has_record && mani.has_record.has_duration?.has_value) {
+        const duration = mani.has_record.has_duration.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
         duration[0] = String(duration[0]).padStart(2, '0');
-        if(duration.length > 1) {
+        if (duration.length > 1) {
             duration[1] = String(duration[1]).padStart(2, '0');
         }
-        mani._source.has_record.has_duration.has_value_clean = duration.join(':');
+        mani.has_record.has_duration.has_value_clean = duration.join(':');
     }
 });
 
