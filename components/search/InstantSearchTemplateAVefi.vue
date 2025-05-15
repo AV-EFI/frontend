@@ -22,7 +22,7 @@
                   ignore-composition-events="true"
                   :submit-title="$t('submitQuery')"
                   :reset-title="$t('resetQuery')"
-                  class="flex flex-row"
+                  class="flex flex-row mt-2"
                 >
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div

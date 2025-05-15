@@ -48,8 +48,7 @@ export const config:SearchkitConfig = {
             'manifestations.has_record.has_sound_type',
             'manifestations.has_record.in_language.code',
             'manifestations.has_record.is_manifestation_of',
-            'manifestations.items',
-            
+            'manifestations.items',            
             'production_in_year.lte',
             'production_in_year.gte',            
             //'production_year_start',

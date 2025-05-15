@@ -105,7 +105,10 @@
         </div>
       </div>
       <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
-        <MicroEfiCopyComp :handle="item?.handle" />
+        <MicroEfiCopyComp
+          category="work-variant"
+          :handle="item?.handle"
+        />
         <GlobalActionContextComp :item="item" />
       </div>
     </div>
@@ -237,7 +240,7 @@
               <div class="col-span-full grid-cols-4 gap-2 row-start-1">
                 <div class="col-span-full">
                   <MicroDividerComp
-                    class="mx-auto my-[5px] mb-2"
+                    class="mx-auto my-[10px] mb-2"
                     label-text="avefi:Manifestation" 
                   />
                 </div>

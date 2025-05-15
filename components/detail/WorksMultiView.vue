@@ -113,7 +113,7 @@
                 <div class="col-span-full md:col-span-12 grid-cols-12 gap-2">
                   <div class="col-span-full md:col-span-12">
                     <MicroDividerComp
-                      class="mx-auto my-[5px]"
+                      class="mx-auto my-[10px]"
                       label-text="avefi:Manifestation" 
                     />
                   </div>
@@ -144,7 +144,7 @@
               >
                 <div class="col-span-full">
                   <MicroDividerComp
-                    class="mx-auto lg:my-[5px]"
+                    class="mx-auto lg:my-[10px]"
                     label-text="avefi:Item" 
                   />
                 </div>
@@ -191,7 +191,10 @@
                   </a>
                 </div>
                 <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1">
-                  <MicroEfiCopyComp :handle="exemplar?.handle" />
+                  <MicroEfiCopyComp 
+                    category="work-variant"
+                    :handle="exemplar?.handle"
+                  />
                 </div>
               </div>
             </div>

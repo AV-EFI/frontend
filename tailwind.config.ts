@@ -4,6 +4,11 @@ import colors from 'tailwindcss/colors';
 /** @type {import('tailwindcss').Config} */
 /** TAILWIND **/
 module.exports = {
+    safelist: [
+    {
+        pattern: /^(hover:)?bg-(work|item|manifestation|work-variant)$/,
+    },
+    ],
     content: [
         './app.vue',
         'formkit.theme.ts'
@@ -169,20 +174,20 @@ module.exports = {
                 'wcag-red': {
                     DEFAULT: '#882255'
                 },
-                "work-variant": {
-                    'DEFAULT': '#9B3D27',
-                    "50": "#f2e4e1",
-                    "100": "#dfbfb8",
-                    "200": "#cc9b8e",
-                    "300": "#b97665",
-                    "400": "#a6523b",
-                    "500": "#9b3d27",
-                    "600": "#862f1d",
-                    "700": "#702514",
-                    "800": "#5a1c0c",
-                    "900": "#441305",
-                    "950": "#2e0a02"
-                },
+"work-variant": {
+  "50":  "#f8ede6",
+  "100": "#f0d7c7",
+  "200": "#e5b298",
+  "300": "#da8d69",
+  "400": "#cf6839",
+  "500": "#C06030",   // ← base terracotta
+  "600": "#a54f26",
+  "700": "#893f1f",
+  "800": "#6d3018",
+  "900": "#522312",
+  "950": "#38150a",
+  "DEFAULT": "#C06030"
+},
                 "manifestation": {
                     'DEFAULT': '#6A9D92',
                     "50": "#e6f0ee",
@@ -197,20 +202,20 @@ module.exports = {
                     "900": "#162a26",
                     "950": "#0a1614"
                 },
-                "item": {
-                    'DEFAULT': '#9C9078',
-                    "50": "#ebe8e3",
-                    "100": "#d2cbbc",
-                    "200": "#b9af95",
-                    "300": "#a1936e",
-                    "400": "#887748",
-                    "500": "#9C9078",
-                    "600": "#857b67",
-                    "700": "#6f6655",
-                    "800": "#595144",
-                    "900": "#433c33",
-                    "950": "#2d2722"
-                },
+                item: {
+  DEFAULT: '#4B6A88', // balanced dark-cyan slate
+  '50': '#f0f4f7',
+  '100': '#d5dee6',
+  '200': '#abbace',
+  '300': '#8196b6',
+  '400': '#57729e',
+  '500': '#4B6A88',
+  '600': '#3b526a',
+  '700': '#2b3a4c',
+  '800': '#1b222e',
+  '900': '#0b0a10',
+  '950': '#040408',
+},
                 'shopping-cart': {
                     'DEFAULT':'#D98C00',
                     "50": "#fbeede",
@@ -311,7 +316,7 @@ module.exports = {
                     'primary-900': '#313d48',
                     'primary-950': '#1d262f',
                     "primary-content": "#f3f7f8",
-                    "secondary": "#D7BF83",
+                    "secondary": "#e6d3a3",
                     "secondary-50": "#f9f5eb",
                     "secondary-100": "#f2e6cc",
                     "secondary-200": "#e6d3a3",
@@ -399,6 +404,12 @@ module.exports = {
                     'base-100': "#fefefe",
                     'base-200': "#fdfdfd",
                     'base-content': '#222222',
+                    'manifestation': '#6A9D92', // ← add this
+                    'manifestation-content': '#ffffff', // ← optional but good
+                    'item': '#9C9078', // ← add this
+                    'item-content': '#ffffff', // ← optional but good
+                    'work-variant': '#9B3D27', // ← add this
+                    'work-variant-content': '#ffffff', // ← optional but good
                     '--compare-list': colors.rose[200],
                     '--shopping-cart': colors.indigo[600],
                     /* below syntax not valid in theme */
@@ -448,6 +459,12 @@ module.exports = {
                     "warning": "#F8A948",
                     "neutral": '#1d262f',
                     "error": "#FF9DA0",
+                    'manifestation': '#6A9D92', // ← add this
+                    'manifestation-content': '#ffffff', // ← optional but good
+                    'item': '#9C9078', // ← add this
+                    'item-content': '#ffffff', // ← optional but good
+                    'work-variant': '#9B3D27', // ← add this
+                    'work-variant-content': '#ffffff', // ← optional but good
                     "--balihai": "#80a3b5",
                     "--wcag-red": "#882255",
                     '--compare-list': colors.rose[600],

@@ -123,6 +123,7 @@
     <div class="max-md:flex max-md:justify-end">
       <MicroEfiCopyComp
         :handle="manifestation?.handle ?? manifestation?.handle"
+        category="manifestation"
         class="z-10 relative"
         :comp-size="compSize"
       />

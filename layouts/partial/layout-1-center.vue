@@ -2,7 +2,7 @@
   <section>
     <div 
       class="w-full mx-auto card card-side bg-white dark:bg-gray-900 shadow-xl"
-      :class="isFullWidth ? 'lg:!w-full' : 'lg:!w-3/4'"
+      :class="isFullWidth ? 'lg:!w-full' : 'lg:!w-4/5'"
     >
       <div class="card-body max-w-full">
         <div class="w-full flex flex-row items-center">

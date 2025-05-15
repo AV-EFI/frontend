@@ -27,6 +27,7 @@
                 class="col-span-full dark:text-gray-300"
                 :ul="true"
                 :same-as="true"
+                same-as-type="person"
                 :valtxt="has_activity_item.has_agent"
               />
             </div>
@@ -46,6 +47,7 @@
                     class="col-span-full dark:text-gray-300"
                     :ul="true"
                     :same-as="true"
+                    same-as-type="person"
                     :valtxt="has_activity_item.has_agent"
                   />
                 </div>
@@ -98,6 +100,7 @@
                     <DetailSameAsComp
                       v-if="has_agent_item.same_as"
                       :same-as-data="has_agent_item.same_as"
+                      type="person"
                     />
                   </span>
                 </li>
@@ -138,6 +141,7 @@
                 class="col-span-full dark:text-gray-300"
                 :ul="true"
                 :same-as="true"
+                same-as-type="person"
                 :valtxt="has_activity_item.has_agent"
               />
             </div>

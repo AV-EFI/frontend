@@ -4,6 +4,7 @@
       v-if="labelText"
       :category="labelText"
       :icon="true"
+      class="text-lg p-4"
     />
   </div>
 </template>

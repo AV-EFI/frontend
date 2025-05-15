@@ -42,8 +42,6 @@
         :valtxt="workVar.has_alternative_title"
         :ul="true"
       />
-      <!-- Described by -->
-      <div class="grid col-span-12 md:col-span-6 grid-cols-12 gap-1" />
     </template>
   </NuxtLayout>
 </template>

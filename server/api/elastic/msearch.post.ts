@@ -23,6 +23,8 @@ export default defineEventHandler(async (event) => {
             const optionalFilters = indexParams?.['optional-filters'] || [];
             const filters = indexParams?.filters || {};
 
+            const isFacetQuery = !!sr.body?.aggs;
+
             const includeMissingYearsCheckboxEnabled =
               indexParams?.[`${indexName}[includeMissingProductionYear]`] === '1' ||
               optionalFilters.includes('production_in_year IS NULL');
@@ -108,39 +110,80 @@ export default defineEventHandler(async (event) => {
               }
             };
 
-            const nestedFacetFilters = Object.entries(filters).flatMap(
-              ([facetKey, values]) => {
-                const def = nestedFacetFieldMap[facetKey];
-                if (!def || !Array.isArray(values) || values.length === 0) return [];
+            // Group all nested filters by path
+            const nestedGroupedFilters = {};
 
-                return [
-                  {
-                    nested: {
-                      path: def.path,
-                      query: {
-                        terms: {
-                          [def.field]: values
-                        }
-                      },
-                      inner_hits: {
-                        name: `matching_${facetKey}`,
-                        _source: true
-                      }
-                    }
-                  }
-                ];
+            for (const [facetKey, values] of Object.entries(filters)) {
+              const def = nestedFacetFieldMap[facetKey];
+              if (!def || !Array.isArray(values) || values.length === 0) continue;
+
+              if (!nestedGroupedFilters[def.path]) {
+                nestedGroupedFilters[def.path] = [];
               }
-            );
+
+              nestedGroupedFilters[def.path].push({
+                terms: {
+                  [def.field]: values
+                }
+              });
+            }
+
+            // Create exactly one nested clause per path
+            const nestedFacetFilters = Object.entries(nestedGroupedFilters).map(([path, queries]) => {
+              const clause = {
+                path,
+                query: {
+                  bool: {
+                    must: queries
+                  }
+                }
+              };
+
+              if (!isFacetQuery) {
+                clause.inner_hits = {
+                  name: `matching_${path.replace(/\./g, '_')}`,
+                  _source: true
+                };
+              }
+
+              return { nested: clause };
+            });
 
             const existingFilters = sr.body.query?.bool?.filter || [];
 
             const updatedFilters = [
-              ...(Array.isArray(existingFilters)
-                ? existingFilters
-                : [existingFilters]),
+              ...(Array.isArray(existingFilters) ? existingFilters : [existingFilters]),
               ...rangeFilters,
               ...nestedFacetFilters
             ];
+
+            // Remove all automatically injected inner_hits (from Searchkit or Algolia bridge)
+            function stripExtraInnerHits(query) {
+              if (typeof query !== 'object' || query === null) return;
+
+              if (query.nested) {
+                if (query.nested.inner_hits) {
+                  delete query.nested.inner_hits;
+                }
+                if (query.nested.query) {
+                  stripExtraInnerHits(query.nested.query);
+                }
+              }
+
+              if (query.bool) {
+                ['must', 'should', 'filter', 'must_not'].forEach((clause) => {
+                  if (Array.isArray(query.bool[clause])) {
+                    query.bool[clause].forEach(stripExtraInnerHits);
+                  } else if (query.bool[clause]) {
+                    stripExtraInnerHits(query.bool[clause]);
+                  }
+                });
+              }
+            }
+
+            if (sr.body?.query) {
+              stripExtraInnerHits(sr.body.query);
+            }
 
             return {
               ...sr,

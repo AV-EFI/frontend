@@ -6,7 +6,7 @@
     />    
     <div
       v-if="!ul"
-      class="flex flex-row flex-wrap items-center"
+      class="flex flex-row flex-wrap items-center justify-content-between hover:bg-slate-100 dark:hover:bg-slate-700"
     >
       <GlobalClipboardComp
         v-for="val in valtxt"
@@ -18,25 +18,30 @@
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
+        :type="sameAsType"
         :class="fontSize"
-        class="flex items-center"
+        class="flex items-end"
       />        
     </div>
     <div
       v-else
-      :class="['max-h-64', overflowY, {'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}]"
+      :class="['max-h-64', overflowY, 'overflow-x-visible', {'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}]"
     >
       <ul v-if="valtxt">
         <li
           v-for="val in valtxt"
           :key="val?.has_name ?? val"
-          class="flex flex-row items-center flex-wrap"
+          class="flex flex-row items-center justify-between flex-wrap hover:bg-slate-100 dark:hover:bg-slate-700"
           :class="`${fontSize}`"
         >
-          {{ val?.has_name ?? val }}
+          <span class="flex-grow">
+            {{ val?.has_name ?? val }}
+          </span>
           <DetailSameAsComp
             v-if="sameAs"
             :same-as-data="val.same_as"
+            :type="sameAsType"
+            class="flex-shrink-0 flex flex-row mr-4"
             :class="fontSize"
           />
         </li>
@@ -84,6 +89,10 @@ const props = defineProps({
         type: Boolean,
         default: true
     },
+    sameAsType: {
+        type: String,
+        default: 'film'
+    }
 });
 
 let sameAsData = {};

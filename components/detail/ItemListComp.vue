@@ -117,6 +117,7 @@
             <MicroEfiCopyComp
               :id="item._id"
               :handle="item?.handle"
+              category="item"
             />
           </div>
 
