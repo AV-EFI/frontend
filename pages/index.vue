@@ -67,10 +67,10 @@
           >
           <h2 class="text-xl dark:text-gray-200 mt-4 max-w-64">
             <img
-              src="/public/img/avefi_claim_de.svg"
-              class="w-full text-black"
-              :alt="$t('avefiClaim')"
-              :title="$t('avefiClaim')"
+              :src="locale === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'"
+              :alt="t('avefiClaim')"
+              :title="t('avefiClaim')"
+              class="hidden lg:inline-block h-24 w-auto rounded-lg dark:invert"
             >
           </h2>
         </div>
@@ -255,6 +255,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+const { t, locale } = useI18n();
+
 definePageMeta(
     { 
         auth: false,

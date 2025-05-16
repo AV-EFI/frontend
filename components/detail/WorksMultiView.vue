@@ -115,6 +115,7 @@
                     <MicroDividerComp
                       class="mx-auto my-[10px]"
                       label-text="avefi:Manifestation" 
+                      in-class="manifestation"
                     />
                   </div>
                 </div>
@@ -146,6 +147,7 @@
                   <MicroDividerComp
                     class="mx-auto lg:my-[10px]"
                     label-text="avefi:Item" 
+                    in-class="item"
                   />
                 </div>
                 <div class="col-span-full md:col-full">
@@ -192,7 +194,7 @@
                 </div>
                 <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1">
                   <MicroEfiCopyComp 
-                    category="work-variant"
+                    category="work"
                     :handle="exemplar?.handle"
                   />
                 </div>

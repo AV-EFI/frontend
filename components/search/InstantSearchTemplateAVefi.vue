@@ -422,29 +422,10 @@ routerInstance.write = (routeState) => {
             return;
         }
 
-        // Check if the route state contains a search query
-        /*
-        {
-            "21.11155-denormalised-work-no-range": {
-                "query": "asd"
-            }
-        }
-        */
-        console.log('index name', useRuntimeConfig().public.ELASTIC_INDEX);
-
-        console.log('Route state index Name:', routeState[useRuntimeConfig().public.ELASTIC_INDEX]);
         if (!routeState[useRuntimeConfig().public.ELASTIC_INDEX].query) {
             console.error('No search query in route state, not saving to localStorage.');
             return;
         }
-        /*
-        const structuredState = {
-            [routeState.indexName]: {
-          query: routeState.query,
-          refinementList: routeState.refinementList || {}
-            }
-        };
-        */
 
         //console.log('Structured state:', structuredState);
         // Convert route state to URL

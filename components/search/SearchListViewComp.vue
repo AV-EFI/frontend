@@ -106,7 +106,7 @@
       </div>
       <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
         <MicroEfiCopyComp
-          category="work-variant"
+          category="work"
           :handle="item?.handle"
         />
         <GlobalActionContextComp :item="item" />
@@ -119,6 +119,7 @@
           <MicroDividerComp
             class="mx-auto my-[8px] mt-2"
             label-text="avefi:WorkVariant" 
+            in-class="work"
           />
         </div>
       </div>
@@ -268,6 +269,14 @@
                   class="mb-2"
                 />
               </div>
+              <div class="col-span-1 row-start-3 md:flex-row">
+                <MicroLabelComp label-text="has_sound_type" />
+                <SearchHighlightSingleComp 
+                  :item="manifestation?.has_record?.has_sound_type"
+                  :hitlite="item._highlightResult?.manifestations?.has_record?.has_sound_type?.matchedWords"                  
+                  class="mb-2"
+                />
+              </div>
             </div>
             <hr class="mt-4 mb-2 dark:border-gray-500">
             <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase mt-4">
@@ -319,23 +328,32 @@ function getFilteredManifestations(item: any) {
     }
 
     const innerHits = item?.inner_hits || {};
-    const matchingKeys = Object.keys(innerHits).filter(key =>
-        key.startsWith('matching_')
-    );
+    const innerHitKeys = Object.keys(innerHits);
+    const nestedKey = 'manifestations'; // You could dynamically detect this if needed
 
-    for (const key of matchingKeys) {
-        const hits = innerHits[key]?.hits?.hits;
-        if (hits && hits.length > 0) {
-            const result = hits.map((hit: any) => hit._source);
-            filteredManifestationCache.set(item, result);
-            return result;
-        }
+    const hits = innerHits[nestedKey]?.hits?.hits || [];
+
+    // ✅ Use inner_hits if present
+    if (hits.length > 0) {
+        const result = hits.map(hit => hit._source);
+        filteredManifestationCache.set(item, result);
+        return result;
     }
 
+    // ❗ If any inner_hits are defined but empty, DO NOT fallback
+    if (innerHitKeys.length > 0) {
+        filteredManifestationCache.set(item, []);
+        return [];
+    }
+
+    // ✅ Fallback only if no inner_hits were present at all (i.e., no nested filters used)
     const result = item?.manifestations || [];
     filteredManifestationCache.set(item, result);
     return result;
 }
+
+
+
 
 async function checkEmptyProperties(manifestations: any[]): Promise<void> {
     for (const manifestation of manifestations) {

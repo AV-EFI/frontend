@@ -8,8 +8,8 @@
       hoverBgClass,
       { 'animate-ping-bg': isClicked }
     ]"
-    :title="$t('copyEFI', { category })"
-    :alt="$t('copyEFI', { category })"
+    :title="$t('copyEFI', { category: categoryText })"
+    :alt="$t('copyEFI', { category: categoryText })"
     @click="handleClick"
   >
     <svg
@@ -54,9 +54,9 @@ const props = defineProps({
         default: 'work',
     },
 });
-
+const { t } = useI18n();
 const isClicked = ref(false);
-
+const categoryText = ref(t(props.category));
 const hoverBgClass = computed(() => {
     return {
         work: 'hover:bg-work-variant',

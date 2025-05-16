@@ -33,7 +33,10 @@
       </div>
       <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
         <div class="w-full">
-          <LazyMicroDividerComp label-text="avefi:Manifestation" />
+          <LazyMicroDividerComp
+            label-text="avefi:Manifestation"
+            in-class="manifestation"
+          />
         </div>
         <NuxtLayout
           name="partial-grid-2-1-flex"

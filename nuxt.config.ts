@@ -120,13 +120,13 @@ export default defineNuxtConfig({
     css: ["~/assets/scss/main.scss"],
     mail: {
         message: {
-            to: 'stefan.stretz@tib.eu',
+            to: ['stefan.stretz@tib.eu', 'contact@av-efi.net'],            
         },
         smtp: {
             service: 'gmail',
             auth: {
-                user: "superiphone88@gmail.com",
-                pass: "mjvi rzyk jrau zsaf",
+                user: "avefi.tmp@gmail.com",
+                pass: "sbjk pjrx dkko fwan",
             }
         },
     },

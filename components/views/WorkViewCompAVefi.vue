@@ -4,7 +4,10 @@
       v-if="mir"
     >
       <div class="w-full">
-        <LazyMicroDividerComp label-text="avefi:WorkVariant" />
+        <LazyMicroDividerComp
+          label-text="avefi:WorkVariant"
+          in-class="work"
+        />
       </div>
       <NuxtLayout name="partial-grid-2-1-no-heading">
         <template #left>

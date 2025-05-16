@@ -168,6 +168,19 @@ onMounted(() => {
     })();
 });
 
+const emit = defineEmits(['update:productionYear']);
+
+const props = defineProps({
+    productionYear: {
+        type: Array as () => [number, number],
+        required: true
+    }
+});
+
+const updateProductionYear = (newRange: [number, number]) => {
+    emit('update:productionYear', newRange);
+};
+
 </script>
 
 <style scoped>

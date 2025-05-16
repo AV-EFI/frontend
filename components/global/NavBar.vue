@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
               :src="locale === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'"
               :alt="t('avefiClaim')"
               :title="t('avefiClaim')"
-              class="hidden lg:inline-block h-12 w-auto dark:bg-white rounded-lg dark:invert"
+              class="hidden lg:inline-block h-12 w-auto ml-2 rounded-lg dark:invert"
             >
             <pre
               class="mr-auto my-auto text-left h-6 w-24"
