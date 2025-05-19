@@ -88,10 +88,9 @@ release_docker:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | base64 -d | tr -d '\r' | ssh-add -
-    - touch ~/.ssh/known_hosts
+    - base64 -d "$SSH_PRIVATE_KEY" | ssh-add -
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
     - chmod 600 ~/.ssh/known_hosts
-    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
   script:
     - envsubst < docker-compose.tmpl > docker-compose.yml
     - cat docker-compose.yml
