@@ -136,7 +136,7 @@
 
                 <div class="col-span-full md:col-span-2">
                   <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right capitalize">
-                    {{ $t('year') }}:
+                    {{ $t('productionyear') }}:
                   </span>
                 </div>
                 <div 

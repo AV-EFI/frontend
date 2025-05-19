@@ -57,7 +57,7 @@
           <template #right>
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
-              keytxt="year"
+              keytxt="productionyear"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
               :clip="false"
@@ -110,7 +110,7 @@
           <template #right>
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
-              keytxt="year"
+              keytxt="productionyear"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
             />
@@ -150,7 +150,7 @@
             <!-- has_activity -->
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
-              keytxt="year"
+              keytxt="productionyear"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
               :ul="true"
