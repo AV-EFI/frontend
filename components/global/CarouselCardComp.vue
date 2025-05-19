@@ -9,7 +9,6 @@
     <div class="carousel rounded-box w-[250px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
         class="carousel-inner flex transition-transform duration-500 ease-in-out"
-        :class="carouselTransformClass"
       >
         <div
           v-for="(item, index) in items"

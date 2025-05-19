@@ -34,13 +34,25 @@ definePageMeta({
       ]"
     />
 
-    <div class="container">
-      <article class="container flex justify-center">
+    <div
+      class="container"
+      role="region"
+      :aria-label="$t('contact.mainContent')"
+    >
+      <article
+        class="container flex justify-center"
+        role="region"
+        :aria-label="$t('contact.articleContent')"
+      >
         <div
           id="c7273"
           class="frame frame-default frame-type-text frame-layout-0 w-full md:w-2/3 text-balance text-left"
         >
-          <div class="collapse collapse-arrow mt-2">
+          <div
+            class="collapse collapse-arrow mt-2"
+            role="region"
+            :aria-label="$t('contact.about.heading')"
+          >
             <input
               type="checkbox"
               checked
@@ -61,7 +73,11 @@ definePageMeta({
             </div>
           </div>
 
-          <div class="collapse collapse-arrow mt-2">
+          <div
+            class="collapse collapse-arrow mt-2"
+            role="region"
+            :aria-label="$t('contact.availableMetadata')"
+          >
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
@@ -75,7 +91,11 @@ definePageMeta({
             </div>
           </div>
 
-          <div class="collapse collapse-arrow mt-2">
+          <div
+            class="collapse collapse-arrow mt-2"
+            role="region"
+            :aria-label="$t('contact.definitions')"
+          >
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
@@ -106,7 +126,11 @@ definePageMeta({
               </p>
             </div>
 
-            <div class="collapse collapse-arrow mt-2">
+            <div
+              class="collapse collapse-arrow mt-2"
+              role="region"
+              :aria-label="$t('contact.keywords')"
+            >
               <input type="checkbox">
               <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
@@ -119,7 +143,11 @@ definePageMeta({
                 </p>
               </div>
             </div>
-            <div class="collapse collapse-arrow mt-2">
+            <div
+              class="collapse collapse-arrow mt-2"
+              role="region"
+              :aria-label="$t('contact.normdata')"
+            >
               <input type="checkbox">
               <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
@@ -133,7 +161,11 @@ definePageMeta({
                 />
               </div>
             </div>
-            <div class="collapse collapse-arrow mt-2">
+            <div
+              class="collapse collapse-arrow mt-2"
+              role="region"
+              :aria-label="$t('contact.availability')"
+            >
               <input type="checkbox">
               <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
                 <h2>
@@ -148,7 +180,11 @@ definePageMeta({
             </div>
           </div>
 
-          <div class="collapse collapse-arrow mt-2">
+          <div
+            class="collapse collapse-arrow mt-2"
+            role="region"
+            :aria-label="$t('contact.pids')"
+          >
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>
@@ -165,7 +201,11 @@ definePageMeta({
             </div>
           </div>
 
-          <div class="collapse collapse-arrow mt-2">
+          <div
+            class="collapse collapse-arrow mt-2"
+            role="region"
+            :aria-label="$t('contact.dataProviders')"
+          >
             <input type="checkbox">
             <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
               <h2>

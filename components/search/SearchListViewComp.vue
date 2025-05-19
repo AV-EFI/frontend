@@ -133,80 +133,81 @@
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div class="flex flex-col col-span-full">
-          <MicroLabelComp label-text="AlternativeTitle" />
-          <span 
-            v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
-          >
-            <ais-highlight
-              attribute="has_record.has_alternative_title.has_name"
-              :hit="item"
-            />
-          </span>
-          <ul v-else-if="item?.has_record?.has_alternative_title">
-            <li
-              v-for="alt in item?.has_record?.has_alternative_title"
-              :key="alt.id"
+        <div class="border-l-2 border-work-variant w-full grid subgrid col-span-full px-2">
+          <div class="flex flex-col col-span-full">
+            <MicroLabelComp label-text="AlternativeTitle" />
+            <span 
+              v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
             >
-              {{ alt.has_name }}
-            </li>
-          </ul>
-          <span v-else>-</span>
-        </div>
-        <div
-          v-if="productionDetailsChecked"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full col-span-full"
-        >
-          <div class="flex flex-col">
-            <MicroLabelComp label-text="directors_or_editors" />
-            <SearchHighlightListComp
-              :items="item?.directors_or_editors"
-              :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
-              class="mb-2"
-            />
+              <ais-highlight
+                attribute="has_record.has_alternative_title.has_name"
+                :hit="item"
+              />
+            </span>
+            <ul v-else-if="item?.has_record?.has_alternative_title">
+              <li
+                v-for="alt in item?.has_record?.has_alternative_title"
+                :key="alt.id"
+              >
+                {{ alt.has_name }}
+              </li>
+            </ul>
+            <span v-else>-</span>
           </div>
-          <div class="flex flex-col">
-            <MicroLabelComp label-text="avefi:ProductionEvent" />
-            <SearchHighlightListComp
-              :items="item?.production"
-              :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
-              class="mb-2"
-            />
-          </div>
-          <div class="flex flex-col">
-            <DetailKeyValueListComp
-              keytxt="productionyear"
-              :valtxt="item?.years"
-              class="mb-2"
-              :ul="true"
-            />
-            <DetailKeyValueListComp
-              keytxt="country"
-              :valtxt="item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null)"
-              :ul="true"
-              class="mb-2"
-            />
-          </div>
-          <div class="flex flex-col">
-            <MicroLabelComp label-text="has_form" />
-            <SearchHighlightListComp
-              :items="item?.has_record?.has_form || null"
-              :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
-              class="max-h-48 overflow-y-auto mb-2"
-            />
-            <MicroLabelComp label-text="avefi:Genre" />
-            <SearchHighlightListComp
-              :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || null"
-              :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
-              class="max-h-48 overflow-y-auto mb-2"
-            />
-
-            <MicroLabelComp label-text="avefi:Subject" />
-            <SearchHighlightListComp
-              :items="item?.subjects"
-              :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"            
-              class="max-h-48 overflow-y-auto"
-            />
+          <div
+            v-if="productionDetailsChecked"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full col-span-full"
+          >
+            <div class="flex flex-col">
+              <MicroLabelComp label-text="directors_or_editors" />
+              <SearchHighlightListComp
+                :items="item?.directors_or_editors || []"
+                :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
+                class="mb-2"
+              />
+            </div>
+            <div class="flex flex-col">
+              <MicroLabelComp label-text="avefi:ProductionEvent" />
+              <SearchHighlightListComp
+                :items="item?.production || []"
+                :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
+                class="mb-2"
+              />
+            </div>
+            <div class="flex flex-col">
+              <DetailKeyValueListComp
+                keytxt="productionyear"
+                :valtxt="item?.years"
+                class="mb-2"
+                :ul="true"
+              />
+              <DetailKeyValueListComp
+                keytxt="country"
+                :valtxt="item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null)"
+                :ul="true"
+                class="mb-2"
+              />
+            </div>
+            <div class="flex flex-col">
+              <MicroLabelComp label-text="has_form" />
+              <SearchHighlightListComp
+                :items="item?.has_record?.has_form || []"
+                :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
+                class="max-h-48 overflow-y-auto mb-2"
+              />
+              <MicroLabelComp label-text="avefi:Genre" />
+              <SearchHighlightListComp
+                :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || []"
+                :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
+                class="max-h-48 overflow-y-auto mb-2"
+              />
+              <MicroLabelComp label-text="avefi:Subject" />
+              <SearchHighlightListComp
+                :items="item?.subjects || []"
+                :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"
+                class="max-h-48 overflow-y-auto"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -236,11 +237,12 @@
             />
           </div>        
           <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
-            <div class="grid grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)] border-l-2 border-manifestation px-2">
+            <div class="grid grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)] px-2 border-l-2 border-manifestation">
               <!--top-->
               <div class="col-span-full grid-cols-4 gap-2 row-start-1">
                 <div class="col-span-full">
                   <MicroDividerComp
+                    in-class="manifestation"
                     class="mx-auto my-[10px] mb-2"
                     label-text="avefi:Manifestation" 
                   />
@@ -256,7 +258,7 @@
               <div class="col-span-1 row-start-3 md:flex-row">
                 <MicroLabelComp label-text="in_language_code" />
                 <SearchHighlightListComp
-                  :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
+                  :items="manifestation?.has_record?.in_language?.map(lang => lang.code) || []"
                   :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
                   class="mb-2"
                 />
@@ -279,14 +281,14 @@
               </div>
             </div>
             <hr class="mt-4 mb-2 dark:border-gray-500">
-            <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase mt-4">
+            <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase my-4 md:pl-4">
               {{ $t('items') }}
             </h4>
             <DetailItemListNewComp 
               :items="manifestation?.items"
               :production-details-checked="productionDetailsChecked"
               :show-admin-stats="showAdminStats"
-              :highlightresult="item?._highlightResult"
+              :highlight-result="item?._highlightResult"
             />
           </div>
         </div>

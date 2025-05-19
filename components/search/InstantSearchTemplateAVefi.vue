@@ -10,16 +10,32 @@
         :future="{preserveSharedStateOnUnmount: true }"
       >
         <ais-configure :hits-per-page.camel="20" />
-        <div class="search-panel">
+        <div
+          class="search-panel"
+          role="region"
+          :aria-label="$t('searchpanel')"
+        >
           <ClientOnly>
             <GlobalFacetDrawer />
           </ClientOnly>
           <!-- Center -->
-          <div class="drawer-content w-full flex flex-col items-center justify-center">
-            <div class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2">
-              <div class="searchbox">
+          <div
+            class="drawer-content w-full flex flex-col items-center justify-center"
+            role="region"
+            :aria-label="$t('searchcontent')"
+          >
+            <div
+              class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2"
+              role="region"
+              :aria-label="$t('searchresults')"
+            >
+              <div
+                class="searchbox"
+                role="search"
+                :aria-label="$t('searchbox')"
+              >
                 <ais-search-box
-                  ignore-composition-events="true"
+                  :ignore-composition-events="true"
                   :submit-title="$t('submitQuery')"
                   :reset-title="$t('resetQuery')"
                   class="flex flex-row mt-2"
@@ -75,7 +91,7 @@
                       </button>
                     </div>
                     <button
-                      class="ais-SearchBox-submit btn btn-primary w-32 h-auto rounded-l-none !rounded-r-3xl"
+                      class="ais-SearchBox-submit btn btn-primary md:w-32 h-auto rounded-l-none !rounded-r-3xl"
                       :title="$t('search')"
                       type="button"
                       @click="refine(currentRefinement); searchQuery = currentRefinement;"
@@ -100,7 +116,11 @@
                 </button>
               </div>
               <div class="w-full">
-                <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 flex flex-col md:flex-row justify-between">
+                <div
+                  class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 flex flex-col md:flex-row justify-between"
+                  role="region"
+                  :aria-label="$t('filteringsection')"
+                >
                   <div class="col-span-full">
                     <div class="lg:col-span-full p-2 flex flex-col md:flex-row justify-between w-full bg-white dark:bg-gray-800 rounded-lg">
                       <div class="w-full md:w-1/2 flex flex-row justify-start">

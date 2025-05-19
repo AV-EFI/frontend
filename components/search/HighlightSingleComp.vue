@@ -14,7 +14,8 @@
 const props = defineProps({
     item: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
     },
     hilite: {
         type: [String, Array],

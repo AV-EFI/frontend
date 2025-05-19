@@ -122,14 +122,14 @@
                 <div class="col-span-1 md:flex-row">
                   <MicroLabelComp label-text="in_language_code" />
                   <SearchHighlightListComp
-                    :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
+                    :items="manifestation?.has_record?.in_language?.map(lang => lang.code) || []"
                     class="mb-2"
                   />
                 </div>
                 <div class="col-span-1 md:flex-row">
                   <MicroLabelComp label-text="has_colour" />
                   <SearchHighlightSingleComp 
-                    :item="manifestation?.has_record?.has_colour_type"
+                    :item="manifestation?.has_record?.has_colour_type || null"
                     class="mb-2"
                   />
                 </div>
@@ -161,7 +161,7 @@
                 <div class="col-span-full md:col-span-1">
                   <MicroLabelComp label-text="has_format" />
                   <SearchHighlightListComp
-                    :items="exemplar?.has_record?.has_format?.map(form => form.type)"
+                    :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
                     class="mb-2"
                   />
                 </div>

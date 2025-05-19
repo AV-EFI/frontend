@@ -1,7 +1,11 @@
 <template>
   <div class="container mx-auto">
     <!-- Top row with full width banner -->
-    <div class="w-full relative container">
+    <div
+      class="w-full relative container"
+      role="region"
+      :aria-label="$t('bannerSection')"
+    >
       <div
         class="min-h-128 w-full flex-col lg:flex-row-reverse relative overflow-hidden flex items-center justify-center"
       >
@@ -35,6 +39,8 @@
     <div
       class="mx-auto min-h-[75vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-900 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       style="background-image: url('/img/movietape.png'); background-blend-mode: overlay; background-position: left bottom; background-size: cover; animation: fadeIn 2s, moveBg 60s linear infinite;"
+      role="region"
+      :aria-label="$t('featuredContent')"
     >
       <div
         class="absolute inset-0 bg-secondary-200 dark:bg-secondary-800 opacity-100 lg:bg-gradient-to-r lg:from-secondary-700 lg:via-secondary-500 lg:to-secondary-700 transition-opacity duration-300 ease-in lg:group-hover:opacity-95 lg:group-hover:bg-gradient-to-r lg:group-hover:from-secondary-600 lg:group-hover:via-secondary-500 lg:group-hover:to-secondary-600 dark:lg:from-gray-900 dark:lg:via-gray-800 dark:lg:to-gray-900 lg:dark:group-hover:from-gray-800 lg:dark:group-hover:via-gray-700 lg:dark:group-hover:to-gray-800"
@@ -57,7 +63,11 @@
         </div>
       </div>
     </div>
-    <div class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700">
+    <div
+      class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      role="region"
+      :aria-label="$t('coreFunctionsSection')"
+    >
       <div class="grid grid-cols-1 gap-4 mb-2 my-4 px-6 py-2 relative group h-full text-center">
         <div class="flex flex-col items-center bg-white dark:bg-transparent lg:bg-opacity-90 p-4 rounded-lg">
           <img
@@ -77,7 +87,6 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
         <div
-          v-motion-slide-visible-once-left
           class="card bg-base-100 h-full flex flex-col dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800"
         >
           <div class="card-body flex-grow">
@@ -117,7 +126,6 @@
           </div>
         </div>
         <div
-          v-motion-slide-visible-once-bottom
           class="card bg-base-100 h-full flex flex-col dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800"
         >
           <div class="card-body flex-grow">
@@ -154,7 +162,6 @@
           </div>
         </div>
         <div
-          v-motion-slide-visible-once-bottom
           class="card bg-base-100 h-full flex flex-col dark:bg-gray-700 dark:shadow-gray-700 lg:dark:group-hover:bg-gray-800"
         >
           <div class="card-body flex-grow">
@@ -200,6 +207,8 @@
     <div
       class="mx-auto lg:min-h-[75vh] flex flex-col lg:justify-center flex-wrap justify-between h-full p-6 shadow-lg transition duration-900 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       style="background-image: url('/img/movietape.png'); background-blend-mode: overlay; background-position: left bottom; background-size: cover; animation: fadeIn 2s, moveBg 60s linear infinite;"
+      role="region"
+      :aria-label="$t('videoSection')"
     >
       <div
         class="absolute inset-0 bg-secondary-200 dark:bg-secondary-800 opacity-100 lg:bg-gradient-to-r lg:from-secondary-700 lg:via-secondary-500 lg:to-secondary-700 transition-opacity duration-300 ease-in lg:group-hover:opacity-95 lg:group-hover:bg-gradient-to-r lg:group-hover:from-secondary-600 lg:group-hover:via-secondary-500 lg:group-hover:to-secondary-600 dark:lg:from-gray-900 dark:lg:via-gray-800 dark:lg:to-gray-900 lg:dark:group-hover:from-gray-800 lg:dark:group-hover:via-gray-700 lg:dark:group-hover:to-gray-800"
@@ -233,7 +242,11 @@
         </div>
       </div>
     </div>
-    <div class="mx-auto lg:min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700">
+    <div
+      class="mx-auto lg:min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      role="region"
+      :aria-label="$t('partnersSection')"
+    >
       <div class="flex flex-col lg:flex-row justify-around lg:justify-between mt-4 lg:mt-auto lg:mb-auto">
         <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-2 relative mx-auto">
           <div class="flex flex-col items-center bg-white dark:bg-gray-700 lg:dark:group-hover:bg-gray-800 lg:bg-opacity-90 p-4 rounded-lg">

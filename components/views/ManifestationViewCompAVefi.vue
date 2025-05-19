@@ -120,7 +120,7 @@
       <!-- center -->
       <div>
         <div class="grid-container">
-          <div class="grid grid-cols-12 gap-2">
+          <div class="grid grid-cols-12 gap-2 border-l-2 border-manifestation">
             <!-- has_event -->
             <div class="col-span-12 md:col-span-7 mb-2">
               <div

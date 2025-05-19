@@ -121,7 +121,7 @@
     <template #item-has_record.has_alternative_title.has_name="item">
       <SearchHighlightListComp
         v-if="productionDetailsChecked"
-        :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
+        :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`) || []"
         :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
         font-size="text-sm"
         class="mb-2"
@@ -147,7 +147,7 @@
     <template #item-directors_or_editors="item">
       <SearchHighlightListComp
         v-if="productionDetailsChecked"
-        :items="item?.directors_or_editors"
+        :items="item?.directors_or_editors || []"
         :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
         font-size="text-sm"
         class="mb-2"
@@ -156,7 +156,7 @@
     <template #item-production="item">
       <SearchHighlightListComp
         v-if="productionDetailsChecked"
-        :items="item?.production"
+        :items="item?.production || []"
         :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
         font-size="text-sm"
         class="mb-2"
@@ -173,7 +173,7 @@
           <MicroLabelComp label-text="AlternativeTitle" />
           <SearchHighlightListComp
             v-if="!productionDetailsChecked"
-            :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`)"
+            :items="item?.has_record?.has_alternative_title?.flatMap((alt) => `${alt.has_name}  (${$t(alt.type) || ''})`) || []"
             :hitlite="item._highlightResult?.has_record?.has_alternative_title?.has_name?.matchedWords"
             font-size="text-sm"
             class="mb-2"
@@ -183,7 +183,7 @@
           <MicroLabelComp label-text="directors_or_editors" />
           <SearchHighlightListComp
             v-if="!productionDetailsChecked"
-            :items="item?.directors_or_editors"
+            :items="item?.directors_or_editors || []"
             :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
             font-size="text-sm"
             class="mb-2"
@@ -193,7 +193,7 @@
           <MicroLabelComp label-text="avefi:ProductionEvent" />
           <SearchHighlightListComp
             v-if="!productionDetailsChecked"
-            :items="item?.production"
+            :items="item?.production || []"
             :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
             font-size="text-sm"
             class="mb-2"
@@ -224,7 +224,7 @@
                 font-size="text-xs"
               />
               <SearchHighlightListComp
-                :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
+                :items="manifestation?.has_record?.in_language?.map(lang => lang.code) || []"
                 :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
                 font-size="text-xs"
                 class="mb-2"
@@ -285,7 +285,7 @@
                 </td>
                 <td class="border border-slate-200 dark:border-slate-600">
                   <SearchHighlightListComp
-                    :items="exemplar?.has_record?.has_format?.map(form => form.type)"
+                    :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
                     :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
                     font-size="text-xs"
                     class="mb-2"

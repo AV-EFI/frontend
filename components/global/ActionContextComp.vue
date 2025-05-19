@@ -45,7 +45,7 @@
         class=""
       >
         <GlobalExportDataComp
-          :data-set-id="id?? item.objectID"
+          :data-set-id="id? [id]: [item.objectID]"
           :data-set-json="JSON.stringify(item,null,2)"
           class="w-full p-0 mx-auto justify-center items-center flex"
           btn-size="btn-block btn-sm !w-48"

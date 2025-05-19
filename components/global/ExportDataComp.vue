@@ -52,9 +52,9 @@ const props = defineProps({
         default: () => []
     },
     dataSetJson: {
-        type: Array as () => object[],
+        type: String,
         required: false,
-        default: () => []
+        default: null
     },
     btnSize: {
         type: String,

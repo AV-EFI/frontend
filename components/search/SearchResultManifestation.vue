@@ -57,7 +57,7 @@
         <div class="row-start-2 col-span-1">
           <MicroLabelComp label-text="has_format" />
           <SearchHighlightListComp
-            :items="exemplar?.has_record?.has_format?.map(form => form.type)"
+            :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
             class="mb-2"
           />
         </div>

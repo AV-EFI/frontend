@@ -2,6 +2,7 @@
   <div>
     <div
       v-if="mir"
+      class="border-l-2 border-work-variant px-2"
     >
       <div class="w-full">
         <LazyMicroDividerComp

@@ -1,12 +1,15 @@
 <template>
   <div>
     <ClientOnly>
-      <SearchInstantSearchTemplateAVefi :search-client="searchClient" />
+      <SearchInstantSearchTemplateAVefi
+        :search-client="searchClient"
+        :index-name="indexName"
+      />
     </ClientOnly>
   </div>
 </template>
 <script setup lang="ts">
-
+const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
 const props = defineProps({
     searchClient: {
         type: Object,

@@ -134,6 +134,12 @@
           class="mt-4"
           :model-value="manifestation?.has_record?.has_event ?? []"
         />
+        <h4
+          class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase my-4 md:pl-4"
+          :alt="$t('items')"
+        >
+          {{ $t('items') }}
+        </h4>
         <DetailItemListNewComp
           v-if="manifestation?.items?.length > 0"
           :items="manifestation?.items"
