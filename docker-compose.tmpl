@@ -1,6 +1,6 @@
 services:
   av-efi-frontend:
-    image: ${CI_REGISTRY_IMAGE}:${TAG:-testbed}
+    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"

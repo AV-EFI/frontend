@@ -77,7 +77,6 @@ release_docker:
   stage: deploy
   image: alpine:latest
   variables:
-    TAG: $CI_COMMIT_REF_SLUG 
     ## To be set as CI/CD variables:
     #DEPLOY_USER
     #DEPLOY_PATH
