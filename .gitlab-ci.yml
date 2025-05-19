@@ -106,8 +106,6 @@ release_docker:
       docker compose pull &&
       echo 'Starting containers' &&
       docker compose up -d"
-  rules:
-    - if: $CI_COMMIT_BRANCH == "testbed"
 
 deploy-staging:
   variables:
