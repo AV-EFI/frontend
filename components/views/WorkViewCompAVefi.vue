@@ -3,6 +3,8 @@
     <div
       v-if="mir"
       class="border-l-2 border-work-variant px-2"
+      role="region"
+      :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name}`"
     >
       <div class="w-full">
         <LazyMicroDividerComp
@@ -41,7 +43,7 @@
             :ul="true"
           />
         </template>
-      </Nuxtlayout>
+      </NuxtLayout>
     </div>
     <div v-else>
       <pre>{{ mir }}</pre>
@@ -52,6 +54,8 @@
     <div
       v-else
       :class="[manifestations?.length < 1? 'flex place-content-center':'']"
+      role="region"
+      aria-label="Manifestations"
     >
       <ClientOnly>
         <DetailManifestationListComp
@@ -62,6 +66,7 @@
           v-else
           class="alert alert-warning alert-outline text-white max-w-96 mt-4"
           role="alert"
+          aria-label="No manifestations available"
         >
           <MicroIconTextComp
             icon-name="mdi:emoticon-cry-outline"

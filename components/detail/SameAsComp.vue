@@ -21,15 +21,17 @@
       />
     </div>
 
-    <!-- Dropdown menu rendered outside scrollable container -->
+    <!-- Dropdown menu -->
     <Teleport to="body">
       <ul
         v-if="toggle"
         id="dropdown-menu"
         ref="menuRef"
         role="menu"
+        tabindex="-1"
         class="menu bg-base-100 rounded-box z-[9999] w-52 p-2 shadow absolute"
         :style="{ top: `${position.top}px`, left: `${position.left}px` }"
+        @keydown="handleMenuKeydown"
       >
         <li
           v-for="(same_as_item, index) in sameAsData"
@@ -43,6 +45,7 @@
             :href="`https://explore.gnd.network/gnd/${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
           >
             <img
               src="https://explore.gnd.network/images/icons/favicon.ico"
@@ -59,6 +62,7 @@
             :href="`https://viaf.org/viaf/${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
           >
             <Icon
               name="carbon:notebook-reference"
@@ -74,6 +78,7 @@
             :href="`https://www.wikidata.org/wiki/${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
           >
             <Icon
               name="carbon:notebook-reference"
@@ -89,6 +94,7 @@
             :href="`https://www.filmportal.de/${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
           >
             <img
               src="https://www.filmportal.de/themes/custom/filmportal/favicon.ico"
@@ -105,6 +111,7 @@
             :href="`https://doi.org/${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
           >
             <Icon
               name="carbon:notebook-reference"
@@ -120,6 +127,7 @@
             :href="`https://ui.eidr.org/view/content?id=${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
           >
             <Icon
               name="carbon:notebook-reference"
@@ -142,7 +150,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 
 const props = defineProps({
     sameAsData: { type: Object, default: null },
@@ -154,6 +162,7 @@ const toggle = ref(false);
 const position = ref({ top: 0, left: 0 });
 const triggerRef = ref<HTMLElement | null>(null);
 const menuRef = ref<HTMLElement | null>(null);
+let dropdownWasOpenBeforeBlur = false;
 
 const calculatePosition = () => {
     const rect = triggerRef.value?.getBoundingClientRect();
@@ -172,22 +181,8 @@ const focusFirstItem = () => {
     });
 };
 
-watch(toggle, (newVal) => {
-    if (newVal) {
-        calculatePosition();
-        focusFirstItem();
-    }
-});
-
-const handleOutsideClick = (e: MouseEvent) => {
-    if (!triggerRef.value?.contains(e.target as Node) &&
-      !menuRef.value?.contains(e.target as Node)) {
-        toggle.value = false;
-    }
-};
-
 const handleTriggerKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+    if (['ArrowDown', 'Enter', ' '].includes(e.key)) {
         e.preventDefault();
         toggle.value = true;
         focusFirstItem();
@@ -197,7 +192,9 @@ const handleTriggerKeydown = (e: KeyboardEvent) => {
 };
 
 const handleMenuKeydown = (e: KeyboardEvent) => {
-    const items = Array.from(menuRef.value?.querySelectorAll('[role="menuitem"]') || []) as HTMLElement[];
+    const items = Array.from(
+        menuRef.value?.querySelectorAll('[role="menuitem"]') || []
+    ) as HTMLElement[];
     const index = items.findIndex((el) => el === document.activeElement);
 
     if (e.key === 'ArrowDown') {
@@ -209,21 +206,44 @@ const handleMenuKeydown = (e: KeyboardEvent) => {
     } else if (e.key === 'Escape') {
         e.preventDefault();
         toggle.value = false;
-        triggerRef.value?.focus();
+        nextTick(() => {
+            triggerRef.value?.focus();
+        });
     } else if (e.key === 'Tab') {
         toggle.value = false;
     }
 };
 
+const handleOutsideClick = (e: MouseEvent) => {
+    if (
+        !triggerRef.value?.contains(e.target as Node) &&
+    !menuRef.value?.contains(e.target as Node)
+    ) {
+        toggle.value = false;
+    }
+};
+
+const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible' && dropdownWasOpenBeforeBlur) {
+        toggle.value = false;
+        nextTick(() => triggerRef.value?.focus());
+        dropdownWasOpenBeforeBlur = false;
+    }
+};
+
+const markDropdownWasOpen = () => {
+    dropdownWasOpenBeforeBlur = toggle.value;
+};
+
 onMounted(() => {
     window.addEventListener('scroll', calculatePosition, true);
     document.addEventListener('click', handleOutsideClick);
-    document.addEventListener('keydown', handleMenuKeydown);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', calculatePosition, true);
     document.removeEventListener('click', handleOutsideClick);
-    document.removeEventListener('keydown', handleMenuKeydown);
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 </script>

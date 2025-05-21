@@ -1,12 +1,20 @@
 <template>
-  <div class="flex flex-col">
+  <div
+    class="flex flex-col"
+    role="group"
+    :aria-label="`${$t(keytxt)}: ${Array.isArray(valtxt) ? valtxt.map(v => v?.has_name ?? v).join(', ') : ''}`"
+  >
     <MicroLabelComp
       v-if="keytxt"
       :label-text="keytxt"
-    />    
+    />
+
+    <!-- Non-list display (Clipboard mode) -->
     <div
       v-if="!ul"
       class="flex flex-row flex-wrap items-center justify-content-between hover:bg-slate-100 dark:hover:bg-slate-700"
+      role="group"
+      :aria-label="$t(keytxt)"
     >
       <GlobalClipboardComp
         v-for="val in valtxt"
@@ -21,18 +29,26 @@
         :type="sameAsType"
         :class="fontSize"
         class="flex items-end"
-      />        
+      />
     </div>
+
+    <!-- List display (ul=true) -->
     <div
       v-else
       :class="['max-h-64', overflowY, 'overflow-x-visible', {'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}]"
     >
-      <ul v-if="valtxt">
+      <ul
+        v-if="valtxt"
+        role="list"
+        :aria-label="$t(keytxt)"
+      >
         <li
           v-for="val in valtxt"
           :key="val?.has_name ?? val"
           class="flex flex-row items-center justify-between flex-wrap hover:bg-slate-100 dark:hover:bg-slate-700"
           :class="`${fontSize}`"
+          role="listitem"
+          :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
         >
           <span class="flex-grow">
             {{ val?.has_name ?? val }}
@@ -46,7 +62,10 @@
           />
         </li>
       </ul>
-      <span v-else>
+      <span
+        v-else
+        aria-hidden="true"
+      >
         -
       </span>
     </div>

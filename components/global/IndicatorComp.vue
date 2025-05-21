@@ -1,36 +1,48 @@
 <template>
   <div
     v-if="objectListStore.objects?.length > 0 || shoppingCart.objects?.length > 0"
-    :alt="$t('gotocomp')"
-    :title="$t('gotocomp')"
     class="hidden avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-neutral-200 dark:bg-neutral-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
+    role="region"
+    :aria-label="$t('gotocomp')"
   >
     <button
       class="btn btn-primary rounded-l-xl rounded-r-none md:w-10 h-full"
       :title="$t('showcomparison')"
-      :alt="$t('showcomparison')"
+      :aria-label="$t('showcomparison')"
       @click="$toggleComparisonDrawerState"
     >
       <span class="text-white text-center md:hidden">
         {{ $t('showcomparison') }}
       </span>
-      <Icon name="formkit:caretleft" />
+      <Icon
+        name="formkit:caretleft"
+        aria-hidden="true"
+      />
     </button>
-    <div class="join items-center justify-center w-full grow group transition-all ease-in-out delay-150">
+
+    <div
+      class="join items-center justify-center w-full grow group transition-all ease-in-out delay-150"
+      role="group"
+      :aria-label="$t('comparisonAndCartCounts')"
+    >
       <div
         class="badge bg-shopping-cart hover:bg-shopping-cart font-bold text-white text-center join-item"
-        :alt="$t('elementsincomparison')"
         :title="$t('elementsincomparison')"
+        :aria-label="`${$t('elementsincomparison')}: ${shoppingCart.objects?.length}`"
       >
-        <span class="hidden text-xs transition-all ease-in-out delay-150">Merkliste:</span>
+        <span class="hidden text-xs transition-all ease-in-out delay-150">
+          {{ $t('shoppingcart') }}
+        </span>
         {{ shoppingCart.objects?.length }}
       </div>
       <div
         class="badge bg-compare-list font-bold text-white text-center join-item"
-        :alt="$t('elementsinshoppingcart')"
         :title="$t('elementsinshoppingcart')"
+        :aria-label="`${$t('elementsinshoppingcart')}: ${objectListStore.objects?.length}`"
       >
-        <span class="hidden text-xs">Vergleichsliste:</span>
+        <span class="hidden text-xs">
+          {{ $t('comparison') }}
+        </span>
         {{ objectListStore.objects?.length }}
       </div>
     </div>

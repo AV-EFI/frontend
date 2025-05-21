@@ -10,6 +10,7 @@ const props = defineProps({
 <template>
   <Icon
     :alt="alt"
+    :_aria-label="alt"
     name="formkit:add"
   />
 </template>

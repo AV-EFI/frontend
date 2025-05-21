@@ -1,14 +1,21 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    role="status"
+    aria-live="polite"
+  >
     <!-- Three emojis (filmstrip, filmreel, movie video camera) -->
     <div
       v-if="showEmojis"
       class="emojis"
+      aria-label="Searching for films"
     >
       <span
         v-for="(emoji, index) in emojis"
         :key="index"
         class="emoji text-2xl h-8"
+        role="img"
+        :aria-label="emojiLabels[index]"
       >{{ emoji }}</span>
     </div>
 
@@ -16,6 +23,8 @@
     <div
       v-if="showNothing"
       class="nothing text-2xl h-8"
+      role="img"
+      aria-label="No results found"
     >
       😢
     </div>
@@ -24,9 +33,12 @@
     <div
       v-if="showMagnifyingGlass"
       class="magnifying-glass text-2xl h-8"
+      role="img"
+      aria-label="Searching"
     >
       🔍
     </div>
+
     <div
       v-if="showNothing"
       class="no-results text-xl text-primary-900 dark:text-neutral-200"
@@ -43,24 +55,23 @@ import { ref, onMounted } from 'vue';
 const showMagnifyingGlass = ref(false);
 const showEmojis = ref(false);
 const showNothing = ref(false);
-const emojis = ref(['📽️', '🎬', '📹']); // Emojis to display: filmstrip, film reel, movie video camera
+const emojis = ref(['📽️', '🎬', '📹']);
+const emojiLabels = ref([
+    'Film projector emoji',
+    'Clapperboard emoji',
+    'Video camera emoji'
+]);
 
 onMounted(() => {
-    // Show magnifying glass after 1.5s
     setTimeout(() => showMagnifyingGlass.value = true, 600);
-
-    // Show emojis after 2s
     setTimeout(() => showEmojis.value = true, 300);
-
-    // Animate magnifying glass from left to right and back after 2.5s
     setTimeout(() => {
-    // Move right and left, and then show the crying emoji after completion
         setTimeout(() => {
-            showEmojis.value = false; // Hide emojis after magnifying glass animation
-            showMagnifyingGlass.value = false; // Hide magnifying glass before crying emoji
-            showNothing.value = true; // Show crying emoji
-        }, 1800); // After 3 seconds, show crying emoji
-    }, 900); // Delay start after 2.5 seconds
+            showEmojis.value = false;
+            showMagnifyingGlass.value = false;
+            showNothing.value = true;
+        }, 1800);
+    }, 900);
 });
 </script>
 
@@ -75,14 +86,14 @@ onMounted(() => {
 
 .emojis {
   display: flex;
-  justify-content: space-evenly; /* Make emojis closer */
-  width: 320px; /* Adjust width to fit closer together */
+  justify-content: space-evenly;
+  width: 320px;
   margin-top: 20px;
 }
 
 .magnifying-glass {
   position: absolute;
-  animation: moveOverEmojis 2s ease-in-out forwards; /* Full cycle of moving left-to-right and right-to-left */
+  animation: moveOverEmojis 2s ease-in-out forwards;
   margin-top: 20px;
 }
 
@@ -96,12 +107,11 @@ onMounted(() => {
   animation: popIn 0.5s ease-in forwards;
 }
 
-/* Movement of magnifying glass */
 @keyframes moveOverEmojis {
-  0% { transform: translateX(-150px); } /* Start to the left of the first emoji */
-  33% { transform: translateX(-50px); } /* Move to the left of the first emoji */
-  66% { transform: translateX(50px); } /* Move to the left of the second emoji */
-  100% { transform: translateX(150px); } /* Move back to the second emoji */
+  0% { transform: translateX(-150px); }
+  33% { transform: translateX(-50px); }
+  66% { transform: translateX(50px); }
+  100% { transform: translateX(150px); }
 }
 
 @keyframes popIn {

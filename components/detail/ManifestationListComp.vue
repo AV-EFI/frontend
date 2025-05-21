@@ -21,10 +21,10 @@
       class="mt-2 collapse collapse-arrow"
     >    
       <input
-        type="radio"
-        name="manifestation-accordion"
+        :id="`manifestation-${manifestation._id}`"
+        type="checkbox"
+        :name="`manifestation-${manifestation._id}`"
         class="manifestation-accordion-toggle"
-        :checked="manifestationList.length < 2?'true':false"
       >
       <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white">
         <DetailManifestationHeaderComp
@@ -169,8 +169,8 @@ interface Source {
 }
 
 manifestationList.value.forEach((mani) => {
-    if (mani.has_record && mani.has_record.has_duration?.has_value) {
-        const duration = mani.has_record.has_duration.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
+    if (mani?.has_record && mani.has_record.has_duration?.has_value) {
+        const duration = mani.has_record?.has_duration?.has_value.replace(/PT/g, '').replace(/S/g, '').split('M');
         duration[0] = String(duration[0]).padStart(2, '0');
         if (duration.length > 1) {
             duration[1] = String(duration[1]).padStart(2, '0');
@@ -178,5 +178,22 @@ manifestationList.value.forEach((mani) => {
         mani.has_record.has_duration.has_value_clean = duration.join(':');
     }
 });
+
+onMounted(() => {
+    window.addEventListener('keydown', handleEscKey);
+});
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleEscKey);
+});
+
+function handleEscKey(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+        const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle');
+        checkboxes.forEach((cb: any) => {
+            cb.checked = false;
+        });
+    }
+}
+
 
 </script>

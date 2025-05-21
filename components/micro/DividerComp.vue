@@ -1,5 +1,8 @@
 <template>
-  <div :class="`divider before:bg-${inClass} after:bg-${inClass}`">
+  <div 
+    :class="`divider before:bg-${inClass} after:bg-${inClass}`"
+    :aria-label="$t('divider')"
+  >
     <MicroBadgeCategoryComp
       v-if="labelText"
       :category="labelText"

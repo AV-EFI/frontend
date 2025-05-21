@@ -5,7 +5,12 @@
       :class="[btnSize]"
       :alt="$t('exportdata')"
       :title="$t('exportdata')"
+      aria-haspopup="true"
+      :aria-expanded="menuOpen.toString()"
+      aria-controls="export-menu"
       @click="toggleMenu"
+      @keydown.enter.prevent="toggleMenu"
+      @keydown.space.prevent="toggleMenu"
     >
       <Icon
         name="formkit:download"
@@ -13,8 +18,11 @@
         alt="Export data"
       />
     </button>
+  
     <div
       v-if="menuOpen"
+      id="export-menu"
+      role="menu"
       class="absolute z-30 mt-2 bg-white border rounded shadow w-48"
       style="top: calc(100% + 5px); right: 0;"
     >
@@ -22,10 +30,15 @@
         <li
           v-for="option in exportOptions"
           :key="option.format"
+          role="none"
         >
           <button
+            role="menuitem"
+            tabindex="0"
             class="w-full text-left px-4 py-2 hover:bg-gray-100"
             @click="exportData(option.format)"
+            @keydown.enter.prevent="exportData(option.format)"
+            @keydown.space.prevent="exportData(option.format)"
           >
             {{ option.label }}
           </button>
@@ -34,17 +47,16 @@
     </div>
   </div>
 </template>
-
+  
 <script lang="ts" setup>
-
 import { mkConfig, generateCsv, download as downloadCsv } from 'export-to-csv';
 import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n';
+  
 const { t: $t } = useI18n();
-
 const menuOpen = ref(false);
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
-
+  
 const props = defineProps({
     dataSetId: {
         type: Array as () => string[],
@@ -62,40 +74,37 @@ const props = defineProps({
         default: 'btn-sm'
     }
 });
-
+  
 const exportOptions = [
     { format: 'csv', label: $t('exportAsCSV') },
     { format: 'json', label: $t('exportAsJSON') },
     { format: 'xml', label: $t('exportAsXML') }
 ];
-
+  
 const csvConfig = mkConfig({
     filename: `avefi_export_${new Date().toISOString().slice(0, 10)}`,
     useKeysAsHeaders: true
 });
-
+  
 async function exportData(format: 'csv' | 'json' | 'xml') {
     menuOpen.value = false;
     let rawData = props.dataSetJson?.length ? props.dataSetJson : await getDataSet(props.dataSetId);
-
-    if(typeof (rawData) === 'string') {
+  
+    if (typeof rawData === 'string') {
         rawData = JSON.parse(rawData);
     }
-    
-
+  
     if (!rawData || rawData.length === 0) {
         toast.error('No data to export', { timeout: 2000 });
         return;
     }
-
-    console.log('Exporting data:', rawData);
-
+  
     const flattened = Array.isArray(rawData) && rawData.length > 0 && typeof rawData[0] === 'object'
-        ? rawData.flatMap((item: any) => deepFlattenToObjectStructured(item)) 
-        : [rawData].flatMap((item: any) => deepFlattenToObjectStructured(item)) ;
-
+        ? rawData.flatMap((item: any) => deepFlattenToObjectStructured(item))
+        : [rawData].flatMap((item: any) => deepFlattenToObjectStructured(item));
+  
     const filename = `avefi_export_${new Date().toISOString().slice(0, 10)}`;
-
+  
     try {
         if (format === 'csv') {
             const csv = await generateCsv(csvConfig)(flattened);
@@ -115,7 +124,7 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
         toast.error(`Export failed: ${err}`, { timeout: 3000 });
     }
 }
-
+  
 function downloadBlob(content: string, filename: string, type: string) {
     const blob = new Blob([content], { type });
     const link = document.createElement('a');
@@ -124,7 +133,7 @@ function downloadBlob(content: string, filename: string, type: string) {
     link.click();
     URL.revokeObjectURL(link.href);
 }
-
+  
 function jsonToXml(jsonArray: any[]): string {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<records>\n`;
     for (const obj of jsonArray) {
@@ -140,21 +149,19 @@ function jsonToXml(jsonArray: any[]): string {
     xml += `</records>`;
     return xml;
 }
-
+  
 function deepFlattenToObjectStructured(entry: any) {
     const rows: any[] = [];
-
     const source = entry._source || entry;
     const workVariant = source.has_record || {};
     const manifestations = source.manifestations || [];
-
-    // Extract director/editor names
+  
     const directors_or_editors = new Set<string>();
     const castmembers = new Set<string>();
     const production = new Set<string>();
     const locations = new Set<string>();
     const agents = new Set<string>();
-
+  
     if (source.directors_or_editors) {
         for (const name of source.directors_or_editors) {
             directors_or_editors.add(sanitizeCsvValue(name));
@@ -172,7 +179,7 @@ function deepFlattenToObjectStructured(entry: any) {
             }
         }
     }
-
+  
     if (source.castmembers) {
         for (const name of source.castmembers) {
             castmembers.add(sanitizeCsvValue(name));
@@ -190,7 +197,7 @@ function deepFlattenToObjectStructured(entry: any) {
             }
         }
     }
-
+  
     if (source.production) {
         for (const name of source.production) {
             production.add(sanitizeCsvValue(name));
@@ -208,7 +215,7 @@ function deepFlattenToObjectStructured(entry: any) {
             }
         }
     }
-
+  
     if (source.located_in) {
         for (const name of source.located_in) {
             locations.add(sanitizeCsvValue(name));
@@ -222,14 +229,14 @@ function deepFlattenToObjectStructured(entry: any) {
             }
         }
     }
-
-    // Check for agents in activities with categories not equal to ProducingActivity or DirectingActivity
+  
     for (const event of workVariant.has_event || []) {
         for (const activity of event.has_activity || []) {
-            if (activity.category !== "avefi:ProducingActivity" 
-            && activity.category !== "avefi:DirectingActivity" 
-            && activity.category !== "avefi:CastActivity"
-            && activity.category !== "avefi:EditingActivity"
+            if (
+                activity.category !== "avefi:ProducingActivity" &&
+          activity.category !== "avefi:DirectingActivity" &&
+          activity.category !== "avefi:CastActivity" &&
+          activity.category !== "avefi:EditingActivity"
             ) {
                 for (const agent of activity.has_agent || []) {
                     if (agent.has_name) {
@@ -240,11 +247,11 @@ function deepFlattenToObjectStructured(entry: any) {
             }
         }
     }
-
+  
     const baseRow = {
         workVariant_id: source.handle,
         primary_title: sanitizeCsvValue(workVariant.has_primary_title?.has_name || '').replace(/"/g, '""'),
-        alternative_title: sanitizeCsvValue(workVariant.has_alternative_title?.[0]?.has_name || '').replace(/"/g, '""'), // Optional
+        alternative_title: sanitizeCsvValue(workVariant.has_alternative_title?.[0]?.has_name || '').replace(/"/g, '""'),
         production_year: source.years?.[0] || '',
         directors_or_editors: Array.from(directors_or_editors).join('; '),
         castmembers: Array.from(castmembers).join('; '),
@@ -252,12 +259,12 @@ function deepFlattenToObjectStructured(entry: any) {
         located_in: Array.from(locations).join('; '),
         agents: Array.from(agents).join('; ')
     };
-
+  
     if (manifestations.length === 0) {
         rows.push({ ...baseRow });
         return rows;
     }
-
+  
     for (const man of manifestations) {
         const manRecord = man.has_record || {};
         const manRow = {
@@ -266,15 +273,15 @@ function deepFlattenToObjectStructured(entry: any) {
             has_issuer_name: manRecord.described_by?.has_issuer_name,
             has_colour_type: manRecord.has_colour_type || '',
             has_sound_type: manRecord.has_sound_type || '',
-            has_duration: '' // Add mapping if needed
+            has_duration: ''
         };
-
+  
         const items = man.items || [];
         if (items.length === 0) {
             rows.push({ ...manRow });
             continue;
         }
-
+  
         for (const item of items) {
             const itemRecord = item.has_record || {};
             const format = itemRecord.has_format?.map((f: any) => f.type).join('; ') || '';
@@ -285,12 +292,12 @@ function deepFlattenToObjectStructured(entry: any) {
             });
         }
     }
-
+  
     return rows;
 }
-
+  
 function sanitizeCsvValue(value: string): string {
-    return value.replace(/\r?\n|\r/g, ' ').replace(/"/g, '\'').trim();
+    return value.replace(/\r?\n|\r/g, ' ').replace(/"/g, "'").trim();
 }
-
 </script>
+  

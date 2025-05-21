@@ -61,6 +61,7 @@
                       </label>
                       <input
                         type="search"
+                        :aria-label="$t('search')"
                         class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
                         :value="currentRefinement"
                         :placeholder="$t('searchplaceholder')"
@@ -76,6 +77,9 @@
                         v-if="currentRefinement"
                         type="button"
                         class="btn"
+                        :title="$t('resetQuery')"
+                        :aria-label="$t('resetQuery')"
+
                         @click="
                           refine('');
                           currentRefinement = '';
@@ -85,8 +89,7 @@
                         <Icon
                           class="p-2 text-xl my-auto dark:text-white"
                           name="mdi:clear-bold"
-                          :title="$t('clear')"
-                          :aria-label="$t('clear')"
+                          aria-hidden="true"
                         />
                       </button>
                     </div>

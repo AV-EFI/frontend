@@ -1,8 +1,10 @@
 <template>
-  <div class="pagination px-2 flex justify-center w-full bg-white dark:bg-slate-800">
+  <div
+    class="pagination px-2 flex justify-center w-full bg-white dark:bg-slate-800"
+    role="navigation"
+    :aria-label="$t('pagination')"
+  >
     <ais-pagination
-      title="Pagination"
-      alt="Pagination"
       :class-names="{
         'ais-Pagination': 'flex my-2 bg-white dark:bg-slate-800',
         'ais-Pagination-list': 'flex space-x-1 my-1',

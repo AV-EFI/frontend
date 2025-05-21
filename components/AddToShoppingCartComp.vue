@@ -6,6 +6,7 @@
     :title="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     :data-id="filmId"
     :data-title="filmTitle"
+    :aria-label="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     @click="$addToComparison(props.filmId, props.filmTitle, 'shoppingcart')"
   >
     <span class="hidden md:block">{{ $t('shoppingcart') }}</span>

@@ -6,6 +6,7 @@
     :title="$t('addtocomparisonparam', { name: filmTitle })"
     :data-id="filmId"
     :data-title="filmTitle"
+    :aria-label="$t('addtocomparisonparam', { name: filmTitle })"
     @click="$addToComparison(props.filmId, props.filmTitle)"
   >
     <span class="hidden md:block">{{ $t('comparison') }}</span>

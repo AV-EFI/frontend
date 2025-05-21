@@ -1,5 +1,9 @@
 <template>
-  <div class="w-full min-w-48 lg:min-w-64 min-h-24 flex justify-center mx-auto">
+  <div
+    class="w-full min-w-48 lg:min-w-64 min-h-24 flex justify-center mx-auto"
+    role="search"
+    :aria-label="$t('mainSearch')"
+  >
     <ClientOnly>
       <FormKit
         v-if="searchDataStore && searchDataStore.formData"
@@ -8,9 +12,15 @@
         type="form"
         :actions="false"
         name="searchComp"
+        role="search"
+        :aria-label="$t('searchForm')"
         @submit="redirectToSearchScreen"
       >
-        <div class="flex w-full mx-auto !max-w-none lg:w-96 xl:w-128 justify-center">
+        <div
+          class="flex w-full mx-auto !max-w-none lg:w-96 xl:w-128 justify-center"
+          role="group"
+          :aria-labelledby="'search-input-label'"
+        >
           <FormKit
             v-model="searchTerm"
             name="searchTerm"
@@ -20,10 +30,12 @@
             outer-class="flex-grow !max-w-none w-full"
             inner-class="!rounded-l-3xl rounded-r-none dark:!bg-slate-950 dark:!text-white  !h-[56px] w-full"
             input-class="!text-lg p-2 w-full dark:!text-white"
+            :aria-label="$t('searchInputAria')"
+            aria-required="true"
+            :aria-invalid="searchTerm.trim().length === 0 ? 'true' : 'false'"
             autofocus
           />
 
-          <!-- Your original FormKit button unchanged -->
           <FormKit
             type="submit"
             :label="$t('search')"
@@ -32,12 +44,16 @@
             inner-class="!rounded-l-3xl !h-full"
             input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-3xl flex items-center justify-center border-3 border-primary !my-auto"
             :disabled="searchTerm.trim().length === 0"
+            aria-disabled="false"
+            :aria-label="$t('submitSearch')"
             @click="handleClick"
           />
         </div>
 
         <p
           v-if="showValidationWarning"
+          role="alert"
+          aria-live="assertive"
           class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-slate-800 text-xs mt-2 p-2 rounded-lg"
         >
           {{ $t('enterSearchTermFirst') }}

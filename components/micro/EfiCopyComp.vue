@@ -1,7 +1,7 @@
 <template>
   <button
     :class="[
-      'btn btn-circle transition-all duration-300 ease-in-out',
+      'btn btn-circle transition-all border border-white/30 ring-black duration-300 ease-in-out',
       'text-white dark:btn-outline mr-2 ml-auto',
       compSize === 'sm' ? 'btn-sm p-1' : 'p-2',
       'bg-accent dark:bg-accent',
@@ -10,6 +10,9 @@
     ]"
     :title="$t('copyEFI', { category: categoryText })"
     :alt="$t('copyEFI', { category: categoryText })"
+    :aria-label="$t('copyEFI', { category: categoryText })"
+    :aria-pressed="isClicked.toString()"
+    role="button"
     @click="handleClick"
   >
     <svg

@@ -270,5 +270,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false,
     },
-    compatibilityDate: '2025-05-14'
+    compatibilityDate: '2025-05-21'
 });

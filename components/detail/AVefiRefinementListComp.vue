@@ -2,7 +2,7 @@
   <ais-refinement-list
     :attribute="attributeName"
     :searchable="true"
-    @click="(event) => event.stopPropagation()"    
+    @click="(event) => event.stopPropagation()"
   >
     <template
       #default="{
@@ -13,23 +13,41 @@
         searchForItems
       }"
     >
+      <!-- Search input -->
       <input
+        type="search"
+        role="searchbox"
         class="ais-SearchBox-input appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none focus:ring-0 formkit-input !p-3 !rounded-3xl"
         :placeholder="$t('search')"
+        :aria-label="$t(attributeName)"
         @input="searchForItems($event?.currentTarget?.value)"
       >
-      <ul>
-        <li v-if="isFromSearch && !items.length">
-          No results.
+
+      <!-- Facet list -->
+      <ul
+        role="listbox"
+        :aria-label="$t(attributeName)"
+        class="mt-2 space-y-1"
+      >
+        <li
+          v-if="isFromSearch && !items.length"
+          role="option"
+          aria-disabled="true"
+        >
+          {{ $t('noResults') }}
         </li>
+
         <li
           v-for="item in items"
           :key="item.value"
+          role="option"
+          :aria-selected="item.isRefined"
         >
           <a
             :href="createURL(item)"
             :style="{ fontWeight: item.isRefined ? 'bold' : '' }"
-            @click.prevent="(e) => {e.preventDefault(); refine(`${item}`);}"
+            class="flex justify-between items-center"
+            @click.prevent="(e) => { e.preventDefault(); refine(`${item}`); }"
           >
             <span>{{ $t(item.label) }}</span>
             <div class="badge text-white badge-secondary">{{ item.count.toLocaleString() }}</div>
@@ -39,11 +57,3 @@
     </template>
   </ais-refinement-list>
 </template>
-<script setup lang=ts>
-defineProps({
-    attributeName: {
-        type: String,
-        required: true
-    }
-});
-</script>

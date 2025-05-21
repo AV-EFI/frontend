@@ -269,7 +269,58 @@ module.exports = {
     plugins: [
         require('@tailwindcss/typography'),
         require('@vueform/slider/tailwind'),
-        require('daisyui')
+        require('daisyui'),
+        function ({ addUtilities }) {
+            addUtilities({
+                '.text-nuggets-5280': {
+                  position: 'relative',
+                  display: 'inline-block',
+                  fontWeight: '800',
+                  color: 'transparent',
+        
+                  backgroundImage: `
+                    linear-gradient(
+                      90deg,
+                      red,
+                      orange,
+                      yellow,
+                      green,
+                      blue,
+                      indigo,
+                      violet
+                    )
+                  `,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextStroke: '2px black',
+                  textShadow: 'none',
+        
+                  // Rainbow shows through bottom half scanlines
+                  WebkitMaskImage: `
+                    linear-gradient(to bottom, transparent 0%, transparent 45%, black 45%, black 100%),
+                    repeating-linear-gradient(
+                      45deg,
+                      black 0px,
+                      black 1px,
+                      transparent 1px,
+                      transparent 4px
+                    )
+                  `,
+                  WebkitMaskComposite: 'destination-in',
+                  maskComposite: 'intersect',
+                  maskImage: `
+                    linear-gradient(to bottom, transparent 0%, transparent 45%, black 45%, black 100%),
+                    repeating-linear-gradient(
+                      45deg,
+                      black 0px,
+                      black 1px,
+                      transparent 1px,
+                      transparent 4px
+                    )
+                  `,
+                }
+              })
+        }
     ],
     /** DAISY UI **/
     daisyui: {

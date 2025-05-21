@@ -2,25 +2,37 @@
   <div v-if="items">
     <ul
       v-if="items && items?.length > 0"
+      :id="`highlighted-list`"
       class="max-w-full"
+      role="list"
+      :aria-label="$t('listOfTerms')"
     >
       <li
         v-for="(item, index) in reorderItems(items)"
         v-show="showAll || index < 5"
         :key="index"
         :title="item"
-        :class="{ 'bg-secondary-200 font-bold  dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
+        :aria-current="ishiliteed(item) ? 'true' : 'false'"
+        role="listitem"
+        :class="{
+          'bg-secondary-200 font-bold  dark:text-secondary-900': ishiliteed(item),
+          [fontSize]: true
+        }"
         class="w-full overflow-hidden text-ellipsis"
       >
         {{ $t(item) }}
       </li>
     </ul>
     <ul v-else>
-      <li>-</li>
+      <li role="listitem">
+        -
+      </li>
     </ul>
     <button
       v-if="items && items?.length > 5"
       class="mt-2 btn btn-outline btn-primary btn-sm md:w-48"
+      :aria-expanded="showAll.toString()"
+      :aria-controls="`highlighted-list`"
       @click="toggleShowAll"
     >
       {{ showAll ? $t('showLess') : $t('showMore') }}
@@ -30,6 +42,7 @@
     -
   </p>
 </template>
+
 <script setup lang="ts">
 const props = defineProps({
     items: {
@@ -47,7 +60,7 @@ const props = defineProps({
         type: String,
         required: false,
         default: "text-base",
-    }
+    },
 });
 
 const showAll = ref(false);
@@ -57,20 +70,17 @@ function toggleShowAll() {
 }
 
 function reorderItems(items) {
-    if(!props.hilite) { 
+    if (!props.hilite) {
         return items;
     }
-    const hiliteedItems = items.filter(item => ishiliteed(item));
-    const nonHiliteedItems = items.filter(item => !ishiliteed(item));
+    const hiliteedItems = items.filter((item) => ishiliteed(item));
+    const nonHiliteedItems = items.filter((item) => !ishiliteed(item));
     return [...hiliteedItems, ...nonHiliteedItems];
 }
 
-//const reorderedItems = computed(() => reorderItems(props.items));
-
 function ishiliteed(item) {
     if (!props.hilite) return false;
-    // Ensure hilite is an array for consistency
     const hilites = Array.isArray(props.hilite) ? props.hilite : [props.hilite];
-    return hilites.some(hilite => item.includes(hilite));
+    return hilites.some((hilite) => item.includes(hilite));
 }
 </script>

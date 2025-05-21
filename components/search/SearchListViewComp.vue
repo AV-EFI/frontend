@@ -1,8 +1,10 @@
 <template>
   <div
     v-for="item in items"
-    :key="item._id"
+    :key="item.handle"
     class="card bg-base-100 dark:bg-slate-900 w-full shadow-lg hover:shadow-xl mb-4"
+    role="region"
+    :aria-label="`${$t('title')}: ${item?.has_record?.has_primary_title?.has_name}`"
   >
     <div
       v-if="showAdminStats"
@@ -222,12 +224,18 @@
           v-for="(manifestation, index) in getFilteredManifestations(item)"
           :key="index"
           class="collapse collapse-arrow"
+          role="group"
+          :aria-labelledby="`manifestation-header-${item._id}-${index}`"
         >
           <input
             type="checkbox"
             class="manifestation-checkbox"
+            :aria-expanded="false"
           >
-          <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-white font-medium">
+          <div
+            :id="`manifestation-header-${item._id}-${index}`"
+            class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-white font-medium"
+          >
             <DetailManifestationHeaderComp
               v-if="componentInfoReady"
               :manifestation="manifestation"
