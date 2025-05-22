@@ -12,7 +12,7 @@
       :aria-expanded="toggle.toString()"
       :aria-controls="'dropdown-menu'"
       class="btn m-1 btn-circle btn-outline btn-xs"
-      @click="toggle = !toggle"
+      @click="handleToggle"
       @keydown="handleTriggerKeydown"
     >
       <Icon
@@ -94,7 +94,7 @@
             :href="`https://www.filmportal.de/${same_as_item.id}`"
             target="_blank"
             class="link link-primary link-hover dark:link-accent"
-            @click="markDropdownWasOpen"
+            @click="openDropdown"
           >
             <img
               src="https://www.filmportal.de/themes/custom/filmportal/favicon.ico"
@@ -163,6 +163,22 @@ const position = ref({ top: 0, left: 0 });
 const triggerRef = ref<HTMLElement | null>(null);
 const menuRef = ref<HTMLElement | null>(null);
 let dropdownWasOpenBeforeBlur = false;
+
+const openDropdown = async () => {
+    toggle.value = !toggle.value;
+    if (toggle.value) {
+        await nextTick(); // ensures DOM is updated
+        calculatePosition(); // position is now measurable
+    }
+};
+
+const handleToggle = async () => {
+    toggle.value = !toggle.value;
+    if (toggle.value) {
+        await nextTick();
+        calculatePosition();
+    }
+};
 
 const calculatePosition = () => {
     const rect = triggerRef.value?.getBoundingClientRect();
