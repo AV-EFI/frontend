@@ -71,7 +71,11 @@
                 <a
                   :href="item.link"
                   class="btn btn-primary max-md:btn-block"
-                >{{ $t(item.linkText) }} <Icon name="fa-regular:arrow-alt-circle-right" /></a>
+                >{{ $t(item.linkText) }} 
+                  <Icon
+                    class="hidden md:inline-block"
+                    name="fa-regular:arrow-alt-circle-right"
+                  /></a>
               </div>
             </div>
           </div>
