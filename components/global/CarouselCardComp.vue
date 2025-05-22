@@ -40,7 +40,7 @@
               class="flex flex-col items-center"
             >
               <img
-                src="/img/avefi_ph_blue.jpeg"
+                src="/img/avefi_ph_round.jpg"
                 alt="Avefi"
                 :class="`w-full h-48 lg:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
               >
