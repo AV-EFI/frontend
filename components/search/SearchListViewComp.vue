@@ -125,17 +125,17 @@
           />
         </div>
       </div>
-      <div class="flex flex-col md:flex-row hidden">
-        <div class="w-full md:w-100 flex flex-col">
-          <DetailKeyValueComp
-            keytxt="EFI"
-            :valtxt="item?.handle"
-            class="mb-2"
-          />
-        </div>
-      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <div class="border-l-2 border-work-variant w-full grid subgrid col-span-full px-2">
+          <div class="flex flex-col md:flex-row">
+            <div class="w-full md:w-100 flex flex-col">
+              <DetailKeyValueComp
+                keytxt="EFI"
+                :valtxt="item?.handle"
+                class="mb-2 max-md:break-all"
+              />
+            </div>
+          </div>
           <div class="flex flex-col col-span-full">
             <MicroLabelComp label-text="AlternativeTitle" />
             <span 
@@ -257,10 +257,11 @@
                 </div>
               </div>
               <div class="col-span-full row-start-2">
-                <DetailKeyValueComp 
+                <DetailKeyValueComp
+                  class="max-md:break-all"
                   keytxt="EFI"
                   :valtxt="manifestation?.handle"
-                  :clip="false"
+                  :clip="true"
                 />
               </div>
               <div class="col-span-1 row-start-3 md:flex-row">

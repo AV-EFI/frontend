@@ -8,7 +8,7 @@
     <Icon
       class="text-primary-400 dark:text-primary-300 my-auto cursor-pointer min-w-4"
       :class="fontSize"
-      name="mdi:clipboard-play-multiple-outline"
+      name="mdi:content-copy"
       :alt="`Copy ${displayText}`"
       :title="`Copy ${displayText}`"
       @click="useClipboardUtil()?.copyExtended(displayText)"

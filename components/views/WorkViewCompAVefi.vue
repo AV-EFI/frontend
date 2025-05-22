@@ -14,6 +14,13 @@
       </div>
       <NuxtLayout name="partial-grid-2-1-no-heading">
         <template #left>
+          <DetailKeyValueComp
+            :id="dataObject?._source?.handle"
+            keytxt="EFI"
+            :valtxt="dataObject?._source?.handle"
+            class="col-span-full mb-2"
+            :clip="true"
+          />
           <DetailWorkVariantTopLevelComp
             v-model="mir"
             :handle="dataObject?._source?.handle"

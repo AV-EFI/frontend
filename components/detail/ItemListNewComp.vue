@@ -17,7 +17,7 @@
         :keytxt="$t('EFI')"
         :valtxt="exemplar?.handle"
         class="w-full mb-2"
-        :clip="false"
+        :clip="true"
       />
     </div>
     <div class="col-span-full md:col-span-1 md:row-start-2 flex flex-col justify-end">
@@ -26,7 +26,7 @@
         v-if="exemplar?.has_record?.has_webresource"
         :href="exemplar?.has_record?.has_webresource"
         target="_blank"
-        class="link link-primary dark:link-accent mt-auto"
+        class="link link-primary dark:link-accent my-auto"
       >
         <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
       </a>

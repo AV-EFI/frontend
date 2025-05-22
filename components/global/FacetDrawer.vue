@@ -6,7 +6,7 @@
       class="drawer-toggle"
       :checked="objectListStore.facetDrawerOpen"
     >
-    <div class="drawer-side z-20 lg:z-10 h-full">
+    <div class="drawer-side z-30 lg:z-10 h-full">
       <label
         aria-label="close sidebar"
         class="drawer-overlay z-30"

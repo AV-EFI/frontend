@@ -48,7 +48,7 @@
               keytxt="EFI"
               :valtxt="manifestation?.handle"
               class="col-span-full"
-              :clip="false"
+              :clip="true"
             />
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.described_by?.has_issuer_name"
@@ -98,8 +98,9 @@
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_extent?.has_value"
               keytxt="avefi:Extent"
-              :valtxt="`${manifestation?.has_record?.has_extent?.has_value} ${manifestation?.has_record?.has_extent?.has_unit}`"
+              :valtxt="`${manifestation?.has_record?.has_extent?.has_value} ${$t(manifestation?.has_record?.has_extent?.has_unit)}`"
               class="w-full mt-2"
+              :clip="false"
             />
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_colour_type"
