@@ -13,8 +13,22 @@ build_docker:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" 
       > /kaniko/.docker/config.json
   script:
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile 
+    - /kaniko/executor 
+      --context $CI_PROJECT_DIR 
+      --dockerfile $CI_PROJECT_DIR/Dockerfile 
       --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+      --cache=true
+      --cache-ttl=24h
+      --cache-repo=$CI_REGISTRY_IMAGE/cache
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --compressed-caching=false
+      --single-snapshot=false
+  cache:
+    key: 
+      files:
+        - yarn.lock
+    paths:
+      - .yarn/cache/
   rules:
     - if: $CI_COMMIT_BRANCH
 
