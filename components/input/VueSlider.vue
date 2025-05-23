@@ -10,7 +10,6 @@
       class="collapse-checkbox"
     >
 
-    <!-- Panel Header -->
     <div class="collapse-title bg-slate-50 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
         {{ $t(headerText) }}
@@ -23,15 +22,24 @@
       />
     </div>
 
-    <!-- Panel Body -->
     <div class="collapse-content !pl-0 pr-0 bg-slate-50 dark:bg-slate-900 dark:text-white text-xs">
-      <!-- Hidden configure filter -->
       <ais-configure
-        :numeric-filters="[
-          `production_in_year >= ${appliedSliderValue[0]}`,
-          `production_in_year <= ${appliedSliderValue[1]}`
-        ]"
-        :optional-filters="appliedIncludeMissing ? ['production_in_year IS NULL'] : []"
+        :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`"
+        :numeric-refinements="{
+          ...(appliedSliderValue[0] !== props.min || appliedSliderValue[1] !== props.max
+            ? {
+              'production_in_year': {
+                '>=': appliedSliderValue[0],
+                '<=': appliedSliderValue[1]
+              }
+            }
+            : {}),
+          ...(appliedProdYearOnly
+            ? {
+              'prodYearsOnly': { '=': 1 }
+            }
+            : {})
+        }"
         class="hidden"
       />
 
@@ -56,9 +64,9 @@
           :placeholder="String(min)"
           number="integer"
         />
-        <div class="w-1/3 flex flex-col justify-center h-100 mb-3.5 justify-items-center">
+        <div class="w-1/3 flex flex-col justify-center mb-3.5">
           <Icon
-            class="align-self-center mx-auto dark:text-white"
+            class="mx-auto dark:text-white"
             name="formkit:arrowright"
           />
         </div>
@@ -73,24 +81,20 @@
         />
       </div>
 
-      <!-- Include missing years checkbox -->
       <div
         class="text-center mt-2 py-2 px-4"
-        :alt="$t('includeMissingProductionYearExtended')"
-        :title="$t('includeMissingProductionYearExtended')"
+        :title="$t('prodYearOnlyProductionYearExtended')"
       >
         <label class="label cursor-pointer text-xs">
           <input
-            v-model="includeMissingYears"
+            v-model="prodYearOnly"
             type="checkbox"
             class="checkbox checkbox-xs"
           >
-          <span class="label-text ml-2">{{ $t('includeMissingProductionYear') }}</span>
+          <span class="label-text ml-2">{{ $t('prodYearOnlyProductionYear') }}</span>
         </label>
       </div>
 
-      <!-- Apply Button -->
-      <!-- Reset Button -->
       <div class="text-center flex flex-row mt-4">
         <button
           class="btn btn-block btn-sm w-1/2 btn-outline btn-secondary"
@@ -99,14 +103,14 @@
           {{ $t('reset') }}
         </button>
         <button
-          class="btn btn-block btn-sm w-1/2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          class="btn btn-block btn-sm w-1/2 btn-primary"
           :disabled="!hasUnsavedChanges"
           @click="applySlider"
         >
           {{ $t('apply') }}
           <span
             v-if="hasUnsavedChanges"
-            class="ml-1 text-xs align-top text-red-500"
+            class="ml-1 text-md align-top text-warning-500 dark:text-warning-400"
           >•</span>
         </button>
       </div>
@@ -115,7 +119,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect, onMounted } from 'vue';
+import { ref, computed, onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
 
@@ -123,128 +127,105 @@ const props = defineProps({
     headerText: { type: String, default: 'Production Year' },
     category: { type: String, default: null },
     min: { type: Number, default: 1896 },
-    max: { type: Number, default: 2025 }
+    max: { type: Number, default: 2025 },
 });
-
-const appliedSliderValue = ref<[number, number]>([props.min, props.max]);
-const appliedIncludeMissing = ref(true);
-
 
 const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
 const route = useRoute();
 const router = useRouter();
 
 const sliderValue = ref<[number, number]>([props.min, props.max]);
-const includeMissingYears = ref(false);
+const prodYearOnly = ref(false);
+const appliedSliderValue = ref<[number, number]>([props.min, props.max]);
+const appliedProdYearOnly = ref(false);
 
 onMounted(() => {
     const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][>=]`] as string);
     const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][<=]`] as string);
-    const missing = route.query?.[`${indexName}[includeMissingProductionYear]`] === '1';
+    const raw = route.query?.[`${indexName}[numericRefinement][prodYearsOnly][=]`] === '1';
 
-    sliderValue.value = [
-        !isNaN(start) ? start : props.min,
-        !isNaN(end) ? end : props.max
-    ];
-    includeMissingYears.value = missing;
+    if (!isNaN(start) && !isNaN(end)) {
+        sliderValue.value = [start, end];
+        appliedSliderValue.value = [start, end];
+    }
 
-    // Initialize applied values
-    appliedSliderValue.value = [...sliderValue.value];
-    appliedIncludeMissing.value = missing;
+    prodYearOnly.value = raw;
+    appliedProdYearOnly.value = raw;
 });
-
-const resetSlider = () => {
-    sliderValue.value = [props.min, props.max];
-    applySlider();
-};
 
 watchEffect(() => {
     const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][>=]`] as string);
     const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][<=]`] as string);
     sliderValue.value = [
         !isNaN(start) ? start : props.min,
-        !isNaN(end) ? end : props.max
+        !isNaN(end) ? end : props.max,
     ];
 });
 
-// Sync slider value to query string
-/*
-const onSliderEnd = ([from, to]: number[]) => {
-    router.replace({
-        path: route.path,
-        query: {
-            ...route.query,
-            [`${indexName}[numericRefinement][production_in_year][>=]`]: from.toString(),
-            [`${indexName}[numericRefinement][production_in_year][<=]`]: to.toString()
-        }
-    });
+const resetSlider = () => {
+    sliderValue.value = [props.min, props.max];
+    prodYearOnly.value = false;
+    applySlider();
 };
-*/
+
 const applySlider = () => {
     const [from, to] = sliderValue.value;
+    const isDefaultRange = from === props.min && to === props.max;
 
-    // Update applied state (drives <ais-configure>)
     appliedSliderValue.value = [from, to];
-    appliedIncludeMissing.value = includeMissingYears.value;
+    appliedProdYearOnly.value = prodYearOnly.value;
 
-    // Update URL
-    const updatedQuery = {
-        ...route.query,
-        [`${indexName}[numericRefinement][production_in_year][>=]`]: from.toString(),
-        [`${indexName}[numericRefinement][production_in_year][<=]`]: to.toString()
-    };
+    // Parse current URL params directly
+    const urlParams = new URLSearchParams(window.location.search);
 
-    if (includeMissingYears.value) {
-        updatedQuery[`${indexName}[includeMissingProductionYear]`] = '1';
-    } else {
-        delete updatedQuery[`${indexName}[includeMissingProductionYear]`];
+    // Remove existing slider-related params
+    for (const key of Array.from(urlParams.keys())) {
+        if (
+            key.startsWith(`${indexName}[numericRefinement][production_in_year][`) ||
+      key === `${indexName}[numericRefinement][prodYearsOnly][=]`
+        ) {
+            urlParams.delete(key);
+        }
     }
 
+    // Add new slider params if different from default
+    if (!isDefaultRange) {
+        urlParams.set(`${indexName}[numericRefinement][production_in_year][>=]`, from.toString());
+        urlParams.set(`${indexName}[numericRefinement][production_in_year][<=]`, to.toString());
+    }
+
+    if (prodYearOnly.value) {
+        urlParams.set(`${indexName}[numericRefinement][prodYearsOnly][=]`, '1');
+    }
+
+    // Convert URLSearchParams back to plain object for Vue Router
+    const updatedQuery: Record<string, string> = {};
+    for (const [key, value] of urlParams.entries()) {
+        updatedQuery[key] = value;
+    }
+
+    // Update the route with merged query params
     router.replace({
         path: route.path,
-        query: updatedQuery
+        query: updatedQuery,
     });
+
+    // Trigger InstantSearch to sync from URL
+    window.dispatchEvent(
+        new StorageEvent('storage', {
+            key: 'latest-search-query',
+            newValue: window.location.search,
+        }),
+    );
 };
+
 
 const hasUnsavedChanges = computed(() => {
     const [from, to] = sliderValue.value;
     const [appliedFrom, appliedTo] = appliedSliderValue.value;
     return (
-        from !== appliedFrom ||
-    to !== appliedTo ||
-    includeMissingYears.value !== appliedIncludeMissing.value
+        from !== appliedFrom || to !== appliedTo || prodYearOnly.value !== appliedProdYearOnly.value
     );
-});
-
-// Sync checkbox state to query string
-/*
-const updateCheckboxQuery = () => {
-    if (includeMissingYears.value) {
-        router.replace({
-            path: route.path,
-            query: {
-                ...route.query,
-                [`${indexName}[includeMissingProductionYear]`]: '1'
-            }
-        });
-    } else {
-        const { [`${indexName}[includeMissingProductionYear]`]: _, ...rest } = route.query;
-        router.replace({
-            path: route.path,
-            query: rest
-        });
-    }
-};
-*/
-// InstantSearch numeric filters
-const numericFilters = computed(() => [
-    `production_in_year >= ${sliderValue.value[0]}`,
-    `production_in_year <= ${sliderValue.value[1]}`
-]);
-
-// Optional: can be used by Searchkit if you customize the backend to pick this up
-const optionalFilters = computed(() => {
-    return includeMissingYears.value ? [`production_in_year IS NULL`] : [];
 });
 </script>
 

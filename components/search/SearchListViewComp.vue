@@ -136,7 +136,7 @@
               />
             </div>
           </div>
-          <div class="flex flex-col col-span-full">
+          <div class="flex flex-col col-span-full mb-2">
             <MicroLabelComp label-text="AlternativeTitle" />
             <span 
               v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"

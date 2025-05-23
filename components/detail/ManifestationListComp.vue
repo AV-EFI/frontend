@@ -93,7 +93,15 @@
               v-if="manifestation?.has_record?.has_duration?.has_value"
               keytxt="avefi:Duration"
               :valtxt="manifestation?.has_record?.has_duration?.has_value_clean?? manifestation?.has_record?.has_duration?.has_value"
+              :clip="false"
               class="w-full"
+            />
+            <DetailKeyValueComp
+              v-if="manifestation?.has_record?.has_sound_type"
+              keytxt="has_sound_type"
+              :valtxt="manifestation?.has_record?.has_sound_type"
+              :clip="false"
+              class="w-full mt-2"
             />
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_extent?.has_value"

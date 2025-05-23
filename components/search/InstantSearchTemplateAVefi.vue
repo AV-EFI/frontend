@@ -5,7 +5,7 @@
         :search-client="searchClient"
         :index-name="indexName"
         :show-loading-indicator="true"
-        :routing="extendedRouting"
+        :routing="true"
         :insights="false"
         :future="{preserveSharedStateOnUnmount: true }"
       >
@@ -434,7 +434,37 @@ import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 import { simple as defaultMapping } from 'instantsearch.js/es/lib/stateMappings';
 
 const routerInstance = defaultRouter();
-const stateMappingInstance = defaultMapping();
+//const stateMappingInstance = defaultMapping();
+const stateMapping = {
+    stateToRoute(uiState) {
+        const indexUiState = uiState[props.indexName] || {};
+        const numericRefinements = indexUiState.numericRefinements || {};
+        const prodYearsOnlyFlag = indexUiState.prodYearsOnly === true ? '1' : undefined;
+
+        // Only serialize numeric refinements if not empty
+        const hasNumeric = Object.keys(numericRefinements).length > 0;
+
+        return {
+            [`${props.indexName}[query]`]: indexUiState.query || '',
+            ...(hasNumeric ? { [`${props.indexName}[numericRefinement]`]: numericRefinements } : {}),
+            ...(prodYearsOnlyFlag ? { [`${props.indexName}[prodYearsOnly]`]: prodYearsOnlyFlag } : {}),
+        };
+    },
+
+    routeToState(routeState) {
+        const numericRefinements = routeState[`${props.indexName}[numericRefinement]`] || {};
+        const prodYearsOnlyFlag = routeState[`${props.indexName}[prodYearsOnly]`] === '1';
+
+        return {
+            [props.indexName]: {
+                query: routeState[`${props.indexName}[query]`] || '',
+                numericRefinements,
+                prodYearsOnly: prodYearsOnlyFlag,
+            },
+        };
+    },
+};
+
 
 routerInstance.write = (routeState) => {
     try {
@@ -470,7 +500,7 @@ routerInstance.write = (routeState) => {
 
 const extendedRouting = {
     router: routerInstance,
-    stateMapping: stateMappingInstance,
+    stateMapping: stateMapping,
 };
 
 

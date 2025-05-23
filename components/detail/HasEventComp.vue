@@ -187,7 +187,7 @@
               />
             </div>
           </template>
-          <template #center>
+          <template #right>
             <!-- has_activity -->
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
@@ -205,6 +205,41 @@
               :valtxt="has_event_item?.located_in"
               :ul="true"
               :aria-label="$t('place') + ': ' + has_event_item?.located_in"
+            />
+          </template>
+        </NuxtLayout>
+        <NuxtLayout
+          v-else
+          name="partial-grid-1-1"
+        >
+          <template #heading>
+            <span
+              class="dark:text-white"
+              :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.category)"
+              role="heading"
+              aria-level="3"
+            >
+              {{ $t(has_event_item.category) }}
+            </span>
+          </template>
+          <template #left>
+            <DetailKeyValueComp
+              v-if="has_event_item?.has_date"
+              keytxt="productionyear"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.has_date"
+              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
+              :clip="false"
+            />
+          </template>
+          <template #right>
+            <DetailKeyValueListComp
+              v-if="has_event_item?.located_in"
+              keytxt="place"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.located_in"
+              :aria-label="$t('place') + ': ' + has_event_item?.located_in"
+              :clip="false"
             />
           </template>
         </NuxtLayout>
