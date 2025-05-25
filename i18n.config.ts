@@ -284,6 +284,7 @@ export default defineI18nConfig(() => ({
             'workVariantIsPartOf': ({named}) => `Works that are part of the efi <strong>${named('name')}</strong>`, 
             "loading": "Loading...",
             "divider": "Divider",
+            'unknownLanguage': 'Unknown language',
             ...avefiLocales.en,
         },
         de: {
@@ -566,6 +567,7 @@ export default defineI18nConfig(() => ({
             'workVariantIsPartOf': ({named}) => `Werke, die Teile des Werks mit efi <strong>${named('name')}</strong> sind`, 
             "loading": "Lädt ...",
             "divider": "Trenner",
+            'unknownLanguage': 'Unbekannte Sprache',
             ...avefiLocales.de,
         }
     }

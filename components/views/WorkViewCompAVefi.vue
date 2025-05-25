@@ -55,11 +55,7 @@
     <div v-else>
       <pre>{{ mir }}</pre>
     </div>
-    <div v-if="status === 'pending'">
-      <GlobalSkeletonLoaderComp class="mt-2" />
-    </div>
     <div
-      v-else
       :class="[manifestations?.length < 1? 'flex place-content-center':'']"
       role="region"
       aria-label="Manifestations"

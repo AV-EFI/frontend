@@ -41,7 +41,7 @@
         </span>
 
         <span
-          v-if="manifestation?.has_record?.in_language"
+          v-if="manifestation?.has_record?.in_language && manifestation.has_record?.in_language?.code"
           class="flex flex-row items-center"
           :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ')"
         >
@@ -91,7 +91,7 @@
           class="flex flex-row justify-start items-center"
           :aria-label="$t('productionyear') + ': ' + manifestation._source.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')"
         >
-          {{ manifestation._source.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
+          {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
         </span>
 
         <span
@@ -111,11 +111,13 @@
         </span>
 
         <span
-          v-if="manifestation?.has_record?.in_language"
+          v-if="Array.isArray(manifestation?.has_record?.in_language) && manifestation.has_record.in_language.length > 0 && manifestation.has_record?.in_language[0]?.code"
           class="flex flex-row items-center"
-          :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ')"
+          :aria-label="formatInLanguageAria(manifestation.has_record.in_language)"
         >
-          <template v-if="manifestation?.has_record?.has_event?.has_date || manifestation?.has_record?.has_colour_type">
+          <template
+            v-if="manifestation?.has_record?.has_event?.length || manifestation?.has_record?.has_colour_type"
+          >
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
@@ -123,7 +125,7 @@
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
-          {{ manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
+          {{ formatInLanguageText(manifestation.has_record.in_language) }}
         </span>
       </div>
 
@@ -156,7 +158,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps({
     manifestation: Object as PropType<any>,
     type: String as PropType<string>,
@@ -173,6 +174,29 @@ const props = defineProps({
         default: false,
     },
 });
+
+import { useI18n } from 'vue-i18n';
+const { t: $t } = useI18n();
+
+function safeT(val: unknown): string {
+    return typeof val === 'string' && val.trim()
+        ? $t(val)
+        : '';
+}
+
+function formatInLanguageText(langs: any[]): string {
+    return langs
+        .map(lang => safeT(lang?.code))
+        .filter(Boolean)
+        .join(', ');
+}
+
+function formatInLanguageAria(langs: any[]): string {
+    return safeT('in_language_code') + ': ' + langs
+        .map(lang => safeT(lang?.code))
+        .filter(Boolean)
+        .join(', ');
+}
 
 </script>
 
