@@ -17,11 +17,11 @@ export default defineNuxtPlugin(() => {
             options.headers = headers;
         },
         onResponse({ response }) {
-            console.log("apiFetch Response");
-            console.log(response);
+            //console.log("apiFetch Response");
+            //console.log(response);
         },
         onResponseError({ response }) {
-            console.log("apiFetch onResponseError");
+            //console.log("apiFetch onResponseError");
 
             if (response.status === 401) {
                 navigateTo('/login');

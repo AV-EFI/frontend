@@ -1,8 +1,8 @@
 <template>
   <button
     class="btn btn-xs btn-primary"
-    :alt="`Copy value to target model property name (${targetPropertyName})`"
-    :title="`Copy value to target model property name (${targetPropertyName})`"
+    :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
+    :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
     @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)"
   >
     <Icon name="formkit:arrowright" />

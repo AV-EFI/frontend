@@ -85,9 +85,17 @@
           <span class="col-span-3">
             {{ country?.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in country?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="country?.has_name"
@@ -132,9 +140,17 @@
           <span class="col-span-3">
             {{ director.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ director?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in director?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="director.has_name"
@@ -157,9 +173,17 @@
           <span class="col-span-3">
             {{ producer.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ producer?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in producer?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="producer.has_name"
@@ -182,9 +206,20 @@
           <span class="col-span-3">
             {{ castMember.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ castMember?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div
+            class="col-span-3"
+            style="word-break: break-word;"
+          >
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in castMember?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="castMember.has_name"
@@ -207,9 +242,17 @@
           <span class="col-span-3">
             {{ genre.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ genre?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in genre?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="genre.has_name"
@@ -232,9 +275,17 @@
           <span class="col-span-3">
             {{ subject.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in subject?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="subject.has_name"

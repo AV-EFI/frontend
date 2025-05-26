@@ -96,7 +96,7 @@
           <!-- Logo and claim -->
           <div class="mb-2 ml-2 flex items-center justify-center h-12">
             <a
-              class="dark:bg-white text-xl h-12 my-auto flex items-center justify-center"
+              class="dark:bg-white rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center"
               href="/"
             >
               <img

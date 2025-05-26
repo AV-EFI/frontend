@@ -1,5 +1,23 @@
 <template>
   <div>
+    <div class="p-2 w-full flex flex-row justify-between">
+      <button 
+        class="btn btn-ghost btn-sm w-16"
+        :title="$t('info')"
+        @click="showInfo = !showInfo"
+      >
+        <Icon
+          name="material-symbols:info-outline"
+          class="text-lg"
+        />
+      </button>
+      <p
+        v-if="showInfo"
+        class="flex-grow"
+      >
+        {{ $t('mergeResultHelpText') }}
+      </p>
+    </div>
     <FormKit
       id="work-view-editor-result"
       v-model="dataJson"
@@ -65,7 +83,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('location')} same_as_id`"
+            :label="`${$t('location')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -100,7 +118,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('Director')} same_as_id`"
+            :label="`${$t('Director')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -120,7 +138,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('production')} same_as_id`"
+            :label="`${$t('production')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -140,7 +158,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('castmembers')} same_as_id`"
+            :label="`${$t('castmembers')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -160,7 +178,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('Genre')} same_as_id`"
+            :label="`${$t('Genre')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -180,7 +198,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('subject')} same_as_id`"
+            :label="`${$t('subject')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -250,6 +268,8 @@ const initialState = {
 };
 import { toast } from "vue3-toastify";
 const dataJson = defineModel({type: Object, required: true});
+
+const showInfo = ref(false);
 
 function customReset () {
     //deep copy of initialState

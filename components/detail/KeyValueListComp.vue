@@ -18,11 +18,20 @@
     >
       <GlobalClipboardComp
         v-for="val in valtxt"
+        v-if="clip"
         :key="val?.has_name ?? val"
         :class="fontSize"
         class="flex items-center mr-2 min-w-6"
         :display-text="val?.has_name ?? val"
       />
+      <span
+        v-if="!clip"
+        class="flex-grow"
+        :class="fontSize"
+        :aria-label="`${$t(keytxt)}: ${valtxt.map(v => v?.has_name ?? v).join(', ')}`"
+      >
+        {{ valtxt.map(v => v?.has_name ?? v).join(', ') }}
+      </span>
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
