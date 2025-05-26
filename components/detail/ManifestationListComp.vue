@@ -81,7 +81,7 @@
             </div>
             <DetailKeyValueListComp
               v-if="manifestation?.has_record?.has_note"
-              class="col-span-full text-justify"
+              class="col-span-full text-justify md:pr-2"
               keytxt="avefi:Note"
               :valtxt="manifestation?.has_record?.has_note"
               :ul="true"
@@ -92,7 +92,7 @@
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_duration?.has_value"
               keytxt="avefi:Duration"
-              :valtxt="manifestation?.has_record?.has_duration?.has_value"
+              :valtxt="formatDuration(manifestation?.has_record?.has_duration?.has_value)"
               :clip="false"
               class="w-full"
             />
@@ -164,6 +164,7 @@
 
 <script lang="ts" setup>
 import type { Item, MovingImageRecord } from '../../models/interfaces/av_efi_schema.ts';
+const { t } = useI18n();
 
 const manifestationList = defineModel({
     type: Array as PropType<AVefiFEManifestation[]>,
@@ -201,9 +202,9 @@ function handleEscKey(event: KeyboardEvent) {
 }
 
 function safeT(input: unknown): string {
-    if (typeof input !== 'string' || !input.trim()) return '';
+    if (typeof input !== 'string' || !input.trim()) return String(input);
     try {
-        return $t(input);
+        return t(input);
     } catch (err) {
         console.warn('Invalid translation key:', input, err);
         return String(input ?? '');
@@ -211,7 +212,26 @@ function safeT(input: unknown): string {
 }
 
 function formatExtent(extent?: { has_value?: string | number, has_unit?: string }) {
+    
     if (!extent?.has_value) return '';
     return `${extent.has_value} ${safeT(extent.has_unit)}`.trim();
 }
+
+function formatDuration(has_value): string {
+    if (has_value) {
+        try {
+            const duration = has_value.replace(/PT/g, '').replace(/S/g, '').replace(/M/g, ':').replace(/H/g,':').split(':');
+            duration[0] = String(duration[0]).padStart(2, '0');
+            if (duration.length > 1) {
+                duration[1] = String(duration[1]).padStart(2, '0');
+            }
+            return duration.join(':');
+        } catch (error) {
+            console.error('Error formatting duration:', error);
+            return String(has_value);
+        }
+    }
+    return has_value;
+}
+
 </script>

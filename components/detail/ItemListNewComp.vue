@@ -57,7 +57,7 @@
         class="mb-2"
       />
     </div>
-    <div class="col-span-full md:col-span-1">
+    <div class="col-span-full md:col-span-2">
       <MicroLabelComp label-text="in_language_code" />
       <SearchHighlightListComp
         :items="exemplar?.has_record?.in_language?.flatMap((il) => `${$t(il?.code)} (${il?.usage?.map((usage) => $t(usage)).join(', ')})`) || []"
