@@ -119,6 +119,14 @@
               :aria-label="$t('manifestation_event_type')"
             />
             <SearchPanelRefinementListComp
+              header-text="has_colour"
+              attribute-name="has_colour_type"
+              category="avefi:Manifestation"
+              :is-searchable="false"
+              :tab-index="15"
+              :aria-label="$t('has_colour')"
+            />
+            <SearchPanelRefinementListComp
               header-text="has_format"
               attribute-name="has_format_type"
               category="avefi:Item"
@@ -126,17 +134,11 @@
               :tab-index="14"
               :aria-label="$t('has_format')"
             />
-            <SearchPanelRefinementListComp
-              header-text="has_colour"
-              attribute-name="has_colour_type"
-              category="avefi:Item"
-              :is-searchable="false"
-              :tab-index="15"
-              :aria-label="$t('has_colour')"
-            />
+
             <SearchPanelRefinementListComp
               header-text="item_element_type"
               attribute-name="item_element_type"
+              class="hidden"
               category="avefi:Item"
               :is-searchable="false"
               :tab-index="16"

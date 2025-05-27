@@ -294,7 +294,7 @@
               {{ $t('items') }}
             </h4>
             <DetailItemListNewComp 
-              :items="manifestation?.items"
+              :items="getFilteredItems(manifestation)"
               :production-details-checked="productionDetailsChecked"
               :show-admin-stats="showAdminStats"
               :highlight-result="item?._highlightResult"
@@ -312,6 +312,7 @@
 </template>
 
 <script lang="ts" setup>
+import { inner } from '@formkit/inputs';
 import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
 const filteredManifestationCache = new WeakMap();
 
@@ -333,37 +334,50 @@ const props = defineProps({
 
 const componentInfoReady = ref(false);
 
-function getFilteredManifestations(item: any) {
-    if (filteredManifestationCache.has(item)) {
-        return filteredManifestationCache.get(item);
+function getFilteredManifestations(item) {
+    if (!item.inner_hits) {
+    // No nested filtering active, show all manifestations
+        return item.manifestations || [];
     }
 
-    const innerHits = item?.inner_hits || {};
-    const innerHitKeys = Object.keys(innerHits);
-    const nestedKey = 'manifestations'; // You could dynamically detect this if needed
+    // Use the exact inner_hits key for manifestations
+    const innerHitsManifestations = item.inner_hits.manifestations_hits?.hits?.hits || [];
 
-    const hits = innerHits[nestedKey]?.hits?.hits || [];
-
-    // ✅ Use inner_hits if present
-    if (hits.length > 0) {
-        const result = hits.map(hit => hit._source);
-        filteredManifestationCache.set(item, result);
-        return result;
+    if (innerHitsManifestations.length > 0) {
+    // Return only matched manifestations from inner_hits
+        return innerHitsManifestations.map(hit => hit._source);
     }
 
-    // ❗ If any inner_hits are defined but empty, DO NOT fallback
-    if (innerHitKeys.length > 0) {
-        filteredManifestationCache.set(item, []);
-        return [];
-    }
-
-    // ✅ Fallback only if no inner_hits were present at all (i.e., no nested filters used)
-    const result = item?.manifestations || [];
-    filteredManifestationCache.set(item, result);
-    return result;
+    // If inner_hits present but empty, return empty array (no matches)
+    return [];
 }
 
+function getFilteredItems(manifestation) {
+    if (!manifestation.inner_hits) {
+        console.log('No inner_hits, returning all items:', manifestation.items);
+        return manifestation.items || [];
+    }
 
+    // Use exact key for items inner_hits (matches your ES config)
+    const itemsInnerHitsKey = Object.keys(manifestation.inner_hits).find(key => key.includes('items'));
+
+    console.log('inner_hits keys:', Object.keys(manifestation.inner_hits));
+    console.log('Using inner_hits key:', itemsInnerHitsKey);
+
+    if (!itemsInnerHitsKey) {
+        console.log('No items inner_hits key found, returning all items:', manifestation.items);
+        return manifestation.items || [];
+    }
+
+    const innerHitsItems = manifestation.inner_hits[itemsInnerHitsKey]?.hits?.hits || [];
+    console.log('innerHitsItems:', innerHitsItems);
+
+    if (innerHitsItems.length > 0) {
+        return innerHitsItems.map(hit => hit._source);
+    }
+
+    return [];
+}
 
 
 async function checkEmptyProperties(manifestations: any[]): Promise<void> {

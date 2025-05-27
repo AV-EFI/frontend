@@ -39,11 +39,10 @@
           />
           {{ $t(manifestation.has_record?.has_colour_type) }}
         </span>
-
         <span
-          v-if="manifestation?.has_record?.in_language && manifestation.has_record?.in_language?.code"
+          v-if="manifestation?.has_record?.in_language"
           class="flex flex-row items-center"
-          :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ')"
+          :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map(language => `${$t(language?.code || '')}`).join(', ')"
         >
           <template v-if="manifestation.has_record?.has_event?.has_date || manifestation.has_record?.has_colour_type">
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
@@ -109,7 +108,6 @@
           />
           {{ $t(manifestation?.has_record?.has_colour_type) }}
         </span>
-
         <span
           v-if="Array.isArray(manifestation?.has_record?.in_language) && manifestation.has_record.in_language.length > 0 && manifestation.has_record?.in_language[0]?.code"
           class="flex flex-row items-center"
