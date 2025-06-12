@@ -44,7 +44,7 @@
     <!-- List display (ul=true) -->
     <div
       v-else
-      :class="['max-h-64', overflowY, 'overflow-x-visible', {'bg-slate-100 dark:bg-slate-800 p-2 rounded-lg': bgColor}]"
+      :class="['max-h-64', overflowY, 'overflow-x-visible', {'bg-slate-100 dark:bg-gray-800 p-2 rounded-lg': bgColor}]"
     >
       <ul
         v-if="valtxt"

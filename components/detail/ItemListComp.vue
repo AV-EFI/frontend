@@ -8,7 +8,8 @@
       <template #heading>
         <h4
           class="font-bold uppercase text-sm col-span-full text-primary-800 dark:text-primary-200 pl-1"
-          :alt="$t('items')"
+          :alt="$t('tooltip.item')"
+          :title="$t('tooltip.item')"
         >
           {{ $t('items') }}
         </h4>
@@ -113,7 +114,7 @@
               :clip="false"
             />
           </div>
-          <div class="col-span-full md:col-span-1 row-start-1 flex flex-col items-end">
+          <div class="col-span-full md:col-span-1 row-start-1 flex flex-col items-end hidden">
             <MicroEfiCopyComp
               :id="item._id"
               :handle="item?.handle"
@@ -152,6 +153,8 @@
               :valtxt="item?._source?.has_record?.has_format.flatMap(function (has_format_item) {return $t(has_format_item.type); }).join(',')"
               class="w-full"
               :clip="false"
+              :alt="$t('tooltip.has_format')"
+              :title="$t('tooltip.has_format')"
             />
           </div>
           <div
@@ -161,6 +164,8 @@
             <LazyDetailKeyValueComp
               :keytxt="$t('item_element_type')"
               :valtxt="item._source?.has_record?.element_type"
+              :alt="$t('tooltip.elementType')"
+              :title="$t('tooltip.elementType')"
               class="w-full"
               :clip="false"
             />

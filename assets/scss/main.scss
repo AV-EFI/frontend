@@ -16,14 +16,20 @@
     src: url('~/assets/fonts/Roboto-Regular.ttf') format('truetype');
 }
 
-/*
+@font-face {
+  font-family: 'BreeSerif';
+  src: url('~/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('~/assets/fonts/Inter.ttf') format('truetype');
+}
+
 html, body {
-  font-family: 'OpenSans', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
-h1, h2, h3, h4 {
-    font-family: 'PlayfairDisplay', serif;
-}
-*/
 
 @tailwind base;
 @tailwind components;
@@ -85,6 +91,11 @@ header {
 .bungee {
   font-family: 'Bungee', sans-serif;
 }
+
+.bree {
+  font-family: 'BreeSerif', serif;
+}
+
 
 /*Easy Data Table Component*/
 /*Add class customize_table for dark theme adjustment*/
@@ -170,35 +181,11 @@ html[data-theme="avefi_dark"] .customize_table {
   max-width: 10em;
 }
 
-/**Cookie Banner**/
-:root {
-  --cookie-control-fontSize: 14px;
-  --cookie-control-barBackground: var(--primary-900);
-  --cookie-control-barTextColor: var(--base-50);
-  --cookie-control-barButtonColor: var(--base-50);
-  --cookie-control-barButtonBackground: var(--primary-500);
-  --cookie-control-barButtonHoverColor: var(--base-50);
-  --cookie-control-barButtonHoverBackground: var(--primary-700);
-  --cookie-control-focusRingColor: var(--primary-200);
-  --cookie-control-modalOverlayOpacity: 0.5;
-  --cookie-control-modalOverlay: var(--primary-950);
-  --cookie-control-modalButtonColor: var(--base-50);
-  --cookie-control-modalButtonBackground: var(--primary-500);
-  --cookie-control-modalButtonHoverColor: var(--base-50);
-  --cookie-control-modalButtonHoverBackground: var(--primary-700);
-  --cookie-control-modalTextColor: var(--primary-900);
-  --cookie-control-modalBackground: var(--base-50);
-  --cookie-control-checkboxActiveBackground: var(--primary-500);
-  --cookie-control-checkboxActiveCircleBackground: var(--base-50);
-  --cookie-control-checkboxDisabledBackground: var(--base-400);
-  --cookie-control-checkboxDisabledCircleBackground: var(--base-600);
-  --cookie-control-checkboxInactiveBackground: var(--base-400);
-  --cookie-control-checkboxInactiveCircleBackground: var(--base-600);
-  --cookie-control-modalUnsavedColor: var(--accent);
-  --cookie-control-controlButtonBackground: var(--primary-500);
-  --cookie-control-controlButtonIconColor: var(--base-50);
-  --cookie-control-controlButtonHoverBackground: var(--primary-700);
-  --cookie-control-controlButtonIconHoverColor: var(--base-50);
+mark {
+  background-color: var(--highlight); // or your exact altrosa hex if not using a CSS var
+  color: var(--highlight-content); // or your exact altrosa content color hex if not using a CSS var
+  padding: 0 0.25em;
+  border-radius: 2px;
 }
 
 .cookieControl__Modal-enter-active,

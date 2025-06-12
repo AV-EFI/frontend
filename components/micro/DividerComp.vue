@@ -7,7 +7,8 @@
       v-if="labelText"
       :category="labelText"
       :icon="true"
-      class="md:text-regular p-4"
+      class="md:text-regular"
+      :class="inClass == 'work' ? 'p-4' : inClass == 'manifestation' ? 'p-3' : 'p-2'"
     />
   </div>
 </template>

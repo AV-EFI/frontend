@@ -5,19 +5,13 @@
     :aria-label="$t(category ?? '')"
     role="status"
     :class="[
-      category === 'avefi:WorkVariant' ? 'bg-work-variant' :
+      category === 'avefi:WorkVariant' ? 'bg-work' :
       category === 'avefi:Manifestation' ? 'bg-manifestation' :
-      category === 'avefi:Item' ? 'bg-item' : 'bg-primary-500',
-      'badge text-white'
+      category === 'avefi:Item' ? 'bg-item' : 'bg-primary',
+      'badge font-semibold dark:text-black',
     ]"
   >
     {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
-    <Icon
-      v-if="icon"
-      name="fa:caret-down"
-      class="w-2 h-2 text-white ml-1"
-      aria-hidden="true"
-    />
   </span>
 
   <span

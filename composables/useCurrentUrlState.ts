@@ -14,7 +14,7 @@ export function useCurrentUrlState() {
 
   const handleStorage = (e: StorageEvent) => {
     if (e.key === 'latest-search-query') {
-      console.log('🧠 Storage event detected:', e);
+      //console.log('🧠 Storage event detected:', e);
       updateFromStorage();
     }
   };

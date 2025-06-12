@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow mt-1 mb-1"
+    class="collapse collapse-arrow border-2 border-primary dark:border-primary-600 rounded-lg mb-2"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     tabindex="0"
@@ -8,9 +8,10 @@
     <input
       type="checkbox"
       class="collapse-checkbox"
+      :aria-label="$t('togglePanel')"
     >
 
-    <div class="collapse-title bg-slate-50 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title bg-slate-50 dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
         {{ $t(headerText) }}
       </h4>
@@ -95,9 +96,9 @@
         </label>
       </div>
 
-      <div class="text-center flex flex-row mt-4">
+      <div class="text-center flex flex-row mt-4 mx-2">
         <button
-          class="btn btn-block btn-sm w-1/2 btn-outline btn-secondary"
+          class="btn btn-block btn-sm w-1/2"
           @click="resetSlider"
         >
           {{ $t('reset') }}

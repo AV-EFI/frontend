@@ -62,8 +62,8 @@ const isClicked = ref(false);
 const categoryText = ref(t(props.category));
 const hoverBgClass = computed(() => {
     return {
-        work: 'hover:bg-work-variant',
-        'work-variant': 'hover:bg-work-variant',
+        work: 'hover:bg-work',
+        'work-variant': 'hover:bg-work',
         item: 'hover:bg-item',
         manifestation: 'hover:bg-manifestation',
     }[props.category] || 'hover:bg-accent';

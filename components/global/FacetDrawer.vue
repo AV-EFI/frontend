@@ -4,6 +4,7 @@
       id="facet_drawer"
       type="checkbox"
       class="drawer-toggle"
+      :aria-label="$t('toggleFacetDrawer')"
       :checked="objectListStore.facetDrawerOpen"
     >
     <div class="drawer-side z-30 lg:z-10 h-full">
@@ -12,14 +13,17 @@
         class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
-      <div class="menu w-full md:w-[100vw] lg:w-80 overflow-hidden min-h-full bg-neutral dark:bg-slate-950 text-base-content dark:text-white z-30">
+      <div class="menu w-full md:w-[100vw] lg:w-80 overflow-hidden min-h-full dark:bg-slate-950 text-base-content dark:text-white z-30">
         <div class="flex flex-row justify-end">
           <button 
-            class="btn btn-outline btn-ghost w-16 lg:hidden"
+            class="btn btn-neutral w-16 lg:hidden"
             :title="`${$t('closeDrawer')}`"
             @click="$toggleFacetDrawerState"
           >
-            <Icon name="formkit:close" />
+            <Icon
+              class="text-xl"
+              name="formkit:close"
+            />
           </button>
         </div>
         <div class="w-full flex flex-row p-2">
@@ -138,7 +142,6 @@
             <SearchPanelRefinementListComp
               header-text="item_element_type"
               attribute-name="item_element_type"
-              class="hidden"
               category="avefi:Item"
               :is-searchable="false"
               :tab-index="16"
@@ -153,7 +156,7 @@
 
 <script setup lang="ts">
 import { useObjectListStore } from '../../stores/compareList';
-
+const { t:$t } = useI18n();
 const { $toggleFacetDrawerState }: any = useNuxtApp();
 const objectListStore = useObjectListStore();
 
@@ -169,6 +172,7 @@ onMounted(() => {
                 const collapseCheckbox = document.createElement('input');
                 collapseCheckbox.type = 'checkbox';
                 collapseCheckbox.classList.add('collapse-checkbox');
+                collapseCheckbox.setAttribute('aria-label', $t('togglePanel'));
                 panel?.prepend(collapseCheckbox);
             });
         }

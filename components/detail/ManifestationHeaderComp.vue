@@ -8,14 +8,14 @@
       v-if="type === 'searchresult'"
       :class="['flex justify-center flex-col w-4/5']"
     >
-      <h4 class="col-span-full text-xs text-primary-700 dark:text-primary-300 text-sm">
+      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
         {{ manifestation?.handle }}
       </h4>
-      <h4 class="col-span-full font-bold text-primary-950 dark:text-primary-200 my-1">
+      <h4 class="col-span-full font-bold text-gray-900 dark:text-primary-200 my-1">
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
 
-      <div class="col-span-full text-sm 2xl:text-md text-primary-700 dark:text-neutral-200 flex flex-row">
+      <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row">
         <span
           v-if="manifestation?.has_record?.has_event?.has_date"
           class="flex flex-row justify-start items-center"
@@ -56,7 +56,7 @@
         </span>
       </div>
 
-      <div class="flex flex-row mt-1">
+      <div class="flex flex-row mt-1 hidden">
         <div
           v-if="allItemsEmpty"
           class="badge bg-warning-300 text-white z-10"
@@ -77,14 +77,14 @@
       v-else
       class="flex flex-col justify-center w-4/5"
     >
-      <h4 class="col-span-full text-xs text-primary-700 dark:text-primary-300 text-sm">
+      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
         {{ manifestation?.handle }}
       </h4>
-      <h4 class="col-span-full font-bold text-primary-950 dark:text-primary-200 my-1 xl:text-base">
+      <h4 class="col-span-full font-bold text-gray-900 dark:text-primary-200 my-1 xl:text-base">
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
 
-      <div class="col-span-full text-sm 2xl:text-md text-primary-700 dark:text-neutral-200 flex flex-row">
+      <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row">
         <span
           v-if="manifestation?.has_record?.has_event?.has_date"
           class="flex flex-row justify-start items-center"
@@ -130,7 +130,7 @@
       <div class="flex flex-row mt-1">
         <div
           v-if="allItemsEmpty"
-          class="badge bg-warning-300 text-white z-10"
+          class="badge bg-warning text-white z-10"
           role="note"
           :aria-label="$t('emptyItemsLong')"
         >
@@ -144,7 +144,7 @@
       </div>
     </div>
 
-    <div class="max-md:flex max-md:justify-end">
+    <div class="max-md:flex max-md:justify-end hidden">
       <MicroEfiCopyComp
         :handle="manifestation?.handle ?? manifestation?.handle"
         category="manifestation"
@@ -197,9 +197,3 @@ function formatInLanguageAria(langs: any[]): string {
 }
 
 </script>
-
-<style lang="css">
-.collapse-arrow > .collapse-title:after {
-  top: 50%;
-}
-</style>

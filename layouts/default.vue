@@ -8,19 +8,19 @@
     >
       <GlobalNavBar />
     </header>
-    <main class="main grow bg-neutral dark:bg-slate-950 2xl:px-6 mt-[var(--header-height)]">
+    <main class="main grow bg-base-100 dark:bg-slate-950 2xl:px-6 mt-[var(--header-height)]">
       <ClientOnly>
         <!--GlobalIndicatorComp /-->
       </ClientOnly>
       <slot />
       <GlobalComparisonDrawer />
     </main>
-    <footer class="dark:bg-slate-800">
+    <footer class="dark:bg-gray-800">
       <LazyGlobalFooter />
     </footer>
     <button
       v-if="showScrollToTop"
-      class="fixed bottom-20 right-[20px] p-2 bg-tertiary dark:bg-secondary-600 h-[40px] w-[40px] text-white rounded-full"
+      class="fixed bottom-20 right-[20px] p-2 bg-neutral dark:bg-secondary-600 h-[40px] w-[40px] text-white rounded-full"
       :title="$t('scrollToTop')"
       @click="scrollToTop"
     >

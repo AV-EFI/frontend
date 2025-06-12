@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="objectListStore.objects?.length > 0 || shoppingCart.objects?.length > 0"
-    class="hidden avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-neutral-200 dark:bg-neutral-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
+    class="hidden avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-base-100 dark:bg-base-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
     role="region"
     :aria-label="$t('gotocomp')"
   >
@@ -26,7 +26,7 @@
       :aria-label="$t('comparisonAndCartCounts')"
     >
       <div
-        class="badge bg-shopping-cart hover:bg-shopping-cart font-bold text-white text-center join-item"
+        class="badge bg-favourites-list hover:bg-favourites-list font-bold text-white text-center join-item"
         :title="$t('elementsincomparison')"
         :aria-label="`${$t('elementsincomparison')}: ${shoppingCart.objects?.length}`"
       >

@@ -26,23 +26,17 @@ h1 {
   padding: 0;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-
 em {
-  background: var(--accent);
-  color: var(--white);
+  background: var(--highlight);
+  color: var(--highlight-content);
   padding: .125rem;
   font-style: normal;
 }
 
 .ais-Highlight-highlighted, .ais-Snippet-highlighted {
-  background: var(--secondary-200);
-  color: var(--primary-900);
+  background: var(--highlight);
+  color: var(--highlight-content);
   padding: .1rem;
-  font-weight: 700;
 }
 
 .search-panel {

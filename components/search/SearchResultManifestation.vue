@@ -16,7 +16,7 @@
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h3>
     </div>
-    <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
+    <div class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
         <div class="col-span-1">
           <MicroLabelComp label-text="has_colour" />
@@ -27,7 +27,11 @@
         </div>
       </div>
       <hr class="my-2">
-      <h4 class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item">
+      <h4
+        class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
+        :alt="$t('tooltip.item')"
+        :title="$t('tooltip.item')"
+      >
         {{ $t('items') }}
       </h4>
       <div
@@ -55,7 +59,11 @@
         </div>
 
         <div class="row-start-2 col-span-1">
-          <MicroLabelComp label-text="has_format" />
+          <MicroLabelComp
+            label-text="has_format"
+            :alt="$t('tooltip.has_format')"
+            :title="$t('tooltip.has_format')"
+          />
           <SearchHighlightListComp
             :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
             class="mb-2"

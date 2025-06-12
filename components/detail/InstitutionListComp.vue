@@ -207,7 +207,7 @@
                   <ais-pagination
                     :class-names="{
                       'ais-Pagination-list': 'join w-full md:w-auto',
-                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg',
+                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-gray-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg hover:bg-slate-300 dark:hover:bg-gray-700',
                       'ais-Pagination-link': 'text-gray-800 dark:text-gray-200'
                     }"
                   />

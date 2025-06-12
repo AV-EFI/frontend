@@ -3,6 +3,7 @@
     <ClientOnly>
       <input
         id="comparison_drawer"
+        :aria-label="$t('toggleComparisonDrawer')"
         type="checkbox"
         class="drawer-toggle"
         :checked="objectListStore.comparisonDrawerOpen"
@@ -16,11 +17,14 @@
         <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-max lg:max-w-[544px] min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg">
           <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
-              class="btn btn-outline btn-ghost w-16"
+              class="btn btn-neutral w-16"
               :title="$t('close')"
               @click="$toggleComparisonDrawerState()"
             >
-              <Icon name="formkit:close" />
+              <Icon
+                class="text-xl"
+                name="formkit:close"
+              />
             </button>
           </div>
           <div
@@ -38,7 +42,7 @@
             >
             <div
               role="tabpanel"
-              class="tab-content bg-neutral-50 dark:bg-slate-800 dark:text-white"
+              class="tab-content bg-base-200 dark:bg-gray-800 dark:text-white"
             >
               <div class="p-2 w-full flex flex-row justify-between">
                 <button 
@@ -61,7 +65,7 @@
               <div class="join w-full mt-2 p-2">
                 <button
                   :title="$t('gotocomp')"
-                  class="btn btn-secondary join-item w-1/3"
+                  class="btn bg-compare-list hover:bg-compare-list-hover join-item w-1/3"
                   :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
@@ -129,7 +133,7 @@
             >
             <div
               role="tabpanel"
-              class="tab-content bg-neutral-50 dark:bg-slate-800 dark:text-white"
+              class="tab-content bg-base-200 dark:bg-gray-800 dark:text-white"
             >
               <div class="p-2 w-full flex flex-row justify-between">
                 <button 

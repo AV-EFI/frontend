@@ -216,24 +216,34 @@
           name="partial-grid-1-1"
         >
           <template #heading>
-            <span
+            <p
               class="dark:text-white"
               :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.category)"
               role="heading"
               aria-level="3"
             >
               {{ $t(has_event_item.category) }}
-            </span>
+            </p>
           </template>
           <template #left>
-            <DetailKeyValueComp
-              v-if="has_event_item?.has_date"
-              keytxt="productionyear"
-              class="col-span-full dark:text-gray-300"
-              :valtxt="has_event_item?.has_date"
-              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
-              :clip="false"
-            />
+            <div class="col-span-full">
+              <DetailKeyValueComp
+                v-if="has_event_item?.type"
+                keytxt="manifestation_event_type"
+                class="dark:text-white"
+                :valtxt="$t(has_event_item.type)"
+                :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.type)"
+                :clip="false"
+              />
+              <DetailKeyValueComp
+                v-if="has_event_item?.has_date"
+                keytxt="productionyear"
+                class="col-span-full dark:text-gray-300"
+                :valtxt="has_event_item?.has_date"
+                :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
+                :clip="false"
+              />
+            </div>
           </template>
           <template #right>
             <DetailKeyValueListComp

@@ -1,101 +1,56 @@
-/*cf. tailwind.config.ts */
-@layer {
-    :root {
-        --bali-hai-50: #f3f7f8;
-        --bali-hai-100: #dfe9ee;
-        --bali-hai-200: #c3d5de;
-        --bali-hai-300: #9ab8c6;
-        --bali-hai-400: #80a3b5;
-        --bali-hai-500: #4d768d;
-        --bali-hai-600: #436277;
-        --bali-hai-700: #3b5263;
-        --bali-hai-800: #364754;
-        --bali-hai-900: #313d48;
-        --bali-hai-950: #1d262f;
-        --base-50: #efefef;
-        --base-400: #666667;
-        --base-600: #444445;
-        --primary: #80a3b5;
-        --primary-50: #f3f7f8;
-        --primary-100: #dfe9ee;
-        --primary-200: #c3d5de;
-        --primary-300: #9ab8c6;
-        --primary-400: #80a3b5;
-        --primary-500: #4d768d;
-        --primary-600: #436277;
-        --primary-700: #3b5263;
-        --primary-800: #364754;
-        --primary-900: #313d48;
-        --primary-950: #1d262f;
-        --secondary: #e6d3a3;
-        --secondary-50: #f9f5eb;
-        --secondary-100: #f2e6cc;
-        --secondary-200: #e6d3a3;
-        --secondary-300: #d7bf83;
-        --secondary-400: #c4a95e;
-        --secondary-500: #b08e3a;
-        --secondary-600: #997a2e;
-        --secondary-700: #7d6023;
-        --secondary-800: #5f471a;
-        --secondary-900: #4a3613;
-        --secondary-950: #2a1e0b;
-        --tertiary: #00000;
-        --tertiary-50: #f2f2f2;
-        --tertiary-100: #e6e6e6;
-        --tertiary-200: #cccccc;
-        --tertiary-300: #b3b3b3;
-        --tertiary-400: #999999;
-        --tertiary-500: #808080;
-        --tertiary-600: #666666;
-        --tertiary-700: #4d4d4d;
-        --tertiary-800: #333333;
-        --tertiary-900: #1a1a1a;
-        --tertiary-950: #000000;        
-        --accent: #ff1d25;
-        /*wcag distinctive colours*/
-        --wcag-violet: #332288;
-        --wcag-blue: #6699cc;
-        --wcag-lightblue: #88CCEE;
-        --wcag-greenblue: #44AA99;
-        --wcag-darkgreen: #117733;
-        --wcag-lightgreen: #999933;
-        --wcag-yellow: #DDCC77;
-        --wcag-darkred: #661100;
-        --wcag-lightred1: #CC6677;
-        --wcag-lightred2: #AA4466;
-        --wcag-red: #882255;
-        --wcag-pink: #AA4499;
+:root {
+  --bali-hai-50: #f3f7f8;
+  --bali-hai-100: #dfe9ee;
+  --bali-hai-200: #c3d5de;
+  --bali-hai-300: #9ab8c6;
+  --bali-hai-400: #80a3b5;
+  --bali-hai: #80a3b5;
+  --bali-hai-500: #4d768d;
+  --bali-hai-600: #436277;
+  --bali-hai-700: #3b5263;
+  --bali-hai-800: #364754;
+  --bali-hai-900: #313d48;
+  --bali-hai-950: #1d262f;
 
+  --primary-50: #f3f7f8;
+  --primary-100: #dfe9ee;
+  --primary-200: #c3d5de;
+  --primary-300: #9ab8c6;
+  --primary-400: #80a3b5;
+  --primary: #4d768d;
+  --primary-500: #4d768d;
+  --primary-600: #436277;
+  --primary-700: #3b5263;
+  --primary-800: #364754;
+  --primary-900: #313d48;
+  --primary-950: #1d262f;
 
+  --secondary: #e6c373;
 
-        /*vue-slider color vars*/
-        --slider-bg: var(--accent);
-        --slider-connect-bg: var(--secondary);
-        --slider-connect-bg-disabled: var(--secondary);
-        --slider-height: 6px;
-        --slider-vertical-height: 300px;
-        --slider-radius: 9999px;
+  --accent-50: #ffeaea;
+  --accent-100: #ffc5c5;
+  --accent-200: #ff9e9e;
+  --accent: #ff7777;
+  --accent-300: #ff7777;
+  --accent-400: #ff4f4f;
+  --accent-500: #ff0000;
+  --accent-600: #e60000;
+  --accent-700: #cc0000;
+  --accent-800: #990000;
+  --accent-900: #660000;
 
-        --slider-handle-bg: #fff;
-        --slider-handle-border: 0;
-        --slider-handle-width: 16px;
-        --slider-handle-height: 16px;
-        --slider-handle-radius: 9999px;
-        --slider-handle-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
-        --slider-handle-shadow-active: 0.5px 0.5px 2px 1px rgba(0,0,0,.42);
-        --slider-handle-ring-width: 3px;
-        --slider-handle-ring-color: #10B98130;
-        --compare-list: rgba(226, 29, 72, 1);
-    }
+  --highlight: #b00020;
+  --highlight-content: #ffffff;
+
+  --favourites-list: #364754;
+  --favourites-list-content: #ffffff;
+  --favourites-list-hover: #364754;
+
+  --compare-list: #436277;
+  --compare-list-content: #ffffff;
+  --compare-list-hover: #364754;
+
+  --work: #F3E2B8;
+  --manifestation: #E8D39E;
+  --item: #DDC48B;
 }
-/*
-.btn-compare-list {
-    @apply text-white outline-compare-list;
-    @supports (color: oklch(0 0 0)) {
-      --btn-color: var(--compare-list);
-    }
-    @supports not (color: oklch(0 0 0)) {
-      --btn-color: var(--red);
-    }
-}
-    */

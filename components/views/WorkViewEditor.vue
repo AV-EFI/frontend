@@ -1,7 +1,9 @@
 <template>
-  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto">
+  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto bg-base-200 border-neutral p-1 border-2 rounded-xl">
     <div class="col-span-full">
-      <h2>{{ title }}</h2>
+      <h2 class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
+        {{ title }}
+      </h2>
     </div>
     <div class="col-span-full">
       <button

@@ -87,13 +87,17 @@
           </ul>
         </div>
         <div class="w-full flex flex-col mt-2">
-          <h3 class="font-bold text-sm mb-2 pl-1 uppercase text-primary-800 dark:text-gray-200">
+          <h3
+            class="font-bold text-sm mb-2 pl-1 uppercase text-primary-800 dark:text-gray-200"
+            :alt="$t('tooltip.manifestation')"
+            :title="$t('tooltip.manifestation')"
+          >
             {{ $t('manifestations') }}
           </h3>
           <div
             v-for="manifestation in work?._source?.manifestations"
             :key="manifestation.id"
-            class="collapse collapse-arrow"
+            class="collapse collapse-plus"
           >
             <input
               type="checkbox"
@@ -107,7 +111,7 @@
                 :all-items-empty="manifestation.allItemsEmpty"
               />
             </div>        
-            <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
+            <div class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white">
               <div class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]">
                 <!--top-->
                 <div class="col-span-full md:col-span-12 grid-cols-12 gap-2">
@@ -135,7 +139,11 @@
                 </div>
               </div>
               <hr class="mt-4 mb-2 dark:border-gray-500">
-              <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 uppercase mt-4">
+              <h4
+                class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 uppercase mt-4"
+                :alt="$t('tooltip.item')"
+                :title="$t('tooltip.item')"
+              >
                 {{ $t('items') }}
               </h4>
               <div
@@ -159,7 +167,11 @@
                   />
                 </div>
                 <div class="col-span-full md:col-span-1">
-                  <MicroLabelComp label-text="has_format" />
+                  <MicroLabelComp
+                    label-text="has_format"
+                    :alt="$t('tooltip.has_format')"
+                    :title="$t('tooltip.has_format')"
+                  />
                   <SearchHighlightListComp
                     :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
                     class="mb-2"
@@ -192,7 +204,7 @@
                     <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
                   </a>
                 </div>
-                <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1">
+                <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1 hidden">
                   <MicroEfiCopyComp 
                     category="work"
                     :handle="exemplar?.handle"

@@ -57,7 +57,7 @@ definePageMeta({
               type="checkbox"
               checked
             >
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+            <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.about.heading') }}
               </h2>
@@ -79,7 +79,7 @@ definePageMeta({
             :aria-label="$t('contact.availableMetadata')"
           >
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+            <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.availableMetadata') }}
               </h2>
@@ -97,7 +97,7 @@ definePageMeta({
             :aria-label="$t('contact.definitions')"
           >
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+            <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.definitions') }}
               </h2>
@@ -132,7 +132,7 @@ definePageMeta({
               :aria-label="$t('contact.keywords')"
             >
               <input type="checkbox">
-              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+              <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
                 <h2>
                   {{ $t('contact.keywords') }}
                 </h2>
@@ -149,7 +149,7 @@ definePageMeta({
               :aria-label="$t('contact.normdata')"
             >
               <input type="checkbox">
-              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+              <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
                 <h2>
                   {{ $t('contact.normdata') }}
                 </h2>
@@ -167,7 +167,7 @@ definePageMeta({
               :aria-label="$t('contact.availability')"
             >
               <input type="checkbox">
-              <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+              <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
                 <h2>
                   {{ $t('contact.availability') }}
                 </h2>
@@ -186,7 +186,7 @@ definePageMeta({
             :aria-label="$t('contact.pids')"
           >
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+            <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.pids') }}
               </h2>
@@ -207,7 +207,7 @@ definePageMeta({
             :aria-label="$t('contact.dataProviders')"
           >
             <input type="checkbox">
-            <div class="collapse-title bg-slate-100 dark:bg-slate-800 dark:text-white font-bold">
+            <div class="collapse-title bg-slate-100 dark:bg-gray-800 dark:text-white font-bold">
               <h2>
                 {{ $t('contact.dataProviders') }}
               </h2>

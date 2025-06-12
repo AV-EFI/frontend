@@ -27,7 +27,7 @@
     <template #expand="item">
       <div
         v-if="!productionDetailsChecked" 
-        class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 py-2 md:ml-[64px] md:pl-4 bg-slate-50 dark:bg-slate-800 dark:text-white"
+        class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 py-2 md:ml-[64px] md:pl-4 bg-slate-50 dark:bg-gray-800 dark:text-white"
         role="region"
         :aria-label="`${$t('detailsFor')} ${item?.has_record?.has_primary_title?.has_name}`"
       >
@@ -57,7 +57,7 @@
           />
         </div>
         <div
-          class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white"
+          class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white"
           role="region"
           :aria-label="`${$t('itemsFor')} ${manifestation.handle}`"
         >
@@ -68,6 +68,8 @@
           <h4
             id="items-heading"
             class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
+            :alt="$t('tooltip.item')"
+            :title="$t('tooltip.item')"
           >
             {{ $t('items') }}
           </h4>
@@ -87,6 +89,8 @@
                 <th
                   scope="col"
                   class="border border-slate-300"
+                  :alt="$t('tooltip.has_format')"
+                  :title="$t('tooltip.has_format')"
                 >
                   {{ $t('has_format') }}
                 </th>
@@ -114,7 +118,7 @@
               <tr
                 v-for="exemplar in manifestation.items"
                 :key="exemplar.id"
-                class="bg-slate-100 dark:bg-slate-800 dark:text-white"
+                class="bg-slate-100 dark:bg-gray-800 dark:text-white"
                 role="row"
               >
                 <td
@@ -127,7 +131,7 @@
                   <LazyMicroEfiCopyComp
                     :handle="exemplar.handle"
                     comp-size="sm"
-                    class="z-10 relative"
+                    class="z-10 relative hidden"
                   />
                 </td>
                 <td

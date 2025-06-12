@@ -5,13 +5,13 @@
       class="mt-4"
     >
       <template #heading>
+        <hr class="my-2 col-span-full">
         <h3
           class="font-bold text-sm uppercase col-span-full pl-1 text-primary-800 dark:text-primary-100 decoration-manifestation"
           :alt="safeT('manifestations')"
         >
           {{ safeT('manifestations') }}
         </h3>
-        <hr class="my-2 col-span-full">
       </template>
       <template #right />
     </NuxtLayout>
@@ -19,19 +19,22 @@
     <div
       v-for="(manifestation,i) in manifestationList"
       :key="manifestation._id || i"
-      class="mt-2 collapse collapse-arrow"
+      class="mt-2 collapse collapse-plus border-base border-2"
     >
       <input
-        :id="`manifestation-${manifestation._id}`"
+        :id="`manifestation-${manifestation.handle || manifestation._id}`"
         type="checkbox"
-        :name="`manifestation-${manifestation._id}`"
+        :name="`manifestation-${manifestation.handle || manifestation._id}`"
         class="manifestation-accordion-toggle"
+        :aria-label="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
+        :alt="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
+        :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
       >
-      <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white">
+      <div class="collapse-title bg-base-100 dark:bg-slate-700 dark:text-white">
         <DetailManifestationHeaderComp :manifestation="manifestation" />
       </div>
 
-      <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
+      <div class="collapse-content bg-gray-100 dark:bg-gray-800 dark:text-white">
         <div class="w-full">
           <LazyMicroDividerComp
             label-text="avefi:Manifestation"
@@ -45,11 +48,17 @@
         >
           <template #left>
             <DetailKeyValueComp
-              :id="manifestation._id"
+              :id="manifestation.handle.replace('21.11155/', '')"
               keytxt="EFI"
               :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="true"
+            />
+            <DetailKeyValueComp
+              keytxt="title"
+              :valtxt="manifestation?.has_record?.has_primary_title?.has_name"
+              class="col-span-full"
+              :clip="false"
             />
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.described_by?.has_issuer_name"
@@ -138,25 +147,24 @@
                 >&nbsp;({{ $t(usage) }})</span>
               </li>
             </ul>
+            <DetailHasEventComp
+              class="mt-4"
+              :model-value="manifestation?.has_record?.has_event ?? []"
+            />
           </template>
         </NuxtLayout>
-
-        <DetailHasEventComp
-          class="mt-4"
-          :model-value="manifestation?.has_record?.has_event ?? []"
-        />
-
         <h4
-          class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase my-4 md:pl-4"
+          class="font-bold text-sm text-primary-700 dark:text-primary-200 uppercase my-4 md:pl-4"
           :alt="safeT('items')"
         >
           {{ safeT('items') }}
         </h4>
-
-        <DetailItemListNewComp
-          v-if="manifestation?.items?.length > 0"
-          :items="manifestation?.items"
-        />
+        <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
+          <DetailItemListNewComp
+            v-if="manifestation?.items?.length > 0"
+            :items="manifestation?.items"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -235,3 +243,12 @@ function formatDuration(has_value): string {
 }
 
 </script>
+
+<style scoped>
+.collapse-plus > .collapse-title:after {
+  @apply text-3xl w-4 h-4;
+  color: var(--primary-800);
+  top: 25%;
+}
+
+</style>

@@ -3,9 +3,9 @@
     role="region"
     :aria-labelledby="`facet-title-${attributeName}`"
     :class-names="{
-      'ais-Panel': 'collapse collapse-arrow',
-      'ais-Panel-body': 'collapse-content !pl-0 pr-0! bg-slate-50 dark:bg-slate-900 dark:text-white text-xs',
-      'ais-Panel-header': 'collapse-title bg-slate-50 dark:bg-slate-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
+      'ais-Panel': 'collapse collapse-arrow border-2 border-primary dark:border-primary-600 rounded-lg mb-2',
+      'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-slate-900 dark:text-white text-xs ',
+      'ais-Panel-header': 'collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
     }"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
@@ -62,18 +62,19 @@
             v-if="isSearchable && items.length > 0"
             class="p-1 max-w-[250px] mx-auto"
           >
-            <div class="... formkit-inner !rounded-3xl">
+            <div class="formkit-inner !rounded-3xl">
               <label
-                class="..."
-                for="input_0"
+                :aria-label="$t('searchInFacet', { facetName: $t(headerText) })"
+                :alt="$t('searchInFacet', { facetName: $t(headerText) })"
+                class="label-text !text-sm !mb-0 !p-0 !text-neutral-500 dark:!text-neutral-300"
               >
                 <!-- search icon -->
               </label>
               <input
                 id="input_0"
                 type="search"
-                :aria-label="$t('searchInFacet', { facet: $t(headerText) })"
-                class="... !text-sm p-1 !rounded-3xl"
+                :aria-label="$t('searchInFacet', { facetName: $t(headerText) })"
+                class="!text-sm p-1 !rounded-3xl w-full bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 focus:outline-none ring-primary-200 ring-2 focus:ring-2 focus:ring-primary-500 px-2"
                 :placeholder="$t('search')"
                 @input="(e) => { searchForItems(e?.currentTarget?.value) }"
               >
@@ -91,11 +92,13 @@
             >
               <label
                 class="ais-RefinementList-label"
+                :aria-label="$t('refineBy', { label: item.label })"
+                :alt="$t('refineBy', { label: item.label })"
                 for="checkbox"
                 @click="refine(item.value)"
               >
                 <input
-                  class="ais-RefinementList-checkbox checkbox checkbox-xs"
+                  class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs"
                   type="checkbox"
                   name="checkbox"
                   :value="item.value"
@@ -108,13 +111,13 @@
                 <ais-highlight
                   v-else
                   attribute="item"
-                  :title="item.label"
+                  :title="$t(item.label)"
                   :class-names="{
                     'ais-Highlight': 'max-w-[200px] overflow-hidden text-ellipsis'
                   }"
                   :hit="item"
                 />
-                <span class="ais-RefinementList-count badge bg-tertiary text-xs font-bold text-white">
+                <span class="ais-RefinementList-count badge bg-neutral text-xs font-bold text-white">
                   {{ item.count }}
                 </span>
               </label>
@@ -123,7 +126,7 @@
 
           <button
             v-if="items.length > 0"
-            class="btn btn-sm btn-primary btn-outline btn-block"
+            class="btn btn-sm btn-primary btn-outline btn-block mx-auto"
             :disabled="!canToggleShowMore"
             :aria-expanded="isShowingMore.toString()"
             @click="toggleShowMore"

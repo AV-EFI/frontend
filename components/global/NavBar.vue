@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar border-b-2 bg-neutral-50 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
+    class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
     :class="isScrolled ? 'md:mix-blend-multiply lg:opacity-90' : ''"
     :aria-label="ariaLabelMainNav"
   >
@@ -111,8 +111,12 @@
               :src="locale === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'"
               :alt="t('avefiClaim')"
               :title="t('avefiClaim')"
-              class="hidden lg:inline-block h-12 w-auto ml-2 rounded-lg dark:invert"
+              class="hidden h-12 w-auto ml-2 rounded-lg dark:invert"
             >
+            <div class="hidden lg:inline-block text-xs leading-none text-left dark:text-gray-200 max-w-24 ml-2">
+              <span class="bree text-black dark:text-white">{{ $t('avefiClaim') }}</span>
+            </div>
+
             <div
               v-if="!alphaClicked"
               class="inline-block mr-auto ml-2 my-auto text-left h-6 w-24 cursor-pointer"
@@ -147,7 +151,7 @@
                 @click="$toggleComparisonDrawerState('shopping')"
               >
                 {{ $t("shoppingcart") }}
-                <span class="indicator-item badge bg-shopping-cart text-white">{{ shoppingCart.objects?.length }}</span>
+                <span class="indicator-item badge bg-favourites-list text-white">{{ shoppingCart.objects?.length }}</span>
               </button>
             </li>
 

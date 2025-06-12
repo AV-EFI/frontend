@@ -5,6 +5,12 @@
     :aria-label="$t('mainSearch')"
   >
     <ClientOnly>
+      <span
+        id="search-input-label"
+        class="sr-only"
+      >
+        {{ $t('mainSearch') }}
+      </span>
       <FormKit
         v-if="searchDataStore && searchDataStore.formData"
         id="searchComp"
@@ -26,23 +32,32 @@
             name="searchTerm"
             :placeholder="$t('searchplaceholder')"
             type="text"
-            prefix-icon="search"
             outer-class="flex-grow !max-w-none w-full"
-            inner-class="!rounded-l-3xl rounded-r-none dark:!bg-slate-950 dark:!text-white  !h-[56px] w-full"
+            inner-class="!rounded-l-xl rounded-r-none dark:!bg-slate-950 dark:!text-white  !h-[56px] w-full"
             input-class="!text-lg p-2 w-full dark:!text-white"
             :aria-label="$t('searchInputAria')"
             aria-required="true"
             :aria-invalid="searchTerm.trim().length === 0 ? 'true' : 'false'"
             autofocus
-          />
+          >
+            <template #prefix-icon>
+              <span
+                class="ml-3 text-lg text-neutral-500 dark:text-neutral-300"
+                role="img"
+                aria-label="Search icon"
+              >
+                🔍
+              </span>
+            </template>
+          </FormKit>
 
           <FormKit
             type="submit"
             :label="$t('search')"
             :title="$t('search')"
-            outer-class="!rounded-l-none !mb-0 !rounded-r-3xl !h-full flex items-center justify-start"
+            outer-class="!rounded-l-none !mb-0 !rounded-r-xl !h-full flex items-center justify-start"
             inner-class="!rounded-l-3xl !h-full"
-            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-3xl flex items-center justify-center border-3 border-primary !my-auto"
+            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-xl flex items-center justify-center border-3 border-primary !my-auto"
             :disabled="searchTerm.trim().length === 0"
             aria-disabled="false"
             :aria-label="$t('submitSearch')"
@@ -54,7 +69,7 @@
           v-if="showValidationWarning"
           role="alert"
           aria-live="assertive"
-          class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-slate-800 text-xs mt-2 p-2 rounded-lg"
+          class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-gray-800 text-xs mt-2 p-2 rounded-lg"
         >
           {{ $t('enterSearchTermFirst') }}
         </p>

@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <footer
-      class="footer bg-primary-800 text-white dark:bg-gray-950 dark:text-white dark:border-gray-700 px-6"
+      class="footer bg-neutral text-white dark:bg-neutral dark:text-white px-6 border-t-2 border-secondary"
       role="contentinfo"
       :aria-label="$t('footer')"
     >
@@ -42,7 +42,7 @@
                 <a
                   href="https://datenschutz.gwdg.de/services/av-efi"
                   target="_blank"
-                  class="dark:text-gray-300"
+                  class="link transition"
                   :aria-label="$t('dataprotection')"
                 >
                   {{ $t('dataprotection') }}
@@ -51,7 +51,7 @@
               <li>
                 <a
                   href="/imprint"
-                  class="dark:text-gray-300"
+                  class="link transition"
                   :aria-label="$t('imprint')"
                 >
                   {{ $t('imprint') }}
@@ -63,13 +63,13 @@
             <div
               role="note"
               aria-live="polite"
-              class="alert bg-neutral dark:bg-gray-700 w-full md:max-w-64 mt-4"
+              class="text-white opacity-95 w-full md:max-w-64 mt-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                class="stroke-info dark:stroke-gray-300 h-6 w-6 shrink-0"
+                class="stroke-primary dark:stroke-secondary h-6 w-6 shrink-0"
                 aria-hidden="true"
               >
                 <path
@@ -80,7 +80,7 @@
                 />
               </svg>
               <span
-                class="dark:text-gray-300"
+                class="transition"
                 :aria-label="$t('alpha')"
               >
                 {{ $t('alpha') }}
@@ -106,7 +106,7 @@
                   alt="Sponsoring by DFG"
                   title="❤️"
                   class="object-contain h-24 w-full md:h-48 md:w-96"
-                  src="/img/dfg_logo.jpg"
+                  src="/img/DFG.svg"
                 >
               </a>
             </div>

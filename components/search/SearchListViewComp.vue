@@ -2,13 +2,13 @@
   <div
     v-for="item in items"
     :key="item.handle"
-    class="card bg-base-100 dark:bg-slate-900 w-full shadow-lg hover:shadow-xl mb-4"
+    class="card bg-white border border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-label="`${$t('title')}: ${item?.has_record?.has_primary_title?.has_name}`"
   >
     <div
       v-if="showAdminStats"
-      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary-100 dark:bg-slate-800 text-primary-900 dark:text-white text-sm p-2"
+      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primarydark:bg-gray-800 dark:text-white text-sm p-2"
     >
       <span>Status: <span class="badge badge-success text-white">Public</span></span>
       <span>{{ $t('lastedit') }}: {{ new Date(item?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
@@ -18,18 +18,17 @@
       </button>
     </div>
     <div
-      class="flex flex-col md:flex-row min-h-12 w-full p-4 pb-2 rounded-tl-xl rounded-tr-xl"
+      class="flex flex-col md:flex-row min-h-12 w-full p-4 rounded-tl-xl rounded-tr-xl bg-primary dark:bg-primary-800 text-white"
     >
       <div class="max-md:w-full w-4/5 md:w-4/5 content-center">
-        <p
-          class=" text-xs text-primary-800 dark:text-gray-300"
-          alt="efi"
-          title="efi"
-        >
-          {{ item?.handle }}
-        </p>
+        <GlobalClipboardComp
+          :text="item?.handle"
+          class=" text-xs text-gray-50 dark:text-gray-300"
+          :aria-label="$t('copyEfi')"
+          :title="$t('copyEfi')"
+        />
         <h2
-          class="font-bold text-lg my-1 text-primary-900 dark:text-white"
+          class="font-bold text-lg my-1 text-primary-50 dark:text-white"
           :alt="$t('title')"
           :title="$t('title')"
         >
@@ -52,7 +51,34 @@
             </span>
           </a>
         </h2>
-        <div class="flex flex-col md:flex-row text-sm text-primary-700 dark:text-gray-200 mt-2">
+        <h3 class="text-white">
+          <span 
+            v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
+          >
+            <span
+              v-for="(alt, idx) in item._highlightResult?.has_record?.has_alternative_title"
+              :key="idx"
+            >
+              <ais-highlight
+                attribute="has_record.has_alternative_title.has_name"
+                :hit="item"
+              />
+              <span v-if="alt.type">
+                ({{ $t(alt.type) }})
+              </span>
+              <span v-if="idx < item._highlightResult?.has_record?.has_alternative_title.length - 1">, </span>
+            </span>
+          </span>
+          <ul v-else-if="item?.has_record?.has_alternative_title">
+            <li
+              v-for="alt in item?.has_record?.has_alternative_title"
+              :key="alt.id"
+            >
+              {{ alt.has_name }} ( {{ $t(alt.type) }})
+            </li>
+          </ul>
+        </h3>
+        <div class="flex flex-col md:flex-row text-sm text-white dark:text-base-content mt-2">
           <span
             v-if="item?.has_record?.has_event?.map((loc) => loc)"
             class="flex items-center"
@@ -73,8 +99,25 @@
             <Icon
               name="fa:calendar"
               class="mr-1"
+              :alt="$t('productionyear')"
+              :title="$t('productionyear')"
             />
             {{ item.years.join(', ') }}
+          </span>
+          <span
+            v-if="item.directors_or_editors"
+            class="flex items-center"            
+          >
+            <template v-if="item.directors_or_editors">
+              <span class="flex items-center">&nbsp;&nbsp;</span>
+            </template>
+            <Icon
+              name="iconoir:director-chair"
+              class="mr-1"
+              :alt="$t('directors_or_editors')"
+              :title="$t('directors_or_editors')"
+            />
+            {{ item.directors_or_editors?.flatMap((f) => $t(f)).join(', ') }}
           </span>
           <span
             v-if="item.has_record?.has_form"
@@ -107,125 +150,158 @@
         </div>
       </div>
       <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+        <NuxtLink 
+          :to="`/film/${item.handle.replace('21.11155/','')}`"
+          class="btn btn-circle btn-outline btn-md mr-2 text-white"
+          :aria-label="$t('detailviewlink')"
+          :title="$t('detailviewlink')"
+          target="_blank"
+        >
+          <Icon
+            name="material-symbols:read-more-rounded"
+            class="text-2xl mr-1"
+            :alt="$t('detailviewlink')"
+          />
+        </NuxtLink>
         <MicroEfiCopyComp
+          class="hidden"
           category="work"
           :handle="item?.handle"
         />
         <GlobalActionContextComp :item="item" />
       </div>
     </div>
-    <div class="card-body p-4 pt-0">
+    <Transition
+      name="fade"
+      mode="out-in"
+    >
+      <div
+        v-if="showHighlight[item.handle] && getHighlightSnippets(item).length > 0"
+        class="mt-2 ml-3 text-sm highlight-snippets"
+      >
+        <span>✨ <strong>{{ $t('lookWhatWeFound') }}</strong></span>
+        <ul>
+          <SearchHighlightMatchComp
+            v-for="(entry, i) in getHighlightSnippets(item)"
+            :key="i + entry.value"
+            :value="entry.value"
+            :field="entry.key"
+          />
+        </ul>
+      </div>
+    </Transition>
+
+    <button
+      class="btn btn-primary btn-xs btn-outline my-2 mx-auto"
+      :aria-label="$t('toggleDetails')"
+      :title="$t('toggleDetails')"
+      :aria-expanded="isExpanded[item.handle] || false"
+      @click="isExpanded[item.handle] = !isExpanded[item.handle]; showHighlight[item.handle] = !showHighlight[item.handle]"
+    >
+      <Icon
+        :name="isExpanded[item.handle] ? 'mdi:minus' : 'mdi:plus'"
+        class="ml-1 text-lg"
+        :alt="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
+        :title="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
+      />
+    </button>
+    <div
+      v-show="isExpanded[item.handle]"
+      class="card-body p-4 pt-0"
+    >
       <!--top-->
       <div class="grid col-span-full grid-cols-12 gap-2">
         <div class="col-span-full">
           <MicroDividerComp
-            class="mx-auto my-[8px] mt-2"
+            class="mx-auto my-[15px] mt-4"
             label-text="avefi:WorkVariant" 
             in-class="work"
           />
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div class="border-l-2 border-work-variant w-full grid subgrid col-span-full px-2">
-          <div class="flex flex-col md:flex-row">
-            <div class="w-full md:w-100 flex flex-col">
-              <DetailKeyValueComp
-                keytxt="EFI"
-                :valtxt="item?.handle"
-                class="mb-2 max-md:break-all"
-              />
-            </div>
-          </div>
-          <div class="flex flex-col col-span-full mb-2">
-            <MicroLabelComp label-text="AlternativeTitle" />
-            <span 
-              v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
-            >
-              <ais-highlight
-                attribute="has_record.has_alternative_title.has_name"
-                :hit="item"
-              />
-            </span>
-            <ul v-else-if="item?.has_record?.has_alternative_title">
-              <li
-                v-for="alt in item?.has_record?.has_alternative_title"
-                :key="alt.id"
-              >
-                {{ alt.has_name }}
-              </li>
-            </ul>
-            <span v-else>-</span>
-          </div>
-          <div
-            v-if="productionDetailsChecked"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full col-span-full"
-          >
-            <div class="flex flex-col">
-              <MicroLabelComp label-text="directors_or_editors" />
-              <SearchHighlightListComp
-                :items="item?.directors_or_editors || []"
-                :hilite="item._highlightResult?.directors_or_editors?.flatMap((dirs) => ( dirs.matchedWords ))"            
-                class="mb-2"
-              />
-            </div>
-            <div class="flex flex-col">
-              <MicroLabelComp label-text="avefi:ProductionEvent" />
-              <SearchHighlightListComp
-                :items="item?.production || []"
-                :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
-                class="mb-2"
-              />
-            </div>
-            <div class="flex flex-col">
-              <DetailKeyValueListComp
-                keytxt="productionyear"
-                :valtxt="item?.years"
-                class="mb-2"
-                :ul="true"
-              />
-              <DetailKeyValueListComp
-                keytxt="country"
-                :valtxt="item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null)"
-                :ul="true"
-                class="mb-2"
-              />
-            </div>
-            <div class="flex flex-col">
-              <MicroLabelComp label-text="has_form" />
-              <SearchHighlightListComp
-                :items="item?.has_record?.has_form || []"
-                :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
-                class="max-h-48 overflow-y-auto mb-2"
-              />
-              <MicroLabelComp label-text="avefi:Genre" />
-              <SearchHighlightListComp
-                :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || []"
-                :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
-                class="max-h-48 overflow-y-auto mb-2"
-              />
-              <MicroLabelComp label-text="avefi:Subject" />
-              <SearchHighlightListComp
-                :items="item?.subjects || []"
-                :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"
-                class="max-h-48 overflow-y-auto"
-              />
-            </div>
-          </div>
+      <div
+        v-if="!item?.production?.length > 0
+          && !item?.has_record?.has_form?.length > 0
+          && !item?.has_record?.has_genre?.length > 0
+          && !item?.subjects?.length > 0"
+        class="text-sm text-gray-500 dark:text-gray-400 mb-2"
+      >
+        {{ $t('noWorkVariantDetails') }}
+      </div> 
+      <div
+        v-else
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2"
+      >
+        <div
+          v-if="item?.production"
+          class="flex flex-col"
+        >
+          <MicroLabelComp label-text="avefi:ProductionEvent" />
+          <SearchHighlightListComp
+            :items="item?.production || []"
+            :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
+            class="mb-2"
+          />
+        </div>
+        <div
+          v-if="item?.has_record?.has_form"
+          class="flex flex-col"
+        >
+          <MicroLabelComp label-text="has_form" />
+          <SearchHighlightListComp
+            :items="item?.has_record?.has_form || []"
+            :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
+            class="max-h-48 overflow-y-auto mb-2"
+          />
+        </div>
+        <div
+          v-if="item?.has_record?.has_genre?.length > 0"
+          class="flex flex-col"
+        >
+          <MicroLabelComp label-text="avefi:Genre" />
+          <SearchHighlightListComp
+            :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || []"
+            :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
+            class="max-h-48 overflow-y-auto mb-2"
+          />
+        </div>
+        <div
+          v-if="item?.subjects?.length > 0" 
+          class="flex flex-col"
+        >
+          <MicroLabelComp label-text="avefi:Subject" />
+          <SearchHighlightListComp
+            :items="item?.subjects || []"
+            :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"
+            class="max-h-48 overflow-y-auto"
+          />
         </div>
       </div>
       <!-- EO WorkVariant -->
       <!-- Manifestations -->
       <hr class="my-2">
       <div class="w-full flex flex-col">
-        <h3 class="font-bold text-sm mb-2 pl-1 uppercase text-primary-800 dark:text-gray-200">
+        <h3
+          class="font-bold text-md mb-2 pl-1 uppercase text-gray-800 dark:text-base-content"
+          :alt="$t('tooltip.manifestation')"
+          :title="$t('tooltip.manifestation')"
+        >
           {{ $t('manifestations') }}
         </h3>
+        <SearchManifestationListSplitView
+          :manifestations="getFilteredManifestations(item)"
+          :get-filtered-items="getFilteredItems"
+          :work-variant-handle="item?.handle"
+        />
+
+        <!--
         <div
           v-for="(manifestation, index) in getFilteredManifestations(item)"
           :key="index"
-          class="collapse collapse-arrow"
+          class="collapse collapse-plus border-base border-2 mt-1"
           role="group"
-          :aria-labelledby="`manifestation-header-${item._id}-${index}`"
+          :title="$t('clickToExpandManifestation')"
+          :aria-labelledby="`manifestation-header-${item.handle}-${index}`"
         >
           <input
             type="checkbox"
@@ -233,8 +309,8 @@
             :aria-expanded="false"
           >
           <div
-            :id="`manifestation-header-${item._id}-${index}`"
-            class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-white font-medium"
+            :id="`manifestation-header-${item.handle}-${index}`"
+            class="collapse-title bg-base-100 border border-base-300 rounded-md dark:bg-slate-700 dark:text-white font-medium"
           >
             <DetailManifestationHeaderComp
               v-if="componentInfoReady"
@@ -244,14 +320,13 @@
               :all-items-empty="manifestation.allItemsEmpty"
             />
           </div>        
-          <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
-            <div class="grid grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)] px-2 border-l-2 border-manifestation">
-              <!--top-->
+          <div class="collapse-content bg-gray-50 dark:bg-slate-800 dark:text-white">
+            <div class="grid grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)] px-2 border-l-2 border-manifestation rounded-sm">
               <div class="col-span-full grid-cols-4 gap-2 row-start-1">
                 <div class="col-span-full">
                   <MicroDividerComp
                     in-class="manifestation"
-                    class="mx-auto my-[10px] mb-2"
+                    class="mx-auto my-[20px] mb-2"
                     label-text="avefi:Manifestation" 
                   />
                 </div>
@@ -290,32 +365,31 @@
               </div>
             </div>
             <hr class="mt-4 mb-2 dark:border-gray-500">
-            <h4 class="font-bold text-sm text-primary-800 dark:text-primary-200 uppercase my-4 md:pl-4">
+            <h4 class="font-bold text-sm text-gray-800 dark:text-primary-200 uppercase my-4 md:pl-4">
               {{ $t('items') }}
             </h4>
-            <DetailItemListNewComp 
-              :items="getFilteredItems(manifestation)"
-              :production-details-checked="productionDetailsChecked"
-              :show-admin-stats="showAdminStats"
-              :highlight-result="item?._highlightResult"
-            />
+            <div class="bg-gray-100 dark:bg-gray-900 py-2 rounded-xl">
+              <DetailItemListNewComp 
+                :items="getFilteredItems(manifestation)"
+                :production-details-checked="productionDetailsChecked"
+                :show-admin-stats="showAdminStats"
+                :highlight-result="item?._highlightResult"
+              />
+            </div>
           </div>
         </div>
-      <!-- TODO replace above with component -->
-      <!--        
-      <LazySearchResultManifestation
-        :manifestation_items="item?.manifestations"
-      />-->
+        -->
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { inner } from '@formkit/inputs';
+import { get } from 'http';
 import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
-const filteredManifestationCache = new WeakMap();
 
+import { useI18n } from 'vue-i18n';
+const { t: $t } = useI18n();
 const props = defineProps({
     items: {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
@@ -330,9 +404,42 @@ const props = defineProps({
         required: false,
         default: false,
     },
+    expandedHandles: {
+        type: Array as PropType<Array<string>>,
+        required: false,
+        default: () => [],
+    },
+    expandAllHandlesChecked: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
 });
 
 const componentInfoReady = ref(false);
+const isExpanded = reactive<Record<string, boolean>>({});
+const showHighlight = ref<Record<string, boolean>>({});
+
+onMounted(() => {
+    componentInfoReady.value = true;
+
+    // Initialize showHighlight to true for all items
+    props.items.forEach(item => {
+        showHighlight.value[item.handle] = true;
+    });
+});
+
+watch(
+    () => props.items,
+    (newItems) => {
+        newItems.forEach(item => {
+            if (showHighlight.value[item.handle] === undefined) {
+                showHighlight.value[item.handle] = true;
+            }
+        });
+    },
+    { immediate: true }
+);
 
 function getFilteredManifestations(item) {
     if (!item.inner_hits) {
@@ -354,7 +461,7 @@ function getFilteredManifestations(item) {
 
 function getFilteredItems(manifestation) {
     if (!manifestation.inner_hits) {
-        console.log('No inner_hits, returning all items:', manifestation.items);
+        //console.log('No inner_hits, returning all items:', manifestation.items);
         return manifestation.items || [];
     }
 
@@ -418,14 +525,65 @@ async function markDuplicateManifestations(manifestations: any[]): Promise<void>
         }
     }
 }
-/*
-Promise.all([
-    checkEmptyProperties(props.items.flatMap(item => item.manifestations)),
-    markDuplicateManifestations(props.items.flatMap(item => item.manifestations))
-]).then(() => {
-    componentInfoReady.value = true;
+
+watch(() => props.expandAllHandlesChecked, (newVal) => {
+    props.items.forEach((item, i) => {
+        const delay = i * 50;
+        if (newVal) {
+            showHighlight.value[item.handle] = true;
+            setTimeout(() => {
+                if(!isExpanded.value[item.handle]) {
+                    isExpanded.value[item.handle] = true;
+                }
+                showHighlight.value[item.handle] = false;
+            }, 250 + delay);
+        } else {
+            isExpanded.value[item.handle] = false;
+            showHighlight.value[item.handle] = true;
+        }
+    });
 });
-*/
+
+
+function getHighlightSnippets(item) {
+    const result = [];
+    const highlights = item._highlightResult || {};
+
+    // Define the fields to extract (labelKey: dot.path.in.highlightResult)
+    const fieldsToInclude = {
+        title: 'has_record.has_primary_title.has_name',
+        AlternativeTitle: 'has_record.has_alternative_title.has_name',
+        production: 'production',
+        'directors_or_editors': 'directors_or_editors',
+        'has_form': 'has_record.has_form',
+        genre: 'has_record.has_genre.has_name',
+        subject: 'subjects',
+    };
+
+    for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
+        const entry = getValueByPath(highlights, path);
+        const entries = Array.isArray(entry) ? entry : [entry];
+
+        for (const e of entries) {
+            if (
+                e?.matchLevel !== 'none' &&
+        Array.isArray(e?.matchedWords) &&
+        e.matchedWords.length > 0 &&
+        typeof e.value === 'string'
+            ) {
+                result.push({ key: labelKey, value: e.value });
+            }
+        }
+    }
+
+    return result;
+}
+
+// Helper to safely walk nested highlight paths like 'has_record.has_primary_title.has_name'
+function getValueByPath(obj, path) {
+    return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
+}
+
 
 watch(() => props.items, async (newVal) => {
     const allFilteredManifestations = newVal
@@ -443,3 +601,38 @@ onMounted(() => {
     componentInfoReady.value = true;
 });
 </script>
+<style scoped>
+.collapse-plus > .collapse-title:after {
+  @apply text-3xl w-4 h-4;
+  color: var(--primary-800);
+  top: 25%;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active {
+  overflow: hidden;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+  max-height: 1000px; /* enough to show full content */
+  opacity: 1;
+}
+
+</style>

@@ -1,32 +1,14 @@
 <template>
   <div>
-    <div class="p-2 w-full flex flex-row justify-between">
-      <button 
-        class="btn btn-ghost btn-sm w-16"
-        :title="$t('info')"
-        @click="showInfo = !showInfo"
-      >
-        <Icon
-          name="material-symbols:info-outline"
-          class="text-lg"
-        />
-      </button>
-      <p
-        v-if="showInfo"
-        class="flex-grow"
-      >
-        {{ $t('mergeResultHelpText') }}
-      </p>
-    </div>
     <FormKit
       id="work-view-editor-result"
       v-model="dataJson"
-      :classes="{form: 'bg-neutral-100 dark:bg-slate-900 p-2 rounded-xl'}"
+      :classes="{form: 'bg-base-100 dark:bg-slate-900 border-neutral border-2 p-2 rounded-xl'}"
       type="form"
       :actions="false"
       @submit="customSubmitHandler"
     >
-      <div class="col-span-full !h-16 flex flex-row justify-between items-center">
+      <div class="col-span-full flex flex-row justify-between items-center">
         <h2
           class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         >
@@ -35,11 +17,14 @@
       </div>
       <div class="col-span-full">
         <button
-          class="btn btn-warning text-white btn-sm mb-2"
+          class="btn btn-error text-white btn-sm mb-2"
           @click="customReset()"
         >
           {{ $t('resetFormData') }}
-          <Icon name="formkit:close" />
+          <Icon
+            class="text-xl"
+            name="formkit:close"
+          />
         </button>
       </div>  
       <div class="col-span-full">
@@ -268,8 +253,6 @@ const initialState = {
 };
 import { toast } from "vue3-toastify";
 const dataJson = defineModel({type: Object, required: true});
-
-const showInfo = ref(false);
 
 function customReset () {
     //deep copy of initialState

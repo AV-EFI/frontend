@@ -25,7 +25,7 @@
             :aria-label="$t('searchcontent')"
           >
             <div
-              class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2"
+              class="search-panel__results w-full py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md px-2"
               role="region"
               :aria-label="$t('searchresults')"
             >
@@ -42,7 +42,7 @@
                 >
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
-                      class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-3xl rounded-r-none border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner"
+                      class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner"
                     >
                       <label
                         class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
@@ -63,10 +63,10 @@
                         type="search"
                         :aria-label="$t('search')"
                         class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
-                        :value="currentRefinement"
+                        :value="currentRefinement ?? ''"
                         :placeholder="$t('searchplaceholder')"
                         @input="currentRefinement = $event.target.value;"
-                        @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement;"
+                        @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement?? '' ;"
                       >
                       <span
                         id="search-loading"
@@ -94,7 +94,7 @@
                       </button>
                     </div>
                     <button
-                      class="ais-SearchBox-submit btn btn-primary md:w-32 h-auto rounded-l-none !rounded-r-3xl"
+                      class="ais-SearchBox-submit btn btn-primary md:w-32 h-auto rounded-l-none !rounded-r-xl"
                       :title="$t('search')"
                       type="button"
                       @click="refine(currentRefinement); searchQuery = currentRefinement;"
@@ -124,8 +124,8 @@
                   role="region"
                   :aria-label="$t('filteringsection')"
                 >
-                  <div class="col-span-full">
-                    <div class="lg:col-span-full p-2 flex flex-col md:flex-row justify-between w-full bg-white dark:bg-gray-800 rounded-lg">
+                  <div class="col-span-full border-base border-2 rounded-lg bg-base-100">
+                    <div class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
                       <div class="w-full md:w-1/2 flex flex-row justify-start">
                         <h2 class="font-bold text-gray-800 dark:text-gray-200">
                           {{ $t('activefiltering') }}
@@ -134,7 +134,7 @@
                       <div class="w-full md:w-1/2 flex flex-row justify-end">
                         <ais-clear-refinements 
                           :class-names="{
-                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-gray-300 text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
+                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
                             'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                           }"
                         >
@@ -148,13 +148,15 @@
                       <ais-current-refinements 
                         :class-names="{
                           'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                          'ais-CurrentRefinements-item': 'border border-gray-300 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
+                          'ais-CurrentRefinements-item': 'border border-neutral text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
                           'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
                           'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                         }"
                       >
                         <template #item="{ item, refine, createURL }">
-                          <strong class="font-semibold accent">{{ $t(item.label.split(".").at(-1)) }}:</strong>
+                          <strong class="font-bold text-neutral dark:text-primary-100 ">
+                            {{ $t(item.label.split(".").at(-1)) }}:
+                          </strong>
                           <ul class="list-none p-0 m-0">
                             <li
                               v-for="refinement in item.refinements"
@@ -178,7 +180,7 @@
                       </ais-current-refinements>
                     </div>
                   </div>
-                  <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2">
+                  <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base">
                     <ais-stats>
                       <template #default="{ nbHits }">
                         <div class="flex items-center justify-center h-10">
@@ -197,7 +199,7 @@
                       </template>
                     </ais-stats>
                   </div>
-                  <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2">
+                  <div class="w-full flex flex-col justify-center  border-base border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
                     <FormKit
                       type="select"
                       :label="$t('sorting')"
@@ -209,8 +211,11 @@
                       input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg"
                     />
                   </div>
-                  <div class="form-control w-full flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <label class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden">
+                  <div class="form-control w-full  border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <label 
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      :aria-label="$t('toggleViewType')"
+                    >
                       <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
                       </span>
                       <input
@@ -221,6 +226,7 @@
                     </label>
                     <label
                       class="label cursor-pointer w-64 mx-auto lg:ml-auto"
+                      :aria-label="$t('toggleProductionDetails')"
                     >
                       <span class="label-text text-gray-800 dark:text-gray-200">
                         <LazyIcon
@@ -251,6 +257,7 @@
                     </label>
                     <label
                       class="label cursor-pointer w-64 mx-auto lg:ml-auto"
+                      :aria-label="$t('toggleExpandAll')"
                     >
                       <span class="label-text text-gray-800 dark:text-gray-200">
                         <LazyIcon
@@ -277,8 +284,18 @@
                         class="toggle toggle-primary"
                       >
                     </label>
+                    <label
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto"
+                      :aria-label="$t('toggleExpandAllHandles')"
+                    >
+                      <input
+                        v-model="expandAllHandlesChecked"
+                        type="checkbox"
+                        class="toggle toggle-primary"
+                      >
+                    </label>
                   </div>
-                  <LazyDetailPaginationComp class="col-span-full" />
+                  <LazyDetailPaginationComp class="col-span-full border-base border-2 rounded-lg" />
                 </div>
                 <div
                   class="flex w-full flex-col"
@@ -306,6 +323,8 @@
                         :items="items"
                         :view-type-checked="viewTypeChecked"
                         :production-details-checked="productionDetailsChecked"
+                        :expanded-handles="expandedHandles"
+                        :expand-all-handles-checked="expandAllHandlesChecked"
                       />
                     </template>
                   </ais-hits>
@@ -323,9 +342,19 @@
 <script setup lang="ts">
 
 const {$toggleFacetDrawerState}:any = useNuxtApp();
+
+// toggle top right 
 const viewTypeChecked = ref(false);
+
 const expandAllChecked = ref(false);
+
+const expandAllHandlesChecked = ref(false);
+
 const productionDetailsChecked = ref(true);
+
+const expandedHandles = ref<Set<string>>(new Set());
+
+
 const searchQuery = ref('');
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi.ts';

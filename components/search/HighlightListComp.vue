@@ -15,7 +15,7 @@
         :aria-current="ishiliteed(item) ? 'true' : 'false'"
         role="listitem"
         :class="{
-          'bg-secondary-200 font-bold  dark:text-secondary-900': ishiliteed(item),
+          'bg-highlight text-white dark:text-secondary-900': ishiliteed(item),
           [fontSize]: true
         }"
         class="w-full overflow-hidden text-ellipsis"

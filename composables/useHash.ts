@@ -17,16 +17,21 @@ export function useHash(scroll = true) {
                         // Scroll to the element smoothly
                         const collapseElement = el.closest('.collapse');
                         const parent = collapseElement ? collapseElement.querySelector('.manifestation-accordion-toggle') : null;
+
+                        console.log('Parent element:', parent);
+
                         if(parent)
                         {
                             (parent as HTMLInputElement).checked = true; // Check the parent checkbox
                         }
                         setTimeout(() => {
                             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            el.classList.add('bg-secondary'); // Add a class for highlighting
+                            el.classList.add('bg-highlight'); // Add a class for highlighting
+                            el.classList.add('text-white');
                         }, 600);
                         setTimeout(() => {
-                            el.classList.remove('bg-secondary'); // Remove the class after a delay
+                            el.classList.remove('bg-highlight'); // Remove the class after a delay
+                            el.classList.remove('text-white'); // Also remove 'text-white' class
                         }, 3000); // Adjust the delay as needed
                     }
                 }, 1000); // Add a small timeout before looking for the element

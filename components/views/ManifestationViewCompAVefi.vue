@@ -324,7 +324,12 @@
       <div
         v-if="mir.has_item"
       >
-        <h2>{{ $t('items') }}</h2>
+        <h2
+          :alt="$t('tooltip.item')"
+          :title="$t('tooltip.item')"
+        >
+          {{ $t('items') }}
+        </h2>
         <table class="table table-zebra table-sm">
           <thead>
             <tr>
