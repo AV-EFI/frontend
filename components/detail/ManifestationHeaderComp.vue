@@ -144,7 +144,7 @@
       </div>
     </div>
 
-    <div class="max-md:flex max-md:justify-end hidden">
+    <div class="hidden">
       <MicroEfiCopyComp
         :handle="manifestation?.handle ?? manifestation?.handle"
         category="manifestation"

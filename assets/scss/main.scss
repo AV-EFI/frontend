@@ -367,9 +367,9 @@ mark {
   right: 0;
   bottom: 0;
   z-index: -1;
-  opacity: var(--cookie-control-modalOverlayOpacity);
   background-color: var(--cookie-control-modalOverlay);
 }
+
 .cookieControl__Modal > div {
   font-size: initial;
 }

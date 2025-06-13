@@ -2,20 +2,21 @@
   <div class="flex flex-col md:flex-row gap-2 border border-base-300 rounded-lg overflow-hidden">
     <!-- Manifestation list (left) -->
     <div class="bg-base-200 dark:bg-base-300 md:[width:calc(40%+50px)]">
-      <ul class="bg-base-100 rounded-box w-full">
+      <ul class="bg-base-100 w-full divide-y divide-base-300 dark:divide-base-400">
         <li
           v-for="(m, i) in paginatedManifestations"
           :key="i + currentPage"
           :aria-label="$t('clickToSelectManifestation')"
           :title="$t('clickToSelectManifestation')"
+          class="px-2 pt-2"
         >
           <a
-            class="group min-h-20 px-2 py-4 cursor-pointer flex items-center justify-between text-left transition-colors"
+            class="group min-h-20 px-3 py-3 cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm"
             :class="[
-              'transition-all duration-200 ease-in-out border-2 rounded-md',
+              'transition-all duration-200 ease-in-out border',
               selectedIndex === i + currentPage * itemsPerPage
-                ? 'border-primary bg-base-100 dark:bg-base-300'
-                : 'border-transparent hover:border-primary-200 hover:bg-base-200 dark:hover:bg-base-100'
+                ? 'border-primary'
+                : 'border-transparent hover:border-base-300 dark:hover:border-base-400'
             ]"
             :aria-current="selectedIndex === i + currentPage * itemsPerPage ? 'true' : 'false'"
             @click="selectedIndex = i + currentPage * itemsPerPage"
@@ -53,27 +54,68 @@
                 class="btn btn-primary btn-outline btn-xs mt-2"
                 :aria-label="$t('viewManifestationDetails')"
                 :title="$t('viewManifestationDetails')"
-                @click="navigateToItem(m)"
+                @click.stop="navigateToItem(m)"
               >
                 <Icon
-                  name="material-symbols:read-more-rounded"
+                  name="mdi:eye-outline"
                   class="w-4 h-4 mr-1"
-                  aria-hidden="true"
                 />
               </button>
             </div>
-            <!-- Right: Chevron icon in full-height div -->
-            <div class="flex items-center px-1">
+            <div class="flex items-center px-1 self-start sm:self-center">
               <Icon
                 name="mdi:chevron-up"
                 class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
                 :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
                 aria-hidden="true"
-              />  
+              />
             </div>
           </a>
+
+          <!-- Collapsible mobile detail -->
+          <transition name="fade-slide">
+            <div
+              v-if="selectedIndex === i + currentPage * itemsPerPage"
+              class="block md:hidden mt-2 p-3 bg-base-100 dark:bg-base-200 rounded-b-md"
+            >
+              <h5 class="text-sm font-bold uppercase text-primary mb-1 flex items-center gap-1">
+                <Icon
+                  name="carbon:chart-relationship"
+                  class="text-base"
+                />
+                {{ $t('items') }}
+              </h5>
+              <ul class="space-y-2 pl-1">
+                <li
+                  v-for="(item, j) in getFilteredItems(m).slice(0, 3)"
+                  :key="j"
+                  class="bg-base-100 dark:bg-base-300 rounded-md p-2"
+                >
+                  <div class="flex gap-2 items-center mb-1">
+                    <Icon
+                      name="carbon:parent-node"
+                      class="text-primary w-4 h-4"
+                    />
+                    <span class="text-sm font-semibold">{{ item.handle }}</span>
+                  </div>
+                  <SearchMetaIconListComp
+                    type="item"
+                    :data="item"
+                  />
+                </li>
+              </ul>
+              <button
+                class="btn btn-xs btn-outline mt-2 w-full"
+                :aria-label="$t('viewAllItems')"
+                @click.stop="navigateToItem(m)"
+              >
+                {{ $t('viewAllItems') }}
+              </button>
+            </div>
+          </transition>
         </li>
       </ul>
+
       <div class="flex justify-between items-center mt-2 p-2">
         <button
           class="btn btn-xs btn-outline"
@@ -95,19 +137,15 @@
       </div>
     </div>
 
-    <!-- Detail view (right) -->
+    <!-- Detail view (right) for md+ -->
     <transition name="fade-slide">
       <div
         v-if="selectedManifestation"
-        class="md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
+        class="hidden md:block md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
         role="region"
         :aria-labelledby="`manifestation-${selectedManifestation.handle}`"
       >
-        <h5
-          class="text-sm font-bold uppercase text-primary mb-2 flex items-center gap-1"
-          :alt="$t('tooltip.item')"
-          :title="$t('tooltip.item')"
-        >
+        <h5 class="text-sm font-bold uppercase text-primary mb-2 flex items-center gap-1">
           <Icon
             name="carbon:chart-relationship"
             class="text-base"
@@ -117,14 +155,13 @@
 
         <div
           ref="itemsContainer"
-          class="relative pl-6"
+          class="relative"
         >
-          <div class="absolute left-2 top-0 bottom-0 w-px bg-base-300 dark:bg-base-500" />
           <ul class="space-y-2">
             <li
               v-for="(item, j) in paginatedItems"
               :key="j"
-              class="relative p-2 bg-base-100 dark:bg-base-200 rounded-md"
+              class="p-2 bg-base-100 dark:bg-base-200 rounded-md"
               :aria-labelledby="`item-${item.handle}`"
               role="group"
             >
@@ -132,7 +169,6 @@
                 <Icon
                   name="carbon:parent-node"
                   class="text-primary w-4 h-4 shrink-0"
-                  aria-hidden="true"
                 />
                 <MicroBadgeCategoryComp
                   category="avefi:Item"
@@ -166,16 +202,11 @@
                   class="btn btn-xs btn-block btn-outline mt-2"
                   :aria-label="$t('viewItemDetails')"
                   :title="$t('viewItemDetails')"
-                  :class="{
-                    'btn-primary': selectedIndex === j + itemPage * itemsPerPage,
-                    'btn-outline': selectedIndex !== j + itemPage * itemsPerPage
-                  }"
                   @click="navigateToItem(item)"
                 >
                   <Icon
-                    name="material-symbols:read-more-rounded"
+                    name="mdi:eye-outline"
                     class="w-4 h-4 mr-1"
-                    aria-hidden="true"
                   />
                 </button>
               </div>
@@ -196,7 +227,7 @@
           </span>
           <button
             class="btn btn-xs btn-outline"
-            :disabled="itemPage >= totalItemPages - 1"
+            :disabled="itemPage >= totalItemPages.value - 1"
             @click="nextItemPage"
           >
             {{ $t('nextPage') }}
@@ -218,73 +249,15 @@ const selectedIndex = ref(0);
 const currentPage = ref(0);
 const itemsPerPage = 5;
 const itemsContainer = ref<HTMLElement | null>(null);
+const itemPage = ref(0);
+
 const totalPages = computed(() => Math.ceil(props.manifestations.length / itemsPerPage));
 const selectedManifestation = computed(() => props.manifestations[selectedIndex.value] || null);
-
-
-const navigateToItem = (item: string) => {
-    const route = useRoute();
-    const router = useRouter();
-    const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/','')}#${item?.handle?.replace('21.11155/','')}`;
-    if (route.path !== itemPath) {
-        router.push(itemPath);
-    }
-};
-
-watch(selectedManifestation, () => {
-    itemPage.value = 0;
-
-    nextTick(() => {
-        const el = itemsContainer.value;
-        if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 125; // adjust offset if needed
-            window.scrollTo({ top, behavior: 'smooth' });
-        }
-    });
-});
 
 const paginatedManifestations = computed(() => {
     const start = currentPage.value * itemsPerPage;
     return props.manifestations.slice(start, start + itemsPerPage);
 });
-
-
-function prevPage() {
-    if (currentPage.value > 0) currentPage.value--;
-}
-function nextPage() {
-    if (currentPage.value < totalPages.value - 1) currentPage.value++;
-}
-
-const manifestationFields = [
-    'has_record.in_language',
-    'has_record.has_colour_type',
-    'has_record.has_sound_characteristics'
-];
-
-const itemFields = [
-    'has_record.has_format',
-    'has_record.element_type',
-    'has_record.in_language.code',
-    'has_record.has_webresource'
-];
-
-function getCompleteness(obj: any, fieldPaths: string[]): number {
-    return fieldPaths.filter(path => {
-        const value = path.split('.').reduce((o, key) => o?.[key], obj);
-        if (Array.isArray(value)) return value.length > 0;
-        return !!value;
-    }).length;
-}
-
-function getCompletenessIcons(obj: any, fieldPaths: string[]): string[] {
-    return fieldPaths.map(path => {
-        const value = path.split('.').reduce((o, key) => o?.[key], obj);
-        return Array.isArray(value) ? (value.length > 0 ? '●' : '○') : (value ? '●' : '○');
-    });
-}
-
-const itemPage = ref(0);
 
 const paginatedItems = computed(() => {
     if (!selectedManifestation.value) return [];
@@ -298,14 +271,38 @@ const totalItemPages = computed(() => {
     return Math.ceil(all.length / itemsPerPage);
 });
 
+function nextPage() {
+    if (currentPage.value < totalPages.value - 1) currentPage.value++;
+}
+function prevPage() {
+    if (currentPage.value > 0) currentPage.value--;
+}
 function nextItemPage() {
     if (itemPage.value < totalItemPages.value - 1) itemPage.value++;
 }
-
 function prevItemPage() {
     if (itemPage.value > 0) itemPage.value--;
 }
 
+const navigateToItem = (item: any) => {
+    const route = useRoute();
+    const router = useRouter();
+    const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
+    if (route.path !== itemPath) {
+        router.push(itemPath);
+    }
+};
+
+watch(selectedManifestation, () => {
+    itemPage.value = 0;
+    nextTick(() => {
+        const el = itemsContainer.value;
+        if (el) {
+            const top = el.getBoundingClientRect().top + window.scrollY - 125;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+    });
+});
 </script>
 
 <style scoped>

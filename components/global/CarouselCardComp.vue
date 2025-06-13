@@ -52,7 +52,7 @@
               class="flex flex-col items-center"
             >
               <img
-                src="/img/avefi_ph_gray.png"
+                src="/img/avefi_ph_gray.svg"
                 alt="Avefi"
                 :class="`w-full h-48 lg:h-48 object-cover ${item.imgCoverType || 'object-center'}`"
               >

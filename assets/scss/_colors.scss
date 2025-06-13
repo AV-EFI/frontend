@@ -24,8 +24,11 @@
   --primary-800: #364754;
   --primary-900: #313d48;
   --primary-950: #1d262f;
+  --primary-500-rgb: 77, 118, 141; /* RGB fallback for backdrop rgba() use */
 
   --secondary: #e6c373;
+
+  --base-100: #ffffff;
 
   --accent-50: #ffeaea;
   --accent-100: #ffc5c5;
@@ -53,4 +56,54 @@
   --work: #F3E2B8;
   --manifestation: #E8D39E;
   --item: #DDC48B;
+
+
+  
+}
+
+
+:root {
+  /* CookieControl theming via AVefi palette */
+
+  --cookie-control-fontSize: 14px;
+
+  /* Bar colors */
+  --cookie-control-barBackground: white;
+  --cookie-control-barTextColor: var(--base-content);
+  --cookie-control-barButtonColor: var(--base-content);
+  --cookie-control-barButtonBackground: var(--secondary);
+  --cookie-control-barButtonHoverColor: var(--base-100);
+  --cookie-control-barButtonHoverBackground: var(--secondary-focus);
+
+  --cookie-control-focusRingColor: var(--accent);
+
+  /* Modal */
+  --cookie-control-modalOverlay: var(--neutral); /* fully opaque */
+  --cookie-control-modalOverlayOpacity: 1; /* prevent transparency */
+
+  --cookie-control-modalBackground: var(--base-100); /* light background */
+  --cookie-control-modalTextColor: var(--base-content);
+
+  --cookie-control-modalButtonColor: var(--base-100);
+  --cookie-control-modalButtonBackground: var(--primary);
+  --cookie-control-modalButtonHoverColor: var(--base-100);
+  --cookie-control-modalButtonHoverBackground: var(--primary-focus);
+
+  --cookie-control-modalUnsavedColor: var(--accent);
+
+  /* Toggles */
+  --cookie-control-checkboxInactiveBackground: var(--base-300);
+  --cookie-control-checkboxInactiveCircleBackground: var(--base-400);
+
+  --cookie-control-checkboxActiveBackground: var(--primary);
+  --cookie-control-checkboxActiveCircleBackground: var(--base-100);
+
+  --cookie-control-checkboxDisabledBackground: var(--base-200);
+  --cookie-control-checkboxDisabledCircleBackground: var(--base-300);
+
+  /* Control button (bottom-right) */
+  --cookie-control-controlButtonBackground: var(--secondary);
+  --cookie-control-controlButtonIconColor: var(--base-content);
+  --cookie-control-controlButtonHoverBackground: var(--secondary-focus);
+  --cookie-control-controlButtonIconHoverColor: var(--base-content);
 }

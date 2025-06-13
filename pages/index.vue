@@ -42,9 +42,9 @@
       :aria-label="$t('featuredContent')"
     >
       <div
-        class="absolute inset-0 bg-primary"
+        class="absolute inset-0 bg-primary dark:bg-gray-900 md:bg-[url('/img/tiles_blue.svg')]"
         aria-hidden="true"
-        style="background: url('/img/tiles_blue.svg') left center / contain no-repeat; transform: scaleX(-1); background-size: 170% 100%; background-color: var(--primary-color);"
+        style="background-position: left center; background-repeat: no-repeat; transform: scaleX(-1); background-size: 170% 100%;"
       />
       <div
         class="relative flex flex-col lg:flex-row justify-between content-center items-center mt-2 lg:group-hover:bg-opacity-90"
@@ -59,7 +59,7 @@
             </p>
           </div>
         </div>
-        <div class="w-full lg:w-1/2 flex justify-center md:p-2 relative z-10">
+        <div class="w-full max-md:mt-4 lg:w-1/2 flex justify-center md:p-2 relative z-10">
           <GlobalCarouselCardComp
             :items="cardItems"
           />
@@ -67,7 +67,7 @@
       </div>
     </div>
     <div
-      class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       role="region"
       :aria-label="$t('coreFunctionsSection')"
     >
@@ -214,15 +214,15 @@
       </div>
     </div>
     <div
-      class="mx-auto lg:min-h-[75vh] flex flex-col lg:justify-center flex-wrap justify-between h-full p-6 shadow-lg transition duration-900 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      class="mx-auto lg:min-h-[75vh] flex flex-col lg:justify-center flex-wrap justify-between h-full p-6 transition duration-900 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       role="region"
       :aria-label="$t('videoSection')"
     >
       <!-- Background pattern -->
       <div
-        class="absolute inset-0 bg-primary"
+        class="absolute inset-0 bg-primary  dark:bg-gray-900 md:bg-[url('/img/tiles_blue.svg')]"
         aria-hidden="true"
-        style="background: url('/img/tiles_blue.svg') right center / contain no-repeat; background-color: var(--primary-color);"
+        style="background-position: right center; background-repeat: no-repeat; background-size: contain;"
       />
 
       <!-- Content row -->
@@ -243,7 +243,7 @@
 
         <!-- Right: Text Block as Emphasized Quote -->
         <div class="w-full lg:w-1/2 flex flex-col justify-center items-center mt-6 lg:mt-0 px-4">
-          <div class="lg:h-80 bg-white/80 dark:bg-base-200/80 text-primary-900 dark:text-white px-8 py-6 rounded-xl shadow-xl w-full max-w-xl backdrop-blur flex flex-col justify-center items-center">
+          <div class="lg:h-80 bg-white dark:bg-base-200/80 text-primary-900 dark:text-white px-8 py-6 rounded-xl shadow-xl w-full max-w-xl backdrop-blur flex flex-col justify-center items-center">
             <p class="text-xl font-semibold lg:text-2xl leading-snug tracking-tight">
               Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres.
             </p>

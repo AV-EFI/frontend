@@ -22,10 +22,11 @@
     >
       <div class="max-md:w-full w-4/5 md:w-4/5 content-center">
         <GlobalClipboardComp
-          :text="item?.handle"
+          :display-text="item?.handle"
           class=" text-xs text-gray-50 dark:text-gray-300"
           :aria-label="$t('copyEfi')"
           :title="$t('copyEfi')"
+          :dark-bg="true"
         />
         <h2
           class="font-bold text-lg my-1 text-primary-50 dark:text-white"
@@ -95,7 +96,7 @@
             v-if="item.years"
             class="flex items-center"
           >
-            <template v-if="item.has_record?.has_event"><span class="flex items-center">&nbsp;&nbsp;</span></template>
+            <template v-if="item.has_record?.has_event"><span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span></template>
             <Icon
               name="fa:calendar"
               class="mr-1"
@@ -109,7 +110,7 @@
             class="flex items-center"            
           >
             <template v-if="item.directors_or_editors">
-              <span class="flex items-center">&nbsp;&nbsp;</span>
+              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
             </template>
             <Icon
               name="iconoir:director-chair"
@@ -124,7 +125,7 @@
             class="flex items-center"
           >
             <template v-if="item.has_record?.has_event || item.years">
-              <span class="flex items-center">&nbsp;&nbsp;</span>
+              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
             </template>
             <Icon
               name="fa:film"
@@ -158,8 +159,8 @@
           target="_blank"
         >
           <Icon
-            name="material-symbols:read-more-rounded"
-            class="text-2xl mr-1"
+            name="mdi:eye-outline"
+            class="text-2xl"
             :alt="$t('detailviewlink')"
           />
         </NuxtLink>
