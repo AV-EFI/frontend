@@ -15,12 +15,17 @@
         :aria-current="ishiliteed(item) ? 'true' : 'false'"
         role="listitem"
         :class="{
-          'bg-highlight text-white dark:text-secondary-900': ishiliteed(item),
+          'dark:text-secondary-900': ishiliteed(item),
           [fontSize]: true
         }"
         class="w-full overflow-hidden text-ellipsis"
       >
         {{ $t(item) }}
+        <span
+          v-if="ishiliteed(item)"
+          class="badge badge-xs bg-highlight text-white"
+          :title="$t('matchedField') + ': ' + item"
+        />
       </li>
     </ul>
     <ul v-else>

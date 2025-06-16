@@ -30,19 +30,20 @@
 
   --base-100: #ffffff;
 
-  --accent-50: #ffeaea;
-  --accent-100: #ffc5c5;
-  --accent-200: #ff9e9e;
-  --accent: #ff7777;
-  --accent-300: #ff7777;
-  --accent-400: #ff4f4f;
-  --accent-500: #ff0000;
-  --accent-600: #e60000;
-  --accent-700: #cc0000;
-  --accent-800: #990000;
-  --accent-900: #660000;
+  /* Accent color palette CSS variables */
+  --accent-50: #ffe5e7;
+  --accent-100: #ffccd0;
+  --accent-200: #ff99a1;
+  --accent-300: #ff6671;
+  --accent-400: #ff394e;
+  --accent: #ff1d25;
+  --accent-500: #ff1d25;
+  --accent-600: #e11923;
+  --accent-700: #b2161d;
+  --accent-800: #8e1217;
+  --accent-900: #670d12;
 
-  --highlight: #b00020;
+  --highlight: #b2161d;
   --highlight-content: #ffffff;
 
   --favourites-list: #364754;
@@ -102,8 +103,8 @@
   --cookie-control-checkboxDisabledCircleBackground: var(--base-300);
 
   /* Control button (bottom-right) */
-  --cookie-control-controlButtonBackground: var(--secondary);
-  --cookie-control-controlButtonIconColor: var(--base-content);
+  --cookie-control-controlButtonBackground: white;
+  --cookie-control-controlButtonIconColor: var(--pimary);
   --cookie-control-controlButtonHoverBackground: var(--secondary-focus);
   --cookie-control-controlButtonIconHoverColor: var(--base-content);
 }

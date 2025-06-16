@@ -52,7 +52,10 @@
             </span>
           </a>
         </h2>
-        <h3 class="text-white">
+        <h3
+          v-if="item?.has_record?.has_alternative_title"
+          class="text-white"
+        >
           <span 
             v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
           >
@@ -75,7 +78,7 @@
               v-for="alt in item?.has_record?.has_alternative_title"
               :key="alt.id"
             >
-              {{ alt.has_name }} ( {{ $t(alt.type) }})
+              {{ alt.has_name }} ({{ $t(alt.type) }})
             </li>
           </ul>
         </h3>
@@ -87,8 +90,8 @@
             <Icon
               name="mdi:map-marker-outline"
               class="mr-1"
-              :alt="$t('country')"
-              :title="$t('country')"
+              :alt="$t('place')"
+              :title="$t('place')"
             />
             {{ item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null).join(', ') }}
           </span>
@@ -96,7 +99,8 @@
             v-if="item.years"
             class="flex items-center"
           >
-            <template v-if="item.has_record?.has_event"><span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span></template>
+            <template v-if="item.has_record?.has_event">
+              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span></template>
             <Icon
               name="fa:calendar"
               class="mr-1"
@@ -119,6 +123,12 @@
               :title="$t('directors_or_editors')"
             />
             {{ item.directors_or_editors?.flatMap((f) => $t(f)).join(', ') }}
+            <span
+              v-if="isFacetActive('directors_or_editors', item.directors_or_editors.join(','))"
+              class="badge badge-xs bg-highlight text-white ml-1"
+              :title="$t('matchedField') + ': ' + item.directors_or_editors.join(', ')"
+            />
+
           </span>
           <span
             v-if="item.has_record?.has_form"
@@ -201,7 +211,7 @@
     >
       <Icon
         :name="isExpanded[item.handle] ? 'mdi:minus' : 'mdi:plus'"
-        class="ml-1 text-lg"
+        class="text-lg"
         :alt="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
         :title="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
       />
@@ -231,7 +241,7 @@
       </div> 
       <div
         v-else
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm"
       >
         <div
           v-if="item?.production"
@@ -240,8 +250,9 @@
           <MicroLabelComp label-text="avefi:ProductionEvent" />
           <SearchHighlightListComp
             :items="item?.production || []"
-            :hilite="item._highlightResult?.production?.flatMap((dirs) => ( dirs.matchedWords ))"            
+            :hilite="activeProduction"
             class="mb-2"
+            :font-size="'text-sm'"
           />
         </div>
         <div
@@ -251,8 +262,9 @@
           <MicroLabelComp label-text="has_form" />
           <SearchHighlightListComp
             :items="item?.has_record?.has_form || []"
-            :hilite="item._highlightResult?.has_record?.has_form?.matchedWords"
+            :hilite="activeHasForm"           
             class="max-h-48 overflow-y-auto mb-2"
+            :font-size="'text-sm'"
           />
         </div>
         <div
@@ -262,8 +274,9 @@
           <MicroLabelComp label-text="avefi:Genre" />
           <SearchHighlightListComp
             :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || []"
-            :hilite="item._highlightResult?.has_record?.has_genre?.has_name?.flatMap((dirs) => ( dirs.matchedWords ))"
+            :hilite="activeGenres"
             class="max-h-48 overflow-y-auto mb-2"
+            :font-size="'text-sm'"
           />
         </div>
         <div
@@ -273,8 +286,9 @@
           <MicroLabelComp label-text="avefi:Subject" />
           <SearchHighlightListComp
             :items="item?.subjects || []"
-            :hilite="item._highlightResult?.subjects?.flatMap((dirs) => ( dirs.matchedWords ))"
+            :hilite="activeSubjects"
             class="max-h-48 overflow-y-auto"
+            :font-size="'text-sm'"
           />
         </div>
       </div>
@@ -294,100 +308,88 @@
           :get-filtered-items="getFilteredItems"
           :work-variant-handle="item?.handle"
         />
-
-        <!--
-        <div
-          v-for="(manifestation, index) in getFilteredManifestations(item)"
-          :key="index"
-          class="collapse collapse-plus border-base border-2 mt-1"
-          role="group"
-          :title="$t('clickToExpandManifestation')"
-          :aria-labelledby="`manifestation-header-${item.handle}-${index}`"
-        >
-          <input
-            type="checkbox"
-            class="manifestation-checkbox"
-            :aria-expanded="false"
-          >
-          <div
-            :id="`manifestation-header-${item.handle}-${index}`"
-            class="collapse-title bg-base-100 border border-base-300 rounded-md dark:bg-slate-700 dark:text-white font-medium"
-          >
-            <DetailManifestationHeaderComp
-              v-if="componentInfoReady"
-              :manifestation="manifestation"
-              type="searchresult"
-              :is-twin="manifestation.isTwin"
-              :all-items-empty="manifestation.allItemsEmpty"
-            />
-          </div>        
-          <div class="collapse-content bg-gray-50 dark:bg-slate-800 dark:text-white">
-            <div class="grid grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)] px-2 border-l-2 border-manifestation rounded-sm">
-              <div class="col-span-full grid-cols-4 gap-2 row-start-1">
-                <div class="col-span-full">
-                  <MicroDividerComp
-                    in-class="manifestation"
-                    class="mx-auto my-[20px] mb-2"
-                    label-text="avefi:Manifestation" 
-                  />
-                </div>
-              </div>
-              <div class="col-span-full row-start-2">
-                <DetailKeyValueComp
-                  class="max-md:break-all"
-                  keytxt="EFI"
-                  :valtxt="manifestation?.handle"
-                  :clip="true"
-                />
-              </div>
-              <div class="col-span-1 row-start-3 md:flex-row">
-                <MicroLabelComp label-text="in_language_code" />
-                <SearchHighlightListComp
-                  :items="manifestation?.has_record?.in_language?.map(lang => lang.code) || []"
-                  :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-span-1 row-start-3 md:flex-row">
-                <MicroLabelComp label-text="has_colour" />
-                <SearchHighlightSingleComp 
-                  :item="manifestation?.has_record?.has_colour_type"
-                  :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"                  
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-span-1 row-start-3 md:flex-row">
-                <MicroLabelComp label-text="has_sound_type" />
-                <SearchHighlightSingleComp 
-                  :item="manifestation?.has_record?.has_sound_type"
-                  :hitlite="item._highlightResult?.manifestations?.has_record?.has_sound_type?.matchedWords"                  
-                  class="mb-2"
-                />
-              </div>
-            </div>
-            <hr class="mt-4 mb-2 dark:border-gray-500">
-            <h4 class="font-bold text-sm text-gray-800 dark:text-primary-200 uppercase my-4 md:pl-4">
-              {{ $t('items') }}
-            </h4>
-            <div class="bg-gray-100 dark:bg-gray-900 py-2 rounded-xl">
-              <DetailItemListNewComp 
-                :items="getFilteredItems(manifestation)"
-                :production-details-checked="productionDetailsChecked"
-                :show-admin-stats="showAdminStats"
-                :highlight-result="item?._highlightResult"
-              />
-            </div>
-          </div>
-        </div>
-        -->
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { get } from 'http';
 import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
+
+const route = useRoute();
+
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const activeGenres = ref<string[]>([]);
+const activeSubjects = ref<string[]>([]);
+const activeHasForm = ref<string[]>([]);
+const activeProduction = ref<string[]>([]);
+
+function parseRefinementsFromUrl(href: string) {
+    const url = new URL(href);
+    const params = new URLSearchParams(url.search);
+
+    const result: Record<string, string[]> = {
+        has_genre_has_name: [],
+        subjects: [],
+        has_form_has_name: [],
+        production_type: []
+    };
+
+    for (const [key, value] of params.entries()) {
+    // Match keys like: [refinementList][has_genre_has_name][0]
+        const match = key.match(/\[refinementList]\[([^\]]+)](?:\[\d+])?$/);
+        if (match) {
+            const facet = match[1];
+            if (facet in result) {
+                result[facet].push(value);
+            }
+        }
+    }
+
+    return result;
+}
+
+
+const updateFromHref = () => {
+    const refinements = parseRefinementsFromUrl(window.location.href);
+
+    activeGenres.value = refinements.has_genre_has_name || [];
+    activeSubjects.value = refinements.subjects || [];
+    activeHasForm.value = refinements.has_form_has_name || [];
+    activeProduction.value = refinements.production_type || [];
+
+    console.log('✅ URL parsed:');
+    console.log('→ Genres:', activeGenres.value);
+    console.log('→ Subjects:', activeSubjects.value);
+    console.log('→ Forms:', activeHasForm.value);
+    console.log('→ ProdType:', activeProduction.value);
+};
+
+onMounted(() => {
+    updateFromHref();
+
+    const interval = setInterval(() => {
+        if (window.location.href !== lastHref.value) {
+            lastHref.value = window.location.href;
+            updateFromHref();
+        }
+    }, 200);
+
+    window.addEventListener('popstate', updateFromHref);
+    window.addEventListener('pushstate', updateFromHref);
+    window.addEventListener('replacestate', updateFromHref);
+
+    onBeforeUnmount(() => {
+        clearInterval(interval);
+        window.removeEventListener('popstate', updateFromHref);
+        window.removeEventListener('pushstate', updateFromHref);
+        window.removeEventListener('replacestate', updateFromHref);
+    });
+});
+
+const lastHref = ref(window.location.href);
+
 
 import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
@@ -442,46 +444,35 @@ watch(
     { immediate: true }
 );
 
-function getFilteredManifestations(item) {
-    if (!item.inner_hits) {
-    // No nested filtering active, show all manifestations
-        return item.manifestations || [];
-    }
-
-    // Use the exact inner_hits key for manifestations
-    const innerHitsManifestations = item.inner_hits.manifestations_hits?.hits?.hits || [];
-
-    if (innerHitsManifestations.length > 0) {
-    // Return only matched manifestations from inner_hits
-        return innerHitsManifestations.map(hit => hit._source);
-    }
-
-    // If inner_hits present but empty, return empty array (no matches)
-    return [];
-}
-
 function getFilteredItems(manifestation) {
     if (!manifestation.inner_hits) {
-        //console.log('No inner_hits, returning all items:', manifestation.items);
         return manifestation.items || [];
     }
 
-    // Use exact key for items inner_hits (matches your ES config)
     const itemsInnerHitsKey = Object.keys(manifestation.inner_hits).find(key => key.includes('items'));
 
-    console.log('inner_hits keys:', Object.keys(manifestation.inner_hits));
-    console.log('Using inner_hits key:', itemsInnerHitsKey);
-
     if (!itemsInnerHitsKey) {
-        console.log('No items inner_hits key found, returning all items:', manifestation.items);
         return manifestation.items || [];
     }
 
     const innerHitsItems = manifestation.inner_hits[itemsInnerHitsKey]?.hits?.hits || [];
-    console.log('innerHitsItems:', innerHitsItems);
 
-    if (innerHitsItems.length > 0) {
-        return innerHitsItems.map(hit => hit._source);
+    return innerHitsItems.map(hit => hit._source);
+}
+
+function getFilteredManifestations(item) {
+    if (!item.inner_hits) {
+        return item.manifestations || [];
+    }
+
+    const innerHitsManifestations = item.inner_hits.manifestations_hits?.hits?.hits || [];
+
+    if (innerHitsManifestations.length > 0) {
+    // ✅ Keep inner_hits on each manifestation
+        return innerHitsManifestations.map((hit) => ({
+            ...hit._source,
+            inner_hits: hit.inner_hits
+        }));
     }
 
     return [];
@@ -529,18 +520,27 @@ async function markDuplicateManifestations(manifestations: any[]): Promise<void>
 
 watch(() => props.expandAllHandlesChecked, (newVal) => {
     props.items.forEach((item, i) => {
+        const handle = item.handle;
         const delay = i * 50;
+
+        // ✅ Correct access
+        if (showHighlight.value[handle] === undefined)
+            showHighlight.value[handle] = false;
+
+        if (isExpanded[handle] === undefined)
+            isExpanded[handle] = false;
+
         if (newVal) {
-            showHighlight.value[item.handle] = true;
+            showHighlight.value[handle] = true;
             setTimeout(() => {
-                if(!isExpanded.value[item.handle]) {
-                    isExpanded.value[item.handle] = true;
+                if (!isExpanded[handle]) {
+                    isExpanded[handle] = true;
                 }
-                showHighlight.value[item.handle] = false;
+                showHighlight.value[handle] = false;
             }, 250 + delay);
         } else {
-            isExpanded.value[item.handle] = false;
-            showHighlight.value[item.handle] = true;
+            isExpanded[handle] = false;
+            showHighlight.value[handle] = true;
         }
     });
 });
@@ -601,6 +601,17 @@ watch(() => props.items, async (newVal) => {
 onMounted(() => {
     componentInfoReady.value = true;
 });
+
+function isFacetActive(facetKey: string, value: string): boolean {
+    return Object.entries(route.query).some(([key, raw]) => {
+        const match = key.includes(`[refinementList][${facetKey}]`);
+        if (!match) return false;
+        const decoded = Array.isArray(raw) ? raw.map(decodeURIComponent) : [decodeURIComponent(raw)];
+        return decoded.includes(value);
+    });
+}
+
+
 </script>
 <style scoped>
 .collapse-plus > .collapse-title:after {

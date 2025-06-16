@@ -19,7 +19,7 @@
                 : 'border-transparent hover:border-base-300 dark:hover:border-base-400'
             ]"
             :aria-current="selectedIndex === i + currentPage * itemsPerPage ? 'true' : 'false'"
-            @click="selectedIndex = i + currentPage * itemsPerPage"
+            @click="selectedIndex = i + currentPage * itemsPerPage; triggerScrollToItem()"
           >
             <div class="flex flex-col justify-center leading-tight w-full">
               <div class="w-full flex flex-row justify-between items-center mb-1">
@@ -143,7 +143,7 @@
         v-if="selectedManifestation"
         class="hidden md:block md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
         role="region"
-        :aria-labelledby="`manifestation-${selectedManifestation.handle}`"
+        :aria-label="`manifestation-${selectedManifestation.handle}`"
       >
         <h5 class="text-sm font-bold uppercase text-primary mb-2 flex items-center gap-1">
           <Icon
@@ -164,6 +164,8 @@
               class="p-2 bg-base-100 dark:bg-base-200 rounded-md"
               :aria-labelledby="`item-${item.handle}`"
               role="group"
+              :aria-label="$t('itemDetails', { handle: item.handle })"
+              :title="$t('itemDetails', { handle: item.handle })"
             >
               <div class="flex items-center gap-2 mb-1">
                 <Icon
@@ -293,8 +295,20 @@ const navigateToItem = (item: any) => {
     }
 };
 
+function triggerScrollToItem() {
+    nextTick(() => {
+        const el = itemsContainer.value;
+        if (el) {
+            const top = el.getBoundingClientRect().top + window.scrollY - 125;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+    });
+}
+
+/*
 watch(selectedManifestation, () => {
     itemPage.value = 0;
+    console.log('Selected manifestation changed:', selectedManifestation.value);
     nextTick(() => {
         const el = itemsContainer.value;
         if (el) {
@@ -303,6 +317,7 @@ watch(selectedManifestation, () => {
         }
     });
 });
+*/
 </script>
 
 <style scoped>

@@ -43,11 +43,11 @@
               :aria-label="$t('has_form')"
             />
             <SearchPanelRefinementListComp
-              header-text="country"
+              header-text="place"
               attribute-name="located_in_has_name"
               category="avefi:WorkVariant"
               :tab-index="3"
-              :aria-label="$t('country')"
+              :aria-label="$t('place')"
             />
             <SearchPanelRefinementListComp
               header-text="directors_or_editors"

@@ -50,20 +50,20 @@ module.exports = {
               'secondary': {
                 DEFAULT: '#e6c373'
               },
-              'accent': {
-                '50':  '#ffeaea',      // very light tint
-                '100': '#ffc5c5',      // light tint
-                '200': '#ff9e9e',
-                DEFAULT: '#ff7777',
-                '300': '#ff7777',
-                '400': '#ff4f4f',
-                '500': '#ff0000',      // base red
-                '600': '#e60000',      // slightly darker
-                '700': '#cc0000',      // accessible for white text
-                '800': '#990000',      // even darker
-                '900': '#660000',      // deepest
-              },
-              'highlight': '#b00020',
+              accent: {
+                '50': '#ffe5e7',
+                '100': '#ffccd0',
+                '200': '#ff99a1',
+                '300': '#ff6671',
+                '400': '#ff394e',
+                DEFAULT: '#ff1d25',
+                '500': '#ff1d25',
+                '600': '#e11923',
+                '700': '#b2161d',
+                '800': '#8e1217',
+                '900': '#670d12',
+              },              
+              'highlight': '#b2161d',
               'highlight-content': '#ffffff',
               'favourites-list': '#364754',
               'favourites-list-content': '#ffffff',

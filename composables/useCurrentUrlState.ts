@@ -8,13 +8,16 @@ export function useCurrentUrlState() {
     const value = localStorage.getItem('latest-search-query') || '';
     if (currentUrlState.value !== value) {
       currentUrlState.value = value;
-      console.log('🔄 currentUrlState updated:', value);
     }
+  };
+
+  const getLatestSearchQuery = (): string => {
+    if (typeof localStorage === 'undefined') return '';
+    return localStorage.getItem('latest-search-query') || '';
   };
 
   const handleStorage = (e: StorageEvent) => {
     if (e.key === 'latest-search-query') {
-      //console.log('🧠 Storage event detected:', e);
       updateFromStorage();
     }
   };
@@ -29,6 +32,6 @@ export function useCurrentUrlState() {
   });
 
   return {
-    currentUrlState,
+    currentUrlState
   };
 }

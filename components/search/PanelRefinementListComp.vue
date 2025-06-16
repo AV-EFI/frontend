@@ -8,7 +8,6 @@
       'ais-Panel-header': 'collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
     }"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
-    :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
   >
     <template #header="{ hasRefinements }">
       <h4
@@ -65,15 +64,14 @@
             <div class="formkit-inner !rounded-3xl">
               <label
                 :aria-label="$t('searchInFacet', { facetName: $t(headerText) })"
-                :alt="$t('searchInFacet', { facetName: $t(headerText) })"
+                :for="inputId"
                 class="label-text !text-sm !mb-0 !p-0 !text-neutral-500 dark:!text-neutral-300"
               >
                 <!-- search icon -->
               </label>
               <input
-                id="input_0"
+                :id="inputId"
                 type="search"
-                :aria-label="$t('searchInFacet', { facetName: $t(headerText) })"
                 class="!text-sm p-1 !rounded-3xl w-full bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 focus:outline-none ring-primary-200 ring-2 focus:ring-2 focus:ring-primary-500 px-2"
                 :placeholder="$t('search')"
                 @input="(e) => { searchForItems(e?.currentTarget?.value) }"
@@ -93,7 +91,6 @@
               <label
                 class="ais-RefinementList-label"
                 :aria-label="$t('refineBy', { label: item.label })"
-                :alt="$t('refineBy', { label: item.label })"
                 for="checkbox"
                 @click="refine(item.value)"
               >
@@ -104,6 +101,8 @@
                   :value="item.value"
                   :checked="item.isRefined ?? 'checked'"
                   :aria-checked="item.isRefined"
+                  :title="$t('refineBy', { label: item.label })"
+                  :aria-label="$t('refineBy', { label: item.label })"
                 >
                 <span v-if="translateLabel">
                   {{ $t(item.label.replace('_', ':')) }}
@@ -160,4 +159,7 @@ const props = defineProps({
         default: null
     }
 });
+
+const inputId = `facet-search-${props.attributeName}_${Math.random().toString(36).substring(2, 15)}`;
+
 </script>

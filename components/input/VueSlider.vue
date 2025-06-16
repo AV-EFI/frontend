@@ -52,6 +52,7 @@
           :step="1"
           thumb-label
           class="w-full h-8"
+          :aria-label="$t('refineBy', { headerText: $t(headerText) })"
         />
       </div>
 
@@ -64,6 +65,7 @@
           :max="max"
           :placeholder="String(min)"
           number="integer"
+          :aria-label="$t('minimumProductionYear')"
         />
         <div class="w-1/3 flex flex-col justify-center mb-3.5">
           <Icon
@@ -79,6 +81,7 @@
           :max="max"
           :placeholder="String(max)"
           number="integer"
+          :aria-label="$t('maximumProductionYear')"
         />
       </div>
 

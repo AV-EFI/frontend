@@ -18,7 +18,7 @@ const indexName = process.env.ELASTIC_INDEX;
  FAIL  tests/msearch.spec.ts > Searchkit instantsearch-client facet filtering > filters correctly by facet "in_language_code" = "deu"
  FAIL  tests/msearch.spec.ts > Searchkit instantsearch-client facet filtering > filters correctly by facet "has_format_type" = "35mmFilm"
  */
-const allFacets = [
+ const allFacets = [
   'castmembers',
   'directors_or_editors',
   'has_colour_type',
@@ -40,7 +40,12 @@ const allFacets = [
 const nestedFacets = new Set([
   'has_format_type',
   'item_element_type',
-  'in_language_code'
+  'in_language_code',
+  'has_sound_type',
+  'has_colour_type',
+  'has_duration_has_value',
+  'has_issuer_name',
+  'manifestation_event_type'
 ])
 
 const testFacets = [
@@ -57,9 +62,11 @@ const testFacets = [
   { key: 'directors_or_editors', value: 'Troller, Georg Stefan' },
   { key: 'production', value: 'Schlenker, Hermann' },
   { key: 'subjects', value: 'Amateurfilm' },
-  { key: 'located_in_has_name', value: 'Deutschland' }
+  { key: 'located_in_has_name', value: 'Deutschland' },
+  { key: 'manifestation_event_type', value: 'TheatricalDistributionEvent' }
 ]
 
+// Test suite for Searchkit instantsearch-client facet filtering
 describe('Searchkit instantsearch-client facet filtering', () => {
   testFacets.forEach(({ key, value }) => {
     it(

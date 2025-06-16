@@ -334,6 +334,17 @@ const cardItems = ref(
         },
         {
             title: 'ddrTitle',//'Filmgeschichte der DDR',
+            imgSrc:'https://upload.wikimedia.org/wikipedia/commons/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
+            imgSourceText: 'German Federal Archives',
+            imgAuthor: 'Christa Hochneder',
+            imgLicense: 'CC BY-SA 3.0 DE',
+            imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
+            imgCoverType: 'object-center',
+            imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964. Photographer: Christa Hochneder. Source: German Federal Archives (Bild 183-C1115-0001-001).',
+            imgDepictedPlace: 'Leipzig',
+            imgDate: '1964-11-15',
+            imgCollection: 'German Federal Archives',
+            imgAccessionNumber: 'Bild 183-C1115-0001-001',
             description: 'ddrDescription',//'Diese Sammlung stellt eine einzigartige Ressource dar, die sich mit der Filmgeschichte der DDR beschäftigen. Durch die Bereitstellung umfassender Metadaten ermöglicht sie anspruchsvolle Forschungsvorhaben und trägt zur Weiterentwicklung wissenschaftlicher Erkenntnisse über die Kultur und Gesellschaft der DDR bei.',
             link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
             linkText: 'ddrLinkText'//'Unsere DDR-Filme'

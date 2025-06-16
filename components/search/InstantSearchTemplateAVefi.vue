@@ -47,6 +47,7 @@
                       <label
                         class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
                         for="input_0"
+                        :aria-label="$t('search')"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -124,6 +125,140 @@
                   role="region"
                   :aria-label="$t('filteringsection')"
                 >
+                  <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base">
+                    <ais-stats>
+                      <template #default="{ nbHits }">
+                        <div class="flex items-center justify-center h-10">
+                          <span
+                            v-if="isSearchLoading"
+                            id="custom-spinner"
+                            class="loading loading-spinner loading-md text-primary"
+                          />
+                          <h2
+                            v-else
+                            class="text-xl font-bold text-center text-gray-800 dark:text-gray-200"
+                          >
+                            {{ nbHits }} {{ $t('results') }}
+                          </h2>
+                        </div>
+                      </template>
+                    </ais-stats>
+                  </div>
+                  <div class="w-full flex flex-col justify-center border-base border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <FormKit
+                      id="sort-select"
+                      type="select"
+                      name="sort"
+                      :label="$t('sorting')"
+                      :options="['Standard', 'Titel aufst.', 'Titel abst.']"
+                      :disabled="true"
+                      outer-class="!mb-0 flex items-center justify-center"
+                      wrapper-class="!mb-0 mx-auto"
+                      input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg"
+                    />
+                  </div>
+                  <div class="form-control w-full  border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <label 
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      :aria-label="$t('toggleViewType')"
+                    >
+                      <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
+                      </span>
+                      <input
+                        v-model="viewTypeChecked"
+                        type="checkbox"
+                        class="toggle toggle-primary"
+                      >
+                    </label>
+                    <label
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      :aria-label="$t('toggleProductionDetails')"
+                    >
+                      <span class="label-text text-gray-800 dark:text-gray-200">
+                        <LazyIcon
+                          v-if="!productionDetailsChecked"
+                          class="dark:text-white"
+                          :title="$t('productionDetailsOn')"
+                          name="mdi:list-box-outline"
+                        />
+                        <LazyIcon
+                          v-else
+                          class="dark:text-white"
+                          :title="$t('productionDetailsOff')"
+                          name="mdi:list-box" 
+                        />
+                    &nbsp;
+                        <span v-if="!productionDetailsChecked">
+                          {{ $t('productionDetailsOnShort') }}
+                        </span>
+                        <span v-else>
+                          {{ $t('productionDetailsOffShort') }}
+                        </span>
+                      </span>
+                      <input
+                        v-model="productionDetailsChecked"
+                        type="checkbox"
+                        class="toggle toggle-primary"
+                      >
+                    </label>
+                    <label
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      :aria-label="$t('toggleExpandAll')"
+                    >
+                      <span class="label-text text-gray-800 dark:text-gray-200">
+                        <LazyIcon
+                          v-if="!expandAllChecked"
+                          class="dark:text-white"
+                          name="fa:expand"
+                        />
+                        <LazyIcon
+                          v-else
+                          class="dark:text-white"
+                          name="fa:compress" 
+                        />
+                    &nbsp;
+                        <span v-if="!expandAllChecked">
+                          {{ $t('expandAll') }}
+                        </span>
+                        <span v-else>
+                          {{ $t('collapseAll') }}
+                        </span>
+                      </span>
+                      <input
+                        v-model="expandAllChecked"
+                        type="checkbox"
+                        class="toggle toggle-primary"
+                      >
+                    </label>
+                    <label
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto"
+                      :aria-label="$t('toggleExpandAllHandles')"
+                    >
+                      <LazyIcon
+                        v-if="!expandAllHandlesChecked"
+                        class="dark:text-white"
+                        name="fa:expand"
+                      />
+                      <LazyIcon
+                        v-else
+                        class="dark:text-white"
+                        name="fa:compress" 
+                      />
+                    &nbsp;
+                      <span v-if="!expandAllHandlesChecked">
+                        {{ $t('expandAll') }}
+                      </span>
+                      <span v-else>
+                        {{ $t('collapseAll') }}
+                      </span>
+
+                      <input
+                        v-model="expandAllHandlesChecked"
+                        type="checkbox"
+                        class="toggle toggle-primary"
+                      >
+                    </label>
+                  </div>
                   <div class="col-span-full border-base border-2 rounded-lg bg-base-100">
                     <div class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
                       <div class="w-full md:w-1/2 flex flex-row justify-start">
@@ -179,121 +314,6 @@
                         </template>
                       </ais-current-refinements>
                     </div>
-                  </div>
-                  <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base">
-                    <ais-stats>
-                      <template #default="{ nbHits }">
-                        <div class="flex items-center justify-center h-10">
-                          <span
-                            v-if="isSearchLoading"
-                            id="custom-spinner"
-                            class="loading loading-spinner loading-md text-primary"
-                          />
-                          <h2
-                            v-else
-                            class="text-xl font-bold text-center text-gray-800 dark:text-gray-200"
-                          >
-                            {{ nbHits }} {{ $t('results') }}
-                          </h2>
-                        </div>
-                      </template>
-                    </ais-stats>
-                  </div>
-                  <div class="w-full flex flex-col justify-center  border-base border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <FormKit
-                      type="select"
-                      :label="$t('sorting')"
-                      :disabled="true"
-                      name="sort"
-                      outer-class="!mb-0 flex items-center justify-center"
-                      wrapper-class="!mb-0 mx-auto"
-                      :options="['Standard', 'Titel aufst.', 'Titel abst.']"
-                      input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg"
-                    />
-                  </div>
-                  <div class="form-control w-full  border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <label 
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
-                      :aria-label="$t('toggleViewType')"
-                    >
-                      <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
-                      </span>
-                      <input
-                        v-model="viewTypeChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto"
-                      :aria-label="$t('toggleProductionDetails')"
-                    >
-                      <span class="label-text text-gray-800 dark:text-gray-200">
-                        <LazyIcon
-                          v-if="!productionDetailsChecked"
-                          class="dark:text-white"
-                          :title="$t('productionDetailsOn')"
-                          name="mdi:list-box-outline"
-                        />
-                        <LazyIcon
-                          v-else
-                          class="dark:text-white"
-                          :title="$t('productionDetailsOff')"
-                          name="mdi:list-box" 
-                        />
-                    &nbsp;
-                        <span v-if="!productionDetailsChecked">
-                          {{ $t('productionDetailsOnShort') }}
-                        </span>
-                        <span v-else>
-                          {{ $t('productionDetailsOffShort') }}
-                        </span>
-                      </span>
-                      <input
-                        v-model="productionDetailsChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto"
-                      :aria-label="$t('toggleExpandAll')"
-                    >
-                      <span class="label-text text-gray-800 dark:text-gray-200">
-                        <LazyIcon
-                          v-if="!expandAllChecked"
-                          class="dark:text-white"
-                          name="fa:expand"
-                        />
-                        <LazyIcon
-                          v-else
-                          class="dark:text-white"
-                          name="fa:compress" 
-                        />
-                    &nbsp;
-                        <span v-if="!expandAllChecked">
-                          {{ $t('expandAll') }}
-                        </span>
-                        <span v-else>
-                          {{ $t('collapseAll') }}
-                        </span>
-                      </span>
-                      <input
-                        v-model="expandAllChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto"
-                      :aria-label="$t('toggleExpandAllHandles')"
-                    >
-                      <input
-                        v-model="expandAllHandlesChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
                   </div>
                   <LazyDetailPaginationComp class="col-span-full border-base border-2 rounded-lg" />
                 </div>
@@ -461,6 +481,7 @@ onBeforeUnmount(() => {
 
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 import { simple as defaultMapping } from 'instantsearch.js/es/lib/stateMappings';
+import { expand } from '@formkit/icons';
 
 const routerInstance = defaultRouter();
 //const stateMappingInstance = defaultMapping();
