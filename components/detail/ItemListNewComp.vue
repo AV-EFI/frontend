@@ -11,7 +11,7 @@
         in-class="item"
       />
     </div>
-    <div class="col-span-full md:col-span-2 row-start-2">
+    <div class="col-span-full md:col-span-3 row-start-2">
       <DetailKeyValueComp 
         :id="exemplar._id ?? exemplar?.handle?.replace('21.11155/', '') ?? exemplar?.handle"
         :keytxt="$t('EFI')"
@@ -65,7 +65,7 @@
         class="mb-2"
       />
     </div>
-    <div class="col-span-full md:col-span-2">
+    <div class="col-span-full md:col-span-1">
       <MicroLabelComp label-text="in_language_code" />
       <SearchHighlightListComp
         :items="exemplar?.has_record?.in_language?.flatMap((il) => `${$t(il?.code)} (${il?.usage?.map((usage) => $t(usage)).join(', ')})`) || []"
@@ -73,6 +73,62 @@
         class="mb-2"
       />
     </div>
+    <!-- Duration -->
+    <div class="col-span-full md:col-span-1">
+      <MicroLabelComp label-text="has_duration" />
+      <p class="mb-2">
+        {{
+          exemplar?.has_record?.has_duration?.has_value
+            ? exemplar.has_record.has_duration.has_value.replace('PT', '').toLowerCase()
+            : '-'
+        }}
+      </p>
+    </div>
+
+    <!-- Extent -->
+    <div class="col-span-full md:col-span-1">
+      <MicroLabelComp label-text="avefi:Extent" />
+      <p class="mb-2">
+        {{
+          exemplar?.has_record?.has_extent
+            ? `${exemplar.has_record.has_extent.has_value} ${$t(exemplar.has_record.has_extent.has_unit)}`
+            : '-'
+        }}
+      </p>
+    </div>
+
+    <!-- Colour Type -->
+    <div class="col-span-full md:col-span-1">
+      <MicroLabelComp label-text="has_colour_type" />
+      <p class="mb-2">
+        {{ exemplar?.has_record?.has_colour_type ? $t(exemplar.has_record.has_colour_type) : '-' }}
+      </p>
+    </div>
+
+    <!-- Sound Type -->
+    <div class="col-span-full md:col-span-1">
+      <MicroLabelComp label-text="has_sound_type" />
+      <p class="mb-2">
+        {{ exemplar?.has_record?.has_sound_type ? $t(exemplar.has_record.has_sound_type) : '-' }}
+      </p>
+    </div>
+
+    <!-- Notes -->
+    <div
+      v-if="exemplar?.has_record?.has_note?.length"
+      class="col-span-full"
+    >
+      <MicroLabelComp label-text="has_note" />
+      <ul class="text-sm mb-2 list-disc list-inside">
+        <li
+          v-for="note in exemplar.has_record.has_note"
+          :key="note"
+        >
+          {{ note }}
+        </li>
+      </ul>
+    </div>
+
     <div
       v-if="exemplar?.has_record?.has_webresource"
       class="col-span-full flex flex-col justify-end row-start-8"

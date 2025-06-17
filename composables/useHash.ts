@@ -1,50 +1,55 @@
-// composables/useHash.ts
+import { title } from 'process';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export function useHash(scroll = true) {
-    const hash = ref('');
+  const hash = ref('');
 
-    onMounted(() => {
-        const updateHash = () => {
-            hash.value = window.location.hash.slice(1);
+  onMounted(() => {
+    const updateHash = () => {
+      hash.value = window.location.hash.slice(1);
 
-            // Optional: Scroll to the element with the ID
-            if (scroll && hash.value) {
-                setTimeout(() => {
-                    const el = document.getElementById(hash.value);
-                    console.log(hash.value);
-                    if (el) {
-                        // Scroll to the element smoothly
-                        const collapseElement = el.closest('.collapse');
-                        const parent = collapseElement ? collapseElement.querySelector('.manifestation-accordion-toggle') : null;
+      if (scroll && hash.value) {
+        setTimeout(() => {
+          const el = document.getElementById(hash.value);
+          if (el) {
+            // Open the closest collapse section
+            const collapseElement = el.closest('.collapse');
+            const parentToggle = collapseElement?.querySelector('.manifestation-accordion-toggle') as HTMLInputElement | null;
 
-                        console.log('Parent element:', parent);
-
-                        if(parent)
-                        {
-                            (parent as HTMLInputElement).checked = true; // Check the parent checkbox
-                        }
-                        setTimeout(() => {
-                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            el.classList.add('bg-highlight'); // Add a class for highlighting
-                            el.classList.add('text-white');
-                        }, 600);
-                        setTimeout(() => {
-                            el.classList.remove('bg-highlight'); // Remove the class after a delay
-                            el.classList.remove('text-white'); // Also remove 'text-white' class
-                        }, 3000); // Adjust the delay as needed
-                    }
-                }, 1000); // Add a small timeout before looking for the element
+            if (parentToggle) {
+              parentToggle.checked = true;
             }
-        };
 
-        updateHash();
-        window?.addEventListener('hashchange', updateHash);
+            setTimeout(() => {
+              el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 
-        onBeforeUnmount(() => {
-            window?.removeEventListener('hashchange', updateHash);
-        });
+              el.classList.add('hash-highlight-conic');
+              setTimeout(() => {
+                el.classList.remove('hash-highlight-conic');
+                const label = el.querySelector('label');
+                if (label) {
+                  label.appendChild(
+                    Object.assign(document.createElement('span'), {
+                      className: 'badge badge-accent bg-highlight border-highlight badge-xs',
+                      title: 'Referenzierter efi'
+                    })
+                  );
+                }
+              }, 4200);
+                            
+            }, 600);
+          }
+        }, 1400); // allow DOM/render to settle
+      }
+    };
+
+    updateHash();
+    window.addEventListener('hashchange', updateHash);
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('hashchange', updateHash);
     });
+  });
 
-    return { hash };
+  return { hash };
 }

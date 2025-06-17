@@ -1,4 +1,5 @@
 :root {
+  /* Primary Color Palette */
   --bali-hai-50: #f3f7f8;
   --bali-hai-100: #dfe9ee;
   --bali-hai-200: #c3d5de;
@@ -24,13 +25,12 @@
   --primary-800: #364754;
   --primary-900: #313d48;
   --primary-950: #1d262f;
-  --primary-500-rgb: 77, 118, 141; /* RGB fallback for backdrop rgba() use */
+  --primary-500-rgb: 77, 118, 141;
 
+  /* Secondary and Accent */
   --secondary: #e6c373;
+  --secondary-focus: #d4b05f;
 
-  --base-100: #ffffff;
-
-  /* Accent color palette CSS variables */
   --accent-50: #ffe5e7;
   --accent-100: #ffccd0;
   --accent-200: #ff99a1;
@@ -43,6 +43,7 @@
   --accent-800: #8e1217;
   --accent-900: #670d12;
 
+  /* Highlight + Special */
   --highlight: #b2161d;
   --highlight-content: #ffffff;
 
@@ -54,22 +55,22 @@
   --compare-list-content: #ffffff;
   --compare-list-hover: #364754;
 
-  --work: #F3E2B8;
-  --manifestation: #E8D39E;
-  --item: #DDC48B;
+  --work: #f3e2b8;
+  --manifestation: #e8d39e;
+  --item: #ddc48b;
 
+  /* Base and Content */
+  --base-100: #ffffff;
+  --base-200: #eeeeee;
+  --base-300: #cccccc;
+  --base-400: #aaaaaa;
+  --base-content: #212121;
+  --neutral: #f5f5f5;
 
-  
-}
-
-
-:root {
   /* CookieControl theming via AVefi palette */
-
   --cookie-control-fontSize: 14px;
 
-  /* Bar colors */
-  --cookie-control-barBackground: white;
+  --cookie-control-barBackground: var(--base-100);
   --cookie-control-barTextColor: var(--base-content);
   --cookie-control-barButtonColor: var(--base-content);
   --cookie-control-barButtonBackground: var(--secondary);
@@ -78,33 +79,50 @@
 
   --cookie-control-focusRingColor: var(--accent);
 
-  /* Modal */
-  --cookie-control-modalOverlay: var(--neutral); /* fully opaque */
-  --cookie-control-modalOverlayOpacity: 1; /* prevent transparency */
+  --cookie-control-modalOverlay: var(--neutral);
+  --cookie-control-modalOverlayOpacity: 1;
 
-  --cookie-control-modalBackground: var(--base-100); /* light background */
+  --cookie-control-modalBackground: var(--base-100);
   --cookie-control-modalTextColor: var(--base-content);
 
   --cookie-control-modalButtonColor: var(--base-100);
   --cookie-control-modalButtonBackground: var(--primary);
   --cookie-control-modalButtonHoverColor: var(--base-100);
-  --cookie-control-modalButtonHoverBackground: var(--primary-focus);
+  --cookie-control-modalButtonHoverBackground: var(--primary-600);
 
   --cookie-control-modalUnsavedColor: var(--accent);
 
-  /* Toggles */
   --cookie-control-checkboxInactiveBackground: var(--base-300);
   --cookie-control-checkboxInactiveCircleBackground: var(--base-400);
-
   --cookie-control-checkboxActiveBackground: var(--primary);
   --cookie-control-checkboxActiveCircleBackground: var(--base-100);
-
   --cookie-control-checkboxDisabledBackground: var(--base-200);
   --cookie-control-checkboxDisabledCircleBackground: var(--base-300);
 
-  /* Control button (bottom-right) */
-  --cookie-control-controlButtonBackground: white;
-  --cookie-control-controlButtonIconColor: var(--pimary);
+  --cookie-control-controlButtonBackground: var(--base-100);
+  --cookie-control-controlButtonIconColor: var(--primary);
   --cookie-control-controlButtonHoverBackground: var(--secondary-focus);
   --cookie-control-controlButtonIconHoverColor: var(--base-content);
 }
+
+[data-theme="avefi_dark"] {
+      --base-100: #1e1e1e;
+    --base-content: #eeeeee; /* LIGHT text on dark background */
+
+    --cookie-control-barBackground: var(--base-100);
+    --cookie-control-barTextColor: var(--base-content);
+
+    --cookie-control-barButtonBackground: #444;
+    --cookie-control-barButtonColor: #ffffff;
+    --cookie-control-barButtonHoverBackground: #666;
+    --cookie-control-barButtonHoverColor: #ffffff;
+
+    --cookie-control-modalOverlay: black;
+    --cookie-control-modalOverlayOpacity: .9;
+  
+    --cookie-control-modalBackground: var(black);
+    --cookie-control-modalTextColor: white;
+
+    --cookie-control-controlButtonIconColor: #eeeeee;
+    --cookie-control-controlButtonIconHoverColor: #ffffff;
+  }

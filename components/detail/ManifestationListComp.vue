@@ -126,6 +126,24 @@
               class="w-full mt-2"
               :clip="false"
             />
+            <!-- has_form -->
+            <MicroLabelComp
+              v-if="manifestation?.has_record?.has_form?.length"
+              label-text="has_form"
+              class="w-full mt-2"
+            />
+            <ul
+              v-if="manifestation?.has_record?.has_form?.length"
+              class="w-full mt-2"
+            >
+              <li
+                v-for="(form, i) in manifestation?.has_record?.has_form"
+                :key="form?.has_name || i"
+              >
+                {{ form?.has_name || '-' }}
+              </li>
+            </ul>
+
             <MicroLabelComp
               v-if="manifestation?.has_record?.in_language"
               label-text="avefi:Language"

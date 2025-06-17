@@ -92,7 +92,6 @@
         >
           {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
         </span>
-
         <span
           v-if="manifestation?.has_record?.has_colour_type"
           class="flex flex-row items-center"
@@ -110,7 +109,7 @@
         </span>
         <span
           v-if="Array.isArray(manifestation?.has_record?.in_language) && manifestation.has_record.in_language.length > 0 && manifestation.has_record?.in_language[0]?.code"
-          class="flex flex-row items-center"
+          class="flex flex-row items-center mr-1"
           :aria-label="formatInLanguageAria(manifestation.has_record.in_language)"
         >
           <template
@@ -124,6 +123,12 @@
             aria-hidden="true"
           />
           {{ formatInLanguageText(manifestation.has_record.in_language) }}
+        </span>
+        <span
+          v-if="manifestation.has_record.has_item"
+          class="flex flex-row items-center"
+        >
+          {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
         </span>
       </div>
 

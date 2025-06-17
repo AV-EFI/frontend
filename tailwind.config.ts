@@ -244,6 +244,7 @@ module.exports = {
                 'accent-content': '#ffffff',
             
                 // Base
+
                 'neutral': '#1d262f',
                 'neutral-content': '#ffffff',
                 'base-100': '#1d262f',
