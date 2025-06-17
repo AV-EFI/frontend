@@ -34,11 +34,16 @@
         -
       </p>
     </div>
-    <div class="col-span-full md:col-span-1 md:row-start-2 flex flex-col justify-end hidden">
-      <MicroEfiCopyComp
-        :handle="exemplar?.handle"
-        category="item"
-        class="ml-auto"
+    <div class="col-span-full md:col-span-1">
+      <MicroLabelComp
+        label-text="has_access_status"
+        :alt="$t('has_access_status')"
+        :title="$t('has_access_status')"
+      />
+      <SearchHighlightSingleComp
+        :item="exemplar?.has_record?.has_access_status?.type || null"
+        :hitlite="highlightResult?.manifestations?.items.has_record?.has_access_status?.matchedWords"
+        class="mb-2"
       />
     </div>
     <div class="col-span-full md:col-span-1">
