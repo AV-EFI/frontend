@@ -40,13 +40,24 @@
             :aria-invalid="searchTerm.trim().length === 0 ? 'true' : 'false'"
             autofocus
           >
-            <template #prefix-icon>
+            <template #prefix>
               <span
-                class="ml-3 text-lg text-neutral-500 dark:text-neutral-300"
-                role="img"
-                aria-label="Search icon"
+                class="relative group ml-2 cursor-pointer select-none"
+                tabindex="0"
               >
-                🔍
+                <span
+                  class="text-neutral-500 dark:text-neutral-300 text-sm"
+                  role="img"
+                  aria-label="Info"
+                >
+                  ⓘ
+                </span>
+                <span
+                  class="absolute z-10 left-6 bottom-full mb-1 w-56 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+                  role="tooltip"
+                >
+                  {{ $t('exactSearchTip') }}
+                </span>
               </span>
             </template>
           </FormKit>

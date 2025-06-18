@@ -295,13 +295,29 @@
       <!-- EO WorkVariant -->
       <!-- Manifestations -->
       <hr class="my-2">
-      <div class="w-full flex flex-col">
+      <div class="flex flex-col">
         <h3
-          class="font-bold text-md mb-2 pl-1 uppercase text-gray-800 dark:text-base-content"
-          :alt="$t('tooltip.manifestation')"
-          :title="$t('tooltip.manifestation')"
+          class="relative font-bold text-md mb-2 pl-1 pr-6 text-gray-800 dark:text-base-content"
+          aria-label="$t('tooltip.manifestation')"
         >
           {{ $t('manifestations') }}
+
+          <!-- Info icon positioned inside <h3> -->
+          <span
+            class="absolute ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+            role="img"
+            aria-label="Info"
+            tabindex="0"
+          >
+            ⓘ
+            <!-- Tooltip -->
+            <span
+              class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+              role="tooltip"
+            >
+              {{ $t('tooltip.manifestation') }}
+            </span>
+          </span>
         </h3>
         <SearchManifestationListSplitView
           :manifestations="getFilteredManifestations(item)"

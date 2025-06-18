@@ -7,10 +7,25 @@
       <template #heading>
         <hr class="my-2 col-span-full">
         <h3
-          class="font-bold text-sm uppercase col-span-full pl-1 text-primary-800 dark:text-primary-100 decoration-manifestation"
+          class="relative font-bold text-sm col-span-full pl-1 text-primary-800 dark:text-primary-100"
           :alt="safeT('manifestations')"
         >
           {{ safeT('manifestations') }}
+          <span
+            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+            role="img"
+            aria-label="Info"
+            tabindex="0"
+          >
+            ⓘ
+            <!-- Tooltip -->
+            <span
+              class="absolute z-10 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+              role="tooltip"
+            >
+              {{ $t('tooltip.manifestation') }}
+            </span>
+          </span>
         </h3>
       </template>
       <template #right />
@@ -72,6 +87,21 @@
               label-text="webresource"
               class="col-span-full"
             />
+            <span
+              class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help relative group"
+              role="img"
+              aria-label="Info"
+              tabindex="0"
+            >
+              ⓘ
+              <!-- Tooltip -->
+              <span
+                class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+                role="tooltip"
+              >
+                {{ $t('tooltip.webresource') }}
+              </span>
+            </span>
             <div
               v-for="webresource in manifestation?.has_record?.has_webresource"
               :key="webresource"
@@ -126,24 +156,6 @@
               class="w-full mt-2"
               :clip="false"
             />
-            <!-- has_form -->
-            <MicroLabelComp
-              v-if="manifestation?.has_record?.has_form?.length"
-              label-text="has_form"
-              class="w-full mt-2"
-            />
-            <ul
-              v-if="manifestation?.has_record?.has_form?.length"
-              class="w-full mt-2"
-            >
-              <li
-                v-for="(form, i) in manifestation?.has_record?.has_form"
-                :key="form?.has_name || i"
-              >
-                {{ form?.has_name || '-' }}
-              </li>
-            </ul>
-
             <MicroLabelComp
               v-if="manifestation?.has_record?.in_language"
               label-text="avefi:Language"
@@ -172,10 +184,24 @@
           </template>
         </NuxtLayout>
         <h4
-          class="font-bold text-sm text-primary-700 dark:text-primary-200 uppercase my-4 md:pl-4"
-          :alt="safeT('items')"
+          class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4"
         >
           {{ safeT('items') }}
+          <span
+            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+            role="img"
+            aria-label="Info"
+            tabindex="0"
+          >
+            ⓘ
+            <!-- Tooltip -->
+            <span
+              class="absolute z-10 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+              role="tooltip"
+            >
+              {{ $t('tooltip.item') }}
+            </span>
+          </span>
         </h4>
         <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
           <DetailItemListNewComp

@@ -60,6 +60,25 @@
                           fill="currentColor"
                         /></svg>
                       </label>
+                      <!-- Tooltip für exakte Suche -->
+                      <span
+                        class="relative group ml-2 cursor-pointer select-none"
+                        tabindex="0"
+                      >
+                        <span
+                          class="text-neutral-500 dark:text-neutral-300 text-sm"
+                          role="img"
+                          aria-label="Info"
+                        >
+                          ⓘ
+                        </span>
+                        <span
+                          class="absolute z-10 left-6 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+                          role="tooltip"
+                        >
+                          {{ $t('exactSearchTip') }}
+                        </span>
+                      </span>
                       <input
                         type="search"
                         :aria-label="$t('search')"
@@ -94,6 +113,7 @@
                         />
                       </button>
                     </div>
+                    
                     <button
                       class="ais-SearchBox-submit btn btn-primary md:w-32 h-auto rounded-l-none !rounded-r-xl"
                       :title="$t('search')"

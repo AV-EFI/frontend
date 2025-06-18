@@ -21,7 +21,23 @@
       />
     </div>
     <div class="col-span-full md:col-span-1 md:row-start-2 flex flex-col justify-end">
-      <MicroLabelComp label-text="webresource" />
+      <span class="flex items-center gap-1">
+        <MicroLabelComp label-text="webresource" />
+        <span
+          class="inline ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group relative inline-block"
+          role="img"
+          aria-label="Info"
+          tabindex="0"
+        >
+          ⓘ
+          <span
+            class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+            role="tooltip"
+          >
+            {{ $t('tooltip.webresource') }}
+          </span>
+        </span>      
+      </span>
       <a
         v-if="exemplar?.has_record?.has_webresource"
         :href="exemplar?.has_record?.has_webresource"
@@ -49,9 +65,23 @@
     <div class="col-span-full md:col-span-1">
       <MicroLabelComp
         label-text="has_format"
-        :alt="$t('tooltip.has_format')"
-        :title="$t('tooltip.has_format')"
       />
+      <span
+        class="inline ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group relative inline-block"
+        role="img"
+        aria-label="Info"
+        tabindex="0"
+      >
+        ⓘ
+        <!-- Tooltip -->
+        <span
+          class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+          role="tooltip"
+        >
+          {{ $t('tooltip.format') }}
+        </span>
+      </span>
+      
       <SearchHighlightListComp
         :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
         :hilite="highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"                  
@@ -61,9 +91,23 @@
     <div class="col-span-full md:col-span-1">
       <MicroLabelComp
         label-text="item_element_type" 
-        :alt="$t('tooltip.elementType')"
-        :title="$t('tooltip.elementType')"
       />
+      <span
+        class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group relative"
+        role="img"
+        aria-label="Info"
+        tabindex="0"
+      >
+        ⓘ
+        <!-- Tooltip -->
+        <span
+          class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+          role="tooltip"
+        >
+          {{ $t('tooltip.elementType') }}
+        </span>
+      </span>
+
       <SearchHighlightSingleComp
         :item="exemplar?.has_record?.element_type || null"
         :hitlite="highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
@@ -133,11 +177,6 @@
         </li>
       </ul>
     </div>
-
-    <div
-      v-if="exemplar?.has_record?.has_webresource"
-      class="col-span-full flex flex-col justify-end row-start-8"
-    />
   </div>
 </template>
 <script setup lang="ts">

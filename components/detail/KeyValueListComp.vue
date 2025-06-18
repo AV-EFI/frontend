@@ -30,7 +30,7 @@
         :class="fontSize"
         :aria-label="`${$t(keytxt)}: ${valtxt.map(v => v?.has_name ?? v).join(', ')}`"
       >
-        {{ valtxt.map(v => v?.has_name ?? v).join(', ') }}
+        {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
       </span>
       <DetailSameAsComp
         v-if="sameAs"
@@ -60,7 +60,7 @@
           :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
         >
           <span class="flex-grow">
-            {{ val?.has_name ?? val }}
+            {{ val?.has_name ?? $t(val) }}
           </span>
           <DetailSameAsComp
             v-if="sameAs"

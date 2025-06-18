@@ -51,7 +51,7 @@
         role="region"
         :aria-label="$t('AlternativeTitle')"
       />
-    </template>
+    </template>    
   </NuxtLayout>
 </template>
 

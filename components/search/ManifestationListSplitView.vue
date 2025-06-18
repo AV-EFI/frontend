@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row gap-2 border border-base-300 rounded-lg overflow-hidden">
+  <div class="flex flex-col md:flex-row gap-2 border border-base-300 rounded-lg">
     <!-- Manifestation list (left) -->
     <div class="bg-base-200 dark:bg-base-300 md:[width:calc(40%+50px)]">
       <ul class="bg-base-100 w-full divide-y divide-base-300 dark:divide-base-400">
@@ -78,12 +78,27 @@
               v-if="selectedIndex === i + currentPage * itemsPerPage"
               class="block md:hidden mt-2 p-3 bg-base-100 dark:bg-base-200 rounded-b-md"
             >
-              <h5 class="text-sm font-bold uppercase text-primary mb-1 flex items-center gap-1">
+              <h5 class="text-sm font-bold text-primary mb-1 flex items-center gap-1">
                 <Icon
                   name="carbon:chart-relationship"
                   class="text-base"
                 />
                 {{ $t('items') }}
+                <span
+                  class="absolute ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+                  role="img"
+                  aria-label="Info"
+                  tabindex="0"
+                >
+                  ⓘ
+                  <!-- Tooltip -->
+                  <span
+                    class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+                    role="tooltip"
+                  >
+                    {{ $t('tooltip.item') }}
+                  </span>
+                </span>
               </h5>
               <ul class="space-y-2 pl-1">
                 <li
@@ -141,16 +156,31 @@
     <transition name="fade-slide">
       <div
         v-if="selectedManifestation"
-        class="hidden md:block md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
+        class="hidden md:block z-20 md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
         role="region"
         :aria-label="`manifestation-${selectedManifestation.handle}`"
       >
-        <h5 class="text-sm font-bold uppercase text-primary mb-2 flex items-center gap-1">
+        <h5 class="relative text-sm font-bold text-primary mb-2 flex items-center gap-1">
           <Icon
             name="carbon:chart-relationship"
             class="text-base"
           />
           {{ $t('items') }}
+          <span
+            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+            role="img"
+            aria-label="Info"
+            tabindex="0"
+          >
+            ⓘ
+            <!-- Tooltip -->
+            <span
+              class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+              role="tooltip"
+            >
+              {{ $t('tooltip.item') }}
+            </span>
+          </span>
         </h5>
 
         <div
@@ -165,7 +195,6 @@
               :aria-labelledby="`item-${item.handle}`"
               role="group"
               :aria-label="$t('itemDetails', { handle: item.handle })"
-              :title="$t('itemDetails', { handle: item.handle })"
             >
               <div class="flex items-center gap-2 mb-1">
                 <Icon
@@ -195,6 +224,21 @@
                   target="_blank"
                   class="link link-primary dark:link-accent inline-flex items-center gap-1"
                 >
+                  <span
+                    class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+                    role="img"
+                    aria-label="Info"
+                    tabindex="0"
+                  >
+                    ⓘ
+                    <!-- Tooltip -->
+                    <span
+                      class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+                      role="tooltip"
+                    >
+                      {{ $t('tooltip.webresource') }}
+                    </span>
+                  </span>
                   <Icon name="formkit:linkexternal" />
                   {{ $t('webresource') }}
                 </a>

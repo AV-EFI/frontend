@@ -8,6 +8,7 @@ export default defineI18nConfig(() => ({
         en: {
             // English messages
             '$vuetify.open': 'hä?',
+            "exactSearchTip": "Use \"quotes\" to search for exact phrases – works for title, direction, production, and subjects (e.g. \"Bitte steigen Sie ein!\")",
             "detailviewlink": "Open detailed view",
             'viewItemDetails': 'View Item on WorkVariant Details Page',
             'viewManifestationDetails': 'View Manifestation on WorkVariant Details Page',
@@ -20,9 +21,10 @@ export default defineI18nConfig(() => ({
                   "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
                   "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
                   "item": "An item is a physical or digital copy of a manifestation.",
-                  "webResource": "A link to a detailed view of the item on the data provider’s website."
+                  "webresource": "A link to a detailed view of the item on the data provider’s website."
                 },
             "lastedit": "Last edited",
+            "itemDetails": "Item Details for {handle}",
             "showHistory": "Show history",
             "elementsincomparison": "Elements in comparison list",
             "elementsinshoppingcart": "Elements in watch list",
@@ -333,6 +335,7 @@ export default defineI18nConfig(() => ({
         },
         de: {
             '$vuetify.open': 'hä?',
+            "exactSearchTip": "„Anführungszeichen“ schränken die Suche auf exakte Wortgruppen ein – funktioniert für Titel, Regie, Produktion, Schlagworte (z. B. \"Bitte steigen Sie ein!\")",
             "detailviewlink": "Detailansicht öffnen",
             'viewItemDetails': 'Details zum Exemplar auf Werk-Seite anzeigen',
             'viewManifestationDetails': 'Details zur Manifestation auf Werk-Seite anzeigen',
@@ -345,8 +348,9 @@ export default defineI18nConfig(() => ({
                 "elementType": "Hier wird angezeigt, um welche Materialart es sich beim analogen Film handelt. Bei digitalen Medien finden sich hier Angaben zum Dateiformat und/oder Container.",
                 "manifestation": "Eine Manifestation ist die physische Verkörperung/Publikation eines audiovisuellen Werkes in der Form eines analogen oder digitalen Mediums.",
                 "item": "Ein Exemplar ist die physische oder digitale Kopie einer Manifestation.",
-                "webResource": "Dieser Link führt zur Detailansicht des Exemplars auf der Webseite des Datengebers."
+                "webresource": "Dieser Link führt zur Detailansicht des Exemplars auf der Webseite des Datengebers."
               },
+            "itemDetails": "Details zum Exemplar mit Handle {handle}",
             "lastedit": "Letzte Bearbeitung",
             "showHistory": "Verlauf anzeigen",
             'mainNavigation': 'Hauptnavigation',

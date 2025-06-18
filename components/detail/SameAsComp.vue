@@ -29,7 +29,7 @@
         ref="menuRef"
         role="menu"
         tabindex="-1"
-        class="menu bg-base-100 rounded-box z-[9999] w-52 p-2 shadow absolute"
+        class="menu bg-base-100 rounded-box z-[100] w-52 p-2 shadow absolute"
         :style="{ top: `${position.top}px`, left: `${position.left}px` }"
         @keydown="handleMenuKeydown"
       >

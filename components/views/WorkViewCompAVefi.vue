@@ -32,6 +32,14 @@
           />
         </template>
         <template #right>
+          <!-- has_form -->
+          <DetailKeyValueListComp
+            v-if="mir?.has_form"
+            class="col-span-full mb-2"
+            keytxt="has_form"
+            :valtxt="mir?.has_form"
+            :ul="true"
+          />
           <DetailKeyValueListComp
             v-if="mir.has_genre"
             keytxt="avefi:Genre"
