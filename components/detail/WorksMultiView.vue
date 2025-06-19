@@ -89,7 +89,6 @@
         <div class="w-full flex flex-col mt-2">
           <h3
             class="font-bold text-sm mb-2 pl-1 uppercase text-primary-800 dark:text-gray-200"
-            :alt="$t('tooltip.manifestation')"
             :title="$t('tooltip.manifestation')"
           >
             {{ $t('manifestations') }}
@@ -148,15 +147,9 @@
                   role="img"
                   aria-label="Info"
                   tabindex="0"
+                  :title="$t('tooltip.item')"
                 >
                   ⓘ
-                  <!-- Tooltip -->
-                  <span
-                    class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-                    role="tooltip"
-                  >
-                    {{ $t('tooltip.item') }}
-                  </span>
                 </span>
               </h4>
               <div
@@ -182,8 +175,7 @@
                 <div class="col-span-full md:col-span-1">
                   <MicroLabelComp
                     label-text="has_format"
-                    :alt="$t('tooltip.has_format')"
-                    :title="$t('tooltip.has_format')"
+                    :title="$t('tooltip.format')"
                   />
                   <SearchHighlightListComp
                     :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"

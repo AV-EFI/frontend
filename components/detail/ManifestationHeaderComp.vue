@@ -94,7 +94,7 @@
         </span>
         <span
           v-if="manifestation?.has_record?.has_colour_type"
-          class="flex flex-row items-center"
+          class="flex flex-row items-center mr-1"
           :aria-label="$t('has_colour') + ': ' + $t(manifestation?.has_record?.has_colour_type)"
         >
           <template v-if="manifestation?.has_record?.has_event?.has_date">

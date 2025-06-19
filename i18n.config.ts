@@ -8,6 +8,8 @@ export default defineI18nConfig(() => ({
         en: {
             // English messages
             '$vuetify.open': 'hä?',
+            'compareRegular': 'Comparison view',
+            'compareRaw': 'Structure view',
             "exactSearchTip": "Use \"quotes\" to search for exact phrases – works for title, direction, production, and subjects (e.g. \"Bitte steigen Sie ein!\")",
             "detailviewlink": "Open detailed view",
             'viewItemDetails': 'View Item on WorkVariant Details Page',
@@ -335,6 +337,8 @@ export default defineI18nConfig(() => ({
         },
         de: {
             '$vuetify.open': 'hä?',
+            'compareRegular': 'Vergleichsansicht',
+            'compareRaw': 'Strukturansicht',
             "exactSearchTip": "„Anführungszeichen“ schränken die Suche auf exakte Wortgruppen ein – funktioniert für Titel, Regie, Produktion, Schlagworte (z. B. \"Bitte steigen Sie ein!\")",
             "detailviewlink": "Detailansicht öffnen",
             'viewItemDetails': 'Details zum Exemplar auf Werk-Seite anzeigen',

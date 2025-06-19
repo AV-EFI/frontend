@@ -325,7 +325,6 @@
         v-if="mir.has_item"
       >
         <h2
-          :alt="$t('tooltip.item')"
           :title="$t('tooltip.item')"
         >
           {{ $t('items') }}

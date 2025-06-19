@@ -24,18 +24,13 @@
       <span class="flex items-center gap-1">
         <MicroLabelComp label-text="webresource" />
         <span
-          class="inline ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group relative inline-block"
+          class="inline ml-2"
           role="img"
           aria-label="Info"
           tabindex="0"
+          :title="$t('tooltip.webresource')"
         >
           ⓘ
-          <span
-            class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-            role="tooltip"
-          >
-            {{ $t('tooltip.webresource') }}
-          </span>
         </span>      
       </span>
       <a
@@ -71,15 +66,9 @@
         role="img"
         aria-label="Info"
         tabindex="0"
+        :title="$t('tooltip.format')"
       >
-        ⓘ
-        <!-- Tooltip -->
-        <span
-          class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-          role="tooltip"
-        >
-          {{ $t('tooltip.format') }}
-        </span>
+        ⓘ        
       </span>
       
       <SearchHighlightListComp
@@ -97,15 +86,9 @@
         role="img"
         aria-label="Info"
         tabindex="0"
+        :title="$t('tooltip.elementType')"
       >
         ⓘ
-        <!-- Tooltip -->
-        <span
-          class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-          role="tooltip"
-        >
-          {{ $t('tooltip.elementType') }}
-        </span>
       </span>
 
       <SearchHighlightSingleComp

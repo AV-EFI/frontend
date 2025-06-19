@@ -25,8 +25,8 @@ items[1] = route.query.next;
           type="radio"
           name="compare_tabs"
           role="tab"
-          class="tab min-w-24"
-          aria-label="Regular"
+          class="tab min-w-48"
+          :aria-label="$t('compareRegular')"
           checked="true"
         >
         <div
@@ -44,8 +44,8 @@ items[1] = route.query.next;
           type="radio"
           name="compare_tabs"
           role="tab"
-          class="tab min-w-24"
-          aria-label="Raw"
+          class="tab min-w-48"
+          :aria-label="$t('compareRaw')"
         >
         <div
           role="tabpanel"

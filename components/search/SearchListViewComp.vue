@@ -56,23 +56,21 @@
           v-if="item?.has_record?.has_alternative_title"
           class="text-white"
         >
-          <span 
+          <ul 
             v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
           >
-            <span
-              v-for="(alt, idx) in item._highlightResult?.has_record?.has_alternative_title"
+            <li
+              v-for="(alt, idx) in item._highlightResult?.has_record?.has_alternative_title?.has_name"
               :key="idx"
+              class="block"
+              :aria-label="$t('alternativeTitle')"
             >
-              <ais-highlight
-                attribute="has_record.has_alternative_title.has_name"
-                :hit="item"
-              />
-              <span v-if="alt.type">
-                ({{ $t(alt.type) }})
+              <span v-html="alt.value" />
+              <span v-if="item.has_record?.has_alternative_title?.[idx]?.type">
+                ({{ $t(item.has_record.has_alternative_title[idx].type) }})
               </span>
-              <span v-if="idx < item._highlightResult?.has_record?.has_alternative_title.length - 1">, </span>
-            </span>
-          </span>
+            </li>
+          </ul>
           <ul v-else-if="item?.has_record?.has_alternative_title">
             <li
               v-for="alt in item?.has_record?.has_alternative_title"
@@ -308,15 +306,9 @@
             role="img"
             aria-label="Info"
             tabindex="0"
+            :title="$t('tooltip.manifestation')"
           >
             ⓘ
-            <!-- Tooltip -->
-            <span
-              class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-              role="tooltip"
-            >
-              {{ $t('tooltip.manifestation') }}
-            </span>
           </span>
         </h3>
         <SearchManifestationListSplitView

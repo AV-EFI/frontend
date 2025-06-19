@@ -11,7 +11,7 @@
           class="px-2 pt-2"
         >
           <a
-            class="group min-h-20 px-3 py-3 cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm"
+            class="group min-h-20 px-1 py-4 cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm"
             :class="[
               'transition-all duration-200 ease-in-out border',
               selectedIndex === i + currentPage * itemsPerPage
@@ -22,7 +22,7 @@
             @click="selectedIndex = i + currentPage * itemsPerPage; triggerScrollToItem()"
           >
             <div class="flex flex-col justify-center leading-tight w-full">
-              <div class="w-full flex flex-row justify-between items-center mb-1">
+              <div class="w-full flex flex-row justify-between items-center mb-2">
                 <LazyMicroBadgeCategoryComp
                   category="avefi:Manifestation"
                   :dense="false"
@@ -89,15 +89,9 @@
                   role="img"
                   aria-label="Info"
                   tabindex="0"
+                  :title="$t('tooltip.item')"
                 >
                   ⓘ
-                  <!-- Tooltip -->
-                  <span
-                    class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-                    role="tooltip"
-                  >
-                    {{ $t('tooltip.item') }}
-                  </span>
                 </span>
               </h5>
               <ul class="space-y-2 pl-1">
@@ -171,15 +165,9 @@
             role="img"
             aria-label="Info"
             tabindex="0"
+            :title="$t('tooltip.item')"
           >
-            ⓘ
-            <!-- Tooltip -->
-            <span
-              class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-              role="tooltip"
-            >
-              {{ $t('tooltip.item') }}
-            </span>
+            ⓘ            
           </span>
         </h5>
 
@@ -217,7 +205,7 @@
                 type="item"
                 :data="item"
               />
-              <div class="text-sm text-gray-500 dark:text-gray-300 mt-2">
+              <div class="text-sm text-gray-500 dark:text-gray-300 mt-2 relative">
                 <a
                   v-if="item?.has_record?.has_webresource"
                   :href="item.has_record.has_webresource"
@@ -225,19 +213,13 @@
                   class="link link-primary dark:link-accent inline-flex items-center gap-1"
                 >
                   <span
-                    class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+                    class="text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
                     role="img"
                     aria-label="Info"
                     tabindex="0"
+                    :title="$t('tooltip.webresource')"
                   >
                     ⓘ
-                    <!-- Tooltip -->
-                    <span
-                      class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-                      role="tooltip"
-                    >
-                      {{ $t('tooltip.webresource') }}
-                    </span>
                   </span>
                   <Icon name="formkit:linkexternal" />
                   {{ $t('webresource') }}
@@ -331,12 +313,8 @@ function prevItemPage() {
 }
 
 const navigateToItem = (item: any) => {
-    const route = useRoute();
-    const router = useRouter();
     const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
-    if (route.path !== itemPath) {
-        router.push(itemPath);
-    }
+    window.open(itemPath, '_blank');
 };
 
 function triggerScrollToItem() {

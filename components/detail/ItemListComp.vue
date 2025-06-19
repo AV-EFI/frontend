@@ -166,8 +166,7 @@
               :valtxt="item?._source?.has_record?.has_format.flatMap(function (has_format_item) {return $t(has_format_item.type); }).join(',')"
               class="w-full"
               :clip="false"
-              :alt="$t('tooltip.has_format')"
-              :title="$t('tooltip.has_format')"
+              :title="$t('tooltip.format')"
             />
           </div>
           <div
@@ -177,7 +176,6 @@
             <LazyDetailKeyValueComp
               :keytxt="$t('item_element_type')"
               :valtxt="item._source?.has_record?.element_type"
-              :alt="$t('tooltip.elementType')"
               :title="$t('tooltip.elementType')"
               class="w-full"
               :clip="false"

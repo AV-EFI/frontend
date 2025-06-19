@@ -72,12 +72,12 @@
 
   --cookie-control-barBackground: var(--base-100);
   --cookie-control-barTextColor: var(--base-content);
-  --cookie-control-barButtonColor: var(--base-content);
-  --cookie-control-barButtonBackground: var(--secondary);
+  --cookie-control-barButtonColor: white;
+  --cookie-control-barButtonBackground: var(--primary);
   --cookie-control-barButtonHoverColor: var(--base-100);
-  --cookie-control-barButtonHoverBackground: var(--secondary-focus);
+  --cookie-control-barButtonHoverBackground: var(--primary);
 
-  --cookie-control-focusRingColor: var(--accent);
+  --cookie-control-focusRingColor: var(--primary-500);
 
   --cookie-control-modalOverlay: var(--neutral);
   --cookie-control-modalOverlayOpacity: 1;

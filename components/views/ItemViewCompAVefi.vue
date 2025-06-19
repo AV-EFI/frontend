@@ -111,8 +111,7 @@
               <div class="col-span-full md:col-span-2">
                 <span
                   class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right"
-                  :alt="$t('tooltip.has_format')"
-                  :title="$t('tooltip.has_format')"
+                  :title="$t('tooltip.format')"
                 >
                   {{ $t(has_format_item?.category) }}:
                 </span>

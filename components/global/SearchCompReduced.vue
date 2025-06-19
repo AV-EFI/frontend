@@ -39,25 +39,21 @@
             aria-required="true"
             :aria-invalid="searchTerm.trim().length === 0 ? 'true' : 'false'"
             autofocus
+            :help="showTooltip ? $t('exactSearchTip') : ''"
+            :help-class="'absolute text-sm text-gray-800 bg-white p-2 rounded-md shadow dark:text-white dark:bg-gray-700'"
           >
             <template #prefix>
               <span
-                class="relative group ml-2 cursor-pointer select-none"
+                class="ml-2 cursor-pointer select-none text-neutral-500 dark:text-neutral-300 text-sm"
                 tabindex="0"
+                role="button"
+                aria-label="Info"
+                @mouseenter="showTooltip = true"
+                @mouseleave="showTooltip = false"
+                @focus="showTooltip = true"
+                @blur="showTooltip = false"
               >
-                <span
-                  class="text-neutral-500 dark:text-neutral-300 text-sm"
-                  role="img"
-                  aria-label="Info"
-                >
-                  ⓘ
-                </span>
-                <span
-                  class="absolute z-10 left-6 bottom-full mb-1 w-56 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-                  role="tooltip"
-                >
-                  {{ $t('exactSearchTip') }}
-                </span>
+                ⓘ
               </span>
             </template>
           </FormKit>
@@ -92,6 +88,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useSearchParamsStore } from '../../stores/searchParams';
+const showTooltip = ref(false);
 
 const searchTerm = ref('');
 const showValidationWarning = ref(false);

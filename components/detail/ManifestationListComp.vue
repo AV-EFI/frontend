@@ -12,19 +12,10 @@
         >
           {{ safeT('manifestations') }}
           <span
-            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-            role="img"
-            aria-label="Info"
-            tabindex="0"
+            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help"
+            :title="$t('tooltip.manifestation')"
           >
             ⓘ
-            <!-- Tooltip -->
-            <span
-              class="absolute z-10 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-              role="tooltip"
-            >
-              {{ $t('tooltip.manifestation') }}
-            </span>
           </span>
         </h3>
       </template>
@@ -88,6 +79,7 @@
               class="col-span-full"
             />
             <span
+              v-if="manifestation?.has_record?.has_webresource"
               class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help relative group"
               role="img"
               aria-label="Info"
@@ -98,9 +90,8 @@
               <span
                 class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
                 role="tooltip"
-              >
-                {{ $t('tooltip.webresource') }}
-              </span>
+                :title="$t('tooltip.webresource')"
+              />
             </span>
             <div
               v-for="webresource in manifestation?.has_record?.has_webresource"
@@ -192,15 +183,9 @@
             role="img"
             aria-label="Info"
             tabindex="0"
+            :title="$t('tooltip.item')"
           >
             ⓘ
-            <!-- Tooltip -->
-            <span
-              class="absolute z-10 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-              role="tooltip"
-            >
-              {{ $t('tooltip.item') }}
-            </span>
           </span>
         </h4>
         <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">

@@ -68,7 +68,6 @@
           <h4
             id="items-heading"
             class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
-            :alt="$t('tooltip.item')"
             :title="$t('tooltip.item')"
           >
             {{ $t('items') }}
@@ -89,8 +88,7 @@
                 <th
                   scope="col"
                   class="border border-slate-300"
-                  :alt="$t('tooltip.has_format')"
-                  :title="$t('tooltip.has_format')"
+                  :title="$t('tooltip.format')"
                 >
                   {{ $t('has_format') }}
                 </th>

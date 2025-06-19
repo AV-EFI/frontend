@@ -15,7 +15,7 @@
         class="w-[0.85rem] h-[0.85rem] text-primary shrink-0 my-auto"
         aria-hidden="true"
       />
-      <span class="inline-block whitespace-nowrap">
+      <span class="inline-block flex-wrap">
         <template v-if="Array.isArray(entry.text)">
           <template
             v-for="(segment, i) in entry.text"

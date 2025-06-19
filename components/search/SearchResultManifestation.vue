@@ -29,7 +29,6 @@
       <hr class="my-2">
       <h4
         class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
-        :alt="$t('tooltip.item')"
         :title="$t('tooltip.item')"
       >
         {{ $t('items') }}
@@ -61,7 +60,7 @@
         <div class="row-start-2 col-span-1">
           <MicroLabelComp
             label-text="has_format"
-            :title="$t('tooltip.has_format')"
+            :title="$t('tooltip.format')"
           />
           
           <SearchHighlightListComp

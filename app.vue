@@ -73,14 +73,14 @@ watch(
           <NuxtLink
             to="https://datenschutz.gwdg.de/services/av-efi"
             target="_blank"
-            class="text-white link link-secondary"
+            class="dark:text-white link"
           >
             {{ $t('dataprotection') }}
           </NuxtLink>
           |
           <NuxtLink
             to="/imprint"
-            class="text-white link link-secondary"
+            class="dark:text-white link"
           >
             {{ $t('imprint') }}
           </NuxtLink>

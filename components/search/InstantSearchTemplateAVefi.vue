@@ -42,7 +42,7 @@
                 >
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
-                      class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-zinc-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner"
+                      class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-primary-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 formkit-inner"
                     >
                       <label
                         class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
@@ -62,8 +62,12 @@
                       </label>
                       <!-- Tooltip für exakte Suche -->
                       <span
-                        class="relative group ml-2 cursor-pointer select-none"
+                        class="relative ml-2 cursor-pointer select-none"
                         tabindex="0"
+                        @mouseenter="showAlgoliaTooltip = true"
+                        @mouseleave="showAlgoliaTooltip = false"
+                        @focus="showAlgoliaTooltip = true"
+                        @blur="showAlgoliaTooltip = false"
                       >
                         <span
                           class="text-neutral-500 dark:text-neutral-300 text-sm"
@@ -73,12 +77,14 @@
                           ⓘ
                         </span>
                         <span
-                          class="absolute z-10 left-6 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
+                          v-if="showAlgoliaTooltip"
+                          class="absolute top-full left-1/2 mt-2 -translate-x-1/2 z-10 w-64 p-2 text-sm leading-snug text-neutral-900 bg-white rounded-md shadow-lg dark:bg-zinc-800 dark:text-white"
                           role="tooltip"
                         >
                           {{ $t('exactSearchTip') }}
                         </span>
                       </span>
+
                       <input
                         type="search"
                         :aria-label="$t('search')"
@@ -173,8 +179,8 @@
                       :options="['Standard', 'Titel aufst.', 'Titel abst.']"
                       :disabled="true"
                       outer-class="!mb-0 flex items-center justify-center"
-                      wrapper-class="!mb-0 mx-auto"
-                      input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg"
+                      wrapper-class="!mb-0 mx-auto !rounded-lg !w-full"
+                      input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 rounded-lg"
                     />
                   </div>
                   <div class="form-control w-full  border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
@@ -251,7 +257,7 @@
                       >
                     </label>
                     <label
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto"
+                      class="label cursor-pointer w-64 mx-auto lg:ml-auto my-auto"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
                       <LazyIcon
@@ -503,8 +509,10 @@ import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 import { simple as defaultMapping } from 'instantsearch.js/es/lib/stateMappings';
 import { expand } from '@formkit/icons';
 
+const showAlgoliaTooltip = ref(false);
 const routerInstance = defaultRouter();
-//const stateMappingInstance = defaultMapping();
+
+
 const stateMapping = {
     stateToRoute(uiState) {
         const indexUiState = uiState[props.indexName] || {};
