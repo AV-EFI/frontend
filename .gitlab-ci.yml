@@ -3,7 +3,7 @@ stages:
   - deploy
 
 # Build a docker image when a push is made to a non-default branch.
-build_docker:
+.build_docker:
   stage: build
   image:
     name: gcr.io/kaniko-project/executor:debug
@@ -13,6 +13,7 @@ build_docker:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" 
       > /kaniko/.docker/config.json
   script:
+    - grep -vi secret .env.tmpl | envsubst > .env
     - /kaniko/executor 
       --context $CI_PROJECT_DIR 
       --dockerfile $CI_PROJECT_DIR/Dockerfile 
@@ -31,6 +32,13 @@ build_docker:
       - .yarn/cache/
   rules:
     - if: $CI_COMMIT_BRANCH
+
+build_docker-staging:
+  variables:
+    DEPLOY_SERVER: $STAGING_SERVER
+  rules:
+    - if: $CI_COMMIT_BRANCH == "testbed"
+  extends: .build_docker
 
 .deploy:
   stage: deploy
@@ -52,10 +60,11 @@ build_docker:
   script:
     - envsubst < docker-compose.tmpl > docker-compose.yml
     - cat docker-compose.yml
+    - envsubst < .env.tmpl > .env
     # Create the new deployment directory if it doesn't exist
     - ssh $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p $DEPLOY_PATH"
     # Upload docker-compose.yml to server
-    - scp docker-compose.yml $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH/
+    - scp docker-compose.yml .env $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH/
     # Login to Docker registry and restart containers
     - ssh $DEPLOY_USER@$DEPLOY_SERVER "cd $DEPLOY_PATH && 
       echo 'Logging into registry $CI_REGISTRY' &&
@@ -68,6 +77,7 @@ build_docker:
 deploy-staging:
   variables:
     DEPLOY_SERVER: $STAGING_SERVER
+    NUXT_SECRET: $STAGING_NUXT_SECRET
     SSH_PRIVATE_KEY: $STAGING_PRIVATE_KEY
     DEPLOY_PATH: "/home/cloud/avefi-frontend"
   rules:
