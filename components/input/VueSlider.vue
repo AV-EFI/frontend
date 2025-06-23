@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow border-2 border-primary dark:border-primary-600 rounded-lg mb-2"
+    class="collapse collapse-arrow border-2 border-primary dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     tabindex="0"

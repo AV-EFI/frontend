@@ -37,7 +37,7 @@
         v-if="exemplar?.has_record?.has_webresource"
         :href="exemplar?.has_record?.has_webresource"
         target="_blank"
-        class="link link-primary dark:link-accent my-auto"
+        class="link link-primary my-auto"
       >
         <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
       </a>

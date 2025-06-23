@@ -3,9 +3,9 @@
     role="region"
     :aria-labelledby="`facet-title-${attributeName}`"
     :class-names="{
-      'ais-Panel': 'collapse collapse-arrow border-2 border-primary dark:border-primary-600 rounded-lg mb-2',
+      'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-primary dark:border-primary-600 rounded-lg mb-2 max-md:!w-[90vw]',
       'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-slate-900 dark:text-white text-xs ',
-      'ais-Panel-header': 'collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
+      'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
     }"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
   >
@@ -81,7 +81,7 @@
 
           <ul
             v-if="items.length > 0"
-            class="ais-RefinementList py-2"
+            class="ais-RefinementList py-2 max-md:max-w-[300px]"
           >
             <li
               v-for="item in items"

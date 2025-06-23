@@ -14,7 +14,7 @@
     >
       <Icon
         name="formkit:download"
-        size="1em"
+        class="text-xl"
         alt="Export data"
       />
     </button>

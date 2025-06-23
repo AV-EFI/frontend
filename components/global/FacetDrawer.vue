@@ -7,13 +7,13 @@
       :aria-label="$t('toggleFacetDrawer')"
       :checked="objectListStore.facetDrawerOpen"
     >
-    <div class="drawer-side z-30 lg:z-10 h-full">
+    <div class="drawer-side max-md:w-full z-30 lg:z-10 h-full max-md:h-screen">
       <label
         aria-label="close sidebar"
         class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
-      <div class="menu w-full md:w-[100vw] lg:w-80 overflow-hidden min-h-full dark:bg-slate-950 text-base-content dark:text-white z-30">
+      <div class="menu w-screen md:w-[100vw] lg:w-80 overflow-hidden min-h-full max-md:bg-white max-md:w-90vw dark:bg-slate-950 text-base-content dark:text-white z-30">
         <div class="flex flex-row justify-end">
           <button 
             class="btn btn-neutral w-16 lg:hidden"

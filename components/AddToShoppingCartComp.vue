@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn bg-shopping-cart hover:bg-shopping-cart-dark text-white"
+    class="btn bg-favourites-list hover:bg-favourites-list-dark text-white"
     :class="[btnSize]"
     :alt="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     :title="$t('addtoshoppingcartparam', { name: props.filmTitle })"
@@ -11,7 +11,8 @@
   >
     <span class="hidden md:block">{{ $t('shoppingcart') }}</span>
     <MicroShoppingCartIcon
-      :alt="$t('addtocomparisonparam', { name: filmTitle })"
+      :alt="$t('addtoshoppingcartparam', { name: filmTitle })"
+      class="text-xl"
     />
   </button>
 </template>

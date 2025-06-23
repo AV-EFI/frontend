@@ -84,7 +84,7 @@
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
 
-      <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row">
+      <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row flex-wrap">
         <span
           v-if="manifestation?.has_record?.has_event?.has_date"
           class="flex flex-row justify-start items-center"
@@ -128,6 +128,10 @@
           v-if="manifestation.has_record.has_item"
           class="flex flex-row items-center"
         >
+          <Icon
+            name="i-carbon:chart-relationship"
+            class="w-4 h-4 mr-1 inline-block"
+          />
           {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
         </span>
       </div>

@@ -7,7 +7,7 @@
       ]"
     >
       <div
-        class="card-body max-w-full"
+        class="card-body max-w-full max-md:p-2"
         :class="paddingClass"
       >
         <div class="w-full flex flex-row items-center">

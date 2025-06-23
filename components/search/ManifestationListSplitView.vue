@@ -85,7 +85,7 @@
                 />
                 {{ $t('items') }}
                 <span
-                  class="absolute ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
+                  class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
                   role="img"
                   aria-label="Info"
                   tabindex="0"

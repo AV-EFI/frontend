@@ -12,6 +12,7 @@
     <span class="hidden md:block">{{ $t('comparison') }}</span>
     <MicroCompareIcon
       :alt="$t('addtocomparisonparam', { name: filmTitle })"
+      class="text-xl"
     />
   </button>
 </template>

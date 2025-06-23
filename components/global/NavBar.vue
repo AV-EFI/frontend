@@ -98,6 +98,8 @@
             <a
               class="dark:bg-white rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center"
               href="/"
+              :aria-label="$t('home')"
+              :title="$t('home')"
             >
               <img
                 src="/img/AV-EFI-Logo.png"
@@ -114,12 +116,15 @@
               class="hidden h-12 w-auto ml-2 rounded-lg dark:invert"
             >
             <div class="hidden lg:inline-block text-xs leading-none text-left dark:text-gray-200 max-w-24 ml-2">
-              <span class="bree text-black dark:text-white">{{ $t('avefiClaim') }}</span>
+              <span
+                class="bree text-black dark:text-white"
+                v-html="$t('avefiClaimHtml')"
+              />
             </div>
 
             <div
               v-if="!alphaClicked"
-              class="inline-block mr-auto ml-2 my-auto text-left h-6 w-24 cursor-pointer"
+              class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24 cursor-pointer"
               @click="alphaClicked = !alphaClicked"
             >
               <span

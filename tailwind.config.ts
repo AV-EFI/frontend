@@ -185,13 +185,13 @@ module.exports = {
                       secondary: "#e6c373",
                       "secondary-content": "oklch(27% 0.006 286.033)",
                       "--btn-color": "#364754",
-                        "--btn-hover-bg": "#3f5869", // ← lighter than full neutral
-                        "--btn-hover-border": "#3f5869",
-                        "--btn-hover-text": "#ffffff",
-                    "base-content": "#364754",      // replaces black
-                    "neutral": "#364754",           // dark slate
-                    "neutral-content": "#ffffff",   // white text on hover
-                    //                       "base-100": "oklch(100% 0 0)",
+                      "--btn-hover-bg": "#3f5869", // ← lighter than full neutral
+                      "--btn-hover-border": "#3f5869",
+                      "--btn-hover-text": "#ffffff",
+                      "base-content": "#364754",      // replaces black
+                      "neutral": "#364754",           // dark slate
+                      "neutral-content": "#ffffff",   // white text on hover
+                      //"base-100": "oklch(100% 0 0)",
                       "base-200": "oklch(98% 0 0)",
                       "base-300": "oklch(95% 0 0)",
                       "info": "#5c84a6",
