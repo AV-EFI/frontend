@@ -115,9 +115,9 @@
               :title="t('avefiClaim')"
               class="hidden h-12 w-auto ml-2 rounded-lg dark:invert"
             >
-            <div class="hidden lg:inline-block text-xs leading-none text-left dark:text-gray-200 max-w-24 ml-2">
+            <div class="hidden lg:flex lg:h-12 text-sm leading-none text-left dark:text-gray-200 max-w-32 ml-2">
               <span
-                class="bree text-black dark:text-white"
+                class="bree text-black dark:text-white my-auto"
                 v-html="$t('avefiClaimHtml')"
               />
             </div>
@@ -132,14 +132,18 @@
                 :title="t('alpha')"
               >alpha</span>
             </div>
-            <MicroRainbowStripeText
-              v-if="alphaClicked"
-              class="font-black text-4xl uppercase mr-auto my-auto cursor-pointer"
-              text="alpha"
-              :aria-label="t('alpha')"
-              :title="t('alpha')"
+            <div
+              class="h-12 ml-3 flex items-center justify-center"
               @click="alphaClicked = !alphaClicked"
-            />
+            >
+              <MicroRainbowStripeText
+                v-if="alphaClicked"
+                class="font-black flex justify-center text-4xl uppercase mr-auto my-auto cursor-pointer"
+                text="alpha"
+                :aria-label="t('alpha')"
+                :title="t('alpha')"
+              />
+            </div>
           </div>
         </div>
 

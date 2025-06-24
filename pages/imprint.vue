@@ -1,8 +1,5 @@
 <template> 
   <div class="container mx-auto p-4">
-    <div class="alert alert-warning shadow-lg mb-4">
-      TODO: Add correct information
-    </div>
     <div class="imprint card bg-base-100 shadow-xl">
       <div class="card-body">
         <h1 class="card-title text-2xl font-bold">
