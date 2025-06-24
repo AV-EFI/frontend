@@ -57,6 +57,7 @@
         <FormKit
           type="repeater"
           name="location"
+          :add-label="$t('addNewLocation')"
           min="0"
         >
           <FormKit
@@ -77,6 +78,7 @@
         <FormKit
           type="repeater"
           name="productionyear"
+          :add-label="$t('addNewProductionYear')"
           min="0"
         >
           <FormKit
@@ -92,6 +94,7 @@
         <FormKit
           type="repeater"
           name="director"
+          :add-label="$t('addNewDirector')"
           min="0"
         >
           <FormKit
@@ -112,6 +115,7 @@
         <FormKit
           type="repeater"
           name="producer"
+          :add-label="$t('addNewProducer')"
           min="0"
         >
           <FormKit
@@ -132,12 +136,13 @@
         <FormKit
           type="repeater"
           name="castmember"
+          :add-label="$t('addNewCastMember')"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            :label="`${$t('castmembers')} Name`"
+            :label="`${$t('castmembers')} Name`"            
             validation="required"
           />
           <FormKit
@@ -152,6 +157,7 @@
         <FormKit
           type="repeater"
           name="genre"
+          :add-label="$t('addNewGenre')"
           min="0"
         >
           <FormKit
@@ -172,6 +178,7 @@
         <FormKit
           type="repeater"
           name="subject"
+          :add-label="$t('addNewSubject')"
           min="0"
         >
           <FormKit
@@ -192,6 +199,7 @@
         <FormKit
           type="repeater"
           name="other_id"
+          :add-label="$t('addNewOtherId')"
           min="0"
         >
           <FormKit

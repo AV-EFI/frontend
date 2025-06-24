@@ -222,7 +222,7 @@
                     <a
                       role="menuitem"
                       href="/protected/mergetool"
-                    >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
+                    >{{ $t('mergeTool') }}<span class="badge badge-accent">1</span></a>
                   </li>
                   <li role="none">
                     <a
