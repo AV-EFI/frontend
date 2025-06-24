@@ -60,18 +60,11 @@ export default defineNuxtConfig({
             AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
             SEARCH_URL: process.env.SEARCH_URL,
             SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
-            KEYCLOAK_URL: process.env.KEYCLOAK_URL,
-            KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
-            KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
-            KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
-            KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
-            KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET,
-            KEYCLOAK_URL: process.env.KEYCLOAK_URL,
         }
     },
     //https://nuxt.com/docs/guide/concepts/rendering
@@ -90,7 +83,7 @@ export default defineNuxtConfig({
     },
     auth: {
         originEnvKey: process.env.AUTH_ORIGIN,
-        baseURL: `${process.env.AUTH_ORIGIN}/api/auth`,
+        baseURL: `${process.env.AUTH_ORIGIN}/auth`,
         provider: {
             type: 'authjs',
             defaultProvider: 'keycloak',
