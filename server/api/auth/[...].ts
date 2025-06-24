@@ -81,6 +81,7 @@ export default NuxtAuthHandler({
         async session ({ session, token }) {
             //console.log('session', session);
             //console.log('token', token);
+            console.log('[Auth] /auth/session called for user:', session?.user?.email ?? 'unknown');
 
             // Token we injected into the JWT callback above.
             const sesstoken = token.sessionToken;
