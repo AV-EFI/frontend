@@ -38,7 +38,7 @@ WORKDIR /app
 COPY --from=build /app/.output ./
 
 # Define environment variables
-ENV HOST=0.0.0.0 NODE_ENV=production
+ENV HOST=0.0.0.0
 ENV NODE_ENV=production
 
 # Expose the port the application will run on
