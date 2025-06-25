@@ -40,7 +40,7 @@
   <div class="row-span-1 grid-container ">
     <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min grid-sub-container">
       <div class="md:col-span-12 col-span-12">
-        <label class="font-bold text-primary-900 dark:text-primary-100">PID:</label>
+        <label class="font-bold text-primary-900 dark:text-primary-100">efi:</label>
         <p
           class="  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
           :alt="data?._source?.handle"

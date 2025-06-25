@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn bg-compare-list hover:bg-compare-list-dark text-white"
+    class="btn bg-compare-list"
     :class="[btnSize]"
     :alt="$t('addtocomparisonparam', { name: filmTitle })"
     :title="$t('addtocomparisonparam', { name: filmTitle })"

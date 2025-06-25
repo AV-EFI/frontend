@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn bg-favourites-list hover:bg-favourites-list-dark text-white"
+    class="btn bg-favourites-list"
     :class="[btnSize]"
     :alt="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     :title="$t('addtoshoppingcartparam', { name: props.filmTitle })"
