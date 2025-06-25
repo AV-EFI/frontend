@@ -150,7 +150,7 @@
     <transition name="fade-slide">
       <div
         v-if="selectedManifestation"
-        class="hidden md:block z-20 md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
+        class="hidden md:block z-10 md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
         role="region"
         :aria-label="`manifestation-${selectedManifestation.handle}`"
       >
