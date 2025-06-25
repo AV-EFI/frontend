@@ -17,7 +17,7 @@
       </p>
     </div>
     <div class="col-span-full row-span-1 row-start-3">
-      <label class="text-md font-bold text-primary-900 dark:text-primary-100">PID:</label>
+      <label class="text-md font-bold text-primary-900 dark:text-primary-100">efi:</label>
       <p
         class="text-lg dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         :alt="data._id"
