@@ -1,17 +1,17 @@
 default:
-  image: docker.io/library/docker:28
+  image: quay.io/podman/stable
   before_script:
-    - apk add --no-cache gettext
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - dnf install -y gettext-envsubst podman-compose
+    - echo "$CI_REGISTRY_PASSWORD" | podman login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
 
 stages:
   - build
   - deploy
 
 variables:
-  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_CERTDIR: "/certs"
+  # Required for podman / buildah to work in Docker container
+  STORAGE_DRIVER: vfs
+  REGISTRY_AUTH_FILE: ${HOME}/auth.json
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
@@ -20,8 +20,8 @@ variables:
   stage: build
   script:
     - grep -vi secret .env.tmpl | envsubst > .env
-    - docker build --pull -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
+    - podman-compose build --pull
+    - podman push $CONTAINER_TEST_IMAGE
   rules:
     - if: $CI_COMMIT_BRANCH
 
