@@ -31,7 +31,7 @@
           <AddToShoppingCartComp
             :film-id="id ?? item?.objectID"
             :film-title="item?.has_record?.has_primary_title.has_name"
-            class="w-48 btn-block btn-sm"
+            class="w-48 btn-block btn-sm flex item-start"
             role="menuitem"
           />
         </div>
@@ -44,7 +44,7 @@
           <AddToComparisonComp
             :film-id="id ?? item?.objectID"
             :film-title="item?.has_record?.has_primary_title.has_name"
-            class="btn-block btn-sm w-48"
+            class="btn-block btn-sm w-48 flex item-start"
             role="menuitem"
           />
         </div>
@@ -56,9 +56,11 @@
         <GlobalExportDataComp
           :data-set-id="id ? [id] : [item.objectID]"
           :data-set-json="JSON.stringify(item, null, 2)"
-          class="w-full p-0 mx-auto justify-center items-center flex"
+          class="w-full p-0 mx-auto justify-center items-start flex"
           btn-size="btn-block btn-sm !w-48"
           role="menuitem"
+          :show-label="true"
+          :fixed-with="true"
         />
       </li>
     </ul>

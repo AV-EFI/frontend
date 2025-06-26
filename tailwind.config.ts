@@ -4,11 +4,14 @@ import colors from 'tailwindcss/colors';
 /** @type {import('tailwindcss').Config} */
 /** TAILWIND **/
 module.exports = {
-    safelist: [
+  safelist: [
     {
-        pattern: /^(hover:)?bg-(work|item|manifestation|work-variant)$/,
+      pattern: /^(hover:)?bg-(work|item|manifestation|work-variant|favourites-list|favourites-list-hover|compare-list|compare-list-hover)$/,
     },
-    ],
+    {
+      pattern: /^text-(favourites-list-content|favourites-list-hover-content|compare-list-content)$/,
+    },
+  ],
     content: [
         './app.vue',
         'formkit.theme.ts'
@@ -65,12 +68,13 @@ module.exports = {
               },              
               'highlight': '#b2161d',
               'highlight-content': '#ffffff',
-              'favourites-list': '#364754',
+              'favourites-list': '#e11923',
               'favourites-list-content': '#ffffff',
-              'favourites-list-hover': '#364754',
-              'compare-list': '#436277',
+              'favourites-list-hover': '#b2161d',
+              'favourites-list-hover-content': '#ffffff',
+              'compare-list': '#2a333a',          // slate-black (cool)
+              'compare-list-hover': '#1d262f',    // deeper for hover
               'compare-list-content': '#ffffff',
-              'compare-list-hover': '#364754',
               'work': '#F3E2B8',
               'manifestation': '#E8D39E',
               'item': '#DDC48B',
@@ -98,6 +102,22 @@ module.exports = {
         require('@tailwindcss/typography'),
         require('@vueform/slider/tailwind'),
         require('daisyui'),
+        function({ addComponents }) {
+          addComponents({
+          '.btn-favourites-list': {
+            '@apply bg-favourites-list text-favourites-list-content hover:bg-favourites-list-hover hover:text-favourites-list-hover-content': {},
+          },
+          '.btn-compare-list': {
+            '@apply bg-compare-list text-compare-list-content hover:bg-compare-list-hover hover:text-compare-list-content': {},
+          },
+          '.badge-favourites-list': {
+            '@apply badge bg-favourites-list text-favourites-list-content': {},
+          },
+          '.badge-compare-list': {
+            '@apply badge bg-compare-list text-compare-list-content': {},
+          },
+          });
+        },
         function ({ addUtilities }) {
             addUtilities({
                 '.text-nuggets-5280': {
@@ -200,12 +220,6 @@ module.exports = {
                       "error": "#b04b4b",
                       "disabled-bg": "#d6d8dc",
                       "disabled-text": "#a1a1a1",
-                      "favourites-list": "#d39ea3",
-                      "favourites-list-content": "#ffffff",
-                      "favourites-list-hover": "#c87e89",
-                      "compare-list": "#c07b84",
-                      "compare-list-content": "#ffffff",
-                      "compare-list-hover": "#c07b84"
                     },
             },
             {

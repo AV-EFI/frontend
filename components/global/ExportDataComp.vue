@@ -14,9 +14,13 @@
     >
       <Icon
         name="formkit:download"
-        class="text-xl"
-        alt="Export data"
+        class="text-xl w-4 h-4"
       />
+      <span
+        v-if="showLabel"
+        class="hidden md:inline-block capitalize ml-1 text-left"
+        :class="[fixedWith? 'w-24' : '']"
+      >{{ $t('export') }}</span>
     </button>
   
     <div
@@ -72,6 +76,16 @@ const props = defineProps({
         type: String,
         required: false,
         default: 'btn-sm'
+    },
+    showLabel: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    fixedWith: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 });
   

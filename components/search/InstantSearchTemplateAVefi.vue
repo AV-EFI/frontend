@@ -40,7 +40,7 @@
                   :reset-title="$t('resetQuery')"
                   class="flex flex-row mt-2"
                 >
-                  <template #default="{ currentRefinement, isSearchStalled, refine }">
+                  <template #default="{ currentRefinement = '', refine = () => {}, isSearchStalled = false } = {}">
                     <div
                       class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-primary-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 max-md:max-w-[calc(100%-52px)] formkit-inner"
                     >
@@ -89,10 +89,10 @@
                         type="search"
                         :aria-label="$t('search')"
                         class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
-                        :value="currentRefinement ?? ''"
+                        :value="currentRefinement"
                         :placeholder="$t('searchplaceholder')"
-                        @input="currentRefinement = $event.target.value;"
-                        @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement?? '' ;"
+                        @input="currentRefinement = $event.target.value"
+                        @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement ?? ''"
                       >
                       <span
                         id="search-loading"
@@ -153,7 +153,7 @@
                 >
                   <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base">
                     <ais-stats>
-                      <template #default="{ nbHits }">
+                      <template #default="{ nbHits = 0 }">
                         <div class="flex items-center justify-center h-10">
                           <span
                             v-if="isSearchLoading"

@@ -65,14 +65,15 @@
               <div class="join w-full mt-2 p-2">
                 <button
                   :title="$t('gotocomp')"
-                  class="btn bg-compare-list hover:bg-compare-list-hover join-item w-1/3"
+                  class="btn btn-compare-list h-full join-item w-1/3"
                   :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
                   <Icon
-                    class="text-xl text-white"
+                    class="text-lg text-white w-4 h-4"
                     name="carbon:compare"
                   />
+                  <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                 </button>
                 <button 
                   class="btn btn-error text-white join-item w-1/3"
@@ -80,6 +81,10 @@
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('objectListStore')"
                 >
+                  <Icon
+                    class="text-lg text-white w-4 h-4"
+                    name="carbon:trash-can"
+                  />
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
@@ -87,6 +92,7 @@
                   :class="objectListStore.objects.length < 1 && 'btn-disabled'"
                   class="join-item w-1/3"
                   btn-size="rounded-l-none"
+                  :show-label="true"
                 />
               </div>
               <ul class="mt-2 w-full">

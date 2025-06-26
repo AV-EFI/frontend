@@ -160,7 +160,7 @@
                 @click="$toggleComparisonDrawerState('shopping')"
               >
                 {{ $t("shoppingcart") }}
-                <span class="indicator-item badge bg-favourites-list text-white">{{ shoppingCart.objects?.length }}</span>
+                <span class="indicator-item badge badge-favourites-list text-white">{{ shoppingCart.objects?.length }}</span>
               </button>
             </li>
 
@@ -174,7 +174,7 @@
                 @click="$toggleComparisonDrawerState('comparison')"
               >
                 {{ $t("comparison") }}
-                <span class="indicator-item badge bg-compare-list text-white">{{ objectListStore.objects?.length }}</span>
+                <span class="indicator-item badge badge-compare-list text-white">{{ objectListStore.objects?.length }}</span>
               </button>
             </li>
             <li class="h-12 flex justify-center">

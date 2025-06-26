@@ -20,7 +20,12 @@ export default defineEventHandler(async (event) => {
 
             const userQueryRaw = indexParams.query || '';
             const isQuoted = userQueryRaw.startsWith('"') && userQueryRaw.endsWith('"');
-            const cleanQuery = isQuoted ? userQueryRaw.slice(1, -1).trim() : userQueryRaw;
+            const cleanQuery = isQuoted ? userQueryRaw.slice(1, -1).trim() : userQueryRaw.trim();
+
+            // ✅ if query is empty, remove it to match all docs
+            if (!cleanQuery) {
+              delete indexParams.query;
+            }
 
             const facetFiltersRaw = indexParams['facetFilters'] || [];
 
