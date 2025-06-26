@@ -1,35 +1,26 @@
+default:
+  image: docker.io/library/docker:28
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+
 stages:
   - build
   - deploy
 
+variables:
+  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
 # Build a docker image when a push is made to a non-default branch.
 .build_docker:
   stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [ "" ]
-  before_script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" 
-      > /kaniko/.docker/config.json
   script:
     - grep -vi secret .env.tmpl | envsubst > .env
-    - /kaniko/executor 
-      --context $CI_PROJECT_DIR 
-      --dockerfile $CI_PROJECT_DIR/Dockerfile 
-      --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-      --cache=true
-      --cache-ttl=24h
-      --cache-repo=$CI_REGISTRY_IMAGE/cache
-      --build-arg BUILDKIT_INLINE_CACHE=1
-      --compressed-caching=false
-      --single-snapshot=false
-  cache:
-    key: 
-      files:
-        - yarn.lock
-    paths:
-      - .yarn/cache/
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: $CI_COMMIT_BRANCH
 
@@ -42,7 +33,7 @@ build_docker-staging:
 
 .deploy:
   stage: deploy
-  image: alpine:latest
+  # image: alpine:latest
   variables:
     ## To be set as CI/CD variables:
     #DEPLOY_USER
