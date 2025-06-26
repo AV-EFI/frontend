@@ -13,7 +13,6 @@
   >
     {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
   </span>
-
   <span
     v-else-if="category.indexOf('Serial') > -1"
     class="badge badge-outline text-primary-500 dark:text-primary-200"

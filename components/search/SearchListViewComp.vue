@@ -186,7 +186,7 @@
     >
       <div
         v-if="showHighlight[item.handle] && getHighlightSnippets(item).length > 0"
-        class="mt-2 ml-3 text-sm highlight-snippets"
+        class="my-2 ml-3 text-sm highlight-snippets"
       >
         <span>✨ <strong>{{ $t('lookWhatWeFound') }}</strong></span>
         <ul>
@@ -200,20 +200,25 @@
       </div>
     </Transition>
 
-    <button
-      class="btn btn-primary btn-xs btn-outline my-2 mx-auto"
-      :aria-label="$t('toggleDetails')"
-      :title="$t('toggleDetails')"
-      :aria-expanded="isExpanded[item.handle] || false"
-      @click="isExpanded[item.handle] = !isExpanded[item.handle]; showHighlight[item.handle] = !showHighlight[item.handle]"
-    >
-      <Icon
-        :name="isExpanded[item.handle] ? 'mdi:minus' : 'mdi:plus'"
-        class="text-lg"
-        :alt="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
-        :title="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
-      />
-    </button>
+    <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center">
+      <button
+        class="btn btn-primary btn-xs btn-outline my-2 mx-auto"
+        :aria-label="$t('toggleDetails')"
+        :title="$t('toggleDetails')"
+        :aria-expanded="isExpanded[item.handle] || false"
+        @click="isExpanded[item.handle] = !isExpanded[item.handle]; showHighlight[item.handle] = !showHighlight[item.handle]"
+      >
+        <Icon
+          :name="isExpanded[item.handle] ? 'mdi:minus' : 'mdi:plus'"
+          class="text-lg"
+          :alt="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
+          :title="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
+        />
+        <span class="text-sm">
+          {{ isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails') }}
+        </span>
+      </button>
+    </div>
     <div
       v-show="isExpanded[item.handle]"
       class="card-body p-4 pt-0"
@@ -653,6 +658,15 @@ function isFacetActive(facetKey: string, value: string): boolean {
 .slide-fade-leave-from {
   max-height: 1000px; /* enough to show full content */
   opacity: 1;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+}
+
+.animate-attention {
+  animation: gentlePulse 2s ease-in-out infinite;
 }
 
 </style>
