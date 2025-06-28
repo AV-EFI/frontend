@@ -1,19 +1,22 @@
 default:
-  image: quay.io/podman/stable
+  image: docker:28.3.0
+  services:
+    - docker:28.3.0-dind
   before_script:
-    - dnf install -y gettext-envsubst podman-compose podman-:ocker
-    - docker info
-    - podman info
-    - echo "$CI_REGISTRY_PASSWORD" | podman login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - apk upgrade --no-cache --ignore docker
+    - apk add --no-cache gettext-envsubst
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 stages:
   - build
   - deploy
 
 variables:
-  # Required for podman / buildah to work in Docker container
-  STORAGE_DRIVER: vfs
-  REGISTRY_AUTH_FILE: ${HOME}/auth.json
+  # Specify to Docker where to create the certificates. Docker
+  # creates them automatically on boot, and creates
+  # `/certs/client` to share between the service and job
+  # container, thanks to volume mount from config.toml
+  DOCKER_TLS_CERTDIR: "/certs"
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
@@ -22,8 +25,8 @@ variables:
   stage: build
   script:
     - grep -vi secret .env.tmpl | envsubst > .env
-    - podman-compose build --pull
-    - podman push $CONTAINER_TEST_IMAGE
+    - docker-compose build --pull
+    - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: $CI_COMMIT_BRANCH
 
