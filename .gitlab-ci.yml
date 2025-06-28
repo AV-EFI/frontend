@@ -2,6 +2,8 @@ default:
   image: docker:28.3.0
   services:
     - docker:28.3.0-dind
+  tags:
+    - docker
   before_script:
     - apk upgrade --no-cache --ignore docker
     - apk add --no-cache gettext-envsubst
