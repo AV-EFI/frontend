@@ -1,12 +1,11 @@
 default:
-  image: docker:28.3.0
+  image: docker.gitlab.gwdg.de/eoltman/docker-ext:28.3.0
   services:
-    - docker:28.3.0-dind
+    - name: docker.io/library/docker:28.3.0-dind
+      alias: docker
   tags:
     - docker
   before_script:
-    - apk upgrade --no-cache --ignore docker
-    - apk add --no-cache gettext-envsubst
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 stages:
