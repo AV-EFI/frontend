@@ -29,8 +29,6 @@ variables:
     - grep -vi secret .env.tmpl | envsubst > .env
     - docker build --pull --tag $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
-  rules:
-    - if: $CI_COMMIT_BRANCH
 
 build_docker-staging:
   variables:
