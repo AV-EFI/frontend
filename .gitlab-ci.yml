@@ -3,6 +3,7 @@ default:
   services:
     - name: docker.io/library/docker:28.3.0-dind
       alias: docker
+      command: ["--mtu=1450"]
   tags:
     - docker
   before_script:
