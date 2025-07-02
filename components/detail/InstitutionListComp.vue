@@ -236,7 +236,7 @@ const props = defineProps({
     indexName: {
         type: String,
         required: true,
-        default: '21.11155-denormalised-work'
+        default: 'ux-21.11155-denormalised-work'
     },
 });
 
