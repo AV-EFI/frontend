@@ -1,0 +1,29 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "composables/avefi_useColorMode.ts",
+    "composables/locale.ts",
+    "composables/states.ts",
+    "composables/useApiFetch.ts",
+    "composables/useAuth.ts",
+    "composables/useCurrentUrlState.ts",
+    "composables/useFetchWithCache.ts",
+    "composables/useHash.ts",
+    "composables/useMail.ts",
+    "composables/useUiHelpers.ts"
+  ],
+  "entryPointStrategy": "expand",
+  "out": "docs/composables",
+  "tsconfig": "./tsconfig.json",
+  "skipErrorChecking": true,
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "excludeNotDocumented": false,
+  "categorizeByGroup": true,
+  "defaultCategory": "Composables",
+  "hideGenerator": true,
+  "readme": "none",
+  "theme": "default"
+}

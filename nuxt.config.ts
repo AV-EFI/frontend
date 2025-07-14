@@ -125,8 +125,8 @@ export default defineNuxtConfig({
         smtp: {
             service: 'gmail',
             auth: {
-                user: "avefi.tmp@gmail.com",
-                pass: "sbjk pjrx dkko fwan",
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS,
             }
         },
     },

@@ -2,68 +2,77 @@
 
 ![AVefi Logo](/public/img/avefi_logo_lg.jpg)
 
-## Prerequisites
+This is the frontend for the [AVefi Project](https://projects.tib.eu/av-efi), built with Nuxt 3 and Vue 3.
 
-### Docker / Production
+---
 
-1. **Install Docker**: [Download Docker](https://www.docker.com/products/docker-desktop) and follow the installation instructions.
-2. **Run Docker Compose**: In the project directory, run:
-    ```bash
-    docker compose up --build
-    ```
+## 🚀 Quick Start
 
-### Local Development
+### ▶️ Local Development
 
-1. **Install Node.js and npm**: [Download Node.js 18.x](https://nodejs.org/).
-2. **Install Yarn**: [Install Yarn 2+](https://yarnpkg.com/getting-started/install).
+1. **Install Node.js 18+**  
+   👉 [Download Node.js](https://nodejs.org/)
 
-### Docker Development
+2. **Install Yarn 2+**  
+   👉 [Yarn Installation Guide](https://yarnpkg.com/getting-started/install)
 
-1. **Install Docker**: Follow the Docker installation instructions above.
-2. **Run Docker Compose for Development**: In the project directory, run:
-    ```bash
-    docker compose -f docker-compose.dev.yml up --build --watch
-    ```
+3. **Install dependencies**  
+   ```bash
+   yarn install
+   ```
 
-### Local Commands
+4. **Start the development server**  
+   ```bash
+   yarn dev
+   ```
 
-Install dependencies:
+   App runs at: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🐳 Docker Setup
+
+### Production
 ```bash
-npm install
-pnpm install
-yarn install
-bun install
+docker compose up --build
 ```
 
-### Development Server
-
-Start the server at `http://localhost:3000`:
+### Development
 ```bash
-npm run dev
-pnpm run dev
-yarn dev
-bun run dev
+docker compose -f docker-compose.dev.yml up --build --watch
 ```
 
-Build for production:
+---
+
+## 📦 Build Commands
+
+| Task               | Command        |
+|--------------------|----------------|
+| Build for prod     | `yarn build`   |
+| Preview prod build | `yarn preview` |
+
+More info: [Nuxt Deployment Documentation](https://nuxt.com/docs/getting-started/deployment)
+
+---
+
+## 📚 Composables Documentation
+
+This project uses [TypeDoc](https://typedoc.org/) to generate documentation for all core Vue composables.
+
+### Generate docs
+
 ```bash
-npm run build
-pnpm run build
-yarn build
-bun run build
+yarn typedoc
 ```
 
-Preview production build:
-```bash
-npm run preview
-pnpm run preview
-yarn preview
-bun run preview
-```
+- Output is saved in: `docs/composables/index.html`
+- Configuration: `typedoc.json`
+- Only composables in `/composables` are documented
 
-[Deployment documentation]
-(https://nuxt.com/docs/getting-started/deployment)
+---
 
-## More Information
+## ℹ️ More Information
 
-For more information about the entire project, visit [AVefi Project](https://projects.tib.eu/av-efi).
+For further project context and backend components, visit the full AVefi project page:
+
+👉 [https://projects.tib.eu/av-efi](https://projects.tib.eu/av-efi)
