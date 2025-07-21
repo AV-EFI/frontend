@@ -1,24 +1,26 @@
+version: "3.9"
+
 services:
   av-efi-frontend:
     container_name: av-efi-frontend
     build:
       context: .
-      dockerfile: DockerFile.dev
+      dockerfile: Dockerfile.dev
     develop:
       watch:
-        - action: sync
-          path: ./components
-          target: /app/components
-          ignore:
-            - node_modules/
         - action: rebuild
           path: package.json
+        - action: rebuild
+          path: yarn.lock
     ports:
-      - 127.0.0.1:3000:3000
-      - 127.0.0.1:24678:24678
+      - 127.0.0.1:3000:3000      # Nuxt dev server
+      - 127.0.0.1:24678:24678    # Vite HMR websocket
     volumes:
-      - '.:/app'
+      - .:/app
       - node_modules:/app/node_modules
+    environment:
+      - AUTH_BASE_URL=http://av-efi-backend:8000
+      - NODE_ENV=development
     networks:
       - proxy-network
 

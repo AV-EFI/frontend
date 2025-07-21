@@ -1,24 +1,25 @@
-# see cms project for docker containers
 ARG NODE_VERSION=18.20.5
-
-# Create build stage
-FROM node:${NODE_VERSION}-slim AS base
+FROM node:${NODE_VERSION}-slim
 
 ENV NODE_ENV=development
-
 WORKDIR /app
 
-# Build
-FROM base AS build
-
-COPY --link ./package.json ./yarn.lock ./.yarnrc.yml ./
+# Enable corepack (optional if not using pre-installed yarn)
 RUN corepack enable
-RUN yarn set version berry
+
+# Copy config and lockfiles early for cache
+COPY .yarnrc.yml ./
+COPY package.json yarn.lock ./
+
+# Clean bad cache (optional but safe)
+RUN rm -f .pnp.* && rm -rf .yarn/cache
+
+# Install dependencies
 RUN yarn install
 
-# Run
-FROM base
+# Copy the full source
+COPY . .
 
-COPY --from=build /app/node_modules /app/node_modules
+EXPOSE 3000 24678
 
-CMD [ "npm", "run", "dev" ]
+CMD ["yarn", "dev"]

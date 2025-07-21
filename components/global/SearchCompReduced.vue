@@ -95,25 +95,9 @@ const showValidationWarning = ref(false);
 const searchDataStore = useSearchParamsStore();
 
 function redirectToSearchScreen() {
-    navigateTo(
-        '/' +
-      useRuntimeConfig().public.SEARCH_URL +
-      '/index?' +
-      useRuntimeConfig().public.ELASTIC_INDEX +
-      '[query]=' +
-      encodeURIComponent(searchTerm.value)
-    );
-}
-
-function handleClick(event: MouseEvent) {
-    if (searchTerm.value.trim().length === 0) {
-        event.preventDefault();
-        showValidationWarning.value = true;
-
-        setTimeout(() => {
-            showValidationWarning.value = false;
-        }, 2500);
-    }
+    const searchLink = useRuntimeConfig().public.AVEFI_SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + searchTerm.value;
+    console.log('Redirecting to search screen:', searchLink);
+    navigateTo(searchLink);
 }
 </script>
 

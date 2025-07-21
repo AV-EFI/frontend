@@ -198,6 +198,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@auth/core@npm:^0.40.0":
+  version: 0.40.0
+  resolution: "@auth/core@npm:0.40.0"
+  dependencies:
+    "@panva/hkdf": "npm:^1.2.1"
+    jose: "npm:^6.0.6"
+    oauth4webapi: "npm:^3.3.0"
+    preact: "npm:10.24.3"
+    preact-render-to-string: "npm:6.5.11"
+  peerDependencies:
+    "@simplewebauthn/browser": ^9.0.1
+    "@simplewebauthn/server": ^9.0.2
+    nodemailer: ^6.8.0
+  peerDependenciesMeta:
+    "@simplewebauthn/browser":
+      optional: true
+    "@simplewebauthn/server":
+      optional: true
+    nodemailer:
+      optional: true
+  checksum: 10c0/25cd12f22611eedc21c17dc1908fa9428ae5f0e32eb32c1ab009642276c37099cce58f49ffbb7f8e8d6d6488d5101a24fb9808ec662eee5aca19d520750acaa3
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.22.13, @babel/code-frame@npm:^7.24.7, @babel/code-frame@npm:^7.25.9, @babel/code-frame@npm:^7.26.0, @babel/code-frame@npm:^7.26.2, @babel/code-frame@npm:^7.8.3":
   version: 7.26.2
   resolution: "@babel/code-frame@npm:7.26.2"
@@ -2783,7 +2807,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@panva/hkdf@npm:^1.0.2":
+"@panva/hkdf@npm:^1.0.2, @panva/hkdf@npm:^1.2.1":
   version: 1.2.1
   resolution: "@panva/hkdf@npm:1.2.1"
   checksum: 10c0/1fabdec9bd2c19b8e88a3fa6fd0c25e25823c5000d9efdf4b6dfe32e9f370f8b9603cf776d120d160bec15fba17e079974cc34f0f52cebb24602cd832dfde19c
@@ -3577,9 +3601,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sidebase/nuxt-auth@npm:0.10.0-rc.2":
-  version: 0.10.0-rc.2
-  resolution: "@sidebase/nuxt-auth@npm:0.10.0-rc.2"
+"@sidebase/nuxt-auth@npm:^0.10.1":
+  version: 0.10.1
+  resolution: "@sidebase/nuxt-auth@npm:0.10.1"
   dependencies:
     "@nuxt/kit": "npm:^3.14.1592"
     defu: "npm:^6.1.4"
@@ -3591,7 +3615,7 @@ __metadata:
     ufo: "npm:^1.5.4"
   peerDependencies:
     next-auth: ~4.21.1
-  checksum: 10c0/fa3502c7d35fd1e1ca05f66c8ec2394797b805469183c523669c6bd7765da4d03f1e56498c3700f96d8439afd1cb8a23b6bd1dbd4aa1d0ce8a2738008a995ec4
+  checksum: 10c0/d013cd0f49c812ad65759370fdc5d23a32680bdab9f618191732c012f3afa46331b3bb93168fd6a2db1531ba7be55cd3384e32d1976bc6e5b149cbd469d4c62b
   languageName: node
   linkType: hard
 
@@ -9936,6 +9960,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^6.0.6":
+  version: 6.0.11
+  resolution: "jose@npm:6.0.11"
+  checksum: 10c0/d290be4532174e7a53730b7fb84c74327531172bd403b196c592b312b73eedb7489949837bfe831fdbd280799bfc5ba778bc807495a73eda08ae6c49414f405a
+  languageName: node
+  linkType: hard
+
 "js-levenshtein@npm:^1.1.6":
   version: 1.1.6
   resolution: "js-levenshtein@npm:1.1.6"
@@ -11819,6 +11850,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nuxt-app@workspace:."
   dependencies:
+    "@auth/core": "npm:^0.40.0"
     "@dargmuesli/nuxt-cookie-control": "npm:8.5.0"
     "@elastic/elasticsearch": "npm:^8.17.0"
     "@formkit/addons": "npm:^1.6.9"
@@ -11850,7 +11882,7 @@ __metadata:
     "@pinia/nuxt": "npm:^0.5.5"
     "@searchkit/api": "npm:^4.13.0"
     "@searchkit/instantsearch-client": "npm:^4.14.1"
-    "@sidebase/nuxt-auth": "npm:0.10.0-rc.2"
+    "@sidebase/nuxt-auth": "npm:^0.10.1"
     "@tailwindcss/typography": "npm:^0.5.15"
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/mime": "npm:^4.0.0"
@@ -12083,21 +12115,6 @@ __metadata:
   bin:
     nypm: dist/cli.mjs
   checksum: 10c0/911fc386879ac97a1380be9a88759cc6254cf5e3b0950b4b846ca4d9dc8d3df835f4017be868e1121989cc1af6314b2e3462836d629ea20b2c70e72dcb217197
-  languageName: node
-  linkType: hard
-
-"nypm@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "nypm@npm:0.6.0"
-  dependencies:
-    citty: "npm:^0.1.6"
-    consola: "npm:^3.4.0"
-    pathe: "npm:^2.0.3"
-    pkg-types: "npm:^2.0.0"
-    tinyexec: "npm:^0.3.2"
-  bin:
-    nypm: dist/cli.mjs
-  checksum: 10c0/899f16c2df1bdf3ef4de5f7d4ed5530e2e1ca097cc7dedbaa25abb6b8e44bb470c25cd26639f6e3e4f5734867e61f7f77c4ed5dfbe86b2a1bdef4525a2dc0026
   languageName: node
   linkType: hard
 
@@ -13229,6 +13246,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact-render-to-string@npm:6.5.11":
+  version: 6.5.11
+  resolution: "preact-render-to-string@npm:6.5.11"
+  peerDependencies:
+    preact: ">=10"
+  checksum: 10c0/a68b704c1343756022fb41322154b45e39f6021b940cbc97e86c292627d017d019700339a17d67b42c308b14fc5323fc120c798f785d6a3e993c8f273610bfe2
+  languageName: node
+  linkType: hard
+
 "preact-render-to-string@npm:^5.1.19":
   version: 5.2.6
   resolution: "preact-render-to-string@npm:5.2.6"
@@ -13237,6 +13263,13 @@ __metadata:
   peerDependencies:
     preact: ">=10"
   checksum: 10c0/fb40f952f377900d87d3274e8ede1b59271347f7a3f41ae390aedeb088d162fe15f0a8040272404bd4477551cc2ec83b8a661e2fd3084702498b1543bb08dd11
+  languageName: node
+  linkType: hard
+
+"preact@npm:10.24.3":
+  version: 10.24.3
+  resolution: "preact@npm:10.24.3"
+  checksum: 10c0/c863df6d7be6a660480189762d8a8f2d4148733fc2bb9efbd9d2fd27315d2c7ede850a16077d716c91666c915c0349bd3c9699733e4f08457226a0519f408761
   languageName: node
   linkType: hard
 

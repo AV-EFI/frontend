@@ -1,3 +1,36 @@
+<script setup lang="ts">
+import { useObjectListStore } from '../../stores/compareList';
+import { useShoppingCart } from '../../stores/shoppingCart';
+
+const { data, signOut, signIn } = useAuth();
+
+const triggerSignout = () => {
+    signOut();
+};
+
+const objectListStore = useObjectListStore();
+const shoppingCart = useShoppingCart();
+
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+    isScrolled.value = window.scrollY > 50;
+};
+
+onMounted(() => {
+    const header = document.querySelector('header');
+    if (header) {
+        const headerHeight = header.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+    }
+    window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
+</script>
+
 <template>
   <nav
     class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"

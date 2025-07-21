@@ -11,6 +11,8 @@ services:
       - './logs:/app/logs'
     networks:
       - proxy-network
+    command: yarn dev --host 0.0.0.0
+
 
 networks:
   proxy-network:

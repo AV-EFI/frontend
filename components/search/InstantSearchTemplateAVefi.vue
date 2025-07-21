@@ -407,7 +407,7 @@ import { config } from '../../searchConfig_avefi.ts';
 
 const searchClient = Client({
     config: config,
-    url: "/api/elastic/msearch",
+    url: `${useRuntimeConfig().public.AVEFI_BACKEND_URL}/${useRuntimeConfig().public.AVEFI_SEARCH}`, // Use the public API base URL from runtime config
     // Removed invalid property 'searchOnLoad'
 });
 

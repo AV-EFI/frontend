@@ -1,3 +1,5 @@
+import { emit } from "process";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: { 
@@ -17,7 +19,7 @@ export default defineNuxtConfig({
         transpile: ['vue-diff']
     },
     modules: [
-        '@sidebase/nuxt-auth',
+        //'@sidebase/nuxt-auth',
         '@nuxtjs/eslint-module',
         '@nuxtjs/i18n',
         '@nuxtjs/tailwindcss',
@@ -43,6 +45,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
+            AUTH_BASE_URL: process.env.AUTH_BASE_URL || 'http://localhost:8000',
             dbHost: process.env.POSTGRES_HOST,
             dbDb: process.env.POSTGRES_DB,
             dbUser: process.env.POSTGRES_USER,
@@ -61,12 +64,15 @@ export default defineNuxtConfig({
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
+            AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
+            AVEFI_SEARCH: process.env.AVEFI_SEARCH,
+            AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
             AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
             AVEFI_GET_MANIFEST: process.env.AVEFI_GET_MANIFEST,
             AVEFI_GET_MANIFEST_BY_WORK: process.env.AVEFI_GET_MANIFEST_BY_WORK,
-            AVEFI_GET_WORK_BY_IS_PART_OF: process.env.AVEFI_GET_WORK_BY_IS_PART_OF,
-            AVEFI_DATA_API: process.env.AVEFI_DATA_API,
-            SEARCH_URL: process.env.SEARCH_URL,
+            AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
+            AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
+            AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
             SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
@@ -98,25 +104,21 @@ export default defineNuxtConfig({
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
+    /*
     auth: {
         originEnvKey: process.env.AUTH_ORIGIN,
-        baseURL: `${process.env.AUTH_ORIGIN}/api/auth`,
+        baseURL: process.env.AUTH_BASE_URL || 'http://localhost:8000', // Nur Backend-URL, NICHT mit /api/auth am Ende
         provider: {
-            type: 'authjs',
-            defaultProvider: 'keycloak',
-            addDefaultCallbackUrl: true,
-        },        
-        /*
-        session: {
-            enableRefreshOnWindowFocus: true,
-            enableRefreshPeriodically: 10000
+          type: 'authjs',
+          defaultProvider: 'keycloak',
+          addDefaultCallbackUrl: true,
         },
-        */
         globalAppMiddleware: {
-            isEnabled: true,
-            allow404WithoutAuth: true,            
-        }
-    },
+          isEnabled: true,
+          allow404WithoutAuth: true,
+        },
+      },
+      */
     css: ["~/assets/scss/main.scss"],
     mail: {
         message: {
@@ -218,18 +220,31 @@ export default defineNuxtConfig({
     },
     vite: {
         build: {
-            chunkSizeWarningLimit: 750
+          chunkSizeWarningLimit: 750
         },
+        //devBundler: 'legacy',
+        logLevel: 'warn',
         css: {
-            preprocessorOptions: {                
-                scss: {
-                    api: 'modern',
-                    additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
-                },
-                
+          preprocessorOptions: {                
+            scss: {
+              api: 'modern',
+              additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
             },
-        }
-    },
+          },
+        },
+        ...(process.env.NODE_ENV === 'development' && {
+          server: {
+            watch: {
+              usePolling: true,
+              interval: 100,
+            },
+            hmr: {
+              port: 24678,
+              host: 'localhost',
+            },
+          }
+        })
+      },      
     typescript: {
         includeWorkspace: true,
     },
@@ -261,7 +276,9 @@ export default defineNuxtConfig({
     eslint: {
         lintOnStart: false,
         cache: true,
-        emitWarning: false
+        emitWarning: false,
+        emitError: false,
+        fix: true,
     },
     pinia: {
         storesDirs: ['stores']

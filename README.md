@@ -2,77 +2,133 @@
 
 ![AVefi Logo](/public/img/avefi_logo_lg.jpg)
 
-This is the frontend for the [AVefi Project](https://projects.tib.eu/av-efi), built with Nuxt 3 and Vue 3.
+---
+
+## Prerequisites
+
+### ✅ Docker (for Production or Dev)
+- Install Docker: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
 
 ---
 
-## 🚀 Quick Start
+## 🐳 Docker Usage
 
-### ▶️ Local Development
+### 🚀 Production Build & Run
 
-1. **Install Node.js 18+**  
-   👉 [Download Node.js](https://nodejs.org/)
+1. **Build the production image and start the container**:
+   ```bash
+   docker compose up --build
+   ```
 
-2. **Install Yarn 2+**  
-   👉 [Yarn Installation Guide](https://yarnpkg.com/getting-started/install)
+2. The app will be available at [http://localhost:3000](http://localhost:3000)
 
-3. **Install dependencies**  
+> This uses the `Dockerfile`, performs a full Nuxt production build, and runs `node .output/server/index.mjs`
+
+3. **Stop the container**:
+   ```bash
+   docker compose down
+   ```
+
+---
+
+### 🔁 Development with HMR (Hot Module Replacement)
+
+This setup uses `Dockerfile.dev` and `docker-compose.dev.yml`.
+
+1. **Start the development container**:
+   ```bash
+   docker compose -f docker-compose.dev.yml up --build
+   ```
+
+2. Visit [http://localhost:3000](http://localhost:3000) — changes to `.vue`/`.ts` files will reload automatically.
+
+3. Vite HMR uses port `24678`, exposed in the dev Docker Compose config.
+
+4. **Stop all running containers**:
+   ```bash
+   docker compose -f docker-compose.dev.yml down
+   ```
+
+> If you're on Windows/WSL2, file watching uses polling for compatibility. The following is included in `nuxt.config.ts`:
+>
+> ```ts
+> vite: {
+>   server: {
+>     watch: { usePolling: true, interval: 100 },
+>     hmr: { port: 24678, host: 'localhost' }
+>   }
+> }
+> ```
+
+> The container also mounts a named volume for `/app/node_modules` to avoid host-container conflicts:
+>
+> ```yaml
+> volumes:
+>   - .:/app
+>   - node_modules:/app/node_modules
+> ```
+
+---
+
+## 🖥️ Local Development (Non-Docker)
+
+1. **Install Node.js 18.x**: [https://nodejs.org/](https://nodejs.org/)
+2. **Install Yarn (Berry)**: [https://yarnpkg.com/getting-started/install](https://yarnpkg.com/getting-started/install)
+3. **Install dependencies**:
    ```bash
    yarn install
    ```
 
-4. **Start the development server**  
+4. **Start dev server**:
    ```bash
    yarn dev
    ```
 
-   App runs at: [http://localhost:3000](http://localhost:3000)
+5. **Build for production**:
+   ```bash
+   yarn build
+   ```
+
+6. **Preview production build locally**:
+   ```bash
+   yarn preview
+   ```
 
 ---
 
-## 🐳 Docker Setup
+## 🧹 Troubleshooting
 
-### Production
+### Kill all Node.js processes (e.g., if ports are blocked or `.node` files are locked):
+
+- **Windows**:
+  ```powershell
+  taskkill /F /IM node.exe
+  ```
+
+- **macOS/Linux**:
+  ```bash
+  pkill -f node
+  ```
+
+### Clear Yarn artifacts if install errors occur:
 ```bash
-docker compose up --build
+rm -rf node_modules .yarn/cache .yarn/install-state.gz
+yarn cache clean
+yarn install
 ```
 
-### Development
-```bash
-docker compose -f docker-compose.dev.yml up --build --watch
-```
+---
+
+## 📦 Deployment
+
+The production container builds with `yarn build` and serves the app via Node.js.  
+For other environments (e.g. static hosting or serverless), consult Nuxt’s deployment docs:
+
+🔗 [Nuxt Deployment Guide](https://nuxt.com/docs/getting-started/deployment)
 
 ---
 
-## 📦 Build Commands
+## 🔗 More Information
 
-| Task               | Command        |
-|--------------------|----------------|
-| Build for prod     | `yarn build`   |
-| Preview prod build | `yarn preview` |
-
-More info: [Nuxt Deployment Documentation](https://nuxt.com/docs/getting-started/deployment)
-
----
-
-## 📚 Composables Documentation
-
-This project uses [TypeDoc](https://typedoc.org/) to generate documentation for all core Vue composables.
-
-### Generate docs
-
-```bash
-yarn typedoc
-```
-
-- Output is saved in: `docs/composables/index.html`
-- Configuration: `typedoc.json`
-- Only composables in `/composables` are documented
-
----
-
-## ℹ️ More Information
-
-For further project context and backend components, visit the full AVefi project page:
-
-👉 [https://projects.tib.eu/av-efi](https://projects.tib.eu/av-efi)
+For more information about the entire project, visit the  
+🔗 [AVefi Project Website](https://projects.tib.eu/av-efi)

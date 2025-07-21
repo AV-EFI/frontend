@@ -12,6 +12,7 @@
     "deploy": "npm run build"
   },
   "dependencies": {
+    "@auth/core": "^0.40.0",
     "@dargmuesli/nuxt-cookie-control": "8.5.0",
     "@elastic/elasticsearch": "^8.17.0",
     "@formkit/addons": "^1.6.9",
@@ -33,7 +34,7 @@
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@searchkit/api": "^4.13.0",
     "@searchkit/instantsearch-client": "^4.14.1",
-    "@sidebase/nuxt-auth": "0.10.0-rc.2",
+    "@sidebase/nuxt-auth": "^0.10.1",
     "@tailwindcss/typography": "^0.5.15",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mime": "^4.0.0",

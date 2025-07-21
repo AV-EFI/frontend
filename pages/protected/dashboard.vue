@@ -121,6 +121,3 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-const { data:authData } = useAuth();
-</script>
