@@ -1,6 +1,6 @@
 <!-- components/LoadingIndicator.vue -->
 <template>
   <div>
-    <GlobalSkeletonLoaderComp />
+    <GlobalSkeletonLoaderComp :aria-label="$t('loading')" />
   </div>
 </template>

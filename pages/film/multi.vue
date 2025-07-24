@@ -1,0 +1,33 @@
+<template>
+  <div>
+    <GlobalBreadcrumbsComp
+      :breadcrumbs="[
+        ['Home', '/'],
+        [$t('multiResults')]
+      ]"
+    />
+    <NuxtLayout name="partial-layout-1-center">
+      <template #title>
+        <h2>{{ $t('multiResults') }}</h2>
+      </template>
+      <template #cardBody>
+        <p v-html="$t('multihelptext', {'name': itemId})" />
+        <DetailWorksMultiView
+          :work-ids="workIds"
+          :item-id="itemId"
+        />
+      </template>
+    </NuxtLayout>
+  </div>
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+    auth: false,
+});
+const route = useRoute();
+const queryParams = route.query;
+const workIds = queryParams.ids;
+const itemId = queryParams.itemid;
+console.log('Work IDs:', workIds);
+</script>

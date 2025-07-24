@@ -3,14 +3,17 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`], ['Detail', '/film/' + params.id]
+        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`], ['Detail', '/film/' + params.id]
       ]"
     />
-    <NuxtLayout name="partial-layout-1-center">
+    <NuxtLayout
+      name="partial-layout-1-center"
+      padding-class="p-0"
+    >
       <template #navigation>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}`">{{ $t('filmresearch') }}</a></li>
+          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`">{{ $t('filmresearch') }}</a></li>
           <li>
             <span class="text-accent">
               {{ $t('detailview') }}
@@ -19,23 +22,30 @@
         </ul>
       </template>
       <template #title>
-        <NuxtLayout name="partial-grid-2-1-flex">
-          <template #left>
-            <p class=" text-xs 2xl:text-base col-span-full">
-              {{ dataJson?._source?.handle }}
-            </p>
-            <h2
-              class="text-lg font-bold xl:text-2xl text-primary-900 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
-              :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
-            >
-              {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
-            </h2>  
+        <NuxtLayout
+          name="partial-grid-2-1-flex"
+          left-class="bg-primary dark:bg-primary-600 rounded-t-xl py-4"
+        >
+          <template
+            #left
+          >
+            <div class="col-span-full p-4">
+              <p class="text-white text-xs 2xl:text-base col-span-full">
+                {{ dataJson?._source?.handle }}
+              </p>
+              <h2
+                class="text-lg font-bold xl:text-2xl text-primary-50 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+                :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
+              >
+                {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
+              </h2>
+            </div>
           </template>
           <template #right>
-            <div class="flex flex-row flex-wrap justify-center items-center">
+            <div class="flex flex-row flex-wrap justify-end items-center">
               <MicroEfiCopyComp
                 :handle="dataJson?._source?.handle"
-                class="col-span-3"
+                class="col-span-3 hidden"
               />
               <GlobalActionContextComp
                 :id="dataJson?._source?.handle"
@@ -53,9 +63,9 @@
         />
       </template>      
       <template #cardBody>
-        <div>
+        <div class="px-4 pb-4">
           <div
-            v-if="category == 'avefi:WorkVariant'"
+            v-if="category == 'avefi:WorkVariant' && type == 'Monographic'"
           >
             <ClientOnly
               fallback-tag="span"
@@ -86,20 +96,35 @@
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
 definePageMeta({
-    auth: false
+    auth: false,
+    middleware: ['check-category'],
 });
+
+import { useHash } from '../../composables/useHash';
+const { hash } = useHash(); // auto-scroll is enabled by default
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+const { currentUrlState } = useCurrentUrlState();
 
 
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
+const type = ref('Monographic');
+
 const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
     const data = await getDataSet(params.value.id);
-    console.log(data);
+    console.log('Data:', data);
     if(data?.value?.has_record.category){
         category.value = data.value?.has_record.category;
     }
+
+    if(data?.value?.has_record.type){
+        type.value = data.value?.has_record.type;
+        console.log('Type:', type.value);
+    }
+
     return data[0] as IAVefiListResponse;
+
 });
 
 </script>

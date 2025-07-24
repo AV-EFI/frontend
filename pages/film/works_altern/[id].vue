@@ -19,7 +19,7 @@
           <ClientOnly>
             <ViewsWorkViewCompAVefi
               v-model="dataJson"
-              class="border-solid border-l-2 border-work-variant pl-2"
+              class="border-solid border-l-2 border-work pl-2"
             />
           </ClientOnly>
         </div>

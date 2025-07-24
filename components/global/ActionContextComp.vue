@@ -1,54 +1,72 @@
 <template>
   <div
-    v-if="item.has_record?.category == 'avefi:WorkVariant'"
+    v-if="item.has_record?.category === 'avefi:WorkVariant'"
     class="dropdown dropdown-end"
   >
     <div
       tabindex="0"
       role="button"
-      class="btn btn-primary btn-outline btn-circle"
-      :class="['btn-'+compSize]"
-      alt="more options"
+      aria-haspopup="true"
+      aria-expanded="false"
+      :aria-label="$t('moreOptionsFor') + ' ' + (item?.has_record?.has_primary_title?.has_name || '')"
+      class="btn btn-outline btn-circle text-white"
+      :class="['btn-' + compSize]"
     >
       <Icon
-        :class="['text-'+compSize]"
+        :class="['text-' + compSize]"
         name="mdi:dots-horizontal"
       />
     </div>
+
     <ul
       tabindex="0"
-      class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 z-[1]"
+      class="p-2 shadow-md menu dropdown-content bg-base-100 rounded-box w-64 z-[1] [li:hover]:bg-transparent"
+      role="menu"
+      :aria-label="$t('moreOptions')"
     >
       <li
-        class=""
+        role="none"
       >
-        <AddToShoppingCartComp
-          :film-id="id?? item?.objectID"
-          :film-title="item?.has_record?.has_primary_title.has_name"
-          class="ml-2"
-        />
+        <div class="w-full p-0 my-0 mx-auto justify-center items-center">
+          <AddToShoppingCartComp
+            :film-id="id ?? item?.objectID"
+            :film-title="item?.has_record?.has_primary_title.has_name"
+            class="w-48 btn-block btn-sm flex item-start"
+            role="menuitem"
+          />
+        </div>
       </li>
       <li
-        class=""
+        role="none"
+        class="mt-1"
       >
-        <AddToComparisonComp
-          :film-id="id?? item?.objectID"
-          :film-title="item?.has_record?.has_primary_title.has_name"
-          class="ml-2"
-        />
+        <div class="w-full p-0 my-0 mx-auto justify-center items-center z-20">
+          <AddToComparisonComp
+            :film-id="id ?? item?.objectID"
+            :film-title="item?.has_record?.has_primary_title.has_name"
+            class="btn-block btn-sm w-48 flex item-start"
+            role="menuitem"
+          />
+        </div>
       </li>
       <li
-        class=""
+        role="none"
+        class="mt-1"
       >
         <GlobalExportDataComp
-          :data-set-id="id?? item.objectID"
-          :data-set-json="JSON.stringify(item,null,2)"
-          class="ml-2"
+          :data-set-id="id ? [id] : [item.objectID]"
+          :data-set-json="JSON.stringify(item, null, 2)"
+          class="w-full p-0 mx-auto justify-center items-start flex"
+          btn-size="btn-block btn-sm !w-48"
+          role="menuitem"
+          :show-label="true"
+          :fixed-with="true"
         />
       </li>
     </ul>
   </div>
 </template>
+
 <script lang="ts" setup>
 defineProps({
     item: {

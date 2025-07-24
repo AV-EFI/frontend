@@ -1,17 +1,19 @@
 <template>
   <button
-    class="btn bg-compare-list hover:bg-compare-list-dark text-white"
+    class="btn btn-compare-list btn-block"
     :class="[btnSize]"
     :alt="$t('addtocomparisonparam', { name: filmTitle })"
     :title="$t('addtocomparisonparam', { name: filmTitle })"
     :data-id="filmId"
     :data-title="filmTitle"
+    :aria-label="$t('addtocomparisonparam', { name: filmTitle })"
     @click="$addToComparison(props.filmId, props.filmTitle)"
   >
-    <span class="hidden md:block">{{ $t('comparison') }}</span>
     <MicroCompareIcon
       :alt="$t('addtocomparisonparam', { name: filmTitle })"
+      class="text-xl w-4 h-4"
     />
+    <span class="hidden md:inline-block w-24 ml-1 text-left">{{ $t('comparison') }}</span>
   </button>
 </template>
 <script setup lang="ts">

@@ -2,19 +2,68 @@
 @use '_colors';
 
 @font-face {
-    font-family: 'Inter';
-    src: url('~/assets/fonts/Inter.ttf') format('truetype');
+  font-family: 'Bungee';
+  src: url('~/assets/fonts/Bungee-Regular.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'PlayfairDisplay';
+    src: url('~/assets/fonts/Merriweather-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'BreeSerif';
+  src: url('~/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'OpenSans';
+    src: url('~/assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'BreeSerif';
+  src: url('~/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('~/assets/fonts/Inter.ttf') format('truetype');
+}
 
 html, body {
   font-family: 'Inter', sans-serif;
 }
-/*
-h1, h2, h3, h4 {
-    font-family: 'PlayfairDisplay', serif;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-rainbow-stripe {
+    --stripe-colors: red, orange, yellow, green, blue, indigo, violet;
+    --stripe-height: 6px;
+
+    color: transparent;
+    -webkit-text-stroke: 2px black; /* or transparent if you want just the fill */
+    background: repeating-linear-gradient(
+      to bottom,
+      red 0 var(--stripe-height),
+      orange var(--stripe-height) calc(2 * var(--stripe-height)),
+      yellow calc(2 * var(--stripe-height)) calc(3 * var(--stripe-height)),
+      green calc(3 * var(--stripe-height)) calc(4 * var(--stripe-height)),
+      blue calc(4 * var(--stripe-height)) calc(5 * var(--stripe-height)),
+      indigo calc(5 * var(--stripe-height)) calc(6 * var(--stripe-height)),
+      violet calc(6 * var(--stripe-height)) calc(7 * var(--stripe-height))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 2px black;
+  }
 }
-*/
 
 html, body {
   height: 100%;
@@ -46,6 +95,14 @@ header {
   min-height: 200px;
 }
 
+.bungee {
+  font-family: 'Bungee', sans-serif;
+}
+
+.bree {
+  font-family: 'BreeSerif', serif;
+}
+
 
 /*Easy Data Table Component*/
 /*Add class customize_table for dark theme adjustment*/
@@ -74,7 +131,6 @@ header {
   --easy-table-body-even-row-background-color: #f9f9f9;
 
   --easy-table-body-row-font-color: #333333;
-  --easy-table-body-row-background-color: #ffffff;
 
   --easy-table-body-row-hover-font-color: #000000;
   --easy-table-body-row-hover-background-color: #e0e0e0;
@@ -132,35 +188,11 @@ html[data-theme="avefi_dark"] .customize_table {
   max-width: 10em;
 }
 
-/**Cookie Banner**/
-:root {
-  --cookie-control-fontSize: 14px;
-  --cookie-control-barBackground: var(--primary-900);
-  --cookie-control-barTextColor: var(--base-50);
-  --cookie-control-barButtonColor: var(--base-50);
-  --cookie-control-barButtonBackground: var(--primary-500);
-  --cookie-control-barButtonHoverColor: var(--base-50);
-  --cookie-control-barButtonHoverBackground: var(--primary-700);
-  --cookie-control-focusRingColor: var(--primary-200);
-  --cookie-control-modalOverlayOpacity: 0.5;
-  --cookie-control-modalOverlay: var(--primary-950);
-  --cookie-control-modalButtonColor: var(--base-50);
-  --cookie-control-modalButtonBackground: var(--primary-500);
-  --cookie-control-modalButtonHoverColor: var(--base-50);
-  --cookie-control-modalButtonHoverBackground: var(--primary-700);
-  --cookie-control-modalTextColor: var(--primary-900);
-  --cookie-control-modalBackground: var(--base-50);
-  --cookie-control-checkboxActiveBackground: var(--primary-500);
-  --cookie-control-checkboxActiveCircleBackground: var(--base-50);
-  --cookie-control-checkboxDisabledBackground: var(--base-400);
-  --cookie-control-checkboxDisabledCircleBackground: var(--base-600);
-  --cookie-control-checkboxInactiveBackground: var(--base-400);
-  --cookie-control-checkboxInactiveCircleBackground: var(--base-600);
-  --cookie-control-modalUnsavedColor: var(--accent);
-  --cookie-control-controlButtonBackground: var(--primary-500);
-  --cookie-control-controlButtonIconColor: var(--base-50);
-  --cookie-control-controlButtonHoverBackground: var(--primary-700);
-  --cookie-control-controlButtonIconHoverColor: var(--base-50);
+mark {
+  background-color: var(--highlight); // or your exact altrosa hex if not using a CSS var
+  color: var(--highlight-content); // or your exact altrosa content color hex if not using a CSS var
+  padding: 0 0.25em;
+  border-radius: 2px;
 }
 
 .cookieControl__Modal-enter-active,
@@ -218,7 +250,7 @@ html[data-theme="avefi_dark"] .customize_table {
   font-size: var(--cookie-control-fontSize);
 }
 .cookieControl button {
-  border: 0;
+  border: 2px solid white;
   outline: 0;
   font-size: 1rem;
   cursor: pointer;
@@ -233,6 +265,7 @@ html[data-theme="avefi_dark"] .customize_table {
   position: fixed;
   background-color: rgba(var(--cookie-control-barBackground), 0.8); /* Assuming --cookie-control-barBackground is an RGB value */
   font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  border-top: 1px solid var(--secondary);
 }
 .cookieControl__Bar h2,
 .cookieControl__Bar p {
@@ -342,9 +375,9 @@ html[data-theme="avefi_dark"] .customize_table {
   right: 0;
   bottom: 0;
   z-index: -1;
-  opacity: var(--cookie-control-modalOverlayOpacity);
   background-color: var(--cookie-control-modalOverlay);
 }
+
 .cookieControl__Modal > div {
   font-size: initial;
 }
@@ -572,4 +605,66 @@ html[data-theme="avefi_dark"] .customize_table {
 }
 .cookieControl__ControlButton:hover svg {
   color: var(--cookie-control-controlButtonIconHoverColor);
+}
+
+
+
+.hash-highlight-conic {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  background: transparent;
+  border-radius: 8px; /* Subtler curve */
+}
+
+.hash-highlight-conic::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 4px;
+  padding: 2px;
+
+  background: conic-gradient(
+    var(--accent-100),
+    var(--accent-500),
+    var(--accent-700),
+    var(--accent-100),
+    var(--accent-900),
+    var(--accent-100),
+  );
+  background-size: 200% 200%;
+  background-position: center;
+  animation: border-spin 6s linear infinite;
+
+  /* Transparent middle */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+/* Fallback: dashed red border if no support */
+@supports not (background: conic-gradient(red, blue)) {
+  .hash-highlight-conic::before {
+    content: none;
+  }
+  .hash-highlight-conic {
+    border: 2px dashed #ff1d25;
+  }
+}
+
+/* Animation: spin the background */
+@keyframes border-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }

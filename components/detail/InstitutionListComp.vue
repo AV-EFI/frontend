@@ -14,7 +14,7 @@
           <!-- Center -->
           <div class="drawer-content w-full flex flex-col items-center justify-center">
             <div class="search-panel__results w-full py-2">
-              <div class="searchbox p-2">
+              <div class="searchbox py-2">
                 <ais-search-box>
                   <template #default="{ currentRefinement, isSearchStalled, refine }">
                     <div
@@ -186,7 +186,7 @@
                     <template #default="{ results: { hits, query } }">
                       <ais-hits
                         v-if="hits.length > 0"
-                        class="p-2"
+                        class=""
                       >
                         <template #default="{ items }">
                           <SearchHitsComp
@@ -207,7 +207,7 @@
                   <ais-pagination
                     :class-names="{
                       'ais-Pagination-list': 'join w-full md:w-auto',
-                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-slate-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg',
+                      'ais-Pagination-item': 'join-item bg-slate-200 dark:bg-gray-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg hover:bg-slate-300 dark:hover:bg-gray-700',
                       'ais-Pagination-link': 'text-gray-800 dark:text-gray-200'
                     }"
                   />
@@ -236,7 +236,7 @@ const props = defineProps({
     indexName: {
         type: String,
         required: true,
-        default: '21.11155-denormalised-work'
+        default: 'ux-21.11155-denormalised-work'
     },
 });
 

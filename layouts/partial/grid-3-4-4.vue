@@ -1,8 +1,8 @@
 <template>
   <!-- has_event -->
-  <div class="grid col-span-full grid-cols-12 gap-4">
+  <div class="grid col-span-full grid-cols-12 gap-2">
     <div class="col-span-full">
-      <h5 class="text-sm font-bold uppercase text-primary-800 tracking-wide dark:text-primary-100">
+      <h5 class="text-sm font-bold text-primary-800 tracking-wide dark:text-primary-100">
         <slot name="heading" />
       </h5>
     </div>
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="grid col-span-12 md:col-span-4 grid-cols-12 gap-2">
-      <div class="grid grid-rows-[36px_minmax(100px,_1fr)_100px] col-span-full md:col-span-12 gap-2">
+      <div class="grid grid-rows-[36px_minmax(100px,_1fr)] col-span-full md:col-span-12 gap-2">
         <!-- has_activity -->
         <slot name="right" />
       </div>

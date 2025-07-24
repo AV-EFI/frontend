@@ -1,3 +1,5 @@
+import { emit } from "process";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // nuxt.config.ts
 // 📝 Explanation:
@@ -14,12 +16,20 @@ export default defineNuxtConfig({
         enabled: false
     },
     nitro: {
-        preset: 'node-server'
+        preset: 'node-server',
+        compressPublicAssets: true,
+        experimental: {
+            tasks: true,
+        },
+        scheduledTasks: {
+            '0 */12 * * *': 'wmi_mapping_refresh', // Runs every 12 hours
+        }
     },
     build: {
         transpile: ['vue-diff']
     },
     modules: [
+        //'@sidebase/nuxt-auth',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
         ...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
@@ -30,6 +40,10 @@ export default defineNuxtConfig({
         '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
+        '@nuxtjs/robots',
+        'nuxt3-winston-log',
+        '@dargmuesli/nuxt-cookie-control',
+        'nuxt-mail'
         '@dargmuesli/nuxt-cookie-control'
     ],
     extends: './pages',
@@ -45,6 +59,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
+            AUTH_BASE_URL: process.env.AUTH_BASE_URL || 'http://localhost:8000',
             dbHost: process.env.POSTGRES_HOST,
             dbDb: process.env.POSTGRES_DB,
             dbUser: process.env.POSTGRES_USER,
@@ -61,6 +76,7 @@ export default defineNuxtConfig({
             ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
+            ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
             AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
             AVEFI_SEARCH: process.env.AVEFI_SEARCH,
@@ -71,7 +87,20 @@ export default defineNuxtConfig({
             AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
             AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
             AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
+            AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
+            AVEFI_SEARCH: process.env.AVEFI_SEARCH,
+            AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
+            AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
+            AVEFI_GET_MANIFEST: process.env.AVEFI_GET_MANIFEST,
+            AVEFI_GET_MANIFEST_BY_WORK: process.env.AVEFI_GET_MANIFEST_BY_WORK,
+            AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
+            AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
+            AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
             SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
+            KEYCLOAK_URL: process.env.KEYCLOAK_URL,
+            KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
+            KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+            WMI_CACHE_KEY: 'WMI_CACHE_KEY'
             // AUTH endpoints
             AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
             AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
@@ -91,12 +120,51 @@ export default defineNuxtConfig({
         "/search": { ssr: false },
         "/contact": { prerender: true },
         "/login": { ssr: false },
+        "/film/**": {ssr:false},
+        "/serial/**": {ssr:false},
+        "/protected/institutionlist": {ssr:false},
+        "/protected/dashboard": {ssr:false},
+        "/protected/mergetool": {ssr:false},
+        // Cached for 1 hour
+        //"/api/*": { cache: { maxAge: 60 * 60 } },
+    },
+    /*
+    auth: {
+        originEnvKey: process.env.AUTH_ORIGIN,
+        baseURL: process.env.AUTH_BASE_URL || 'http://localhost:8000', // Nur Backend-URL, NICHT mit /api/auth am Ende
+        provider: {
+          type: 'authjs',
+          defaultProvider: 'keycloak',
+          addDefaultCallbackUrl: true,
+        },
+        globalAppMiddleware: {
+          isEnabled: true,
+          allow404WithoutAuth: true,
+        },
+      },
+      */
         "/film/**": { ssr: false },
         "/protected/institutionlist": { ssr: false },
         "/protected/dashboard": { ssr: false },
         "/protected/mergetool": { ssr: false },
     },
     css: ["~/assets/scss/main.scss"],
+    mail: {
+        message: {
+            to: ['stefan.stretz@tib.eu', 'contact@av-efi.net'],            
+        },
+        smtp: {
+            service: 'gmail',
+            auth: {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS,
+            }
+        },
+    },
+    nuxt3WinstonLog: {        
+        maxSize: "2048m",
+        maxFiles: "14d",
+    },
     cookieControl: {
         locales: ['de', 'en'],
         colors: false,
@@ -141,13 +209,36 @@ export default defineNuxtConfig({
     },
     vite: {
         build: {
+          chunkSizeWarningLimit: 750
             chunkSizeWarningLimit: 750,
             target: 'esnext'
         },
         optimizeDeps: {
             exclude: ['vue-diff']
         },
+        //devBundler: 'legacy',
+        logLevel: 'warn',
         css: {
+          preprocessorOptions: {                
+            scss: {
+              api: 'modern',
+              additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
+            },
+          },
+        },
+        ...(process.env.NODE_ENV === 'development' && {
+          server: {
+            watch: {
+              usePolling: true,
+              interval: 100,
+            },
+            hmr: {
+              port: 24678,
+              host: 'localhost',
+            },
+          }
+        })
+      },      
             preprocessorOptions: {
                 scss: {
                     additionalData: '@use "~/assets/scss/_colors.scss" as *;'
@@ -206,6 +297,9 @@ export default defineNuxtConfig({
         cache: true,
         emitWarning: false,
         emitError: false,
+        fix: true,
+        emitWarning: false,
+        emitError: false,
         fix: true
     },
     pinia: {
@@ -215,4 +309,5 @@ export default defineNuxtConfig({
         exposeConfig: true,
         viewer: false
     },
+    compatibilityDate: '2025-07-02'
 });

@@ -5,6 +5,7 @@
     >
       <div class="mb-2">
         <h2
+          :id="mir._id"
           class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
           :alt="mir.has_primary_title.has_name"
         >
@@ -47,9 +48,6 @@
               </li>
             </ul>
           </div>
-
-
-
           <div
             class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min"
           >
@@ -122,7 +120,7 @@
       <!-- center -->
       <div>
         <div class="grid-container">
-          <div class="grid grid-cols-12 gap-2">
+          <div class="grid grid-cols-12 gap-2 border-l-2 border-manifestation">
             <!-- has_event -->
             <div class="col-span-12 md:col-span-7 mb-2">
               <div
@@ -138,7 +136,7 @@
 
                 <div class="col-span-full md:col-span-2">
                   <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right capitalize">
-                    {{ $t('year') }}:
+                    {{ $t('productionyear') }}:
                   </span>
                 </div>
                 <div 
@@ -326,7 +324,11 @@
       <div
         v-if="mir.has_item"
       >
-        <h2>{{ $t('items') }}</h2>
+        <h2
+          :title="$t('tooltip.item')"
+        >
+          {{ $t('items') }}
+        </h2>
         <table class="table table-zebra table-sm">
           <thead>
             <tr>
@@ -372,5 +374,4 @@ import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);
 const mir:Manifestation = data?._source?.has_record; 
-
 </script>

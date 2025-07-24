@@ -41,7 +41,7 @@
 }
 
 .slider-connect {
-  @apply absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full bg-primary-500 cursor-pointer tap:duration-300 tap:transition-transform slider-disabled:bg-gray-400 slider-disabled:cursor-not-allowed;
+  @apply absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full bg-neutral cursor-pointer tap:duration-300 tap:transition-transform slider-disabled:bg-gray-400 slider-disabled:cursor-not-allowed;
 }
 
 .slider-origin {
@@ -57,7 +57,7 @@
 }
 
 .slider-tooltip {
-  @apply absolute block text-sm font-semibold whitespace-nowrap py-1 px-1.5 min-w-5 text-center text-white rounded border border-secondary bg-secondary transform h:-translate-x-1/2 h:left-1/2 v:-translate-y-1/2 v:top-1/2 slider-disabled:bg-gray-400 slider-disabled:border-gray-400 merge-h:translate-x-1/2 merge-h:left-auto merge-v:-translate-x-4 merge-v:top-auto tt-focus:hidden tt-focused:block tt-drag:hidden tt-dragging:block;
+  @apply absolute block text-sm font-semibold whitespace-nowrap py-1 px-1.5 min-w-5 text-center text-white rounded border border-neutral bg-neutral transform h:-translate-x-1/2 h:left-1/2 v:-translate-y-1/2 v:top-1/2 slider-disabled:bg-gray-400 slider-disabled:border-gray-400 merge-h:translate-x-1/2 merge-h:left-auto merge-v:-translate-x-4 merge-v:top-auto tt-focus:hidden tt-focused:block tt-drag:hidden tt-dragging:block;
 }
 
 .slider-tooltip-top {

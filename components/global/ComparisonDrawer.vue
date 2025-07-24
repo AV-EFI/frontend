@@ -3,6 +3,7 @@
     <ClientOnly>
       <input
         id="comparison_drawer"
+        :aria-label="$t('toggleComparisonDrawer')"
         type="checkbox"
         class="drawer-toggle"
         :checked="objectListStore.comparisonDrawerOpen"
@@ -13,14 +14,17 @@
           class="hidden md: visible drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-128 min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg">
+        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-max lg:max-w-[544px] min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg">
           <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
-              class="btn btn-outline btn-ghost w-16"
+              class="btn btn-neutral w-16"
               :title="$t('close')"
-              @click="$toggleComparisonDrawerState"
+              @click="$toggleComparisonDrawerState()"
             >
-              <Icon name="formkit:close" />
+              <Icon
+                class="text-xl"
+                name="formkit:close"
+              />
             </button>
           </div>
           <div
@@ -28,86 +32,48 @@
             class="tabs tabs-bordered justify-stretch w-full"
           >
             <input
+              id="comparison_list_tab"
               type="radio"
               name="drawer_tabs"
               role="tab"
-              checked="checked"
-              :class="['tab !w-full', shoppingCart.objects.length === 0 && 'tab-disabled disabled']"
-              :aria-label="$t('shoppingcart')"
-            >
-            <div
-              role="tabpanel"
-              class="tab-content bg-neutral-100 dark:bg-slate-800 dark:text-white"
-            >
-              <div class="join w-full mt-2 p-2">
-                <button 
-                  class="btn btn-error text-white join-item w-1/2"
-                  :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
-                  :title="$t('clearalllist')"
-                  @click="removeAllObjects('shoppingCart')"
-                >
-                  {{ $t('clearalllist') }}
-                </button>
-                <GlobalExportDataComp
-                  :data-set-id="shoppingCart.getObjectIds"
-                  :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
-                  class="join-item w-1/2"
-                  :btn-size="''"
-                />
-              </div>
-              <ul class="mt-2 w-full">
-                <li
-                  v-for="(shoppingCartItem, index) in shoppingCart.objects"
-                  :key="index"
-                  class="mt-2"
-                >
-                  <div class="flex justify-between w-full">
-                    <a
-                      class="link w-3/4"
-                      :href="`/film/${ shoppingCartItem.filmId }`"
-                      target="_blank"
-                    >
-                      {{ shoppingCartItem.filmTitle }}
-                    </a>
-                    <div class="w-1/4 flex flex-row">
-                      <GlobalExportDataComp
-                        :data-set-id="[shoppingCartItem.filmId]"
-                        class="btn btn-circle btn-sm"
-                      />
-                      <button
-                        :title="$t('remove')"
-                        class="btn btn-error btn-circle btn-sm text-white ml-1"
-                        @click="removeObject(index, 'shoppingCart')"
-                      >
-                        <Icon name="material-symbols:delete" />
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <input
-              type="radio"
-              name="drawer_tabs"
-              role="tab"
-              :class="['tab !w-full', objectListStore.objects.length === 0 && 'tab-disabled disabled']" 
+              checked
+              :class="['tab lg:!w-64', objectListStore.objects.length === 0 && 'tab-disabled disabled']" 
               :aria-label="$t('comparison')"
             >
             <div
               role="tabpanel"
-              class="tab-content bg-neutral-100 dark:bg-slate-800 dark:text-white"
+              class="tab-content bg-base-200 dark:bg-gray-800 dark:text-white"
             >
+              <div class="p-2 w-full flex flex-row justify-between">
+                <button 
+                  class="btn btn-ghost btn-sm w-16"
+                  :title="$t('info')"
+                  @click="showInfo = !showInfo"
+                >
+                  <Icon
+                    name="material-symbols:info-outline"
+                    class="text-lg"
+                  />
+                </button>
+                <p
+                  v-if="showInfo"
+                  class="flex-grow"
+                >
+                  {{ $t('comparisonComponent') }}
+                </p>
+              </div>
               <div class="join w-full mt-2 p-2">
                 <button
                   :title="$t('gotocomp')"
-                  class="btn btn-secondary join-item w-1/3"
+                  class="btn btn-compare-list h-full join-item w-1/3"
                   :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
                   <Icon
-                    class="text-xl text-white"
+                    class="text-lg text-white w-4 h-4"
                     name="carbon:compare"
                   />
+                  <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                 </button>
                 <button 
                   class="btn btn-error text-white join-item w-1/3"
@@ -115,13 +81,18 @@
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('objectListStore')"
                 >
+                  <Icon
+                    class="text-lg text-white w-4 h-4"
+                    name="carbon:trash-can"
+                  />
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
                   :data-set-id="objectListStore.getObjectIds"
                   :class="objectListStore.objects.length < 1 && 'btn-disabled'"
                   class="join-item w-1/3"
-                  :btn-size="''"
+                  btn-size="rounded-l-none"
+                  :show-label="true"
                 />
               </div>
               <ul class="mt-2 w-full">
@@ -141,11 +112,11 @@
                     <div class="w-1/4 flex flex-row">
                       <GlobalExportDataComp
                         :data-set-id="[object.filmId]"
-                        class="btn btn-circle btn-sm"
+                        btn-size="btn-circle btn-sm !w-8 !h-8"
                       />
                       <button
                         :title="$t('remove')"
-                        class="btn btn-error btn-circle btn-sm text-white ml-1"
+                        class="btn btn-error btn-circle btn-sm text-white ml-1 w-8 h-8"
                         @click="removeObject(index, 'objectListStore')"
                       >
                         <Icon name="material-symbols:delete" />
@@ -157,6 +128,83 @@
               <div class="hidden">
                 {{ objectListStore.getObjectIds }}
               </div>
+            </div>
+            <input
+              id="shopping_cart_tab"
+              type="radio"
+              name="drawer_tabs"
+              role="tab"
+              :class="['tab lg:!w-64', shoppingCart.objects.length === 0 && 'tab-disabled disabled']"
+              :aria-label="$t('shoppingcart')"
+            >
+            <div
+              role="tabpanel"
+              class="tab-content bg-base-200 dark:bg-gray-800 dark:text-white"
+            >
+              <div class="p-2 w-full flex flex-row justify-between">
+                <button 
+                  class="btn btn-ghost btn-sm w-16"
+                  :title="$t('info')"
+                  @click="showInfo = !showInfo"
+                >
+                  <Icon
+                    class="text-lg"
+                    name="material-symbols:info-outline"
+                  />
+                </button>
+                <p
+                  v-if="showInfo"
+                  class="flex-grow"
+                >
+                  {{ $t('favouritesComponent') }}
+                </p>
+              </div>
+              <div class="join w-full mt-2 p-2">
+                <button 
+                  class="btn btn-error text-white join-item w-1/2"
+                  :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
+                  :title="$t('clearalllist')"
+                  @click="removeAllObjects('shoppingCart')"
+                >
+                  {{ $t('clearalllist') }}
+                </button>
+                <GlobalExportDataComp
+                  :data-set-id="shoppingCart.getObjectIds"
+                  :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
+                  class="join-item w-1/2"
+                  :btn-size="'rounded-l-none'"
+                />
+              </div>
+              <ul class="mt-2 w-full">
+                <li
+                  v-for="(shoppingCartItem, index) in shoppingCart.objects"
+                  :key="index"
+                  class="mt-2"
+                >
+                  <div class="flex justify-between w-full">
+                    <a
+                      class="link w-3/4"
+                      :href="`/film/${ shoppingCartItem.filmId }`"
+                      target="_blank"
+                    >
+                      {{ shoppingCartItem.filmTitle }}
+                    </a>
+                    <div class="w-1/4 flex flex-row">
+                      <GlobalExportDataComp
+                        :data-set-id="[shoppingCartItem.filmId]"
+                        btn-size="btn-circle btn-sm !w-8 !h-8"
+                      />
+                      <button
+                        :title="$t('remove')"
+                        class="btn btn-error btn-circle btn-sm text-white ml-1"
+                        @click="removeObject(index, 'shoppingCart')"
+                      >
+                        <Icon name="material-symbols:delete" />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -172,6 +220,7 @@ import {useShoppingCart} from '../../stores/shoppingCart';
 const {$toggleComparisonDrawerState}:any = useNuxtApp();
 const shoppingCart = useShoppingCart();
 const objectListStore = useObjectListStore();
+const showInfo = ref(false);
 
 const toggleDrawer = (() => {
     objectListStore.comparisonDrawerOpen = !objectListStore.comparisonDrawerOpen;

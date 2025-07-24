@@ -109,7 +109,10 @@
               class="grid col-span-7 grid-cols-7 gap-3 has_format"
             >
               <div class="col-span-full md:col-span-2">
-                <span class="text-md font-bold text-primary-900  dark:text-primary-100 md:float-right">
+                <span
+                  class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right"
+                  :title="$t('tooltip.format')"
+                >
                   {{ $t(has_format_item?.category) }}:
                 </span>
               </div>

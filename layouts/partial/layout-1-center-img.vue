@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="w-full sm:w-3/4 lg:w-1/2 mx-auto card card-side bg-neutral-50 dark:bg-gray-800 shadow-xl">
+    <div class="w-full sm:w-3/4 lg:w-1/2 mx-auto card card-side bg-base-100 dark:bg-gray-800 shadow-xl">
       <slot name="figure">
         <figure class="hidden dark:bg-gray-700 h-60 lg:p-4 lg:inline-flex self-center">
           <img

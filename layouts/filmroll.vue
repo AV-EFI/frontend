@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <header class="dark:bg-slate-800">
+    <header class="dark:bg-gray-800">
       <GlobalNavBar />
     </header>
     <div class="filmroll-container">
       <div class="sprocket-wrapper left-0">
         <div class="sprocket left-sprocket" />
       </div>
-      <main class="main grow bg-neutral dark:bg-slate-950 2xl:px-6">
+      <main class="main grow bg-base-100 dark:bg-slate-950 2xl:px-6">
         <ClientOnly>
           <GlobalIndicatorComp />
         </ClientOnly>
@@ -18,7 +18,7 @@
         <div class="sprocket right-sprocket" />
       </div>
     </div>
-    <footer class="dark:bg-slate-800">
+    <footer class="dark:bg-gray-800">
       <LazyGlobalFooter />
     </footer>
   </div>

@@ -2,7 +2,7 @@
   <div>
     <div
       role="alert"
-      class="alert bg-neutral-100"
+      class="alert bg-base-100"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,9 @@
 <template>
   <div class="carousel carousel-center w-full relative overflow-hidden">
     <button
-      class="lg:flex my-auto z-20 p-2 lg:bg-gray-800 lg:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2"
+      :alt="$t('togglePreviousSlide')"
+      :aria-label="$t('togglePreviousSlide')"
+      class="lg:flex my-auto z-10 p-2 lg:bg-gray-800 lg:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2"
       @click="prevSlide"
     >
       <Icon name="fa:chevron-left" />
@@ -22,7 +24,7 @@
           :alt="'Link to ' + item.link"
         >
           <img
-            class="w-full object-contain w-32 h-auto bg-white dark:bg-gray-200 p-2 rounded"
+            class="object-contain w-auto h-32 bg-white dark:bg-gray-200 p-2 rounded"
             :src="item.src"
             :alt="item.alt"
             :title="item.alt"
@@ -31,7 +33,9 @@
       </div>
     </div>
     <button
-      class="z-20 my-auto lg:flex p-2 lg:bg-gray-800 text-black lg:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-0"
+      class="z-10 my-auto lg:flex p-2 lg:bg-gray-800 text-black lg:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-0"
+      :alt="$t('toggleNextSlide')"
+      :aria-label="$t('toggleNextSlide')"
       @click="nextSlide"
     >
       <Icon name="fa:chevron-right" />

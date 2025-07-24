@@ -1,6 +1,8 @@
 <template>
   <div class="carousel-container flex items-center relative">
     <button
+      :alt="$t('togglePreviousSlide')"
+      :aria-label="$t('togglePreviousSlide')"
       class="md:flex z-10 p-2 md:bg-gray-800 md:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
       @click="prevSlide"
     >
@@ -9,7 +11,6 @@
     <div class="carousel rounded-box w-[250px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
         class="carousel-inner flex transition-transform duration-500 ease-in-out"
-        :class="carouselTransformClass"
       >
         <div
           v-for="(item, index) in items"
@@ -21,11 +22,21 @@
               v-if="item.imgSrc"
               class="flex flex-col items-center"
             >
-              <img
-                :src="item.imgSrc"
-                :alt="item.imgAlt"
-                :class="`w-full h-48 lg:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
-              >
+              <div class="relative w-full h-48 lg:h-48 rounded overflow-hidden">
+                <img
+                  :src="item.imgSrc"
+                  alt=""
+                  class="absolute inset-0 w-full h-full object-cover blur scale-110 opacity-30"
+                  aria-hidden="true"
+                >
+                <div class="relative z-10 flex items-center justify-center w-full h-full">
+                  <img
+                    :src="item.imgSrc"
+                    :alt="item.imgAlt"
+                    class="max-w-full max-h-full object-contain z-10"
+                  >
+                </div>
+              </div>
               <figcaption class="text-xs text-gray-500 h-8 mt-2 px-4 dark:text-gray-400">
                 <div v-if="item.imgSourceText">
                   {{ $t('imageSource') }}: <a
@@ -41,9 +52,9 @@
               class="flex flex-col items-center"
             >
               <img
-                src="/img/avefi_ph_blue.jpeg"
+                src="/img/avefi_ph_gray.svg"
                 alt="Avefi"
-                :class="`w-full h-48 lg:h-64 object-cover ${item.imgCoverType || 'object-center'}`"
+                :class="`w-full h-48 lg:h-48 object-cover ${item.imgCoverType || 'object-center'}`"
               >
               <figcaption class="text-xs text-gray-500 h-8 mt-2 px-4 dark:text-gray-400">
                 <div v-if="item.imgSourceText">
@@ -71,8 +82,18 @@
               <div class="card-actions justify-end">
                 <a
                   :href="item.link"
+                  <<<<<<<
+                  HEAD
                   class="btn btn-primary max-md:btn-block"
                 >{{ $t(item.linkText) }} <Icon name="formkit:arrowright" /></a>
+                =======
+                class="btn btn-outline max-md:btn-block"
+                >{{ $t(item.linkText) }} 
+                <Icon
+                  class="hidden md:inline-block"
+                  name="fa-regular:arrow-alt-circle-right"
+                /></a>
+                >>>>>>> comp-structure-documentation
               </div>
             </div>
           </div>
@@ -80,6 +101,8 @@
       </div>
     </div>
     <button
+      :alt="$t('toggleNextSlide')"
+      :aria-label="$t('toggleNextSlide')"
       class="z-10 md:flex p-2 md:bg-gray-800 text-black md:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
       @click="nextSlide"
     >

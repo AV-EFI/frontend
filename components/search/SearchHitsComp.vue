@@ -9,12 +9,16 @@
     <SearchTableViewComp
       v-if="viewTypeChecked && items"
       :items="items"
+      :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
     />
     <SearchListViewComp
       v-else-if="items"
       :items="items"
+      :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
+      :expanded-handles="expandedHandles"
+      :expand-all-handles-checked="expandAllHandlesChecked"
     />
     <div v-else>
       <pre>error</pre>
@@ -32,17 +36,32 @@ defineProps({
         type: Boolean,
         required: true,
     },
+    productionDetailsChecked: {
+        type: Boolean,
+        required: true,
+    },
     showAdminStats: {
         type: Boolean,
         required: false,
         default: false,
     },
+    expandedHandles: {
+        type: Object as PropType<Set<string>>,
+        required: true,
+    },
+    expandAllHandlesChecked: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+
 });
 
 </script>
 
 <script lang="ts">
 
+import { expand } from '@formkit/icons';
 import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
 
 const connectSearchMetaData =

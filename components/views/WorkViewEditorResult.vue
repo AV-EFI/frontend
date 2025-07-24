@@ -3,12 +3,12 @@
     <FormKit
       id="work-view-editor-result"
       v-model="dataJson"
-      :classes="{form: 'bg-neutral-100 dark:bg-slate-900 p-2 rounded-xl'}"
+      :classes="{form: 'bg-base-100 dark:bg-slate-900 border-neutral border-2 p-2 rounded-xl'}"
       type="form"
       :actions="false"
       @submit="customSubmitHandler"
     >
-      <div class="col-span-full !h-16 flex flex-row justify-between items-center">
+      <div class="col-span-full flex flex-row justify-between items-center">
         <h2
           class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         >
@@ -17,11 +17,14 @@
       </div>
       <div class="col-span-full">
         <button
-          class="btn btn-warning text-white btn-sm mb-2"
+          class="btn btn-error text-white btn-sm mb-2"
           @click="customReset()"
         >
           {{ $t('resetFormData') }}
-          <Icon name="formkit:close" />
+          <Icon
+            class="text-xl"
+            name="formkit:close"
+          />
         </button>
       </div>  
       <div class="col-span-full">
@@ -54,6 +57,7 @@
         <FormKit
           type="repeater"
           name="location"
+          :add-label="$t('addNewLocation')"
           min="0"
         >
           <FormKit
@@ -65,7 +69,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('location')} same_as_id`"
+            :label="`${$t('location')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -74,6 +78,7 @@
         <FormKit
           type="repeater"
           name="productionyear"
+          :add-label="$t('addNewProductionYear')"
           min="0"
         >
           <FormKit
@@ -89,6 +94,7 @@
         <FormKit
           type="repeater"
           name="director"
+          :add-label="$t('addNewDirector')"
           min="0"
         >
           <FormKit
@@ -100,7 +106,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('Director')} same_as_id`"
+            :label="`${$t('Director')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -109,6 +115,7 @@
         <FormKit
           type="repeater"
           name="producer"
+          :add-label="$t('addNewProducer')"
           min="0"
         >
           <FormKit
@@ -120,7 +127,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('production')} same_as_id`"
+            :label="`${$t('production')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -129,18 +136,19 @@
         <FormKit
           type="repeater"
           name="castmember"
+          :add-label="$t('addNewCastMember')"
           min="0"
         >
           <FormKit
             type="text"
             name="name"
-            :label="`${$t('castmembers')} Name`"
+            :label="`${$t('castmembers')} Name`"            
             validation="required"
           />
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('castmembers')} same_as_id`"
+            :label="`${$t('castmembers')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -149,6 +157,7 @@
         <FormKit
           type="repeater"
           name="genre"
+          :add-label="$t('addNewGenre')"
           min="0"
         >
           <FormKit
@@ -160,7 +169,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('Genre')} same_as_id`"
+            :label="`${$t('Genre')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -169,6 +178,7 @@
         <FormKit
           type="repeater"
           name="subject"
+          :add-label="$t('addNewSubject')"
           min="0"
         >
           <FormKit
@@ -180,7 +190,7 @@
           <FormKit
             type="text"
             name="same_as_id"
-            :label="`${$t('subject')} same_as_id`"
+            :label="`${$t('subject')} ID Extern`"
           />
         </FormKit>
       </div>
@@ -189,6 +199,7 @@
         <FormKit
           type="repeater"
           name="other_id"
+          :add-label="$t('addNewOtherId')"
           min="0"
         >
           <FormKit

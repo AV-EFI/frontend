@@ -1,7 +1,9 @@
 <template>
-  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto">
+  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto bg-base-200 border-neutral p-1 border-2 rounded-xl">
     <div class="col-span-full">
-      <h2>{{ title }}</h2>
+      <h2 class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
+        {{ title }}
+      </h2>
     </div>
     <div class="col-span-full">
       <button
@@ -85,9 +87,17 @@
           <span class="col-span-3">
             {{ country?.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in country?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="country?.has_name"
@@ -125,16 +135,24 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('Director') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(director, index) in data.has_record.has_event[0].has_activity.find(activity => activity.type === 'Director')?.has_agent"
+          v-for="(director, index) in data?.has_record?.has_event[0]?.has_activity?.find(activity => activity.type === 'Director')?.has_agent"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-3">
             {{ director.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ director?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in director?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="director.has_name"
@@ -150,16 +168,24 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('production') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(producer, index) in data.has_record.has_event[0].has_activity.find(activity => activity.type === 'Producer')?.has_agent"
+          v-for="(producer, index) in data?.has_record?.has_event[0]?.has_activity?.find(activity => activity.type === 'Producer')?.has_agent"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-3">
             {{ producer.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ producer?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in producer?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="producer.has_name"
@@ -175,16 +201,27 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('castmembers') }}</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(castMember, index) in data.has_record.has_event[0].has_activity.find(activity => activity.type === 'CastMember')?.has_agent"
+          v-for="(castMember, index) in data?.has_record?.has_event[0]?.has_activity?.find(activity => activity.type === 'CastMember')?.has_agent"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-3">
             {{ castMember.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ castMember?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div
+            class="col-span-3"
+            style="word-break: break-word;"
+          >
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in castMember?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="castMember.has_name"
@@ -207,9 +244,17 @@
           <span class="col-span-3">
             {{ genre.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ genre?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in genre?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="genre.has_name"
@@ -232,9 +277,17 @@
           <span class="col-span-3">
             {{ subject.has_name }}
           </span>
-          <span class="col-span-3">
-            {{ subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') }}
-          </span>
+          <div class="col-span-3">
+            <ul>
+              <li
+                v-for="(sameAs, sameAsIndex) in subject?.same_as"
+                :key="sameAsIndex"
+                class="list-disc"
+              >
+                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+              </li>
+            </ul>
+          </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
               :target-property-value="subject.has_name"

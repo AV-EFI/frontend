@@ -6,6 +6,7 @@
     :title="$t('gotodisamiguationparam', { name: filmId_prev })"
     :data-id="filmId_prev"
     :data-title="filmId_prev"
+    :aria-label="$t('gotodisamiguationparam', { name: filmId_prev })"
     @click="navigateToDisambiguation"
   >
     <DisambiguationIcon

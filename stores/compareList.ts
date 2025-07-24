@@ -1,3 +1,4 @@
+import { set } from 'node_modules/nuxt/dist/app/compat/capi';
 import { defineStore } from 'pinia';
 
 // Define the structure of each object in the list
@@ -59,14 +60,40 @@ export const useObjectListStore = defineStore({
         toggleFacetDrawerState() {
             //this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
             this.facetDrawerOpen = !this.facetDrawerOpen;
+
         },
-        toggleComparisonDrawerState() {
-            this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
+        toggleComparisonDrawerState(type: string) {
+            if(type) {
+                if (type === 'comparison') {
+                    this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
+                    setTimeout(() => {
+                        const radioElement = document.getElementById('comparison_list_tab') as HTMLInputElement;
+                        const shoppingElement = document.getElementById('shopping_cart_tab') as HTMLInputElement;
+                        if (radioElement && shoppingElement) {
+                            shoppingElement.checked = false;
+                            radioElement.checked = true;
+                        }
+                    }, 300);
+                } else if (type === 'shopping') {
+                    console.log("shopping cart tab clicked");
+                    this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
+                    setTimeout(() => {
+                        const radioElement = document.getElementById('comparison_list_tab') as HTMLInputElement;
+                        const shoppingElement = document.getElementById('shopping_cart_tab') as HTMLInputElement;
+                        if (radioElement && shoppingElement) {
+                            shoppingElement.checked = true;
+                            radioElement.checked = false;
+                        }
+                    }, 300);                
+                }
+            } else {
+                this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
+            }
         }
     },
     persist: {
         key: 'avefi-objectList',
         //storage: persistedState.localStorage,
-        storage: persistedState.cookies
+        storage: persistedState.localStorage
     }
 });

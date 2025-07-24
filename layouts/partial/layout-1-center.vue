@@ -1,10 +1,15 @@
 <template>
   <section>
     <div 
-      class="w-full mx-auto card card-side bg-white dark:bg-gray-900 shadow-xl"
-      :class="isFullWidth ? 'lg:!w-full' : 'lg:!w-3/4'"
+      :class="[
+        'w-full mx-auto card card-side bg-white dark:bg-gray-900 rounded-xl shadow-xl',
+        isFullWidth ? 'lg:!w-full' : 'lg:!w-4/5',
+      ]"
     >
-      <div class="card-body max-w-full">
+      <div
+        class="card-body max-w-full max-md:p-2"
+        :class="paddingClass"
+      >
         <div class="w-full flex flex-row items-center">
           <slot name="actions" />
           <div
@@ -37,6 +42,10 @@ const props = defineProps({
     showExpandToggle: {
         type: Boolean,
         default: false
+    },
+    paddingClass: {
+        type: String,
+        default: 'p-4'
     }
 });
 

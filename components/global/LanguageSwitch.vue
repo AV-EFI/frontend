@@ -18,7 +18,7 @@
         @click="toggleLocale"
       >
         <div class="avatar placeholder">
-          <div class="bg-neutral dark:bg-slate-800 dark:text-white text-neutral-content w-12 rounded-full">
+          <div class="bg-base-100 dark:bg-gray-800 dark:text-white text-neutral w-12 rounded-full">
             <span class="flex flex-row items-center"><Icon
               class="text-lg"
               name="mdi:language"
@@ -33,9 +33,9 @@
         @click="toggleLocale"
       >
         <div class="avatar placeholder">
-          <div class="bg-neutral dark:bg-slate-800 dark:text-white text-neutral-content w-12 rounded-full">
+          <div class="bg-base-100 dark:bg-gray-800 dark:text-white text-neutral w-12 rounded-full">
             <span class="flex flex-row items-center"><Icon
-              class="text-lg"
+              class="text-lg text-base dark:text-white"
               name="mdi:language"
             />En</span>
           </div>

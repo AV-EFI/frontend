@@ -1,9 +1,17 @@
 <template>
   <ClientOnly>
-    <footer class="footer bg-primary-800 text-white dark:bg-gray-950 dark:text-white dark:border-gray-700 px-6">
+    <footer
+      class="footer bg-neutral text-white dark:bg-neutral dark:text-white px-6 border-t-2 border-secondary"
+      role="contentinfo"
+      :aria-label="$t('footer')"
+    >
       <div class="container mx-auto p-4 pb-10 md:pb-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-          <nav class="flex flex-col col-span-1">
+          <!-- Preferences -->
+          <nav
+            class="flex flex-col col-span-1"
+            :aria-label="$t('footerPreferences')"
+          >
             <h6 class="footer-title">
               {{ $t("preferences") }}
             </h6>
@@ -20,7 +28,12 @@
               </li>
             </ul>
           </nav>
-          <nav class="flex flex-col col-span-1">
+
+          <!-- Info / Legal -->
+          <nav
+            class="flex flex-col col-span-1"
+            :aria-label="$t('footerInfo')"
+          >
             <h6 class="footer-title">
               Info
             </h6>
@@ -29,7 +42,8 @@
                 <a
                   href="https://datenschutz.gwdg.de/services/av-efi"
                   target="_blank"
-                  class="dark:text-gray-300"
+                  class="link transition"
+                  :aria-label="$t('dataprotection')"
                 >
                   {{ $t('dataprotection') }}
                 </a>
@@ -37,21 +51,26 @@
               <li>
                 <a
                   href="/imprint"
-                  class="dark:text-gray-300"
+                  class="link transition"
+                  :aria-label="$t('imprint')"
                 >
                   {{ $t('imprint') }}
                 </a>
               </li>
             </ul>
+
+            <!-- Alpha Notice -->
             <div
-              role="alert"
-              class="alert bg-neutral dark:bg-gray-700 w-full md:max-w-64 mt-4"
+              role="note"
+              aria-live="polite"
+              class="text-white opacity-95 w-full md:max-w-64 mt-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                class="stroke-info dark:stroke-gray-300 h-6 w-6 shrink-0"
+                class="stroke-primary dark:stroke-secondary h-6 w-6 shrink-0"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
@@ -60,10 +79,20 @@
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span class="dark:text-gray-300">{{ $t('alpha') }}</span>                
+              <span
+                class="transition"
+                :aria-label="$t('alpha')"
+              >
+                {{ $t('alpha') }}
+              </span>
             </div>
           </nav>
-          <nav class="flex flex-col col-span-1">
+
+          <!-- Sponsoring -->
+          <nav
+            class="flex flex-col col-span-1"
+            :aria-label="$t('footerSponsoring')"
+          >
             <h6 class="footer-title">
               {{ $t("sponsoring") }}
             </h6>
@@ -71,12 +100,13 @@
               <a
                 href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"
                 target="_blank"
+                aria-label="DFG Projektförderung"
               >
                 <img
                   alt="Sponsoring by DFG"
                   title="❤️"
                   class="object-contain h-24 w-full md:h-48 md:w-96"
-                  src="/img/dfg_logo.jpg"                
+                  src="/img/DFG.svg"
                 >
               </a>
             </div>

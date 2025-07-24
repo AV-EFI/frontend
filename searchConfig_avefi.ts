@@ -5,15 +5,11 @@ import type { SearchkitConfig } from "searchkit";
 //move creds to server-side for runtime.private access
 export const config:SearchkitConfig = {
     connection: {
-        //host: 'https://commerce-demo.es.us-east4.gcp.elastic-cloud.com:9243',
         host: 'http://141.5.105.237:9200',
-        // if you are authenticating with api key
-        // https://www.searchkit.co/docs/guides/setup-elasticsearch#connecting-with-api-key
-        //apiKey: 'a2Rha1VJTUJMcGU4ajA3Tm9fZ0Y6MjAzX2pLbURTXy1hNm9SUGZGRlhJdw=='
     },
     search_settings: {        
         search_attributes: [
-            { field: 'has_record.has_primary_title.has_name', weight: 3 }, 
+            { field: 'has_record.has_primary_title.has_name', weight: 2 }, 
             { field: 'has_record.has_alternative_title.has_name', weight: 2 }, 
             { field: 'production', weight: 1 },
             { field: 'directors_or_editors', weight: 1 },
@@ -52,9 +48,23 @@ export const config:SearchkitConfig = {
             'manifestations.has_record.has_sound_type',
             'manifestations.has_record.in_language.code',
             'manifestations.has_record.is_manifestation_of',
-            'manifestations.items'
-        ],    
+            'manifestations.items',            
+            'production_in_year.lte',
+            'production_in_year.gte',            
+            //'production_year_start',
+            //'production_year_end'
+        ],
         facet_attributes: [
+            {
+                attribute: 'production_year_start',
+                field: 'production_in_year.lte',
+                type: 'numeric',
+            },
+            {
+                attribute: 'production_year_end',
+                field: 'production_in_year.gte',
+                type: 'numeric',
+            },
             { 
                 attribute: 'has_sound_type', 
                 field: 'has_record.has_sound_type.keyword',  // field must be a keyword type field
@@ -92,11 +102,13 @@ export const config:SearchkitConfig = {
                 field: "production.keyword",
                 type: "string"
             },
+            /*
             {
                 attribute: "years",
-                field: "years.keyword",
-                type: "string"
+                field: "production_in_year.keyword",
+                type: "numeric"
             },
+            */
             {
                 attribute: "located_in_has_name",
                 field: "located_in.has_name.keyword",
@@ -162,10 +174,6 @@ export const config:SearchkitConfig = {
                 {
                     field: 'has_record.has_primary_title.has_name.keyword',
                     order: 'asc'
-                },
-                {
-                    field: 'has_record.category.keyword',
-                    order: 'desc'
                 },
             ],
             _title_asc: {

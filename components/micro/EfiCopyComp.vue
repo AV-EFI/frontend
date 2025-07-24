@@ -1,13 +1,24 @@
 <template>
   <button
-    :class="['btn btn-accent dark:btn-accent dark:btn-outline btn-circle mr-2 transition-all duration-300 ease-in-out', compSize == 'sm'? 'btn-sm p-1' : 'p-2']"
-    :title="$t('copyEFI')"
-    :alt="$t('copyEFI')"
+    :class="[
+      'btn btn-circle transition-all border border-white/30 ring-black duration-300 ease-in-out',
+      'text-white dark:btn-outline mr-2 ml-auto',
+      compSize === 'sm' ? 'btn-sm p-1' : 'p-2',
+      'bg-accent dark:bg-accent',
+      hoverBgClass,
+      { 'animate-ping-bg': isClicked }
+    ]"
+    :title="$t('copyEFI', { category: categoryText })"
+    :alt="$t('copyEFI', { category: categoryText })"
+    :aria-label="$t('copyEFI', { category: categoryText })"
+    :aria-pressed="isClicked.toString()"
+    role="button"
     @click="handleClick"
   >
     <svg
-      class="fill-white stroke-primary mb-1 svg-icon transition-transform duration-300 ease-in-out"
-      :class="[compSize == 'sm'? 'w-4 h-auto' : 'w-6 h-auto']"
+      v-if="!isClicked"
+      class="fill-white stroke-primary mb-1 svg-icon"
+      :class="[compSize === 'sm' ? 'w-4 h-auto' : 'w-6 h-auto']"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       viewBox="0 0 200 150"
@@ -24,46 +35,72 @@
         d="M 44.5,151.5 C 40.8333,151.5 37.1667,151.5 33.5,151.5C 12.5002,148.163 1.16682,135.83 -0.5,114.5C -0.5,110.5 -0.5,106.5 -0.5,102.5C 5.63312,67.9294 25.6331,55.4294 59.5,65C 69.0067,72.1855 72.1734,81.6855 69,93.5C 65.5489,104.615 58.0489,111.115 46.5,113C 38.2195,114.287 29.8861,114.787 21.5,114.5C 21.2669,123.077 24.9335,129.244 32.5,133C 43.3653,135.951 53.3653,134.118 62.5,127.5C 64.5905,131.35 66.4239,135.35 68,139.5C 68.7805,140.944 68.6139,142.277 67.5,143.5C 60.2926,147.79 52.626,150.457 44.5,151.5 Z M 39.5,76.5 C 49.5637,77.6181 52.7304,82.9514 49,92.5C 46.8995,95.4668 44.0662,97.3002 40.5,98C 34.2312,99.2573 27.8979,99.7573 21.5,99.5C 22.0602,87.3026 28.0602,79.6359 39.5,76.5 Z"
       /></g>
     </svg>
+    <Icon
+      v-else
+      name="mdi:check-bold"
+      class="text-white w-5 h-5 transition-transform duration-400 ease-out"
+    />
   </button>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
     handle: String,
     compSize: {
         type: String,
-        default: 'w-6 h-auto'
-    }
+        default: 'w-6 h-auto',
+    },
+    category: {
+        type: String,
+        default: 'work',
+    },
 });
-
+const { t } = useI18n();
 const isClicked = ref(false);
+const categoryText = ref(t(props.category));
+const hoverBgClass = computed(() => {
+    return {
+        work: 'hover:bg-work',
+        'work-variant': 'hover:bg-work',
+        item: 'hover:bg-item',
+        manifestation: 'hover:bg-manifestation',
+    }[props.category] || 'hover:bg-accent';
+});
 
 const handleClick = () => {
     useClipboardUtil()?.copyExtended(props.handle);
     isClicked.value = true;
     setTimeout(() => {
         isClicked.value = false;
-    }, 300); // Duration of the animation
+    }, 300);
 };
 </script>
 
 <style scoped>
-button {
-  border: none;
-  cursor: pointer;
+@keyframes pulse-bg {
+  0% {
+    background-color: #22c55e; /* success green-500 */
+  }
+  100% {
+    background-color: var(--primary); /* accent blue-500 (or adapt to your theme) */
+  }
 }
 
-button:hover .svg-icon {
-  transform: scale(1.1);
+.animate-ping-bg {
+  animation: pulse-bg 0.6s ease-in-out;
 }
 
 button:focus {
   outline: none;
 }
 
+button:hover .svg-icon {
+  transform: scale(1.1);
+}
+
 .svg-icon {
-  transition: fill 0.3s ease, transform 0.3s ease;
+  transition: fill 0.6s ease, transform 0.6s ease;
 }
 </style>

@@ -32,7 +32,7 @@ items[1] = route.query.next;
           name="compare_tabs"
           role="tab"
           class="tab min-w-24"
-          aria-label="Regular"
+          :aria-label="$t('compareRegular')"
         >
         <div
           role="tabpanel"
@@ -50,7 +50,7 @@ items[1] = route.query.next;
           name="compare_tabs"
           role="tab"
           class="tab min-w-24"
-          aria-label="Raw"
+          :aria-label="$t('compareRaw')"
           checked="true"
         >
         <div

@@ -7,18 +7,32 @@
       class="font-normal dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
       :alt="data?._source?.has_record?.has_primary_title?.has_name"
     >
-      {{ data?._source?.has_record?.has_primary_title?.has_name }}
+      <a
+        class="link"
+        :href="`/film/${data._id}`"
+        target="_blank"
+      >{{ data?._source?.has_record?.has_primary_title?.has_name }}</a>
     </h2>
   </div>      
   <div class="row-span-1 grid-container ">
     <div class="grid md:grid-cols-12 gap-2 grid-flow-dense xs:auto-cols-min grid-sub-container">
       <div class="md:col-span-12 col-span-12">
         <label class="font-bold text-primary-900 dark:text-primary-100">{{ $t('AlternativeTitle') }}:</label>
-        <p
-          class="  dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-          :alt="data?._source?.has_alternative_title?.has_name"
-        >
-          {{ data?._source?.has_alternative_title?.has_name || '-' }}
+        <ul v-if="data?._source?.has_record?.has_alternative_title">
+          <li
+            v-for="alternativeTitle in data?._source?.has_record?.has_alternative_title"
+            :key="alternativeTitle?.has_name"
+          >
+            <p
+              class="dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+              :alt="alternativeTitle?.has_name"
+            >
+              {{ alternativeTitle?.has_name }}
+            </p>
+          </li>
+        </ul>
+        <p v-else>
+          -
         </p>
       </div>
     </div>

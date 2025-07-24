@@ -1,66 +1,60 @@
-$font-size-base: 1rem;
-
-$blue: #80A3B5;
-$primary: $blue;
-$gray-100: #dfe9ee;
-$gray-200: #c3d5de;
-$gray-300: #9ab8c6;
-$gray-400: #4d768d;
-$gray-500: #436277;
-$gray-600: #3b5263;
-$gray-700: #364754;
-$gray-800: #313d48;
-$gray-900: #1d262f;
-$light: $gray-100;
-$red: #ff9da0;
-$yellow: #D7BE82;
-$green: #78DBAA;
-$white: #FEFFFF;
-$jumbotron-bg: $gray-100;
-$breadcrumb-bg: $gray-100;
-$link-color: #007bff;
-$paragraph-margin-bottom: .75rem;
-$border-color: $gray-100;
-$transition-fade: opacity .25s linear;
-$transition-base: all .3s ease-in-out;
-$font-size-lg: $font-size-base * 1.15;
-$font-size-sm: $font-size-base * .75;
-$line-height-base: 1.4;
-$h1-font-size: $font-size-base * 2.1;
-$h2-font-size: $font-size-base * 1.875;
-$h3-font-size: $font-size-base * 1.66;
-$h4-font-size: $font-size-base * 1.33;
-$headings-line-height: 1.375;
-$table-cell-padding: .5rem;
-$table-cell-padding-sm: .25rem;
-$table-head-color: $gray-800;
-$dark: $gray-700;
-$input-btn-font-size: $font-size-base*1;
-$input-btn-padding-y: .5rem;
-$input-btn-padding-x: .66rem;
-$list-group-color: $gray-900;
-
+// _variables.scss – Cleaned AVefi Theme Colors (SCSS)
+// Bali Hai
 $bali-hai-50: #f3f7f8;
 $bali-hai-100: #dfe9ee;
 $bali-hai-200: #c3d5de;
 $bali-hai-300: #9ab8c6;
 $bali-hai-400: #80a3b5;
+$bali-hai: #80a3b5;
 $bali-hai-500: #4d768d;
 $bali-hai-600: #436277;
 $bali-hai-700: #3b5263;
 $bali-hai-800: #364754;
 $bali-hai-900: #313d48;
 $bali-hai-950: #1d262f;
-$secondary: #D7BF83;
-$secondary-600: #997a2e;
-$slate-050: #f8fafc;
-$slate-100: #f1f5f9;
-$slate-200: #e2e8f0;
-$slate-300: #cbd5e1;
-$slate-400: #94a3b8;
-$slate-500: #64748b;
-$slate-600: #475569;
-$slate-700: #334155;
-$slate-800: #1e293b;
-$slate-900: #0f172a;
-$slate-950: #020617;
+
+// Primary
+$primary-50: #f3f7f8;
+$primary-100: #dfe9ee;
+$primary-200: #c3d5de;
+$primary-300: #9ab8c6;
+$primary-400: #80a3b5;
+$primary: #4d768d;
+$primary-500: #4d768d;
+$primary-600: #436277;
+$primary-700: #3b5263;
+$primary-800: #364754;
+$primary-900: #313d48;
+$primary-950: #1d262f;
+
+// Secondary
+$secondary: #e6c373;
+
+  // Accent color palette SCSS variables
+  $accent-50: #ffe5e7;
+  $accent-100: #ffccd0;
+  $accent-200: #ff99a1;
+  $accent-300: #ff6671;
+  $accent-400: #ff394e;
+  $accent: #ff1d25;
+  $accent-500: #ff1d25;
+  $accent-600: #e11923;
+  $accent-700: #b2161d;
+  $accent-800: #8e1217;
+  $accent-900: #670d12;
+
+// Other semantic colors
+$highlight: #b2161d;
+$highlight-content: #ffffff;
+
+$favourites-list: #364754;
+$favourites-list-content: #ffffff;
+$favourites-list-hover: #364754;
+
+$compare-list: #436277;
+$compare-list-content: #ffffff;
+$compare-list-hover: #364754;
+
+$work: #F3E2B8;
+$manifestation: #E8D39E;
+$item: #DDC48B;

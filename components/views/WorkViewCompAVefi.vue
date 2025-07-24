@@ -2,12 +2,25 @@
   <div>
     <div
       v-if="mir"
+      class="border-l-2 border-work px-2"
+      role="region"
+      :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name}`"
     >
       <div class="w-full">
-        <LazyMicroDividerComp label-text="avefi:WorkVariant" />
+        <LazyMicroDividerComp
+          label-text="avefi:WorkVariant"
+          in-class="work"
+        />
       </div>
       <NuxtLayout name="partial-grid-2-1-no-heading">
         <template #left>
+          <DetailKeyValueComp
+            :id="dataObject?._source?.handle"
+            keytxt="EFI"
+            :valtxt="dataObject?._source?.handle"
+            class="col-span-full mb-2"
+            :clip="true"
+          />
           <DetailWorkVariantTopLevelComp
             v-model="mir"
             :handle="dataObject?._source?.handle"
@@ -19,6 +32,14 @@
           />
         </template>
         <template #right>
+          <!-- has_form -->
+          <DetailKeyValueListComp
+            v-if="mir?.has_form"
+            class="col-span-full mb-2"
+            keytxt="has_form"
+            :valtxt="mir?.has_form"
+            :ul="true"
+          />
           <DetailKeyValueListComp
             v-if="mir.has_genre"
             keytxt="avefi:Genre"
@@ -37,17 +58,15 @@
             :ul="true"
           />
         </template>
-      </Nuxtlayout>
+      </NuxtLayout>
     </div>
     <div v-else>
       <pre>{{ mir }}</pre>
     </div>
-    <div v-if="status === 'pending'">
-      <GlobalSkeletonLoaderComp class="mt-2" />
-    </div>
     <div
-      v-else
       :class="[manifestations?.length < 1? 'flex place-content-center':'']"
+      role="region"
+      aria-label="Manifestations"
     >
       <ClientOnly>
         <DetailManifestationListComp
@@ -58,6 +77,7 @@
           v-else
           class="alert alert-warning alert-outline text-white max-w-96 mt-4"
           role="alert"
+          aria-label="No manifestations available"
         >
           <MicroIconTextComp
             icon-name="mdi:emoticon-cry-outline"
@@ -101,4 +121,22 @@ interface ApiResponseItemList extends Promise<Response> {
   onFetchError: EventHookOn
 }
 
+const manifestations = ref([] as Manifestation[]);
+if(dataObject?._source?.manifestations?.length > 0) {
+    manifestations.value = dataObject._source?.manifestations;
+} else {
+    manifestations.value = [] as Manifestation[];
+}
+console.log('manifestations', manifestations.value);
+
+/*
+const { status, data: manifestations } = useFetch<ApiResponseManifestationList>(`${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_MANIFEST_BY_WORK}`, 
+    {
+        method: 'POST',
+        lazy: true,
+        body: {
+            id: "21.11155/"+dataObject._id
+        }
+    });
+    */
 </script>

@@ -1,12 +1,15 @@
 <template>
   <div>
     <ClientOnly>
-      <SearchInstantSearchTemplateAVefi :search-client="searchClient" />
+      <SearchInstantSearchTemplateAVefi
+        :search-client="searchClient"
+        :index-name="indexName"
+      />
     </ClientOnly>
   </div>
 </template>
 <script setup lang="ts">
-
+const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
 const props = defineProps({
     searchClient: {
         type: Object,
@@ -23,23 +26,17 @@ h1 {
   padding: 0;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-
 em {
-  background: var(--accent);
-  color: var(--white);
+  background: var(--highlight);
+  color: var(--highlight-content);
   padding: .125rem;
   font-style: normal;
 }
 
 .ais-Highlight-highlighted, .ais-Snippet-highlighted {
-  background: var(--secondary);
-  color: var(--primary-900);
+  background: var(--highlight);
+  color: var(--highlight-content);
   padding: .1rem;
-  font-weight: 700;
 }
 
 .search-panel {
@@ -56,10 +53,5 @@ em {
 
 .searchbox {
   margin-bottom: 2rem;
-}
-
-.pagination {
-  margin: 2rem auto;
-  text-align: center;
 }
 </style>

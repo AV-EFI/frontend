@@ -1,12 +1,16 @@
 <script setup lang="ts">
-
+import { useI18n } from 'vue-i18n';
 const locale = useNuxtApp().$i18n.locale;
+const { t:$t } = useI18n();
 
 useHead({
-    title: "AV-efi",
+    title: "AVefi",
     meta: [
-        { name: "description", content: "AV-efi content description in meta" },
+        { name: "description", content: $t('metaDescription') },
     ],
+    htmlAttrs: {
+        lang: useI18n().locale.value
+    },
     bodyAttrs: {
     //class: 'test'
     },
@@ -16,8 +20,8 @@ useHead({
 useSeoMeta({
     title: "AVefi",
     ogTitle: "AVefi",
-    description: "Die Vernetzung standardisierter wissenschaftlicher Metadaten über Institutionen hinweg ist ein übergeordnetes gesellschaftliches Ziel. Es ermöglicht effizientere Strukturen, weitere Innovationen und knüpft damit an die Tradition der großen Verbünde im Archiv- und Bibliotheksbereich an. Zu diesem übergeordneten Ziel leistet das Projekt AVefi einen neuartigen Beitrag auf dem Gebiet audiovisueller Bestände und ihrer Nachweise für die wissenschaftliche Forschung und das Kulturerbe.",
-    ogDescription: "Die Vernetzung standardisierter wissenschaftlicher Metadaten über Institutionen hinweg ist ein übergeordnetes gesellschaftliches Ziel. Es ermöglicht effizientere Strukturen, weitere Innovationen und knüpft damit an die Tradition der großen Verbünde im Archiv- und Bibliotheksbereich an. Zu diesem übergeordneten Ziel leistet das Projekt AVefi einen neuartigen Beitrag auf dem Gebiet audiovisueller Bestände und ihrer Nachweise für die wissenschaftliche Forschung und das Kulturerbe.",
+    description: $t('metaDescription'),
+    ogDescription: $t('metaDescription'),
     ogImage: "https://www.av-efi.net/img/AV-EFI-Logo.png",
     ogUrl: "https://www.av-efi.net",});
 
@@ -38,7 +42,7 @@ watch(
       current?.includes('google-analytics')
         ) {
             // cookie with id `google-analytics` got added
-            window.location.reload(); // placeholder for your custom change handler
+            window?.location?.reload(); // placeholder for your custom change handler
         }
     },
     { deep: true },
@@ -69,14 +73,14 @@ watch(
           <NuxtLink
             to="https://datenschutz.gwdg.de/services/av-efi"
             target="_blank"
-            class="text-white link link-secondary"
+            class="dark:text-white link"
           >
             {{ $t('dataprotection') }}
           </NuxtLink>
           |
           <NuxtLink
             to="/imprint"
-            class="text-white link link-secondary"
+            class="dark:text-white link"
           >
             {{ $t('imprint') }}
           </NuxtLink>

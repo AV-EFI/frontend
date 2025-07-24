@@ -1,21 +1,26 @@
 <template>
-  <div class="flex flex-col">
+  <div
+    class="flex flex-col"
+    role="group"
+    :aria-label="`${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`"
+  >
     <MicroLabelComp :label-text="keytxt" />
     <div class="flex flex-row">
       <GlobalClipboardComp
         v-if="clip"
+        class="max-sm:break-all"
         :class="fontSize"
         :display-text="valtxt"
       />
       <span
         v-else
         :class="fontSize"
-      >{{ valtxt }}</span>
+      >{{ $t(valtxt) }}</span>
       <DetailSameAsComp
         v-if="sameAs"
         :same-as-data="sameAsData"
         :class="fontSize"
-      />        
+      />
     </div>
   </div>
 </template>
@@ -27,7 +32,8 @@ const props = defineProps({
     },
     'valtxt': {
         type: String,
-        required: true
+        required: false,
+        default: '-'
     },
     'sameAs': {
         type: Boolean,

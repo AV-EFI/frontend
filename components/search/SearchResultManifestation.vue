@@ -8,7 +8,7 @@
       type="checkbox"
       class="manifestation-checkbox"
     >
-    <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-whitefont-medium">
+    <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white font-medium">
       <p class="text-sm">
         {{ manifestation?.handle }}
       </p>
@@ -16,27 +16,21 @@
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h3>
     </div>
-    <div class="collapse-content bg-slate-50 dark:bg-slate-800 dark:text-white">
+    <div class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div class="col-span-1">
-          <MicroLabelComp label-text="in_language_code" />
-          <SearchHighlightListComp
-            :items="manifestation?.has_record?.in_language?.map(lang => lang.code)"
-            :hilite="item._highlightResult?.manifestations?.has_record?.in_language?.code?.matchedWords"                  
-            class="mb-2"
-          />
-        </div>
         <div class="col-span-1">
           <MicroLabelComp label-text="has_colour" />
           <SearchHighlightSingleComp 
             :item="manifestation?.has_record?.has_colour_type"
-            :hitlite="item._highlightResult?.manifestations?.has_record?.has_colour_type?.matchedWords"                  
             class="mb-2"
           />
         </div>
       </div>
       <hr class="my-2">
-      <h4 class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item">
+      <h4
+        class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
+        :title="$t('tooltip.item')"
+      >
         {{ $t('items') }}
       </h4>
       <div
@@ -64,11 +58,13 @@
         </div>
 
         <div class="row-start-2 col-span-1">
-          <MicroLabelComp label-text="has_format" />
+          <MicroLabelComp
+            label-text="has_format"
+            :title="$t('tooltip.format')"
+          />
+          
           <SearchHighlightListComp
-            :items="exemplar?.has_record?.has_format?.map(form => form.type)"
-            :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
-                  
+            :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
             class="mb-2"
           />
         </div>
@@ -76,8 +72,6 @@
           <MicroLabelComp label-text="in_language_code" />
           <SearchHighlightSingleComp
             :item="exemplar?.has_record?.in_language?.code"
-            :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
-                  
             class="mb-2"
           />
         </div>
@@ -86,7 +80,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-
 const props = defineProps({
     manifestation_items: {
         type: Object,

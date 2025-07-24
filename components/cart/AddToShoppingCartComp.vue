@@ -1,17 +1,19 @@
 <template>
   <button
-    class="btn bg-shopping-cart hover:bg-shopping-cart-dark text-white"
+    class="btn btn-favourites-list"
     :class="[btnSize]"
     :alt="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     :title="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     :data-id="filmId"
     :data-title="filmTitle"
+    :aria-label="$t('addtoshoppingcartparam', { name: props.filmTitle })"
     @click="$addToComparison(props.filmId, props.filmTitle, 'shoppingcart')"
   >
-    <span class="hidden md:block">{{ $t('shoppingcart') }}</span>
     <MicroShoppingCartIcon
-      :alt="$t('addtocomparisonparam', { name: filmTitle })"
+      :alt="$t('addtoshoppingcartparam', { name: filmTitle })"
+      class="text-xl w-4 h-4"
     />
+    <span class="hidden md:inline-block w-24 ml-1 text-left">{{ $t('shoppingcart') }}</span>
   </button>
 </template>
 <script setup lang="ts">

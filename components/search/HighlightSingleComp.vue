@@ -1,7 +1,10 @@
 <template>
   <div v-if="item">
     <p
-      :class="{ 'bg-secondary font-bold dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
+      :class="{ 'bg-secondary-200 font-bold dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
+      role="text"
+      :aria-label="$t(item)"
+      :aria-current="ishiliteed(item) ? 'true' : undefined"
     >
       {{ $t(item) }}
     </p>
@@ -10,11 +13,13 @@
     -
   </div>
 </template>
+
 <script setup>
 const props = defineProps({
     item: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
     },
     hilite: {
         type: [String, Array],
@@ -25,12 +30,11 @@ const props = defineProps({
         type: String,
         required: false,
         default: "text-base",
-    }
+    },
 });
 
 function ishiliteed(item) {
     if (!props.hilite) return false;
-    // Ensure hilite is an array for consistency
     const hilites = Array.isArray(props.hilite) ? props.hilite : [props.hilite];
     return hilites.includes(item);
 }

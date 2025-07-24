@@ -7,13 +7,14 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const documentIds:string[] = body.documentId;
         const result = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX_DETAIL,
+            index: useRuntimeConfig().public.ELASTIC_INDEX,
+            size: 50,
             query: {
                 "ids" : {
                     "values" : typeof (documentIds) !== 'string' ? [...documentIds]: documentIds
                 }
             },
-            fields: ["directors", "producers", "countries", "productionyears", "castmembers", "subjects"]
+            fields: ["directors_or_editors", "production", "located_in", "productionyears", "castmembers", "subjects"]
         });
         return result.hits.hits;
     }
