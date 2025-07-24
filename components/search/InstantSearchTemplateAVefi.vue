@@ -78,7 +78,7 @@
                     }"
                   >
                     <template #resetLabel>
-                      <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                      <Icon name="material-symbols:delete" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                     </template>
                   </ais-clear-refinements>
                 </div>
@@ -108,7 +108,7 @@
                           {{ $t(refinement.label) }}
                           <Icon
                             class="text-lg"
-                            name="formkit:trash"
+                            name="material-symbols:delete"
                           />
                         </a>
                       </li>
@@ -241,7 +241,7 @@ import {useDebounceFn} from '@vueuse/core';
 
 const searchClient = Client({
     config: config,
-    url: "https://testbed.av-efi.net/api/v1/frontend/search",
+    url: `${useRuntimeConfig().public.AVEFI_BACKEND_URL}/${useRuntimeConfig().public.AVEFI_SEARCH}`, // Use the public API base URL from runtime config
     // Removed invalid property 'searchOnLoad'
 });
 

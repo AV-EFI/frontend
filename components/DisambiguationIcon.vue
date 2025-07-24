@@ -8,5 +8,5 @@ const props = defineProps({
 });
 </script>
 <template>
-  <Icon name="carbon:compare" />
+  <Icon name="material-symbols:compare" />
 </template>

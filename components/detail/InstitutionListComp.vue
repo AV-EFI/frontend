@@ -62,7 +62,7 @@
                     }"
                   >
                     <template #resetLabel>
-                      <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                      <Icon name="material-symbols:delete" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                     </template>
                   </ais-clear-refinements>
                 </div>
@@ -92,7 +92,7 @@
                           {{ $t(refinement.label) }}
                           <Icon
                             class="text-lg"
-                            name="formkit:trash"
+                            name="material-symbols:delete"
                           />
                         </a>
                       </li>

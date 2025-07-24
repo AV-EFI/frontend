@@ -6,7 +6,7 @@
       @mouseenter="removeScrolledClass"
       @mouseleave="addScrolledClass"
     >
-      <GlobalNavBar />
+      <LazyGlobalNavBar />
     </header>
     <main class="main grow bg-neutral dark:bg-slate-950 2xl:px-6 mt-[var(--header-height)]">
       <ClientOnly>

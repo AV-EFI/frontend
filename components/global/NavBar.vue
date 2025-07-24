@@ -5,11 +5,8 @@ import { useShoppingCart } from '../../stores/shoppingCart';
 const { data, signOut, signIn } = useAuth();
 
 const triggerSignout = () => {
-    signOut({ callbackUrl: '/', external: true });
+    signOut();
 };
-
-const objectListStore = useObjectListStore();
-const shoppingCart = useShoppingCart();
 
 const isScrolled = ref(false);
 
@@ -17,7 +14,11 @@ const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;
 };
 
+const objectListStore = useObjectListStore();
+const shoppingCart = useShoppingCart();
+
 onMounted(() => {
+
     const header = document.querySelector('header');
     if (header) {
         const headerHeight = header.offsetHeight;

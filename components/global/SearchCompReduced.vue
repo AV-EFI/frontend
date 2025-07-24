@@ -42,7 +42,9 @@ import { useSearchParamsStore } from '../../stores/searchParams';
 const searchTerm = ref('');
 const searchDataStore = useSearchParamsStore();
 function redirectToSearchScreen() {
-    navigateTo('/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + searchTerm.value);
+    const searchLink = useRuntimeConfig().public.AVEFI_SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + searchTerm.value;
+    console.log('Redirecting to search screen:', searchLink);
+    navigateTo(searchLink);
 }
 </script>
 

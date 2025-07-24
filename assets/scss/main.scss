@@ -2,23 +2,19 @@
 @use '_colors';
 
 @font-face {
-    font-family: 'PlayfairDisplay';
-    src: url('~/assets/fonts/Merriweather-Regular.ttf') format('truetype');
+    font-family: 'Inter';
+    src: url('~/assets/fonts/Inter.ttf') format('truetype');
 }
 
-@font-face {
-    font-family: 'OpenSans';
-    src: url('~/assets/fonts/Roboto-Regular.ttf') format('truetype');
-}
 
-/*
 html, body {
-  font-family: 'OpenSans', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
+/*
 h1, h2, h3, h4 {
     font-family: 'PlayfairDisplay', serif;
 }
-    */
+*/
 
 html, body {
   height: 100%;

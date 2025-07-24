@@ -67,6 +67,7 @@
 
 <script setup lang="ts">
 const { signIn } = useAuth();
+/*
 definePageMeta({    
     middleware: 'sidebase-auth',
     auth: {
@@ -74,6 +75,7 @@ definePageMeta({
         navigateAuthenticatedTo: '/protected/me'
     }
 });
+*/
 
 /*
 const coo = useCookie('auth:token');

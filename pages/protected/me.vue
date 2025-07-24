@@ -1,14 +1,25 @@
 <script setup lang="ts">
-
+import { reactive, onMounted } from 'vue';
 import { FormKitSchema } from '@formkit/vue';
-
-definePageMeta({
-    //middleware: 'auth'
-});
-
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
+
+// ⬇️ Get session composable
 const { data, getSession } = useAuth();
 
+// ⬇️ Create local editable profile object
+const profile = reactive({
+    name: '',
+    email: '',
+    institution: ''
+});
+
+// ⬇️ Fetch user session on mount
+onMounted(async () => {
+    await getSession();
+    if (data.value?.user) {
+        Object.assign(profile, data.value.user);
+    }
+});
 </script>
 
 <template>
@@ -20,12 +31,12 @@ const { data, getSession } = useAuth();
       <template #cardBody>
         <Suspense>
           <FormKit
-            v-model="data"
+            v-model="profile"
             type="form"
             :actions="false"
           >
             <FormKitSchema
-              :data="data"
+              :data="profile"
               :schema="schemaFk"
             />
           </FormKit>
