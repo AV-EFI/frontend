@@ -27,6 +27,7 @@ variables:
   stage: build
   script:
     - grep -vi secret .env.tmpl | envsubst > .env
+    - export NODE_OPTIONS="--max-old-space-size=4096"   # 🟢 Increase Node heap size
     - docker build --pull --tag $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 
