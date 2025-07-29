@@ -4,6 +4,8 @@ ARG NODE_VERSION=18.20.5
 # Create build stage
 FROM node:${NODE_VERSION}-slim AS build
 
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # Enable pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
