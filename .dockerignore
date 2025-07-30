@@ -24,7 +24,7 @@ logs
 .vscode-test
 
 # Environment files
-.env
+#.env
 .env.*
 !.env.example
 
