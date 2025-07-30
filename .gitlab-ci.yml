@@ -77,8 +77,7 @@ deploy-staging:
     url: https://testbed.av-efi.de
   variables:
     DEPLOY_SERVER: $STAGING_SERVER
-    #passed as CI/CD variables:
-    #NUXT_SECRET: $STAGING_NUXT_SECRET
+    NUXT_SECRET: $STAGING_NUXT_SECRET
     SSH_PRIVATE_KEY: $STAGING_PRIVATE_KEY
     DEPLOY_PATH: "/home/cloud/avefi-frontend"
   rules:

@@ -43,15 +43,15 @@
           </template>
           <template #right>
             <div class="flex flex-row flex-wrap justify-end items-center">
-              <LazyMicroEfiCopyComp
+              <MicroEfiCopyComp
                 :handle="dataJson?._source?.handle"
                 class="col-span-3 hidden"
               />
-              <LazyGlobalActionContextComp
+              <GlobalActionContextComp
                 :id="dataJson?._source?.handle"
                 :item="dataJson?._source"
                 class="w-1/5 justify-center items-center my-auto"
-              />              
+              />
             </div>
           </template>
         </NuxtLayout>
@@ -72,9 +72,12 @@
               fallback="Loading data..."
             >
               <LazyViewsWorkViewCompAVefi
-                :model-value="JSON.stringify(dataJson, null, 2)"
+v-if="dataJson"
+                :model-value="dataJson ? JSON.stringify(dataJson, null, 2) : ''"
                 @update:model-value="val => dataJson = JSON.parse(val)"
               />
+              <pre v-else>{{ dataJson }}</pre>
+              
             </ClientOnly>
           </div>
         </div>
@@ -93,10 +96,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
+import type { IAVefiListResponse } from '../../../models/interfaces/IAVefiWork';
 
-import { useHash } from '../../composables/useHash'; // auto-scroll is enabled by default
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+import { useHash } from '../../../composables/useHash'; // auto-scroll is enabled by default
+import { useCurrentUrlState } from '../../../composables/useCurrentUrlState';
 
 definePageMeta({
     auth: false,
@@ -108,6 +111,11 @@ const { currentUrlState } = useCurrentUrlState();
 
 const route = useRoute();
 const params = ref(route.params);
+
+if (!params.value.id && !params.value.prefix) {
+    throw new Error('prefix AND ID parameter required');
+}
+
 const category = ref('avefi:WorkVariant');
 const type = ref('Monographic');
 
