@@ -6041,6 +6041,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chalk-template@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "chalk-template@npm:1.1.0"
+  dependencies:
+    chalk: "npm:^5.2.0"
+  checksum: 10c0/bb6eda6115a33d06828caf8c44f786c26e0d392c74c2bd6bb0f7526588b15664e3e7c0305858531cdd9b266fc54a31fe71fe3844afcd47a3e67445313f149437
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^1.0.0":
   version: 1.1.3
   resolution: "chalk@npm:1.1.3"
@@ -6061,6 +6070,13 @@ __metadata:
     ansi-styles: "npm:^4.1.0"
     supports-color: "npm:^7.1.0"
   checksum: 10c0/4a3fef5cc34975c898ffe77141450f679721df9dde00f6c304353fa9c8b571929123b26a0e4617bde5018977eb655b31970c297b91b63ee83bb82aeb04666880
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.2.0":
+  version: 5.4.1
+  resolution: "chalk@npm:5.4.1"
+  checksum: 10c0/b23e88132c702f4855ca6d25cb5538b1114343e41472d5263ee8a37cccfccd9c4216d111e1097c6a27830407a1dc81fecdf2a56f2c63033d4dbbd88c10b0dcef
   languageName: node
   linkType: hard
 
@@ -7846,6 +7862,15 @@ __metadata:
   version: 8.40.0
   resolution: "eslint-formatter-compact@npm:8.40.0"
   checksum: 10c0/6e7e6b5f86ff5b6fa09b6c88e58d83a611a524dd8d946c98d16b681052ab67007da2bad79e3a5aadead9b3b391f2d38afdcd7c80d2e6309614016ffb13e503f3
+  languageName: node
+  linkType: hard
+
+"eslint-formatter-summary@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "eslint-formatter-summary@npm:2.0.2"
+  dependencies:
+    chalk-template: "npm:^1.1.0"
+  checksum: 10c0/74754ff56c2bf7eb6c455c76d8cde7f6ba2d938472d1bf047c12af23f20b6dd7c59bf3d5016084e937d4213cc6908d3b966c4534a80d0491d9a73e984b82980f
   languageName: node
   linkType: hard
 
@@ -11353,6 +11378,7 @@ __metadata:
     esbuild: "npm:^0.25.5"
     eslint: "npm:^9.32.0"
     eslint-formatter-compact: "npm:^8.40.0"
+    eslint-formatter-summary: "npm:^2.0.2"
     export-to-csv: "npm:^1.4.0"
     keycloak-js: "npm:^26.0.7"
     nuxt: "npm:3.17.7"
