@@ -1,13 +1,37 @@
-# Node modules
-node_modules
-
-# Build output
-.nuxt
-
-.yarn/cache
-
+# Build outputs (don’t send these to Docker context)
 .output
+.data
+.nuxt
+.nitro
+.cache
 dist
+
+# Dependencies
+node_modules
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Logs
+logs
 *.log
-.env
+
+# IDE / editor files
+.DS_Store
+.fleet
+.idea
+.vscode
+.vscode-test
+
+# Environment files
+#.env
+.env.*
+!.env.example
+
+# Wrangler (Cloudflare workers)
+.wrangler
+.dev.vars
+
+# Tests / local files
+tests
 coverage
