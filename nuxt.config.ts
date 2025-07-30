@@ -217,7 +217,8 @@ export default defineNuxtConfig({
       eslint({
         failOnWarning: false,
         failOnError: false,
-        cache: true,
+        formatter: 'compact',
+        cache: false,
         include: [
           'components/**/*.{js,ts,vue}',
           'pages/**/*.{js,ts,vue}'
