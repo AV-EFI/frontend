@@ -59,6 +59,7 @@
         "depcheck": "^1.4.7",
         "elasticsearch": "^16.7.3",
         "esbuild": "^0.25.5",
+        "eslint-formatter-compact": "^8.40.0",
         "export-to-csv": "^1.4.0",
         "keycloak-js": "^26.0.7",
         "nuxt": "3.17.7",
