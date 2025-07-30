@@ -16,7 +16,7 @@
       </template>
       <template #actions>
         <div v-if="apiData?.data">
-          <AddToComparisonComp
+          <LazyCartAddToComparisonComp
             :film-id="(apiData?.data as IAVefiData).id"
             :film-title="apiData?.data?.attributes?.Title"
           />
@@ -57,8 +57,8 @@
 
 import { FormKitSchema } from '@formkit/vue';
 import { ref } from 'vue';
-import type {IAVefiSingleResponse} from '../../../models/interfaces/IAVefiWork';
-import type { IAVefiData } from '../../../models/interfaces/IAVefiWork';
+import type {IAVefiSingleResponse, IAVefiData } from '../../../models/interfaces/IAVefiWork';
+
 import schemaFk from '../../../models/formkit-schemas/fk_work.json';
 
 const route = useRoute();

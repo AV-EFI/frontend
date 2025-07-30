@@ -27,6 +27,7 @@ variables:
   stage: build
   script:
     - grep -vi secret .env.tmpl | envsubst > .env
+    - export NODE_OPTIONS="--max-old-space-size=4096"   # 🟢 Increase Node heap size
     - docker build --pull --tag $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
 
@@ -71,9 +72,13 @@ build_docker-staging:
       docker compose up -d"
 
 deploy-staging:
+  environment:
+    name: testbed
+    url: https://testbed.av-efi.de
   variables:
     DEPLOY_SERVER: $STAGING_SERVER
-    NUXT_SECRET: $STAGING_NUXT_SECRET
+    #passed as CI/CD variables:
+    #NUXT_SECRET: $STAGING_NUXT_SECRET
     SSH_PRIVATE_KEY: $STAGING_PRIVATE_KEY
     DEPLOY_PATH: "/home/cloud/avefi-frontend"
   rules:

@@ -212,7 +212,7 @@
 
 <script setup lang="ts">
 //models\interfaces\av_efi_schema.ts
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 import type {Item} from '../../models/interfaces/av_efi_schema.ts';
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);

@@ -99,14 +99,12 @@
 
 <script setup lang="ts">
 //models\interfaces\av_efi_schema.ts
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 import type { EventHookOn } from '@vueuse/core';
 import type {WorkVariant, Manifestation, Item} from '../../models/interfaces/av_efi_schema.ts';
 const dataJson = defineModel({type: String, required: true});
 const dataObject = JSON.parse(dataJson.value);
 const mir:WorkVariant = dataObject?._source?.has_record;
-const manifestations:Manifestation[] = dataObject?._source?.manifestations;
-console.log(manifestations);
 
 interface ApiResponseManifestationList extends Promise<Response> {
   status: string

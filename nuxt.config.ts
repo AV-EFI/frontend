@@ -1,50 +1,51 @@
-import { emit } from "process";
-
-// https://nuxt.com/docs/api/configuration/nuxt-config
 // nuxt.config.ts
+
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
+import eslint from 'vite-plugin-eslint';;
 
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-27',
     app: {
         baseURL: '/',
-        buildAssetsDir: '/_nuxt/', // important
     },
     devtools: {
-        enabled: false
+        enabled: true,
+        vscode: false, // disable VS Code integration
+        timeline: false, // disable full timeline tracking
+        components: false, // no component inspector
+        performance: true, // no performance tracking
+        hmr: true        // ✅ keep only HMR event logging
+
     },
     nitro: {
         preset: 'node-server',
         compressPublicAssets: true,
-        experimental: {
-            tasks: true,
-        },
-        scheduledTasks: {
-            '0 */12 * * *': 'wmi_mapping_refresh', // Runs every 12 hours
-        }
+        experimental: { tasks: true },
+        scheduledTasks: process.env.NODE_ENV === 'production'
+            ? { '0 */12 * * *': 'wmi_mapping_refresh' }
+            : {}, // disable during local dev
     },
     build: {
         transpile: ['vue-diff']
     },
     modules: [
-        //'@sidebase/nuxt-auth',
+    //'@sidebase/nuxt-auth',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
         ...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
-        '@nuxtjs/eslint-module',
+        //'@nuxtjs/eslint-module',
         '@nuxtjs/i18n',
         '@nuxtjs/tailwindcss',
-        //'@nuxtjs/color-mode',
+        '@nuxtjs/color-mode',
         '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
         '@nuxtjs/robots',
         'nuxt3-winston-log',
         '@dargmuesli/nuxt-cookie-control',
-        'nuxt-mail'
-        '@dargmuesli/nuxt-cookie-control'
+        'nuxt-mail',
     ],
     extends: './pages',
     imports: {
@@ -59,7 +60,6 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            AUTH_BASE_URL: process.env.AUTH_BASE_URL || 'http://localhost:8000',
             dbHost: process.env.POSTGRES_HOST,
             dbDb: process.env.POSTGRES_DB,
             dbUser: process.env.POSTGRES_USER,
@@ -77,16 +77,9 @@ export default defineNuxtConfig({
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
-            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
-            AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
-            AVEFI_SEARCH: process.env.AVEFI_SEARCH,
-            AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
-            AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
-            AVEFI_GET_MANIFEST: process.env.AVEFI_GET_MANIFEST,
-            AVEFI_GET_MANIFEST_BY_WORK: process.env.AVEFI_GET_MANIFEST_BY_WORK,
-            AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
-            AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
-            AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
+            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API || '/api/elastic',
+            AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || 'msearch',
+
             AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
             AVEFI_SEARCH: process.env.AVEFI_SEARCH,
             AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
@@ -100,7 +93,7 @@ export default defineNuxtConfig({
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
             KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
-            WMI_CACHE_KEY: 'WMI_CACHE_KEY'
+            WMI_CACHE_KEY: 'WMI_CACHE_KEY',
             // AUTH endpoints
             AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
             AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
@@ -120,38 +113,19 @@ export default defineNuxtConfig({
         "/search": { ssr: false },
         "/contact": { prerender: true },
         "/login": { ssr: false },
-        "/film/**": {ssr:false},
-        "/serial/**": {ssr:false},
-        "/protected/institutionlist": {ssr:false},
-        "/protected/dashboard": {ssr:false},
-        "/protected/mergetool": {ssr:false},
-        // Cached for 1 hour
-        //"/api/*": { cache: { maxAge: 60 * 60 } },
-    },
-    /*
-    auth: {
-        originEnvKey: process.env.AUTH_ORIGIN,
-        baseURL: process.env.AUTH_BASE_URL || 'http://localhost:8000', // Nur Backend-URL, NICHT mit /api/auth am Ende
-        provider: {
-          type: 'authjs',
-          defaultProvider: 'keycloak',
-          addDefaultCallbackUrl: true,
-        },
-        globalAppMiddleware: {
-          isEnabled: true,
-          allow404WithoutAuth: true,
-        },
-      },
-      */
         "/film/**": { ssr: false },
+        "/serial/**": { ssr: false },
         "/protected/institutionlist": { ssr: false },
         "/protected/dashboard": { ssr: false },
         "/protected/mergetool": { ssr: false },
+    //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
-    css: ["~/assets/scss/main.scss"],
+    css: [
+        "~/assets/scss/main.scss"
+    ],
     mail: {
         message: {
-            to: ['stefan.stretz@tib.eu', 'contact@av-efi.net'],            
+            to: ['stefan.stretz@tib.eu', 'contact@av-efi.net'],
         },
         smtp: {
             service: 'gmail',
@@ -161,7 +135,7 @@ export default defineNuxtConfig({
             }
         },
     },
-    nuxt3WinstonLog: {        
+    nuxt3WinstonLog: {
         maxSize: "2048m",
         maxFiles: "14d",
     },
@@ -208,8 +182,21 @@ export default defineNuxtConfig({
         port: 3000
     },
     vite: {
+        server: {
+            watch: {
+                usePolling: true, // force polling for stability
+                interval: 100,
+                ignored: [
+                    '**/node_modules/**',
+                    '**/.git/**',
+                    '**/.yarn/**',
+                    '**/.output/**',
+                    '**/.nuxt/**',
+                    '**/dist/**',
+                ],
+            },
+        },
         build: {
-          chunkSizeWarningLimit: 750
             chunkSizeWarningLimit: 750,
             target: 'esnext'
         },
@@ -217,52 +204,29 @@ export default defineNuxtConfig({
             exclude: ['vue-diff']
         },
         //devBundler: 'legacy',
-        logLevel: 'warn',
+        logLevel: 'error',
         css: {
-          preprocessorOptions: {                
-            scss: {
-              api: 'modern',
-              additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
-            },
-          },
-        },
-        ...(process.env.NODE_ENV === 'development' && {
-          server: {
-            watch: {
-              usePolling: true,
-              interval: 100,
-            },
-            hmr: {
-              port: 24678,
-              host: 'localhost',
-            },
-          }
-        })
-      },      
             preprocessorOptions: {
                 scss: {
+                    api: 'modern',
                     additionalData: '@use "~/assets/scss/_colors.scss" as *;'
-                }
-            }
+                },
+            },
         },
-        logLevel: 'info',
-        ...(process.env.NODE_ENV === 'development' && {
-            server: {
-                // This is needed for Vite HMR to work properly in Docker.
-                // In local development, it can be commented out.
-                /*
-                watch: {
-                    usePolling: true,
-                    interval: 600
-                },
-                hmr: {
-                    overlay: true,
-                    port: 24678,
-                    host: '0.0.0.0' // ← not localhost!
-                },
-                */
-            }
-        })
+        plugins: [
+      eslint({
+        failOnWarning: false,
+        failOnError: false,
+        cache: true,
+        include: [
+          'components/**/*.{js,ts,vue}',
+          'pages/**/*.{js,ts,vue}'
+        ],
+        exclude: ['node_modules'],
+        lintOnStart: false, // ✅ runs only once at dev start
+        emitWarning: false,
+      }),
+    ],
     },
     typescript: {
         includeWorkspace: true
@@ -283,31 +247,21 @@ export default defineNuxtConfig({
         },
         vueI18n: "../i18n.config.ts"
     },
+    formkit: {
+        autoImport: false // Performance-Optimization: Disable auto-import to reduce bundle size
+    },
+    pinia: {
+        storesDirs: ['stores']
+    },
     colorMode: {
         preference: 'avefi_light',
         classSuffix: '',
         dataValue: 'theme',
+        disableTransition: false,
         storageKey: 'avefi-color-mode'
-    },
-    formkit: {
-        autoImport: false // Performance-Optimization: Disable auto-import to reduce bundle size
-    },
-    eslint: {
-        lintOnStart: false,
-        cache: true,
-        emitWarning: false,
-        emitError: false,
-        fix: true,
-        emitWarning: false,
-        emitError: false,
-        fix: true
-    },
-    pinia: {
-        storesDirs: ['stores']
     },
     tailwindcss: {
         exposeConfig: true,
         viewer: false
     },
-    compatibilityDate: '2025-07-02'
 });

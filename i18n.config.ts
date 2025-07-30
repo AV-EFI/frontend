@@ -18,13 +18,13 @@ export default defineI18nConfig(() => ({
             'clickToSelectManifestation': 'Click on the manifestation to view items',
             'noWorkVariantDetails': 'No more WorkVariant information available',
             "title": "Title",
-                "tooltip": {
-                  "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
-                  "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
-                  "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
-                  "item": "An item is a physical or digital copy of a manifestation.",
-                  "webresource": "A link to a detailed view of the item on the data provider’s website."
-                },
+            "tooltip": {
+                "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
+                "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
+                "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
+                "item": "An item is a physical or digital copy of a manifestation.",
+                "webresource": "A link to a detailed view of the item on the data provider’s website."
+            },
             "lastedit": "Last edited",
             "itemDetails": "Item Details for {handle}",
             "showHistory": "Show history",
@@ -366,7 +366,7 @@ export default defineI18nConfig(() => ({
                 "manifestation": "Eine Manifestation ist die physische Verkörperung/Publikation eines audiovisuellen Werkes in der Form eines analogen oder digitalen Mediums.",
                 "item": "Ein Exemplar ist die physische oder digitale Kopie einer Manifestation.",
                 "webresource": "Dieser Link führt zur Detailansicht des Exemplars auf der Webseite des Datengebers."
-              },
+            },
             "itemDetails": "Details zum Exemplar mit Handle {handle}",
             "lastedit": "Letzte Bearbeitung",
             "showHistory": "Verlauf anzeigen",

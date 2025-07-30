@@ -26,63 +26,56 @@
   </div>
 </template>
 <script setup lang="ts">
-
-defineProps({
-    items: {
-        type: Array,
-        required: true,
-    },
-    viewTypeChecked: {
-        type: Boolean,
-        required: true,
-    },
-    productionDetailsChecked: {
-        type: Boolean,
-        required: true,
-    },
-    showAdminStats: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-    expandedHandles: {
-        type: Object as PropType<Set<string>>,
-        required: true,
-    },
-    expandAllHandlesChecked: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-
-});
-
-</script>
-
-<script lang="ts">
-
-import { expand } from '@formkit/icons';
+import type { PropType } from 'vue';
 import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
 
+// ✅ Component name without export default
+defineOptions({
+  name: 'AisStateResults',
+});
+
+// ✅ Props
+const props = defineProps({
+  items: {
+    type: Array as PropType<any[]>,
+    required: true,
+  },
+  viewTypeChecked: Boolean,
+  productionDetailsChecked: Boolean,
+  showAdminStats: {
+    type: Boolean,
+    default: false,
+  },
+  expandedHandles: {
+    type: Object as PropType<Set<string>>,
+    required: true,
+  },
+  expandAllHandlesChecked: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+console.log('SearchHitsComp.vue loaded');
+console.log('items:', props.items);
+
+// ✅ Connector definition
 const connectSearchMetaData =
-  (renderFn, unmountFn) =>
-      (widgetParams = {}) => ({
-          init() {
-              renderFn({ searchMetadata: {} }, true);
-          },
+  (renderFn: any, unmountFn: any) =>
+    (widgetParams = {}) => ({
+      init() {
+        renderFn({ searchMetadata: {} }, true);
+      },
+      render({ searchMetadata }: any) {
+        renderFn({ searchMetadata }, false);
+      },
+      dispose() {
+        unmountFn();
+      },
+    });
 
-          render({ searchMetadata }) {
-              renderFn({ searchMetadata }, false);
-          },
-
-          dispose() {
-              unmountFn();
-          },
-      });
-
-export default {
-    name: 'AisStateResults',
-    mixins: [createWidgetMixin({ connector: connectSearchMetaData })],
-};
-
+// ✅ Use mixin inside script setup
+defineExpose({
+  mixins: [createWidgetMixin({ connector: connectSearchMetaData })],
+});
 </script>

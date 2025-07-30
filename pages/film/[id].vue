@@ -95,14 +95,14 @@
 <script setup lang="ts">
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
+import { useHash } from '../../composables/useHash'; // auto-scroll is enabled by default
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+
 definePageMeta({
     auth: false,
     middleware: ['check-category'],
 });
-
-import { useHash } from '../../composables/useHash';
-const { hash } = useHash(); // auto-scroll is enabled by default
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+const { hash } = useHash();
 const { currentUrlState } = useCurrentUrlState();
 
 

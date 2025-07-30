@@ -135,62 +135,7 @@
                   </template>
                 </ais-search-box>
               </div>
-              <<<<<<< HEAD
-              <div class="mb-4 p-2 flex flex-col md:flex-row justify-between w-full">
-                <div class="w-full md:w-1/2 flex flex-row justify-start">
-                  <h2 class="font-bold text-gray-800 dark:text-gray-200">
-                    {{ $t('activefiltering') }}
-                  </h2>
-                </div>
-                <div class="w-full md:w-1/2 flex flex-row justify-end">
-                  <ais-clear-refinements 
-                    :class-names="{
-                      'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-gray-300 text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
-                      'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                    }"
-                  >
-                    <template #resetLabel>
-                      <Icon name="material-symbols:delete" /> <span class="accent">{{ $t('clearallfilters') }}</span>
-                    </template>
-                  </ais-clear-refinements>
-                </div>
-              </div>
-              <div class="w-full">
-                <ais-current-refinements 
-                  :class-names="{
-                    'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                    'ais-CurrentRefinements-item': 'border border-gray-300 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
-                    'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                    'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
-                  }"
-                >
-                  <template #item="{ item, refine, createURL }">
-                    <strong class="font-semibold accent">{{ $t(item.label.split(".").at(-1)) }}:</strong>
-                    <ul class="list-none p-0 m-0">
-                      <li
-                        v-for="refinement in item.refinements"
-                        :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
-                        class="flex items-center"
-                      >
-                        <a
-                          :href="createURL(refinement)"
-                          class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
-                          @click.prevent="refine(refinement)"
-                        >
-                          {{ $t(refinement.label) }}
-                          <Icon
-                            class="text-lg"
-                            name="material-symbols:delete"
-                          />
-                        </a>
-                      </li>
-                    </ul>
-                  </template>
-                </ais-current-refinements>
-              </div>
-              =======
               
-              >>>>>>> comp-structure-documentation
               <div class="mt-2 mb-2 w-full">
                 <button
                   class="btn btn-primary lg:hidden"
@@ -442,6 +387,10 @@
 
 <script setup lang="ts">
 
+import Client from '@searchkit/instantsearch-client';
+import { config } from '../../searchConfig_avefi.ts';
+
+import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 
 // toggle top right 
@@ -457,12 +406,11 @@ const expandedHandles = ref<Set<string>>(new Set());
 
 
 const searchQuery = ref('');
-import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi.ts';
 
 const searchClient = Client({
     config: config,
-    url: `${useRuntimeConfig().public.AVEFI_BACKEND_URL}/${useRuntimeConfig().public.AVEFI_SEARCH}`, // Use the public API base URL from runtime config
+    //url: "/api/elastic/msearch",
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
     // Removed invalid property 'searchOnLoad'
 });
 
@@ -559,10 +507,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
     if (observer) observer.disconnect();
 });
-
-import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
-import { simple as defaultMapping } from 'instantsearch.js/es/lib/stateMappings';
-import { expand } from '@formkit/icons';
 
 const showAlgoliaTooltip = ref(false);
 const routerInstance = defaultRouter();

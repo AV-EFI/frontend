@@ -28,7 +28,7 @@
         role="none"
       >
         <div class="w-full p-0 my-0 mx-auto justify-center items-center">
-          <AddToShoppingCartComp
+          <LazyCartAddToShoppingCartComp
             :film-id="id ?? item?.objectID"
             :film-title="item?.has_record?.has_primary_title.has_name"
             class="w-48 btn-block btn-sm flex item-start"
@@ -41,7 +41,7 @@
         class="mt-1"
       >
         <div class="w-full p-0 my-0 mx-auto justify-center items-center z-20">
-          <AddToComparisonComp
+          <LazyCartAddToComparisonComp
             :film-id="id ?? item?.objectID"
             :film-title="item?.has_record?.has_primary_title.has_name"
             class="btn-block btn-sm w-48 flex item-start"

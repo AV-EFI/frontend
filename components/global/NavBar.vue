@@ -1,37 +1,3 @@
-<script setup lang="ts">
-import { useObjectListStore } from '../../stores/compareList';
-import { useShoppingCart } from '../../stores/shoppingCart';
-
-const { data, signOut, signIn } = useAuth();
-
-const triggerSignout = () => {
-    signOut();
-};
-
-const isScrolled = ref(false);
-
-const handleScroll = () => {
-    isScrolled.value = window.scrollY > 50;
-};
-
-const objectListStore = useObjectListStore();
-const shoppingCart = useShoppingCart();
-
-onMounted(() => {
-
-    const header = document.querySelector('header');
-    if (header) {
-        const headerHeight = header.offsetHeight;
-        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-    }
-    window.addEventListener('scroll', handleScroll);
-});
-
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll);
-});
-</script>
-
 <template>
   <nav
     class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
@@ -155,9 +121,13 @@ onBeforeUnmount(() => {
                 v-html="$t('avefiClaimHtml')"
               />
             </div>
-
+            <p v-if="isDev">
+              <span class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24">
+                Test
+              </span>
+            </p>
             <div
-              v-if="!alphaClicked"
+              v-if="!alphaClicked && !isDev"
               class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24 cursor-pointer"
               @click="alphaClicked = !alphaClicked"
             >
@@ -171,7 +141,7 @@ onBeforeUnmount(() => {
               @click="alphaClicked = !alphaClicked"
             >
               <MicroRainbowStripeText
-                v-if="alphaClicked"
+                v-if="alphaClicked && !isDev"
                 class="font-black flex justify-center text-4xl uppercase mr-auto my-auto cursor-pointer"
                 text="alpha"
                 :aria-label="t('alpha')"
@@ -329,6 +299,8 @@ const shoppingCart = useShoppingCart();
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
 const detailsOpen = ref(false);
+
+const isDev = import.meta.dev;
 
 const alphaClicked = ref(false);
 

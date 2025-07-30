@@ -89,7 +89,7 @@ const props = defineProps({
         default: null
     },
     valtxt: {
-        type: Array<Object>,
+        type: Array<object>,
         required: true
     },
     sameAs: {

@@ -30,8 +30,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-const { data:authData } = useAuth();
 import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
+const { data:authData } = useAuth();
 
 const uiState = {
     refinementList: {

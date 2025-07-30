@@ -1,46 +1,29 @@
 @use '_variables';
 @use '_colors';
 
-@font-face {
-  font-family: 'Bungee';
-  src: url('~/assets/fonts/Bungee-Regular.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'PlayfairDisplay';
-    src: url('~/assets/fonts/Merriweather-Regular.ttf') format('truetype');
-}
-
 
 @font-face {
   font-family: 'BreeSerif';
-  src: url('~/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
+  src: url('@/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
 }
-
-
-@font-face {
-    font-family: 'OpenSans';
-    src: url('~/assets/fonts/Roboto-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'BreeSerif';
-  src: url('~/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
-}
-
 
 @font-face {
   font-family: 'Inter';
-  src: url('~/assets/fonts/Inter.ttf') format('truetype');
+  src: url('@/assets/fonts/Inter.ttf') format('truetype');
 }
 
 html, body {
   font-family: 'Inter', sans-serif;
 }
 
+.bree {
+  font-family: 'BreeSerif', serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @layer utilities {
   .text-rainbow-stripe {
@@ -101,6 +84,25 @@ header {
 
 .bree {
   font-family: 'BreeSerif', serif;
+}
+
+/* collapse-plus */
+.collapse-plus>.collapse-title:after {
+    top: 25%;
+}
+
+.collapse-plus>.collapse-title:after {
+    font-size: 1.875rem;
+    height: 1rem;
+    line-height: 2.25rem;
+    width: 1rem;
+    --tw-text-opacity: 1;
+    color: rgb(54 71 84 / var(--tw-text-opacity, 1));
+}
+
+/* Dark-Mode Support */
+html[data-theme="avefi_dark"] .collapse-plus::after {
+  transform: scale(1.5);
 }
 
 

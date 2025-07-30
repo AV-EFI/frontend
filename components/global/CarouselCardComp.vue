@@ -82,18 +82,12 @@
               <div class="card-actions justify-end">
                 <a
                   :href="item.link"
-                  <<<<<<<
-                  HEAD
-                  class="btn btn-primary max-md:btn-block"
-                >{{ $t(item.linkText) }} <Icon name="formkit:arrowright" /></a>
-                =======
-                class="btn btn-outline max-md:btn-block"
+                  class="btn btn-outline max-md:btn-block"
                 >{{ $t(item.linkText) }} 
-                <Icon
-                  class="hidden md:inline-block"
-                  name="fa-regular:arrow-alt-circle-right"
-                /></a>
-                >>>>>>> comp-structure-documentation
+                  <Icon
+                    class="hidden md:inline-block"
+                    name="fa-regular:arrow-alt-circle-right"
+                  /></a>
               </div>
             </div>
           </div>

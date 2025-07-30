@@ -274,9 +274,10 @@ function formatDuration(has_value): string {
 </script>
 
 <style scoped>
+/*
 .collapse-plus > .collapse-title:after {
   @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
   top: 25%;
 }
-
+*/
 </style>

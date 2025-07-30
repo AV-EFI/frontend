@@ -77,121 +77,80 @@
       v-else
       class="flex flex-col justify-center w-4/5"
     >
-      <<<<<<< HEAD
-      <h4 class="col-span-full text-xs 2xl:text-sm">
+      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
         {{ manifestation?.handle }}
       </h4>
-      <h4 class="col-span-full font-bold text-primary-900 dark:text-primary-200 text-sm my-1 xl:text-base">
-        =======
-        <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
-          {{ manifestation?.handle }}
-        </h4>
-        <h4 class="col-span-full font-bold text-gray-900 dark:text-primary-200 my-1 xl:text-base">
-          >>>>>>> comp-structure-documentation
-          {{ manifestation?.has_record?.described_by?.has_issuer_name }}
-        </h4>
-
-        <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row flex-wrap">
-          <span
-            v-if="manifestation?.has_record?.has_event?.has_date"
-            class="flex flex-row justify-start items-center"
-            :aria-label="$t('productionyear') + ': ' + manifestation._source.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')"
-          >
-            <<<<<<< HEAD
-            {{ manifestation?.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
-          </span>
-          <span
-            v-if="manifestation?.has_record?.has_colour_type"
-            class="flex flex-row items-center"
-          >
-            <template v-if="manifestation?.has_record?.has_event?.has_date">
-              <span class="flex flex-row items-center">&nbsp;&nbsp;</span></template>
-            =======
-            {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
-          </span>
-          <span
-            v-if="manifestation?.has_record?.has_colour_type"
-            class="flex flex-row items-center mr-1"
-            :aria-label="$t('has_colour') + ': ' + $t(manifestation?.has_record?.has_colour_type)"
-          >
-            <template v-if="manifestation?.has_record?.has_event?.has_date">
-              <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
-            </template>
-            >>>>>>> comp-structure-documentation
-            <Icon
-              name="mdi:paint-outline"
-              class="w-4 h-4 mr-1 inline-block"
-              aria-hidden="true"
-            />
-            {{ $t(manifestation?.has_record?.has_colour_type) }}
-          </span>
-          <span
-            v-if="manifestation?.has_record?.in_language"
-            <<<<<<<
-            HEAD
-            class="flex flex-row items-center"
-          >
-            <template v-if="manifestation?.has_record?.has_event?.has_date || manifestation?.has_record?.has_colour_type">
-              <span class="flex flex-row items-center">&nbsp;&nbsp;</span></template>
-            =======
-            v-if="Array.isArray(manifestation?.has_record?.in_language) && manifestation.has_record.in_language.length > 0 && manifestation.has_record?.in_language[0]?.code"
-            class="flex flex-row items-center mr-1"
-            :aria-label="formatInLanguageAria(manifestation.has_record.in_language)"
-            >
-            <template
-              v-if="manifestation?.has_record?.has_event?.length || manifestation?.has_record?.has_colour_type"
-            >
-              <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
-            </template>
-            >>>>>>> comp-structure-documentation
-            <Icon
-              name="mdi:language"
-              class="w-4 h-4 mr-1 inline-block"
-              aria-hidden="true"
-            />
-            <<<<<<< HEAD
-            {{ manifestation?.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
-            =======
-            {{ formatInLanguageText(manifestation.has_record.in_language) }}
-            >>>>>>> comp-structure-documentation
-          </span>
-          <span
-            v-if="manifestation.has_record.has_item"
-            class="flex flex-row items-center"
-          >
-            <Icon
-              name="i-carbon:chart-relationship"
-              class="w-4 h-4 mr-1 inline-block"
-            />
-            {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
-          </span>
-        </div>
-
-        <div class="flex flex-row mt-1">
-          <div
-            v-if="allItemsEmpty"
-            class="badge bg-warning text-white z-10"
-            role="note"
-            :aria-label="$t('emptyItemsLong')"
-          >
-            <Icon
-              class="text-lg"
-              name="mi:document-empty"
-              aria-hidden="true"
-            />
-            &nbsp;{{ $t('emptyItemsShort') }}
-          </div>
-        </div>
-        <<<<<<< HEAD
-        <div class="max-md:flex max-md:justify-end ">
-          <MicroEfiCopyComp
-            :handle="manifestation?.handle?? manifestation?.handle"
-            class="z-10 relative"
-            :comp-size="compSize"
-          />
-        </div>
-        =======
+      <h4 class="col-span-full font-bold text-gray-900 dark:text-primary-200 my-1 xl:text-base">
+        {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
+
+      <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row flex-wrap">
+        <span
+          v-if="manifestation?.has_record?.has_event?.has_date"
+          class="flex flex-row justify-start items-center"
+          :aria-label="$t('productionyear') + ': ' + manifestation._source.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')"
+        >
+          {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
+        </span>
+        <span
+          v-if="manifestation?.has_record?.has_colour_type"
+          class="flex flex-row items-center mr-1"
+          :aria-label="$t('has_colour') + ': ' + $t(manifestation?.has_record?.has_colour_type)"
+        >
+          <template v-if="manifestation?.has_record?.has_event?.has_date">
+            <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
+          </template>
+          <Icon
+            name="mdi:paint-outline"
+            class="w-4 h-4 mr-1 inline-block"
+            aria-hidden="true"
+          />
+          {{ $t(manifestation?.has_record?.has_colour_type) }}
+        </span>
+        <span
+          v-if="Array.isArray(manifestation?.has_record?.in_language) && manifestation.has_record.in_language.length > 0 && manifestation.has_record?.in_language[0]?.code"
+          class="flex flex-row items-center mr-1"
+          :aria-label="formatInLanguageAria(manifestation.has_record.in_language)"
+        >
+          <template
+            v-if="manifestation?.has_record?.has_event?.length || manifestation?.has_record?.has_colour_type"
+          >
+            <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
+          </template>
+          <Icon
+            name="mdi:language"
+            class="w-4 h-4 mr-1 inline-block"
+            aria-hidden="true"
+          />
+          {{ formatInLanguageText(manifestation.has_record.in_language) }}
+        </span>
+        <span
+          v-if="manifestation.has_record.has_item"
+          class="flex flex-row items-center"
+        >
+          <Icon
+            name="i-carbon:chart-relationship"
+            class="w-4 h-4 mr-1 inline-block"
+          />
+          {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
+        </span>
+      </div>
+
+      <div class="flex flex-row mt-1">
+        <div
+          v-if="allItemsEmpty"
+          class="badge bg-warning text-white z-10"
+          role="note"
+          :aria-label="$t('emptyItemsLong')"
+        >
+          <Icon
+            class="text-lg"
+            name="mi:document-empty"
+            aria-hidden="true"
+          />
+          &nbsp;{{ $t('emptyItemsShort') }}
+        </div>
+      </div>
     </div>
 
     <div class="hidden">
@@ -201,12 +160,13 @@
         class="z-10 relative"
         :comp-size="compSize"
       />
-      >>>>>>> comp-structure-documentation
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
     manifestation: Object as PropType<any>,
     type: String as PropType<string>,
@@ -223,8 +183,6 @@ const props = defineProps({
         default: false,
     },
 });
-
-import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
 
 function safeT(val: unknown): string {

@@ -2,9 +2,12 @@ import type { IAVefiListResponse } from '../models/interfaces/IAVefiWork';
 
 const getDataSet = async function (routeParamsId: string[]): Promise<IAVefiListResponse | null> { 
 
+    console.log('***');
+    console.log('getDataSet', routeParamsId);
+
     const config = useRuntimeConfig();
     const { data } = await useApiFetchLocal<IAVefiListResponse>(
-        `${config.public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}/${routeParamsId}`,
+        `${config.public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
         {
             method: 'POST',
             headers: {

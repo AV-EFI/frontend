@@ -16,20 +16,20 @@
   </div>
 </template>
 <script setup lang="ts">
+import Client from '@searchkit/instantsearch-client';
+import { config } from '../../searchConfig_avefi.ts';
+
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+
 definePageMeta({
     auth: false,
     ssr: false,
 });
 
-import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi.ts';
-
 const searchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_SEARCH}`,  
 });
-
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
 const { currentUrlState } = useCurrentUrlState();
 
 

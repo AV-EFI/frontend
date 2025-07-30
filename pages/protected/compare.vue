@@ -3,7 +3,7 @@ definePageMeta({
     //middleware: 'auth'
 });
 const route = useRoute();
-const items = new Array();
+const items = [];
 items[0] = route.query.prev;
 items[1] = route.query.next;
 

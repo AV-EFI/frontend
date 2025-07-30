@@ -1,4 +1,3 @@
-import { set } from 'node_modules/nuxt/dist/app/compat/capi';
 import { defineStore } from 'pinia';
 
 // Define the structure of each object in the list
@@ -32,7 +31,7 @@ export const useObjectListStore = defineStore({
         }
     },
     actions: {
-        async addObject(object: ObjectItem): Promise<String> {
+        async addObject(object: ObjectItem): Promise<string> {
             if (this.objects.length >= 2) {
                 return "listfull";
             }

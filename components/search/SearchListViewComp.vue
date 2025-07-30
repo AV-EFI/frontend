@@ -2,7 +2,7 @@
   <div
     v-for="item in items"
     :key="item.handle"
-    class="card bg-white border border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+    class="card bg-white border border-base-100 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-label="`${$t('title')}: ${item?.has_record?.has_primary_title?.has_name}`"
   >
@@ -200,7 +200,7 @@
       </div>
     </Transition>
 
-    <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center">
+    <div class="border-t border-base-200 pt-2 bg-base-200 px-3 py-2 flex justify-center">
       <button
         class="btn btn-primary btn-xs btn-outline my-2 mx-auto"
         :aria-label="$t('toggleDetails')"
@@ -329,9 +329,12 @@
 <script lang="ts" setup>
 import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
 
-const route = useRoute();
-
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+
+import { useI18n } from 'vue-i18n';
+
+const route = useRoute();
 
 const activeGenres = ref<string[]>([]);
 const activeSubjects = ref<string[]>([]);
@@ -402,9 +405,6 @@ onMounted(() => {
 });
 
 const lastHref = ref(window.location.href);
-
-
-import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
 const props = defineProps({
     items: {

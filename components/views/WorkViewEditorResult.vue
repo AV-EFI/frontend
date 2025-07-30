@@ -245,6 +245,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { toast } from "vue3-toastify";
 const initialState = {
     efi: "",
     title: "",
@@ -259,7 +260,6 @@ const initialState = {
     other_id: [],
     last_edit: "Deutsche Kinemathek - Museum für Film und Fernsehen"
 };
-import { toast } from "vue3-toastify";
 const dataJson = defineModel({type: Object, required: true});
 
 function customReset () {
