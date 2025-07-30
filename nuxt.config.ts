@@ -217,7 +217,7 @@ export default defineNuxtConfig({
       eslint({
         failOnWarning: false,
         failOnError: false,
-        formatter: process.env.NODE_ENV === 'production' ? 'summary' : 'compact',
+        formatter: process.env.NODE_ENV === 'production' ? 'compact' : 'stylish',
         cache: false,
         include: [
           'components/**/*.{js,ts,vue}',
