@@ -3213,7 +3213,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/nuxt@npm:^0.11.2":
+"@pinia/nuxt@npm:0.11.2":
   version: 0.11.2
   resolution: "@pinia/nuxt@npm:0.11.2"
   dependencies:
@@ -11325,7 +11325,7 @@ __metadata:
     "@nuxtjs/robots": "npm:^4.1.11"
     "@nuxtjs/tailwindcss": "npm:^6.12.2"
     "@pinia-plugin-persistedstate/nuxt": "npm:^1.2.1"
-    "@pinia/nuxt": "npm:^0.11.2"
+    "@pinia/nuxt": "npm:0.11.2"
     "@searchkit/api": "npm:^4.13.0"
     "@searchkit/instantsearch-client": "npm:^4.14.1"
     "@sidebase/nuxt-auth": "npm:^0.10.1"

@@ -217,7 +217,7 @@ export default defineNuxtConfig({
       eslint({
         failOnWarning: false,
         failOnError: false,
-        formatter: 'compact',
+        formatter: process.env.NODE_ENV === 'production' ? 'summary' : 'compact',
         cache: false,
         include: [
           'components/**/*.{js,ts,vue}',
@@ -235,6 +235,7 @@ export default defineNuxtConfig({
     i18n: {
         strategy: 'no_prefix',
         locales: ['de', 'en'],
+        defaultLocale: 'de',
         lazy: true,
         skipSettingLocaleOnNavigate: true,
         detectBrowserLanguage: {
