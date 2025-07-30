@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "generate:scss-vars": "tsx scripts/generate-scss-vars.ts",
-        "dev": "yarn generate:scss-vars && nuxt dev --dotenv .env.local --host 0.0.0.0 --port 3000",
+        "dev": "yarn generate:scss-vars && yarn lint:quiet || true; nuxt dev --dotenv .env.local --host 0.0.0.0 --port 3000",
         "build": "yarn generate:scss-vars && nuxt build",
         "dev:debug": "nuxt dev --inspect --dotenv .env.local",
         "generate": "nuxt generate",
@@ -13,7 +13,7 @@
         "deploy": "npm run build",
         "clean:project": "node scripts/clear_project.js",
         "lint": "eslint .",
-        "lint:quiet": "eslint ."
+        "lint:quiet": "eslint . --quiet"
     },
     "dependencies": {
         "@auth/core": "^0.40.0",
@@ -97,7 +97,6 @@
         "@types/node": "^24.0.15",
         "@types/vue": "^2.0.0",
         "eslint": "^9.32.0",
-        "eslint-formatter-summary": "^2.0.2",
         "sass": "^1.83.0",
         "tsx": "^4.20.3",
         "typedoc": "^0.28.7",
