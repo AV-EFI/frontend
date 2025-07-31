@@ -7,7 +7,7 @@
       ]"
       class="mb-4"
     />
-    <div v-if="auth.data?.user">
+    <div v-if="auth.data.value?.user">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
           <div class="flex px-4">
@@ -43,9 +43,10 @@ import { reactive, onMounted } from 'vue';
 import { FormKitSchema } from '@formkit/vue';
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
 
-// ✅ Keine destrukturierung → verhindert "Assignment to constant variable"
+// ✅ Nicht destrukturieren – kein const data!
 const auth = useAuth();
 
+// ✅ Reaktives Profil-Objekt, keine const-Zuweisungen
 const profile = reactive({
   user: {
     name: '',
@@ -58,26 +59,29 @@ const profile = reactive({
 });
 
 onMounted(async () => {
+  // Session nur laden, wenn noch kein User da ist
   if (!auth.data.value?.user) {
-    await auth.getSession();
-    console.log('Session fetched:', auth.data.value);
+    try {
+      await auth.getSession();
+      console.log('Session fetched:', auth.data.value);
+    } catch (err) {
+      console.error('Error fetching session:', err);
+    }
   }
 
-  console.log('data.value:', auth.data.value);
-
-  if (auth.data.value?.user) {
-    console.log('User data:', auth.data.value.user);
+  const user = auth.data.value?.user;
+  if (user) {
     try {
-      profile.user.name = auth.data.value.user.name || '';
-      profile.user.email = auth.data.value.user.email || '';
-      profile.user.institution = auth.data.value.user.orgid || '';
+      profile.user.name = user.name || '';
+      profile.user.email = user.email || '';
+      profile.user.institution = user.orgid || '';
 
       if (auth.data.value.timestamp && auth.data.value.timeout) {
         const expiresAt = new Date((auth.data.value.timestamp + auth.data.value.timeout) * 1000);
         profile.expires = expiresAt.toLocaleString();
       }
     } catch (error) {
-      console.error('Error fetching session:', error);
+      console.error('Error mapping user data:', error);
     }
   }
 });
