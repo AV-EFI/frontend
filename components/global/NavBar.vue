@@ -49,37 +49,37 @@
                 <a href="/contact">{{ $t("help") }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/dashboard">{{ $t('dashboard') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/mergetool">{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/institutionlist">{{ $t('myDatasets') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/favouriteslist">{{ $t('favourites') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/me">{{ $t('profile') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <button
@@ -121,13 +121,14 @@
                 v-html="$t('avefiClaimHtml')"
               />
             </div>
-            <p v-if="isDev">
-              <span class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24">
-                Test
-              </span>
-            </p>
             <div
-              v-if="!alphaClicked && !isDev"
+                v-if="envLabel !== 'Production'"
+                class="badge badge-accent text-white mr-auto ml-3 my-auto text-left h-6 w-24"
+              >
+                {{ envLabel }}
+            </div>
+            <div
+              v-if="!alphaClicked && envLabel === 'Production'"
               class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24 cursor-pointer"
               @click="alphaClicked = !alphaClicked"
             >
@@ -191,7 +192,7 @@
               <MicroSendMailButt />
             </li>
             <li
-              v-if="data"
+              v-if="data?.user"
               class="h-12 flex justify-center"
             >
               <details @toggle="detailsOpen = $event.target.open">
@@ -208,7 +209,7 @@
                     <div class="w-8 rounded-full" />
                   </div>
                   <div v-else>
-                    Hello {{ data?.user?.name }}
+                    {{$t('hello')}} {{ data?.user?.name }}
                   </div>
                 </summary>
                 <ul
@@ -226,7 +227,7 @@
                     <a
                       role="menuitem"
                       href="/protected/mergetool"
-                    >{{ $t('mergeTool') }}<span class="badge badge-accent">1</span></a>
+                    >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
                   </li>
                   <li role="none">
                     <a
@@ -268,7 +269,7 @@
                 class="btn btn-circle btn-sm btn-outline"
                 :aria-label="ariaLabelLogin"
                 :title="$t('Login')"                
-                @click="signIn('keycloak')"
+                @click="signIn"
               >
                 <LazyIcon
                   name="fa-regular:user"
@@ -300,7 +301,8 @@ const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
 const detailsOpen = ref(false);
 
-const isDev = import.meta.dev;
+const config = useRuntimeConfig();
+const envLabel = config.public.ENV_LABEL;
 
 const alphaClicked = ref(false);
 

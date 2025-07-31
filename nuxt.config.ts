@@ -60,15 +60,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            dbHost: process.env.POSTGRES_HOST,
-            dbDb: process.env.POSTGRES_DB,
-            dbUser: process.env.POSTGRES_USER,
-            dbPw: process.env.POSTGRES_PASSWORD,
-            myEnvVariable: process.env.MY_ENV_VARIABLE,
-            apiUrl: process.env.API_URL,
-            authUrl: process.env.AUTH_URL,
-            cmsUrl: process.env.CMS_URL,
-            analyticsUrl: process.env.ANALYTICS_URL,
+            ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL || 'Development',
             origin: process.env.ORIGIN,
             frontendUrl: process.env.ORIGIN,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,

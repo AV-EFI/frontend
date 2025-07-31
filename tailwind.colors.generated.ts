@@ -56,23 +56,26 @@ export const lightThemeColors = {
     "DEFAULT": "#ff1d25"
   },
   "neutral": {
-    "50": "#f9fafb",
-    "100": "#f3f4f6",
-    "200": "#e5e7eb",
-    "300": "#d1d5db",
-    "400": "#9ca3af",
-    "500": "#6b7280",
-    "600": "#4b5563",
-    "700": "#374151",
-    "800": "#1f2937",
-    "900": "#111827",
-    "DEFAULT": "#6b7280"
+    "50": "#f5f6f7",
+    "100": "#e1e4e7",
+    "200": "#c2c8ce",
+    "300": "#9aa1a9",
+    "400": "#6d747c",
+    "500": "#4a525b",
+    "600": "#343c45",
+    "700": "#262e37",
+    "800": "#1d262f",
+    "900": "#171e25",
+    "950": "#0e1318",
+    "DEFAULT": "#1d262f",
+    "content": "#ffffff"
   },
   "base": {
-    "100": "#f8f9fa",
-    "200": "#e9ecef",
-    "300": "#dee2e6",
-    "content": "#212529"
+    "100": "#fbfcfd",
+    "200": "#f3f6f8",
+    "300": "#edf0f3",
+    "content": "#212529",
+    "DEFAULT": "#fbfcfd"
   },
   "highlight": "#b2161d",
   "highlight-content": "#ffffff",
@@ -85,7 +88,8 @@ export const lightThemeColors = {
   "compare-list-content": "#ffffff",
   "work": "#F3E2B8",
   "manifestation": "#E8D39E",
-  "item": "#DDC48B"
+  "item": "#DDC48B",
+  "bc": "#4d768d"
 };
 export const darkThemeColors = {
   "primary": {
@@ -130,6 +134,17 @@ export const darkThemeColors = {
     "DEFAULT": "#ff1d25"
   },
   "neutral": {
+    "50": "#f5f6f7",
+    "100": "#e1e4e7",
+    "200": "#c2c8ce",
+    "300": "#9aa1a9",
+    "400": "#6d747c",
+    "500": "#4a525b",
+    "600": "#343c45",
+    "700": "#262e37",
+    "800": "#1d262f",
+    "900": "#171e25",
+    "950": "#0e1318",
     "DEFAULT": "#1d262f",
     "content": "#ffffff"
   },
@@ -137,7 +152,8 @@ export const darkThemeColors = {
     "100": "#1d262f",
     "200": "#2a333a",
     "300": "#3a444c",
-    "content": "#f3f7f8"
+    "content": "#f3f7f8",
+    "DEFAULT": "#1d262f"
   },
   "favourites-list": "#b55a63",
   "favourites-list-hover": "#a04852",

@@ -15,12 +15,11 @@
         Werk
       </template>
       <template #actions>
-        <div v-if="apiData?.data">
           <LazyCartAddToComparisonComp
+            v-if="apiData?.data"
             :film-id="(apiData?.data as IAVefiData).id"
             :film-title="apiData?.data?.attributes?.Title"
           />
-        </div>
       </template>
       <template #cardBody>
         <div v-if="apiData?.data">

@@ -24,7 +24,7 @@
       <template #title>
         <NuxtLayout
           name="partial-grid-2-1-flex"
-          left-class="bg-primary dark:bg-primary-600 rounded-t-xl py-4"
+          left-class="rounded-t-xl py-4"
         >
           <template
             #left

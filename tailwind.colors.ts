@@ -58,23 +58,26 @@ export const lightThemeColors = {
     DEFAULT: '#ff1d25',
   },
   neutral: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827',
-    DEFAULT: '#6b7280',
+    50:  '#f5f6f7', // very light (text on dark)
+    100: '#e1e4e7',
+    200: '#c2c8ce',
+    300: '#9aa1a9',
+    400: '#6d747c',
+    500: '#4a525b', // mid-tone
+    600: '#343c45',
+    700: '#262e37', // slightly lighter than base
+    800: '#1d262f', // base color
+    900: '#171e25', // deeper
+    950: '#0e1318',  // almost black
+    DEFAULT: '#1d262f',
+    content: '#ffffff',
   },
   base: {
-    100: '#f8f9fa', // fast weiß, leicht kühl
-    200: '#e9ecef',
-    300: '#dee2e6',
+    100: '#fbfcfd', // heller, fast reinweiß
+    200: '#f3f6f8', // sehr hell
+    300: '#edf0f3', // leicht abgesetzter Hintergrund
     content: '#212529',
+    DEFAULT: '#fbfcfd', // Basisfarbe für helle Themes
   },
   custom: {
     highlight: '#b2161d',
@@ -90,6 +93,7 @@ export const lightThemeColors = {
     manifestation: '#E8D39E',
     item: '#DDC48B',
   },
+  bc: '#4d768d',
 };
 
 export const darkThemeColors = {
@@ -134,15 +138,27 @@ export const darkThemeColors = {
     900: '#670d12',
     DEFAULT: '#ff1d25',
   },
-  neutral: {
+neutral: {
+    50:  '#f5f6f7', // very light (text on dark)
+    100: '#e1e4e7',
+    200: '#c2c8ce',
+    300: '#9aa1a9',
+    400: '#6d747c',
+    500: '#4a525b', // mid-tone
+    600: '#343c45',
+    700: '#262e37', // slightly lighter than base
+    800: '#1d262f', // base color
+    900: '#171e25', // deeper
+    950: '#0e1318',  // almost black
     DEFAULT: '#1d262f',
-    'content': '#ffffff',
-  },
+    content: '#ffffff',
+},
   base: {
     100: '#1d262f',
     200: '#2a333a',
     300: '#3a444c',
     'content': '#f3f7f8',
+    DEFAULT: '#1d262f', // Basisfarbe für dunkle Themes
   },
   custom: {
     'favourites-list': '#b55a63',

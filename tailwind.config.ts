@@ -1,5 +1,5 @@
 import { lightThemeColors, darkThemeColors } from './tailwind.colors';
-import { pastel, cupcake, night } from 'daisyui/src/theming/themes';
+import { nord, night } from 'daisyui/src/theming/themes';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -30,8 +30,26 @@ module.exports = {
         '128': '32rem',
       },
       colors: {
+        /*
         ...lightThemeColors,
         ...(lightThemeColors.custom || {}), // <-- ensure custom colors are included
+        */
+        'bali-hai': lightThemeColors.baliHai,
+        'primary': lightThemeColors.primary,
+        'secondary': lightThemeColors.secondary,
+        'accent': lightThemeColors.accent,
+        'highlight': lightThemeColors.custom.highlight,
+        'highlight-content': lightThemeColors.custom['highlight-content'] || '#ffffff',
+        'favourites-list': lightThemeColors.custom['favourites-list'],
+        'favourites-list-content': lightThemeColors.custom['favourites-list-content'] || '#ffffff',
+        'favourites-list-hover': lightThemeColors.custom['favourites-list-hover'] || lightThemeColors.custom.highlight,
+        'favourites-list-hover-content': lightThemeColors.custom['favourites-list-hover-content'] || '#ffffff',
+        'compare-list': lightThemeColors.custom['compare-list'] || '#2a333a',
+        'compare-list-hover': lightThemeColors.custom['compare-list-hover'] || '#1d262f',
+        'compare-list-content': lightThemeColors.custom['compare-list-content'] || '#ffffff',
+        'work': lightThemeColors.custom.work,
+        'manifestation': lightThemeColors.custom.manifestation,
+        'item': lightThemeColors.custom.item,
       },
     },
   },
@@ -123,27 +141,38 @@ module.exports = {
     viewer: false,
     themes: [
       {
-        avefi_light: {
-          ...cupcake,
-          ...lightThemeColors,
-          primary: lightThemeColors.primary?.DEFAULT || lightThemeColors.primary,
-          'primary-content': '#ffffff',
-          secondary: lightThemeColors.secondary?.DEFAULT || lightThemeColors.secondary,
-          accent: lightThemeColors.accent?.DEFAULT || lightThemeColors.accent,
-          neutral: lightThemeColors.neutral?.DEFAULT || lightThemeColors.neutral,
-        },
-      },
-      {
-        avefi_dark: {
-          ...night,
-          ...darkThemeColors,
-          primary: darkThemeColors.primary?.DEFAULT || darkThemeColors.primary,
-          'primary-content': '#ffffff',
-          secondary: darkThemeColors.secondary?.DEFAULT || darkThemeColors.secondary,
-          accent: darkThemeColors.accent?.DEFAULT || darkThemeColors.accent,
-          neutral: darkThemeColors.neutral?.DEFAULT || darkThemeColors.neutral,
-        },
-      },
+    avefi_light: {
+      ...nord, // DaisyUI Basisfarben
+      ...lightThemeColors,
+      primary: lightThemeColors.primary?.DEFAULT || lightThemeColors.primary,
+      'primary-content': '#ffffff',
+      secondary: lightThemeColors.secondary?.DEFAULT || lightThemeColors.secondary,
+      accent: lightThemeColors.accent?.DEFAULT || lightThemeColors.accent,
+      // ✅ Hier richtig überschreiben
+      neutral: lightThemeColors.neutral?.DEFAULT || '#364754',
+      'neutral-content': '#ffffff', // Kontrastfarbe
+      base: lightThemeColors.base?.DEFAULT || '#fbfcfd',
+      'base-content': lightThemeColors.base?.content || '#212529', // Textfarbe auf hellem Hintergrund
+      'base-100': lightThemeColors.base?.[100] || '#fbfcfd',
+      'base-200': lightThemeColors.base?.[200] || '#f3f6f8',
+      'base-300': lightThemeColors.base?.[300] || '#edf0f3',
+    },
+  },
+  {
+    avefi_dark: {
+      ...night,
+      ...darkThemeColors,
+      primary: darkThemeColors.primary?.DEFAULT || darkThemeColors.primary,
+      'primary-content': '#ffffff',
+      secondary: darkThemeColors.secondary?.DEFAULT || darkThemeColors.secondary,
+      accent: darkThemeColors.accent?.DEFAULT || darkThemeColors.accent,
+      // ✅ Dark-Theme Neutral
+      neutral: darkThemeColors.neutral?.DEFAULT || '#1d262f',
+      'neutral-content': darkThemeColors.neutral?.content || '#ffffff', // Kontrastfarbe
+      base: darkThemeColors.base?.DEFAULT || '#1e1e1e',
+      'base-content': darkThemeColors.base?.content || '#212529', // Textfarbe auf hellem Hintergrund
+    }
+  }
     ],
   },
 };

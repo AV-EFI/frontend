@@ -1,7 +1,19 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+
+import { onMounted, onBeforeUnmount } from 'vue';
 const locale = useNuxtApp().$i18n.locale;
 const { t:$t } = useI18n();
+
+const auth = useAuth();
+
+onMounted(() => {
+  auth.startSessionPolling();
+});
+
+onBeforeUnmount(() => {
+  auth.stopSessionPolling();
+});
 
 useHead({
     title: "AVefi",
@@ -26,12 +38,10 @@ useSeoMeta({
     ogUrl: "https://www.av-efi.net",});
 
 const {
-    cookiesEnabled,
-    cookiesEnabledIds,
-    isConsentGiven,
-    isModalActive,
-    moduleOptions,
+    cookiesEnabledIds
 } = useCookieControl();
+
+
 
 // example: react to a cookie being accepted
 watch(
@@ -95,6 +105,7 @@ watch(
             v-text="c.cookies"
           />
         </template>
+        <GlobalAuthProvider />
       </LazyCookieControl>
     </NuxtLayout>
   </div>

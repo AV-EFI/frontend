@@ -1,11 +1,21 @@
-import { useAuth } from '../composables/useAuth';
+import { useAuth } from '~/composables/useAuth';
 
 export default defineNuxtRouteMiddleware(async (to) => {
-    if (to.path.startsWith('/protected')) {
-        const auth = useAuth();
-        await auth.fetchSession();
-        if (!auth.isAuthenticated.value) {
-            return navigateTo('/login');
-        }
+  // ✅ Run middleware only on client
+  if (import.meta.server) return;
+
+  if (to.path.startsWith('/protected')) {
+    const auth = useAuth();
+
+    // If data is already available → allow access
+    if (auth.data.value?.user) return;
+
+    // Otherwise fetch it and wait
+    await auth.getSession();
+
+    // Redirect only if still no user
+    if (!auth.data.value?.user) {
+      return navigateTo('/');
     }
+  }
 });
