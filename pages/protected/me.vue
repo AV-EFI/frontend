@@ -3,7 +3,9 @@
     <div v-if="auth.isAuthenticated">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
-          <h2>{{ $t('profile') }}</h2>
+          <h2 class="text-2xl">
+            {{ $t('profile') }}
+          </h2>
         </template>
         <template #cardBody>
           <Suspense>

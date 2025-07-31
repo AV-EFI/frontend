@@ -65,7 +65,7 @@ watch(
     <NuxtLayout
       class="layouts"
     >
-      <div class="container grow mx-auto dark:text-white dark:border-gray-700">
+      <div class="my-2 container grow mx-auto dark:text-white dark:border-gray-700">
         <NuxtPage />
       </div>
       <LazyCookieControl :locale="locale">

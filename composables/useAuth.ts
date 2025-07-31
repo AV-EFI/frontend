@@ -7,6 +7,7 @@ let sessionInterval: ReturnType<typeof setInterval> | null = null;
 
 export function useAuth() {
   const config = useRuntimeConfig().public;
+  const { $router } = useNuxtApp(); // ✅ nur hier initialisieren
   const SESSION_ENDPOINT = config.AUTH_SESSION_ENDPOINT;
   const SIGNIN_ENDPOINT = config.AUTH_SIGNIN_ENDPOINT;
   const SIGNOUT_ENDPOINT = config.AUTH_SIGNOUT_ENDPOINT;
@@ -46,30 +47,24 @@ export function useAuth() {
   }
 
   async function signOut() {
-    const { $router } = useNuxtApp();
-
     try {
       await $fetch(SIGNOUT_ENDPOINT, { credentials: 'include' });
     } finally {
       data.value = null;
       localStorage.removeItem('auth_session');
 
-      // ✅ Broadcast logout for other tabs
       if (import.meta.client) {
         localStorage.setItem('auth_logout', Date.now().toString());
         localStorage.removeItem('auth_logout');
       }
 
       stopSessionPolling();
-
-      // ✅ Redirect current tab
       $router.push('/');
     }
   }
 
   const isAuthenticated = computed(() => !!data.value?.user);
 
-  // ✅ Global storage listener
   if (import.meta.client) {
     window.addEventListener('storage', (event) => {
       if (event.key === 'auth_session' && event.newValue) {
@@ -80,17 +75,13 @@ export function useAuth() {
         }
       }
 
-      // ✅ Auto-logout cross-tab
       if (event.key === 'auth_logout') {
         data.value = null;
         stopSessionPolling();
-
-        const { $router } = useNuxtApp();
-        $router.push('/');
+        $router.push('/'); // ✅ nutzen, kein useNuxtApp mehr
       }
     });
 
-    // Restore session if available
     const saved = localStorage.getItem('auth_session');
     if (saved) {
       try {
