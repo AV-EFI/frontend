@@ -7,7 +7,10 @@
       ]"
       class="mb-4"
     />
-    <div v-if="auth.data.value?.user">
+    <div v-if="fatalError" class="p-6 text-center text-error">
+      <p>{{ $t('errorOccurred') }}: {{ fatalError }}</p>
+    </div>
+    <div v-else-if="auth.data.value?.user">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
           <div class="flex px-4">
@@ -39,14 +42,17 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import { FormKitSchema } from '@formkit/vue';
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
 
-// ✅ Nicht destrukturieren – kein const data!
-const auth = useAuth();
+const log = (...args: unknown[]) => {
+  console.log(`[ProfilePage ${new Date().toISOString()}]`, ...args);
+};
 
-// ✅ Reaktives Profil-Objekt, keine const-Zuweisungen
+const auth = useAuth();
+const fatalError = ref<string | null>(null);
+
 const profile = reactive({
   user: {
     name: '',
@@ -59,30 +65,45 @@ const profile = reactive({
 });
 
 onMounted(async () => {
-  // Session nur laden, wenn noch kein User da ist
-  if (!auth.data.value?.user) {
-    try {
-      await auth.getSession();
-      console.log('Session fetched:', auth.data.value);
-    } catch (err) {
-      console.error('Error fetching session:', err);
-    }
-  }
-
-  const user = auth.data.value?.user;
-  if (user) {
-    try {
-      profile.user.name = user.name || '';
-      profile.user.email = user.email || '';
-      profile.user.institution = user.orgid || '';
-
-      if (auth.data.value.timestamp && auth.data.value.timeout) {
-        const expiresAt = new Date((auth.data.value.timestamp + auth.data.value.timeout) * 1000);
-        profile.expires = expiresAt.toLocaleString();
+  try {
+    log('Mounted: Starting session check');
+    if (!auth.data.value?.user) {
+      log('No user in session, fetching...');
+      try {
+        await auth.getSession();
+        log('Session fetched successfully:', auth.data.value);
+      } catch (err) {
+        log('❌ Error fetching session:', err);
+        fatalError.value = (err as Error)?.message || 'Session fetch failed';
+        return;
       }
-    } catch (error) {
-      console.error('Error mapping user data:', error);
     }
+
+    const user = auth.data.value?.user;
+    if (user) {
+      try {
+        log('Mapping user data to profile');
+        profile.user.name = user.name || '';
+        profile.user.email = user.email || '';
+        profile.user.institution = user.orgid || '';
+
+        if (auth.data.value.timestamp && auth.data.value.timeout) {
+          const expiresAt = new Date(
+            (auth.data.value.timestamp + auth.data.value.timeout) * 1000
+          );
+          profile.expires = expiresAt.toLocaleString();
+        }
+        log('Profile mapped successfully:', JSON.stringify(profile));
+      } catch (error) {
+        log('❌ Error mapping user data:', error);
+        fatalError.value = (error as Error)?.message || 'Mapping error';
+      }
+    } else {
+      log('No user object found in auth data');
+    }
+  } catch (outerErr) {
+    log('🔥 Fatal error during onMounted execution:', outerErr);
+    fatalError.value = (outerErr as Error)?.message || 'Unexpected error';
   }
 });
 </script>
