@@ -29,7 +29,7 @@ export function useAuth() {
       if (import.meta.client) {
         localStorage.setItem('auth_session', JSON.stringify(data.value));
       } else {
-        log('⚠️ Tried to set localStorage in SSR');
+        log('⚠️ Tried to access localStorage in SSR (skipped)');
       }
     } catch (e) {
       log('❌ Error fetching session', e);
@@ -74,6 +74,8 @@ export function useAuth() {
       log('Sign-in redirecting to', SIGNIN_ENDPOINT);
       if (import.meta.client) {
         window.location.href = SIGNIN_ENDPOINT;
+      } else {
+        log('⚠️ Tried to signIn during SSR (ignored)');
       }
     } catch (e) {
       log('❌ Error in signIn', e);
@@ -89,6 +91,7 @@ export function useAuth() {
       log('❌ Error during sign-out request', e);
     } finally {
       data.value = null;
+
       if (import.meta.client) {
         try {
           localStorage.removeItem('auth_session');
@@ -97,7 +100,10 @@ export function useAuth() {
         } catch (e) {
           log('⚠️ localStorage error during sign-out', e);
         }
+      } else {
+        log('⚠️ Tried to modify localStorage during SSR');
       }
+
       stopSessionPolling();
       try {
         $router.push('/');
@@ -144,6 +150,8 @@ export function useAuth() {
     } catch (e) {
       log('❌ Error setting up client storage handling', e);
     }
+  } else {
+    log('⚠️ useAuth initialized in SSR context (localStorage skipped)');
   }
 
   return {
