@@ -11,9 +11,6 @@ export default defineNuxtConfig({
         baseURL: '/',
         pageTransition: false
     },
-    nitro: {
-        debug: true,
-    },
     devtools: {
         enabled: true,
         vscode: false, // disable VS Code integration
@@ -21,7 +18,6 @@ export default defineNuxtConfig({
         components: false, // no component inspector
         performance: true, // no performance tracking
         hmr: true        // ✅ keep only HMR event logging
-
     },
     nitro: {
         preset: 'node-server',
@@ -30,6 +26,7 @@ export default defineNuxtConfig({
         scheduledTasks: process.env.NODE_ENV === 'production'
             ? { '0 */12 * * *': 'wmi_mapping_refresh' }
             : {}, // disable during local dev
+        debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
     },
     build: {
         transpile: ['vue-diff']
