@@ -110,7 +110,7 @@
               >
             </a>
             <img
-              :src="locale.value === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'"
+              :src="locale === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'"
               :alt="t('avefiClaim')"
               :title="t('avefiClaim')"
               class="hidden h-12 w-auto ml-2 rounded-lg dark:invert"

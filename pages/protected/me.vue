@@ -7,7 +7,7 @@
       ]"
       class="mb-4"
     />
-    <div v-if="auth.isAuthenticated">
+    <div v-if="data.value?.user">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
           <div class="flex px-4">
@@ -42,10 +42,8 @@
 import { reactive, onMounted } from 'vue';
 import { FormKitSchema } from '@formkit/vue';
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
-import { useAuth } from '~/composables/useAuth';
 
-const auth = useAuth();
-const { data, getSession } = auth;
+const { data, getSession } = useAuth();
 
 // ✅ Match fk_me.json structure
 const profile = reactive({
@@ -76,16 +74,15 @@ onMounted(async () => {
       }
 
       // ✅ Default role (no backend roles yet)
-      profile.role = 1; // "Authenticated"
+      //profile.role = 1; // "Authenticated"
 
       // ✅ Blocked status
-      profile.blocked = false;
+      //profile.blocked = false;
 
     }
     catch (error) {
       console.error('Error fetching session:', error);
     }
-
   }
 });
 </script>

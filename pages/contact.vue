@@ -1,25 +1,4 @@
 <script setup lang="ts">
-interface ApiPage {
-  "data": {
-        "id": number,
-        "attributes": {
-            "title": string,
-            "createdAt": string,
-            "updatedAt": string,
-            "publishedAt": string,
-            "locale": string,
-            "FAQs": FAQ[],
-            "DescriptionCK": string
-        }
-    },
-    "meta": {}
-}
-
-interface FAQ {
-  id: number,
-  Question: string,
-  Answer: string
-}
 definePageMeta({
     auth: false
 });

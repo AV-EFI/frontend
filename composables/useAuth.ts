@@ -78,7 +78,7 @@ export function useAuth() {
       if (event.key === 'auth_logout') {
         data.value = null;
         stopSessionPolling();
-        $router.push('/'); // ✅ nutzen, kein useNuxtApp mehr
+        $router.push('/');
       }
     });
 

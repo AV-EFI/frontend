@@ -98,7 +98,8 @@ watch(
         <template #modal>
           <h3>{{ $t('dataprotection') }}</h3>
           <p>{{ $t('cookiesModalDescription') }}</p>
-        </template><template #cookie="{config}">
+        </template>
+        <template #cookie="{config}">
           <span
             v-for="c in config"
             :key="c.id"
