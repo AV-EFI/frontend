@@ -9,12 +9,10 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-07-31',
     app: {
         baseURL: '/',
+        pageTransition: false
     },
     nitro: {
         debug: true,
-    },
-    app: {
-        pageTransition: false,
     },
     devtools: {
         enabled: true,
@@ -117,7 +115,8 @@ export default defineNuxtConfig({
         "/protected/institutionlist": { ssr: false },
         "/protected/dashboard": { ssr: false },
         "/protected/mergetool": { ssr: false },
-    //"/api/*": { cache: { maxAge: 60 * 60 } },
+        "/protected/compare": { ssr: false },
+        "/protected/me": { ssr: false },
     },
     css: [
         "~/assets/scss/main.scss"
