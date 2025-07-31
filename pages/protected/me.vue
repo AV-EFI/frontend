@@ -20,18 +20,12 @@
           </div>
         </template>
         <template #cardBody>
-          <Suspense>
-            <FormKit
-              v-model="profile"
-              type="form"
-              :actions="false"
-            >
-              <FormKitSchema
-                :data="profile"
-                :schema="schemaFk"
-              />
-            </FormKit>
-          </Suspense>
+          <div class="p-4 space-y-4">
+            <p><strong>Name:</strong> {{ profile.user.name }}</p>
+            <p><strong>Email:</strong> {{ profile.user.email }}</p>
+            <p><strong>Institution:</strong> {{ profile.user.institution }}</p>
+            <p><strong>Expires:</strong> {{ profile.expires }}</p>
+          </div>
         </template>
       </NuxtLayout>
     </div>
@@ -43,8 +37,6 @@
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
-import { FormKitSchema } from '@formkit/vue';
-import schemaFk from '../../models/formkit-schemas/fk_me.json';
 
 const log = (...args: unknown[]) => {
   console.log(`[ProfilePage ${new Date().toISOString()}]`, ...args);
