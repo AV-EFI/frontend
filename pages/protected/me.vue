@@ -7,13 +7,13 @@
       ]"
       class="mb-4"
     />
-    <div v-if="data?.user">
+    <div v-if="auth.data?.user">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
           <div class="flex px-4">
-          <h2 class="text-2xl">
-            {{ $t('profile') }}
-          </h2>
+            <h2 class="text-2xl">
+              {{ $t('profile') }}
+            </h2>
           </div>
         </template>
         <template #cardBody>
@@ -43,9 +43,9 @@ import { reactive, onMounted } from 'vue';
 import { FormKitSchema } from '@formkit/vue';
 import schemaFk from '../../models/formkit-schemas/fk_me.json';
 
-const { data, getSession } = useAuth();
+// ✅ Keine destrukturierung → verhindert "Assignment to constant variable"
+const auth = useAuth();
 
-// ✅ Match fk_me.json structure
 const profile = reactive({
   user: {
     name: '',
@@ -58,34 +58,25 @@ const profile = reactive({
 });
 
 onMounted(async () => {
-  if (!data.value?.user) {
-    await getSession();
-    console.log('Session fetched:', data.value);
+  if (!auth.data.value?.user) {
+    await auth.getSession();
+    console.log('Session fetched:', auth.data.value);
   }
-  
-  console.log('data.value:', data.value);
 
-  if (data.value?.user) {
-    console.log('User data:', data.value.user);
+  console.log('data.value:', auth.data.value);
+
+  if (auth.data.value?.user) {
+    console.log('User data:', auth.data.value.user);
     try {
-      profile.user.name = data.value.user.name || '';
-      profile.user.email = data.value.user.email || '';
-      profile.user.institution = data.value.user.orgid || '';
+      profile.user.name = auth.data.value.user.name || '';
+      profile.user.email = auth.data.value.user.email || '';
+      profile.user.institution = auth.data.value.user.orgid || '';
 
-      // ✅ Populate session expiration
-      if (data.value.timestamp && data.value.timeout) {
-        const expiresAt = new Date((data.value.timestamp + data.value.timeout) * 1000);
+      if (auth.data.value.timestamp && auth.data.value.timeout) {
+        const expiresAt = new Date((auth.data.value.timestamp + auth.data.value.timeout) * 1000);
         profile.expires = expiresAt.toLocaleString();
       }
-
-      // ✅ Default role (no backend roles yet)
-      //profile.role = 1; // "Authenticated"
-
-      // ✅ Blocked status
-      //profile.blocked = false;
-
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error fetching session:', error);
     }
   }
