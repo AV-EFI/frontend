@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     app: {
         baseURL: '/',
     },
+    nitro: {
+        debug: true,
+    },
+    app: {
+        pageTransition: false,
+    },
     devtools: {
         enabled: true,
         vscode: false, // disable VS Code integration
