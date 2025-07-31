@@ -118,7 +118,7 @@ export default defineNuxtConfig({
     ],
     mail: {
         message: {
-            to: ['stefan.stretz@tib.eu', 'contact@av-efi.net'],
+            to: [process.env.MAIL_TO, process.env.MAIL_TO_2],
         },
         smtp: {
             service: 'gmail',

@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.server) return;
 
   if (to.path.startsWith('/protected')) {
+    console.log('Protected route accessed:', to.path);
     const auth = useAuth();
 
     // If data is already available → allow access

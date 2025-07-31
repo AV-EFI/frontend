@@ -1,76 +1,117 @@
 <template>
-  <form @submit.prevent="sendMail">
-    <!-- Fields copied exactly -->
-    <div class="form-control mb-4">
-      <label
-        class="label"
-        for="email-input"
-      >
-        <span class="label-text">E-Mail</span>
+  <form class="space-y-4" @submit.prevent="handleSubmit">
+    <!-- Email -->
+    <div>
+      <label for="email" class="block text-sm font-medium">
+        {{ $t('email') }}
       </label>
       <input
-        id="email-input"
+        id="email"
         v-model="email"
         type="email"
-        :placeholder="$t('enterYourEmail')"
-        class="input input-bordered w-full"
+        class="input input-bordered w-full mt-1"
         required
-        aria-describedby="email-desc"
+        aria-describedby="emailHelp"
       >
-      <small
-        id="email-desc"
-        class="sr-only"
-      >{{ $t('emailHelpText') }}</small>
+      <p id="emailHelp" class="text-xs text-gray-500">
+        {{ $t('emailHelpText') }}
+      </p>
     </div>
 
-    <div class="form-control mb-4">
-      <label
-        class="label"
-        for="message-input"
-      >
-        <span class="label-text">{{ $t('message') }}</span>
+    <!-- Message -->
+    <div>
+      <label for="message" class="block text-sm font-medium">
+        {{ $t('message') }}
       </label>
       <textarea
-        id="message-input"
+        id="message"
         v-model="message"
-        :placeholder="$t('enterYourMessage')"
-        class="textarea textarea-bordered w-full"
+        class="textarea textarea-bordered w-full mt-1"
         required
-        aria-describedby="message-desc"
+        aria-describedby="messageHelpText"
       />
-      <small
-        id="message-desc"
-        class="sr-only"
-      >{{ $t('messageHelpText') }}</small>
+      <p id="messageHelpText" class="text-xs text-gray-500">
+        {{ $t('messageHelpText') }}
+      </p>
     </div>
 
-    <div class="form-control mb-4">
-      <label
-        class="label"
-        for="captcha-input"
-      >
-        <span class="label-text">{{ $t('captchaText', { name: captchaQuestion }) }}</span>
+    <!-- Captcha -->
+    <div>
+      <label for="captcha" class="block text-sm font-medium">
+        {{ $t('captchaQuestion') }}: <span class="font-bold">{{ captchaQuestion }}</span>
       </label>
       <input
-        id="captcha-input"
+        id="captcha"
         v-model="captchaAnswer"
         type="text"
-        :placeholder="$t('enterYourAnswer')"
-        class="input input-bordered w-full"
+        class="input input-bordered w-full mt-1"
         required
-        aria-describedby="captcha-desc"
+        aria-describedby="captchaHelpText"
       >
-      <small
-        id="captcha-desc"
-        class="sr-only"
-      >{{ $t('captchaHelpText') }}</small>
+      <p id="captchaHelpText" class="text-xs text-gray-500">
+        {{ $t('captchaHelpText') }}
+      </p>
     </div>
 
-    <button
-      type="submit"
-      class="btn btn-secondary w-full"
-    >
-      {{ $t('send') }}
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary w-full" :disabled="sending">
+      {{ sending ? $t('sending') : $t('send') }}
     </button>
   </form>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+
+const email = ref('');
+const message = ref('');
+const captchaQuestion = ref('');
+const captchaAnswer = ref('');
+const captchaSolution = ref(0);
+const sending = ref(false);
+
+const { send } = useMail();
+
+onMounted(() => {
+  generateCaptcha();
+});
+
+function generateCaptcha() {
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * 10) + 1;
+  captchaQuestion.value = `${a} + ${b}`;
+  captchaSolution.value = a + b;
+}
+
+function validateCaptcha() {
+  return parseInt(captchaAnswer.value, 10) === captchaSolution.value;
+}
+
+async function handleSubmit() {
+  if (!validateCaptcha()) {
+    alert('Captcha answer is incorrect');
+    generateCaptcha();
+    captchaAnswer.value = '';
+    return;
+  }
+
+  sending.value = true;
+  try {
+    await send({
+      from: email.value,
+      subject: `Contact Form Submission`,
+      text: message.value,
+    });
+    alert('Message sent successfully!');
+    email.value = '';
+    message.value = '';
+    captchaAnswer.value = '';
+    generateCaptcha();
+  } catch (err) {
+    console.error(err);
+    alert('Failed to send message.');
+  } finally {
+    sending.value = false;
+  }
+}
+</script>

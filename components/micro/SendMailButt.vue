@@ -19,7 +19,9 @@
       aria-labelledby="contact-form-heading"
     >
       <!-- ORIGINAL FORM CONTENT GOES HERE -->
-      <MicroContactForm />
+       <ClientOnly>
+          <LazyMicroContactForm />
+       </ClientOnly>
     </div>
   </div>
 
@@ -39,6 +41,7 @@
       class="modal"
     >
       <div class="modal-box w-full max-w-none p-4">
+        <ClientOnly>
         <form method="dialog">
           <button
             class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -46,8 +49,9 @@
           >
             ✕
           </button>
-        </form>
-        <MicroContactForm />
+        </form>        
+          <LazyMicroContactForm />
+        </ClientOnly>
       </div>
     </dialog>
   </div>

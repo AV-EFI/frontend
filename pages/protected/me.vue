@@ -7,7 +7,7 @@
       ]"
       class="mb-4"
     />
-    <div v-if="data.value?.user">
+    <div v-if="data?.user">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
           <div class="flex px-4">
@@ -60,8 +60,13 @@ const profile = reactive({
 onMounted(async () => {
   if (!data.value?.user) {
     await getSession();
+    console.log('Session fetched:', data.value);
   }
+  
+  console.log('data.value:', data.value);
+
   if (data.value?.user) {
+    console.log('User data:', data.value.user);
     try {
       profile.user.name = data.value.user.name || '';
       profile.user.email = data.value.user.email || '';
