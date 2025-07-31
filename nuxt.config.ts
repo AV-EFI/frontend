@@ -6,7 +6,7 @@
 import eslint from 'vite-plugin-eslint';;
 
 export default defineNuxtConfig({
-    compatibilityDate: '2025-07-27',
+    compatibilityDate: '2025-07-31',
     app: {
         baseURL: '/',
     },

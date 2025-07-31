@@ -1,11 +1,20 @@
 <template>
   <ClientOnly>
+    <LazyGlobalBreadcrumbsComp
+      :breadcrumbs="[
+        ['Home', '/'],
+        [$t('profile'), '/protected/me']
+      ]"
+      class="mb-4"
+    />
     <div v-if="auth.isAuthenticated">
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
+          <div class="flex px-4">
           <h2 class="text-2xl">
             {{ $t('profile') }}
           </h2>
+          </div>
         </template>
         <template #cardBody>
           <Suspense>
@@ -55,21 +64,28 @@ onMounted(async () => {
     await getSession();
   }
   if (data.value?.user) {
-    profile.user.name = data.value.user.name || '';
-    profile.user.email = data.value.user.email || '';
-    profile.user.institution = data.value.user.orgid || '';
+    try {
+      profile.user.name = data.value.user.name || '';
+      profile.user.email = data.value.user.email || '';
+      profile.user.institution = data.value.user.orgid || '';
 
-    // ✅ Populate session expiration
-    if (data.value.timestamp && data.value.timeout) {
-      const expiresAt = new Date((data.value.timestamp + data.value.timeout) * 1000);
-      profile.expires = expiresAt.toLocaleString();
+      // ✅ Populate session expiration
+      if (data.value.timestamp && data.value.timeout) {
+        const expiresAt = new Date((data.value.timestamp + data.value.timeout) * 1000);
+        profile.expires = expiresAt.toLocaleString();
+      }
+
+      // ✅ Default role (no backend roles yet)
+      profile.role = 1; // "Authenticated"
+
+      // ✅ Blocked status
+      profile.blocked = false;
+
+    }
+    catch (error) {
+      console.error('Error fetching session:', error);
     }
 
-    // ✅ Default role (no backend roles yet)
-    profile.role = 1; // "Authenticated"
-
-    // ✅ Blocked status
-    profile.blocked = false;
   }
 });
 </script>
