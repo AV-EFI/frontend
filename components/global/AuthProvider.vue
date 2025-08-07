@@ -9,10 +9,10 @@ import { onMounted, onBeforeUnmount } from 'vue';
 const auth = useAuth();
 
 onMounted(() => {
-  auth.startSessionPolling();
+    auth.startSessionPolling();
 });
 
 onBeforeUnmount(() => {
-  auth.stopSessionPolling();
+    auth.stopSessionPolling();
 });
 </script>

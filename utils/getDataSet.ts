@@ -1,13 +1,13 @@
-import type { IAVefiListResponse } from '../models/interfaces/IAVefiWork';
+import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
 
-const getDataSet = async function (routeParamsId: string[]): Promise<IAVefiListResponse | null> { 
+const getDataSet = async function (routeParamsId: string): Promise<ElasticGetByIdResponse | null> { 
 
     console.log('***');
     console.log('getDataSet', routeParamsId);
 
     const config = useRuntimeConfig();
 
-    const { data } = await useApiFetchLocal<IAVefiListResponse>(
+    const { data } = await useApiFetchLocal<ElasticGetByIdResponse>(
         `${config.public.AVEFI_ELASTIC_API}/${config.public.AVEFI_GET_WORK}/${routeParamsId}`,
         {
             method: 'GET',
@@ -24,31 +24,9 @@ const getDataSet = async function (routeParamsId: string[]): Promise<IAVefiListR
     
     if (data.value) {
         console.log('getDataSet data.value', data.value);
-        return data.length == 1 ? data?.value[0]?.compound_record : data.value?.compound_record;
+        return data.value as ElasticGetByIdResponse;
     }
     return null;
 };
 
-const getDataSetSerial = async function (routeParamsId: string[]): Promise<IAVefiListResponse | null> { 
-
-    const config = useRuntimeConfig();
-    const { data } = await useApiFetchLocal<IAVefiListResponse>(
-        `${config.public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK_BY_IS_PART_OF}`,
-        {
-            method: 'POST',
-            headers: {
-                'Authorization': `ApiKey ${config.public.ELASTIC_IMDB_APIKEY}`
-            },
-            body: {
-                documentId: routeParamsId
-            }
-        }
-    );
-    
-    if (data.value) {
-        return data.length == 1 ? data?.value[0] : data.value;
-    }
-    return null;
-};
-
-export { getDataSet, getDataSetSerial };
+export { getDataSet };

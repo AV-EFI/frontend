@@ -296,15 +296,6 @@ definePageMeta(
     }
 );
 
-function rotateSpan(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    target.style.transition = 'transform 0.6s ease-in-out';
-    target.style.transform = 'rotate(360deg)';
-    setTimeout(() => {
-        target.style.transform = '';
-    }, 600);
-}
-
 const items = ref([
     { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },
     { src: '/img/logo_sdk.png', alt: 'Stiftung Deutsche Kinemathek', link: 'https://www.deutsche-kinemathek.de' },

@@ -1,9 +1,9 @@
 // frontend/store/index.js
 export const getters = {
-    isAuthenticated(state: any) {
+    isAuthenticated(state) {
         return state.auth.loggedIn;
     },
-    loggedInUser(state: any) {
+    loggedInUser(state) {
         return state.auth.user;
     },
 };

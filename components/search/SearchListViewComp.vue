@@ -111,7 +111,7 @@
             v-if="item.directors_or_editors"
             class="flex items-center"            
           >
-            <template v-if="item.directors_or_editors">
+            <template v-if="item?.directors_or_editors?.length > 0">
               <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
             </template>
             <Icon
@@ -327,11 +327,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
-
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-
-
 import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
@@ -492,45 +488,6 @@ function getFilteredManifestations(item) {
 }
 
 
-async function checkEmptyProperties(manifestations: any[]): Promise<void> {
-    for (const manifestation of manifestations) {
-        let allItemsEmpty = true;
-        for (const item of manifestation.items) {
-            if (!item.has_record?.has_format && !item.has_record?.in_language?.code && !item.has_record?.element_type && !item.has_record?.has_webresource) {
-                item.isEmpty = true;
-            } else {
-                item.isEmpty = false;
-                allItemsEmpty = false;
-            }
-        }
-        manifestation.allItemsEmpty = allItemsEmpty;
-    }
-}
-
-async function markDuplicateManifestations(manifestations: any[]): Promise<void> {
-    const seen = new Map();
-    if(manifestations.length === 0) return;
-    for (const manifestation of manifestations) {
-        if(manifestation?.has_record?.in_language !== undefined || manifestation?.has_record?.has_colour_type !== undefined || manifestation?.has_record?.is_manifestation_of !== undefined || manifestation?.has_record?.is_manifestation_of.length > 0) {
-            let alterTitles;  
-            if(manifestation?.has_record?.is_manifestation_of !== undefined) {
-                alterTitles = props.items
-                    ?.filter(item => manifestation?.has_record?.is_manifestation_of.flatMap(imo => imo?.id).includes(item?.handle))
-                    ?.flatMap(mir => mir.has_record?.has_alternative_title?.flatMap(alt => alt.has_name))
-                    .join(',');
-            }
-            const key = `${manifestation?.has_record?.in_language?.map(lang => lang.code).join(',')}-${manifestation?.has_record?.has_colour_type}-${manifestation?.has_record?.is_manifestation_of?.flatMap(imo => imo?.id)}-${alterTitles??''}`;
-            if (seen.has(key)) {
-                manifestation.isTwin = true;
-                seen.get(key).isTwin = true;
-            } else {
-                manifestation.isTwin = false;
-                seen.set(key, manifestation);
-            }
-        }
-    }
-}
-
 watch(() => props.expandAllHandlesChecked, (newVal) => {
     props.items.forEach((item, i) => {
         const handle = item.handle;
@@ -598,18 +555,6 @@ function getValueByPath(obj, path) {
     return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
 }
 
-
-watch(() => props.items, async (newVal) => {
-    const allFilteredManifestations = newVal
-        .flatMap(item => getFilteredManifestations(item));
-
-    await Promise.all([
-        checkEmptyProperties(allFilteredManifestations),
-        markDuplicateManifestations(allFilteredManifestations)
-    ]);
-
-    componentInfoReady.value = true;
-});
 
 onMounted(() => {
     componentInfoReady.value = true;

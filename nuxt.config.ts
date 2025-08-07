@@ -23,9 +23,6 @@ export default defineNuxtConfig({
         preset: 'node-server',
         compressPublicAssets: true,
         experimental: { tasks: true },
-        scheduledTasks: process.env.NODE_ENV === 'production'
-            ? { '0 */12 * * *': 'wmi_mapping_refresh' }
-            : {}, // disable during local dev
         debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
     },
     build: {
@@ -37,6 +34,7 @@ export default defineNuxtConfig({
         '@pinia-plugin-persistedstate/nuxt',
         ...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
         //'@nuxtjs/eslint-module',
+        '@nuxt/eslint',
         '@nuxtjs/i18n',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode',
@@ -71,7 +69,7 @@ export default defineNuxtConfig({
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API || '/api/elastic',
-            AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || 'msearch',
+            AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || 'frontend/search',
 
             AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
             AVEFI_SEARCH: process.env.AVEFI_SEARCH,
@@ -209,20 +207,20 @@ export default defineNuxtConfig({
             },
         },
         plugins: [
-      eslint({
-        failOnWarning: false,
-        failOnError: false,
-        formatter: process.env.NODE_ENV === 'production' ? 'compact' : 'stylish',
-        cache: false,
-        include: [
-          'components/**/*.{js,ts,vue}',
-          'pages/**/*.{js,ts,vue}'
+            eslint({
+                failOnWarning: false,
+                failOnError: false,
+                formatter: process.env.NODE_ENV === 'production' ? 'compact' : 'stylish',
+                cache: false,
+                include: [
+                    'components/**/*.{js,ts,vue}',
+                    'pages/**/*.{js,ts,vue}'
+                ],
+                exclude: ['node_modules', 'scripts', 'tailwind.config.ts', 'models/interfaces/**'],
+                lintOnStart: false, // ✅ runs only once at dev start
+                emitWarning: false,
+            }),
         ],
-        exclude: ['node_modules'],
-        lintOnStart: false, // ✅ runs only once at dev start
-        emitWarning: false,
-      }),
-    ],
     },
     typescript: {
         includeWorkspace: true

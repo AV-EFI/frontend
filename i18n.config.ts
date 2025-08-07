@@ -1,6 +1,7 @@
-import avefiLocales from './models/interfaces/locale_messages.json';
-//models\interfaces\locale_messages.json
-
+// i18n.config.ts
+// This file is used to configure internationalization settings for the AVefi application.
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import avefiLocales from './models/interfaces/schema/locale_messages.json';
 export default defineI18nConfig(() => ({
     legacy: false,
     locale: 'de',
@@ -15,6 +16,8 @@ export default defineI18nConfig(() => ({
             'viewItemDetails': 'View Item on WorkVariant Details Page',
             'viewManifestationDetails': 'View Manifestation on WorkVariant Details Page',
             'itemsCount': 'Items Count',
+            'parts': 'Parts',
+            'workVariants': 'Work Variants',
             'clickToSelectManifestation': 'Click on the manifestation to view items',
             'noWorkVariantDetails': 'No more WorkVariant information available',
             "title": "Title",
@@ -204,7 +207,7 @@ export default defineI18nConfig(() => ({
             'gotoshoppingcart': 'Go to Favourites List',
             'howToDoc': '<a href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf" target="_blank">AVefi How-to Document</a>',
             'manual': '<a href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf" target="_blank">AVefi Manual</a>',
-            'multihelptext': ({ named }) => `Several works have been found that are associated with the entity identified by efi <strong>${named('name')}<strong>.<br/>Please note that these are distinct works that may be linked to this entity in various ways. To view more detailed information about a specific work, please select one from the list. Once selected, you will be shown details such as the production information, directors and other relevant metadata.`,
+            'multihelptext': ({ named }) => `Several works have been found that are associated with the entity identified by efi <strong>${named('name')}</strong>.<br/>Please note that these are distinct works that may be linked to this entity in various ways. To view more detailed information about a specific work, please select one from the list. Once selected, you will be shown details such as the production information, directors and other relevant metadata.`,
             'multiResults': 'Multiple Results',
             'filter': 'filter',
             'gotodisamiguationparam': 'Go to disambiguation',
@@ -369,6 +372,8 @@ export default defineI18nConfig(() => ({
             'viewItemDetails': 'Details zum Exemplar auf Werk-Seite anzeigen',
             'viewManifestationDetails': 'Details zur Manifestation auf Werk-Seite anzeigen',
             'itemsCount': 'Anzahl der Exemplare',
+            'parts': 'Teile',
+            'workVariants': 'Werke',
             'clickToSelectManifestation': 'Klicken Sie auf die Manifestation, um Exemplare anzuzeigen',
             'noWorkVariantDetails': 'Keine weiteren Informationen zum Werk verfügbar',
             "title": "Titel",

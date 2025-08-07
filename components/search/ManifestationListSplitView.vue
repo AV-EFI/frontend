@@ -267,8 +267,11 @@
 </template>
 
 <script setup lang="ts">
+import type { IAVefiManifestation } from '~/models/interfaces/generated/IAVefiManifestation';
+
+
 const props = defineProps({
-    manifestations: { type: Array, required: true },
+    manifestations: { type: Array<IAVefiManifestation>, required: true },
     getFilteredItems: { type: Function, required: true },
     workVariantHandle: { type: String, required: false, default: null }
 });
@@ -312,7 +315,7 @@ function prevItemPage() {
     if (itemPage.value > 0) itemPage.value--;
 }
 
-const navigateToItem = (item: any) => {
+const navigateToItem = (item: IAVefiManifestation) => {
     const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
     window.open(itemPath, '_blank');
 };
@@ -327,19 +330,6 @@ function triggerScrollToItem() {
     });
 }
 
-/*
-watch(selectedManifestation, () => {
-    itemPage.value = 0;
-    console.log('Selected manifestation changed:', selectedManifestation.value);
-    nextTick(() => {
-        const el = itemsContainer.value;
-        if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 125;
-            window.scrollTo({ top, behavior: 'smooth' });
-        }
-    });
-});
-*/
 </script>
 
 <style scoped>

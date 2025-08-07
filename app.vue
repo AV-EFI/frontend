@@ -8,11 +8,11 @@ const { t:$t } = useI18n();
 const auth = useAuth();
 
 onMounted(() => {
-  auth.startSessionPolling();
+    auth.startSessionPolling();
 });
 
 onBeforeUnmount(() => {
-  auth.stopSessionPolling();
+    auth.stopSessionPolling();
 });
 
 useHead({

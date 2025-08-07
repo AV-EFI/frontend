@@ -165,10 +165,12 @@
 </template>
 
 <script setup lang="ts">
+import type { IAVefiManifestation } from '@/models/interfaces/generated';
+import type { Language } from '@/models/interfaces/schema/avefi_schema_type_utils';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps({
-    manifestation: Object as PropType<any>,
+defineProps({
+    manifestation: Object as PropType<IAVefiManifestation>,
     type: String as PropType<string>,
     compSize: {
         type: String as PropType<string>,
@@ -191,14 +193,14 @@ function safeT(val: unknown): string {
         : '';
 }
 
-function formatInLanguageText(langs: any[]): string {
+function formatInLanguageText(langs: Language[]): string {
     return langs
         .map(lang => safeT(lang?.code))
         .filter(Boolean)
         .join(', ');
 }
 
-function formatInLanguageAria(langs: any[]): string {
+function formatInLanguageAria(langs: Language[]): string {
     return safeT('in_language_code') + ': ' + langs
         .map(lang => safeT(lang?.code))
         .filter(Boolean)

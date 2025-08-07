@@ -295,7 +295,7 @@
                       <div class="w-full md:w-1/2 flex flex-row justify-end">
                         <ais-clear-refinements 
                           :class-names="{
-                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
+                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-base-300 text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
                             'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                           }"
                         >
@@ -309,7 +309,7 @@
                       <ais-current-refinements 
                         :class-names="{
                           'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                          'ais-CurrentRefinements-item': 'border border-neutral text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
+                          'ais-CurrentRefinements-item': 'border border-base-300 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
                           'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
                           'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                         }"
@@ -388,10 +388,10 @@
 <script setup lang="ts">
 
 import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi.ts';
+import { config } from '../../searchConfig_avefi';
 
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
-const {$toggleFacetDrawerState}:any = useNuxtApp();
+const {$toggleFacetDrawerState} = useNuxtApp();
 
 // toggle top right 
 const viewTypeChecked = ref(false);
@@ -409,9 +409,7 @@ const searchQuery = ref('');
 
 const searchClient = Client({
     config: config,
-    //url: "/api/elastic/msearch",
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
-    // Removed invalid property 'searchOnLoad'
 });
 
 onMounted(() => {
@@ -437,8 +435,7 @@ onMounted(() => {
     });
 });
 
-
-const props = defineProps({
+defineProps({
     indexName: {
         type: String,
         required: true,
@@ -446,11 +443,11 @@ const props = defineProps({
     },
 });
 
-watch(expandAllChecked, (newValue) => {
+watch(expandAllChecked, () => {
     expandAllItems();
 });
 
-watch(viewTypeChecked, (newValue) => {
+watch(viewTypeChecked, () => {
     expandAllChecked.value = false;
 });
 
@@ -460,9 +457,9 @@ const expandAllItems = () => {
         icon.click();
     });
     setTimeout(() => {
-        const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+        const checkboxes = document.querySelectorAll('.manifestation-checkbox') as NodeListOf<Element>;
         checkboxes.forEach(checkbox => {
-            checkbox.checked = !checkbox.checked;
+            (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked;
         });
     }, 300);
 };
@@ -511,12 +508,12 @@ onBeforeUnmount(() => {
 const showAlgoliaTooltip = ref(false);
 const routerInstance = defaultRouter();
 
-
+/*
 const stateMapping = {
-    stateToRoute(uiState) {
+    stateToRoute(uiState:UiState) {
         const indexUiState = uiState[props.indexName] || {};
-        const numericRefinements = indexUiState.numericRefinements || {};
-        const prodYearsOnlyFlag = indexUiState.prodYearsOnly === true ? '1' : undefined;
+        const numericRefinements = indexUiState?.numericRefinements || {};
+        const prodYearsOnlyFlag = indexUiState?.prodYearsOnly === true ? '1' : undefined;
 
         // Only serialize numeric refinements if not empty
         const hasNumeric = Object.keys(numericRefinements).length > 0;
@@ -528,7 +525,8 @@ const stateMapping = {
         };
     },
 
-    routeToState(routeState) {
+
+    routeToState(routeState:any) {
         const numericRefinements = routeState[`${props.indexName}[numericRefinement]`] || {};
         const prodYearsOnlyFlag = routeState[`${props.indexName}[prodYearsOnly]`] === '1';
 
@@ -541,7 +539,7 @@ const stateMapping = {
         };
     },
 };
-
+*/
 
 routerInstance.write = (routeState) => {
     try {
@@ -574,12 +572,6 @@ routerInstance.write = (routeState) => {
     // Still do the default routing update
     defaultRouter().write(routeState);
 };
-
-const extendedRouting = {
-    router: routerInstance,
-    stateMapping: stateMapping,
-};
-
 
 </script>
 <style scoped lang="scss">

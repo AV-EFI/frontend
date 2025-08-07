@@ -31,9 +31,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type {LocalResource} from '../../models/interfaces/av_efi_schema.ts';
-
-const props = defineProps ( {
+defineProps ( {
     'locatedInData': {
         type: Object,
         default: null

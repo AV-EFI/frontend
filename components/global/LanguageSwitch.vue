@@ -46,6 +46,7 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const i18n:any = useNuxtApp().$i18n;
 i18n.setLocale(i18n.getLocaleCookie() || i18n.getBrowserLocale());
 watch(() => i18n.locale.value, (newLocale) => {

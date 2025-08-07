@@ -20,7 +20,5 @@
   </div>
 </template>
 <script lang="ts" setup>
-import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
 const { data:authData } = useAuth();
-
 </script>

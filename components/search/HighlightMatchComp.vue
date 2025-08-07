@@ -11,7 +11,7 @@
 </template>
   
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
     value: {
         type: String,
         required: true

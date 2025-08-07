@@ -223,12 +223,12 @@
 
 <script setup lang="ts">
 
-const {$toggleFacetDrawerState}:any = useNuxtApp();
+const {$toggleFacetDrawerState} = useNuxtApp();
 
 const viewTypeChecked = ref(false);
 const expandAllChecked = ref(false);
 
-const props = defineProps({
+defineProps({
     searchClient: {
         type: Object,
         required: true,
@@ -240,30 +240,34 @@ const props = defineProps({
     },
 });
 
-let refineTimeout;
+let refineTimeout: ReturnType<typeof setTimeout>;
 
-watch(expandAllChecked, (newValue) => {
+
+watch(expandAllChecked, () => {
     expandAllItems();
 });
 
-watch(viewTypeChecked, (newValue) => {
+watch(viewTypeChecked, () => {
     expandAllChecked.value = false;
 });
 
 const expandAllItems = () => {
     const expandIcons = document.querySelectorAll('.expand-icon');
+
     expandIcons.forEach(icon => {
-        icon.click();
+        (icon as HTMLElement).click(); // ✅ tell TS it's an HTMLElement
     });
+
     setTimeout(() => {
         const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+
         checkboxes.forEach(checkbox => {
-            checkbox.checked = !checkbox.checked;
+            (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked; // ✅ cast to HTMLInputElement
         });
     }, 300);
 };
 
-const handleRefine = (refine, value) => {
+const handleRefine = (refine: (value: string) => void, value: string) => {
     clearTimeout(refineTimeout);
     refineTimeout = setTimeout(() => {
         refine(value);

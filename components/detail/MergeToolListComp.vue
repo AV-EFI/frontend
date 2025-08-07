@@ -35,7 +35,7 @@
           <td>
             <button
               class="btn btn-primary btn-xs"
-              @click="showDetails('0FE417A7-D2E8-45B8-90AD-3BF376E3C425','357A73F8-F9C4-4B0A-A333-E943EB3C3F84')"
+              @click="showDetails('21.11155/0FE417A7-D2E8-45B8-90AD-3BF376E3C425','21.11155/357A73F8-F9C4-4B0A-A333-E943EB3C3F84')"
             >
               {{ $t('goToMerge') }}
             </button>

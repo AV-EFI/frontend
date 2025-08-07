@@ -11,11 +11,6 @@ export function useCurrentUrlState() {
         }
     };
 
-    const getLatestSearchQuery = (): string => {
-        if (typeof localStorage === 'undefined') return '';
-        return localStorage.getItem('latest-search-query') || '';
-    };
-
     const handleStorage = (e: StorageEvent) => {
         if (e.key === 'latest-search-query') {
             updateFromStorage();

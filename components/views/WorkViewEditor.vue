@@ -1,5 +1,7 @@
+<!-- eslint-disable -->
+<!-- disable until backend done -->
 <template>
-  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto bg-base-200 border-neutral p-1 border-2 rounded-xl">
+  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto bg-base-200 border-base-300 p-1 border-2 rounded-xl">
     <div class="col-span-full">
       <h2 class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
         {{ title }}
@@ -41,11 +43,11 @@
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-800">
           <span class="col-span-6 my-auto">
-            {{ data.has_record?.has_primary_title?.has_name }}
+            {{ data?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
           </span>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
-              :target-property-value="data.has_record?.has_primary_title?.has_name"
+              :target-property-value="data?.compound_record?._source?.has_record?.has_primary_title?.has_name"
               target-property-name="title"
               @update-target-model="onUpdateTargetModel"
             />
@@ -57,7 +59,7 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('AlternativeTitle') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(altTitle, index) in data.has_record?.has_alternative_title"
+          v-for="(altTitle, index) in data?.compound_record?._source?.has_record?.has_alternative_title"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -80,7 +82,7 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('location') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(country, index) in data.has_record.has_event[0]?.located_in"
+          v-for="(country, index) in data?.compound_record?._source?.has_record?.has_event[0]?.located_in"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -112,18 +114,18 @@
     <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('productionyear') }}:</label>
       <ul 
-        v-if="data.has_record.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
+        v-if="data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
         class="grid grid-cols-7 subgrid gap-1 col-span-full"
       >
         <li
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-6">
-            {{ data.has_record.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date }}
+            {{ data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date }}
           </span>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
-              :target-property-value="data.has_record.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
+              :target-property-value="data?.compound_record?._source?.has_record?.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
               target-property-name="productionyear"
               @update-target-model="onUpdateTargetModel"
             />
@@ -135,12 +137,12 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('Director') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(director, index) in data?.has_record?.has_event[0]?.has_activity?.find(activity => activity.type === 'Director')?.has_agent"
+          v-for="(director, index) in data?.compound_record?._source?.has_record?.has_event?.find((ev) => ev.has_activity?.find(activity => activity.type === 'Director')?.has_agent)"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-3">
-            {{ director.has_name }}
+            {{ director?.has_name }}
           </span>
           <div class="col-span-3">
             <ul>
@@ -237,7 +239,7 @@
       <label class="col-span-full text-sm font-bold">{{ $t('Genre') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(genre, index) in data.has_record?.has_genre"
+          v-for="(genre, index) in data?.compound_record?._source?.has_record?.has_genre"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -270,7 +272,7 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('subject') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(subject, index) in data.has_record?.has_subject"
+          v-for="(subject, index) in data?.compound_record?._source?.has_record?.has_subject"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -303,7 +305,7 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('other_ids') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(otherId, index) in data.has_record?.same_as"
+          v-for="(otherId, index) in data?.compound_record?._source?.has_record?.same_as"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -327,7 +329,7 @@
     <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] text-sm gap-1 mt-2">
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('lastedit') }}:</label>
       <span class="col-span-6 my-auto">
-        {{ data.has_record?.described_by?.has_issuer_name }}
+        {{ data?.compound_record?._source?.has_record?.described_by?.has_issuer_name }}
       </span>
     </div>
     <div class="col-span-full hidden">
@@ -339,16 +341,24 @@
 </template>
 
 <script setup lang="ts">
-import type { MovingImageRecordContainer } from 'models/interfaces/av_efi_schema';
-const props = defineProps({
+/* @TODO: refactor when backend done */
+import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
+defineProps({
     title: {
         type: String,
         required: true,
     },
 });
-const dataJson = defineModel({ type: String, required: true });
-const cont = JSON.parse(dataJson.value);
-const data = cont._source as MovingImageRecordContainer;
+
+const dataJson = defineModel
+(
+    { 
+        type: Object,
+        required: true
+    }
+);
+const data = dataJson.value as ElasticGetByIdResponse;
+console.log("WorkViewEditor data", data);
 
 function onUpdateTargetModel(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
     console.log("onUpdateTargetModel");
@@ -360,18 +370,18 @@ function onUpdateTargetModel(targetPropertyValue: string, targetPropertyName: st
 
 function updateAllProperties() {
     const properties = [
-        { value: data.has_record.has_primary_title.has_name, name: 'title' },
-        { value: data.handle, name: 'efi' },
-        ...(data.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: item?.has_name, name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title' })),
-        ...(data.has_record?.has_genre || []).map((item) => ({ value: item?.has_name, name: 'genre', sameAsId: item?.same_as?.flatMap((sameAs) => sameAs.id).join(', ') })),
-        ...(data.has_record.has_event[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        { value: data.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear' },
-        ...(data.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category.replace('avefi:','') })),
-        //{ value: data.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
+        { value: data?.compound_record?._source?.has_record?.has_primary_title?.has_name, name: 'title' },
+        { value: data?.handle, name: 'efi' },
+        ...(data?.compound_record?._source?.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: item?.has_name, name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title' })),
+        ...(data?.compound_record?._source?.has_record?.has_genre || []).map((item) => ({ value: item?.has_name, name: 'genre', sameAsId: item?.same_as?.flatMap((sameAs) => sameAs.id).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        { value: data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear' },
+        ...(data?.compound_record?._source?.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category.replace('avefi:','') })),
+        { value: data?.compound_record?._source?.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
     ];
 
     properties.forEach((property) => {

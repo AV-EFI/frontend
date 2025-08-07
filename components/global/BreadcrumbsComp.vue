@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
     "breadcrumbs": {
         type: Array as PropType<Array<[string, string]>>,
         required: false,

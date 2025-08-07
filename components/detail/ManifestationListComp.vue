@@ -7,7 +7,7 @@
       <template #heading>
         <hr class="my-2 col-span-full">
         <h3
-          class="relative font-bold text-sm col-span-full pl-1 text-primary-800 dark:text-primary-100"
+          class="relative font-bold text-lg col-span-full pl-1 text-primary-800 dark:text-primary-100"
           :alt="safeT('manifestations')"
         >
           {{ safeT('manifestations') }}
@@ -231,8 +231,8 @@ onBeforeUnmount(() => {
 
 function handleEscKey(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-        const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle');
-        checkboxes.forEach((cb: any) => {
+        const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle') as NodeListOf<HTMLInputElement>;
+        checkboxes.forEach((cb: HTMLInputElement) => {
             cb.checked = false;
         });
     }
@@ -254,7 +254,7 @@ function formatExtent(extent?: { has_value?: string | number, has_unit?: string 
     return `${extent.has_value} ${safeT(extent.has_unit)}`.trim();
 }
 
-function formatDuration(has_value): string {
+function formatDuration(has_value: string): string {
     if (has_value) {
         try {
             const duration = has_value.replace(/PT/g, '').replace(/S/g, '').replace(/M/g, ':').replace(/H/g,':').split(':');

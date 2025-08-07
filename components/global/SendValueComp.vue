@@ -19,7 +19,8 @@
 </template>
 <script setup lang="ts">
 import {toast} from 'vue3-toastify';
-const props = defineProps ({
+
+defineProps ({
     'targetPropertyValue': {
         type: String,
         default: 'AVefi',
@@ -40,7 +41,6 @@ const props = defineProps ({
         default: null
     }
 });
-const source = ref('AVefi');
 
 function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsId:string)  {
     try {

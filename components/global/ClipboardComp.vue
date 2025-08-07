@@ -17,7 +17,7 @@
 </template>
 <script setup lang="ts">
 
-const props = defineProps ({
+defineProps ({
     'displayText': {
         type: String,
         default: 'AVefi'

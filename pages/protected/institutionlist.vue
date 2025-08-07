@@ -40,7 +40,7 @@ const uiState = {
 };
 
 const searchClient = SearchkitInstantSearchClient({
-    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/msearch_inst`,
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/frontend/search`,
     uiState: uiState,
 });
 

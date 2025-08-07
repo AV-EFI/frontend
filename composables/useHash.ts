@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export function useHash(scroll = true) {

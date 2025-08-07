@@ -3,7 +3,7 @@
     <FormKit
       id="work-view-editor-result"
       v-model="dataJson"
-      :classes="{form: 'bg-base-100 dark:bg-slate-900 border-neutral border-2 p-2 rounded-xl'}"
+      :classes="{form: 'bg-base-100 dark:bg-slate-900 border-base-300 border-2 p-2 rounded-xl'}"
       type="form"
       :actions="false"
       @submit="customSubmitHandler"

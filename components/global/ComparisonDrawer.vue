@@ -14,7 +14,7 @@
           class="hidden md: visible drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-max lg:max-w-[544px] min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg">
+        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-max lg:max-w-[544px] min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-base-300 text-base-content dark:text-white border-l-gray-800 shadow-lg">
           <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
               class="btn btn-neutral w-16"
@@ -214,6 +214,7 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from 'vue3-toastify';
 import {useObjectListStore} from '../../stores/compareList';
 import {useShoppingCart} from '../../stores/shoppingCart';
@@ -226,7 +227,7 @@ const toggleDrawer = (() => {
     objectListStore.comparisonDrawerOpen = !objectListStore.comparisonDrawerOpen;
 });
 
-const removeObject = (index, type:string) => {
+const removeObject = (index:number, type:string) => {
     if(type === 'shoppingCart') {
         shoppingCart.removeObject(index);
         return;

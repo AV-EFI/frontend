@@ -5,11 +5,11 @@
   >
     <!-- Blauer Titelbereich -->
     <div class="bg-primary-500 dark:bg-primary-900 text-white px-1 py-3 flex items-center justify-between">
-      <div class="w-full">
+      <div class="w-full flex flex-col ">
+        <slot name="actions" />
         <slot name="title" />
+        <!-- Actions-Slot -->
       </div>
-      <!-- Actions-Slot -->
-      <slot name="actions" />
     </div>
 
     <!-- Card Body -->
@@ -46,9 +46,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  showExpandToggle: { type: Boolean, default: false },
-  paddingClass: { type: String, default: 'p-4' },
+defineProps({
+    showExpandToggle: { type: Boolean, default: false },
+    paddingClass: { type: String, default: 'p-4' },
 });
 
 const isFullWidth = ref(false);

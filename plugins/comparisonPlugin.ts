@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from "vue3-toastify";
 import { useObjectListStore } from '../stores/compareList';
 import { useShoppingCart } from "../stores/shoppingCart";
@@ -5,8 +6,7 @@ import { useShoppingCart } from "../stores/shoppingCart";
 export default defineNuxtPlugin((nuxtApp) => {
     const useObjectStore = useObjectListStore();
     const shoppingCartStore = useShoppingCart();
-
-    const $i18n:any = nuxtApp.$i18n;
+    const $i18n:any = nuxtApp.$i18n || useNuxtApp().$i18n;
     const t = $i18n.t;
 
     const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {

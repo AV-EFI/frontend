@@ -186,8 +186,9 @@
   </EasyDataTable>
 </template>
 <script lang="ts" setup>
-import type {MovingImageRecordContainer} from '../../models/interfaces/av_efi_schema.ts';
-const props = defineProps({
+import type { MovingImageRecordContainer } from '~/models/interfaces/schema/avefi_schema.ts';
+
+defineProps({
     'items': {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
         required:true

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.13
 */
@@ -19,7 +20,7 @@ export enum AnimationActivityTypeEnum {
     LeadAnimator = "LeadAnimator",
     /** FIAF Glossary of Filmographic Terms B.13.17 */
     ModelMaker = "ModelMaker",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.7
 */
@@ -51,7 +52,7 @@ export enum CastActivityTypeEnum {
     Voices = "Voices",
     /** FIAF Glossary of Filmographic Terms B.7.13 */
     Wrangler = "Wrangler",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.1
 */
@@ -59,7 +60,7 @@ export enum CensorshipActivityTypeEnum {
     
     /** FIAF Glossary of Filmographic Terms C.1.1 */
     Censor = "Censor",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.5
 */
@@ -105,7 +106,7 @@ export enum CinematographyActivityTypeEnum {
     UnderwaterPhotography = "UnderwaterPhotography",
     /** FIAF Glossary of Filmographic Terms B.5.10 */
     VideoAssist = "VideoAssist",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.2
 */
@@ -125,7 +126,7 @@ export enum CopyrightAndDistributionActivityTypeEnum {
     RegionalDistributor = "RegionalDistributor",
     /** FIAF Glossary of Filmographic Terms C.2.5 */
     WorldDistributor = "WorldDistributor",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.3
 */
@@ -145,7 +146,7 @@ export enum DirectingActivityTypeEnum {
     SecondUnitDirector = "SecondUnitDirector",
     /** FIAF Glossary of Filmographic Terms B.3.6 */
     StuntArranger = "StuntArranger",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.10
 */
@@ -157,7 +158,7 @@ export enum EditingActivityTypeEnum {
     Editor = "Editor",
     /** FIAF Glossary of Filmographic Terms B.10.1 */
     FilmEditor = "FilmEditor",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.12
 */
@@ -171,7 +172,7 @@ export enum LaboratoryActivityTypeEnum {
     LaboratoryTechnician = "LaboratoryTechnician",
     /** FIAF Glossary of Filmographic Terms B.12.3 */
     NegativeCutter = "NegativeCutter",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.11
 */
@@ -199,7 +200,7 @@ export enum MusicActivityTypeEnum {
     SingingVoice = "SingingVoice",
     /** FIAF Glossary of Filmographic Terms B.11.12 */
     SongComposer = "SongComposer",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.2
 */
@@ -247,7 +248,7 @@ export enum ProducingActivityTypeEnum {
     Studio = "Studio",
     /** FIAF Glossary of Filmographic Terms B.2.13 */
     TransportationManager = "TransportationManager",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.6
 */
@@ -295,7 +296,7 @@ export enum ProductionDesignActivityTypeEnum {
     TitleDesigner = "TitleDesigner",
     /** FIAF Glossary of Filmographic Terms B.6.15 */
     WardrobeSupervisor = "WardrobeSupervisor",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.14
 */
@@ -303,7 +304,7 @@ export enum PuppetActivityTypeEnum {
     
     /** FIAF Glossary of Filmographic Terms B.14.7 */
     Puppeteer = "Puppeteer",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.9
 */
@@ -335,7 +336,7 @@ export enum SoundActivityTypeEnum {
     SoundSupervisor = "SoundSupervisor",
     /** FIAF Glossary of Filmographic Terms B.9.6 */
     SupervisingSoundEditor = "SupervisingSoundEditor",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.8
 */
@@ -365,7 +366,7 @@ export enum SpecialEffectsActivityTypeEnum {
     SpecialEffects = "SpecialEffects",
     /** FIAF Glossary of Filmographic Terms B.8.2 */
     VisualEffects = "VisualEffects",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.4
 */
@@ -391,7 +392,7 @@ export enum WritingActivityTypeEnum {
     Stagedby = "Stagedby",
     /** FIAF Glossary of Filmographic Terms B.4.2 */
     Writer = "Writer",
-}
+};
 /**
 * Activity types / roles. See also: FIAF Moving Image Cataloguing Manual 2.4.1.1, D.8
 */
@@ -421,7 +422,7 @@ export enum ManifestationActivityTypeEnum {
     Publisher = "Publisher",
     /** FIAF Moving Image Cataloguing Manual 1.4.1.1, 2.4.1.1, 3.3.1.1 */
     UnknownActivity = "UnknownActivity",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual 1.4.1
 */
@@ -431,7 +432,7 @@ export enum AgentTypeEnum {
     Family = "Family",
     Person = "Person",
     PersonGroup = "PersonGroup",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11
 */
@@ -453,7 +454,7 @@ export enum ColourTypeEnum {
     Sepia = "Sepia",
     /** FIAF Moving Image Cataloguing Manual D.7.11 */
     Tinted = "Tinted",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.4.7, D.14
 */
@@ -471,7 +472,7 @@ export enum ManufactureEventTypeEnum {
     UploadingEvent = "UploadingEvent",
     /** FIAF Moving Image Cataloguing Manual D.14 */
     VideoCopyingEvent = "VideoCopyingEvent",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.4.5
 */
@@ -487,7 +488,7 @@ export enum PreservationEventTypeEnum {
     RestorationEvent = "RestorationEvent",
     /** FIAF Moving Image Cataloguing Manual D.12 */
     TransferEvent = "TransferEvent",
-}
+};
 /**
 * Leave unset for main production event, otherwise see FIAF Moving Image Cataloguing Manual D.4.3, D.11
 */
@@ -501,7 +502,7 @@ export enum ProductionEventTypeEnum {
     OutdoorShootingEvent = "OutdoorShootingEvent",
     /** FIAF Moving Image Cataloguing Manual D.11 */
     PostProductionEvent = "PostProductionEvent",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.4.1, D.10
 */
@@ -527,7 +528,7 @@ export enum PublicationEventTypeEnum {
     TheatricalDistributionEvent = "TheatricalDistributionEvent",
     /** FIAF Moving Image Cataloguing Manual D.10 */
     UnknownEvent = "UnknownEvent",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -535,6 +536,7 @@ export enum FormatAudioTypeEnum {
     
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     number_16mmMagneticTrack = "16mmMagneticTrack",
+    number_17FULL_STOP5mmMagneticTrack = "17.5mmMagneticTrack",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     number_35mmMagneticTrack = "35mmMagneticTrack",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
@@ -547,7 +549,7 @@ export enum FormatAudioTypeEnum {
     QuarterInchAudioReel = "QuarterInchAudioReel",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     TwoInchAudioReel = "TwoInchAudioReel",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -565,7 +567,7 @@ export enum FormatDigitalFileEncodingTypeEnum {
     VCD = "VCD",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     WindowsMedia = "WindowsMedia",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -575,6 +577,7 @@ export enum FormatDigitalFileTypeEnum {
     AVI = "AVI",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     DPX = "DPX",
+    DV = "DV",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     MOV = "MOV",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
@@ -583,7 +586,8 @@ export enum FormatDigitalFileTypeEnum {
     MXF = "MXF",
     /** Video Object File (MPEG-2 subset) */
     VOB = "VOB",
-}
+    WebM = "WebM",
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -605,7 +609,7 @@ export enum FormatFilmTypeEnum {
     Super16mmFilm = "Super16mmFilm",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     Super8mmFilm = "Super8mmFilm",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -619,7 +623,7 @@ export enum FormatOpticalTypeEnum {
     DVD = "DVD",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     LaserDisc = "LaserDisc",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -635,13 +639,45 @@ export enum FormatVideoTypeEnum {
     D1 = "D1",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     D5 = "D5",
-    /** FIAF Moving Image Cataloguing Manual D.7.2 */
-    DVCPROHD = "DVCPROHD",
+    Digital8 = "Digital8",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     DigitalBetacam = "DigitalBetacam",
+    DV = "DV",
+    DVCAM = "DVCAM",
+    DVCPro = "DVCPro",
+    DVCPro50 = "DVCPro50",
+    /** FIAF Moving Image Cataloguing Manual D.7.2 */
+    DVCPROHD = "DVCPROHD",
+    HDCAM = "HDCAM",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     HDCAMSR = "HDCAMSR",
-}
+    HDV = "HDV",
+    MiniDV = "MiniDV",
+    SVHS = "SVHS",
+    UMatic = "UMatic",
+    IMX = "IMX",
+    VHS = "VHS",
+};
+/**
+* Frames per second of an item.
+*/
+export enum FrameRateEnum {
+    
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    number_16fps = "16fps",
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    number_23FULL_STOP98fps = "23.98fps",
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    number_24fps = "24fps",
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    number_25fps = "25fps",
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    number_30fps = "30fps",
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    number_48fps = "48fps",
+    /** FIAF Moving Image Cataloguing Manual D.7.18 */
+    VariableFrameRate = "VariableFrameRate",
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.3
 */
@@ -655,7 +691,7 @@ export enum ItemAccessStatusEnum {
     Removed = "Removed",
     /** FIAF Moving Image Cataloguing Manual D.7.3 */
     Viewing = "Viewing",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.7.8
 */
@@ -669,6 +705,7 @@ export enum ItemElementTypeEnum {
     CopperTonedPositive = "CopperTonedPositive",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
     CyanMatrix = "CyanMatrix",
+    DCDM = "DCDM",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
     DCP = "DCP",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
@@ -677,6 +714,7 @@ export enum ItemElementTypeEnum {
     DuplicateNegative = "DuplicateNegative",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
     DuplicatePositive = "DuplicatePositive",
+    EditDecisionList = "EditDecisionList",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
     ImageNegative = "ImageNegative",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
@@ -689,7 +727,8 @@ export enum ItemElementTypeEnum {
     Positive = "Positive",
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
     SoundNegative = "SoundNegative",
-}
+    Subtitles = "Subtitles",
+};
 /**
 * [ISO 639-2 code](https://id.loc.gov/vocabulary/iso639-2.html) for the Representation of Names of Languages (Part 2: Alpha-3)
 */
@@ -1063,7 +1102,6 @@ export enum LanguageCodeEnum {
     pra = "pra",
     pro = "pro",
     pus = "pus",
-    qaa_qtz = "qaa-qtz",
     que = "que",
     raj = "raj",
     rap = "rap",
@@ -1202,7 +1240,7 @@ export enum LanguageCodeEnum {
     zun = "zun",
     zxx = "zxx",
     zza = "zza",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual 2.3.3, D.6
 */
@@ -1231,7 +1269,7 @@ export enum LanguageUsageEnum {
     /** FIAF Moving Image Cataloguing Manual D.6 */
     SungLanguage = "SungLanguage",
     VoiceOver = "VoiceOver",
-}
+};
 /**
 * Qualifier indicating the precision of an extent value or duration
 */
@@ -1241,7 +1279,7 @@ export enum PrecisionEnum {
     Approximate = "Approximate",
     /** Sources for the given value are deemed unreliable, so it may as well be off the mark */
     Uncertain = "Uncertain",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4
 */
@@ -1263,7 +1301,7 @@ export enum SoundTypeEnum {
     Sound = "Sound",
     /** FIAF Moving Image Cataloguing Manual D.7.4 */
     Temporary = "Temporary",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual A.2
 */
@@ -1295,7 +1333,7 @@ export enum TitleTypeEnum {
     TransliteratedTitle = "TransliteratedTitle",
     /** FIAF Moving Image Cataloguing Manual A.2.4.1 */
     WorkingTitle = "WorkingTitle",
-}
+};
 /**
 * Units of measurement. Definitions are taken from the Quantities, Units, Dimensions and Data Types Ontologies (QUDT)
 */
@@ -1313,7 +1351,7 @@ export enum UnitEnum {
     MegaByte = "MegaByte",
     /** Unit for digital information equivalent to 1000 gigabytes */
     TeraByte = "TeraByte",
-}
+};
 /**
 * FIAF Moving Image Cataloguing Manual D.2
 */
@@ -1339,7 +1377,7 @@ export enum VariantTypeEnum {
     Sonorized = "Sonorized",
     /** FIAF Moving Image Cataloguing Manual D.2 */
     Subtitled = "Subtitled",
-}
+};
 /**
 * Work/Variant description type. See also: FIAF Moving Image Cataloguing Manual 1.2.1, D.1
 */
@@ -1353,37 +1391,37 @@ export enum WorkVariantTypeEnum {
     Monographic = "Monographic",
     /** Content issued in successive parts and intended to be continued indefinitely, or across a span of time. A Work record for a television series is catalogued as a “Serial”, individual episodes may be catalogued as a Monographic record */
     Serial = "Serial",
-}
+};
 /**
-* FIAF Glossary of Filmographic Terms D.1.9
+* FIAF Glossary of Filmographic Terms D.1
 */
 export enum WorkFormEnum {
     
     /** FIAF Glossary of Filmographic Terms D.1.9 */
     AmateurFilm = "AmateurFilm",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.6 */
     Compilation = "Compilation",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.13 */
     Excerpt = "Excerpt",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.2 */
     Feature = "Feature",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.8 */
     Featurette = "Featurette",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.10 */
     HomeMovie = "HomeMovie",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.11 */
     Outtake = "Outtake",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.15 */
     ScreenTest = "ScreenTest",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.4 */
     Series = "Series",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.3 */
     Short = "Short",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.12 */
     StockFootage = "StockFootage",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.7 */
     Trailer = "Trailer",
-    /** FIAF Glossary of Filmographic Terms D.1.9 */
+    /** FIAF Glossary of Filmographic Terms D.1.14 */
     UneditedFootage = "UneditedFootage",
     /** FIAF Moving Image Cataloguing Manual E.2.2 */
     AnthologyFilm = "AnthologyFilm",
@@ -1401,7 +1439,7 @@ export enum WorkFormEnum {
     MusicVideo = "MusicVideo",
     /** http://www.screenonline.org.uk/film/id/476463/index.html */
     Newsreel = "Newsreel",
-}
+};
 
 
 /**
@@ -1419,18 +1457,16 @@ export interface CategorizedThing {
 export interface MovingImageRecord extends CategorizedThing {
     /** Also record some metadata about the PID itself rather than the identified object */
     described_by?: DescriptionResource,
+    /** Additional title(s) associated with the work / variant, manifestation, or item. */
+    has_alternative_title?: Title[],
     /** Associate event(s) with a moving image record */
     has_event?: Event[],
     /** Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs */
     has_identifier?: MovingImageResource[],
+    /** Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead. */
+    has_primary_title?: Title,
     /** Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here. */
     has_source_key?: string[],
-    /** FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3 */
-    in_language?: Language[],
-    /** Additional title(s) associated with the work / variant, manifestation, or item. */
-    has_alternative_title?: Title[],
-    /** Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead. */
-    has_primary_title: Title,
 }
 
 
@@ -1694,7 +1730,7 @@ export interface PublicationEvent extends Event {
  */
 export interface ManufactureEvent extends Event {
     /** See specific class documentation for controlled vocabulary applicable to the type slot, respectively */
-    type: string,
+    type?: string,
 }
 
 
@@ -1722,6 +1758,8 @@ export interface Title {
  * Base class defining common slots for manifestations and items
  */
 export interface ManifestationOrItem extends MovingImageRecord {
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11 */
+    has_colour_type?: string,
     /** Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11 */
     has_duration?: Duration,
     /** Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8 */
@@ -1730,8 +1768,12 @@ export interface ManifestationOrItem extends MovingImageRecord {
     has_format?: Format[],
     /** FIAF Moving Image Cataloguing Manual Appendix B */
     has_note?: string[],
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4 */
+    has_sound_type?: string,
     /** Link to data provider's own presentation of manifestation or item on the web */
     has_webresource?: string[],
+    /** FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3 */
+    in_language?: Language[],
 }
 
 
@@ -1814,16 +1856,12 @@ export interface Video extends Format {
  * Manifestation as defined in FIAF Moving Image Cataloguing Manual 2.0. Note that manifestation type is recorded as publication event type
  */
 export interface Manifestation extends ManifestationOrItem {
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11 */
-    has_colour_type?: string,
     /** Indicate AVefi Items the institution has registered as part of the manifestation */
     has_item?: MovingImageResource[],
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4 */
-    has_sound_type?: string,
     /** Indicate AVefi WorkVariant (possibly more but no less than one) that is subject of the manifestation */
     is_manifestation_of: MovingImageResource[],
     /** Link to AVefi resource registered by another data provider indicating that the two manifestations are known to be the same. Use this, for instance, when you have cooperated in making a digital restoration of some film work */
-    same_as?: MovingImageResource[],
+    same_as?: AuthorityResource[],
 }
 
 
@@ -1846,8 +1884,10 @@ export interface Item extends ManifestationOrItem {
     element_type?: string,
     /** Status of item determining access conditions. See also FIAF Moving Image Cataloguing Manual D.7.1 */
     has_access_status?: string,
+    /** Frame Rate describes the number of frames per second of an item. See also: FIAF Moving Image Cataloguing Manual 3.1.5.12. */
+    has_frame_rate?: string,
     /** Link to AVefi item registered by another institution indicating that the two are known to be copies of each other */
-    is_copy_of?: MovingImageResource[],
+    is_copy_of?: AuthorityResource[],
     /** Link to AVefi item from which this one has been derived in whole or in part, e.g. as a result of a restoration or digitasation project */
     is_derivative_of?: MovingImageResource[],
     /** Indicate AVefi Manifestation the item belongs to. Every item must be associated with a manifestation from the same data provider */
@@ -1897,7 +1937,7 @@ export interface DOIResource extends AuthorityResource {
 /**
  * Entertainment Identifier Registry ID. Check id slot range documentation for examples
  */
-export interface EIDRResource extends DOIResource {
+export interface EIDRResource extends AuthorityResource {
 }
 
 
@@ -1948,5 +1988,6 @@ export interface VIAFResource extends AuthorityResource {
  */
 export interface WikidataResource extends AuthorityResource {
 }
+
 
 

@@ -73,45 +73,45 @@ const sending = ref(false);
 const { send } = useMail();
 
 onMounted(() => {
-  generateCaptcha();
+    generateCaptcha();
 });
 
 function generateCaptcha() {
-  const a = Math.floor(Math.random() * 10) + 1;
-  const b = Math.floor(Math.random() * 10) + 1;
-  captchaQuestion.value = `${a} + ${b}`;
-  captchaSolution.value = a + b;
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+    captchaQuestion.value = `${a} + ${b}`;
+    captchaSolution.value = a + b;
 }
 
 function validateCaptcha() {
-  return parseInt(captchaAnswer.value, 10) === captchaSolution.value;
+    return parseInt(captchaAnswer.value, 10) === captchaSolution.value;
 }
 
 async function handleSubmit() {
-  if (!validateCaptcha()) {
-    alert('Captcha answer is incorrect');
-    generateCaptcha();
-    captchaAnswer.value = '';
-    return;
-  }
+    if (!validateCaptcha()) {
+        alert('Captcha answer is incorrect');
+        generateCaptcha();
+        captchaAnswer.value = '';
+        return;
+    }
 
-  sending.value = true;
-  try {
-    await send({
-      from: email.value,
-      subject: `Contact Form Submission`,
-      text: message.value,
-    });
-    alert('Message sent successfully!');
-    email.value = '';
-    message.value = '';
-    captchaAnswer.value = '';
-    generateCaptcha();
-  } catch (err) {
-    console.error(err);
-    alert('Failed to send message.');
-  } finally {
-    sending.value = false;
-  }
+    sending.value = true;
+    try {
+        await send({
+            from: email.value,
+            subject: `Contact Form Submission`,
+            text: message.value,
+        });
+        alert('Message sent successfully!');
+        email.value = '';
+        message.value = '';
+        captchaAnswer.value = '';
+        generateCaptcha();
+    } catch (err) {
+        console.error(err);
+        alert('Failed to send message.');
+    } finally {
+        sending.value = false;
+    }
 }
 </script>

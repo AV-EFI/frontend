@@ -17,7 +17,7 @@
 
 const state = defineModel({default: 'false', type: String});
 
-const props = defineProps({
+defineProps({
     labelOff: {
         type: String,
         default: 'Off'

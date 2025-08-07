@@ -2,13 +2,13 @@ import type { Ref } from 'vue';
 
 export const useDefaultLocale = (fallback = 'de') => {
     const locale = ref(fallback);
-    if (process.server) {
+    if (import.meta.server) {
         const reqLocale = useRequestHeaders()['accept-language']?.split(',')[0];
         console.log(reqLocale);
         if (reqLocale) {
             locale.value = reqLocale;
         }
-    } else if (process.client) {
+    } else if (import.meta.client) {
         const navLang = navigator.language;
         console.log(navLang);
         if (navLang) {

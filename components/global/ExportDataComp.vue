@@ -114,8 +114,8 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
     }
   
     const flattened = Array.isArray(rawData) && rawData.length > 0 && typeof rawData[0] === 'object'
-        ? rawData.flatMap((item: any) => deepFlattenToObjectStructured(item))
-        : [rawData].flatMap((item: any) => deepFlattenToObjectStructured(item));
+        ? rawData.flatMap((item) => deepFlattenToObjectStructured(item))
+        : [rawData].flatMap((item) => deepFlattenToObjectStructured(item));
   
     const filename = `avefi_export_${new Date().toISOString().slice(0, 10)}`;
   
@@ -147,7 +147,8 @@ function downloadBlob(content: string, filename: string, type: string) {
     link.click();
     URL.revokeObjectURL(link.href);
 }
-  
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function jsonToXml(jsonArray: any[]): string {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<records>\n`;
     for (const obj of jsonArray) {

@@ -39,12 +39,12 @@
 </template>
   
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import type { IAVefiManifestation, IAVefiItem } from '@/models/interfaces/generated';
+import type { Format } from '@/models/interfaces/schema/avefi_schema_type_utils';
+import { ref } from 'vue';
 const { t } = useI18n();
   
-const props = defineProps<{ data: any }>();
-const route = useRoute();
+const props = defineProps<{ data: IAVefiManifestation | IAVefiItem }>();
 const metaEntries = ref([]);
   
 function formatDuration(has_value: string): string {
@@ -118,6 +118,7 @@ function highlightIfActive(facetKey: string, rawValue: string, displayValue?: st
     return { text: displayValue || rawValue, hilite: active };
 }
   
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function buildMetaEntries() {
     const entries: { key: string; icon: string; text: any; aria: string }[] = [];
   
@@ -138,9 +139,8 @@ function buildMetaEntries() {
     }
   
     const colour =
-      props.data?.has_colour_type ||
-      props.data?.has_record?.has_colour_type ||
-      props.data?.has_record?.described_by?.has_colour_attribute;
+      (props.data?.has_record?.has_colour_type ||
+        props.data?.has_record?.has_colour_type);
     if (colour) {
         entries.push({
             key: 'colour',
@@ -151,9 +151,8 @@ function buildMetaEntries() {
     }
   
     const sound =
-      props.data?.has_sound_type ||
       props.data?.has_record?.has_sound_type ||
-      props.data?.has_record?.described_by?.has_sound_attribute;
+      props.data?.has_record?.has_sound_type;
     if (sound) {
         entries.push({
             key: 'sound',
@@ -163,7 +162,7 @@ function buildMetaEntries() {
         });
     }
   
-    const rawDuration = props.data?.has_duration?.has_value || props.data?.has_record?.has_duration?.has_value;
+    const rawDuration = props.data?.has_record?.has_duration?.has_value || props.data?.has_record?.has_duration?.has_value;
     if (rawDuration) {
         const d = formatDuration(rawDuration);
         entries.push({
@@ -174,8 +173,8 @@ function buildMetaEntries() {
         });
     }
   
-    const extent = props.data?.has_extent?.has_value || props.data?.has_record?.has_extent?.has_value;
-    const unit = props.data?.has_extent?.has_unit || props.data?.has_record?.has_extent?.has_unit;
+    const extent = props.data?.has_record?.has_extent?.has_value || props.data?.has_record?.has_extent?.has_value;
+    const unit = props.data?.has_record?.has_extent?.has_unit || props.data?.has_record?.has_extent?.has_unit;
     if (extent) {
         const label = `${extent} ${unit ? t(unit) : ''}`.trim();
         entries.push({
@@ -186,7 +185,7 @@ function buildMetaEntries() {
         });
     }
   
-    const elementType = props.data?.has_record?.element_type;
+    const elementType = (props.data as IAVefiItem)?.has_record?.element_type;
     if (elementType) {
         entries.push({
             key: 'elementType',
@@ -197,10 +196,9 @@ function buildMetaEntries() {
     }
   
     const formatTypes =
-      props.data?.has_record?.has_format?.map((f: any) => f?.type).filter(Boolean) ||
-      (props.data?.has_record?.has_format?.type ? [props.data.has_record.has_format.type] : []) ||
-      (props.data?.has_record?.has_digital_format ? [props.data.has_record.has_digital_format] : []);
-    if (formatTypes.length) {
+      props.data?.has_record?.has_format?.map((f: Format) => f?.type).filter(Boolean);
+
+    if (formatTypes?.length) {
         entries.push({
             key: 'format',
             icon: 'mdi:disc',

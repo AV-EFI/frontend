@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const props = defineProps({
+defineProps({
     'alt': {
         type: String,
         default: 'Disambiguation'

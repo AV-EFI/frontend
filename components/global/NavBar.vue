@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <nav
     class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
@@ -274,6 +275,7 @@
                 <LazyIcon
                   name="fa-regular:user"
                   aria-hidden="true"
+                  class="m-auto h-8"
                 />
               </div>
             </li>

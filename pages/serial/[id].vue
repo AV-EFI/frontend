@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div>
     <GlobalBreadcrumbsComp
@@ -123,6 +124,7 @@
 </template>
 
 <script setup lang="ts">
+ 
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
 definePageMeta({

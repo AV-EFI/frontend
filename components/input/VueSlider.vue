@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow border-2 border-primary dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
+    class="collapse collapse-arrow border-2 border-base-300 dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     tabindex="0"
@@ -101,13 +101,13 @@
 
       <div class="text-center flex flex-row mt-4 mx-2">
         <button
-          class="btn btn-block btn-sm w-1/2"
+          class="btn btn-block btn-xs w-1/2"
           @click="resetSlider"
         >
           {{ $t('reset') }}
         </button>
         <button
-          class="btn btn-block btn-sm w-1/2 btn-primary"
+          class="btn btn-block btn-xs w-1/2 btn-primary"
           :disabled="!hasUnsavedChanges"
           @click="applySlider"
         >

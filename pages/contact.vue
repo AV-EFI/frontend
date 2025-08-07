@@ -1,9 +1,4 @@
-<script setup lang="ts">
-definePageMeta({
-    auth: false
-});
-</script>
-
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="container mx-auto p-2 mb-2">
     <GlobalBreadcrumbsComp
@@ -210,3 +205,8 @@ definePageMeta({
     </div>
   </div>
 </template>
+<script setup lang="ts">
+definePageMeta({
+    auth: false
+});
+</script>
