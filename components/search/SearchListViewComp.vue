@@ -81,82 +81,91 @@
           </ul>
         </h3>
         <div class="flex flex-col md:flex-row text-sm text-white dark:text-base-content mt-2">
-          <span
-            v-if="item?.has_record?.has_event?.map((loc) => loc)"
-            class="flex items-center"
-          >
-            <Icon
-              name="mdi:map-marker-outline"
-              class="mr-1"
-              :alt="$t('place')"
-              :title="$t('place')"
-            />
-            {{ item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null).join(', ') }}
-          </span>
-          <span
-            v-if="item.years"
-            class="flex items-center"
-          >
-            <template v-if="item.has_record?.has_event">
-              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span></template>
-            <Icon
-              name="fa:calendar"
-              class="mr-1"
-              :alt="$t('productionyear')"
-              :title="$t('productionyear')"
-            />
-            {{ item.years.join(', ') }}
-          </span>
-          <span
-            v-if="item.directors_or_editors"
-            class="flex items-center"            
-          >
-            <template v-if="item?.directors_or_editors?.length > 0">
-              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
-            </template>
-            <Icon
-              name="iconoir:director-chair"
-              class="mr-1"
-              :alt="$t('directors_or_editors')"
-              :title="$t('directors_or_editors')"
-            />
-            {{ item.directors_or_editors?.flatMap((f) => $t(f)).join(', ') }}
-            <span
-              v-if="isFacetActive('directors_or_editors', item.directors_or_editors.join(','))"
-              class="badge badge-xs bg-highlight text-white ml-1"
-              :title="$t('matchedField') + ': ' + item.directors_or_editors.join(', ')"
-            />
+  <!-- Place -->
+  <span
+    v-if="item?.has_record?.has_event?.some(ev => ev.located_in?.length)"
+    class="flex items-center"
+  >
+    <Icon
+      name="mdi:map-marker-outline"
+      class="mr-1"
+      :alt="$t('place')"
+      :title="$t('place')"
+    />
+    {{
+      item?.has_record?.has_event
+        ?.flatMap(ev => ev.located_in?.map(location => location.has_name) || [])
+        .join(', ')
+    }}
+  </span>
 
-          </span>
-          <span
-            v-if="item.has_record?.has_form"
-            class="flex items-center"
-          >
-            <template v-if="item.has_record?.has_event || item.years">
-              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
-            </template>
-            <Icon
-              name="fa:film"
-              class="mr-1"
-            />
-            {{ item.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
-          </span>
-          <span
-            v-if="item?.has_record?.is_part_of"
-            class="flex items-center"
-          >
-            <template v-if="item.has_record?.has_event || item.years || item.has_record?.has_form">
-              <span class="flex items">
-                &nbsp;&nbsp;
-              </span>
-              <Icon
-                name="carbon:logical-partition"
-                class="mr-1"
-              />
-              {{ $t('Episode/Part') }}
-            </template>
-          </span>
-        </div>
+  <!-- Production Year -->
+  <span
+    v-if="item?.years?.length"
+    class="flex items-center"
+  >
+    <template v-if="item.has_record?.has_event">
+      <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
+    </template>
+    <Icon
+      name="fa:calendar"
+      class="mr-1"
+      :alt="$t('productionyear')"
+      :title="$t('productionyear')"
+    />
+    {{ item.years.join(', ') }}
+  </span>
+
+  <!-- Directors or Editors -->
+  <span
+    v-if="item?.directors_or_editors?.length"
+    class="flex items-center"
+  >
+    <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
+    <Icon
+      name="iconoir:director-chair"
+      class="mr-1"
+      :alt="$t('directors_or_editors')"
+      :title="$t('directors_or_editors')"
+    />
+    {{ item.directors_or_editors?.flatMap((f) => $t(f)).join(', ') }}
+    <span
+      v-if="isFacetActive('directors_or_editors', item.directors_or_editors.join(','))"
+      class="badge badge-xs bg-highlight text-white ml-1"
+      :title="$t('matchedField') + ': ' + item.directors_or_editors.join(', ')"
+    />
+  </span>
+
+  <!-- Form -->
+  <span
+    v-if="item?.has_record?.has_form?.length"
+    class="flex items-center"
+  >
+    <template v-if="item.has_record?.has_event || item.years">
+      <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
+    </template>
+    <Icon
+      name="fa:film"
+      class="mr-1"
+    />
+    {{ item.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
+  </span>
+
+  <!-- Part of Series -->
+  <span
+    v-if="item?.has_record?.is_part_of?.length"
+    class="flex items-center"
+  >
+    <template v-if="item.has_record?.has_event || item.years || item.has_record?.has_form">
+      <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
+    </template>
+    <Icon
+      name="carbon:logical-partition"
+      class="mr-1"
+    />
+    {{ $t('Episode/Part') }}
+  </span>
+</div>
       </div>
       <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
         <NuxtLink 

@@ -105,7 +105,4 @@ const mir = dataObject.value as IAVefiWorkVariant & {
 if (mir?.manifestations?.length) {
     manifestations.value = mir.manifestations;
 }
-console.log(mir, 'mir in WorkViewCompAVefi.vue');
-console.log(mir.parts, 'parts in WorkViewCompAVefi.vue');
-console.log(mir.work_variants, 'work_variants in WorkViewCompAVefi.vue');
 </script>

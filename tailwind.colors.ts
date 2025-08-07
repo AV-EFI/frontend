@@ -69,14 +69,14 @@ export const lightThemeColors = {
         800: '#1d262f', // base color
         900: '#171e25', // deeper
         950: '#0e1318',  // almost black
-        DEFAULT: '#1d262f',
+        DEFAULT: '#44576aff',
         content: '#ffffff',
     },
     base: {
-        100: '#fbfcfd', // heller, fast reinweiß
+        100: '#fbfcfdf4', // heller, fast reinweiß
         200: '#f3f6f8', // sehr hell
         300: '#edf0f3', // leicht abgesetzter Hintergrund
-        content: '#212529',
+        content: '#3a4147ff',
         DEFAULT: '#fbfcfd', // Basisfarbe für helle Themes
     },
     custom: {
@@ -150,7 +150,7 @@ export const darkThemeColors = {
         800: '#1d262f', // base color
         900: '#171e25', // deeper
         950: '#0e1318',  // almost black
-        DEFAULT: '#1d262f',
+        DEFAULT: '#45596cff',
         content: '#ffffff',
     },
     base: {

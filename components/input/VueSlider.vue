@@ -11,7 +11,7 @@
       :aria-label="$t('togglePanel')"
     >
 
-    <div class="collapse-title bg-slate-50 dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
         {{ $t(headerText) }}
       </h4>
@@ -23,7 +23,7 @@
       />
     </div>
 
-    <div class="collapse-content !pl-0 pr-0 bg-slate-50 dark:bg-slate-900 dark:text-white text-xs">
+    <div class="collapse-content !pl-0 pr-0 dark:text-white text-xs">
       <ais-configure
         :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`"
         :numeric-refinements="{

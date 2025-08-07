@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <!-- disable until backend done -->
 <template>
-  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto bg-base-200 border-base-300 p-1 border-2 rounded-xl">
+  <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto border-base-300 p-1 border-2 rounded-xl">
     <div class="col-span-full">
       <h2 class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
         {{ title }}
@@ -137,9 +137,12 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('Director') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(director, index) in data?.compound_record?._source?.has_record?.has_event?.find((ev) => ev.has_activity?.find(activity => activity.type === 'Director')?.has_agent)"
-          :key="index"
-          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
+          v-for="(director, index) in data?.compound_record?._source?.has_record?.has_event
+            ?.find(ev => ev.has_activity?.some(act => act.type === 'Director'))
+            ?.has_activity?.find(act => act.type === 'Director')
+            ?.has_agent || []"
+            :key="index"
+            :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-3">
             {{ director?.has_name }}
@@ -170,7 +173,10 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('production') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(producer, index) in data?.has_record?.has_event[0]?.has_activity?.find(activity => activity.type === 'Producer')?.has_agent"
+          v-for="(producer, index) in data?.compound_record?._source?.has_record?.has_event
+            ?.find(ev => ev.has_activity?.some(act => act.type === 'Producer'))
+            ?.has_activity?.find(act => act.type === 'Producer')
+            ?.has_agent || []"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -203,7 +209,10 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('castmembers') }}</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(castMember, index) in data?.has_record?.has_event[0]?.has_activity?.find(activity => activity.type === 'CastMember')?.has_agent"
+          v-for="(castMember, index) in data?.compound_record?._source?.has_record?.has_event
+            ?.find(ev => ev.has_activity?.some(act => act.type === 'CastMember'))
+            ?.has_activity?.find(act => act.type === 'CastMember')
+            ?.has_agent || []"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >

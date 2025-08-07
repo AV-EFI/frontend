@@ -74,7 +74,7 @@ export const lightThemeColors = {
     "100": "#fbfcfd",
     "200": "#f3f6f8",
     "300": "#edf0f3",
-    "content": "#212529",
+    "content": "#3a4147ff",
     "DEFAULT": "#fbfcfd"
   },
   "highlight": "#b2161d",
