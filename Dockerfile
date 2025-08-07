@@ -6,6 +6,9 @@ FROM node:${NODE_VERSION}-slim AS build
 
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
+# Install git (Debian-based)
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 # Enable pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
