@@ -4,7 +4,7 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('help'), '/contact'],
+        [$t('helpAndGlossary'), '/contact'],
       ]"
     />
 
@@ -22,6 +22,9 @@
           id="c7273"
           class="frame frame-default frame-type-text frame-layout-0 w-full md:w-2/3 text-balance text-left"
         >
+          <h2 class="text-2xl font-bold mb-4">
+            FAQs
+          </h2>
           <div
             class="collapse collapse-arrow mt-2"
             role="region"
@@ -201,6 +204,17 @@
             </div>
           </div>
         </div>
+      </article>
+      <div class="divider my-4" />
+      <article
+        class="container flex justify-center"
+        role="region"
+        :aria-label="$t('glossary.title')"
+      >
+        <div class="mt-4 frame frame-default frame-type-text frame-layout-0 w-full md:w-2/3 text-balance text-left">
+          <GlobalGlossaryViewer />
+        </div>
+        <article />
       </article>
     </div>
   </div>

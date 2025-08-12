@@ -47,7 +47,7 @@
                 <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
-                <a href="/contact">{{ $t("help") }}</a>
+                <a href="/contact">{{ $t("helpAndGlossary") }}</a>
               </li>
               <li
                 v-if="data?.user"
@@ -116,7 +116,7 @@
               :title="t('avefiClaim')"
               class="hidden h-12 w-auto ml-2 rounded-lg dark:invert"
             >
-            <div class="hidden lg:flex lg:h-12 text-sm leading-none text-left dark:text-gray-200 max-w-32 ml-2">
+            <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
               <span
                 class="bree text-black dark:text-white my-auto"
                 v-html="$t('avefiClaimHtml')"
@@ -187,7 +187,7 @@
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
-              <a href="/contact">{{ $t("help") }}</a>
+              <a href="/contact">{{ $t("helpAndGlossary") }}</a>
             </li>
             <li class="h-12 flex justify-center">
               <MicroSendMailButt />
