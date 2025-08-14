@@ -1,0 +1,436 @@
+[
+  {
+    "name": "MovingImageRecord",
+    "full": "MovingImageRecord",
+    "label": "MovingImageRecord",
+    "terms": [],
+    "children": [
+      {
+        "name": "WorkVariant",
+        "full": "MovingImageRecord.WorkVariant",
+        "label": "WorkVariant",
+        "terms": [],
+        "children": [
+          {
+            "name": "Activity",
+            "full": "MovingImageRecord.WorkVariant.Activity",
+            "label": "Activity",
+            "terms": [],
+            "children": [
+              {
+                "name": "AnimationActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.AnimationActivity",
+                "label": "AnimationActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "AnimationActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.AnimationActivity.AnimationActivityEnums",
+                    "label": "AnimationActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "CastActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.CastActivity",
+                "label": "CastActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "CastActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.CastActivity.CastActivityEnums",
+                    "label": "CastActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "CensorshipActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.CensorshipActivity",
+                "label": "CensorshipActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "CensorshipActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.CensorshipActivity.CensorshipActivityEnums",
+                    "label": "CensorshipActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "CinematographyActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.CinematographyActivity",
+                "label": "CinematographyActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "CinematographyActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.CinematographyActivity.CinematographyActivityEnums",
+                    "label": "CinematographyActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "CopyrightAndDistributionActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.CopyrightAndDistributionActivity",
+                "label": "CopyrightAndDistributionActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "CopyrightAndDistributionActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.CopyrightAndDistributionActivity.CopyrightAndDistributionActivityEnums",
+                    "label": "CopyrightAndDistributionActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "DirectingActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.DirectingActivity",
+                "label": "DirectingActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "DirectingActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.DirectingActivity.DirectingActivityEnums",
+                    "label": "DirectingActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "EditingActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.EditingActivity",
+                "label": "EditingActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "EditingActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.EditingActivity.EditingActivityEnums",
+                    "label": "EditingActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "LaboratoryActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.LaboratoryActivity",
+                "label": "LaboratoryActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "LaboratoryActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.LaboratoryActivity.LaboratoryActivityEnums",
+                    "label": "LaboratoryActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "ManifestationActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.ManifestationActivity",
+                "label": "ManifestationActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "ManifestationActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.ManifestationActivity.ManifestationActivityEnums",
+                    "label": "ManifestationActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "MusicActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.MusicActivity",
+                "label": "MusicActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "MusicActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.MusicActivity.MusicActivityEnums",
+                    "label": "MusicActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "ProducingActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.ProducingActivity",
+                "label": "ProducingActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "ProducingActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.ProducingActivity.ProducingActivityEnums",
+                    "label": "ProducingActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "ProductionDesignActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.ProductionDesignActivity",
+                "label": "ProductionDesignActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "ProductionDesignActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.ProductionDesignActivity.ProductionDesignActivityEnums",
+                    "label": "ProductionDesignActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "PuppetActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.PuppetActivity",
+                "label": "PuppetActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "PuppetActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.PuppetActivity.PuppetActivityEnums",
+                    "label": "PuppetActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "SoundActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.SoundActivity",
+                "label": "SoundActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "SoundActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.SoundActivity.SoundActivityEnums",
+                    "label": "SoundActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "SpecialEffectsActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.SpecialEffectsActivity",
+                "label": "SpecialEffectsActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "SpecialEffectsActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.SpecialEffectsActivity.SpecialEffectsActivityEnums",
+                    "label": "SpecialEffectsActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "WritingActivity",
+                "full": "MovingImageRecord.WorkVariant.Activity.WritingActivity",
+                "label": "WritingActivity",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "WritingActivityEnums",
+                    "full": "MovingImageRecord.WorkVariant.Activity.WritingActivity.WritingActivityEnums",
+                    "label": "WritingActivityEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Event",
+            "full": "MovingImageRecord.WorkVariant.Event",
+            "label": "Event",
+            "terms": [],
+            "children": [
+              {
+                "name": "ManufactureEvent",
+                "full": "MovingImageRecord.WorkVariant.Event.ManufactureEvent",
+                "label": "ManufactureEvent",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "ManufactureEventEnums",
+                    "full": "MovingImageRecord.WorkVariant.Event.ManufactureEvent.ManufactureEventEnums",
+                    "label": "ManufactureEventEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "PreservationEvent",
+                "full": "MovingImageRecord.WorkVariant.Event.PreservationEvent",
+                "label": "PreservationEvent",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "PreservationEventEnums",
+                    "full": "MovingImageRecord.WorkVariant.Event.PreservationEvent.PreservationEventEnums",
+                    "label": "PreservationEventEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "ProductionEvent",
+                "full": "MovingImageRecord.WorkVariant.Event.ProductionEvent",
+                "label": "ProductionEvent",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "ProductionEventEnums",
+                    "full": "MovingImageRecord.WorkVariant.Event.ProductionEvent.ProductionEventEnums",
+                    "label": "ProductionEventEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "PublicationEvent",
+                "full": "MovingImageRecord.WorkVariant.Event.PublicationEvent",
+                "label": "PublicationEvent",
+                "terms": [
+                  "type"
+                ],
+                "children": [
+                  {
+                    "name": "PublicationEventEnums",
+                    "full": "MovingImageRecord.WorkVariant.Event.PublicationEvent.PublicationEventEnums",
+                    "label": "PublicationEventEnums",
+                    "terms": [
+                      "type"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "RightsCopyrightRegistrationEvent",
+                "full": "MovingImageRecord.WorkVariant.Event.RightsCopyrightRegistrationEvent",
+                "label": "RightsCopyrightRegistrationEvent",
+                "terms": [],
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "manifestations[]",
+            "full": "MovingImageRecord.WorkVariant.manifestations[]",
+            "label": "manifestations[]",
+            "terms": [],
+            "children": [
+              {
+                "name": "items[]",
+                "full": "MovingImageRecord.WorkVariant.manifestations[].items[]",
+                "label": "items[]",
+                "terms": [],
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

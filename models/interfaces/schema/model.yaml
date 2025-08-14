@@ -1,4 +1,4 @@
-id: https://av-efi.github.io/av-efi-schema/model
+id: https://www.av-efi.net/av-efi-schema/model
 name: model
 title: AVefi data model
 description: |-
@@ -17,7 +17,7 @@ imports:
 - vocab
 
 prefixes:
-  avefi: https://av-efi.net/av-efi-schema/
+  avefi: https://www.av-efi.net/av-efi-schema/
   fiaf: https://fiafcore.org/ontology/
   foaf: http://xmlns.com/foaf/0.1/
   linkml: https://w3id.org/linkml/
@@ -409,6 +409,7 @@ classes:
     - has_identifier
     - has_primary_title
     - has_source_key
+    - same_as
     annotations:
     - pid: 21.T11969/2e9c01efa0f0f6881365
     - trunk_pid: 21.T11969/0e3ed2fb51ddeec3cb1f
@@ -439,7 +440,6 @@ classes:
     - has_subject
     - is_part_of
     - is_variant_of
-    - same_as
     - type
     - variant_type
     slot_usage:
@@ -1335,7 +1335,6 @@ classes:
     slots:
     - has_item
     - is_manifestation_of
-    - same_as
     slot_usage:
       same_as:
         any_of:
@@ -1418,6 +1417,20 @@ classes:
     - is_copy_of
     - is_derivative_of
     - is_item_of
+    slot_usage:
+      same_as:
+        any_of:
+        - range: MovingImageResource
+        - range: DOIResource
+        annotations:
+        - pid: 21.T11969/b4df5cbef35756648e4d
+        in_subset:
+        - TypeRegistrySubset
+        description: >-
+          Another identifier for the same item, e.g. a DOI. Can also
+          be used to link to another AVefi record describing the same
+          item, e.g. when it has changed hands and the new custodian
+          registers its own record for the item
     structured_aliases:
     - literal_form: Exemplar
       in_language: de
@@ -1793,6 +1806,11 @@ slots:
   has_primary_title:
     rank: 2
     range: Title
+    structured_aliases:
+    - literal_form: Titel
+      in_language: de
+    - literal_form: Title
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -1900,6 +1918,11 @@ slots:
     slot_uri: wdrs:describedby
     inlined: true
     range: DescriptionResource
+    structured_aliases:
+    - literal_form: Verantwortlich
+      in_language: de
+    - literal_form: Responsible
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2006,6 +2029,9 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: GeographicName
+    structured_aliases:
+    - literal_form: in
+      in_language: default
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2017,6 +2043,11 @@ slots:
   has_duration:
     rank: 24
     range: Duration
+    structured_aliases:
+    - literal_form: Abspieldauer
+      in_language: de
+    - literal_form: Running time
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2027,6 +2058,11 @@ slots:
   has_extent:
     rank: 24
     range: Extent
+    structured_aliases:
+    - literal_form: Länge / Größe
+      in_language: de
+    - literal_form: Extent
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2064,6 +2100,11 @@ slots:
     rank: 14
     multivalued: true
     range: WorkFormEnum
+    structured_aliases:
+    - literal_form: Gattung
+      in_language: de
+    - literal_form: Form
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2077,6 +2118,9 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: Genre
+    structured_aliases:
+    - literal_form: Genre
+      in_language: default
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2095,6 +2139,11 @@ slots:
     - range: Subject
     - range: Agent
     - range: GeographicName
+    structured_aliases:
+    - literal_form: Schlagwort
+      in_language: de
+    - literal_form: Subject
+      in_language: en
     annotations:
     - pid: 21.T11969/92555879f9ec3adef772
     in_subset:
@@ -2108,6 +2157,11 @@ slots:
   is_variant_of:
     rank: 18
     range: MovingImageResource
+    structured_aliases:
+    - literal_form: Variante von
+      in_language: de
+    - literal_form: Is variant of
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2129,6 +2183,11 @@ slots:
   variant_type:
     rank: 18
     range: VariantTypeEnum
+    structured_aliases:
+    - literal_form: Variantentyp
+      in_language: de
+    - literal_form: Variant type
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2141,6 +2200,11 @@ slots:
   has_colour_type:
     rank: 27
     range: ColourTypeEnum
+    structured_aliases:
+    - literal_form: Farbtyp
+      in_language: de
+    - literal_form: Colour type
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2151,6 +2215,9 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: Format
+    structured_aliases:
+    - literal_form: Format
+      in_language: default
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2180,6 +2247,11 @@ slots:
   has_sound_type:
     rank: 27
     range: SoundTypeEnum
+    structured_aliases:
+    - literal_form: Ton
+      in_language: de
+    - literal_form: Sound type
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2190,6 +2262,11 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: HttpUri
+    structured_aliases:
+    - literal_form: Externer Link
+      in_language: de
+    - literal_form: External link
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2213,6 +2290,11 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: Language
+    structured_aliases:
+    - literal_form: Sprache
+      in_language: de
+    - literal_form: Language
+      in_language: en
     related_mappings:
     - fiaf:hasLanguage
     - schema:inLanguage
@@ -2239,6 +2321,9 @@ slots:
   has_access_status:
     rank: 36
     range: ItemAccessStatusEnum
+    structured_aliases:
+    - literal_form: Status
+      in_language: default
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2253,6 +2338,11 @@ slots:
     - range: DOIResource
     - range: MovingImageResource
     range: AuthorityResource
+    structured_aliases:
+    - literal_form: Kopie von
+      in_language: de
+    - literal_form: Copy of
+      in_language: en
     annotations:
     - pid: 21.T11969/4e81c9e20d5eba03f957
     in_subset:
@@ -2266,6 +2356,11 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: MovingImageResource
+    structured_aliases:
+    - literal_form: Abgeleitet von
+      in_language: de
+    - literal_form: Derived from
+      in_language: en
     # related_mappings:
     # - edm:isDerivativeOf
     in_subset:
@@ -2278,6 +2373,11 @@ slots:
   element_type:
     rank: 33
     range: ItemElementTypeEnum
+    structured_aliases:
+    - literal_form: Materialart
+      in_language: de
+    - literal_form: Element type
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-
@@ -2286,6 +2386,11 @@ slots:
   has_frame_rate:
     rank: 36
     range: FrameRateEnum
+    structured_aliases:
+    - literal_form: BPS
+      in_language: de
+    - literal_form: Frame rate
+      in_language: en
     in_subset:
     - TypeRegistrySubset
     description: >-

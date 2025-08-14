@@ -67,11 +67,11 @@ export const lightThemeColors = {
     "800": "#1d262f",
     "900": "#171e25",
     "950": "#0e1318",
-    "DEFAULT": "#1d262f",
+    "DEFAULT": "#44576aff",
     "content": "#ffffff"
   },
   "base": {
-    "100": "#fbfcfd",
+    "100": "#fbfcfdf4",
     "200": "#f3f6f8",
     "300": "#edf0f3",
     "content": "#3a4147ff",
@@ -145,7 +145,7 @@ export const darkThemeColors = {
     "800": "#1d262f",
     "900": "#171e25",
     "950": "#0e1318",
-    "DEFAULT": "#1d262f",
+    "DEFAULT": "#45596cff",
     "content": "#ffffff"
   },
   "base": {

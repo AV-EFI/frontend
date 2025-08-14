@@ -1,0 +1,31 @@
+{
+  "handle": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.handle"
+  },
+  "directors_or_editors": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.directors_or_editors"
+  },
+  "castmembers": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.castmembers"
+  },
+  "kip": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.kip"
+  },
+  "production": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.production"
+  },
+  "production_in_year": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.production_in_year"
+  },
+  "type": {
+    "level": "WorkVariant",
+    "path": "type",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PublicationEvent.PublicationEventEnums.type"
+  }
+}

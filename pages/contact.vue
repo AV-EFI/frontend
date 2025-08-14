@@ -4,7 +4,7 @@
     <GlobalBreadcrumbsComp
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('helpAndGlossary'), '/contact'],
+        [$t('help'), '/contact'],
       ]"
     />
 

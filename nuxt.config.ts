@@ -112,6 +112,7 @@ export default defineNuxtConfig({
         "/protected/mergetool": { ssr: false },
         "/protected/compare": { ssr: false },
         "/protected/me": { ssr: false },
+        "/protected/glossary": { ssr: false }
     },
     css: [
         "~/assets/scss/main.scss"

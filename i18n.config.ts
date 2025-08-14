@@ -33,12 +33,25 @@ export default defineI18nConfig(() => ({
             'glossary.all': "All Glossary Entries",
             "glossary.filterByLetter": ({named}) => `Filter glossary by ${named('letter')}`,
             "tooltip": {
-                  "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
-                  "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
-                  "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
-                  "item": "An item is a physical or digital copy of a manifestation.",
-                  "webresource": "A link to a detailed view of the item on the data provider’s website."
-                },
+                "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
+                "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
+                "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
+                "item": "An item is a physical or digital copy of a manifestation.",
+                "webresource": "A link to a detailed view of the item on the data provider’s website."
+            },
+            "glossary": {
+                "search": "Search glossary…",
+                "noResults": "No results.",
+                "all": "All",
+                "filterByLetter": "Filter by letter {letter}",
+                "untranslated": "not translated",
+                "moreInfo": "learn more",
+                "preview": "Preview",
+                "openInNewTab": "Open in new tab",
+                "viewDocs": "Documentation",
+                "loading": "Loading…",
+                "previewHint": "Pick an entry and click “Preview”."
+            },
             "lastedit": "Last edited",
             "itemDetails": "Item Details for {handle}",
             "showHistory": "Show history",
@@ -400,6 +413,19 @@ export default defineI18nConfig(() => ({
             "glossary.untranslated": "Nicht übersetzt",
             'glossary.all': "Alle Glossareinträge",
             "glossary.filterByLetter": ({named}) => `Glossar nach ${named('letter')} filtern`,
+            "glossary": {
+                "search": "Glossarbegriff suchen…",
+                "noResults": "Kein passender Glossarbegriff gefunden.",
+                "all": "Alle",
+                "filterByLetter": "Nach Buchstaben filtern {letter}",
+                "untranslated": "nicht übersetzt",
+                "moreInfo": "mehr erfahren",
+                "preview": "Vorschau",
+                "openInNewTab": "Im neuen Tab öffnen",
+                "viewDocs": "Dokumentation",
+                "loading": "Lade…",
+                "previewHint": "Wähle einen Eintrag und klicke „Vorschau“."
+            },
             "tooltip": {
                 "format": "Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
                 "elementType": "Hier wird angezeigt, um welche Materialart es sich beim analogen Film handelt. Bei digitalen Medien finden sich hier Angaben zum Dateiformat und/oder Container.",

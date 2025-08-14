@@ -13,14 +13,12 @@ export interface IAVefiWorkVariant {
   subjects?: string[];
   years?: string[];
   "@timestamp"?: number;
-  
+
   /** Nested parts that reference other work variants */
   parts?: IAVefiWorkVariant[];
   work_variants?: IAVefiWorkVariant[];
 
   /** Compound record (nested _source from Elasticsearch) */
-  compound_record?: {
-    _source: IAVefiWorkVariant;
-  };
+  compound_record?: { _source: IAVefiWorkVariant };
   has_record: WorkVariant;
 }

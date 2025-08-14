@@ -47,7 +47,7 @@
                 <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
-                <a href="/contact">{{ $t("helpAndGlossary") }}</a>
+                <a href="/contact">{{ $t("help") }}</a>
               </li>
               <li
                 v-if="data?.user"
@@ -72,6 +72,12 @@
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/favouriteslist">{{ $t('favourites') }}</a>
+              </li>
+              <li
+                v-if="data?.user"
+                class="h-12 flex justify-center"
+              >
+                <a href="/protected/glossary">{{ $t('glossary') }}</a>
               </li>
               <li
                 v-if="data?.user"
@@ -187,7 +193,7 @@
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
-              <a href="/contact">{{ $t("helpAndGlossary") }}</a>
+              <a href="/contact">{{ $t("help") }}</a>
             </li>
             <li class="h-12 flex justify-center">
               <MicroSendMailButt />
@@ -241,6 +247,13 @@
                       role="menuitem"
                       href="/protected/favouriteslist"
                     >{{ $t('favourites') }}</a>
+                  </li>
+                  <li
+                    role="none"
+                  >
+                    <a role="menuitem" href="/protected/glossary">
+                      {{ $t('glossary.title') }}
+                    </a>
                   </li>
                   <li role="none">
                     <a
