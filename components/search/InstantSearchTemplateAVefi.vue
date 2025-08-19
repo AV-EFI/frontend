@@ -164,7 +164,7 @@
                             v-else
                             class="text-xl font-bold text-center text-gray-800 dark:text-gray-200"
                           >
-                            {{ nbHits }} {{ $t('results') }}
+                            {{ nbHits }} {{ $t('workVariants') }}
                           </h2>
                         </div>
                       </template>

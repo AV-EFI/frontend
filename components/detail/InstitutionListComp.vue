@@ -121,7 +121,7 @@
                     <ais-stats>
                       <template #default="{ nbHits }">
                         <h2 class="font-bold text-gray-800 dark:text-gray-200">
-                          {{ nbHits }} {{ $t('results') }}
+                          {{ nbHits }} {{ $t('workVariants') }}
                         </h2>
                       </template>
                     </ais-stats>
