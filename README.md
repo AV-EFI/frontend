@@ -11,7 +11,7 @@ In production, all containers run in a shared Docker network. Traefik acts as th
 The **frontend is prebuilt into a production Docker container** and served as a Node.js app.
 
 - Traefik routes frontend requests (`/`) to the container `av-efi-frontend`
-- Backend requests (`/api/v1/`, `/auth/`, etc.) are routed separately
+- Backend requests (`/rest/v1/`, `/auth/`, etc.) are routed separately
 - The frontend is served via Nuxt’s `.output/server/index.mjs`
 
 ### Run production setup (including reverse proxy)
