@@ -8,7 +8,7 @@
           @click="showInfo = !showInfo"
         >
           <Icon
-            name="material-symbols:info-outline"
+            name="tabler:info-circle"
             class="text-3xl"
           />
         </button>

@@ -9,6 +9,6 @@ defineProps({
 <template>
   <Icon
     :alt="alt"
-    name="i-fa:heart-o"
+    name="tabler:heart-plus"
   />
 </template>

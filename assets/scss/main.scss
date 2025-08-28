@@ -24,7 +24,6 @@ html, body {
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
   .text-rainbow-stripe {
     --stripe-colors: red, orange, yellow, green, blue, indigo, violet;
@@ -195,6 +194,12 @@ mark {
   color: var(--highlight-content); // or your exact altrosa content color hex if not using a CSS var
   padding: 0 0.25em;
   border-radius: 2px;
+}
+
+.btn.disabled, .btn:disabled, btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .cookieControl__Modal-enter-active,

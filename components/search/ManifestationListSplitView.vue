@@ -57,14 +57,14 @@
                 @click.stop="navigateToItem(m)"
               >
                 <Icon
-                  name="mdi:eye-outline"
+                  name="tabler:eye"
                   class="w-4 h-4 mr-1"
                 />
               </button>
             </div>
             <div class="flex items-center px-1 self-start sm:self-center">
               <Icon
-                name="mdi:chevron-up"
+                name="tabler:chevron-up"
                 class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
                 :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
                 aria-hidden="true"
@@ -221,7 +221,7 @@
                   >
                     ⓘ
                   </span>
-                  <Icon name="formkit:linkexternal" />
+                  <Icon name="tabler:external-link" />
                   {{ $t('webresource') }}
                 </a>
               </div>
@@ -233,7 +233,7 @@
                   @click="navigateToItem(item)"
                 >
                   <Icon
-                    name="mdi:eye-outline"
+                    name="tabler:eye"
                     class="w-4 h-4 mr-1"
                   />
                 </button>

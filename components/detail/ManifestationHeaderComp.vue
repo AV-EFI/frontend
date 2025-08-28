@@ -33,7 +33,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:paint-outline"
+            name="tabler:paint"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -48,7 +48,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:language"
+            name="tabler:language"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -101,7 +101,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:paint-outline"
+            name="tabler:paint"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -118,7 +118,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:language"
+            name="tabler:language"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -129,7 +129,7 @@
           class="flex flex-row items-center"
         >
           <Icon
-            name="i-carbon:chart-relationship"
+            name="carbon:chart-relationship"
             class="w-4 h-4 mr-1 inline-block"
           />
           {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}

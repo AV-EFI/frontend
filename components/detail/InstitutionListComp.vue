@@ -62,7 +62,7 @@
                     }"
                   >
                     <template #resetLabel>
-                      <Icon name="material-symbols:delete" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                      <Icon name="tabler:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                     </template>
                   </ais-clear-refinements>
                 </div>
@@ -92,7 +92,7 @@
                           {{ $t(refinement.label) }}
                           <Icon
                             class="text-lg"
-                            name="material-symbols:delete"
+                            name="tabler:trash"
                           />
                         </a>
                       </li>
@@ -106,7 +106,7 @@
                   :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                  <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
                 <div
                   class="w-full flex flex-col md:flex-row justify-between md:justify-between p-2 mb-2"

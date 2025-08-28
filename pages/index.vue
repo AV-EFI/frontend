@@ -69,7 +69,7 @@
       </div>
     </div>
     <div
-      class="mx-auto lg:min-h-[66vh] flex flex-col justify-between h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      class="mx-auto lg:min-h-[55vh] flex flex-col justify-around h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       role="region"
       :aria-label="$t('coreFunctionsSection')"
     >

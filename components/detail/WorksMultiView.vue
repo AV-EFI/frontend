@@ -28,7 +28,7 @@
             class="flex items-center"
           >
             <Icon
-              name="mdi:map-marker-outline"
+              name="tabler:map-pin"
               class="mr-1"
               :alt="$t('country')"
               :title="$t('country')"
@@ -41,7 +41,7 @@
           >
             <template v-if="work?._source?.has_record?.has_event"><span class="flex items-center">&nbsp;&nbsp;</span></template>
             <Icon
-              name="fa:calendar"
+              name="tabler:calendar"
               class="mr-1"
             />
             {{ work?._source?.years.join(', ') }}
@@ -54,7 +54,7 @@
               <span class="flex items-center">&nbsp;&nbsp;</span>
             </template>
             <Icon
-              name="fa:film"
+              name="tabler:clapperboard"
               class="mr-1"
             />
             {{ work?._source?.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
@@ -206,7 +206,7 @@
                     target="_blank"
                     class="link link-primary dark:link-accent mt-auto md:mb-2"
                   >
-                    <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
+                    <Icon name="tabler:external-link" />&nbsp;{{ $t('webresource') }}
                   </a>
                 </div>
                 <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1 hidden">

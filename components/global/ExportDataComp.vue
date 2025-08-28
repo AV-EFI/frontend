@@ -13,7 +13,7 @@
       @keydown.space.prevent="toggleMenu"
     >
       <Icon
-        name="formkit:download"
+        name="tabler:download"
         class="text-xl w-4 h-4"
       />
       <span

@@ -1,5 +1,5 @@
 export default defineEventHandler(() => {
-    const entries = useServerGlossary()
-    return entries
-  })
+    const entries = useServerGlossary();
+    return entries;
+});
   

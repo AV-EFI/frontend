@@ -1,6 +1,7 @@
 /* eslint-disable */
  
  
+ 
 /* AUTO-GENERATED FILE — Wrapper interfaces for Elasticsearch responses */
  
 import type { WorkVariant, Manifestation, Item } from "./avefi_schema_type_utils";

@@ -174,7 +174,7 @@
                     target="_blank"
                     class="link link-primary dark:link-accent text-xs"
                   >
-                    <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
+                    <Icon name="tabler:external-link" />&nbsp;{{ $t('webresource') }}
                   </a>
                 </td>
               </tr>

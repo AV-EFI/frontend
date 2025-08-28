@@ -154,7 +154,7 @@
                             target="_blank"
                           >
                             <Icon
-                              name="fa-regular:address-card"
+                              name="tabler:id"
                               size="1em"
                               alt="Referenz bei GND"
                             /> 

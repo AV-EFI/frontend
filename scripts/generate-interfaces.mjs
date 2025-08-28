@@ -30,7 +30,7 @@ const read = (p) => fs.readFileSync(p, "utf-8");
 function writeJson(p, o) { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(o, null, 2), "utf-8"); console.log("📝 Wrote", path.relative(process.cwd(), p)); }
 
 /* =========================================================================
-   1) Ensure tmp_schema clone (Windows‑safe; do NOT delete .git)
+   1) Ensure tmp_schema clone (Windows-safe; do NOT delete .git)
    ========================================================================= */
 if (!exists(TMP_DIR) || !exists(path.join(TMP_DIR, ".git"))) {
   console.log(`⬇️  Cloning AV-EFI schema repo branch ${SCHEMA_BRANCH} ...`);
@@ -67,8 +67,7 @@ const copyList = [
 for (const rel of copyList) {
   const srcCandidates = [
     path.join(TMP_DIR, rel),
-    // fallback for older layout of YAML
-    path.join(TMP_DIR, rel.replace(/^src\/avefi_schema\//, "")),
+    path.join(TMP_DIR, rel.replace(/^src\/avefi_schema\//, "")), // fallback for older layout
   ];
   const src = srcCandidates.find(exists);
   if (!src) { console.warn("⚠️  Missing in repo:", rel); continue; }
@@ -154,13 +153,10 @@ for (const f of ALL_TS) {
 /* =========================================================================
    6) Build glossary.json + preliminary fieldIndex.json from TS
    ========================================================================= */
-/** 🔧 FIXED REGEX LITERALS (no double escaping) */
 const enumBlockRe = /export\s+enum\s+(\w+)\s*{([\s\S]*?)}/gm;
-// optional JSDoc + MEMBER [= "value"] ,
 const enumMemberRe = /(?:\/\*\*([\s\S]*?)\*\/\s*)?(\w+)\s*(?:=\s*["']?([^"'\s,}]+)["']?)?\s*,?/g;
 
 const interfaceBlockRe = /export\s+interface\s+(\w+)[^{]*{([\s\S]*?)}/gm;
-// optional JSDoc + prop?: Type;
 const interfacePropRe = /(?:\/\*\*([\s\S]*?)\*\/\s*)?([a-zA-Z_]\w*)\??\s*:\s*([^;]+);/g;
 
 const cleanJsDoc = (raw) => {
@@ -207,7 +203,7 @@ function buildGlossaryAndIndexFromTS() {
       let mm; while ((mm = enumMemberRe.exec(body))) {
         const raw = mm[1], key = mm[2]; if (!key) continue;
         const { desc, def } = cleanJsDoc(raw); const t = tr(key);
-        addEntry({ term: key, label: t || key, description: desc, definition: def, enumSource: enumName, category, isTranslated: !!t });
+        entries.push({ term: key, label: t || key, description: desc, definition: def, enumSource: enumName, category, isTranslated: !!t });
       }
     }
 
@@ -253,7 +249,7 @@ function buildGlossaryAndIndexFromTS() {
 buildGlossaryAndIndexFromTS();
 
 /* =========================================================================
-   7) Parse model.yaml + vocab.yaml → schemaTree + entities (+ normalize fieldIndex)
+   7) Parse model.yaml + vocab.yaml → strict W-M-I schemaTree + entities
    ========================================================================= */
 const modelPath = path.join(TARGET_DIR, "model.yaml");
 const vocabPath = path.join(TARGET_DIR, "vocab.yaml");
@@ -271,98 +267,130 @@ if (!exists(modelPath)) {
   const localeJson = exists(localePath) ? JSON.parse(read(localePath)) : {};
   const tr = (k) => (localeJson?.de?.[k] ?? null);
   const safeDesc = (x) => (typeof x === "string" ? x.trim() : "");
-
-  // helpers
-  function getClassSlots(clsName) {
-    const cls = classes[clsName] || {};
-    const names = Array.from(new Set([...(cls.slots || []), ...Object.keys(cls.slot_usage || {})]));
-    return names.map((s) => ({ name: s, ...(slots[s] || {}), ...(cls.slot_usage?.[s] || {}) }));
-  }
-  const isClass = (r) => !!classes[r];
   const isEnum = (r) => !!enums[r];
 
-  // tree node
-  const node = (name, full, labelText, terms = [], children = []) => ({ name, full, label: labelText, terms, children });
-
-  // WMI roots
-  const WV = classes["WorkVariant"] ? "WorkVariant" : (classes["Work"] ? "Work" : null);
-  const hasM = !!classes["Manifestation"];
-  const hasI = !!classes["Item"];
-
-  const root = node("MovingImageRecord", "MovingImageRecord", tr("MovingImageRecord") || "MovingImageRecord");
-  const nWV = node("WorkVariant", "MovingImageRecord.WorkVariant", tr(WV || "WorkVariant") || (WV || "WorkVariant"));
-  root.children.push(nWV);
-
-  // containers at WV level
-  if (hasM) {
-    const mContainer = node("manifestations[]", "MovingImageRecord.WorkVariant.manifestations[]", "manifestations[]");
-    nWV.children.push(mContainer);
-    if (hasI) {
-      const iContainer = node("items[]", "MovingImageRecord.WorkVariant.manifestations[].items[]", "items[]");
-      mContainer.children.push(iContainer);
-    }
+  // ---------- inheritance helpers ----------
+  const PARENT = {};
+  for (const [cname, cdef] of Object.entries(classes)) {
+    if (cdef && typeof cdef === "object" && cdef.is_a) PARENT[cname] = cdef.is_a;
   }
-
-  // Activity + Event families
-  const PARENT_OF = {};
-  for (const [cname, cdef] of Object.entries(classes)) if (cdef.is_a) PARENT_OF[cname] = cdef.is_a;
-  function isDescendantOf(cls, ancestor) { let cur = cls; while (cur && PARENT_OF[cur]) { if (PARENT_OF[cur] === ancestor) return true; cur = PARENT_OF[cur]; } return false; }
-  function subclassesOf(rootName) { return Object.keys(classes).filter(c => c === rootName || isDescendantOf(c, rootName)).sort(); }
-
-  function splitAttributes(clsName) {
-    const attrs = [], enumsOnly = [];
-    for (const s of getClassSlots(clsName)) {
-      if (isClass(s.range)) continue;
-      const entry = { term: s.name, isEnum: isEnum(s.range) };
-      attrs.push(entry);
-      if (entry.isEnum) enumsOnly.push(entry);
-    }
-    attrs.sort((a,b)=>a.term.localeCompare(b.term));
-    enumsOnly.sort((a,b)=>a.term.localeCompare(b.term));
-    return { attrs, enumsOnly };
+  function lineage(clsName) {
+    const arr = [];
+    let cur = clsName;
+    while (cur) { arr.unshift(cur); cur = PARENT[cur]; }
+    return arr;
   }
-
-  const groups = [
-    { title: "Activity", root: "Activity" },
-    { title: "Event", root: "Event" },
-  ];
-
-  for (const g of groups) {
-    if (!classes[g.root]) continue;
-    const gNode = node(g.title, `${nWV.full}.${g.title}`, tr(g.title) || g.title);
-    const rootSplit = splitAttributes(g.root);
-    if (rootSplit.enumsOnly.length) {
-      gNode.children.push(
-        node(`${g.title}Enums`, `${gNode.full}.${g.title}Enums`, `${g.title}Enums`, rootSplit.enumsOnly.map(e=>e.term))
-      );
-    }
-    const subs = subclassesOf(g.root).filter(n => n !== g.root);
-    for (const sub of subs) {
-      const sp = splitAttributes(sub);
-      const subNode = node(sub, `${gNode.full}.${sub}`, tr(sub) || sub, sp.attrs.map(a=>a.term));
-      if (sp.enumsOnly.length) {
-        subNode.children.push(
-          node(`${sub}Enums`, `${subNode.full}.${sub}Enums`, `${sub}Enums`, sp.enumsOnly.map(e=>e.term))
-        );
+  function getClassSlotsDeep(clsName) {
+    const byName = {};
+    for (const c of lineage(clsName)) {
+      const cls = classes[c] || {};
+      const names = new Set([...(cls.slots || []), ...Object.keys(cls.slot_usage || {})]);
+      for (const sName of names) {
+        byName[sName] = { name: sName, ...(slots[sName] || {}), ...(cls.slot_usage?.[sName] || {}) };
       }
-      gNode.children.push(subNode);
     }
-    nWV.children.push(gNode);
+    return Object.values(byName);
   }
 
-  // sort tree
-  (function sortRec(list){
-    list.sort((a,b)=> a.name.localeCompare(b.name));
-    for (const n of list) {
-      if (n.children?.length) sortRec(n.children);
-      if (n.terms?.length) n.terms.sort((a,b)=> a.localeCompare(b));
-    }
-  })(root.children);
+  // ---------- node helper ----------
+  const node = (name, full, label, terms = [], children = []) => ({ name, full, label, terms, children });
 
+  // ---------- collect slot names ----------
+  const hasClass = (n) => !!classes[n];
+  const WV = hasClass("WorkVariant") ? "WorkVariant" : (hasClass("Work") ? "Work" : null);
+  const hasM = hasClass("Manifestation");
+  const hasI = hasClass("Item");
+  const hasMOI = hasClass("ManifestationOrItem");
+
+  // WorkVariant deep slots
+  const wvSlots = WV ? getClassSlotsDeep(WV).map(s => s.name) : [];
+
+  // Shared slots (appear once under ManifestationOrItem)
+  const moiSlots = hasMOI ? getClassSlotsDeep("ManifestationOrItem").map(s => s.name) : [];
+  const moiSet = new Set(moiSlots);
+
+  // Manifestation deep slots MINUS shared
+  const mSlots = hasM ? getClassSlotsDeep("Manifestation").map(s => s.name).filter(n => !moiSet.has(n)) : [];
+
+  // Item deep slots MINUS shared
+  const iSlots = hasI ? getClassSlotsDeep("Item").map(s => s.name).filter(n => !moiSet.has(n)) : [];
+
+  // Sort for stable UI
+  wvSlots.sort(); moiSlots.sort(); mSlots.sort(); iSlots.sort();
+
+  // ---------- build strict W-M-I tree ----------
+  const root = node("MovingImageRecord", "MovingImageRecord", tr("MovingImageRecord") || "MovingImageRecord", []);
+  const wvRoot = node("WorkVariant", "MovingImageRecord.WorkVariant", tr(WV || "WorkVariant") || (WV || "WorkVariant"), []);
+  root.children = [wvRoot];
+
+  if (WV && wvSlots.length) {
+    wvRoot.children.push(
+      node("WorkVariant",
+           "MovingImageRecord.WorkVariant.WorkVariant",
+           tr(WV) || WV,
+           wvSlots)
+    );
+  }
+
+  if (hasMOI && moiSlots.length) {
+    wvRoot.children.push(
+      node("ManifestationOrItem",
+           "MovingImageRecord.WorkVariant.ManifestationOrItem",
+           tr("ManifestationOrItem") || "ManifestationOrItem",
+           moiSlots)
+    );
+    wvRoot.children.push(
+      node("ManifestationOrItemEnums",
+           "MovingImageRecord.WorkVariant.ManifestationOrItemEnums",
+           "ManifestationOrItemEnums",
+           [])
+    );
+  }
+
+  if (hasM) {
+    const mCont = node("manifestations[]", "MovingImageRecord.WorkVariant.manifestations[]", "manifestations[]", []);
+    const mNode = node("Manifestation",
+                       "MovingImageRecord.WorkVariant.manifestations[].Manifestation",
+                       tr("Manifestation") || "Manifestation",
+                       mSlots);
+    mCont.children.push(mNode);
+    mCont.children.push(
+      node("ManifestationEnums",
+           "MovingImageRecord.WorkVariant.manifestations[].ManifestationEnums",
+           "ManifestationEnums",
+           [])
+    );
+
+    if (hasI) {
+      const iCont = node("items[]", "MovingImageRecord.WorkVariant.manifestations[].items[]", "items[]", []);
+      const iNode = node("Item",
+                         "MovingImageRecord.WorkVariant.manifestations[].items[].Item",
+                         tr("Item") || "Item",
+                         iSlots);
+      iCont.children.push(iNode);
+      iCont.children.push(
+        node("ItemEnums",
+             "MovingImageRecord.WorkVariant.manifestations[].items[].ItemEnums",
+             "ItemEnums",
+             [])
+      );
+      mCont.children.push(iCont);
+    }
+
+    wvRoot.children.push(mCont);
+  }
+
+  wvRoot.children.push(
+    node("WorkVariantEnums",
+         "MovingImageRecord.WorkVariant.WorkVariantEnums",
+         "WorkVariantEnums",
+         [])
+  );
+
+  // ---------- write the tree ----------
   writeJson(SCHEMA_TREE_JSON, [root]);
 
-  // normalize + enrich fieldIndex using YAML (canonical explorerPath)
-  /** @type {Record<string,{level:string,path:string,explorerPath?:string}>} */
+  // ---------- normalize + enrich fieldIndex using the tree ----------
   const mergedIndex = exists(FIELD_INDEX_JSON) ? JSON.parse(read(FIELD_INDEX_JSON)) : {};
   for (const [k, v] of Object.entries(mergedIndex)) {
     if (v.level === "Work") v.level = "WorkVariant";
@@ -371,17 +399,43 @@ if (!exists(modelPath)) {
     }
   }
 
-  // map term -> explorerPath by walking tree leaves with terms
+  // Map term -> explorerPath by walking tree leaves with terms (skip *Enums; first hit wins)
   const explorerMap = {};
   (function walk(list){
     for (const n of list) {
-      if (n.terms?.length) for (const t of n.terms) explorerMap[t] = n.full + "." + t;
+      const isEnumsGroup = /Enums$/.test(n.name);
+      if (n.terms?.length && !isEnumsGroup) {
+        for (const t of n.terms) {
+          if (!explorerMap[t]) explorerMap[t] = n.full + "." + t;
+        }
+      }
       if (n.children?.length) walk(n.children);
     }
   })([root]);
 
-  for (const [term, expPath] of Object.entries(explorerMap)) {
-    if (!mergedIndex[term]) mergedIndex[term] = { level: "WorkVariant", path: term };
+  function inferLevelFromExplorerPath(p) {
+    if (p.includes(".items[]")) return "Item";
+    if (p.includes(".manifestations[]")) return "Manifestation";
+    return "WorkVariant";
+  }
+
+  for (const [term, expPathRaw] of Object.entries(explorerMap)) {
+    const expPath = String(expPathRaw);
+    if (expPath.includes(".Enums.")) continue;
+
+    const inferred = inferLevelFromExplorerPath(expPath);
+
+    if (!mergedIndex[term]) {
+      mergedIndex[term] = {
+        level: inferred,
+        path: `${inferred}.${term}`,
+      };
+    } else {
+      if (mergedIndex[term].level !== inferred) mergedIndex[term].level = inferred;
+      if (!mergedIndex[term].path || !/^(WorkVariant|Manifestation|Item)\./.test(String(mergedIndex[term].path))) {
+        mergedIndex[term].path = `${inferred}.${term}`;
+      }
+    }
     mergedIndex[term].explorerPath = expPath;
   }
   writeJson(FIELD_INDEX_JSON, mergedIndex);
@@ -389,7 +443,6 @@ if (!exists(modelPath)) {
   /* -----------------------------------------------------------------------
      ENTITIES: every class, slot, enum, enum member (+ docsUrl)
      ----------------------------------------------------------------------- */
-  /** @type {Array<{ id:string, kind:'class'|'slot'|'enum'|'enumMember', name:string, label:string, description:string, explorerPath:string, owner?:string, range?:string, docsUrl?:string }>} */
   const entities = [];
 
   const classToExplorerPath = (name) => {
@@ -401,7 +454,7 @@ if (!exists(modelPath)) {
     return `MovingImageRecord.WorkVariant.${name}`;
   };
 
-  // classes + slots
+  // classes + deep slots
   for (const [clsName, clsDef] of Object.entries(classes)) {
     const cPath = classToExplorerPath(clsName);
     entities.push({
@@ -414,7 +467,7 @@ if (!exists(modelPath)) {
       docsUrl: `${DOCS_BASE}${clsName}/`,
     });
 
-    for (const s of getClassSlots(clsName)) {
+    for (const s of getClassSlotsDeep(clsName)) {
       entities.push({
         id: `slot:${clsName}.${s.name}`,
         kind: "slot",
@@ -429,9 +482,8 @@ if (!exists(modelPath)) {
     }
   }
 
-  // enums + members
+  // enums + members (groups visible, no terms in the tree)
   for (const [enumName, enumDef] of Object.entries(enums || {})) {
-    // try to place under a matching "*ActivityEnums" or "*EventEnums" node; otherwise under WorkVariant
     let ePath = `MovingImageRecord.WorkVariant.${enumName}`;
     const mAct = enumName.match(/^([A-Za-z]+)ActivityTypeEnum$/);
     const mEvt = enumName.match(/^([A-Za-z]+)EventTypeEnum$/);
@@ -464,9 +516,8 @@ if (!exists(modelPath)) {
     }
   }
 
-  // sort for stable UI
-  entities.sort((a,b) => (a.explorerPath + "|" + a.kind + "|" + a.label).localeCompare(b.explorerPath + "|" + b.kind + "|" + b.label));
-
+  entities.sort((a,b) => (a.explorerPath + "|" + a.kind + "|" + a.label)
+    .localeCompare(b.explorerPath + "|" + b.kind + "|" + b.label));
   writeJson(ENTITIES_JSON, entities);
 }
 

@@ -7,10 +7,10 @@
       class="btn btn-sm btn-circle btn-outline"
       :title="showForm ? $t('closeForm') : $t('openForm')"
       :aria-label="showForm ? $t('closeForm') : $t('openForm')"
-      :aria-expanded="showForm.toString()"
+      :aria-expanded="Boolean(showForm.toString())"
       @click="toggleForm"
     >
-      <LazyIcon name="fa:paper-plane" />
+      <LazyIcon name="tabler:message" />
     </div>
     <div
       v-if="showForm"

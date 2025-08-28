@@ -70,7 +70,7 @@
           :alt="$t('webresource')"
           class="link link-primary dark:link-accent"
         ><Icon
-          name="formkit:linkexternal"
+          name="tabler:external-link"
           class=""
         /><span class="hidden 2xl:inline">{{ $t('webresource') }}</span></a>
       </template>
@@ -189,7 +189,7 @@
               class="link link-primary dark:link-accent"
             >
               <Icon
-                name="formkit:linkexternal"
+                name="tabler:external-link"
               />&nbsp;{{ $t('webresource') }}</a>
           </div>
         </div>

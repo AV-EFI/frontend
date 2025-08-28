@@ -51,7 +51,7 @@
                   @click="showInfo = !showInfo"
                 >
                   <Icon
-                    name="material-symbols:info-outline"
+                    name="tabler:info-circle"
                     class="text-lg"
                   />
                 </button>
@@ -119,7 +119,7 @@
                         class="btn btn-error btn-circle btn-sm text-white ml-1 w-8 h-8"
                         @click="removeObject(index, 'objectListStore')"
                       >
-                        <Icon name="material-symbols:delete" />
+                        <Icon name="tabler:trash" />
                       </button>
                     </div>
                   </div>
@@ -149,7 +149,7 @@
                 >
                   <Icon
                     class="text-lg"
-                    name="material-symbols:info-outline"
+                    name="tabler:info-circle"
                   />
                 </button>
                 <p
@@ -199,7 +199,7 @@
                         class="btn btn-error btn-circle btn-sm text-white ml-1"
                         @click="removeObject(index, 'shoppingCart')"
                       >
-                        <Icon name="material-symbols:delete" />
+                        <Icon name="tabler:trash" />
                       </button>
                     </div>
                   </div>

@@ -30,7 +30,7 @@
               >
                 Dazugehörige Manifestation bei {{ $t(mir.is_item_of.category) }}&nbsp;
                 <Icon
-                  name="fa-regular:hand-point-right"
+                  name="tabler:arrow-right"
                   size="1em"
                   class="!align-baseline"
                   alt="Manifestation"

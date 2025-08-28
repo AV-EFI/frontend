@@ -60,7 +60,7 @@
           class="flex flex-col items-center justify-center max-w-md mx-auto mt-6 p-4 rounded-lg border-2 border-dashed border-base-300 bg-base-100 text-center text-neutral-700 dark:text-neutral-300 dark:bg-gray-800 shadow-sm"
           role="alert" aria-label="No manifestations available">
 
-          <Icon name="mdi:emoticon-cry-outline" class="text-4xl mb-2 text-neutral-500" aria-hidden="true" />
+          <Icon name="tabler:mood-sad" class="text-4xl mb-2 text-neutral-500" aria-hidden="true" />
 
           <p class="text-base font-medium">{{ $t('noManifestations') }}</p>
         </div>

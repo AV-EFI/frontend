@@ -25,7 +25,7 @@
       @click="scrollToTop"
     >
       <Icon
-        name="i-fa:chevron-up"
+        name="tabler:chevron-up"
         class="text-lg"
       />
     </button>

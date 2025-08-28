@@ -1,12 +1,11 @@
-// .eslintrc.cjs
-
 module.exports = {
   root: true,
   extends: [
     '@nuxt/eslint-config',
+    'plugin:prettier/recommended',
   ],
   rules: {
-    // Your custom rules here
+    'prettier/prettier': 'error',
     'consistent-return': 'error',
     'indent': ['warn', 4],
     'no-else-return': 'warn',
@@ -14,9 +13,8 @@ module.exports = {
     'space-unary-ops': 'error',
     'camelcase': 'warn',
     'no-unused-vars': 'error',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'error'
   },
-  // You can still add your `overrides` and `ignore` patterns here
   ignorePatterns: [
     'models/interfaces/**',
     'scripts/**',
@@ -24,17 +22,7 @@ module.exports = {
     'composables/assets/**',
   ],
   overrides: [
-    {
-      files: ['tailwind.config.ts'],
-      rules: {
-        '@typescript-eslint/no-require-imports': 'off',
-      },
-    },
-    {
-      files: ['utils/clipboard.ts'],
-      rules: {
-        '@typescript-eslint/no-unused-vars': 'off',
-      },
-    },
+    { files: ['tailwind.config.ts'], rules: { '@typescript-eslint/no-require-imports': 'off' } },
+    { files: ['utils/clipboard.ts'], rules: { '@typescript-eslint/no-unused-vars': 'off' } },
   ],
-};
+}

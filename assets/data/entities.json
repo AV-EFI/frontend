@@ -89,6 +89,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/AnimationActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:AnimationActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.AnimationActivity.category",
+    "owner": "AnimationActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:AnimationActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.AnimationActivity.has_agent",
+    "owner": "AnimationActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:AnimationActivity.type",
     "kind": "slot",
     "name": "type",
@@ -248,6 +270,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CastActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:CastActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CastActivity.category",
+    "owner": "CastActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:CastActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CastActivity.has_agent",
+    "owner": "CastActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:CastActivity.type",
     "kind": "slot",
     "name": "type",
@@ -266,6 +310,28 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.7",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.CastActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CastActivity/"
+  },
+  {
+    "id": "slot:Activity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.category",
+    "owner": "Activity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:CensorshipActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CensorshipActivity.category",
+    "owner": "CensorshipActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "enum:CensorshipActivityTypeEnum",
@@ -287,6 +353,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CensorshipActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:CensorshipActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CensorshipActivity.has_agent",
+    "owner": "CensorshipActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:CensorshipActivity.type",
     "kind": "slot",
     "name": "type",
@@ -305,6 +382,17 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.1",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.CensorshipActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CensorshipActivity/"
+  },
+  {
+    "id": "slot:CinematographyActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CinematographyActivity.category",
+    "owner": "CinematographyActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "enum:CinematographyActivityTypeEnum",
@@ -516,6 +604,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CinematographyActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:CinematographyActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CinematographyActivity.has_agent",
+    "owner": "CinematographyActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:CinematographyActivity.type",
     "kind": "slot",
     "name": "type",
@@ -534,6 +633,17 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.5",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.CinematographyActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CinematographyActivity/"
+  },
+  {
+    "id": "slot:CopyrightAndDistributionActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CopyrightAndDistributionActivity.category",
+    "owner": "CopyrightAndDistributionActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "enum:CopyrightAndDistributionActivityTypeEnum",
@@ -615,6 +725,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CopyrightAndDistributionActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:CopyrightAndDistributionActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.CopyrightAndDistributionActivity.has_agent",
+    "owner": "CopyrightAndDistributionActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:CopyrightAndDistributionActivity.type",
     "kind": "slot",
     "name": "type",
@@ -633,6 +754,17 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.2",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.CopyrightAndDistributionActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CopyrightAndDistributionActivity/"
+  },
+  {
+    "id": "slot:DirectingActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.DirectingActivity.category",
+    "owner": "DirectingActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "enum:DirectingActivityTypeEnum",
@@ -714,6 +846,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DirectingActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:DirectingActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.DirectingActivity.has_agent",
+    "owner": "DirectingActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:DirectingActivity.type",
     "kind": "slot",
     "name": "type",
@@ -732,6 +875,17 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.3",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.DirectingActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DirectingActivity/"
+  },
+  {
+    "id": "slot:EditingActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.EditingActivity.category",
+    "owner": "EditingActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "enum:EditingActivityTypeEnum",
@@ -773,6 +927,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/EditingActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:EditingActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.EditingActivity.has_agent",
+    "owner": "EditingActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:EditingActivity.type",
     "kind": "slot",
     "name": "type",
@@ -800,6 +965,28 @@
     "description": "Agent involved in some activity related to the moving image resource",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.has_agent",
     "owner": "Activity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
+    "id": "slot:LaboratoryActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.LaboratoryActivity.category",
+    "owner": "LaboratoryActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:LaboratoryActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.LaboratoryActivity.has_agent",
+    "owner": "LaboratoryActivity",
     "range": "Agent",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
   },
@@ -871,6 +1058,28 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.12",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.LaboratoryActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LaboratoryActivity/"
+  },
+  {
+    "id": "slot:ManifestationActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.ManifestationActivity.category",
+    "owner": "ManifestationActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:ManifestationActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.ManifestationActivity.has_agent",
+    "owner": "ManifestationActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
   },
   {
     "id": "enum:ManifestationActivityTypeEnum",
@@ -1022,6 +1231,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ManifestationActivity/"
   },
   {
+    "id": "slot:MusicActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.MusicActivity.category",
+    "owner": "MusicActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:MusicActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.MusicActivity.has_agent",
+    "owner": "MusicActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "enum:MusicActivityTypeEnum",
     "kind": "enum",
     "name": "MusicActivityTypeEnum",
@@ -1159,6 +1390,28 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.11",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.MusicActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/MusicActivity/"
+  },
+  {
+    "id": "slot:ProducingActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.ProducingActivity.category",
+    "owner": "ProducingActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:ProducingActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.ProducingActivity.has_agent",
+    "owner": "ProducingActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
   },
   {
     "id": "enum:ProducingActivityTypeEnum",
@@ -1400,6 +1653,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ProducingActivity/"
   },
   {
+    "id": "slot:ProductionDesignActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.ProductionDesignActivity.category",
+    "owner": "ProductionDesignActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:ProductionDesignActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.ProductionDesignActivity.has_agent",
+    "owner": "ProductionDesignActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "enum:ProductionDesignActivityTypeEnum",
     "kind": "enum",
     "name": "ProductionDesignActivityTypeEnum",
@@ -1639,6 +1914,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ProductionDesignActivity/"
   },
   {
+    "id": "slot:PuppetActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.PuppetActivity.category",
+    "owner": "PuppetActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:PuppetActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.PuppetActivity.has_agent",
+    "owner": "PuppetActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "enum:PuppetActivityTypeEnum",
     "kind": "enum",
     "name": "PuppetActivityTypeEnum",
@@ -1676,6 +1973,28 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.14",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.PuppetActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/PuppetActivity/"
+  },
+  {
+    "id": "slot:SoundActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.SoundActivity.category",
+    "owner": "SoundActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:SoundActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.SoundActivity.has_agent",
+    "owner": "SoundActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
   },
   {
     "id": "enum:SoundActivityTypeEnum",
@@ -1835,6 +2154,28 @@
     "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.9",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.SoundActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/SoundActivity/"
+  },
+  {
+    "id": "slot:SpecialEffectsActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.SpecialEffectsActivity.category",
+    "owner": "SpecialEffectsActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:SpecialEffectsActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.SpecialEffectsActivity.has_agent",
+    "owner": "SpecialEffectsActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
   },
   {
     "id": "enum:SpecialEffectsActivityTypeEnum",
@@ -1997,6 +2338,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/type/"
   },
   {
+    "id": "slot:WritingActivity.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.WritingActivity.category",
+    "owner": "WritingActivity",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:WritingActivity.has_agent",
+    "kind": "slot",
+    "name": "has_agent",
+    "label": "has_agent",
+    "description": "Agent involved in some activity related to the moving image resource",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.WritingActivity.has_agent",
+    "owner": "WritingActivity",
+    "range": "Agent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_agent/"
+  },
+  {
     "id": "slot:WritingActivity.type",
     "kind": "slot",
     "name": "type",
@@ -2135,6 +2498,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Activity/"
   },
   {
+    "id": "slot:Agent.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Agent.category",
+    "owner": "Agent",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:Agent.has_alternate_name",
     "kind": "slot",
     "name": "has_alternate_name",
@@ -2237,6 +2611,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/AgentTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:Audio.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Audio.category",
+    "owner": "Audio",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:Audio.type",
     "kind": "slot",
     "name": "type",
@@ -2257,6 +2642,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Audio/"
   },
   {
+    "id": "slot:AuthorityResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.AuthorityResource.category",
+    "owner": "AuthorityResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:AuthorityResource.id",
     "kind": "slot",
     "name": "id",
@@ -2275,6 +2671,17 @@
     "description": "Root class for all identifiers from some kind of authority or public register widely accepted in the community",
     "explorerPath": "MovingImageRecord.WorkVariant.AuthorityResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/AuthorityResource/"
+  },
+  {
+    "id": "slot:AVefiResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.AVefiResource.category",
+    "owner": "AVefiResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:AVefiResource.id",
@@ -2315,6 +2722,17 @@
     "description": "Root for all classes with subclasses in this schema",
     "explorerPath": "MovingImageRecord.WorkVariant.CategorizedThing",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/CategorizedThing/"
+  },
+  {
+    "id": "slot:WorkVariant.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.category",
+    "owner": "WorkVariant",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "enum:ColourTypeEnum",
@@ -2406,6 +2824,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ColourTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:WorkVariant.described_by",
+    "kind": "slot",
+    "name": "described_by",
+    "label": "Verantwortlich",
+    "description": "Also record some metadata about the PID itself rather than the identified object",
+    "explorerPath": "MovingImageRecord.WorkVariant.described_by",
+    "owner": "WorkVariant",
+    "range": "DescriptionResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/described_by/"
+  },
+  {
     "id": "slot:DescriptionResource.has_history",
     "kind": "slot",
     "name": "has_history",
@@ -2459,6 +2888,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DescriptionResource/"
   },
   {
+    "id": "slot:DigitalFile.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.DigitalFile.category",
+    "owner": "DigitalFile",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:DigitalFile.type",
     "kind": "slot",
     "name": "type",
@@ -2479,6 +2919,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DigitalFile/"
   },
   {
+    "id": "slot:DigitalFileEncoding.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.DigitalFileEncoding.category",
+    "owner": "DigitalFileEncoding",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:DigitalFileEncoding.type",
     "kind": "slot",
     "name": "type",
@@ -2497,6 +2948,17 @@
     "description": "FIAF Moving Image Cataloguing Manual D.7.2",
     "explorerPath": "MovingImageRecord.WorkVariant.DigitalFileEncoding",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DigitalFileEncoding/"
+  },
+  {
+    "id": "slot:DOIResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.DOIResource.category",
+    "owner": "DOIResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:DOIResource.id",
@@ -2550,6 +3012,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Duration/"
   },
   {
+    "id": "slot:EIDRResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.EIDRResource.category",
+    "owner": "EIDRResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:EIDRResource.id",
     "kind": "slot",
     "name": "id",
@@ -2568,6 +3041,17 @@
     "description": "Entertainment Identifier Registry ID. Check id slot range documentation for examples",
     "explorerPath": "MovingImageRecord.WorkVariant.EIDRResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/EIDRResource/"
+  },
+  {
+    "id": "slot:Event.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.category",
+    "owner": "Event",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:Event.has_activity",
@@ -2603,6 +3087,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/located_in/"
   },
   {
+    "id": "slot:ManufactureEvent.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.ManufactureEvent.category",
+    "owner": "ManufactureEvent",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:ManufactureEvent.has_activity",
     "kind": "slot",
     "name": "has_activity",
@@ -2612,6 +3107,28 @@
     "owner": "ManufactureEvent",
     "range": "LaboratoryActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
+  },
+  {
+    "id": "slot:ManufactureEvent.has_date",
+    "kind": "slot",
+    "name": "has_date",
+    "label": "has_date",
+    "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.ManufactureEvent.has_date",
+    "owner": "ManufactureEvent",
+    "range": "ISODate",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_date/"
+  },
+  {
+    "id": "slot:ManufactureEvent.located_in",
+    "kind": "slot",
+    "name": "located_in",
+    "label": "in",
+    "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.ManufactureEvent.located_in",
+    "owner": "ManufactureEvent",
+    "range": "GeographicName",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/located_in/"
   },
   {
     "id": "enum:ManufactureEventTypeEnum",
@@ -2703,6 +3220,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ManufactureEvent/"
   },
   {
+    "id": "slot:PreservationEvent.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PreservationEvent.category",
+    "owner": "PreservationEvent",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:PreservationEvent.has_activity",
     "kind": "slot",
     "name": "has_activity",
@@ -2712,6 +3240,28 @@
     "owner": "PreservationEvent",
     "range": "ManifestationActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
+  },
+  {
+    "id": "slot:PreservationEvent.has_date",
+    "kind": "slot",
+    "name": "has_date",
+    "label": "has_date",
+    "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PreservationEvent.has_date",
+    "owner": "PreservationEvent",
+    "range": "ISODate",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_date/"
+  },
+  {
+    "id": "slot:PreservationEvent.located_in",
+    "kind": "slot",
+    "name": "located_in",
+    "label": "in",
+    "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PreservationEvent.located_in",
+    "owner": "PreservationEvent",
+    "range": "GeographicName",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/located_in/"
   },
   {
     "id": "enum:PreservationEventTypeEnum",
@@ -2793,6 +3343,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/PreservationEvent/"
   },
   {
+    "id": "slot:ProductionEvent.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.ProductionEvent.category",
+    "owner": "ProductionEvent",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:ProductionEvent.has_activity",
     "kind": "slot",
     "name": "has_activity",
@@ -2802,6 +3363,28 @@
     "owner": "ProductionEvent",
     "range": "Activity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
+  },
+  {
+    "id": "slot:ProductionEvent.has_date",
+    "kind": "slot",
+    "name": "has_date",
+    "label": "has_date",
+    "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.ProductionEvent.has_date",
+    "owner": "ProductionEvent",
+    "range": "ISODate",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_date/"
+  },
+  {
+    "id": "slot:ProductionEvent.located_in",
+    "kind": "slot",
+    "name": "located_in",
+    "label": "in",
+    "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.ProductionEvent.located_in",
+    "owner": "ProductionEvent",
+    "range": "GeographicName",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/located_in/"
   },
   {
     "id": "enum:ProductionEventTypeEnum",
@@ -2873,6 +3456,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ProductionEvent/"
   },
   {
+    "id": "slot:PublicationEvent.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PublicationEvent.category",
+    "owner": "PublicationEvent",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:PublicationEvent.has_activity",
     "kind": "slot",
     "name": "has_activity",
@@ -2882,6 +3476,28 @@
     "owner": "PublicationEvent",
     "range": "ManifestationActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
+  },
+  {
+    "id": "slot:PublicationEvent.has_date",
+    "kind": "slot",
+    "name": "has_date",
+    "label": "has_date",
+    "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PublicationEvent.has_date",
+    "owner": "PublicationEvent",
+    "range": "ISODate",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_date/"
+  },
+  {
+    "id": "slot:PublicationEvent.located_in",
+    "kind": "slot",
+    "name": "located_in",
+    "label": "in",
+    "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.PublicationEvent.located_in",
+    "owner": "PublicationEvent",
+    "range": "GeographicName",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/located_in/"
   },
   {
     "id": "enum:PublicationEventTypeEnum",
@@ -3013,6 +3629,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/PublicationEvent/"
   },
   {
+    "id": "slot:RightsCopyrightRegistrationEvent.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.RightsCopyrightRegistrationEvent.category",
+    "owner": "RightsCopyrightRegistrationEvent",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:RightsCopyrightRegistrationEvent.has_activity",
     "kind": "slot",
     "name": "has_activity",
@@ -3022,6 +3649,28 @@
     "owner": "RightsCopyrightRegistrationEvent",
     "range": "CopyrightAndDistributionActivity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
+  },
+  {
+    "id": "slot:RightsCopyrightRegistrationEvent.has_date",
+    "kind": "slot",
+    "name": "has_date",
+    "label": "has_date",
+    "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.RightsCopyrightRegistrationEvent.has_date",
+    "owner": "RightsCopyrightRegistrationEvent",
+    "range": "ISODate",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_date/"
+  },
+  {
+    "id": "slot:RightsCopyrightRegistrationEvent.located_in",
+    "kind": "slot",
+    "name": "located_in",
+    "label": "in",
+    "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event",
+    "explorerPath": "MovingImageRecord.WorkVariant.Event.RightsCopyrightRegistrationEvent.located_in",
+    "owner": "RightsCopyrightRegistrationEvent",
+    "range": "GeographicName",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/located_in/"
   },
   {
     "id": "class:RightsCopyrightRegistrationEvent",
@@ -3084,6 +3733,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Extent/"
   },
   {
+    "id": "slot:Film.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Film.category",
+    "owner": "Film",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:Film.type",
     "kind": "slot",
     "name": "type",
@@ -3104,6 +3764,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Film/"
   },
   {
+    "id": "slot:FilmportalResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.FilmportalResource.category",
+    "owner": "FilmportalResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:FilmportalResource.id",
     "kind": "slot",
     "name": "id",
@@ -3122,6 +3793,17 @@
     "description": "Identifier of the German Filmportal.de. Check id slot range documentation for examples",
     "explorerPath": "MovingImageRecord.WorkVariant.FilmportalResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/FilmportalResource/"
+  },
+  {
+    "id": "slot:Format.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Format.category",
+    "owner": "Format",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:Format.type",
@@ -3859,6 +4541,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Genre/"
   },
   {
+    "id": "slot:GeographicName.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.GeographicName.category",
+    "owner": "GeographicName",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:GeographicName.has_alternate_name",
     "kind": "slot",
     "name": "has_alternate_name",
@@ -3901,6 +4594,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/GeographicName/"
   },
   {
+    "id": "slot:GNDResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.GNDResource.category",
+    "owner": "GNDResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:GNDResource.id",
     "kind": "slot",
     "name": "id",
@@ -3919,6 +4623,28 @@
     "description": "Gemeinsame Normdatei (GND) identifier maintained by Deutsche Nationalbibliothek (German National Library)",
     "explorerPath": "MovingImageRecord.WorkVariant.GNDResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/GNDResource/"
+  },
+  {
+    "id": "slot:WorkVariant.has_alternative_title",
+    "kind": "slot",
+    "name": "has_alternative_title",
+    "label": "has_alternative_title",
+    "description": "Additional title(s) associated with the work / variant, manifestation, or item.",
+    "explorerPath": "MovingImageRecord.WorkVariant.has_alternative_title",
+    "owner": "WorkVariant",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_alternative_title/"
+  },
+  {
+    "id": "slot:WorkVariant.has_event",
+    "kind": "slot",
+    "name": "has_event",
+    "label": "has_event",
+    "description": "Associate event(s) with a moving image record",
+    "explorerPath": "MovingImageRecord.WorkVariant.has_event",
+    "owner": "WorkVariant",
+    "range": "Event",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_event/"
   },
   {
     "id": "slot:WorkVariant.has_form",
@@ -3943,6 +4669,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_genre/"
   },
   {
+    "id": "slot:WorkVariant.has_identifier",
+    "kind": "slot",
+    "name": "has_identifier",
+    "label": "has_identifier",
+    "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs",
+    "explorerPath": "MovingImageRecord.WorkVariant.has_identifier",
+    "owner": "WorkVariant",
+    "range": "MovingImageResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_identifier/"
+  },
+  {
     "id": "slot:WorkVariant.has_primary_title",
     "kind": "slot",
     "name": "has_primary_title",
@@ -3952,6 +4689,17 @@
     "owner": "WorkVariant",
     "range": "Title",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_primary_title/"
+  },
+  {
+    "id": "slot:WorkVariant.has_source_key",
+    "kind": "slot",
+    "name": "has_source_key",
+    "label": "has_source_key",
+    "description": "Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here.",
+    "explorerPath": "MovingImageRecord.WorkVariant.has_source_key",
+    "owner": "WorkVariant",
+    "range": "IDString",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_source_key/"
   },
   {
     "id": "slot:WorkVariant.has_subject",
@@ -3985,6 +4733,17 @@
     "owner": "WorkVariant",
     "range": "MovingImageResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/is_variant_of/"
+  },
+  {
+    "id": "slot:ISILResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.ISILResource.category",
+    "owner": "ISILResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:ISILResource.id",
@@ -9462,6 +10221,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageUsageEnum/#permissible-values"
   },
   {
+    "id": "slot:LocalResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.LocalResource.category",
+    "owner": "LocalResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:LocalResource.id",
+    "kind": "slot",
+    "name": "id",
+    "label": "id",
+    "description": "A unique identifier for a thing",
+    "explorerPath": "MovingImageRecord.WorkVariant.LocalResource.id",
+    "owner": "LocalResource",
+    "range": "IDString",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/id/"
+  },
+  {
     "id": "class:LocalResource",
     "kind": "class",
     "name": "LocalResource",
@@ -9469,6 +10250,39 @@
     "description": "Some identifier used by data provider to represent relations between work/variant, manifestation and item when PIDs have not been assigned yet. On ingest into AVefi, these identifiers will be replaced by the generated PIDs",
     "explorerPath": "MovingImageRecord.WorkVariant.LocalResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LocalResource/"
+  },
+  {
+    "id": "slot:ManifestationOrItem.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.category",
+    "owner": "ManifestationOrItem",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:ManifestationOrItem.described_by",
+    "kind": "slot",
+    "name": "described_by",
+    "label": "Verantwortlich",
+    "description": "Also record some metadata about the PID itself rather than the identified object",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.described_by",
+    "owner": "ManifestationOrItem",
+    "range": "DescriptionResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/described_by/"
+  },
+  {
+    "id": "slot:ManifestationOrItem.has_alternative_title",
+    "kind": "slot",
+    "name": "has_alternative_title",
+    "label": "has_alternative_title",
+    "description": "Additional title(s) associated with the work / variant, manifestation, or item.",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_alternative_title",
+    "owner": "ManifestationOrItem",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_alternative_title/"
   },
   {
     "id": "slot:ManifestationOrItem.has_colour_type",
@@ -9493,6 +10307,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_duration/"
   },
   {
+    "id": "slot:ManifestationOrItem.has_event",
+    "kind": "slot",
+    "name": "has_event",
+    "label": "has_event",
+    "description": "Associate event(s) with a moving image record",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_event",
+    "owner": "ManifestationOrItem",
+    "range": "Event",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_event/"
+  },
+  {
     "id": "slot:ManifestationOrItem.has_extent",
     "kind": "slot",
     "name": "has_extent",
@@ -9515,6 +10340,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_format/"
   },
   {
+    "id": "slot:ManifestationOrItem.has_identifier",
+    "kind": "slot",
+    "name": "has_identifier",
+    "label": "has_identifier",
+    "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_identifier",
+    "owner": "ManifestationOrItem",
+    "range": "MovingImageResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_identifier/"
+  },
+  {
     "id": "slot:ManifestationOrItem.has_note",
     "kind": "slot",
     "name": "has_note",
@@ -9526,6 +10362,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_note/"
   },
   {
+    "id": "slot:ManifestationOrItem.has_primary_title",
+    "kind": "slot",
+    "name": "has_primary_title",
+    "label": "Titel",
+    "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead.",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_primary_title",
+    "owner": "ManifestationOrItem",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_primary_title/"
+  },
+  {
     "id": "slot:ManifestationOrItem.has_sound_type",
     "kind": "slot",
     "name": "has_sound_type",
@@ -9535,6 +10382,17 @@
     "owner": "ManifestationOrItem",
     "range": "SoundTypeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_sound_type/"
+  },
+  {
+    "id": "slot:ManifestationOrItem.has_source_key",
+    "kind": "slot",
+    "name": "has_source_key",
+    "label": "has_source_key",
+    "description": "Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here.",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_source_key",
+    "owner": "ManifestationOrItem",
+    "range": "IDString",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_source_key/"
   },
   {
     "id": "slot:ManifestationOrItem.has_webresource",
@@ -9559,6 +10417,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/in_language/"
   },
   {
+    "id": "slot:ManifestationOrItem.same_as",
+    "kind": "slot",
+    "name": "same_as",
+    "label": "same_as",
+    "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.same_as",
+    "owner": "ManifestationOrItem",
+    "range": "AuthorityResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/same_as/"
+  },
+  {
     "id": "class:ManifestationOrItem",
     "kind": "class",
     "name": "ManifestationOrItem",
@@ -9566,6 +10435,105 @@
     "description": "Base class defining common slots for manifestations and items",
     "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/ManifestationOrItem/"
+  },
+  {
+    "id": "slot:Manifestation.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].category",
+    "owner": "Manifestation",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:Manifestation.described_by",
+    "kind": "slot",
+    "name": "described_by",
+    "label": "Verantwortlich",
+    "description": "Also record some metadata about the PID itself rather than the identified object",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].described_by",
+    "owner": "Manifestation",
+    "range": "DescriptionResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/described_by/"
+  },
+  {
+    "id": "slot:Manifestation.has_alternative_title",
+    "kind": "slot",
+    "name": "has_alternative_title",
+    "label": "has_alternative_title",
+    "description": "Additional title(s) associated with the work / variant, manifestation, or item.",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_alternative_title",
+    "owner": "Manifestation",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_alternative_title/"
+  },
+  {
+    "id": "slot:Manifestation.has_colour_type",
+    "kind": "slot",
+    "name": "has_colour_type",
+    "label": "Farbtyp",
+    "description": "FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_colour_type",
+    "owner": "Manifestation",
+    "range": "ColourTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_colour_type/"
+  },
+  {
+    "id": "slot:Manifestation.has_duration",
+    "kind": "slot",
+    "name": "has_duration",
+    "label": "Abspieldauer",
+    "description": "Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_duration",
+    "owner": "Manifestation",
+    "range": "Duration",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_duration/"
+  },
+  {
+    "id": "slot:Manifestation.has_event",
+    "kind": "slot",
+    "name": "has_event",
+    "label": "has_event",
+    "description": "Associate event(s) with a moving image record",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_event",
+    "owner": "Manifestation",
+    "range": "Event",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_event/"
+  },
+  {
+    "id": "slot:Manifestation.has_extent",
+    "kind": "slot",
+    "name": "has_extent",
+    "label": "Länge / Größe",
+    "description": "Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_extent",
+    "owner": "Manifestation",
+    "range": "Extent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_extent/"
+  },
+  {
+    "id": "slot:Manifestation.has_format",
+    "kind": "slot",
+    "name": "has_format",
+    "label": "Format",
+    "description": "FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_format",
+    "owner": "Manifestation",
+    "range": "Format",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_format/"
+  },
+  {
+    "id": "slot:Manifestation.has_identifier",
+    "kind": "slot",
+    "name": "has_identifier",
+    "label": "has_identifier",
+    "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_identifier",
+    "owner": "Manifestation",
+    "range": "MovingImageResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_identifier/"
   },
   {
     "id": "slot:Manifestation.has_item",
@@ -9579,6 +10547,72 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_item/"
   },
   {
+    "id": "slot:Manifestation.has_note",
+    "kind": "slot",
+    "name": "has_note",
+    "label": "has_note",
+    "description": "FIAF Moving Image Cataloguing Manual Appendix B",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_note",
+    "owner": "Manifestation",
+    "range": "TextArea",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_note/"
+  },
+  {
+    "id": "slot:Manifestation.has_primary_title",
+    "kind": "slot",
+    "name": "has_primary_title",
+    "label": "Titel",
+    "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead.",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_primary_title",
+    "owner": "Manifestation",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_primary_title/"
+  },
+  {
+    "id": "slot:Manifestation.has_sound_type",
+    "kind": "slot",
+    "name": "has_sound_type",
+    "label": "Ton",
+    "description": "FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_sound_type",
+    "owner": "Manifestation",
+    "range": "SoundTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_sound_type/"
+  },
+  {
+    "id": "slot:Manifestation.has_source_key",
+    "kind": "slot",
+    "name": "has_source_key",
+    "label": "has_source_key",
+    "description": "Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here.",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_source_key",
+    "owner": "Manifestation",
+    "range": "IDString",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_source_key/"
+  },
+  {
+    "id": "slot:Manifestation.has_webresource",
+    "kind": "slot",
+    "name": "has_webresource",
+    "label": "Externer Link",
+    "description": "Link to data provider's own presentation of manifestation or item on the web",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].has_webresource",
+    "owner": "Manifestation",
+    "range": "HttpUri",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_webresource/"
+  },
+  {
+    "id": "slot:Manifestation.in_language",
+    "kind": "slot",
+    "name": "in_language",
+    "label": "Sprache",
+    "description": "FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].in_language",
+    "owner": "Manifestation",
+    "range": "Language",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/in_language/"
+  },
+  {
     "id": "slot:Manifestation.is_manifestation_of",
     "kind": "slot",
     "name": "is_manifestation_of",
@@ -9588,6 +10622,28 @@
     "owner": "Manifestation",
     "range": "MovingImageResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/is_manifestation_of/"
+  },
+  {
+    "id": "slot:Item.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].category",
+    "owner": "Item",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:Item.described_by",
+    "kind": "slot",
+    "name": "described_by",
+    "label": "Verantwortlich",
+    "description": "Also record some metadata about the PID itself rather than the identified object",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].described_by",
+    "owner": "Item",
+    "range": "DescriptionResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/described_by/"
   },
   {
     "id": "slot:Item.element_type",
@@ -9612,6 +10668,72 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_access_status/"
   },
   {
+    "id": "slot:Item.has_alternative_title",
+    "kind": "slot",
+    "name": "has_alternative_title",
+    "label": "has_alternative_title",
+    "description": "Additional title(s) associated with the work / variant, manifestation, or item.",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_alternative_title",
+    "owner": "Item",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_alternative_title/"
+  },
+  {
+    "id": "slot:Item.has_colour_type",
+    "kind": "slot",
+    "name": "has_colour_type",
+    "label": "Farbtyp",
+    "description": "FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_colour_type",
+    "owner": "Item",
+    "range": "ColourTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_colour_type/"
+  },
+  {
+    "id": "slot:Item.has_duration",
+    "kind": "slot",
+    "name": "has_duration",
+    "label": "Abspieldauer",
+    "description": "Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_duration",
+    "owner": "Item",
+    "range": "Duration",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_duration/"
+  },
+  {
+    "id": "slot:Item.has_event",
+    "kind": "slot",
+    "name": "has_event",
+    "label": "has_event",
+    "description": "Associate event(s) with a moving image record",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_event",
+    "owner": "Item",
+    "range": "Event",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_event/"
+  },
+  {
+    "id": "slot:Item.has_extent",
+    "kind": "slot",
+    "name": "has_extent",
+    "label": "Länge / Größe",
+    "description": "Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_extent",
+    "owner": "Item",
+    "range": "Extent",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_extent/"
+  },
+  {
+    "id": "slot:Item.has_format",
+    "kind": "slot",
+    "name": "has_format",
+    "label": "Format",
+    "description": "FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_format",
+    "owner": "Item",
+    "range": "Format",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_format/"
+  },
+  {
     "id": "slot:Item.has_frame_rate",
     "kind": "slot",
     "name": "has_frame_rate",
@@ -9621,6 +10743,83 @@
     "owner": "Item",
     "range": "FrameRateEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_frame_rate/"
+  },
+  {
+    "id": "slot:Item.has_identifier",
+    "kind": "slot",
+    "name": "has_identifier",
+    "label": "has_identifier",
+    "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_identifier",
+    "owner": "Item",
+    "range": "MovingImageResource",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_identifier/"
+  },
+  {
+    "id": "slot:Item.has_note",
+    "kind": "slot",
+    "name": "has_note",
+    "label": "has_note",
+    "description": "FIAF Moving Image Cataloguing Manual Appendix B",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_note",
+    "owner": "Item",
+    "range": "TextArea",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_note/"
+  },
+  {
+    "id": "slot:Item.has_primary_title",
+    "kind": "slot",
+    "name": "has_primary_title",
+    "label": "Titel",
+    "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead.",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_primary_title",
+    "owner": "Item",
+    "range": "Title",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_primary_title/"
+  },
+  {
+    "id": "slot:Item.has_sound_type",
+    "kind": "slot",
+    "name": "has_sound_type",
+    "label": "Ton",
+    "description": "FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_sound_type",
+    "owner": "Item",
+    "range": "SoundTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_sound_type/"
+  },
+  {
+    "id": "slot:Item.has_source_key",
+    "kind": "slot",
+    "name": "has_source_key",
+    "label": "has_source_key",
+    "description": "Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here.",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_source_key",
+    "owner": "Item",
+    "range": "IDString",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_source_key/"
+  },
+  {
+    "id": "slot:Item.has_webresource",
+    "kind": "slot",
+    "name": "has_webresource",
+    "label": "Externer Link",
+    "description": "Link to data provider's own presentation of manifestation or item on the web",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].has_webresource",
+    "owner": "Item",
+    "range": "HttpUri",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/has_webresource/"
+  },
+  {
+    "id": "slot:Item.in_language",
+    "kind": "slot",
+    "name": "in_language",
+    "label": "Sprache",
+    "description": "FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].in_language",
+    "owner": "Item",
+    "range": "Language",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/in_language/"
   },
   {
     "id": "slot:Item.is_copy_of",
@@ -9694,6 +10893,17 @@
     "description": "Manifestation as defined in FIAF Moving Image Cataloguing Manual 2.0. Note that manifestation type is recorded as publication event type",
     "explorerPath": "MovingImageRecord.WorkVariant.manifestations[]",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Manifestation/"
+  },
+  {
+    "id": "slot:MovingImageRecord.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.MovingImageRecord.category",
+    "owner": "MovingImageRecord",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:MovingImageRecord.described_by",
@@ -9802,6 +11012,28 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/MovingImageRecordContainer/"
   },
   {
+    "id": "slot:MovingImageResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.MovingImageResource.category",
+    "owner": "MovingImageResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
+    "id": "slot:MovingImageResource.id",
+    "kind": "slot",
+    "name": "id",
+    "label": "id",
+    "description": "A unique identifier for a thing",
+    "explorerPath": "MovingImageRecord.WorkVariant.MovingImageResource.id",
+    "owner": "MovingImageResource",
+    "range": "IDString",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/id/"
+  },
+  {
     "id": "class:MovingImageResource",
     "kind": "class",
     "name": "MovingImageResource",
@@ -9809,6 +11041,17 @@
     "description": "Either a persistent or local identifier for AVefi compliant moving image records. See subclasses for details",
     "explorerPath": "MovingImageRecord.WorkVariant.MovingImageResource",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/MovingImageResource/"
+  },
+  {
+    "id": "slot:Optical.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Optical.category",
+    "owner": "Optical",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:Optical.type",
@@ -9960,6 +11203,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/SoundTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:Subject.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Subject.category",
+    "owner": "Subject",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:Subject.has_alternate_name",
     "kind": "slot",
     "name": "has_alternate_name",
@@ -10000,6 +11254,17 @@
     "description": "Subject descriptor terms for the content of a film specifying its period, themes, locations, etc. Not to be confused with Genre. Provide name and if at all possible identifier(s) from supported authorities in the same_as slot. See also: FIAF Moving Image Cataloguing Manual 1.4.3 and FIAF Glossary of Filmographic Terms D.2.3",
     "explorerPath": "MovingImageRecord.WorkVariant.Subject",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Subject/"
+  },
+  {
+    "id": "slot:TGNResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.TGNResource.category",
+    "owner": "TGNResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:TGNResource.id",
@@ -10403,6 +11668,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/VariantTypeEnum/#permissible-values"
   },
   {
+    "id": "slot:VIAFResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.VIAFResource.category",
+    "owner": "VIAFResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:VIAFResource.id",
     "kind": "slot",
     "name": "id",
@@ -10423,6 +11699,17 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/VIAFResource/"
   },
   {
+    "id": "slot:Video.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.Video.category",
+    "owner": "Video",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
+  },
+  {
     "id": "slot:Video.type",
     "kind": "slot",
     "name": "type",
@@ -10441,6 +11728,17 @@
     "description": "FIAF Moving Image Cataloguing Manual D.7.2",
     "explorerPath": "MovingImageRecord.WorkVariant.Video",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/Video/"
+  },
+  {
+    "id": "slot:WikidataResource.category",
+    "kind": "slot",
+    "name": "category",
+    "label": "category",
+    "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)",
+    "explorerPath": "MovingImageRecord.WorkVariant.WikidataResource.category",
+    "owner": "WikidataResource",
+    "range": "AVefiCurie",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/category/"
   },
   {
     "id": "slot:WikidataResource.id",

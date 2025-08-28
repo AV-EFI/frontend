@@ -5,7 +5,7 @@
     :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
     @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)"
   >
-    <Icon name="formkit:arrowright" />
+    <Icon name="tabler:arrow-right" />
   </button>
   <!--
     <Icon

@@ -33,17 +33,17 @@
 
           <div class="flex flex-col md:flex-row text-sm mt-2">
             <span v-if="getPlaces(item)" class="flex items-center">
-              <Icon name="mdi:map-marker-outline" class="mr-1" :alt="$t('place')" :title="$t('place')" />
+              <Icon name="tabler:map-pin" class="mr-1" :alt="$t('place')" :title="$t('place')" />
               {{ getPlaces(item) }}
             </span>
 
             <span v-if="item.years" class="flex items-center md:ml-4">
-              <Icon name="fa:calendar" class="mr-1" :alt="$t('productionyear')" :title="$t('productionyear')" />
+              <Icon name="tabler:calendar" class="mr-1" :alt="$t('productionyear')" :title="$t('productionyear')" />
               {{ item.years.join(', ') }}
             </span>
 
             <span v-if="item.directors_or_editors" class="flex items-center md:ml-4">
-              <Icon name="iconoir:director-chair" class="mr-1" :alt="$t('directors_or_editors')" :title="$t('directors_or_editors')" />
+              <Icon name="tabler:clapperboard" class="mr-1" :alt="$t('directors_or_editors')" :title="$t('directors_or_editors')" />
               {{ item.directors_or_editors.join(', ') }}
             </span>
           </div>
@@ -56,7 +56,7 @@
             :aria-label="$t('detailviewlink')"
             :title="$t('detailviewlink')"
           >
-            <Icon name="mdi:eye-outline" class="text-2xl" :alt="$t('detailviewlink')" />
+            <Icon name="tabler:eye" class="text-2xl" :alt="$t('detailviewlink')" />
           </NuxtLink>
         </div>
       </div>
@@ -74,7 +74,7 @@
           @click="expanded[item.handle] = !expanded[item.handle]"
         >
           <Icon
-            :name="expanded[item.handle] ? 'mdi:minus' : 'mdi:plus'"
+            :name="expanded[item.handle] ? 'tabler:minus' : 'tabler:plus'"
             class="text-lg"
             :alt="expanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
             :title="expanded[item.handle] ? $t('hideDetails') : $t('showDetails')"

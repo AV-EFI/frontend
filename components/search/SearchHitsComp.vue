@@ -18,6 +18,8 @@
       :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
       :expanded-handles="expandedHandles"
+      :facets-active="facetsActive"
+      :nr-of-facets-active="nrOfFacetsActive"
       :expand-all-handles-checked="expandAllHandlesChecked"
     />
     <div v-else>
@@ -35,7 +37,7 @@ defineOptions({
     name: 'AisStateResults',
 });
 
-defineProps({
+const props = defineProps({
     items: {
         type: Array as PropType<ElasticMSearchResponse[]>,
         required: true,
@@ -54,7 +56,19 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    facetsActive: {
+      type: Object as PropType<Record<string, Set<string | number | boolean>>>,
+      default: () => ({}),
+    },
+    nrOfFacetsActive: {
+      type: Number,
+      default: 0,
+    }
 });
+
+function isFacetActive(attribute: string, value: string | number | boolean) {
+  return props.facetsActive?.[attribute]?.has(value) ?? false
+}
 
 // ✅ Connector definition
 /* eslint-disable @typescript-eslint/no-explicit-any */

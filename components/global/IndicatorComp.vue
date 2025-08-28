@@ -15,7 +15,7 @@
         {{ $t('showcomparison') }}
       </span>
       <Icon
-        name="formkit:caretleft"
+        name="tabler:caret-left"
         aria-hidden="true"
       />
     </button>

@@ -1,0 +1,11 @@
+{
+  "entries": {
+    "MovingImageRecord.WorkVariant.ManifestationOrItem.has_format": {
+      "de": "123 123 Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
+      "en": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
+      "showDetail": true,
+      "showSearch": false
+    }
+  },
+  "updatedAt": "2025-08-21T09:43:02.468Z"
+}

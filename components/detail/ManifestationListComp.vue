@@ -106,7 +106,7 @@
                 :alt="safeT('webresource')"
                 class="link link-primary dark:link-accent"
               >
-                <span>{{ safeT('webresource') }} <Icon name="formkit:linkexternal" /></span>
+                <span>{{ safeT('webresource') }} <Icon name="tabler:external-link" /></span>
               </a>
             </div>
             <DetailKeyValueListComp

@@ -25,7 +25,7 @@
             :aria-label="$t('searchcontent')"
           >
             <div
-              class="search-panel__results w-full py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md px-2"
+              class="search-panel__results w-full py-2 bg-base-300 dark:bg-gray-900 rounded-lg shadow-md px-2"
               role="region"
               :aria-label="$t('searchresults')"
             >
@@ -114,7 +114,7 @@
                       >
                         <Icon
                           class="p-2 text-xl my-auto dark:text-white"
-                          name="mdi:clear-bold"
+                          name="tabler:circle-x"
                           aria-hidden="true"
                         />
                       </button>
@@ -142,7 +142,7 @@
                   :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                  <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
               </div>
               <div class="w-full">
@@ -277,11 +277,10 @@
                       <span v-else>
                         {{ $t('collapseAll') }}
                       </span>
-
                       <input
                         v-model="expandAllHandlesChecked"
                         type="checkbox"
-                        class="toggle toggle-primary"
+                        class="toggle toggle-primary bg-primary hover:bg-primary"
                       >
                     </label>
                   </div>
@@ -300,7 +299,7 @@
                           }"
                         >
                           <template #resetLabel>
-                            <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                            <Icon name="tabler:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                           </template>
                         </ais-clear-refinements>
                       </div>
@@ -332,7 +331,7 @@
                                 {{ $t(refinement.label) }}
                                 <Icon
                                   class="text-lg"
-                                  name="formkit:trash"
+                                  name="tabler:trash"
                                 />
                               </a>
                             </li>
@@ -352,28 +351,25 @@
                     </span>
                   </div>
                 </div>
-                <div
-                  class="overflow-x-auto w-full"
-                  style="overflow-y:hidden;"
-                >
-                  <ais-hits
-                    class=""
-                  >
-                    <template #default="{ items }">
-                      <SearchNoResultsComp
-                        v-if="items.length === 0"
-                        class="text-center text-gray-500 py-6"
-                      />
-                      <SearchHitsComp
-                        v-else
-                        :items="items"
-                        :view-type-checked="viewTypeChecked"
-                        :production-details-checked="productionDetailsChecked"
-                        :expanded-handles="expandedHandles"
-                        :expand-all-handles-checked="expandAllHandlesChecked"
-                      />
-                    </template>
-                  </ais-hits>
+                <div class="overflow-x-auto w-full" style="overflow-y:hidden;">
+                  <!-- Renderless provider: gives you reactive active refinements -->
+                  <ais-current-refinements v-slot="{ items: activeItems }">
+                    <ais-hits>
+                      <template #default="{ items }">
+                        <SearchNoResultsComp v-if="items.length === 0" class="text-center text-gray-500 py-6" />
+                        <SearchHitsComp
+                          v-else
+                          :items="items"
+                          :view-type-checked="viewTypeChecked"
+                          :production-details-checked="productionDetailsChecked"
+                          :expanded-handles="expandedHandles"
+                          :expand-all-handles-checked="expandAllHandlesChecked"
+                          :facets-active="normalizeActive(activeItems)"
+                          :nr-of-facets-active="activeItems.length"
+                        />
+                      </template>
+                    </ais-hits>
+                  </ais-current-refinements>
                 </div>
                 <LazyDetailPaginationComp />
               </div>
@@ -435,7 +431,7 @@ onMounted(() => {
     });
 });
 
-defineProps({
+const props = defineProps({
     indexName: {
         type: String,
         required: true,
@@ -463,6 +459,16 @@ const expandAllItems = () => {
         });
     }, 300);
 };
+
+// turn slot `items` into { [attribute]: Set(values) }
+function normalizeActive(items: any[]) {
+  const out: Record<string, Set<string>> = {}
+  for (const it of items ?? []) {
+    out[it.attribute] = new Set((it.refinements ?? []).map((r: any) => String(r.value)))
+  }
+  return out
+}
+
 
 const isSearchLoading = ref(false);
 

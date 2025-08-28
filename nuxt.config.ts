@@ -3,13 +3,21 @@
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
-import eslint from 'vite-plugin-eslint';;
+import eslint from 'vite-plugin-eslint';import { L } from 'vitest/dist/chunks/reporters.d.BFLkQcL6.js';
+;
 
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-31',
     app: {
         baseURL: '/',
         pageTransition: false
+    },
+    cms: {
+        // Block edits unless explicitly enabled (prod on by default, dev off)
+        allowUserTooltipEdits:
+        process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' ||
+        process.env.NODE_ENV === 'production',
+        userTooltipsFile: process.env.USER_TOOLTIPS_FILE || 'cms/user-tooltips.json',
     },
     devtools: {
         enabled: true,
@@ -51,7 +59,7 @@ export default defineNuxtConfig({
         dirs: ['~/stores', '~/plugins'] // keine Wildcards
     },
     icon: {
-        collections: ['mdi', 'material-symbols']
+        collections: ['tabler', 'carbon']
     },
     components: {
         global: true,
@@ -92,6 +100,13 @@ export default defineNuxtConfig({
             AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
             AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
             AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/academiccloud/auth',
+
+            cms: {
+                // mirror the flag to the client to toggle UI affordances
+                allowUserTooltipEdits:
+                process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' ||
+                process.env.NODE_ENV === 'production',
+            }
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,

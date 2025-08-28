@@ -53,7 +53,7 @@
             target="_blank"
             class="link link-primary dark:link-accent"
           ><Icon
-            name="formkit:linkexternal"
+            name="tabler:external-link"
           />&nbsp;{{ $t('webresource') }}</a>
         </div>
 

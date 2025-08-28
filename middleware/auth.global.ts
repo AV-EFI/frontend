@@ -6,6 +6,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
         console.log('Protected route accessed:', to.path);
         const auth = useAuth();
 
+        console.log('Auth data:', auth.data.value);
+
         // If data is already available → allow access
         if (auth.data.value?.user) return;
 

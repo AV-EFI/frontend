@@ -127,8 +127,6 @@ const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson'
         type.value = data?.compound_record?._source?.has_record?.type;
         console.log('Type:', type.value);
     }
-
-    console.log('[id].vue dataJson:', data);
     return data as ElasticGetByIdResponse;
 
 });

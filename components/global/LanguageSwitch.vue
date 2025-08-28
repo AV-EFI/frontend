@@ -21,7 +21,7 @@
           <div class="bg-base-100 dark:bg-gray-800 dark:text-white text-neutral w-12 rounded-full">
             <span class="flex flex-row items-center"><Icon
               class="text-lg"
-              name="mdi:language"
+              name="tabler:language"
             />De</span>
           </div>
         </div>
@@ -36,7 +36,7 @@
           <div class="bg-base-100 dark:bg-gray-800 dark:text-white text-neutral w-12 rounded-full">
             <span class="flex flex-row items-center"><Icon
               class="text-lg text-base dark:text-white"
-              name="mdi:language"
+              name="tabler:language"
             />En</span>
           </div>
         </div>
