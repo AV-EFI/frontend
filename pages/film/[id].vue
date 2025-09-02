@@ -65,18 +65,28 @@
       </template>      
       <template #cardBody>
         <div class="px-4 pb-4">
-          <div
-          >
+          <div class="flex flex-row justify-center items-center mb-4 gap-2">
+            <button style="display: flex; align-items: center; margin-right: 0.5em;" :class="['btn', detailMode==='normal' ? 'btn-primary' : 'btn-outline']" @click="detailMode='normal'">
+              <img src="/img/normalMode.png" alt="Normal Mode" style="width: 1.5em; height: 1.5em; margin-right: 0.3em; border-radius: 50%;" />
+              {{ $t('defaultDetailView') }}
+            </button>
+            <button style="display: flex; align-items: center;" :class="['btn', detailMode==='expert' ? 'btn-primary' : 'btn-outline']" @click="detailMode='expert'">
+              <img src="/img/expertMode.png" alt="Expert Mode" style="width: 1.5em; height: 1.5em; margin-right: 0.3em; border-radius: 50%;" />
+              {{ $t('exemplarDetailView') }}
+            </button>
+          </div>
+          <div>
             <ClientOnly
               fallback-tag="span"
               fallback="Loading data..."
             >
               <LazyViewsWorkViewCompAVefi
-                  v-if="dataJson?.compound_record?._source"
+                  v-if="dataJson?.compound_record?._source && detailMode==='normal'"
                   v-model="dataJson.compound_record._source"
                   :handle="dataJson.handle" 
                />
-               <div v-else class="text-center text-gray-500">
+              <ExemplarDetailView v-if="dataJson?.compound_record?._source && detailMode==='expert'" :data="dataJson.compound_record._source" />
+               <div v-else-if="!dataJson?.compound_record?._source" class="text-center text-gray-500">
                  {{ $t('noDataAvailable') }}
                 </div>
             </ClientOnly>
@@ -109,6 +119,7 @@ const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
 const type = ref('Monographic');
 
+const detailMode = ref('normal');
 //@TODO: refactor on larger scale
 const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson', async () => {
     //we expect missing prefix to be 21.11155

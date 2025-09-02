@@ -17,7 +17,8 @@
           </h2>
         </template>
         <template #cardBody>
-          <DetailMergeToolListComp />
+            <!-- MergeTool-Komponente fehlt. Hier kann eine alternative Info oder ein Platzhalter stehen. -->
+            <div class="text-red-500">MergeTool-Komponente nicht verfügbar.</div>
         </template>
       </NuxtLayout>
     </div>

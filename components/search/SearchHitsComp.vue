@@ -13,7 +13,7 @@
       :show-admin-stats="showAdminStats"
     />
     <SearchListViewComp
-      v-else-if="items"
+      v-else-if="!alternateView && items"
       :items="items"
       :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
@@ -21,6 +21,12 @@
       :facets-active="facetsActive"
       :nr-of-facets-active="nrOfFacetsActive"
       :expand-all-handles-checked="expandAllHandlesChecked"
+    />
+    <SearchKVViewComp
+      v-else-if="alternateView && items"
+      :items="items"
+      :labels="labels"
+      :tooltips="tooltips"
     />
     <div v-else>
       <pre>error</pre>
@@ -31,6 +37,7 @@
 import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
 import type { PropType } from 'vue';
 import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
+import SearchKVViewComp from './SearchKVViewComp.vue';
 
 // ✅ Component name without export default
 defineOptions({
@@ -63,6 +70,18 @@ const props = defineProps({
     nrOfFacetsActive: {
       type: Number,
       default: 0,
+    },
+    alternateView: {
+      type: Boolean,
+      default: false,
+    },
+    labels: {
+      type: Object as PropType<Record<string, string>>,
+      default: () => ({}),
+    },
+    tooltips: {
+      type: Object as PropType<Record<string, string>>,
+      default: () => ({}),
     }
 });
 

@@ -5,6 +5,7 @@
     "scripts": {
         "generate:scss-vars": "tsx scripts/generate-scss-vars.ts",
         "dev": "yarn generate:models && yarn generate:scss-vars && yarn lint:quiet || true; nuxt dev --dotenv .env.local --host 0.0.0.0 --port 3000",
+        "dev:remote": "yarn generate:models && yarn generate:scss-vars && yarn lint:quiet || true; nuxt dev --dotenv .env.remote --host 0.0.0.0 --port 3000",
         "build": "yarn generate:models && yarn generate:scss-vars && nuxt build",
         "dev:debug": "nuxt dev --inspect --dotenv .env.local",
         "generate": "nuxt generate",
@@ -39,6 +40,7 @@
         "@nuxtjs/robots": "^4.1.11",
         "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
         "@pinia/nuxt": "0.11.2",
+        "@playwright/test": "^1.55.0",
         "@searchkit/api": "^4.13.0",
         "@searchkit/instantsearch-client": "^4.14.1",
         "@sidebase/nuxt-auth": "^0.10.1",

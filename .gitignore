@@ -43,5 +43,17 @@ yarn-error.log*
 package-lock.json*
 yarn.lock
 pnpm-lock.yaml
-.vscode
 .vscode/settings.json
+
+# Playwright/E2E Test Artefakte
+playwright-report/
+test-results/
+*.tmp
+*.swp
+*.bak
+
+# OS/Editor generierte Dateien
+Thumbs.db
+ehthumbs.db
+*.sublime-workspace
+*.sublime-project

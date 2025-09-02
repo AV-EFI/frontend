@@ -38,14 +38,14 @@
                   :ignore-composition-events="true"
                   :submit-title="$t('submitQuery')"
                   :reset-title="$t('resetQuery')"
-                  class="flex flex-row mt-2"
+                  class="flex-row mt-2"
                 >
                   <template #default="{ currentRefinement = '', refine = () => {}, isSearchStalled = false } = {}">
                     <div
                       class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-primary-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 max-md:max-w-[calc(100%-52px)] formkit-inner"
                     >
                       <label
-                        class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
+                        class="items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
                         for="input_0"
                         :aria-label="$t('search')"
                       >
@@ -88,10 +88,10 @@
                       <input
                         type="search"
                         :aria-label="$t('search')"
-                        class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
+                        class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none !text-lg !rounded-3xl p-2 focus:ring-0 formkit-input"
                         :value="currentRefinement"
                         :placeholder="$t('searchplaceholder')"
-                        @input="currentRefinement = $event.target.value"
+                        @input="(e: Event) => refine((e.target as HTMLInputElement)?.value ?? '')"
                         @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement ?? ''"
                       >
                       <span
@@ -105,12 +105,7 @@
                         class="btn"
                         :title="$t('resetQuery')"
                         :aria-label="$t('resetQuery')"
-
-                        @click="
-                          refine('');
-                          currentRefinement = '';
-                          searchQuery = '';
-                        "
+                        @click="refine(''); searchQuery = ''"
                       >
                         <Icon
                           class="p-2 text-xl my-auto dark:text-white"
@@ -140,14 +135,14 @@
                 <button
                   class="btn btn-primary lg:hidden"
                   :title="$t('showFacetItems')"
-                  @click="$toggleFacetDrawerState"
+                  @click="$toggleFacetDrawerState()"
                 >
                   <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
               </div>
               <div class="w-full">
                 <div
-                  class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 flex flex-col md:flex-row justify-between"
+                  class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 md:flex-row justify-between"
                   role="region"
                   :aria-label="$t('filteringsection')"
                 >
@@ -387,7 +382,7 @@ import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi';
 
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
-const {$toggleFacetDrawerState} = useNuxtApp();
+const { $toggleFacetDrawerState } = useNuxtApp() as unknown as { $toggleFacetDrawerState: () => void };
 
 // toggle top right 
 const viewTypeChecked = ref(false);
@@ -448,10 +443,10 @@ watch(viewTypeChecked, () => {
 });
 
 const expandAllItems = () => {
-    const expandIcons = document.querySelectorAll('.expand-icon');
-    expandIcons.forEach(icon => {
-        icon.click();
-    });
+  const expandIcons = document.querySelectorAll('.expand-icon');
+  expandIcons.forEach(icon => {
+    (icon as HTMLElement).click();
+  });
     setTimeout(() => {
         const checkboxes = document.querySelectorAll('.manifestation-checkbox') as NodeListOf<Element>;
         checkboxes.forEach(checkbox => {
