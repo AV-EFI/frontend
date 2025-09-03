@@ -309,7 +309,7 @@ function getFilteredManifestations(item) {
         return item.manifestations || [];
     }
 
-    const innerHitsManifestations = item.inner_hits.manifestations_hits?.hits?.hits || [];
+    const innerHitsManifestations = item.inner_hits.manifestations?.hits?.hits || [];
 
     if (innerHitsManifestations.length > 0) {
     // ✅ Keep inner_hits on each manifestation
