@@ -354,7 +354,7 @@ export default defineI18nConfig(() => ({
             "filterItemsAndManifestations": "Exemplare und Manifestationen filtern",
             "facetsInsideSearchResults": "Facets for Item and Manifestation are located within the search results in this mode",
             "accordionView": "Hierarchical",
-            "flatView": "Flach",
+            "flatView": "Flat",
             "viewTypeCheckedWarning": "Switching the view type will reset all active facets.",
             "itemLevel": "Item details",
             "manifestationLevel": "Manifestation details",

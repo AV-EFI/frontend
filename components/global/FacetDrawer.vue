@@ -94,32 +94,6 @@
             />
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
-              header-text="in_language_code"
-              attribute-name="in_language_code"
-              category="avefi:Manifestation"
-              :tab-index="10"
-              :aria-label="$t('in_language_code')"
-            />
-            <SearchPanelRefinementListComp
-              :class="{ hidden: viewTypeChecked }"
-              header-text="has_sound_type"
-              attribute-name="has_sound_type"
-              category="avefi:Manifestation"
-              :is-searchable="false"
-              :tab-index="11"
-              :aria-label="$t('has_sound_type')"
-            />
-            <SearchPanelRefinementListComp
-              :class="{ hidden: viewTypeChecked }"
-              header-text="has_duration"
-              attribute-name="has_duration_has_value"
-              category="avefi:Manifestation"
-              :is-searchable="false"
-              :tab-index="12"
-              :aria-label="$t('has_duration')"
-            />
-            <SearchPanelRefinementListComp
-              :class="{ hidden: viewTypeChecked }"
               header-text="manifestation_event_type"
               attribute-name="manifestation_event_type"
               category="avefi:Manifestation"
@@ -129,9 +103,35 @@
             />
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
+              header-text="in_language_code"
+              attribute-name="in_language_code"
+              category="avefi:Item"
+              :tab-index="10"
+              :aria-label="$t('in_language_code')"
+            />
+            <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
+              header-text="has_sound_type"
+              attribute-name="has_sound_type"
+              category="avefi:Item"
+              :is-searchable="false"
+              :tab-index="11"
+              :aria-label="$t('has_sound_type')"
+            />
+            <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
+              header-text="has_duration"
+              attribute-name="item_duration_in_minutes"
+              category="avefi:Item"
+              :is-searchable="false"
+              :tab-index="12"
+              :aria-label="$t('has_duration')"
+            />
+            <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="has_colour"
               attribute-name="has_colour_type"
-              category="avefi:Manifestation"
+              category="avefi:Item"
               :is-searchable="false"
               :tab-index="15"
               :aria-label="$t('has_colour')"
@@ -156,6 +156,7 @@
               :aria-label="$t('item_element_type')"
             />
             <div
+              :class="{ hidden: !viewTypeChecked }"
               class="alert shadow-sm mb-2 mt-2 lg:mt-0 lg:mb-0 p-2 text-sm"
               role="alert"
             >

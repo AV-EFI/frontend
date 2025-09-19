@@ -5,18 +5,28 @@
     :class-names="{
       'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-primary dark:border-primary-600 rounded-lg mb-2 max-md:!w-[90vw]',
       'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-slate-900 dark:text-white text-xs ',
-      'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between'
+      'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2'
     }"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
   >
+    <!-- Header with icon -->
     <template #header="{ hasRefinements }">
-      <h4
-        :id="`facet-title-${attributeName}`"
-        class="my-auto font-bold"
-        :class="!hasRefinements?'text-primary-200 dark:text-primary-600':'text-primary-600 dark:text-primary-100'"
-      >
-        {{ $t(headerText) }}
-      </h4>
+      <div class="flex items-center gap-2">
+        <Icon
+          :name="facetIcon"
+          class="w-4 h-4"
+          :class="hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
+          aria-hidden="true"
+        />
+        <h4
+          :id="`facet-title-${attributeName}`"
+          class="my-auto font-bold"
+          :class="!hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'"
+        >
+          {{ $t(headerText) }}
+        </h4>
+      </div>
+
       <MicroBadgeCategoryComp
         v-if="category"
         :category="category"
@@ -25,6 +35,7 @@
       />
     </template>
 
+    <!-- Body -->
     <template #default>
       <ais-refinement-list
         :attribute="attributeName"
@@ -66,9 +77,7 @@
                 :aria-label="$t('searchInFacet', { facetName: $t(headerText) })"
                 :for="inputId"
                 class="label-text !text-sm !mb-0 !p-0 !text-neutral-500 dark:!text-neutral-300"
-              >
-                <!-- search icon -->
-              </label>
+              />
               <input
                 :id="inputId"
                 type="search"
@@ -104,18 +113,9 @@
                   :title="$t('refineBy', { label: item.label })"
                   :aria-label="$t('refineBy', { label: item.label })"
                 >
-                <span v-if="translateLabel">
+                <span>
                   {{ $t(item.label.replace('_', ':')) }}
                 </span>
-                <ais-highlight
-                  v-else
-                  attribute="item"
-                  :title="$t(item.label)"
-                  :class-names="{
-                    'ais-Highlight': 'max-w-[200px] overflow-hidden text-ellipsis'
-                  }"
-                  :hit="item"
-                />
                 <span class="ais-RefinementList-count badge bg-neutral text-xs font-bold text-white">
                   {{ item.count }}
                 </span>
@@ -142,24 +142,41 @@
 const props = defineProps({
     headerText: String,
     attributeName: String,
-    operatorType: {
-        type: String,
-        default: 'or'
-    },
-    isSearchable: {
-        type: Boolean,
-        default: true
-    },
-    translateLabel: {
-        type: Boolean,
-        default: false
-    },
-    category: {
-        type: String,
-        default: null
-    }
+    operatorType: { type: String, default: 'or' },
+    isSearchable: { type: Boolean, default: true },
+    translateLabel: { type: Boolean, default: false },
+    category: { type: String, default: null }
 });
 
 const inputId = `facet-search-${props.attributeName}_${Math.random().toString(36).substring(2, 15)}`;
 
+// facet icon mapping (attributeName → Tabler icon)
+const ICON_MAP: Record<string, string> = {
+    // item-level moved facets
+    in_language_code: 'tabler-language',
+    has_colour_type: 'tabler-palette',
+    has_sound_type: 'tabler-volume',
+    has_duration_has_value: 'tabler-clock-hour-3',
+    has_extent_has_value: 'tabler-ruler',
+    item_element_type: 'tabler-movie',
+    has_format_type: 'tabler-disc',
+    item_duration_in_minutes: 'tabler-clock-hour-3',
+
+    // manifestation/work facets
+    manifestation_event_type: 'tabler-calendar-event',
+    located_in_has_name: 'tabler-map-pin',
+    has_genre_has_name: 'tabler-category',
+    subjects: 'tabler-tag',
+    directors_or_editors: 'tabler-chair-director',
+    castmembers: 'tabler-users',
+    production: 'tabler-building-factory',
+    has_form: 'tabler:shape',
+
+    // numeric range helpers (if you expose them as separate sliders)
+    production_year_start: 'tabler-calendar',
+    production_year_end: 'tabler-calendar',
+    has_issuer_name: 'tabler-building'
+};
+
+const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
 </script>

@@ -146,7 +146,7 @@
         <SearchManifestationListSplitView
           :manifestations="getFilteredManifestations(work)"
           :get-filtered-items="getFilteredItems"
-          :work-variant-handle="item?.handle"
+          :work-variant-handle="work?.handle"
         />
       </div>
     </div>

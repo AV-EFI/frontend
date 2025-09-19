@@ -102,7 +102,7 @@
                       name="carbon:parent-node"
                       class="text-primary w-4 h-4"
                     />
-                    <span class="text-sm font-semibold">{{ item.handle }}</span>
+                    <span class="text-sm font-semibold">{{ item?.handle }}</span>
                   </div>
                   <SearchMetaIconListComp
                     type="item"
@@ -191,7 +191,7 @@
                 :aria-label="$t('copyItemHandle')"
                 font-size="text-sm"
               />
-              <SearchGenericIconList
+              <SearchMetaIconListComp
                 :data="item"
                 type="item"
               />
@@ -312,19 +312,6 @@ function triggerScrollToItem() {
     });
 }
 
-/*
-watch(selectedManifestation, () => {
-    itemPage.value = 0;
-    console.log('Selected manifestation changed:', selectedManifestation.value);
-    nextTick(() => {
-        const el = itemsContainer.value;
-        if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 125;
-            window.scrollTo({ top, behavior: 'smooth' });
-        }
-    });
-});
-*/
 </script>
 
 <style scoped>

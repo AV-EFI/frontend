@@ -12,9 +12,16 @@
     >
 
     <div class="collapse-title bg-slate-50 dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
-      <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
-        {{ $t(headerText) }}
-      </h4>
+      <div class="flex items-center gap-2">
+        <Icon
+          :name="'tabler:calendar'"
+          class="w-4 h-4 text-primary-600 dark:text-primary-100"
+          aria-hidden="true"
+        />
+        <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
+          {{ $t(headerText) }}
+        </h4>
+      </div>
       <MicroBadgeCategoryComp
         v-if="category"
         :category="category"

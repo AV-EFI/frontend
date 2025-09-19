@@ -108,9 +108,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
+const showAllSubjects = ref(false);
 
 const props = defineProps<{ data: any, level: 'work' | 'manifestation' | 'item', iconColor: string }>();
 

@@ -9,7 +9,7 @@
         :insights="false"
         :future="{preserveSharedStateOnUnmount: true }"
       >
-        <ais-configure :hits-per-page.camel="20" />
+        <ais-configure :hits-per-page.camel="20" />        
         <div
           class="search-panel"
           role="region"
@@ -190,7 +190,11 @@
                       class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto"
                       :aria-label="$t('toggleViewType')"
                     >
-                      <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300" :title="$t('viewTypeCheckedWarning')" />
+                      <Icon
+                        name="tabler:info-circle"
+                        class="text-gray-500 dark:text-gray-300"
+                        :title="$t('viewTypeCheckedWarning')"
+                      />
                       <span class="label-text text-gray-800 dark:text-gray-200">
                         {{ `${$t('accordionView')} / ${$t('flatView')}` }}&nbsp;
                       </span>
@@ -263,14 +267,14 @@
                       >
                     </label>
                     <label
-                    v-if="!viewTypeChecked"
+                      v-if="!viewTypeChecked"
                       class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto my-auto"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
                       <LazyIcon
                         v-if="!expandAllHandlesChecked"
                         class="dark:text-white"
-                          name="tabler:layout-navbar-expand"
+                        name="tabler:layout-navbar-expand"
                       />
                       <LazyIcon
                         v-else
@@ -379,7 +383,7 @@
                         :expanded-handles="expandedHandles"
                         :expand-all-handles-checked="expandAllHandlesChecked"
                         :is-search-loading="isSearchLoading"
-                        :currentRefinements="currentRefinements"
+                        :current-refinements="currentRefinements"
                       />
                     </template>
                   </ais-hits>
@@ -418,30 +422,30 @@ import { inject, computed } from 'vue';
 
 const aisState = inject<any>('$_ais_state');
 const currentRefinements = computed(() => {
-  if (!aisState || !aisState.results) return [];
-  // Algolia InstantSearch exposes current refinements in the UI state
-  const uiState = aisState.results._rawResults?.[0]?.userData?.[0]?.uiState || aisState.uiState;
-  if (!uiState) return [];
-  // Try to extract all refinements (facets, numeric, etc.)
-  const refinements: any[] = [];
-  Object.entries(uiState).forEach(([key, value]) => {
-    if (typeof value === 'object' && value !== null) {
-      Object.entries(value).forEach(([facet, facetValue]) => {
-        if (Array.isArray(facetValue) && facetValue.length) {
-          refinements.push({ label: facet, values: facetValue });
-        } else if (typeof facetValue === 'object' && facetValue !== null) {
-          // Numeric or other refinements
-          Object.entries(facetValue).forEach(([op, val]) => {
-            refinements.push({ label: facet, values: [`${op}: ${val}`] });
-          });
-        } else if (facetValue) {
-          refinements.push({ label: facet, values: [facetValue] });
+    if (!aisState || !aisState.results) return [];
+    // Algolia InstantSearch exposes current refinements in the UI state
+    const uiState = aisState.results._rawResults?.[0]?.userData?.[0]?.uiState || aisState.uiState;
+    if (!uiState) return [];
+    // Try to extract all refinements (facets, numeric, etc.)
+    const refinements: any[] = [];
+    Object.entries(uiState).forEach(([key, value]) => {
+        if (typeof value === 'object' && value !== null) {
+            Object.entries(value).forEach(([facet, facetValue]) => {
+                if (Array.isArray(facetValue) && facetValue.length) {
+                    refinements.push({ label: facet, values: facetValue });
+                } else if (typeof facetValue === 'object' && facetValue !== null) {
+                    // Numeric or other refinements
+                    Object.entries(facetValue).forEach(([op, val]) => {
+                        refinements.push({ label: facet, values: [`${op}: ${val}`] });
+                    });
+                } else if (facetValue) {
+                    refinements.push({ label: facet, values: [facetValue] });
+                }
+            });
         }
-      });
-    }
-  });
-  console.log('Current refinements:', refinements);
-  return refinements;
+    });
+    console.log('Current refinements:', refinements);
+    return refinements;
 });
 
 const searchClient = Client({
@@ -487,16 +491,16 @@ watch(expandAllChecked, (newValue) => {
 });
 
 watch(viewTypeChecked, (newValue) => {
-  expandAllChecked.value = false;
+    expandAllChecked.value = false;
 
-  // Reset all facets/refinements
-  // Find the clear refinements button and click it
-  setTimeout(() => {
-    const clearBtn = document.querySelector('.ais-ClearRefinements-button');
-    if (clearBtn instanceof HTMLElement) {
-      clearBtn.click();
-    }
-  }, 0);
+    // Reset all facets/refinements
+    // Find the clear refinements button and click it
+    setTimeout(() => {
+        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
+        if (clearBtn instanceof HTMLElement) {
+            clearBtn.click();
+        }
+    }, 0);
 });
 
 const expandAllItems = () => {
