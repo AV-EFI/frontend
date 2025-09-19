@@ -10,21 +10,10 @@
           class="font-bold uppercase text-sm col-span-full text-primary-800 dark:text-primary-200 pl-1"
         >
           {{ $t('items') }}
-          <span
-            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-            role="img"
-            aria-label="Info"
-            tabindex="0"
-          >
-            ⓘ
-            <!-- Tooltip -->
-            <span
-              class="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-              role="tooltip"
-            >
-              {{ $t('tooltip.item') }}
-            </span>
-          </span>
+          <GlobalTooltipInfo
+            :text="$t('tooltip.format')"
+            class="ml-2"
+          />
         </h4>
         <hr class="my-2">        
       </template>
@@ -121,7 +110,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 p-4 ml-4">          
           <div class="col-span-full md:col-span-3 row-start-1">
             <DetailKeyValueComp 
-              :keytxt="$t('EFI')"
+              :keytxt="$t('efi')"
               :valtxt="item?.handle"
               class="w-full"
               :clip="false"

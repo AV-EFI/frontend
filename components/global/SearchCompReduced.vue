@@ -95,14 +95,9 @@ const showValidationWarning = ref(false);
 const searchDataStore = useSearchParamsStore();
 
 function redirectToSearchScreen() {
-    navigateTo(
-        '/' +
-      useRuntimeConfig().public.SEARCH_URL +
-      '/index?' +
-      useRuntimeConfig().public.ELASTIC_INDEX +
-      '[query]=' +
-      encodeURIComponent(searchTerm.value)
-    );
+    const redirectLink =  '/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + encodeURIComponent(searchTerm.value);
+    console.log('redirecting to search screen with term:', redirectLink);
+    navigateTo(redirectLink);
 }
 
 function handleClick(event: MouseEvent) {

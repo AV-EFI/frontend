@@ -24,17 +24,18 @@
       <template #title>
         <NuxtLayout
           name="partial-grid-2-1-flex"
-          left-class="bg-primary dark:bg-primary-600 rounded-t-xl py-4"
+          left-class="dark:bg-primary-600 rounded-t-xl py-4"
         >
           <template
             #left
           >
-            <div class="col-span-full p-4">
-              <p class="text-white text-xs 2xl:text-base col-span-full">
-                {{ dataJson?._source?.handle }}
-              </p>
+            <div class="col-span-full px-4">
+              <GlobalClipboardComp
+                :display-text="dataJson?._source?.handle"
+                class="mb-2 text-sm text-base-content"
+              />
               <h2
-                class="text-lg font-bold xl:text-2xl text-primary-50 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+                class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
                 :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
               >
                 {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
@@ -43,10 +44,6 @@
           </template>
           <template #right>
             <div class="flex flex-row flex-wrap justify-end items-center">
-              <MicroEfiCopyComp
-                :handle="dataJson?._source?.handle"
-                class="col-span-3 hidden"
-              />
               <GlobalActionContextComp
                 :id="dataJson?._source?.handle"
                 :item="dataJson?._source"
@@ -58,7 +55,7 @@
       </template>
       <template #actions>
         <MicroBadgeCategoryComp
-          class="col-span-3"
+          class="col-span-3 divider-primary"
           :category="dataJson?._source?.has_record?.type"
         />
       </template>      

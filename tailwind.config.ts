@@ -4,14 +4,14 @@ import colors from 'tailwindcss/colors';
 /** @type {import('tailwindcss').Config} */
 /** TAILWIND **/
 module.exports = {
-  safelist: [
-    {
-      pattern: /^(hover:)?bg-(work|item|manifestation|work-variant|favourites-list|favourites-list-hover|compare-list|compare-list-hover)$/,
-    },
-    {
-      pattern: /^text-(favourites-list-content|favourites-list-hover-content|compare-list-content)$/,
-    },
-  ],
+    safelist: [
+        {
+            pattern: /^(hover:)?bg-(work|item|manifestation|work-variant|favourites-list|favourites-list-hover|compare-list|compare-list-hover)$/,
+        },
+        {
+            pattern: /^text-(favourites-list-content|favourites-list-hover-content|compare-list-content)$/,
+        },
+    ],
     content: [
         './app.vue',
         'formkit.theme.ts'
@@ -19,67 +19,67 @@ module.exports = {
     theme: {
         extend: {
             spacing: {
-              '128': '32rem',
+                '128': '32rem',
             },
             colors: {
-              'bali-hai': {
-                '50': '#f3f7f8',
-                '100': '#dfe9ee',
-                '200': '#c3d5de',
-                '300': '#9ab8c6',
-                '400': '#80a3b5',
-                DEFAULT: '#80a3b5',
-                '500': '#4d768d',
-                '600': '#436277',
-                '700': '#3b5263',
-                '800': '#364754',
-                '900': '#313d48',
-                '950': '#1d262f',
-              },
-              'primary': {
-                '50': '#f3f7f8',
-                '100': '#dfe9ee',
-                '200': '#c3d5de',
-                '300': '#9ab8c6',
-                '400': '#80a3b5',
-                DEFAULT: '#4d768d',
-                '500': '#4d768d',
-                '600': '#436277',
-                '700': '#3b5263',
-                '800': '#364754',
-                '900': '#313d48',
-                '950': '#1d262f',
-              },
-              'secondary': {
-                DEFAULT: '#e6c373'
-              },
-              accent: {
-                '50': '#ffe5e7',
-                '100': '#ffccd0',
-                '200': '#ff99a1',
-                '300': '#ff6671',
-                '400': '#ff394e',
-                DEFAULT: '#ff1d25',
-                '500': '#ff1d25',
-                '600': '#e11923',
-                '700': '#b2161d',
-                '800': '#8e1217',
-                '900': '#670d12',
-              },              
-              'highlight': '#b2161d',
-              'highlight-content': '#ffffff',
-              'favourites-list': '#e11923',
-              'favourites-list-content': '#ffffff',
-              'favourites-list-hover': '#b2161d',
-              'favourites-list-hover-content': '#ffffff',
-              'compare-list': '#2a333a',          // slate-black (cool)
-              'compare-list-hover': '#1d262f',    // deeper for hover
-              'compare-list-content': '#ffffff',
-              'work': '#F3E2B8',
-              'manifestation': '#E8D39E',
-              'item': '#DDC48B',
+                'bali-hai': {
+                    '50': '#f3f7f8',
+                    '100': '#dfe9ee',
+                    '200': '#c3d5de',
+                    '300': '#9ab8c6',
+                    '400': '#80a3b5',
+                    DEFAULT: '#80a3b5',
+                    '500': '#4d768d',
+                    '600': '#436277',
+                    '700': '#3b5263',
+                    '800': '#364754',
+                    '900': '#313d48',
+                    '950': '#1d262f',
+                },
+                'primary': {
+                    '50': '#f3f7f8',
+                    '100': '#dfe9ee',
+                    '200': '#c3d5de',
+                    '300': '#9ab8c6',
+                    '400': '#80a3b5',
+                    DEFAULT: '#4d768d',
+                    '500': '#4d768d',
+                    '600': '#436277',
+                    '700': '#3b5263',
+                    '800': '#364754',
+                    '900': '#313d48',
+                    '950': '#1d262f',
+                },
+                'secondary': {
+                    DEFAULT: '#e6c373'
+                },
+                accent: {
+                    '50': '#ffe5e7',
+                    '100': '#ffccd0',
+                    '200': '#ff99a1',
+                    '300': '#ff6671',
+                    '400': '#ff394e',
+                    DEFAULT: '#ff1d25',
+                    '500': '#ff1d25',
+                    '600': '#e11923',
+                    '700': '#b2161d',
+                    '800': '#8e1217',
+                    '900': '#670d12',
+                },              
+                'highlight': '#b2161d',
+                'highlight-content': '#ffffff',
+                'favourites-list': '#e11923',
+                'favourites-list-content': '#ffffff',
+                'favourites-list-hover': '#b2161d',
+                'favourites-list-hover-content': '#ffffff',
+                'compare-list': '#2a333a',          // slate-black (cool)
+                'compare-list-hover': '#1d262f',    // deeper for hover
+                'compare-list-content': '#ffffff',
+                'work': '#F3E2B8',
+                'manifestation': '#E8D39E',
+                'item': '#DDC48B',
             }
-          }
+        }
     },
     darkMode: [
         'selector', 
@@ -103,29 +103,32 @@ module.exports = {
         require('@vueform/slider/tailwind'),
         require('daisyui'),
         function({ addComponents }) {
-          addComponents({
-          '.btn-favourites-list': {
-            '@apply bg-favourites-list text-favourites-list-content hover:bg-favourites-list-hover hover:text-favourites-list-hover-content': {},
-          },
-          '.btn-compare-list': {
-            '@apply bg-compare-list text-compare-list-content hover:bg-compare-list-hover hover:text-compare-list-content': {},
-          },
-          '.badge-favourites-list': {
-            '@apply badge bg-favourites-list text-favourites-list-content': {},
-          },
-          '.badge-compare-list': {
-            '@apply badge bg-compare-list text-compare-list-content': {},
-          },
-          });
+            addComponents({
+                '.btn-favourites-list': {
+                    '@apply bg-favourites-list text-favourites-list-content hover:bg-favourites-list-hover hover:text-favourites-list-hover-content': {},
+                },
+                '.btn-compare-list': {
+                    '@apply bg-compare-list text-compare-list-content hover:bg-compare-list-hover hover:text-compare-list-content': {},
+                },
+                '.badge-favourites-list': {
+                    '@apply badge bg-favourites-list text-favourites-list-content': {},
+                },
+                '.badge-compare-list': {
+                    '@apply badge bg-compare-list text-compare-list-content': {},
+                },
+                '.btn-highlight': {
+                    '@apply bg-highlight text-highlight-content hover:bg-highlight hover:text-highlight-content': {},
+                },
+            });
         },
         function ({ addUtilities }) {
             addUtilities({
                 '.text-nuggets-5280': {
-                  position: 'relative',
-                  display: 'inline-block',
-                  fontWeight: '800',
-                  color: 'transparent',        
-                  backgroundImage: `
+                    position: 'relative',
+                    display: 'inline-block',
+                    fontWeight: '800',
+                    color: 'transparent',        
+                    backgroundImage: `
                     linear-gradient(
                       90deg,
                       red,
@@ -137,12 +140,12 @@ module.exports = {
                       violet
                     )
                   `,
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextStroke: '2px black',
-                  textShadow: 'none',        
-                  // Rainbow shows through bottom half scanlines
-                  WebkitMaskImage: `
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextStroke: '2px black',
+                    textShadow: 'none',        
+                    // Rainbow shows through bottom half scanlines
+                    WebkitMaskImage: `
                     linear-gradient(to bottom, transparent 0%, transparent 45%, black 45%, black 100%),
                     repeating-linear-gradient(
                       45deg,
@@ -152,9 +155,9 @@ module.exports = {
                       transparent 4px
                     )
                   `,
-                  WebkitMaskComposite: 'destination-in',
-                  maskComposite: 'intersect',
-                  maskImage: `
+                    WebkitMaskComposite: 'destination-in',
+                    maskComposite: 'intersect',
+                    maskImage: `
                     linear-gradient(to bottom, transparent 0%, transparent 45%, black 45%, black 100%),
                     repeating-linear-gradient(
                       45deg,
@@ -165,7 +168,7 @@ module.exports = {
                     )
                   `,
                 }
-              })
+            });
         }
     ],
     /** DAISY UI **/
@@ -198,102 +201,102 @@ module.exports = {
          */
         themes: [
             {
-                    'avefi_light': {
-                      cupcake,
-                      primary: "#4d768d",
-                      "primary-content": "oklch(93% 0.034 272.788)",
-                      secondary: "#e6c373",
-                      "secondary-content": "oklch(27% 0.006 286.033)",
-                      "--btn-color": "#364754",
-                      "--btn-hover-bg": "#3f5869", // ← lighter than full neutral
-                      "--btn-hover-border": "#3f5869",
-                      "--btn-hover-text": "#ffffff",
-                      "base-content": "#364754",      // replaces black
-                      "neutral": "#364754",           // dark slate
-                      "neutral-content": "#ffffff",   // white text on hover
-                      //"base-100": "oklch(100% 0 0)",
-                      "base-200": "oklch(98% 0 0)",
-                      "base-300": "oklch(95% 0 0)",
-                      "info": "#5c84a6",
-                      "success": "#6da67c",
-                      "warning": "#caa450",
-                      "error": "#b04b4b",
-                      "disabled-bg": "#d6d8dc",
-                      "disabled-text": "#a1a1a1",
-                    },
+                'avefi_light': {
+                    cupcake,
+                    primary: "#4d768d",
+                    "primary-content": "oklch(93% 0.034 272.788)",
+                    secondary: "#e6c373",
+                    "secondary-content": "oklch(27% 0.006 286.033)",
+                    "--btn-color": "#364754",
+                    "--btn-hover-bg": "#3f5869", // ← lighter than full neutral
+                    "--btn-hover-border": "#3f5869",
+                    "--btn-hover-text": "#ffffff",
+                    "base-content": "#364754",      // replaces black
+                    "neutral": "#364754",           // dark slate
+                    "neutral-content": "#ffffff",   // white text on hover
+                    //"base-100": "oklch(100% 0 0)",
+                    "base-200": "oklch(98% 0 0)",
+                    "base-300": "oklch(95% 0 0)",
+                    "info": "#5c84a6",
+                    "success": "#6da67c",
+                    "warning": "#caa450",
+                    "error": "#b04b4b",
+                    "disabled-bg": "#d6d8dc",
+                    "disabled-text": "#a1a1a1",
+                },
             },
             {
-              'avefi_dark': {
-                ...require("daisyui/src/theming/themes")["night"],                
-                // Updated Primary (bali-hai / bluish slate)
-                'primary': '#c3d5de',
-                'primary-50': '#f3f7f8',
-                'primary-100': '#dfe9ee',
-                'primary-200': '#c3d5de',
-                'primary-300': '#9ab8c6',
-                'primary-400': '#80a3b5',
-                'primary-500': '#4d768d',
-                'primary-600': '#436277',
-                'primary-700': '#3b5263',
-                'primary-800': '#364754',
-                'primary-900': '#313d48',
-                'primary-950': '#1d262f',
+                'avefi_dark': {
+                    ...require("daisyui/src/theming/themes")["night"],                
+                    // Updated Primary (bali-hai / bluish slate)
+                    'primary': '#c3d5de',
+                    'primary-50': '#f3f7f8',
+                    'primary-100': '#dfe9ee',
+                    'primary-200': '#c3d5de',
+                    'primary-300': '#9ab8c6',
+                    'primary-400': '#80a3b5',
+                    'primary-500': '#4d768d',
+                    'primary-600': '#436277',
+                    'primary-700': '#3b5263',
+                    'primary-800': '#364754',
+                    'primary-900': '#313d48',
+                    'primary-950': '#1d262f',
             
-                // Updated Secondary (muted golden)
-                'secondary': '#997a2e',
-                'secondary-50': '#f9f5eb',
-                'secondary-100': '#f2e6cc',
-                'secondary-200': '#e6d3a3',
-                'secondary-300': '#d7bf83',
-                'secondary-400': '#c4a95e',
-                'secondary-500': '#b08e3a',
-                'secondary-600': '#997a2e',
-                'secondary-700': '#7d6023',
-                'secondary-800': '#5f471a',
-                'secondary-900': '#4a3613',
-                'secondary-950': '#2a1e0b',
+                    // Updated Secondary (muted golden)
+                    'secondary': '#997a2e',
+                    'secondary-50': '#f9f5eb',
+                    'secondary-100': '#f2e6cc',
+                    'secondary-200': '#e6d3a3',
+                    'secondary-300': '#d7bf83',
+                    'secondary-400': '#c4a95e',
+                    'secondary-500': '#b08e3a',
+                    'secondary-600': '#997a2e',
+                    'secondary-700': '#7d6023',
+                    'secondary-800': '#5f471a',
+                    'secondary-900': '#4a3613',
+                    'secondary-950': '#2a1e0b',
             
-                // Accent tone for red-ish interactions (altrosa)
-                'accent': '#d39ea3', // softened red-pink
-                'accent-content': '#ffffff',
+                    // Accent tone for red-ish interactions (altrosa)
+                    'accent': '#d39ea3', // softened red-pink
+                    'accent-content': '#ffffff',
             
-                // Base
+                    // Base
 
-                'neutral': '#1d262f',
-                'neutral-content': '#ffffff',
-                'base-100': '#1d262f',
-                'base-200': '#2a333a',
-                'base-300': '#3a444c',
-                'base-content': '#f3f7f8',
+                    'neutral': '#1d262f',
+                    'neutral-content': '#ffffff',
+                    'base-100': '#1d262f',
+                    'base-200': '#2a333a',
+                    'base-300': '#3a444c',
+                    'base-content': '#f3f7f8',
             
-                // Status colors
-                'info': '#5c84a6',
-                'success': '#78DBAA',
-                'warning': '#F8A948',
-                'error': '#b04b4b',
+                    // Status colors
+                    'info': '#5c84a6',
+                    'success': '#78DBAA',
+                    'warning': '#F8A948',
+                    'error': '#b04b4b',
             
-                // Component colors
-                'favourites-list': '#b55a63',               // refined altrosa
-                'favourites-list-content': '#ffffff',
-                'favourites-list-hover': '#a04852',
+                    // Component colors
+                    'favourites-list': '#b55a63',               // refined altrosa
+                    'favourites-list-content': '#ffffff',
+                    'favourites-list-hover': '#a04852',
             
-                'compare-list': '#436277',                 // blue slate
-                'compare-list-content': '#ffffff',
-                'compare-list-hover': '#3b5263',
+                    'compare-list': '#436277',                 // blue slate
+                    'compare-list-content': '#ffffff',
+                    'compare-list-hover': '#3b5263',
             
-                'work-variant': '#9B3D27',
-                'work-variant-content': '#ffffff',
+                    'work-variant': '#9B3D27',
+                    'work-variant-content': '#ffffff',
             
-                'manifestation': '#6A9D92',
-                'manifestation-content': '#ffffff',
+                    'manifestation': '#6A9D92',
+                    'manifestation-content': '#ffffff',
             
-                'item': '#9C9078',
-                'item-content': '#ffffff',
+                    'item': '#9C9078',
+                    'item-content': '#ffffff',
             
-                '--balihai': '#80a3b5',
-                '--wcag-red': '#882255',
-                '--shopping-cart': '#4f46e5'
-              }
+                    '--balihai': '#80a3b5',
+                    '--wcag-red': '#882255',
+                    '--shopping-cart': '#4f46e5'
+                }
             }            
         ],
     },

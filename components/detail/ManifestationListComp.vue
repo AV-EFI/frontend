@@ -4,21 +4,7 @@
       name="partial-grid-2-1-flex"
       class="mt-4"
     >
-      <template #heading>
-        <hr class="my-2 col-span-full">
-        <h3
-          class="relative font-bold text-sm col-span-full pl-1 text-primary-800 dark:text-primary-100"
-          :alt="safeT('manifestations')"
-        >
-          {{ safeT('manifestations') }}
-          <span
-            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help"
-            :title="$t('tooltip.manifestation')"
-          >
-            ⓘ
-          </span>
-        </h3>
-      </template>
+      <template #heading />
       <template #right />
     </NuxtLayout>
 
@@ -52,20 +38,24 @@
           name="partial-grid-2-1-flex"
           left-class="border-l-2 border-manifestation pl-2"
         >
+          <!-- LEFT: 1–5 -->
           <template #left>
+            <!-- 01 EFI Handle -->
             <DetailKeyValueComp
               :id="manifestation.handle.replace('21.11155/', '')"
-              keytxt="EFI"
+              keytxt="efi"
               :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="true"
             />
+            <!-- 02 Titel -->
             <DetailKeyValueComp
               keytxt="title"
               :valtxt="manifestation?.has_record?.has_primary_title?.has_name"
               class="col-span-full"
               :clip="false"
             />
+            <!-- 03 Datenhaltende Institution -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.described_by?.has_issuer_name"
               keytxt="dataholding"
@@ -73,26 +63,14 @@
               class="col-span-full"
               :clip="false"
             />
-            <MicroLabelComp
+            <!-- 04 Web-Ressource -->
+            <div
               v-if="manifestation?.has_record?.has_webresource"
-              label-text="webresource"
-              class="col-span-full"
-            />
-            <span
-              v-if="manifestation?.has_record?.has_webresource"
-              class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help relative group"
-              role="img"
-              aria-label="Info"
-              tabindex="0"
+              class="col-span-full flex items-center gap-1"
             >
-              ⓘ
-              <!-- Tooltip -->
-              <span
-                class="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-1 w-64 p-2 text-xs text-left text-white bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity"
-                role="tooltip"
-                :title="$t('tooltip.webresource')"
-              />
-            </span>
+              <MicroLabelComp label-text="webresource" />
+              <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
+            </div>
             <div
               v-for="webresource in manifestation?.has_record?.has_webresource"
               :key="webresource"
@@ -109,6 +87,7 @@
                 <span>{{ safeT('webresource') }} <Icon name="formkit:linkexternal" /></span>
               </a>
             </div>
+            <!-- 05 Notiz -->
             <DetailKeyValueListComp
               v-if="manifestation?.has_record?.has_note"
               class="col-span-full text-justify md:pr-2"
@@ -118,39 +97,13 @@
             />
           </template>
 
+          <!-- RIGHT: 6–15 -->
           <template #right>
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_duration?.has_value"
-              keytxt="avefi:Duration"
-              :valtxt="formatDuration(manifestation?.has_record?.has_duration?.has_value)"
-              :clip="false"
-              class="w-full"
-            />
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_sound_type"
-              keytxt="has_sound_type"
-              :valtxt="manifestation?.has_record?.has_sound_type"
-              :clip="false"
-              class="w-full mt-2"
-            />
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_extent?.has_value"
-              keytxt="avefi:Extent"
-              :valtxt="formatExtent(manifestation?.has_record?.has_extent)"
-              class="w-full mt-2"
-              :clip="false"
-            />
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_colour_type"
-              keytxt="has_colour"
-              :valtxt="manifestation?.has_record?.has_colour_type"
-              class="w-full mt-2"
-              :clip="false"
-            />
+            <!-- 06 Sprache -->
             <MicroLabelComp
               v-if="manifestation?.has_record?.in_language"
               label-text="avefi:Language"
-              class="w-full mt-2"
+              class="w-full"
             />
             <ul
               v-if="manifestation?.has_record?.in_language"
@@ -168,25 +121,58 @@
                 >&nbsp;({{ $t(usage) }})</span>
               </li>
             </ul>
+
+            <!-- 07 Ton -->
+            <DetailKeyValueComp
+              v-if="manifestation?.has_record?.has_sound_type"
+              keytxt="has_sound_type"
+              :valtxt="manifestation?.has_record?.has_sound_type"
+              :clip="false"
+              class="w-full mt-2"
+            />
+
+            <!-- 08 Farbe -->
+            <DetailKeyValueComp
+              v-if="manifestation?.has_record?.has_colour_type"
+              keytxt="has_colour"
+              :valtxt="manifestation?.has_record?.has_colour_type"
+              class="w-full mt-2"
+              :clip="false"
+            />
+
+            <!-- 09 Abspieldauer -->
+            <DetailKeyValueComp
+              v-if="manifestation?.has_record?.has_duration?.has_value"
+              keytxt="avefi:Duration"
+              :valtxt="formatDuration(manifestation?.has_record?.has_duration?.has_value)"
+              :clip="false"
+              class="w-full mt-2"
+            />
+
+            <!-- 10 Länge / Größe -->
+            <DetailKeyValueComp
+              v-if="manifestation?.has_record?.has_extent?.has_value"
+              keytxt="avefi:Extent"
+              :valtxt="formatExtent(manifestation?.has_record?.has_extent)"
+              class="w-full mt-2"
+              :clip="false"
+            />
+
+            <!-- 11–15 Events -->
             <DetailHasEventComp
               class="mt-4"
               :model-value="manifestation?.has_record?.has_event ?? []"
             />
           </template>
         </NuxtLayout>
-        <h4
-          class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4"
-        >
+
+        <!-- 16 Exemplare -->
+        <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4">
           {{ safeT('items') }}
-          <span
-            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-            role="img"
-            aria-label="Info"
-            tabindex="0"
-            :title="$t('tooltip.item')"
-          >
-            ⓘ
-          </span>
+          <GlobalTooltipInfo
+            :text="$t('tooltip.item')"
+            class="ml-2"
+          />
         </h4>
         <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
           <DetailItemListNewComp
@@ -249,19 +235,21 @@ function safeT(input: unknown): string {
 }
 
 function formatExtent(extent?: { has_value?: string | number, has_unit?: string }) {
-    
     if (!extent?.has_value) return '';
     return `${extent.has_value} ${safeT(extent.has_unit)}`.trim();
 }
 
-function formatDuration(has_value): string {
+function formatDuration(has_value: any): string {
     if (has_value) {
         try {
-            const duration = has_value.replace(/PT/g, '').replace(/S/g, '').replace(/M/g, ':').replace(/H/g,':').split(':');
+            const duration = has_value
+                .replace(/PT/g, '')
+                .replace(/S/g, '')
+                .replace(/M/g, ':')
+                .replace(/H/g, ':')
+                .split(':');
             duration[0] = String(duration[0]).padStart(2, '0');
-            if (duration.length > 1) {
-                duration[1] = String(duration[1]).padStart(2, '0');
-            }
+            if (duration.length > 1) duration[1] = String(duration[1]).padStart(2, '0');
             return duration.join(':');
         } catch (error) {
             console.error('Error formatting duration:', error);
@@ -270,7 +258,6 @@ function formatDuration(has_value): string {
     }
     return has_value;
 }
-
 </script>
 
 <style scoped>
@@ -278,5 +265,4 @@ function formatDuration(has_value): string {
   @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
   top: 25%;
 }
-
 </style>

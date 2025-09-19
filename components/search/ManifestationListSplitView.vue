@@ -29,12 +29,15 @@
                   class="mr-2"
                 />
                 <span
-                  class="text-md ml-auto font-mono"
+                  class="text-sm ml-auto font-mono"
                   :alt="$t('itemsCount')"
                   :aria-label="$t('itemsCount')"
                   :title="$t('itemsCount')"
                 >
-                  {{ getFilteredItems(m).length }}
+                  <Icon
+                    class="text-xs"
+                    name="tabler:hierarchy"
+                  /> {{ getFilteredItems(m).length }}
                 </span>
               </div>
               <GlobalClipboardComp
@@ -80,19 +83,13 @@
             >
               <h5 class="text-sm font-bold text-primary mb-1 flex items-center gap-1">
                 <Icon
-                  name="carbon:chart-relationship"
+                  name="tabler:binary-tree"
                   class="text-base"
                 />
                 {{ $t('items') }}
-                <span
-                  class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-                  role="img"
-                  aria-label="Info"
-                  tabindex="0"
-                  :title="$t('tooltip.item')"
-                >
-                  ⓘ
-                </span>
+                <GlobalTooltipInfo
+                  :text="$t('tooltip.item')"
+                />
               </h5>
               <ul class="space-y-2 pl-1">
                 <li
@@ -154,23 +151,16 @@
         role="region"
         :aria-label="`manifestation-${selectedManifestation.handle}`"
       >
-        <h5 class="relative text-sm font-bold text-primary mb-2 flex items-center gap-1">
+        <h5 class="relative text-sm font-bold mb-2 flex items-center gap-1">
           <Icon
-            name="carbon:chart-relationship"
+            name="tabler:binary-tree"
             class="text-base"
           />
           {{ $t('items') }}
-          <span
-            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-            role="img"
-            aria-label="Info"
-            tabindex="0"
-            :title="$t('tooltip.item')"
-          >
-            ⓘ            
-          </span>
+          <GlobalTooltipInfo
+            :text="$t('tooltip.item')"
+          />
         </h5>
-
         <div
           ref="itemsContainer"
           class="relative"
@@ -186,7 +176,7 @@
             >
               <div class="flex items-center gap-2 mb-1">
                 <Icon
-                  name="carbon:parent-node"
+                  name="tabler:hierarchy"
                   class="text-primary w-4 h-4 shrink-0"
                 />
                 <MicroBadgeCategoryComp
@@ -201,9 +191,9 @@
                 :aria-label="$t('copyItemHandle')"
                 font-size="text-sm"
               />
-              <SearchMetaIconListComp
-                type="item"
+              <SearchGenericIconList
                 :data="item"
+                type="item"
               />
               <div class="text-sm text-gray-500 dark:text-gray-300 mt-2 relative">
                 <a
@@ -212,15 +202,9 @@
                   target="_blank"
                   class="link link-primary dark:link-accent inline-flex items-center gap-1"
                 >
-                  <span
-                    class="text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-                    role="img"
-                    aria-label="Info"
-                    tabindex="0"
-                    :title="$t('tooltip.webresource')"
-                  >
-                    ⓘ
-                  </span>
+                  <GlobalTooltipInfo
+                    :text="$t('tooltip.webresource')"
+                  />
                   <Icon name="formkit:linkexternal" />
                   {{ $t('webresource') }}
                 </a>
@@ -267,6 +251,7 @@
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },

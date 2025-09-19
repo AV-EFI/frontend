@@ -84,6 +84,7 @@
               :aria-label="$t('avefi:Subject')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="dataholding"
               attribute-name="has_issuer_name"
               category="avefi:Manifestation"
@@ -92,6 +93,7 @@
               :aria-label="$t('dataholding')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="in_language_code"
               attribute-name="in_language_code"
               category="avefi:Manifestation"
@@ -99,6 +101,7 @@
               :aria-label="$t('in_language_code')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="has_sound_type"
               attribute-name="has_sound_type"
               category="avefi:Manifestation"
@@ -107,6 +110,7 @@
               :aria-label="$t('has_sound_type')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="has_duration"
               attribute-name="has_duration_has_value"
               category="avefi:Manifestation"
@@ -115,6 +119,7 @@
               :aria-label="$t('has_duration')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="manifestation_event_type"
               attribute-name="manifestation_event_type"
               category="avefi:Manifestation"
@@ -123,6 +128,7 @@
               :aria-label="$t('manifestation_event_type')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="has_colour"
               attribute-name="has_colour_type"
               category="avefi:Manifestation"
@@ -131,6 +137,7 @@
               :aria-label="$t('has_colour')"
             />
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="has_format"
               attribute-name="has_format_type"
               category="avefi:Item"
@@ -140,6 +147,7 @@
             />
 
             <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
               header-text="item_element_type"
               attribute-name="item_element_type"
               category="avefi:Item"
@@ -147,6 +155,18 @@
               :tab-index="16"
               :aria-label="$t('item_element_type')"
             />
+            <div
+              class="alert shadow-sm mb-2 mt-2 lg:mt-0 lg:mb-0 p-2 text-sm"
+              role="alert"
+            >
+              <Icon
+                class="text-lg mr-2"
+                name="tabler:info-circle"
+              />
+              <span>
+                {{ $t('facetsInsideSearchResults') }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -182,7 +202,12 @@ onMounted(() => {
 });
 
 const emit = defineEmits(['update:productionYear']);
-
+defineProps({
+    viewTypeChecked: {
+        type: Boolean,
+        default: false
+    }
+});
 /*
 const props = defineProps({
     productionYear: {

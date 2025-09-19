@@ -4,52 +4,39 @@
       v-if="mir"
       class="border-l-2 border-work px-2"
       role="region"
-      :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name}`"
+      :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}`"
     >
-      <div class="w-full">
-        <LazyMicroDividerComp
-          label-text="avefi:WorkVariant"
-          in-class="work"
-        />
-      </div>
       <NuxtLayout name="partial-grid-2-1-no-heading">
         <template #left>
-          <DetailKeyValueComp
-            :id="dataObject?._source?.handle"
-            keytxt="EFI"
-            :valtxt="dataObject?._source?.handle"
-            class="col-span-full mb-2"
-            :clip="true"
-          />
+          <!-- 01–04 + 06–09 are expected to be handled inside this comp.
+               Make sure inside it you also gate each field with v-if. -->
           <DetailWorkVariantTopLevelComp
             v-model="mir"
             :handle="dataObject?._source?.handle"
-            :es-timestamp="dataObject._source['@timestamp']"
+            :es-timestamp="dataObject?._source?.['@timestamp']"
           />
+
+          <!-- 05 Produktions-Events (optional) -->
           <DetailHasEventComp
-            v-if="mir.has_event"
+            v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
             v-model="mir.has_event"
           />
         </template>
+
         <template #right>
-          <!-- has_form -->
+          <!-- 10 Genre (optional) -->
           <DetailKeyValueListComp
-            v-if="mir?.has_form"
-            class="col-span-full mb-2"
-            keytxt="has_form"
-            :valtxt="mir?.has_form"
-            :ul="true"
-          />
-          <DetailKeyValueListComp
-            v-if="mir.has_genre"
+            v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0"
             keytxt="avefi:Genre"
             class="col-span-full mb-2"
             :ul="true"
             :same-as="true"
             :valtxt="mir.has_genre"
           />
+
+          <!-- 11 Schlagwort (optional) -->
           <DetailKeyValueListComp
-            v-if="mir.has_subject"
+            v-if="Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
             class="col-span-full mt-1"
             keytxt="avefi:Subject"
             :bg-color="true"
@@ -63,78 +50,190 @@
     <div v-else>
       <pre>{{ mir }}</pre>
     </div>
+
+    <!-- Manifestations block (unchanged), just guarding everywhere -->
     <div
-      :class="[manifestations?.length < 1? 'flex place-content-center':'']"
+      :class="[Array.isArray(manifestations) && manifestations.length < 1 ? 'flex place-content-center' : '']"
       role="region"
       aria-label="Manifestations"
     >
-      <ClientOnly>
-        <DetailManifestationListComp
-          v-if="manifestations?.length > 0"
-          v-model="manifestations"
-        />
-        <div
-          v-else
-          class="alert alert-warning alert-outline text-white max-w-96 mt-4"
-          role="alert"
-          aria-label="No manifestations available"
+      <div class="mt-4 ml-2">
+        <hr class="my-2 col-span-full">
+        <h3
+          class="relative font-bold text-sm col-span-full text-primary-800 dark:text-primary-100 mb-1"
+          :alt="$t('manifestations')"
         >
-          <MicroIconTextComp
-            icon-name="mdi:emoticon-cry-outline"
-            text="noManifestations"
-          />
+          {{ $t('manifestations') }}
+          <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
+        </h3>
+        <FormKit
+          type="dropdown"
+          name="manifestation-item-search"
+          :label="$t('filterItemsAndManifestations')"
+          :placeholder="$t('filterItemsAndManifestations')"
+          :options="suggestionsForManifestations.map(s => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
+          :value="searchQuery"
+          multiple
+          popover
+          class="w-72"
+          @input="onSearchInput"
+        />
+      </div>
+
+      <ClientOnly>
+        <div
+          v-if="loading"
+          class="flex justify-center items-center min-h-[120px]"
+        >
+          <span class="loading loading-spinner loading-lg text-primary" />
         </div>
+        <template v-else>
+          <DetailManifestationListComp
+            v-if="Array.isArray(filteredManifestations) && filteredManifestations.length > 0"
+            v-model="filteredManifestations"
+          />
+          <div
+            v-else
+            class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4"
+            role="alert"
+            aria-label="No manifestations available"
+          >
+            <MicroIconTextComp
+              icon-name="mdi:emoticon-cry-outline"
+              text="noManifestations"
+            />
+          </div>
+        </template>
       </ClientOnly>
     </div>
-    <div class="w-full mt-4 justify-center items-center">
+
+    <!-- 12 Letzte Bearbeitung (optional) -->
+    <div
+      v-if="dataObject?._source?.['@timestamp']"
+      class="w-full mt-4 justify-center items-center"
+    >
       <DetailKeyValueComp
         class="col-span-full mx-auto"
         keytxt="lastedit"
         :clip="false"
-        :valtxt="new Date(dataObject._source['@timestamp']??'').toLocaleString('de-DE')"
+        :valtxt="formatTimestamp(dataObject._source['@timestamp'])"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-//models\interfaces\av_efi_schema.ts
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ref, computed } from 'vue';
+import { FormKit } from '@formkit/vue';
 import type { EventHookOn } from '@vueuse/core';
-import type {WorkVariant, Manifestation, Item} from '../../models/interfaces/av_efi_schema.ts';
-const dataJson = defineModel({type: String, required: true});
-const dataObject = JSON.parse(dataJson.value);
-const mir:WorkVariant = dataObject?._source?.has_record;
+import type { WorkVariant, Manifestation, Item } from '../../models/interfaces/av_efi_schema.ts';
 
-interface ApiResponseManifestationList extends Promise<Response> {
-  status: string
-  data: Manifestation[]
-  onFetchResponse: EventHookOn<Response>
-  onFetchError: EventHookOn
+const dataJson = defineModel({ type: String, required: true });
+
+// Defensive parse
+let dataObject: any = {};
+try { dataObject = JSON.parse(dataJson.value ?? '{}'); } catch { dataObject = {}; }
+
+// WorkVariant (optional)
+const mir = (dataObject?._source?.has_record ?? null) as WorkVariant | null;
+
+// Manifestations (optional)
+const manifestations = ref<Manifestation[]>(Array.isArray(dataObject?._source?.manifestations) ? dataObject._source.manifestations : []);
+
+// --- Dynamic search state ---
+const searchQuery = ref<string[]>([]);
+const loading = ref(false);
+
+function onSearchInput(val: any) {
+    searchQuery.value = Array.isArray(val) ? val : (val ? [val] : []);
+    loading.value = true;
+    setTimeout(() => { loading.value = false; }, 600);
 }
 
-interface ApiResponseItemList extends Promise<Response> {
-  data: Item[]
-  onFetchResponse: EventHookOn<Response>
-  onFetchError: EventHookOn
+// --- SEARCH WHITELIST (manifestation/item fields) ---
+const SEARCH_WHITELIST = [
+    // Manifestation-level
+    'has_record.described_by.has_issuer_name',
+    'in_language.code',
+    'has_record.has_colour_type',
+    'has_record.has_sound_type',
+    // Item-level
+    'items.has_webresource',
+    'items.has_record.has_format.type',
+    'items.has_record.element_type',
+    'items.in_language.code',
+    'items.has_record.has_colour_type',
+    'items.has_record.has_sound_type',
+    'items.has_record.has_frame_rate',
+];
+
+function get(obj: any, path: string): any {
+    if (!obj || !path) return undefined;
+    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+}
+function pushValue(arr: string[], v: any) {
+    if (v == null) return;
+    if (Array.isArray(v)) {
+        for (const x of v) if (x != null && String(x) !== '') arr.push(String(x));
+    } else {
+        const s = String(v);
+        if (s !== '') arr.push(s);
+    }
 }
 
-const manifestations = ref([] as Manifestation[]);
-if(dataObject?._source?.manifestations?.length > 0) {
-    manifestations.value = dataObject._source?.manifestations;
-} else {
-    manifestations.value = [] as Manifestation[];
-}
-console.log('manifestations', manifestations.value);
-
-/*
-const { status, data: manifestations } = useFetch<ApiResponseManifestationList>(`${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_MANIFEST_BY_WORK}`, 
-    {
-        method: 'POST',
-        lazy: true,
-        body: {
-            id: "21.11155/"+dataObject._id
+function valuesForManifestation(mf: any): string[] {
+    const vals: string[] = [];
+    for (const p of SEARCH_WHITELIST) {
+        if (p.startsWith('items.')) {
+            const items = Array.isArray(mf?.items) ? mf.items : [];
+            for (const it of items) pushValue(vals, get(it, p.slice(6)));
+        } else {
+            pushValue(vals, get(mf, p));
         }
-    });
-    */
+    }
+    // Deduplicate (case-insensitive)
+    const seen = new Set<string>(); const out: string[] = [];
+    for (const s of vals) { const k = s.toLowerCase(); if (!seen.has(k)) { seen.add(k); out.push(s); } }
+    return out;
+}
+
+const suggestionsForManifestations = computed(() => {
+    const set = new Set<string>();
+    for (const mf of manifestations.value) {
+        for (const v of valuesForManifestation(mf)) {
+            set.add(v);
+            if (set.size >= 100) break;
+        }
+        if (set.size >= 100) break;
+    }
+    return Array.from(set).slice(0, 100);
+});
+
+function mfMatchesQuery(mf: any, q: string): boolean {
+    if (!q) return true;
+    return valuesForManifestation(mf).some(v => v === q);
+}
+
+const filteredManifestations = computed(() => {
+    const selected = searchQuery.value;
+    if (Array.isArray(selected) && selected.length > 0) {
+        return manifestations.value.filter(mf => selected.every(q => mfMatchesQuery(mf, q)));
+    }
+    return manifestations.value;
+});
+
+// helpers
+function formatTimestamp(ts: any): string {
+    try {
+        const d = new Date(ts);
+        return isNaN(d.getTime()) ? '' : d.toLocaleString('de-DE');
+    } catch { return ''; }
+}
 </script>
+
+<style scoped>
+.collapse-plus > .collapse-title:after {
+  @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
+  top: 25%;
+}
+</style>

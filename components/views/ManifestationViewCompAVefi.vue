@@ -77,7 +77,7 @@
                 </li>
               </ul>
               <h2 class="dark:text-primary-100">
-                EFI:
+                efi:
               </h2>
               <GlobalClipboardComp :display-text="data?._source?.handle" />
               <!-- has_alternative_title -->

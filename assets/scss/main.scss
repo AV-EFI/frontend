@@ -600,64 +600,39 @@ mark {
   color: var(--cookie-control-controlButtonIconHoverColor);
 }
 
-
-
+/* Animated gradient border highlight */
+/* Usage: add class "hash-highlight-conic" to any element */
 .hash-highlight-conic {
   position: relative;
   z-index: 0;
   isolation: isolate;
   background: transparent;
-  border-radius: 8px; /* Subtler curve */
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px var(--accent-300);
 }
 
 .hash-highlight-conic::before {
   content: "";
   position: absolute;
-  inset: -2px;
+  inset: 0;
   z-index: -1;
-  border-radius: 4px;
-  padding: 2px;
-
-  background: conic-gradient(
-    var(--accent-100),
-    var(--accent-500),
-    var(--accent-700),
-    var(--accent-100),
-    var(--accent-900),
-    var(--accent-100),
+  border-radius: 8px;
+  background: linear-gradient(
+    120deg,
+    var(--accent-200) 0%,
+    var(--accent-400) 60%,
+    var(--accent-200) 100%
   );
-  background-size: 200% 200%;
-  background-position: center;
-  animation: border-spin 6s linear infinite;
-
-  /* Transparent middle */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask-composite: exclude;
+  opacity: 0.18;
+  pointer-events: none;
 }
 
-/* Fallback: dashed red border if no support */
-@supports not (background: conic-gradient(red, blue)) {
+@supports not (background: linear-gradient(red, blue)) {
   .hash-highlight-conic::before {
     content: none;
   }
   .hash-highlight-conic {
     border: 2px dashed #ff1d25;
-  }
-}
-
-/* Animation: spin the background */
-@keyframes border-spin {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
+    box-shadow: none;
   }
 }

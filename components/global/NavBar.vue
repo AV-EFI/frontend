@@ -118,7 +118,7 @@
             <div class="hidden lg:flex lg:h-12 text-sm leading-none text-left dark:text-gray-200 max-w-32 ml-2">
               <span
                 class="bree text-black dark:text-white my-auto"
-                v-html="$t('avefiClaimHtml')"
+                v-html="$t('avefiClaimHtml').replace('. ', '<br/>')"
               />
             </div>
 

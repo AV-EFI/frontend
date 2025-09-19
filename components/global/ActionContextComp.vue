@@ -9,7 +9,7 @@
       aria-haspopup="true"
       aria-expanded="false"
       :aria-label="$t('moreOptionsFor') + ' ' + (item?.has_record?.has_primary_title?.has_name || '')"
-      class="btn btn-outline btn-circle text-white"
+      class="btn btn-outline btn-circle"
       :class="['btn-' + compSize]"
     >
       <Icon

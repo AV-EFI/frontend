@@ -1,5 +1,5 @@
 <template>
-  <div class="border-1 border-base-200 dark:border-neutral-400">
+  <div class="border-2 border-base-200 dark:border-neutral-400">
     <div class="">
       <div class="editor mt-2">
         <section>

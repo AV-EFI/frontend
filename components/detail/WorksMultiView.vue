@@ -142,15 +142,7 @@
                 class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 mt-4"
               >
                 {{ $t('items') }}
-                <span
-                  class="absolute ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-                  role="img"
-                  aria-label="Info"
-                  tabindex="0"
-                  :title="$t('tooltip.item')"
-                >
-                  ⓘ
-                </span>
+                <GlobalTooltipInfo :text="$t('tooltip.item')" class="absolute ml-2" />
               </h4>
               <div
                 v-for="exemplar in manifestation.items"
@@ -166,7 +158,7 @@
                 </div>
                 <div class="col-span-full md:col-full">
                   <DetailKeyValueComp
-                    keytxt="EFI"
+                    keytxt="efi"
                     :valtxt="exemplar?.handle"
                     :clip="true"                  
                     class="mb-2"

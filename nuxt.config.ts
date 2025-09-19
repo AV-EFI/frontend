@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     },
     modules: [
         '@sidebase/nuxt-auth',
-        '@nuxtjs/eslint-module',
+        //'@nuxtjs/eslint-module',
         '@nuxtjs/i18n',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode',
@@ -137,35 +137,6 @@ export default defineNuxtConfig({
     cookieControl: {
         locales: ['de', 'en'],
         colors: false,
-        /*
-        colors: {
-            barTextColor: '#fff',
-            modalOverlay: '#000',
-            barBackground: '#000',
-            barButtonColor: '#000',
-            modalTextColor: '#000',
-            modalBackground: '#fff',
-            modalOverlayOpacity: 0.8,
-            modalButtonColor: '#fff',
-            modalUnsavedColor: '#fff',
-            barButtonHoverColor: '#fff',
-            barButtonBackground: '#fff',
-            modalButtonHoverColor: '#fff',
-            modalButtonBackground: '#000',
-            controlButtonIconColor: '#000',
-            controlButtonBackground: '#fff',
-            barButtonHoverBackground: '#333',
-            checkboxActiveBackground: '#000',
-            checkboxInactiveBackground: '#000',
-            modalButtonHoverBackground: '#333',
-            checkboxDisabledBackground: '#ddd',
-            controlButtonIconHoverColor: '#fff',
-            controlButtonHoverBackground: '#000',
-            checkboxActiveCircleBackground: '#fff',
-            checkboxInactiveCircleBackground: '#fff',
-            checkboxDisabledCircleBackground: '#fff',
-        },
-        */
         //default texts
         text: {        
             barTitle: 'Cookies',
@@ -225,8 +196,7 @@ export default defineNuxtConfig({
                 scss: {
                     api: 'modern',
                     additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
-                },
-                
+                },                
             },
         }
     },
@@ -234,18 +204,17 @@ export default defineNuxtConfig({
         includeWorkspace: true,
     },
     i18n: {
-        /* module options */
         strategy: 'no_prefix',
-        locales: ['de', 'en'],
         lazy: true,
+        locales: ["de", "en"],
         skipSettingLocaleOnNavigate: true,
         detectBrowserLanguage: {
             useCookie: true,
-            cookieKey: 'i18n_redirected', // Name of the cookie
-            alwaysRedirect: false, // Redirect even if language is already set
+            cookieKey: 'i18n_redirected',
+            alwaysRedirect: false,
             fallbackLocale: 'de'
         },
-        vueI18n: "./i18n.config.ts", // if you are using custom path, default
+        vueI18n: './i18n.config.ts'
     },
     colorMode: {
         preference: 'avefi_light',
@@ -258,11 +227,13 @@ export default defineNuxtConfig({
         // Experimental support for auto loading (see note):
         autoImport: true,
     },
+    /*
     eslint: {
         lintOnStart: false,
         cache: true,
         emitWarning: false
     },
+    */
     pinia: {
         storesDirs: ['stores']
     },

@@ -1,197 +1,95 @@
 <template>
   <div
-    v-for="item in items"
-    :key="item.handle"
+    v-for="work in items"
+    :key="work.handle"
     class="card bg-white border border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
-    :aria-label="`${$t('title')}: ${item?.has_record?.has_primary_title?.has_name}`"
+    :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`"
   >
     <div
       v-if="showAdminStats"
       class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primarydark:bg-gray-800 dark:text-white text-sm p-2"
     >
       <span>Status: <span class="badge badge-success text-white">Public</span></span>
-      <span>{{ $t('lastedit') }}: {{ new Date(item?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
-      <span>{{ item?.has_record?.described_by?.has_issuer_name }}</span>
+      <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
+      <span>{{ work?.has_record?.described_by?.has_issuer_name }}</span>
       <button class="btn btn-xs btn-primary">
         {{ $t('showHistory') }}
       </button>
     </div>
-    <div
-      class="flex flex-col md:flex-row min-h-12 w-full p-4 rounded-tl-xl rounded-tr-xl bg-primary dark:bg-primary-800 text-white"
-    >
-      <div class="max-md:w-full w-4/5 md:w-4/5 content-center">
-        <GlobalClipboardComp
-          :display-text="item?.handle"
-          class=" text-xs text-gray-50 dark:text-gray-300"
-          :aria-label="$t('copyEfi')"
-          :title="$t('copyEfi')"
-          :dark-bg="true"
-        />
-        <h2
-          class="font-bold text-lg my-1 text-primary-50 dark:text-white"
-          :alt="$t('title')"
-          :title="$t('title')"
-        >
-          <a
-            :href="`/film/${item.objectID}`"
+    <header class="card-body p-4">
+      <div class="flex flex-col md:flex-row justify-between">
+        <div class="w-4/5 md:w-4/5 lg:w-3/5">
+          <GlobalClipboardComp
+            class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
+            :display-text="work?.handle ?? ''"
+          />
+          <h2
+            :id="`work-title-${work?.handle ?? ''}`"
+            class="card-title text-lg font-semibold mb"
+          >
+            {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
+            <MicroBadgeCategoryComp
+              :category="work?.category || 'avefi:WorkVariant'"
+              :dense="false"
+              class="ml-2"
+            />
+          </h2>
+          <h3
+            v-if="work?.has_record?.has_alternative_title"
+          >
+            <ul v-if="work?.has_record?.has_alternative_title">
+              <li
+                v-for="alt in work?.has_record?.has_alternative_title"
+                :key="alt.id"
+              >
+                {{ alt.has_name }} ({{ $t(alt.type) }})
+              </li>
+            </ul>
+          </h3>
+        </div>
+        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+          <NuxtLink 
+            v-if="work?.handle"
+            :to="`/film/${work.handle.replace('21.11155/','')}`"
+            class="btn btn-circle btn-outline btn-md mr-2"
+            :aria-label="$t('detailviewlink')"
             :title="$t('detailviewlink')"
             target="_blank"
-            class="link dark:link-white no-underline hover:underline"
-          >
-            <span 
-              v-if="item._highlightResult?.has_record?.has_primary_title?.has_name"
-            >
-              <ais-highlight
-                attribute="has_record.has_primary_title.has_name"
-                :hit="item"
-              />
-            </span>
-            <span v-else>
-              {{ item?.has_record?.has_primary_title?.has_name }}
-            </span>
-          </a>
-        </h2>
-        <h3
-          v-if="item?.has_record?.has_alternative_title"
-          class="text-white"
-        >
-          <ul 
-            v-if="item._highlightResult?.has_record?.has_alternative_title?.has_name"
-          >
-            <li
-              v-for="(alt, idx) in item._highlightResult?.has_record?.has_alternative_title?.has_name"
-              :key="idx"
-              class="block"
-              :aria-label="$t('alternativeTitle')"
-            >
-              <span v-html="alt.value" />
-              <span v-if="item.has_record?.has_alternative_title?.[idx]?.type">
-                ({{ $t(item.has_record.has_alternative_title[idx].type) }})
-              </span>
-            </li>
-          </ul>
-          <ul v-else-if="item?.has_record?.has_alternative_title">
-            <li
-              v-for="alt in item?.has_record?.has_alternative_title"
-              :key="alt.id"
-            >
-              {{ alt.has_name }} ({{ $t(alt.type) }})
-            </li>
-          </ul>
-        </h3>
-        <div class="flex flex-col md:flex-row text-sm text-white dark:text-base-content mt-2">
-          <span
-            v-if="item?.has_record?.has_event?.map((loc) => loc)"
-            class="flex items-center"
           >
             <Icon
-              name="mdi:map-marker-outline"
-              class="mr-1"
-              :alt="$t('place')"
-              :title="$t('place')"
+              name="mdi:eye-outline"
+              class="text-2xl"
+              :alt="$t('detailviewlink')"
             />
-            {{ item?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null).join(', ') }}
-          </span>
-          <span
-            v-if="item.years"
-            class="flex items-center"
-          >
-            <template v-if="item.has_record?.has_event">
-              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span></template>
-            <Icon
-              name="fa:calendar"
-              class="mr-1"
-              :alt="$t('productionyear')"
-              :title="$t('productionyear')"
-            />
-            {{ item.years.join(', ') }}
-          </span>
-          <span
-            v-if="item.directors_or_editors"
-            class="flex items-center"            
-          >
-            <template v-if="item.directors_or_editors">
-              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
-            </template>
-            <Icon
-              name="iconoir:director-chair"
-              class="mr-1"
-              :alt="$t('directors_or_editors')"
-              :title="$t('directors_or_editors')"
-            />
-            {{ item.directors_or_editors?.flatMap((f) => $t(f)).join(', ') }}
-            <span
-              v-if="isFacetActive('directors_or_editors', item.directors_or_editors.join(','))"
-              class="badge badge-xs bg-highlight text-white ml-1"
-              :title="$t('matchedField') + ': ' + item.directors_or_editors.join(', ')"
-            />
-
-          </span>
-          <span
-            v-if="item.has_record?.has_form"
-            class="flex items-center"
-          >
-            <template v-if="item.has_record?.has_event || item.years">
-              <span class="flex items-center max-md:hidden">&nbsp;&nbsp;</span>
-            </template>
-            <Icon
-              name="fa:film"
-              class="mr-1"
-            />
-            {{ item.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
-          </span>
-          <span
-            v-if="item?.has_record?.is_part_of"
-            class="flex items-center"
-          >
-            <template v-if="item.has_record?.has_event || item.years || item.has_record?.has_form">
-              <span class="flex items">
-                &nbsp;&nbsp;
-              </span>
-              <Icon
-                name="carbon:logical-partition"
-                class="mr-1"
-              />
-              {{ $t('Episode/Part') }}
-            </template>
-          </span>
+          </NuxtLink>
+          <GlobalActionContextComp
+            v-if="work"
+            :item="work"
+          />
         </div>
       </div>
-      <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
-        <NuxtLink 
-          :to="`/film/${item.handle.replace('21.11155/','')}`"
-          class="btn btn-circle btn-outline btn-md mr-2 text-white"
-          :aria-label="$t('detailviewlink')"
-          :title="$t('detailviewlink')"
-          target="_blank"
-        >
-          <Icon
-            name="mdi:eye-outline"
-            class="text-2xl"
-            :alt="$t('detailviewlink')"
-          />
-        </NuxtLink>
-        <MicroEfiCopyComp
-          class="hidden"
-          category="work"
-          :handle="item?.handle"
-        />
-        <GlobalActionContextComp :item="item" />
-      </div>
-    </div>
+
+      <SearchGenericIconList
+        :data="work"
+        level="work"
+        class="mt-1"
+      />
+    </header>
+
+    <div class="divider divider-primary my-0" />
     <Transition
       name="fade"
       mode="out-in"
     >
       <div
-        v-if="showHighlight[item.handle] && getHighlightSnippets(item).length > 0"
+        v-if="work && work.handle && showHighlight[work.handle] && getHighlightSnippets(work).length > 0"
         class="my-2 ml-3 text-sm highlight-snippets"
       >
         <span>✨ <strong>{{ $t('lookWhatWeFound') }}</strong></span>
         <ul>
           <SearchHighlightMatchComp
-            v-for="(entry, i) in getHighlightSnippets(item)"
+            v-for="(entry, i) in getHighlightSnippets(work)"
             :key="i + entry.value"
             :value="entry.value"
             :field="entry.key"
@@ -202,122 +100,51 @@
 
     <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center">
       <button
-        class="btn btn-primary btn-xs btn-outline my-2 mx-auto"
+        v-if="work && work.handle"
+        class="btn btn-highlight btn-xs my-2"
         :aria-label="$t('toggleDetails')"
         :title="$t('toggleDetails')"
-        :aria-expanded="isExpanded[item.handle] || false"
-        @click="isExpanded[item.handle] = !isExpanded[item.handle]; showHighlight[item.handle] = !showHighlight[item.handle]"
+        :aria-expanded="isExpanded[work.handle] || false"
+        @click="isExpanded[work.handle] = !isExpanded[work.handle]; showHighlight[work.handle] = !showHighlight[work.handle]"
       >
         <Icon
-          :name="isExpanded[item.handle] ? 'mdi:minus' : 'mdi:plus'"
+          :name="isExpanded[work.handle] ? 'mdi:minus' : 'mdi:plus'"
           class="text-lg"
-          :alt="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
-          :title="isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
+          :alt="isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')"
+          :title="isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')"
         />
         <span class="text-sm">
-          {{ isExpanded[item.handle] ? $t('hideDetails') : $t('showDetails') }}
+          {{ isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems') }}
         </span>
       </button>
+      <span
+        v-if="refinementsActive"
+        :title="$t('tooltip.refinementsActive')"
+        class="badge badge-sm bg-highlight animate-pulse"
+      />
     </div>
     <div
-      v-show="isExpanded[item.handle]"
+      v-show="work && work.handle && isExpanded[work.handle]"
       class="card-body p-4 pt-0"
-    >
-      <!--top-->
-      <div class="grid col-span-full grid-cols-12 gap-2">
-        <div class="col-span-full">
-          <MicroDividerComp
-            class="mx-auto my-[15px] mt-4"
-            label-text="avefi:WorkVariant" 
-            in-class="work"
-          />
-        </div>
-      </div>
-      <div
-        v-if="!item?.production?.length > 0
-          && !item?.has_record?.has_form?.length > 0
-          && !item?.has_record?.has_genre?.length > 0
-          && !item?.subjects?.length > 0"
-        class="text-sm text-gray-500 dark:text-gray-400 mb-2"
-      >
-        {{ $t('noWorkVariantDetails') }}
-      </div> 
-      <div
-        v-else
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm"
-      >
-        <div
-          v-if="item?.production"
-          class="flex flex-col"
-        >
-          <MicroLabelComp label-text="avefi:ProductionEvent" />
-          <SearchHighlightListComp
-            :items="item?.production || []"
-            :hilite="activeProduction"
-            class="mb-2"
-            :font-size="'text-sm'"
-          />
-        </div>
-        <div
-          v-if="item?.has_record?.has_form"
-          class="flex flex-col"
-        >
-          <MicroLabelComp label-text="has_form" />
-          <SearchHighlightListComp
-            :items="item?.has_record?.has_form || []"
-            :hilite="activeHasForm"           
-            class="max-h-48 overflow-y-auto mb-2"
-            :font-size="'text-sm'"
-          />
-        </div>
-        <div
-          v-if="item?.has_record?.has_genre?.length > 0"
-          class="flex flex-col"
-        >
-          <MicroLabelComp label-text="avefi:Genre" />
-          <SearchHighlightListComp
-            :items="item?.has_record?.has_genre?.flatMap(genre => genre.has_name) || []"
-            :hilite="activeGenres"
-            class="max-h-48 overflow-y-auto mb-2"
-            :font-size="'text-sm'"
-          />
-        </div>
-        <div
-          v-if="item?.subjects?.length > 0" 
-          class="flex flex-col"
-        >
-          <MicroLabelComp label-text="avefi:Subject" />
-          <SearchHighlightListComp
-            :items="item?.subjects || []"
-            :hilite="activeSubjects"
-            class="max-h-48 overflow-y-auto"
-            :font-size="'text-sm'"
-          />
-        </div>
-      </div>
+    >      
       <!-- EO WorkVariant -->
       <!-- Manifestations -->
       <hr class="my-2">
       <div class="flex flex-col">
         <h3
-          class="relative font-bold text-md mb-2 pl-1 pr-6 text-gray-800 dark:text-base-content"
+          class="relative font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
           aria-label="$t('tooltip.manifestation')"
         >
           {{ $t('manifestations') }}
 
           <!-- Info icon positioned inside <h3> -->
-          <span
-            class="absolute ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help group"
-            role="img"
-            aria-label="Info"
-            tabindex="0"
-            :title="$t('tooltip.manifestation')"
-          >
-            ⓘ
-          </span>
+          <GlobalTooltipInfo
+            :text="$t('tooltip.manifestation')"
+            class="absolute ml-2"
+          />
         </h3>
         <SearchManifestationListSplitView
-          :manifestations="getFilteredManifestations(item)"
+          :manifestations="getFilteredManifestations(work)"
           :get-filtered-items="getFilteredItems"
           :work-variant-handle="item?.handle"
         />
@@ -346,7 +173,22 @@ function parseRefinementsFromUrl(href: string) {
         has_genre_has_name: [],
         subjects: [],
         has_form_has_name: [],
-        production_type: []
+        production_type: [],
+        production_year_start: [],
+        production_year_end: [],
+        has_sound_type: [],
+        in_language_code: [],
+        directors_or_editors: [],
+        castmembers: [],
+        production: [],
+        located_in_has_name: [],
+        has_duration_has_value: [],
+        has_issuer_name: [],
+        has_format_type: [],
+        manifestation_event_type: [],
+        has_colour_type: [],
+        item_element_type: [],
+        has_form: []
     };
 
     for (const [key, value] of params.entries()) {
@@ -363,20 +205,17 @@ function parseRefinementsFromUrl(href: string) {
     return result;
 }
 
+const refinementsActive = ref(false);
 
 const updateFromHref = () => {
     const refinements = parseRefinementsFromUrl(window.location.href);
-
     activeGenres.value = refinements.has_genre_has_name || [];
     activeSubjects.value = refinements.subjects || [];
     activeHasForm.value = refinements.has_form_has_name || [];
     activeProduction.value = refinements.production_type || [];
-
-    console.log('✅ URL parsed:');
-    console.log('→ Genres:', activeGenres.value);
-    console.log('→ Subjects:', activeSubjects.value);
-    console.log('→ Forms:', activeHasForm.value);
-    console.log('→ ProdType:', activeProduction.value);
+    refinementsActive.value = Object.values(refinements).some(arr => arr.length > 0);
+    console.log(refinements);
+    console.log('Refinements active:', refinementsActive.value);
 };
 
 onMounted(() => {
@@ -429,6 +268,11 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false,
+    },
+    currentRefinements: {
+        type: Array,
+        required: false,
+        default: () => []
     }
 });
 
@@ -474,8 +318,8 @@ function getFilteredItems(manifestation) {
 }
 
 function getFilteredManifestations(item) {
-    if (!item.inner_hits) {
-        return item.manifestations || [];
+    if (!item || !item.inner_hits) {
+        return (item && item.manifestations) ? item.manifestations : [];
     }
 
     const innerHitsManifestations = item.inner_hits.manifestations_hits?.hits?.hits || [];
@@ -560,37 +404,40 @@ watch(() => props.expandAllHandlesChecked, (newVal) => {
 
 
 function getHighlightSnippets(item) {
-    const result = [];
-    const highlights = item._highlightResult || {};
+    if(item) {
+        const result = [];
+        const highlights = item._highlightResult || {};
 
-    // Define the fields to extract (labelKey: dot.path.in.highlightResult)
-    const fieldsToInclude = {
-        title: 'has_record.has_primary_title.has_name',
-        AlternativeTitle: 'has_record.has_alternative_title.has_name',
-        production: 'production',
-        'directors_or_editors': 'directors_or_editors',
-        'has_form': 'has_record.has_form',
-        genre: 'has_record.has_genre.has_name',
-        subject: 'subjects',
-    };
+        // Define the fields to extract (labelKey: dot.path.in.highlightResult)
+        const fieldsToInclude = {
+            title: 'has_record.has_primary_title.has_name',
+            AlternativeTitle: 'has_record.has_alternative_title.has_name',
+            production: 'production',
+            'directors_or_editors': 'directors_or_editors',
+            'has_form': 'has_record.has_form',
+            genre: 'has_record.has_genre.has_name',
+            subject: 'subjects',
+        };
 
-    for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
-        const entry = getValueByPath(highlights, path);
-        const entries = Array.isArray(entry) ? entry : [entry];
+        for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
+            const entry = getValueByPath(highlights, path);
+            const entries = Array.isArray(entry) ? entry : [entry];
 
-        for (const e of entries) {
-            if (
-                e?.matchLevel !== 'none' &&
+            for (const e of entries) {
+                if (
+                    e?.matchLevel !== 'none' &&
         Array.isArray(e?.matchedWords) &&
         e.matchedWords.length > 0 &&
         typeof e.value === 'string'
-            ) {
-                result.push({ key: labelKey, value: e.value });
+                ) {
+                    result.push({ key: labelKey, value: e.value });
+                }
             }
         }
+  
+        return result;
     }
-
-    return result;
+    return [];
 }
 
 // Helper to safely walk nested highlight paths like 'has_record.has_primary_title.has_name'
@@ -623,6 +470,49 @@ function isFacetActive(facetKey: string, value: string): boolean {
         return decoded.includes(value);
     });
 }
+
+// ------- Utilities -------
+function get(obj: any, path: string): any {
+    if (!obj || !path) return undefined;
+    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+}
+function has(obj: any, path: string): boolean {
+    const v = get(obj, path);
+    return v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0) && v !== '';
+}
+function asList(val: any): string {
+    if (Array.isArray(val))  {
+        if (val.length > 0 && typeof val[0] === 'object') {
+            return (val as any[]).map((v: any) => (v?.has_name ? String(v.has_name) : '')).filter((v: string) => v !== '').join(', ');
+        } else if (typeof val[0] === 'string' || typeof val[0] === 'number' || typeof val[0] === 'boolean') {
+            return (val as Array<string | number | boolean>).join(', ');
+        }
+        return (val as any[]).filter(v => v != null && v !== '').join(', ');
+    }
+    return String(val);
+}
+
+function yearsDisplay(work: any): string {
+    const years = get(work, 'years');
+    if (years && Array.isArray(years) && years.length) return years.join(', ');
+    const range = get(work, 'production_in_year');
+    if (range && typeof range === 'object') {
+        const from = (range.gte ?? range.gt ?? '');
+        const to = (range.lte ?? range.lt ?? '');
+        return [from, to].filter(Boolean).join('–');
+    }
+    return '';
+}
+function formatValue(val: any): string {
+    if (val === null || val === undefined) return '';
+    if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return String(val);
+    if (Array.isArray(val)) return val.map(formatValue).join(', ');
+    if (typeof val === 'object') {
+        return '{ ' + Object.entries(val).map(([k, v]) => `${k}: ${formatValue(v)}`).join(', ') + ' }';
+    }
+    return String(val);
+}
+
 
 
 </script>

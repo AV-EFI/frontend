@@ -235,7 +235,7 @@
           >
             <source
               type="video/mp4"
-              src="/vid/roll_comp.mp4"
+              src="/vid/avefi_project_wo.mp4"
             >
             {{ $t('videoNotSupported') }}
           </video>

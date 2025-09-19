@@ -1,16 +1,17 @@
 <template>
-  <div v-if="state && state.searchMetadata.isSearchStalled">
+  <div v-if="isSearchLoading">
     <GlobalSkeletonLoaderComp
       v-for="index in 5"
       :key="index"
     />
   </div>
   <div v-else>
-    <SearchTableViewComp
+    <SearchListFlatComp
       v-if="viewTypeChecked && items"
-      :items="items"
+      :datasets="items"
       :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
+      :current-refinements="currentRefinements"
     />
     <SearchListViewComp
       v-else-if="items"
@@ -19,6 +20,7 @@
       :show-admin-stats="showAdminStats"
       :expanded-handles="expandedHandles"
       :expand-all-handles-checked="expandAllHandlesChecked"
+      :current-refinements="currentRefinements"
     />
     <div v-else>
       <pre>error</pre>
@@ -46,7 +48,7 @@ defineProps({
         default: false,
     },
     expandedHandles: {
-        type: Object as PropType<Set<string>>,
+        type: Object,
         required: true,
     },
     expandAllHandlesChecked: {
@@ -54,35 +56,15 @@ defineProps({
         required: false,
         default: false,
     },
-
+    isSearchLoading: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    currentRefinements: {
+        type: Array,
+        required: false,
+        default: () => []
+    }
 });
-
-</script>
-
-<script lang="ts">
-
-import { expand } from '@formkit/icons';
-import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
-
-const connectSearchMetaData =
-  (renderFn, unmountFn) =>
-      (widgetParams = {}) => ({
-          init() {
-              renderFn({ searchMetadata: {} }, true);
-          },
-
-          render({ searchMetadata }) {
-              renderFn({ searchMetadata }, false);
-          },
-
-          dispose() {
-              unmountFn();
-          },
-      });
-
-export default {
-    name: 'AisStateResults',
-    mixins: [createWidgetMixin({ connector: connectSearchMetaData })],
-};
-
 </script>

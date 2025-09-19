@@ -69,7 +69,15 @@ definePageMeta({
               <p class="my-2">
                 {{ $t('contact.about.1') }}
               </p>
-              <p v-html="$t('contact.about.2')" />
+              <p class="my-2">
+                {{ $t('contact.about.2.beforeLink') }}
+                <a
+                  class="link"
+                  href="https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html"
+                  target="_blank"
+                >FIAF-Regelwerk</a>
+                {{ $t('contact.about.2.afterLink') }}
+              </p>
             </div>
           </div>
 
@@ -155,10 +163,15 @@ definePageMeta({
                 </h2>
               </div>
               <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
-                <p
-                  class="my-2"
-                  v-html="$t('contact.normdataContent')"
-                />
+                <p class="my-2">
+                  {{ $t('contact.normdataContent.beforeLink') }}
+                  <a
+                    class="link"
+                    href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html"
+                    target="_blank"
+                  >Gemeinsamen Normdatei (GND)</a>
+                  {{ $t('contact.normdataContent.afterLink') }}
+                </p>
               </div>
             </div>
             <div
@@ -215,14 +228,22 @@ definePageMeta({
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               {{ $t('contact.dataProvidersContent') }}
               <ul>
-                <li
-                  class="link"
-                  v-html="$t('howToDoc')"
-                />
-                <li
-                  class="link"
-                  v-html="$t('manual')"
-                />
+                <li class="link">
+                  <a
+                    href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf"
+                    target="_blank"
+                  >
+                    {{ $t('howToDoc') }}
+                  </a>
+                </li>
+                <li class="link">
+                  <a
+                    href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf"
+                    target="_blank"
+                  >
+                    {{ $t('manual') }}
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

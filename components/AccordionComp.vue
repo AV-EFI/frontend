@@ -30,7 +30,7 @@ const iKey = ref(getCurrentInstance()?.vnode.key?.toString);
 </script>
 
 <template>
-  <div class="collapse collapse-arrow border-1 border-base-200 dark:border-neutral-400">
+  <div class="collapse collapse-arrow border-2 border-base-200 dark:border-neutral-400">
     <input
       type="radio"
       :name="`faq-accordion-${containerId}`"

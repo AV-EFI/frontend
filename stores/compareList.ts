@@ -1,4 +1,3 @@
-import { set } from 'node_modules/nuxt/dist/app/compat/capi';
 import { defineStore } from 'pinia';
 
 // Define the structure of each object in the list

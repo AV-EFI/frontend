@@ -44,7 +44,7 @@
             <!--left-->
             <div class="md:col-span-8 col-span-12">
               <h2 class=" dark:text-primary-100">
-                EFI:
+                efi:
               </h2>
               <GlobalClipboardComp
                 class="text-sm"

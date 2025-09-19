@@ -40,7 +40,7 @@
       >
         <div class="row-start-1 col-span-3">
           <DetailKeyValueComp
-            keytxt="EFI"
+            keytxt="efi"
             :valtxt="exemplar?.handle"
             :clip="true"                  
             class="mb-2"

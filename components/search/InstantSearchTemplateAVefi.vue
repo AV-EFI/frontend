@@ -16,7 +16,9 @@
           :aria-label="$t('searchpanel')"
         >
           <ClientOnly>
-            <GlobalFacetDrawer />
+            <GlobalFacetDrawer
+              :view-type-checked="viewTypeChecked"
+            />
           </ClientOnly>
           <!-- Center -->
           <div
@@ -183,12 +185,14 @@
                       input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 rounded-lg"
                     />
                   </div>
-                  <div class="form-control w-full  border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
+                  <div class="form-control w-full border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
                     <label 
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto"
                       :aria-label="$t('toggleViewType')"
                     >
-                      <span class="label-text text-gray-800 dark:text-gray-200">{{ `${$t('list')} / ${$t('grid')}` }}&nbsp;
+                      <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300" :title="$t('viewTypeCheckedWarning')" />
+                      <span class="label-text text-gray-800 dark:text-gray-200">
+                        {{ `${$t('accordionView')} / ${$t('flatView')}` }}&nbsp;
                       </span>
                       <input
                         v-model="viewTypeChecked"
@@ -197,6 +201,7 @@
                       >
                     </label>
                     <label
+                      v-if="!viewTypeChecked"
                       class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
                       :aria-label="$t('toggleProductionDetails')"
                     >
@@ -228,19 +233,20 @@
                       >
                     </label>
                     <label
+                      v-if="!viewTypeChecked"
                       class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
                       :aria-label="$t('toggleExpandAll')"
                     >
-                      <span class="label-text text-gray-800 dark:text-gray-200">
+                      <span class="label-text text-sm text-gray-800 dark:text-gray-200">
                         <LazyIcon
                           v-if="!expandAllChecked"
                           class="dark:text-white"
-                          name="fa:expand"
+                          name="tabler:layout-navbar-expand"
                         />
                         <LazyIcon
                           v-else
                           class="dark:text-white"
-                          name="fa:compress" 
+                          name="tabler:layout-navbar-collapse"
                         />
                     &nbsp;
                         <span v-if="!expandAllChecked">
@@ -257,18 +263,19 @@
                       >
                     </label>
                     <label
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto my-auto"
+                    v-if="!viewTypeChecked"
+                      class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto my-auto"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
                       <LazyIcon
                         v-if="!expandAllHandlesChecked"
                         class="dark:text-white"
-                        name="fa:expand"
+                          name="tabler:layout-navbar-expand"
                       />
                       <LazyIcon
                         v-else
                         class="dark:text-white"
-                        name="fa:compress" 
+                        name="tabler:layout-navbar-collapse"
                       />
                     &nbsp;
                       <span v-if="!expandAllHandlesChecked">
@@ -346,7 +353,7 @@
                 <div
                   class="flex w-full flex-col"
                 >
-                  <div class="divider divider-primary w-full">
+                  <div class="divider divider-neutral w-full">
                     <span v-if="searchQuery">
                       Suchergebnisse für '{{ searchQuery }}'
                     </span>
@@ -371,6 +378,8 @@
                         :production-details-checked="productionDetailsChecked"
                         :expanded-handles="expandedHandles"
                         :expand-all-handles-checked="expandAllHandlesChecked"
+                        :is-search-loading="isSearchLoading"
+                        :currentRefinements="currentRefinements"
                       />
                     </template>
                   </ais-hits>
@@ -404,6 +413,36 @@ const expandedHandles = ref<Set<string>>(new Set());
 const searchQuery = ref('');
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi.ts';
+// --- Algolia current refinements (active facets) ---
+import { inject, computed } from 'vue';
+
+const aisState = inject<any>('$_ais_state');
+const currentRefinements = computed(() => {
+  if (!aisState || !aisState.results) return [];
+  // Algolia InstantSearch exposes current refinements in the UI state
+  const uiState = aisState.results._rawResults?.[0]?.userData?.[0]?.uiState || aisState.uiState;
+  if (!uiState) return [];
+  // Try to extract all refinements (facets, numeric, etc.)
+  const refinements: any[] = [];
+  Object.entries(uiState).forEach(([key, value]) => {
+    if (typeof value === 'object' && value !== null) {
+      Object.entries(value).forEach(([facet, facetValue]) => {
+        if (Array.isArray(facetValue) && facetValue.length) {
+          refinements.push({ label: facet, values: facetValue });
+        } else if (typeof facetValue === 'object' && facetValue !== null) {
+          // Numeric or other refinements
+          Object.entries(facetValue).forEach(([op, val]) => {
+            refinements.push({ label: facet, values: [`${op}: ${val}`] });
+          });
+        } else if (facetValue) {
+          refinements.push({ label: facet, values: [facetValue] });
+        }
+      });
+    }
+  });
+  console.log('Current refinements:', refinements);
+  return refinements;
+});
 
 const searchClient = Client({
     config: config,
@@ -448,7 +487,16 @@ watch(expandAllChecked, (newValue) => {
 });
 
 watch(viewTypeChecked, (newValue) => {
-    expandAllChecked.value = false;
+  expandAllChecked.value = false;
+
+  // Reset all facets/refinements
+  // Find the clear refinements button and click it
+  setTimeout(() => {
+    const clearBtn = document.querySelector('.ais-ClearRefinements-button');
+    if (clearBtn instanceof HTMLElement) {
+      clearBtn.click();
+    }
+  }, 0);
 });
 
 const expandAllItems = () => {
