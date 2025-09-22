@@ -301,40 +301,45 @@ watch(
     { immediate: true }
 );
 
-function getFilteredItems(manifestation) {
+function getFilteredManifestations(workOrHit: any) {
+    if (!workOrHit) return [];
+
+    // If there are no inner_hits at all, just return the attached manifestations.
+    if (!workOrHit.inner_hits) {
+        return Array.isArray(workOrHit.manifestations) ? workOrHit.manifestations : [];
+    }
+
+    // Try to find an inner_hits bucket that refers to manifestations
+    const mKey = Object.keys(workOrHit.inner_hits).find(k =>
+        k.includes('manifestations')
+    );
+
+    if (mKey) {
+        const hits = workOrHit.inner_hits[mKey]?.hits?.hits || [];
+        if (hits.length > 0) {
+            // Keep any nested inner_hits on each manifestation hit
+            return hits.map(h => ({ ...h._source, inner_hits: h.inner_hits }));
+        }
+    }
+
+    // No manifestations-specific inner_hits -> fall back to full list
+    return Array.isArray(workOrHit.manifestations) ? workOrHit.manifestations : [];
+}
+
+function getFilteredItems(manifestation: any) {
+    if (!manifestation) return [];
     if (!manifestation.inner_hits) {
-        return manifestation.items || [];
+        return Array.isArray(manifestation.items) ? manifestation.items : [];
     }
 
-    const itemsInnerHitsKey = Object.keys(manifestation.inner_hits).find(key => key.includes('items'));
-
-    if (!itemsInnerHitsKey) {
-        return manifestation.items || [];
+    const itemsKey = Object.keys(manifestation.inner_hits).find(k => k.includes('items'));
+    if (!itemsKey) {
+        return Array.isArray(manifestation.items) ? manifestation.items : [];
     }
 
-    const innerHitsItems = manifestation.inner_hits[itemsInnerHitsKey]?.hits?.hits || [];
-
-    return innerHitsItems.map(hit => hit._source);
+    const hits = manifestation.inner_hits[itemsKey]?.hits?.hits || [];
+    return hits.map(h => h._source);
 }
-
-function getFilteredManifestations(item) {
-    if (!item || !item.inner_hits) {
-        return (item && item.manifestations) ? item.manifestations : [];
-    }
-
-    const innerHitsManifestations = item.inner_hits.manifestations_hits?.hits?.hits || [];
-
-    if (innerHitsManifestations.length > 0) {
-    // ✅ Keep inner_hits on each manifestation
-        return innerHitsManifestations.map((hit) => ({
-            ...hit._source,
-            inner_hits: hit.inner_hits
-        }));
-    }
-
-    return [];
-}
-
 
 async function checkEmptyProperties(manifestations: any[]): Promise<void> {
     for (const manifestation of manifestations) {

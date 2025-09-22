@@ -8,15 +8,18 @@
     >
       <NuxtLayout name="partial-grid-2-1-no-heading">
         <template #left>
-          <!-- 01–04 + 06–09 are expected to be handled inside this comp.
-               Make sure inside it you also gate each field with v-if. -->
+          <!-- 01–04 + 06–09: handled inside TopLevelComp
+               New: enforce 08.06.25 order, hide duplicate handle, swap years/places -->
           <DetailWorkVariantTopLevelComp
             v-model="mir"
             :handle="dataObject?._source?.handle"
             :es-timestamp="dataObject?._source?.['@timestamp']"
+            :order-key="'08-06-2025'"
+            :hide-second-handle="true"
+            :swap-years-and-places="true"
           />
 
-          <!-- 05 Produktions-Events (optional) -->
+          <!-- 05 Produktions-Events -->
           <DetailHasEventComp
             v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
             v-model="mir.has_event"
@@ -24,7 +27,7 @@
         </template>
 
         <template #right>
-          <!-- 10 Genre (optional) -->
+          <!-- 10 Genre -->
           <DetailKeyValueListComp
             v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0"
             keytxt="avefi:Genre"
@@ -34,7 +37,7 @@
             :valtxt="mir.has_genre"
           />
 
-          <!-- 11 Schlagwort (optional) -->
+          <!-- 11 Schlagwort -->
           <DetailKeyValueListComp
             v-if="Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
             class="col-span-full mt-1"
@@ -51,7 +54,7 @@
       <pre>{{ mir }}</pre>
     </div>
 
-    <!-- Manifestations block (unchanged), just guarding everywhere -->
+    <!-- Manifestations block (unchanged; fully guarded) -->
     <div
       :class="[Array.isArray(manifestations) && manifestations.length < 1 ? 'flex place-content-center' : '']"
       role="region"
@@ -107,7 +110,7 @@
       </ClientOnly>
     </div>
 
-    <!-- 12 Letzte Bearbeitung (optional) -->
+    <!-- 12 Letzte Bearbeitung -->
     <div
       v-if="dataObject?._source?.['@timestamp']"
       class="w-full mt-4 justify-center items-center"
@@ -125,7 +128,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { FormKit } from '@formkit/vue';
-import type { EventHookOn } from '@vueuse/core';
 import type { WorkVariant, Manifestation, Item } from '../../models/interfaces/av_efi_schema.ts';
 
 const dataJson = defineModel({ type: String, required: true });
@@ -143,7 +145,6 @@ const manifestations = ref<Manifestation[]>(Array.isArray(dataObject?._source?.m
 // --- Dynamic search state ---
 const searchQuery = ref<string[]>([]);
 const loading = ref(false);
-
 function onSearchInput(val: any) {
     searchQuery.value = Array.isArray(val) ? val : (val ? [val] : []);
     loading.value = true;
@@ -180,7 +181,6 @@ function pushValue(arr: string[], v: any) {
         if (s !== '') arr.push(s);
     }
 }
-
 function valuesForManifestation(mf: any): string[] {
     const vals: string[] = [];
     for (const p of SEARCH_WHITELIST) {

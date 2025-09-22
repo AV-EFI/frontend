@@ -105,6 +105,7 @@
               :class="{ hidden: viewTypeChecked }"
               header-text="in_language_code"
               attribute-name="in_language_code"
+              :is-searchable="false"
               category="avefi:Item"
               :tab-index="10"
               :aria-label="$t('in_language_code')"
@@ -120,8 +121,9 @@
             />
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
-              header-text="has_duration"
+              header-text="item_duration_in_minutes"
               attribute-name="item_duration_in_minutes"
+              input-type="numeric"
               category="avefi:Item"
               :is-searchable="false"
               :tab-index="12"

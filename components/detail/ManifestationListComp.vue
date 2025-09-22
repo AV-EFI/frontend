@@ -42,12 +42,13 @@
           <template #left>
             <!-- 01 EFI Handle -->
             <DetailKeyValueComp
-              :id="manifestation.handle.replace('21.11155/', '')"
+              :id="manifestation.handle?.replace?.('21.11155/', '')"
               keytxt="efi"
               :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="true"
             />
+
             <!-- 02 Titel -->
             <DetailKeyValueComp
               keytxt="title"
@@ -55,6 +56,7 @@
               class="col-span-full"
               :clip="false"
             />
+
             <!-- 03 Datenhaltende Institution -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.described_by?.has_issuer_name"
@@ -63,33 +65,36 @@
               class="col-span-full"
               :clip="false"
             />
+
             <!-- 04 Web-Ressource -->
             <div
-              v-if="manifestation?.has_record?.has_webresource"
+              v-if="webresources(manifestation).length"
               class="col-span-full flex items-center gap-1"
             >
               <MicroLabelComp label-text="webresource" />
               <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
             </div>
             <div
-              v-for="webresource in manifestation?.has_record?.has_webresource"
-              :key="webresource"
+              v-for="(webresource, idx) in webresources(manifestation)"
+              :key="webresource + '-' + idx"
               class="col-span-full"
             >
               <a
-                v-if="webresource"
                 :href="webresource"
                 target="_blank"
+                rel="noopener"
                 :title="safeT('webresource')"
                 :alt="safeT('webresource')"
-                class="link link-primary dark:link-accent"
+                class="link link-primary dark:link-accent inline-flex items-center gap-1"
               >
-                <span>{{ safeT('webresource') }} <Icon name="formkit:linkexternal" /></span>
+                <span>{{ safeT('webresource') }}<span v-if="webresources(manifestation).length > 1">&nbsp;{{ idx + 1 }}</span></span>
+                <Icon name="formkit:linkexternal" />
               </a>
             </div>
+
             <!-- 05 Notiz -->
             <DetailKeyValueListComp
-              v-if="manifestation?.has_record?.has_note"
+              v-if="Array.isArray(manifestation?.has_record?.has_note) && manifestation.has_record.has_note.length"
               class="col-span-full text-justify md:pr-2"
               keytxt="avefi:Note"
               :valtxt="manifestation?.has_record?.has_note"
@@ -101,12 +106,12 @@
           <template #right>
             <!-- 06 Sprache -->
             <MicroLabelComp
-              v-if="manifestation?.has_record?.in_language"
+              v-if="manifestation?.has_record?.in_language?.length"
               label-text="avefi:Language"
               class="w-full"
             />
             <ul
-              v-if="manifestation?.has_record?.in_language"
+              v-if="manifestation?.has_record?.in_language?.length"
               class="w-full mt-2"
             >
               <li
@@ -116,13 +121,13 @@
                 <span v-if="lang?.code">{{ $t(lang.code) }}</span>
                 <span v-else>{{ $t('unknownLanguage') }}</span>
                 <span
-                  v-for="usage in lang?.usage"
+                  v-for="usage in (lang?.usage || [])"
                   :key="usage"
                 >&nbsp;({{ $t(usage) }})</span>
               </li>
             </ul>
 
-            <!-- 07 Ton -->
+            <!-- 07 Ton (Sound Type) -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_sound_type"
               keytxt="has_sound_type"
@@ -131,7 +136,7 @@
               class="w-full mt-2"
             />
 
-            <!-- 08 Farbe -->
+            <!-- 08 Farbe (Colour Type) -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_colour_type"
               keytxt="has_colour"
@@ -200,7 +205,6 @@ interface AVefiFEManifestation {
   index: string;
   _score: number;
 }
-
 interface Source {
   handle: string;
   kip: string;
@@ -218,17 +222,13 @@ onBeforeUnmount(() => {
 function handleEscKey(event: KeyboardEvent) {
     if (event.key === 'Escape') {
         const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle');
-        checkboxes.forEach((cb: any) => {
-            cb.checked = false;
-        });
+        checkboxes.forEach((cb: any) => { cb.checked = false; });
     }
 }
 
 function safeT(input: unknown): string {
-    if (typeof input !== 'string' || !input.trim()) return String(input);
-    try {
-        return t(input);
-    } catch (err) {
+    if (typeof input !== 'string' || !input.trim()) return String(input ?? '');
+    try { return t(input); } catch (err) {
         console.warn('Invalid translation key:', input, err);
         return String(input ?? '');
     }
@@ -257,6 +257,12 @@ function formatDuration(has_value: any): string {
         }
     }
     return has_value;
+}
+
+function webresources(m: any): string[] {
+    const wr = m?.has_record?.has_webresource;
+    if (!wr) return [];
+    return Array.isArray(wr) ? wr.filter(Boolean) : [wr];
 }
 </script>
 

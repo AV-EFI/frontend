@@ -25,31 +25,47 @@
               aria-hidden="true"
             />
           </div>
+
           <span class="inline-block flex-wrap">
             <template v-if="Array.isArray(entry.text)">
-              <span>
-                <span>{{ entry.text[0]?.text }}</span>
+              <!-- use first + rest (with line breaks) but respect expansion -->
+              <span v-if="visibleSegments(entry).length > 0">
+                <span>{{ visibleSegments(entry)[0]?.text }}</span>
                 <span
-                  v-if="entry.text[0]?.hilite"
-                  :title="`${$t('matchedField')}: ${entry.text[0]?.text}`"
+                  v-if="visibleSegments(entry)[0]?.hilite"
+                  :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
                   class="badge badge-xs bg-highlight text-white ml-1"
                 />
-                <span v-if="entry.text.length > 1">, </span>
+                <span v-if="visibleSegments(entry).length > 1">, </span>
               </span>
+
               <template
-                v-for="(segment, i) in entry.text.slice(1)"
+                v-for="(segment, i) in visibleSegments(entry).slice(1)"
                 :key="i + 1"
               >
                 <br>
-                <span class="">{{ segment.text }}</span>
+                <span>{{ segment.text }}</span>
                 <span
                   v-if="segment.hilite"
                   :title="`${$t('matchedField')}: ${segment.text}`"
                   class="badge badge-xs bg-highlight text-white ml-1"
                 />
-                <span v-if="i < entry.text.length - 2">, </span>
+                <span v-if="i < visibleSegments(entry).length - 2">, </span>
               </template>
+
+              <!-- toggle -->
+              <button
+                v-if="hasOverflow(entry)"
+                type="button"
+                class="badge badge-accent badge-xs text-xs ml-1"
+                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                @click="toggleExpand(entry.key)"
+              >
+                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})` }}
+              </button>
             </template>
+
             <template v-else>
               <span>{{ entry.text }}</span>
             </template>
@@ -81,10 +97,10 @@
           <span class="inline-block flex-wrap">
             <template v-if="Array.isArray(entry.text)">
               <template
-                v-for="(segment, i) in entry.text"
+                v-for="(segment, i) in visibleSegments(entry)"
                 :key="i"
               >
-                <span :class="{'line-clamp-1': entry.text.length < 2}">
+                <span :class="{'line-clamp-1': visibleSegments(entry).length < 2}">
                   {{ segment.text }}
                 </span>
                 <span
@@ -92,9 +108,22 @@
                   :title="`${$t('matchedField')}: ${segment.text}`"
                   class="badge badge-xs bg-highlight text-white ml-1"
                 />
-                <span v-if="i < entry.text.length - 1">, </span>
+                <span v-if="i < visibleSegments(entry).length - 1">, </span>
               </template>
+
+              <!-- toggle -->
+              <button
+                v-if="hasOverflow(entry)"
+                type="button"
+                class="badge badge-neutral badge-outline text-white badge-sm text-xs ml-1"
+                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                @click="toggleExpand(entry.key)"
+              >
+                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})` }}
+              </button>
             </template>
+
             <template v-else>
               <span class="line-clamp-1">
                 {{ entry.text }}
@@ -111,9 +140,31 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
-const showAllSubjects = ref(false);
 
+// Note: expects i18n keys 'showMore' and 'showLess' to exist.
 const props = defineProps<{ data: any, level: 'work' | 'manifestation' | 'item', iconColor: string }>();
+
+// Track expanded state per entry key
+const expandedMap = ref<Record<string, boolean>>({});
+
+function isExpanded(key: string) {
+    return !!expandedMap.value[key];
+}
+function toggleExpand(key: string) {
+    expandedMap.value[key] = !expandedMap.value[key];
+}
+function hasOverflow(entry: { key: string; text: any }) {
+    return Array.isArray(entry.text) && entry.text.length > 5;
+}
+function hiddenCount(entry: { key: string; text: any }) {
+    if (!Array.isArray(entry.text)) return 0;
+    return Math.max(0, entry.text.length - 5);
+}
+function visibleSegments(entry: { key: string; text: any }) {
+    if (!Array.isArray(entry.text)) return entry.text;
+    if (!hasOverflow(entry)) return entry.text;
+    return isExpanded(entry.key) ? entry.text : entry.text.slice(0, 5);
+}
 
 // Only use tabler icons
 const ICONS = {
@@ -151,7 +202,7 @@ function buildIconEntries() {
     const d = props.data;
     const level = props.level;
 
-    // Directors/Editors (top-level & parents already denormalized to string[] per mapping)
+    // Directors/Editors
     if (d?.directors_or_editors) {
         const directors = Array.isArray(d.directors_or_editors) ? d.directors_or_editors : [d.directors_or_editors];
         entries.push({
@@ -162,7 +213,7 @@ function buildIconEntries() {
         });
     }
 
-    // Castmembers (top-level text or string[])
+    // Castmembers
     if (d?.castmembers) {
         const cast = Array.isArray(d.castmembers) ? d.castmembers : [d.castmembers];
         entries.push({
@@ -173,7 +224,7 @@ function buildIconEntries() {
         });
     }
 
-    // Years (top-level convenience) or production_in_year integer_range
+    // Years or production_in_year
     if (d?.years) {
         const years = Array.isArray(d.years) ? d.years : [d.years];
         entries.push({
@@ -205,7 +256,7 @@ function buildIconEntries() {
         }
     }
 
-    // Language (per mapping: object { code, usage } lives under has_record.in_language on ITEMS)
+    // Language (item)
     if (level === 'item') {
         const inLang = d?.has_record?.in_language;
         const arr = Array.isArray(inLang) ? inLang : (inLang ? [inLang] : []);
@@ -226,10 +277,10 @@ function buildIconEntries() {
         }
     }
 
-    // Colour (mapping: has_record.has_colour_type at item & manifestation levels)
+    // Colour
     const colour =
     d?.has_record?.has_colour_type ||
-    d?.has_colour_type; // keep a mild fallback in case data is denormalized
+    d?.has_colour_type;
     if (colour) {
         entries.push({
             key: 'colour',
@@ -239,7 +290,7 @@ function buildIconEntries() {
         });
     }
 
-    // Sound (mapping: has_record.has_sound_type at item & manifestation levels)
+    // Sound
     const sound =
     d?.has_record?.has_sound_type ||
     d?.has_sound_type;
@@ -253,7 +304,7 @@ function buildIconEntries() {
         });
     }
 
-    // Duration (objects with has_value across item & manifestation has_record)
+    // Duration
     const rawDuration = d?.has_record?.has_duration?.has_value || d?.has_duration?.has_value;
     if (rawDuration) {
         const dur = formatDuration(rawDuration);
@@ -265,7 +316,7 @@ function buildIconEntries() {
         });
     }
 
-    // Extent (objects with has_value [+ has_unit] across item & manifestation has_record)
+    // Extent
     const extentVal = d?.has_record?.has_extent?.has_value || d?.has_extent?.has_value;
     const extentUnit = d?.has_record?.has_extent?.has_unit || d?.has_extent?.has_unit;
     if (extentVal) {
@@ -278,7 +329,7 @@ function buildIconEntries() {
         });
     }
 
-    // Element type (item only)
+    // Element type (item)
     if (level === 'item') {
         const elementType = d?.has_record?.element_type;
         if (elementType) {
@@ -291,7 +342,7 @@ function buildIconEntries() {
         }
     }
 
-    // Format types (item only, mapping: has_record.has_format.{category,type})
+    // Format types (item)
     if (level === 'item') {
         const hasFormat = d?.has_record?.has_format;
         const formats = Array.isArray(hasFormat) ? hasFormat : (hasFormat ? [hasFormat] : []);
@@ -306,7 +357,7 @@ function buildIconEntries() {
         }
     }
 
-    // Event types (manifestation only, mapping: has_record.has_event[].type)
+    // Event types (manifestation)
     if (level === 'manifestation') {
         const hasEvent = d?.has_record?.has_event;
         const events = Array.isArray(hasEvent) ? hasEvent : (hasEvent ? [hasEvent] : []);
@@ -321,7 +372,7 @@ function buildIconEntries() {
         }
     }
 
-    // Genre (work only, mapping: has_record.has_genre[].has_name)
+    // Genre (work)
     if (level === 'work') {
         const genres = Array.isArray(d?.has_record?.has_genre)
             ? d.has_record.has_genre
@@ -336,7 +387,7 @@ function buildIconEntries() {
         }
     }
 
-    // Subjects (work only, mapping: top-level 'subjects' is text/keyword; keep fallback for array)
+    // Subjects (work)
     if (level === 'work') {
         const subjects = Array.isArray(d?.subjects) ? d.subjects : (d?.subjects ? [d.subjects] : []);
         if (subjects.length) {
@@ -349,7 +400,7 @@ function buildIconEntries() {
         }
     }
 
-    // Issuer (available wherever has_record.described_by exists; keep your display choice)
+    // Issuer (manifestation)
     if (level === 'manifestation') {
         const issuer = d?.has_record?.described_by?.has_issuer_name;
         if (issuer) {
@@ -362,7 +413,7 @@ function buildIconEntries() {
         }
     }
 
-    // Located_in (work level only via events; mapping has no top-level 'located_in')
+    // Located_in (work)
     if (level === 'work') {
         const workEvents = Array.isArray(d?.has_record?.has_event) ? d.has_record.has_event : (d?.has_record?.has_event ? [d.has_record.has_event] : []);
         const locs = workEvents.flatMap((ev: any) => {
@@ -371,7 +422,6 @@ function buildIconEntries() {
         });
         const locTexts = locs.map((loc: any) => {
             if (!loc) return { text: '', hilite: false };
-            // Prefer has_name, then same_as.id, then category
             const label = loc.has_name
                 ? t(loc.has_name)
                 : (loc.same_as?.id || (loc.same_as?.category ? t(loc.same_as.category) : (loc.category ? t(loc.category) : '')));
@@ -387,7 +437,7 @@ function buildIconEntries() {
         }
     }
 
-    // Sort entries according to config order for each level
+    // Order by level
     let orderArr: string[] = [];
     if (level === 'work') {
         orderArr = [
@@ -422,7 +472,7 @@ function buildIconEntries() {
     }
 
     const sorted = [
-        ...orderArr.map(key => entries.find(e => e.key === key)).filter(Boolean),
+        ...orderArr.map(key => entries.find(e => e.key === key)).filter(Boolean) as any[],
         ...entries.filter(e => !orderArr.includes(e.key))
     ];
     return sorted;

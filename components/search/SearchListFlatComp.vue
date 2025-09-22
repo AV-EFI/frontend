@@ -157,7 +157,7 @@
               >
                 <div class="card-body p-2 flex flex-col gap-2">
                   <!-- Primary (item-level) info -->
-                  <div class="flex flex-col items-start gap-1 md:h-48">
+                  <div class="flex flex-col items-start gap-1 md:min-h-48">
                     <MicroBadgeCategoryComp
                       category="avefi:Item"
                       :dense="false"

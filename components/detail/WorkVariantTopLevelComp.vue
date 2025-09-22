@@ -1,49 +1,31 @@
 <template>
   <NuxtLayout name="partial-grid-1">
     <template #center>
+      <!-- 03/04 GND, Filmportal, etc. (Same As) -->
       <div
-        v-if="workVar.is_part_of"
+        v-if="Array.isArray(workVar?.same_as) && workVar.same_as.length"
         class="col-span-full"
         role="region"
-        :aria-label="$t('isPartOf')"
+        :aria-label="`${$t('same_as')}`"
       >
-        <MicroLabelComp
+        <div
+          v-for="sas in workVar.same_as"
+          :key="sas?.id"
           class="col-span-full"
-          :label-text="$t('isPartOf')"
-        />
-        <ul>
-          <li
-            v-for="ipo in workVar.is_part_of"
-            :key="ipo.id"
-          >
-            <router-link
-              target="_blank"
-              :to="`/film/${ipo.id.replace('21.11155/', '')}`"
-              class="link lin-primary"
-              :aria-label="`${ipo?.id} (${ $t(ipo.category) })`"
-            >
-              {{ ipo?.id }}&nbsp;({{ $t(ipo.category) }})
-            </router-link>
-          </li>
-        </ul>
+          role="group"
+          :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
+        >
+          <DetailKeyValueComp
+            :keytxt="sas?.category"
+            :valtxt="sas?.id"
+            :same-as="true"
+          />
+        </div>
       </div>
 
-      <div
-        v-for="sas in workVar.same_as"
-        :key="sas.id"
-        class="col-span-full"
-        role="group"
-        :aria-label="`${$t('same_as')} ${$t(sas.category)}`"
-      >
-        <DetailKeyValueComp
-          :keytxt="sas.category"
-          :valtxt="sas.id"
-          :same-as="true"
-        />
-      </div>
-
+      <!-- 05 Alternative Titel -->
       <DetailKeyValueListComp
-        v-if="workVar.has_alternative_title"
+        v-if="Array.isArray(workVar?.has_alternative_title) && workVar.has_alternative_title.length"
         class="col-span-full mb-2"
         keytxt="AlternativeTitle"
         :valtxt="workVar.has_alternative_title"
@@ -51,21 +33,47 @@
         role="region"
         :aria-label="$t('AlternativeTitle')"
       />
-    </template>    
+
+      <!-- (Optional) Episode/Teil-Indikator? -> is_part_of -->
+      <div
+        v-if="Array.isArray(workVar?.is_part_of) && workVar.is_part_of.length"
+        class="col-span-full"
+        role="region"
+        :aria-label="$t('isPartOf')"
+      >
+        <MicroLabelComp
+          class="col-span-full"
+          label-text="isPartOf"
+        />
+        <ul>
+          <li
+            v-for="ipo in workVar.is_part_of"
+            :key="ipo?.id"
+          >
+            <router-link
+              target="_blank"
+              rel="noopener"
+              :to="`/film/${(ipo?.id || '').replace('21.11155/', '')}`"
+              class="link link-primary"
+              :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
+            >
+              {{ ipo?.id }}&nbsp;({{ $t(ipo?.category) }})
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </template>
   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
+import type { PropType } from 'vue';
 import type { WorkVariant } from '../../models/interfaces/av_efi_schema';
-const workVar = defineModel({type: Array as PropType<WorkVariant>, required: true});
+
+const workVar = defineModel({ type: Object as PropType<WorkVariant>, required: true });
+
 const props = defineProps({
-    "handle": {
-        type: String,
-        required: true
-    },
-    "esTimestamp": {
-        type: String,
-        required: true
-    }
+    handle: { type: String, required: true },
+    esTimestamp: { type: String, required: true }
 });
 </script>

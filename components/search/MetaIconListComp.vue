@@ -209,10 +209,12 @@ function buildMetaEntries(): MetaEntry[] {
         entries.push({
             key: 'extent',
             icon: 'tabler:ruler',
-            text: label,
+            // highlight on the raw extent value, display the pretty label
+            text: [highlightIfActive('has_extent_has_value', extent, label)],
             aria: `${$t('avefi:Extent')}: ${label}`
         });
     }
+
 
     // ELEMENT TYPE (item) — primary path + fallback
     const elementType = getFirstString(props.data, [
@@ -240,15 +242,21 @@ function buildMetaEntries(): MetaEntry[] {
         });
     }
 
-    // EVENT TYPE (manifestation only; harmless on items)
-    const eventTypes = toArray(props.data?.has_record?.has_event)
+    // EVENT TYPE (manifestation + resilient fallbacks)
+    const eventTypes = [
+        ...toArray(props.data?.has_record?.has_event), // item/denormalized or some backends
+        ...toArray(props.data?.has_event),             // canonical manifestation path
+    ]
         .map((e: any) => e?.type)
         .filter(Boolean) as string[];
+
     if (eventTypes.length) {
         entries.push({
             key: 'eventType',
             icon: 'tabler:calendar-event',
-            text: eventTypes.map((tpe: string) => highlightIfActive('manifestation_event_type', tpe, $t(tpe))),
+            text: eventTypes.map((tpe: string) =>
+                highlightIfActive('manifestation_event_type', tpe, $t(tpe))
+            ),
             aria: $t('manifestation_event_type') + ': ' + eventTypes.map((e: string) => $t(e)).join(', ')
         });
     }

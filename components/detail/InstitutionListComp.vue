@@ -51,7 +51,7 @@
               <div class="mb-4 p-2 flex flex-col md:flex-row justify-between w-full">
                 <div class="w-full md:w-1/2 flex flex-row justify-start">
                   <h2 class="font-bold text-gray-800 dark:text-gray-200">
-                    {{ $t('activefiltering') }}
+                    {{ $t('activeFacets') }}
                   </h2>
                 </div>
                 <div class="w-full md:w-1/2 flex flex-row justify-end">
@@ -236,7 +236,7 @@ const props = defineProps({
     indexName: {
         type: String,
         required: true,
-        default: 'ux-21.11155-denormalised-work'
+        default: '21.11155-denormalised-work'
     },
 });
 

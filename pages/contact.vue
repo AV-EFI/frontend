@@ -228,21 +228,13 @@ definePageMeta({
             <div class="collapse-content bg-slate-50 dark:bg-slate-900 dark:text-white">
               {{ $t('contact.dataProvidersContent') }}
               <ul>
-                <li class="link">
-                  <a
-                    href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf"
-                    target="_blank"
-                  >
-                    {{ $t('howToDoc') }}
-                  </a>
+                <li
+                  class="link"
+                >
+                  <span v-html="$t('howToDoc')" />
                 </li>
                 <li class="link">
-                  <a
-                    href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf"
-                    target="_blank"
-                  >
-                    {{ $t('manual') }}
-                  </a>
+                  <span v-html="$t('manual')" />
                 </li>
               </ul>
             </div>

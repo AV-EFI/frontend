@@ -39,6 +39,10 @@ export const config: SearchkitConfig = {
             "years",
             "has_record.has_event.located_in",
 
+            // ---- Manifestation-level event type (needed for rendering) ----
+            "manifestations.has_record.has_event.type",
+            "manifestations.has_event.type",
+
             // ---- Manifestation basics that may still be useful in details ----
             "manifestations.handle",
             "manifestations.has_record.described_by.has_issuer_name",
@@ -60,7 +64,7 @@ export const config: SearchkitConfig = {
             "production_in_year.gte",
         ],
         facet_attributes: [
-            // ----- Work-level numeric filters (keep as-is if your UI uses them) -----
+            // ----- Work-level numeric filters -----
             {
                 attribute: "production_year_start",
                 field: "production_in_year.lte",
@@ -99,7 +103,7 @@ export const config: SearchkitConfig = {
                 type: "string",
             },
 
-            // Work-level: event locations (relative to nested path)
+            // Work-level: event locations (nested)
             {
                 attribute: "located_in_has_name",
                 field: "located_in.has_name.keyword",
@@ -107,7 +111,7 @@ export const config: SearchkitConfig = {
                 nestedPath: "has_record.has_event",
             },
 
-            // ----- Manifestation-level facets we keep -----
+            // ----- Manifestation-level facets -----
             {
                 attribute: "manifestation_event_type",
                 field: "type.keyword",
@@ -121,7 +125,7 @@ export const config: SearchkitConfig = {
                 nestedPath: "manifestations",
             },
 
-            // ----- EXEMPLAR-LEVEL (ITEMS) -----
+            // ----- Item-level (exemplars) -----
             {
                 attribute: "has_format_type",
                 field: "has_record.has_format.type.keyword",
@@ -147,19 +151,19 @@ export const config: SearchkitConfig = {
                 nestedPath: "manifestations.items",
             },
             {
-                attribute: "has_duration_has_value", // duration (string)
+                attribute: "has_duration_has_value",
                 field: "has_record.has_duration.has_value.keyword",
                 type: "string",
                 nestedPath: "manifestations.items",
             },
             {
-                attribute: "has_extent_has_value", // length (string)
+                attribute: "has_extent_has_value",
                 field: "has_record.has_extent.has_value.keyword",
                 type: "string",
                 nestedPath: "manifestations.items",
             },
             {
-                attribute: "item_duration_in_minutes", // duration (numeric)
+                attribute: "item_duration_in_minutes",
                 field: "duration_in_minutes",
                 type: "numeric",
                 nestedPath: "manifestations.items",
