@@ -81,6 +81,7 @@ export default defineNuxtConfig({
             KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
             KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET,
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
+            GITHUB_TOKEN: process.env.GITHUB_TOKEN,
         }
     },
     //https://nuxt.com/docs/guide/concepts/rendering

@@ -48,6 +48,9 @@
               <li class="h-12 flex justify-center">
                 <a href="/contact">{{ $t("help") }}</a>
               </li>
+              <li class="h-12 flex justify-center">
+                <a href="/github-export">{{ $t("githubProjectExport") }}</a>
+              </li>
               <li
                 v-if="data"
                 class="h-12 flex justify-center"
@@ -182,6 +185,9 @@
             </li>
             <li class="h-12 flex justify-center">
               <a href="/contact">{{ $t("help") }}</a>
+            </li>
+            <li class="h-12 flex justify-center">
+              <a href="/github-export">{{ $t("githubProjectExport") }}</a>
             </li>
             <li class="h-12 flex justify-center">
               <MicroSendMailButt />
