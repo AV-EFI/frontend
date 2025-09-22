@@ -64,6 +64,37 @@ bun run preview
 [Deployment documentation]
 (https://nuxt.com/docs/getting-started/deployment)
 
+## GitHub Project Board Export
+
+This application includes functionality to export user stories and project items from GitHub project boards. The feature integrates with GitHub's GraphQL API to fetch project data and provides export capabilities in CSV, JSON, and XML formats.
+
+### Configuration
+
+To use the GitHub project export feature, you need to set up a GitHub Personal Access Token:
+
+1. Create a personal access token at https://github.com/settings/tokens
+2. Grant the following permissions:
+   - `repo` (for accessing repository data)
+   - `read:project` (for accessing project boards)
+3. Add the token to your environment variables:
+   ```bash
+   GITHUB_TOKEN=your_github_token_here
+   ```
+
+### Usage
+
+1. Navigate to `/github-export` in the application
+2. Click the "GitHub Project Export" button
+3. Choose your preferred export format (CSV, JSON, or XML)
+4. The project board data will be downloaded automatically
+
+The export includes:
+- Issue and pull request details
+- Custom field values from the project board
+- Assignees and labels
+- Creation and update timestamps
+- Project status information
+
 ## More Information
 
 For more information about the entire project, visit [AVefi Project](https://projects.tib.eu/av-efi).
