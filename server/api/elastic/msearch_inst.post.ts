@@ -1,6 +1,5 @@
 import Client, { SearchkitConfig } from '@searchkit/api';
 import {config} from '@/searchConfig_avefi';
-import { getServerSession } from '#auth';
 
 
 const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:any) => {
@@ -12,10 +11,10 @@ const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:a
 
 export default defineEventHandler(async (event) => {
 
-    const session = await getServerSession(event);
-    if (!session) {
-        return { status: 'unauthenticated!' };
-    }
+    //    const session = await getServerSession(event);
+    //    if (!session) {
+    //        return { status: 'unauthenticated!' };
+    //    }
     const apiClient = Client(config, {debug: true});
     const body = await readBody(event);
     const institutionid:string = `https://w3id.org/isil/${session?.user?.institution}`;

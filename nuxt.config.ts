@@ -17,8 +17,6 @@ export default defineNuxtConfig({
         transpile: ['vue-diff']
     },
     modules: [
-        '@sidebase/nuxt-auth',
-        //'@nuxtjs/eslint-module',
         '@nuxtjs/i18n',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode',
@@ -71,7 +69,9 @@ export default defineNuxtConfig({
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
             KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
-            WMI_CACHE_KEY: 'WMI_CACHE_KEY'
+            WMI_CACHE_KEY: 'WMI_CACHE_KEY',
+            KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
+
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,
@@ -95,6 +95,8 @@ export default defineNuxtConfig({
         "/protected/institutionlist": {ssr:false},
         "/protected/dashboard": {ssr:false},
         "/protected/mergetool": {ssr:false},
+        "/normdata": {ssr:false},
+        "/protected/normdata": {ssr:false},
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },

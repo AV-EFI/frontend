@@ -108,7 +108,7 @@
                   :title="`${$t('matchedField')}: ${segment.text}`"
                   class="badge badge-xs bg-highlight text-white ml-1"
                 />
-                <span v-if="i < visibleSegments(entry).length - 1">, </span>
+                <span v-if="i < visibleSegments(entry).length - 1">; </span>
               </template>
 
               <!-- toggle -->
