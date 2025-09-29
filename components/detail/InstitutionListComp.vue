@@ -62,7 +62,7 @@
                     }"
                   >
                     <template #resetLabel>
-                      <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                      <Icon name="tabler:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                     </template>
                   </ais-clear-refinements>
                 </div>
@@ -92,7 +92,7 @@
                           {{ $t(refinement.label) }}
                           <Icon
                             class="text-lg"
-                            name="formkit:trash"
+                            name="tabler:trash"
                           />
                         </a>
                       </li>
@@ -106,7 +106,7 @@
                   :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                  <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
                 <div
                   class="w-full flex flex-col md:flex-row justify-between md:justify-between p-2 mb-2"
@@ -121,7 +121,7 @@
                     <ais-stats>
                       <template #default="{ nbHits }">
                         <h2 class="font-bold text-gray-800 dark:text-gray-200">
-                          {{ nbHits }} {{ $t('results') }}
+                          {{ nbHits }} {{ $t('workVariants') }}
                         </h2>
                       </template>
                     </ais-stats>
@@ -223,12 +223,12 @@
 
 <script setup lang="ts">
 
-const {$toggleFacetDrawerState}:any = useNuxtApp();
+const {$toggleFacetDrawerState} = useNuxtApp();
 
 const viewTypeChecked = ref(false);
 const expandAllChecked = ref(false);
 
-const props = defineProps({
+defineProps({
     searchClient: {
         type: Object,
         required: true,
@@ -240,30 +240,34 @@ const props = defineProps({
     },
 });
 
-let refineTimeout;
+let refineTimeout: ReturnType<typeof setTimeout>;
 
-watch(expandAllChecked, (newValue) => {
+
+watch(expandAllChecked, () => {
     expandAllItems();
 });
 
-watch(viewTypeChecked, (newValue) => {
+watch(viewTypeChecked, () => {
     expandAllChecked.value = false;
 });
 
 const expandAllItems = () => {
     const expandIcons = document.querySelectorAll('.expand-icon');
+
     expandIcons.forEach(icon => {
-        icon.click();
+        (icon as HTMLElement).click(); // ✅ tell TS it's an HTMLElement
     });
+
     setTimeout(() => {
         const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+
         checkboxes.forEach(checkbox => {
-            checkbox.checked = !checkbox.checked;
+            (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked; // ✅ cast to HTMLInputElement
         });
     }, 300);
 };
 
-const handleRefine = (refine, value) => {
+const handleRefine = (refine: (value: string) => void, value: string) => {
     clearTimeout(refineTimeout);
     refineTimeout = setTimeout(() => {
         refine(value);

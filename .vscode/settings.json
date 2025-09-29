@@ -1,10 +1,28 @@
 {
-    "eslint.run": "onSave",
-    "eslint.options": {      
-    },
-    "vs-code-prettier-eslint.prettierLast": true,
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "search.exclude": {
-        "**/node_modules": false
-    }
+  // Use ESLint as the formatter
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "eslint.format.enable": true,
+
+  // Run fixAll on save
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.codeActionsOnSave.mode": "all",
+  "editor.codeActionsOnSaveTimeout": 5000,
+
+  // You use .eslintrc.cjs (legacy config)
+  "eslint.useFlatConfig": false,
+
+  // Ensure the right root is used (mono-repo safe)
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+
+  // Filetypes to lint/format
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+
+  // Use your project TS
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // Avoid formatter conflicts
+  "prettier.enable": false
 }

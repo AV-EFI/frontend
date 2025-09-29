@@ -60,14 +60,14 @@
                 @click.stop="navigateToItem(m)"
               >
                 <Icon
-                  name="mdi:eye-outline"
+                  name="tabler:eye"
                   class="w-4 h-4 mr-1"
                 />
               </button>
             </div>
             <div class="flex items-center px-1 self-start sm:self-center">
               <Icon
-                name="mdi:chevron-up"
+                name="tabler:chevron-up"
                 class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
                 :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
                 aria-hidden="true"
@@ -217,7 +217,7 @@
                   @click="navigateToItem(item)"
                 >
                   <Icon
-                    name="mdi:eye-outline"
+                    name="tabler:eye"
                     class="w-4 h-4 mr-1"
                   />
                 </button>
@@ -253,7 +253,7 @@
 <script setup lang="ts">
 
 const props = defineProps({
-    manifestations: { type: Array, required: true },
+    manifestations: { type: Array<IAVefiManifestation>, required: true },
     getFilteredItems: { type: Function, required: true },
     workVariantHandle: { type: String, required: false, default: null }
 });
@@ -297,7 +297,7 @@ function prevItemPage() {
     if (itemPage.value > 0) itemPage.value--;
 }
 
-const navigateToItem = (item: any) => {
+const navigateToItem = (item: IAVefiManifestation) => {
     const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
     window.open(itemPath, '_blank');
 };

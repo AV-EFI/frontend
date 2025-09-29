@@ -1,12 +1,28 @@
 module.exports = {
-    root: true,
-    extends: "@nuxt/eslint-config",
-    rules: {
-        "consistent-return": 2,
-        "indent"           : [1, 4],
-        "no-else-return"   : 1,
-        "semi"             : [1, "always"],
-        "space-unary-ops"  : 2,
-        "camelcase"        : 1
-    }
-};
+  root: true,
+  extends: [
+    '@nuxt/eslint-config',
+    'plugin:prettier/recommended',
+  ],
+  rules: {
+    'prettier/prettier': 'error',
+    'consistent-return': 'error',
+    'indent': ['warn', 4],
+    'no-else-return': 'warn',
+    'semi': ['warn', 'always'],
+    'space-unary-ops': 'error',
+    'camelcase': 'warn',
+    'no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'error'
+  },
+  ignorePatterns: [
+    'models/interfaces/**',
+    'scripts/**',
+    'composables/**/*.html',
+    'composables/assets/**',
+  ],
+  overrides: [
+    { files: ['tailwind.config.ts'], rules: { '@typescript-eslint/no-require-imports': 'off' } },
+    { files: ['utils/clipboard.ts'], rules: { '@typescript-eslint/no-unused-vars': 'off' } },
+  ],
+}

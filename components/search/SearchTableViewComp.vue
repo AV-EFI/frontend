@@ -174,7 +174,7 @@
                     target="_blank"
                     class="link link-primary dark:link-accent text-xs"
                   >
-                    <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
+                    <Icon name="tabler:external-link" />&nbsp;{{ $t('webresource') }}
                   </a>
                 </td>
               </tr>
@@ -186,8 +186,9 @@
   </EasyDataTable>
 </template>
 <script lang="ts" setup>
-import type {MovingImageRecordContainer} from '../../models/interfaces/av_efi_schema.ts';
-const props = defineProps({
+import type { MovingImageRecordContainer } from '~/models/interfaces/schema/avefi_schema.ts';
+
+defineProps({
     'items': {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
         required:true

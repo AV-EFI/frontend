@@ -1,0 +1,181 @@
+{
+  "handle": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.handle"
+  },
+  "directors_or_editors": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.directors_or_editors"
+  },
+  "castmembers": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.castmembers"
+  },
+  "kip": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.kip"
+  },
+  "production": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.production"
+  },
+  "production_in_year": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.production_in_year"
+  },
+  "category": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.category",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.category"
+  },
+  "described_by": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.described_by",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.described_by"
+  },
+  "has_alternative_title": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_alternative_title",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_alternative_title"
+  },
+  "has_event": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_event",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_event"
+  },
+  "has_form": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_form",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_form"
+  },
+  "has_genre": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_genre",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_genre"
+  },
+  "has_identifier": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_identifier",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_identifier"
+  },
+  "has_primary_title": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_primary_title",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_primary_title"
+  },
+  "has_source_key": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_source_key",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_source_key"
+  },
+  "has_subject": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_subject",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_subject"
+  },
+  "is_part_of": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.is_part_of",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.is_part_of"
+  },
+  "is_variant_of": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.is_variant_of",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.is_variant_of"
+  },
+  "same_as": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.same_as",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.same_as"
+  },
+  "type": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.type",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.type"
+  },
+  "variant_type": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.variant_type",
+    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.variant_type"
+  },
+  "has_colour_type": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_colour_type",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_colour_type"
+  },
+  "has_duration": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_duration",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_duration"
+  },
+  "has_extent": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_extent",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_extent"
+  },
+  "has_format": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_format",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_format"
+  },
+  "has_note": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_note",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_note"
+  },
+  "has_sound_type": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_sound_type",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_sound_type"
+  },
+  "has_webresource": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.has_webresource",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_webresource"
+  },
+  "in_language": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.in_language",
+    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.in_language"
+  },
+  "has_item": {
+    "level": "Manifestation",
+    "path": "Manifestation.has_item",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].Manifestation.has_item"
+  },
+  "is_manifestation_of": {
+    "level": "Manifestation",
+    "path": "Manifestation.is_manifestation_of",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].Manifestation.is_manifestation_of"
+  },
+  "element_type": {
+    "level": "Item",
+    "path": "Item.element_type",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.element_type"
+  },
+  "has_access_status": {
+    "level": "Item",
+    "path": "Item.has_access_status",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_access_status"
+  },
+  "has_frame_rate": {
+    "level": "Item",
+    "path": "Item.has_frame_rate",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_frame_rate"
+  },
+  "is_copy_of": {
+    "level": "Item",
+    "path": "Item.is_copy_of",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.is_copy_of"
+  },
+  "is_derivative_of": {
+    "level": "Item",
+    "path": "Item.is_derivative_of",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.is_derivative_of"
+  },
+  "is_item_of": {
+    "level": "Item",
+    "path": "Item.is_item_of",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.is_item_of"
+  }
+}

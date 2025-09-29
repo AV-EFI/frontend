@@ -27,7 +27,7 @@
             :aria-label="$t('searchcontent')"
           >
             <div
-              class="search-panel__results w-full py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md px-2"
+              class="search-panel__results w-full py-2 bg-base-300 dark:bg-gray-900 rounded-lg shadow-md px-2"
               role="region"
               :aria-label="$t('searchresults')"
             >
@@ -116,7 +116,7 @@
                       >
                         <Icon
                           class="p-2 text-xl my-auto dark:text-white"
-                          name="mdi:clear-bold"
+                          name="tabler:circle-x"
                           aria-hidden="true"
                         />
                       </button>
@@ -144,7 +144,7 @@
                   :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                  <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
               </div>
               <div class="w-full">
@@ -166,7 +166,7 @@
                             v-else
                             class="text-xl font-bold text-center text-gray-800 dark:text-gray-200"
                           >
-                            {{ nbHits }} {{ $t('results') }}
+                            {{ nbHits }} {{ $t('workVariants') }}
                           </h2>
                         </div>
                       </template>
@@ -288,11 +288,10 @@
                       <span v-else>
                         {{ $t('collapseAll') }}
                       </span>
-
                       <input
                         v-model="expandAllHandlesChecked"
                         type="checkbox"
-                        class="toggle toggle-primary"
+                        class="toggle toggle-primary bg-primary hover:bg-primary"
                       >
                     </label>
                   </div>
@@ -306,12 +305,12 @@
                       <div class="w-full md:w-1/2 flex flex-row justify-end">
                         <ais-clear-refinements 
                           :class-names="{
-                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
+                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-base-300 text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
                             'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                           }"
                         >
                           <template #resetLabel>
-                            <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                            <Icon name="tabler:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                           </template>
                         </ais-clear-refinements>
                       </div>
@@ -320,7 +319,7 @@
                       <ais-current-refinements 
                         :class-names="{
                           'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                          'ais-CurrentRefinements-item': 'border border-neutral text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
+                          'ais-CurrentRefinements-item': 'border border-base-300 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
                           'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
                           'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                         }"
@@ -343,7 +342,7 @@
                                 {{ $t(refinement.label) }}
                                 <Icon
                                   class="text-lg"
-                                  name="formkit:trash"
+                                  name="tabler:trash"
                                 />
                               </a>
                             </li>
@@ -400,7 +399,11 @@
 
 <script setup lang="ts">
 
-const {$toggleFacetDrawerState}:any = useNuxtApp();
+import Client from '@searchkit/instantsearch-client';
+import { config } from '../../searchConfig_avefi';
+
+import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
+const {$toggleFacetDrawerState} = useNuxtApp();
 
 // toggle top right 
 const viewTypeChecked = ref(false);
@@ -450,8 +453,7 @@ const currentRefinements = computed(() => {
 
 const searchClient = Client({
     config: config,
-    url: "/api/elastic/msearch",
-    // Removed invalid property 'searchOnLoad'
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
 
 onMounted(() => {
@@ -477,7 +479,6 @@ onMounted(() => {
     });
 });
 
-
 const props = defineProps({
     indexName: {
         type: String,
@@ -486,11 +487,11 @@ const props = defineProps({
     },
 });
 
-watch(expandAllChecked, (newValue) => {
+watch(expandAllChecked, () => {
     expandAllItems();
 });
 
-watch(viewTypeChecked, (newValue) => {
+watch(viewTypeChecked, () => {
     expandAllChecked.value = false;
 
     // Reset all facets/refinements
@@ -509,12 +510,22 @@ const expandAllItems = () => {
         icon.click();
     });
     setTimeout(() => {
-        const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+        const checkboxes = document.querySelectorAll('.manifestation-checkbox') as NodeListOf<Element>;
         checkboxes.forEach(checkbox => {
-            checkbox.checked = !checkbox.checked;
+            (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked;
         });
     }, 300);
 };
+
+// turn slot `items` into { [attribute]: Set(values) }
+function normalizeActive(items: any[]) {
+  const out: Record<string, Set<string>> = {}
+  for (const it of items ?? []) {
+    out[it.attribute] = new Set((it.refinements ?? []).map((r: any) => String(r.value)))
+  }
+  return out
+}
+
 
 const isSearchLoading = ref(false);
 
@@ -557,19 +568,15 @@ onBeforeUnmount(() => {
     if (observer) observer.disconnect();
 });
 
-import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
-import { simple as defaultMapping } from 'instantsearch.js/es/lib/stateMappings';
-import { expand } from '@formkit/icons';
-
 const showAlgoliaTooltip = ref(false);
 const routerInstance = defaultRouter();
 
-
+/*
 const stateMapping = {
-    stateToRoute(uiState) {
+    stateToRoute(uiState:UiState) {
         const indexUiState = uiState[props.indexName] || {};
-        const numericRefinements = indexUiState.numericRefinements || {};
-        const prodYearsOnlyFlag = indexUiState.prodYearsOnly === true ? '1' : undefined;
+        const numericRefinements = indexUiState?.numericRefinements || {};
+        const prodYearsOnlyFlag = indexUiState?.prodYearsOnly === true ? '1' : undefined;
 
         // Only serialize numeric refinements if not empty
         const hasNumeric = Object.keys(numericRefinements).length > 0;
@@ -581,7 +588,8 @@ const stateMapping = {
         };
     },
 
-    routeToState(routeState) {
+
+    routeToState(routeState:any) {
         const numericRefinements = routeState[`${props.indexName}[numericRefinement]`] || {};
         const prodYearsOnlyFlag = routeState[`${props.indexName}[prodYearsOnly]`] === '1';
 
@@ -594,7 +602,7 @@ const stateMapping = {
         };
     },
 };
-
+*/
 
 routerInstance.write = (routeState) => {
     try {
@@ -627,12 +635,6 @@ routerInstance.write = (routeState) => {
     // Still do the default routing update
     defaultRouter().write(routeState);
 };
-
-const extendedRouting = {
-    router: routerInstance,
-    stateMapping: stateMapping,
-};
-
 
 </script>
 <style scoped lang="scss">

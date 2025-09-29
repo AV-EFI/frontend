@@ -15,7 +15,7 @@
   </span>
   <span
     v-else-if="category.indexOf('Serial') > -1"
-    class="badge badge-outline text-primary-500 dark:text-primary-200"
+    class="badge badge-outline text-white mx-auto"
     :title="$t(category ?? '')"
     :aria-label="$t(category ?? '')"
     role="status"

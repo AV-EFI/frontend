@@ -1,69 +1,183 @@
 # AVefi Frontend
 
-![AVefi Logo](/public/img/avefi_logo_lg.jpg)
+> **This repository is part of the AVefi project.**  
+> It includes the Nuxt 3 frontend with full Docker support for local development and production deployment.
 
-## Prerequisites
+---
 
-### Docker / Production
+## 📦 Production Setup
 
-1. **Install Docker**: [Download Docker](https://www.docker.com/products/docker-desktop) and follow the installation instructions.
-2. **Run Docker Compose**: In the project directory, run:
-    ```bash
-    docker compose up --build
-    ```
+In production, all containers run in a shared Docker network. Traefik acts as the reverse proxy.  
+The **frontend is prebuilt into a production Docker container** and served as a Node.js app.
 
-### Local Development
+- Traefik routes frontend requests (`/`) to the container `av-efi-frontend`
+- Backend requests (`/api/v1/`, `/auth/`, etc.) are routed separately
+- The frontend is served via Nuxt’s `.output/server/index.mjs`
 
-1. **Install Node.js and npm**: [Download Node.js 18.x](https://nodejs.org/).
-2. **Install Yarn**: [Install Yarn 2+](https://yarnpkg.com/getting-started/install).
+### Run production setup (including reverse proxy)
 
-### Docker Development
+1. Build and start the full stack (Traefik + Frontend + Backend):
+   ```bash
+   docker compose up -d --build
+   ```
 
-1. **Install Docker**: Follow the Docker installation instructions above.
-2. **Run Docker Compose for Development**: In the project directory, run:
-    ```bash
-    docker compose -f docker-compose.dev.yml up --build --watch
-    ```
+2. Open in browser:
+   ```
+   http://localhost:8080/
+   ```
 
-### Local Commands
+> Do **not** access `localhost:3000` in production. The only correct entry point is through Traefik on port 8080.
 
-Install dependencies:
+---
+
+## 💻 Local Development Setup
+
+To work on the frontend code with hot module replacement (HMR), you must run a **dummy container named `av-efi-frontend`** to simulate the production network.
+
+This is necessary because Traefik expects a container with that name for service routing.
+
+---
+
+### ✅ Prerequisites
+
+- Docker Desktop (with WSL2 if on Windows)
+- VPN connection to GWDG **must be active** to retrieve backend and Elasticsearch data
+- Nuxt development server runs on your **host machine**
+- The dummy container **proxies** to `host.docker.internal:3000`
+
+---
+
+### 🚀 Start local development
+
 ```bash
-npm install
-pnpm install
+docker compose -f docker-compose.dev.yml up -d
+```
+
+This creates a lightweight dummy container called `av-efi-frontend`:
+
+```yaml
+version: "3.8"
+
+services:
+  av-efi-frontend:
+    image: alpine/socat
+    container_name: av-efi-frontend
+    command: tcp-listen:3000,fork,reuseaddr tcp-connect:host.docker.internal:3000
+    networks:
+      - proxy-network
+    restart: unless-stopped
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
+```
+
+---
+
+### 🛠️ Then run Nuxt on the host machine
+
+```bash
 yarn install
-bun install
-```
-
-### Development Server
-
-Start the server at `http://localhost:3000`:
-```bash
-npm run dev
-pnpm run dev
 yarn dev
-bun run dev
 ```
 
-Build for production:
+Nuxt will be served locally at:
+
+```
+http://localhost:3000/
+```
+
+**But you must access it through Traefik:**
+
+```
+http://localhost:8080/
+```
+
+> If you open `localhost:3000` directly, you **bypass Traefik** and backend/API routes will fail.
+
+---
+
+## 🔁 If You Just Want to Check the Frontend
+
+If you don't need to edit the code or use HMR:
+
 ```bash
-npm run build
-pnpm run build
-yarn build
-bun run build
+docker compose up --build
 ```
 
-Preview production build:
+Then open:
+
+```
+http://localhost:8080/
+```
+
+---
+
+## 🧹 Troubleshooting
+
+### 🔄 Clear stale Node/Vite locks
+
 ```bash
-npm run preview
-pnpm run preview
-yarn preview
-bun run preview
+rm -rf node_modules .yarn/cache .yarn/install-state.gz
+yarn cache clean
+yarn install
 ```
 
-[Deployment documentation]
-(https://nuxt.com/docs/getting-started/deployment)
+### ❌ Kill all Node.js processes (Windows)
 
-## More Information
+```powershell
+taskkill /F /IM node.exe
+```
 
-For more information about the entire project, visit [AVefi Project](https://projects.tib.eu/av-efi).
+---
+
+## 📁 File Overview & Comments
+
+### `docker-compose.dev.yml`
+
+Dummy container for Nuxt local development, required to keep Traefik routing intact.
+
+### `nuxt.config.ts`
+
+Includes `vite.hmr.port = 24678` and `watch.usePolling` for file reload in WSL2/Docker.
+
+### `traefik.yaml` or `traefik_dynamic.yaml`
+
+Example snippet for routing:
+
+```yaml
+http:
+  routers:
+    local-home:
+      entryPoints: [local]
+      rule: "Host(`localhost`)"
+      service: home
+
+  services:
+    home:
+      loadBalancer:
+        servers:
+          - url: "http://av-efi-frontend:3000"
+```
+
+---
+
+## 🔗 External Docs
+
+- [Nuxt Deployment Docs](https://nuxt.com/docs/getting-started/deployment)
+- [Socat for Docker proxy](https://stackoverflow.com/questions/24365317/how-can-i-access-docker-host-machine-from-container)
+
+---
+
+## ✅ Summary
+
+| Environment        | Access URL               | Use Case                    |
+|--------------------|---------------------------|------------------------------|
+| 🐳 Production       | `http://localhost:8080/` | Full setup with reverse proxy |
+| 🛠 Local Dev (Nuxt) | `http://localhost:8080/` | Via dummy container + Nuxt HMR |
+| ⛔ Wrong Access     | `http://localhost:3000/` | ❌ Bypasses Traefik — no API |
+
+---
+
+© AVefi Project 2025

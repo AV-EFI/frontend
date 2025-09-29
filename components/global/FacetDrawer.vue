@@ -180,6 +180,7 @@
 <script setup lang="ts">
 import { useObjectListStore } from '../../stores/compareList';
 const { t:$t } = useI18n();
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const { $toggleFacetDrawerState }: any = useNuxtApp();
 const objectListStore = useObjectListStore();
 
@@ -199,11 +200,11 @@ onMounted(() => {
                 panel?.prepend(collapseCheckbox);
             });
         }
-
         addCollapseCheckboxDom();
     })();
 });
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const emit = defineEmits(['update:productionYear']);
 defineProps({
     viewTypeChecked: {

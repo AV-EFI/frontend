@@ -38,7 +38,7 @@
                 class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
                 :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
               >
-                {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
+                {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
               </h2>
             </div>
           </template>
@@ -48,7 +48,7 @@
                 :id="dataJson?._source?.handle"
                 :item="dataJson?._source"
                 class="w-1/5 justify-center items-center my-auto"
-              />
+              />              
             </div>
           </template>
         </NuxtLayout>
@@ -62,16 +62,19 @@
       <template #cardBody>
         <div class="px-4 pb-4">
           <div
-            v-if="category == 'avefi:WorkVariant' && type == 'Monographic'"
           >
             <ClientOnly
               fallback-tag="span"
               fallback="Loading data..."
             >
-              <ViewsWorkViewCompAVefi
-                :model-value="JSON.stringify(dataJson, null, 2)"
-                @update:model-value="val => dataJson = JSON.parse(val)"
-              />
+              <LazyViewsWorkViewCompAVefi
+                  v-if="dataJson?.compound_record?._source"
+                  v-model="dataJson.compound_record._source"
+                  :handle="dataJson.handle" 
+               />
+               <div v-else class="text-center text-gray-500">
+                 {{ $t('noDataAvailable') }}
+                </div>
             </ClientOnly>
           </div>
         </div>
@@ -90,37 +93,37 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElasticResponses.js';
 
 definePageMeta({
-    auth: false,
-    middleware: ['check-category'],
+    auth: false
 });
-
-import { useHash } from '../../composables/useHash';
-const { hash } = useHash(); // auto-scroll is enabled by default
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
 const { currentUrlState } = useCurrentUrlState();
-
-
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
 const type = ref('Monographic');
 
-const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
-    const data = await getDataSet(params.value.id);
+//@TODO: refactor on larger scale
+const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson', async () => {
+    //we expect missing prefix to be 21.11155
+    if(params.value.id.indexOf('.') < 0) {
+        params.value.id = '21.11155/' + params.value.id;
+    }
+    
+    const data:ElasticGetByIdResponse | null = await getDataSet(params?.value?.id);
     console.log('Data:', data);
-    if(data?.value?.has_record.category){
-        category.value = data.value?.has_record.category;
+
+    if(data?.compound_record?._source?.has_record?.category){
+        category.value = data?.compound_record?._source?.has_record?.category;
     }
 
-    if(data?.value?.has_record.type){
-        type.value = data.value?.has_record.type;
+    if(data?.compound_record?._source?.has_record?.type){
+        type.value = data?.compound_record?._source?.has_record?.type;
         console.log('Type:', type.value);
     }
-
-    return data[0] as IAVefiListResponse;
+    return data as ElasticGetByIdResponse;
 
 });
 

@@ -154,11 +154,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
 
 const route = useRoute();
-
-import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const activeGenres = ref<string[]>([]);
 const activeSubjects = ref<string[]>([]);
@@ -247,7 +247,7 @@ import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
 const props = defineProps({
     items: {
-        type: Array as PropType<Array<MovingImageRecordContainer>>,
+        type: Array as PropType<Array<ElasticMSearchResponse>>,
         required: true
     },
     productionDetailsChecked: {
@@ -276,6 +276,8 @@ const props = defineProps({
     }
 });
 
+const showFacetBadge = computed(() => props.nrOfFacetsActive > 0);
+
 const componentInfoReady = ref(false);
 const isExpanded = reactive<Record<string, boolean>>({});
 const showHighlight = ref<Record<string, boolean>>({});
@@ -287,6 +289,8 @@ onMounted(() => {
     props.items.forEach(item => {
         showHighlight.value[item.handle] = true;
     });
+
+    console.log('Facets active on mount:', props.nrOfFacetsActive);
 });
 
 watch(
@@ -297,6 +301,7 @@ watch(
                 showHighlight.value[item.handle] = true;
             }
         });
+        console.log('Items updated, facets active:', props.nrOfFacetsActive);
     },
     { immediate: true }
 );
@@ -407,7 +412,6 @@ watch(() => props.expandAllHandlesChecked, (newVal) => {
     });
 });
 
-
 function getHighlightSnippets(item) {
     if(item) {
         const result = [];
@@ -450,18 +454,6 @@ function getValueByPath(obj, path) {
     return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
 }
 
-
-watch(() => props.items, async (newVal) => {
-    const allFilteredManifestations = newVal
-        .flatMap(item => getFilteredManifestations(item));
-
-    await Promise.all([
-        checkEmptyProperties(allFilteredManifestations),
-        markDuplicateManifestations(allFilteredManifestations)
-    ]);
-
-    componentInfoReady.value = true;
-});
 
 onMounted(() => {
     componentInfoReady.value = true;
@@ -522,20 +514,24 @@ function formatValue(val: any): string {
 
 </script>
 <style scoped>
-.collapse-plus > .collapse-title:after {
+.collapse-plus>.collapse-title:after {
   @apply text-3xl w-4 h-4;
   color: var(--primary-800);
   top: 25%;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s ease;
 }
-.fade-enter-from, .fade-leave-to {
+
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 
-.slide-fade-enter-active, .slide-fade-leave-active {
+.slide-fade-enter-active,
+.slide-fade-leave-active {
   overflow: hidden;
 }
 
@@ -544,24 +540,35 @@ function formatValue(val: any): string {
   transition: all 0.3s ease;
   overflow: hidden;
 }
+
 .slide-fade-enter-from,
 .slide-fade-leave-to {
   max-height: 0;
   opacity: 0;
 }
+
 .slide-fade-enter-to,
 .slide-fade-leave-from {
-  max-height: 1000px; /* enough to show full content */
+  max-height: 1000px;
+  /* enough to show full content */
   opacity: 1;
 }
 
 @keyframes gentlePulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.85; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
 }
 
 .animate-attention {
   animation: gentlePulse 2s ease-in-out infinite;
 }
-
 </style>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-const props = defineProps({
+defineProps({
     'alt': {
         type: String,
         default: 'Shopping cart'
@@ -10,6 +9,6 @@ const props = defineProps({
 <template>
   <Icon
     :alt="alt"
-    name="i-fa:heart-o"
+    name="tabler:heart-plus"
   />
 </template>

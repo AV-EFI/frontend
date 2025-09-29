@@ -1,73 +1,7 @@
+@use 'colors.generated' as *;
+
 :root {
-  /* Primary Color Palette */
-  --bali-hai-50: #f3f7f8;
-  --bali-hai-100: #dfe9ee;
-  --bali-hai-200: #c3d5de;
-  --bali-hai-300: #9ab8c6;
-  --bali-hai-400: #80a3b5;
-  --bali-hai: #80a3b5;
-  --bali-hai-500: #4d768d;
-  --bali-hai-600: #436277;
-  --bali-hai-700: #3b5263;
-  --bali-hai-800: #364754;
-  --bali-hai-900: #313d48;
-  --bali-hai-950: #1d262f;
-
-  --primary-50: #f3f7f8;
-  --primary-100: #dfe9ee;
-  --primary-200: #c3d5de;
-  --primary-300: #9ab8c6;
-  --primary-400: #80a3b5;
-  --primary: #4d768d;
-  --primary-500: #4d768d;
-  --primary-600: #436277;
-  --primary-700: #3b5263;
-  --primary-800: #364754;
-  --primary-900: #313d48;
-  --primary-950: #1d262f;
-  --primary-500-rgb: 77, 118, 141;
-
-  /* Secondary and Accent */
-  --secondary: #e6c373;
-  --secondary-focus: #d4b05f;
-
-  --accent-50: #ffe5e7;
-  --accent-100: #ffccd0;
-  --accent-200: #ff99a1;
-  --accent-300: #ff6671;
-  --accent-400: #ff394e;
-  --accent: #ff1d25;
-  --accent-500: #ff1d25;
-  --accent-600: #e11923;
-  --accent-700: #b2161d;
-  --accent-800: #8e1217;
-  --accent-900: #670d12;
-
-  /* Highlight + Special */
-  --highlight: #b2161d;
-  --highlight-content: #ffffff;
-
-  --favourites-list: #364754;
-  --favourites-list-content: #ffffff;
-  --favourites-list-hover: #364754;
-
-  --compare-list: #436277;
-  --compare-list-content: #ffffff;
-  --compare-list-hover: #364754;
-
-  --work: #f3e2b8;
-  --manifestation: #e8d39e;
-  --item: #ddc48b;
-
-  /* Base and Content */
-  --base-100: #ffffff;
-  --base-200: #eeeeee;
-  --base-300: #cccccc;
-  --base-400: #aaaaaa;
-  --base-content: #212121;
-  --neutral: #f5f5f5;
-
-  /* CookieControl theming via AVefi palette */
+/* CookieControl theming via AVefi palette */
   --cookie-control-fontSize: 14px;
 
   --cookie-control-barBackground: var(--base-100);
@@ -106,9 +40,6 @@
 }
 
 [data-theme="avefi_dark"] {
-      --base-100: #1e1e1e;
-    --base-content: #eeeeee; /* LIGHT text on dark background */
-
     --cookie-control-barBackground: var(--base-100);
     --cookie-control-barTextColor: var(--base-content);
 
@@ -126,3 +57,37 @@
     --cookie-control-controlButtonIconColor: #eeeeee;
     --cookie-control-controlButtonIconHoverColor: #ffffff;
   }
+
+
+/* Button / Badge mixins */
+@mixin btn-favourites {
+  background-color: $favourites-list;
+  color: $favourites-list-content;
+  &:hover {
+    background-color: $favourites-list-hover;
+    color: $favourites-list-hover-content;
+  }
+}
+
+@mixin btn-compare {
+  background-color: $compare-list;
+  color: $compare-list-content;
+  &:hover {
+    background-color: $compare-list-hover;
+  }
+}
+
+@mixin badge-favourites {
+  background-color: $favourites-list;
+  color: $favourites-list-content;
+}
+
+@mixin badge-compare {
+  background-color: $compare-list;
+  color: $compare-list-content;
+}
+
+.btn-favourites-list { @include btn-favourites; }
+.badge-favourites-list { @include badge-favourites; }
+.btn-compare-list { @include btn-compare; }
+.badge-compare-list { @include badge-compare; }

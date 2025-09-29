@@ -38,7 +38,7 @@
                   >
                     Dazugehöriges Werk bei {{ $t(has_record_is_manifestation_of_item.category) }}&nbsp;
                     <Icon
-                      name="fa-regular:hand-point-right"
+                      name="tabler:arrow-right"
                       size="1em"
                       class="!align-baseline"
                       alt="Referenz bei Filmportal"
@@ -210,7 +210,7 @@
                               target="_blank"
                             >
                               <Icon
-                                name="fa-regular:address-card"
+                                name="tabler:id"
                                 size="1.2em"
                                 class="!align-text-bottom"
                                 alt="Referenz bei GND"
@@ -369,7 +369,7 @@
 
 <script setup lang="ts">
 //models\interfaces\av_efi_schema.ts
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);

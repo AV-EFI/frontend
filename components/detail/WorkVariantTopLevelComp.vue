@@ -1,5 +1,7 @@
 <template>
   <NuxtLayout name="partial-grid-1">
+    <pre class="text-xs">{{ workVar }}</pre>
+
     <template #center>
       <!-- 03/04 GND, Filmportal, etc. (Same As) -->
       <div

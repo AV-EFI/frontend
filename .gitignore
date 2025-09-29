@@ -30,7 +30,18 @@ yarn-error.log*
 .wrangler
 .dev.vars
 
+# yarn files
+.yarn/install-state.gz
+.yarn/unplugged/
+.yarn/build-state.yml
+
+.vscode
+.vscode-test
+.yarn/install-state.gz
+
 # Lock files
 package-lock.json*
 yarn.lock
 pnpm-lock.yaml
+.vscode
+.vscode/settings.json

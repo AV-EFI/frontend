@@ -15,6 +15,7 @@ export function useClipboardUtil() {
             toast.info(`'${copyText}' in Clipboard`);
         } catch (e) {
             toast.error('Copy to clipboard error');
+            console.error('Copy to clipboard error:', e);
         }
     }
 

@@ -1,5 +1,5 @@
-import type { Activity, AVefiResource, Event, Manifestation, MovingImageRecord, MovingImageRecordContainer, ProductionEvent, WorkVariant } from "../models/interfaces/av_efi_schema";
-
+/* eslint-disable @typescript-eslint/no-unused-vars */ 
+import type { Activity, Event, MovingImageRecordContainer, ProductionEvent } from "../models/interfaces/av_efi_schema";
 /**
  * mainly used by search
  */
@@ -14,7 +14,7 @@ import type { Activity, AVefiResource, Event, Manifestation, MovingImageRecord, 
  * ```
  * @see getWorkTitleFromWorkVariant
  */
-export function getProductionYearFromWorkVariation (item:MovingImageRecordContainer, activityName:String = "avefi:ProducingActivity") {
+export function getProductionYearFromWorkVariation (item:MovingImageRecordContainer) {
     try {
         const productionEventList:ProductionEvent[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent" || "avefi:PublictationEvent";});
         if(productionEventList) {
@@ -46,7 +46,7 @@ export function getProductionYearFromWorkVariation (item:MovingImageRecordContai
  * ```
  * @see getWorkTitleFromWorkVariant
  */
-export function getProductionCountryFromWorkVariation (item:MovingImageRecordContainer, activityName:String = "avefi:ProducingActivity") {
+export function getProductionCountryFromWorkVariation (item:MovingImageRecordContainer, activityName:string = "avefi:ProducingActivity") {
     try {
         const productionEventList:ProductionEvent[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent" || "avefi:PublictationEvent";});
         if(productionEventList) {
@@ -80,7 +80,7 @@ export function getProductionCountryFromWorkVariation (item:MovingImageRecordCon
  * ```
  * @see getWorkTitleFromWorkVariant
  */
-export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, activityName:String) {
+export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, activityName:string) {
     try {
         const productionEvent:Event[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent";});
         if(productionEvent) {
@@ -93,7 +93,7 @@ export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, a
             });
             
             if(activities) {
-                const agentList: String[] = [];
+                const agentList: string[] = [];
                 activities.forEach((i) => {
                     i[0]?.has_agent?.forEach((ag) => {
                         agentList.push(ag?.has_name);}
@@ -113,7 +113,7 @@ export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, a
  * mainly used by disambiguation
  */
 
-export function disam_getCastMembers(item:MovingImageRecordContainer, activityName:String) {
+export function disamGetCastMembers(item:MovingImageRecordContainer, activityName:string) {
     try {
         const productionEvent:Event[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent";});
         if(productionEvent) {
@@ -128,7 +128,7 @@ export function disam_getCastMembers(item:MovingImageRecordContainer, activityNa
             console.log(activities);
 
             if(activities) {
-                const agentList: String[] = [];
+                const agentList: string[] = [];
                 activities.forEach((i) => {
                     i[0]?.has_agent?.forEach((ag) => {
                         agentList.push(ag);}

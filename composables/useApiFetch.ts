@@ -3,7 +3,6 @@ import type { UseFetchOptions } from 'nuxt/app';
 export function useApiFetch<T>(
     url: string | (() => string),
     options: UseFetchOptions<T> = {},
-    source?: string
 ) {
     return useFetch(
         url,
@@ -17,7 +16,6 @@ export function useApiFetch<T>(
 export function useApiFetchLocal<T>(
     url: string | (() => string),
     options: UseFetchOptions<T> = {},
-    source?: string
 ) {
     return useFetch(
         url,

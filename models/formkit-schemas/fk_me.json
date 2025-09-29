@@ -23,16 +23,16 @@
         "name": "institution",
         "prefixIcon": "happy",
         "readonly": true,
-        "help": "ISIL ID"
+        "help": "ISIL ID (?)"
       }
     ]
   },
-      {
-        "$formkit": "text",
-        "name": "expires",
-        "label": "Session expires",
-        "readonly": true
-      },
+  {
+    "$formkit": "text",
+    "name": "expires",
+    "label": "Session expires",
+    "readonly": true
+  },
   {
     "$formkit": "radio",
     "id": "roleSelection",

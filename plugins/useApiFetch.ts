@@ -16,10 +16,6 @@ export default defineNuxtPlugin(() => {
             }
             options.headers = headers;
         },
-        onResponse({ response }) {
-            //console.log("apiFetch Response");
-            //console.log(response);
-        },
         onResponseError({ response }) {
             //console.log("apiFetch onResponseError");
 

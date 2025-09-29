@@ -53,7 +53,7 @@
             target="_blank"
             class="link link-primary dark:link-accent"
           ><Icon
-            name="formkit:linkexternal"
+            name="tabler:external-link"
           />&nbsp;{{ $t('webresource') }}</a>
         </div>
 
@@ -80,7 +80,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-const props = defineProps({
+
+defineProps({
     manifestation_items: {
         type: Object,
         required: true,

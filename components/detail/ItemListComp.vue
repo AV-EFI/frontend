@@ -59,7 +59,7 @@
           :alt="$t('webresource')"
           class="link link-primary dark:link-accent"
         ><Icon
-          name="formkit:linkexternal"
+          name="tabler:external-link"
           class=""
         /><span class="hidden 2xl:inline">{{ $t('webresource') }}</span></a>
       </template>
@@ -178,7 +178,7 @@
               class="link link-primary dark:link-accent"
             >
               <Icon
-                name="formkit:linkexternal"
+                name="tabler:external-link"
               />&nbsp;{{ $t('webresource') }}</a>
           </div>
         </div>
@@ -189,7 +189,7 @@
 <script lang="ts" setup>
 import type { Header } from 'vue3-easy-data-table';
 
-const itemList = defineModel({type: Array as PropType<Object>, required: true});
+const itemList = defineModel({type: Array as PropType<object>, required: true});
 const headers: Header[] = [
     { text: "Institution", value: "_source.has_record.described_by.has_issuer_name", sortable:true },
     { text: "SpokenLanguage", value: "_source.has_record.in_language.spoken", sortable:true },

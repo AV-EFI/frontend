@@ -60,14 +60,16 @@
           </div>
         </div>
         <div class="w-full max-md:mt-4 lg:w-1/2 flex justify-center md:p-2 relative z-10">
+          <ClientOnly>
           <GlobalCarouselCardComp
             :items="cardItems"
           />
+          </ClientOnly>
         </div>
       </div>
     </div>
     <div
-      class="mx-auto min-h-[66vh] flex flex-col justify-between h-full p-6 transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
+      class="mx-auto lg:min-h-[55vh] flex flex-col justify-around h-full p-6 shadow-lg transition duration-500 ease-in-out relative group dark:bg-gray-800 lg:dark:hover:bg-gray-700"
       role="region"
       :aria-label="$t('coreFunctionsSection')"
     >
@@ -229,6 +231,7 @@
       <div class="relative flex flex-col lg:flex-row justify-between content-center items-center my-2">
         <!-- Video block -->
         <div class="w-full lg:w-1/2 flex justify-center p-2 relative h-full">
+          <ClientOnly>
           <video
             controls
             class="lg:h-80 w-auto rounded-lg shadow-md"
@@ -239,6 +242,7 @@
             >
             {{ $t('videoNotSupported') }}
           </video>
+          </ClientOnly>
         </div>
 
         <!-- Right: Text Block as Emphasized Quote -->
@@ -273,7 +277,9 @@
         </div>
         <div class="w-full lg:w-1/2 flex justify-center p-2 relative">
           <div class="w-96 md:w-128 flex justify-center items-center">
-            <GlobalCarouselComp :items="items" />
+            <ClientOnly>
+            <LazyGlobalCarouselComp :items="items" />
+            </ClientOnly>
           </div>
         </div>
       </div>
@@ -289,15 +295,6 @@ definePageMeta(
         layout: 'default'
     }
 );
-
-function rotateSpan(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    target.style.transition = 'transform 0.6s ease-in-out';
-    target.style.transform = 'rotate(360deg)';
-    setTimeout(() => {
-        target.style.transform = '';
-    }, 600);
-}
 
 const items = ref([
     { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },

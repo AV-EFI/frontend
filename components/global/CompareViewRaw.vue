@@ -50,6 +50,7 @@
 </template>
 
 <script setup lang="ts">
+import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 const props = defineProps({
     'items': {
         type: Array<string>,
@@ -57,7 +58,6 @@ const props = defineProps({
         default: () => []
     }
 });
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
 const objectListStore = useObjectListStore();
 

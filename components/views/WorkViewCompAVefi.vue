@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      v-if="mir"
-      class="border-l-2 border-work px-2"
+      v-if="mir" 
+      class="border-l-2 border-work px-2" 
       role="region"
       :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}`"
     >

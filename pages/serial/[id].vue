@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div>
     <GlobalBreadcrumbsComp
@@ -45,7 +46,7 @@
                   class="flex items-center"
                 >
                   <Icon
-                    name="mdi:map-marker-outline"
+                    name="tabler:map-pin"
                     class="mr-1"
                     :alt="$t('country')"
                     :title="$t('country')"
@@ -58,7 +59,7 @@
                 >
                   <template v-if="work?._source?.has_record?.has_event"><span class="flex items-center">&nbsp;&nbsp;</span></template>
                   <Icon
-                    name="fa:calendar"
+                    name="tabler:calendar"
                     class="mr-1"
                   />
                   {{ work?._source?.years.join(', ') }}
@@ -71,7 +72,7 @@
                     <span class="flex items-center">&nbsp;&nbsp;</span>
                   </template>
                   <Icon
-                    name="fa:film"
+                    name="tabler:clapperboard"
                     class="mr-1"
                   />
                   {{ work?._source?.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
@@ -123,6 +124,7 @@
 </template>
 
 <script setup lang="ts">
+ 
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 
 definePageMeta({

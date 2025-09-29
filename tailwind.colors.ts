@@ -1,0 +1,174 @@
+// Tailwind-compatible color definitions for AVefi
+// ✅ Preserves original structure including .DEFAULT keys and all custom tokens
+
+export const lightThemeColors = {
+    baliHai: {
+        50: '#f3f7f8',
+        100: '#dfe9ee',
+        200: '#c3d5de',
+        300: '#9ab8c6',
+        400: '#80a3b5',
+        500: '#4d768d',
+        600: '#436277',
+        700: '#3b5263',
+        800: '#364754',
+        900: '#313d48',
+        950: '#1d262f',
+        DEFAULT: '#80a3b5',
+    },
+    primary: {
+        50: '#f3f7f8',
+        100: '#dfe9ee',
+        200: '#c3d5de',
+        300: '#9ab8c6',
+        400: '#80a3b5',
+        500: '#4d768d',
+        600: '#436277',
+        700: '#3b5263',
+        800: '#364754',
+        900: '#313d48',
+        950: '#1d262f',
+        DEFAULT: '#4d768d',
+    },
+    secondary: {
+        50: '#f9f5eb',
+        100: '#f2e6cc',
+        200: '#e6d3a3',
+        300: '#d7bf83',
+        400: '#c4a95e',
+        500: '#b08e3a',
+        600: '#997a2e',
+        700: '#7d6023',
+        800: '#5f471a',
+        900: '#4a3613',
+        950: '#2a1e0b',
+        DEFAULT: '#e6c373',
+    },
+    accent: {
+        50: '#ffe5e7',
+        100: '#ffccd0',
+        200: '#ff99a1',
+        300: '#ff6671',
+        400: '#ff394e',
+        500: '#ff1d25',
+        600: '#e11923',
+        700: '#b2161d',
+        800: '#8e1217',
+        900: '#670d12',
+        DEFAULT: '#ff1d25',
+    },
+    neutral: {
+        50:  '#f5f6f7', // very light (text on dark)
+        100: '#e1e4e7',
+        200: '#c2c8ce',
+        300: '#9aa1a9',
+        400: '#6d747c',
+        500: '#4a525b', // mid-tone
+        600: '#343c45',
+        700: '#262e37', // slightly lighter than base
+        800: '#1d262f', // base color
+        900: '#171e25', // deeper
+        950: '#0e1318',  // almost black
+        DEFAULT: '#44576aff',
+        content: '#ffffff',
+    },
+    base: {
+        100: '#fbfcfdf4', // heller, fast reinweiß
+        200: '#f3f6f8', // sehr hell
+        300: '#edf0f3', // leicht abgesetzter Hintergrund
+        content: '#3a4147ff',
+        DEFAULT: '#fbfcfd', // Basisfarbe für helle Themes
+    },
+    custom: {
+        highlight: '#b2161d',
+        'highlight-content': '#ffffff',
+        'favourites-list': '#e11923',
+        'favourites-list-hover': '#b2161d',
+        'favourites-list-content': '#ffffff',
+        'favourites-list-hover-content': '#ffffff',
+        'compare-list': '#2a333a',
+        'compare-list-hover': '#1d262f',
+        'compare-list-content': '#ffffff',
+        work: '#F3E2B8',
+        manifestation: '#E8D39E',
+        item: '#DDC48B',
+    },
+    bc: '#4d768d',
+};
+
+export const darkThemeColors = {
+    primary: {
+        50: '#f3f7f8',
+        100: '#dfe9ee',
+        200: '#c3d5de',
+        300: '#9ab8c6',
+        400: '#80a3b5',
+        500: '#4d768d',
+        600: '#436277',
+        700: '#3b5263',
+        800: '#364754',
+        900: '#313d48',
+        950: '#1d262f',
+        DEFAULT: '#4d768d',
+    },
+    secondary: {
+        50: '#f9f5eb',
+        100: '#f2e6cc',
+        200: '#e6d3a3',
+        300: '#d7bf83',
+        400: '#c4a95e',
+        500: '#b08e3a',
+        600: '#997a2e',
+        700: '#7d6023',
+        800: '#5f471a',
+        900: '#4a3613',
+        950: '#2a1e0b',
+        DEFAULT: '#e6c373',
+    },
+    accent: {
+        50: '#ffe5e7',
+        100: '#ffccd0',
+        200: '#ff99a1',
+        300: '#ff6671',
+        400: '#ff394e',
+        500: '#ff1d25',
+        600: '#e11923',
+        700: '#b2161d',
+        800: '#8e1217',
+        900: '#670d12',
+        DEFAULT: '#ff1d25',
+    },
+    neutral: {
+        50:  '#f5f6f7', // very light (text on dark)
+        100: '#e1e4e7',
+        200: '#c2c8ce',
+        300: '#9aa1a9',
+        400: '#6d747c',
+        500: '#4a525b', // mid-tone
+        600: '#343c45',
+        700: '#262e37', // slightly lighter than base
+        800: '#1d262f', // base color
+        900: '#171e25', // deeper
+        950: '#0e1318',  // almost black
+        DEFAULT: '#45596cff',
+        content: '#ffffff',
+    },
+    base: {
+        100: '#1d262f',
+        200: '#2a333a',
+        300: '#3a444c',
+        'content': '#f3f7f8',
+        DEFAULT: '#1d262f', // Basisfarbe für dunkle Themes
+    },
+    custom: {
+        'favourites-list': '#b55a63',
+        'favourites-list-hover': '#a04852',
+        'favourites-list-content': '#ffffff',
+        'compare-list': '#436277',
+        'compare-list-hover': '#3b5263',
+        'compare-list-content': '#ffffff',
+        'work-variant': '#9B3D27',
+        manifestation: '#6A9D92',
+        item: '#9C9078',
+    },
+};

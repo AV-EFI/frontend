@@ -152,7 +152,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 
-const props = defineProps({
+defineProps({
     sameAsData: { type: Object, default: null },
     fontSize: { type: String, default: 'base' },
     type: { type: String, default: 'film' },

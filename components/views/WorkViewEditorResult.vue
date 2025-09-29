@@ -3,7 +3,7 @@
     <FormKit
       id="work-view-editor-result"
       v-model="dataJson"
-      :classes="{form: 'bg-base-100 dark:bg-slate-900 border-neutral border-2 p-2 rounded-xl'}"
+      :classes="{form: 'bg-base-100 dark:bg-slate-900 border-base-300 border-2 p-2 rounded-xl'}"
       type="form"
       :actions="false"
       @submit="customSubmitHandler"
@@ -245,6 +245,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { toast } from "vue3-toastify";
 const initialState = {
     efi: "",
     title: "",
@@ -259,7 +260,6 @@ const initialState = {
     other_id: [],
     last_edit: "Deutsche Kinemathek - Museum für Film und Fernsehen"
 };
-import { toast } from "vue3-toastify";
 const dataJson = defineModel({type: Object, required: true});
 
 function customReset () {

@@ -6,7 +6,7 @@
       class="md:flex z-10 p-2 md:bg-gray-800 md:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
       @click="prevSlide"
     >
-      <Icon name="fa:chevron-left" />
+      <Icon name="tabler:chevron-left" />
     </button>
     <div class="carousel rounded-box w-[250px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
       <div
@@ -100,7 +100,7 @@
       class="z-10 md:flex p-2 md:bg-gray-800 text-black md:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
       @click="nextSlide"
     >
-      <Icon name="fa:chevron-right" />
+      <Icon name="tabler:chevron-right" />
     </button>
   </div>
 </template>

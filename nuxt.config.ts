@@ -1,39 +1,65 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// nuxt.config.ts
+
+// 📝 Explanation:
+// Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
+// Assets and routing must stay aligned for Traefik + Nuxt dev.
+import eslint from 'vite-plugin-eslint';import { L } from 'vitest/dist/chunks/reporters.d.BFLkQcL6.js';
+;
+
 export default defineNuxtConfig({
-    devtools: { 
-        enabled: false 
+    compatibilityDate: '2025-07-31',
+    app: {
+        baseURL: '/',
+        pageTransition: false
+    },
+    cms: {
+        // Block edits unless explicitly enabled (prod on by default, dev off)
+        allowUserTooltipEdits:
+        process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' ||
+        process.env.NODE_ENV === 'production',
+        userTooltipsFile: process.env.USER_TOOLTIPS_FILE || 'cms/user-tooltips.json',
+    },
+    devtools: {
+        enabled: true,
+        vscode: false, // disable VS Code integration
+        timeline: false, // disable full timeline tracking
+        components: false, // no component inspector
+        performance: true, // no performance tracking
+        hmr: true        // ✅ keep only HMR event logging
     },
     nitro: {
         preset: 'node-server',
         compressPublicAssets: true,
-        experimental: {
-            tasks: true,
-        },
-        scheduledTasks: {
-            '0 */12 * * *': 'wmi_mapping_refresh', // Runs every 12 hours
-        }
+        experimental: { tasks: true },
+        debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
     },
     build: {
         transpile: ['vue-diff']
     },
     modules: [
+    //'@sidebase/nuxt-auth',
+        '@pinia/nuxt',
+        '@pinia-plugin-persistedstate/nuxt',
+        ...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
+        //'@nuxtjs/eslint-module',
+        '@nuxt/eslint',
         '@nuxtjs/i18n',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode',
-        '@pinia/nuxt',
-        '@pinia-plugin-persistedstate/nuxt',
-        '@nuxt/content',
         '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
         '@nuxtjs/robots',
         'nuxt3-winston-log',
         '@dargmuesli/nuxt-cookie-control',
-        'nuxt-mail'
+        'nuxt-mail',
     ],
     extends: './pages',
     imports: {
-        dirs: ['~/types/*.ts', '~/stores/*.ts', '~/plugins/*.ts']
+        dirs: ['~/stores', '~/plugins'] // keine Wildcards
+    },
+    icon: {
+        collections: ['tabler', 'carbon']
     },
     components: {
         global: true,
@@ -41,15 +67,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            dbHost: process.env.POSTGRES_HOST,
-            dbDb: process.env.POSTGRES_DB,
-            dbUser: process.env.POSTGRES_USER,
-            dbPw: process.env.POSTGRES_PASSWORD,
-            myEnvVariable: process.env.MY_ENV_VARIABLE,
-            apiUrl: process.env.API_URL,
-            authUrl: process.env.AUTH_URL,
-            cmsUrl: process.env.CMS_URL,
-            analyticsUrl: process.env.ANALYTICS_URL,
+            ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL || 'Development',
             origin: process.env.ORIGIN,
             frontendUrl: process.env.ORIGIN,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
@@ -58,13 +76,18 @@ export default defineNuxtConfig({
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
-            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
+            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API || '/api/elastic',
+            AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || 'frontend/search',
+
+            AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
+            AVEFI_SEARCH: process.env.AVEFI_SEARCH,
+            AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
             AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
             AVEFI_GET_MANIFEST: process.env.AVEFI_GET_MANIFEST,
             AVEFI_GET_MANIFEST_BY_WORK: process.env.AVEFI_GET_MANIFEST_BY_WORK,
-            AVEFI_GET_WORK_BY_IS_PART_OF: process.env.AVEFI_GET_WORK_BY_IS_PART_OF,
-            AVEFI_DATA_API: process.env.AVEFI_DATA_API,
-            SEARCH_URL: process.env.SEARCH_URL,
+            AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
+            AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
+            AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
             SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
@@ -72,23 +95,33 @@ export default defineNuxtConfig({
             WMI_CACHE_KEY: 'WMI_CACHE_KEY',
             KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
 
+            WMI_CACHE_KEY: 'WMI_CACHE_KEY',
+            // AUTH endpoints
+            AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
+            AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
+            AUTH_SIGNIN_ENDPOINT: process.env.AUTH_SIGNIN_ENDPOINT || '/auth/signin/keycloak',
+            AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
+            AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
+            AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/academiccloud/auth',
+
+            cms: {
+                // mirror the flag to the client to toggle UI affordances
+                allowUserTooltipEdits:
+                process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' ||
+                process.env.NODE_ENV === 'production',
+            }
         },
         private: {
             NUXT_SECRET: process.env.NUXT_SECRET,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
-            KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
-            KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
-            KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET,
-            KEYCLOAK_URL: process.env.KEYCLOAK_URL,
         }
     },
-    //https://nuxt.com/docs/guide/concepts/rendering
     routeRules: {
-        // Generated at build time for SEO purpose
         "/": { ssr: false },
         "/search": { ssr: false },
-        "/contact": { prerender: true },
+        //"/contact": { prerender: true },
+        "/contact": { ssr: false }, 
         "/login": { ssr: false },
         "/film/**": {ssr:false},
         "/serial/**": {ssr:false},
@@ -118,21 +151,31 @@ export default defineNuxtConfig({
             isEnabled: true,
             allow404WithoutAuth: true,            
         }
+        "/film/**": { ssr: false },
+        "/serial/**": { ssr: false },
+        "/protected/institutionlist": { ssr: false },
+        "/protected/dashboard": { ssr: false },
+        "/protected/mergetool": { ssr: false },
+        "/protected/compare": { ssr: false },
+        "/protected/me": { ssr: false },
+        "/protected/glossary": { ssr: false }
     },
-    css: ["~/assets/scss/main.scss"],
+    css: [
+        "~/assets/scss/main.scss"
+    ],
     mail: {
         message: {
-            to: ['stefan.stretz@tib.eu', 'contact@av-efi.net'],            
+            to: [process.env.MAIL_TO, process.env.MAIL_TO_2],
         },
         smtp: {
             service: 'gmail',
             auth: {
-                user: "avefi.tmp@gmail.com",
-                pass: "sbjk pjrx dkko fwan",
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS,
             }
         },
     },
-    nuxt3WinstonLog: {        
+    nuxt3WinstonLog: {
         maxSize: "2048m",
         maxFiles: "14d",
     },
@@ -141,8 +184,9 @@ export default defineNuxtConfig({
         colors: false,
         //default texts
         text: {        
+        text: {
             barTitle: 'Cookies',
-            barDescription: 'We use our own cookies and third-party cookies so that we can show you this website and better understand how you use it, with a view to improving the services we offer. If you continue browsing, we consider that you have accepted the cookies.',
+            barDescription: 'We use our own cookies and third-party cookies...',
             acceptAll: 'Accept all',
             declineAll: 'Delete all',
             manageCookies: 'Manage cookies',
@@ -158,13 +202,9 @@ export default defineNuxtConfig({
         cookies: {
             necessary: [
                 {
-                    //if multilanguage
-                    name: {
-                        en: 'Default Cookies',
-                        de: 'Standard Cookies'
-                    },
+                    name: { en: 'Default Cookies', de: 'Standard Cookies' },
                     description: {
-                        en:  'Used for Cookies, Search, Favourites and Authentication.',
+                        en: 'Used for Cookies, Search, Favourites and Authentication.',
                         de: 'Wird für Cookies, Suche, Favoriten und Authentifizierung verwendet.'
                     },
                     cookies: ['cookie_control_consent', 'cookie_control_enabled_cookies']
@@ -172,41 +212,76 @@ export default defineNuxtConfig({
             ],
             optional: [
                 {
-                    name:  {
-                        en: 'Optionale Cookies',
-                        de: 'Optional Cookies'
-                    },
-                    //if you don't set identifier, slugified name will be used
+                    name: { en: 'Optionale Cookies', de: 'Optional Cookies' },
                     identifier: 'ga',
-                    //if multilanguage
-                    description: {
-                        en:  'None yet',
-                        de: 'Noch keine'
-                    },
-                    //else
-                    //cf. https://gitlab.com/broj42/nuxt-cookie-control
+                    description: { en: 'None yet', de: 'Noch keine' }
                 }
             ]
         }
     },
+    devServer: {
+        host: '0.0.0.0',
+        port: 3000
+    },
     vite: {
-        build: {
-            chunkSizeWarningLimit: 750
+        server: {
+            watch: {
+                usePolling: true, // force polling for stability
+                interval: 100,
+                ignored: [
+                    '**/node_modules/**',
+                    '**/.git/**',
+                    '**/.yarn/**',
+                    '**/.output/**',
+                    '**/.nuxt/**',
+                    '**/dist/**',
+                ],
+            },
         },
+        build: {
+            chunkSizeWarningLimit: 750,
+            target: 'esnext'
+        },
+        optimizeDeps: {
+            exclude: ['vue-diff']
+        },
+        //devBundler: 'legacy',
+        logLevel: 'error',
         css: {
-            preprocessorOptions: {                
+            preprocessorOptions: {
                 scss: {
                     api: 'modern',
                     additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
                 },                
             },
         }
+                    additionalData: '@use "~/assets/scss/_colors.scss" as *;'
+                },
+            },
+        },
+        plugins: [
+            eslint({
+                failOnWarning: false,
+                failOnError: false,
+                formatter: process.env.NODE_ENV === 'production' ? 'compact' : 'stylish',
+                cache: false,
+                include: [
+                    'components/**/*.{js,ts,vue}',
+                    'pages/**/*.{js,ts,vue}'
+                ],
+                exclude: ['node_modules', 'scripts', 'tailwind.config.ts', 'models/interfaces/**'],
+                lintOnStart: false, // ✅ runs only once at dev start
+                emitWarning: false,
+            }),
+        ],
     },
     typescript: {
-        includeWorkspace: true,
+        includeWorkspace: true
     },
     i18n: {
         strategy: 'no_prefix',
+        locales: ['de', 'en'],
+        defaultLocale: 'de',
         lazy: true,
         locales: ["de", "en"],
         skipSettingLocaleOnNavigate: true,
@@ -214,9 +289,21 @@ export default defineNuxtConfig({
             useCookie: true,
             cookieKey: 'i18n_redirected',
             alwaysRedirect: false,
+            cookieKey: 'i18n_redirected',
+            alwaysRedirect: false,
             fallbackLocale: 'de'
         },
         vueI18n: './i18n.config.ts'
+        bundle: {
+            optimizeTranslationDirective: false,
+        },
+        vueI18n: "../i18n.config.ts"
+    },
+    formkit: {
+        autoImport: false // Performance-Optimization: Disable auto-import to reduce bundle size
+    },
+    pinia: {
+        storesDirs: ['stores']
     },
     colorMode: {
         preference: 'avefi_light',
@@ -241,7 +328,6 @@ export default defineNuxtConfig({
     },
     tailwindcss: {
         exposeConfig: true,
-        viewer: false,
+        viewer: false
     },
-    compatibilityDate: '2025-07-02'
 });

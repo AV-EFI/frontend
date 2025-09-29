@@ -8,6 +8,7 @@
       <MicroDividerComp
         class="mx-auto lg:mt-[5px] mb-4"
         label-text="avefi:Item"
+        label-text="avefi:Item"
         in-class="item"
       />
     </div>
@@ -213,6 +214,7 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
 defineProps({
     items: { type: Array, required: true },
@@ -221,3 +223,4 @@ defineProps({
     showAdminStats: { type: Boolean, required: false, default: false },
 });
 </script>
+

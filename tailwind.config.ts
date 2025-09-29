@@ -1,8 +1,9 @@
-import {pastel, cupcake} from 'daisyui/src/theming/themes';
-import colors from 'tailwindcss/colors';
+/* eslint-disable camelcase */
+const { lightThemeColors, darkThemeColors } = require('./tailwind.colors')
+// ✅ import concrete themes from daisyui
+const { nord, night, lofi } = require('daisyui/src/theming/themes')
 
 /** @type {import('tailwindcss').Config} */
-/** TAILWIND **/
 module.exports = {
     safelist: [
         {

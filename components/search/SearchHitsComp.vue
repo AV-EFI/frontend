@@ -19,6 +19,8 @@
       :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
       :expanded-handles="expandedHandles"
+      :facets-active="facetsActive"
+      :nr-of-facets-active="nrOfFacetsActive"
       :expand-all-handles-checked="expandAllHandlesChecked"
       :current-refinements="currentRefinements"
     />
@@ -28,23 +30,24 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
+import type { PropType } from 'vue';
+import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
 
-defineProps({
+// ✅ Component name without export default
+defineOptions({
+    name: 'AisStateResults',
+});
+
+const props = defineProps({
     items: {
-        type: Array,
+        type: Array as PropType<ElasticMSearchResponse[]>,
         required: true,
     },
-    viewTypeChecked: {
-        type: Boolean,
-        required: true,
-    },
-    productionDetailsChecked: {
-        type: Boolean,
-        required: true,
-    },
+    viewTypeChecked: Boolean,
+    productionDetailsChecked: Boolean,
     showAdminStats: {
         type: Boolean,
-        required: false,
         default: false,
     },
     expandedHandles: {
@@ -53,7 +56,6 @@ defineProps({
     },
     expandAllHandlesChecked: {
         type: Boolean,
-        required: false,
         default: false,
     },
     isSearchLoading: {

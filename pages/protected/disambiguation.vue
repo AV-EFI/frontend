@@ -19,7 +19,7 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const items = new Array();
+const items = [];
 items[0] = route.query.prev;
 items[1] = route.query.next;
 

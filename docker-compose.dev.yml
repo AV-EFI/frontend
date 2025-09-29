@@ -1,31 +1,20 @@
+# docker-compose.dev.yml
+#This creates a dummy container named av-efi-frontend.
+#Traefik needs a Docker service to resolve for routing; since Nuxt dev runs on the host (not in a container), socat forwards traffic from the container to host.docker.internal:3000.
+#This avoids breaking production Traefik configuration and allows reverse-proxy routing to your local Nuxt dev server.
+
+version: "3.8"
+
 services:
   av-efi-frontend:
+    image: alpine/socat
     container_name: av-efi-frontend
-    build:
-      context: .
-      dockerfile: DockerFile.dev
-    develop:
-      watch:
-        - action: sync
-          path: ./components
-          target: /app/components
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
-    ports:
-      - 127.0.0.1:3000:3000
-      - 127.0.0.1:24678:24678
-    volumes:
-      - '.:/app'
-      - node_modules:/app/node_modules
+    command: tcp-listen:3000,fork,reuseaddr tcp-connect:host.docker.internal:3000
     networks:
       - proxy-network
+    restart: unless-stopped
 
 networks:
   proxy-network:
     name: proxy-network
     external: true
-
-volumes:
-  node_modules:

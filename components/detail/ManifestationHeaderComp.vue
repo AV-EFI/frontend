@@ -33,7 +33,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:paint-outline"
+            name="tabler:paint"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -48,7 +48,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:language"
+            name="tabler:language"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -101,7 +101,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:paint-outline"
+            name="tabler:paint"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -118,7 +118,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:language"
+            name="tabler:language"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -129,7 +129,7 @@
           class="flex flex-row items-center"
         >
           <Icon
-            name="i-carbon:chart-relationship"
+            name="carbon:chart-relationship"
             class="w-4 h-4 mr-1 inline-block"
           />
           {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
@@ -165,8 +165,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    manifestation: Object as PropType<any>,
+import type { IAVefiManifestation } from '@/models/interfaces/generated';
+import type { Language } from '@/models/interfaces/schema/avefi_schema_type_utils';
+import { useI18n } from 'vue-i18n';
+
+defineProps({
+    manifestation: Object as PropType<IAVefiManifestation>,
     type: String as PropType<string>,
     compSize: {
         type: String as PropType<string>,
@@ -181,8 +185,6 @@ const props = defineProps({
         default: false,
     },
 });
-
-import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
 
 function safeT(val: unknown): string {
@@ -191,14 +193,14 @@ function safeT(val: unknown): string {
         : '';
 }
 
-function formatInLanguageText(langs: any[]): string {
+function formatInLanguageText(langs: Language[]): string {
     return langs
         .map(lang => safeT(lang?.code))
         .filter(Boolean)
         .join(', ');
 }
 
-function formatInLanguageAria(langs: any[]): string {
+function formatInLanguageAria(langs: Language[]): string {
     return safeT('in_language_code') + ': ' + langs
         .map(lang => safeT(lang?.code))
         .filter(Boolean)
