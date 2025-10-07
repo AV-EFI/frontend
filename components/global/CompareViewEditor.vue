@@ -43,7 +43,10 @@
 </template>
 
 <script setup lang="ts">
+import type { IAVefiWorkVariant } from '@/models/interfaces/generated';
 import type {ElasticGetByIdResponse} from '~/models/interfaces/generated/IElasticResponses';
+import { getDataSet } from '@/utils/getDataSet';
+
 const props = defineProps({
     'items': {
         type: Array<string>,
@@ -69,38 +72,34 @@ const mergedDataset = ref({
 function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
     console.log(targetPropertyValue, targetPropertyName, sameAsId);
     if (["director", "producer", "location", "productionyear", "castmember", "subject", "genre"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, same_as_id: sameAsId });
+        (mergedDataset.value as any)[targetPropertyName].push({ name: targetPropertyValue, same_as_id: sameAsId });
     } else if (["other_id"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, type: sameAsId });
+        (mergedDataset.value as any)[targetPropertyName].push({ name: targetPropertyValue, type: sameAsId });
     } else {
         console.log(targetPropertyName, targetPropertyValue);
-        mergedDataset.value[targetPropertyName] = targetPropertyValue;
+        (mergedDataset.value as any)[targetPropertyName] = targetPropertyValue;
     }
 }
 
-const objectListStore = useObjectListStore();
+// Use store reactively - delay initialization until component is mounted
+const objectListStore = ref<any>(null);
 
-async function getCollectionType(routeParamsId: string): Promise<ElasticGetByIdResponse> {
+onMounted(() => {
+    // Import and initialize store after component is mounted
+    import('../../stores/compareList').then(({ useObjectListStore }) => {
+        objectListStore.value = useObjectListStore();
+    });
+});
+
+async function getCollectionType(routeParamsId: string): Promise<any> {
     if (!routeParamsId) {
         return "";
     }
     const data = await getDataSet(routeParamsId);
     console.log('Data:', data);
 
-    return data as ElasticGetByIdResponse;
-    /*
-    const { data } = await useApiFetchLocal<Array<IAVefiWorkVariant>>(
-        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}/${routeParamsId}`,
-        {
-            method: 'GET'
-        }
-    );
-    */
+    return data as IAVefiWorkVariant;
 
-    if (data) {
-        return JSON.stringify(data?.value?.at(0), null, 2);
-    }
-    return "";
 }
 
 const { data: prev } = await useAsyncData<string>('prev', () =>
@@ -115,8 +114,14 @@ const showInfo = ref(false);
 
 
 onMounted(() => {
-    if (objectListStore.comparisonDrawerOpen) {
-        objectListStore.comparisonDrawerOpen = false;
-    }
+    // Import and initialize store after component is mounted
+    import('../../stores/compareList').then(({ useObjectListStore }) => {
+        objectListStore.value = useObjectListStore();
+        
+        // Check and close comparison drawer if open
+        if (objectListStore.value?.comparisonDrawerOpen) {
+            objectListStore.value.comparisonDrawerOpen = false;
+        }
+    });
 });
 </script>

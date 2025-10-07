@@ -5,11 +5,11 @@
     >
       <div class="mb-2">
         <h2
-          :id="mir._id"
+          :id="data?._id"
           class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-          :alt="mir.has_primary_title.has_name"
+          :alt="mir?.has_primary_title?.has_name"
         >
-          {{ mir.has_primary_title.has_name }}
+          {{ mir?.has_primary_title?.has_name }}
         </h2>
         <!-- top -->
         <div class="grid-container">
@@ -32,7 +32,7 @@
                 <div>
                   <a
                     :href="`/film/${has_record_is_manifestation_of_item.id.replace(/^\d{2,3}\.\d{1,5}\//g,'')}`"
-                    class="link link-primary dark:link-accent dark:link-accent link-hover"
+                    class="link link-primary dark:link-accent link-hover"
                     alt="Referenz bei AVefi"
                     title="Referenz bei AVefi"
                   >
@@ -68,7 +68,7 @@
                     {{ $t('filmportalref') }}&nbsp;
                     <Icon
                       v-if="has_record_same_as_item.category === 'avefi:FilmportalResource'"
-                      name="carbon:notebook-reference"
+                      name="tabler:notebook"
                       size="1em"
                       class="!align-baseline"
                       alt="Referenz bei Filmportal"
@@ -79,7 +79,7 @@
               <h2 class="dark:text-primary-100">
                 efi:
               </h2>
-              <GlobalClipboardComp :display-text="data?._source?.handle" />
+              <GlobalClipboardComp :display-text="data?.handle" />
               <!-- has_alternative_title -->
               <div
                 v-if="mir.has_alternative_title"
@@ -228,16 +228,18 @@
             <div class="col-span-full md:col-span-5">
               <div class="grid grid-cols-7 gap-2">
                 <div
-                  v-if="mir.has_duration"
+                  v-if="data?.duration_in_minutes"
                   class="col-span-full md:col-span-7"
                 >
                   <h2 class=" dark:text-primary-100">
                     {{ $t('avefi:Duration') }}:
                   </h2>
-                  {{ mir.has_duration?.has_value }}
+                  {{ data.duration_in_minutes }} minutes
                 </div>
 
                 <!-- in_language -->
+                <!-- TODO: Language information might be available in items -->
+                <!--
                 <div
                   v-if="mir.in_language"
                   class="col-span-full mb-2"
@@ -257,8 +259,11 @@
                     </div>
                   </div>
                 </div>
+                -->
 
                 <!-- has_colour_type -->
+                <!-- TODO: Color information might be available in items -->
+                <!--
                 <div
                   v-if="mir.has_colour_type"
                   class="col-span-full mb-2"
@@ -274,7 +279,10 @@
                     </div>
                   </div>
                 </div>
+                -->
                 <!-- has_sound_type -->
+                <!-- TODO: Sound information might be available in items -->
+                <!--
                 <div
                   v-if="mir.has_sound_type"
                   class="col-span-12 md:col-span-7 mb-2"
@@ -290,6 +298,7 @@
                     </div>
                   </div>
                 </div>
+                -->
                 <div class="col-span-full md:col-span-2" />
                 <div class="col-span-full md:col-span-4" />
               </div>
@@ -315,7 +324,7 @@
               >
                 {{ mir.described_by?.has_issuer_id }}
               </a>
-              <p>{{ new Date(data?._source['@timestamp']??'').toLocaleString('de-DE') }}</p>
+              <p>{{ new Date(data?.['@timestamp']??'').toLocaleString('de-DE') }}</p>
             </div>
           </div>
         </div>
@@ -352,7 +361,7 @@
                 >
                   <Icon
                     class="text-2xl"
-                    name="bx:detail"
+                    name="tabler:list-details"
                   />
                 </a>
               </td>
@@ -370,8 +379,8 @@
 <script setup lang="ts">
 //models\interfaces\av_efi_schema.ts
  
-import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
+import type { IAVefiManifestation } from '../../models/interfaces/generated/IAVefiManifestation';
 const dataJson = defineModel({type: String, required: true});
-const data = JSON.parse(dataJson.value);
-const mir:Manifestation = data?._source?.has_record; 
+const data: IAVefiManifestation = JSON.parse(dataJson.value);
+const mir = data?.has_record; 
 </script>

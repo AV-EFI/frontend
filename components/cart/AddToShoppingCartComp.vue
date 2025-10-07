@@ -17,7 +17,7 @@
   </button>
 </template>
 <script setup lang="ts">
-const { $addToComparison } = useNuxtApp();
+const { $addToComparison } = useNuxtApp() as any;
 const props = defineProps({
     'filmId': {
         type: String,

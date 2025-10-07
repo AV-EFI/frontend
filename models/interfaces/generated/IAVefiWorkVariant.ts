@@ -1,9 +1,10 @@
 /* eslint-disable */
 /* AUTO-GENERATED FILE — DO NOT EDIT MANUALLY */
 import type { WorkVariant } from "../schema/avefi_schema_type_utils";
-import type { IAVefiWorkVariant } from "./IAVefiWorkVariant";
+import type { IAVefiManifestation } from "./IAVefiManifestation";
 
 export interface IAVefiWorkVariant {
+  _id: string;
   handle: string;
   directors_or_editors?: string[];
   castmembers?: string[];
@@ -12,7 +13,11 @@ export interface IAVefiWorkVariant {
   production_in_year?: { gte?: number; lte?: number };
   subjects?: string[];
   years?: string[];
+  url?: string;
   "@timestamp"?: number;
+
+  /** Nested manifestations from Elasticsearch response */
+  manifestations?: IAVefiManifestation[];
 
   /** Nested parts that reference other work variants */
   parts?: IAVefiWorkVariant[];

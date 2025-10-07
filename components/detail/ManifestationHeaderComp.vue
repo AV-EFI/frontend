@@ -8,7 +8,7 @@
       v-if="type === 'searchresult'"
       :class="['flex justify-center flex-col w-4/5']"
     >
-      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
+      <h4 class="col-span-full text-sm text-gray-700 dark:text-gray-300">
         {{ manifestation?.handle }}
       </h4>
       <h4 class="col-span-full font-semibold text-gray-900 dark:text-primary-200 my-1">
@@ -17,11 +17,11 @@
 
       <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row">
         <span
-          v-if="manifestation?.has_record?.has_event?.has_date"
+          v-if="Array.isArray(manifestation?.has_record?.has_event) && manifestation.has_record.has_event.length > 0 && manifestation.has_record.has_event[0]?.has_date"
           class="flex flex-row justify-start items-center"
-          :aria-label="$t('productionyear') + ': ' + manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')"
+          :aria-label="$t('productionyear') + ': ' + manifestation.has_record?.has_event?.map((event: any) => `${event?.has_date} (${$t(event?.type || '')})`).join(', ')"
         >
-          {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
+          {{ manifestation.has_record?.has_event?.map((event: any) => `${event?.has_date} (${$t(event?.type || '')})`).join(', ') }}
         </span>
 
         <span
@@ -29,7 +29,7 @@
           class="flex flex-row items-center"
           :aria-label="$t('has_colour') + ': ' + $t(manifestation.has_record?.has_colour_type)"
         >
-          <template v-if="manifestation.has_record?.has_event?.has_date">
+          <template v-if="manifestation.has_record?.has_event && manifestation.has_record.has_event.length > 0 && manifestation.has_record.has_event[0]?.has_date">
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
@@ -42,9 +42,9 @@
         <span
           v-if="manifestation?.has_record?.in_language"
           class="flex flex-row items-center"
-          :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map(language => `${$t(language?.code || '')}`).join(', ')"
+          :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map((language: any) => `${$t(language?.code || '')}`).join(', ')"
         >
-          <template v-if="manifestation.has_record?.has_event?.has_date || manifestation.has_record?.has_colour_type">
+          <template v-if="(manifestation.has_record?.has_event && manifestation.has_record.has_event.length > 0 && manifestation.has_record.has_event[0]?.has_date) || manifestation.has_record?.has_colour_type">
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
@@ -52,11 +52,11 @@
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
-          {{ manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
+          {{ manifestation.has_record?.in_language?.map((language: any) => `${$t(language.code || '')}`).join(', ') }}
         </span>
       </div>
 
-      <div class="flex flex-row mt-1 hidden">
+      <div class="mt-1 hidden">
         <div
           v-if="allItemsEmpty"
           class="badge bg-warning-300 text-white z-10"
@@ -86,18 +86,18 @@
 
       <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row flex-wrap">
         <span
-          v-if="manifestation?.has_record?.has_event?.has_date"
+          v-if="manifestation?.has_record?.has_event && manifestation.has_record.has_event.length > 0 && manifestation.has_record.has_event[0]?.has_date"
           class="flex flex-row justify-start items-center"
-          :aria-label="$t('productionyear') + ': ' + manifestation._source.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')"
+          :aria-label="$t('productionyear') + ': ' + manifestation._source?.has_record?.has_event?.map((event: any) => `${event?.has_date} (${$t(event?.type || '')})`).join(', ')"
         >
-          {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
+          {{ manifestation.has_record?.has_event?.map((event: any) => `${event?.has_date} (${$t(event?.type || '')})`).join(', ') }}
         </span>
         <span
           v-if="manifestation?.has_record?.has_colour_type"
           class="flex flex-row items-center mr-1"
           :aria-label="$t('has_colour') + ': ' + $t(manifestation?.has_record?.has_colour_type)"
         >
-          <template v-if="manifestation?.has_record?.has_event?.has_date">
+          <template v-if="manifestation?.has_record?.has_event && manifestation.has_record.has_event.length > 0 && manifestation.has_record.has_event[0]?.has_date">
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
@@ -125,11 +125,11 @@
           {{ formatInLanguageText(manifestation.has_record.in_language) }}
         </span>
         <span
-          v-if="manifestation.has_record.has_item"
+          v-if="manifestation?.has_record?.has_item"
           class="flex flex-row items-center"
         >
           <Icon
-            name="carbon:chart-relationship"
+            name="tabler:chart-dots"
             class="w-4 h-4 mr-1 inline-block"
           />
           {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
@@ -165,12 +165,12 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
 import type { IAVefiManifestation } from '@/models/interfaces/generated';
-import type { Language } from '@/models/interfaces/schema/avefi_schema_type_utils';
 import { useI18n } from 'vue-i18n';
 
 defineProps({
-    manifestation: Object as PropType<IAVefiManifestation>,
+    manifestation: Object as PropType<any>, // Using any temporarily until interfaces are fully consolidated
     type: String as PropType<string>,
     compSize: {
         type: String as PropType<string>,
@@ -193,16 +193,16 @@ function safeT(val: unknown): string {
         : '';
 }
 
-function formatInLanguageText(langs: Language[]): string {
+function formatInLanguageText(langs: any[]): string {
     return langs
-        .map(lang => safeT(lang?.code))
+        .map((lang: any) => safeT(lang?.code))
         .filter(Boolean)
         .join(', ');
 }
 
-function formatInLanguageAria(langs: Language[]): string {
+function formatInLanguageAria(langs: any[]): string {
     return safeT('in_language_code') + ': ' + langs
-        .map(lang => safeT(lang?.code))
+        .map((lang: any) => safeT(lang?.code))
         .filter(Boolean)
         .join(', ');
 }

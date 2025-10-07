@@ -17,20 +17,20 @@
       :aria-label="$t(keytxt)"
     >
       <GlobalClipboardComp
-        v-for="val in valtxt"
+        v-for="val in Array.isArray(valtxt) ? valtxt : [valtxt]"
         v-if="clip"
-        :key="val?.has_name ?? val"
+        :key="val?.has_name ?? val?.id ?? String(val)"
         :class="fontSize"
         class="flex items-center mr-2 min-w-6"
-        :display-text="val?.has_name ?? val"
+        :display-text="val?.has_name ?? String(val)"
       />
       <span
         v-if="!clip"
         class="flex-grow"
         :class="fontSize"
-        :aria-label="`${$t(keytxt)}: ${valtxt.map(v => v?.has_name ?? v).join(', ')}`"
+        :aria-label="`${$t(keytxt)}: ${(Array.isArray(valtxt) ? valtxt : [valtxt]).map(v => v?.has_name ?? v).join(', ')}`"
       >
-        {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
+        {{ (Array.isArray(valtxt) ? valtxt : [valtxt]).map(v => v?.has_name ?? $t(String(v))).join(', ') }}
       </span>
       <DetailSameAsComp
         v-if="sameAs"
@@ -52,15 +52,15 @@
         :aria-label="$t(keytxt)"
       >
         <li
-          v-for="val in valtxt"
-          :key="val?.has_name ?? val"
+          v-for="val in Array.isArray(valtxt) ? valtxt : [valtxt]"
+          :key="val?.has_name ?? val?.id ?? String(val)"
           class="flex flex-row items-center justify-between flex-wrap hover:bg-slate-100 dark:hover:bg-slate-700"
           :class="`${fontSize}`"
           role="listitem"
           :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
         >
           <span class="flex-grow">
-            {{ val?.has_name ?? $t(val) }}
+            {{ val?.has_name ?? $t(String(val)) }}
           </span>
           <DetailSameAsComp
             v-if="sameAs"
@@ -82,6 +82,18 @@
 </template>
 
 <script lang="ts" setup>
+import type { PropType } from 'vue';
+
+interface ValueItem {
+  has_name?: string;
+  same_as?: {
+    id?: string;
+    category?: string;
+  };
+  id?: string;
+  category?: string;
+}
+
 const props = defineProps({
     keytxt: {
         type: String,
@@ -89,7 +101,7 @@ const props = defineProps({
         default: null
     },
     valtxt: {
-        type: Array<object>,
+        type: [Array, Object] as PropType<ValueItem[] | ValueItem>,
         required: true
     },
     sameAs: {
@@ -125,10 +137,11 @@ const props = defineProps({
 
 let sameAsData = {};
 if (props.keytxt !== 'avefi:Subject') {
+    const firstItem = Array.isArray(props.valtxt) ? props.valtxt[0] : props.valtxt;
     sameAsData = {
         item: {
-            id: props.valtxt?.same_as?.id,
-            category: props.valtxt?.same_as?.category
+            id: firstItem?.same_as?.id,
+            category: firstItem?.same_as?.category
         }
     };
 } else {

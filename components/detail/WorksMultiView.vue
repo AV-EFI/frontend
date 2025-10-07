@@ -3,7 +3,7 @@
     <ul class="space-y-4">
       <li
         v-for="work in workList"
-        :key="work"
+        :key="work.handle"
         class="bg-base-100 shadow-md rounded-lg p-4"
       >
         <h2
@@ -18,13 +18,13 @@
             class="link dark:link-white no-underline hover:underline"
           >
             <span>
-              {{ work?._source?.has_record?.has_primary_title?.has_name }}
+              {{ work?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
             </span>
           </a>
         </h2>        
         <div class="flex flex-col md:flex-row text-sm text-primary-700 dark:text-gray-200 mt-2">
           <span
-            v-if="work?._source?.has_record?.has_event?.map((loc) => loc)"
+            v-if="work?.compound_record?._source?.has_record?.has_event?.map((loc) => loc)"
             class="flex items-center"
           >
             <Icon
@@ -33,42 +33,42 @@
               :alt="$t('country')"
               :title="$t('country')"
             />
-            {{ work?._source?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null).join(', ') }}
+            {{ work?.compound_record?._source?.has_record?.has_event?.flatMap(ev => ev.located_in?.map(location => location.has_name) || null).join(', ') }}
           </span>
           <span
-            v-if="work?._source?.years"
+            v-if="work?.compound_record?._source?.years"
             class="flex items-center"
           >
-            <template v-if="work?._source?.has_record?.has_event"><span class="flex items-center">&nbsp;&nbsp;</span></template>
+            <template v-if="work?.compound_record?._source?.has_record?.has_event"><span class="flex items-center">&nbsp;&nbsp;</span></template>
             <Icon
               name="tabler:calendar"
               class="mr-1"
             />
-            {{ work?._source?.years.join(', ') }}
+            {{ work?.compound_record?._source?.years.join(', ') }}
           </span>
           <span
-            v-if="work?._source?.has_record?.has_form"
+            v-if="work?.compound_record?._source?.has_record?.has_form"
             class="flex items-center"
           >
-            <template v-if="work?._source?.has_record?.has_event || item.years">
+            <template v-if="work?.compound_record?._source?.has_record?.has_event || work?.compound_record?._source?.years">
               <span class="flex items-center">&nbsp;&nbsp;</span>
             </template>
             <Icon
               name="tabler:clapperboard"
               class="mr-1"
             />
-            {{ work?._source?.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
+            {{ Array.isArray(work?.compound_record?._source?.has_record?.has_form) ? work?.compound_record?._source?.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') : $t(work?.compound_record?._source?.has_record?.has_form) }}
           </span>
           <span
-            v-if="work?._source?.has_record?.is_part_of"
+            v-if="work?.compound_record?._source?.has_record?.is_part_of"
             class="flex items-center"
           >
-            <template v-if="work?._source?.has_record?.has_event || work?._source?.years || work?._source?.has_record?.has_form">
+            <template v-if="work?.compound_record?._source?.has_record?.has_event || work?.compound_record?._source?.years || work?.compound_record?._source?.has_record?.has_form">
               <span class="flex items">
                 &nbsp;&nbsp;
               </span>
               <Icon
-                name="carbon:logical-partition"
+                name="tabler:separator"
                 class="mr-1"
               />
               {{ $t('Episode/Part') }}
@@ -79,8 +79,8 @@
           <MicroLabelComp label-text="AlternativeTitle" />
           <ul>
             <li
-              v-for="alt in work?._source.has_record?.has_alternative_title"
-              :key="alt.id"
+              v-for="alt in work?.compound_record?._source?.has_record?.has_alternative_title"
+              :key="alt.has_ordering_name || alt.has_name"
             >
               {{ alt.has_name }}
             </li>
@@ -94,8 +94,8 @@
             {{ $t('manifestations') }}
           </h3>
           <div
-            v-for="manifestation in work?._source?.manifestations"
-            :key="manifestation.id"
+            v-for="manifestation in work?.manifestations"
+            :key="manifestation.handle"
             class="collapse collapse-plus"
           >
             <input
@@ -106,8 +106,6 @@
               <LazyDetailManifestationHeaderComp
                 :manifestation="manifestation"
                 type="searchresult"
-                :is-twin="manifestation.isTwin"
-                :all-items-empty="manifestation.allItemsEmpty"
               />
             </div>        
             <div class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white">
@@ -122,20 +120,6 @@
                     />
                   </div>
                 </div>
-                <div class="col-span-1 md:flex-row">
-                  <MicroLabelComp label-text="in_language_code" />
-                  <SearchHighlightListComp
-                    :items="manifestation?.has_record?.in_language?.map(lang => lang.code) || []"
-                    class="mb-2"
-                  />
-                </div>
-                <div class="col-span-1 md:flex-row">
-                  <MicroLabelComp label-text="has_colour" />
-                  <SearchHighlightSingleComp 
-                    :item="manifestation?.has_record?.has_colour_type || null"
-                    class="mb-2"
-                  />
-                </div>
               </div>
               <hr class="mt-4 mb-2 dark:border-gray-500">
               <h4
@@ -146,7 +130,7 @@
               </h4>
               <div
                 v-for="exemplar in manifestation.items"
-                :key="exemplar.id"
+                :key="exemplar._id"
                 class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 mb-2 grid-rows-[minmax(0,1fr)]"
               >
                 <div class="col-span-full">
@@ -183,8 +167,8 @@
                 </div>
                 <div class="col-span-full md:col-span-1">
                   <MicroLabelComp label-text="in_language_code" />
-                  <SearchHighlightSingleComp
-                    :item="exemplar?.has_record?.in_language?.code"
+                  <SearchHighlightListComp
+                    :items="exemplar?.has_record?.in_language?.map(lang => lang.code) || []"
                     class="mb-2"
                   />
                 </div>
@@ -194,7 +178,7 @@
                 >
                   <a
                     v-if="exemplar?.has_record?.has_webresource"
-                    :href="exemplar?.has_record?.has_webresource"
+                    :href="exemplar?.has_record?.has_webresource[0]"
                     target="_blank"
                     class="link link-primary dark:link-accent mt-auto md:mb-2"
                   >
@@ -217,6 +201,9 @@
 </template>
 
 <script setup lang="ts">
+import type { IAVefiWorkVariant } from '@/models/interfaces/generated';
+import { getDataSet } from '@/utils/getDataSet';
+
 const props = defineProps({
     workIds: {
         type: String,
@@ -228,10 +215,12 @@ const props = defineProps({
     },
 });
 const workIds = ref(props.workIds.split(','));
-const workList = ref([]);
+const workList = ref<IAVefiWorkVariant[]>([]);
 
-await getDataSet(workIds.value).then((data) => {
+await getDataSet(workIds.value.join(',')).then((data: any) => {
     console.log('Data:', data);
-    workList.value = data;
+    if (data && Array.isArray(data)) {
+        workList.value = data;
+    }
 });
 </script>

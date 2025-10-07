@@ -32,7 +32,7 @@
       :aria-label="$t('openForm')"
       @click="openMobileModal"
     >
-      <LazyIcon name="fa:paper-plane" />
+      <LazyIcon name="tabler:send" />
     </button>
 
     <dialog

@@ -47,7 +47,7 @@
                       class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-primary-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 max-md:max-w-[calc(100%-52px)] formkit-inner"
                     >
                       <label
-                        class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
+                        class="items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
                         for="input_0"
                         :aria-label="$t('search')"
                       >
@@ -87,15 +87,14 @@
                         </span>
                       </span>
 
-                      <input
-                        type="search"
+                      <SearchInputWithSuggestions
+                        :model-value="currentRefinement"
                         :aria-label="$t('search')"
-                        class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
-                        :value="currentRefinement"
                         :placeholder="$t('searchplaceholder')"
-                        @input="currentRefinement = $event.target.value"
-                        @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement ?? ''"
-                      >
+                        input-class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent !text-lg text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-2 focus:ring-0 formkit-input !rounded-3xl"
+                        @input="refine($event || '')"
+                        @enter="refine($event || ''); searchQuery = $event ?? ''"
+                      />
                       <span
                         id="search-loading"
                         :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm']"
@@ -110,7 +109,6 @@
 
                         @click="
                           refine('');
-                          currentRefinement = '';
                           searchQuery = '';
                         "
                       >
@@ -130,7 +128,7 @@
                     >
                       <Icon
                         class="text-lg"
-                        name="formkit:search"
+                        name="tabler:search"
                       />
                       <span class="sr-only">{{ $t('search') }}</span>
                     </button>
@@ -142,14 +140,14 @@
                 <button
                   class="btn btn-primary lg:hidden"
                   :title="$t('showFacetItems')"
-                  @click="$toggleFacetDrawerState"
+                  @click="() => $toggleFacetDrawerState()"
                 >
                   <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
               </div>
               <div class="w-full">
                 <div
-                  class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 flex flex-col md:flex-row justify-between"
+                  class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2"
                   role="region"
                   :aria-label="$t('filteringsection')"
                 >
@@ -173,6 +171,13 @@
                     </ais-stats>
                   </div>
                   <div class="w-full flex flex-col justify-center border-base border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <ais-sort-by
+                      :items="[
+                        { value: 'default', label: 'Featured' },
+                        { value: '_title_asc', label: 'Title asc.' },
+                        { value: '_title_desc', label: 'Title desc.' },
+                      ]"
+                    />
                     <FormKit
                       id="sort-select"
                       type="select"
@@ -185,89 +190,8 @@
                       input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 rounded-lg"
                     />
                   </div>
-                  <div class="form-control w-full border-base border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <label 
-                      class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto"
-                      :aria-label="$t('toggleViewType')"
-                    >
-                      <Icon
-                        name="tabler:info-circle"
-                        class="text-gray-500 dark:text-gray-300"
-                        :title="$t('viewTypeCheckedWarning')"
-                      />
-                      <span class="label-text text-gray-800 dark:text-gray-200">
-                        {{ `${$t('accordionView')} / ${$t('flatView')}` }}&nbsp;
-                      </span>
-                      <input
-                        v-model="viewTypeChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
+                  <div class="form-control w-full border-base border-2 flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2">
                     <label
-                      v-if="!viewTypeChecked"
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
-                      :aria-label="$t('toggleProductionDetails')"
-                    >
-                      <span class="label-text text-gray-800 dark:text-gray-200">
-                        <LazyIcon
-                          v-if="!productionDetailsChecked"
-                          class="dark:text-white"
-                          :title="$t('productionDetailsOn')"
-                          name="mdi:list-box-outline"
-                        />
-                        <LazyIcon
-                          v-else
-                          class="dark:text-white"
-                          :title="$t('productionDetailsOff')"
-                          name="mdi:list-box" 
-                        />
-                    &nbsp;
-                        <span v-if="!productionDetailsChecked">
-                          {{ $t('productionDetailsOnShort') }}
-                        </span>
-                        <span v-else>
-                          {{ $t('productionDetailsOffShort') }}
-                        </span>
-                      </span>
-                      <input
-                        v-model="productionDetailsChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      v-if="!viewTypeChecked"
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
-                      :aria-label="$t('toggleExpandAll')"
-                    >
-                      <span class="label-text text-sm text-gray-800 dark:text-gray-200">
-                        <LazyIcon
-                          v-if="!expandAllChecked"
-                          class="dark:text-white"
-                          name="tabler:layout-navbar-expand"
-                        />
-                        <LazyIcon
-                          v-else
-                          class="dark:text-white"
-                          name="tabler:layout-navbar-collapse"
-                        />
-                    &nbsp;
-                        <span v-if="!expandAllChecked">
-                          {{ $t('expandAll') }}
-                        </span>
-                        <span v-else>
-                          {{ $t('collapseAll') }}
-                        </span>
-                      </span>
-                      <input
-                        v-model="expandAllChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      v-if="!viewTypeChecked"
                       class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto my-auto"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
@@ -370,19 +294,14 @@
                     class=""
                   >
                     <template #default="{ items }">
-                      <SearchNoResultsComp
-                        v-if="items.length === 0"
-                        class="text-center text-gray-500 py-6"
-                      />
                       <SearchHitsComp
-                        v-else
                         :items="items"
-                        :view-type-checked="viewTypeChecked"
                         :production-details-checked="productionDetailsChecked"
-                        :expanded-handles="expandedHandles"
+                        :expanded-handles="Array.from(expandedHandles)"
                         :expand-all-handles-checked="expandAllHandlesChecked"
                         :is-search-loading="isSearchLoading"
                         :current-refinements="currentRefinements"
+                        :nr-of-facets-active="currentRefinements.length"
                       />
                     </template>
                   </ais-hits>
@@ -398,17 +317,8 @@
 </template>
 
 <script setup lang="ts">
-
-import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi';
-
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
-const {$toggleFacetDrawerState} = useNuxtApp();
-
-// toggle top right 
-const viewTypeChecked = ref(false);
-
-const expandAllChecked = ref(false);
+const {$toggleFacetDrawerState} = useNuxtApp() as unknown as { $toggleFacetDrawerState: () => void };
 
 const expandAllHandlesChecked = ref(false);
 
@@ -416,10 +326,9 @@ const productionDetailsChecked = ref(true);
 
 const expandedHandles = ref<Set<string>>(new Set());
 
-
 const searchQuery = ref('');
 import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi.ts';
+import { config } from '../../searchConfig_avefi';
 // --- Algolia current refinements (active facets) ---
 import { inject, computed } from 'vue';
 
@@ -431,7 +340,7 @@ const currentRefinements = computed(() => {
     if (!uiState) return [];
     // Try to extract all refinements (facets, numeric, etc.)
     const refinements: any[] = [];
-    Object.entries(uiState).forEach(([key, value]) => {
+    Object.entries(uiState).forEach(([, value]) => {
         if (typeof value === 'object' && value !== null) {
             Object.entries(value).forEach(([facet, facetValue]) => {
                 if (Array.isArray(facetValue) && facetValue.length) {
@@ -457,8 +366,8 @@ const searchClient = Client({
 });
 
 onMounted(() => {
-
-    useCurrentUrlState();
+    // Remove the problematic useCurrentUrlState call for now
+    // useCurrentUrlState();
     const saveSearchQuery = () => {
         const search = window?.location?.search;
         if (search) {
@@ -486,36 +395,6 @@ const props = defineProps({
         default: useRuntimeConfig().public.ELASTIC_INDEX,
     },
 });
-
-watch(expandAllChecked, () => {
-    expandAllItems();
-});
-
-watch(viewTypeChecked, () => {
-    expandAllChecked.value = false;
-
-    // Reset all facets/refinements
-    // Find the clear refinements button and click it
-    setTimeout(() => {
-        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
-        if (clearBtn instanceof HTMLElement) {
-            clearBtn.click();
-        }
-    }, 0);
-});
-
-const expandAllItems = () => {
-    const expandIcons = document.querySelectorAll('.expand-icon');
-    expandIcons.forEach(icon => {
-        icon.click();
-    });
-    setTimeout(() => {
-        const checkboxes = document.querySelectorAll('.manifestation-checkbox') as NodeListOf<Element>;
-        checkboxes.forEach(checkbox => {
-            (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked;
-        });
-    }, 300);
-};
 
 // turn slot `items` into { [attribute]: Set(values) }
 function normalizeActive(items: any[]) {

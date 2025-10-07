@@ -6,7 +6,7 @@
         :aria-label="$t('toggleComparisonDrawer')"
         type="checkbox"
         class="drawer-toggle"
-        :checked="objectListStore.comparisonDrawerOpen"
+        :checked="objectListStore?.comparisonDrawerOpen"
       >
       <div class="drawer-side z-50">
         <label
@@ -23,7 +23,7 @@
             >
               <Icon
                 class="text-xl"
-                name="formkit:close"
+                name="tabler:x"
               />
             </button>
           </div>
@@ -37,7 +37,7 @@
               name="drawer_tabs"
               role="tab"
               checked
-              :class="['tab lg:!w-64', objectListStore.objects.length === 0 && 'tab-disabled disabled']" 
+              :class="['tab lg:!w-64', objectListStore?.objects?.length === 0 && 'tab-disabled disabled']" 
               :aria-label="$t('comparison')"
             >
             <div
@@ -66,30 +66,30 @@
                 <button
                   :title="$t('gotocomp')"
                   class="btn btn-compare-list h-full join-item w-1/3"
-                  :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
+                  :class="objectListStore?.objects?.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
                   <Icon
                     class="text-lg text-white w-4 h-4"
-                    name="carbon:compare"
+                    name="tabler:git-compare"
                   />
                   <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                 </button>
                 <button 
                   class="btn btn-error text-white join-item w-1/3"
-                  :class="objectListStore.objects.length < 1 && 'btn-disabled'"
+                  :class="objectListStore?.objects?.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('objectListStore')"
                 >
                   <Icon
                     class="text-lg text-white w-4 h-4"
-                    name="carbon:trash-can"
+                    name="tabler:trash"
                   />
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
-                  :data-set-id="objectListStore.getObjectIds"
-                  :class="objectListStore.objects.length < 1 && 'btn-disabled'"
+                  :data-set-id="objectListStore?.getObjectIds"
+                  :class="objectListStore?.objects?.length < 1 && 'btn-disabled'"
                   class="join-item w-1/3"
                   btn-size="rounded-l-none"
                   :show-label="true"
@@ -97,7 +97,7 @@
               </div>
               <ul class="mt-2 w-full">
                 <li
-                  v-for="(object, index) in objectListStore.objects"
+                  v-for="(object, index) in objectListStore?.objects || []"
                   :key="index"
                   class="text-sm"
                 >
@@ -126,7 +126,7 @@
                 </li>
               </ul>
               <div class="hidden">
-                {{ objectListStore.getObjectIds }}
+                {{ objectListStore?.getObjectIds }}
               </div>
             </div>
             <input
@@ -134,7 +134,7 @@
               type="radio"
               name="drawer_tabs"
               role="tab"
-              :class="['tab lg:!w-64', shoppingCart.objects.length === 0 && 'tab-disabled disabled']"
+              :class="['tab lg:!w-64', shoppingCart?.objects?.length === 0 && 'tab-disabled disabled']"
               :aria-label="$t('shoppingcart')"
             >
             <div
@@ -162,22 +162,22 @@
               <div class="join w-full mt-2 p-2">
                 <button 
                   class="btn btn-error text-white join-item w-1/2"
-                  :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
+                  :class="shoppingCart?.objects?.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('shoppingCart')"
                 >
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
-                  :data-set-id="shoppingCart.getObjectIds"
-                  :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
+                  :data-set-id="shoppingCart?.getObjectIds"
+                  :class="shoppingCart?.objects?.length < 1 && 'btn-disabled'"
                   class="join-item w-1/2"
                   :btn-size="'rounded-l-none'"
                 />
               </div>
               <ul class="mt-2 w-full">
                 <li
-                  v-for="(shoppingCartItem, index) in shoppingCart.objects"
+                  v-for="(shoppingCartItem, index) in shoppingCart?.objects || []"
                   :key="index"
                   class="mt-2"
                 >
@@ -215,45 +215,65 @@
 
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ref, onMounted } from 'vue';
 import { toast } from 'vue3-toastify';
 import {useObjectListStore} from '../../stores/compareList';
 import {useShoppingCart} from '../../stores/shoppingCart';
+
 const {$toggleComparisonDrawerState}:any = useNuxtApp();
-const shoppingCart = useShoppingCart();
-const objectListStore = useObjectListStore();
+const { t } = useI18n();
+const shoppingCart = ref();
+const objectListStore = ref();
 const showInfo = ref(false);
 
+onMounted(() => {
+    try {
+        shoppingCart.value = useShoppingCart();
+        objectListStore.value = useObjectListStore();
+    } catch (error) {
+        console.warn('Store not available yet:', error);
+    }
+});
+
 const toggleDrawer = (() => {
-    objectListStore.comparisonDrawerOpen = !objectListStore.comparisonDrawerOpen;
+    if (objectListStore.value) {
+        objectListStore.value.comparisonDrawerOpen = !objectListStore.value.comparisonDrawerOpen;
+    }
 });
 
 const removeObject = (index:number, type:string) => {
-    if(type === 'shoppingCart') {
-        shoppingCart.removeObject(index);
+    if(type === 'shoppingCart' && shoppingCart.value) {
+        shoppingCart.value.removeObject(index);
         return;
     }
-    objectListStore.removeObject(index);
+    if (objectListStore.value) {
+        objectListStore.value.removeObject(index);
+    }
 };
 
 const removeAllObjects = (type: string) => {
-    if(type === 'shoppingCart') {
-        shoppingCart.removeAllObjects();
+    if(type === 'shoppingCart' && shoppingCart.value) {
+        shoppingCart.value.removeAllObjects();
         return;
     }
-    objectListStore.removeAllObjects();
+    if (objectListStore.value) {
+        objectListStore.value.removeAllObjects();
+    }
     return;
 };
 
 const navigateToComparison = () => {
     try {
-        const objectIds: string[] = objectListStore.getObjectIds;
-        if(objectIds.length == 2) {
-            navigateTo(`/compare_altern?prev=${objectIds[0]}&next=${objectIds[1]}`);
+        if (objectListStore.value) {
+            const objectIds: string[] = objectListStore.value.getObjectIds;
+            if(objectIds.length == 2) {
+                navigateTo(`/compare_altern?prev=${objectIds[0]}&next=${objectIds[1]}`);
+            }
         }
     }
     catch(e) {
         console.error(e);
-        toast.error($t('error'));
+        toast.error(t('error'));
     }
 };
 </script>

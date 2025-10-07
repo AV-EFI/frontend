@@ -7,7 +7,7 @@
       'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-slate-900 dark:text-white text-xs ',
       'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2'
     }"
-    :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
+    :title="$t('showFacetsFor', { headerText: $t(headerText?? ''), category: $t(category || '') })"
   >
     <!-- Header with icon (unchanged) -->
     <template #header="{ hasRefinements }">
@@ -23,7 +23,7 @@
           class="my-auto font-bold"
           :class="!hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'"
         >
-          {{ $t(headerText) }}
+          {{ $t(headerText || '') }}
         </h4>
       </div>
 
@@ -53,7 +53,7 @@
               :step="1"
               thumb-label
               class="w-full h-8 slider-primary"
-              :aria-label="$t('refineBy', { headerText: $t(headerText) })"
+              :aria-label="$t('refineBy', { headerText: $t(headerText || '') })"
               @update:model-value="onSliderChangeLocal($event, range)"
             />
           </div>
@@ -75,7 +75,7 @@
             <div class="w-1/3 flex flex-col justify-center mb-3.5 max-w-16">
               <Icon
                 class="mx-auto dark:text-white"
-                name="formkit:arrowright"
+                name="tabler:arrow-right"
               />
             </div>
             <input
@@ -102,9 +102,9 @@
               {{ $t('reset') }}
             </button>
             <button
-              class="btn btn-block btn-sm w-1/2 btn-primary"
+              class="btn btn-block btn-sm btn-primary"
               :disabled="!canRefine || !hasUnsaved(currentRefinement, range)"
-              :aria-disabled="(!canRefine || !hasUnsaved(currentRefinement, range)).toString()"
+              :aria-disabled="!canRefine || !hasUnsaved(currentRefinement, range)"
               @click="applyRefinement(refine, range)"
             >
               {{ $t('apply') }}
@@ -156,16 +156,17 @@
           >
             <div class="formkit-inner !rounded-3xl">
               <label
-                :aria-label="$t('searchInFacet', { facetName: $t(headerText) })"
+                :aria-label="$t('searchInFacet', { facetName: $t(headerText || '') })"
                 :for="inputId"
                 class="label-text !text-sm !mb-0 !p-0 !text-neutral-500 dark:!text-neutral-300"
               />
               <input
                 :id="inputId"
                 type="search"
+                autocomplete="off"
                 class="!text-sm p-1 !rounded-3xl w-full bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 focus:outline-none ring-primary-200 ring-2 focus:ring-2 focus:ring-primary-500 px-2"
                 :placeholder="$t('search')"
-                @input="(e) => { searchForItems(e?.currentTarget?.value) }"
+                @input="(e) => { searchForItems((e?.currentTarget as HTMLInputElement)?.value) }"
               >
             </div>
           </ais-search-box>
@@ -223,6 +224,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import Slider from '@vueform/slider';
+import { getFacetIcon } from '~/models/interfaces';
 
 const props = defineProps({
     headerText: String,
@@ -322,34 +324,8 @@ function hasUnsaved(cr: any, range: any) {
     return p[0] !== applied[0] || p[1] !== applied[1];
 }
 
-// facet icon mapping (attributeName → Tabler icon)
-const ICON_MAP: Record<string, string> = {
-    // item-level moved facets
-    in_language_code: 'tabler-language',
-    has_colour_type: 'tabler-palette',
-    has_sound_type: 'tabler-volume',
-    has_duration_has_value: 'tabler-clock-hour-3',
-    has_extent_has_value: 'tabler-ruler',
-    item_element_type: 'tabler-movie',
-    has_format_type: 'tabler-disc',
-    item_duration_in_minutes: 'tabler-clock-hour-3',
-
-    // manifestation/work facets
-    manifestation_event_type: 'tabler-calendar-event',
-    located_in_has_name: 'tabler-map-pin',
-    has_genre_has_name: 'tabler-category',
-    subjects: 'tabler-tag',
-    directors_or_editors: 'tabler-chair-director',
-    castmembers: 'tabler-users',
-    production: 'tabler-building-factory',
-    has_form: 'tabler:shape',
-
-    // numeric range helpers
-    production_year_start: 'tabler-calendar',
-    production_year_end: 'tabler-calendar',
-    has_issuer_name: 'tabler-building'
-};
-const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
+// Use the centralized facet icon mapping from models
+const facetIcon = computed(() => getFacetIcon(props.attributeName as string));
 </script>
 
 <style lang="scss">

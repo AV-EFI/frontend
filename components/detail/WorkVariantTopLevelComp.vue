@@ -70,7 +70,7 @@
 
 <script lang="ts" setup>
 import type { PropType } from 'vue';
-import type { WorkVariant } from '../../models/interfaces/av_efi_schema';
+import type { WorkVariant } from '../../models/interfaces/schema/avefi_schema';
 
 const workVar = defineModel({ type: Object as PropType<WorkVariant>, required: true });
 

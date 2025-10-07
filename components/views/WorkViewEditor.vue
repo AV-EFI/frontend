@@ -16,7 +16,7 @@
       >
         {{ $t('updateallproperties') }}
         <Icon
-          name="fa-solid:arrow-circle-right"
+          name="tabler:arrow-right"
           class="text-white"
         />
       </button>
@@ -82,7 +82,7 @@
       <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('location') }}:</label>
       <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
         <li
-          v-for="(country, index) in data?.compound_record?._source?.has_record?.has_event[0]?.located_in"
+          v-for="(country, index) in data?.compound_record?._source?.has_record?.has_event?.[0]?.located_in"
           :key="index"
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
@@ -118,7 +118,7 @@
         class="grid grid-cols-7 subgrid gap-1 col-span-full"
       >
         <li
-          :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
+          class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-800"
         >
           <span class="col-span-6">
             {{ data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date }}
@@ -286,12 +286,12 @@
           :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
         >
           <span class="col-span-3">
-            {{ subject.has_name }}
+            {{ (subject as any).has_name }}
           </span>
           <div class="col-span-3">
             <ul>
               <li
-                v-for="(sameAs, sameAsIndex) in subject?.same_as"
+                v-for="(sameAs, sameAsIndex) in (subject as any)?.same_as"
                 :key="sameAsIndex"
                 class="list-disc"
               >
@@ -301,9 +301,9 @@
           </div>
           <div class="col-span-1 flex flex-row justify-center my-auto">
             <GlobalSendValueComp
-              :target-property-value="subject.has_name"
+              :target-property-value="(subject as any).has_name"
               target-property-name="subject"
-              :same-as-id="subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+              :same-as-id="(subject as any)?.same_as?.flatMap((sameAs: any) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
               @update-target-model="onUpdateTargetModel"
             />
           </div>
@@ -379,22 +379,22 @@ function onUpdateTargetModel(targetPropertyValue: string, targetPropertyName: st
 
 function updateAllProperties() {
     const properties = [
-        { value: data?.compound_record?._source?.has_record?.has_primary_title?.has_name, name: 'title' },
-        { value: data?.handle, name: 'efi' },
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: item?.has_name, name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title' })),
+        { value: data?.compound_record?._source?.has_record?.has_primary_title?.has_name, name: 'title', sameAsId: '' },
+        { value: data?.handle, name: 'efi', sameAsId: '' },
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.located_in || []).map((item) => ({ value: item?.has_name, name: 'location', sameAsId: item?.same_as?.flatMap((sameAs: any) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs: any) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs: any) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item: any) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs: any) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title', sameAsId: '' })),
         ...(data?.compound_record?._source?.has_record?.has_genre || []).map((item) => ({ value: item?.has_name, name: 'genre', sameAsId: item?.same_as?.flatMap((sameAs) => sameAs.id).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        { value: data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear' },
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs: any) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        { value: data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear', sameAsId: '' },
         ...(data?.compound_record?._source?.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category.replace('avefi:','') })),
-        { value: data?.compound_record?._source?.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
+        { value: data?.compound_record?._source?.has_record?.described_by?.has_issuer_name, name: 'last_edit', sameAsId: '' },
     ];
 
     properties.forEach((property) => {
-        emit('updateTargetModelGP', property.value, property.name, property.sameAsId);
+        emit('updateTargetModelGP', property.value, property.name, property.sameAsId || '');
     });
 }
 

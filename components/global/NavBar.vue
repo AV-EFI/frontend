@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <nav
-    class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
+    class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-90"
     :class="isScrolled ? 'md:mix-blend-multiply lg:opacity-90' : ''"
     :aria-label="ariaLabelMainNav"
   >
@@ -59,7 +59,7 @@
                 v-if="data?.user"
                 class="h-12 flex justify-center"
               >
-                <a href="/protected/mergetool">{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
+                <a href="/protected/mergetool">{{ $t('mergeTool') }}<span class="badge badge-accent text-white bg-[#e11d48]">1</span></a>
               </li>
               <li
                 v-if="data?.user"
@@ -124,7 +124,7 @@
             >
             <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
               <span
-                class="bree text-black dark:text-white my-auto"
+                class="bree text-base-content dark:text-white my-auto"
                 v-html="$t('avefiClaimHtml').replace('. ', '<br/>')"
               />
             </div>
@@ -160,35 +160,37 @@
         </div>
 
         <!-- Desktop menu (xl and up) -->
-        <div class="navbar-end w-3/5 flex-grow flex hidden xl:flex">
+        <div class="navbar-end w-3/5 flex-grow hidden xl:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
-            <li
-              v-if="shoppingCart.objects?.length > 0"
-              class="h-12 flex justify-center"
-            >
-              <button
-                type="button"
-                :aria-label="ariaLabelShoppingcart"
-                @click="$toggleComparisonDrawerState('shopping')"
+            <ClientOnly>
+              <li
+                v-if="shoppingCart?.value?.objects?.length > 0"
+                class="h-12 flex justify-center"
               >
-                {{ $t("shoppingcart") }}
-                <span class="indicator-item badge badge-favourites-list text-white">{{ shoppingCart.objects?.length }}</span>
-              </button>
-            </li>
+                <button
+                  type="button"
+                  :aria-label="ariaLabelShoppingcart"
+                  @click="toggleComparisonDrawerState('shopping')"
+                >
+                  {{ $t("shoppingcart") }}
+                  <span class="indicator-item badge badge-favourites-list text-white">{{ shoppingCart?.value?.objects?.length || 0 }}</span>
+                </button>
+              </li>
 
-            <li
-              v-if="objectListStore.objects?.length > 0"
-              class="h-12 flex justify-center"
-            >
-              <button
-                type="button"
-                :aria-label="ariaLabelComparison"
-                @click="$toggleComparisonDrawerState('comparison')"
+              <li
+                v-if="objectListStore?.value?.objects?.length > 0"
+                class="h-12 flex justify-center"
               >
-                {{ $t("comparison") }}
-                <span class="indicator-item badge badge-compare-list text-white">{{ objectListStore.objects?.length }}</span>
-              </button>
-            </li>
+                <button
+                  type="button"
+                  :aria-label="ariaLabelComparison"
+                  @click="toggleComparisonDrawerState('comparison')"
+                >
+                  {{ $t("comparison") }}
+                  <span class="indicator-item badge badge-compare-list text-white">{{ objectListStore?.value?.objects?.length || 0 }}</span>
+                </button>
+              </li>
+            </ClientOnly>
             <li class="h-12 flex justify-center">
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
@@ -202,7 +204,7 @@
               v-if="data?.user"
               class="h-12 flex justify-center"
             >
-              <details @toggle="detailsOpen = $event.target.open">
+              <details @toggle="detailsOpen = ($event.target as HTMLDetailsElement)?.open || false">
                 <summary
                   aria-haspopup="menu"
                   :aria-expanded="detailsOpen"
@@ -234,7 +236,7 @@
                     <a
                       role="menuitem"
                       href="/protected/mergetool"
-                    >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
+                    >{{ $t('mergeTool') }}<span class="badge badge-accent text-white bg-[#e11d48]">1</span></a>
                   </li>
                   <li role="none">
                     <a
@@ -252,7 +254,7 @@
                     role="none"
                   >
                     <a role="menuitem" href="/protected/glossary">
-                      {{ $t('glossary.title') }}
+                      {{ $t('glossary') }}
                     </a>
                   </li>
                   <li role="none">
@@ -286,7 +288,7 @@
                 @click="signIn"
               >
                 <LazyIcon
-                  name="fa-regular:user"
+                  name="tabler:user"
                   aria-hidden="true"
                   class="m-auto h-8"
                 />
@@ -301,16 +303,38 @@
 
 <script lang="ts" setup>
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+import { useAuth } from '../../composables/useAuth';
 import { useObjectListStore } from '../../stores/compareList';
 import { useShoppingCart } from '../../stores/shoppingCart';
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
 
 const { currentUrlState } = useCurrentUrlState();
 const { data, signOut, signIn } = useAuth();
 const { locale, t } = useI18n();
 
-const objectListStore = useObjectListStore();
-const shoppingCart = useShoppingCart();
+// Store refs that will be initialized on mount
+const objectListStore = ref<any>(null);
+const shoppingCart = ref<any>(null);
+
+onMounted(() => {
+  // Initialize stores only after component is mounted on client side
+  try {
+    objectListStore.value = useObjectListStore();
+    shoppingCart.value = useShoppingCart();
+  } catch (error) {
+    console.warn('Store initialization error:', error);
+  }
+});
+
+// Access plugin functions
+const { $toggleComparisonDrawerState } = useNuxtApp();
+
+const toggleComparisonDrawerState = (type: string) => {
+  if (typeof $toggleComparisonDrawerState === 'function') {
+    $toggleComparisonDrawerState(type);
+  }
+};
 
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);

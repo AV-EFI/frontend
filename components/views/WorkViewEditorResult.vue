@@ -23,7 +23,7 @@
           {{ $t('resetFormData') }}
           <Icon
             class="text-xl"
-            name="formkit:close"
+            name="tabler:x"
           />
         </button>
       </div>  
@@ -267,7 +267,7 @@ function customReset () {
     dataJson.value = JSON.parse(JSON.stringify(initialState));
 }
 
-function customSubmitHandler (e) 
+function customSubmitHandler (e:Event) 
 {
     console.log(e);
     toast.success("Form submitted");

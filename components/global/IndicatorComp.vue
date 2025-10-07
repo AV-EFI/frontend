@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="objectListStore.objects?.length > 0 || shoppingCart.objects?.length > 0"
+    v-if="(objectListStore?.objects?.length || 0) > 0 || (shoppingCart?.objects?.length || 0) > 0"
     class="hidden avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-base-100 dark:bg-base-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
     role="region"
     :aria-label="$t('gotocomp')"
@@ -28,33 +28,47 @@
       <div
         class="badge bg-favourites-list hover:bg-favourites-list font-bold text-white text-center join-item"
         :title="$t('elementsincomparison')"
-        :aria-label="`${$t('elementsincomparison')}: ${shoppingCart.objects?.length}`"
+        :aria-label="`${$t('elementsincomparison')}: ${shoppingCart?.objects?.length || 0}`"
       >
         <span class="hidden text-xs transition-all ease-in-out delay-150">
           {{ $t('shoppingcart') }}
         </span>
-        {{ shoppingCart.objects?.length }}
+        {{ shoppingCart?.objects?.length || 0 }}
       </div>
       <div
         class="badge bg-compare-list font-bold text-white text-center join-item"
         :title="$t('elementsinshoppingcart')"
-        :aria-label="`${$t('elementsinshoppingcart')}: ${objectListStore.objects?.length}`"
+        :aria-label="`${$t('elementsinshoppingcart')}: ${objectListStore?.objects?.length || 0}`"
       >
         <span class="hidden text-xs">
           {{ $t('comparison') }}
         </span>
-        {{ objectListStore.objects?.length }}
+        {{ objectListStore?.objects?.length || 0 }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useObjectListStore } from '../../stores/compareList';
-import { useShoppingCart } from '../../stores/shoppingCart';
+import { ref, onMounted } from 'vue';
 
-const objectListStore = useObjectListStore();
-const shoppingCart = useShoppingCart();
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const { $toggleComparisonDrawerState }: any = useNuxtApp();
+
+// Use stores reactively - delay initialization until component is mounted
+const objectListStore = ref<any>(null);
+const shoppingCart = ref<any>(null);
+
+onMounted(() => {
+    // Import and initialize stores after component is mounted
+    import('../../stores/compareList').then(({ useObjectListStore }) => {
+        objectListStore.value = useObjectListStore();
+    });
+    
+    import('../../stores/shoppingCart').then(({ useShoppingCart }) => {
+        shoppingCart.value = useShoppingCart();
+    });
+});
 </script>
 
 <style scoped>

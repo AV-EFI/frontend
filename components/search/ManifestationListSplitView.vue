@@ -4,137 +4,42 @@
     <div class="bg-base-200 dark:bg-base-300 md:[width:calc(40%+50px)]">
       <ul class="bg-base-100 w-full divide-y divide-base-300 dark:divide-base-400">
         <li
-          v-for="(m, i) in paginatedManifestations"
-          :key="i + currentPage"
-          :aria-label="$t('clickToSelectManifestation')"
-          :title="$t('clickToSelectManifestation')"
-          class="px-2 pt-2"
+          v-for="(manifestation, index) in paginatedManifestations"
+          :key="manifestation.handle"
+          class="p-3 cursor-pointer hover:bg-base-50 dark:hover:bg-base-600"
+          :class="{ 'bg-primary-50 dark:bg-primary-900': selectedIndex === index }"
+          @click="selectedIndex = index; itemPage = 0; triggerScrollToItem()"
         >
-          <a
-            class="group min-h-20 px-1 py-4 cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm"
-            :class="[
-              'transition-all duration-200 ease-in-out border',
-              selectedIndex === i + currentPage * itemsPerPage
-                ? 'border-primary'
-                : 'border-transparent hover:border-base-300 dark:hover:border-base-400'
-            ]"
-            :aria-current="selectedIndex === i + currentPage * itemsPerPage ? 'true' : 'false'"
-            @click="selectedIndex = i + currentPage * itemsPerPage; triggerScrollToItem()"
-          >
-            <div class="flex flex-col justify-center leading-tight w-full">
-              <div class="w-full flex flex-row justify-between items-center mb-2">
-                <LazyMicroBadgeCategoryComp
-                  category="avefi:Manifestation"
-                  :dense="false"
-                  class="mr-2"
-                />
-                <span
-                  class="text-sm ml-auto font-mono"
-                  :alt="$t('itemsCount')"
-                  :aria-label="$t('itemsCount')"
-                  :title="$t('itemsCount')"
-                >
-                  <Icon
-                    class="text-xs"
-                    name="tabler:hierarchy"
-                  /> {{ getFilteredItems(m).length }}
-                </span>
+          <div class="flex justify-between items-start">
+            <div class="flex-1">
+              <h3 class="font-semibold text-sm">
+                {{ manifestation.has_record.has_primary_title || 'Untitled' }}
+              </h3>
+              <div class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                {{ manifestation.handle }}
               </div>
-              <GlobalClipboardComp
-                :display-text="m.handle"
-                class="text-xs dark:hover:text-gray-400"
-                :aria-label="$t('copyManifestationHandle')"
-                :dark-bg="false"
-              />
-              <div class="text-sm font-medium mt-0.5">
-                {{ m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer') }}
-              </div>
-              <SearchMetaIconListComp
-                type="manifestation"
-                :data="m"
-              />
-              <button 
-                class="btn btn-primary btn-outline btn-xs mt-2"
-                :aria-label="$t('viewManifestationDetails')"
-                :title="$t('viewManifestationDetails')"
-                @click.stop="navigateToItem(m)"
-              >
-                <Icon
-                  name="tabler:eye"
-                  class="w-4 h-4 mr-1"
-                />
-              </button>
             </div>
-            <div class="flex items-center px-1 self-start sm:self-center">
-              <Icon
-                name="tabler:chevron-up"
-                class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
-                :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
-                aria-hidden="true"
-              />
-            </div>
-          </a>
-
-          <!-- Collapsible mobile detail -->
-          <transition name="fade-slide">
-            <div
-              v-if="selectedIndex === i + currentPage * itemsPerPage"
-              class="block md:hidden mt-2 p-3 bg-base-100 dark:bg-base-200 rounded-b-md"
-            >
-              <h5 class="text-sm font-bold text-primary mb-1 flex items-center gap-1">
-                <Icon
-                  name="tabler:binary-tree"
-                  class="text-base"
-                />
-                {{ $t('items') }}
-                <GlobalTooltipInfo
-                  :text="$t('tooltip.item')"
-                />
-              </h5>
-              <ul class="space-y-2 pl-1">
-                <li
-                  v-for="(item, j) in getFilteredItems(m).slice(0, 3)"
-                  :key="j"
-                  class="bg-base-100 dark:bg-base-300 rounded-md p-2"
-                >
-                  <div class="flex gap-2 items-center mb-1">
-                    <Icon
-                      name="carbon:parent-node"
-                      class="text-primary w-4 h-4"
-                    />
-                    <span class="text-sm font-semibold">{{ item?.handle }}</span>
-                  </div>
-                  <SearchMetaIconListComp
-                    type="item"
-                    :data="item"
-                  />
-                </li>
-              </ul>
-              <button
-                class="btn btn-xs btn-outline mt-2 w-full"
-                :aria-label="$t('viewAllItems')"
-                @click.stop="navigateToItem(m)"
-              >
-                {{ $t('viewAllItems') }}
-              </button>
-            </div>
-          </transition>
+            <LazyMicroBadgeCategoryComp
+              v-if="manifestation.has_record.category"
+              :category="manifestation.has_record.category"
+              :dense="true"
+            />
+          </div>
         </li>
       </ul>
-
-      <div class="flex justify-between items-center mt-2 p-2">
+      
+      <!-- Pagination for manifestations -->
+      <div class="flex justify-between p-3 bg-base-200">
         <button
-          class="btn btn-xs btn-outline"
-          :disabled="currentPage === 0"
+          class="btn btn-sm"
+          :disabled="currentPage <= 0"
           @click="prevPage"
         >
           {{ $t('prevPage') }}
         </button>
-        <span class="text-xs">
-          {{ $t('page') }} {{ currentPage + 1 }} / {{ totalPages }} — {{ manifestations.length }} {{ $t('total') }}
-        </span>
+        <span class="text-sm">{{ currentPage + 1 }} / {{ totalPages }}</span>
         <button
-          class="btn btn-xs btn-outline"
+          class="btn btn-sm"
           :disabled="currentPage >= totalPages - 1"
           @click="nextPage"
         >
@@ -143,175 +48,157 @@
       </div>
     </div>
 
-    <!-- Detail view (right) for md+ -->
-    <transition name="fade-slide">
-      <div
-        v-if="selectedManifestation"
-        class="hidden md:block z-10 md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative"
-        role="region"
-        :aria-label="`manifestation-${selectedManifestation.handle}`"
-      >
-        <h5 class="relative text-sm font-bold mb-2 flex items-center gap-1">
-          <Icon
-            name="tabler:binary-tree"
-            class="text-base"
+    <!-- Items panel -->
+    <div class="flex-1 bg-base-100">
+      <div v-if="selectedManifestation" ref="itemsContainer">
+        <div class="p-4 border-b border-base-300">
+          <div class="flex justify-between items-start mb-2">
+            <h2 class="text-lg font-bold">Items</h2>
+            <GlobalClipboardComp
+              :text="selectedManifestation.handle"
+              :label="'Copy Handle'"
+            />
+          </div>
+          <SearchMetaIconListComp
+            :data="selectedManifestation"
+            icon-color="text-primary-600"
           />
-          {{ $t('items') }}
-          <GlobalTooltipInfo
-            :text="$t('tooltip.item')"
-          />
-        </h5>
-        <div
-          ref="itemsContainer"
-          class="relative"
-        >
-          <ul class="space-y-2">
-            <li
-              v-for="(item, j) in paginatedItems"
-              :key="j"
-              class="p-2 bg-base-100 dark:bg-base-200 rounded-md"
-              :aria-labelledby="`item-${item.handle}`"
-              role="group"
-              :aria-label="$t('itemDetails', { handle: item.handle })"
-            >
-              <div class="flex items-center gap-2 mb-1">
-                <Icon
-                  name="tabler:hierarchy"
-                  class="text-primary w-4 h-4 shrink-0"
-                />
-                <MicroBadgeCategoryComp
-                  category="avefi:Item"
-                  :dense="false"
-                  class="block"
-                />
-              </div>
-              <GlobalClipboardComp 
-                :display-text="item.handle"
-                class="font-semibold hover:text-gray-700 dark:hover:text-gray-300 my-2"
-                :aria-label="$t('copyItemHandle')"
-                font-size="text-sm"
-              />
-              <SearchMetaIconListComp
-                :data="item"
-                type="item"
-              />
-              <div class="text-sm text-gray-500 dark:text-gray-300 mt-2 relative">
-                <a
-                  v-if="item?.has_record?.has_webresource"
-                  :href="item.has_record.has_webresource"
-                  target="_blank"
-                  class="link link-primary dark:link-accent inline-flex items-center gap-1"
-                >
-                  <GlobalTooltipInfo
-                    :text="$t('tooltip.webresource')"
-                  />
-                  <Icon name="formkit:linkexternal" />
-                  {{ $t('webresource') }}
-                </a>
-              </div>
-              <div class="flex justify-end">
-                <button 
-                  class="btn btn-xs btn-block btn-outline mt-2"
-                  :aria-label="$t('viewItemDetails')"
-                  :title="$t('viewItemDetails')"
-                  @click="navigateToItem(item)"
-                >
-                  <Icon
-                    name="tabler:eye"
-                    class="w-4 h-4 mr-1"
-                  />
-                </button>
-              </div>
-            </li>
-          </ul>
         </div>
-
-        <div class="flex justify-between items-center mt-2 px-2 text-xs">
+        
+        <ul class="divide-y divide-base-300">
+          <li
+            v-for="item in paginatedItems"
+            :key="item.handle"
+            class="p-4 hover:bg-base-50 dark:hover:bg-base-600"
+          >
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <h3 class="font-semibold">{{ item.title || 'Untitled Item' }}</h3>
+                  <MicroBadgeCategoryComp
+                    v-if="item.category"
+                    :category="item.category"
+                    :dense="true"
+                  />
+                </div>
+                
+                <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  {{ item.handle }}
+                </div>
+                
+                <SearchMetaIconListComp
+                  :data="item"
+                  icon-color="text-secondary-600"
+                />
+              </div>
+              
+              <div class="flex gap-2 ml-4">
+                <GlobalClipboardComp
+                  :text="item.handle"
+                  :label="'Copy'"
+                />
+                <GlobalTooltipInfo :text="'Open in new tab'">
+                  <button
+                    class="btn btn-sm btn-primary"
+                    @click="navigateToItem(item)"
+                  >
+                    View
+                  </button>
+                </GlobalTooltipInfo>
+              </div>
+            </div>
+          </li>
+        </ul>
+        
+        <!-- Pagination for items -->
+        <div class="flex justify-between p-4 bg-base-200">
           <button
-            class="btn btn-xs btn-outline"
-            :disabled="itemPage === 0"
+            class="btn btn-sm"
+            :disabled="itemPage <= 0"
             @click="prevItemPage"
           >
             {{ $t('prevPage') }}
           </button>
-          <span>
-            {{ $t('page') }} {{ itemPage + 1 }} / {{ totalItemPages }}
-          </span>
+          <span class="text-sm">{{ itemPage + 1 }} / {{ totalItemPages }}</span>
           <button
-            class="btn btn-xs btn-outline"
-            :disabled="itemPage >= totalItemPages.value - 1"
+            class="btn btn-sm"
+            :disabled="itemPage >= totalItemPages - 1"
             @click="nextItemPage"
           >
             {{ $t('nextPage') }}
           </button>
         </div>
       </div>
-    </transition>
+      
+      <div v-else class="p-8 text-center text-gray-500">
+        Select a manifestation to view its items
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { IAVefiManifestation } from '~/models/interfaces/generated/IAVefiManifestation'
 
-const props = defineProps({
-    manifestations: { type: Array<IAVefiManifestation>, required: true },
-    getFilteredItems: { type: Function, required: true },
-    workVariantHandle: { type: String, required: false, default: null }
-});
+const props = defineProps<{
+    manifestations: IAVefiManifestation[]
+    getFilteredItems: (manifestation: IAVefiManifestation) => any[]
+    workVariantHandle?: string | null
+}>()
 
-const selectedIndex = ref(0);
-const currentPage = ref(0);
-const itemsPerPage = 5;
-const itemsContainer = ref<HTMLElement | null>(null);
-const itemPage = ref(0);
+const selectedIndex = ref(0)
+const currentPage = ref(0)
+const itemsPerPage = 5
+const itemsContainer = ref<HTMLElement | null>(null)
+const itemPage = ref(0)
 
-const totalPages = computed(() => Math.ceil(props.manifestations.length / itemsPerPage));
-const selectedManifestation = computed(() => props.manifestations[selectedIndex.value] || null);
+const totalPages = computed(() => Math.ceil(props.manifestations.length / itemsPerPage))
+const selectedManifestation = computed(() => props.manifestations[selectedIndex.value] || null)
 
 const paginatedManifestations = computed(() => {
-    const start = currentPage.value * itemsPerPage;
-    return props.manifestations.slice(start, start + itemsPerPage);
-});
+    const start = currentPage.value * itemsPerPage
+    return props.manifestations.slice(start, start + itemsPerPage)
+})
 
 const paginatedItems = computed(() => {
-    if (!selectedManifestation.value) return [];
-    const all = props.getFilteredItems(selectedManifestation.value);
-    const start = itemPage.value * itemsPerPage;
-    return all.slice(start, start + itemsPerPage);
-});
+    if (!selectedManifestation.value) return []
+    const all = props.getFilteredItems(selectedManifestation.value)
+    const start = itemPage.value * itemsPerPage
+    return all.slice(start, start + itemsPerPage)
+})
 
 const totalItemPages = computed(() => {
-    const all = selectedManifestation.value ? props.getFilteredItems(selectedManifestation.value) : [];
-    return Math.ceil(all.length / itemsPerPage);
-});
+    const all = selectedManifestation.value ? props.getFilteredItems(selectedManifestation.value) : []
+    return Math.ceil(all.length / itemsPerPage)
+})
 
 function nextPage() {
-    if (currentPage.value < totalPages.value - 1) currentPage.value++;
+    if (currentPage.value < totalPages.value - 1) currentPage.value++
 }
 function prevPage() {
-    if (currentPage.value > 0) currentPage.value--;
+    if (currentPage.value > 0) currentPage.value--
 }
 function nextItemPage() {
-    if (itemPage.value < totalItemPages.value - 1) itemPage.value++;
+    if (itemPage.value < totalItemPages.value - 1) itemPage.value++
 }
 function prevItemPage() {
-    if (itemPage.value > 0) itemPage.value--;
+    if (itemPage.value > 0) itemPage.value--
 }
 
-const navigateToItem = (item: IAVefiManifestation) => {
-    const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
-    window.open(itemPath, '_blank');
-};
+const navigateToItem = (item: any) => {
+    const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`
+    window.open(itemPath, '_blank')
+}
 
 function triggerScrollToItem() {
     nextTick(() => {
-        const el = itemsContainer.value;
+        const el = itemsContainer.value
         if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 125;
-            window.scrollTo({ top, behavior: 'smooth' });
+            const top = el.getBoundingClientRect().top + window.scrollY - 125
+            window.scrollTo({ top, behavior: 'smooth' })
         }
-    });
+    })
 }
-
 </script>
 
 <style scoped>

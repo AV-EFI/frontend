@@ -1,3 +1,4 @@
+/* eslint-disable */
 // detail-layout-map.ts
 // Exported JSON-like config describing detail view order and ES field paths
 // Aligned to the provided Elasticsearch mapping (Sept 2025).

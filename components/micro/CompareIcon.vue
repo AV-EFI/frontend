@@ -10,6 +10,6 @@ defineProps({
   <Icon
     :alt="alt"
     :_aria-label="alt"
-    name="formkit:add"
+    name="tabler:plus"
   />
 </template>

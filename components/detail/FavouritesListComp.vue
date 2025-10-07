@@ -25,42 +25,39 @@
             <ul class="mt-2 space-y-2">
               <li
                 v-for="log in group.items"
-                :key="log.id"
+                :key="log.category + '-' + (log.has_primary_title?.has_name || 'unnamed')"
                 class="p-4 border rounded-lg shadow-md bg-base-200 dark:bg-gray-700"
               >
                 <div class="collapse collapse-arrow">
                   <input
                     type="checkbox"
-                    :checked="!collapsedItems[log.id]"
-                    @change="toggleItem(log.id)"
+                    :checked="!collapsedItems[log.category + '-' + (log.has_primary_title?.has_name || 'unnamed')]"
+                    @change="toggleItem(log.category + '-' + (log.has_primary_title?.has_name || 'unnamed'))"
                   >
                   <div class="collapse-title text-sm text-gray-700 cursor-pointer dark:text-gray-300">
-                    ID: {{ log.id }} - {{ log.has_primary_title.title }}
+                    Category: {{ log.category }} - {{ log.has_primary_title?.has_name || 'Unnamed' }}
                   </div>
                   <div class="collapse-content grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="text-sm text-gray-700 dark:text-gray-400">
-                      Title: {{ log.title }}
+                      Primary Title: {{ log.has_primary_title?.has_name || 'N/A' }}
                     </div>
                     <div class="text-sm text-gray-700 dark:text-gray-400">
-                      Described By: {{ log.described_by?.description || 'N/A' }}
+                      Described By: {{ log.described_by?.has_issuer_name || 'N/A' }}
                     </div>
                     <div class="text-sm text-gray-700 dark:text-gray-400">
-                      Has Event: {{ log.has_event?.map(event => event.name).join(', ') || 'N/A' }}
+                      Has Event: {{ log.has_event?.map((event: any) => event.category).join(', ') || 'N/A' }}
                     </div>
                     <div class="text-sm text-gray-700 dark:text-gray-400">
-                      Has Identifier: {{ log.has_identifier?.map(identifier => identifier.id).join(', ') || 'N/A' }}
+                      Has Identifier: {{ log.has_identifier?.map((identifier: any) => identifier.category).join(', ') || 'N/A' }}
                     </div>
                     <div class="text-sm text-gray-700 dark:text-gray-400">
                       Has Source Key: {{ log.has_source_key?.join(', ') || 'N/A' }}
                     </div>
                     <div class="text-sm text-gray-700 dark:text-gray-400">
-                      In Language: {{ log.in_language?.map(language => language.name).join(', ') || 'N/A' }}
+                      Alternative Titles: {{ log.has_alternative_title?.map((title: any) => title.has_name).join(', ') || 'N/A' }}
                     </div>
                     <div class="text-sm text-gray-700 dark:text-gray-400">
-                      Has Alternative Title: {{ log.has_alternative_title?.map(title => title.title).join(', ') || 'N/A' }}
-                    </div>
-                    <div class="text-sm text-gray-700 dark:text-gray-400">
-                      Has Primary Title: {{ log.has_primary_title.title }}
+                      Category: {{ log.category }}
                     </div>
                   </div>
                 </div>
@@ -75,27 +72,37 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import type { MovingImageRecord } from 'models/interfaces/av_efi_schema.ts';
+import type { MovingImageRecord } from '../../models/interfaces/schema/avefi_schema_type_utils';
+
+// Define interfaces for better type safety
+interface GroupData {
+    title: string;
+    date: string;
+    items: MovingImageRecord[];
+    numberOfItems: number;
+}
 
 const logs = ref<MovingImageRecord[]>([]);
 const collapsedGroups = ref<Record<string, boolean>>({});
-const collapsedItems = ref<Record<number, boolean>>({});
+const collapsedItems = ref<Record<string, boolean>>({});
 
 const favouritesList = computed(() => {
-    const groups = logs.value.reduce((acc, log) => {
-        if (!acc[log.title]) {
-            acc[log.title] = {
-                title: log.title,
+    const groups = logs.value.reduce((acc: Record<string, GroupData>, log: MovingImageRecord) => {
+        const groupKey = log.category || 'Unknown';
+        if (!acc[groupKey]) {
+            acc[groupKey] = {
+                title: groupKey,
                 date: new Date().toLocaleDateString(), // Example date, you can modify as needed
-                items: []
+                items: [],
+                numberOfItems: 0
             };
         }
-        acc[log.title].items.push(log);
+        acc[groupKey].items.push(log);
         return acc;
-    }, {} as Record<string, { title: string, date: string, items: MovingImageRecord[] }>);
+    }, {} as Record<string, GroupData>);
 
     // Add number of items property
-    Object.values(groups).forEach(group => {
+    Object.values(groups).forEach((group: GroupData) => {
         group.numberOfItems = group.items.length;
     });
 
@@ -111,31 +118,42 @@ function toggleGroup(status: string) {
     collapsedGroups.value[status] = !collapsedGroups.value[status];
 }
 
-function toggleItem(id: number) {
+function toggleItem(id: string) {
     collapsedItems.value[id] = !collapsedItems.value[id];
 }
 
 function generateFakeData() {
     const fakeData: MovingImageRecord[] = [];
     for (let i = 1; i <= 25; i++) {
-        const title = `List Title ${Math.ceil(i / 5)}`; // Group items by title
+        const category = `Category${Math.ceil(i / 5)}`; // Group items by category
         fakeData.push({
-            id: i,
-            title: title,
-            described_by: { description: `Description ${i}` },
-            has_event: [{ name: `Event ${i}` }],
-            has_identifier: [{ id: `ID${i}` }],
+            category: category,
+            described_by: { 
+                has_issuer_id: `issuer-${i}`, 
+                has_issuer_name: `Issuer ${i}` 
+            },
+            has_event: [{ category: `Event${i}` }],
+            has_identifier: [{ 
+                id: `ID${i}`, 
+                category: `Identifier${i}` 
+            }],
             has_source_key: [`Key${i}`],
-            in_language: [{ name: i % 2 === 0 ? 'English' : 'Deutsch' }],
-            has_alternative_title: [{ title: `Alt Title ${i}` }],
-            has_primary_title: { title: `Primary Title ${i}` }
+            has_alternative_title: [{ 
+                has_name: `Alt Title ${i}`, 
+                type: 'AlternativeTitle' 
+            }],
+            has_primary_title: { 
+                has_name: `Primary Title ${i}`, 
+                type: 'PreferredTitle' 
+            }
         });
     }
     logs.value = fakeData;
 
     // Initialize collapsedItems state
     fakeData.forEach(log => {
-        collapsedItems.value[log.id] = true;
+        const key = log.category + '-' + (log.has_primary_title?.has_name || 'unnamed');
+        collapsedItems.value[key] = true;
     });
 }
 

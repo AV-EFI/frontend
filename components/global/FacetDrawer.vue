@@ -5,7 +5,7 @@
       type="checkbox"
       class="drawer-toggle"
       :aria-label="$t('toggleFacetDrawer')"
-      :checked="objectListStore.facetDrawerOpen"
+      :checked="objectListStore?.value?.facetDrawerOpen || false"
     >
     <div class="drawer-side max-md:w-full z-30 lg:z-10 h-full max-md:h-screen">
       <label
@@ -22,7 +22,7 @@
           >
             <Icon
               class="text-xl"
-              name="formkit:close"
+              name="tabler:x"
             />
           </button>
         </div>
@@ -178,14 +178,30 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useObjectListStore } from '../../stores/compareList';
+
 const { t:$t } = useI18n();
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const { $toggleFacetDrawerState }: any = useNuxtApp();
-const objectListStore = useObjectListStore();
+
+// Store ref that will be initialized on mount
+const objectListStore = ref<any>(null);
+
+onMounted(() => {
+  // Initialize store only after component is mounted on client side
+  try {
+    objectListStore.value = useObjectListStore();
+  } catch (error) {
+    console.warn('Store initialization error:', error);
+  }
+});
 
 const toggleDrawer = () => {
-    objectListStore.facetDrawerOpen = !objectListStore.facetDrawerOpen;
+    if (objectListStore.value) {
+        objectListStore.value.facetDrawerOpen = !objectListStore.value.facetDrawerOpen;
+    }
 };
 
 onMounted(() => {

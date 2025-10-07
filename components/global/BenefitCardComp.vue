@@ -44,3 +44,12 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+defineProps({
+  benefitItems: {
+    type: Object,
+    required: true
+  }
+});
+</script>

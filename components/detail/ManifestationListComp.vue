@@ -4,7 +4,6 @@
       name="partial-grid-2-1-flex"
       class="mt-4"
     >
-      <template #heading />
       <template #heading>
         <hr class="my-2 col-span-full">
         <h3
@@ -38,7 +37,10 @@
         :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
       >
       <div class="collapse-title bg-base-100 dark:bg-slate-700 dark:text-white">
-        <DetailManifestationHeaderComp :manifestation="manifestation" />
+        <DetailManifestationHeaderComp 
+          v-if="manifestation.handle"
+          :manifestation="manifestation as any" 
+        />
       </div>
 
       <div class="collapse-content bg-gray-100 dark:bg-gray-800 dark:text-white">
@@ -103,7 +105,7 @@
                 class="link link-primary dark:link-accent inline-flex items-center gap-1"
               >
                 <span>{{ safeT('webresource') }}<span v-if="webresources(manifestation).length > 1">&nbsp;{{ idx + 1 }}</span></span>
-                <Icon name="formkit:linkexternal" />
+                <Icon name="tabler:external-link" />
                 <span>{{ safeT('webresource') }} <Icon name="tabler:external-link" /></span>
               </a>
             </div>
@@ -113,76 +115,17 @@
               v-if="Array.isArray(manifestation?.has_record?.has_note) && manifestation.has_record.has_note.length"
               class="col-span-full text-justify md:pr-2"
               keytxt="avefi:Note"
-              :valtxt="manifestation?.has_record?.has_note"
+              :valtxt="manifestation?.has_record?.has_note.map((note: any) => ({ value: note }))"
               :ul="true"
             />
           </template>
 
           <!-- RIGHT: 6–15 -->
           <template #right>
-            <!-- 06 Sprache -->
-            <MicroLabelComp
-              v-if="manifestation?.has_record?.in_language?.length"
-              label-text="avefi:Language"
-              class="w-full"
-            />
-            <ul
-              v-if="manifestation?.has_record?.in_language?.length"
-              class="w-full mt-2"
-            >
-              <li
-                v-for="(lang, i) in manifestation?.has_record?.in_language"
-                :key="lang?.code || i"
-              >
-                <span v-if="lang?.code">{{ $t(lang.code) }}</span>
-                <span v-else>{{ $t('unknownLanguage') }}</span>
-                <span
-                  v-for="usage in (lang?.usage || [])"
-                  :key="usage"
-                >&nbsp;({{ $t(usage) }})</span>
-              </li>
-            </ul>
-
-            <!-- 07 Ton (Sound Type) -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_sound_type"
-              keytxt="has_sound_type"
-              :valtxt="manifestation?.has_record?.has_sound_type"
-              :clip="false"
-              class="w-full mt-2"
-            />
-
-            <!-- 08 Farbe (Colour Type) -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_colour_type"
-              keytxt="has_colour"
-              :valtxt="manifestation?.has_record?.has_colour_type"
-              class="w-full mt-2"
-              :clip="false"
-            />
-
-            <!-- 09 Abspieldauer -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_duration?.has_value"
-              keytxt="avefi:Duration"
-              :valtxt="formatDuration(manifestation?.has_record?.has_duration?.has_value)"
-              :clip="false"
-              class="w-full mt-2"
-            />
-
-            <!-- 10 Länge / Größe -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_extent?.has_value"
-              keytxt="avefi:Extent"
-              :valtxt="formatExtent(manifestation?.has_record?.has_extent)"
-              class="w-full mt-2"
-              :clip="false"
-            />
-
             <!-- 11–15 Events -->
             <DetailHasEventComp
               class="mt-4"
-              :model-value="manifestation?.has_record?.has_event ?? []"
+              :model-value="(manifestation?.has_record?.has_event ?? []) as any"
             />
           </template>
         </NuxtLayout>
@@ -197,8 +140,8 @@
         </h4>
         <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
           <DetailItemListNewComp
-            v-if="manifestation?.items?.length > 0"
-            :items="manifestation?.items"
+            v-if="manifestation?.items && manifestation.items.length > 0"
+            :items="(manifestation.items || []) as IAVefiItem[]"
           />
         </div>
       </div>
@@ -207,26 +150,28 @@
 </template>
 
 <script lang="ts" setup>
-import type { Item, MovingImageRecord } from '../../models/interfaces/av_efi_schema.ts';
+import { useI18n } from 'vue-i18n';
+import type { IAVefiManifestation, IAVefiItem } from '@/models/interfaces/generated';
+import type { Manifestation, Item, Language } from '@/models/interfaces/schema/avefi_schema_type_utils';
+import type { PropType } from 'vue';
+
 const { t } = useI18n();
 
+// Extended interfaces for Elasticsearch compatibility
+interface ExtendedManifestation extends Manifestation {
+  in_language?: Language[];
+  has_sound_type?: string;
+  has_colour_type?: string;
+  has_duration?: any;
+  has_extent?: any;
+  _id?: string;
+  [key: string]: any;
+}
+
 const manifestationList = defineModel({
-    type: Array as PropType<AVefiFEManifestation[]>,
+    type: Array as PropType<any[]>,
     required: true
 });
-
-interface AVefiFEManifestation {
-  _source: Source;
-  _id: string;
-  index: string;
-  _score: number;
-}
-interface Source {
-  handle: string;
-  kip: string;
-  has_record: MovingImageRecord;
-  items: Item[];
-}
 
 onMounted(() => {
     window.addEventListener('keydown', handleEscKey);
@@ -237,8 +182,6 @@ onBeforeUnmount(() => {
 
 function handleEscKey(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-        const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle');
-        checkboxes.forEach((cb: any) => { cb.checked = false; });
         const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle') as NodeListOf<HTMLInputElement>;
         checkboxes.forEach((cb: HTMLInputElement) => {
             cb.checked = false;
@@ -260,7 +203,6 @@ function formatExtent(extent?: { has_value?: string | number, has_unit?: string 
 }
 
 function formatDuration(has_value: any): string {
-function formatDuration(has_value: string): string {
     if (has_value) {
         try {
             const duration = has_value
@@ -277,7 +219,7 @@ function formatDuration(has_value: string): string {
             return String(has_value);
         }
     }
-    return has_value;
+    return String(has_value || '');
 }
 
 function webresources(m: any): string[] {

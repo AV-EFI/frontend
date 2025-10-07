@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.13
 */
@@ -20,7 +21,7 @@ export enum AnimationActivityTypeEnum {
     LeadAnimator = "LeadAnimator",
     /** FIAF Glossary of Filmographic Terms B.13.17 */
     ModelMaker = "ModelMaker",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.7
 */
@@ -52,7 +53,7 @@ export enum CastActivityTypeEnum {
     Voices = "Voices",
     /** FIAF Glossary of Filmographic Terms B.7.13 */
     Wrangler = "Wrangler",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.1
 */
@@ -60,7 +61,7 @@ export enum CensorshipActivityTypeEnum {
     
     /** FIAF Glossary of Filmographic Terms C.1.1 */
     Censor = "Censor",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.5
 */
@@ -106,7 +107,7 @@ export enum CinematographyActivityTypeEnum {
     UnderwaterPhotography = "UnderwaterPhotography",
     /** FIAF Glossary of Filmographic Terms B.5.10 */
     VideoAssist = "VideoAssist",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.2
 */
@@ -126,7 +127,7 @@ export enum CopyrightAndDistributionActivityTypeEnum {
     RegionalDistributor = "RegionalDistributor",
     /** FIAF Glossary of Filmographic Terms C.2.5 */
     WorldDistributor = "WorldDistributor",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.3
 */
@@ -146,7 +147,7 @@ export enum DirectingActivityTypeEnum {
     SecondUnitDirector = "SecondUnitDirector",
     /** FIAF Glossary of Filmographic Terms B.3.6 */
     StuntArranger = "StuntArranger",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.10
 */
@@ -158,7 +159,7 @@ export enum EditingActivityTypeEnum {
     Editor = "Editor",
     /** FIAF Glossary of Filmographic Terms B.10.1 */
     FilmEditor = "FilmEditor",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.12
 */
@@ -172,7 +173,7 @@ export enum LaboratoryActivityTypeEnum {
     LaboratoryTechnician = "LaboratoryTechnician",
     /** FIAF Glossary of Filmographic Terms B.12.3 */
     NegativeCutter = "NegativeCutter",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.11
 */
@@ -200,7 +201,7 @@ export enum MusicActivityTypeEnum {
     SingingVoice = "SingingVoice",
     /** FIAF Glossary of Filmographic Terms B.11.12 */
     SongComposer = "SongComposer",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.2
 */
@@ -248,7 +249,7 @@ export enum ProducingActivityTypeEnum {
     Studio = "Studio",
     /** FIAF Glossary of Filmographic Terms B.2.13 */
     TransportationManager = "TransportationManager",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.6
 */
@@ -296,7 +297,7 @@ export enum ProductionDesignActivityTypeEnum {
     TitleDesigner = "TitleDesigner",
     /** FIAF Glossary of Filmographic Terms B.6.15 */
     WardrobeSupervisor = "WardrobeSupervisor",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.14
 */
@@ -304,7 +305,7 @@ export enum PuppetActivityTypeEnum {
     
     /** FIAF Glossary of Filmographic Terms B.14.7 */
     Puppeteer = "Puppeteer",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.9
 */
@@ -336,7 +337,7 @@ export enum SoundActivityTypeEnum {
     SoundSupervisor = "SoundSupervisor",
     /** FIAF Glossary of Filmographic Terms B.9.6 */
     SupervisingSoundEditor = "SupervisingSoundEditor",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.8
 */
@@ -366,7 +367,7 @@ export enum SpecialEffectsActivityTypeEnum {
     SpecialEffects = "SpecialEffects",
     /** FIAF Glossary of Filmographic Terms B.8.2 */
     VisualEffects = "VisualEffects",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.4
 */
@@ -392,7 +393,7 @@ export enum WritingActivityTypeEnum {
     Stagedby = "Stagedby",
     /** FIAF Glossary of Filmographic Terms B.4.2 */
     Writer = "Writer",
-};
+}
 /**
 * Activity types / roles. See also: FIAF Moving Image Cataloguing Manual 2.4.1.1, D.8
 */
@@ -422,7 +423,7 @@ export enum ManifestationActivityTypeEnum {
     Publisher = "Publisher",
     /** FIAF Moving Image Cataloguing Manual 1.4.1.1, 2.4.1.1, 3.3.1.1 */
     UnknownActivity = "UnknownActivity",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual 1.4.1
 */
@@ -432,7 +433,7 @@ export enum AgentTypeEnum {
     Family = "Family",
     Person = "Person",
     PersonGroup = "PersonGroup",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11
 */
@@ -454,7 +455,7 @@ export enum ColourTypeEnum {
     Sepia = "Sepia",
     /** FIAF Moving Image Cataloguing Manual D.7.11 */
     Tinted = "Tinted",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.4.7, D.14
 */
@@ -472,7 +473,7 @@ export enum ManufactureEventTypeEnum {
     UploadingEvent = "UploadingEvent",
     /** FIAF Moving Image Cataloguing Manual D.14 */
     VideoCopyingEvent = "VideoCopyingEvent",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.4.5
 */
@@ -488,7 +489,7 @@ export enum PreservationEventTypeEnum {
     RestorationEvent = "RestorationEvent",
     /** FIAF Moving Image Cataloguing Manual D.12 */
     TransferEvent = "TransferEvent",
-};
+}
 /**
 * Leave unset for main production event, otherwise see FIAF Moving Image Cataloguing Manual D.4.3, D.11
 */
@@ -502,7 +503,7 @@ export enum ProductionEventTypeEnum {
     OutdoorShootingEvent = "OutdoorShootingEvent",
     /** FIAF Moving Image Cataloguing Manual D.11 */
     PostProductionEvent = "PostProductionEvent",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.4.1, D.10
 */
@@ -528,7 +529,7 @@ export enum PublicationEventTypeEnum {
     TheatricalDistributionEvent = "TheatricalDistributionEvent",
     /** FIAF Moving Image Cataloguing Manual D.10 */
     UnknownEvent = "UnknownEvent",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -549,7 +550,7 @@ export enum FormatAudioTypeEnum {
     QuarterInchAudioReel = "QuarterInchAudioReel",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     TwoInchAudioReel = "TwoInchAudioReel",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -567,7 +568,7 @@ export enum FormatDigitalFileEncodingTypeEnum {
     VCD = "VCD",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     WindowsMedia = "WindowsMedia",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -587,7 +588,7 @@ export enum FormatDigitalFileTypeEnum {
     /** Video Object File (MPEG-2 subset) */
     VOB = "VOB",
     WebM = "WebM",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -609,7 +610,7 @@ export enum FormatFilmTypeEnum {
     Super16mmFilm = "Super16mmFilm",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     Super8mmFilm = "Super8mmFilm",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -623,7 +624,7 @@ export enum FormatOpticalTypeEnum {
     DVD = "DVD",
     /** FIAF Moving Image Cataloguing Manual D.7.2 */
     LaserDisc = "LaserDisc",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.2
 */
@@ -657,7 +658,7 @@ export enum FormatVideoTypeEnum {
     UMatic = "UMatic",
     IMX = "IMX",
     VHS = "VHS",
-};
+}
 /**
 * Frames per second of an item.
 */
@@ -677,7 +678,7 @@ export enum FrameRateEnum {
     number_48fps = "48fps",
     /** FIAF Moving Image Cataloguing Manual D.7.18 */
     VariableFrameRate = "VariableFrameRate",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.3
 */
@@ -691,7 +692,7 @@ export enum ItemAccessStatusEnum {
     Removed = "Removed",
     /** FIAF Moving Image Cataloguing Manual D.7.3 */
     Viewing = "Viewing",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.7.8
 */
@@ -728,7 +729,7 @@ export enum ItemElementTypeEnum {
     /** FIAF Moving Image Cataloguing Manual D.7.8 */
     SoundNegative = "SoundNegative",
     Subtitles = "Subtitles",
-};
+}
 /**
 * [ISO 639-2 code](https://id.loc.gov/vocabulary/iso639-2.html) for the Representation of Names of Languages (Part 2: Alpha-3)
 */
@@ -1240,7 +1241,7 @@ export enum LanguageCodeEnum {
     zun = "zun",
     zxx = "zxx",
     zza = "zza",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual 2.3.3, D.6
 */
@@ -1269,7 +1270,7 @@ export enum LanguageUsageEnum {
     /** FIAF Moving Image Cataloguing Manual D.6 */
     SungLanguage = "SungLanguage",
     VoiceOver = "VoiceOver",
-};
+}
 /**
 * Qualifier indicating the precision of an extent value or duration
 */
@@ -1279,7 +1280,7 @@ export enum PrecisionEnum {
     Approximate = "Approximate",
     /** Sources for the given value are deemed unreliable, so it may as well be off the mark */
     Uncertain = "Uncertain",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4
 */
@@ -1301,7 +1302,7 @@ export enum SoundTypeEnum {
     Sound = "Sound",
     /** FIAF Moving Image Cataloguing Manual D.7.4 */
     Temporary = "Temporary",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual A.2
 */
@@ -1333,7 +1334,7 @@ export enum TitleTypeEnum {
     TransliteratedTitle = "TransliteratedTitle",
     /** FIAF Moving Image Cataloguing Manual A.2.4.1 */
     WorkingTitle = "WorkingTitle",
-};
+}
 /**
 * Units of measurement. Definitions are taken from the Quantities, Units, Dimensions and Data Types Ontologies (QUDT)
 */
@@ -1351,7 +1352,7 @@ export enum UnitEnum {
     MegaByte = "MegaByte",
     /** Unit for digital information equivalent to 1000 gigabytes */
     TeraByte = "TeraByte",
-};
+}
 /**
 * FIAF Moving Image Cataloguing Manual D.2
 */
@@ -1377,7 +1378,7 @@ export enum VariantTypeEnum {
     Sonorized = "Sonorized",
     /** FIAF Moving Image Cataloguing Manual D.2 */
     Subtitled = "Subtitled",
-};
+}
 /**
 * Work/Variant description type. See also: FIAF Moving Image Cataloguing Manual 1.2.1, D.1
 */
@@ -1391,7 +1392,7 @@ export enum WorkVariantTypeEnum {
     Monographic = "Monographic",
     /** Content issued in successive parts and intended to be continued indefinitely, or across a span of time. A Work record for a television series is catalogued as a “Serial”, individual episodes may be catalogued as a Monographic record */
     Serial = "Serial",
-};
+}
 /**
 * FIAF Glossary of Filmographic Terms D.1
 */
@@ -1443,7 +1444,7 @@ export enum WorkFormEnum {
     MusicVideo = "MusicVideo",
     /** http://www.screenonline.org.uk/film/id/476463/index.html */
     Newsreel = "Newsreel",
-};
+}
 
 
 /**
@@ -1458,13 +1459,13 @@ export interface CategorizedThing {
 export function isCategorizedThing(o: object): o is CategorizedThing {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toCategorizedThing(o: CategorizedThing): CategorizedThing {
     return {
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1491,7 +1492,7 @@ export interface MovingImageRecord extends CategorizedThing {
 export function isMovingImageRecord(o: object): o is MovingImageRecord {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toMovingImageRecord(o: MovingImageRecord): MovingImageRecord {
@@ -1504,7 +1505,7 @@ export function toMovingImageRecord(o: MovingImageRecord): MovingImageRecord {
         has_source_key: o.has_source_key ?? [],
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1526,7 +1527,7 @@ export function isDescriptionResource(o: object): o is DescriptionResource {
     return (
         'has_issuer_id' in o &&
         'has_issuer_name' in o
-    )
+    );
 }
 
 export function toDescriptionResource(o: DescriptionResource): DescriptionResource {
@@ -1535,7 +1536,7 @@ export function toDescriptionResource(o: DescriptionResource): DescriptionResour
         has_issuer_id: o.has_issuer_id ?? null,
         has_issuer_name: o.has_issuer_name ?? null,
         last_modified: o.last_modified ?? null
-    }
+    };
 }
 
 /**
@@ -1564,7 +1565,7 @@ export function isWorkVariant(o: object): o is WorkVariant {
         'type' in o &&
         'has_primary_title' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toWorkVariant(o: WorkVariant): WorkVariant {
@@ -1584,7 +1585,7 @@ export function toWorkVariant(o: WorkVariant): WorkVariant {
         has_source_key: o.has_source_key ?? [],
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1604,7 +1605,7 @@ export function isGeographicName(o: object): o is GeographicName {
     return (
         'has_name' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toGeographicName(o: GeographicName): GeographicName {
@@ -1613,7 +1614,7 @@ export function toGeographicName(o: GeographicName): GeographicName {
         has_name: o.has_name ?? null,
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1632,7 +1633,7 @@ export interface Genre {
 export function isGenre(o: object): o is Genre {
     return (
         'has_name' in o
-    )
+    );
 }
 
 export function toGenre(o: Genre): Genre {
@@ -1640,7 +1641,7 @@ export function toGenre(o: Genre): Genre {
         has_alternate_name: o.has_alternate_name ?? [],
         has_name: o.has_name ?? null,
         same_as: o.same_as ?? []
-    }
+    };
 }
 
 /**
@@ -1660,7 +1661,7 @@ export function isSubject(o: object): o is Subject {
     return (
         'has_name' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toSubject(o: Subject): Subject {
@@ -1669,7 +1670,7 @@ export function toSubject(o: Subject): Subject {
         has_name: o.has_name ?? null,
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1688,7 +1689,7 @@ export function isActivity(o: object): o is Activity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toActivity(o: Activity): Activity {
@@ -1696,7 +1697,7 @@ export function toActivity(o: Activity): Activity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1711,7 +1712,7 @@ export function isAnimationActivity(o: object): o is AnimationActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toAnimationActivity(o: AnimationActivity): AnimationActivity {
@@ -1719,7 +1720,7 @@ export function toAnimationActivity(o: AnimationActivity): AnimationActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1734,7 +1735,7 @@ export function isCastActivity(o: object): o is CastActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toCastActivity(o: CastActivity): CastActivity {
@@ -1742,7 +1743,7 @@ export function toCastActivity(o: CastActivity): CastActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1757,7 +1758,7 @@ export function isCensorshipActivity(o: object): o is CensorshipActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toCensorshipActivity(o: CensorshipActivity): CensorshipActivity {
@@ -1765,7 +1766,7 @@ export function toCensorshipActivity(o: CensorshipActivity): CensorshipActivity 
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1780,7 +1781,7 @@ export function isCinematographyActivity(o: object): o is CinematographyActivity
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toCinematographyActivity(o: CinematographyActivity): CinematographyActivity {
@@ -1788,7 +1789,7 @@ export function toCinematographyActivity(o: CinematographyActivity): Cinematogra
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1803,7 +1804,7 @@ export function isCopyrightAndDistributionActivity(o: object): o is CopyrightAnd
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toCopyrightAndDistributionActivity(o: CopyrightAndDistributionActivity): CopyrightAndDistributionActivity {
@@ -1811,7 +1812,7 @@ export function toCopyrightAndDistributionActivity(o: CopyrightAndDistributionAc
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1826,7 +1827,7 @@ export function isDirectingActivity(o: object): o is DirectingActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toDirectingActivity(o: DirectingActivity): DirectingActivity {
@@ -1834,7 +1835,7 @@ export function toDirectingActivity(o: DirectingActivity): DirectingActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1849,7 +1850,7 @@ export function isEditingActivity(o: object): o is EditingActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toEditingActivity(o: EditingActivity): EditingActivity {
@@ -1857,7 +1858,7 @@ export function toEditingActivity(o: EditingActivity): EditingActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1872,7 +1873,7 @@ export function isLaboratoryActivity(o: object): o is LaboratoryActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toLaboratoryActivity(o: LaboratoryActivity): LaboratoryActivity {
@@ -1880,7 +1881,7 @@ export function toLaboratoryActivity(o: LaboratoryActivity): LaboratoryActivity 
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1895,7 +1896,7 @@ export function isMusicActivity(o: object): o is MusicActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toMusicActivity(o: MusicActivity): MusicActivity {
@@ -1903,7 +1904,7 @@ export function toMusicActivity(o: MusicActivity): MusicActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1918,7 +1919,7 @@ export function isProducingActivity(o: object): o is ProducingActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toProducingActivity(o: ProducingActivity): ProducingActivity {
@@ -1926,7 +1927,7 @@ export function toProducingActivity(o: ProducingActivity): ProducingActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1941,7 +1942,7 @@ export function isProductionDesignActivity(o: object): o is ProductionDesignActi
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toProductionDesignActivity(o: ProductionDesignActivity): ProductionDesignActivity {
@@ -1949,7 +1950,7 @@ export function toProductionDesignActivity(o: ProductionDesignActivity): Product
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1964,7 +1965,7 @@ export function isPuppetActivity(o: object): o is PuppetActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toPuppetActivity(o: PuppetActivity): PuppetActivity {
@@ -1972,7 +1973,7 @@ export function toPuppetActivity(o: PuppetActivity): PuppetActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -1987,7 +1988,7 @@ export function isSoundActivity(o: object): o is SoundActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toSoundActivity(o: SoundActivity): SoundActivity {
@@ -1995,7 +1996,7 @@ export function toSoundActivity(o: SoundActivity): SoundActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2010,7 +2011,7 @@ export function isSpecialEffectsActivity(o: object): o is SpecialEffectsActivity
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toSpecialEffectsActivity(o: SpecialEffectsActivity): SpecialEffectsActivity {
@@ -2018,7 +2019,7 @@ export function toSpecialEffectsActivity(o: SpecialEffectsActivity): SpecialEffe
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2033,7 +2034,7 @@ export function isWritingActivity(o: object): o is WritingActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toWritingActivity(o: WritingActivity): WritingActivity {
@@ -2041,7 +2042,7 @@ export function toWritingActivity(o: WritingActivity): WritingActivity {
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2056,7 +2057,7 @@ export function isManifestationActivity(o: object): o is ManifestationActivity {
         'has_agent' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toManifestationActivity(o: ManifestationActivity): ManifestationActivity {
@@ -2064,7 +2065,7 @@ export function toManifestationActivity(o: ManifestationActivity): Manifestation
         has_agent: o.has_agent ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2087,7 +2088,7 @@ export function isAgent(o: object): o is Agent {
         'has_name' in o &&
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toAgent(o: Agent): Agent {
@@ -2097,7 +2098,7 @@ export function toAgent(o: Agent): Agent {
         same_as: o.same_as ?? [],
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2116,7 +2117,7 @@ export interface Event extends CategorizedThing {
 export function isEvent(o: object): o is Event {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toEvent(o: Event): Event {
@@ -2125,7 +2126,7 @@ export function toEvent(o: Event): Event {
         has_date: o.has_date ?? null,
         located_in: o.located_in ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2140,7 +2141,7 @@ export interface ProductionEvent extends Event {
 export function isProductionEvent(o: object): o is ProductionEvent {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toProductionEvent(o: ProductionEvent): ProductionEvent {
@@ -2150,7 +2151,7 @@ export function toProductionEvent(o: ProductionEvent): ProductionEvent {
         has_date: o.has_date ?? null,
         located_in: o.located_in ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2167,7 +2168,7 @@ export function isPreservationEvent(o: object): o is PreservationEvent {
         'type' in o &&
         'has_activity' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toPreservationEvent(o: PreservationEvent): PreservationEvent {
@@ -2177,7 +2178,7 @@ export function toPreservationEvent(o: PreservationEvent): PreservationEvent {
         has_date: o.has_date ?? null,
         located_in: o.located_in ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2193,7 +2194,7 @@ export function isPublicationEvent(o: object): o is PublicationEvent {
     return (
         'type' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toPublicationEvent(o: PublicationEvent): PublicationEvent {
@@ -2203,7 +2204,7 @@ export function toPublicationEvent(o: PublicationEvent): PublicationEvent {
         has_date: o.has_date ?? null,
         located_in: o.located_in ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2218,7 +2219,7 @@ export interface ManufactureEvent extends Event {
 export function isManufactureEvent(o: object): o is ManufactureEvent {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toManufactureEvent(o: ManufactureEvent): ManufactureEvent {
@@ -2228,7 +2229,7 @@ export function toManufactureEvent(o: ManufactureEvent): ManufactureEvent {
         has_date: o.has_date ?? null,
         located_in: o.located_in ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2242,7 +2243,7 @@ export function isRightsCopyrightRegistrationEvent(o: object): o is RightsCopyri
     return (
         'has_activity' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toRightsCopyrightRegistrationEvent(o: RightsCopyrightRegistrationEvent): RightsCopyrightRegistrationEvent {
@@ -2251,7 +2252,7 @@ export function toRightsCopyrightRegistrationEvent(o: RightsCopyrightRegistratio
         has_date: o.has_date ?? null,
         located_in: o.located_in ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2271,7 +2272,7 @@ export function isTitle(o: object): o is Title {
     return (
         'has_name' in o &&
         'type' in o
-    )
+    );
 }
 
 export function toTitle(o: Title): Title {
@@ -2279,48 +2280,30 @@ export function toTitle(o: Title): Title {
         has_name: o.has_name ?? null,
         has_ordering_name: o.has_ordering_name ?? null,
         type: o.type ?? null
-    }
+    };
 }
 
 /**
  * Base class defining common slots for manifestations and items
  */
 export interface ManifestationOrItem extends MovingImageRecord {
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11 */
-    has_colour_type?: string,
-    /** Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11 */
-    has_duration?: Duration,
-    /** Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8 */
-    has_extent?: Extent,
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1 */
-    has_format?: Format[],
     /** FIAF Moving Image Cataloguing Manual Appendix B */
     has_note?: string[],
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4 */
-    has_sound_type?: string,
     /** Link to data provider's own presentation of manifestation or item on the web */
     has_webresource?: string[],
-    /** FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3 */
-    in_language?: Language[],
 }
 
 
 export function isManifestationOrItem(o: object): o is ManifestationOrItem {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toManifestationOrItem(o: ManifestationOrItem): ManifestationOrItem {
     return {
-        has_colour_type: o.has_colour_type ?? null,
-        has_duration: o.has_duration ?? {},
-        has_extent: o.has_extent ?? {},
-        has_format: o.has_format ?? [],
         has_note: o.has_note ?? [],
-        has_sound_type: o.has_sound_type ?? null,
         has_webresource: o.has_webresource ?? [],
-        in_language: o.in_language ?? [],
         described_by: o.described_by ?? {},
         has_alternative_title: o.has_alternative_title ?? [],
         has_event: o.has_event ?? [],
@@ -2329,7 +2312,7 @@ export function toManifestationOrItem(o: ManifestationOrItem): ManifestationOrIt
         has_source_key: o.has_source_key ?? [],
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2346,14 +2329,14 @@ export interface Duration {
 export function isDuration(o: object): o is Duration {
     return (
         'has_value' in o
-    )
+    );
 }
 
 export function toDuration(o: Duration): Duration {
     return {
         has_value: o.has_value ?? null,
         has_precision: o.has_precision ?? null
-    }
+    };
 }
 
 /**
@@ -2373,7 +2356,7 @@ export function isExtent(o: object): o is Extent {
     return (
         'has_unit' in o &&
         'has_value' in o
-    )
+    );
 }
 
 export function toExtent(o: Extent): Extent {
@@ -2381,7 +2364,7 @@ export function toExtent(o: Extent): Extent {
         has_unit: o.has_unit ?? null,
         has_value: o.has_value ?? null,
         has_precision: o.has_precision ?? null
-    }
+    };
 }
 
 /**
@@ -2396,14 +2379,14 @@ export interface Format extends CategorizedThing {
 export function isFormat(o: object): o is Format {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toFormat(o: Format): Format {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2416,14 +2399,14 @@ export interface Audio extends Format {
 export function isAudio(o: object): o is Audio {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toAudio(o: Audio): Audio {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2436,14 +2419,14 @@ export interface DigitalFile extends Format {
 export function isDigitalFile(o: object): o is DigitalFile {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toDigitalFile(o: DigitalFile): DigitalFile {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2456,14 +2439,14 @@ export interface DigitalFileEncoding extends Format {
 export function isDigitalFileEncoding(o: object): o is DigitalFileEncoding {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toDigitalFileEncoding(o: DigitalFileEncoding): DigitalFileEncoding {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2476,14 +2459,14 @@ export interface Film extends Format {
 export function isFilm(o: object): o is Film {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toFilm(o: Film): Film {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2496,14 +2479,14 @@ export interface Optical extends Format {
 export function isOptical(o: object): o is Optical {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toOptical(o: Optical): Optical {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2516,14 +2499,14 @@ export interface Video extends Format {
 export function isVideo(o: object): o is Video {
     return (
         'category' in o
-    )
+    );
 }
 
 export function toVideo(o: Video): Video {
     return {
         type: o.type ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2541,21 +2524,15 @@ export function isManifestation(o: object): o is Manifestation {
     return (
         'is_manifestation_of' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toManifestation(o: Manifestation): Manifestation {
     return {
         has_item: o.has_item ?? [],
         is_manifestation_of: o.is_manifestation_of ?? [],
-        has_colour_type: o.has_colour_type ?? null,
-        has_duration: o.has_duration ?? {},
-        has_extent: o.has_extent ?? {},
-        has_format: o.has_format ?? [],
         has_note: o.has_note ?? [],
-        has_sound_type: o.has_sound_type ?? null,
         has_webresource: o.has_webresource ?? [],
-        in_language: o.in_language ?? [],
         described_by: o.described_by ?? {},
         has_alternative_title: o.has_alternative_title ?? [],
         has_event: o.has_event ?? [],
@@ -2564,7 +2541,7 @@ export function toManifestation(o: Manifestation): Manifestation {
         has_source_key: o.has_source_key ?? [],
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2581,14 +2558,14 @@ export interface Language {
 export function isLanguage(o: object): o is Language {
     return (
         'usage' in o
-    )
+    );
 }
 
 export function toLanguage(o: Language): Language {
     return {
         code: o.code ?? null,
         usage: o.usage ?? null
-    }
+    };
 }
 
 /**
@@ -2599,8 +2576,20 @@ export interface Item extends ManifestationOrItem {
     element_type?: string,
     /** Status of item determining access conditions. See also FIAF Moving Image Cataloguing Manual D.7.1 */
     has_access_status?: string,
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11 */
+    has_colour_type?: string,
+    /** Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11 */
+    has_duration?: Duration,
+    /** Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8 */
+    has_extent?: Extent,
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1 */
+    has_format?: Format[],
     /** Frame Rate describes the number of frames per second of an item. See also: FIAF Moving Image Cataloguing Manual 3.1.5.12. */
     has_frame_rate?: string,
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4 */
+    has_sound_type?: string,
+    /** FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3 */
+    in_language?: Language[],
     /** Link to AVefi item registered by another institution indicating that the two are known to be copies of each other */
     is_copy_of?: AuthorityResource[],
     /** Link to AVefi item from which this one has been derived in whole or in part, e.g. as a result of a restoration or digitasation project */
@@ -2614,25 +2603,25 @@ export function isItem(o: object): o is Item {
     return (
         'is_item_of' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toItem(o: Item): Item {
     return {
         element_type: o.element_type ?? null,
         has_access_status: o.has_access_status ?? null,
-        has_frame_rate: o.has_frame_rate ?? null,
-        is_copy_of: o.is_copy_of ?? [],
-        is_derivative_of: o.is_derivative_of ?? [],
-        is_item_of: o.is_item_of ?? {},
         has_colour_type: o.has_colour_type ?? null,
         has_duration: o.has_duration ?? {},
         has_extent: o.has_extent ?? {},
         has_format: o.has_format ?? [],
-        has_note: o.has_note ?? [],
+        has_frame_rate: o.has_frame_rate ?? null,
         has_sound_type: o.has_sound_type ?? null,
-        has_webresource: o.has_webresource ?? [],
         in_language: o.in_language ?? [],
+        is_copy_of: o.is_copy_of ?? [],
+        is_derivative_of: o.is_derivative_of ?? [],
+        is_item_of: o.is_item_of ?? {},
+        has_note: o.has_note ?? [],
+        has_webresource: o.has_webresource ?? [],
         described_by: o.described_by ?? {},
         has_alternative_title: o.has_alternative_title ?? [],
         has_event: o.has_event ?? [],
@@ -2641,7 +2630,7 @@ export function toItem(o: Item): Item {
         has_source_key: o.has_source_key ?? [],
         same_as: o.same_as ?? [],
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2658,14 +2647,14 @@ export interface MovingImageRecordContainer {
 export function isMovingImageRecordContainer(o: object): o is MovingImageRecordContainer {
     return (
         'has_record' in o
-    )
+    );
 }
 
 export function toMovingImageRecordContainer(o: MovingImageRecordContainer): MovingImageRecordContainer {
     return {
         has_record: o.has_record ?? {},
         URL: o.URL ?? null
-    }
+    };
 }
 
 /**
@@ -2681,14 +2670,14 @@ export function isAuthorityResource(o: object): o is AuthorityResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toAuthorityResource(o: AuthorityResource): AuthorityResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2702,14 +2691,14 @@ export function isMovingImageResource(o: object): o is MovingImageResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toMovingImageResource(o: MovingImageResource): MovingImageResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2723,14 +2712,14 @@ export function isAVefiResource(o: object): o is AVefiResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toAVefiResource(o: AVefiResource): AVefiResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2744,14 +2733,14 @@ export function isDOIResource(o: object): o is DOIResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toDOIResource(o: DOIResource): DOIResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2765,14 +2754,14 @@ export function isEIDRResource(o: object): o is EIDRResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toEIDRResource(o: EIDRResource): EIDRResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2786,14 +2775,14 @@ export function isFilmportalResource(o: object): o is FilmportalResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toFilmportalResource(o: FilmportalResource): FilmportalResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2807,14 +2796,14 @@ export function isGNDResource(o: object): o is GNDResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toGNDResource(o: GNDResource): GNDResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2828,14 +2817,14 @@ export function isISILResource(o: object): o is ISILResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toISILResource(o: ISILResource): ISILResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2849,14 +2838,14 @@ export function isLocalResource(o: object): o is LocalResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toLocalResource(o: LocalResource): LocalResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2870,14 +2859,14 @@ export function isTGNResource(o: object): o is TGNResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toTGNResource(o: TGNResource): TGNResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2891,14 +2880,14 @@ export function isVIAFResource(o: object): o is VIAFResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toVIAFResource(o: VIAFResource): VIAFResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 /**
@@ -2912,14 +2901,14 @@ export function isWikidataResource(o: object): o is WikidataResource {
     return (
         'id' in o &&
         'category' in o
-    )
+    );
 }
 
 export function toWikidataResource(o: WikidataResource): WikidataResource {
     return {
         id: o.id ?? null,
         category: o.category ?? null
-    }
+    };
 }
 
 

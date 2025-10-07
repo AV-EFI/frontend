@@ -52,7 +52,7 @@
               class="flex flex-col items-center"
             >
               <img
-                src="/img/avefi_ph_gray.svg"
+                src="/img/avefi_ph_modern.svg"
                 alt="Avefi"
                 :class="`w-full h-48 lg:h-48 object-cover ${item.imgCoverType || 'object-center'}`"
               >
@@ -86,7 +86,7 @@
                 >{{ $t(item.linkText) }} 
                   <Icon
                     class="hidden md:inline-block"
-                    name="fa-regular:arrow-alt-circle-right"
+                    name="tabler:arrow-right"
                   /></a>
               </div>
             </div>
@@ -130,7 +130,7 @@ const props = defineProps({
 
 const showFullText = ref(false);
 
-const toggleText = (e) => {
+const toggleText = (e: Event) => {
     e.preventDefault();
     showFullText.value = !showFullText.value;
 };
@@ -148,7 +148,7 @@ const nextSlide = () => {
 watch(currentIndex, (newIndex) => {
     const width = window.innerWidth;
     const itemWidth = width < 768 ? 250 : 512; // Adjust item width based on screen size
-    const carouselInner = document.querySelector('.carousel-inner');
+    const carouselInner = document.querySelector('.carousel-inner') as HTMLElement;
     if (carouselInner) {
         carouselInner.style.transform = `translateX(-${newIndex * itemWidth}px)`;
     }

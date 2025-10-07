@@ -15,12 +15,12 @@
     
     <ul>
       <li
-        v-for="(object, index) in objectListStore.objects"
+        v-for="(object, index) in objectListStore?.objects || []"
         :key="index"
       >
         {{ object.filmTitle }}
         <button
-          :title="$t('remove').toUpperCase"
+          :title="$t('remove').toUpperCase()"
           class="btn btn-warning"
           @click="removeObject(index)"
         >
@@ -40,24 +40,37 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import {useObjectListStore} from '../../stores/compareList';
-const objectListStore = useObjectListStore();
-//const objects = objectListStore.objects;
+
+const objectListStore = ref();
 let newObjectName = '';
 
+onMounted(() => {
+    try {
+        objectListStore.value = useObjectListStore();
+    } catch (error) {
+        console.warn('Store not available yet:', error);
+    }
+});
+
 const addObject = () => {
-    if (newObjectName.trim() !== '') {
-        objectListStore.addObject({ filmId: "1", filmTitle: newObjectName });
+    if (newObjectName.trim() !== '' && objectListStore.value) {
+        objectListStore.value.addObject({ filmId: "1", filmTitle: newObjectName });
         newObjectName = ''; // Clear input field after adding object
     }
 };
 
-const removeObject = (index) => {
-    objectListStore.removeObject(index);
+const removeObject = (index: number) => {
+    if (objectListStore.value) {
+        objectListStore.value.removeObject(index);
+    }
 };
 
 const removeAllObjects = () => {
-    objectListStore.removeAllObjects();
-    console.log('Objects after removal:', objectListStore.objects);
+    if (objectListStore.value) {
+        objectListStore.value.removeAllObjects();
+        console.log('Objects after removal:', objectListStore.value.objects);
+    }
 };
 </script>

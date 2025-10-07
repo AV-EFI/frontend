@@ -1,13 +1,12 @@
 <template>
   <div
     v-for="exemplar in items"
-    :key="exemplar?.id || exemplar?.handle"
+    :key="exemplar?._id || exemplar?.handle"
     class="grid grid-cols-4 gap-x-2 gap-y-0 mb-4 grid-rows-[minmax(0,1fr)] px-2 md: ml-4 md:px-2 py-1 dark:text-white border-l-2 border-item text-neutral-700"
   >
     <div class="col-span-full row-start-1 mb-2">
       <MicroDividerComp
         class="mx-auto lg:mt-[5px] mb-4"
-        label-text="avefi:Item"
         label-text="avefi:Item"
         in-class="item"
       />
@@ -35,7 +34,7 @@
           />
         </span>
         <SearchHighlightSingleComp
-          :item="exemplar?.has_record?.has_access_status || null"
+          :item="exemplar?.has_record?.has_access_status || undefined"
           :hitlite="highlightResult?.manifestations?.items?.has_record?.has_access_status?.matchedWords"
           class="text-base"
         />
@@ -53,7 +52,7 @@
           />
         </span>
         <SearchHighlightSingleComp
-          :item="exemplar?.has_record?.element_type || null"
+          :item="exemplar?.has_record?.element_type || undefined"
           :hitlite="highlightResult?.manifestations?.items?.has_record?.element_type?.matchedWords"
           class="text-base"
         />
@@ -85,7 +84,7 @@
           <MicroLabelComp label-text="in_language" />
         </span>
         <SearchHighlightListComp
-          :items="(exemplar?.has_record?.in_language || []).map(il => `${$t(il?.code)}${il?.usage?.length ? ' (' + il.usage.map(u => $t(u)).join(', ') + ')' : ''}`)"
+          :items="(exemplar?.has_record?.in_language || []).map(il => `${$t(il?.code || '')}${(Array.isArray(il?.usage) && il.usage.length) ? ' (' + il.usage.map(u => $t(u)).join(', ') + ')' : ''}`)"
           :hilite="highlightResult?.manifestations?.items?.has_record?.in_language?.code?.matchedWords"
           class="text-base"
         />
@@ -216,11 +215,25 @@
 
 
 <script setup lang="ts">
-defineProps({
-    items: { type: Array, required: true },
-    highlightResult: { type: Object, required: false, default: () => ({}) },
-    productionDetailsChecked: { type: Boolean, required: false, default: false },
-    showAdminStats: { type: Boolean, required: false, default: false },
-});
+import type { Item } from '@/tmp_schema/project/typescript/avefi_schema_type_utils';
+import type { IAVefiItem } from '@/models/interfaces/generated';
+
+// Extended type for Elasticsearch item hits with search metadata
+type SearchItemHit = {
+    handle?: string;
+    _id?: string;
+    id?: string;
+    duration_in_minutes?: number;
+    has_record?: Item;
+};
+
+interface Props {
+    items: IAVefiItem[];
+    highlightResult?: Record<string, any>;
+    productionDetailsChecked?: boolean;
+    showAdminStats?: boolean;
+}
+
+defineProps<Props>();
 </script>
 

@@ -1,4 +1,13 @@
 <template>
+  <!--
+    <Icon
+      class="text-primary-600 dark:text-primary-300 !align-baseline cursor-pointer"
+      name="tabler:clipboard-copy"
+      :alt="`Copy ${displayText || targetPropertyValue}`"
+      :title="`Copy ${displayText || targetPropertyValue}`"
+      @click="copyExtended(targetPropertyValue, targetPropertyName)"
+    />
+  -->
   <button
     class="btn btn-xs btn-primary"
     :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
@@ -59,7 +68,7 @@ function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsI
 
 //const emit= defineEmits(["updateTargetModel"]);
 const emit = defineEmits<{
-  (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string)
+  (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string): void
 }>();
 
 </script>

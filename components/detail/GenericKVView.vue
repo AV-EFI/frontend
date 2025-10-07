@@ -113,7 +113,7 @@ function isVisible(path: string, mode: 'detail' | 'search'): boolean {
 }
 
 /** Local, pure renderer */
-const KVNode = defineComponent({
+const KVNode: any = defineComponent({
     name: 'KVNode',
     props: {
         value: { type: null, required: true },
@@ -157,7 +157,7 @@ const KVNode = defineComponent({
             return rows.length ? h('div', { class: 'space-y-2' }, rows) : null;
         };
 
-        const renderArray = (path: string, arr: any[]) => {
+        const renderArray = (path: string, arr: any[]): any => {
             // header (array label + tooltip)
             const tip = tipFor(path);
             const title = (tip?.[lang.value as 'de' | 'en'] || tip?.en || tip?.de || '') as string;
@@ -177,7 +177,7 @@ const KVNode = defineComponent({
                 ]
             );
 
-            const items = arr.length
+            const items: any = arr.length
                 ? arr
                     .map((it, idx) =>
                         h('div', { class: 'rounded border p-3 mb-2' }, [
@@ -197,7 +197,7 @@ const KVNode = defineComponent({
             return h('div', null, [header, ...items]);
         };
 
-        return () => {
+        return (): any => {
             const v: any = p.value;
             if (v === null || v === undefined) return leafRow(p.path, '');
             if (Array.isArray(v)) return renderArray(p.path, v);

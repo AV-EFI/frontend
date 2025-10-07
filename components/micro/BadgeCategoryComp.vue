@@ -23,7 +23,7 @@
     {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
     <Icon
       v-if="icon"
-      name="fa:caret-down"
+      name="tabler:caret-down"
       class="w-2 h-2 text-white ml-1"
       aria-hidden="true"
     />

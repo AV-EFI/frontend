@@ -16,7 +16,7 @@
           <a
             :href="el[1]"
             class="hover:underline"
-            :aria-current="index === breadcrumbs.length - 1 ? 'page' : null"
+            :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
           >
             {{ el[0] }}
           </a>

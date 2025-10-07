@@ -11,7 +11,7 @@
     :title="$t('copyEFI', { category: categoryText })"
     :alt="$t('copyEFI', { category: categoryText })"
     :aria-label="$t('copyEFI', { category: categoryText })"
-    :aria-pressed="isClicked.toString()"
+    :aria-pressed="isClicked"
     role="button"
     @click="handleClick"
   >
@@ -37,7 +37,7 @@
     </svg>
     <Icon
       v-else
-      name="mdi:check-bold"
+      name="tabler:check"
       class="text-white w-5 h-5 transition-transform duration-400 ease-out"
     />
   </button>
@@ -45,6 +45,8 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useClipboardUtil } from '@/utils/clipboard';
 
 const props = defineProps({
     handle: String,
@@ -70,11 +72,13 @@ const hoverBgClass = computed(() => {
 });
 
 const handleClick = () => {
-    useClipboardUtil()?.copyExtended(props.handle);
-    isClicked.value = true;
-    setTimeout(() => {
-        isClicked.value = false;
-    }, 300);
+    if (props.handle) {
+        useClipboardUtil()?.copyExtended(props.handle);
+        isClicked.value = true;
+        setTimeout(() => {
+            isClicked.value = false;
+        }, 300);
+    }
 };
 </script>
 

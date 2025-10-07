@@ -88,17 +88,17 @@
       </template>
       <template #item-_source.has_record.has_format="item">
         <div class="dark:text-primary-100">
-          {{ item._source.has_record?.has_format?.map(function (has_format_item) {return $t(has_format_item.type); }).join(',') }}
+          {{ item._source.has_record?.has_format?.map(function (has_format_item: any) {return $t(has_format_item.type); }).join(',') }}
         </div>
       </template>
       <template #item-_source.has_record.in_language.spoken="item">
         <div class="dark:text-primary-100">
-          {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'SpokenLanguage';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
+          {{ item._source?.has_record?.in_language?.filter(function(in_lang: any) { return in_lang.usage == 'SpokenLanguage';}).map(function (in_lang: any) {return $t(in_lang.code); }).join(',') }}
         </div>
       </template>
       <template #item-_source.has_record.in_language.subtitles="item">
         <div class="dark:text-primary-100">
-          {{ item._source?.has_record?.in_language?.filter(function(in_lang) { return in_lang.usage == 'Subtitles';}).map(function (in_lang) {return $t(in_lang.code); }).join(',') }}
+          {{ item._source?.has_record?.in_language?.filter(function(in_lang: any) { return in_lang.usage == 'Subtitles';}).map(function (in_lang: any) {return $t(in_lang.code); }).join(',') }}
         </div>
       </template>
       <template #empty-message>
@@ -116,7 +116,7 @@
               :clip="false"
             />
           </div>
-          <div class="col-span-full md:col-span-1 row-start-1 flex flex-col items-end hidden">
+          <div class="col-span-full md:col-span-1 row-start-1 hidden">
             <MicroEfiCopyComp
               :id="item._id"
               :handle="item?.handle"
@@ -141,7 +141,7 @@
                 >
                   <span class="dark:text-primary-100">{{ $t(in_lang.code) }}</span>
                   &nbsp;
-                  (<span class="dark:text-primary-100">{{ in_lang.usage.map(function (usage) {return $t(usage); }).join(',') }}</span>)
+                  (<span class="dark:text-primary-100">{{ in_lang.usage.map(function (usage: any) {return $t(usage); }).join(',') }}</span>)
                 </li>
               </ul>
             </div>
@@ -152,7 +152,7 @@
           >
             <LazyDetailKeyValueComp
               :keytxt="$t('has_format')"
-              :valtxt="item?._source?.has_record?.has_format.flatMap(function (has_format_item) {return $t(has_format_item.type); }).join(',')"
+              :valtxt="item?._source?.has_record?.has_format.flatMap(function (has_format_item: any) {return $t(has_format_item.type); }).join(',')"
               class="w-full"
               :clip="false"
               :title="$t('tooltip.format')"

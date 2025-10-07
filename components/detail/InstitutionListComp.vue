@@ -36,10 +36,11 @@
                       </label>
                       <input
                         type="search"
+                        autocomplete="off"
                         class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
                         :value="currentRefinement"
                         :placeholder="$t('searchplaceholder')"
-                        @input="handleRefine(refine, $event.target.value)"
+                        @input="handleRefine(refine, ($event.target as HTMLInputElement)?.value || '')"
                       >
                       <span
                         :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm']"
@@ -104,7 +105,7 @@
                 <button
                   class="btn btn-primary lg:hidden"
                   :title="$t('showFacetItems')"
-                  @click="$toggleFacetDrawerState"
+                  @click="() => ($toggleFacetDrawerState as () => void)()"
                 >
                   <Icon name="tabler:caret-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
@@ -183,7 +184,7 @@
                   style="overflow-y:hidden;"
                 >
                   <ais-state-results>
-                    <template #default="{ results: { hits, query } }">
+                    <template #default="{ results: { hits } }">
                       <ais-hits
                         v-if="hits.length > 0"
                         class=""
@@ -193,6 +194,11 @@
                             :items="items"
                             :view-type-checked="viewTypeChecked"
                             :show-admin-stats="true"
+                            :expanded-handles="[]"
+                            :production-details-checked="false"
+                            :expand-all-handles-checked="expandAllChecked"
+                            :is-search-loading="false"
+                            :current-refinements="[]"
                           />
                         </template>
                       </ais-hits>
@@ -223,55 +229,49 @@
 
 <script setup lang="ts">
 
-const {$toggleFacetDrawerState} = useNuxtApp();
+const { $toggleFacetDrawerState } = useNuxtApp();
 
-const viewTypeChecked = ref(false);
-const expandAllChecked = ref(false);
+const viewTypeChecked = ref<boolean>(false);
+const expandAllChecked = ref<boolean>(false);
 
-defineProps({
-    searchClient: {
-        type: Object,
-        required: true,
-    },
-    indexName: {
-        type: String,
-        required: true,
-        default: '21.11155-denormalised-work'
-    },
-});
+interface Props {
+  searchClient: object;
+  indexName: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = defineProps<Props>();
 
 let refineTimeout: ReturnType<typeof setTimeout>;
 
-
 watch(expandAllChecked, () => {
-    expandAllItems();
+  expandAllItems();
 });
 
 watch(viewTypeChecked, () => {
-    expandAllChecked.value = false;
+  expandAllChecked.value = false;
 });
 
 const expandAllItems = () => {
-    const expandIcons = document.querySelectorAll('.expand-icon');
+  const expandIcons = document.querySelectorAll('.expand-icon');
 
-    expandIcons.forEach(icon => {
-        (icon as HTMLElement).click(); // ✅ tell TS it's an HTMLElement
+  expandIcons.forEach(icon => {
+    (icon as HTMLElement).click();
+  });
+
+  setTimeout(() => {
+    const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+
+    checkboxes.forEach(checkbox => {
+      (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked;
     });
-
-    setTimeout(() => {
-        const checkboxes = document.querySelectorAll('.manifestation-checkbox');
-
-        checkboxes.forEach(checkbox => {
-            (checkbox as HTMLInputElement).checked = !(checkbox as HTMLInputElement).checked; // ✅ cast to HTMLInputElement
-        });
-    }, 300);
+  }, 300);
 };
 
 const handleRefine = (refine: (value: string) => void, value: string) => {
-    clearTimeout(refineTimeout);
-    refineTimeout = setTimeout(() => {
-        refine(value);
-    }, 500);
+  clearTimeout(refineTimeout);
+  refineTimeout = setTimeout(() => {
+    refine(value);
+  }, 500);
 };
-
 </script>

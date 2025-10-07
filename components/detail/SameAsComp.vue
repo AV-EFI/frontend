@@ -9,7 +9,7 @@
       tabindex="0"
       role="button"
       aria-haspopup="true"
-      :aria-expanded="toggle.toString()"
+      :aria-expanded="Boolean(toggle.toString())"
       :aria-controls="'dropdown-menu'"
       class="btn m-1 btn-circle btn-outline btn-xs"
       @click="handleToggle"
@@ -17,7 +17,7 @@
     >
       <Icon
         :class="['text-' + fontSize]"
-        name="mdi:dots-horizontal"
+        name="tabler:dots"
       />
     </div>
 
@@ -65,7 +65,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
@@ -81,7 +81,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
@@ -114,7 +114,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
@@ -130,7 +130,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>

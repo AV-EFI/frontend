@@ -3,14 +3,14 @@
     <div class="grid grid-cols-2">
       <div class="grid grid-cols-1 md:w-[420px] grid-rows-6 mr-0 ml-auto">
         <ViewsWorkViewReduced
-          v-model="prev"
+          :model-value="prev || ''"
           :title="$t('dataset1')"
           class="col-span-full"
         />
       </div>
       <div class="grid grid-cols-1 md:w-[420px] grid-rows-6 ml-0 mr-auto">
         <ViewsWorkViewReduced
-          v-model="current"
+          :model-value="current || ''"
           :title="$t('dataset2')"
           class="col-span-full"
         />
@@ -20,7 +20,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
+import { useObjectListStore } from '@/stores/compareList';
 
 const props = defineProps({
     items: {
@@ -30,7 +32,7 @@ const props = defineProps({
     }
 });
 
-const objectListStore = useObjectListStore();
+const objectListStore = ref();
 
 async function getCollectionType(routeParamsId: string): Promise<string> {  
     const { data } = await useApiFetchLocal<Array<ElasticGetByIdResponse>>(
@@ -51,7 +53,7 @@ async function getCollectionType(routeParamsId: string): Promise<string> {
 }
 
 const { data: prev } = await useAsyncData<string>('prev', () =>
-    getCollectionType(props.items[0])
+    getCollectionType(props.items[0] || '')
 );
 
 const { data: current } = await useAsyncData<string|undefined>('current', () =>
@@ -59,8 +61,13 @@ const { data: current } = await useAsyncData<string|undefined>('current', () =>
 );
 
 onMounted(() => {
-    if (objectListStore.comparisonDrawerOpen) {
-        objectListStore.comparisonDrawerOpen = false;
+    try {
+        objectListStore.value = useObjectListStore();
+        if (objectListStore.value?.comparisonDrawerOpen) {
+            objectListStore.value.comparisonDrawerOpen = false;
+        }
+    } catch (error) {
+        console.warn('Store not available yet:', error);
     }
 });
 </script>

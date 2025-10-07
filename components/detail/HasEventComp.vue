@@ -11,7 +11,7 @@
         role="region"
       >
         <NuxtLayout
-          v-if="getCastMemberList(has_event_item)?.length > 0 && getCrewMemberList(has_event_item)?.length > 0"
+          v-if="(getCastMemberList(has_event_item)?.length ?? 0) > 0 && (getCrewMemberList(has_event_item)?.length ?? 0) > 0"
           name="partial-grid-3-4-4"
         >
           <template #heading>
@@ -90,7 +90,7 @@
           </template>
         </NuxtLayout>
         <NuxtLayout
-          v-else-if="getCrewMemberList(has_event_item)?.length > 0 && getCastMemberList(has_event_item)?.length < 1"
+          v-else-if="(getCrewMemberList(has_event_item)?.length ?? 0) > 0 && (getCastMemberList(has_event_item)?.length ?? 0) < 1"
           name="partial-grid-1-1"
         >
           <template #heading>
@@ -157,7 +157,7 @@
           </template>
         </NuxtLayout>
         <NuxtLayout
-          v-else-if="getCastMemberList(has_event_item)?.length > 0"
+          v-else-if="(getCastMemberList(has_event_item)?.length ?? 0) > 0"
           name="partial-grid-1-1"
         >
           <template #heading>
@@ -262,12 +262,27 @@
 </template>
 
 <script lang="ts" setup>
-import type { Event } from '../../models/interfaces/av_efi_schema';
+import type { PropType } from 'vue';
+
+// Temporary interface until IAVefiEvent is available in generated folder
+interface EventActivity {
+  type: string;
+  has_agent?: any;
+}
+
+interface Event {
+  category: string;
+  has_activity?: EventActivity[];
+  has_date?: string;
+  located_in?: any;
+  type: string;
+}
+
 const eventList = defineModel({type: Array as PropType<Event[]>, required: true});
 
-function getCastMemberList (hasEvent: Event) {
+function getCastMemberList (hasEvent: Event): EventActivity[] | null {
     try {
-        return hasEvent.has_activity?.filter((hasAct) => hasAct.type == 'CastMember');
+        return hasEvent.has_activity?.filter((hasAct: EventActivity) => hasAct.type == 'CastMember') || null;
     }
     catch(ex) {
         console.error(ex);        
@@ -275,9 +290,9 @@ function getCastMemberList (hasEvent: Event) {
     return null;
 }
 
-function getCrewMemberList (hasEvent: Event) {
+function getCrewMemberList (hasEvent: Event): EventActivity[] | null {
     try {
-        return hasEvent.has_activity?.filter((hasAct) => hasAct.type != 'CastMember');
+        return hasEvent.has_activity?.filter((hasAct: EventActivity) => hasAct.type != 'CastMember') || null;
     }
     catch(ex) {
         console.error(ex);        

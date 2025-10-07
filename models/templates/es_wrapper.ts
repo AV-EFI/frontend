@@ -4,7 +4,7 @@
  
 /* AUTO-GENERATED FILE — Wrapper interfaces for Elasticsearch responses */
  
-import type { WorkVariant, Manifestation, Item } from "./avefi_schema_type_utils";
+import type { WorkVariant, Manifestation, Item } from "../interfaces/schema/avefi_schema_type_utils";
 
 /**
  * Base interface for PID records returned from Elasticsearch

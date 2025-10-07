@@ -55,6 +55,7 @@
                 class="block"
                 :aria-label="$t('alternativeTitle')"
               >
+                <!-- eslint-disable-next-line vue/no-v-html -->
                 <span v-html="alt.value" />
                 <span v-if="work.has_record?.has_alternative_title?.[idx]?.type">
                   ({{ $t(work.has_record.has_alternative_title[idx].type) }})
@@ -63,8 +64,8 @@
             </ul>
             <ul v-else-if="work?.has_record?.has_alternative_title">
               <li
-                v-for="alt in work?.has_record?.has_alternative_title"
-                :key="alt.id"
+                v-for="(alt, altIndex) in work?.has_record?.has_alternative_title"
+                :key="altIndex"
               >
                 {{ alt.has_name }} ({{ $t(alt.type) }})
               </li>
@@ -81,7 +82,7 @@
             target="_blank"
           >
             <Icon
-              name="mdi:eye-outline"
+              name="tabler:eye"
               class="text-2xl"
               :alt="$t('detailviewlink')"
             />
@@ -97,6 +98,7 @@
         :data="work"
         level="work"
         class="mt-1"
+        icon-color="primary"
       />
     </header>
 
@@ -109,7 +111,7 @@
         :label="$t('searchItems')"
         :placeholder="$t('searchItems')"
         :options="suggestionsForWork(work).map(s => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
-        :value="Array.isArray(searchQuery[work?.handle ?? '']) ? searchQuery[work?.handle ?? ''] : (searchQuery[work?.handle ?? ''] ? [searchQuery[work?.handle ?? '']] : [])"
+        :value="getFormKitValue(work?.handle ?? '')"
         multiple
         popover
         class="w-72"
@@ -175,6 +177,7 @@
                       :data="row.item"
                       level="item"
                       class="mt-2 items-start justify-start text-left"
+                      icon-color="primary"
                     />
                   </div>
                   <div v-if="row.item?.has_record?.has_webresource">
@@ -202,6 +205,7 @@
                       :data="row.mf"
                       level="manifestation"
                       class="items-start justify-start text-left"
+                      icon-color="primary"
                     />
                   </div>
                 </div>
@@ -213,7 +217,7 @@
                     @click="navigateToItem(row.item, work?.handle ?? '')"
                   >
                     <Icon
-                      name="mdi:eye-outline"
+                      name="tabler:eye"
                       class="w-4 h-4 mr-1"
                     />
                   </button>
@@ -252,11 +256,18 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { FormKit } from '@formkit/vue';
 import type { PropType } from 'vue';
-import type { MovingImageRecordContainer } from 'models/interfaces/av_efi_schema';
+import type { IAVefiWorkVariant } from '@/models/interfaces/generated/IAVefiWorkVariant';
+
+// Extended type to include Algolia-specific properties
+type AlgoliaWorkVariant = IAVefiWorkVariant & {
+    objectID?: string;
+    _highlightResult?: any;
+    category?: string;
+};
 import fieldsSpec from '../../models/interfaces/avefi_search_fields';
 defineProps({
     datasets: {
-        type: Array as PropType<Array<MovingImageRecordContainer>>,
+        type: Array as PropType<Array<AlgoliaWorkVariant>>,
         required: true
     }
 });
@@ -272,6 +283,12 @@ const carouselIndex = ref<Record<string, number>>({});
 const viewportCols = ref(3);
 const loading = ref<Record<string, boolean>>({});
 
+// Helper to get properly typed FormKit value
+function getFormKitValue(handle: string): string[] {
+    const value = searchQuery.value[handle] || [];
+    return Array.isArray(value) ? value : [];
+}
+
 function onSearchInput(handle: string, val: any) {
     searchQuery.value[handle] = Array.isArray(val) ? val : (val ? [val] : []);
     loading.value[handle] = true;
@@ -281,9 +298,11 @@ function onSearchInput(handle: string, val: any) {
 }
 
 // ------- Spec fields (ordered) -------
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const workFields = computed(() =>
     (fieldsSpec?.workvariant ?? []).filter((f: any) => f.show).sort((a: any, b: any) => a.order - b.order)
 );
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const itemFields = computed(() =>
     (fieldsSpec?.item ?? []).filter((f: any) => f.show).sort((a: any, b: any) => a.order - b.order)
 );
@@ -306,10 +325,12 @@ function get(obj: any, path: string): any {
     if (!obj || !path) return undefined;
     return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function has(obj: any, path: string): boolean {
     const v = get(obj, path);
     return v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0) && v !== '';
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function asList(val: any): string {
     if (Array.isArray(val))  {
         if (val.length > 0 && typeof val[0] === 'object') {
@@ -322,6 +343,7 @@ function asList(val: any): string {
     return String(val);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function yearsDisplay(work: any): string {
     const years = get(work, 'years');
     if (years && Array.isArray(years) && years.length) return years.join(', ');
@@ -333,6 +355,7 @@ function yearsDisplay(work: any): string {
     }
     return '';
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function formatValue(val: any): string {
     if (val === null || val === undefined) return '';
     if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return String(val);
@@ -477,8 +500,8 @@ function filteredRows(work: any): Array<{ item: any, mf: any | null }> {
     let filtered = rows;
     if (Array.isArray(selected) && selected.length > 0) {
         filtered = rows.filter(r => selected.every(q => rowMatchesQuery(r, q)));
-    } else if (typeof selected === 'string' && selected.trim()) {
-        filtered = rows.filter(r => rowMatchesQuery(r, selected));
+    } else if (typeof selected === 'string' && (selected as string).trim()) {
+        filtered = rows.filter(r => rowMatchesQuery(r, selected as string));
     }
     // Stable order by item.handle
     return filtered.sort((a, b) => String(a.item?.handle || '').localeCompare(String(b.item?.handle || '')));
@@ -541,6 +564,10 @@ const navigateToItem = (item: any, workHandle: string) => {
   .carousel-track { grid-auto-columns: 33.3333%; }
 }
 .item-card { margin: 0.5rem; }
-.kv-l { @apply font-medium text-base-content/80 mr-1; }
-.kv-v { @apply text-base-content; }
+.kv-l { 
+  font-weight: 500; 
+  color: oklch(var(--bc) / 0.8); 
+  margin-right: 0.25rem; 
+}
+.kv-v { color: oklch(var(--bc)); }
 </style>

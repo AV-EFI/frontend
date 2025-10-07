@@ -394,7 +394,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'subject',
                 icon: ICONS.subject,
-                text: subjects.map((s: any) => ({ text: typeof s === 'string' ? s : (s?.has_name ?? ''), hilite: false })).filter(s => s.text),
+                text: subjects.map((s: any) => ({ text: typeof s === 'string' ? s : (s?.has_name ?? ''), hilite: false })).filter((s: any) => s.text),
                 aria: t('subjects') + ': ' + subjects.map((s: any) => (typeof s === 'string' ? s : (s?.has_name ?? ''))).filter(Boolean).join(', ')
             });
         }
@@ -426,13 +426,13 @@ function buildIconEntries() {
                 ? t(loc.has_name)
                 : (loc.same_as?.id || (loc.same_as?.category ? t(loc.same_as.category) : (loc.category ? t(loc.category) : '')));
             return { text: label || '', hilite: false };
-        }).filter(l => l.text);
+        }).filter((l: any) => l.text);
         if (locTexts.length) {
             entries.push({
                 key: 'located_in',
                 icon: 'tabler-map-pin',
                 text: locTexts,
-                aria: t('located_in') + ': ' + locTexts.map(l => l.text).join(', ')
+                aria: t('located_in') + ': ' + locTexts.map((l: any) => l.text).join(', ')
             });
         }
     }

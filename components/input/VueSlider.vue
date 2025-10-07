@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow border-2 border-base-300 dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
+    class="collapse collapse-arrow bg-white border-2 border-base-300 dark:border-primary-600 rounded-lg mb-2 max-md:!w-[90vw]"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     tabindex="0"
@@ -11,7 +11,7 @@
       :aria-label="$t('togglePanel')"
     >
 
-    <div class="collapse-title bg-slate-50 dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2">
       <div class="flex items-center gap-2">
         <Icon
           :name="'tabler:calendar'"
@@ -30,7 +30,7 @@
       />
     </div>
 
-    <div class="collapse-content !pl-0 pr-0 dark:text-white text-xs">
+    <div class="collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-slate-900 dark:text-white text-xs">
       <ais-configure
         :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`"
         :numeric-refinements="{

@@ -48,7 +48,7 @@ import { ref } from 'vue';
 
 const logs = ref(generateFakeLogs(20));
 
-function generateFakeLogs(count) {
+function generateFakeLogs(count: number) {
     const logs = [];
     for (let i = 1; i <= count; i++) {
         logs.push({
@@ -65,7 +65,7 @@ function generateFakeLogs(count) {
     return logs;
 }
 
-function toggleDetails(id) {
+function toggleDetails(id: number) {
     const log = logs.value.find(log => log.id === id);
     if (log) {
         log.showDetails = !log.showDetails;

@@ -6,9 +6,42 @@
     />
   </div>
   <div v-else>
+    <!-- Tabs -->
+    <div class="tabs tabs-bordered mb-4">
+      <button 
+        class="tab"
+        :class="{ 'tab-active': currentTab === 'list' }"
+        @click="currentTab = 'list'"
+      >
+        List View
+      </button>
+      <button 
+        class="tab"
+        :class="{ 'tab-active': currentTab === 'flat' }"
+        @click="currentTab = 'flat'"
+      >
+        Flat View
+      </button>
+      <button 
+        class="tab"
+        :class="{ 'tab-active': currentTab === 'table' }"
+        @click="currentTab = 'table'"
+      >
+        Table View
+      </button>
+    </div>
+
+    <!-- Use your exact original logic but with currentTab instead of viewTypeChecked -->
     <SearchListFlatComp
-      v-if="viewTypeChecked && items"
+      v-if="currentTab === 'flat' && items"
       :datasets="items"
+      :production-details-checked="productionDetailsChecked"
+      :show-admin-stats="showAdminStats"
+      :current-refinements="currentRefinements"
+    />
+    <SearchTableViewComp
+      v-else-if="currentTab === 'table' && items"
+      :items="items"
       :production-details-checked="productionDetailsChecked"
       :show-admin-stats="showAdminStats"
       :current-refinements="currentRefinements"
@@ -30,18 +63,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
+import type { IAVefiWorkVariant } from '@/models/interfaces/generated';
 import type { PropType } from 'vue';
-import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
 
-// ✅ Component name without export default
 defineOptions({
     name: 'AisStateResults',
 });
 
 const props = defineProps({
     items: {
-        type: Array as PropType<ElasticMSearchResponse[]>,
+        type: Array as PropType<IAVefiWorkVariant[]>,
         required: true,
     },
     viewTypeChecked: Boolean,
@@ -51,7 +82,7 @@ const props = defineProps({
         default: false,
     },
     expandedHandles: {
-        type: Object,
+        type: Array as PropType<string[]>,
         required: true,
     },
     expandAllHandlesChecked: {
@@ -67,6 +98,18 @@ const props = defineProps({
         type: Array,
         required: false,
         default: () => []
+    },
+    facetsActive: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    nrOfFacetsActive: {
+        type: Number,
+        required: false,
+        default: 0
     }
 });
+
+const currentTab = ref<'list' | 'flat' | 'table'>('list');
 </script>

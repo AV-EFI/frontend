@@ -37,10 +37,9 @@
       <Diff
         mode="unified"
         class="w-[80vw] lg:w-full"
-        theme="diffTheme"
         language="json"
-        :prev="prev"
-        :current="current"
+        :prev="prev || ''"
+        :current="current || ''"
         :folding="true"
         :input-delay="10"
         :virtual-scroll="false"
@@ -50,7 +49,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
+import { ref, onMounted, watch } from 'vue';
+import type { ElasticsearchHit } from '../../models/interfaces/generated/IElasticsearchExtensions';
+import type { IAVefiWorkVariant } from '../../models/interfaces/generated';
+import { useObjectListStore } from '@/stores/compareList';
+
 const props = defineProps({
     'items': {
         type: Array<string>,
@@ -59,12 +62,12 @@ const props = defineProps({
     }
 });
 
-const objectListStore = useObjectListStore();
+const objectListStore = ref();
 
-function getCookie(name) {
+function getCookie(name: string) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
     return 'avefi_light';
 }
 
@@ -76,7 +79,7 @@ watch(colorModeCookie, (newValue) => {
 });
 
 async function getCollectionType (routeParamsId:string):Promise<string> {  
-    const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
+    const { data } = await useApiFetchLocal<ElasticsearchHit<IAVefiWorkVariant>[] | null>(
         `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
         {
             method: 'POST',
@@ -102,8 +105,13 @@ const { data: current } = await useAsyncData<string|undefined>('current', () =>
 );
 
 onMounted(() => {
-    if(objectListStore.comparisonDrawerOpen) {
-        objectListStore.comparisonDrawerOpen = false;
+    try {
+        objectListStore.value = useObjectListStore();
+        if(objectListStore.value?.comparisonDrawerOpen) {
+            objectListStore.value.comparisonDrawerOpen = false;
+        }
+    } catch (error) {
+        console.warn('Store not available yet:', error);
     }
 });
 </script>

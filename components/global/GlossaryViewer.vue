@@ -1,11 +1,11 @@
 <template>
-  <div class="p-4 mx-auto max-w-7xl">
+  <div class="p-4 mx-auto max-w-7xl bg-base-100 dark:bg-gray-900 rounded-xl">
     <!-- Search -->
     <div class="mb-4">
       <input
         v-model="rawQuery"
         type="text"
-        class="input input-bordered w-full"
+        class="input input-bordered w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
         :placeholder="$t('glossary.search') || 'Search glossary…'"
         :aria-label="$t('glossary.search') || 'Search glossary…'"
       />
@@ -14,13 +14,13 @@
     <!-- A–Z -->
     <div class="flex flex-wrap gap-1 mb-4 text-sm">
       <div class="w-full mb-2">
-        <button class="btn btn-xs" :class="{ 'btn-active': !activeLetter }" @click="activeLetter=null">
+        <button class="btn btn-xs dark:bg-gray-800 dark:text-white" :class="{ 'btn-active': !activeLetter }" @click="activeLetter=null">
           {{ $t('glossary.all') || 'All' }}
         </button>
       </div>
       <button
         v-for="char in alphabet" :key="char"
-        class="btn btn-xs"
+        class="btn btn-xs dark:bg-gray-800 dark:text-white"
         :class="{ 'btn-outline': activeLetter!==char, 'btn-active': activeLetter===char }"
         :aria-label="$t('glossary.filterByLetter', { letter: char })"
         :title="$t('glossary.filterByLetter', { letter: char })"
@@ -36,7 +36,7 @@
 
     <!-- Groups -->
     <section v-for="group in filteredGroups" :key="group.category" class="mb-8">
-      <h2 class="text-lg font-semibold mb-2 border-b pb-1">{{ group.category }}</h2>
+  <h2 class="text-lg font-semibold mb-2 border-b pb-1 dark:text-white">{{ group.category }}</h2>
 
       <ul class="space-y-3">
         <li
@@ -44,11 +44,11 @@
           :key="entry.term + entry.enumSource"
           :id="rowId(entry)"
           :ref="(el:any)=>setRowRef(entry, el)"
-          class="rounded-xl border border-base-200 bg-base-100 transition-all"
+          class="rounded-xl border border-base-200 bg-base-100 dark:bg-gray-800 dark:border-gray-700 transition-all"
           :class="isOpen(entry) ? 'grid lg:grid-cols-[1fr,minmax(300px,34rem)]' : 'block'"
         >
           <!-- LEFT: entry content -->
-          <div class="p-3">
+          <div class="p-3 dark:bg-gray-900 dark:text-white">
             <div class="font-medium flex items-center gap-2 flex-wrap">
               <span class="text-base" v-html="highlight(entry.term)" />
               <span v-if="!entry.isTranslated" class="italic text-xs text-neutral-400">
@@ -66,7 +66,7 @@
 
             <div
               v-if="entry.description"
-              class="text-sm text-neutral-700 dark:text-neutral-300 mt-1"
+              class="text-sm text-neutral-700 dark:text-neutral-200 mt-1"
               v-html="highlight(entry.description)"
             />
 
@@ -77,7 +77,7 @@
               <p class="mt-1 pl-2" v-html="highlight(entry.definition)" />
             </details>
 
-            <div class="text-xs text-neutral-400 mt-2 flex items-center gap-2">
+            <div class="text-xs text-neutral-400 dark:text-white mt-2 flex items-center gap-2">
               <span>( {{ entry.enumSource }} )</span>
               <a
                 v-if="docUrl(entry)"
@@ -95,7 +95,7 @@
           <transition name="slidein">
             <div
               v-if="isOpen(entry)"
-              class="border-l border-base-200 bg-base-100 min-h-[16rem]"
+              class="border-l border-base-200 dark:border-gray-700 bg-base-100 dark:bg-gray-800 min-h-[16rem] dark:text-white"
             >
               <!-- Header -->
               <div class="flex items-center gap-2 px-3 py-2 border-b border-base-200">

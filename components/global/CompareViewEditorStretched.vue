@@ -18,8 +18,10 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue';
 import type { MergedDataset } from '@/models/interfaces/manual/IMergedDataSet';
 import { useFormattedAVefiRecord } from '@/composables/useFormattedAVefiRecord';
+import { useObjectListStore } from '@/stores/compareList';
 
 const props = defineProps({
     items: {
@@ -57,7 +59,7 @@ function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: 
     }
 }
 
-const objectListStore = useObjectListStore();
+const objectListStore = ref();
 
 const { data: prev } = await useAsyncData('prev', () =>
     useFormattedAVefiRecord(props.items[0], { logErrors: true })
@@ -68,8 +70,13 @@ const { data: current } = await useAsyncData('current', () =>
 );
 
 onMounted(() => {
-    if (objectListStore.comparisonDrawerOpen) {
-        objectListStore.comparisonDrawerOpen = false;
+    try {
+        objectListStore.value = useObjectListStore();
+        if (objectListStore.value?.comparisonDrawerOpen) {
+            objectListStore.value.comparisonDrawerOpen = false;
+        }
+    } catch (error) {
+        console.warn('Store not available yet:', error);
     }
 });
 

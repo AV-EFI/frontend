@@ -1,7 +1,7 @@
 <template>
   <div
     v-for="work in items"
-    :key="work.handle"
+    :key="work.handle || work._id || ''"
     class="card bg-white border border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`"
@@ -41,7 +41,7 @@
             <ul v-if="work?.has_record?.has_alternative_title">
               <li
                 v-for="alt in work?.has_record?.has_alternative_title"
-                :key="alt.id"
+                :key="alt.has_ordering_name || alt.has_name"
               >
                 {{ alt.has_name }} ({{ $t(alt.type) }})
               </li>
@@ -58,7 +58,7 @@
             target="_blank"
           >
             <Icon
-              name="mdi:eye-outline"
+              name="tabler:eye"
               class="text-2xl"
               :alt="$t('detailviewlink')"
             />
@@ -74,6 +74,7 @@
         :data="work"
         level="work"
         class="mt-1"
+        icon-color="primary"
       />
     </header>
 
@@ -108,7 +109,7 @@
         @click="isExpanded[work.handle] = !isExpanded[work.handle]; showHighlight[work.handle] = !showHighlight[work.handle]"
       >
         <Icon
-          :name="isExpanded[work.handle] ? 'mdi:minus' : 'mdi:plus'"
+          :name="isExpanded[work.handle] ? 'tabler:minus' : 'tabler:plus'"
           class="text-lg"
           :alt="isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')"
           :title="isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')"
@@ -242,12 +243,19 @@ onMounted(() => {
 
 const lastHref = ref(window.location.href);
 
+import type { IAVefiWorkVariant } from '@/models/interfaces/generated/IAVefiWorkVariant';
 
-import { useI18n } from 'vue-i18n';
+// Extended type for search results with Algolia properties
+type SearchWorkVariant = IAVefiWorkVariant & {
+    _id?: string;
+    _highlightResult?: any;
+    category?: string;
+};
+
 const { t: $t } = useI18n();
 const props = defineProps({
     items: {
-        type: Array as PropType<Array<ElasticMSearchResponse>>,
+        type: Array as PropType<Array<SearchWorkVariant>>,
         required: true
     },
     productionDetailsChecked: {
@@ -273,7 +281,12 @@ const props = defineProps({
         type: Array,
         required: false,
         default: () => []
-    }
+    },
+    nrOfFacetsActive: {
+        type: Number,
+        required: false,
+        default: 0
+    },
 });
 
 const showFacetBadge = computed(() => props.nrOfFacetsActive > 0);
@@ -323,7 +336,7 @@ function getFilteredManifestations(workOrHit: any) {
         const hits = workOrHit.inner_hits[mKey]?.hits?.hits || [];
         if (hits.length > 0) {
             // Keep any nested inner_hits on each manifestation hit
-            return hits.map(h => ({ ...h._source, inner_hits: h.inner_hits }));
+            return hits.map((h: any) => ({ ...h._source, inner_hits: h.inner_hits }));
         }
     }
 
@@ -343,7 +356,7 @@ function getFilteredItems(manifestation: any) {
     }
 
     const hits = manifestation.inner_hits[itemsKey]?.hits?.hits || [];
-    return hits.map(h => h._source);
+    return hits.map((h: any) => h._source);
 }
 
 async function checkEmptyProperties(manifestations: any[]): Promise<void> {
@@ -369,11 +382,11 @@ async function markDuplicateManifestations(manifestations: any[]): Promise<void>
             let alterTitles;  
             if(manifestation?.has_record?.is_manifestation_of !== undefined) {
                 alterTitles = props.items
-                    ?.filter(item => manifestation?.has_record?.is_manifestation_of.flatMap(imo => imo?.id).includes(item?.handle))
+                    ?.filter((item: any) => manifestation?.has_record?.is_manifestation_of.flatMap((imo: any) => imo?.id).includes(item?.handle))
                     ?.flatMap(mir => mir.has_record?.has_alternative_title?.flatMap(alt => alt.has_name))
                     .join(',');
             }
-            const key = `${manifestation?.has_record?.in_language?.map(lang => lang.code).join(',')}-${manifestation?.has_record?.has_colour_type}-${manifestation?.has_record?.is_manifestation_of?.flatMap(imo => imo?.id)}-${alterTitles??''}`;
+            const key = `${manifestation?.has_record?.in_language?.map((lang: any) => lang.code).join(',')}-${manifestation?.has_record?.has_colour_type}-${manifestation?.has_record?.is_manifestation_of?.flatMap((imo: any) => imo?.id)}-${alterTitles??''}`;
             if (seen.has(key)) {
                 manifestation.isTwin = true;
                 seen.get(key).isTwin = true;
@@ -412,7 +425,7 @@ watch(() => props.expandAllHandlesChecked, (newVal) => {
     });
 });
 
-function getHighlightSnippets(item) {
+function getHighlightSnippets(item: any) {
     if(item) {
         const result = [];
         const highlights = item._highlightResult || {};
@@ -450,8 +463,8 @@ function getHighlightSnippets(item) {
 }
 
 // Helper to safely walk nested highlight paths like 'has_record.has_primary_title.has_name'
-function getValueByPath(obj, path) {
-    return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
+function getValueByPath(obj: any, path: any) {
+    return path.split('.').reduce((o: any, p: any) => (o && o[p] ? o[p] : null), obj);
 }
 
 
@@ -463,7 +476,7 @@ function isFacetActive(facetKey: string, value: string): boolean {
     return Object.entries(route.query).some(([key, raw]) => {
         const match = key.includes(`[refinementList][${facetKey}]`);
         if (!match) return false;
-        const decoded = Array.isArray(raw) ? raw.map(decodeURIComponent) : [decodeURIComponent(raw)];
+        const decoded = Array.isArray(raw) ? raw.map((item: any) => decodeURIComponent(item)) : [decodeURIComponent(raw as string)];
         return decoded.includes(value);
     });
 }
@@ -515,7 +528,9 @@ function formatValue(val: any): string {
 </script>
 <style scoped>
 .collapse-plus>.collapse-title:after {
-  @apply text-3xl w-4 h-4;
+  font-size: 1.875rem;
+  width: 1rem;
+  height: 1rem;
   color: var(--primary-800);
   top: 25%;
 }

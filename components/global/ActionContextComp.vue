@@ -14,7 +14,7 @@
     >
       <Icon
         :class="['text-' + compSize]"
-        name="mdi:dots-horizontal"
+        name="tabler:dots"
       />
     </div>
 

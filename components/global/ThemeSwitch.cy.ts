@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import ThemeSwitch from './ThemeSwitch.vue';
 
 describe('<ThemeSwitch />', () => {
