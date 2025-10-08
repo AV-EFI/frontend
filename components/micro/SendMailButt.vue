@@ -7,10 +7,10 @@
       class="btn btn-sm btn-circle btn-outline"
       :title="showForm ? $t('closeForm') : $t('openForm')"
       :aria-label="showForm ? $t('closeForm') : $t('openForm')"
-      :aria-expanded="Boolean(showForm.toString())"
+      :aria-expanded="showForm.toString()"
       @click="toggleForm"
     >
-      <LazyIcon name="tabler:message" />
+      <LazyIcon name="tabler:send" />
     </div>
     <div
       v-if="showForm"
@@ -19,9 +19,7 @@
       aria-labelledby="contact-form-heading"
     >
       <!-- ORIGINAL FORM CONTENT GOES HERE -->
-       <ClientOnly>
-          <LazyMicroContactForm />
-       </ClientOnly>
+      <MicroContactForm />
     </div>
   </div>
 
@@ -32,7 +30,7 @@
       :aria-label="$t('openForm')"
       @click="openMobileModal"
     >
-      <LazyIcon name="fa:paper-plane" />
+      <LazyIcon name="tabler:send" />
     </button>
 
     <dialog
@@ -41,7 +39,6 @@
       class="modal"
     >
       <div class="modal-box w-full max-w-none p-4">
-        <ClientOnly>
         <form method="dialog">
           <button
             class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -49,9 +46,8 @@
           >
             ✕
           </button>
-        </form>        
-          <LazyMicroContactForm />
-        </ClientOnly>
+        </form>
+        <MicroContactForm />
       </div>
     </dialog>
   </div>

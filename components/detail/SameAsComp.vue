@@ -65,7 +65,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
@@ -152,7 +152,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 
-defineProps({
+const props = defineProps({
     sameAsData: { type: Object, default: null },
     fontSize: { type: String, default: 'base' },
     type: { type: String, default: 'film' },

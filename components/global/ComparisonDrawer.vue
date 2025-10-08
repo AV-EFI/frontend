@@ -14,7 +14,7 @@
           class="hidden md: visible drawer-overlay z-40"
           @click="toggleDrawer"
         />
-        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-max lg:max-w-[544px] min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-base-300 text-base-content dark:text-white border-l-gray-800 shadow-lg">
+        <div class="menu p-2 md:p-4 w-full md:w-[100vw] lg:w-max lg:max-w-[544px] min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg">
           <div class="w-full flex flex-row justify-between p-2 mb-2">
             <button 
               class="btn btn-neutral w-16"
@@ -51,7 +51,7 @@
                   @click="showInfo = !showInfo"
                 >
                   <Icon
-                    name="tabler:info-circle"
+                    name="material-symbols:info-outline"
                     class="text-lg"
                   />
                 </button>
@@ -71,7 +71,7 @@
                 >
                   <Icon
                     class="text-lg text-white w-4 h-4"
-                    name="carbon:compare"
+                    name="tabler:arrows-exchange"
                   />
                   <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                 </button>
@@ -83,7 +83,7 @@
                 >
                   <Icon
                     class="text-lg text-white w-4 h-4"
-                    name="carbon:trash-can"
+                    name="tabler:trash"
                   />
                   {{ $t('clearalllist') }}
                 </button>
@@ -149,7 +149,7 @@
                 >
                   <Icon
                     class="text-lg"
-                    name="tabler:info-circle"
+                    name="material-symbols:info-outline"
                   />
                 </button>
                 <p
@@ -199,7 +199,7 @@
                         class="btn btn-error btn-circle btn-sm text-white ml-1"
                         @click="removeObject(index, 'shoppingCart')"
                       >
-                        <Icon name="tabler:trash" />
+                        <Icon name="material-symbols:delete" />
                       </button>
                     </div>
                   </div>
@@ -214,7 +214,6 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from 'vue3-toastify';
 import {useObjectListStore} from '../../stores/compareList';
 import {useShoppingCart} from '../../stores/shoppingCart';
@@ -227,7 +226,7 @@ const toggleDrawer = (() => {
     objectListStore.comparisonDrawerOpen = !objectListStore.comparisonDrawerOpen;
 });
 
-const removeObject = (index:number, type:string) => {
+const removeObject = (index, type:string) => {
     if(type === 'shoppingCart') {
         shoppingCart.removeObject(index);
         return;

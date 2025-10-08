@@ -28,7 +28,7 @@
             class="flex items-center"
           >
             <Icon
-              name="tabler:map-pin"
+              name="mdi:map-marker-outline"
               class="mr-1"
               :alt="$t('country')"
               :title="$t('country')"
@@ -41,7 +41,7 @@
           >
             <template v-if="work?._source?.has_record?.has_event"><span class="flex items-center">&nbsp;&nbsp;</span></template>
             <Icon
-              name="tabler:calendar"
+              name="fa:calendar"
               class="mr-1"
             />
             {{ work?._source?.years.join(', ') }}
@@ -54,7 +54,7 @@
               <span class="flex items-center">&nbsp;&nbsp;</span>
             </template>
             <Icon
-              name="tabler:clapperboard"
+              name="fa:film"
               class="mr-1"
             />
             {{ work?._source?.has_record?.has_form?.flatMap((f) => $t(f)).join(', ') }}
@@ -68,7 +68,7 @@
                 &nbsp;&nbsp;
               </span>
               <Icon
-                name="carbon:logical-partition"
+                name="tabler:layout"
                 class="mr-1"
               />
               {{ $t('Episode/Part') }}
@@ -142,7 +142,10 @@
                 class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 mt-4"
               >
                 {{ $t('items') }}
-                <GlobalTooltipInfo :text="$t('tooltip.item')" class="absolute ml-2" />
+                <GlobalTooltipInfo
+                  :text="$t('tooltip.item')"
+                  class="absolute ml-2"
+                />
               </h4>
               <div
                 v-for="exemplar in manifestation.items"

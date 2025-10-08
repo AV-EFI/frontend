@@ -38,7 +38,7 @@
                   >
                     Dazugehöriges Werk bei {{ $t(has_record_is_manifestation_of_item.category) }}&nbsp;
                     <Icon
-                      name="tabler:arrow-right"
+                      name="fa-regular:hand-point-right"
                       size="1em"
                       class="!align-baseline"
                       alt="Referenz bei Filmportal"
@@ -68,7 +68,7 @@
                     {{ $t('filmportalref') }}&nbsp;
                     <Icon
                       v-if="has_record_same_as_item.category === 'avefi:FilmportalResource'"
-                      name="carbon:notebook-reference"
+                      name="tabler:notebook"
                       size="1em"
                       class="!align-baseline"
                       alt="Referenz bei Filmportal"
@@ -210,7 +210,7 @@
                               target="_blank"
                             >
                               <Icon
-                                name="tabler:id"
+                                name="fa-regular:address-card"
                                 size="1.2em"
                                 class="!align-text-bottom"
                                 alt="Referenz bei GND"
@@ -369,7 +369,7 @@
 
 <script setup lang="ts">
 //models\interfaces\av_efi_schema.ts
- 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);

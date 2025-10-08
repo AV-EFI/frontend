@@ -60,14 +60,14 @@
                 @click.stop="navigateToItem(m)"
               >
                 <Icon
-                  name="tabler:eye"
+                  name="mdi:eye-outline"
                   class="w-4 h-4 mr-1"
                 />
               </button>
             </div>
             <div class="flex items-center px-1 self-start sm:self-center">
               <Icon
-                name="tabler:chevron-up"
+                name="mdi:chevron-up"
                 class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
                 :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
                 aria-hidden="true"
@@ -99,7 +99,7 @@
                 >
                   <div class="flex gap-2 items-center mb-1">
                     <Icon
-                      name="carbon:parent-node"
+                      name="tabler:tree"
                       class="text-primary w-4 h-4"
                     />
                     <span class="text-sm font-semibold">{{ item?.handle }}</span>
@@ -205,7 +205,7 @@
                   <GlobalTooltipInfo
                     :text="$t('tooltip.webresource')"
                   />
-                  <Icon name="formkit:linkexternal" />
+                  <Icon name="tabler:external-link" />
                   {{ $t('webresource') }}
                 </a>
               </div>
@@ -217,7 +217,7 @@
                   @click="navigateToItem(item)"
                 >
                   <Icon
-                    name="tabler:eye"
+                    name="mdi:eye-outline"
                     class="w-4 h-4 mr-1"
                   />
                 </button>
@@ -253,7 +253,7 @@
 <script setup lang="ts">
 
 const props = defineProps({
-    manifestations: { type: Array<IAVefiManifestation>, required: true },
+    manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },
     workVariantHandle: { type: String, required: false, default: null }
 });
@@ -297,7 +297,7 @@ function prevItemPage() {
     if (itemPage.value > 0) itemPage.value--;
 }
 
-const navigateToItem = (item: IAVefiManifestation) => {
+const navigateToItem = (item: any) => {
     const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
     window.open(itemPath, '_blank');
 };

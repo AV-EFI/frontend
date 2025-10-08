@@ -5,21 +5,6 @@
       class="mt-4"
     >
       <template #heading />
-      <template #heading>
-        <hr class="my-2 col-span-full">
-        <h3
-          class="relative font-bold text-lg col-span-full pl-1 text-primary-800 dark:text-primary-100"
-          :alt="safeT('manifestations')"
-        >
-          {{ safeT('manifestations') }}
-          <span
-            class="ml-2 text-neutral-500 dark:text-neutral-300 text-sm cursor-help"
-            :title="$t('tooltip.manifestation')"
-          >
-            ⓘ
-          </span>
-        </h3>
-      </template>
       <template #right />
     </NuxtLayout>
 
@@ -103,8 +88,7 @@
                 class="link link-primary dark:link-accent inline-flex items-center gap-1"
               >
                 <span>{{ safeT('webresource') }}<span v-if="webresources(manifestation).length > 1">&nbsp;{{ idx + 1 }}</span></span>
-                <Icon name="formkit:linkexternal" />
-                <span>{{ safeT('webresource') }} <Icon name="tabler:external-link" /></span>
+                <Icon name="tabler:external-link" />
               </a>
             </div>
 
@@ -239,10 +223,6 @@ function handleEscKey(event: KeyboardEvent) {
     if (event.key === 'Escape') {
         const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle');
         checkboxes.forEach((cb: any) => { cb.checked = false; });
-        const checkboxes = document.querySelectorAll('.manifestation-accordion-toggle') as NodeListOf<HTMLInputElement>;
-        checkboxes.forEach((cb: HTMLInputElement) => {
-            cb.checked = false;
-        });
     }
 }
 
@@ -260,7 +240,6 @@ function formatExtent(extent?: { has_value?: string | number, has_unit?: string 
 }
 
 function formatDuration(has_value: any): string {
-function formatDuration(has_value: string): string {
     if (has_value) {
         try {
             const duration = has_value
@@ -288,10 +267,8 @@ function webresources(m: any): string[] {
 </script>
 
 <style scoped>
-/*
 .collapse-plus > .collapse-title:after {
   @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
   top: 25%;
 }
-*/
 </style>
