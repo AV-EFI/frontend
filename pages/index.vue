@@ -306,51 +306,63 @@ const items = ref([
     { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' }
 ]);
 
-const cardItems = ref(
-    [
-        {
-            title: 'trollerTitle',
-            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
-            imgAlt: 'Georg Stefan Troller',
-            description: 'trollerDescription',
-            //description: 'Georg Stefan Troller, ein österreichisch-französischer Filmemacher und Journalist, war bekannt für seinen tief empfundenen Humanismus. Seine Dokumentarfilme boten intime Porträts von Menschen und ihren Geschichten, indem sie persönliche Erfahrungen und soziale Themen auf eindringliche Weise miteinander verbanden.',
-            link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bdirectors_or_editors%5D%5B0%5D=Troller%2C%20Georg%20Stefan`,
-            linkText: 'trollerLinkText',
-            imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
-            imgSourceText: 'Wikimedia Commons',
-            imgAuthor: 'ZDF',
-            imgLicense: 'CC BY-SA 3.0',
-            imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-            imgCoverType: 'object-top'            
-        },
-        {
-            title: 'schlenkerTitle',
-            description: 'schlenkerDescription',
-            linkText: 'schlenkerLinkText',
-            //title: 'Hermann Schlenker',
-            //description: 'Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind heute wichtiger denn je, da sie ein wertvolles Zeitzeugnis von Kulturen darstellen, die sich im Wandel befinden oder bereits verschwunden sind.',
-            link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B0%5D=Schlenker%2C%20Hermann&${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion`,
-            //linkText: 'Hermann Schlenker bei AVefi'
-        },
-        {
-            title: 'ddrTitle',//'Filmgeschichte der DDR',
-            imgSrc:'https://upload.wikimedia.org/wikipedia/commons/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
-            imgSourceText: 'German Federal Archives',
-            imgAuthor: 'Christa Hochneder',
-            imgLicense: 'CC BY-SA 3.0 DE',
-            imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
-            imgCoverType: 'object-center',
-            imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964. Photographer: Christa Hochneder. Source: German Federal Archives (Bild 183-C1115-0001-001).',
-            imgDepictedPlace: 'Leipzig',
-            imgDate: '1964-11-15',
-            imgCollection: 'German Federal Archives',
-            imgAccessionNumber: 'Bild 183-C1115-0001-001',
-            description: 'ddrDescription',//'Diese Sammlung stellt eine einzigartige Ressource dar, die sich mit der Filmgeschichte der DDR beschäftigen. Durch die Bereitstellung umfassender Metadaten ermöglicht sie anspruchsvolle Forschungsvorhaben und trägt zur Weiterentwicklung wissenschaftlicher Erkenntnisse über die Kultur und Gesellschaft der DDR bei.',
-            link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
-            linkText: 'ddrLinkText'//'Unsere DDR-Filme'
-        }
-    ]
-);
+const cardItems = ref([
+  {
+    description: "restShortFilmCollectionDescription",
+    title: "restShortFilmCollectionTitle",
+    link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Short&21.11155-denormalised-work%5BrefinementList%5D%5Bmanifestation_event_type%5D%5B0%5D=RestorationEvent`,
+    linkText: 'restShortFilmCollectionLinkText',
+    imgLicense: 'CC BY-SA 3.0',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    imgSrc: '/img/restaur_kurzfilme.jpg'
+  },
+  {
+    description: "docFilmCollectionDescription",
+    title: "docFilmCollectionTitle",
+    link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Documentary&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B0%5D=Protest&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B1%5D=Aufstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B2%5D=Widerstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B3%5D=Streik`,
+    linkText: 'docFilmCollectionLinkText',
+    imgLicense: 'CC BY-SA 3.0',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    imgSrc: '/img/aktiv_im_dok.jpg'
+  },
+  {
+    title: 'trollerTitle',
+    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+    imgAlt: 'Georg Stefan Troller',
+    description: 'trollerDescription',
+    link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bdirectors_or_editors%5D%5B0%5D=Troller%2C%20Georg%20Stefan`,
+    linkText: 'trollerLinkText',
+    imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+    imgSourceText: 'Wikimedia Commons',
+    imgAuthor: 'ZDF',
+    imgLicense: 'CC BY-SA 3.0',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    imgCoverType: 'object-top'
+  },
+  {
+    title: 'schlenkerTitle',
+    description: 'schlenkerDescription',
+    linkText: 'schlenkerLinkText',
+    link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B0%5D=Schlenker%2C%20Hermann&${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion`
+  },
+  {
+    title: 'ddrTitle',
+    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
+    imgSourceText: 'German Federal Archives',
+    imgAuthor: 'Christa Hochneder',
+    imgLicense: 'CC BY-SA 3.0 DE',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
+    imgCoverType: 'object-center',
+    imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
+    imgDepictedPlace: 'Leipzig',
+    imgDate: '1964-11-15',
+    imgCollection: 'German Federal Archives',
+    imgAccessionNumber: 'Bild 183-C1115-0001-001',
+    description: 'ddrDescription',
+    link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
+    linkText: 'ddrLinkText'
+  }
+]);
 </script>
 
 <style scoped>
