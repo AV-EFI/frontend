@@ -42,7 +42,7 @@ const colorMode = useColorMode(
 
         <!-- moon icon -->
         <svg
-          class="swap-on h-10 w-10 fill-current theme-controller white transition-transform duration-500 ease-in-out transform rotate-180"
+          class="swap-on h-10 w-10 fill-current theme-controller white transition-transform duration-500 ease-in-out"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           alt="Moon icon"

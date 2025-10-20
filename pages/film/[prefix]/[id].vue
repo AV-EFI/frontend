@@ -141,7 +141,7 @@ const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson'
   }
   a.external-link:before {
         font-family: "Font Awesome 5 Free";
-        content: url('https://api.iconify.design/fa-regular:share-square.svg');
+         content: url('https://api.iconify.design/tabler:share.svg');
         display: inline-block;
         padding-right: 3px;
         vertical-align: middle;

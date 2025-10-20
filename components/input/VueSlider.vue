@@ -241,7 +241,7 @@ const hasUnsavedChanges = computed(() => {
 </script>
 
 <style lang="scss">
-@import '../../assets/scss/slider_tailwind.scss';
+//@import '../../assets/scss/slider_tailwind.scss';
 
 .slider-primary {
   --slider-connect-bg: var(--primary-50) !important;

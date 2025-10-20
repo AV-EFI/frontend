@@ -105,8 +105,8 @@
             <a
               class="dark:bg-white rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center"
               href="/"
-              :aria-label="$t('home')"
-              :title="$t('home')"
+              :aria-label="$t('home.breadcrumbs')"
+              :title="$t('home.breadcrumbs')"
             >
               <img
                 src="/img/AV-EFI-Logo.png"
@@ -286,7 +286,7 @@
                 @click="signIn"
               >
                 <LazyIcon
-                  name="fa-regular:user"
+                   name="tabler:user"
                   aria-hidden="true"
                   class="m-auto h-8"
                 />

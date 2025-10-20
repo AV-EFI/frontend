@@ -515,7 +515,6 @@ function formatValue(val: any): string {
 </script>
 <style scoped>
 .collapse-plus>.collapse-title:after {
-  @apply text-3xl w-4 h-4;
   color: var(--primary-800);
   top: 25%;
 }

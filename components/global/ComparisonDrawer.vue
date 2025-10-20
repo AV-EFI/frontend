@@ -65,7 +65,7 @@
               <div class="join w-full mt-2 p-2">
                 <button
                   :title="$t('gotocomp')"
-                  class="btn btn-compare-list h-full join-item w-1/3"
+                  class="btn btn-compare-list h-12 join-item w-1/3"
                   :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
@@ -76,21 +76,23 @@
                   <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                 </button>
                 <button 
-                  class="btn btn-error text-white join-item w-1/3"
+                  class="btn btn-error h-12 join-item w-1/3"
                   :class="objectListStore.objects.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('objectListStore')"
                 >
+                <span class="text-white flex">
                   <Icon
-                    class="text-lg text-white w-4 h-4"
+                    class="text-lg text-white w-4 h-4 mr-2"
                     name="tabler:trash"
                   />
                   {{ $t('clearalllist') }}
+                </span>
                 </button>
                 <GlobalExportDataComp
                   :data-set-id="objectListStore.getObjectIds"
                   :class="objectListStore.objects.length < 1 && 'btn-disabled'"
-                  class="join-item w-1/3"
+                  class="join-item h-12 btn-primary btn-outline w-1/3"
                   btn-size="rounded-l-none"
                   :show-label="true"
                 />

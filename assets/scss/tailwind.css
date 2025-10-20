@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Recreate your primary scale so utilities like text-primary-800 exist */
+@theme {
+  --color-primary-50:  #f3f7f8;
+  --color-primary-100: #dfe9ee;
+  --color-primary-200: #c3d5de;
+  --color-primary-300: #9ab8c6;
+  --color-primary-400: #80a3b5;
+  --color-primary-500: #4d768d; /* DEFAULT */
+  --color-primary-600: #436277;
+  --color-primary-700: #3b5263;
+  --color-primary-800: #364754;
+  --color-primary-900: #313d48;
+  --color-primary-950: #1d262f;
+}
+
+/* v4 way */
+@utility tap-highlight-transparent {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* (optional) variants you might want */
+@utility tap-highlight-none {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+@utility tap-highlight-black {
+  -webkit-tap-highlight-color: black;
+}
+@utility tap-highlight-white {
+  -webkit-tap-highlight-color: white;
+}

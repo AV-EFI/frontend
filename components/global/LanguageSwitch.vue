@@ -18,8 +18,8 @@
         @click="toggleLocale"
       >
         <div class="avatar placeholder">
-          <div class="bg-base-100 dark:bg-gray-800 dark:text-white text-neutral w-12 rounded-full">
-            <span class="flex flex-row items-center"><Icon
+          <div class="bg-base-100 dark:bg-gray-600 dark:text-white text-neutral w-12 h-12 rounded-full flex items-center justify-center">
+            <span class="flex flex-row items-center justify-center w-full h-full"><Icon
               class="text-lg"
               name="tabler:language"
             />De</span>
@@ -33,9 +33,9 @@
         @click="toggleLocale"
       >
         <div class="avatar placeholder">
-          <div class="bg-base-100 dark:bg-gray-800 dark:text-white text-neutral w-12 rounded-full">
-            <span class="flex flex-row items-center"><Icon
-              class="text-lg text-base dark:text-white"
+          <div class="bg-base-100 dark:bg-gray-600 dark:text-white text-neutral w-12 h-12 rounded-full flex items-center justify-center">
+            <span class="flex flex-row items-center justify-center w-full h-full"><Icon
+              class="text-lg"
               name="tabler:language"
             />En</span>
           </div>

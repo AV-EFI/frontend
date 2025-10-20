@@ -9,7 +9,7 @@
         >
           <Icon
             name="tabler:info-circle"
-            class="text-3xl"
+            class="text-2xl"
           />
         </button>
         <p

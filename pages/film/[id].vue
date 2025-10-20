@@ -1,29 +1,21 @@
 <template>
   <div>
-    <GlobalBreadcrumbsComp
-      :breadcrumbs="[
-        ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`], ['Detail', '/film/' + params.id]
-      ]"
-    />
     <NuxtLayout
       name="partial-layout-1-center"
       padding-class="p-0"
     >
       <template #navigation>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`">{{ $t('filmresearch') }}</a></li>
-          <li>
-            <span class="text-accent">
-              {{ $t('detailview') }}
-            </span>
-          </li>
-        </ul>
+        <GlobalBreadcrumbsComp
+          :breadcrumbs="[
+            ['Home', '/'],
+            [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
+            [$t('detailview'), '/film/' + params.id]
+          ]"
+        />
       </template>
       <template #title>
         <NuxtLayout
-          name="partial-grid-2-1-flex"
+          name="partial-grid-2-1"
           left-class="dark:bg-primary-600 rounded-t-xl py-4"
         >
           <template
@@ -31,32 +23,31 @@
           >
             <div class="col-span-full px-4">
               <GlobalClipboardComp
-                :display-text="dataJson?._source?.handle"
-                class="mb-2 text-sm text-base-content"
+                :display-text="dataJson?.compound_record?._source?.handle"
+                class="mb-2 text-sm text-base-content/90"
               />
               <h2
                 class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
-                :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
+                :alt="dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name"
               >
                 {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
               </h2>
             </div>
           </template>
           <template #right>
-            <div class="flex flex-row flex-wrap justify-end items-center">
               <GlobalActionContextComp
-                :id="dataJson?._source?.handle"
-                :item="dataJson?._source"
-                class="w-1/5 justify-center items-center my-auto"
+                class="col-start-11 row-start-1 justify-self-end"
+                :id="dataJson?.compound_record?._source?.handle"
+                :item="dataJson?.compound_record?._source"
+                comp-size="2xl"
               />              
-            </div>
           </template>
         </NuxtLayout>
       </template>
       <template #actions>
         <MicroBadgeCategoryComp
           class="col-span-3 divider-primary"
-          :category="dataJson?._source?.has_record?.type"
+          :category="dataJson?.compound_record?._source?.has_record?.type"
         />
       </template>      
       <template #cardBody>
@@ -68,8 +59,8 @@
               fallback="Loading data..."
             >
               <LazyViewsWorkViewCompAVefi
-                  v-if="dataJson?.compound_record?._source"
-                  v-model="dataJson.compound_record._source"
+                  v-if="dataJson"
+                  v-model="dataJson"
                   :handle="dataJson.handle" 
                />
                <div v-else class="text-center text-gray-500">
@@ -114,15 +105,6 @@ const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson'
     
     const data:ElasticGetByIdResponse | null = await getDataSet(params?.value?.id);
     console.log('Data:', data);
-
-    if(data?.compound_record?._source?.has_record?.category){
-        category.value = data?.compound_record?._source?.has_record?.category;
-    }
-
-    if(data?.compound_record?._source?.has_record?.type){
-        type.value = data?.compound_record?._source?.has_record?.type;
-        console.log('Type:', type.value);
-    }
     return data as ElasticGetByIdResponse;
 
 });

@@ -157,6 +157,17 @@
               :tab-index="16"
               :aria-label="$t('item_element_type')"
             />
+
+            <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
+              header-text="has_access_status"
+              attribute-name="has_access_status"
+              category="avefi:Item"
+              :is-searchable="false"
+              :tab-index="16"
+              :aria-label="$t('has_access_status')"
+            />
+
             <div
               :class="{ hidden: !viewTypeChecked }"
               class="alert shadow-sm mb-2 mt-2 lg:mt-0 lg:mb-0 p-2 text-sm"

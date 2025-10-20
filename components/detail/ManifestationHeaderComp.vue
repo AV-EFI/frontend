@@ -11,7 +11,7 @@
       <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
         {{ manifestation?.handle }}
       </h4>
-      <h4 class="col-span-full font-semibold text-gray-900 dark:text-primary-200 my-1">
+      <h4 class="col-span-full font-semibold text-gray-900 dark:text-white my-1">
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
 
@@ -80,7 +80,7 @@
       <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
         {{ manifestation?.handle }}
       </h4>
-      <h4 class="col-span-full font-semibold text-gray-900 dark:text-primary-200 my-1 xl:text-sm">
+      <h4 class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
 
@@ -129,7 +129,7 @@
           class="flex flex-row items-center"
         >
           <Icon
-            name="tabler:chart-network"
+            name="tabler:hierarchy"
             class="w-4 h-4 mr-1 inline-block"
           />
           {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}

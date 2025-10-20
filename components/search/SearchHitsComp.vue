@@ -32,7 +32,6 @@
 <script setup lang="ts">
 import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
 import type { PropType } from 'vue';
-import { createWidgetMixin } from 'vue-instantsearch/vue3/es';
 
 // ✅ Component name without export default
 defineOptions({

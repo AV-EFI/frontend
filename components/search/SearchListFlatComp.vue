@@ -526,6 +526,7 @@ const navigateToItem = (item: any, workHandle: string) => {
 </script>
 
 <style scoped>
+@reference "tailwindcss";
 /* carousel layout */
 .carousel-viewport { overflow: hidden; width: 100%; }
 .carousel-track {
@@ -541,6 +542,5 @@ const navigateToItem = (item: any, workHandle: string) => {
   .carousel-track { grid-auto-columns: 33.3333%; }
 }
 .item-card { margin: 0.5rem; }
-.kv-l { @apply font-medium text-base-content/80 mr-1; }
-.kv-v { @apply text-base-content; }
+/* Use class="font-medium text-base-content opacity-80 mr-1" for .kv-l and class="text-base-content" for .kv-v in markup instead of @apply here */
 </style>

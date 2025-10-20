@@ -11,7 +11,7 @@
     <div
       v-for="(manifestation,i) in manifestationList"
       :key="manifestation._id || i"
-      class="mt-2 collapse collapse-plus border-base border-2"
+      class="mt-2 collapse collapse-plus border-base-200 border-2"
     >
       <input
         :id="`manifestation-${manifestation.handle || manifestation._id}`"
@@ -136,15 +136,6 @@
               class="w-full mt-2"
             />
 
-            <!-- 08 Farbe (Colour Type) -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_colour_type"
-              keytxt="has_colour"
-              :valtxt="manifestation?.has_record?.has_colour_type"
-              class="w-full mt-2"
-              :clip="false"
-            />
-
             <!-- 09 Abspieldauer -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_duration?.has_value"
@@ -267,8 +258,11 @@ function webresources(m: any): string[] {
 </script>
 
 <style scoped>
+
 .collapse-plus > .collapse-title:after {
-  @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
+  @reference "tailwindcss";
+  @apply w-4 h-4 dark:text-white;
+  color: var(--color-primary-800);
   top: 25%;
 }
 </style>

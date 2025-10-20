@@ -74,8 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import type { MovingImageRecord } from 'models/interfaces/av_efi_schema.ts';
+import type { MovingImageRecord } from '/models/interfaces/av_efi_schema.ts';
 
 const logs = ref<MovingImageRecord[]>([]);
 const collapsedGroups = ref<Record<string, boolean>>({});

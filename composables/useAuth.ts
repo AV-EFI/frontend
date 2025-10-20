@@ -15,7 +15,7 @@ export function useAuth() {
     const SIGNOUT_ENDPOINT = config.AUTH_SIGNOUT_ENDPOINT;
 
     function log(...args: unknown[]) {
-        console.log(`[useAuth ${new Date().toISOString()}]`, ...args);
+        //console.log(`[useAuth ${new Date().toISOString()}]`, ...args);
     }
 
     async function getSession() {

@@ -8,7 +8,6 @@
       <MicroDividerComp
         class="mx-auto lg:mt-[5px] mb-4"
         label-text="avefi:Item"
-        label-text="avefi:Item"
         in-class="item"
       />
     </div>

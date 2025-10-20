@@ -5,19 +5,17 @@
     :aria-label="$t('mainSearch')"
   >
     <ClientOnly>
-      <span
-        id="search-input-label"
-        class="sr-only"
-      >
+      <span id="search-input-label" class="sr-only">
         {{ $t('mainSearch') }}
       </span>
+
       <FormKit
         v-if="searchDataStore && searchDataStore.formData"
-        id="searchComp"
+        id="searchCompReduced"
         v-model="searchDataStore.formData"
         type="form"
         :actions="false"
-        name="searchComp"
+        name="searchCompReduced"
         role="search"
         :aria-label="$t('searchForm')"
         @submit="redirectToSearchScreen"
@@ -27,36 +25,18 @@
           role="group"
           :aria-labelledby="'search-input-label'"
         >
-          <FormKit
-            v-model="searchTerm"
-            name="searchTerm"
-            :placeholder="$t('searchplaceholder')"
-            type="text"
-            outer-class="flex-grow !max-w-none w-full"
-            inner-class="!rounded-l-xl rounded-r-none dark:!bg-slate-950 dark:!text-white  !h-[56px] w-full"
-            input-class="!text-lg p-2 w-full dark:!text-white"
-            :aria-label="$t('searchInputAria')"
-            aria-required="true"
-            :aria-invalid="searchTerm.trim().length === 0 ? 'true' : 'false'"
-            autofocus
-            :help="showTooltip ? $t('exactSearchTip') : ''"
-            :help-class="'absolute text-sm text-gray-800 bg-white p-2 rounded-md shadow dark:text-white dark:bg-gray-700'"
-          >
-            <template #prefix>
-              <span
-                class="ml-2 cursor-pointer select-none text-neutral-500 dark:text-neutral-300 text-sm"
-                tabindex="0"
-                role="button"
-                aria-label="Info"
-                @mouseenter="showTooltip = true"
-                @mouseleave="showTooltip = false"
-                @focus="showTooltip = true"
-                @blur="showTooltip = false"
-              >
-                ⓘ
-              </span>
-            </template>
-          </FormKit>
+          <div class="flex-grow relative">
+            <SearchQueryAutocomplete
+              :model-value="searchTerm"
+              name="searchTerm"
+              :placeholder="$t('searchplaceholder')"
+              :aria-label="$t('searchInputAria')"
+              :help-text="$t('exactSearchTip')"
+              :dropdown-aria-label="$t('showSuggestions')"
+              :no-results-text="$t('noSuggestionsFound')"
+              @select="(v) => { searchTerm = v }"
+            />
+          </div>
 
           <FormKit
             type="submit"
@@ -64,9 +44,7 @@
             :title="$t('search')"
             outer-class="!rounded-l-none !mb-0 !rounded-r-xl !h-full flex items-center justify-start"
             inner-class="!rounded-l-3xl !h-full"
-            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-xl flex items-center justify-center border-3 border-primary !my-auto"
-            :disabled="searchTerm.trim().length === 0"
-            aria-disabled="false"
+            input-class="!text-lg !h-14 !btn-primary !rounded-l-none !rounded-r-xl flex items-center justify-center border-3 border-primary !my-auto"
             :aria-label="$t('submitSearch')"
             @click="handleClick"
           />
@@ -86,34 +64,62 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useSearchParamsStore } from '../../stores/searchParams';
-const showTooltip = ref(false);
+import { ref } from 'vue'
+import { useSearchParamsStore } from '~/stores/searchParams'
 
-const searchTerm = ref('');
-const showValidationWarning = ref(false);
-const searchDataStore = useSearchParamsStore();
+const showTooltip = ref(false)
+const searchTerm = ref('')
+const showValidationWarning = ref(false)
+const searchDataStore = useSearchParamsStore()
 
 function redirectToSearchScreen() {
-    const redirectLink =  '/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + encodeURIComponent(searchTerm.value);
-    console.log('redirecting to search screen with term:', redirectLink);
-    navigateTo(redirectLink);
+  try {
+    const pub = useRuntimeConfig().public
+    const idx = pub.ELASTIC_INDEX
+
+    // Build base (support absolute or relative AVEFI_SEARCH_URL)
+    const rawBase = pub.AVEFI_SEARCH_URL || 'search'
+    const isAbsolute = /^https?:\/\//i.test(rawBase)
+    const base = isAbsolute ? `${rawBase.replace(/\/+$/, '')}/index`
+                            : `/${rawBase.replace(/^\/+|\/+$/g, '')}/index`
+
+    // Params
+    const params = new URLSearchParams()
+    const q = (searchTermLocal?.value ?? searchTerm?.value ?? '').trim()
+    if (q) params.append(`${idx}[query]`, q)
+
+    if (Array.isArray(facetFilters?.value)) {
+      facetFilters.value.forEach(f => {
+        if (f?.facet && f?.value) {
+          params.append(`${idx}[refinementList][${f.facet}][0]`, f.value)
+        }
+      })
+    }
+
+    const url = params.toString() ? `${base}?${params.toString()}` : base
+
+    // Navigate (external vs internal)
+    if (isAbsolute) {
+      return navigateTo(url, { external: true })
+    } else {
+      return navigateTo(url)
+    }
+  } catch (err) {
+    console.error('redirectToSearchScreen failed:', err)
+  }
 }
 
-function handleClick(event: MouseEvent) {
-    if (searchTerm.value.trim().length === 0) {
-        event.preventDefault();
-        showValidationWarning.value = true;
 
-        setTimeout(() => {
-            showValidationWarning.value = false;
-        }, 2500);
-    }
+function handleClick(event: MouseEvent) {
+  console.log('handleClick', { searchTerm: searchTerm.value })
+  if (searchTerm.value.trim().length === 0) {
+    event.preventDefault()
+    showValidationWarning.value = true
+    setTimeout(() => { showValidationWarning.value = false }, 2500)
+  }
 }
 </script>
 
 <style scoped>
-.btn-secondary {
-  height: 100%;
-}
+.btn-secondary { height: 100%; }
 </style>

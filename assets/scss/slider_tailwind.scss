@@ -1,3 +1,6 @@
+//@use "tailwindcss";
+@use "./utilities.scss";
+
 .slider-target {
   @apply relative box-border select-none touch-none tap-highlight-transparent touch-callout-none slider-disabled:cursor-not-allowed;
 }

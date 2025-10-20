@@ -12,8 +12,8 @@
                New: enforce 08.06.25 order, hide duplicate handle, swap years/places -->
           <DetailWorkVariantTopLevelComp
             v-model="mir"
-            :handle="dataObject?._source?.handle"
-            :es-timestamp="dataObject?._source?.['@timestamp']"
+            :handle="dataObject?.compound_record?._source?.handle"
+            :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']"
             :order-key="'08-06-2025'"
             :hide-second-handle="true"
             :swap-years-and-places="true"
@@ -102,7 +102,7 @@
             aria-label="No manifestations available"
           >
             <MicroIconTextComp
-              icon-name="mdi:emoticon-cry-outline"
+              icon-name="tabler:mood-empty"
               text="noManifestations"
             />
           </div>
@@ -128,19 +128,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { FormKit } from '@formkit/vue';
-import type { WorkVariant, Manifestation, Item } from '../../models/interfaces/av_efi_schema.ts';
+import type { IAVefiWorkVariant as WorkVariant } from '~/models/interfaces/generated/IAVefiWorkVariant';
 
-const dataJson = defineModel({ type: String, required: true });
-
+const dataJson = defineModel({ type: Object, required: true });
+console.log(dataJson);
+console.log(typeof(dataJson));
 // Defensive parse
 let dataObject: any = {};
-try { dataObject = JSON.parse(dataJson.value ?? '{}'); } catch { dataObject = {}; }
+try { dataObject = dataJson.value ?? {}; } catch { dataObject = {}; }
 
 // WorkVariant (optional)
-const mir = (dataObject?._source?.has_record ?? null) as WorkVariant | null;
+const mir = (dataObject?.compound_record?._source?.has_record ?? null) as WorkVariant | null;
 
 // Manifestations (optional)
-const manifestations = ref<Manifestation[]>(Array.isArray(dataObject?._source?.manifestations) ? dataObject._source.manifestations : []);
+const manifestations = ref<Manifestation[]>(Array.isArray(dataObject?.compound_record?._source?.manifestations) ? dataObject.compound_record._source.manifestations : []);
 
 // --- Dynamic search state ---
 const searchQuery = ref<string[]>([]);
@@ -233,7 +234,6 @@ function formatTimestamp(ts: any): string {
 
 <style scoped>
 .collapse-plus > .collapse-title:after {
-  @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
   top: 25%;
 }
 </style>

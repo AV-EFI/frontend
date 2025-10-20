@@ -52,7 +52,7 @@
               class="flex flex-col items-center"
             >
               <img
-                src="/img/avefi_ph_gray.svg"
+                src="/img/placeholder-16x9.svg"
                 alt="Avefi"
                 :class="`w-full h-48 lg:h-48 object-cover ${item.imgCoverType || 'object-center'}`"
               >
@@ -86,7 +86,7 @@
                 >{{ $t(item.linkText) }} 
                   <Icon
                     class="hidden md:inline-block"
-                    name="fa-regular:arrow-alt-circle-right"
+                     name="tabler:arrow-right"
                   /></a>
               </div>
             </div>

@@ -1,6 +1,151 @@
+/*
+@use '_variables';
+@use '_colors';
+*/
+
 @use '_variables';
 @use '_colors';
 
+@import "tailwindcss";
+@plugin "daisyui" {
+   themes: avefi_light --default, avefi_dark --prefersdark;
+    root: ":root";
+    logs: true;
+};
+
+@plugin "daisyui/theme" {
+  name: "avefi_light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.003 247.858);
+  --color-base-200: oklch(96% 0.007 247.896);
+  --color-base-300: oklch(86% 0.022 252.894);
+  --color-base-content: oklch(32.437% 0.022 264.182);
+  --color-primary: #4d768d;
+  --color-primary-content: oklch(98% 0.002 247.839);
+  --color-secondary: #000000;
+  --color-secondary-content: oklch(98% 0.002 247.839);
+  --color-accent: oklch(71% 0.194 13.428);
+  --color-accent-content: #fefefe;
+  --color-neutral: #364754;
+  --color-neutral-content: oklch(89.925% 0.016 262.749);
+  --color-info: oklch(95% 0.045 203.388);
+  --color-info-content: oklch(13.841% 0.012 332.664);
+  --color-success: oklch(69% 0.17 162.48);
+  --color-success-content: oklch(98% 0.002 247.839);
+  --color-warning: oklch(83% 0.128 66.29);
+  --color-warning-content: oklch(17.097% 0.017 84.093);
+  --color-error: oklch(60.61% 0.12 15.341);
+  --color-error-content: oklch(12.122% 0.024 15.341);
+  --color-highlight: #b2161d;
+  --color-highlight-content: #ffffff;
+  --color-favourites-list: #e11923;
+  --color-favourites-list-content: #ffffff;
+  --color-favourites-list-hover: #b2161d;
+  --color-favourites-list-hover-content: #ffffff;
+  --color-compare-list: #2a333a;
+  --color-compare-list-hover: #1d262f;
+  --color-compare-list-content: #ffffff;
+  --color-work: #F3E2B8;
+  --color-manifestation: #E8D39E;
+  --color-item: #DDC48B;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 1rem;
+  --size-selector: 0.1875rem;
+  --size-field: 0.1875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "avefi_dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(20.768% 0.039 265.754);
+  --color-base-200: oklch(19.314% 0.037 265.754);
+  --color-base-300: oklch(17.86% 0.034 265.754);
+  --color-base-content: oklch(84.153% 0.007 265.754);
+  --color-primary: #4d768d;
+  --color-primary-content: oklch(98% 0.002 247.839);
+  --color-secondary: #000000;
+  --color-secondary-content: oklch(98% 0.002 247.839);
+  --color-accent: oklch(71% 0.194 13.428);
+  --color-accent-content: #fefefe;
+  --color-neutral: oklch(27.949% 0.036 260.03);
+  --color-neutral-content: oklch(85.589% 0.007 260.03);
+  --color-info: oklch(68.455% 0.148 237.251);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: oklch(78.452% 0.132 181.911);
+  --color-success-content: oklch(15.69% 0.026 181.911);
+  --color-warning: oklch(83.242% 0.139 82.95);
+  --color-warning-content: oklch(16.648% 0.027 82.95);
+  --color-error: oklch(71.785% 0.17 13.118);
+  --color-error-content: oklch(14.357% 0.034 13.118);
+  --color-highlight: #b2161d;
+  --color-highlight-content: #ffffff;
+  --color-favourites-list: #e11923;
+  --color-favourites-list-content: #ffffff;
+  --color-favourites-list-hover: #b2161d;
+  --color-favourites-list-hover-content: #ffffff;
+  --color-compare-list: #2a333a;
+  --color-compare-list-hover: #1d262f;
+  --color-compare-list-content: #ffffff;
+  --color-work: #F3E2B8;
+  --color-manifestation: #E8D39E;
+  --color-item: #DDC48B;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 1rem;
+  --size-selector: 0.1875rem;
+  --size-field: 0.1875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@custom-variant dark (&:where([data-theme=avefi_dark], [data-theme=avefi_dark] *));
+
+
+@layer components {
+  .badge-work {
+    --badge-bg: var(--color-work)!important;
+    --badge-content: var(--color-base-100); /* or a custom contrast */
+  }
+  .badge-manifestation {
+    --badge-bg: var(--color-manifestation)!important;
+    --badge-content: var(--color-base-100); /* or a custom contrast */
+  }
+  .badge-item {
+    --badge-bg: var(--color-item)!important;
+    --badge-content: var(--color-base-100); /* or a custom contrast */
+  }
+  .badge-favourites-list {
+    --badge-bg: var(--color-favourites-list)!important;
+    --badge-content: var(--color-favourites-list-content)!important;
+  
+  }
+  .badge-compare-list {
+    --badge-bg: var(--color-compare-list)!important;
+    --badge-content: var(--color-compare-list-content)!important;
+  }
+  .btn-highlight {
+    background-color: var(--color-highlight)!important;
+    color: var(--color-highlight-content)!important;
+  }
+  .border-work {
+    border-color: var(--color-work)!important;
+  }
+  .border-manifestation {
+    border-color: var(--color-manifestation)!important;
+  }
+  .border-item {
+    border-color: var(--color-item)!important;
+  }
+}
 
 @font-face {
   font-family: 'BreeSerif';
@@ -19,10 +164,6 @@ html, body {
 .bree {
   font-family: 'BreeSerif', serif;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer utilities {
   .text-rainbow-stripe {
@@ -190,8 +331,8 @@ html[data-theme="avefi_dark"] .customize_table {
 }
 
 mark {
-  background-color: var(--highlight); // or your exact altrosa hex if not using a CSS var
-  color: var(--highlight-content); // or your exact altrosa content color hex if not using a CSS var
+  background-color: var(--highlight);
+    color: var(--highlight-content);
   padding: 0 0.25em;
   border-radius: 2px;
 }

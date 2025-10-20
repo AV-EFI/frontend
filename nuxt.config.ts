@@ -1,58 +1,40 @@
 // nuxt.config.ts
 
+import { getTrailingCommentRanges } from "typescript";
+import tailwindcss from '@tailwindcss/vite';
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
-import eslint from 'vite-plugin-eslint';import { L } from 'vitest/dist/chunks/reporters.d.BFLkQcL6.js';
-;
 
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-31',
+    ssr: false,
     app: {
         baseURL: '/',
         pageTransition: false
     },
-    cms: {
-        // Block edits unless explicitly enabled (prod on by default, dev off)
-        allowUserTooltipEdits:
-        process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' ||
-        process.env.NODE_ENV === 'production',
-        userTooltipsFile: process.env.USER_TOOLTIPS_FILE || 'cms/user-tooltips.json',
-    },
     devtools: {
-        enabled: true,
-        vscode: false, // disable VS Code integration
-        timeline: false, // disable full timeline tracking
-        components: false, // no component inspector
-        performance: true, // no performance tracking
-        hmr: true        // ✅ keep only HMR event logging
+           enabled: false
     },
     nitro: {
         preset: 'node-server',
         compressPublicAssets: true,
-        experimental: { tasks: true },
         debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
     },
-    build: {
-        transpile: ['vue-diff']
-    },
     modules: [
-    //'@sidebase/nuxt-auth',
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
-        ...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
-        //'@nuxtjs/eslint-module',
-        '@nuxt/eslint',
+        //...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
         '@nuxtjs/i18n',
-        '@nuxtjs/tailwindcss',
-        '@nuxtjs/color-mode',
+        //'@nuxtjs/tailwindcss',
+        //'@nuxtjs/color-mode',
         '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
-        '@nuxtjs/robots',
+        //'@nuxtjs/robots',
         'nuxt3-winston-log',
         '@dargmuesli/nuxt-cookie-control',
-        'nuxt-mail',
+        'nuxt-nodemailer'
     ],
     extends: './pages',
     imports: {
@@ -88,6 +70,7 @@ export default defineNuxtConfig({
             AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
             AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
             AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
+            SEARCH_URL: process.env.SEARCH_URL,
             SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
             KEYCLOAK_URL: process.env.KEYCLOAK_URL,
             KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
@@ -95,7 +78,6 @@ export default defineNuxtConfig({
             WMI_CACHE_KEY: 'WMI_CACHE_KEY',
             KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
 
-            WMI_CACHE_KEY: 'WMI_CACHE_KEY',
             // AUTH endpoints
             AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
             AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
@@ -120,6 +102,7 @@ export default defineNuxtConfig({
     routeRules: {
         "/": { ssr: false },
         "/search": { ssr: false },
+        "/search_altern": { ssr: false },
         //"/contact": { prerender: true },
         "/contact": { ssr: false }, 
         "/login": { ssr: false },
@@ -133,46 +116,14 @@ export default defineNuxtConfig({
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
-    auth: {
-        originEnvKey: process.env.AUTH_ORIGIN,
-        baseURL: `${process.env.AUTH_ORIGIN}/api/auth`,
-        provider: {
-            type: 'authjs',
-            defaultProvider: 'keycloak',
-            addDefaultCallbackUrl: true,
-        },        
-        /*
-        session: {
-            enableRefreshOnWindowFocus: true,
-            enableRefreshPeriodically: 10000
-        },
-        */
-        globalAppMiddleware: {
-            isEnabled: true,
-            allow404WithoutAuth: true,            
-        }
-        "/film/**": { ssr: false },
-        "/serial/**": { ssr: false },
-        "/protected/institutionlist": { ssr: false },
-        "/protected/dashboard": { ssr: false },
-        "/protected/mergetool": { ssr: false },
-        "/protected/compare": { ssr: false },
-        "/protected/me": { ssr: false },
-        "/protected/glossary": { ssr: false }
-    },
-    css: [
-        "~/assets/scss/main.scss"
-    ],
-    mail: {
-        message: {
-            to: [process.env.MAIL_TO, process.env.MAIL_TO_2],
-        },
-        smtp: {
-            service: 'gmail',
-            auth: {
-                user: process.env.MAIL_USER,
-                pass: process.env.MAIL_PASS,
-            }
+    nodemailer: {
+        from: process.env.MAIL_FROM,
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
         },
     },
     nuxt3WinstonLog: {
@@ -182,38 +133,46 @@ export default defineNuxtConfig({
     cookieControl: {
         locales: ['de', 'en'],
         colors: false,
-        //default texts
-        text: {        
-        text: {
-            barTitle: 'Cookies',
-            barDescription: 'We use our own cookies and third-party cookies...',
-            acceptAll: 'Accept all',
-            declineAll: 'Delete all',
-            manageCookies: 'Manage cookies',
-            unsaved: 'You have unsaved settings',
-            close: 'Close',
-            save: 'Save',
-            necessary: 'Necessary cookies',
-            optional: 'Optional cookies',
-            functional: 'Functional cookies',
-            blockedIframe: 'To see this, please enable functional cookies',
-            here: 'here'
+        localeTexts: {
+            en: {
+                bannerTitle: 'This website uses cookies',
+                accept: 'Accept all',
+                decline: 'Decline all',
+                bannerDescription: 'We use our own cookies and third-party cookies to enhance your experience on our website. By clicking "Accept all", you consent to the use of ALL cookies. However, you may visit "Manage cookies" to provide a controlled consent.',
+                cookiesFunctional: 'Functional cookies',
+                cookiesNecessary: 'Necessary cookies',
+                cookiesOptional: 'Optional cookies',
+                iframeBlocked: 'To see this, please enable functional cookies',
+                settingsUnsaved: 'You have unsaved settings',
+            },
+            de: {
+                bannerTitle: 'Diese Website verwendet Cookies',
+                accept: 'Akzeptieren',
+                decline: 'Alle ablehnen',
+                bannerDescription: 'Wir verwenden eigene Cookies und Cookies von Drittanbietern, um Ihre Erfahrung auf unserer Website zu verbessern. Durch Klicken auf "Akzeptieren" stimmen Sie der Verwendung ALLER Cookies zu. Sie können jedoch unter "Cookies verwalten" eine kontrollierte Zustimmung erteilen.',
+                cookiesFunctional: 'Funktionale Cookies',
+                cookiesNecessary: 'Notwendige Cookies',
+                cookiesOptional: 'Optionale Cookies',
+                iframeBlocked: 'Um dies zu sehen, aktivieren Sie bitte funktionale Cookies',
+                settingsUnsaved: 'Sie haben ungespeicherte Einstellungen',
+            }
         },
         cookies: {
             necessary: [
                 {
+                    id: 'default',
                     name: { en: 'Default Cookies', de: 'Standard Cookies' },
                     description: {
                         en: 'Used for Cookies, Search, Favourites and Authentication.',
                         de: 'Wird für Cookies, Suche, Favoriten und Authentifizierung verwendet.'
                     },
-                    cookies: ['cookie_control_consent', 'cookie_control_enabled_cookies']
+                    targetCookieIds : ['cookie_control_consent', 'cookie_control_enabled_cookies']
                 }
             ],
             optional: [
                 {
+                    id: 'ga',
                     name: { en: 'Optionale Cookies', de: 'Optional Cookies' },
-                    identifier: 'ga',
                     description: { en: 'None yet', de: 'Noch keine' }
                 }
             ]
@@ -224,80 +183,37 @@ export default defineNuxtConfig({
         port: 3000
     },
     vite: {
-        server: {
-            watch: {
-                usePolling: true, // force polling for stability
-                interval: 100,
-                ignored: [
-                    '**/node_modules/**',
-                    '**/.git/**',
-                    '**/.yarn/**',
-                    '**/.output/**',
-                    '**/.nuxt/**',
-                    '**/dist/**',
-                ],
-            },
-        },
-        build: {
-            chunkSizeWarningLimit: 750,
-            target: 'esnext'
-        },
-        optimizeDeps: {
-            exclude: ['vue-diff']
-        },
-        //devBundler: 'legacy',
-        logLevel: 'error',
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    api: 'modern',
-                    additionalData: '@use "~/assets/scss/_colors.scss" as *;'                    
-                },                
-            },
-        }
-                    additionalData: '@use "~/assets/scss/_colors.scss" as *;'
-                },
-            },
-        },
         plugins: [
-            eslint({
-                failOnWarning: false,
-                failOnError: false,
-                formatter: process.env.NODE_ENV === 'production' ? 'compact' : 'stylish',
-                cache: false,
-                include: [
-                    'components/**/*.{js,ts,vue}',
-                    'pages/**/*.{js,ts,vue}'
-                ],
-                exclude: ['node_modules', 'scripts', 'tailwind.config.ts', 'models/interfaces/**'],
-                lintOnStart: false, // ✅ runs only once at dev start
-                emitWarning: false,
-            }),
+            tailwindcss()
         ],
+        optimizeDeps: {
+        include: ['export-to-csv', 'instantsearch.js', 'algoliasearch']       
+    },
+      server: {
+        watch: {
+        usePolling: true,
+        interval: 100,
+        ignored: [
+            '**/node_modules/**',
+            '**/.git/**',
+            '**/.yarn/**',
+            '**/.output/**',
+            '**/.nuxt/**',
+            '**/dist/**',
+        ],
+        },
+    },
+    build: { chunkSizeWarningLimit: 750, target: 'esnext' },
+    logLevel: 'error',
     },
     typescript: {
         includeWorkspace: true
     },
     i18n: {
+        debug: true,
         strategy: 'no_prefix',
-        locales: ['de', 'en'],
         defaultLocale: 'de',
-        lazy: true,
-        locales: ["de", "en"],
-        skipSettingLocaleOnNavigate: true,
-        detectBrowserLanguage: {
-            useCookie: true,
-            cookieKey: 'i18n_redirected',
-            alwaysRedirect: false,
-            cookieKey: 'i18n_redirected',
-            alwaysRedirect: false,
-            fallbackLocale: 'de'
-        },
         vueI18n: './i18n.config.ts'
-        bundle: {
-            optimizeTranslationDirective: false,
-        },
-        vueI18n: "../i18n.config.ts"
     },
     formkit: {
         autoImport: false // Performance-Optimization: Disable auto-import to reduce bundle size
@@ -305,29 +221,11 @@ export default defineNuxtConfig({
     pinia: {
         storesDirs: ['stores']
     },
-    colorMode: {
-        preference: 'avefi_light',
-        classSuffix: '',
-        dataValue: 'theme',
-        disableTransition: false,
-        storageKey: 'avefi-color-mode'
-    },
-    formkit: {
-        // Experimental support for auto loading (see note):
-        autoImport: true,
-    },
-    /*
-    eslint: {
-        lintOnStart: false,
-        cache: true,
-        emitWarning: false
-    },
-    */
-    pinia: {
-        storesDirs: ['stores']
-    },
-    tailwindcss: {
-        exposeConfig: true,
-        viewer: false
+    css: ['~/assets/scss/main.scss'],
+    postcss: {
+        plugins: {
+            "@tailwindcss/postcss": {},   // ✅ v4 plugin
+            autoprefixer: {},
+        },
     },
 });

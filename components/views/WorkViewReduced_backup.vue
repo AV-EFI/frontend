@@ -26,7 +26,7 @@
                   {{ $t('filmportalref') }}&nbsp;
                   <Icon
                     v-if="has_record_same_as_item.category === 'avefi:FilmportalResource'"
-                    name="fa-regular:hand-peace"
+                     name="tabler:hand-peace"
                     size="1em"
                     class="!align-baseline"
                     alt="Referenz bei Filmportal"
