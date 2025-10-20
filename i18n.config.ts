@@ -13,7 +13,8 @@ export default defineI18nConfig(() => ({
     messages: {
         en: {
             "has_form": "Gattung",
-            "has_sound_type": "Sound Type",
+            "has_sound_type": "Ton",
+            "has_format": "Format",
             "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
             "docFilmCollectionTitle": "Activism in Documentary Film",
             "docFilmCollectionLinkText": "See the collection",
@@ -508,6 +509,7 @@ export default defineI18nConfig(() => ({
         },
         de: {
             "has_form": "Form",
+            "has_format": "Format",
             "has_sound_type": "Ton",
             "docFilmCollectionDescription": "Die Sammlung von Dokumentarfilmen vereint Werke, die Bewegungen und Akte des Widerstands - von Streiks und Aufständen bis hin zu politischem Engagement – dokumentieren und reflektieren. Die Auswahl der Filme ermöglicht tiefgehende Analysen zu Formen des zivilen Ungehorsams und eröffnet neue Perspektiven auf die Wechselwirkungen zwischen Film, Politik und Gesellschaft.",
             "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
