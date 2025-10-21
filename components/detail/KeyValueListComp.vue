@@ -59,7 +59,9 @@
           role="listitem"
           :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
         >
-          <span class="flex-grow">
+          <span 
+          class="flex-grow"
+          :class="[narrow? 'w-3/4':'']">
             {{ val?.has_name ?? $t(val) }}
           </span>
           <DetailSameAsComp
@@ -120,6 +122,10 @@ const props = defineProps({
     sameAsType: {
         type: String,
         default: 'film'
+    },
+    narrow: {
+        type: Boolean,
+        default: false
     }
 });
 

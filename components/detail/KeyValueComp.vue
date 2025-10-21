@@ -14,7 +14,7 @@
       />
       <span
         v-else
-        :class="fontSize"
+        :class="[fontSize, narrow?'break-all w-3/4':'']"
       >{{ $t(valtxt) }}</span>
       <DetailSameAsComp
         v-if="sameAs"
@@ -46,6 +46,10 @@ const props = defineProps({
     fontSize: {
         type: String,
         default: 'text-base'
+    },
+    narrow: {
+        type: Boolean,
+        default: false
     }
 });
 const sameAsData = {

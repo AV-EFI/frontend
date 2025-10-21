@@ -41,7 +41,25 @@
       </div>
     </div>
 
-    <!-- 03 Materialart (element_type) -->
+    <!-- 03 Format (has_format[].type) -->
+    <div class="col-span-full md:col-span-1">
+      <div class="flex flex-col mb-2">
+        <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
+          <MicroLabelComp label-text="has_format" />
+          <GlobalTooltipInfo
+            :text="$t('tooltip.format')"
+            class="ml-2"
+          />
+        </span>
+        <SearchHighlightListComp
+          :items="(exemplar?.has_record?.has_format || []).map(f => f?.type).filter(Boolean)"
+          :hilite="highlightResult?.manifestations?.items?.has_record?.has_format?.type?.matchedWords"
+          class="text-base"
+        />
+      </div>
+    </div>
+
+    <!-- 04 Materialart (element_type) -->
     <div class="col-span-full md:col-span-1">
       <div class="flex flex-col mb-2">
         <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
@@ -54,24 +72,6 @@
         <SearchHighlightSingleComp
           :item="exemplar?.has_record?.element_type || null"
           :hitlite="highlightResult?.manifestations?.items?.has_record?.element_type?.matchedWords"
-          class="text-base"
-        />
-      </div>
-    </div>
-
-    <!-- 04 Format (has_format[].type) -->
-    <div class="col-span-full md:col-span-1">
-      <div class="flex flex-col mb-2">
-        <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
-          <MicroLabelComp label-text="has_format" />
-          <GlobalTooltipInfo
-            :text="$t('tooltip.formatType')"
-            class="ml-2"
-          />
-        </span>
-        <SearchHighlightListComp
-          :items="(exemplar?.has_record?.has_format || []).map(f => f?.type).filter(Boolean)"
-          :hilite="highlightResult?.manifestations?.items?.has_record?.has_format?.type?.matchedWords"
           class="text-base"
         />
       </div>
@@ -115,7 +115,53 @@
       </div>
     </div>
 
-    <!-- 08 Webressource (array) -->
+    <!-- 08 Abspieldauer (prefer duration_in_minutes, else has_duration) -->
+    <div class="col-span-full md:col-span-1">
+      <div class="flex flex-col mb-2">
+        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
+          <MicroLabelComp label-text="has_duration" />
+        </span>
+        <p class="text-base font-normal">
+          {{
+            exemplar?.duration_in_minutes
+              ? `${exemplar.duration_in_minutes} ${$t('minutes')}`
+              : (exemplar?.has_record?.has_duration?.has_value
+                ? exemplar.has_record.has_duration.has_value.replace('PT', '').toLowerCase()
+                : '-')
+          }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 09 Länge / Größe (Extent) -->
+    <div class="col-span-full md:col-span-1">
+      <div class="flex flex-col mb-2">
+        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
+          <MicroLabelComp label-text="avefi:Extent" />
+        </span>
+        <p class="text-base font-normal">
+          {{
+            exemplar?.has_record?.has_extent?.has_value
+              ? `${exemplar.has_record.has_extent.has_value} ${$t(exemplar.has_record.has_extent.has_unit)}`
+              : '-'
+          }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 10 BPS (Frame rate) -->
+    <div class="col-span-full md:col-span-1">
+      <div class="flex flex-col mb-2">
+        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
+          <MicroLabelComp label-text="has_frame_rate" />
+        </span>
+        <p class="text-base font-normal">
+          {{ exemplar?.has_record?.has_frame_rate || '-' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 11 Webressource (array) -->
     <div class="col-span-full md:col-span-1 flex flex-col justify-end">
       <span class="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-200">
         <MicroLabelComp label-text="webresource" />
@@ -164,60 +210,14 @@
         -
       </p>
     </div>
-
-    <!-- 09 Abspieldauer (prefer duration_in_minutes, else has_duration) -->
-    <div class="col-span-full md:col-span-1">
-      <div class="flex flex-col mb-2">
-        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
-          <MicroLabelComp label-text="has_duration" />
-        </span>
-        <p class="text-base font-normal">
-          {{
-            exemplar?.duration_in_minutes
-              ? `${exemplar.duration_in_minutes} ${$t('minutes')}`
-              : (exemplar?.has_record?.has_duration?.has_value
-                ? exemplar.has_record.has_duration.has_value.replace('PT', '').toLowerCase()
-                : '-')
-          }}
-        </p>
-      </div>
-    </div>
-
-    <!-- 10 Länge / Größe (Extent) -->
-    <div class="col-span-full md:col-span-1">
-      <div class="flex flex-col mb-2">
-        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
-          <MicroLabelComp label-text="avefi:Extent" />
-        </span>
-        <p class="text-base font-normal">
-          {{
-            exemplar?.has_record?.has_extent?.has_value
-              ? `${exemplar.has_record.has_extent.has_value} ${$t(exemplar.has_record.has_extent.has_unit)}`
-              : '-'
-          }}
-        </p>
-      </div>
-    </div>
-
-    <!-- 11 BPS (Frame rate) -->
-    <div class="col-span-full md:col-span-1">
-      <div class="flex flex-col mb-2">
-        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">
-          <MicroLabelComp label-text="has_frame_rate" />
-        </span>
-        <p class="text-base font-normal">
-          {{ exemplar?.has_record?.has_frame_rate || '-' }}
-        </p>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps({
-    items: { type: Array, required: true },
-    highlightResult: { type: Object, required: false, default: () => ({}) },
-    productionDetailsChecked: { type: Boolean, required: false, default: false },
-    showAdminStats: { type: Boolean, required: false, default: false },
+  items: { type: Array, required: true },
+  highlightResult: { type: Object, required: false, default: () => ({}) },
+  productionDetailsChecked: { type: Boolean, required: false, default: false },
+  showAdminStats: { type: Boolean, required: false, default: false },
 });
 </script>

@@ -251,7 +251,7 @@
 </template>
 
 <script setup lang="ts">
-
+import { ref, computed, nextTick } from 'vue';
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },

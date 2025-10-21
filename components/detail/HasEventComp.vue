@@ -10,6 +10,7 @@
         :aria-label="$t('event') + ': ' + $t(has_event_item.category)"
         role="region"
       >
+        <!-- A) Crew + Cast -->
         <NuxtLayout
           v-if="getCastMemberList(has_event_item)?.length > 0 && getCrewMemberList(has_event_item)?.length > 0"
           name="partial-grid-3-4-4"
@@ -24,8 +25,9 @@
               {{ $t(has_event_item.category) }}
             </span>
           </template>
+
           <template #left>
-            <!-- has_activity -->
+            <!-- has_activity (crew) -->
             <div 
               v-for="(has_activity_item, activity_index) in getCrewMemberList(has_event_item)"
               :key="activity_index"
@@ -44,8 +46,9 @@
               />
             </div>
           </template>
+
           <template #center>
-            <!-- has_activity -->
+            <!-- has_activity (cast) -->
             <div 
               v-for="(has_activity_item, activity_index) in getCastMemberList(has_event_item)"
               :key="activity_index"
@@ -69,15 +72,9 @@
               </div>
             </div>
           </template>
+
           <template #right>
-            <DetailKeyValueComp
-              v-if="has_event_item?.has_date"
-              keytxt="productionyear"
-              class="col-span-full dark:text-gray-300"
-              :valtxt="has_event_item?.has_date"
-              :clip="false"
-              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"              
-            />
+            <!-- 🔁 ORDER: Place → Year -->
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
@@ -86,9 +83,21 @@
               :ul="true"
               :aria-label="$t('place') + ': ' + has_event_item?.located_in"
               :clip="false"
+              :same-as="true"
+              :narrow="true"
+            />
+            <DetailKeyValueComp
+              v-if="has_event_item?.has_date"
+              keytxt="productionyear"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.has_date"
+              :clip="false"
+              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"              
             />
           </template>
         </NuxtLayout>
+
+        <!-- B) Crew only -->
         <NuxtLayout
           v-else-if="getCrewMemberList(has_event_item)?.length > 0 && getCastMemberList(has_event_item)?.length < 1"
           name="partial-grid-1-1"
@@ -103,8 +112,9 @@
               {{ $t(has_event_item.category) }}
             </span>
           </template>
+
           <template #left>
-            <!-- has_activity -->
+            <!-- has_activity (crew) -->
             <div 
               v-for="(has_activity_item, activity_index) in getCrewMemberList(has_event_item)"
               :key="activity_index"
@@ -137,15 +147,9 @@
               </ul>
             </div>
           </template>
+
           <template #right>
-            <DetailKeyValueComp
-              v-if="has_event_item?.has_date"
-              keytxt="productionyear"
-              class="col-span-full dark:text-gray-300"
-              :valtxt="has_event_item?.has_date"
-              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
-              :clip="false"
-            />
+            <!-- 🔁 ORDER: Place → Year -->
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
@@ -154,8 +158,18 @@
               :aria-label="$t('place') + ': ' + has_event_item?.located_in"
               :clip="false"
             />
+            <DetailKeyValueComp
+              v-if="has_event_item?.has_date"
+              keytxt="productionyear"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.has_date"
+              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
+              :clip="false"
+            />
           </template>
         </NuxtLayout>
+
+        <!-- C) Cast only -->
         <NuxtLayout
           v-else-if="getCastMemberList(has_event_item)?.length > 0"
           name="partial-grid-1-1"
@@ -170,8 +184,9 @@
               {{ $t(has_event_item.category) }}
             </span>
           </template>
+
           <template #left>
-            <!-- has_activity -->
+            <!-- has_activity (cast) -->
             <div 
               v-for="(has_activity_item, activity_index) in getCastMemberList(has_event_item)"
               :key="activity_index"
@@ -190,8 +205,17 @@
               />
             </div>
           </template>
+
           <template #right>
-            <!-- has_activity -->
+            <!-- 🔁 ORDER: Place → Year -->
+            <DetailKeyValueListComp
+              v-if="has_event_item?.located_in"
+              keytxt="place"
+              class="col-span-full dark:text-gray-300"
+              :valtxt="has_event_item?.located_in"
+              :ul="true"
+              :aria-label="$t('place') + ': ' + has_event_item?.located_in"
+            />
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
               keytxt="productionyear"
@@ -201,16 +225,10 @@
               :clip="false"
               :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
             />
-            <DetailKeyValueListComp
-              v-if="has_event_item?.located_in"
-              keytxt="place"
-              class="col-span-full dark:text-gray-300"
-              :valtxt="has_event_item?.located_in"
-              :ul="true"
-              :aria-label="$t('place') + ': ' + has_event_item?.located_in"
-            />
           </template>
         </NuxtLayout>
+
+        <!-- D) No crew/cast -->
         <NuxtLayout
           v-else
           name="partial-grid-1-1"
@@ -225,6 +243,7 @@
               {{ $t(has_event_item.category) }}
             </p>
           </template>
+
           <template #left>
             <div class="col-span-full">
               <DetailKeyValueComp
@@ -233,6 +252,15 @@
                 class="dark:text-white"
                 :valtxt="$t(has_event_item.type)"
                 :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.type)"
+                :clip="false"
+              />
+              <!-- 🔁 ORDER: Place → Year (move place here to precede year in reading order) -->
+              <DetailKeyValueListComp
+                v-if="has_event_item?.located_in"
+                keytxt="place"
+                class="col-span-full dark:text-gray-300"
+                :valtxt="has_event_item?.located_in"
+                :aria-label="$t('place') + ': ' + has_event_item?.located_in"
                 :clip="false"
               />
               <DetailKeyValueComp
@@ -245,15 +273,9 @@
               />
             </div>
           </template>
+
           <template #right>
-            <DetailKeyValueListComp
-              v-if="has_event_item?.located_in"
-              keytxt="place"
-              class="col-span-full dark:text-gray-300"
-              :valtxt="has_event_item?.located_in"
-              :aria-label="$t('place') + ': ' + has_event_item?.located_in"
-              :clip="false"
-            />
+            <!-- (right slot intentionally left without place/year to keep order Ort → Jahr) -->
           </template>
         </NuxtLayout>
       </div>
@@ -266,22 +288,20 @@ import type { Event } from '../../models/interfaces/av_efi_schema';
 const eventList = defineModel({type: Array as PropType<Event[]>, required: true});
 
 function getCastMemberList (hasEvent: Event) {
-    try {
-        return hasEvent.has_activity?.filter((hasAct) => hasAct.type == 'CastMember');
-    }
-    catch(ex) {
-        console.error(ex);        
-    }
-    return null;
+  try {
+    return hasEvent.has_activity?.filter((hasAct) => hasAct.type == 'CastMember');
+  } catch(ex) {
+    console.error(ex);        
+  }
+  return null;
 }
 
 function getCrewMemberList (hasEvent: Event) {
-    try {
-        return hasEvent.has_activity?.filter((hasAct) => hasAct.type != 'CastMember');
-    }
-    catch(ex) {
-        console.error(ex);        
-    }
-    return null;
+  try {
+    return hasEvent.has_activity?.filter((hasAct) => hasAct.type != 'CastMember');
+  } catch(ex) {
+    console.error(ex);        
+  }
+  return null;
 }
 </script>

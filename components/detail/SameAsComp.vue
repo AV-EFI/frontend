@@ -65,7 +65,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
@@ -81,7 +81,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
@@ -114,12 +114,26 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>
           </a>
-
+          <a
+            v-else-if="same_as_item.category === 'avefi:TGNResource'"
+            role="menuitem"
+            tabindex="0"
+            :href="`https://vocab.getty.edu/tgn/${same_as_item.id}`"
+            target="_blank"
+            class="link link-primary link-hover dark:link-accent"
+            @click="markDropdownWasOpen"
+          >
+            <Icon
+              name="tabler:notebook"
+              size="1em"
+            />
+            <span>&nbsp;{{ $t(same_as_item.category) }}</span>
+          </a>
           <a
             v-else-if="same_as_item.category === 'avefi:EIDRResource'"
             role="menuitem"
@@ -130,7 +144,7 @@
             @click="markDropdownWasOpen"
           >
             <Icon
-              name="carbon:notebook-reference"
+              name="tabler:notebook"
               size="1em"
             />
             <span>&nbsp;{{ $t(same_as_item.category) }}</span>

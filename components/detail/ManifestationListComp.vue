@@ -104,7 +104,13 @@
 
           <!-- RIGHT: 6–15 -->
           <template #right>
-            <!-- 06 Sprache -->
+            <!-- 06–08 Manifestationsereignis (Typ/Datum/Ort) -->
+            <DetailHasEventComp
+              class="mt-0"
+              :model-value="manifestation?.has_record?.has_event ?? []"
+            />
+
+            <!-- 09 Sprache -->
             <MicroLabelComp
               v-if="manifestation?.has_record?.in_language?.length"
               label-text="avefi:Language"
@@ -127,7 +133,7 @@
               </li>
             </ul>
 
-            <!-- 07 Ton (Sound Type) -->
+            <!-- 10 Ton (Sound Type) -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_sound_type"
               keytxt="has_sound_type"
@@ -136,7 +142,7 @@
               class="w-full mt-2"
             />
 
-            <!-- 08 Farbe (Colour Type) -->
+            <!-- 11 Farbe (Colour Type) -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_colour_type"
               keytxt="has_colour"
@@ -145,7 +151,7 @@
               :clip="false"
             />
 
-            <!-- 09 Abspieldauer -->
+            <!-- 12 Abspieldauer -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_duration?.has_value"
               keytxt="avefi:Duration"
@@ -154,19 +160,13 @@
               class="w-full mt-2"
             />
 
-            <!-- 10 Länge / Größe -->
+            <!-- 13 Länge / Größe -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_extent?.has_value"
               keytxt="avefi:Extent"
               :valtxt="formatExtent(manifestation?.has_record?.has_extent)"
               class="w-full mt-2"
               :clip="false"
-            />
-
-            <!-- 11–15 Events -->
-            <DetailHasEventComp
-              class="mt-4"
-              :model-value="manifestation?.has_record?.has_event ?? []"
             />
           </template>
         </NuxtLayout>

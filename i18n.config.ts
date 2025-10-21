@@ -12,8 +12,8 @@ export default defineI18nConfig(() => ({
     locale: 'de',
     messages: {
         en: {
-            "has_form": "Gattung",
-            "has_sound_type": "Ton",
+            "has_form": "Form",
+            "has_sound_type": "Sound Type",
             "has_format": "Format",
             "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
             "docFilmCollectionTitle": "Activism in Documentary Film",
@@ -40,7 +40,7 @@ export default defineI18nConfig(() => ({
             "title": "Title",
             "tooltip": {
                 "accessStatus": "Indicates whether the item is publicly accessible or if there are restrictions.",
-                "formatType": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
+                "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
                 "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
                 "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
                 "item": "An item is a physical or digital copy of a manifestation.",
@@ -106,6 +106,11 @@ export default defineI18nConfig(() => ({
                 "loading": "Loading…",
                 "previewHint": "Pick an entry and click “Preview”."
             },
+            "has_access_status": "Status",
+            "in_language": "Language",
+            "has_duration": "Duration",
+            "has_colour_type": "Colour",
+            "has_frame_rate": "Frame Rate",
             "filteredInside": "Faceting active",
             "manifShort": "manif",
             "items": "items",
@@ -508,7 +513,7 @@ export default defineI18nConfig(() => ({
             ...avefiLocales.en
         },
         de: {
-            "has_form": "Form",
+            "has_form": "Gattung",
             "has_format": "Format",
             "has_sound_type": "Ton",
             "docFilmCollectionDescription": "Die Sammlung von Dokumentarfilmen vereint Werke, die Bewegungen und Akte des Widerstands - von Streiks und Aufständen bis hin zu politischem Engagement – dokumentieren und reflektieren. Die Auswahl der Filme ermöglicht tiefgehende Analysen zu Formen des zivilen Ungehorsams und eröffnet neue Perspektiven auf die Wechselwirkungen zwischen Film, Politik und Gesellschaft.",
@@ -650,16 +655,21 @@ export default defineI18nConfig(() => ({
             },
             "tooltip": {
                 "accessStatus": "Der Status gibt an, ob das Exemplar öffentlich zugänglich ist oder ob es Einschränkungen gibt.",
-                "formatType": "Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
+                "format": "Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
                 "elementType": "Hier wird angezeigt, um welche Materialart es sich beim analogen Film handelt. Bei digitalen Medien finden sich hier Angaben zum Dateiformat und/oder Container.",
                 "manifestation": "Eine Manifestation ist die physische Verkörperung/Publikation eines audiovisuellen Werkes in der Form eines analogen oder digitalen Mediums.",
                 "item": "Ein Exemplar ist die physische oder digitale Kopie einer Manifestation.",
                 "webresource": "Dieser Link führt zur Detailansicht des Exemplars auf der Webseite des Datengebers.",
                 "refinementsActive": "Aktive Facetten"
             },
+            "has_access_status": "Status",
+            "in_language": "Sprache",
+            "has_duration": "Dauer",
+            "has_colour_type": "Farbe",
+            "has_frame_rate": "BPS",
             "filteredInside": "Facettierung aktiv",
             "manifShort": "Manif",
-            "items": "Items",
+            "items": "Exemplare",
             "srFacetChanged": "Ergebnisse innerhalb dieses Werks wurden gefiltert: {manFiltered} von {manTotal} Manifestationen, {items} Items.",
             "itemDetails": "Details zum Exemplar mit Handle {handle}",
             "lastedit": "Letzte Bearbeitung",
@@ -1005,7 +1015,6 @@ export default defineI18nConfig(() => ({
             "Login": "Anmelden",
             "mainSearch": "Hauptsuche",
             "submitSearch": "Suche absenden",
-            "tooltip.refinementsActive": "Aktive Facetten",
             "contact.about.2.beforeLink": "Das speziell entwickelte AVefi-Schema folgt dem ",
             "contact.about.2.afterLink": ". Der Nachweis erfolgt dabei in den drei Ebenen Werk/Variante, Manifestation sowie Exemplar (Item)",
             "contact.normdataContent.beforeLink": "Von der datengebenden Institution verwendete Normdaten – wie z.B. der ",
