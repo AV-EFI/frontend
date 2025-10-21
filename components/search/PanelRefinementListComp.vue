@@ -160,7 +160,7 @@
               <input
                 :id="inputId"
                 type="search"
-                class="!text-sm p-1 !rounded-3xl w-full bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 focus:outline-none ring-primary-200 ring-2 focus:ring-2 focus:ring-primary-500 px-2"
+                class="!text-sm p-1 !rounded-3xl w-full bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 focus:outline-none ring-base-200 ring-1 focus:ring-2 focus:ring-base-300 px-2"
                 :placeholder="$t('search')"
                 @input="(e) => s?.searchForItems?.((e?.currentTarget as HTMLInputElement)?.value ?? '')"
               >

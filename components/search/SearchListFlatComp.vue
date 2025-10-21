@@ -161,7 +161,7 @@
                     <MicroBadgeCategoryComp
                       category="avefi:Item"
                       :dense="false"
-                      class="block mx-auto mb-2"
+                      class="mx-auto mb-2"
                     />
                     <h4>
                       <GlobalClipboardComp

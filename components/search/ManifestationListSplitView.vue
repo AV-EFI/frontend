@@ -182,7 +182,6 @@
                 <MicroBadgeCategoryComp
                   category="avefi:Item"
                   :dense="false"
-                  class="block"
                 />
               </div>
               <GlobalClipboardComp 

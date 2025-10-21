@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full max-w-4xl mx-auto p-4 bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg"
+    class="w-full max-w-4xl mx-auto p-4backdrop-blur-sm rounded-lg"
     role="search"
     :aria-label="$t('mainSearch')"
   >
@@ -39,7 +39,7 @@
             <div class="ml-0">
               <button
                 type="submit"
-                class="!text-lg !h-14 btn-primary !rounded-l-none !rounded-r-xl flex items-center justify-center border-3 border-primary px-6 cursor-pointer"
+                class="!rounded-l-none !rounded-r-xl flex btn btn-primary btn-lg h-[56px]"
                 :class="{'btn-disabled opacity-50 cursor-not-allowed': !canSubmit}"
                 :aria-label="$t('submitSearch')"
                 @click="handleClick"
@@ -49,7 +49,7 @@
             </div>
           </div>
 
-          <!-- Advanced Facets (unchanged UI) -->
+          <!-- Advanced Facets -->
           <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
             <div class="mb-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -57,65 +57,92 @@
               </h3>
             </div>
 
-            <div class="space-y-4">
+            <div class="space-y-2">
               <div
                 v-for="(filter, index) in facetFilters"
-                :key="`facet-${index}-${filter.facet}`"
-                class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                :key="filter.uid"
+                class="flex items-start gap-1 p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
               >
+                <!-- Facet icon (reflects currently selected facet) -->
+                <div class="">
+                  <span
+                    v-if="facetMeta(filter.facet)?.icon"
+                    class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-slate-900 dark:border-slate-700"
+                    :title="facetMeta(filter.facet)?.label || filter.facet"
+                    aria-hidden="true"
+                  >
+                    <Icon :name="facetMeta(filter.facet)?.icon" size="18" />
+                  </span>
+                  <span
+                    v-else
+                    class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-slate-900 dark:border-slate-700"
+                    :title="$t('selectFacet')"
+                    aria-hidden="true"
+                  >
+                    <Icon name="i-mdi:tag-outline" size="18" />
+                  </span>
+                </div>
+
+                <!-- Facet select -->
                 <FormKit
                   v-model="filter.facet"
                   type="select"
                   :placeholder="$t('selectFacet') || 'Select Facet'"
                   :options="availableFacetsFiltered"
-                  outer-class="flex-1"
+                  outer-class="flex-[0.9]"
                   inner-class="dark:!bg-slate-950 dark:!text-white"
                   @input="onFacetChange(index)"
                 />
 
+                <!-- Value input + dropdown -->
                 <div class="flex-1 relative" @mousedown.stop>
-                  <div class="flex items-center gap-2">
+                  <div class="flex justify-items-start items-start gap-2">
+                    <!-- We bind to valueDisplay for UI, and keep valueRaw separately -->
                     <FormKit
-                      v-model="filter.value"
+                      :model-value="filter.valueDisplay"
                       type="text"
                       :placeholder="$t('enterValue') || 'Enter Value'"
                       outer-class="w-full"
                       inner-class="dark:!bg-slate-950 dark:!text-white"
                       :disabled="!filter.facet"
+                      autocomplete="off"
                       @input="onValueInput(index, $event)"
                       @focus="onValueFocus(index)"
                       @blur="onValueBlur(index)"
                     />
                     <button
                       type="button"
-                      class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
+                      class="h-8 px-2 py-1 mt-0 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
                       :aria-label="$t('showSuggestions')"
                       @mousedown.prevent.stop="onFacetDropdownClick(index)"
                       :disabled="!filter.facet"
                     >
-                      ▼
+                      <Icon name="tabler:chevron-down" size="16" />
                     </button>
                   </div>
 
+                  <!-- Suggestions -->
                   <div
-                    v-if="filter.suggestions && filter.suggestions.length > 0 && filter.showSuggestions"
+                    v-if="filter.showSuggestions && filter.suggestions.length"
                     class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-40 overflow-y-auto"
                     @mousedown.stop
                   >
                     <div
                       v-for="(s, si) in filter.suggestions.slice(0, 10)"
-                      :key="`facet-sugg-${index}-${si}-${s}`"
+                      :key="`facet-sugg-${filter.uid}-${si}-${s.raw}`"
                       class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
                       @mousedown.prevent.stop="selectSuggestion(index, s)"
                     >
-                      {{ s }}
+                      <!-- Show translated display text, keep raw in state -->
+                      {{ s.display }}
                     </div>
                   </div>
                 </div>
 
+                <!-- Remove row -->
                 <button
                   type="button"
-                  class="p-2 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                  class="btn btn-outline btn-error p-2"
                   :aria-label="$t('remove') || 'Remove'"
                   @click="removeFacetFilter(index)"
                 >
@@ -155,11 +182,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
 import { useSearchParamsStore } from '~/stores/searchParams'
 import { config } from '~/searchConfig_avefi'
+import { FACET_ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const showValidationWarning = ref(false)
 const searchDataStore = useSearchParamsStore()
@@ -179,141 +206,254 @@ const searchTerm = computed<string>({
   }
 })
 
-// Enable submit if there's a term OR a filled facet
+// --- Submit enabled if a term OR any filled facet (raw) ---
 const canSubmit = computed(() =>
   (searchTerm.value?.trim()?.length ?? 0) > 0 ||
-  facetFilters.value.some(f => f.facet && f.value)
+  facetFilters.value.some(f => f.facet && (f.valueRaw?.toString()?.trim()?.length ?? 0) > 0)
 )
 
-// Facets
-interface FacetFilter {
-  facet: string
-  value: string
-  suggestions?: string[]
-  showSuggestions?: boolean
+// ---------------------- Facets meta & options ----------------------
+interface FacetOption { label: string; value: string; icon?: string }
+const FACET_BLACKLIST: string[] = [
+  'production_year_start',
+  'has_duration_has_value',
+  'production_year_end',
+  'has_extent',
+  'has_extent_has_value',
+  'item_duration_in_minutes',
+  'has_access_status',
+  'manifestation_event_type',
+]
+
+const availableFacets = computed<FacetOption[]>(() => {
+  try {
+    if (!config?.search_settings?.facet_attributes) return []
+    return config.search_settings.facet_attributes.map((f: any) => {
+      const attribute = f.attribute || f
+      const facetIcon = FACET_ICON_MAP[attribute] || 'i-mdi:tag-outline'
+      const label = `${t(attribute)}`
+      return { label, value: attribute, icon: facetIcon }
+    })
+  } catch {
+    return []
+  }
+})
+
+const availableFacetsFiltered = computed<FacetOption[]>(() =>
+  availableFacets.value.filter(opt => !FACET_BLACKLIST.includes(opt.value))
+)
+
+function facetMeta(value?: string | null) {
+  console.log('facetMeta lookup for:', value);
+  if (!value) return null
+  console.log('availableFacets:', availableFacets.value);
+  return availableFacets.value.find(v => v.value === value) || null
 }
+
+// ---------------------- Facet row model ----------------------
+interface FacetSuggestion {
+  raw: string
+  display: string
+}
+interface FacetFilter {
+  uid: string
+  facet: string
+  valueRaw: string
+  valueDisplay: string
+  suggestions: FacetSuggestion[]
+  showSuggestions: boolean
+  // runtime helpers
+  _abort?: AbortController | null
+  _debounce?: ReturnType<typeof setTimeout> | null
+}
+
 const facetFilters = ref<FacetFilter[]>([])
 
 onMounted(() => {
   try { addFacetFilter() } catch (error) { console.error('init facets failed:', error) }
 })
 
-const FACET_BLACKLIST: string[] = []
-
-const availableFacets = computed(() => {
-  try {
-    if (!config?.search_settings?.facet_attributes) return []
-    return config.search_settings.facet_attributes.map((f: any) => {
-      const attribute = f.attribute || f
-      const label = getFacetLabel(attribute)
-      return { label, value: attribute }
-    })
-  } catch {
-    return []
+function newFacetRow(): FacetFilter {
+  return {
+    uid: crypto.randomUUID?.() || Math.random().toString(36).slice(2),
+    facet: '',
+    valueRaw: '',
+    valueDisplay: '',
+    suggestions: [],
+    showSuggestions: false,
+    _abort: null,
+    _debounce: null
   }
-})
-const availableFacetsFiltered = computed(() =>
-  availableFacets.value.filter(opt => !FACET_BLACKLIST.includes(opt.value))
-)
-
-function getFacetLabel(attribute: string): string {
-  const m: Record<string, string> = {
-    'has_genre_has_name': t('avefi:Genre') || 'Genre',
-    'subjects': t('subjects') || 'Subjects',
-    'directors_or_editors': t('directors_or_editors') || 'Directors',
-    'castmembers': t('castmembers') || 'Cast',
-    'production': t('production') || 'Production',
-    'located_in_has_name': t('location') || 'Location',
-    'manifestation_event_type': t('eventType') || 'Event Type',
-    'has_issuer_name': t('has_issuer_name') || 'Data Holder',
-    'has_format_type': t('has_format_type') || 'Format',
-    'has_colour_type': t('colorType') || 'Color Type',
-    'has_sound_type': t('soundType') || 'Sound Type',
-    'in_language_code': t('has_language') || 'Language',
-    'has_duration_has_value': t('has_duration_has_value') || 'Duration',
-    'has_extent_has_value': t('extent') || 'Extent',
-    'item_duration_in_minutes': t('item_duration_in_minutes') || 'Duration (Minutes)',
-    'item_element_type': t('elementType') || 'Element Type',
-    'has_form': t('form') || 'Form',
-    'production_year_start': t('productionYearStart') || 'Production Year (From)',
-    'production_year_end': t('productionYearEnd') || 'Production Year (To)'
-  }
-  return m[attribute] || attribute
 }
 
 function addFacetFilter() {
-  facetFilters.value.push({ facet: '', value: '', suggestions: [], showSuggestions: false })
+  facetFilters.value.push(newFacetRow())
 }
 function removeFacetFilter(index: number) {
+  const row = facetFilters.value[index]
+  if (row?._abort) row._abort.abort()
+  if (row?._debounce) clearTimeout(row._debounce)
   facetFilters.value.splice(index, 1)
 }
-function onFacetChange(index: number) {
-  facetFilters.value[index].value = ''
-  facetFilters.value[index].suggestions = []
-  facetFilters.value[index].showSuggestions = false
-  nextTick(() => { facetFilters.value[index] = { ...facetFilters.value[index] } })
-  const attr = facetFilters.value[index].facet
-  if (attr) {
-    setTimeout(async () => {
-      await fetchFacetSuggestions(attr, '')
-      facetFilters.value[index].suggestions = facetCache[attr] || []
-      facetFilters.value[index].showSuggestions = (facetFilters.value[index].suggestions.length > 0)
-    }, 100)
-  }
-}
-async function onValueInput(index: number, event: any) {
-  const value = event?.target?.value ?? event
-  const attr = facetFilters.value[index].facet
-  facetFilters.value[index].value = value
-  if (!attr) {
-    facetFilters.value[index].showSuggestions = false
-    return
-  }
-  await fetchFacetSuggestions(attr, value)
-  facetFilters.value[index].suggestions = facetCache[attr] || []
-  facetFilters.value[index].showSuggestions = (facetFilters.value[index].suggestions.length > 0)
-}
-async function onValueFocus(index: number) {
-  const attr = facetFilters.value[index].facet
-  if (!attr) return
-  await fetchFacetSuggestions(attr, '')
-  facetFilters.value[index].suggestions = facetCache[attr] || []
-  facetFilters.value[index].showSuggestions = (facetFilters.value[index].suggestions.length > 0)
-}
-function onValueBlur(index: number) {
-  setTimeout(() => { facetFilters.value[index].showSuggestions = false }, 300)
-}
-function selectSuggestion(index: number, suggestion: string) {
-  facetFilters.value[index].value = suggestion
-  nextTick(() => { facetFilters.value[index] = { ...facetFilters.value[index] } })
-  facetFilters.value[index].showSuggestions = false
-}
-async function onFacetDropdownClick(index: number) {
-  const attr = facetFilters.value[index].facet
-  if (!attr) return
-  await fetchFacetSuggestions(attr, '')
-  facetFilters.value[index].suggestions = facetCache[attr] || []
-  facetFilters.value[index].showSuggestions = (facetFilters.value[index].suggestions.length > 0)
+
+// ---------------------- Translations for values ----------------------
+/** Translate a raw suggestion text for display (fallback to raw). */
+function translateValue(attr: string, raw: string): string {
+  // convention: keys like `facetValue.{attr}.{raw}`
+  // or fall back to a direct `t(raw)` if you already have message keys matching raw values.
+  const keyConvention = `facetValue.${attr}.${raw}`
+  const translated = t(keyConvention)
+  if (translated !== keyConvention) return translated
+  // Try direct
+  const direct = t(raw)
+  if (direct !== raw) return direct
+  return raw
 }
 
+// ---------------------- Suggestions (debounced + abortable) ----------------------
+/** Per-row cache (attr -> [raw]) */
+const facetCache: Record<string, string[]> = {}
+
+async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '') {
+  // cancel previous in-flight
+  const row = facetFilters.value[rowIndex]
+  if (!row) return
+
+  if (row._abort) row._abort.abort()
+  row._abort = new AbortController()
+
+  try {
+    const res = await $fetch<{ success: boolean; suggestions: { text: string; type: string }[] }>(
+      '/api/elastic/suggestions',
+      { method: 'POST', body: { mode: 'facet', facetAttr: attr, query, size: 20 }, signal: row._abort.signal }
+    )
+
+    const arr = (res?.success && res?.suggestions) ? res.suggestions.map(s => s.text) : []
+    facetCache[attr] = arr
+
+    // Only apply if the row is still on the same facet
+    const still = facetFilters.value[rowIndex]
+    if (!still || still.facet !== attr) return
+
+    still.suggestions = (facetCache[attr] || []).map(raw => ({
+      raw,
+      display: translateValue(attr, raw)
+    }))
+    still.showSuggestions = still.suggestions.length > 0
+  } catch (e: any) {
+    if (e?.name === 'AbortError') return
+    // keep previous cache if any
+    const still = facetFilters.value[rowIndex]
+    if (still && still.facet === attr) {
+      const cached = facetCache[attr] || []
+      still.suggestions = cached.map(raw => ({ raw, display: translateValue(attr, raw) }))
+      still.showSuggestions = still.suggestions.length > 0
+    }
+  } finally {
+    const still = facetFilters.value[rowIndex]
+    if (still) still._abort = null
+  }
+}
+
+function debounceFetch(rowIndex: number, attr: string, query = '') {
+  const row = facetFilters.value[rowIndex]
+  if (!row) return
+  if (row._debounce) clearTimeout(row._debounce)
+  row._debounce = setTimeout(() => fetchFacetSuggestions(rowIndex, attr, query), 220)
+}
+
+// ---------------------- Facet & value handlers ----------------------
+function onFacetChange(index: number) {
+  const row = facetFilters.value[index]
+  if (!row) return
+
+  // reset value/display and suggestions
+  row.valueRaw = ''
+  row.valueDisplay = ''
+  row.suggestions = []
+  row.showSuggestions = false
+
+  // fetch initial suggestions for the newly selected facet
+  const attr = row.facet
+  if (attr) {
+    // immediate (not debounced) initial fetch to populate dropdown quickly
+    fetchFacetSuggestions(index, attr, '')
+  }
+}
+
+function onValueInput(index: number, evt: any) {
+  const row = facetFilters.value[index]
+  if (!row) return
+  const attr = row.facet
+  const value = typeof evt === 'string' ? evt : (evt?.target?.value ?? '')
+  row.valueDisplay = value
+
+  if (!attr) {
+    row.showSuggestions = false
+    return
+  }
+  // debounced fetch
+  debounceFetch(index, attr, value)
+}
+
+async function onValueFocus(index: number) {
+  const row = facetFilters.value[index]
+  if (!row) return
+  const attr = row.facet
+  if (!attr) return
+
+  // If we already have cache, use it; otherwise fetch
+  if (!facetCache[attr] || !facetCache[attr].length) {
+    await fetchFacetSuggestions(index, attr, '')
+  } else {
+    row.suggestions = facetCache[attr].map(raw => ({ raw, display: translateValue(attr, raw) }))
+    row.showSuggestions = row.suggestions.length > 0
+  }
+}
+
+function onValueBlur(index: number) {
+  const row = facetFilters.value[index]
+  if (!row) return
+  setTimeout(() => { row.showSuggestions = false }, 250)
+}
+
+function selectSuggestion(index: number, s: FacetSuggestion) {
+  const row = facetFilters.value[index]
+  if (!row) return
+  row.valueRaw = s.raw
+  row.valueDisplay = s.display
+  row.showSuggestions = false
+}
+
+async function onFacetDropdownClick(index: number) {
+
+  const row = facetFilters.value[index]
+  console.log('onFacetDropdownClick for row:', index, row);
+  if (!row) return
+  if(row.showSuggestions) {
+    // already open
+    row.showSuggestions = false;
+    return
+  }
+  const attr = row.facet
+  console.log('  facet attr:', attr);
+  if (!attr) return
+  // If empty, fetch; else just open
+  if (!facetCache[attr] || !facetCache[attr].length) {
+    console.log('  fetching suggestions for facet:', attr);
+    await fetchFacetSuggestions(index, attr, '')
+  } else {
+    row.suggestions = facetCache[attr].map(raw => ({ raw, display: translateValue(attr, raw) }))
+  }
+  row.showSuggestions = row.suggestions.length > 0
+}
+
+// ---------------------- Main search select passthrough ----------------------
 function onMainSelect(v: string) {
   searchTerm.value = v
 }
 
-const facetCache: Record<string, string[]> = {}
-async function fetchFacetSuggestions(attr: string, query = '') {
-  try {
-    const res = await $fetch<{ success: boolean; suggestions: { text: string; type: string }[] }>(
-      '/api/elastic/suggestions',
-      { method: 'POST', body: { mode: 'facet', facetAttr: attr, query, size: 20 } }
-    )
-    const arr = (res?.success && res?.suggestions) ? res.suggestions.map(s => s.text) : []
-    facetCache[attr] = arr
-  } catch {
-    facetCache[attr] = facetCache[attr] || []
-  }
-}
-
+// ---------------------- Redirect (uses RAW values) ----------------------
 function redirectToSearchScreen() {
   try {
     const pub = useRuntimeConfig().public
@@ -326,10 +466,11 @@ function redirectToSearchScreen() {
     const params = new URLSearchParams()
     const q = (searchTerm?.value ?? '').trim()
     if (q) params.append(`${idx}[query]`, q)
+
     if (Array.isArray(facetFilters?.value)) {
       facetFilters.value.forEach(f => {
-        if (f?.facet && f?.value) {
-          params.append(`${idx}[refinementList][${f.facet}][0]`, f.value)
+        if (f?.facet && f?.valueRaw) {
+          params.append(`${idx}[refinementList][${f.facet}][0]`, f.valueRaw)
         }
       })
     }
@@ -340,9 +481,9 @@ function redirectToSearchScreen() {
   }
 }
 
+// ---------------------- Submit protection ----------------------
 function handleClick(event: MouseEvent) {
   if (!canSubmit.value) {
-    // keep your current UX
     event.preventDefault()
     showValidationWarning.value = true
     setTimeout(() => { showValidationWarning.value = false }, 2500)

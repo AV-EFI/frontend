@@ -167,7 +167,6 @@
               :tab-index="16"
               :aria-label="$t('has_access_status')"
             />
-
             <div
               :class="{ hidden: !viewTypeChecked }"
               class="alert shadow-sm mb-2 mt-2 lg:mt-0 lg:mb-0 p-2 text-sm"

@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <footer
-      class="footer bg-neutral text-white dark:bg-neutral dark:text-white px-6 border-t-2 border-secondary"
+      class="footer bg-neutral text-white dark:bg-neutral dark:text-white px-6 border-t-2 border-base-100"
       role="contentinfo"
       :aria-label="$t('footer')"
     >

@@ -101,7 +101,6 @@ export const config: SearchkitConfig = {
                 field: "production.keyword",
                 type: "string",
             },
-
             // Work-level: event locations (nested)
             {
                 attribute: "located_in_has_name",
@@ -109,7 +108,6 @@ export const config: SearchkitConfig = {
                 type: "string",
                 nestedPath: "has_record.has_event",
             },
-
             // ----- Manifestation-level facets -----
             {
                 attribute: "manifestation_event_type",
@@ -122,9 +120,14 @@ export const config: SearchkitConfig = {
                 field: "has_record.described_by.has_issuer_name.keyword",
                 type: "string",
                 nestedPath: "manifestations",
+            },            
+            // ----- Item-level (exemplare) -----
+            {
+                attribute: "has_access_status",
+                field: "manifestations.items.has_record.has_access_status.keyword",
+                type: "string",
+                nestedPath: "manifestations.items",
             },
-
-            // ----- Item-level (exemplars) -----
             {
                 attribute: "has_format_type",
                 field: "has_record.has_format.type.keyword",

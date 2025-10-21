@@ -522,7 +522,7 @@ export default defineI18nConfig(() => ({
             },
             "build": {
                 "linked": {
-                    "title": "Linked Data",
+                    "title": "Verknüpfte Daten",
                     "lead": "AVefi verknüpft Filmmetadaten verschiedener Institutionen über einheitliche Identifikatoren und schafft damit eine offene Forschungsinfrastruktur für audiovisuelle Werke.",
                     "authority": "Normdaten",
                     "crosswalk": "Verknüpfung"
@@ -650,7 +650,7 @@ export default defineI18nConfig(() => ({
             },
             "filteredInside": "Facettierung aktiv",
             "manifShort": "Manif",
-            "items": "Items",
+            "items": "Exemplare",            
             "srFacetChanged": "Ergebnisse innerhalb dieses Werks wurden gefiltert: {manFiltered} von {manTotal} Manifestationen, {items} Items.",
             "itemDetails": "Details zum Exemplar mit Handle {handle}",
             "lastedit": "Letzte Bearbeitung",

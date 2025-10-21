@@ -48,7 +48,7 @@ export const FACET_ICON_MAP: IFacetIconMapping = {
   'items.has_record.element_type': 'tabler-movie',
 
   // Event and production fields
-  'manifestation_event_type': 'tabler-calendar-event',
+  'manifestation_event_type': 'tabler:topology-star-ring-2',
   'has_record.has_event': 'tabler-calendar-event',
   'production_year_start': 'tabler-calendar',
   'production_year_end': 'tabler-calendar',

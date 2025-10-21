@@ -11,7 +11,7 @@
       :aria-label="$t('togglePanel')"
     >
 
-    <div class="collapse-title bg-slate-50 dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title bg-slate-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <div class="flex items-center gap-2">
         <Icon
           :name="'tabler:calendar'"

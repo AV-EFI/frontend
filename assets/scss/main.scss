@@ -26,7 +26,7 @@
   --color-primary-content: oklch(98% 0.002 247.839);
   --color-secondary: #000000;
   --color-secondary-content: oklch(98% 0.002 247.839);
-  --color-accent: oklch(71% 0.194 13.428);
+  --color-accent: #ff1d25;
   --color-accent-content: #fefefe;
   --color-neutral: #364754;
   --color-neutral-content: oklch(89.925% 0.016 262.749);
@@ -73,7 +73,7 @@
   --color-primary-content: oklch(98% 0.002 247.839);
   --color-secondary: #000000;
   --color-secondary-content: oklch(98% 0.002 247.839);
-  --color-accent: oklch(71% 0.194 13.428);
+  --color-accent: #ff1d25;
   --color-accent-content: #fefefe;
   --color-neutral: oklch(27.949% 0.036 260.03);
   --color-neutral-content: oklch(85.589% 0.007 260.03);
@@ -109,6 +109,12 @@
 
 @custom-variant dark (&:where([data-theme=avefi_dark], [data-theme=avefi_dark] *));
 
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @layer components {
   .badge-work {
@@ -145,6 +151,16 @@
   .border-item {
     border-color: var(--color-item)!important;
   }
+  .bg-work {
+    background-color: var(--color-work)!important;
+  }
+  .bg-manifestation {
+    background-color: var(--color-manifestation)!important;
+  }
+  .bg-item {
+    background-color: var(--color-item)!important;
+  }
+  
 }
 
 @font-face {

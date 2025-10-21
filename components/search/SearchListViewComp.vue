@@ -8,7 +8,7 @@
   >
     <div
       v-if="showAdminStats"
-      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primarydark:bg-gray-800 dark:text-white text-sm p-2"
+      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-800 dark:text-white text-sm"
     >
       <span>Status: <span class="badge badge-success text-white">Public</span></span>
       <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
@@ -98,7 +98,7 @@
       </div>
     </Transition>
 
-    <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center">
+    <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center rounded-b-xl">
       <button
         v-if="work && work.handle"
         class="btn btn-highlight btn-xs my-2"
