@@ -2,9 +2,14 @@
   <div
     class="flex flex-col"
     role="group"
-    :aria-label="`${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`"
+    :aria-label="translateKey ? 
+    `${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`
+    : `${keytxt}: ${$t(valtxt)}`"
   >
-    <MicroLabelComp :label-text="keytxt" />
+    <MicroLabelComp 
+    :label-text="keytxt" 
+    :translate-key="translateKey"
+    />
     <div class="flex flex-row">
       <GlobalClipboardComp
         v-if="clip"
@@ -14,7 +19,7 @@
       />
       <span
         v-else
-        :class="fontSize"
+        :class="[fontSize, narrow?'break-all w-3/4':'']"
       >{{ $t(valtxt) }}</span>
       <DetailSameAsComp
         v-if="sameAs"
@@ -46,6 +51,14 @@ const props = defineProps({
     fontSize: {
         type: String,
         default: 'text-base'
+    },
+    narrow: {
+        type: Boolean,
+        default: false
+    },
+    translateKey: {
+        type: Boolean,
+        default: true
     }
 });
 const sameAsData = {

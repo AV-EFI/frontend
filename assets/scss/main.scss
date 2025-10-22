@@ -38,18 +38,19 @@
   --color-warning-content: oklch(17.097% 0.017 84.093);
   --color-error: oklch(60.61% 0.12 15.341);
   --color-error-content: oklch(12.122% 0.024 15.341);
-  --color-highlight: #b2161d;
+  --color-highlight: #A53A42;
   --color-highlight-content: #ffffff;
-  --color-favourites-list: #e11923;
+ --color-favourites-list: #B85A5E;              /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
-  --color-favourites-list-hover: #b2161d;
+  --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
   --color-favourites-list-hover-content: #ffffff;
-  --color-compare-list: #2a333a;
-  --color-compare-list-hover: #1d262f;
+
+  --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
+  --color-compare-list-hover: #2B343B;
   --color-compare-list-content: #ffffff;
-  --color-work: #F3E2B8;
-  --color-manifestation: #E8D39E;
-  --color-item: #DDC48B;
+  --color-work: #E8E2D2;          /* slightly warmer parchment, still neutral */
+  --color-manifestation: #D6CFBB; /* balanced greige with gentle beige depth */
+  --color-item: #C6BEA3;          /* richer sand-grey with mild olive warmth */  
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 1rem;
@@ -87,12 +88,12 @@
   --color-error-content: oklch(14.357% 0.034 13.118);
   --color-highlight: #b2161d;
   --color-highlight-content: #ffffff;
-  --color-favourites-list: #e11923;
+  --color-favourites-list: #B85A5E;              /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
-  --color-favourites-list-hover: #b2161d;
+  --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
   --color-favourites-list-hover-content: #ffffff;
-  --color-compare-list: #2a333a;
-  --color-compare-list-hover: #1d262f;
+  --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
+  --color-compare-list-hover: #2B343B;
   --color-compare-list-content: #ffffff;
   --color-work: #F3E2B8;
   --color-manifestation: #E8D39E;
@@ -347,8 +348,8 @@ html[data-theme="avefi_dark"] .customize_table {
 }
 
 mark {
-  background-color: var(--highlight);
-    color: var(--highlight-content);
+  background-color: var(--color-highlight);
+    color: var(--color-highlight-content);
   padding: 0 0.25em;
   border-radius: 2px;
 }

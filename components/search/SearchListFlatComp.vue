@@ -2,7 +2,7 @@
   <section
     v-for="work in datasets"
     :key="work?.handle ?? Math.random()"
-    class="card bg-base-100 shadow-md rounded-2xl mb-6 border border-base-200"
+    class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-labelledby="`work-title-${work?.handle ?? ''}`"
   >
@@ -151,7 +151,7 @@
               <article
                 v-for="row in filteredRows(work)"
                 :key="row.item?.handle ?? Math.random()"
-                class="item-card card border border-primary/40 bg-base-100 rounded-xl shadow-md"
+                class="item-card card border border-primary/40 bg-white/90 dark:bg-base-200 rounded-xl shadow-md"
                 role="option"
                 :aria-label="row.item?.handle || 'item'"
               >
@@ -207,7 +207,7 @@
                 </div>
                 <div class="flex justify-end p-2">
                   <button 
-                    class="btn btn-xs btn-block btn-outline mt-2"
+                    class="btn btn-sm btn-block btn-outline mt-2"
                     :aria-label="$t('viewItemDetails')"
                     :title="$t('viewItemDetails')"
                     @click="navigateToItem(row.item, work?.handle ?? '')"

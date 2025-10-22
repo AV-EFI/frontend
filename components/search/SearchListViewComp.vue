@@ -2,7 +2,7 @@
   <div
     v-for="work in items"
     :key="work.handle"
-    class="card bg-white border border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+    class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`"
   >
@@ -76,8 +76,6 @@
         class="mt-1"
       />
     </header>
-
-    <div class="divider divider-primary my-0" />
     <Transition
       name="fade"
       mode="out-in"
@@ -214,8 +212,6 @@ const updateFromHref = () => {
     activeHasForm.value = refinements.has_form_has_name || [];
     activeProduction.value = refinements.production_type || [];
     refinementsActive.value = Object.values(refinements).some(arr => arr.length > 0);
-    console.log(refinements);
-    console.log('Refinements active:', refinementsActive.value);
 };
 
 onMounted(() => {

@@ -167,7 +167,7 @@
       <div class="container mx-auto px-4 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">
-            <h3 class="text-3xl font-extrabold">Power moves for metadata.</h3>
+            <h3 class="text-2xl font-extrabold">Power moves for metadata.</h3>
             <p class="mt-2 opacity-80">Run quick filters, jump to people/works, copy citations, and open authority records in a snap.</p>
             <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
               <div class="kbd kbd-sm">/</div><div>Focus search</div>
@@ -195,7 +195,7 @@
           <div class="lg:col-span-5">
             <div class="card bg-base-100 border border-base-200 shadow-lg">
               <div class="card-body p-6">
-                <h3 class="text-3xl font-extrabold">{{ $t('bannerText') }}</h3>
+                <h3 class="text-2xl font-extrabold">{{ $t('bannerText') }}</h3>
                 <p class="opacity-80 mt-2">{{ $t('bannerDescription') }}</p>
               </div>
             </div>
@@ -277,7 +277,7 @@
     <!-- Timeline -->
     <section class="relative border-t border-base-200 py-12">
       <div class="container mx-auto px-4">
-        <h3 class="text-3xl font-extrabold mb-6 text-center">From record to knowledge</h3>
+        <h3 class="text-2xl font-extrabold mb-6 text-center">From record to knowledge</h3>
         <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
           <li>
             <div class="timeline-middle text-primary"><Icon name="lucide:search" /></div>

@@ -149,7 +149,7 @@
               </div>
               <div class="w-full">
                 <div
-                  class="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 flex flex-col md:flex-row justify-between"
+                  class="w-full grid grid-cols-1 lg:grid-cols-4 gap-1 flex-col md:flex-row justify-between"
                   role="region"
                   :aria-label="$t('filteringsection')"
                 >
@@ -172,22 +172,18 @@
                       </template>
                     </ais-stats>
                   </div>
-                  <div class="w-full flex flex-col justify-center border-base-200 border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <FormKit
-                      id="sort-select"
-                      type="select"
-                      name="sort"
-                      :label="$t('sorting')"
-                      :options="['Standard', 'Titel aufst.', 'Titel abst.']"
-                      :disabled="true"
-                      outer-class="!mb-0 flex items-center justify-center"
-                      wrapper-class="!mb-0 mx-auto !rounded-lg !w-full"
-                      input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 rounded-lg"
+                  <div class="md:col-span-2 w-full flex flex-col justify-center border-base-200 border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <ais-sort-by
+                      :items="sortItems"
+                      :class-names="{
+                          'ais-SortBy-select': 'hidden',
+                        }"
+                      aria-disabled="true"
                     />
                   </div>
                   <div class="form-control w-full border-base-200 border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
                     <label 
-                      class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto"
+                      class="label cursor-pointer text-sm mx-auto lg:ml-auto"
                       :aria-label="$t('toggleViewType')"
                     >
                       <Icon
@@ -206,7 +202,7 @@
                     </label>
                     <label
                       v-if="!viewTypeChecked"
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      class="label cursor-pointer w-full  my-auto flex justify-between hidden"
                       :aria-label="$t('toggleProductionDetails')"
                     >
                       <span class="label-text text-gray-800 dark:text-gray-200">
@@ -238,7 +234,7 @@
                     </label>
                     <label
                       v-if="!viewTypeChecked"
-                      class="label cursor-pointer w-64 mx-auto lg:ml-auto hidden"
+                      class="label cursor-pointer w-full mx-auto lg:ml-auto hidden"
                       :aria-label="$t('toggleExpandAll')"
                     >
                       <span class="label-text text-sm text-gray-800 dark:text-gray-200">
@@ -268,7 +264,7 @@
                     </label>
                     <label
                       v-if="!viewTypeChecked"
-                      class="label cursor-pointer text-sm w-64 mx-auto lg:ml-auto my-auto"
+                      class="label cursor-pointer text-sm mx-2 my-auto flex justify-between"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
                       <LazyIcon
@@ -281,11 +277,10 @@
                         class="dark:text-white"
                         name="tabler:layout-navbar-collapse"
                       />
-                    &nbsp;
-                      <span v-if="!expandAllHandlesChecked">
+                      <span class="label-text text-gray-800 dark:text-gray-200" v-if="!expandAllHandlesChecked">
                         {{ $t('expandAll') }}
                       </span>
-                      <span v-else>
+                      <span class="label-text text-gray-800 dark:text-gray-200" v-else>
                         {{ $t('collapseAll') }}
                       </span>
 
@@ -296,7 +291,7 @@
                       >
                     </label>
                   </div>
-                  <div class="col-span-full border-base-200 border-2 rounded-lg bg-base-100">
+                  <div class="col-span-full md:col-span-2 border-base-200 border-2 rounded-lg bg-base-100">
                     <div class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
                       <div class="w-full md:w-1/2 flex flex-row justify-start">
                         <h2 class="font-bold text-gray-800 dark:text-gray-200">
@@ -352,7 +347,7 @@
                       </ais-current-refinements>
                     </div>
                   </div>
-                  <LazyDetailPaginationComp class="col-span-full border-base-200 border-2 rounded-lg" />
+                  <LazyDetailPaginationComp class="col-span-full md:col-span-2 border-base-200 border-2 rounded-lg" />
                 </div>
                 <div
                   class="flex w-full flex-col"
@@ -453,6 +448,70 @@ const searchClient = Client({
     url: "/api/elastic/msearch",
     // Removed invalid property 'searchOnLoad'
 });
+/*
+        sorting: {
+            default: [
+                { field: "_score", order: "desc" },
+                { field: "has_record.has_primary_title.has_name.keyword", order: "asc" },
+            ],
+            _title_asc: {
+                field: "has_record.has_primary_title.has_name",
+                order: "asc",
+            },
+            _title_desc: {
+                field: "has_record.has_primary_title.has_name",
+                order: "desc",
+            },
+            _country_asc: {
+                field: "country",
+                order: "asc",
+            },
+            _country_desc: {
+                field: "country",
+                order: "desc",
+            },
+            _year_asc: {
+                field: "year",
+                order: "asc",
+            },
+            _year_desc: {
+                field: "year",
+                order: "desc",
+            },
+            _directors_asc: {
+                field: "directors_or_editors",
+                order: "asc",
+            },
+            _directors_desc: {
+                field: "directors_or_editors",
+                order: "desc",
+            },
+            _production_asc: {
+                field: "production",
+                order: "asc",
+            },
+            _production_desc: {
+                field: "production",
+                order: "desc",
+            },
+        },
+*/
+const sortingConfig = config?.search_settings?.sorting;
+let sortItems = [];
+if (sortingConfig && typeof sortingConfig === 'object') {
+  sortItems = Object.entries(sortingConfig)
+    .map(([key, value]: [string, any]) => ({
+      value: key,
+      label: value.field,
+    }));
+}
+console.log('Sorting items:', sortItems);
+/*
+const sortItems = config?.search_settings?.sorting?.map((option: any) => ({
+    value: option.index_name,
+    label: option.label,
+}));
+*/
 
 onMounted(() => {
 

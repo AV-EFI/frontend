@@ -44,6 +44,7 @@
             <DetailKeyValueComp
               :id="manifestation.handle?.replace?.('21.11155/', '')"
               keytxt="efi"
+              :translate-key="false"
               :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="true"
@@ -182,7 +183,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Item, MovingImageRecord } from '../../models/interfaces/av_efi_schema.ts';
+import type { Item, MovingImageRecord } from '~/models/interfaces/schema/avefi_schema.js';
 const { t } = useI18n();
 
 const manifestationList = defineModel({

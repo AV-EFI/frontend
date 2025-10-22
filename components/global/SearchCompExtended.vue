@@ -24,10 +24,13 @@
           <div class="flex w-full mx-auto mb-4 relative" role="group" :aria-labelledby="'search-input-label'">
             <div class="flex-grow relative">
               <SearchQueryAutocomplete
+                ref="qaRef"
                 v-model="searchTerm"
-                name="searchTerm"
+                name="search"
                 :placeholder="$t('searchplaceholder')"
-                :aria-label="$t('searchInputAria')"
+                :aria-label="ariaLabel"
+                :icon-map="iconMap"
+                @submit="onSubmit"
                 :help-text="$t('exactSearchTip')"
                 :dropdown-aria-label="$t('showSuggestions')"
                 :no-results-text="$t('noSuggestionsFound')"
@@ -182,9 +185,11 @@
 </template>
 
 <script setup lang="ts">
-import { useSearchParamsStore } from '~/stores/searchParams'
-import { config } from '~/searchConfig_avefi'
-import { FACET_ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping'
+import { useSearchParamsStore } from '~/stores/searchParams.js'
+import { config } from '~/searchConfig_avefi.js'
+import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js'
+
+const iconMap = FACET_ICON_MAP;
 
 const { t, locale } = useI18n()
 
@@ -244,9 +249,7 @@ const availableFacetsFiltered = computed<FacetOption[]>(() =>
 )
 
 function facetMeta(value?: string | null) {
-  console.log('facetMeta lookup for:', value);
   if (!value) return null
-  console.log('availableFacets:', availableFacets.value);
   return availableFacets.value.find(v => v.value === value) || null
 }
 

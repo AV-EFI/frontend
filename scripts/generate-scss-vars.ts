@@ -1,10 +1,12 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
 import { fileURLToPath } from 'url';
-import { lightThemeColors, darkThemeColors } from '../tailwind.colors';
+import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import { lightThemeColors, darkThemeColors } from '../tailwind.colors';
+
+// Node.js provides __filename and __dirname automatically in CommonJS
 
 const scssVars = [];
 const cssLight = [];
@@ -84,8 +86,8 @@ const tailwindColorsOut = path.resolve(__dirname, '../tailwind.colors.generated.
 fs.writeFileSync(
   tailwindColorsOut,
   `// Auto-generated Tailwind color config
-export const lightThemeColors = ${JSON.stringify(nestedLightColors, null, 2)};
-export const darkThemeColors = ${JSON.stringify(nestedDarkColors, null, 2)};
+  export const lightThemeColors = ${JSON.stringify(nestedLightColors, null, 2)};
+  export const darkThemeColors = ${JSON.stringify(nestedDarkColors, null, 2)};
 `
 );
 

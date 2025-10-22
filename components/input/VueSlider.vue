@@ -11,15 +11,21 @@
       :aria-label="$t('togglePanel')"
     >
 
-    <div class="collapse-title bg-slate-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+
       <div class="flex items-center gap-2">
         <Icon
-          :name="'tabler:calendar'"
-          class="w-4 h-4 text-primary-600 dark:text-primary-100"
+          :name="facetIcon"
+          class="w-4 h-4"
+          :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
           aria-hidden="true"
         />
-        <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
-          {{ $t(headerText) }}
+        <h4
+          :id="`facet-title-${props.attributeName}`"
+          class="my-auto font-bold"
+          :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'"
+        >
+          {{ $t(headerText as string) }}
         </h4>
       </div>
       <MicroBadgeCategoryComp
@@ -130,12 +136,18 @@
 </template>
 
 <script setup lang="ts">
+
+// facet icon mapping
+import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
+const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal')
+
 import { ref, computed, onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
 
 const props = defineProps({
     headerText: { type: String, default: 'Production Year' },
+    attributeName: { type: String, default: 'production_in_year' },
     category: { type: String, default: null },
     min: { type: Number, default: 1896 },
     max: { type: Number, default: 2025 },
@@ -241,7 +253,7 @@ const hasUnsavedChanges = computed(() => {
 </script>
 
 <style lang="scss">
-//@import '../../assets/scss/slider_tailwind.scss';
+@import '../../assets/scss/slider_tailwind.scss';
 
 .slider-primary {
   --slider-connect-bg: var(--primary-50) !important;

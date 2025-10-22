@@ -40,14 +40,14 @@
               :aria-label="ariaLabelMainMenu"
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li class="h-12 flex justify-center">
+              <li class="h-12 flex justify-center p-x-2">
                 <MicroSendMailButt />
               </li>
               <li class="h-12 flex justify-center">
                 <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
-                <a href="/contact">{{ $t("help") }}</a>
+                <a href="/contact">{{ $t("faqAndGlossary") }}</a>
               </li>
               <li
                 v-if="data?.user"
@@ -193,7 +193,7 @@
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
-              <a href="/contact">{{ $t("help") }}</a>
+              <a href="/contact">{{ $t("faqAndGlossary") }}</a>
             </li>
             <li class="h-12 flex justify-center">
               <MicroSendMailButt />

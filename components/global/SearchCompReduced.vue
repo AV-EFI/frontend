@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from '#imports'
-import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping'
+import { useRouter, useRoute } from 'vue-router'
+import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js'
 
 const props = defineProps<{
   modelValue?: string

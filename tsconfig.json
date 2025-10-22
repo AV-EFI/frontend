@@ -12,8 +12,9 @@
     ],
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "NodeNext",
     "allowJs": true,
-    "noEmit": true,
+  "noEmit": false,
     "esModuleInterop": true
   },
   "exclude": [

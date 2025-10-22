@@ -60,6 +60,10 @@ export default defineNuxtConfig({
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API || '/api/elastic',
             AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || 'frontend/search',
+            MAIL_USER: process.env.MAIL_USER,
+            MAIL_FROM: process.env.MAIL_FROM,
+            MAIL_TO: process.env.MAIL_TO,
+            MAIL_TO_2: process.env.MAIL_TO_2,
 
             AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
             AVEFI_SEARCH: process.env.AVEFI_SEARCH,
@@ -116,16 +120,14 @@ export default defineNuxtConfig({
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
-    nodemailer: {
-        from: process.env.MAIL_FROM,
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-        },
-    },
+nodemailer: {
+  from: process.env.MAIL_USER,
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: { user: process.env.MAIL_USER, pass: process.env.MAIL_PASS },
+},
     nuxt3WinstonLog: {
         maxSize: "2048m",
         maxFiles: "14d",

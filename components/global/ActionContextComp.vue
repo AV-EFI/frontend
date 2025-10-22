@@ -51,13 +51,13 @@
       </li>
       <li
         role="none"
-        class="mt-1"
+        class="mt-1 mx-auto"
       >
         <GlobalExportDataComp
           :data-set-id="id ? [id] : [item.objectID]"
           :data-set-json="JSON.stringify(item, null, 2)"
           class="w-full p-0 mx-auto justify-center items-start flex"
-          btn-size="btn-block btn-sm !w-48"
+          btn-size="btn-sm !w-48"
           role="menuitem"
           :show-label="true"
           :fixed-with="true"

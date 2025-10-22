@@ -379,6 +379,9 @@ const cardItems = ref([
     title: "restShortFilmCollectionTitle",
     link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Short&21.11155-denormalised-work%5BrefinementList%5D%5Bmanifestation_event_type%5D%5B0%5D=RestorationEvent`,
     linkText: 'restShortFilmCollectionLinkText',
+    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+    imgSourceText: 'Deutsche Kinemathek',
+    imgAuthor: 'Deutsche Kinemathek',
     imgLicense: 'CC BY-SA 3.0',
     imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
     imgSrc: '/img/restaur_kurzfilme.jpg'
@@ -388,6 +391,9 @@ const cardItems = ref([
     title: "docFilmCollectionTitle",
     link: `/search_altern/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Documentary&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B0%5D=Protest&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B1%5D=Aufstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B2%5D=Widerstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B3%5D=Streik`,
     linkText: 'docFilmCollectionLinkText',
+    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+    imgSourceText: 'Deutsche Kinemathek',
+    imgAuthor: 'Deutsche Kinemathek',
     imgLicense: 'CC BY-SA 3.0',
     imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
     imgSrc: '/img/aktiv_im_dok.jpg'
@@ -429,7 +435,8 @@ const cardItems = ref([
     link: `/search_altern/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
     linkText: 'ddrLinkText'
   }
-])
+]);
+
 </script>
 
 <style scoped>

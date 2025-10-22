@@ -1,7 +1,16 @@
+"use strict";
 // Tailwind-compatible color definitions for AVefi
 // Updated with palettes from daisyUI theme plugin
-
-export const lightThemeColors = {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.darkThemeColors = exports.lightThemeColors = void 0;
+exports.lightThemeColors = {
+    base: {
+        100: 'oklch(98% 0.003 247.858)',
+        200: 'oklch(96% 0.007 247.896)',
+        300: 'oklch(86% 0.022 252.894)',
+        content: 'oklch(32.437% 0.022 264.182)',
+        DEFAULT: 'oklch(98% 0.003 247.858)',
+    },
     primary: {
         DEFAULT: '#4d768d',
         content: 'oklch(98% 0.002 247.839)',
@@ -49,8 +58,14 @@ export const lightThemeColors = {
         item: '#C6BEA3',
     },
 };
-
-export const darkThemeColors = {
+exports.darkThemeColors = {
+    base: {
+        100: 'oklch(20.768% 0.039 265.754)',
+        200: 'oklch(19.314% 0.037 265.754)',
+        300: 'oklch(17.86% 0.034 265.754)',
+        content: 'oklch(84.153% 0.007 265.754)',
+        DEFAULT: 'oklch(20.768% 0.039 265.754)',
+    },
     primary: {
         DEFAULT: '#4d768d',
         content: 'oklch(98% 0.002 247.839)',

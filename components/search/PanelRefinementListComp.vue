@@ -204,7 +204,7 @@
 
           <button
             v-if="(s?.items?.length ?? 0) > 0"
-            class="btn btn-xs btn-primary btn-outline btn-block mx-auto"
+            class="btn btn-sm btn-primary btn-outline btn-block mx-auto"
             :disabled="!(s?.canToggleShowMore ?? false)"
             :aria-expanded="(s?.isShowingMore ?? false).toString()"
             @click="s?.toggleShowMore?.()"
@@ -321,27 +321,7 @@ function hasUnsaved(cr: any, range: any) {
 }
 
 // facet icon mapping
-const ICON_MAP: Record<string, string> = {
-  in_language_code: 'tabler-language',
-  has_colour_type: 'tabler-palette',
-  has_sound_type: 'tabler-volume',
-  has_duration_has_value: 'tabler-clock-hour-3',
-  has_extent_has_value: 'tabler-ruler',
-  item_element_type: 'tabler-movie',
-  has_format_type: 'tabler-disc',
-  item_duration_in_minutes: 'tabler-clock-hour-3',
-  manifestation_event_type: 'tabler-calendar-event',
-  located_in_has_name: 'tabler-map-pin',
-  has_genre_has_name: 'tabler-category',
-  subjects: 'tabler-tag',
-  directors_or_editors: 'tabler-chair-director',
-  castmembers: 'tabler-users',
-  production: 'tabler-building-factory',
-  has_form: 'tabler:shape', /* keep as you had */
-  production_year_start: 'tabler-calendar',
-  production_year_end: 'tabler-calendar',
-  has_issuer_name: 'tabler-building'
-}
+import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
 const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal')
 </script>
 

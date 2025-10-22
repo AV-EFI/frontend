@@ -49,12 +49,12 @@
               <div class="text-sm font-medium mt-0.5">
                 {{ m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer') }}
               </div>
-              <SearchMetaIconListComp
-                type="manifestation"
+              <SearchGenericIconList
                 :data="m"
+                level="manifestation"
               />
               <button 
-                class="btn btn-primary btn-outline btn-xs mt-2"
+                class="btn btn-primary btn-outline btn-sm mt-2"
                 :aria-label="$t('viewManifestationDetails')"
                 :title="$t('viewManifestationDetails')"
                 @click.stop="navigateToItem(m)"
@@ -104,9 +104,9 @@
                     />
                     <span class="text-sm font-semibold">{{ item?.handle }}</span>
                   </div>
-                  <SearchMetaIconListComp
-                    type="item"
+                  <SearchGenericIconList
                     :data="item"
+                    level="item"
                   />
                 </li>
               </ul>
@@ -190,9 +190,9 @@
                 :aria-label="$t('copyItemHandle')"
                 font-size="text-sm"
               />
-              <SearchMetaIconListComp
+              <SearchGenericIconList
                 :data="item"
-                type="item"
+                level="item"
               />
               <div class="text-sm text-gray-500 dark:text-gray-300 mt-2 relative">
                 <a
@@ -210,7 +210,7 @@
               </div>
               <div class="flex justify-end">
                 <button 
-                  class="btn btn-xs btn-block btn-outline mt-2"
+                  class="btn btn-sm btn-block btn-outline mt-2"
                   :aria-label="$t('viewItemDetails')"
                   :title="$t('viewItemDetails')"
                   @click="navigateToItem(item)"
@@ -250,7 +250,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },

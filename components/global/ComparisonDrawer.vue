@@ -121,7 +121,7 @@
                         class="btn btn-error btn-circle btn-sm text-white ml-1 w-8 h-8"
                         @click="removeObject(index, 'objectListStore')"
                       >
-                        <Icon name="tabler:trash" />
+                        <Icon class="text-lg" name="tabler:trash" />
                       </button>
                     </div>
                   </div>
@@ -163,17 +163,19 @@
               </div>
               <div class="join w-full mt-2 p-2">
                 <button 
-                  class="btn btn-error text-white join-item w-1/2"
+                  class="btn btn-error text-white join-item h-12 w-1/2"
                   :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('shoppingCart')"
                 >
+                  <Icon name="tabler-trash"/>
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
                   :data-set-id="shoppingCart.getObjectIds"
                   :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
                   class="join-item w-1/2"
+                  :show-label="true"
                   :btn-size="'rounded-l-none'"
                 />
               </div>
@@ -198,10 +200,10 @@
                       />
                       <button
                         :title="$t('remove')"
-                        class="btn btn-error btn-circle btn-sm text-white ml-1"
+                        class="btn btn-error btn-circle btn-sm w-8 h-8 text-white ml-1"
                         @click="removeObject(index, 'shoppingCart')"
                       >
-                        <Icon name="material-symbols:delete" />
+                        <Icon class="text-lg" name="tabler-trash" />
                       </button>
                     </div>
                   </div>
