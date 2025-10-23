@@ -5,7 +5,7 @@ import { IGlossaryEntry as GlossaryEntry } from '@/models/interfaces/manual/IGlo
 
 export function useServerGlossary(): GlossaryEntry[] {
     try {
-    // Your tree shows: models/interfaces/schema
+        // Your tree shows: models/interfaces/schema
         const baseDir = path.resolve(process.cwd(), 'models', 'interfaces', 'schema');
         const files = ['avefi_schema.ts', 'avefi_schema_type_utils.ts'];
         const localePath = path.resolve(baseDir, 'locale_messages.json');
@@ -62,7 +62,7 @@ export function useServerGlossary(): GlossaryEntry[] {
 
                     const fallbackDescription = commentLines[0] ?? '';
                     const fallbackDefinition =
-            commentLines.length > 1 ? commentLines.slice(1).join(' ') : '';
+                    commentLines.length > 1 ? commentLines.slice(1).join(' ') : '';
 
                     const translated = localeJson?.de?.[key] ?? null;
 
