@@ -29,51 +29,76 @@ const exists = (p) => { try { fs.accessSync(p); return true; } catch { return fa
 const read = (p) => fs.readFileSync(p, "utf-8");
 function writeJson(p, o) { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(o, null, 2), "utf-8"); console.log("📝 Wrote", path.relative(process.cwd(), p)); }
 
-/* =========================================================================
-   1) Ensure tmp_schema clone (Windows-safe; do NOT delete .git)
-   ========================================================================= */
-if (!exists(TMP_DIR) || !exists(path.join(TMP_DIR, ".git"))) {
-  console.log(`⬇️  Cloning AV-EFI schema repo branch ${SCHEMA_BRANCH} ...`);
-  run(`git clone --depth 1 --branch ${SCHEMA_BRANCH} ${SCHEMA_REPO} "${TMP_DIR}"`);
-} else {
-  console.log(`🔄  Reusing tmp_schema; fetching latest ${SCHEMA_BRANCH} ...`);
-  run(`git -C "${TMP_DIR}" reset --hard`);
-  run(`git -C "${TMP_DIR}" fetch --all --prune`);
-  run(`git -C "${TMP_DIR}" checkout ${SCHEMA_BRANCH}`);
-  run(`git -C "${TMP_DIR}" reset --hard origin/${SCHEMA_BRANCH}`);
-  run(`git -C "${TMP_DIR}" clean -fdx`);
-}
 
-/* =========================================================================
-   2) Ensure dirs
-   ========================================================================= */
-fs.mkdirSync(TARGET_DIR, { recursive: true });
-fs.mkdirSync(GENERATED_DIR, { recursive: true });
-fs.mkdirSync(OUT_DATA_DIR, { recursive: true });
+// --- Main logic with guaranteed cleanup ---
+let hadError = false;
+try {
+  /* =========================================================================
+     1) Ensure tmp_schema clone (Windows-safe; do NOT delete .git)
+     ========================================================================= */
+  if (!exists(TMP_DIR) || !exists(path.join(TMP_DIR, ".git"))) {
+    console.log(`⬇️  Cloning AV-EFI schema repo branch ${SCHEMA_BRANCH} ...`);
+    run(`git clone --depth 1 --branch ${SCHEMA_BRANCH} ${SCHEMA_REPO} "${TMP_DIR}"`);
+  } else {
+    console.log(`🔄  Reusing tmp_schema; fetching latest ${SCHEMA_BRANCH} ...`);
+    run(`git -C "${TMP_DIR}" reset --hard`);
+    run(`git -C "${TMP_DIR}" fetch --all --prune`);
+    run(`git -C "${TMP_DIR}" checkout ${SCHEMA_BRANCH}`);
+    run(`git -C "${TMP_DIR}" reset --hard origin/${SCHEMA_BRANCH}`);
+    run(`git -C "${TMP_DIR}" clean -fdx`);
+  }
 
-/* =========================================================================
-   3) Copy schema files
-   ========================================================================= */
-const copyList = [
-  // TS
-  "project/typescript/avefi_schema.ts",
-  "project/typescript/avefi_schema_type_utils.ts",
-  "project/typescript/locale_messages.json",
-  // YAML (current repo layout)
-  "src/avefi_schema/model.yaml",
-  "src/avefi_schema/vocab.yaml",
-];
+  /* =========================================================================
+     2) Ensure dirs
+     ========================================================================= */
+  fs.mkdirSync(TARGET_DIR, { recursive: true });
+  fs.mkdirSync(GENERATED_DIR, { recursive: true });
+  fs.mkdirSync(OUT_DATA_DIR, { recursive: true });
 
-for (const rel of copyList) {
-  const srcCandidates = [
-    path.join(TMP_DIR, rel),
-    path.join(TMP_DIR, rel.replace(/^src\/avefi_schema\//, "")), // fallback for older layout
+  /* =========================================================================
+     3) Copy schema files
+     ========================================================================= */
+  const copyList = [
+    // TS
+    "project/typescript/avefi_schema.ts",
+    "project/typescript/avefi_schema_type_utils.ts",
+    "project/typescript/locale_messages.json",
+    // YAML (current repo layout)
+    "src/avefi_schema/model.yaml",
+    "src/avefi_schema/vocab.yaml",
   ];
-  const src = srcCandidates.find(exists);
-  if (!src) { console.warn("⚠️  Missing in repo:", rel); continue; }
-  const dest = path.join(TARGET_DIR, path.basename(rel));
-  fs.copyFileSync(src, dest);
-  console.log(`✅ Copied ${path.basename(rel)}`);
+
+  for (const rel of copyList) {
+    const srcCandidates = [
+      path.join(TMP_DIR, rel),
+      path.join(TMP_DIR, rel.replace(/^src\/avefi_schema\//, "")), // fallback for older layout
+    ];
+    const src = srcCandidates.find(exists);
+    if (!src) { console.warn("⚠️  Missing in repo:", rel); continue; }
+    const dest = path.join(TARGET_DIR, path.basename(rel));
+    fs.copyFileSync(src, dest);
+    console.log(`✅ Copied ${path.basename(rel)}`);
+  }
+
+  // ...existing code...
+  // (rest of the script remains unchanged)
+  // ...existing code...
+} catch (err) {
+  hadError = true;
+  console.error("❌ Error in generate-interfaces:", err);
+  process.exitCode = 1;
+} finally {
+  // Always cleanup tmp_schema
+  if (fs.existsSync(TMP_DIR)) {
+    try {
+      fs.rmSync(TMP_DIR, { recursive: true, force: true });
+      console.log("🧹 Cleaned up tmp_schema at end.");
+    } catch (err) {
+      console.warn("⚠️ Final cleanup failed, retrying...");
+      console.error(err);
+      try { run(`rmdir /S /Q "${TMP_DIR}"`); } catch {}
+    }
+  }
 }
 
 /* =========================================================================
