@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL || 'Development',
+            ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
             origin: process.env.ORIGIN,
             frontendUrl: process.env.ORIGIN,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
@@ -58,8 +58,8 @@ export default defineNuxtConfig({
             ELASTIC_INDEX: process.env.ELASTIC_INDEX,
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
-            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API || '/api/elastic',
-            AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || 'frontend/search',
+            AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
+            AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT,
             MAIL_USER: process.env.MAIL_USER,
             MAIL_FROM: process.env.MAIL_FROM,
             MAIL_TO: process.env.MAIL_TO,
@@ -81,6 +81,7 @@ export default defineNuxtConfig({
             KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
             WMI_CACHE_KEY: 'WMI_CACHE_KEY',
             KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
+            AVEFI_COPY_PID_URL: process.env.AVEFI_COPY_PID_URL,
 
             // AUTH endpoints
             AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',

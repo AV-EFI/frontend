@@ -34,7 +34,7 @@ export default defineI18nConfig(() => ({
             "title": "Title",
             "tooltip": {
                 "accessStatus": "Indicates whether the item is publicly accessible or if there are restrictions.",
-                "formatType": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
+                "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
                 "elementType": "Indicates the type of analog film material. For digital media, it includes the file format and/or container.",
                 "manifestation": "A manifestation is the physical embodiment or publication of an audiovisual work in analog or digital form.",
                 "item": "An item is a physical or digital copy of a manifestation.",
@@ -431,6 +431,7 @@ export default defineI18nConfig(() => ({
             "loading": "Loading...",
             "divider": "Divider",
             "avefi:PreservationEvent": "Preservation Event",
+            "avefi:WorkVariantPart": "Work Variant Part",
             'unknownLanguage': 'Unknown language',
             "filterItemsAndManifestations": "Exemplare und Manifestationen filtern",
             "facetsInsideSearchResults": "Facets for Item and Manifestation are located within the search results in this mode",
@@ -644,7 +645,7 @@ export default defineI18nConfig(() => ({
             },
             "tooltip": {
                 "accessStatus": "Der Status gibt an, ob das Exemplar öffentlich zugänglich ist oder ob es Einschränkungen gibt.",
-                "formatType": "Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
+                "format": "Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
                 "elementType": "Hier wird angezeigt, um welche Materialart es sich beim analogen Film handelt. Bei digitalen Medien finden sich hier Angaben zum Dateiformat und/oder Container.",
                 "manifestation": "Eine Manifestation ist die physische Verkörperung/Publikation eines audiovisuellen Werkes in der Form eines analogen oder digitalen Mediums.",
                 "item": "Ein Exemplar ist die physische oder digitale Kopie einer Manifestation.",
@@ -823,6 +824,7 @@ export default defineI18nConfig(() => ({
             'has_date': 'Produktionsjahr',
             'duration': 'Dauer',
             "avefi:PreservationEvent": "Erhaltungsereignis",
+            "avefi:WorkVariantPart": "Werk-Teil",
             'subject': 'Schlagwort',
             'hello': 'Hallo',
             'help': 'Hilfe',

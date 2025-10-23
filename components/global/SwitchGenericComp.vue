@@ -6,7 +6,7 @@
     type="toggle"
     :off-value-label="labelOff"
     :on-value-label="labelOn"
-  thumb-icon="tabler:edit"
+    thumb-icon="tabler:edit"
     thumb-color-on="(--primary-200)"
     track-color-on="(--primary-500)"
     icon-color-on="white"

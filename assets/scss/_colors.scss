@@ -4,44 +4,44 @@
 /* CookieControl theming via AVefi palette */
   --cookie-control-fontSize: 14px;
 
-  --cookie-control-barBackground: var(--base-100);
-  --cookie-control-barTextColor: var(--base-content);
+  --cookie-control-barBackground: var(--color-base-100);
+  --cookie-control-barTextColor: var(--color-base-content);
   --cookie-control-barButtonColor: white;
-  --cookie-control-barButtonBackground: var(--primary);
-  --cookie-control-barButtonHoverColor: var(--base-100);
-  --cookie-control-barButtonHoverBackground: var(--primary);
+  --cookie-control-barButtonBackground: var(--color-primary);
+  --cookie-control-barButtonHoverColor: var(--color-base-100);
+  --cookie-control-barButtonHoverBackground: var(--color-primary);
 
-  --cookie-control-focusRingColor: var(--primary-500);
+  --cookie-control-focusRingColor: var(--color-primary-500);
 
   --cookie-control-modalOverlay: var(--neutral);
   --cookie-control-modalOverlayOpacity: 1;
 
-  --cookie-control-modalBackground: var(--base-100);
-  --cookie-control-modalTextColor: var(--base-content);
+  --cookie-control-modalBackground: var(--color-base-100);
+  --cookie-control-modalTextColor: var(--color-base-content);
 
-  --cookie-control-modalButtonColor: var(--base-100);
-  --cookie-control-modalButtonBackground: var(--primary);
-  --cookie-control-modalButtonHoverColor: var(--base-100);
-  --cookie-control-modalButtonHoverBackground: var(--primary-600);
+  --cookie-control-modalButtonColor: var(--color-base-100);
+  --cookie-control-modalButtonBackground: var(--color-primary);
+  --cookie-control-modalButtonHoverColor: var(--color-base-100);
+  --cookie-control-modalButtonHoverBackground: var(--color-primary-600);
 
-  --cookie-control-modalUnsavedColor: var(--accent);
+  --cookie-control-modalUnsavedColor: var(--color-accent);
 
-  --cookie-control-checkboxInactiveBackground: var(--base-300);
+  --cookie-control-checkboxInactiveBackground: var(--color-base-300);
   --cookie-control-checkboxInactiveCircleBackground: var(--base-400);
-  --cookie-control-checkboxActiveBackground: var(--primary);
-  --cookie-control-checkboxActiveCircleBackground: var(--base-100);
+  --cookie-control-checkboxActiveBackground: var(--color-primary);
+  --cookie-control-checkboxActiveCircleBackground: var(--color-base-100);
   --cookie-control-checkboxDisabledBackground: var(--base-200);
-  --cookie-control-checkboxDisabledCircleBackground: var(--base-300);
+  --cookie-control-checkboxDisabledCircleBackground: var(--color-base-300);
 
-  --cookie-control-controlButtonBackground: var(--base-100);
-  --cookie-control-controlButtonIconColor: var(--primary);
+  --cookie-control-controlButtonBackground: var(--color-base-100);
+  --cookie-control-controlButtonIconColor: var(--color-primary);
   --cookie-control-controlButtonHoverBackground: var(--secondary-focus);
-  --cookie-control-controlButtonIconHoverColor: var(--base-content);
+  --cookie-control-controlButtonIconHoverColor: var(--color-base-content);
 }
 
 [data-theme="avefi_dark"] {
-    --cookie-control-barBackground: var(--base-100);
-    --cookie-control-barTextColor: var(--base-content);
+    --cookie-control-barBackground: var(--color-base-100);
+    --cookie-control-barTextColor: var(--color-base-content);
 
     --cookie-control-barButtonBackground: #444;
     --cookie-control-barButtonColor: #ffffff;

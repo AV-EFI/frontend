@@ -1,7 +1,5 @@
 <template>
   <NuxtLayout name="partial-grid-1">
-    <pre class="text-xs">{{ workVar }}</pre>
-
     <template #center>
       <!-- 03/04 GND, Filmportal, etc. (Same As) -->
       <div
@@ -70,7 +68,7 @@
 
 <script lang="ts" setup>
 import type { PropType } from 'vue';
-import type { WorkVariant } from '../../models/interfaces/av_efi_schema';
+import type { WorkVariant } from '~/models/interfaces/schema/avefi_schema.js';
 
 const workVar = defineModel({ type: Object as PropType<WorkVariant>, required: true });
 

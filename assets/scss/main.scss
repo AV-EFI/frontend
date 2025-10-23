@@ -1,12 +1,8 @@
-/*
-@use '_variables';
-@use '_colors';
-*/
-
 @use '_variables';
 @use '_colors';
 
 @import "tailwindcss";
+
 @plugin "daisyui" {
    themes: avefi_light --default, avefi_dark --prefersdark;
     root: ":root";
@@ -40,7 +36,7 @@
   --color-error-content: oklch(12.122% 0.024 15.341);
   --color-highlight: #A53A42;
   --color-highlight-content: #ffffff;
- --color-favourites-list: #B85A5E;              /* muted rose-crimson */
+  --color-favourites-list: #B85A5E;            /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
   --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
   --color-favourites-list-hover-content: #ffffff;

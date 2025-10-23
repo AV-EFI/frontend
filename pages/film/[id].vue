@@ -24,14 +24,22 @@
             <div class="col-span-full px-4">
               <GlobalClipboardComp
                 :display-text="dataJson?.compound_record?._source?.handle"
+                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
                 class="mb-2 text-sm text-base-content/90"
               />
+              <div class="flex flex-row">
               <h2
                 class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
                 :alt="dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name"
               >
                 {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
               </h2>
+              <MicroBadgeCategoryComp
+                :category="dataJson?.compound_record?._source?.has_record?.category"
+                :dense="false"
+                class="ml-4 my-auto"
+              />
+              </div>
             </div>
           </template>
           <template #right>
@@ -46,7 +54,7 @@
       </template>
       <template #actions>
         <MicroBadgeCategoryComp
-          class="col-span-3 divider-primary"
+          class="col-span-3 mt-2 divider-primary"
           :category="dataJson?.compound_record?._source?.has_record?.type"
         />
       </template>      
@@ -84,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
 import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElasticResponses.js';
 
 definePageMeta({

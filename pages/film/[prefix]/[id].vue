@@ -1,65 +1,60 @@
 <template>
   <div>
-    <GlobalBreadcrumbsComp
-      :breadcrumbs="[
-        ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`], ['Detail', '/film/' + params.id]
-      ]"
-    />
     <NuxtLayout
       name="partial-layout-1-center"
       padding-class="p-0"
     >
       <template #navigation>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`">{{ $t('filmresearch') }}</a></li>
-          <li>
-            <span class="text-accent">
-              {{ $t('detailview') }}
-            </span>
-          </li>
-        </ul>
+        <GlobalBreadcrumbsComp
+          :breadcrumbs="[
+            ['Home', '/'],
+            [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
+            [$t('detailview'), '/film/' + params.id]
+          ]"
+        />
       </template>
       <template #title>
         <NuxtLayout
-          name="partial-grid-2-1-flex"
-          left-class="rounded-t-xl py-4"
+          name="partial-grid-2-1"
+          left-class="dark:bg-primary-600 rounded-t-xl py-4"
         >
           <template
             #left
           >
-            <div class="col-span-full p-4">
-              <p class="text-white text-xs 2xl:text-base col-span-full">
-                {{ dataJson?.handle }}
-              </p>
+            <div class="col-span-full px-4">
+              <GlobalClipboardComp
+                :display-text="dataJson?.compound_record?._source?.handle"
+                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
+                class="mb-2 text-sm text-base-content/90"
+              />
+              <div class="flex flex-row">
               <h2
-                class="text-lg font-bold xl:text-2xl text-primary-50 dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+                class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
                 :alt="dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name"
               >
                 {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
               </h2>
+              <MicroBadgeCategoryComp
+                :category="dataJson?.compound_record?._source?.has_record?.category"
+                :dense="false"
+                class="ml-4 my-auto"
+              />
+              </div>
             </div>
           </template>
           <template #right>
-            <div class="flex flex-row flex-wrap justify-end justify-content-center h-full items-center">
-              <LazyMicroEfiCopyComp
-                :handle="dataJson?.compound_record?._source?.handle"
-                class="col-span-3 hidden"
-              />
-              <LazyGlobalActionContextComp
+              <GlobalActionContextComp
+                class="col-start-11 row-start-1 justify-self-end"
                 :id="dataJson?.compound_record?._source?.handle"
                 :item="dataJson?.compound_record?._source"
-                class="w-1/5 justify-center items-center my-auto"
+                comp-size="2xl"
               />              
-            </div>
           </template>
         </NuxtLayout>
       </template>
       <template #actions>
-        <LazyMicroBadgeCategoryComp
-          v-if="dataJson?.compound_record?._source?.has_record?.type"
-          class="col-span-3"
+        <MicroBadgeCategoryComp
+          class="col-span-3 mt-2 divider-primary"
           :category="dataJson?.compound_record?._source?.has_record?.type"
         />
       </template>      
@@ -72,8 +67,8 @@
               fallback="Loading data..."
             >
               <LazyViewsWorkViewCompAVefi
-                  v-if="dataJson?.compound_record?._source"
-                  v-model="dataJson.compound_record._source"
+                  v-if="dataJson"
+                  v-model="dataJson"
                   :handle="dataJson.handle" 
                />
                <div v-else class="text-center text-gray-500">
@@ -97,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentUrlState } from '~/composables/useCurrentUrlState';
+import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
 import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElasticResponses.js';
 
 definePageMeta({
@@ -118,15 +113,6 @@ const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson'
     
     const data:ElasticGetByIdResponse | null = await getDataSet(params?.value?.id);
     console.log('Data:', data);
-
-    if(data?.compound_record?._source?.has_record?.category){
-        category.value = data?.compound_record?._source?.has_record?.category;
-    }
-
-    if(data?.compound_record?._source?.has_record?.type){
-        type.value = data?.compound_record?._source?.has_record?.type;
-        console.log('Type:', type.value);
-    }
     return data as ElasticGetByIdResponse;
 
 });
@@ -141,7 +127,7 @@ const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson'
   }
   a.external-link:before {
         font-family: "Font Awesome 5 Free";
-         content: url('https://api.iconify.design/tabler:share.svg');
+        content: url('https://api.iconify.design/fa-regular:share-square.svg');
         display: inline-block;
         padding-right: 3px;
         vertical-align: middle;

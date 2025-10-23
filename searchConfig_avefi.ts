@@ -122,12 +122,14 @@ export const config: SearchkitConfig = {
                 nestedPath: "manifestations",
             },            
             // ----- Item-level (exemplare) -----
+            /*
             {
                 attribute: "has_access_status",
                 field: "manifestations.items.has_record.has_access_status.keyword",
                 type: "string",
                 nestedPath: "manifestations.items",
             },
+            */
             {
                 attribute: "has_format_type",
                 field: "has_record.has_format.type.keyword",
@@ -164,12 +166,14 @@ export const config: SearchkitConfig = {
                 type: "string",
                 nestedPath: "manifestations.items",
             },
+            /*
             {
                 attribute: "item_duration_in_minutes",
                 field: "duration_in_minutes",
                 type: "numeric",
                 nestedPath: "manifestations.items",
             },
+            */
             {
                 attribute: "item_element_type",
                 field: "has_record.element_type.keyword",

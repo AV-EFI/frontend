@@ -8,41 +8,62 @@
         class="input input-bordered w-full"
         :placeholder="$t('glossary.search') || 'Search glossary…'"
         :aria-label="$t('glossary.search') || 'Search glossary…'"
-      />
+      >
     </div>
 
     <!-- A–Z -->
     <div class="flex flex-wrap gap-1 mb-4 text-sm">
       <div class="w-full mb-2">
-        <button class="btn btn-xs" :class="{ 'btn-active': !activeLetter }" @click="activeLetter=null">
+        <button
+          class="btn btn-xs"
+          :class="{ 'btn-active': !activeLetter }"
+          @click="activeLetter=null"
+        >
           {{ $t('glossary.all') || 'All' }}
         </button>
       </div>
       <button
-        v-for="char in alphabet" :key="char"
+        v-for="char in alphabet"
+        :key="char"
         class="btn btn-xs"
         :class="{ 'btn-outline': activeLetter!==char, 'btn-active': activeLetter===char }"
         :aria-label="$t('glossary.filterByLetter', { letter: char })"
         :title="$t('glossary.filterByLetter', { letter: char })"
         @click="activeLetter = activeLetter===char ? null : char"
-      >{{ char }}</button>
+      >
+        {{ char }}
+      </button>
     </div>
 
     <!-- Loading / empty -->
-    <div v-if="loading" class="text-neutral-500">Loading…</div>
-    <div v-else-if="filteredGroups.length===0" class="text-neutral-500">
+    <div
+      v-if="loading"
+      class="text-neutral-500"
+    >
+      Loading…
+    </div>
+    <div
+      v-else-if="filteredGroups.length===0"
+      class="text-neutral-500"
+    >
       {{ $t('glossary.noResults') || 'No results.' }}
     </div>
 
     <!-- Groups -->
-    <section v-for="group in filteredGroups" :key="group.category" class="mb-8">
-      <h2 class="text-lg font-semibold mb-2 border-b pb-1">{{ group.category }}</h2>
+    <section
+      v-for="group in filteredGroups"
+      :key="group.category"
+      class="mb-8"
+    >
+      <h2 class="text-lg font-semibold mb-2 border-b pb-1">
+        {{ group.category }}
+      </h2>
 
       <ul class="space-y-3">
         <li
           v-for="entry in group.entries"
-          :key="entry.term + entry.enumSource"
           :id="rowId(entry)"
+          :key="entry.term + entry.enumSource"
           :ref="(el:any)=>setRowRef(entry, el)"
           class="rounded-xl border border-base-200 bg-base-100 transition-all"
           :class="isOpen(entry) ? 'grid lg:grid-cols-[1fr,minmax(300px,34rem)]' : 'block'"
@@ -50,8 +71,14 @@
           <!-- LEFT: entry content -->
           <div class="p-3">
             <div class="font-medium flex items-center gap-2 flex-wrap">
-              <span class="text-base" v-html="highlight(entry.term)" />
-              <span v-if="!entry.isTranslated" class="italic text-xs text-neutral-400">
+              <span
+                class="text-base"
+                v-html="highlight(entry.term)"
+              />
+              <span
+                v-if="!entry.isTranslated"
+                class="italic text-xs text-neutral-400"
+              >
                 ({{ $t('glossary.untranslated') || 'not translated' }})
               </span>
               <template v-else>
@@ -59,7 +86,10 @@
                 <span v-html="highlight(entry.label)" />
               </template>
 
-              <button class="btn btn-ghost btn-xs ml-auto" @click="togglePreview(entry)">
+              <button
+                class="btn btn-ghost btn-xs ml-auto"
+                @click="togglePreview(entry)"
+              >
                 {{ $t('glossary.preview') || 'Preview' }}
               </button>
             </div>
@@ -70,11 +100,17 @@
               v-html="highlight(entry.description)"
             />
 
-            <details v-if="entry.definition" class="mt-1 text-xs text-neutral-500">
+            <details
+              v-if="entry.definition"
+              class="mt-1 text-xs text-neutral-500"
+            >
               <summary class="cursor-pointer underline underline-offset-2">
                 {{ $t('glossary.moreInfo') || 'learn more' }}
               </summary>
-              <p class="mt-1 pl-2" v-html="highlight(entry.definition)" />
+              <p
+                class="mt-1 pl-2"
+                v-html="highlight(entry.definition)"
+              />
             </details>
 
             <div class="text-xs text-neutral-400 mt-2 flex items-center gap-2">
@@ -111,12 +147,20 @@
                   >
                     {{ $t('glossary.openInNewTab') || 'Open in new tab' }}
                   </a>
-                  <button class="btn btn-ghost btn-xs" @click="closePreview">✕</button>
+                  <button
+                    class="btn btn-ghost btn-xs"
+                    @click="closePreview"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
 
               <!-- Body -->
-              <div ref="previewScrollEl" class="h-[60vh] overflow-auto">
+              <div
+                ref="previewScrollEl"
+                class="h-[60vh] overflow-auto"
+              >
                 <iframe
                   v-if="previewUrl && !forceInline"
                   :key="previewUrl"
@@ -129,7 +173,10 @@
                   class="p-4 prose prose-sm max-w-none"
                   v-html="inlineHtml"
                 />
-                <div v-else class="p-4 text-sm opacity-70">
+                <div
+                  v-else
+                  class="p-4 text-sm opacity-70"
+                >
                   {{ $t('glossary.loading') || 'Loading…' }}
                 </div>
               </div>

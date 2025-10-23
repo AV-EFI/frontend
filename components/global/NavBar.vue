@@ -40,7 +40,7 @@
               :aria-label="ariaLabelMainMenu"
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li class="h-12 flex justify-center p-x-2">
+              <li class="h-12 flex justify-center mr-2">
                 <MicroSendMailButt />
               </li>
               <li class="h-12 flex justify-center">
@@ -129,10 +129,10 @@
               />
             </div>
             <div
-                v-if="envLabel !== 'Production'"
-                class="badge badge-accent text-white mr-auto ml-3 my-auto text-left h-6 w-24"
-              >
-                {{ envLabel }}
+              v-if="envLabel !== 'Production'"
+              class="badge badge-accent text-white mr-auto ml-3 my-auto text-left h-6 w-24"
+            >
+              {{ envLabel }}
             </div>
             <div
               v-if="!alphaClicked && envLabel === 'Production'"
@@ -160,7 +160,7 @@
         </div>
 
         <!-- Desktop menu (xl and up) -->
-        <div class="navbar-end w-3/5 flex-grow flex hidden xl:flex">
+        <div class="navbar-end w-3/5 flex-grow hidden xl:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -195,7 +195,7 @@
             <li class="h-12 flex justify-center">
               <a href="/contact">{{ $t("faqAndGlossary") }}</a>
             </li>
-            <li class="h-12 flex justify-center">
+            <li class="h-12 flex justify-center mr-2">
               <MicroSendMailButt />
             </li>
             <li
@@ -216,7 +216,7 @@
                     <div class="w-8 rounded-full" />
                   </div>
                   <div v-else>
-                    {{$t('hello')}} {{ data?.user?.name }}
+                    {{ $t('hello') }} {{ data?.user?.name }}
                   </div>
                 </summary>
                 <ul
@@ -251,7 +251,10 @@
                   <li
                     role="none"
                   >
-                    <a role="menuitem" href="/protected/glossary">
+                    <a
+                      role="menuitem"
+                      href="/protected/glossary"
+                    >
                       {{ $t('glossary.title') }}
                     </a>
                   </li>
@@ -276,7 +279,7 @@
             </li>
             <li
               v-else
-              class="h-12 flex justify-center"
+              class="h-12 flex justify-center hidden"
             >
               <div
                 role="button"
@@ -286,7 +289,7 @@
                 @click="signIn"
               >
                 <LazyIcon
-                   name="tabler:user"
+                  name="tabler:user"
                   aria-hidden="true"
                   class="m-auto h-8"
                 />
@@ -301,9 +304,9 @@
 
 <script lang="ts" setup>
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-import { useObjectListStore } from '../../stores/compareList';
-import { useShoppingCart } from '../../stores/shoppingCart';
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+import { useObjectListStore } from '../../stores/compareList.js';
+import { useShoppingCart } from '../../stores/shoppingCart.js';
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState.js';
 
 const { currentUrlState } = useCurrentUrlState();
 const { data, signOut, signIn } = useAuth();

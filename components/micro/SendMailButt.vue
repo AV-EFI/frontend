@@ -1,9 +1,9 @@
 <template>
   <!-- Desktop -->
   <details
+    ref="deskRef"
     class="dropdown dropdown-bottom dropdown-end hidden md:block"
     :open="showForm"
-    ref="deskRef"
   >
     <summary
       class="btn btn-sm btn-circle btn-outline list-none"
@@ -27,13 +27,26 @@
 
   <!-- Mobile modal (unchanged) -->
   <div class="block md:hidden">
-    <button class="btn btn-sm btn-circle btn-outline" :aria-label="$t('openForm')" @click="openMobileModal">
+    <button
+      class="btn btn-sm btn-circle btn-outline"
+      :aria-label="$t('openForm')"
+      @click="openMobileModal"
+    >
       <LazyIcon name="tabler:send" />
     </button>
-    <dialog id="mobileMailModal" ref="modalRef" class="modal">
+    <dialog
+      id="mobileMailModal"
+      ref="modalRef"
+      class="modal"
+    >
       <div class="modal-box w-full max-w-none p-4">
         <form method="dialog">
-          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeMobileModal">✕</button>
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            @click="closeMobileModal"
+          >
+            ✕
+          </button>
         </form>
         <MicroContactForm />
       </div>
@@ -52,8 +65,8 @@ const toggleForm = () => { showForm.value = !showForm.value; };
 
 // close on outside click
 const onDocClick = (e: MouseEvent) => {
-  if (!deskRef.value) return;
-  if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
+    if (!deskRef.value) return;
+    if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
 };
 onMounted(() => document.addEventListener('click', onDocClick));
 onBeforeUnmount(() => document.removeEventListener('click', onDocClick));

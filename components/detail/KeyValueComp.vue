@@ -3,12 +3,12 @@
     class="flex flex-col"
     role="group"
     :aria-label="translateKey ? 
-    `${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`
-    : `${keytxt}: ${$t(valtxt)}`"
+      `${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`
+      : `${keytxt}: ${$t(valtxt)}`"
   >
     <MicroLabelComp 
-    :label-text="keytxt" 
-    :translate-key="translateKey"
+      :label-text="keytxt" 
+      :translate-key="translateKey"
     />
     <div class="flex flex-row">
       <GlobalClipboardComp

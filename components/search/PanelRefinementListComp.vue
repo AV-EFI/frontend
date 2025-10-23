@@ -73,7 +73,10 @@
               @change="onMinChangeLocal($event, s?.range ?? {})"
             >
             <div class="w-1/3 flex flex-col justify-center mb-3.5 max-w-16">
-              <Icon class="mx-auto dark:text-white" name="formkit:arrowright" />
+              <Icon
+                class="mx-auto dark:text-white"
+                name="formkit:arrowright"
+              />
             </div>
             <input
               :id="`${inputId}-max`"
@@ -218,8 +221,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import Slider from '@vueform/slider'
+import { computed, ref } from 'vue';
+import Slider from '@vueform/slider';
 
 const props = withDefaults(defineProps<{
   headerText?: string
@@ -232,97 +235,97 @@ const props = withDefaults(defineProps<{
   fallbackMin?: number
   fallbackMax?: number
 }>(), {
-  operatorType: 'or',
-  isSearchable: true,
-  translateLabel: false,
-  category: null,
-  inputType: null,
-  fallbackMin: 0,
-  fallbackMax: 300
-})
+    operatorType: 'or',
+    isSearchable: true,
+    translateLabel: false,
+    category: null,
+    inputType: null,
+    fallbackMin: 0,
+    fallbackMax: 300
+});
 
-const inputId = `facet-search-${props.attributeName}_${Math.random().toString(36).substring(2, 15)}`
+const inputId = `facet-search-${props.attributeName}_${Math.random().toString(36).substring(2, 15)}`;
 
 const isDurationName = computed(
-  () => props.attributeName === 'item_duration_in_minutes' || props.attributeName === 'duration_in_minutes'
-)
+    () => props.attributeName === 'item_duration_in_minutes' || props.attributeName === 'duration_in_minutes'
+);
 const isNumeric = computed(() =>
-  props.inputType === 'numeric' ? true : props.inputType === 'string' ? false : isDurationName.value
-)
+    props.inputType === 'numeric' ? true : props.inputType === 'string' ? false : isDurationName.value
+);
 
 // ----- local pending/applied state (so we only refine on submit) -----
-const pending = ref<[number, number] | null>(null)
-const lastApplied = ref<[number, number] | null>(null)
+const pending = ref<[number, number] | null>(null);
+const lastApplied = ref<[number, number] | null>(null);
 
 // helpers
-const isFiniteNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v)
-const boundMin = (range: { min?: number }) => (isFiniteNumber(range.min) ? Math.floor(range.min) : props.fallbackMin)
-const boundMax = (range: { max?: number }) => (isFiniteNumber(range.max) ? Math.ceil(range.max) : props.fallbackMax)
-const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Math.round(n)))
+const isFiniteNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+const boundMin = (range: { min?: number }) => (isFiniteNumber(range.min) ? Math.floor(range.min) : props.fallbackMin);
+const boundMax = (range: { max?: number }) => (isFiniteNumber(range.max) ? Math.ceil(range.max) : props.fallbackMax);
+const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Math.round(n)));
 const normalizePair = (lo: number, hi: number, min: number, max: number): [number, number] => {
-  const a = clamp(lo, min, max)
-  const b = clamp(hi, min, max)
-  return a <= b ? [a, b] : [b, a]
-}
+    const a = clamp(lo, min, max);
+    const b = clamp(hi, min, max);
+    return a <= b ? [a, b] : [b, a];
+};
 
 function appliedFromCR(cr: { min?: number; max?: number }, range: { min?: number; max?: number }): [number, number] {
-  const lo = cr?.min ?? boundMin(range)
-  const hi = cr?.max ?? boundMax(range)
-  return normalizePair(lo, hi, boundMin(range), boundMax(range))
+    const lo = cr?.min ?? boundMin(range);
+    const hi = cr?.max ?? boundMax(range);
+    return normalizePair(lo, hi, boundMin(range), boundMax(range));
 }
 
 function pendingModel(cr: any, range: any): [number, number] {
-  const applied = appliedFromCR(cr ?? {}, range ?? {})
-  if (!pending.value || !lastApplied.value || pendingChangedExternally(applied)) {
-    pending.value = [...applied]
-    lastApplied.value = [...applied]
-  }
-  return pending.value!
+    const applied = appliedFromCR(cr ?? {}, range ?? {});
+    if (!pending.value || !lastApplied.value || pendingChangedExternally(applied)) {
+        pending.value = [...applied];
+        lastApplied.value = [...applied];
+    }
+    return pending.value!;
 }
 function pendingChangedExternally(applied: [number, number]) {
-  return !lastApplied.value || lastApplied.value[0] !== applied[0] || lastApplied.value[1] !== applied[1]
+    return !lastApplied.value || lastApplied.value[0] !== applied[0] || lastApplied.value[1] !== applied[1];
 }
 
 // UI interactions — update local only
 function onSliderChangeLocal(val: [number, number], range: any) {
-  const [lo, hi] = normalizePair(val?.[0] ?? 0, val?.[1] ?? 0, boundMin(range ?? {}), boundMax(range ?? {}))
-  pending.value = [lo, hi]
+    const [lo, hi] = normalizePair(val?.[0] ?? 0, val?.[1] ?? 0, boundMin(range ?? {}), boundMax(range ?? {}));
+    pending.value = [lo, hi];
 }
 function onMinChangeLocal(e: Event, range: any) {
-  const lo = clamp(Number((e.target as HTMLInputElement).value), boundMin(range ?? {}), boundMax(range ?? {}))
-  const hi = pending.value?.[1] ?? boundMax(range ?? {})
-  pending.value = normalizePair(lo, hi, boundMin(range ?? {}), boundMax(range ?? {}))
+    const lo = clamp(Number((e.target as HTMLInputElement).value), boundMin(range ?? {}), boundMax(range ?? {}));
+    const hi = pending.value?.[1] ?? boundMax(range ?? {});
+    pending.value = normalizePair(lo, hi, boundMin(range ?? {}), boundMax(range ?? {}));
 }
 function onMaxChangeLocal(e: Event, range: any) {
-  const hi = clamp(Number((e.target as HTMLInputElement).value), boundMin(range ?? {}), boundMax(range ?? {}))
-  const lo = pending.value?.[0] ?? boundMin(range ?? {})
-  pending.value = normalizePair(lo, hi, boundMin(range ?? {}), boundMax(range ?? {}))
+    const hi = clamp(Number((e.target as HTMLInputElement).value), boundMin(range ?? {}), boundMax(range ?? {}));
+    const lo = pending.value?.[0] ?? boundMin(range ?? {});
+    pending.value = normalizePair(lo, hi, boundMin(range ?? {}), boundMax(range ?? {}));
 }
 
 // buttons
 function resetLocal(range: any) {
-  pending.value = [boundMin(range ?? {}), boundMax(range ?? {})]
+    pending.value = [boundMin(range ?? {}), boundMax(range ?? {})];
 }
 function applyRefinement(refine: (v: any) => void, range: any) {
-  if (!pending.value) return
-  const [lo, hi] = pending.value
-  if (lo === boundMin(range ?? {}) && hi === boundMax(range ?? {})) {
-    refine?.({ min: undefined, max: undefined })
-    lastApplied.value = [lo, hi]
-    return
-  }
-  refine?.({ min: lo, max: hi })
-  lastApplied.value = [lo, hi]
+    if (!pending.value) return;
+    const [lo, hi] = pending.value;
+    if (lo === boundMin(range ?? {}) && hi === boundMax(range ?? {})) {
+        refine?.({ min: undefined, max: undefined });
+        lastApplied.value = [lo, hi];
+        return;
+    }
+    refine?.({ min: lo, max: hi });
+    lastApplied.value = [lo, hi];
 }
 function hasUnsaved(cr: any, range: any) {
-  const applied = appliedFromCR(cr ?? {}, range ?? {})
-  const p = pending.value ?? applied
-  return p[0] !== applied[0] || p[1] !== applied[1]
+    const applied = appliedFromCR(cr ?? {}, range ?? {});
+    const p = pending.value ?? applied;
+    return p[0] !== applied[0] || p[1] !== applied[1];
 }
 
 // facet icon mapping
 import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
-const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal')
+const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
 </script>
 
 <style lang="scss">

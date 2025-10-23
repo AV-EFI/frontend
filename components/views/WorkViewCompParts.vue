@@ -1,206 +1,230 @@
 <template>
-  <div>
+  <section
+    v-if="Array.isArray(parts) && parts.length"
+    class="w-full"
+    role="region"
+    :aria-label="$t('parts') || 'Parts'"
+  >
+    <div class="my-2">
+      <h2 class="font-bold text-xl">{{ $t('parts') }}</h2>
+    </div>
     <div
-      v-for="item in parsedData"
-      :key="item.handle"
-      class="card bg-white border border-base-100 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+      v-for="part in parts"
+      :key="part?.handle || part?.url || Math.random()"
+      class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
       role="region"
-      :aria-label="`${$t('title')}: ${item.has_record?.has_primary_title?.has_name}`"
+      :aria-label="`${$t('title')}: ${get(part,'has_record.has_primary_title.has_name') || part?.handle || '(Untitled Part)'}`"
     >
       <!-- Header -->
-      <div
-        class="flex flex-col md:flex-row min-h-12 w-full p-4 rounded-t-xl bg-primary dark:bg-primary-800 text-white"
-        :class="{ 'rounded-b-xl': !hasExtraInfo(item) }"
-      >
-        <div class="max-md:w-full w-4/5">
-          <GlobalClipboardComp
-            :display-text="item.handle"
-            class="text-xs text-gray-50 dark:text-gray-300"
-            :aria-label="$t('copyEfi')"
-            :title="$t('copyEfi')"
-            :dark-bg="true"
-          />
+      <header class="card-body p-4 pb-2">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div class="w-4/5 md:w-4/5 lg:w-3/5">
+            <!-- PID / handle copy -->
+            <GlobalClipboardComp
+              v-if="part?.handle"
+              class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
+              :display-text="`${part.handle}`"
+              :copy-text="`${runtime.public.AVEFI_COPY_PID_URL}${part.handle}`"
+            />
 
-          <h2 class="font-bold text-lg my-1 text-primary-50 dark:text-white">
-            <a
-              :href="`/film/${getHandlePrefix(item.handle)}/${getHandleId(item.handle)}`"
-              :title="$t('detailviewlink')"
-              class="link dark:link-white no-underline hover:underline"
+            <!-- Title + category -->
+            <h2
+              :id="`part-title-${part?.handle ?? idxFallback()}`"
+              class="card-title text-lg font-semibold"
             >
-              {{ item.has_record?.has_primary_title?.has_name || item.handle }}
-            </a>
-          </h2>
-
-          <div class="flex flex-col md:flex-row text-sm mt-2">
-            <span v-if="getPlaces(item)" class="flex items-center">
-              <Icon name="tabler:map-pin" class="mr-1" :alt="$t('place')" :title="$t('place')" />
-              {{ getPlaces(item) }}
-            </span>
-
-            <span v-if="item.years" class="flex items-center md:ml-4">
-              <Icon name="tabler:calendar" class="mr-1" :alt="$t('productionyear')" :title="$t('productionyear')" />
-              {{ item.years.join(', ') }}
-            </span>
-
-            <span v-if="item.directors_or_editors" class="flex items-center md:ml-4">
-              <Icon name="tabler:clapperboard" class="mr-1" :alt="$t('directors_or_editors')" :title="$t('directors_or_editors')" />
-              {{ item.directors_or_editors.join(', ') }}
-            </span>
-          </div>
-        </div>
-
-        <div class="w-full md:w-1/5 flex justify-end items-center mt-2 md:mt-0">
-          <NuxtLink
-            :to="`/film/${getHandlePrefix(item.handle)}/${getHandleId(item.handle)}`"
-            class="btn btn-circle btn-outline btn-md mr-2 text-white"
-            :aria-label="$t('detailviewlink')"
-            :title="$t('detailviewlink')"
-          >
-            <Icon name="tabler:eye" class="text-2xl" :alt="$t('detailviewlink')" />
-          </NuxtLink>
-        </div>
-      </div>
-
-      <!-- Expand toggle -->
-      <div
-        v-if="hasExtraInfo(item)"
-        class="border-t border-base-200 bg-base-200 px-3 py-2 flex justify-center"
-      >
-        <button
-          class="btn btn-primary btn-xs btn-outline my-2 mx-auto"
-          :aria-label="$t('toggleDetails')"
-          :title="$t('toggleDetails')"
-          :aria-expanded="expanded[item.handle] || false"
-          @click="expanded[item.handle] = !expanded[item.handle]"
-        >
-          <Icon
-            :name="expanded[item.handle] ? 'tabler:minus' : 'tabler:plus'"
-            class="text-lg"
-            :alt="expanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
-            :title="expanded[item.handle] ? $t('hideDetails') : $t('showDetails')"
-          />
-          <span class="text-sm">
-            {{ expanded[item.handle] ? $t('hideDetails') : $t('showDetails') }}
-          </span>
-        </button>
-      </div>
-
-      <!-- Expanded info -->
-      <transition name="fade">
-        <div v-if="expanded[item.handle]" class="card-body p-4 pt-0 text-sm">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-
-            <!-- Subjects -->
-            <div v-if="item.has_record?.has_subject" class="flex flex-col">
-              <MicroLabelComp label-text="avefi:Subject" />
-              <ul>
-                <li
-                  v-for="(subj, idx) in item.has_record.has_subject"
-                  :key="idx"
-                  class="inline-block mr-2 bg-gray-100 px-2 py-1 rounded"
-                >
-                  {{ subj?.has_name ?? '' }}
-                </li>
-              </ul>
-            </div>
-
-            <!-- Forms -->
-            <div v-if="item.has_record?.has_form" class="flex flex-col">
-              <MicroLabelComp label-text="has_form" />
-              <ul>
-                <li
-                  v-for="(form, idx) in item.has_record.has_form"
-                  :key="idx"
-                  class="inline-block mr-2 bg-gray-100 px-2 py-1 rounded"
-                >
-                  {{ form }}
-                </li>
-              </ul>
-            </div>
-
-            <!-- Genres -->
-            <div v-if="item.has_record?.has_genre" class="flex flex-col">
-              <MicroLabelComp label-text="avefi:Genre" />
-              <ul>
-                <li
-                  v-for="(genre, idx) in item.has_record.has_genre"
-                  :key="idx"
-                  class="inline-block mr-2 bg-gray-100 px-2 py-1 rounded"
-                >
-                  {{ genre.has_name }}
-                </li>
-              </ul>
-            </div>
-
-            <!-- Parts or Work Variants -->
-            <div v-if="(item.parts?.length ?? 0) > 0 || (item.work_variants?.length ?? 0) > 0" class="flex flex-col">
-              <MicroLabelComp
-                :label-text="item.parts?.length ? $t('parts') : $t('workVariants')"
+              {{ get(part,'has_record.has_primary_title.has_name') || part?.handle || $t('title') }}
+              <MicroBadgeCategoryComp
+                :category="part?.category || 'avefi:WorkVariantPart'"
+                :dense="false"
+                class="ml-2"
               />
+            </h2>
+
+            <!-- Alternative titles (if any) -->
+            <h3 v-if="Array.isArray(get(part,'has_record.has_alternative_title'))">
               <ul>
                 <li
-                  v-for="(entry, idx) in item.parts?.length ? item.parts : item.work_variants"
-                  :key="entry.handle || idx"
-                  class="inline-block mr-2 bg-gray-100 px-2 py-1 rounded"
+                  v-for="alt in (get(part,'has_record.has_alternative_title') || [])"
+                  :key="alt?.id || alt?.has_name"
                 >
-                  {{ entry?.has_record?.has_primary_title?.has_name || entry?.handle || '—' }}
+                  {{ alt?.has_name }} <span v-if="alt?.type">({{ $t(alt.type) }})</span>
                 </li>
               </ul>
-            </div>
+            </h3>
+          </div>
 
+          <!-- Right actions -->
+          <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+            <NuxtLink
+              v-if="part?.handle"
+              :to="`/film/${part.handle.replace('21.11155/','')}`"
+              class="btn btn-circle btn-outline btn-md mr-2"
+              :aria-label="$t('detailviewlink')"
+              :title="$t('detailviewlink')"
+              target="_blank"
+            >
+              <Icon name="mdi:eye-outline" class="text-2xl" :alt="$t('detailviewlink')" />
+            </NuxtLink>
+
+            <a
+              v-else-if="part?.url"
+              :href="part.url"
+              class="btn btn-circle btn-outline btn-md mr-2"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="$t('open')"
+              :title="$t('open')"
+            >
+              <Icon name="mdi:open-in-new" class="text-2xl" :alt="$t('open')" />
+            </a>
+
+            <GlobalActionContextComp v-if="part" :item="part" />
           </div>
         </div>
-      </transition>
+        <SearchGenericIconList
+          :data="part"
+          level="work"
+          class="mt-2"
+        />
+      </header>
+
+      <!-- Optional highlight snippets (if your parts carry _highlightResult too) -->
+      <Transition name="fade" mode="out-in">
+        <div
+          v-if="showHighlight && getHighlightSnippets(part).length > 0"
+          class="my-2 ml-3 text-sm highlight-snippets"
+        >
+          <span>✨ <strong>{{ $t('lookWhatWeFound') }}</strong></span>
+          <ul>
+            <SearchHighlightMatchComp
+              v-for="(entry, i) in getHighlightSnippets(part)"
+              :key="i + entry.value"
+              :value="entry.value"
+              :field="entry.key"
+            />
+          </ul>
+        </div>
+      </Transition>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import type { IAVefiWorkVariant } from '@/models/interfaces/generated';
-import type { Event, MovingImageResource } from '@/models/interfaces/schema/avefi_schema_type_utils';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import GenericIconList from '../search/GenericIconList.vue';
 
-type WorkVariantWithRelations = IAVefiWorkVariant & {
-  parts?: MovingImageResource[];
-  work_variants?: MovingImageResource[];
+const { t: $t } = useI18n();
+const runtime = useRuntimeConfig();
+
+type NameObj = { has_name?: string };
+type AltTitle = NameObj & { id?: string | number; type?: string };
+type LocatedIn = { has_name?: string };
+type Event = { located_in?: LocatedIn[] };
+type DescribedBy = { has_issuer_name?: string };
+
+type Part = {
+  handle?: string;
+  url?: string;
+  '@timestamp'?: string;
+  category?: string;
+  years?: string[]; // label(s) like "1958–1961"
+  directors_or_editors?: string[];
+  has_record?: {
+    has_primary_title?: NameObj;
+    has_alternative_title?: AltTitle[];
+    has_event?: Event[];
+    has_form?: string[];
+    described_by?: DescribedBy[];
+  };
+  _highlightResult?: any;
+  [k: string]: any;
 };
 
-const props = defineProps<{ 
-  dataJson: WorkVariantWithRelations[] 
+const props = defineProps<{
+  parts: Part[];
+  showAdminStats?: boolean;
 }>();
 
-const parsedData = computed(() => {
-    return Array.isArray(props.dataJson) ? props.dataJson : [];
-});
+const isExpandedLocal = ref(false);
+const showHighlight = ref(true);
 
-const expanded = reactive<Record<string, boolean>>({});
+// ---- helpers mirroring your WorkViewComp patterns ----
+function get(obj: any, path: string): any {
+  if (!obj || !path) return undefined;
+  return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+}
 
-const getHandlePrefix = (handle: string): string => handle?.split('/')[0] || '';
-const getHandleId = (handle: string): string => handle?.split('/')[1] || '';
+function formatDate(v?: string) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleString('de-DE'); } catch { return ''; }
+}
 
-const getPlaces = (item: IAVefiWorkVariant): string => {
-    return item.has_record?.has_event
-        ?.flatMap((ev: Event) => ev.located_in?.map(loc => loc.has_name) || [])
-        .join(', ') || '';
-};
+function yearsDisplay(p: Part): string {
+  const years = p?.years;
+  if (Array.isArray(years) && years.length) return years.join(', ');
+  const range = get(p, 'production_in_year');
+  if (range && typeof range === 'object') {
+    const from = (range.gte ?? range.gt ?? '');
+    const to = (range.lte ?? range.lt ?? '');
+    return [from, to].filter(Boolean).join('–');
+  }
+  return '';
+}
 
-const hasExtraInfo = (item: IAVefiWorkVariant & { parts?: any[]; work_variants?: any[] }): boolean => {
-    return (
-        (item?.has_record?.has_subject?.length ?? 0) > 0 ||
-    (item?.has_record?.has_form?.length ?? 0) > 0 ||
-    (item?.has_record?.has_genre?.length ?? 0) > 0 ||
-    (item?.parts?.length ?? 0) > 0 ||
-    (item?.work_variants?.length ?? 0) > 0
-    );
-};
+function getForms(p: Part): string[] {
+  const arr = get(p, 'has_record.has_form');
+  return Array.isArray(arr) ? arr.filter(Boolean) : [];
+}
+
+function getDirectors(p: Part): string[] {
+  return Array.isArray(p?.directors_or_editors) ? p!.directors_or_editors!.filter(Boolean) : [];
+}
+
+function getLocations(p: Part): string[] {
+  const events = get(p, 'has_record.has_event') || [];
+  const set = new Set<string>();
+  (events as Event[]).forEach(ev => (ev?.located_in || []).forEach(l => l?.has_name && set.add(l.has_name)));
+  return Array.from(set);
+}
+
+// optional highlights (same logic style you use)
+function getValueByPath(obj: any, path: string) {
+  return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
+}
+function getHighlightSnippets(item: Part) {
+  const result: Array<{key: string; value: string}> = [];
+  const highlights = item?._highlightResult || {};
+  const fieldsToInclude: Record<string,string> = {
+    title: 'has_record.has_primary_title.has_name',
+    AlternativeTitle: 'has_record.has_alternative_title.has_name',
+    production: 'production',
+    directors_or_editors: 'directors_or_editors',
+    has_form: 'has_record.has_form',
+    genre: 'has_record.has_genre.has_name',
+    subject: 'subjects',
+  };
+  for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
+    const entry = getValueByPath(highlights, path);
+    const entries = Array.isArray(entry) ? entry : [entry];
+    for (const e of entries) {
+      if (e?.matchLevel !== 'none' && Array.isArray(e?.matchedWords) && e.matchedWords.length > 0 && typeof e.value === 'string') {
+        result.push({ key: labelKey, value: e.value });
+      }
+    }
+  }
+  return result;
+}
+
+// simple unique fallback for missing handle
+function idxFallback() {
+  return Math.random().toString(36).slice(2);
+}
 </script>
 
 <style scoped>
 .fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
+.fade-leave-active { transition: opacity 0.3s ease; }
 .fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+.fade-leave-to { opacity: 0; }
 </style>

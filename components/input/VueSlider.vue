@@ -12,7 +12,6 @@
     >
 
     <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
-
       <div class="flex items-center gap-2">
         <Icon
           :name="facetIcon"
@@ -139,7 +138,7 @@
 
 // facet icon mapping
 import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
-const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal')
+const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
 
 import { ref, computed, onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';

@@ -19,15 +19,18 @@
       </button>
     </div>
 
-    <p v-if="hint" class="mt-2 text-sm text-base-content/70">
+    <p
+      v-if="hint"
+      class="mt-2 text-sm text-base-content/70"
+    >
       {{ hint }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
-import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js'
+import { useRouter, useRoute } from 'vue-router';
+import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js';
 
 const props = defineProps<{
   modelValue?: string
@@ -35,36 +38,36 @@ const props = defineProps<{
   ariaLabel?: string
   buttonLabel?: string
   hint?: string
-}>()
+}>();
 
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
   (e: 'search', payload: { q: string }): void
-}>()
+}>();
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const term = ref(props.modelValue ?? '')
-const qaRef = ref<{ submit: () => void } | null>(null)
+const term = ref(props.modelValue ?? '');
+const qaRef = ref<{ submit: () => void } | null>(null);
 
-const ariaLabel = computed(() => props.ariaLabel ?? 'Search input')
-const buttonLabel = computed(() => props.buttonLabel ?? 'Search')
-const hint = computed(() => props.hint ?? '')
+const ariaLabel = computed(() => props.ariaLabel ?? 'Search input');
+const buttonLabel = computed(() => props.buttonLabel ?? 'Search');
+const hint = computed(() => props.hint ?? '');
 
 const iconMap = FACET_ICON_MAP;
 
 function pushRoute(q: string) {
-  const query = { ...route.query, q }
-  if (!q) delete query.q
-  router.push({ path: route.path, query })
+    const query = { ...route.query, q };
+    if (!q) delete query.q;
+    router.push({ path: route.path, query });
 }
 
 function onSubmit(v: string) {
-  term.value = v
-  emit('update:modelValue', term.value)
-  emit('search', { q: term.value })
-  redirectToSearchScreen(term.value);
+    term.value = v;
+    emit('update:modelValue', term.value);
+    emit('search', { q: term.value });
+    redirectToSearchScreen(term.value);
 //  pushRoute(term.value)
 }
 
@@ -75,6 +78,6 @@ function redirectToSearchScreen(query: string) {
 }
 
 function submitFromButton() {
-  qaRef.value?.submit()
+    qaRef.value?.submit();
 }
 </script>

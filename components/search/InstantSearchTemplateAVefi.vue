@@ -176,8 +176,8 @@
                     <ais-sort-by
                       :items="sortItems"
                       :class-names="{
-                          'ais-SortBy-select': 'hidden',
-                        }"
+                        'ais-SortBy-select': 'hidden',
+                      }"
                       aria-disabled="true"
                     />
                   </div>
@@ -277,10 +277,16 @@
                         class="dark:text-white"
                         name="tabler:layout-navbar-collapse"
                       />
-                      <span class="label-text text-gray-800 dark:text-gray-200" v-if="!expandAllHandlesChecked">
+                      <span
+                        v-if="!expandAllHandlesChecked"
+                        class="label-text text-gray-800 dark:text-gray-200"
+                      >
                         {{ $t('expandAll') }}
                       </span>
-                      <span class="label-text text-gray-800 dark:text-gray-200" v-else>
+                      <span
+                        v-else
+                        class="label-text text-gray-800 dark:text-gray-200"
+                      >
                         {{ $t('collapseAll') }}
                       </span>
 
@@ -445,8 +451,7 @@ const currentRefinements = computed(() => {
 
 const searchClient = Client({
     config: config,
-    url: "/api/elastic/msearch",
-    // Removed invalid property 'searchOnLoad'
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
 /*
         sorting: {
@@ -499,11 +504,11 @@ const searchClient = Client({
 const sortingConfig = config?.search_settings?.sorting;
 let sortItems = [];
 if (sortingConfig && typeof sortingConfig === 'object') {
-  sortItems = Object.entries(sortingConfig)
-    .map(([key, value]: [string, any]) => ({
-      value: key,
-      label: value.field,
-    }));
+    sortItems = Object.entries(sortingConfig)
+        .map(([key, value]: [string, any]) => ({
+            value: key,
+            label: value.field,
+        }));
 }
 console.log('Sorting items:', sortItems);
 /*

@@ -86,7 +86,7 @@
                 >{{ $t(item.linkText) }} 
                   <Icon
                     class="hidden md:inline-block"
-                     name="tabler:arrow-right"
+                    name="tabler:arrow-right"
                   /></a>
               </div>
             </div>

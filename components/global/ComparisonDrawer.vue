@@ -81,13 +81,13 @@
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('objectListStore')"
                 >
-                <span class="text-white flex">
-                  <Icon
-                    class="text-lg text-white w-4 h-4 mr-2"
-                    name="tabler:trash"
-                  />
-                  {{ $t('clearalllist') }}
-                </span>
+                  <span class="text-white flex">
+                    <Icon
+                      class="text-lg text-white w-4 h-4 mr-2"
+                      name="tabler:trash"
+                    />
+                    {{ $t('clearalllist') }}
+                  </span>
                 </button>
                 <GlobalExportDataComp
                   :data-set-id="objectListStore.getObjectIds"
@@ -121,7 +121,10 @@
                         class="btn btn-error btn-circle btn-sm text-white ml-1 w-8 h-8"
                         @click="removeObject(index, 'objectListStore')"
                       >
-                        <Icon class="text-lg" name="tabler:trash" />
+                        <Icon
+                          class="text-lg"
+                          name="tabler:trash"
+                        />
                       </button>
                     </div>
                   </div>
@@ -168,7 +171,7 @@
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('shoppingCart')"
                 >
-                  <Icon name="tabler-trash"/>
+                  <Icon name="tabler-trash" />
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
@@ -203,7 +206,10 @@
                         class="btn btn-error btn-circle btn-sm w-8 h-8 text-white ml-1"
                         @click="removeObject(index, 'shoppingCart')"
                       >
-                        <Icon class="text-lg" name="tabler-trash" />
+                        <Icon
+                          class="text-lg"
+                          name="tabler-trash"
+                        />
                       </button>
                     </div>
                   </div>

@@ -119,6 +119,7 @@
               :tab-index="11"
               :aria-label="$t('has_sound_type')"
             />
+            <!--
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
               header-text="item_duration_in_minutes"
@@ -128,7 +129,8 @@
               :is-searchable="false"
               :tab-index="12"
               :aria-label="$t('has_duration')"
-            />
+            />            
+            -->
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
               header-text="has_colour"
@@ -157,7 +159,7 @@
               :tab-index="16"
               :aria-label="$t('item_element_type')"
             />
-
+            <!--
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
               header-text="has_access_status"
@@ -166,7 +168,8 @@
               :is-searchable="false"
               :tab-index="16"
               :aria-label="$t('has_access_status')"
-            />
+            />            
+            -->
             <div
               :class="{ hidden: !viewTypeChecked }"
               class="alert shadow-sm mb-2 mt-2 lg:mt-0 lg:mb-0 p-2 text-sm"

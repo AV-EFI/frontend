@@ -8,12 +8,22 @@
       :mode="modeComputed"
     />
 
-    <div v-if="stale.length" class="alert alert-warning mt-4">
+    <div
+      v-if="stale.length"
+      class="alert alert-warning mt-4"
+    >
       {{ stale.length }} field(s) are not in the current model schema.
       <details class="mt-2">
-        <summary class="cursor-pointer">Show</summary>
+        <summary class="cursor-pointer">
+          Show
+        </summary>
         <ul class="list-disc ml-6 mt-2">
-          <li v-for="p in stale" :key="p"><code>{{ p }}</code></li>
+          <li
+            v-for="p in stale"
+            :key="p"
+          >
+            <code>{{ p }}</code>
+          </li>
         </ul>
       </details>
     </div>
