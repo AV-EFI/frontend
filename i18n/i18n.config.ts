@@ -3,7 +3,7 @@
 // This file is used to configure internationalization settings for the AVefi application.
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // If the file exists, ensure the path is correct. Otherwise, comment out or remove the import to avoid errors.
-import avefiLocales from '../tmp_schema/project/typescript/locale_messages.json';
+import avefiLocales from '~/models/interfaces/schema/locale_messages.json';
 
 export default defineI18nConfig(() => ({
     legacy: false,
