@@ -1,5 +1,6 @@
-export default defineEventHandler(() => {
-    const entries = useServerGlossary();
-    return entries;
-});
-  
+// server/api/cms/glossary.get.ts
+import { useServerGlossary } from '~/server/utils/useServerGlossary'
+
+export default defineEventHandler(async () => {
+  return await useServerGlossary()
+})

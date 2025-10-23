@@ -6,18 +6,22 @@
       "@/*": ["./*"],
       "~/*": ["./*"]
     },
-    "types": [
-      "node",
-      "@nuxtjs/i18n"
-    ],
+    "types": ["node", "@nuxtjs/i18n", "vite/client"],
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "allowJs": true,
-  "noEmit": false,
-    "esModuleInterop": true
+    "noEmit": false,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"]             // <-- ensures ImportMeta base type is present
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "include": [
+    "types",                             // <-- add this so vite-env.d.ts is picked up
+    "server",
+    "components",
+    "pages",
+    "app.vue",
+    "nuxt.config.*"
+  ],
+  "exclude": ["node_modules"]
 }

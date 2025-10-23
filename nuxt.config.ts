@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     nitro: {
         preset: 'node-server',
         compressPublicAssets: true,
+        serverAssets: [
+            { baseName: 'glossary', dir: 'assets/glossary' }
+        ],
         debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
     },
     modules: [
