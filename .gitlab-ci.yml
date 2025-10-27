@@ -42,6 +42,15 @@ build_docker-staging:
     - if: $CI_COMMIT_BRANCH == "testbed"
   extends: .build_docker
 
+build_docker-production:
+  environment:
+    name: production
+    action: prepare
+    url: https://www.av-efi.net
+  rules:
+    - if: $CI_COMMIT_BRANCH == "production"
+  extends: .build_docker
+
 .deploy:
   stage: deploy
   variables:
@@ -79,4 +88,12 @@ deploy-staging:
     url: https://testbed.av-efi.net
   rules:
     - if: $CI_COMMIT_BRANCH == "testbed"
+  extends: .deploy
+
+deploy-production:
+  environment:
+    name: production
+    url: https://www.av-efi.net
+  rules:
+    - if: $CI_COMMIT_BRANCH == "production"
   extends: .deploy
