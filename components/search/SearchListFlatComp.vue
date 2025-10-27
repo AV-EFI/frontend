@@ -9,7 +9,7 @@
     <!-- Work header -->
     <header class="card-body p-4 pb-2">
       <div class="flex flex-col md:flex-row justify-between">
-        <div class="w-4/5 md:w-4/5 lg:w-3/5">
+        <div class="w-4/5 md:w-4/5">
           <GlobalClipboardComp
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
             :display-text="work?.handle ?? ''"

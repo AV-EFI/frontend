@@ -24,5 +24,13 @@
   "typescript.tsdk": "node_modules/typescript/lib",
 
   // Avoid formatter conflicts
-  "prettier.enable": false
+  "prettier.enable": false,
+  "githubPullRequests.remotes": [
+    "origin",
+    "upstream",
+    "avefi-frontend-dev-gitlab\\frontend",
+    "main"
+  ],
+  "github-actions.remote-name": "avefi-frontend-dev-gitlab\\frontend",
+  "githubIssues.alwaysPromptForNewIssueRepo": true
 }
