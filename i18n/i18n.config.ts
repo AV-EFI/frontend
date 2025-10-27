@@ -32,6 +32,7 @@ export default defineI18nConfig(() => ({
             'clickToSelectManifestation': 'Click on the manifestation to view items',
             'noWorkVariantDetails': 'No more WorkVariant information available',
             "title": "Title",
+            "has_event": "Event",
             "tooltip": {
                 "accessStatus": "Indicates whether the item is publicly accessible or if there are restrictions.",
                 "format": "For analog film, format refers to the width of the film material; for video, it refers to the width of the videotape.",
@@ -808,6 +809,7 @@ export default defineI18nConfig(() => ({
             'filmportalref': 'Referenz bei filmportal.de',
             'filmresearch': 'Suche',
             'filter': 'Filtern',
+            "has_event": "Ereignis",
             'gotodisamiguationparam': ({ named }: { named: (key: string) => string }) => `Zu Disambiguierung`,
             'gotoshoppingcart': 'Zu Favoriten',
             'grid': 'Tabelle',

@@ -130,7 +130,7 @@
             </div>
             <div
               v-if="envLabel !== 'Production'"
-              class="badge badge-accent text-white mr-auto ml-3 my-auto text-left h-6 w-24"
+              class="badge badge-accent mr-auto ml-3 my-auto text-left h-6 w-24"
             >
               {{ envLabel }}
             </div>

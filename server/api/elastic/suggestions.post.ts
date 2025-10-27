@@ -133,6 +133,8 @@ export default defineEventHandler(async (event) => {
     try {
       const url = `${host}/${encodeURIComponent(index)}/_search`
       const res = await $fetch<any>(url, { method: 'POST', body: { size: 0, aggs } })
+      
+      console.log('suggestions res: ', res);
 
       const suggestions: Array<{ text: string; type: string }> = []
       for (const attr of searchAttrs) {

@@ -8,6 +8,7 @@
       type="text"
       :name="name"
       :placeholder="placeholder"
+      :autofocus="true"
       autocomplete="off"
       outer-class="!max-w-none w-full"
       inner-class="!rounded-xl !h-[56px] w-full dark:!bg-slate-950 dark:!text-white !rounded-r-none"
