@@ -22,9 +22,11 @@ variables:
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
-# Build a docker image when a push is made to a non-default branch.
+# Build a docker image.
 .build_docker:
   stage: build
+  variables:
+    AUTH_ORIGIN: https://${DEPLOY_SERVER}
   script:
     - grep -vi secret .env.tmpl | envsubst > .env
     - export NODE_OPTIONS="--max-old-space-size=4096"   # 🟢 Increase Node heap size
@@ -32,8 +34,10 @@ variables:
     - docker push $CONTAINER_TEST_IMAGE
 
 build_docker-staging:
-  variables:
-    DEPLOY_SERVER: $STAGING_SERVER
+  environment:
+    name: testbed
+    action: prepare
+    url: https://testbed.av-efi.net
   rules:
     - if: $CI_COMMIT_BRANCH == "testbed"
   extends: .build_docker
@@ -41,9 +45,7 @@ build_docker-staging:
 .deploy:
   stage: deploy
   variables:
-    ## To be set as CI/CD variables:
-    #DEPLOY_USER
-    #DEPLOY_PATH
+    AUTH_ORIGIN: https://${DEPLOY_SERVER}
   before_script:
     # Install required packages
     - apk add --no-cache openssh-client
