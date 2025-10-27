@@ -77,16 +77,6 @@ deploy-staging:
   environment:
     name: testbed
     url: https://testbed.av-efi.net
-  variables:
-    DEPLOY_SERVER: $STAGING_SERVER
-    NUXT_SECRET: $STAGING_NUXT_SECRET
-    SSH_PRIVATE_KEY: $STAGING_PRIVATE_KEY
-    DEPLOY_PATH: "/home/cloud/avefi-frontend"
-    MAIL_USER: $MAIL_USER
-    MAIL_PASSWORD: $MAIL_PASSWORD
-    MAIL_TO: $MAIL_TO
-    MAIL_TO_2: $MAIL_TO_2
-    AUTH_ORIGIN: $AUTH_ORIGIN
   rules:
     - if: $CI_COMMIT_BRANCH == "testbed"
   extends: .deploy
