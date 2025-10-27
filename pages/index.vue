@@ -348,6 +348,7 @@
           <div class="lg:col-span-6">
             <video
               controls
+              poster="/img/avefi_vid_poster.png"
               class="w-full rounded-xl border border-base-300 shadow-lg"
               :aria-describedby="'video-desc'"
             >
