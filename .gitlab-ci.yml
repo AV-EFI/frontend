@@ -1,7 +1,7 @@
 default:
-  image: docker.gitlab.gwdg.de/eoltman/docker-ext:28.3.0
+  image: docker.gitlab.gwdg.de/eoltman/docker-ext:${DOCKER_IMAGE_VERSION}
   services:
-    - name: docker.io/library/docker:28.3.0-dind
+    - name: docker.io/library/docker:${DOCKER_IMAGE_VERSION}-dind
       alias: docker
       command: ["--mtu=1450"]
   tags:
