@@ -74,7 +74,7 @@ build_docker-staging:
 deploy-staging:
   environment:
     name: testbed
-    url: https://testbed.av-efi.de
+    url: https://testbed.av-efi.net
   variables:
     DEPLOY_SERVER: $STAGING_SERVER
     NUXT_SECRET: $STAGING_NUXT_SECRET
