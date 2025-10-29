@@ -1,36 +1,27 @@
 {
-  // Use ESLint as the formatter
+  // --- ESLint & formatting (your existing setup) ---
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "eslint.format.enable": true,
-
-  // Run fixAll on save
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
   "eslint.codeActionsOnSave.mode": "all",
   "editor.codeActionsOnSaveTimeout": 5000,
-
-  // You use .eslintrc.cjs (legacy config)
   "eslint.useFlatConfig": false,
-
-  // Ensure the right root is used (mono-repo safe)
   "eslint.workingDirectories": [{ "mode": "auto" }],
-
-  // Filetypes to lint/format
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
-
-  // Use your project TS
   "typescript.tsdk": "node_modules/typescript/lib",
-
-  // Avoid formatter conflicts
   "prettier.enable": false,
-  "githubPullRequests.remotes": [
-    "origin",
-    "upstream",
-    "avefi-frontend-dev-gitlab\\frontend",
-    "main"
+
+  // --- GitHub integration (added) ---
+  "githubPullRequests.remotes": ["avefi-issues"],
+  "githubIssues.useRemoteHub": false,
+  "githubIssues.queries": [
+    { "label": "AVefi – Open", "query": "is:open repo:AV-EFI/AVefi-Issues", "groupBy": ["assignee"] },
+    { "label": "AVefi – Mine", "query": "is:open repo:AV-EFI/AVefi-Issues assignee:${user} sort:updated-desc" },
+    { "label": "AVefi – Recent", "query": "repo:AV-EFI/AVefi-Issues sort:updated-desc" }
   ],
-  "github-actions.remote-name": "avefi-frontend-dev-gitlab\\frontend",
-  "githubIssues.alwaysPromptForNewIssueRepo": true
+  "githubIssues.alwaysPromptForNewIssueRepo": true,
+  "github-actions.remote-name": "avefi-issues"
 }

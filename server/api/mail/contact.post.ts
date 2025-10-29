@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
 
   if (!user || !pass) {
     event.node.res.statusCode = 500
-    return { success: false, error: 'SMTP env missing (MAIL_USER/MAIL_PASS)' }
+    return { success: false, error: 'SMTP env missing (MAIL_USER/MAIL_PASSWORD)' }
   }
 
   const transporter = nodemailer.createTransport({
