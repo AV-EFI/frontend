@@ -48,10 +48,10 @@
     --cookie-control-barButtonHoverBackground: #666;
     --cookie-control-barButtonHoverColor: #ffffff;
 
-    --cookie-control-modalOverlay: black;
+    --cookie-control-modalOverlay: var(--black);
     --cookie-control-modalOverlayOpacity: .9;
   
-    --cookie-control-modalBackground: var(black);
+    --cookie-control-modalBackground: var(--black);
     --cookie-control-modalTextColor: white;
 
     --cookie-control-controlButtonIconColor: #eeeeee;
