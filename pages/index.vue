@@ -119,7 +119,7 @@
     </section>
 
     <!-- ======= FEATURED (your text + carousel) ======= -->
-    <section id="main" role="main" :aria-label="$t('featuredContent')" class="relative border-t border-base-200 py-8">
+    <section id="main" role="main" :aria-label="$t('featuredContent')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           <div class="lg:col-span-6">
@@ -144,8 +144,8 @@
     </section>
 
     <!-- ======= BUILD THE PERFECT TOOL (2 cards only) ======= -->
-    <section class="relative border-t border-base-200 py-8" role="region" :aria-label="$t('buildSection') || 'Build the perfect tool'">
-      <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <section class="relative border-t border-base-200 py-6" role="region" :aria-label="$t('buildSection') || 'Build the perfect tool'">
+      <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Schema -->
         <div class="card shadow-xl" role="group" :aria-label="$t('build.schema.title')">
           <div class="card-body">
@@ -196,7 +196,7 @@
     </section>
 
     <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
-    <section class="relative border-t border-base-200 py-8" role="region" :aria-label="$t('timeline.title')">
+    <section class="relative border-t border-base-200 py-6" role="region" :aria-label="$t('timeline.title')">
       <div class="container mx-auto px-4">
         <h3 class="text-3xl bree font-extrabold mb-6 text-center" tabindex="0">
           {{ $t('timeline.title') }}
@@ -249,7 +249,7 @@
     </section>
 
     <!-- ======= CORE FUNCTIONS (your three cards) ======= -->
-    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-8">
+    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="card shadow-md" role="group" :aria-label="$t('coreFunctionsTitle')">
@@ -342,7 +342,7 @@
     </section>
 
     <!-- ======= VIDEO BAND (kept, restyled) ======= -->
-    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-8">
+    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-6">
@@ -371,7 +371,7 @@
     </section>
 
     <!-- ======= PARTNERS (kept) ======= -->
-    <section role="region" :aria-label="$t('partnersSection')" class="relative border-t border-base-200 py-8">
+    <section role="region" :aria-label="$t('partnersSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">

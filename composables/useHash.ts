@@ -2,11 +2,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export function useHash(scroll = true) {
     const hash = ref('');
-    const hash = ref('');
 
-    onMounted(() => {
-        const updateHash = () => {
-            hash.value = window.location.hash.slice(1);
     onMounted(() => {
         const updateHash = () => {
             hash.value = window.location.hash.slice(1);
@@ -18,29 +14,16 @@ export function useHash(scroll = true) {
                         // Open the closest collapse section
                         const collapseElement = el.closest('.collapse');
                         const parentToggle = collapseElement?.querySelector('.manifestation-accordion-toggle') as HTMLInputElement | null;
-            if (scroll && hash.value) {
-                setTimeout(() => {
-                    const el = document.getElementById(hash.value);
-                    if (el) {
-                        // Open the closest collapse section
-                        const collapseElement = el.closest('.collapse');
-                        const parentToggle = collapseElement?.querySelector('.manifestation-accordion-toggle') as HTMLInputElement | null;
 
-                        if (parentToggle) {
-                            parentToggle.checked = true;
-                        }
                         if (parentToggle) {
                             parentToggle.checked = true;
                         }
 
                         setTimeout(() => {
                             el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-                        setTimeout(() => {
-                            el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-
-                            el.classList.add('hash-highlight-conic');
+                            el.classList.add('bg-highlight', 'transition', 'duration-500', 'text-white');
                             setTimeout(() => {
-                                el.classList.remove('hash-highlight-conic');
+                                el.classList.remove('bg-highlight', 'text-white');
                                 const label = el.querySelector('label');
                                 if (label) {
                                     label.appendChild(
@@ -50,21 +33,13 @@ export function useHash(scroll = true) {
                                         })
                                     );
                                 }
-                            }, 4200);
-                            
+                            }, 3200);
                         }, 600);
                     }
-                }, 1400); // allow DOM/render to settle
-            }
-        };
-                        }, 600);
-                    }
-                }, 1400); // allow DOM/render to settle
+                }, 600);
             }
         };
 
-        updateHash();
-        window.addEventListener('hashchange', updateHash);
         updateHash();
         window.addEventListener('hashchange', updateHash);
 
@@ -72,11 +47,6 @@ export function useHash(scroll = true) {
             window.removeEventListener('hashchange', updateHash);
         });
     });
-        onBeforeUnmount(() => {
-            window.removeEventListener('hashchange', updateHash);
-        });
-    });
 
-    return { hash };
     return { hash };
 }

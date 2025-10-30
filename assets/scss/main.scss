@@ -156,7 +156,10 @@
   .bg-item {
     background-color: var(--color-item)!important;
   }
-  
+  .bg-highlight {
+    background-color: var(--color-highlight)!important;
+    color: var(--color-highlight-content)!important;
+  }  
 }
 
 @font-face {

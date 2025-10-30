@@ -94,6 +94,8 @@
 <script setup lang="ts">
 import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
 import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElasticResponses.js';
+import type { useHash } from '~/composables/useHash.js';
+const hash = useHash();
 
 definePageMeta({
     auth: false

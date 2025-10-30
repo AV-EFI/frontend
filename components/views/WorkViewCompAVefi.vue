@@ -94,8 +94,6 @@ import { FormKit } from "@formkit/vue";
 import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IAVefiWorkVariant";
 
 const dataJson = defineModel({ type: Object, required: true });
-console.log(dataJson);
-console.log(typeof dataJson.value);
 // Defensive parse
 let dataObject: any = {};
 try {

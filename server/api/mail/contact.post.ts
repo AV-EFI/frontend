@@ -25,9 +25,12 @@ export default defineEventHandler(async (event) => {
   const to = process.env.MAIL_TO || from
   const copy = process.env.MAIL_TO_2
 
+  console.log('MAIL_USER:', process.env.MAIL_USER)
+  console.log('MAIL_PASSWORD:', process.env.MAIL_PASSWORD)
+
   if (!user || !pass) {
     event.node.res.statusCode = 500
-    return { success: false, error: 'SMTP env missing (MAIL_USER/MAIL_PASS)' }
+    return { success: false, error: 'SMTP env missing (MAIL_USER/MAIL_PASSWORD)' }
   }
 
   const transporter = nodemailer.createTransport({

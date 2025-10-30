@@ -124,14 +124,17 @@ export default defineNuxtConfig({
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
-nodemailer: {
-  from: process.env.MAIL_USER,
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: { user: process.env.MAIL_USER, pass: process.env.MAIL_PASS },
-},
+    nodemailer: {
+        from: process.env.MAIL_USER,
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: { 
+            user: process.env.MAIL_USER, 
+            pass: process.env.MAIL_PASSWORD 
+        },
+    },
     nuxt3WinstonLog: {
         maxSize: "2048m",
         maxFiles: "14d",

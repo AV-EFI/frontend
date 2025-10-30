@@ -68,6 +68,10 @@ build_docker-production:
   script:
     - envsubst < docker-compose.tmpl > docker-compose.yml
     - cat docker-compose.yml
+    - echo "MAIL_USER=$MAIL_USER"
+    - echo "MAIL_PASSWORD=$MAIL_PASSWORD"
+    - echo "MAIL_TO=$MAIL_TO"
+    - echo "MAIL_TO_2=$MAIL_TO_2"
     - envsubst < .env.tmpl > .env
     # Create the new deployment directory if it doesn't exist
     - ssh $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p $DEPLOY_PATH"
