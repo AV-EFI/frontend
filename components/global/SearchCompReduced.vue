@@ -1,119 +1,83 @@
 <template>
-  <div
-    class="w-full min-w-48 lg:min-w-64 min-h-24 flex justify-center mx-auto"
-    role="search"
-    :aria-label="$t('mainSearch')"
-  >
-    <ClientOnly>
-      <span
-        id="search-input-label"
-        class="sr-only"
+  <div class="w-full my-auto">
+    <div class="flex flex-col sm:flex-row gap-0 items-stretch h-16">
+      <SearchQueryAutocomplete
+        ref="qaRef"
+        v-model="term"
+        name="search"
+        :placeholder="$t('searchplaceholder')"
+        :aria-label="ariaLabel"
+        :icon-map="iconMap"
+        @submit="onSubmit"
+      />
+      <button
+        type="button"
+        class="btn btn-primary btn-lg h-[56px] !rounded-l-none !rounded-r-xl"
+        @click="submitFromButton"
       >
-        {{ $t('mainSearch') }}
-      </span>
-      <FormKit
-        v-if="searchDataStore && searchDataStore.formData"
-        id="searchComp"
-        v-model="searchDataStore.formData"
-        type="form"
-        :actions="false"
-        name="searchComp"
-        role="search"
-        :aria-label="$t('searchForm')"
-        @submit="redirectToSearchScreen"
-      >
-        <div
-          class="flex w-full mx-auto !max-w-none lg:w-96 xl:w-128 justify-center"
-          role="group"
-          :aria-labelledby="'search-input-label'"
-        >
-          <FormKit
-            v-model="searchTerm"
-            name="searchTerm"
-            :placeholder="$t('searchplaceholder')"
-            type="text"
-            outer-class="flex-grow !max-w-none w-full"
-            inner-class="!rounded-l-xl rounded-r-none dark:!bg-slate-950 dark:!text-white  !h-[56px] w-full"
-            input-class="!text-lg p-2 w-full dark:!text-white"
-            :aria-label="$t('searchInputAria')"
-            aria-required="true"
-            :aria-invalid="searchTerm.trim().length === 0 ? 'true' : 'false'"
-            autofocus
-            :help="showTooltip ? $t('exactSearchTip') : ''"
-            :help-class="'absolute text-sm text-gray-800 bg-white p-2 rounded-md shadow dark:text-white dark:bg-gray-700'"
-          >
-            <template #prefix>
-              <span
-                class="ml-2 cursor-pointer select-none text-neutral-500 dark:text-neutral-300 text-sm"
-                tabindex="0"
-                role="button"
-                aria-label="Info"
-                @mouseenter="showTooltip = true"
-                @mouseleave="showTooltip = false"
-                @focus="showTooltip = true"
-                @blur="showTooltip = false"
-              >
-                ⓘ
-              </span>
-            </template>
-          </FormKit>
+        {{ $t('search') }}
+      </button>
+    </div>
 
-          <FormKit
-            type="submit"
-            :label="$t('search')"
-            :title="$t('search')"
-            outer-class="!rounded-l-none !mb-0 !rounded-r-xl !h-full flex items-center justify-start"
-            inner-class="!rounded-l-3xl !h-full"
-            input-class="!text-lg !h-14 btn-secondary !rounded-l-none !rounded-r-xl flex items-center justify-center border-3 border-primary !my-auto"
-            :disabled="searchTerm.trim().length === 0"
-            aria-disabled="false"
-            :aria-label="$t('submitSearch')"
-            @click="handleClick"
-          />
-        </div>
-
-        <p
-          v-if="showValidationWarning"
-          role="alert"
-          aria-live="assertive"
-          class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-gray-800 text-xs mt-2 p-2 rounded-lg"
-        >
-          {{ $t('enterSearchTermFirst') }}
-        </p>
-      </FormKit>
-    </ClientOnly>
+    <p
+      v-if="hint"
+      class="mt-2 text-sm text-base-content/70"
+    >
+      {{ hint }}
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useSearchParamsStore } from '../../stores/searchParams';
-const showTooltip = ref(false);
+import { useRouter, useRoute } from 'vue-router';
+import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js';
 
-const searchTerm = ref('');
-const showValidationWarning = ref(false);
-const searchDataStore = useSearchParamsStore();
+const props = defineProps<{
+  modelValue?: string
+  placeholder?: string
+  ariaLabel?: string
+  buttonLabel?: string
+  hint?: string
+}>();
 
-function redirectToSearchScreen() {
-    const redirectLink =  '/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + encodeURIComponent(searchTerm.value);
+const emit = defineEmits<{
+  (e: 'update:modelValue', v: string): void
+  (e: 'search', payload: { q: string }): void
+}>();
+
+const router = useRouter();
+const route = useRoute();
+
+const term = ref(props.modelValue ?? '');
+const qaRef = ref<{ submit: () => void } | null>(null);
+
+const ariaLabel = computed(() => props.ariaLabel ?? 'Search input');
+const buttonLabel = computed(() => props.buttonLabel ?? 'Search');
+const hint = computed(() => props.hint ?? '');
+
+const iconMap = FACET_ICON_MAP;
+
+function pushRoute(q: string) {
+    const query = { ...route.query, q };
+    if (!q) delete query.q;
+    router.push({ path: route.path, query });
+}
+
+function onSubmit(v: string) {
+    term.value = v;
+    emit('update:modelValue', term.value);
+    emit('search', { q: term.value });
+    redirectToSearchScreen(term.value);
+//  pushRoute(term.value)
+}
+
+function redirectToSearchScreen(query: string) {
+    const redirectLink =  '/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + encodeURIComponent(query);
     console.log('redirecting to search screen with term:', redirectLink);
     navigateTo(redirectLink);
 }
 
-function handleClick(event: MouseEvent) {
-    if (searchTerm.value.trim().length === 0) {
-        event.preventDefault();
-        showValidationWarning.value = true;
-
-        setTimeout(() => {
-            showValidationWarning.value = false;
-        }, 2500);
-    }
+function submitFromButton() {
+    qaRef.value?.submit();
 }
 </script>
-
-<style scoped>
-.btn-secondary {
-  height: 100%;
-}
-</style>

@@ -1,6 +1,7 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <nav
-    class="navbar border-b-2 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
+    class="navbar border-b-2 border-base-200 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
     :class="isScrolled ? 'md:mix-blend-multiply lg:opacity-90' : ''"
     :aria-label="ariaLabelMainNav"
   >
@@ -39,47 +40,53 @@
               :aria-label="ariaLabelMainMenu"
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
             >
-              <li class="h-12 flex justify-center">
+              <li class="h-12 flex justify-center mr-2">
                 <MicroSendMailButt />
               </li>
               <li class="h-12 flex justify-center">
                 <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
-                <a href="/contact">{{ $t("help") }}</a>
+                <a href="/contact">{{ $t("faqAndGlossary") }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/dashboard">{{ $t('dashboard') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/mergetool">{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/institutionlist">{{ $t('myDatasets') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/favouriteslist">{{ $t('favourites') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
+                class="h-12 flex justify-center"
+              >
+                <a href="/protected/glossary">{{ $t('glossary') }}</a>
+              </li>
+              <li
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <a href="/protected/me">{{ $t('profile') }}</a>
               </li>
               <li
-                v-if="data"
+                v-if="data?.user"
                 class="h-12 flex justify-center"
               >
                 <button
@@ -98,8 +105,8 @@
             <a
               class="dark:bg-white rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center"
               href="/"
-              :aria-label="$t('home')"
-              :title="$t('home')"
+              :aria-label="$t('home.breadcrumbs')"
+              :title="$t('home.breadcrumbs')"
             >
               <img
                 src="/img/AV-EFI-Logo.png"
@@ -115,15 +122,20 @@
               :title="t('avefiClaim')"
               class="hidden h-12 w-auto ml-2 rounded-lg dark:invert"
             >
-            <div class="hidden lg:flex lg:h-12 text-sm leading-none text-left dark:text-gray-200 max-w-32 ml-2">
+            <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
               <span
                 class="bree text-black dark:text-white my-auto"
                 v-html="$t('avefiClaimHtml').replace('. ', '<br/>')"
               />
             </div>
-
             <div
-              v-if="!alphaClicked"
+              v-if="envLabel !== 'Production'"
+              class="badge badge-accent mr-auto ml-3 my-auto text-left h-6 w-24"
+            >
+              {{ envLabel }}
+            </div>
+            <div
+              v-if="!alphaClicked && envLabel === 'Production'"
               class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24 cursor-pointer"
               @click="alphaClicked = !alphaClicked"
             >
@@ -137,7 +149,7 @@
               @click="alphaClicked = !alphaClicked"
             >
               <MicroRainbowStripeText
-                v-if="alphaClicked"
+                v-if="alphaClicked && envLabel === 'Production'"
                 class="font-black flex justify-center text-4xl uppercase mr-auto my-auto cursor-pointer"
                 text="alpha"
                 :aria-label="t('alpha')"
@@ -148,7 +160,7 @@
         </div>
 
         <!-- Desktop menu (xl and up) -->
-        <div class="navbar-end w-3/5 flex-grow flex hidden xl:flex">
+        <div class="navbar-end w-3/5 flex-grow hidden xl:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -181,13 +193,13 @@
               <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
-              <a href="/contact">{{ $t("help") }}</a>
+              <a href="/contact">{{ $t("faqAndGlossary") }}</a>
             </li>
-            <li class="h-12 flex justify-center">
+            <li class="h-12 flex justify-center mr-2">
               <MicroSendMailButt />
             </li>
             <li
-              v-if="data"
+              v-if="data?.user"
               class="h-12 flex justify-center"
             >
               <details @toggle="detailsOpen = $event.target.open">
@@ -204,7 +216,7 @@
                     <div class="w-8 rounded-full" />
                   </div>
                   <div v-else>
-                    Hello {{ data?.user?.name }}
+                    {{ $t('hello') }} {{ data?.user?.name }}
                   </div>
                 </summary>
                 <ul
@@ -222,7 +234,7 @@
                     <a
                       role="menuitem"
                       href="/protected/mergetool"
-                    >{{ $t('mergeTool') }}<span class="badge badge-accent">1</span></a>
+                    >{{ $t('mergeTool') }}<span class="badge badge-accent text-white">1</span></a>
                   </li>
                   <li role="none">
                     <a
@@ -235,6 +247,16 @@
                       role="menuitem"
                       href="/protected/favouriteslist"
                     >{{ $t('favourites') }}</a>
+                  </li>
+                  <li
+                    role="none"
+                  >
+                    <a
+                      role="menuitem"
+                      href="/protected/glossary"
+                    >
+                      {{ $t('glossary.title') }}
+                    </a>
                   </li>
                   <li role="none">
                     <a
@@ -257,18 +279,19 @@
             </li>
             <li
               v-else
-              class="h-12 flex justify-center"
+              class="h-12 flex justify-center hidden"
             >
               <div
                 role="button"
                 class="btn btn-circle btn-sm btn-outline"
                 :aria-label="ariaLabelLogin"
                 :title="$t('Login')"                
-                @click="signIn('keycloak')"
+                @click="signIn"
               >
                 <LazyIcon
-                  name="fa-regular:user"
+                  name="tabler:user"
                   aria-hidden="true"
+                  class="m-auto h-8"
                 />
               </div>
             </li>
@@ -281,9 +304,9 @@
 
 <script lang="ts" setup>
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-import { useObjectListStore } from '../../stores/compareList';
-import { useShoppingCart } from '../../stores/shoppingCart';
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
+import { useObjectListStore } from '../../stores/compareList.js';
+import { useShoppingCart } from '../../stores/shoppingCart.js';
+import { useCurrentUrlState } from '../../composables/useCurrentUrlState.js';
 
 const { currentUrlState } = useCurrentUrlState();
 const { data, signOut, signIn } = useAuth();
@@ -295,6 +318,9 @@ const shoppingCart = useShoppingCart();
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
 const detailsOpen = ref(false);
+
+const config = useRuntimeConfig();
+const envLabel = config.public.ENV_LABEL;
 
 const alphaClicked = ref(false);
 

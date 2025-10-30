@@ -1,10 +1,27 @@
 {
-    "eslint.run": "onSave",
-    "eslint.options": {      
-    },
-    "vs-code-prettier-eslint.prettierLast": true,
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "search.exclude": {
-        "**/node_modules": false
-    }
+  // --- ESLint & formatting (your existing setup) ---
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "eslint.format.enable": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.codeActionsOnSave.mode": "all",
+  "editor.codeActionsOnSaveTimeout": 5000,
+  "eslint.useFlatConfig": false,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.enable": false,
+
+  // --- GitHub integration (added) ---
+  "githubPullRequests.remotes": ["avefi-issues"],
+  "githubIssues.useRemoteHub": false,
+  "githubIssues.queries": [
+    { "label": "AVefi – Open", "query": "is:open repo:AV-EFI/AVefi-Issues", "groupBy": ["assignee"] },
+    { "label": "AVefi – Mine", "query": "is:open repo:AV-EFI/AVefi-Issues assignee:${user} sort:updated-desc" },
+    { "label": "AVefi – Recent", "query": "repo:AV-EFI/AVefi-Issues sort:updated-desc" }
+  ],
+  "githubIssues.alwaysPromptForNewIssueRepo": true,
+  "github-actions.remote-name": "avefi-issues"
 }

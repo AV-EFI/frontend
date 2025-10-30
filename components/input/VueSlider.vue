@@ -1,6 +1,6 @@
 <template>
   <div
-    class="collapse collapse-arrow border-2 border-primary dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
+    class="collapse collapse-arrow border-2 border-base-300 dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
     tabindex="0"
@@ -11,15 +11,20 @@
       :aria-label="$t('togglePanel')"
     >
 
-    <div class="collapse-title bg-slate-50 dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+    <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <div class="flex items-center gap-2">
         <Icon
-          :name="'tabler:calendar'"
-          class="w-4 h-4 text-primary-600 dark:text-primary-100"
+          :name="facetIcon"
+          class="w-4 h-4"
+          :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
           aria-hidden="true"
         />
-        <h4 class="my-auto font-bold text-primary-600 dark:text-primary-100">
-          {{ $t(headerText) }}
+        <h4
+          :id="`facet-title-${props.attributeName}`"
+          class="my-auto font-bold"
+          :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'"
+        >
+          {{ $t(headerText as string) }}
         </h4>
       </div>
       <MicroBadgeCategoryComp
@@ -30,7 +35,7 @@
       />
     </div>
 
-    <div class="collapse-content !pl-0 pr-0 bg-slate-50 dark:bg-slate-900 dark:text-white text-xs">
+    <div class="collapse-content !pl-0 pr-0 dark:text-white text-xs">
       <ais-configure
         :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`"
         :numeric-refinements="{
@@ -77,7 +82,7 @@
         <div class="w-1/3 flex flex-col justify-center mb-3.5">
           <Icon
             class="mx-auto dark:text-white"
-            name="formkit:arrowright"
+            name="tabler:arrow-right"
           />
         </div>
         <FormKit
@@ -108,13 +113,13 @@
 
       <div class="text-center flex flex-row mt-4 mx-2">
         <button
-          class="btn btn-block btn-sm w-1/2"
+          class="btn btn-block btn-xs w-1/2"
           @click="resetSlider"
         >
           {{ $t('reset') }}
         </button>
         <button
-          class="btn btn-block btn-sm w-1/2 btn-primary"
+          class="btn btn-block btn-xs w-1/2 btn-primary"
           :disabled="!hasUnsavedChanges"
           @click="applySlider"
         >
@@ -130,12 +135,18 @@
 </template>
 
 <script setup lang="ts">
+
+// facet icon mapping
+import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
+const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
+
 import { ref, computed, onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
 
 const props = defineProps({
     headerText: { type: String, default: 'Production Year' },
+    attributeName: { type: String, default: 'production_in_year' },
     category: { type: String, default: null },
     min: { type: Number, default: 1896 },
     max: { type: Number, default: 2025 },

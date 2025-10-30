@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export function useHash(scroll = true) {
@@ -22,10 +21,9 @@ export function useHash(scroll = true) {
 
                         setTimeout(() => {
                             el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-
-                            el.classList.add('hash-highlight-conic');
+                            el.classList.add('bg-highlight', 'transition', 'duration-500', 'text-white');
                             setTimeout(() => {
-                                el.classList.remove('hash-highlight-conic');
+                                el.classList.remove('bg-highlight', 'text-white');
                                 const label = el.querySelector('label');
                                 if (label) {
                                     label.appendChild(
@@ -35,11 +33,10 @@ export function useHash(scroll = true) {
                                         })
                                     );
                                 }
-                            }, 4200);
-                            
+                            }, 3200);
                         }, 600);
                     }
-                }, 1400); // allow DOM/render to settle
+                }, 600);
             }
         };
 

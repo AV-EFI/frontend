@@ -119,6 +119,7 @@
               :tab-index="11"
               :aria-label="$t('has_sound_type')"
             />
+            <!--
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
               header-text="item_duration_in_minutes"
@@ -128,7 +129,8 @@
               :is-searchable="false"
               :tab-index="12"
               :aria-label="$t('has_duration')"
-            />
+            />            
+            -->
             <SearchPanelRefinementListComp
               :class="{ hidden: viewTypeChecked }"
               header-text="has_colour"
@@ -157,6 +159,17 @@
               :tab-index="16"
               :aria-label="$t('item_element_type')"
             />
+            <!--
+            <SearchPanelRefinementListComp
+              :class="{ hidden: viewTypeChecked }"
+              header-text="has_access_status"
+              attribute-name="has_access_status"
+              category="avefi:Item"
+              :is-searchable="false"
+              :tab-index="16"
+              :aria-label="$t('has_access_status')"
+            />            
+            -->
             <div
               :class="{ hidden: !viewTypeChecked }"
               class="alert shadow-sm mb-2 mt-2 lg:mt-0 lg:mb-0 p-2 text-sm"
@@ -180,6 +193,7 @@
 <script setup lang="ts">
 import { useObjectListStore } from '../../stores/compareList';
 const { t:$t } = useI18n();
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const { $toggleFacetDrawerState }: any = useNuxtApp();
 const objectListStore = useObjectListStore();
 
@@ -199,11 +213,11 @@ onMounted(() => {
                 panel?.prepend(collapseCheckbox);
             });
         }
-
         addCollapseCheckboxDom();
     })();
 });
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const emit = defineEmits(['update:productionYear']);
 defineProps({
     viewTypeChecked: {

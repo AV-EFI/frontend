@@ -18,9 +18,9 @@
           <thead>
             <tr>
               <th>Konflikt-ID</th>
-              <th>Dataset #1 PID</th>
+              <th>Dataset #1 efi</th>
               <th>Dataset #1 Titel</th>
-              <th>Dataset #2 PID</th>
+              <th>Dataset #2 efi</th>
               <th>Dataset #2 Titel</th>
               <th>Aktion</th>
             </tr>

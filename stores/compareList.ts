@@ -31,7 +31,7 @@ export const useObjectListStore = defineStore({
         }
     },
     actions: {
-        async addObject(object: ObjectItem): Promise<String> {
+        async addObject(object: ObjectItem): Promise<string> {
             if (this.objects.length >= 2) {
                 return "listfull";
             }

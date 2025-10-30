@@ -3,7 +3,7 @@ services:
     container_name: av-efi-frontend
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     volumes:
@@ -11,6 +11,8 @@ services:
       - './logs:/app/logs'
     networks:
       - proxy-network
+    command: yarn dev --host 0.0.0.0
+
 
 networks:
   proxy-network:

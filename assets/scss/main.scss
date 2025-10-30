@@ -1,39 +1,184 @@
 @use '_variables';
 @use '_colors';
 
-@font-face {
-  font-family: 'Bungee';
-  src: url('~/assets/fonts/Bungee-Regular.ttf') format('truetype');
+@import "tailwindcss";
+
+@plugin "daisyui" {
+   themes: avefi_light --default, avefi_dark --prefersdark;
+    root: ":root";
+    logs: true;
+};
+
+@plugin "daisyui/theme" {
+  name: "avefi_light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.003 247.858);
+  --color-base-200: oklch(96% 0.007 247.896);
+  --color-base-300: oklch(86% 0.022 252.894);
+  --color-base-content: oklch(32.437% 0.022 264.182);
+  --color-primary: #4d768d;
+  --color-primary-content: oklch(98% 0.002 247.839);
+  --color-secondary: #000000;
+  --color-secondary-content: oklch(98% 0.002 247.839);
+  --color-accent: #ff1d25;
+  --color-accent-content: #fefefe;
+  --color-neutral: #364754;
+  --color-neutral-content: oklch(89.925% 0.016 262.749);
+  --color-info: oklch(95% 0.045 203.388);
+  --color-info-content: oklch(13.841% 0.012 332.664);
+  --color-success: oklch(69% 0.17 162.48);
+  --color-success-content: oklch(98% 0.002 247.839);
+  --color-warning: oklch(83% 0.128 66.29);
+  --color-warning-content: oklch(17.097% 0.017 84.093);
+  --color-error: oklch(60.61% 0.12 15.341);
+  --color-error-content: oklch(12.122% 0.024 15.341);
+  --color-highlight: #A53A42;
+  --color-highlight-content: #ffffff;
+  --color-favourites-list: #B85A5E;            /* muted rose-crimson */
+  --color-favourites-list-content: #ffffff;
+  --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
+  --color-favourites-list-hover-content: #ffffff;
+
+  --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
+  --color-compare-list-hover: #2B343B;
+  --color-compare-list-content: #ffffff;
+  --color-work: #E8E2D2;          /* slightly warmer parchment, still neutral */
+  --color-manifestation: #D6CFBB; /* balanced greige with gentle beige depth */
+  --color-item: #C6BEA3;          /* richer sand-grey with mild olive warmth */  
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 1rem;
+  --size-selector: 0.1875rem;
+  --size-field: 0.1875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
-@font-face {
-    font-family: 'PlayfairDisplay';
-    src: url('~/assets/fonts/Merriweather-Regular.ttf') format('truetype');
+@plugin "daisyui/theme" {
+  name: "avefi_dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(20.768% 0.039 265.754);
+  --color-base-200: oklch(19.314% 0.037 265.754);
+  --color-base-300: oklch(17.86% 0.034 265.754);
+  --color-base-content: oklch(84.153% 0.007 265.754);
+  --color-primary: #4d768d;
+  --color-primary-content: oklch(98% 0.002 247.839);
+  --color-secondary: #000000;
+  --color-secondary-content: oklch(98% 0.002 247.839);
+  --color-accent: #ff1d25;
+  --color-accent-content: #fefefe;
+  --color-neutral: oklch(27.949% 0.036 260.03);
+  --color-neutral-content: oklch(85.589% 0.007 260.03);
+  --color-info: oklch(68.455% 0.148 237.251);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: oklch(78.452% 0.132 181.911);
+  --color-success-content: oklch(15.69% 0.026 181.911);
+  --color-warning: oklch(83.242% 0.139 82.95);
+  --color-warning-content: oklch(16.648% 0.027 82.95);
+  --color-error: oklch(71.785% 0.17 13.118);
+  --color-error-content: oklch(14.357% 0.034 13.118);
+  --color-highlight: #b2161d;
+  --color-highlight-content: #ffffff;
+  --color-favourites-list: #B85A5E;              /* muted rose-crimson */
+  --color-favourites-list-content: #ffffff;
+  --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
+  --color-favourites-list-hover-content: #ffffff;
+  --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
+  --color-compare-list-hover: #2B343B;
+  --color-compare-list-content: #ffffff;
+  --color-work: #F3E2B8;
+  --color-manifestation: #E8D39E;
+  --color-item: #DDC48B;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 1rem;
+  --size-selector: 0.1875rem;
+  --size-field: 0.1875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
-@font-face {
-    font-family: 'OpenSans';
-    src: url('~/assets/fonts/Roboto-Regular.ttf') format('truetype');
+@custom-variant dark (&:where([data-theme=avefi_dark], [data-theme=avefi_dark] *));
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .badge-work {
+    --badge-bg: var(--color-work)!important;
+    --badge-content: var(--color-base-100); /* or a custom contrast */
+  }
+  .badge-manifestation {
+    --badge-bg: var(--color-manifestation)!important;
+    --badge-content: var(--color-base-100); /* or a custom contrast */
+  }
+  .badge-item {
+    --badge-bg: var(--color-item)!important;
+    --badge-content: var(--color-base-100); /* or a custom contrast */
+  }
+  .badge-favourites-list {
+    --badge-bg: var(--color-favourites-list)!important;
+    --badge-content: var(--color-favourites-list-content)!important;  
+  }
+  .badge-compare-list {
+    --badge-bg: var(--color-compare-list)!important;
+    --badge-content: var(--color-compare-list-content)!important;
+  }
+  .btn-highlight {
+    background-color: var(--color-highlight)!important;
+    color: var(--color-highlight-content)!important;
+  }
+  .border-work {
+    border-color: var(--color-work)!important;
+  }
+  .border-manifestation {
+    border-color: var(--color-manifestation)!important;
+  }
+  .border-item {
+    border-color: var(--color-item)!important;
+  }
+  .bg-work {
+    background-color: var(--color-work)!important;
+  }
+  .bg-manifestation {
+    background-color: var(--color-manifestation)!important;
+  }
+  .bg-item {
+    background-color: var(--color-item)!important;
+  }
+  .bg-highlight {
+    background-color: var(--color-highlight)!important;
+    color: var(--color-highlight-content)!important;
+  }  
 }
 
 @font-face {
   font-family: 'BreeSerif';
-  src: url('~/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
+  src: url('@/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
 }
-
 
 @font-face {
   font-family: 'Inter';
-  src: url('~/assets/fonts/Inter.ttf') format('truetype');
+  src: url('@/assets/fonts/Inter.ttf') format('truetype');
 }
 
 html, body {
   font-family: 'Inter', sans-serif;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.bree {
+  font-family: 'BreeSerif', serif;
+}
 
 @layer utilities {
   .text-rainbow-stripe {
@@ -94,6 +239,25 @@ header {
 
 .bree {
   font-family: 'BreeSerif', serif;
+}
+
+/* collapse-plus */
+.collapse-plus>.collapse-title:after {
+    top: 25%;
+}
+
+.collapse-plus>.collapse-title:after {
+    font-size: 1.875rem;
+    height: 1rem;
+    line-height: 2.25rem;
+    width: 1rem;
+    --tw-text-opacity: 1;
+    color: rgb(54 71 84 / var(--tw-text-opacity, 1));
+}
+
+/* Dark-Mode Support */
+html[data-theme="avefi_dark"] .collapse-plus::after {
+  transform: scale(1.5);
 }
 
 
@@ -182,10 +346,16 @@ html[data-theme="avefi_dark"] .customize_table {
 }
 
 mark {
-  background-color: var(--highlight); // or your exact altrosa hex if not using a CSS var
-  color: var(--highlight-content); // or your exact altrosa content color hex if not using a CSS var
+  background-color: var(--color-highlight);
+    color: var(--color-highlight-content);
   padding: 0 0.25em;
   border-radius: 2px;
+}
+
+.btn.disabled, .btn:disabled, btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .cookieControl__Modal-enter-active,

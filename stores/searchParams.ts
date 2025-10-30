@@ -80,28 +80,3 @@ interface IRegularSearch {
     searchTerm: string,
     optionsList: IOptions[]
 }
-
-interface ISearchComp {
-    searchToggle: boolean,
-    regularSearch: IRegularSearch | null,
-    extendedSearch: IExtendedSearch | null,
-}
-
-class SearchComp implements ISearchComp {
-    searchToggle: boolean;
-    regularSearch: IRegularSearch | null;
-    extendedSearch: IExtendedSearch | null;
-
-    constructor() {
-        this.searchToggle = false;
-        this.regularSearch = { searchTerm: "" } as IRegularSearch;
-        this.extendedSearch = {
-            searchTermExtended: '',
-            operators: [{
-                searchTerm: '',
-                booleanOperator: 'and',
-                fieldOperator: 'Title'
-            }]
-        } as IExtendedSearch;
-    }
-}

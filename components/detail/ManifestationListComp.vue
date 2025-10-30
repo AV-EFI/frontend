@@ -11,7 +11,7 @@
     <div
       v-for="(manifestation,i) in manifestationList"
       :key="manifestation._id || i"
-      class="mt-2 collapse collapse-plus border-base border-2"
+      class="mt-2 collapse collapse-plus border-base-200 border-2"
     >
       <input
         :id="`manifestation-${manifestation.handle || manifestation._id}`"
@@ -44,6 +44,7 @@
             <DetailKeyValueComp
               :id="manifestation.handle?.replace?.('21.11155/', '')"
               keytxt="efi"
+              :translate-key="false"
               :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="true"
@@ -88,7 +89,7 @@
                 class="link link-primary dark:link-accent inline-flex items-center gap-1"
               >
                 <span>{{ safeT('webresource') }}<span v-if="webresources(manifestation).length > 1">&nbsp;{{ idx + 1 }}</span></span>
-                <Icon name="formkit:linkexternal" />
+                <Icon name="tabler:external-link" />
               </a>
             </div>
 
@@ -142,15 +143,6 @@
               class="w-full mt-2"
             />
 
-            <!-- 11 Farbe (Colour Type) -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_colour_type"
-              keytxt="has_colour"
-              :valtxt="manifestation?.has_record?.has_colour_type"
-              class="w-full mt-2"
-              :clip="false"
-            />
-
             <!-- 12 Abspieldauer -->
             <DetailKeyValueComp
               v-if="manifestation?.has_record?.has_duration?.has_value"
@@ -191,7 +183,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Item, MovingImageRecord } from '../../models/interfaces/av_efi_schema.ts';
+import type { Item, MovingImageRecord } from '~/models/interfaces/schema/avefi_schema.js';
 const { t } = useI18n();
 
 const manifestationList = defineModel({
@@ -267,8 +259,11 @@ function webresources(m: any): string[] {
 </script>
 
 <style scoped>
+
 .collapse-plus > .collapse-title:after {
-  @apply text-3xl w-4 h-4 text-primary-800 dark:text-white;
+  @reference "tailwindcss";
+  @apply w-4 h-4 dark:text-white;
+  color: var(--color-primary-800);
   top: 25%;
 }
 </style>

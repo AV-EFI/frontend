@@ -1,5 +1,10 @@
 <template>
   <section>
+    <div class="flex mx-auto my-2">
+      <slot name="navigation" />
+    </div>
+  </section>
+  <section>
     <div 
       :class="[
         'w-full mx-auto card card-side border-2 border-base-200 bg-white dark:bg-gray-900 rounded-xl shadow-xl',
@@ -28,8 +33,9 @@
               >
             </label>
           </div>
-        </div>        
+        </div>
         <slot name="title" />
+        <div class="divider mt-0 mb-2"></div>
         <slot name="cardBody">
           Card content
         </slot>

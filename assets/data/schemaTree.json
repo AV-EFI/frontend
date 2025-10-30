@@ -1,0 +1,133 @@
+[
+  {
+    "name": "MovingImageRecord",
+    "full": "MovingImageRecord",
+    "label": "MovingImageRecord",
+    "terms": [],
+    "children": [
+      {
+        "name": "WorkVariant",
+        "full": "MovingImageRecord.WorkVariant",
+        "label": "WorkVariant",
+        "terms": [],
+        "children": [
+          {
+            "name": "WorkVariant",
+            "full": "MovingImageRecord.WorkVariant.WorkVariant",
+            "label": "WorkVariant",
+            "terms": [
+              "category",
+              "described_by",
+              "has_alternative_title",
+              "has_event",
+              "has_form",
+              "has_genre",
+              "has_identifier",
+              "has_primary_title",
+              "has_source_key",
+              "has_subject",
+              "is_part_of",
+              "is_variant_of",
+              "same_as",
+              "type",
+              "variant_type"
+            ],
+            "children": []
+          },
+          {
+            "name": "ManifestationOrItem",
+            "full": "MovingImageRecord.WorkVariant.ManifestationOrItem",
+            "label": "ManifestationOrItem",
+            "terms": [
+              "category",
+              "described_by",
+              "has_alternative_title",
+              "has_colour_type",
+              "has_duration",
+              "has_event",
+              "has_extent",
+              "has_format",
+              "has_identifier",
+              "has_note",
+              "has_primary_title",
+              "has_sound_type",
+              "has_source_key",
+              "has_webresource",
+              "in_language",
+              "same_as"
+            ],
+            "children": []
+          },
+          {
+            "name": "ManifestationOrItemEnums",
+            "full": "MovingImageRecord.WorkVariant.ManifestationOrItemEnums",
+            "label": "ManifestationOrItemEnums",
+            "terms": [],
+            "children": []
+          },
+          {
+            "name": "manifestations[]",
+            "full": "MovingImageRecord.WorkVariant.manifestations[]",
+            "label": "manifestations[]",
+            "terms": [],
+            "children": [
+              {
+                "name": "Manifestation",
+                "full": "MovingImageRecord.WorkVariant.manifestations[].Manifestation",
+                "label": "Manifestation",
+                "terms": [
+                  "has_item",
+                  "is_manifestation_of"
+                ],
+                "children": []
+              },
+              {
+                "name": "ManifestationEnums",
+                "full": "MovingImageRecord.WorkVariant.manifestations[].ManifestationEnums",
+                "label": "ManifestationEnums",
+                "terms": [],
+                "children": []
+              },
+              {
+                "name": "items[]",
+                "full": "MovingImageRecord.WorkVariant.manifestations[].items[]",
+                "label": "items[]",
+                "terms": [],
+                "children": [
+                  {
+                    "name": "Item",
+                    "full": "MovingImageRecord.WorkVariant.manifestations[].items[].Item",
+                    "label": "Item",
+                    "terms": [
+                      "element_type",
+                      "has_access_status",
+                      "has_frame_rate",
+                      "is_copy_of",
+                      "is_derivative_of",
+                      "is_item_of"
+                    ],
+                    "children": []
+                  },
+                  {
+                    "name": "ItemEnums",
+                    "full": "MovingImageRecord.WorkVariant.manifestations[].items[].ItemEnums",
+                    "label": "ItemEnums",
+                    "terms": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "WorkVariantEnums",
+            "full": "MovingImageRecord.WorkVariant.WorkVariantEnums",
+            "label": "WorkVariantEnums",
+            "terms": [],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

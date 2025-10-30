@@ -8,8 +8,8 @@
           @click="showInfo = !showInfo"
         >
           <Icon
-            name="material-symbols:info-outline"
-            class="text-3xl"
+            name="tabler:info-circle"
+            class="text-2xl"
           />
         </button>
         <p
@@ -43,8 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
-
+import type {ElasticGetByIdResponse} from '~/models/interfaces/generated/IElasticResponses';
 const props = defineProps({
     'items': {
         type: Array<string>,
@@ -81,17 +80,22 @@ function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: 
 
 const objectListStore = useObjectListStore();
 
-async function getCollectionType(routeParamsId: string): Promise<string> {
-    const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
-        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
+async function getCollectionType(routeParamsId: string): Promise<ElasticGetByIdResponse> {
+    if (!routeParamsId) {
+        return "";
+    }
+    const data = await getDataSet(routeParamsId);
+    console.log('Data:', data);
+
+    return data as ElasticGetByIdResponse;
+    /*
+    const { data } = await useApiFetchLocal<Array<IAVefiWorkVariant>>(
+        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}/${routeParamsId}`,
         {
-            method: 'POST',
-            body: JSON.stringify({ documentId: routeParamsId }),
-            headers: {
-                'Authorization': `ApiKey ${useRuntimeConfig().public.ELASTIC_IMDB_APIKEY}`
-            }
+            method: 'GET'
         }
     );
+    */
 
     if (data) {
         return JSON.stringify(data?.value?.at(0), null, 2);

@@ -17,24 +17,20 @@
     </section>
   </div>
 </template>
+<script lang="ts" setup>
+import type { MergedDataset } from '@/models/interfaces/manual/IMergedDataSet';
+import { useFormattedAVefiRecord } from '@/composables/useFormattedAVefiRecord';
 
-<script setup lang="ts">
-import type { IAVefiListResponse, IAVefiSingleResponse } from '../../models/interfaces/IAVefiWork';
-/*
-const route = useRoute();
-const items = new Array();
-items[0] = route.query.prev;
-items[1] = route.query.next;
-*/
 const props = defineProps({
-    'items': {
+    items: {
         type: Array<string>,
-        required:true,
+        required: true,
         default: () => []
     }
 });
-const mergedDataset = ref({
-    title: "",
+
+const mergedDataset = ref<MergedDataset>({
+    title: '',
     other_ids: [],
     countries: [],
     directors: [],
@@ -44,42 +40,37 @@ const mergedDataset = ref({
     subjects: []
 });
 
-function onUpdateTargetModelGP (targetPropertyValue:string, targetPropertyName:string) {
-    if(["countries", "directors", "actors", "keywords"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, gnd: 12345});
-    }
-    else if(["otherIds"].includes(targetPropertyName)) {
-        mergedDataset.value[targetPropertyName].push({name: targetPropertyValue, type: "defaultType"});
-    } else {
-        mergedDataset.value[targetPropertyName] = targetPropertyValue;
+function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: string) {
+    if (['countries', 'directors', 'castmembers', 'producers'].includes(targetPropertyName)) {
+        const key = targetPropertyName as keyof Pick<MergedDataset, 'countries' | 'directors' | 'castmembers' | 'producers'>;
+        (mergedDataset.value[key] as { name: string; gnd: number }[]).push({
+            name: targetPropertyValue,
+            gnd: 12345
+        });
+    } else if (targetPropertyName === 'other_ids') {
+        mergedDataset.value.other_ids.push({ name: targetPropertyValue, type: 'defaultType' });
+    } else if (targetPropertyName === 'title') {
+        mergedDataset.value.title = targetPropertyValue;
+    } else if (['productionyears', 'subjects'].includes(targetPropertyName)) {
+        const key = targetPropertyName as keyof Pick<MergedDataset, 'productionyears' | 'subjects'>;
+        (mergedDataset.value[key] as string[]).push(targetPropertyValue);
     }
 }
 
 const objectListStore = useObjectListStore();
 
-async function getCollectionType (routeParamsId:string):Promise<string> {  
-    const { data } = await useApiFetchLocal<IAVefiSingleResponse>(`${useRuntimeConfig().public.ELASTIC_HOST_PUBLIC}/${useRuntimeConfig().public.ELASTIC_INDEX}/_doc/${routeParamsId}`, {method: 'GET'});
-    
-    if(data) {
-        return JSON.stringify(data.value, null, 2);
-    }
-    return "";
-}
-
-const { data: prev } = await useAsyncData<string>('prev', () =>
-    getCollectionType(props.items[0])
+const { data: prev } = await useAsyncData('prev', () =>
+    useFormattedAVefiRecord(props.items[0], { logErrors: true })
 );
 
-const { data: current } = await useAsyncData<string|undefined>('current', () =>
-    getCollectionType(props.items[1])
+const { data: current } = await useAsyncData('current', () =>
+    useFormattedAVefiRecord(props.items[1], { logErrors: true })
 );
 
 onMounted(() => {
-    if(objectListStore.comparisonDrawerOpen) {
+    if (objectListStore.comparisonDrawerOpen) {
         objectListStore.comparisonDrawerOpen = false;
     }
 });
 
 </script>
-<style>
-</style>

@@ -1,0 +1,90 @@
+default:
+  image: docker.gitlab.gwdg.de/eoltman/docker-ext:28.3.0
+  services:
+    - name: docker.io/library/docker:28.3.0-dind
+      alias: docker
+      command: ["--mtu=1450"]
+  tags:
+    - docker
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - build
+  - deploy
+
+variables:
+  # Specify to Docker where to create the certificates. Docker
+  # creates them automatically on boot, and creates
+  # `/certs/client` to share between the service and job
+  # container, thanks to volume mount from config.toml
+  DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+# Build a docker image when a push is made to a non-default branch.
+.build_docker:
+  stage: build
+  script:
+    - grep -vi secret .env.tmpl | envsubst > .env
+    - export NODE_OPTIONS="--max-old-space-size=4096"   # 🟢 Increase Node heap size
+    - docker build --pull --tag $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+build_docker-staging:
+  variables:
+    DEPLOY_SERVER: $STAGING_SERVER
+  rules:
+    - if: $CI_COMMIT_BRANCH == "testbed"
+  extends: .build_docker
+
+.deploy:
+  stage: deploy
+  variables:
+    ## To be set as CI/CD variables:
+    #DEPLOY_USER
+    #DEPLOY_PATH
+  before_script:
+    # Install required packages
+    - apk add --no-cache openssh-client
+    # Setup SSH
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - base64 -d "$SSH_PRIVATE_KEY" | ssh-add -
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+  script:
+    - envsubst < docker-compose.tmpl > docker-compose.yml
+    - cat docker-compose.yml
+    - envsubst < .env.tmpl > .env
+    # Create the new deployment directory if it doesn't exist
+    - ssh $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p $DEPLOY_PATH"
+    # Upload docker-compose.yml to server
+    - scp docker-compose.yml .env $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH/
+    # Login to Docker registry and restart containers
+    - ssh $DEPLOY_USER@$DEPLOY_SERVER "cd $DEPLOY_PATH && 
+      echo 'Logging into registry $CI_REGISTRY' &&
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+      echo 'Pulling latest images' &&
+      docker compose pull &&
+      echo 'Starting containers' &&
+      docker compose up -d"
+
+deploy-staging:
+  environment:
+    name: testbed
+    url: https://testbed.av-efi.de
+  variables:
+    DEPLOY_SERVER: $STAGING_SERVER
+    NUXT_SECRET: $STAGING_NUXT_SECRET
+    SSH_PRIVATE_KEY: $STAGING_PRIVATE_KEY
+    DEPLOY_PATH: "/home/cloud/avefi-frontend"
+    MAIL_USER: $MAIL_USER
+    MAIL_PASSWORD: $MAIL_PASSWORD
+    MAIL_TO: $MAIL_TO
+    MAIL_TO_2: $MAIL_TO_2
+    AUTH_ORIGIN: $AUTH_ORIGIN
+  rules:
+    - if: $CI_COMMIT_BRANCH == "testbed"
+  extends: .deploy

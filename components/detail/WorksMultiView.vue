@@ -68,7 +68,7 @@
                 &nbsp;&nbsp;
               </span>
               <Icon
-                name="carbon:logical-partition"
+                name="tabler:layout"
                 class="mr-1"
               />
               {{ $t('Episode/Part') }}
@@ -142,7 +142,10 @@
                 class="font-bold text-sm text-primary-800 dark:text-primary-200 pl-1 mt-4"
               >
                 {{ $t('items') }}
-                <GlobalTooltipInfo :text="$t('tooltip.item')" class="absolute ml-2" />
+                <GlobalTooltipInfo
+                  :text="$t('tooltip.item')"
+                  class="absolute ml-2"
+                />
               </h4>
               <div
                 v-for="exemplar in manifestation.items"
@@ -198,7 +201,7 @@
                     target="_blank"
                     class="link link-primary dark:link-accent mt-auto md:mb-2"
                   >
-                    <Icon name="formkit:linkexternal" />&nbsp;{{ $t('webresource') }}
+                    <Icon name="tabler:external-link" />&nbsp;{{ $t('webresource') }}
                   </a>
                 </div>
                 <div class="max-md:flex max-md:justify-end col-span-full md:col-span-1 hidden">

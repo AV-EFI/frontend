@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
     agentData: {
         type: Object,
         default: null

@@ -30,8 +30,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-const { data:authData } = useAuth();
 import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
+const { data:authData } = useAuth();
 
 const uiState = {
     refinementList: {
@@ -40,7 +40,7 @@ const uiState = {
 };
 
 const searchClient = SearchkitInstantSearchClient({
-    url: "/api/elastic/msearch_inst",
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/frontend/search`,
     uiState: uiState,
 });
 

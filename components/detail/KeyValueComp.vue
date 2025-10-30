@@ -2,9 +2,14 @@
   <div
     class="flex flex-col"
     role="group"
-    :aria-label="`${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`"
+    :aria-label="translateKey ? 
+      `${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`
+      : `${keytxt}: ${$t(valtxt)}`"
   >
-    <MicroLabelComp :label-text="keytxt" />
+    <MicroLabelComp 
+      :label-text="keytxt" 
+      :translate-key="translateKey"
+    />
     <div class="flex flex-row">
       <GlobalClipboardComp
         v-if="clip"
@@ -50,6 +55,10 @@ const props = defineProps({
     narrow: {
         type: Boolean,
         default: false
+    },
+    translateKey: {
+        type: Boolean,
+        default: true
     }
 });
 const sameAsData = {

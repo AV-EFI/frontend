@@ -1,0 +1,65 @@
+{
+  "query": {
+    "has_record.has_primary_title.has_name": [
+      "Jahresdokumentation",
+      "Babelsberg - Glanz und Elend einer Filmstadt",
+      "Privatfilme Bletzinger - Alfred Bletzinger",
+      "Luftaufnahmen von Süddeutschland",
+      "Bau der Michaelskirche inForchtenberg",
+      "DÜSSELDORF: BAUVORHABEN IM AUFTRAG DES KANAL- UND WASSERBAUAMTES",
+      "FAMILIE SCHOLZ - ZUSAMMENSCHNITT",
+      "Privataufnahmen",
+      "Sachdokumentation",
+      "Universität Freiburg"
+    ],
+    "has_record.has_alternative_title.has_name": [
+      "Jahresdokumentation",
+      "Privatfilme Bletzinger - Alfred Bletzinger",
+      "Luftaufnahmen von Süddeutschland",
+      "Bau der Michaelskirche inForchtenberg",
+      "Sachdokumentation",
+      "Wiederaufbau der Stadt Heilbronn",
+      "Familienchronik",
+      "Familienleben und Freizeitaktivitäten einer Pfarrersfamilie in Speyer",
+      "Hengstenberg Werbefilm",
+      "Universität Freiburg"
+    ],
+    "production": [
+      "Schlenker, Hermann",
+      "Hermann Schlenker Filmproduktion",
+      "Hermann Schlenker",
+      "Hermann Schlenker Filmproduktion (Villingen-Schwenningen)",
+      "Hermann Schlenker (Schwenningen)",
+      "Stanek, Milan",
+      "Brauen, Martin",
+      "Koloss, Hans-Joachim",
+      "Röhrich, Lutz",
+      "Hermann Schlenker Filmproduktion (Königsfeld)"
+    ],
+    "directors_or_editors": [
+      "Troller, Georg Stefan",
+      "Nekes, Werner",
+      "Wildenhahn, Klaus",
+      "Nestler, Peter",
+      "Nickel, Gitta",
+      "Fischer, Nina",
+      "Sani, Maroan el",
+      "Stöckl, Ula",
+      "Schlingensief, Christoph",
+      "Dubiel, Günter"
+    ],
+    "subjects": [
+      "Amateurfilm",
+      "Dokumentation",
+      "Familie",
+      "Dok",
+      "Reise",
+      "Urlaub",
+      "FREIZEIT",
+      "Kind",
+      "Stuttgart",
+      "GESELLSCHAFT UND SOZIALES"
+    ]
+  },
+  "facets": {}
+}

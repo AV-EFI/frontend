@@ -31,7 +31,7 @@ export const useShoppingCart = defineStore({
         }
     },
     actions: {
-        async addObject(object: ObjectItem): Promise<String> {
+        async addObject(object: ObjectItem): Promise<string> {
             if (this.objects.length >= 10) {
                 return "listfull";
             }

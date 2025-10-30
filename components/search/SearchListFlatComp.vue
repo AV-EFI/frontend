@@ -2,14 +2,14 @@
   <section
     v-for="work in datasets"
     :key="work?.handle ?? Math.random()"
-    class="card bg-base-100 shadow-md rounded-2xl mb-6 border border-base-200"
+    class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-labelledby="`work-title-${work?.handle ?? ''}`"
   >
     <!-- Work header -->
-    <header class="card-body p-4">
+    <header class="card-body p-4 pb-2">
       <div class="flex flex-col md:flex-row justify-between">
-        <div class="w-4/5 md:w-4/5 lg:w-3/5">
+        <div class="w-4/5 md:w-4/5">
           <GlobalClipboardComp
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
             :display-text="work?.handle ?? ''"
@@ -151,7 +151,7 @@
               <article
                 v-for="row in filteredRows(work)"
                 :key="row.item?.handle ?? Math.random()"
-                class="item-card card border border-primary/40 bg-base-100 rounded-xl shadow-md"
+                class="item-card card border border-primary/40 bg-white/90 dark:bg-base-200 rounded-xl shadow-md"
                 role="option"
                 :aria-label="row.item?.handle || 'item'"
               >
@@ -161,7 +161,7 @@
                     <MicroBadgeCategoryComp
                       category="avefi:Item"
                       :dense="false"
-                      class="block mx-auto mb-2"
+                      class="mx-auto mb-2"
                     />
                     <h4>
                       <GlobalClipboardComp
@@ -207,7 +207,7 @@
                 </div>
                 <div class="flex justify-end p-2">
                   <button 
-                    class="btn btn-xs btn-block btn-outline mt-2"
+                    class="btn btn-sm btn-block btn-outline mt-2"
                     :aria-label="$t('viewItemDetails')"
                     :title="$t('viewItemDetails')"
                     @click="navigateToItem(row.item, work?.handle ?? '')"
@@ -526,6 +526,7 @@ const navigateToItem = (item: any, workHandle: string) => {
 </script>
 
 <style scoped>
+@reference "tailwindcss";
 /* carousel layout */
 .carousel-viewport { overflow: hidden; width: 100%; }
 .carousel-track {
@@ -541,6 +542,5 @@ const navigateToItem = (item: any, workHandle: string) => {
   .carousel-track { grid-auto-columns: 33.3333%; }
 }
 .item-card { margin: 0.5rem; }
-.kv-l { @apply font-medium text-base-content/80 mr-1; }
-.kv-v { @apply text-base-content; }
+/* Use class="font-medium text-base-content opacity-80 mr-1" for .kv-l and class="text-base-content" for .kv-v in markup instead of @apply here */
 </style>

@@ -18,7 +18,7 @@
         class="col-span-full md:col-span-12"
       >
         <div
-          class="grid col-span-8 grid-cols-12 gap-2"
+          class="grid col-span-8 grid-cols-12 gap-x-2 gap-y-1"
         >
           <slot
             name="left"

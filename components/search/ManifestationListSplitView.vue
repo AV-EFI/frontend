@@ -49,12 +49,12 @@
               <div class="text-sm font-medium mt-0.5">
                 {{ m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer') }}
               </div>
-              <SearchMetaIconListComp
-                type="manifestation"
+              <SearchGenericIconList
                 :data="m"
+                level="manifestation"
               />
               <button 
-                class="btn btn-primary btn-outline btn-xs mt-2"
+                class="btn btn-primary btn-outline btn-sm mt-2"
                 :aria-label="$t('viewManifestationDetails')"
                 :title="$t('viewManifestationDetails')"
                 @click.stop="navigateToItem(m)"
@@ -99,14 +99,14 @@
                 >
                   <div class="flex gap-2 items-center mb-1">
                     <Icon
-                      name="carbon:parent-node"
+                      name="tabler:tree"
                       class="text-primary w-4 h-4"
                     />
                     <span class="text-sm font-semibold">{{ item?.handle }}</span>
                   </div>
-                  <SearchMetaIconListComp
-                    type="item"
+                  <SearchGenericIconList
                     :data="item"
+                    level="item"
                   />
                 </li>
               </ul>
@@ -182,7 +182,6 @@
                 <MicroBadgeCategoryComp
                   category="avefi:Item"
                   :dense="false"
-                  class="block"
                 />
               </div>
               <GlobalClipboardComp 
@@ -191,9 +190,9 @@
                 :aria-label="$t('copyItemHandle')"
                 font-size="text-sm"
               />
-              <SearchMetaIconListComp
+              <SearchGenericIconList
                 :data="item"
-                type="item"
+                level="item"
               />
               <div class="text-sm text-gray-500 dark:text-gray-300 mt-2 relative">
                 <a
@@ -205,13 +204,13 @@
                   <GlobalTooltipInfo
                     :text="$t('tooltip.webresource')"
                   />
-                  <Icon name="formkit:linkexternal" />
+                  <Icon name="tabler:external-link" />
                   {{ $t('webresource') }}
                 </a>
               </div>
               <div class="flex justify-end">
                 <button 
-                  class="btn btn-xs btn-block btn-outline mt-2"
+                  class="btn btn-sm btn-block btn-outline mt-2"
                   :aria-label="$t('viewItemDetails')"
                   :title="$t('viewItemDetails')"
                   @click="navigateToItem(item)"
@@ -251,7 +250,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },

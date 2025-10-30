@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
-const props = defineProps({
+defineProps({
     searchClient: {
         type: Object,
         default: () => ({}),

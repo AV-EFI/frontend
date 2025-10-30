@@ -62,7 +62,7 @@
                     }"
                   >
                     <template #resetLabel>
-                      <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                      <Icon name="tabler:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
                     </template>
                   </ais-clear-refinements>
                 </div>
@@ -106,7 +106,7 @@
                   :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
-                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                  <Icon name="tabler:chevron-right" />&nbsp;{{ $t('showFacetItems') }}
                 </button>
                 <div
                   class="w-full flex flex-col md:flex-row justify-between md:justify-between p-2 mb-2"
@@ -121,7 +121,7 @@
                     <ais-stats>
                       <template #default="{ nbHits }">
                         <h2 class="font-bold text-gray-800 dark:text-gray-200">
-                          {{ nbHits }} {{ $t('results') }}
+                          {{ nbHits }} {{ nbHits.length > 1 ? $t('results') : $t('result') }}
                         </h2>
                       </template>
                     </ais-stats>

@@ -288,20 +288,20 @@ import type { Event } from '../../models/interfaces/av_efi_schema';
 const eventList = defineModel({type: Array as PropType<Event[]>, required: true});
 
 function getCastMemberList (hasEvent: Event) {
-  try {
-    return hasEvent.has_activity?.filter((hasAct) => hasAct.type == 'CastMember');
-  } catch(ex) {
-    console.error(ex);        
-  }
-  return null;
+    try {
+        return hasEvent.has_activity?.filter((hasAct) => hasAct.type == 'CastMember');
+    } catch(ex) {
+        console.error(ex);        
+    }
+    return null;
 }
 
 function getCrewMemberList (hasEvent: Event) {
-  try {
-    return hasEvent.has_activity?.filter((hasAct) => hasAct.type != 'CastMember');
-  } catch(ex) {
-    console.error(ex);        
-  }
-  return null;
+    try {
+        return hasEvent.has_activity?.filter((hasAct) => hasAct.type != 'CastMember');
+    } catch(ex) {
+        console.error(ex);        
+    }
+    return null;
 }
 </script>

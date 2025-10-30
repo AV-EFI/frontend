@@ -11,7 +11,7 @@
       name="tabler:copy"
       :alt="`Copy ${displayText}`"
       :title="`Copy ${displayText}`"
-      @click="useClipboardUtil()?.copyExtended(displayText)"
+      @click="useClipboardUtil()?.copyExtended(copyText ?? displayText)"
     />
   </span>
 </template>
@@ -29,6 +29,10 @@ defineProps ({
     'darkBg': {
         type: Boolean,
         default: false
+    },
+    'copyText': {
+        type: String,
+        default: null
     }
 });
 

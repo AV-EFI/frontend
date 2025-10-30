@@ -6,7 +6,7 @@
     type="toggle"
     :off-value-label="labelOff"
     :on-value-label="labelOn"
-    thumb-icon="fa-regular:edit"
+    thumb-icon="tabler:edit"
     thumb-color-on="(--primary-200)"
     track-color-on="(--primary-500)"
     icon-color-on="white"
@@ -17,7 +17,7 @@
 
 const state = defineModel({default: 'false', type: String});
 
-const props = defineProps({
+defineProps({
     labelOff: {
         type: String,
         default: 'Off'

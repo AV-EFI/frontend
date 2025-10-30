@@ -65,32 +65,34 @@
               <div class="join w-full mt-2 p-2">
                 <button
                   :title="$t('gotocomp')"
-                  class="btn btn-compare-list h-full join-item w-1/3"
+                  class="btn btn-compare-list h-12 join-item w-1/3"
                   :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                   @click="navigateToComparison"
                 >
                   <Icon
                     class="text-lg text-white w-4 h-4"
-                    name="carbon:compare"
+                    name="tabler:arrows-exchange"
                   />
                   <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                 </button>
                 <button 
-                  class="btn btn-error text-white join-item w-1/3"
+                  class="btn btn-error h-12 join-item w-1/3"
                   :class="objectListStore.objects.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('objectListStore')"
                 >
-                  <Icon
-                    class="text-lg text-white w-4 h-4"
-                    name="carbon:trash-can"
-                  />
-                  {{ $t('clearalllist') }}
+                  <span class="text-white flex">
+                    <Icon
+                      class="text-lg text-white w-4 h-4 mr-2"
+                      name="tabler:trash"
+                    />
+                    {{ $t('clearalllist') }}
+                  </span>
                 </button>
                 <GlobalExportDataComp
                   :data-set-id="objectListStore.getObjectIds"
                   :class="objectListStore.objects.length < 1 && 'btn-disabled'"
-                  class="join-item w-1/3"
+                  class="join-item h-12 btn-primary btn-outline w-1/3"
                   btn-size="rounded-l-none"
                   :show-label="true"
                 />
@@ -119,7 +121,10 @@
                         class="btn btn-error btn-circle btn-sm text-white ml-1 w-8 h-8"
                         @click="removeObject(index, 'objectListStore')"
                       >
-                        <Icon name="material-symbols:delete" />
+                        <Icon
+                          class="text-lg"
+                          name="tabler:trash"
+                        />
                       </button>
                     </div>
                   </div>
@@ -161,17 +166,19 @@
               </div>
               <div class="join w-full mt-2 p-2">
                 <button 
-                  class="btn btn-error text-white join-item w-1/2"
+                  class="btn btn-error text-white join-item h-12 w-1/2"
                   :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
                   :title="$t('clearalllist')"
                   @click="removeAllObjects('shoppingCart')"
                 >
+                  <Icon name="tabler-trash" />
                   {{ $t('clearalllist') }}
                 </button>
                 <GlobalExportDataComp
                   :data-set-id="shoppingCart.getObjectIds"
                   :class="shoppingCart.objects.length < 1 && 'btn-disabled'"
                   class="join-item w-1/2"
+                  :show-label="true"
                   :btn-size="'rounded-l-none'"
                 />
               </div>
@@ -196,10 +203,13 @@
                       />
                       <button
                         :title="$t('remove')"
-                        class="btn btn-error btn-circle btn-sm text-white ml-1"
+                        class="btn btn-error btn-circle btn-sm w-8 h-8 text-white ml-1"
                         @click="removeObject(index, 'shoppingCart')"
                       >
-                        <Icon name="material-symbols:delete" />
+                        <Icon
+                          class="text-lg"
+                          name="tabler-trash"
+                        />
                       </button>
                     </div>
                   </div>

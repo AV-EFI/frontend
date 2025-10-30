@@ -2,13 +2,13 @@
   <div
     v-for="work in items"
     :key="work.handle"
-    class="card bg-white border border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full shadow-lg hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+    class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`"
   >
     <div
       v-if="showAdminStats"
-      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primarydark:bg-gray-800 dark:text-white text-sm p-2"
+      class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-800 dark:text-white text-sm"
     >
       <span>Status: <span class="badge badge-success text-white">Public</span></span>
       <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
@@ -17,12 +17,13 @@
         {{ $t('showHistory') }}
       </button>
     </div>
-    <header class="card-body p-4">
+    <header class="card-body p-4 pb-2">
       <div class="flex flex-col md:flex-row justify-between">
-        <div class="w-4/5 md:w-4/5 lg:w-3/5">
+        <div class="w-4/5 md:w-4/5">
           <GlobalClipboardComp
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
-            :display-text="work?.handle ?? ''"
+            :display-text="`${work?.handle ?? ''}`"
+            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
           />
           <h2
             :id="`work-title-${work?.handle ?? ''}`"
@@ -76,8 +77,6 @@
         class="mt-1"
       />
     </header>
-
-    <div class="divider divider-primary my-0" />
     <Transition
       name="fade"
       mode="out-in"
@@ -98,7 +97,7 @@
       </div>
     </Transition>
 
-    <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center">
+    <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center rounded-b-xl">
       <button
         v-if="work && work.handle"
         class="btn btn-highlight btn-xs my-2"
@@ -154,11 +153,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { MovingImageRecordContainer } from '../../models/interfaces/av_efi_schema.ts';
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
 
 const route = useRoute();
-
-import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const activeGenres = ref<string[]>([]);
 const activeSubjects = ref<string[]>([]);
@@ -214,8 +213,6 @@ const updateFromHref = () => {
     activeHasForm.value = refinements.has_form_has_name || [];
     activeProduction.value = refinements.production_type || [];
     refinementsActive.value = Object.values(refinements).some(arr => arr.length > 0);
-    console.log(refinements);
-    console.log('Refinements active:', refinementsActive.value);
 };
 
 onMounted(() => {
@@ -241,13 +238,10 @@ onMounted(() => {
 });
 
 const lastHref = ref(window.location.href);
-
-
-import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
 const props = defineProps({
     items: {
-        type: Array as PropType<Array<MovingImageRecordContainer>>,
+        type: Array as PropType<Array<ElasticMSearchResponse>>,
         required: true
     },
     productionDetailsChecked: {
@@ -276,6 +270,8 @@ const props = defineProps({
     }
 });
 
+const showFacetBadge = computed(() => props.nrOfFacetsActive > 0);
+
 const componentInfoReady = ref(false);
 const isExpanded = reactive<Record<string, boolean>>({});
 const showHighlight = ref<Record<string, boolean>>({});
@@ -287,6 +283,8 @@ onMounted(() => {
     props.items.forEach(item => {
         showHighlight.value[item.handle] = true;
     });
+
+    console.log('Facets active on mount:', props.nrOfFacetsActive);
 });
 
 watch(
@@ -297,6 +295,7 @@ watch(
                 showHighlight.value[item.handle] = true;
             }
         });
+        console.log('Items updated, facets active:', props.nrOfFacetsActive);
     },
     { immediate: true }
 );
@@ -407,7 +406,6 @@ watch(() => props.expandAllHandlesChecked, (newVal) => {
     });
 });
 
-
 function getHighlightSnippets(item) {
     if(item) {
         const result = [];
@@ -450,18 +448,6 @@ function getValueByPath(obj, path) {
     return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
 }
 
-
-watch(() => props.items, async (newVal) => {
-    const allFilteredManifestations = newVal
-        .flatMap(item => getFilteredManifestations(item));
-
-    await Promise.all([
-        checkEmptyProperties(allFilteredManifestations),
-        markDuplicateManifestations(allFilteredManifestations)
-    ]);
-
-    componentInfoReady.value = true;
-});
 
 onMounted(() => {
     componentInfoReady.value = true;
@@ -522,20 +508,23 @@ function formatValue(val: any): string {
 
 </script>
 <style scoped>
-.collapse-plus > .collapse-title:after {
-  @apply text-3xl w-4 h-4;
+.collapse-plus>.collapse-title:after {
   color: var(--primary-800);
   top: 25%;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s ease;
 }
-.fade-enter-from, .fade-leave-to {
+
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 
-.slide-fade-enter-active, .slide-fade-leave-active {
+.slide-fade-enter-active,
+.slide-fade-leave-active {
   overflow: hidden;
 }
 
@@ -544,24 +533,35 @@ function formatValue(val: any): string {
   transition: all 0.3s ease;
   overflow: hidden;
 }
+
 .slide-fade-enter-from,
 .slide-fade-leave-to {
   max-height: 0;
   opacity: 0;
 }
+
 .slide-fade-enter-to,
 .slide-fade-leave-from {
-  max-height: 1000px; /* enough to show full content */
+  max-height: 1000px;
+  /* enough to show full content */
   opacity: 1;
 }
 
 @keyframes gentlePulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.85; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
 }
 
 .animate-attention {
   animation: gentlePulse 2s ease-in-out infinite;
 }
-
 </style>

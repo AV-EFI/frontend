@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineEventHandler, readBody } from 'h3';
 import { Client } from '@elastic/elasticsearch';
 

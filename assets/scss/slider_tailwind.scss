@@ -1,94 +1,184 @@
+/* slider_tailwind.fixed.scss
+   NOTE:
+   - No `@use "tailwindcss"` here (keep Tailwind directives in your global CSS).
+   - Non-standard utilities replaced with plain CSS.
+*/
+
+@use "./utilities.scss";
+
+/* ===== Core target ===== */
 .slider-target {
-  @apply relative box-border select-none touch-none tap-highlight-transparent touch-callout-none slider-disabled:cursor-not-allowed;
+  position: relative;            /* @apply relative */
+  box-sizing: border-box;        /* @apply box-border */
+  user-select: none;             /* @apply select-none */
+  -webkit-tap-highlight-color: transparent; /* replaces `tap-highlight-transparent` */
+  -webkit-touch-callout: none;   /* replaces `touch-callout-none` */
+  touch-action: none;            /* replaces `touch-none` */
+  /* disabled state */
+  &.is-disabled { cursor: not-allowed; }
 }
 
-.slider-focused {
-}
+/* Focus states (left as hooks if you need them) */
+.slider-focused {}
+.slider-tooltip-focus {}
+.slider-tooltip-drag {}
 
-.slider-tooltip-focus {
-}
+/* LTR / RTL hooks */
+.slider-ltr {}
+.slider-rtl {}
 
-.slider-tooltip-drag {
-}
+/* Orientation */
+.slider-horizontal { height: 0.375rem; /* @apply h-1.5 */ }
+.slider-vertical   { width: 0.375rem; height: 20rem; /* @apply w-1.5 h-80 */ }
 
-.slider-ltr {
-}
-
-.slider-rtl {
-}
-
-.slider-horizontal {
-  @apply h-1.5;
-}
-
-.slider-vertical {
-  @apply w-1.5 h-80;
-}
-
-.slider-txt-dir-rtl {
-  @apply slider-txt-rtl;
-}
-
-.slider-txt-dir-ltr {
-}
-
+/* Base rails */
 .slider-base {
-  @apply w-full h-full relative z-1 rounded;
+  width: 100%; height: 100%;    /* @apply w-full h-full */
+  position: relative;           /* @apply relative */
+  z-index: 1;                   /* replaces non-standard z-1 */
+  border-radius: 0.25rem;       /* @apply rounded */
 }
 
 .slider-connects {
-  @apply w-full h-full relative overflow-hidden z-0 rounded;
+  width: 100%; height: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;                   /* replaces z-0 */
+  border-radius: 0.25rem;
 }
 
+/* Filled track segment */
 .slider-connect {
-  @apply absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full bg-neutral cursor-pointer tap:duration-300 tap:transition-transform slider-disabled:bg-gray-400 slider-disabled:cursor-not-allowed;
+  position: absolute;
+  z-index: 1;
+  top: 0; right: 0;
+  transform-origin: 0 0;
+  height: 100%; width: 100%;
+  background-color: oklch(53% 0.06 252); /* fallback for neutral; or use your theme var */
+  cursor: pointer;
+  transition: transform 0.3s;   /* replaces tap:transition */
 }
 
+/* Origins (handles’ parents) */
 .slider-origin {
-  @apply absolute z-1 top-0 right-0 transform-origin-0 transform-style-flat h-full w-full h:h-0 v:-top-full txt-rtl-h:left-0 txt-rtl-h:right-auto v:w-0 tap:duration-300 tap:transition-transform;
+  position: absolute;
+  z-index: 1;
+  top: 0; right: 0;
+  transform-origin: 0 0;
+  height: 100%; width: 100%;
+  transition: transform 0.3s;
+  /* Horizontal-specific adjustments */
+  &.is-horizontal {
+    height: 0; /* acts as transform container */
+  }
+  /* Vertical-specific adjustments */
+  &.is-vertical {
+    top: -100%;
+    width: 0;
+  }
 }
 
+/* Handle */
 .slider-handle {
-  @apply absolute rounded-full bg-white border-0 shadow-slider cursor-grab focus:outline-none h:w-4 h:h-4 h:-top-1.5 h:-right-2 txt-rtl-h:-left-2 txt-rtl-h:right-auto v:w-4 v:h-4 v:-top-2 v:-right-1.25 slider-disabled:cursor-not-allowed focus:ring focus:ring-primary focus:ring-opacity-30;
+  position: absolute;
+  border-radius: 9999px;        /* @apply rounded-full */
+  background-color: #fff;       /* @apply bg-white */
+  border: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 1px 1px rgba(0,0,0,.06); /* shadow-slider */
+  cursor: grab;                 /* @apply cursor-grab */
+  outline: none;                /* focus:outline-none */
+
+  /* Horizontal sizing/position */
+  width: 1rem;   /* @apply w-4 */
+  height: 1rem;  /* @apply h-4 */
+  top: -0.375rem;  /* ~ -top-1.5 */
+  right: -0.5rem;  /* ~ -right-2 */
+
+  /* RTL variant – if needed, toggle this class in JS instead of custom `txt-rtl-h:` */
+  &.is-rtl {
+    right: auto;
+    left: -0.5rem;
+  }
+
+  /* Vertical variant sizing */
+  &.is-vertical {
+    width: 1rem;
+    height: 1rem;
+    top: -0.5rem;
+    right: -0.3125rem; /* ~ -1.25 */
+  }
+
+  /* Disabled */
+  &.is-disabled { cursor: not-allowed; }
+
+  /* Focus ring */
+  &:focus {
+    box-shadow:
+      0 0 0 3px color-mix(in oklch, var(--fallback-p, #4d768d) 30%, white),
+      0 1px 2px rgba(0,0,0,.12), 0 1px 1px rgba(0,0,0,.06);
+  }
 }
 
-.slider-touch-area {
-  @apply h-full w-full;
-}
+/* Larger touch target area (if you wrap the handle) */
+.slider-touch-area { width: 100%; height: 100%; }
 
+/* Tooltip */
 .slider-tooltip {
-  @apply absolute block text-sm font-semibold whitespace-nowrap py-1 px-1.5 min-w-5 text-center text-white rounded border border-neutral bg-neutral transform h:-translate-x-1/2 h:left-1/2 v:-translate-y-1/2 v:top-1/2 slider-disabled:bg-gray-400 slider-disabled:border-gray-400 merge-h:translate-x-1/2 merge-h:left-auto merge-v:-translate-x-4 merge-v:top-auto tt-focus:hidden tt-focused:block tt-drag:hidden tt-dragging:block;
+  position: absolute;
+  display: block;
+  font-size: 0.875rem;          /* @apply text-sm */
+  font-weight: 600;             /* @apply font-semibold */
+  white-space: nowrap;
+  padding: 0.25rem 0.375rem;    /* @apply py-1 px-1.5 */
+  min-width: 1.25rem;           /* @apply min-w-5 */
+  text-align: center;
+  color: #fff;                  /* @apply text-white */
+  border-radius: 0.25rem;       /* @apply rounded */
+  border: 1px solid oklch(92% 0 0); /* @apply border-base-300 */
+  background-color: oklch(53% 0.06 252); /* @apply bg-neutral */
+  transform: translateX(-50%);  /* horizontal default */
+  left: 50%;
 }
 
-.slider-tooltip-top {
-  @apply bottom-6 h:arrow-bottom merge-h:bottom-3.5;
-}
-
+/* Tooltip positions */
+.slider-tooltip-top    { bottom: 1.5rem; } /* ~ bottom-6 */
 .slider-tooltip-bottom {
-  @apply top-6 h:arrow-top merge-h:top-5;
+  top: 1.5rem;
+  transform: translateX(-50%);
 }
-
-.slider-tooltip-left {
-  @apply right-6 v:arrow-right merge-v:right-1;
+.slider-tooltip-left  {
+  right: 1.5rem;
+  transform: translateY(-50%);
+  top: 50%;
 }
-
 .slider-tooltip-right {
-  @apply left-6 v:arrow-left merge-v:left-7;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  top: 50%;
 }
+.slider-tooltip-hidden { display: none; }
 
-.slider-tooltip-hidden {
-}
-
+/* Active / dragging */
 .slider-active {
-  @apply shadow-slider-active cursor-grabbing;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.06); /* shadow-slider-active */
+  cursor: grabbing;
 }
 
+/* Draggable cursors */
 .slider-draggable {
-  @apply cursor-ew-resize v:cursor-ns-resize;
+  cursor: ew-resize;
+}
+.slider-draggable.is-vertical {
+  cursor: ns-resize;
 }
 
-.slider-state-tap {
-}
+/* Optional state hooks */
+.slider-state-tap {}
+.slider-state-drag {}
 
-.slider-state-drag {
+/* ===== Optional: add these utility classes globally if you still want to `@apply` them elsewhere =====
+@layer utilities {
+  .tap-highlight-transparent { -webkit-tap-highlight-color: transparent; }
+  .touch-callout-none { -webkit-touch-callout: none; }
 }
+*/

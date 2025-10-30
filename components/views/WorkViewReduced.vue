@@ -81,7 +81,7 @@
 <script setup lang="ts">
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);
-const props = defineProps(
+defineProps(
     {
         title: {
             type: String,

@@ -1,0 +1,33 @@
+@layer utilities {
+  .tap-highlight-transparent {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .touch-callout-none {
+    -webkit-touch-callout: none;
+  }
+
+  .slider-txt-rtl {
+    direction: rtl;
+  }
+
+  .transform-origin-0 {
+    transform-origin: 0 0;
+  }
+
+  .transform-style-flat {
+    transform-style: flat;
+  }
+
+  .shadow-slider {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-slider-active {
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .z-1 {
+    z-index: 1;
+  }
+}

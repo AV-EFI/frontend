@@ -85,7 +85,7 @@
                 &nbsp;&nbsp;
                     </span>
                     <Icon
-                      name="carbon:logical-partition"
+                      name="tabler:layout"
                       class="mr-1"
                     />
                     {{ $t('Episode/Part') }}
@@ -163,7 +163,7 @@ const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', as
   }
   a.external-link:before {
         font-family: "Font Awesome 5 Free";
-        content: url('https://api.iconify.design/fa-regular:share-square.svg');
+         content: url('https://api.iconify.design/tabler:share.svg');
         display: inline-block;
         padding-right: 3px;
         vertical-align: middle;

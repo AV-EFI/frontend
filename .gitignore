@@ -22,17 +22,32 @@ yarn-error.log*
 .vscode
 
 # Local env files
-#.env
-#.env.*
+.env
+.env.local
 !.env.example
 
 # wrangler files
 .wrangler
 .dev.vars
 
+# yarn files
+.yarn/install-state.gz
+.yarn/unplugged/
+.yarn/build-state.yml
+
+.vscode
+.vscode-test
+.yarn/install-state.gz
+
 # Lock files
 package-lock.json*
 yarn.lock
 pnpm-lock.yaml
-.yarn/install-state.gz
-.yarn/install-state.gz
+.vscode
+.vscode/settings.json
+.env.local
+tmp_schema
+.vscode/settings.json
+.vscode/settings.json
+.vscode/settings.json
+.vscode/settings.json

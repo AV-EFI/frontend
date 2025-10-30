@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse, IAVefiSingleResponse } from '../../models/interfaces/IAVefiWork';
+import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
 
 const props = defineProps({
     items: {
@@ -33,7 +33,7 @@ const props = defineProps({
 const objectListStore = useObjectListStore();
 
 async function getCollectionType(routeParamsId: string): Promise<string> {  
-    const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
+    const { data } = await useApiFetchLocal<Array<ElasticGetByIdResponse>>(
         `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
         {
             method: 'POST',

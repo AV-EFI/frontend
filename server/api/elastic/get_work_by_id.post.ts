@@ -4,6 +4,9 @@ export default defineEventHandler(async (event) => {
     try {
         const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
 
+        console.log('****');
+        console.timeLog(useRuntimeConfig().public.ELASTIC_HOST_PUBLIC, 'get_work_by_id');
+
         const body = await readBody(event);
         const documentIds:string[] = body.documentId;
         const result = await client.search({

@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 import type { SearchkitConfig } from "searchkit";
 
 // move creds to server-side for runtime.private access
@@ -102,7 +101,6 @@ export const config: SearchkitConfig = {
                 field: "production.keyword",
                 type: "string",
             },
-
             // Work-level: event locations (nested)
             {
                 attribute: "located_in_has_name",
@@ -110,7 +108,6 @@ export const config: SearchkitConfig = {
                 type: "string",
                 nestedPath: "has_record.has_event",
             },
-
             // ----- Manifestation-level facets -----
             {
                 attribute: "manifestation_event_type",
@@ -123,9 +120,16 @@ export const config: SearchkitConfig = {
                 field: "has_record.described_by.has_issuer_name.keyword",
                 type: "string",
                 nestedPath: "manifestations",
+            },            
+            // ----- Item-level (exemplare) -----
+            /*
+            {
+                attribute: "has_access_status",
+                field: "manifestations.items.has_record.has_access_status.keyword",
+                type: "string",
+                nestedPath: "manifestations.items",
             },
-
-            // ----- Item-level (exemplars) -----
+            */
             {
                 attribute: "has_format_type",
                 field: "has_record.has_format.type.keyword",
@@ -162,12 +166,14 @@ export const config: SearchkitConfig = {
                 type: "string",
                 nestedPath: "manifestations.items",
             },
+            /*
             {
                 attribute: "item_duration_in_minutes",
                 field: "duration_in_minutes",
                 type: "numeric",
                 nestedPath: "manifestations.items",
             },
+            */
             {
                 attribute: "item_element_type",
                 field: "has_record.element_type.keyword",

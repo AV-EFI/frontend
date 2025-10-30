@@ -1,29 +1,21 @@
 <template>
   <div>
-    <GlobalBreadcrumbsComp
-      :breadcrumbs="[
-        ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`], ['Detail', '/film/' + params.id]
-      ]"
-    />
     <NuxtLayout
       name="partial-layout-1-center"
       padding-class="p-0"
     >
       <template #navigation>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a :href="`/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`">{{ $t('filmresearch') }}</a></li>
-          <li>
-            <span class="text-accent">
-              {{ $t('detailview') }}
-            </span>
-          </li>
-        </ul>
+        <GlobalBreadcrumbsComp
+          :breadcrumbs="[
+            ['Home', '/'],
+            [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
+            [$t('detailview'), '/film/' + params.id]
+          ]"
+        />
       </template>
       <template #title>
         <NuxtLayout
-          name="partial-grid-2-1-flex"
+          name="partial-grid-2-1"
           left-class="dark:bg-primary-600 rounded-t-xl py-4"
         >
           <template
@@ -31,47 +23,57 @@
           >
             <div class="col-span-full px-4">
               <GlobalClipboardComp
-                :display-text="dataJson?._source?.handle"
-                class="mb-2 text-sm text-base-content"
+                :display-text="dataJson?.compound_record?._source?.handle"
+                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
+                class="mb-2 text-sm text-base-content/90"
               />
+              <div class="flex flex-row">
               <h2
                 class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
-                :alt="dataJson?._source?.has_record?.has_primary_title.has_name"
+                :alt="dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name"
               >
-                {{ dataJson?._source?.has_record?.has_primary_title.has_name }}
+                {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
               </h2>
+              <MicroBadgeCategoryComp
+                :category="dataJson?.compound_record?._source?.has_record?.category"
+                :dense="false"
+                class="ml-4 my-auto"
+              />
+              </div>
             </div>
           </template>
           <template #right>
-            <div class="flex flex-row flex-wrap justify-end items-center">
               <GlobalActionContextComp
-                :id="dataJson?._source?.handle"
-                :item="dataJson?._source"
-                class="w-1/5 justify-center items-center my-auto"
-              />
-            </div>
+                class="col-start-11 row-start-1 justify-self-end"
+                :id="dataJson?.compound_record?._source?.handle"
+                :item="dataJson?.compound_record?._source"
+                comp-size="2xl"
+              />              
           </template>
         </NuxtLayout>
       </template>
       <template #actions>
         <MicroBadgeCategoryComp
-          class="col-span-3 divider-primary"
-          :category="dataJson?._source?.has_record?.type"
+          class="col-span-3 mt-2 divider-primary"
+          :category="dataJson?.compound_record?._source?.has_record?.type"
         />
       </template>      
       <template #cardBody>
         <div class="px-4 pb-4">
           <div
-            v-if="category == 'avefi:WorkVariant' && type == 'Monographic'"
           >
             <ClientOnly
               fallback-tag="span"
               fallback="Loading data..."
             >
-              <ViewsWorkViewCompAVefi
-                :model-value="JSON.stringify(dataJson, null, 2)"
-                @update:model-value="val => dataJson = JSON.parse(val)"
-              />
+              <LazyViewsWorkViewCompAVefi
+                  v-if="dataJson"
+                  v-model="dataJson"
+                  :handle="dataJson.handle" 
+               />
+               <div v-else class="text-center text-gray-500">
+                 {{ $t('noDataAvailable') }}
+                </div>
             </ClientOnly>
           </div>
         </div>
@@ -90,37 +92,30 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
+import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
+import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElasticResponses.js';
+import type { useHash } from '~/composables/useHash.js';
+const hash = useHash();
 
 definePageMeta({
-    auth: false,
-    middleware: ['check-category'],
+    auth: false
 });
-
-import { useHash } from '../../composables/useHash';
-const { hash } = useHash(); // auto-scroll is enabled by default
-import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
 const { currentUrlState } = useCurrentUrlState();
-
-
 const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
 const type = ref('Monographic');
 
-const { data: dataJson } = await useAsyncData<IAVefiListResponse>('dataJson', async () => {
-    const data = await getDataSet(params.value.id);
+//@TODO: refactor on larger scale
+const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson', async () => {
+    //we expect missing prefix to be 21.11155
+    if(params.value.id.indexOf('.') < 0) {
+        params.value.id = '21.11155/' + params.value.id;
+    }
+    
+    const data:ElasticGetByIdResponse | null = await getDataSet(params?.value?.id);
     console.log('Data:', data);
-    if(data?.value?.has_record.category){
-        category.value = data.value?.has_record.category;
-    }
-
-    if(data?.value?.has_record.type){
-        type.value = data.value?.has_record.type;
-        console.log('Type:', type.value);
-    }
-
-    return data[0] as IAVefiListResponse;
+    return data as ElasticGetByIdResponse;
 
 });
 

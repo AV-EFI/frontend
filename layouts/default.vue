@@ -2,11 +2,11 @@
   <div class="flex flex-col min-h-screen">
     <header
       :class="{'scrolled': isScrolled}"
-      class="fixed top-0 left-0 w-full z-20"
+      class="fixed top-0 left-0 w-full z-30 border-0"
       @mouseenter="removeScrolledClass"
       @mouseleave="addScrolledClass"
     >
-      <GlobalNavBar />
+      <LazyGlobalNavBar />
     </header>
     <main class="main grow bg-base-100 dark:bg-slate-950 2xl:px-6 mt-[var(--header-height)]">
       <ClientOnly>
@@ -25,7 +25,7 @@
       @click="scrollToTop"
     >
       <Icon
-        name="i-fa:chevron-up"
+        name="tabler:chevron-up"
         class="text-lg"
       />
     </button>
