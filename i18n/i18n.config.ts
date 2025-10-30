@@ -2,14 +2,8 @@
 // i18n.config.ts
 // This file is used to configure internationalization settings for the AVefi application.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-<<<<<<< HEAD:i18n.config.ts
-
-// If the file exists, ensure the path is correct. Otherwise, comment out or remove the import to avoid errors.
-import avefiLocales from './models/interfaces/locale_messages.json';
-=======
 // If the file exists, ensure the path is correct. Otherwise, comment out or remove the import to avoid errors.
 import avefiLocales from '~/models/interfaces/schema/locale_messages.json';
->>>>>>> testbed:i18n/i18n.config.ts
 
 export default defineI18nConfig(() => ({
     legacy: false,
@@ -17,22 +11,10 @@ export default defineI18nConfig(() => ({
     locale: 'de',
     messages: {
         en: {
-<<<<<<< HEAD:i18n.config.ts
-            "has_form": "Form",
-            "has_sound_type": "Sound Type",
-            "has_format": "Format",
-            "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
-            "docFilmCollectionTitle": "Activism in Documentary Film",
-            "docFilmCollectionLinkText": "See the collection",
-            "restShortFilmCollectionDescription": "The collection of restored short films opens up new pathways to the cinematic heritage. Through meticulous digital restoration, rare and previously hard-to-access works are made visible again. With its extensive metadata, the collection also provides a valuable foundation for research, teaching, and curatorial practice.",
-            "restShortFilmCollectionTitle": "Restored Short Films",
-            "restShortFilmCollectionLinkText": "See the collection",
-=======
             "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
             "docFilmCollectionTitle": "Activism in Documentary Film",
             "restShortFilmCollectionDescription": "The collection of restored short films opens up new pathways to the cinematic heritage. Through meticulous digital restoration, rare and previously hard-to-access works are made visible again. With its extensive metadata, the collection also provides a valuable foundation for research, teaching, and curatorial practice.",
             "restShortFilmCollectionTitle": "Restored Short Films",
->>>>>>> testbed:i18n/i18n.config.ts
             "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
             "mainNavigation": "Main navigation",
             "cookiesDescription": "We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.",
@@ -119,14 +101,6 @@ export default defineI18nConfig(() => ({
                 "loading": "Loading…",
                 "previewHint": "Pick an entry and click “Preview”."
             },
-<<<<<<< HEAD:i18n.config.ts
-            "has_access_status": "Status",
-            "in_language": "Language",
-            "has_duration": "Duration",
-            "has_colour_type": "Colour",
-            "has_frame_rate": "Frame Rate",
-=======
->>>>>>> testbed:i18n/i18n.config.ts
             "filteredInside": "Faceting active",
             "manifShort": "manif",
             "items": "items",
@@ -322,10 +296,7 @@ export default defineI18nConfig(() => ({
             'duration': 'Duration',
             'hello': 'Hello',
             'help': 'Help',
-<<<<<<< HEAD:i18n.config.ts
-=======
             'faqAndGlossary': 'FAQ & Glossary',
->>>>>>> testbed:i18n/i18n.config.ts
             'helpAndGlossary': 'Help & Glossary',
             'hours': 'hours',
             'info': 'Info',
@@ -461,10 +432,7 @@ export default defineI18nConfig(() => ({
             "loading": "Loading...",
             "divider": "Divider",
             "avefi:PreservationEvent": "Preservation Event",
-<<<<<<< HEAD:i18n.config.ts
-=======
             "avefi:WorkVariantPart": "Work Variant Part",
->>>>>>> testbed:i18n/i18n.config.ts
             'unknownLanguage': 'Unknown language',
             "filterItemsAndManifestations": "Exemplare und Manifestationen filtern",
             "facetsInsideSearchResults": "Facets for Item and Manifestation are located within the search results in this mode",
@@ -539,12 +507,6 @@ export default defineI18nConfig(() => ({
             ...avefiLocales.en
         },
         de: {
-<<<<<<< HEAD:i18n.config.ts
-            "has_form": "Gattung",
-            "has_format": "Format",
-            "has_sound_type": "Ton",
-=======
->>>>>>> testbed:i18n/i18n.config.ts
             "docFilmCollectionDescription": "Die Sammlung von Dokumentarfilmen vereint Werke, die Bewegungen und Akte des Widerstands - von Streiks und Aufständen bis hin zu politischem Engagement – dokumentieren und reflektieren. Die Auswahl der Filme ermöglicht tiefgehende Analysen zu Formen des zivilen Ungehorsams und eröffnet neue Perspektiven auf die Wechselwirkungen zwischen Film, Politik und Gesellschaft.",
             "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
             "docFilmCollectionLinkText": "Zur Sammlung",
@@ -565,11 +527,7 @@ export default defineI18nConfig(() => ({
             },
             "build": {
                 "linked": {
-<<<<<<< HEAD:i18n.config.ts
-                    "title": "Linked Data",
-=======
                     "title": "Verknüpfte Daten",
->>>>>>> testbed:i18n/i18n.config.ts
                     "lead": "AVefi verknüpft Filmmetadaten verschiedener Institutionen über einheitliche Identifikatoren und schafft damit eine offene Forschungsinfrastruktur für audiovisuelle Werke.",
                     "authority": "Normdaten",
                     "crosswalk": "Verknüpfung"
@@ -695,20 +653,9 @@ export default defineI18nConfig(() => ({
                 "webresource": "Dieser Link führt zur Detailansicht des Exemplars auf der Webseite des Datengebers.",
                 "refinementsActive": "Aktive Facetten"
             },
-<<<<<<< HEAD:i18n.config.ts
-            "has_access_status": "Status",
-            "in_language": "Sprache",
-            "has_duration": "Dauer",
-            "has_colour_type": "Farbe",
-            "has_frame_rate": "BPS",
-            "filteredInside": "Facettierung aktiv",
-            "manifShort": "Manif",
-            "items": "Exemplare",
-=======
             "filteredInside": "Facettierung aktiv",
             "manifShort": "Manif",
             "items": "Exemplare",            
->>>>>>> testbed:i18n/i18n.config.ts
             "srFacetChanged": "Ergebnisse innerhalb dieses Werks wurden gefiltert: {manFiltered} von {manTotal} Manifestationen, {items} Items.",
             "itemDetails": "Details zum Exemplar mit Handle {handle}",
             "lastedit": "Letzte Bearbeitung",
@@ -862,10 +809,7 @@ export default defineI18nConfig(() => ({
             'filmportalref': 'Referenz bei filmportal.de',
             'filmresearch': 'Suche',
             'filter': 'Filtern',
-<<<<<<< HEAD:i18n.config.ts
-=======
             "has_event": "Ereignis",
->>>>>>> testbed:i18n/i18n.config.ts
             'gotodisamiguationparam': ({ named }: { named: (key: string) => string }) => `Zu Disambiguierung`,
             'gotoshoppingcart': 'Zu Favoriten',
             'grid': 'Tabelle',
@@ -882,17 +826,11 @@ export default defineI18nConfig(() => ({
             'has_date': 'Produktionsjahr',
             'duration': 'Dauer',
             "avefi:PreservationEvent": "Erhaltungsereignis",
-<<<<<<< HEAD:i18n.config.ts
-            'subject': 'Schlagwort',
-            'hello': 'Hallo',
-            'help': 'Hilfe',
-=======
             "avefi:WorkVariantPart": "Werk-Teil",
             'subject': 'Schlagwort',
             'hello': 'Hallo',
             'help': 'Hilfe',
             'faqAndGlossary': 'FAQ & Glossar',
->>>>>>> testbed:i18n/i18n.config.ts
             'helpAndGlossary': 'Hilfe & Glossar',
             'howToDoc': '<a href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf" target="_blank">AVefi How-to Dokument</a>',
             'manual': '<a href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf" target="_blank">AVefi Manual</a>',
@@ -1068,10 +1006,7 @@ export default defineI18nConfig(() => ({
             "Login": "Anmelden",
             "mainSearch": "Hauptsuche",
             "submitSearch": "Suche absenden",
-<<<<<<< HEAD:i18n.config.ts
-=======
             "tooltip.refinementsActive": "Aktive Facetten",
->>>>>>> testbed:i18n/i18n.config.ts
             "contact.about.2.beforeLink": "Das speziell entwickelte AVefi-Schema folgt dem ",
             "contact.about.2.afterLink": ". Der Nachweis erfolgt dabei in den drei Ebenen Werk/Variante, Manifestation sowie Exemplar (Item)",
             "contact.normdataContent.beforeLink": "Von der datengebenden Institution verwendete Normdaten – wie z.B. der ",
