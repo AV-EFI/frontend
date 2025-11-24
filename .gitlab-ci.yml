@@ -49,6 +49,7 @@ build_docker-production:
     url: https://www.av-efi.net
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
+    - if: $CI_COMMIT_TAG == "deploy-prod"
   extends: .build_docker
 
 .deploy:
@@ -100,4 +101,5 @@ deploy-production:
     url: https://www.av-efi.net
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
+    - if: $CI_COMMIT_TAG == "deploy-prod"
   extends: .deploy
