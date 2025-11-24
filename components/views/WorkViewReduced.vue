@@ -9,7 +9,7 @@
     >
       <a
         class="link"
-        :href="`/film/${data._id}`"
+        :href="`/res/${data._id}`"
         target="_blank"
       >{{ data?._source?.has_record?.has_primary_title?.has_name }}</a>
     </h2>

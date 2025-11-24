@@ -5,19 +5,19 @@
       <div class="alert shadow-2xl bg-base-100 dark:bg-base-200 mb-6">
         <div class="flex-1">
           <div class="flex items-start gap-4">
-            <Icon name="tabler:alert-circle" class="w-8 h-8 text-error flex-shrink-0 mt-1" />
+            <Icon name="tabler:alert-triangle" class="w-8 h-8 text-error flex-shrink-0 mt-1" />
             <div class="flex-1">
-              <h3 class="text-2xl font-bold text-error mb-2">404</h3>
-              <h4 class="font-semibold text-lg mb-2">{{ $t('error404.pageNotFound') }}</h4>
-              <p class="text-base-content/70 mb-4">{{ $t('error404.description') }}</p>
+              <h3 class="text-2xl font-bold text-error mb-2">500</h3>
+              <h4 class="font-semibold text-lg mb-2">{{ $t('error500.serverError') }}</h4>
+              <p class="text-base-content/70 mb-4">{{ $t('error500.description') }}</p>
               <div class="flex flex-wrap gap-3">
                 <NuxtLink to="/" class="btn btn-primary btn-sm">
                   <Icon name="tabler:home" class="w-4 h-4" />
-                  {{ $t('error404.goHome') }}
+                  {{ $t('error500.goHome') }}
                 </NuxtLink>
-                <button @click="$router.back()" class="btn btn-outline btn-sm">
-                  <Icon name="tabler:arrow-left" class="w-4 h-4" />
-                  {{ $t('error404.goBack') }}
+                <button @click="reloadPage" class="btn btn-outline btn-sm">
+                  <Icon name="tabler:refresh" class="w-4 h-4" />
+                  {{ $t('error500.tryAgain') }}
                 </button>
               </div>
             </div>
@@ -26,7 +26,7 @@
       </div>
 
       <!-- Film Quote -->
-      <div v-if="randomQuote" class="card bg-base-100 dark:bg-base-200 shadow-lg backdrop-blur-sm">
+      <div v-if="randomQuote" class="card bg-base-100/50 dark:bg-base-200/50 shadow-lg backdrop-blur-sm">
         <div class="card-body">
           <blockquote class="text-base text-base-content/80 mb-3 leading-relaxed" v-html="randomQuote.text" />
           <footer class="text-sm text-base-content/60">
@@ -64,11 +64,15 @@ import filmQuotesData from '~/data/film-quotes.json';
 const { locale, t } = useI18n();
 const currentLocale = computed(() => locale.value);
 
-// Get random quote for error type 404
+const reloadPage = () => {
+  window.location.reload();
+};
+
+// Get random quote for error type 500
 const randomQuote = computed(() => {
   const allQuotes = filmQuotesData.films.flatMap(film => 
     film.quotes
-      .filter(q => q.errorType === '404')
+      .filter(q => q.errorType === '500')
       .map(q => ({
         text: q.text,
         film: film.film,

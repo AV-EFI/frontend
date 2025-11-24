@@ -3,15 +3,19 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "npm run generate:colours && npm run generate:interfaces && npm run generate:suggestions",
     "build": "nuxt build",
+    "predev": "npm run generate:colours && npm run generate:interfaces && npm run generate:suggestions",
     "dev": "nuxt dev --dotenv .env.local",
+    "predev:debug": "npm run generate:colours && npm run generate:interfaces && npm run generate:suggestions",
     "dev:debug": "nuxt dev --inspect --dotenv .env.local",
     "generate": "nuxt generate",
     "preview": "npm run build",
     "postinstall": "nuxt prepare",
     "deploy": "npm run build",
     "generate:colours": "tsx scripts/generate-scss-vars.ts",
-    "generate:interfaces": "node scripts/generate-interfaces.mjs"
+    "generate:interfaces": "node scripts/generate-interfaces.mjs",
+    "generate:suggestions": "tsx scripts/generate-query-suggestions.ts"
   },
   "dependencies": {
     "@dargmuesli/nuxt-cookie-control": "8.5.0",

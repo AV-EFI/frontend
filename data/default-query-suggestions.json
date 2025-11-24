@@ -1,0 +1,502 @@
+[
+  {
+    "text": "Amateurfilm",
+    "type": "subjects",
+    "docCount": 1291
+  },
+  {
+    "text": "Dokumentation",
+    "type": "subjects",
+    "docCount": 722
+  },
+  {
+    "text": "Familie",
+    "type": "subjects",
+    "docCount": 531
+  },
+  {
+    "text": "Dok",
+    "type": "subjects",
+    "docCount": 421
+  },
+  {
+    "text": "Reise",
+    "type": "subjects",
+    "docCount": 377
+  },
+  {
+    "text": "Urlaub",
+    "type": "subjects",
+    "docCount": 375
+  },
+  {
+    "text": "FREIZEIT",
+    "type": "subjects",
+    "docCount": 321
+  },
+  {
+    "text": "Kind",
+    "type": "subjects",
+    "docCount": 310
+  },
+  {
+    "text": "Stuttgart",
+    "type": "subjects",
+    "docCount": 301
+  },
+  {
+    "text": "GESELLSCHAFT UND SOZIALES",
+    "type": "subjects",
+    "docCount": 297
+  },
+  {
+    "text": "Reisen",
+    "type": "subjects",
+    "docCount": 294
+  },
+  {
+    "text": "Fest",
+    "type": "subjects",
+    "docCount": 248
+  },
+  {
+    "text": "Porträt",
+    "type": "subjects",
+    "docCount": 235
+  },
+  {
+    "text": "Nationalsozialismus",
+    "type": "subjects",
+    "docCount": 232
+  },
+  {
+    "text": "Alltag",
+    "type": "subjects",
+    "docCount": 209
+  },
+  {
+    "text": "Kulturfilm",
+    "type": "subjects",
+    "docCount": 201
+  },
+  {
+    "text": "Stadt",
+    "type": "subjects",
+    "docCount": 196
+  },
+  {
+    "text": "Ausflug",
+    "type": "subjects",
+    "docCount": 195
+  },
+  {
+    "text": "Schwarzwald",
+    "type": "subjects",
+    "docCount": 186
+  },
+  {
+    "text": "Zweiter Weltkrieg",
+    "type": "subjects",
+    "docCount": 180
+  },
+  {
+    "text": "Troller, Georg Stefan",
+    "type": "directors_or_editors",
+    "docCount": 109
+  },
+  {
+    "text": "Schlenker, Hermann",
+    "type": "production",
+    "docCount": 104
+  },
+  {
+    "text": "Nekes, Werner",
+    "type": "directors_or_editors",
+    "docCount": 81
+  },
+  {
+    "text": "Wildenhahn, Klaus",
+    "type": "directors_or_editors",
+    "docCount": 76
+  },
+  {
+    "text": "Nestler, Peter",
+    "type": "directors_or_editors",
+    "docCount": 59
+  },
+  {
+    "text": "Nickel, Gitta",
+    "type": "directors_or_editors",
+    "docCount": 57
+  },
+  {
+    "text": "Fischer, Nina",
+    "type": "directors_or_editors",
+    "docCount": 53
+  },
+  {
+    "text": "Sani, Maroan el",
+    "type": "directors_or_editors",
+    "docCount": 51
+  },
+  {
+    "text": "Stöckl, Ula",
+    "type": "directors_or_editors",
+    "docCount": 47
+  },
+  {
+    "text": "Schlingensief, Christoph",
+    "type": "directors_or_editors",
+    "docCount": 45
+  },
+  {
+    "text": "Dubiel, Günter",
+    "type": "directors_or_editors",
+    "docCount": 40
+  },
+  {
+    "text": "Hermann Schlenker Filmproduktion",
+    "type": "production",
+    "docCount": 37
+  },
+  {
+    "text": "Lange, Hellmuth",
+    "type": "directors_or_editors",
+    "docCount": 36
+  },
+  {
+    "text": "Badekow, Heinz M.",
+    "type": "directors_or_editors",
+    "docCount": 34
+  },
+  {
+    "text": "O., Dore",
+    "type": "directors_or_editors",
+    "docCount": 34
+  },
+  {
+    "text": "Sanders-Brahms, Helma",
+    "type": "directors_or_editors",
+    "docCount": 34
+  },
+  {
+    "text": "Huntgeburth, Hermine",
+    "type": "directors_or_editors",
+    "docCount": 33
+  },
+  {
+    "text": "Blank, Peter M.",
+    "type": "directors_or_editors",
+    "docCount": 32
+  },
+  {
+    "text": "Sander, Helke",
+    "type": "directors_or_editors",
+    "docCount": 32
+  },
+  {
+    "text": "Biedermann, Werner",
+    "type": "directors_or_editors",
+    "docCount": 30
+  },
+  {
+    "text": "Jahresdokumentation",
+    "type": "title",
+    "docCount": 29
+  },
+  {
+    "text": "Jahresdokumentation",
+    "type": "alt_title",
+    "docCount": 29
+  },
+  {
+    "text": "Mommartz, Lutz",
+    "type": "directors_or_editors",
+    "docCount": 29
+  },
+  {
+    "text": "Reitz, Edgar",
+    "type": "directors_or_editors",
+    "docCount": 29
+  },
+  {
+    "text": "Babelsberg - Glanz und Elend einer Filmstadt",
+    "type": "title",
+    "docCount": 23
+  },
+  {
+    "text": "Privatfilme Bletzinger - Alfred Bletzinger",
+    "type": "title",
+    "docCount": 23
+  },
+  {
+    "text": "Privatfilme Bletzinger - Alfred Bletzinger",
+    "type": "alt_title",
+    "docCount": 23
+  },
+  {
+    "text": "Hermann Schlenker",
+    "type": "production",
+    "docCount": 23
+  },
+  {
+    "text": "Hermann Schlenker Filmproduktion (Villingen-Schwenningen)",
+    "type": "production",
+    "docCount": 23
+  },
+  {
+    "text": "Hermann Schlenker (Schwenningen)",
+    "type": "production",
+    "docCount": 17
+  },
+  {
+    "text": "Stanek, Milan",
+    "type": "production",
+    "docCount": 17
+  },
+  {
+    "text": "Brauen, Martin",
+    "type": "production",
+    "docCount": 16
+  },
+  {
+    "text": "Luftaufnahmen von Süddeutschland",
+    "type": "title",
+    "docCount": 15
+  },
+  {
+    "text": "Luftaufnahmen von Süddeutschland",
+    "type": "alt_title",
+    "docCount": 15
+  },
+  {
+    "text": "Koloss, Hans-Joachim",
+    "type": "production",
+    "docCount": 14
+  },
+  {
+    "text": "Röhrich, Lutz",
+    "type": "production",
+    "docCount": 13
+  },
+  {
+    "text": "Hermann Schlenker Filmproduktion (Königsfeld)",
+    "type": "production",
+    "docCount": 11
+  },
+  {
+    "text": "Bau der Michaelskirche inForchtenberg",
+    "type": "title",
+    "docCount": 9
+  },
+  {
+    "text": "Bau der Michaelskirche inForchtenberg",
+    "type": "alt_title",
+    "docCount": 9
+  },
+  {
+    "text": "Luz, Dieter",
+    "type": "production",
+    "docCount": 9
+  },
+  {
+    "text": "DÜSSELDORF: BAUVORHABEN IM AUFTRAG DES KANAL- UND WASSERBAUAMTES",
+    "type": "title",
+    "docCount": 7
+  },
+  {
+    "text": "FAMILIE SCHOLZ - ZUSAMMENSCHNITT",
+    "type": "title",
+    "docCount": 7
+  },
+  {
+    "text": "Privataufnahmen",
+    "type": "title",
+    "docCount": 7
+  },
+  {
+    "text": "Sachdokumentation",
+    "type": "title",
+    "docCount": 7
+  },
+  {
+    "text": "Universität Freiburg",
+    "type": "title",
+    "docCount": 7
+  },
+  {
+    "text": "Wiederaufbau der Stadt Heilbronn",
+    "type": "title",
+    "docCount": 7
+  },
+  {
+    "text": "Sachdokumentation",
+    "type": "alt_title",
+    "docCount": 7
+  },
+  {
+    "text": "Wiederaufbau der Stadt Heilbronn",
+    "type": "alt_title",
+    "docCount": 7
+  },
+  {
+    "text": "Familienchronik",
+    "type": "title",
+    "docCount": 6
+  },
+  {
+    "text": "Familienleben und Freizeitaktivitäten einer Pfarrersfamilie in Speyer",
+    "type": "title",
+    "docCount": 6
+  },
+  {
+    "text": "Hengstenberg Werbefilm",
+    "type": "title",
+    "docCount": 6
+  },
+  {
+    "text": "Familienchronik",
+    "type": "alt_title",
+    "docCount": 6
+  },
+  {
+    "text": "Familienleben und Freizeitaktivitäten einer Pfarrersfamilie in Speyer",
+    "type": "alt_title",
+    "docCount": 6
+  },
+  {
+    "text": "Hengstenberg Werbefilm",
+    "type": "alt_title",
+    "docCount": 6
+  },
+  {
+    "text": "Universität Freiburg",
+    "type": "alt_title",
+    "docCount": 6
+  },
+  {
+    "text": "Andrée, Dore (Bearb.)",
+    "type": "production",
+    "docCount": 6
+  },
+  {
+    "text": "Dieter Luz",
+    "type": "production",
+    "docCount": 6
+  },
+  {
+    "text": "50. Infanterie-Division / 13. Kompanie",
+    "type": "title",
+    "docCount": 5
+  },
+  {
+    "text": "Den Kindern das Wort geben",
+    "type": "title",
+    "docCount": 5
+  },
+  {
+    "text": "Home Movies",
+    "type": "title",
+    "docCount": 5
+  },
+  {
+    "text": "50. Infanterie-Division / 13. Kompanie",
+    "type": "alt_title",
+    "docCount": 5
+  },
+  {
+    "text": "Den Kindern das Wort geben",
+    "type": "alt_title",
+    "docCount": 5
+  },
+  {
+    "text": "One of a Series of Films on Pacific Island Life",
+    "type": "alt_title",
+    "docCount": 5
+  },
+  {
+    "text": "Hermann Schlenker Filmproduktion (Schwenningen)",
+    "type": "production",
+    "docCount": 5
+  },
+  {
+    "text": "Schindlbeck, Markus",
+    "type": "production",
+    "docCount": 5
+  },
+  {
+    "text": "Alltag USA",
+    "type": "title",
+    "docCount": 4
+  },
+  {
+    "text": "Amateurfilme Loges",
+    "type": "title",
+    "docCount": 4
+  },
+  {
+    "text": "Kindheit",
+    "type": "title",
+    "docCount": 4
+  },
+  {
+    "text": "Alltag USA",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Amateurfilme Loges",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Kindheit",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Kongo ",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Kriegsdokumentation <kassiert>",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Kunterbunt",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Paris",
+    "type": "alt_title",
+    "docCount": 4
+  },
+  {
+    "text": "Andrée, Dore",
+    "type": "production",
+    "docCount": 3
+  },
+  {
+    "text": "Milan Stanek (Basel)",
+    "type": "production",
+    "docCount": 3
+  },
+  {
+    "text": "Dieter Luz (Tübingen)",
+    "type": "production",
+    "docCount": 2
+  },
+  {
+    "text": "Kleindienst-Andrée, Dore",
+    "type": "production",
+    "docCount": 2
+  },
+  {
+    "text": "Kleindienst-Andrée, Dore (Bearb.)",
+    "type": "production",
+    "docCount": 2
+  }
+]

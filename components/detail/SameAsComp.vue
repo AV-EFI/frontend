@@ -31,7 +31,7 @@
           v-if="item.category === 'avefi:GNDResource'"
           role="menuitem"
           tabindex="0"
-          :href="`https://explore.gnd.network/gnd/${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -44,7 +44,7 @@
           v-else-if="item.category === 'avefi:VIAFResource'"
           role="menuitem"
           tabindex="0"
-          :href="`https://viaf.org/viaf/${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -57,7 +57,7 @@
           v-else-if="item.category === 'avefi:WikidataResource'"
           role="menuitem"
           tabindex="0"
-          :href="`https://www.wikidata.org/wiki/${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -70,7 +70,7 @@
           v-else-if="item.category === 'avefi:FilmportalResource'"
           role="menuitem"
           tabindex="0"
-          :href="`https://www.filmportal.de/${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -83,7 +83,7 @@
           v-else-if="item.category === 'avefi:DOIResource'"
           role="menuitem"
           tabindex="0"
-          :href="`https://doi.org/${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -96,7 +96,7 @@
           v-else-if="item.category === 'avefi:EIDRResource'"
           role="menuitem"
           tabindex="0"
-          :href="`https://ui.eidr.org/view/content?id=${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -108,7 +108,7 @@
           v-else-if="item.category === 'avefi:TGNResource'"
           role="menuitem"
           tabindex="0"
-          :href="`http://vocab.getty.edu/page/tgn/${item.id}`"
+          :href="getNormdataUrl(item.category, item.id)"
           target="_blank" rel="noopener"
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
@@ -133,6 +133,8 @@ const props = defineProps({
   fontSize: { type: String, default: 'base' },
   type: { type: String, default: 'film' },
 });
+
+const { getNormdataUrl } = useNormdataUrl();
 
 const open = ref(false);
 const triggerRef = ref<HTMLElement | null>(null);

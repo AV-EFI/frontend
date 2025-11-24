@@ -296,7 +296,7 @@ function prevItemPage() {
 }
 
 const navigateToItem = (item: any) => {
-    const itemPath = `/film/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
+    const itemPath = `/res/${props.workVariantHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
     window.open(itemPath, '_blank');
 };
 

@@ -20,7 +20,7 @@
   "githubIssues.queries": [
     { "label": "AVefi – Open", "query": "is:open repo:AV-EFI/AVefi-Issues", "groupBy": ["assignee"] },
     { "label": "AVefi – Mine", "query": "is:open repo:AV-EFI/AVefi-Issues assignee:${user} sort:updated-desc" },
-    { "label": "AVefi – Recent", "query": "repo:AV-EFI/AVefi-Issues sort:updated-desc" }
+    //{ "label": "AVefi – Recent", "query": "repo:AV-EFI/AVefi-Issues sort:updated-desc" }
   ],
   "githubIssues.alwaysPromptForNewIssueRepo": true,
   "github-actions.remote-name": "avefi-issues"

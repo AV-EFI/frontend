@@ -251,7 +251,13 @@
     "resultsUsage": "Wie können Suchergebnisse genutzt werden?",
     "resultsUsageContent": "Suchergebnisse können als Tabelle oder CSV-Datei exportiert werden. Weitere Nachnutzungsmöglichkeiten, wie JSON-Formate, werden noch geprüft.",
     "scrollToTop": "Zum Seitenanfang",
-    "search": "Suchen",
+    "search": {
+        "search": "Suchen",
+        "autocomplete": {
+            "no_results_for_query": "Keine Vorschläge für Ihre Suche gefunden",
+            "no_suggestions": "Keine Vorschläge verfügbar"
+        }
+    },
     "searchhereactors": "Suche Schauspieler",
     "searchheredirectors": "Suche Regie",
     "searchplaceholder": "Suche nach Titel, Regie, Produktion, Schlagwort",

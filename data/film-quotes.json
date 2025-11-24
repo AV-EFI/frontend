@@ -1,0 +1,29 @@
+{
+    "films": [
+        {
+            "film": "Metropolis",
+            "year": 1927,
+            "avefiUrl": "/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406",
+            "wikiquoteUrl": "https://en.wikiquote.org/wiki/Metropolis_(1927_film)",
+            "license": "Public Domain",
+            "quotes": [
+                {
+                    "errorType": "404",
+                    "text": "<strong>Joh Frederson:</strong> What were you doing in the machine halls, Freder?<br><strong>Freder:</strong> I wanted to look into the faces of the people whose little children are my brothers, my sisters..."
+                },
+                {
+                    "errorType": "404",
+                    "text": "<strong>Freder:</strong> Your magnificent city, Father - and you the brain of this city - and all of us in the city's light...And where are the people, Father, whose hands built your city?<br><strong>Joh Fredersen:</strong> Where they belong...<br><strong>Freder:</strong> In the depths...? What if one day, those in the depths rise up against you?"
+                },
+                {
+                    "errorType": "500",
+                    "text": "<strong>Grot - the Guardian of the Heart Machine:</strong> Who told you to attack the machines, you fools? Without them you'll all die!<br><strong>Working Woman:</strong> It's the witch's fault!"
+                },
+                {
+                    "errorType": "500",
+                    "text": "<strong>C.A. Rotwang - the Inventor:</strong> She is the most perfect and most obedient tool which mankind ever possessed! Tonight you will see her succeed before the upper ten thousand. You will see her dance..."
+                }
+            ]
+        }
+    ]
+}

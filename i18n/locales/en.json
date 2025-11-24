@@ -237,7 +237,17 @@
     "resultsUsage": "How Can Search Results Be Used?",
     "resultsUsageContent": "Search results can be exported as a table or CSV file. Further reuse options, such as JSON format, are still under consideration.",
     "scrollToTop": "Scroll to Top",
-    "search": "search",
+    "search": {
+        "search": "search",
+        "autocomplete": {
+            "no_results_for_query": "No suggestions found for your search",
+            "no_suggestions": "No suggestions available"
+        }
+    },
+    "autocomplete": {
+        "no_results_for_query": "No suggestions found for your search",
+        "no_suggestions": "No suggestions available"
+    },
     "searchhereactors": "Search for actors",
     "searchheredirectors": "Search for directors",
     "searchplaceholder": "Search for title, director, production, keyword",

@@ -29,7 +29,7 @@
                 :title="$t('title')"
               >
                 <a
-                  :href="`/film/${work?._id}`"
+                  :href="`/res/${work?._id}`"
                   :title="$t('detailviewlink')"
                   target="_blank"
                   class="link dark:link-white no-underline hover:underline"

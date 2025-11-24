@@ -23,7 +23,7 @@
           >
             <div>
               <a
-                :href="`/film/${mir.is_item_of.id.replace(/^\d{2,3}\.\d{1,5}\//g,'')}`"
+                :href="`/res/${mir.is_item_of.id.replace(/^\d{2,3}\.\d{1,5}\//g,'')}`"
                 class="link link-primary dark:link-accent link-hover"
                 alt="Referenz bei AVefi"
                 title="Referenz bei AVefi"

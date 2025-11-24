@@ -39,7 +39,11 @@
           :id="optionId(i)"
           :key="s.type + '::' + s.text + '::' + i"
           type="button"
-          class="w-full text-left px-3 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700"
+          :class="[
+            'w-full text-left px-3 py-2 flex items-center gap-2',
+            'hover:bg-gray-100 dark:hover:bg-gray-700',
+            i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
+          ]"
           role="option"
           :aria-selected="i === highlighted"
           @mousedown.stop.prevent="onSelect(s)"
@@ -59,7 +63,7 @@
         v-else
         class="px-3 py-2 text-sm text-gray-500 dark:text-gray-300 select-none"
       >
-        {{ noResultsText }}
+        {{ noResultsMessage }}
       </div>
     </div>
   </div>
@@ -67,6 +71,7 @@
 
 <script setup lang="ts">
 const t = useI18n().t;
+import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
 
 type Suggestion = { text: string; type: string }
 type IconMap = Record<string, string>
@@ -161,6 +166,15 @@ function canOpen() {
 async function fetchSuggestions(q: string): Promise<number> {
   const myToken = ++fetchToken;
   fetching.value = true;
+
+  if(q.length < 2) {
+    if (alive.value && myToken === fetchToken) {
+      suggestions.value = defaultQuerySuggestions;
+      fetching.value = false;
+    }
+    return myToken;
+  }
+
   try {
     const body: any = facetMode.value
       ? { mode: 'facet', facetAttr: props.facetAttr, query: q.trim(), size: size.value }
@@ -185,6 +199,14 @@ async function fetchSuggestions(q: string): Promise<number> {
 
 // ======= Filtering =======
 const visibleSuggestions = computed(() => suggestions.value);
+
+// ======= No results message =======
+const noResultsMessage = computed(() => {
+  if (props.noResultsText) return props.noResultsText;
+  return displayValue.value?.trim() 
+    ? t('noSuggestionsFound')
+    : t('showSuggestions');
+});
 
 // ======= Input handlers =======
 function onInput(v: any) {
@@ -269,13 +291,36 @@ function onSelect(s: Suggestion) {
 function onKeydown(e: KeyboardEvent) {
   const key = e.key;
   if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(key)) return;
-  if (key !== 'Tab') e.preventDefault();
+  
+  // Handle Tab: close dropdown and allow default behavior (focus next element)
+  if (key === 'Tab') {
+    showDropdown.value = false;
+    highlighted.value = -1;
+    blockReopen(400); // prevent dropdown from reopening when focus moves
+    cancelDebounce(); // cancel any pending fetch
+    fetchToken++; // invalidate any in-flight requests
+    return; // allow default Tab behavior
+  }
+  
+  e.preventDefault();
 
   if (key === 'ArrowDown') {
-    if (!showDropdown.value && canOpen()) showDropdown.value = true;
-    highlighted.value = Math.min(highlighted.value + 1, visibleSuggestions.value.length - 1);
+    if (!showDropdown.value && canOpen()) {
+      // Fetch suggestions if dropdown is closed and open it
+      fetchSuggestions(displayValue.value || '').then(() => {
+        if (alive.value) {
+          showDropdown.value = true;
+          highlighted.value = visibleSuggestions.value.length > 0 ? 0 : -1;
+        }
+      });
+    } else if (showDropdown.value) {
+      // Navigate down in the list
+      highlighted.value = Math.min(highlighted.value + 1, visibleSuggestions.value.length - 1);
+    }
   } else if (key === 'ArrowUp') {
-    highlighted.value = Math.max(highlighted.value - 1, 0);
+    if (showDropdown.value) {
+      highlighted.value = Math.max(highlighted.value - 1, 0);
+    }
   } else if (key === 'Enter') {
     if (highlighted.value >= 0 && visibleSuggestions.value[highlighted.value]) {
       onSelect(visibleSuggestions.value[highlighted.value]);

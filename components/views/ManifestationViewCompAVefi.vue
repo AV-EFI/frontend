@@ -31,7 +31,7 @@
               >
                 <div>
                   <a
-                    :href="`/film/${has_record_is_manifestation_of_item.id.replace(/^\d{2,3}\.\d{1,5}\//g,'')}`"
+                    :href="`/res/${has_record_is_manifestation_of_item.id.replace(/^\d{2,3}\.\d{1,5}\//g,'')}`"
                     class="link link-primary dark:link-accent dark:link-accent link-hover"
                     alt="Referenz bei AVefi"
                     title="Referenz bei AVefi"
@@ -348,7 +348,7 @@
               <td>-</td>
               <td class="flex justify-center">
                 <a
-                  :href="`/film/${item.id.replace('21.11155/','')}`"
+                  :href="`/res/${item.id.replace('21.11155/','')}`"
                 >
                   <Icon
                     class="text-2xl"
