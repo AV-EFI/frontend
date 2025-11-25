@@ -59,10 +59,21 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useNuxtApp } from 'nuxt/app';
+import { setResponseStatus } from 'h3';
 import filmQuotesData from '~/data/film-quotes.json';
 
 const { locale, t } = useI18n();
 const currentLocale = computed(() => locale.value);
+
+// Set 500 status code on server-side
+if (process.server) {
+  const nuxtApp = useNuxtApp();
+  if (nuxtApp.ssrContext?.event) {
+    setResponseStatus(nuxtApp.ssrContext.event, 500);
+  }
+}
 
 const reloadPage = () => {
   window.location.reload();
