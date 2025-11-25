@@ -12,6 +12,7 @@
         <h2
           class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
         >
+        
           {{ $t('result') }}
         </h2>
       </div>
