@@ -34,9 +34,9 @@ export function useHash(scroll = true) {
                                     );
                                 }
                             }, 3200);
-                        }, 600);
+                        }, 900);
                     }
-                }, 600);
+                }, 900);
             }
         };
 

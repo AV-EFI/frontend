@@ -4,8 +4,8 @@ const route = useRoute();
 const prefix = route.params.prefix;
 const id = route.params.id;
 
-// Perform immediate redirect with 301 status
-await navigateTo(`/res/${prefix}/${id}`, {
+// Perform immediate redirect with 301 status, preserving hash fragment
+await navigateTo(`/res/${prefix}/${id}${route.hash || ''}`, {
   redirectCode: 301,
   external: false
 });

@@ -93,6 +93,9 @@ import { ref, computed } from "vue";
 import { FormKit } from "@formkit/vue";
 import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IAVefiWorkVariant";
 
+// Enable hash navigation for manifestations and items
+useHash();
+
 const dataJson = defineModel({ type: Object, required: true });
 // Defensive parse
 let dataObject: any = {};
