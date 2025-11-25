@@ -341,7 +341,7 @@
               {{ row.docCount }}
             </td>
             <td class="text-center">
-              <div class="dropdown dropdown-end">
+              <div class="dropdown dropdown-end relative">
                 <button
                   tabindex="0"
                   class="btn btn-ghost btn-xs"
@@ -351,8 +351,7 @@
                 </button>
                 <ul
                   tabindex="0"
-                  class="dropdown-content menu menu-compact p-2 shadow bg-base-100 border border-base-300 rounded-box w-52 fixed z-[100]"
-                  style="margin-top: 0.5rem;"
+                  class="dropdown-content menu menu-compact p-2 shadow bg-base-100 border border-base-300 rounded-box w-52 absolute right-0 top-full mt-1 z-[100]"
                 >
                   <li>
                     <a @click.prevent="exportSingleRow(row)">
@@ -756,7 +755,7 @@ function exportSingleRow(row: Row) {
 }
 
 function getFacetSearchUrl(value: string): string {
-  const baseUrl = '/search_altern/index'
+  const baseUrl = '/search/index'
   const indexName = '21.11155-denormalised-work'
   
   // Map field keys to facet parameter names
