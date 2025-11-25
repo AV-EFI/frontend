@@ -136,7 +136,7 @@ export default defineEventHandler(async (event) => {
       
       console.log('suggestions res: ', res);
 
-      const suggestions: Array<{ text: string; type: string }> = []
+      const suggestions: Array<{ text: string; type: string; count?: number }> = []
       for (const attr of searchAttrs) {
         const name = `agg__${attr.field.replace(/\./g, '__')}`
         const buckets = res?.aggregations?.[name]?.buckets || []
@@ -144,19 +144,28 @@ export default defineEventHandler(async (event) => {
         for (const b of buckets) {
           const key = String(b?.key ?? '')
           if (!key) continue
-          suggestions.push({ text: key, type })
+          const count = Number(b?.doc_count ?? 0)
+          suggestions.push({ text: key, type, count })
         }
       }
 
-      // de-dup by (text,type)
-      const seen = new Set<string>()
-      const deduped = suggestions.filter(s => {
-        const k = `${s.type}::${s.text}`
-        if (seen.has(k)) return false
-        seen.add(k)
-        return true
-      })
-      return { success: true, suggestions: deduped.slice(0, 50) }
+      // de-dup by text only (ignoring type) and keep the entry with highest count
+      const deduped = new Map<string, { text: string; type: string; count: number }>()
+      for (const s of suggestions) {
+        const count = s.count || 0
+        if (deduped.has(s.text)) {
+          const existing = deduped.get(s.text)!
+          // Keep the entry with higher count
+          if (count > existing.count) {
+            deduped.set(s.text, { text: s.text, type: s.type, count })
+          }
+        } else {
+          deduped.set(s.text, { text: s.text, type: s.type, count })
+        }
+      }
+
+      const result = Array.from(deduped.values()).slice(0, 50)
+      return { success: true, suggestions: result }
     } catch (err: any) {
       console.error('[suggestions:query] ERROR', err?.data || err?.message || err)
       return { success: false, suggestions: [] }
@@ -200,7 +209,11 @@ export default defineEventHandler(async (event) => {
         for (let i = 1; i <= def.nestedPaths.length; i++) node = node?.[`lvl${i}`]
       }
       const buckets = node?.facet_suggestions?.buckets || []
-      const suggestions = buckets.map((b: any) => ({ text: b.key, type: facetAttr }))
+      const suggestions = buckets.map((b: any) => ({ 
+        text: b.key, 
+        type: facetAttr,
+        count: b.doc_count || 0
+      }))
 
       return { success: true, suggestions, count: suggestions.length }
     } catch (err: any) {

@@ -56,6 +56,12 @@
           />
           <span class="text-sm opacity-70 uppercase hidden">{{ typeLabel(s.type) }}</span>
           <span class="text-base truncate">{{ s.text }}</span>
+          <span
+            v-if="s.count && s.count > 1"
+            class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0"
+          >
+            ({{ s.count }})
+          </span>
         </button>
       </template>
 
@@ -73,7 +79,7 @@
 const t = useI18n().t;
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
 
-type Suggestion = { text: string; type: string }
+type Suggestion = { text: string; type: string; count?: number }
 type IconMap = Record<string, string>
 
 const props = defineProps<{

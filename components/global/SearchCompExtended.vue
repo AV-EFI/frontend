@@ -125,9 +125,14 @@
                       inner-class="dark:!bg-slate-950 dark:!text-white"
                       :disabled="!filter.facet"
                       autocomplete="off"
+                      :aria-autocomplete="'list'"
+                      :aria-haspopup="'listbox'"
+                      :aria-expanded="filter.showSuggestions ? 'true' : 'false'"
+                      :aria-activedescendant="filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
                       @input="onValueInput(index, $event)"
                       @focus="onValueFocus(index)"
                       @blur="onValueBlur(index)"
+                      @keydown="onFacetKeydown($event, index)"
                     />
                     <button
                       type="button"
@@ -147,16 +152,31 @@
                   <div
                     v-if="filter.showSuggestions && filter.suggestions.length"
                     class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-40 overflow-y-auto"
+                    role="listbox"
                     @mousedown.stop
                   >
                     <div
                       v-for="(s, si) in filter.suggestions.slice(0, 10)"
+                      :id="`facet-sugg-${filter.uid}-${si}`"
                       :key="`facet-sugg-${filter.uid}-${si}-${s.raw}`"
-                      class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                      :class="[
+                        'px-3 py-2 cursor-pointer text-sm flex items-center gap-2',
+                        filter.highlighted === si 
+                          ? 'bg-blue-100 dark:bg-blue-900/40' 
+                          : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ]"
+                      role="option"
+                      :aria-selected="filter.highlighted === si"
                       @mousedown.prevent.stop="selectSuggestion(index, s)"
                     >
                       <!-- Show translated display text, keep raw in state -->
-                      {{ s.display }}
+                      <span class="flex-grow">{{ s.display }}</span>
+                      <span
+                        v-if="s.count && s.count > 1"
+                        class="text-xs text-gray-500 dark:text-gray-400 shrink-0"
+                      >
+                        ({{ s.count }})
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -282,6 +302,7 @@ function facetMeta(value?: string | null) {
 interface FacetSuggestion {
   raw: string
   display: string
+  count?: number
 }
 interface FacetFilter {
   uid: string
@@ -290,6 +311,7 @@ interface FacetFilter {
   valueDisplay: string
   suggestions: FacetSuggestion[]
   showSuggestions: boolean
+  highlighted: number
   // runtime helpers
   _abort?: AbortController | null
   _debounce?: ReturnType<typeof setTimeout> | null
@@ -303,12 +325,13 @@ onMounted(() => {
 
 function newFacetRow(): FacetFilter {
     return {
-        uid: crypto.randomUUID?.() || Math.random().toString(36).slice(2),
+        uid: crypto.randomUUID(),
         facet: '',
         valueRaw: '',
         valueDisplay: '',
         suggestions: [],
         showSuggestions: false,
+        highlighted: -1,
         _abort: null,
         _debounce: null
     };
@@ -339,8 +362,8 @@ function translateValue(attr: string, raw: string): string {
 }
 
 // ---------------------- Suggestions (debounced + abortable) ----------------------
-/** Per-row cache (attr -> [raw]) */
-const facetCache: Record<string, string[]> = {};
+/** Per-row cache (attr -> suggestions with count) */
+const facetCache: Record<string, FacetSuggestion[]> = {};
 
 async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '') {
     // cancel previous in-flight
@@ -351,22 +374,25 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
     row._abort = new AbortController();
 
     try {
-        const res = await $fetch<{ success: boolean; suggestions: { text: string; type: string }[] }>(
+        const res = await $fetch<{ success: boolean; suggestions: { text: string; type: string; count?: number }[] }>(
             '/api/elastic/suggestions',
             { method: 'POST', body: { mode: 'facet', facetAttr: attr, query, size: 20 }, signal: row._abort.signal }
         );
 
-        const arr = (res?.success && res?.suggestions) ? res.suggestions.map(s => s.text) : [];
-        facetCache[attr] = arr;
+        const suggestions = (res?.success && res?.suggestions) 
+            ? res.suggestions.map(s => ({
+                raw: s.text,
+                display: translateValue(attr, s.text),
+                count: s.count
+              }))
+            : [];
+        facetCache[attr] = suggestions;
 
         // Only apply if the row is still on the same facet
         const still = facetFilters.value[rowIndex];
         if (!still || still.facet !== attr) return;
 
-        still.suggestions = (facetCache[attr] || []).map(raw => ({
-            raw,
-            display: translateValue(attr, raw)
-        }));
+        still.suggestions = facetCache[attr] || [];
         still.showSuggestions = still.suggestions.length > 0;
     } catch (e: any) {
         if (e?.name === 'AbortError') return;
@@ -374,7 +400,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         const still = facetFilters.value[rowIndex];
         if (still && still.facet === attr) {
             const cached = facetCache[attr] || [];
-            still.suggestions = cached.map(raw => ({ raw, display: translateValue(attr, raw) }));
+            still.suggestions = cached;
             still.showSuggestions = still.suggestions.length > 0;
         }
     } finally {
@@ -400,6 +426,7 @@ function onFacetChange(index: number) {
     row.valueDisplay = '';
     row.suggestions = [];
     row.showSuggestions = false;
+    row.highlighted = -1;
 
     // fetch initial suggestions for the newly selected facet
     const attr = row.facet;
@@ -434,7 +461,7 @@ async function onValueFocus(index: number) {
     if (!facetCache[attr] || !facetCache[attr].length) {
         await fetchFacetSuggestions(index, attr, '');
     } else {
-        row.suggestions = facetCache[attr].map(raw => ({ raw, display: translateValue(attr, raw) }));
+        row.suggestions = facetCache[attr];
         row.showSuggestions = row.suggestions.length > 0;
     }
 }
@@ -445,12 +472,83 @@ function onValueBlur(index: number) {
     setTimeout(() => { row.showSuggestions = false; }, 250);
 }
 
+function onFacetKeydown(event: KeyboardEvent, index: number) {
+    const row = facetFilters.value[index];
+    if (!row) return;
+
+    const key = event.key;
+
+    // Tab: close dropdown, reset highlight, allow default focus behavior
+    if (key === 'Tab') {
+        if (row.showSuggestions) {
+            row.showSuggestions = false;
+            row.highlighted = -1;
+        }
+        return; // allow default Tab behavior
+    }
+
+    // Escape: close dropdown, reset highlight
+    if (key === 'Escape') {
+        if (row.showSuggestions) {
+            event.preventDefault();
+            row.showSuggestions = false;
+            row.highlighted = -1;
+        }
+        return;
+    }
+
+    // ArrowDown: open dropdown if closed, or navigate down if open
+    if (key === 'ArrowDown') {
+        event.preventDefault();
+        
+        if (!row.showSuggestions) {
+            // Open dropdown and fetch suggestions if needed
+            const attr = row.facet;
+            if (attr) {
+                if (!facetCache[attr] || !facetCache[attr].length) {
+                    fetchFacetSuggestions(index, attr, row.valueRaw || '');
+                } else {
+                    row.suggestions = facetCache[attr];
+                    row.showSuggestions = row.suggestions.length > 0;
+                }
+            }
+        } else {
+            // Navigate down in suggestions
+            if (row.suggestions.length > 0) {
+                row.highlighted = Math.min(row.highlighted + 1, row.suggestions.length - 1);
+            }
+        }
+        return;
+    }
+
+    // ArrowUp: navigate up in suggestions
+    if (key === 'ArrowUp') {
+        event.preventDefault();
+        if (row.showSuggestions && row.suggestions.length > 0) {
+            row.highlighted = Math.max(row.highlighted - 1, 0);
+        }
+        return;
+    }
+
+    // Enter: select highlighted suggestion if any
+    if (key === 'Enter') {
+        if (row.showSuggestions && row.highlighted >= 0 && row.highlighted < row.suggestions.length) {
+            event.preventDefault();
+            const suggestion = row.suggestions[row.highlighted];
+            selectSuggestion(index, suggestion);
+        }
+        // Otherwise allow default behavior (form submission, etc.)
+        return;
+    }
+}
+
 function selectSuggestion(index: number, s: FacetSuggestion) {
     const row = facetFilters.value[index];
     if (!row) return;
     row.valueRaw = s.raw;
     row.valueDisplay = s.display;
     row.showSuggestions = false;
+    row.highlighted = -1;
 }
 
 async function onFacetDropdownClick(index: number) {
@@ -471,7 +569,7 @@ async function onFacetDropdownClick(index: number) {
         console.log('  fetching suggestions for facet:', attr);
         await fetchFacetSuggestions(index, attr, '');
     } else {
-        row.suggestions = facetCache[attr].map(raw => ({ raw, display: translateValue(attr, raw) }));
+        row.suggestions = facetCache[attr];
     }
     row.showSuggestions = row.suggestions.length > 0;
 }
@@ -486,7 +584,7 @@ function redirectToSearchScreen() {
     try {
         const pub = useRuntimeConfig().public;
         const idx = pub.ELASTIC_INDEX;
-        const rawBase = pub.AVEFI_SEARCH_URL || 'search_altern';
+        const rawBase = pub.AVEFI_SEARCH_URL || 'search';
         const isAbsolute = /^https?:\/\//i.test(rawBase);
         const base = isAbsolute ? `${rawBase.replace(/\/+$/, '')}/index`
             : `/${rawBase.replace(/^\/+|\/+$/g, '')}/index`;

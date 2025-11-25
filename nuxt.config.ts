@@ -110,7 +110,7 @@ export default defineNuxtConfig({
     routeRules: {
         "/": { ssr: false },
         "/search": { ssr: false },
-        "/search_altern": { ssr: false },
+        "/search": { ssr: false },
         //"/contact": { prerender: true },
         "/contact": { ssr: false }, 
         "/login": { ssr: false },
