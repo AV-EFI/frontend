@@ -23,6 +23,7 @@
         :class="fontSize"
         class="flex items-center mr-2 min-w-6"
         :display-text="val?.has_name ?? val"
+        :copy-text="clipText ? clipText : (val?.has_name ?? val)"
       />
       <span
         v-if="!clip"
@@ -119,6 +120,10 @@ const props = defineProps({
     clip: {
         type: Boolean,
         default: true
+    },
+    clipText: {
+        type: String,
+        default: null
     },
     sameAsType: {
         type: String,

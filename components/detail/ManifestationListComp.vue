@@ -42,12 +42,13 @@
           <template #left>
             <!-- 01 EFI Handle -->
             <DetailKeyValueComp
-              :id="manifestation.handle?.replace?.('21.11155/', '')"
+              :id="manifestation.handle"
               keytxt="efi"
               :translate-key="false"
               :valtxt="manifestation?.handle"
               class="col-span-full"
               :clip="true"
+              :clip-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${manifestation?.handle}`"
             />
 
             <!-- 02 Titel -->

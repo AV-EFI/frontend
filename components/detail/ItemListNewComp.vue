@@ -15,10 +15,11 @@
     <!-- 01 EFI Handle -->
     <div class="col-span-full md:col-span-4 row-start-2">
       <DetailKeyValueComp
-        :id="exemplar?._id ?? exemplar?.handle?.replace('21.11155/', '') ?? exemplar?.handle"
+        :id="exemplar?.handle"
         keytxt="efi"
         :translate-key="false"
         :valtxt="exemplar?.handle"
+        :clip-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${exemplar?.handle}`"
         class="w-full mb-2 text-base"
         :clip="true"
       />

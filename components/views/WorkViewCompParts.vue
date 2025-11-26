@@ -6,7 +6,9 @@
     :aria-label="$t('parts') || 'Parts'"
   >
     <div class="my-2">
-      <h2 class="font-bold text-xl">{{ $t('parts') }}</h2>
+      <h2 class="font-bold text-xl">
+        {{ type == 'parts' ? $t('parts') : $t('workVariants') }}
+      </h2>
     </div>
     <div
       v-for="part in parts"
@@ -34,7 +36,7 @@
             >
               {{ get(part,'has_record.has_primary_title.has_name') || part?.handle || $t('title') }}
               <MicroBadgeCategoryComp
-                :category="part?.category || 'avefi:WorkVariantPart'"
+                :category="part?.has_record?.category || 'avefi:WorkVariantPart'"
                 :dense="false"
                 class="ml-2"
               />
@@ -57,7 +59,7 @@
           <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
             <NuxtLink
               v-if="part?.handle"
-              :to="`/res/${part.handle.replace('21.11155/','')}`"
+              :to="`/res/${part.handle}`"
               class="btn btn-circle btn-outline btn-md mr-2"
               :aria-label="$t('detailviewlink')"
               :title="$t('detailviewlink')"
@@ -144,6 +146,10 @@ type Part = {
 const props = defineProps<{
   parts: Part[];
   showAdminStats?: boolean;
+  type: {
+    type: string;
+    default: 'parts';
+  }
 }>();
 
 const isExpandedLocal = ref(false);

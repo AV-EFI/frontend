@@ -6,10 +6,11 @@ export function useHash(scroll = true) {
     onMounted(() => {
         const updateHash = () => {
             hash.value = window.location.hash.slice(1);
-
             if (scroll && hash.value) {
+
                 setTimeout(() => {
                     const el = document.getElementById(hash.value);
+                    console.log(el);
                     if (el) {
                         // Open the closest collapse section
                         const collapseElement = el.closest('.collapse');
@@ -28,7 +29,7 @@ export function useHash(scroll = true) {
                                 if (label) {
                                     label.appendChild(
                                         Object.assign(document.createElement('span'), {
-                                            className: 'ml-1 badge badge-accent bg-highlight border-highlight badge-xs',
+                                            className: 'ml-1 badge badge-highlight bg-highlight border-highlight badge-xs',
                                             title: 'Referenzierter efi'
                                         })
                                     );
@@ -36,7 +37,7 @@ export function useHash(scroll = true) {
                             }, 3200);
                         }, 900);
                     }
-                }, 900);
+                }, 1200);
             }
         };
 

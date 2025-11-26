@@ -967,7 +967,7 @@ export default defineI18nConfig(() => ({
             'goToMerge': 'Merge zeigen',
             'message': 'Nachricht',
             'minutes': 'Minuten',
-            'multihelptext': ({ named }: { named: (key: string) => string }) => `Für die Entität mit dem efi <strong>${named('name')}</strong> wurden mehrere zugehörige Werke gefunden.<br>Bitte beachten Sie, dass es sich hierbei um unterschiedliche Werke handelt, die alle mit dieser Entität in Verbindung stehen könnten. Um weitere Informationen zu einem bestimmten Werk zu erhalten, wählen Sie bitte eines aus der Liste aus. Nach der Auswahl werden Ihnen die detaillierten Angaben zu diesem Werk angezeigt - darunter z.B. Titel, Produktion, Regie und weitere relevante Metadaten.`,
+            'multihelptext': ({ named }: { named: (key: string) => string }) => `Für die Entität mit dem efi <strong>${named('name')}</strong> wurden mehrere zugehörige Werke gefunden. Bitte beachten Sie, dass es sich hierbei um unterschiedliche Werke handelt, die alle mit dieser Entität in Verbindung stehen könnten. Um weitere Informationen zu einem bestimmten Werk zu erhalten, wählen Sie bitte eines aus der Liste aus. Nach der Auswahl werden Ihnen die detaillierten Angaben zu diesem Werk angezeigt - darunter z.B. Titel, Produktion, Regie und weitere relevante Metadaten.`,
             'multiResults': 'Mehrere Ergebnisse',
             'myDatasets': 'Meine Datensätze',
             'noResults': 'Keine Ergebnisse gefunden',

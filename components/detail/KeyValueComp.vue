@@ -16,6 +16,7 @@
         class="max-sm:break-all"
         :class="fontSize"
         :display-text="valtxt"
+        :copy-text="clipText ? clipText : valtxt"
       />
       <span
         v-else
@@ -47,6 +48,10 @@ const props = defineProps({
     'clip': {
         type: Boolean,
         default: true
+    },
+    clipText: {
+        type: String,
+        default: null
     },
     fontSize: {
         type: String,

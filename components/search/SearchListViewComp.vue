@@ -52,7 +52,7 @@
         <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
           <NuxtLink 
             v-if="work?.handle"
-            :to="`/res/${work.handle.replace('21.11155/','')}`"
+            :to="`/res/${work.handle}`"
             class="btn btn-circle btn-outline btn-md mr-2"
             :aria-label="$t('detailviewlink')"
             :title="$t('detailviewlink')"

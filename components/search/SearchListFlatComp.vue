@@ -13,6 +13,7 @@
           <GlobalClipboardComp
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
             :display-text="work?.handle ?? ''"
+            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
           />
           <h2
             class="font-bold text-lg my-1"
@@ -74,7 +75,7 @@
         <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
           <NuxtLink 
             v-if="work?.handle"
-            :to="`/film/${work.handle.replace('21.11155/','')}`"
+            :to="`/film/${work.handle}`"
             class="btn btn-circle btn-outline btn-md mr-2"
             :aria-label="$t('detailviewlink')"
             :title="$t('detailviewlink')"
@@ -519,7 +520,7 @@ function trackStyle(work: any) {
 }
 
 const navigateToItem = (item: any, workHandle: string) => {
-    const itemPath = `/film/${workHandle?.replace('21.11155/', '')}#${item?.handle?.replace('21.11155/', '')}`;
+    const itemPath = `/film/${workHandle}#${item?.handle?.replace('21.11155/', '')}`;
     window.open(itemPath, '_blank');
 };
 

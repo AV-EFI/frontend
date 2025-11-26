@@ -5,7 +5,7 @@
     >
       <div class="mb-2">
         <h2
-          :id="mir._id"
+          :id="mir.handle"
           class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
           :alt="mir.has_primary_title.has_name"
         >
@@ -79,7 +79,10 @@
               <h2 class="dark:text-primary-100">
                 efi:
               </h2>
-              <GlobalClipboardComp :display-text="data?._source?.handle" />
+              <GlobalClipboardComp 
+                :display-text="data?._source?.handle"
+                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${data?._source?.handle}`"
+                />
               <!-- has_alternative_title -->
               <div
                 v-if="mir.has_alternative_title"
@@ -348,7 +351,7 @@
               <td>-</td>
               <td class="flex justify-center">
                 <a
-                  :href="`/res/${item.id.replace('21.11155/','')}`"
+                  :href="`/res/${item.id}`"
                 >
                   <Icon
                     class="text-2xl"

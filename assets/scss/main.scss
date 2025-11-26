@@ -104,6 +104,18 @@
   --noise: 0;
 }
 
+:root {
+  @media (max-width: 640px) {
+    --toastify-toast-width: 90%!important;
+  }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    --toastify-toast-width: 500px!important;
+  }
+  @media (min-width: 1025px) {
+    --toastify-toast-width: 720px!important;
+  }
+}
+
 @custom-variant dark (&:where([data-theme=avefi_dark], [data-theme=avefi_dark] *));
 
 @layer base {

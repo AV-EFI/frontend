@@ -55,6 +55,7 @@
       <template #actions>
         <MicroBadgeCategoryComp
           class="col-span-3 mt-2 divider-primary"
+          :class="!dataJson?.compound_record?._source?.has_record?.type ? 'hidden' : ''"
           :category="dataJson?.compound_record?._source?.has_record?.type"
         />
       </template>      
@@ -67,9 +68,14 @@
               fallback="Loading data..."
             >
               <LazyViewsWorkViewCompAVefi
-                  v-if="dataJson && resourceType === 'workVariant'"
+                  v-if="dataJson && (resourceType === 'workVariant' || resourceType === 'compilation' || resourceType === 'manifestationOrItem')"
                   v-model="dataJson"
                   :handle="dataJson.handle" 
+               />
+               <LazyViewsCompilationViewCompAVefi
+                  v-else-if="dataJson && resourceType === 'compilationManifestation'"
+                  v-model="dataJson"
+                  :handle="dataJson.handle"
                />
                <!-- Add other resource type components here when needed -->
                <div v-else-if="dataJson && resourceType !== 'workVariant'" class="text-center text-gray-500">
@@ -97,7 +103,10 @@
 
 <script setup lang="ts">
 import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
-import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElasticResponses.js';
+import { navigateTo, useAsyncData } from 'nuxt/app';
+import { useResourceData } from '~/composables/useResourceData.js';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 definePageMeta({
     auth: false
@@ -107,27 +116,19 @@ const route = useRoute();
 const params = ref(route.params);
 const category = ref('avefi:WorkVariant');
 const type = ref('Monographic');
-const resourceType = ref<string>('workVariant'); // Default resource type
 
-//@TODO: refactor on larger scale
-const { data: dataJson } = await useAsyncData<ElasticGetByIdResponse>('dataJson', async () => {
-    //we expect missing prefix to be 21.11155
-    if(params.value.id.indexOf('.') < 0) {
-        params.value.id = params.value.prefix + '/' + params.value.id;
-    }
-    
-    const data:ElasticGetByIdResponse | null = await getDataSet(params?.value?.id);
-    console.log('Data:', data);
-    
-    // Extract resource_type from the response if available
-    if (data?.compound_record?.resource_type) {
-        resourceType.value = data.compound_record.resource_type;
-    }
-    
-    return data as ElasticGetByIdResponse;
+const result = await useResourceData(params.value.id as string, params.value.prefix as string);
+const effectiveHandle = computed(() => result.effectiveHandle || params.value.id);
+if(effectiveHandle.value !== params.value.id) {
+  navigateTo(`/res/${effectiveHandle.value}${route.hash || ''}`, {
+    redirectCode: 301,
+    external: false
+  });
+}
+console.log('Effective handle:', effectiveHandle.value);
 
-});
-
+const dataJson = computed(() => result.data);
+const resourceType = computed(() => result.resourceType.value || 'workVariant');
 </script>
 <style scoped>
   legend, label {

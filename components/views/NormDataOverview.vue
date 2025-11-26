@@ -286,7 +286,7 @@ const getArr = (x: any) => (Array.isArray(x) ? x : x ? [x] : []);
 const isObj = (x: any) => x && typeof x === 'object' && !Array.isArray(x);
 
 const isInternalId = (id?: string) => !!id && id.includes('21.11155/');
-const toInternalRoute = (id: string) => `/res/${id.replace('21.11155/', '')}`;
+const toInternalRoute = (id: string) => `/res/${id}`;
 
 function collectWork(doc: any): Row[] {
     if (!isObj(doc)) return [];

@@ -53,7 +53,7 @@
             <router-link
               target="_blank"
               rel="noopener"
-              :to="`/film/${(ipo?.id || '').replace('21.11155/', '')}`"
+              :to="`/film/${(ipo?.id || '')}`"
               class="link link-primary"
               :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
             >
