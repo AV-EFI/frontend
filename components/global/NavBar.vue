@@ -9,10 +9,10 @@
       <div class="container flex flex-wrap justify-between mx-auto p-0">
         <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-2/5 flex justify-start">
           <!-- Mobile menu toggle -->
-          <div class="dropdown">
+          <div class="dropdown xl:hidden">
             <button
               type="button"
-              class="btn btn-ghost xl:hidden h-12"
+              class="btn btn-ghost md:hidden h-12"
               aria-haspopup="true"
               :aria-expanded="mobileMenuOpen"
               :aria-label="ariaLabelOpenMenu"
@@ -38,13 +38,13 @@
               v-show="mobileMenuOpen"
               role="menu"
               :aria-label="ariaLabelMainMenu"
-              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items"
+              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items md:hidden"
             >
               <li class="h-12 flex justify-center mr-2">
                 <MicroSendMailButt />
               </li>
               <li class="h-12 flex justify-center">
-                <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
+                <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
                 <a href="/contact">{{ $t("faqAndGlossary") }}</a>
@@ -109,7 +109,7 @@
               :title="$t('home.breadcrumbs')"
             >
               <img
-                src="/img/AV-EFI-Logo.png"
+                src="/img/AV-EFI-Logo.svg"
                 alt="AVefi Logo"
                 class="my-auto"
                 width="70"
@@ -159,8 +159,8 @@
           </div>
         </div>
 
-        <!-- Desktop menu (xl and up) -->
-        <div class="navbar-end w-3/5 flex-grow hidden xl:flex">
+        <!-- Desktop menu (md and up) -->
+        <div class="navbar-end w-3/5 flex-grow hidden md:flex">
           <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
             <li
               v-if="shoppingCart.objects?.length > 0"
@@ -190,7 +190,7 @@
               </button>
             </li>
             <li class="h-12 flex justify-center">
-              <a :href="`/${useRuntimeConfig().public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
+              <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
               <a href="/contact">{{ $t("faqAndGlossary") }}</a>
@@ -202,7 +202,7 @@
               v-if="data?.user"
               class="h-12 flex justify-center"
             >
-              <details @toggle="detailsOpen = $event.target.open">
+              <details @toggle="detailsOpen = ($event.target as HTMLDetailsElement)?.open">
                 <summary
                   aria-haspopup="menu"
                   :aria-expanded="detailsOpen"
@@ -283,16 +283,12 @@
             >
               <div
                 role="button"
-                class="btn btn-circle btn-sm btn-outline"
+                class="btn btn-circle btn-sm btn-outline flex items-center justify-center"
                 :aria-label="ariaLabelLogin"
                 :title="$t('Login')"                
                 @click="signIn"
               >
-                <LazyIcon
-                  name="tabler:user"
-                  aria-hidden="true"
-                  class="m-auto h-8"
-                />
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: block;" class="dark:stroke-white"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg>
               </div>
             </li>
           </ul>
@@ -307,6 +303,8 @@ import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useObjectListStore } from '../../stores/compareList.js';
 import { useShoppingCart } from '../../stores/shoppingCart.js';
 import { useCurrentUrlState } from '../../composables/useCurrentUrlState.js';
+
+const runtime = useRuntimeConfig();
 
 const { currentUrlState } = useCurrentUrlState();
 const { data, signOut, signIn } = useAuth();

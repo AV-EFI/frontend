@@ -155,5 +155,16 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ auth: false })
+definePageMeta({ auth: false });
+
+const { t } = useI18n();
+
+useSeoMeta({
+    title: t('seo.contact.title'),
+    description: t('seo.contact.description'),
+    ogTitle: t('seo.contact.ogTitle'),
+    ogDescription: t('seo.contact.ogDescription'),
+    ogImage: '/img/avefi-og-image.png'
+});
+
 </script>

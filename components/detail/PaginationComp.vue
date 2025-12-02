@@ -6,7 +6,7 @@
   >
     <ais-pagination
       :class-names="{
-        'ais-Pagination': 'flex my-2 bg-white dark:bg-gray-800',
+        'ais-Pagination': 'flex justify-center my-auto bg-white dark:bg-gray-800',
         'ais-Pagination-list': 'flex space-x-1 my-1',
         'ais-Pagination-item': 'btn btn-sm btn-circle btn-primary btn-outline hover:text-white text-center',
         'ais-Pagination-link': 'text-center vertical-align-middle text-[12px]',

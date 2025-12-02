@@ -384,7 +384,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
                 raw: s.text,
                 display: translateValue(attr, s.text),
                 count: s.count
-              }))
+            }))
             : [];
         facetCache[attr] = suggestions;
 

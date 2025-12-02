@@ -157,74 +157,74 @@ const showHighlight = ref(true);
 
 // ---- helpers mirroring your WorkViewComp patterns ----
 function get(obj: any, path: string): any {
-  if (!obj || !path) return undefined;
-  return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+    if (!obj || !path) return undefined;
+    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
 }
 
 function formatDate(v?: string) {
-  if (!v) return '';
-  try { return new Date(v).toLocaleString('de-DE'); } catch { return ''; }
+    if (!v) return '';
+    try { return new Date(v).toLocaleString('de-DE'); } catch { return ''; }
 }
 
 function yearsDisplay(p: Part): string {
-  const years = p?.years;
-  if (Array.isArray(years) && years.length) return years.join(', ');
-  const range = get(p, 'production_in_year');
-  if (range && typeof range === 'object') {
-    const from = (range.gte ?? range.gt ?? '');
-    const to = (range.lte ?? range.lt ?? '');
-    return [from, to].filter(Boolean).join('–');
-  }
-  return '';
+    const years = p?.years;
+    if (Array.isArray(years) && years.length) return years.join(', ');
+    const range = get(p, 'production_in_year');
+    if (range && typeof range === 'object') {
+        const from = (range.gte ?? range.gt ?? '');
+        const to = (range.lte ?? range.lt ?? '');
+        return [from, to].filter(Boolean).join('–');
+    }
+    return '';
 }
 
 function getForms(p: Part): string[] {
-  const arr = get(p, 'has_record.has_form');
-  return Array.isArray(arr) ? arr.filter(Boolean) : [];
+    const arr = get(p, 'has_record.has_form');
+    return Array.isArray(arr) ? arr.filter(Boolean) : [];
 }
 
 function getDirectors(p: Part): string[] {
-  return Array.isArray(p?.directors_or_editors) ? p!.directors_or_editors!.filter(Boolean) : [];
+    return Array.isArray(p?.directors_or_editors) ? p!.directors_or_editors!.filter(Boolean) : [];
 }
 
 function getLocations(p: Part): string[] {
-  const events = get(p, 'has_record.has_event') || [];
-  const set = new Set<string>();
-  (events as Event[]).forEach(ev => (ev?.located_in || []).forEach(l => l?.has_name && set.add(l.has_name)));
-  return Array.from(set);
+    const events = get(p, 'has_record.has_event') || [];
+    const set = new Set<string>();
+    (events as Event[]).forEach(ev => (ev?.located_in || []).forEach(l => l?.has_name && set.add(l.has_name)));
+    return Array.from(set);
 }
 
 // optional highlights (same logic style you use)
 function getValueByPath(obj: any, path: string) {
-  return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
+    return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
 }
 function getHighlightSnippets(item: Part) {
-  const result: Array<{key: string; value: string}> = [];
-  const highlights = item?._highlightResult || {};
-  const fieldsToInclude: Record<string,string> = {
-    title: 'has_record.has_primary_title.has_name',
-    AlternativeTitle: 'has_record.has_alternative_title.has_name',
-    production: 'production',
-    directors_or_editors: 'directors_or_editors',
-    has_form: 'has_record.has_form',
-    genre: 'has_record.has_genre.has_name',
-    subject: 'subjects',
-  };
-  for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
-    const entry = getValueByPath(highlights, path);
-    const entries = Array.isArray(entry) ? entry : [entry];
-    for (const e of entries) {
-      if (e?.matchLevel !== 'none' && Array.isArray(e?.matchedWords) && e.matchedWords.length > 0 && typeof e.value === 'string') {
-        result.push({ key: labelKey, value: e.value });
-      }
+    const result: Array<{key: string; value: string}> = [];
+    const highlights = item?._highlightResult || {};
+    const fieldsToInclude: Record<string,string> = {
+        title: 'has_record.has_primary_title.has_name',
+        AlternativeTitle: 'has_record.has_alternative_title.has_name',
+        production: 'production',
+        directors_or_editors: 'directors_or_editors',
+        has_form: 'has_record.has_form',
+        genre: 'has_record.has_genre.has_name',
+        subject: 'subjects',
+    };
+    for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
+        const entry = getValueByPath(highlights, path);
+        const entries = Array.isArray(entry) ? entry : [entry];
+        for (const e of entries) {
+            if (e?.matchLevel !== 'none' && Array.isArray(e?.matchedWords) && e.matchedWords.length > 0 && typeof e.value === 'string') {
+                result.push({ key: labelKey, value: e.value });
+            }
+        }
     }
-  }
-  return result;
+    return result;
 }
 
 // simple unique fallback for missing handle
 function idxFallback() {
-  return Math.random().toString(36).slice(2);
+    return Math.random().toString(36).slice(2);
 }
 </script>
 

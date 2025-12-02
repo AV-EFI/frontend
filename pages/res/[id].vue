@@ -13,7 +13,7 @@ const DEFAULT_PREFIX = '21.11155';
 
 // Redirect to prefixed route
 await navigateTo(`/res/${DEFAULT_PREFIX}/${route.params.id}${route.hash || ''}`, {
-  redirectCode: 301,
-  external: false
+    redirectCode: 301,
+    external: false
 });
 </script>

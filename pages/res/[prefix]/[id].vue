@@ -114,21 +114,70 @@ definePageMeta({
 const { currentUrlState } = useCurrentUrlState();
 const route = useRoute();
 const params = ref(route.params);
-const category = ref('avefi:WorkVariant');
-const type = ref('Monographic');
 
 const result = await useResourceData(params.value.id as string, params.value.prefix as string);
 const effectiveHandle = computed(() => result.effectiveHandle || params.value.id);
 if(effectiveHandle.value !== params.value.id) {
-  navigateTo(`/res/${effectiveHandle.value}${route.hash || ''}`, {
-    redirectCode: 301,
-    external: false
-  });
+    navigateTo(`/res/${effectiveHandle.value}${route.hash || ''}`, {
+        redirectCode: 301,
+        external: false
+    });
 }
 console.log('Effective handle:', effectiveHandle.value);
 
 const dataJson = computed(() => result.data);
 const resourceType = computed(() => result.resourceType.value || 'workVariant');
+
+import { useSeoMeta, useSchemaOrg, defineBreadcrumb } from '#imports';
+
+const prefix = route.params.prefix;
+const id = route.params.id;
+
+// Load record from your backend:
+const { data: record } = await useFetch(`/api/res/${prefix}/${id}`);
+
+const { t } = useI18n();
+
+// Construct title:
+const title = record.value?.has_primary_title?.has_name 
+    ? t('seo.resource.title', { title: record.value.has_primary_title.has_name })
+    : t('seo.resource.title', { title: 'Filmwerk' });
+
+// Construct description:
+const description = record.value?.abstract || t('seo.resource.description');
+
+// Construct canonical:
+const canonical = `https://www.av-efi.net/res/${prefix}/${id}`;
+
+useSeoMeta({
+    title,
+    description,
+    ogTitle: title,
+    ogDescription: description,
+    ogImage: '/img/avefi-og-image.png',
+    canonical,
+});
+
+// JSON-LD for CreativeWork (or Movie, but Movie is risky unless always correct)
+useSchemaOrg([
+    {
+        '@type': 'CreativeWork',
+        '@id': canonical,
+        name: title,
+        description: description,
+        url: canonical,
+        identifier: id,
+        sameAs: record.value?.same_as ?? [],
+    },
+    defineBreadcrumb({
+        itemListElement: [
+            { name: 'Startseite', item: 'https://www.av-efi.net/' },
+            { name: 'Recherche', item: 'https://www.av-efi.net/search' },
+            { name: title, item: canonical },
+        ],
+    }),
+]);
+
 </script>
 <style scoped>
   legend, label {

@@ -63,11 +63,6 @@
     "path": "WorkVariant.has_primary_title",
     "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_primary_title"
   },
-  "has_source_key": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.has_source_key",
-    "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.has_source_key"
-  },
   "has_subject": {
     "level": "WorkVariant",
     "path": "WorkVariant.has_subject",
@@ -98,45 +93,15 @@
     "path": "WorkVariant.variant_type",
     "explorerPath": "MovingImageRecord.WorkVariant.WorkVariant.variant_type"
   },
-  "has_colour_type": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.has_colour_type",
-    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_colour_type"
-  },
-  "has_duration": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.has_duration",
-    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_duration"
-  },
-  "has_extent": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.has_extent",
-    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_extent"
-  },
-  "has_format": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.has_format",
-    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_format"
-  },
   "has_note": {
     "level": "WorkVariant",
     "path": "WorkVariant.has_note",
     "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_note"
   },
-  "has_sound_type": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.has_sound_type",
-    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_sound_type"
-  },
   "has_webresource": {
     "level": "WorkVariant",
     "path": "WorkVariant.has_webresource",
     "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.has_webresource"
-  },
-  "in_language": {
-    "level": "WorkVariant",
-    "path": "WorkVariant.in_language",
-    "explorerPath": "MovingImageRecord.WorkVariant.ManifestationOrItem.in_language"
   },
   "has_item": {
     "level": "Manifestation",
@@ -158,10 +123,40 @@
     "path": "Item.has_access_status",
     "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_access_status"
   },
+  "has_colour_type": {
+    "level": "Item",
+    "path": "Item.has_colour_type",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_colour_type"
+  },
+  "has_duration": {
+    "level": "Item",
+    "path": "Item.has_duration",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_duration"
+  },
+  "has_extent": {
+    "level": "Item",
+    "path": "Item.has_extent",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_extent"
+  },
+  "has_format": {
+    "level": "Item",
+    "path": "Item.has_format",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_format"
+  },
   "has_frame_rate": {
     "level": "Item",
     "path": "Item.has_frame_rate",
     "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_frame_rate"
+  },
+  "has_sound_type": {
+    "level": "Item",
+    "path": "Item.has_sound_type",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.has_sound_type"
+  },
+  "in_language": {
+    "level": "Item",
+    "path": "Item.in_language",
+    "explorerPath": "MovingImageRecord.WorkVariant.manifestations[].items[].Item.in_language"
   },
   "is_copy_of": {
     "level": "Item",

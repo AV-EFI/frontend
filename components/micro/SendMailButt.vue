@@ -6,13 +6,13 @@
     :open="showForm"
   >
     <summary
-      class="btn btn-sm btn-circle btn-outline list-none"
+      class="btn"
       :title="showForm ? $t('closeForm') : $t('openForm')"
       :aria-label="showForm ? $t('closeForm') : $t('openForm')"
       :aria-expanded="showForm"
       @click.prevent="toggleForm"
     >
-      <LazyIcon name="tabler:send" />
+    <Icon name="tabler:send " />
     </summary>
 
     <div
@@ -28,11 +28,11 @@
   <!-- Mobile modal (unchanged) -->
   <div class="block md:hidden">
     <button
-      class="btn btn-sm btn-circle btn-outline"
+      class="btn"
       :aria-label="$t('openForm')"
       @click="openMobileModal"
     >
-      <LazyIcon name="tabler:send" />
+      <Icon name="tabler:send " />
     </button>
     <dialog
       id="mobileMailModal"

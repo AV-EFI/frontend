@@ -69,34 +69,34 @@ const currentLocale = computed(() => locale.value);
 
 // Set 500 status code on server-side
 if (process.server) {
-  const nuxtApp = useNuxtApp();
-  if (nuxtApp.ssrContext?.event) {
-    setResponseStatus(nuxtApp.ssrContext.event, 500);
-  }
+    const nuxtApp = useNuxtApp();
+    if (nuxtApp.ssrContext?.event) {
+        setResponseStatus(nuxtApp.ssrContext.event, 500);
+    }
 }
 
 const reloadPage = () => {
-  window.location.reload();
+    window.location.reload();
 };
 
 // Get random quote for error type 500
 const randomQuote = computed(() => {
-  const allQuotes = filmQuotesData.films.flatMap(film => 
-    film.quotes
-      .filter(q => q.errorType === '500')
-      .map(q => ({
-        text: q.text,
-        film: film.film,
-        year: film.year,
-        avefiUrl: film.avefiUrl,
-        wikiquoteUrl: film.wikiquoteUrl,
-        license: film.license
-      }))
-  );
+    const allQuotes = filmQuotesData.films.flatMap(film => 
+        film.quotes
+            .filter(q => q.errorType === '500')
+            .map(q => ({
+                text: q.text,
+                film: film.film,
+                year: film.year,
+                avefiUrl: film.avefiUrl,
+                wikiquoteUrl: film.wikiquoteUrl,
+                license: film.license
+            }))
+    );
   
-  if (allQuotes.length === 0) return null;
+    if (allQuotes.length === 0) return null;
   
-  const randomIndex = Math.floor(Math.random() * allQuotes.length);
-  return allQuotes[randomIndex];
+    const randomIndex = Math.floor(Math.random() * allQuotes.length);
+    return allQuotes[randomIndex];
 });
 </script>

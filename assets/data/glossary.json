@@ -504,6 +504,15 @@
     "isTranslated": true
   },
   {
+    "term": "AssistantEditor",
+    "label": "Redaktionsassistenz",
+    "description": "Assistant to the Editor, see also the description for Editor",
+    "definition": "",
+    "enumSource": "EditingActivityTypeEnum",
+    "category": "EditingActivity Type",
+    "isTranslated": true
+  },
+  {
     "term": "AssistantFilmEditor",
     "label": "Cutterassistent",
     "description": "FIAF Glossary of Filmographic Terms B.10.2",
@@ -739,12 +748,12 @@
   },
   {
     "term": "PostProductionSupervisor",
-    "label": "PostProductionSupervisor",
+    "label": "Leitung Postproduktion",
     "description": "FIAF Glossary of Filmographic Terms B.2.15",
     "definition": "",
     "enumSource": "ProducingActivityTypeEnum",
     "category": "ProducingActivity Type",
-    "isTranslated": false
+    "isTranslated": true
   },
   {
     "term": "Presenter",
@@ -1468,12 +1477,12 @@
   },
   {
     "term": "UnknownActivity",
-    "label": "UnknownActivity",
+    "label": "Unbekannte Tätigkeit",
     "description": "FIAF Moving Image Cataloguing Manual 1.4.1.1, 2.4.1.1, 3.3.1.1",
     "definition": "",
     "enumSource": "ManifestationActivityTypeEnum",
     "category": "ManifestationActivity Type",
-    "isTranslated": false
+    "isTranslated": true
   },
   {
     "term": "CorporateBody",
@@ -7255,7 +7264,7 @@
   },
   {
     "term": "CombinedAsMute",
-    "label": "Combined as Mute",
+    "label": "Kombiniert als ohne Ton",
     "description": "FIAF Moving Image Cataloguing Manual D.7.4",
     "definition": "",
     "enumSource": "SoundTypeEnum",
@@ -7282,7 +7291,7 @@
   },
   {
     "term": "Mute",
-    "label": "Mute",
+    "label": "Ohne Ton",
     "description": "FIAF Moving Image Cataloguing Manual D.7.4",
     "definition": "",
     "enumSource": "SoundTypeEnum",
@@ -7291,7 +7300,7 @@
   },
   {
     "term": "Silent",
-    "label": "Silent",
+    "label": "Stumm",
     "description": "FIAF Moving Image Cataloguing Manual D.7.4",
     "definition": "",
     "enumSource": "SoundTypeEnum",
@@ -8325,6 +8334,15 @@
     "isTranslated": true
   },
   {
+    "term": "AssistantEditor",
+    "label": "Redaktionsassistenz",
+    "description": "Assistant to the Editor, see also the description for Editor",
+    "definition": "",
+    "enumSource": "EditingActivityTypeEnum",
+    "category": "EditingActivity Type",
+    "isTranslated": true
+  },
+  {
     "term": "AssistantFilmEditor",
     "label": "Cutterassistent",
     "description": "FIAF Glossary of Filmographic Terms B.10.2",
@@ -8560,12 +8578,12 @@
   },
   {
     "term": "PostProductionSupervisor",
-    "label": "PostProductionSupervisor",
+    "label": "Leitung Postproduktion",
     "description": "FIAF Glossary of Filmographic Terms B.2.15",
     "definition": "",
     "enumSource": "ProducingActivityTypeEnum",
     "category": "ProducingActivity Type",
-    "isTranslated": false
+    "isTranslated": true
   },
   {
     "term": "Presenter",
@@ -9289,12 +9307,12 @@
   },
   {
     "term": "UnknownActivity",
-    "label": "UnknownActivity",
+    "label": "Unbekannte Tätigkeit",
     "description": "FIAF Moving Image Cataloguing Manual 1.4.1.1, 2.4.1.1, 3.3.1.1",
     "definition": "",
     "enumSource": "ManifestationActivityTypeEnum",
     "category": "ManifestationActivity Type",
-    "isTranslated": false
+    "isTranslated": true
   },
   {
     "term": "CorporateBody",
@@ -15076,7 +15094,7 @@
   },
   {
     "term": "CombinedAsMute",
-    "label": "Combined as Mute",
+    "label": "Kombiniert als ohne Ton",
     "description": "FIAF Moving Image Cataloguing Manual D.7.4",
     "definition": "",
     "enumSource": "SoundTypeEnum",
@@ -15103,7 +15121,7 @@
   },
   {
     "term": "Mute",
-    "label": "Mute",
+    "label": "Ohne Ton",
     "description": "FIAF Moving Image Cataloguing Manual D.7.4",
     "definition": "",
     "enumSource": "SoundTypeEnum",
@@ -15112,7 +15130,7 @@
   },
   {
     "term": "Silent",
-    "label": "Silent",
+    "label": "Stumm",
     "description": "FIAF Moving Image Cataloguing Manual D.7.4",
     "definition": "",
     "enumSource": "SoundTypeEnum",

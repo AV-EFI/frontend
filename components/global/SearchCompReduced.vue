@@ -72,7 +72,7 @@ function onSubmit(v: string) {
 }
 
 function redirectToSearchScreen(query: string) {
-    const redirectLink =  '/' + useRuntimeConfig().public.SEARCH_URL + '/index?' + useRuntimeConfig().public.ELASTIC_INDEX + '[query]=' + encodeURIComponent(query);
+    const redirectLink =  '/' + useRuntimeConfig().public.SEARCH_URL + '/?query=' + encodeURIComponent(query);
     console.log('redirecting to search screen with term:', redirectLink);
     navigateTo(redirectLink);
 }

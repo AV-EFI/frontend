@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Interface and configuration for facet icon mappings
  * Maps attribute names to Tabler icon names for use in search facets

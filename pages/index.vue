@@ -18,10 +18,12 @@
               autoplay
               muted
               loop
+              playsinline
+              preload="auto"
               aria-hidden="true"
               class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]"
             >
-              <source src="/vid/klappe.mp4" type="video/mp4" />
+              <source src="/vid/klappe_comp.mp4" type="video/mp4" />
             </video>
             <!-- Soft scrim -->
             <div class="absolute inset-0 bg-gradient-to-b from-base-100/92 via-base-100/86 to-base-100/95"></div>
@@ -136,7 +138,7 @@
           </div>
           <div class="lg:col-span-6 flex justify-center">
             <div class="w-[250px] md:w-[384px] lg:w-128 flex justify-center" role="region" :aria-label="$t('featuredCarousel') || 'Featured collection carousel'">
-              <GlobalCarouselCardComp :items="cardItems" />
+              <LazyGlobalCarouselCardComp :items="cardItems" />
             </div>
           </div>
         </div>
@@ -271,9 +273,8 @@
                 href="https://projects.tib.eu/av-efi/projekt/"
                 target="_blank"
                 class="btn btn-outline max-md:btn-block"
-                :aria-label="$t('learnMore') + ' – ' + ($t('coreFunctionsTitle') || 'Core functions')"
               >
-                {{ $t('learnMore') }}
+                <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('coreFunctionsTitle') }}
               </a>
             </div>
           </div>
@@ -296,9 +297,8 @@
                 href="https://projects.tib.eu/av-efi/metadaten/"
                 target="_blank"
                 class="btn btn-outline max-md:btn-block"
-                :aria-label="$t('learnMore') + ' – ' + ($t('forFilmResearchersTitle') || 'For film researchers')"
               >
-                {{ $t('learnMore') }}
+                <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('forFilmResearchersTitle') }}
               </a>
             </div>
           </div>
@@ -331,9 +331,8 @@
                 href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/"
                 target="_blank"
                 class="btn btn-outline max-md:btn-block"
-                :aria-label="$t('learnMore') + ' – ' + ($t('technicalBasicsTitle') || 'Technical basics')"
               >
-                {{ $t('learnMore') }}
+                <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('technicalBasicsTitle') }}
               </a>
             </div>
           </div>
@@ -344,18 +343,20 @@
     <!-- ======= VIDEO BAND (kept, restyled) ======= -->
     <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div class="lg:col-span-6">
-            <video
-              controls
-              poster="/img/avefi_vid_poster.png"
-              class="w-full rounded-xl border border-base-300 shadow-lg"
-              :aria-describedby="'video-desc'"
-            >
-              <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
-              {{ $t('videoNotSupported') }}
-            </video>
-          </div>
+        <ClientOnly>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-6">
+              <video
+                controls
+                preload="none"
+                poster="/img/avefi_vid_poster-1024.webp"
+                class="w-full rounded-xl border border-base-300 shadow-lg"
+                :aria-describedby="'video-desc'"
+              >
+                <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
+                {{ $t('videoNotSupported') }}
+              </video>
+            </div>
           <div class="lg:col-span-6 lg:h-full">
             <div class="bg-base-100 rounded-xl p-6 md:p-8 lg:h-full">
               <h3 class="mt-4 bree text-3xl md:text-4xl font-extrabold leading-[0.95] tracking-tight" tabindex="0">
@@ -366,7 +367,8 @@
               </p>
             </div>
           </div>
-        </div>
+          </div>
+        </ClientOnly>
       </div>
     </section>
 
@@ -388,7 +390,7 @@
           </div>
           <div class="lg:col-span-7 flex justify-center">
             <div class="w-full max-w-xl" role="region" :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
-              <GlobalCarouselComp :items="items" />
+              <LazyGlobalCarouselComp :items="items" />
             </div>
           </div>
         </div>
@@ -398,152 +400,201 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { useRuntimeConfig, useSeoMeta } from 'nuxt/app';
+import { ref, onMounted, nextTick, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const { t } = useI18n();
+const runtimeConfig = useRuntimeConfig();
 
-const showAdvancedSearch = ref(false)
-const searchCompRef = ref<InstanceType<any> | HTMLElement | null>(null)
-const swapToggleRef = ref<HTMLElement | null>(null)
+// ─────────────────────────────────────────────
+// SEO META (multi-language via i18n)
+// ─────────────────────────────────────────────
+useSeoMeta({
+    title: t('seo.home.title'),
+    description: t('seo.home.description'),
+    ogTitle: t('seo.home.ogTitle'),
+    ogDescription: t('seo.home.ogDescription'),
+    ogType: 'website',
+    ogUrl: (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + route.path,
+    ogImage: runtimeConfig.public.siteOgImage || ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
+    twitterCard: 'summary_large_image',
+    twitterTitle: t('seo.home.title'),
+    twitterDescription: t('seo.home.description')
+});
+
+// ─────────────────────────────────────────────
+// Schema.org: WebSite + SearchAction + WebPage
+// enables sitelinks search box in Google
+// ─────────────────────────────────────────────
+
+useSchemaOrg(() => {
+    const baseUrl = runtimeConfig.public.siteUrl || 'https://www.av-efi.net';
+    const url = baseUrl + route.path;
+    return [
+        defineWebSite({
+            name: t('seo.home.siteName'),
+            url: baseUrl,
+            // This is what Google uses for the sitelinks search box:
+            potentialAction: {
+                '@type': 'SearchAction',
+                target: `${baseUrl}/search/?q={search_term_string}`,
+                'query-input': 'required name=search_term_string'
+            }
+        }),
+        defineWebPage({
+            '@type': 'WebPage',
+            name: t('seo.home.title'),
+            description: t('seo.home.description'),
+            url
+        })
+    ];
+});
+
+
+const showAdvancedSearch = ref(false);
+const searchCompRef = ref<HTMLElement | null>(null);
+const swapToggleRef = ref<HTMLElement | null>(null);
 
 function focusFirstInput(root?: HTMLElement | null) {
-  const scope = root ?? (
-    (searchCompRef.value as any)?.$el as HTMLElement ??
-    (searchCompRef.value as unknown as HTMLElement) ??
+    const scope = root ?? (
+        (searchCompRef.value && (searchCompRef.value as unknown as { $el: HTMLElement }).$el ? (searchCompRef.value as unknown as { $el: HTMLElement }).$el : searchCompRef.value as HTMLElement) ??
     null
-  )
-  if (!scope) return
-  const el: HTMLElement | null = scope.querySelector(
-    'input[type="text"], input:not([type]), textarea, [contenteditable="true"], [autofocus]'
-  )
-  if (el && typeof (el as any).focus === 'function') {
-    ;(el as HTMLInputElement | HTMLTextAreaElement).focus()
-    try {
-      const inp = el as HTMLInputElement
-      if ('selectionStart' in inp && typeof inp.value === 'string') {
-        inp.selectionStart = inp.selectionEnd = inp.value.length
-      }
-    } catch {}
-  }
+    );
+    if (!scope) return;
+    const el: HTMLElement | null = scope.querySelector(
+        'input[type="text"], input:not([type]), textarea, [contenteditable="true"], [autofocus]'
+    );
+    if (el && typeof (el as HTMLElement).focus === 'function') {
+        (el as HTMLInputElement | HTMLTextAreaElement).focus();
+        try {
+            const inp = el as HTMLInputElement;
+            if ('selectionStart' in inp && typeof inp.value === 'string') {
+                inp.selectionStart = inp.selectionEnd = inp.value.length;
+            }
+        } catch {}
+    }
 }
 
 onMounted(async () => {
-  await nextTick()
-  focusFirstInput()
-})
+    await nextTick();
+    focusFirstInput();
+});
 
 watch(showAdvancedSearch, async () => {
-  await nextTick()
-  focusFirstInput()
-})
+    await nextTick();
+    focusFirstInput();
+});
 
 function onSwapKeydown(e: KeyboardEvent) {
-  if (e.key === ' ' || e.key === 'Enter') {
-    e.preventDefault()
-    const host = swapToggleRef.value
-    if (!host) return
-    const cb = host.querySelector('input[type="checkbox"]') as HTMLInputElement | null
-    if (cb) {
-      cb.checked = !cb.checked
-      cb.dispatchEvent(new Event('change', { bubbles: true }))
-      cb.dispatchEvent(new Event('input', { bubbles: true }))
-    } else {
-      host.click()
+    if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        const host = swapToggleRef.value;
+        if (!host) return;
+        const cb = host.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
+        if (cb) {
+            cb.checked = !cb.checked;
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+            cb.dispatchEvent(new Event('input', { bubbles: true }));
+        } else {
+            host.click();
+        }
     }
-  }
 }
 
 definePageMeta({
-  auth: false,
-  layout: 'default'
-})
-
-const agentLD = {
-  activity: {
-    category: "avefi:DirectingActivity",
-    type: "Director",
-    has_agent: [
-      {
-        has_name: "Wildenhahn, Klaus",
-        type: "Person",
-        category: "avefi:Agent",
-        same_as: [
-          { id: "118771779", category: "avefi:GNDResource" },
-          { id: "f75729bb909446878dcf42fbff0a1545", category: "avefi:FilmportalResource" }
-        ]
-      }
-    ]
-  }
-}
+    auth: false,
+    layout: 'default'
+});
 
 const items = ref([
-  { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },
-  { src: '/img/logo_sdk.png', alt: 'Stiftung Deutsche Kinemathek', link: 'https://www.deutsche-kinemathek.de' },
-  { src: '/img/logo_tib.png', alt: 'Technische Informationsbibliothek Hannover', link: 'https://www.tib.eu' },
-  { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' }
-])
+    { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },
+    { src: '/img/logo_sdk.png', alt: 'Stiftung Deutsche Kinemathek', link: 'https://www.deutsche-kinemathek.de' },
+    { src: '/img/logo_tib.png', alt: 'Technische Informationsbibliothek Hannover', link: 'https://www.tib.eu' },
+    { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' }
+]);
 
 const cardItems = ref([
-  {
-    description: "restShortFilmCollectionDescription",
-    title: "restShortFilmCollectionTitle",
-    link: `/search/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Short&21.11155-denormalised-work%5BrefinementList%5D%5Bmanifestation_event_type%5D%5B0%5D=RestorationEvent`,
-    linkText: 'restShortFilmCollectionLinkText',
-    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
-    imgSourceText: 'Deutsche Kinemathek',
-    imgAuthor: 'Deutsche Kinemathek',
-    imgLicense: 'CC BY-SA 3.0',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    imgSrc: '/img/restaur_kurzfilme.jpg'
-  },
-  {
-    description: "docFilmCollectionDescription",
-    title: "docFilmCollectionTitle",
-    link: `/search/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Documentary&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B0%5D=Protest&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B1%5D=Aufstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B2%5D=Widerstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B3%5D=Streik`,
-    linkText: 'docFilmCollectionLinkText',
-    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
-    imgSourceText: 'Deutsche Kinemathek',
-    imgAuthor: 'Deutsche Kinemathek',
-    imgLicense: 'CC BY-SA 3.0',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    imgSrc: '/img/aktiv_im_dok.jpg'
-  },
-  {
-    title: 'trollerTitle',
-    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
-    imgAlt: 'Georg Stefan Troller',
-    description: 'trollerDescription',
-    link: `/search/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bdirectors_or_editors%5D%5B0%5D=Troller%2C%20Georg%20Stefan`,
-    linkText: 'trollerLinkText',
-    imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
-    imgSourceText: 'Wikimedia Commons',
-    imgAuthor: 'ZDF',
-    imgLicense: 'CC BY-SA 3.0',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    imgCoverType: 'object-top'
-  },
-  {
-    title: 'schlenkerTitle',
-    description: 'schlenkerDescription',
-    linkText: 'schlenkerLinkText',
-    link: `/search/index?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B0%5D=Schlenker%2C%20Hermann&${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Bproduction%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion`
-  },
-  {
-    title: 'ddrTitle',
-    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
-    imgSourceText: 'German Federal Archives',
-    imgAuthor: 'Christa Hochneder',
-    imgLicense: 'CC BY-SA 3.0 DE',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
-    imgCoverType: 'object-center',
-    imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
-    imgDepictedPlace: 'Leipzig',
-    imgDate: '1964-11-15',
-    imgCollection: 'German Federal Archives',
-    imgAccessionNumber: 'Bild 183-C1115-0001-001',
-    description: 'ddrDescription',
-    link: `/search/?${useRuntimeConfig().public.ELASTIC_INDEX}%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
-    linkText: 'ddrLinkText'
-  }
-])
+    {
+        description: "restShortFilmCollectionDescription",
+        title: "restShortFilmCollectionTitle",
+        link: `/search/?has_form=Short&manifestation_event_type=RestorationEvent`,
+        linkText: 'restShortFilmCollectionLinkText',
+        imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+        imgSourceText: 'Deutsche Kinemathek',
+        imgAuthor: 'Deutsche Kinemathek',
+        imgLicense: 'CC BY-SA 3.0',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+        imgSrc: '/img/restaur_kurzfilme-800.webp',
+        imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',
+        imgCoverType: ''
+    },
+    {
+        description: "docFilmCollectionDescription",
+        title: "docFilmCollectionTitle",
+        link: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`,
+        linkText: 'docFilmCollectionLinkText',
+        imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+        imgSourceText: 'Deutsche Kinemathek',
+        imgAuthor: 'Deutsche Kinemathek',
+        imgLicense: 'CC BY-SA 3.0',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+        imgSrc: '/img/aktiv_im_dok-800.webp',
+        imgAlt: 'Schwarzweiß-Aufnahme von Demonstrierenden mit Transparenten und Fahnen',
+        imgCoverType: ''
+    },
+    {
+        title: 'trollerTitle',
+        // Use Wikimedia thumbnail API (800px) instead of full 2MB+ image
+        imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+        imgAlt: 'Georg Stefan Troller',
+        description: 'trollerDescription',
+        link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
+        linkText: 'trollerLinkText',
+        imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+        imgSourceText: 'Wikimedia Commons',
+        imgAuthor: 'ZDF',
+        imgLicense: 'CC BY-SA 3.0',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+        imgCoverType: 'object-top',
+        imgCaption: 'Georg Stefan Troller im ZDF bei "Vor 30 Jahren". 2011.'
+    },
+    {
+        title: 'schlenkerTitle',
+        description: 'schlenkerDescription',
+        linkText: 'schlenkerLinkText',
+        link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
+        imgAlt: 'AVefi Platzhalter Bild',
+        imgCoverType: '',
+        imgSrc: '/img/placeholder-800x600.png',
+        imgSourceLink: '', // Ensure this is always a string
+        imgSourceText: '',
+        imgAuthor: '',
+        imgLicense: '',
+        imgLicenseLink: ''
+    },
+    {
+        title: 'ddrTitle',
+        // Use Wikimedia thumbnail API (800px) instead of full 2MB+ image
+        imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg/800px-Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
+        imgSourceText: 'German Federal Archives',
+        imgAuthor: 'Christa Hochneder',
+        imgLicense: 'CC BY-SA 3.0 DE',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
+        imgCoverType: 'object-center',
+        imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
+        imgDepictedPlace: 'Leipzig',
+        imgDate: '1964-11-15',
+        imgCollection: 'German Federal Archives',
+        imgAccessionNumber: 'Bild 183-C1115-0001-001',
+        description: 'ddrDescription',
+        link: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
+        linkText: 'ddrLinkText',
+        imgAlt: 'Außenaufnahme des Kinos "Capitol" in Leipzig bei Nacht',
+        imgSourceLink: '' // Add this property as an empty string to match the type
+    }
+]);
 </script>
 
 <style scoped>

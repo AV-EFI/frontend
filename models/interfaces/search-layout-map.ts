@@ -1,3 +1,4 @@
+/* eslint-disable */
 // search-layout-map.ts
 // Exported JSON-like config describing SEARCH view order and ES field paths
 // Aligned to the provided Elasticsearch mapping (Sept 2025).

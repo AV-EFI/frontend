@@ -69,30 +69,30 @@ const currentLocale = computed(() => locale.value);
 
 // Set 404 status code on server-side
 if (process.server) {
-  const nuxtApp = useNuxtApp();
-  if (nuxtApp.ssrContext?.event) {
-    setResponseStatus(nuxtApp.ssrContext.event, 404);
-  }
+    const nuxtApp = useNuxtApp();
+    if (nuxtApp.ssrContext?.event) {
+        setResponseStatus(nuxtApp.ssrContext.event, 404);
+    }
 }
 
 // Get random quote for error type 404
 const randomQuote = computed(() => {
-  const allQuotes = filmQuotesData.films.flatMap(film => 
-    film.quotes
-      .filter(q => q.errorType === '404')
-      .map(q => ({
-        text: q.text,
-        film: film.film,
-        year: film.year,
-        avefiUrl: film.avefiUrl,
-        wikiquoteUrl: film.wikiquoteUrl,
-        license: film.license
-      }))
-  );
+    const allQuotes = filmQuotesData.films.flatMap(film => 
+        film.quotes
+            .filter(q => q.errorType === '404')
+            .map(q => ({
+                text: q.text,
+                film: film.film,
+                year: film.year,
+                avefiUrl: film.avefiUrl,
+                wikiquoteUrl: film.wikiquoteUrl,
+                license: film.license
+            }))
+    );
   
-  if (allQuotes.length === 0) return null;
+    if (allQuotes.length === 0) return null;
   
-  const randomIndex = Math.floor(Math.random() * allQuotes.length);
-  return allQuotes[randomIndex];
+    const randomIndex = Math.floor(Math.random() * allQuotes.length);
+    return allQuotes[randomIndex];
 });
 </script>

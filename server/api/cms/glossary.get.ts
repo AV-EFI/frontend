@@ -1,6 +1,6 @@
 // server/api/cms/glossary.get.ts
-import { useServerGlossary } from '~/server/utils/useServerGlossary'
+import { useServerGlossary } from '~/server/utils/useServerGlossary';
 
 export default defineEventHandler(async () => {
-  return await useServerGlossary()
-})
+    return await useServerGlossary();
+});

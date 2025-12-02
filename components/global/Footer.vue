@@ -12,9 +12,9 @@
             class="flex flex-col col-span-1"
             :aria-label="$t('footerPreferences')"
           >
-            <h6 class="footer-title">
+            <h5 class="footer-title">
               {{ $t("preferences") }}
-            </h6>
+            </h5>
             <ul>
               <li>
                 <Suspense>
@@ -34,9 +34,9 @@
             class="flex flex-col col-span-1"
             :aria-label="$t('footerInfo')"
           >
-            <h6 class="footer-title">
+            <h5 class="footer-title">
               Info
-            </h6>
+            </h5>
             <ul>
               <li>
                 <a
@@ -93,9 +93,9 @@
             class="flex flex-col col-span-1"
             :aria-label="$t('footerSponsoring')"
           >
-            <h6 class="footer-title">
+            <h5 class="footer-title">
               {{ $t("sponsoring") }}
-            </h6>
+            </h5>
             <div class="bg-transparent">
               <a
                 href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"

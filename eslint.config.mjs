@@ -31,8 +31,6 @@ export default [
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: { jsx: true },
-    project: './tsconfig.json',
-    tsconfigRootDir: new URL('.', import.meta.url),
     extraFileExtensions: ['.vue'],
   },
 },

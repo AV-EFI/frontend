@@ -152,6 +152,8 @@ export enum DirectingActivityTypeEnum {
 */
 export enum EditingActivityTypeEnum {
     
+    /** Assistant to the Editor, see also the description for Editor */
+    AssistantEditor = "AssistantEditor",
     /** FIAF Glossary of Filmographic Terms B.10.2 */
     AssistantFilmEditor = "AssistantFilmEditor",
     /** Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team */
@@ -1469,8 +1471,6 @@ export interface MovingImageRecord extends CategorizedThing {
     has_identifier?: MovingImageResource[],
     /** Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead. */
     has_primary_title?: Title,
-    /** Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here. */
-    has_source_key?: string[],
     /** See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers */
     same_as?: AuthorityResource[],
 }
@@ -1486,6 +1486,8 @@ export interface DescriptionResource {
     has_issuer_id: string,
     /** Name of the responsible party */
     has_issuer_name: string,
+    /** Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here. */
+    has_source_key?: string[],
     /** Timestamp (in UTC) for the latest modification to any field in the PID metadata record */
     last_modified?: string,
 }
@@ -1762,22 +1764,10 @@ export interface Title {
  * Base class defining common slots for manifestations and items
  */
 export interface ManifestationOrItem extends MovingImageRecord {
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11 */
-    has_colour_type?: string,
-    /** Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11 */
-    has_duration?: Duration,
-    /** Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8 */
-    has_extent?: Extent,
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1 */
-    has_format?: Format[],
     /** FIAF Moving Image Cataloguing Manual Appendix B */
     has_note?: string[],
-    /** FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4 */
-    has_sound_type?: string,
     /** Link to data provider's own presentation of manifestation or item on the web */
     has_webresource?: string[],
-    /** FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3 */
-    in_language?: Language[],
 }
 
 
@@ -1886,8 +1876,20 @@ export interface Item extends ManifestationOrItem {
     element_type?: string,
     /** Status of item determining access conditions. See also FIAF Moving Image Cataloguing Manual D.7.1 */
     has_access_status?: string,
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11 */
+    has_colour_type?: string,
+    /** Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11 */
+    has_duration?: Duration,
+    /** Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8 */
+    has_extent?: Extent,
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1 */
+    has_format?: Format[],
     /** Frame Rate describes the number of frames per second of an item. See also: FIAF Moving Image Cataloguing Manual 3.1.5.12. */
     has_frame_rate?: string,
+    /** FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4 */
+    has_sound_type?: string,
+    /** FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3 */
+    in_language?: Language[],
     /** Link to AVefi item registered by another institution indicating that the two are known to be copies of each other */
     is_copy_of?: AuthorityResource[],
     /** Link to AVefi item from which this one has been derived in whole or in part, e.g. as a result of a restoration or digitasation project */
@@ -1921,6 +1923,13 @@ export interface AuthorityResource extends CategorizedThing {
  * Either a persistent or local identifier for AVefi compliant moving image records. See subclasses for details
  */
 export interface MovingImageResource extends AuthorityResource {
+}
+
+
+/**
+ * Getty Thesaurus of Geographic Names ID. Check id slot range documentation for examples
+ */
+export interface AATResource extends AuthorityResource {
 }
 
 

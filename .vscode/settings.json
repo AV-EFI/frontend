@@ -4,21 +4,23 @@
   "eslint.format.enable": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "always"
   },
   "eslint.codeActionsOnSave.mode": "all",
   "editor.codeActionsOnSaveTimeout": 5000,
-  "eslint.useFlatConfig": false,
+  "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "vue.server.hybridMode": true,
   "prettier.enable": false,
 
   // --- GitHub integration (added) ---
   "githubPullRequests.remotes": ["avefi-issues"],
   "githubIssues.useRemoteHub": false,
   "githubIssues.queries": [
-    { "label": "AVefi – Open", "query": "is:open repo:AV-EFI/AVefi-Issues", "groupBy": ["assignee"] },
+    { "label": "AVefi – Open", "query": "is:open repo:AV-EFI/AVefi-Issues", "groupBy": ["repository"] },
     { "label": "AVefi – Mine", "query": "is:open repo:AV-EFI/AVefi-Issues assignee:${user} sort:updated-desc" },
     //{ "label": "AVefi – Recent", "query": "repo:AV-EFI/AVefi-Issues sort:updated-desc" }
   ],

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // /models/facetsBlacklist.ts
 export const FACET_BLACKLIST: string[] = [
   // Example: 'has_extent_has_value', 'has_duration_has_value'

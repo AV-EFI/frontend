@@ -7,15 +7,15 @@ const props = defineProps({
 
 // Route to specific error page based on status code
 const errorPage = computed(() => {
-  const statusCode = props.error?.statusCode;
+    const statusCode = props.error?.statusCode;
   
-  if (statusCode === 404) {
-    return '404';
-  } else if (statusCode === 500 || (statusCode && statusCode >= 500)) {
-    return '500';
-  }
+    if (statusCode === 404) {
+        return '404';
+    } else if (statusCode === 500 || (statusCode && statusCode >= 500)) {
+        return '500';
+    }
   
-  return null;
+    return null;
 });
 </script>
 

@@ -129,9 +129,9 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 
 const props = defineProps({
-  sameAsData: { type: Array as () => Array<any>, default: () => [] },
-  fontSize: { type: String, default: 'base' },
-  type: { type: String, default: 'film' },
+    sameAsData: { type: Array as () => Array<any>, default: () => [] },
+    fontSize: { type: String, default: 'base' },
+    type: { type: String, default: 'film' },
 });
 
 const { getNormdataUrl } = useNormdataUrl();
@@ -142,99 +142,99 @@ const menuRef = ref<HTMLElement | null>(null);
 const pos = ref({ top: 0, left: 0 });
 
 function computePosition() {
-  const btn = triggerRef.value;
-  const menu = menuRef.value;
-  if (!btn || !menu) return;
+    const btn = triggerRef.value;
+    const menu = menuRef.value;
+    if (!btn || !menu) return;
 
-  const r = btn.getBoundingClientRect();
+    const r = btn.getBoundingClientRect();
 
-  // Make sure we can measure the menu
-  const prevDisplay = menu.style.display;
-  if (getComputedStyle(menu).display === 'none') menu.style.display = 'block';
+    // Make sure we can measure the menu
+    const prevDisplay = menu.style.display;
+    if (getComputedStyle(menu).display === 'none') menu.style.display = 'block';
 
-  const menuW = menu.offsetWidth || 224; // ~w-56 fallback
-  const menuH = menu.offsetHeight || 0;
-  const pad = 8;      // viewport padding
-  const gapY = 6;     // vertical gap below/above button
-  const gapX = 6;     // horizontal gap to the side
+    const menuW = menu.offsetWidth || 224; // ~w-56 fallback
+    const menuH = menu.offsetHeight || 0;
+    const pad = 8;      // viewport padding
+    const gapY = 6;     // vertical gap below/above button
+    const gapX = 6;     // horizontal gap to the side
 
-  // Default: place to the RIGHT of the button
-  let top = r.bottom + gapY;
-  let left = r.right + gapX;
+    // Default: place to the RIGHT of the button
+    let top = r.bottom + gapY;
+    let left = r.right + gapX;
 
-  // If it overflows to the right, flip to LEFT of the button
-  if (left + menuW > window.innerWidth - pad) {
-    left = r.left - gapX - menuW;
-  }
+    // If it overflows to the right, flip to LEFT of the button
+    if (left + menuW > window.innerWidth - pad) {
+        left = r.left - gapX - menuW;
+    }
 
-  // Clamp horizontally inside viewport
-  left = Math.max(pad, Math.min(left, window.innerWidth - menuW - pad));
+    // Clamp horizontally inside viewport
+    left = Math.max(pad, Math.min(left, window.innerWidth - menuW - pad));
 
-  // If it overflows bottom, flip ABOVE the button (still side-positioned)
-  if (top + menuH > window.innerHeight - pad && r.top - gapY - menuH >= pad) {
-    top = r.top - gapY - menuH;
-  }
+    // If it overflows bottom, flip ABOVE the button (still side-positioned)
+    if (top + menuH > window.innerHeight - pad && r.top - gapY - menuH >= pad) {
+        top = r.top - gapY - menuH;
+    }
 
-  pos.value = { top, left };
+    pos.value = { top, left };
 
-  // Restore prior display state
-  menu.style.display = prevDisplay;
+    // Restore prior display state
+    menu.style.display = prevDisplay;
 }
 
 async function toggle() {
-  open.value = !open.value;
-  if (open.value) {
-    await nextTick();
-    computePosition();
-    // focus first item
-    const first = menuRef.value?.querySelector('[role="menuitem"]') as HTMLElement | null;
-    first?.focus();
-  }
+    open.value = !open.value;
+    if (open.value) {
+        await nextTick();
+        computePosition();
+        // focus first item
+        const first = menuRef.value?.querySelector('[role="menuitem"]') as HTMLElement | null;
+        first?.focus();
+    }
 }
 
 function close() {
-  if (!open.value) return;
-  open.value = false;
-  nextTick(() => triggerRef.value?.focus());
+    if (!open.value) return;
+    open.value = false;
+    nextTick(() => triggerRef.value?.focus());
 }
 
 function onTriggerKeydown(e: KeyboardEvent) {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    toggle();
-  } else if (e.key === 'Escape') {
-    e.preventDefault();
-    close();
-  }
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+    } else if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+    }
 }
 
 function onMenuKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    close();
-  }
+    if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+    }
 }
 
 function onDocumentClick(e: MouseEvent) {
-  const t = e.target as Node;
-  if (!triggerRef.value?.contains(t) && !menuRef.value?.contains(t)) {
-    close();
-  }
+    const t = e.target as Node;
+    if (!triggerRef.value?.contains(t) && !menuRef.value?.contains(t)) {
+        close();
+    }
 }
 
 function onResizeOrScroll() {
-  if (open.value) computePosition();
+    if (open.value) computePosition();
 }
 
 onMounted(() => {
-  document.addEventListener('click', onDocumentClick, { capture: true });
-  window.addEventListener('resize', onResizeOrScroll, { passive: true });
-  window.addEventListener('scroll', onResizeOrScroll, { passive: true });
+    document.addEventListener('click', onDocumentClick, { capture: true });
+    window.addEventListener('resize', onResizeOrScroll, { passive: true });
+    window.addEventListener('scroll', onResizeOrScroll, { passive: true });
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', onDocumentClick, { capture: true } as any);
-  window.removeEventListener('resize', onResizeOrScroll as any);
-  window.removeEventListener('scroll', onResizeOrScroll as any);
+    document.removeEventListener('click', onDocumentClick, { capture: true } as any);
+    window.removeEventListener('resize', onResizeOrScroll as any);
+    window.removeEventListener('scroll', onResizeOrScroll as any);
 });
 </script>

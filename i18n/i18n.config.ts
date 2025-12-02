@@ -13,6 +13,8 @@ export default defineI18nConfig(() => ({
         en: {
             "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
             "docFilmCollectionTitle": "Activism in Documentary Film",
+            "docFilmCollectionLinkText": "Explore the Collection",
+            "restShortFilmCollectionLinkText": "Explore the Collection",
             "restShortFilmCollectionDescription": "The collection of restored short films opens up new pathways to the cinematic heritage. Through meticulous digital restoration, rare and previously hard-to-access works are made visible again. With its extensive metadata, the collection also provides a valuable foundation for research, teaching, and curatorial practice.",
             "restShortFilmCollectionTitle": "Restored Short Films",
             "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
@@ -557,24 +559,55 @@ export default defineI18nConfig(() => ({
             "timeline": {
                 "title": "From record to knowledge",
                 "query": {
-                "title": "Query",
-                "desc": "Search across interconnected film records."
+                    "title": "Query",
+                    "desc": "Search across interconnected film records."
                 },
                 "refine": {
-                "title": "Refine",
-                "desc": "Filter by facets like language, format, or place."
+                    "title": "Refine",
+                    "desc": "Filter by facets like language, format, or place."
                 },
                 "share": {
-                "title": "Share",
-                "desc": "Save and share reproducible search states."
+                    "title": "Share",
+                    "desc": "Save and share reproducible search states."
                 },
                 "cite": {
-                "title": "Cite",
-                "desc": "Generate persistent links for scholarly references."
+                    "title": "Cite",
+                    "desc": "Generate persistent links for scholarly references."
                 }
             },
             'noSuggestionsFound': 'No suggestions found',
             'showSuggestions': 'Show suggestions',
+            "seo": {
+                "home": {
+                    "siteName": "AVefi – Audiovisual Research Infrastructure",
+                    "title": "AVefi – Film metadata search across German archives",
+                    "ogTitle": "AVefi – Connect film collections across archives",
+                    "description": "AVefi lets you search works, manifestations and items across multiple German film archives – with linked authority data, persistent identifiers and export options for research.",
+                    "ogDescription": "Discover film works across German archives. AVefi links records, authority data and persistent identifiers so you can search, refine and export film metadata for research and curation."
+                },
+                "search": {
+                    "title": "Search – AVefi",
+                    "titleWithQuery": "{query} – Search results",
+                    "description": "Browse film works, manifestations and audiovisual materials from German archives.",
+                    "descriptionWithQuery": "Search results for \"{query}\". Discover works and audiovisual materials in German film archives."
+                },
+                "contact": {
+                    "title": "Contact – AVefi",
+                    "description": "FAQ and glossary about the AVefi project",
+                    "ogTitle": "Contact – AVefi",
+                    "ogDescription": "FAQ and glossary about the AVefi project"
+                },
+                "imprint": {
+                    "title": "Imprint – AVefi",
+                    "description": "Legal information about the AVefi project",
+                    "ogTitle": "Imprint – AVefi",
+                    "ogDescription": "Legal information about the AVefi project"
+                },
+                "resource": {
+                    "title": "{title} – AVefi",
+                    "description": "Audiovisual work from German film archives."
+                }
+            },
             ...avefiLocales.en
         },
         de: {
@@ -613,20 +646,20 @@ export default defineI18nConfig(() => ({
             "timeline": {
                 "title": "Vom Datensatz zum Wissen",
                 "query": {
-                "title": "Abfragen",
-                "desc": "Suchen Sie über vernetzte Filmdatensätze hinweg."
+                    "title": "Abfragen",
+                    "desc": "Suchen Sie über vernetzte Filmdatensätze hinweg."
                 },
                 "refine": {
-                "title": "Verfeinern",
-                "desc": "Filtern Sie nach Sprache, Format oder Ort."
+                    "title": "Verfeinern",
+                    "desc": "Filtern Sie nach Sprache, Format oder Ort."
                 },
                 "share": {
-                "title": "Teilen",
-                "desc": "Speichern und teilen Sie reproduzierbare Suchzustände."
+                    "title": "Teilen",
+                    "desc": "Speichern und teilen Sie reproduzierbare Suchzustände."
                 },
                 "cite": {
-                "title": "Zitieren",
-                "desc": "Erzeugen Sie persistente Links für wissenschaftliche Nachweise."
+                    "title": "Zitieren",
+                    "desc": "Erzeugen Sie persistente Links für wissenschaftliche Nachweise."
                 }
             },
             'home': {
@@ -1151,6 +1184,37 @@ export default defineI18nConfig(() => ({
                     "hasSubject": "Schlagwörter (has_subject)",
                     "hasGenre": "Genre (has_genre)",
                     "hasForm": "Form (has_form)"
+                }
+            },
+            "seo": {
+                "home": {
+                    "siteName": "AVefi – Infrastruktur für audiovisuelle Forschung",
+                    "title": "AVefi – Filmdaten-Recherche über Archive hinweg",
+                    "ogTitle": "AVefi – Filmwerke und Materialien archivübergreifend finden",
+                    "description": "AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.",
+                    "ogDescription": "Entdecken Sie Filmwerke über Archive hinweg. AVefi verknüpft Metadaten, Normdaten und Persistent Identifiers, damit Sie Filmbestände gezielt durchsuchen, verfeinern und exportieren können."
+                },
+                "search": {
+                    "title": "Recherche – AVefi",
+                    "titleWithQuery": "{query} – Suchergebnisse",
+                    "description": "Durchsuchen Sie Filmwerke, Manifestationen und audiovisuelle Materialien aus deutschen Archiven.",
+                    "descriptionWithQuery": "Suchergebnisse zu \"{query}\". Entdecken Sie Werke und audiovisuelle Materialien in deutschen Filmarchiven."
+                },
+                "contact": {
+                    "title": "Kontakt – AVefi",
+                    "description": "FAQ und Glossar zum AVefi-Projekt",
+                    "ogTitle": "Kontakt – AVefi",
+                    "ogDescription": "FAQ und Glossar zum AVefi-Projekt"
+                },
+                "imprint": {
+                    "title": "Impressum – AVefi",
+                    "description": "Rechtliche Informationen zum AVefi-Projekt",
+                    "ogTitle": "Impressum – AVefi",
+                    "ogDescription": "Rechtliche Informationen zum AVefi-Projekt"
+                },
+                "resource": {
+                    "title": "{title} – AVefi",
+                    "description": "Audiovisuelles Werk aus deutschen Filmarchiven."
                 }
             },
             ...avefiLocales.de

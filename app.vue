@@ -1,9 +1,23 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+// All imports below are auto-imported by Nuxt
+const { locale, t: $t } = useI18n();
 
-import { onMounted, onBeforeUnmount } from 'vue';
-const locale = useNuxtApp().$i18n.locale;
-const { t:$t } = useI18n();
+useSeoMeta({
+    titleTemplate: '%s | AVefi',
+    ogSiteName: `AVefi - ${$t('claim')}`,
+    twitterCard: 'summary_large_image',
+});
+
+// Optimize critical resource loading - preload fonts to prevent FOUT
+useHead({
+    link: [
+    // Preload critical fonts (Inter is used for body text)
+        { rel: 'preload', href: '/fonts/Inter.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
+        { rel: 'preload', href: '/fonts/BreeSerif-Regular.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
+    ],
+    // Use media="print" trick to load non-critical CSS without blocking
+    style: [],
+});
 
 const auth = useAuth();
 
@@ -15,33 +29,9 @@ onBeforeUnmount(() => {
     auth.stopSessionPolling();
 });
 
-useHead({
-    title: "AVefi",
-    meta: [
-        { name: "description", content: $t('metaDescription') },
-    ],
-    htmlAttrs: {
-        lang: useI18n().locale.value
-    },
-    bodyAttrs: {
-    //class: 'test'
-    },
-    //script: [ { innerHTML: 'console.log(\'Hello world\')' } ]
-});
-
-useSeoMeta({
-    title: "AVefi",
-    ogTitle: "AVefi",
-    description: $t('metaDescription'),
-    ogDescription: $t('metaDescription'),
-    ogImage: "https://www.av-efi.net/img/AV-EFI-Logo.png",
-    ogUrl: "https://www.av-efi.net",});
-
 const {
     cookiesEnabledIds
 } = useCookieControl();
-
-
 
 // example: react to a cookie being accepted
 watch(
@@ -49,10 +39,13 @@ watch(
     (current, previous) => {
         if (
             !previous?.includes('google-analytics') &&
-      current?.includes('google-analytics')
+            current?.includes('google-analytics')
         ) {
             // cookie with id `google-analytics` got added
-            window?.location?.reload(); // placeholder for your custom change handler
+            // Only reload on client side
+            if (import.meta.client) {
+                window.location.reload();
+            }
         }
     },
     { deep: true },
@@ -61,6 +54,7 @@ watch(
 
 <template>
   <div class="">
+    <GlobalLoadingScreen />
     <NuxtLoadingIndicator />
     <NuxtLayout
       class="layouts"
@@ -68,7 +62,8 @@ watch(
       <div class="my-2 container grow mx-auto dark:text-white dark:border-gray-700">
         <NuxtPage />
       </div>
-      <LazyCookieControl :locale="locale">
+      <ClientOnly>
+        <LazyCookieControl :locale="locale">
         <template #bar>
           <h2>Cookies 🍪</h2>
           <!--
@@ -99,15 +94,15 @@ watch(
           <h3>{{ $t('dataprotection') }}</h3>
           <p>{{ $t('cookiesModalDescription') }}</p>
         </template>
-        <template #cookie="{config}">
+        <template #cookie="{ cookie }">
           <span
-            v-for="c in config"
-            :key="c.id"
-            v-text="c.cookies"
+            :key="cookie.id"
+            v-text="cookie"
           />
         </template>
         <GlobalAuthProvider />
       </LazyCookieControl>
+      </ClientOnly>
     </NuxtLayout>
   </div>
 </template>

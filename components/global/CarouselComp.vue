@@ -28,6 +28,8 @@
             :src="item.src"
             :alt="item.alt"
             :title="item.alt"
+            loading="lazy"
+            fetchpriority="low"
           >
         </a>
       </div>
@@ -44,24 +46,59 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
     items: {
         type: Array,
         required: true
+    },
+    autoSlideInterval: {
+        type: Number,
+        default: 5000
     }
 });
 
 const currentIndex = ref(0);
+let autoSlideTimer = null;
 
 const prevSlide = () => {
     currentIndex.value = (currentIndex.value - 1 + props.items.length) % props.items.length;
+    resetAutoSlide();
 };
 
 const nextSlide = () => {
     currentIndex.value = (currentIndex.value + 1) % props.items.length;
+    resetAutoSlide();
 };
+
+const startAutoSlide = () => {
+    if (props.autoSlideInterval > 0) {
+        autoSlideTimer = setInterval(() => {
+            currentIndex.value = (currentIndex.value + 1) % props.items.length;
+        }, props.autoSlideInterval);
+    }
+};
+
+const stopAutoSlide = () => {
+    if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = null;
+    }
+};
+
+const resetAutoSlide = () => {
+    stopAutoSlide();
+    startAutoSlide();
+};
+
+onMounted(() => {
+    startAutoSlide();
+});
+
+onBeforeUnmount(() => {
+    stopAutoSlide();
+});
 </script>
 
 <style scoped>

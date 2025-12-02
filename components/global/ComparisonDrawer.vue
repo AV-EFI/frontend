@@ -51,7 +51,7 @@
                   @click="showInfo = !showInfo"
                 >
                   <Icon
-                    name="material-symbols:info-outline"
+                    name="tabler:info"
                     class="text-lg"
                   />
                 </button>
@@ -154,7 +154,7 @@
                 >
                   <Icon
                     class="text-lg"
-                    name="material-symbols:info-outline"
+                    name="tabler:info-circle"
                   />
                 </button>
                 <p

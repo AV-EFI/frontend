@@ -431,7 +431,7 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
+const { t } = useI18n();
 
 type FieldKey = 'has_subject' | 'has_genre'
 
@@ -448,438 +448,438 @@ interface Row {
 }
 
 const fieldOptions = computed(() => [
-  { key: 'has_subject' as FieldKey, label: t('vocab.fields.hasSubject') },
-  { key: 'has_genre' as FieldKey, label: t('vocab.fields.hasGenre') },
-])
+    { key: 'has_subject' as FieldKey, label: t('vocab.fields.hasSubject') },
+    { key: 'has_genre' as FieldKey, label: t('vocab.fields.hasGenre') },
+]);
 
 // Initialize from URL query params
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
-const selectedField = ref<FieldKey>((route.query.field as FieldKey) || 'has_subject')
-const filter = ref((route.query.filter as string) || '')
-const showOnlyWithNormdata = ref(route.query.normdata === 'true')
-const activeLetter = ref<string | null>((route.query.letter as string) || null)
-const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789']
+const selectedField = ref<FieldKey>((route.query.field as FieldKey) || 'has_subject');
+const filter = ref((route.query.filter as string) || '');
+const showOnlyWithNormdata = ref(route.query.normdata === 'true');
+const activeLetter = ref<string | null>((route.query.letter as string) || null);
+const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
 
 // Pagination
-const currentPage = ref(parseInt((route.query.page as string) || '1', 10))
-const pageSize = ref(parseInt((route.query.size as string) || '50', 10))
+const currentPage = ref(parseInt((route.query.page as string) || '1', 10));
+const pageSize = ref(parseInt((route.query.size as string) || '50', 10));
 
 // Sorting
 type SortKey = 'value' | 'provider' | 'docCount'
-const sortBy = ref<SortKey>((route.query.sortBy as SortKey) || 'docCount')
-const sortOrder = ref<'asc' | 'desc'>((route.query.sortOrder as 'asc' | 'desc') || 'desc')
+const sortBy = ref<SortKey>((route.query.sortBy as SortKey) || 'docCount');
+const sortOrder = ref<'asc' | 'desc'>((route.query.sortOrder as 'asc' | 'desc') || 'desc');
 
 // Update URL when state changes
 watch([selectedField, filter, showOnlyWithNormdata, activeLetter, currentPage, pageSize, sortBy, sortOrder], () => {
-  const query: Record<string, string> = {}
+    const query: Record<string, string> = {};
   
-  if (selectedField.value !== 'has_subject') {
-    query.field = selectedField.value
-  }
-  if (filter.value) {
-    query.filter = filter.value
-  }
-  if (showOnlyWithNormdata.value) {
-    query.normdata = 'true'
-  }
-  if (activeLetter.value) {
-    query.letter = activeLetter.value
-  }
-  if (currentPage.value > 1) {
-    query.page = String(currentPage.value)
-  }
-  if (pageSize.value !== 50) {
-    query.size = String(pageSize.value)
-  }
-  if (sortBy.value !== 'docCount') {
-    query.sortBy = sortBy.value
-  }
-  if (sortOrder.value !== 'desc') {
-    query.sortOrder = sortOrder.value
-  }
+    if (selectedField.value !== 'has_subject') {
+        query.field = selectedField.value;
+    }
+    if (filter.value) {
+        query.filter = filter.value;
+    }
+    if (showOnlyWithNormdata.value) {
+        query.normdata = 'true';
+    }
+    if (activeLetter.value) {
+        query.letter = activeLetter.value;
+    }
+    if (currentPage.value > 1) {
+        query.page = String(currentPage.value);
+    }
+    if (pageSize.value !== 50) {
+        query.size = String(pageSize.value);
+    }
+    if (sortBy.value !== 'docCount') {
+        query.sortBy = sortBy.value;
+    }
+    if (sortOrder.value !== 'desc') {
+        query.sortOrder = sortOrder.value;
+    }
   
-  // Update URL without navigation
-  router.replace({ query })
-}, { deep: true })
+    // Update URL without navigation
+    router.replace({ query });
+}, { deep: true });
 
 const { data, pending, refresh } = useFetch(() => {
-  const url = `/api/elastic/vocab/${selectedField.value}`
-  const params = new URLSearchParams()
-  if (activeLetter.value) {
-    params.append('letter', activeLetter.value)
-  }
-  return params.toString() ? `${url}?${params.toString()}` : url
+    const url = `/api/elastic/vocab/${selectedField.value}`;
+    const params = new URLSearchParams();
+    if (activeLetter.value) {
+        params.append('letter', activeLetter.value);
+    }
+    return params.toString() ? `${url}?${params.toString()}` : url;
 }, {
-  immediate: true,
-  watch: [activeLetter, selectedField],
-})
+    immediate: true,
+    watch: [activeLetter, selectedField],
+});
 
-const rows = computed<Row[]>(() => (data.value?.rows as Row[]) || [])
-const totalResults = computed(() => data.value?.total || 0)
+const rows = computed<Row[]>(() => (data.value?.rows as Row[]) || []);
+const totalResults = computed(() => data.value?.total || 0);
 
 const filteredRows = computed(() => {
-  let filtered = rows.value
+    let filtered = rows.value;
   
-  // Filter by normdata presence
-  if (showOnlyWithNormdata.value) {
-    filtered = filtered.filter(r => r.normdataRefs.length > 0)
-  }
+    // Filter by normdata presence
+    if (showOnlyWithNormdata.value) {
+        filtered = filtered.filter(r => r.normdataRefs.length > 0);
+    }
   
-  // Letter filtering is now done server-side, no need to filter here
+    // Letter filtering is now done server-side, no need to filter here
   
-  // Filter by search query
-  const q = filter.value.trim().toLowerCase()
-  if (q) {
-    filtered = filtered.filter((r) => {
-      const matchesValue = r.value.toLowerCase().includes(q)
-      const matchesNormdata = r.normdataRefs.some(ref => 
-        ref.id.toLowerCase().includes(q) || ref.category.toLowerCase().includes(q)
-      )
-      const matchesProvider = r.provider && r.provider.toLowerCase().includes(q)
-      return matchesValue || matchesNormdata || matchesProvider
-    })
-  }
+    // Filter by search query
+    const q = filter.value.trim().toLowerCase();
+    if (q) {
+        filtered = filtered.filter((r) => {
+            const matchesValue = r.value.toLowerCase().includes(q);
+            const matchesNormdata = r.normdataRefs.some(ref => 
+                ref.id.toLowerCase().includes(q) || ref.category.toLowerCase().includes(q)
+            );
+            const matchesProvider = r.provider && r.provider.toLowerCase().includes(q);
+            return matchesValue || matchesNormdata || matchesProvider;
+        });
+    }
   
-  return filtered
-})
+    return filtered;
+});
 
 const sortedRows = computed(() => {
-  const sorted = [...filteredRows.value]
+    const sorted = [...filteredRows.value];
   
-  sorted.sort((a, b) => {
-    let compareResult = 0
+    sorted.sort((a, b) => {
+        let compareResult = 0;
     
-    if (sortBy.value === 'value') {
-      compareResult = a.value.localeCompare(b.value)
-    } else if (sortBy.value === 'provider') {
-      const providerA = a.provider || ''
-      const providerB = b.provider || ''
-      compareResult = providerA.localeCompare(providerB)
-    } else if (sortBy.value === 'docCount') {
-      compareResult = a.docCount - b.docCount
-    }
+        if (sortBy.value === 'value') {
+            compareResult = a.value.localeCompare(b.value);
+        } else if (sortBy.value === 'provider') {
+            const providerA = a.provider || '';
+            const providerB = b.provider || '';
+            compareResult = providerA.localeCompare(providerB);
+        } else if (sortBy.value === 'docCount') {
+            compareResult = a.docCount - b.docCount;
+        }
     
-    return sortOrder.value === 'asc' ? compareResult : -compareResult
-  })
+        return sortOrder.value === 'asc' ? compareResult : -compareResult;
+    });
   
-  return sorted
-})
+    return sorted;
+});
 
 function toggleSort(key: SortKey) {
-  if (sortBy.value === key) {
-    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
-  } else {
-    sortBy.value = key
-    sortOrder.value = key === 'docCount' ? 'desc' : 'asc'
-  }
-  currentPage.value = 1 // Reset to first page when sorting changes
+    if (sortBy.value === key) {
+        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortBy.value = key;
+        sortOrder.value = key === 'docCount' ? 'desc' : 'asc';
+    }
+    currentPage.value = 1; // Reset to first page when sorting changes
 }
 
 // Pagination computed properties
 const totalPages = computed(() => {
-  if (pageSize.value === Infinity) return 1
-  return Math.ceil(sortedRows.value.length / pageSize.value)
-})
+    if (pageSize.value === Infinity) return 1;
+    return Math.ceil(sortedRows.value.length / pageSize.value);
+});
 
 const paginatedRows = computed(() => {
-  if (pageSize.value === Infinity) return sortedRows.value
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return sortedRows.value.slice(start, end)
-})
+    if (pageSize.value === Infinity) return sortedRows.value;
+    const start = (currentPage.value - 1) * pageSize.value;
+    const end = start + pageSize.value;
+    return sortedRows.value.slice(start, end);
+});
 
 const visiblePages = computed(() => {
-  const pages: (number | string)[] = []
-  const total = totalPages.value
-  const current = currentPage.value
+    const pages: (number | string)[] = [];
+    const total = totalPages.value;
+    const current = currentPage.value;
   
-  if (total <= 7) {
+    if (total <= 7) {
     // Show all pages if 7 or fewer
-    for (let i = 1; i <= total; i++) {
-      pages.push(i)
-    }
-  } else {
+        for (let i = 1; i <= total; i++) {
+            pages.push(i);
+        }
+    } else {
     // Always show first page
-    pages.push(1)
+        pages.push(1);
     
-    if (current > 3) {
-      pages.push('...')
+        if (current > 3) {
+            pages.push('...');
+        }
+    
+        // Show pages around current
+        const start = Math.max(2, current - 1);
+        const end = Math.min(total - 1, current + 1);
+    
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+    
+        if (current < total - 2) {
+            pages.push('...');
+        }
+    
+        // Always show last page
+        pages.push(total);
     }
-    
-    // Show pages around current
-    const start = Math.max(2, current - 1)
-    const end = Math.min(total - 1, current + 1)
-    
-    for (let i = start; i <= end; i++) {
-      pages.push(i)
-    }
-    
-    if (current < total - 2) {
-      pages.push('...')
-    }
-    
-    // Always show last page
-    pages.push(total)
-  }
   
-  return pages
-})
+    return pages;
+});
 
 // Reset page when filters change
 watch([filter, showOnlyWithNormdata], () => {
-  currentPage.value = 1
-})
+    currentPage.value = 1;
+});
 
 // Reset page when letter changes (data will refetch automatically)
 watch(activeLetter, () => {
-  currentPage.value = 1
-})
+    currentPage.value = 1;
+});
 
-const { getNormdataUrl } = useNormdataUrl()
+const { getNormdataUrl } = useNormdataUrl();
 
 function getExternalUrl(ref: NormdataRef): string {
-  return getNormdataUrl(ref.category, ref.id)
+    return getNormdataUrl(ref.category, ref.id);
 }
 
 function reload() {
-  refresh()
+    refresh();
 }
 
 // Export menu
-const menuOpen = ref(false)
-const toggleMenu = () => (menuOpen.value = !menuOpen.value)
-const exportingAll = ref(false)
-const exportingAllUnfiltered = ref(false)
+const menuOpen = ref(false);
+const toggleMenu = () => (menuOpen.value = !menuOpen.value);
+const exportingAll = ref(false);
+const exportingAllUnfiltered = ref(false);
 
 async function exportData(scope: 'current', format: 'csv' | 'json' | 'xml') {
-  menuOpen.value = false
+    menuOpen.value = false;
   
-  if (!sortedRows.value.length) {
-    return
-  }
-
-  const filename = `avefi_vocab_${selectedField.value}_page${currentPage.value}_${new Date().toISOString().slice(0, 10)}`
-
-  try {
-    if (format === 'csv') {
-      exportCsv(filename)
-    } else if (format === 'json') {
-      exportJson(filename)
-    } else if (format === 'xml') {
-      exportXml(filename)
+    if (!sortedRows.value.length) {
+        return;
     }
-  } catch (err) {
-    console.error('Export failed:', err)
-  }
+
+    const filename = `avefi_vocab_${selectedField.value}_page${currentPage.value}_${new Date().toISOString().slice(0, 10)}`;
+
+    try {
+        if (format === 'csv') {
+            exportCsv(filename);
+        } else if (format === 'json') {
+            exportJson(filename);
+        } else if (format === 'xml') {
+            exportXml(filename);
+        }
+    } catch (err) {
+        console.error('Export failed:', err);
+    }
 }
 
 async function exportAllResults(ignoreFilters: boolean = false) {
-  const stateRef = ignoreFilters ? exportingAllUnfiltered : exportingAll
+    const stateRef = ignoreFilters ? exportingAllUnfiltered : exportingAll;
   
-  if (stateRef.value) return
+    if (stateRef.value) return;
   
-  stateRef.value = true
+    stateRef.value = true;
   
-  try {
+    try {
     // Call backend to export all results for this field
-    const params = new URLSearchParams()
-    params.append('export', 'true')
+        const params = new URLSearchParams();
+        params.append('export', 'true');
     
-    // Only apply letter filter if not ignoring filters
-    if (!ignoreFilters && activeLetter.value) {
-      params.append('letter', activeLetter.value)
+        // Only apply letter filter if not ignoring filters
+        if (!ignoreFilters && activeLetter.value) {
+            params.append('letter', activeLetter.value);
+        }
+    
+        const response = await fetch(`/api/elastic/vocab/${selectedField.value}?${params.toString()}`);
+    
+        if (!response.ok) {
+            throw new Error('Export failed');
+        }
+    
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+    
+        const filterSuffix = ignoreFilters ? 'complete' : (activeLetter.value || 'filtered');
+        a.download = `avefi_vocab_${selectedField.value}_all_${filterSuffix}_${new Date().toISOString().slice(0, 10)}.csv`;
+    
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } catch (err) {
+        console.error('Export all failed:', err);
+        alert('Export fehlgeschlagen. Bitte versuchen Sie es erneut.');
+    } finally {
+        stateRef.value = false;
     }
-    
-    const response = await fetch(`/api/elastic/vocab/${selectedField.value}?${params.toString()}`)
-    
-    if (!response.ok) {
-      throw new Error('Export failed')
-    }
-    
-    const blob = await response.blob()
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    
-    const filterSuffix = ignoreFilters ? 'complete' : (activeLetter.value || 'filtered')
-    a.download = `avefi_vocab_${selectedField.value}_all_${filterSuffix}_${new Date().toISOString().slice(0, 10)}.csv`
-    
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-  } catch (err) {
-    console.error('Export all failed:', err)
-    alert('Export fehlgeschlagen. Bitte versuchen Sie es erneut.')
-  } finally {
-    stateRef.value = false
-  }
 }
 
 function exportSingleRow(row: Row) {
-  const filename = `avefi_vocab_${selectedField.value}_${row.value.substring(0, 30)}_${new Date().toISOString().slice(0, 10)}`
-  const header = ['value', 'normdata_id', 'normdata_category', 'provider', 'docCount']
-  const lines = [header.join(';')]
+    const filename = `avefi_vocab_${selectedField.value}_${row.value.substring(0, 30)}_${new Date().toISOString().slice(0, 10)}`;
+    const header = ['value', 'normdata_id', 'normdata_category', 'provider', 'docCount'];
+    const lines = [header.join(';')];
   
-  if (row.normdataRefs.length > 0) {
-    for (const ref of row.normdataRefs) {
-      lines.push(
-        [
-          row.value,
-          ref.id,
-          ref.category,
-          row.provider || '',
-          String(row.docCount),
-        ]
-          .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
-          .join(';')
-      )
+    if (row.normdataRefs.length > 0) {
+        for (const ref of row.normdataRefs) {
+            lines.push(
+                [
+                    row.value,
+                    ref.id,
+                    ref.category,
+                    row.provider || '',
+                    String(row.docCount),
+                ]
+                    .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
+                    .join(';')
+            );
+        }
+    } else {
+        lines.push(
+            [
+                row.value,
+                '',
+                '',
+                row.provider || '',
+                String(row.docCount),
+            ]
+                .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
+                .join(';')
+        );
     }
-  } else {
-    lines.push(
-      [
-        row.value,
-        '',
-        '',
-        row.provider || '',
-        String(row.docCount),
-      ]
-        .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
-        .join(';')
-    )
-  }
 
-  downloadBlob(lines.join('\r\n'), `${filename}.csv`, 'text/csv;charset=utf-8;')
+    downloadBlob(lines.join('\r\n'), `${filename}.csv`, 'text/csv;charset=utf-8;');
 }
 
 function getFacetSearchUrl(value: string): string {
-  const baseUrl = '/search/index'
-  const indexName = '21.11155-denormalised-work'
+    const baseUrl = '/search/index';
+    const indexName = '21.11155-denormalised-work';
   
-  // Map field keys to facet parameter names
-  const facetMap: Record<FieldKey, string> = {
-    'has_subject': 'subjects',
-    'has_genre': 'has_genre_has_name',
-  }
+    // Map field keys to facet parameter names
+    const facetMap: Record<FieldKey, string> = {
+        'has_subject': 'subjects',
+        'has_genre': 'has_genre_has_name',
+    };
   
-  const facetName = facetMap[selectedField.value]
-  const encodedValue = encodeURIComponent(value)
+    const facetName = facetMap[selectedField.value];
+    const encodedValue = encodeURIComponent(value);
   
-  // Build URL with facet parameter
-  const url = `${baseUrl}?${indexName}%5BrefinementList%5D%5B${facetName}%5D%5B0%5D=${encodedValue}`
+    // Build URL with facet parameter
+    const url = `${baseUrl}?${indexName}%5BrefinementList%5D%5B${facetName}%5D%5B0%5D=${encodedValue}`;
   
-  return url
+    return url;
 }
 
 function exportCsv(filename: string) {
-  const header = ['value', 'normdata_id', 'normdata_category', 'provider', 'docCount']
-  const lines = [header.join(';')]
+    const header = ['value', 'normdata_id', 'normdata_category', 'provider', 'docCount'];
+    const lines = [header.join(';')];
   
-  for (const r of sortedRows.value) {
-    if (r.normdataRefs.length > 0) {
-      // One row per normdata reference
-      for (const ref of r.normdataRefs) {
-        lines.push(
-          [
-            r.value,
-            ref.id,
-            ref.category,
-            r.provider || '',
-            String(r.docCount),
-          ]
-            .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
-            .join(';')
-        )
-      }
-    } else {
-      // No normdata, single row
-      lines.push(
-        [
-          r.value,
-          '',
-          '',
-          r.provider || '',
-          String(r.docCount),
-        ]
-          .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
-          .join(';')
-      )
+    for (const r of sortedRows.value) {
+        if (r.normdataRefs.length > 0) {
+            // One row per normdata reference
+            for (const ref of r.normdataRefs) {
+                lines.push(
+                    [
+                        r.value,
+                        ref.id,
+                        ref.category,
+                        r.provider || '',
+                        String(r.docCount),
+                    ]
+                        .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
+                        .join(';')
+                );
+            }
+        } else {
+            // No normdata, single row
+            lines.push(
+                [
+                    r.value,
+                    '',
+                    '',
+                    r.provider || '',
+                    String(r.docCount),
+                ]
+                    .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
+                    .join(';')
+            );
+        }
     }
-  }
 
-  downloadBlob(lines.join('\r\n'), `${filename}.csv`, 'text/csv;charset=utf-8;')
+    downloadBlob(lines.join('\r\n'), `${filename}.csv`, 'text/csv;charset=utf-8;');
 }
 
 function exportJson(filename: string) {
-  const jsonData = sortedRows.value.map(r => ({
-    value: r.value,
-    normdataRefs: r.normdataRefs,
-    provider: r.provider,
-    docCount: r.docCount
-  }))
+    const jsonData = sortedRows.value.map(r => ({
+        value: r.value,
+        normdataRefs: r.normdataRefs,
+        provider: r.provider,
+        docCount: r.docCount
+    }));
   
-  downloadBlob(JSON.stringify(jsonData, null, 2), `${filename}.json`, 'application/json')
+    downloadBlob(JSON.stringify(jsonData, null, 2), `${filename}.json`, 'application/json');
 }
 
 function exportXml(filename: string) {
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<vocabulary field="${selectedField.value}">\n`
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<vocabulary field="${selectedField.value}">\n`;
   
-  for (const r of sortedRows.value) {
-    xml += `  <entry>\n`
-    xml += `    <value>${escapeXml(r.value)}</value>\n`
-    xml += `    <docCount>${r.docCount}</docCount>\n`
+    for (const r of sortedRows.value) {
+        xml += `  <entry>\n`;
+        xml += `    <value>${escapeXml(r.value)}</value>\n`;
+        xml += `    <docCount>${r.docCount}</docCount>\n`;
     
-    if (r.provider) {
-      xml += `    <provider>${escapeXml(r.provider)}</provider>\n`
+        if (r.provider) {
+            xml += `    <provider>${escapeXml(r.provider)}</provider>\n`;
+        }
+    
+        if (r.normdataRefs.length > 0) {
+            xml += `    <normdataRefs>\n`;
+            for (const ref of r.normdataRefs) {
+                xml += `      <normdata>\n`;
+                xml += `        <id>${escapeXml(ref.id)}</id>\n`;
+                xml += `        <category>${escapeXml(ref.category)}</category>\n`;
+                xml += `      </normdata>\n`;
+            }
+            xml += `    </normdataRefs>\n`;
+        }
+    
+        xml += `  </entry>\n`;
     }
-    
-    if (r.normdataRefs.length > 0) {
-      xml += `    <normdataRefs>\n`
-      for (const ref of r.normdataRefs) {
-        xml += `      <normdata>\n`
-        xml += `        <id>${escapeXml(ref.id)}</id>\n`
-        xml += `        <category>${escapeXml(ref.category)}</category>\n`
-        xml += `      </normdata>\n`
-      }
-      xml += `    </normdataRefs>\n`
-    }
-    
-    xml += `  </entry>\n`
-  }
   
-  xml += `</vocabulary>`
+    xml += `</vocabulary>`;
   
-  downloadBlob(xml, `${filename}.xml`, 'application/xml')
+    downloadBlob(xml, `${filename}.xml`, 'application/xml');
 }
 
 function escapeXml(text: string): string {
-  return String(text ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
+    return String(text ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
 }
 
 function downloadBlob(content: string, filename: string, type: string) {
-  const blob = new Blob([content], { type })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 function highlightText(text: string): string {
-  const q = filter.value.trim()
-  if (!q || !text) return text
+    const q = filter.value.trim();
+    if (!q || !text) return text;
   
-  const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
-  return text.replace(regex, '<span class="bg-highlight">$1</span>')
+    const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(regex, '<span class="bg-highlight">$1</span>');
 }
 </script>

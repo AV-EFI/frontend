@@ -24,7 +24,7 @@ function cfgFromEnv(): Cfg {
     return {
         ES_URL: host,
         ES_INDEX: index,
-        ES_APIKEY: process.env.ELASTI_APIKEY, // ApiKey (optional)
+        ES_APIKEY: process.env.ELASTIC_APIKEY, // ApiKey (optional)
         ES_USERNAME: process.env.ELASTIC_USERNAME, // optional Fallback
         ES_PASSWORD: process.env.ELASTIC_PASSWORD, // optional Fallback
     };

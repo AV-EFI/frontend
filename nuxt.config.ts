@@ -1,20 +1,31 @@
 // nuxt.config.ts
 
-import { getTrailingCommentRanges } from "typescript";
 import tailwindcss from '@tailwindcss/vite';
+import { defineOrganization } from "nuxt-schema-org/schema";
+import { defineNuxtConfig } from 'nuxt/config';
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
 
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-31',
-    ssr: false,
+    ssr: true,
     app: {
         baseURL: '/',
-        pageTransition: false
+        pageTransition: false,
+        head: {
+            link: [
+                // Preconnect to external domains if needed
+                // { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+            ]
+        }
+    },
+    // Inline critical CSS into the HTML to avoid render-blocking
+    experimental: {
+        // payloadExtraction: false,
     },
     devtools: {
-           enabled: false
+        enabled: false
     },
     nitro: {
         preset: 'node-server',
@@ -37,14 +48,19 @@ export default defineNuxtConfig({
         //'@nuxtjs/robots',
         'nuxt3-winston-log',
         '@dargmuesli/nuxt-cookie-control',
-        'nuxt-nodemailer'
+        'nuxt-nodemailer',
+        '@nuxtjs/seo',
+        '@nuxtjs/robots',
+        '@nuxtjs/sitemap',
+        'nuxt-schema-org'
     ],
     extends: './pages',
     imports: {
         dirs: ['~/stores', '~/plugins'] // keine Wildcards
     },
     icon: {
-        collections: ['tabler', 'carbon']
+        // See: https://github.com/nuxt-modules/icon#configuration
+        collections: ['tabler'], // Uncomment if you want to use specific icon collections
     },
     components: {
         global: true,
@@ -55,6 +71,7 @@ export default defineNuxtConfig({
             ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
             origin: process.env.ORIGIN,
             frontendUrl: process.env.ORIGIN,
+            siteUrl: process.env.ORIGIN,
             ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
             ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
             ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
@@ -108,20 +125,19 @@ export default defineNuxtConfig({
         }
     },
     routeRules: {
-        "/": { ssr: false },
-        "/search": { ssr: false },
-        "/search": { ssr: false },
+        "/": { ssr: true },
+        "/search": { ssr: true },
         //"/contact": { prerender: true },
-        "/contact": { ssr: false }, 
-        "/login": { ssr: false },
-        "/film/**": {ssr:false},
-        "/res/**": {ssr:false},
-        "/serial/**": {ssr:false},
-        "/protected/institutionlist": {ssr:false},
-        "/protected/dashboard": {ssr:false},
-        "/protected/mergetool": {ssr:false},
-        "/normdata": {ssr:false},
-        "/protected/normdata": {ssr:false},
+        "/contact": { ssr: true }, 
+        "/login": { ssr: true },
+        "/film/**": {ssr: true},
+        "/res/**": {ssr: true},
+        "/serial/**": {ssr: true},
+        "/protected/institutionlist": {ssr: true},
+        "/protected/dashboard": {ssr: true},
+        "/protected/mergetool": {ssr: true},
+        "/normdata": {ssr: true},
+        "/protected/normdata": {ssr: true},
         // Cached for 1 hour
         //"/api/*": { cache: { maxAge: 60 * 60 } },
     },
@@ -136,6 +152,132 @@ export default defineNuxtConfig({
             pass: process.env.MAIL_PASSWORD 
         },
     },
+    site: {
+        // Full base URL of the production site
+        url: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.av-efi.net',
+        // Used by @nuxt/seo, @nuxt/robots, @nuxt/sitemap, OG-image, schema.org
+        name: 'AVefi – Find films. Link data.',
+        // Fallback (i18n SEO meta will override this per page)
+        description:
+            'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
+        // Whether Google is allowed to index the site
+        // dev/staging: NUXT_PUBLIC_INDEXABLE=false
+        // production : NUXT_PUBLIC_INDEXABLE=true
+        indexable: process.env.NUXT_PUBLIC_INDEXABLE === 'true',
+        // Enable automatic Open Graph image generation (if using @nuxtjs/og-image)
+        // You can override with runtimeConfig.public.siteOgImage
+        image: '/img/avefi-og-image.png'
+    },
+    schemaOrg: {
+        enabled: true,
+        minify: true,
+        identity: defineOrganization({
+            // Core identity: AVefi consortium / service
+            name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
+            alternateName: 'AVefi',
+            url: 'https://www.av-efi.net',
+            logo: 'https://www.av-efi.net/img/avefi-og-image.png',
+            description: 'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
+            // Hosted / operated at GWDG
+            serviceOperator: {
+                '@type': 'Organization',
+                name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG)',
+                alternateName: 'GWDG',
+                url: 'https://www.gwdg.de',
+                address: {
+                    '@type': 'PostalAddress',
+                    streetAddress: 'Burckhardtweg 4',
+                    addressLocality: 'Göttingen',
+                    postalCode: '37077',
+                    addressCountry: 'DE',
+                },
+                contactPoint: {
+                    '@type': 'ContactPoint',
+                    contactType: 'customer support',
+                    telephone: '+49 551 39-30001',
+                    email: 'support@gwdg.de',
+                },
+            },
+            // Project / consortium structure
+            foundingDate: '2023-11-01', // adjust if you have a precise date
+            member: [
+                {
+                    '@type': 'Organization',
+                    name: 'TIB – Leibniz-Informationszentrum Technik und Naturwissenschaften',
+                    url: 'https://www.tib.eu',
+                },
+                {
+                    '@type': 'Organization',
+                    name: 'Stiftung Deutsche Kinemathek – Museum für Film und Fernsehen',
+                    alternateName: 'Deutsche Kinemathek',
+                    url: 'https://www.deutsche-kinemathek.de/',
+                },
+                {
+                    '@type': 'Organization',
+                    name: 'Filmmuseum Düsseldorf',
+                    url: 'https://www.duesseldorf.de/filmmuseum',
+                },
+                {
+                    '@type': 'Organization',
+                    name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen',
+                    alternateName: 'GWDG',
+                    url: 'https://www.gwdg.de',
+                },
+            ],
+
+            // Social + open repos
+            sameAs: [
+                'https://github.com/AV-EFI',
+                'https://www.zotero.org/groups/5125890/avefi',
+            ],
+        }),
+    },
+    robots: {
+        // Let the module generate robots.txt, don't keep a static one that says "Disallow: /"
+        groups: [
+            {
+                userAgent: '*',
+                allow: process.env.NUXT_PUBLIC_INDEXABLE === 'true' ? '/' : '',
+                disallow: process.env.NUXT_PUBLIC_INDEXABLE === 'true' ? '' : '/',
+            },
+        ],
+        sitemap: ['/sitemap.xml'],
+    },
+    // Sitemap
+    sitemap: {
+        include: [
+            '/', 
+            '/search',
+            '/contact',
+            '/res/**',
+            '/res',
+            '/imprint'
+        ],
+        // ⬇️ add concrete EFI/PID pages here
+        urls: [
+            { loc: '/search?21.11155-denormalised-work%5Bquery%5D=Metropolis' },
+            { loc: '/search?21.11155-denormalised-work%5Bquery%5D=Berlin'},
+            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Short&21.11155-denormalised-work%5BrefinementList%5D%5Bmanifestation_event_type%5D%5B0%5D=RestorationEvent' },
+            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Documentary&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B0%5D=Protest&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B1%5D=Aufstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B2%5D=Widerstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B3%5D=Streik' },
+            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bdirectors_or_editors%5D%5B0%5D=Troller%2C%20Georg%20Stefan' },
+            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bproduction%5D%5B0%5D=Schlenker%2C%20Hermann&21.11155-denormalised-work%5BrefinementList%5D%5Bproduction%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion' },
+            { loc: '/search/?21.11155-denormalised-work%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29' },
+            { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
+            { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
+        ],
+        siteUrl: 'https://www.av-efi.net',
+        exclude: [
+            '/protected/**',
+            '/admin/**',
+            '/login',
+            '/logout',
+            '/signout',
+            '/error-500',
+            '/nuxt.config',   // if this route exists, hide it
+            '/_**',
+            '/_nuxt/**',
+        ],
+    },  
     nuxt3WinstonLog: {
         maxSize: "2048m",
         maxFiles: "14d",
@@ -197,24 +339,67 @@ export default defineNuxtConfig({
             tailwindcss()
         ],
         optimizeDeps: {
-        include: ['export-to-csv', 'instantsearch.js', 'algoliasearch']       
-    },
-      server: {
-        watch: {
-        usePolling: true,
-        interval: 100,
-        ignored: [
-            '**/node_modules/**',
-            '**/.git/**',
-            '**/.yarn/**',
-            '**/.output/**',
-            '**/.nuxt/**',
-            '**/dist/**',
-        ],
+            include: ['export-to-csv', 'instantsearch.js', 'algoliasearch']       
         },
-    },
-    build: { chunkSizeWarningLimit: 750, target: 'esnext' },
-    logLevel: 'error',
+        server: {
+            watch: {
+                usePolling: true,
+                interval: 100,
+                ignored: [
+                    '**/node_modules/**',
+                    '**/.git/**',
+                    '**/.yarn/**',
+                    '**/.output/**',
+                    '**/.nuxt/**',
+                    '**/dist/**',
+                ],
+            },
+        },
+        build: {
+            chunkSizeWarningLimit: 750,
+            target: 'esnext',
+            cssCodeSplit: process.env.NODE_ENV === 'production', // Only split CSS in production
+            cssMinify: 'esbuild', // Use esbuild instead of lightningcss for compatibility
+            rollupOptions: {
+                output: {
+                    manualChunks: (id: string) => {
+                        // Split vendor chunks for better caching
+                        if (id.includes('node_modules')) {
+                            if (id.includes('vue') || id.includes('vue-router')) {
+                                return 'vue-vendor';
+                            }
+                            if (id.includes('instantsearch') || id.includes('algoliasearch')) {
+                                return 'search-vendor';
+                            }
+                            // Separate chunk for other vendors
+                            return 'vendor';
+                        }
+                        // Split large CSS files
+                        if (id.includes('main.scss')) {
+                            return 'styles-main';
+                        }
+                        return undefined;
+                    },
+                    // Optimize CSS output
+                    assetFileNames: (assetInfo: { name?: string }) => {
+                        if (assetInfo.name?.endsWith('.css')) {
+                            return 'assets/css/[name]-[hash][extname]';
+                        }
+                        return 'assets/[name]-[hash][extname]';
+                    },
+                },
+            },
+        },
+        logLevel: 'error',
+        css: {
+            devSourcemap: false, // Disable CSS sourcemaps in dev for faster builds
+            preprocessorOptions: {
+                scss: {
+                    // Optimize SCSS compilation
+                    additionalData: `@use "sass:math";`,
+                },
+            },
+        },
     },
     typescript: {
         includeWorkspace: true
@@ -223,6 +408,10 @@ export default defineNuxtConfig({
         debug: true,
         strategy: 'no_prefix',
         defaultLocale: 'de',
+        locales: [
+            { code: 'de', iso: 'de-DE', name: 'Deutsch' },
+            { code: 'en', iso: 'en-US', name: 'English' }
+        ],
         vueI18n: './i18n.config.ts'
     },
     formkit: {
@@ -231,7 +420,9 @@ export default defineNuxtConfig({
     pinia: {
         storesDirs: ['stores']
     },
-    css: ['~/assets/scss/main.scss'],
+    css: [
+        '~/assets/scss/main.scss'      // Main styles will be code-split
+    ],
     postcss: {
         plugins: {
             "@tailwindcss/postcss": {},   // ✅ v4 plugin

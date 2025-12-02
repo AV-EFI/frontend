@@ -180,6 +180,27 @@ types:
     description: >-
       ASCII string suitable for identifiers
 
+  AATID:
+    typeof: string
+    pattern: ^300\d{6}$
+    annotations:
+    - pid: 21.T11969/6cee8108d80467532fec
+    - tag: data_type_properties
+      value:
+        minLength: 1
+        maxLength: 256
+    in_subset:
+    - TypeRegistrySubset
+    description: >-
+      Getty Art & Architecture Thesaurus
+    examples:
+    - value: 300263340
+      description: AAT-ID for subject heading "labour"
+    see_also:
+    - https://www.getty.edu/research/tools/vocabularies/aat/index.html
+    - https://vocab.getty.edu/resource?uri=http://vocab.getty.edu/dataset/aat
+    - https://www.wikidata.org/wiki/Property:P1014
+
   AVefi:
     typeof: string
     pattern: ^21(\.([0-9A-Za-z])+)*/[!-~]+$
@@ -352,7 +373,8 @@ types:
     - value: 122530980
       description: VIAF-ID for place "Berlin"
     - value: 7183809
-      description: VIAF-ID for organization "International Federation of Film Archives"
+      description: VIAF-ID for organization "International Federation of Film 
+        Archives"
     - value: 66467014
       description: VIAF-ID for person "Rainer Werner Fassbinder"
     see_also:
@@ -408,7 +430,6 @@ classes:
     - has_event
     - has_identifier
     - has_primary_title
-    - has_source_key
     - same_as
     annotations:
     - pid: 21.T11969/2e9c01efa0f0f6881365
@@ -422,6 +443,7 @@ classes:
     - has_history
     - has_issuer_id
     - has_issuer_name
+    - has_source_key
     - last_modified
     annotations:
     - pid: 21.T11969/d0995eaddeeb07f3428d
@@ -443,6 +465,9 @@ classes:
     - type
     - variant_type
     slot_usage:
+      described_by:
+        inlined_as_list: true
+        multivalued: true
       has_primary_title:
         required: true
       same_as:
@@ -544,6 +569,7 @@ classes:
         annotations:
         - pid: 21.T11969/8281679d0e53548893b8
         any_of:
+        - range: AATResource
         - range: AVefiResource
         - range: EIDRResource
         - range: FilmportalResource
@@ -996,7 +1022,6 @@ classes:
     slot_usage:
       has_activity:
         range: ManifestationActivity
-        required: true
         in_subset:
         - TypeRegistrySubset
       type:
@@ -1135,14 +1160,8 @@ classes:
     is_a: MovingImageRecord
     abstract: true
     slots:
-    - has_colour_type
-    - has_duration
-    - has_extent
-    - has_format
     - has_note
-    - has_sound_type
     - has_webresource
-    - in_language
     annotations:
     - trunk_pid: 21.T11969/b4db4a39a902f7abed4f
     description: >-
@@ -1413,7 +1432,13 @@ classes:
     slots:
     - element_type
     - has_access_status
+    - has_colour_type
+    - has_duration
+    - has_extent
+    - has_format
     - has_frame_rate
+    - has_sound_type
+    - in_language
     - is_copy_of
     - is_derivative_of
     - is_item_of
@@ -1496,6 +1521,34 @@ classes:
     description: >-
       Either a persistent or local identifier for AVefi compliant
       moving image records. See subclasses for details
+
+  AATResource:
+    rank: 51
+    is_a: AuthorityResource
+    slot_usage:
+      id:
+        range: AATID
+        in_subset:
+        - TypeRegistrySubset
+    structured_aliases:
+    - literal_form: AAT
+      in_language: default
+    in_subset:
+    - TypeRegistrySubset
+    annotations:
+    - pid: 21.T11969/beedb723ef7d35e9443e
+    - formatter_uri_for_rdf_resource: http://vocab.getty.edu/aat/$1
+    - formatter_url_for_web_resource: https://vocab.getty.edu/page/aat/$1
+    - tag: provides
+      value:
+      - SubjectHeadingIdentifier
+    description: >-
+      Getty Thesaurus of Geographic Names ID. Check id slot range
+      documentation for examples
+    see_also:
+    - https://www.getty.edu/research/tools/vocabularies/aat/index.html
+    - https://vocab.getty.edu/resource?uri=http://vocab.getty.edu/dataset/aat
+    - https://www.wikidata.org/wiki/Property:P1014
 
   AVefiResource:
     rank: 51
@@ -1806,6 +1859,8 @@ slots:
     inlined_as_list: true
     multivalued: true
     range: IDString
+    in_subset:
+    - TypeRegistrySubset
     description: >-
       Indicate a dataset this record has been generated or derived
       from. For example, a converter generating AVefi moving image
@@ -1976,6 +2031,8 @@ slots:
   last_modified:
     slot_uri: dcterms:modified
     range: ISODateTimeUTC
+    in_subset:
+    - TypeRegistrySubset
     description: >-
       Timestamp (in UTC) for the latest modification to any field in
       the PID metadata record

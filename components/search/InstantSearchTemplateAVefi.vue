@@ -5,7 +5,7 @@
         :search-client="searchClient"
         :index-name="indexName"
         :show-loading-indicator="true"
-        :routing="true"
+        :routing="extendedRouting"
         :insights="false"
         :future="{preserveSharedStateOnUnmount: true }"
       >
@@ -173,6 +173,9 @@
                     </ais-stats>
                   </div>
                   <div class="md:col-span-2 w-full flex flex-col justify-center border-base-200 border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <p class="text-gray-800 dark:text-gray-200 text-center">
+                      sorting
+                    </p>
                     <ais-sort-by
                       :items="sortItems"
                       :class-names="{
@@ -183,109 +186,47 @@
                   </div>
                   <div class="form-control w-full border-base-200 border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
                     <label 
-                      class="label cursor-pointer text-sm mx-auto lg:ml-auto"
+                      class="label cursor-pointer text-sm flex justify-between items-center gap-2"
                       :aria-label="$t('toggleViewType')"
                     >
                       <Icon
                         name="tabler:info-circle"
-                        class="text-gray-500 dark:text-gray-300"
+                        class="text-gray-500 dark:text-gray-300 shrink-0"
                         :title="$t('viewTypeCheckedWarning')"
                       />
-                      <span class="label-text text-gray-800 dark:text-gray-200">
-                        {{ `${$t('accordionView')} / ${$t('flatView')}` }}&nbsp;
+                      <span class="label-text text-gray-800 dark:text-gray-200 flex-1">
+                        {{ `${$t('accordionView')} / ${$t('flatView')}` }}
                       </span>
                       <input
                         v-model="viewTypeChecked"
                         type="checkbox"
-                        class="toggle toggle-primary"
+                        class="toggle toggle-primary shrink-0"
                       >
-                    </label>
+                    </label>                    
                     <label
                       v-if="!viewTypeChecked"
-                      class="label cursor-pointer w-full  my-auto flex justify-between hidden"
-                      :aria-label="$t('toggleProductionDetails')"
-                    >
-                      <span class="label-text text-gray-800 dark:text-gray-200">
-                        <LazyIcon
-                          v-if="!productionDetailsChecked"
-                          class="dark:text-white"
-                          :title="$t('productionDetailsOn')"
-                          name="mdi:list-box-outline"
-                        />
-                        <LazyIcon
-                          v-else
-                          class="dark:text-white"
-                          :title="$t('productionDetailsOff')"
-                          name="mdi:list-box" 
-                        />
-                    &nbsp;
-                        <span v-if="!productionDetailsChecked">
-                          {{ $t('productionDetailsOnShort') }}
-                        </span>
-                        <span v-else>
-                          {{ $t('productionDetailsOffShort') }}
-                        </span>
-                      </span>
-                      <input
-                        v-model="productionDetailsChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      v-if="!viewTypeChecked"
-                      class="label cursor-pointer w-full mx-auto lg:ml-auto hidden"
-                      :aria-label="$t('toggleExpandAll')"
-                    >
-                      <span class="label-text text-sm text-gray-800 dark:text-gray-200">
-                        <LazyIcon
-                          v-if="!expandAllChecked"
-                          class="dark:text-white"
-                          name="tabler:layout-navbar-expand"
-                        />
-                        <LazyIcon
-                          v-else
-                          class="dark:text-white"
-                          name="tabler:layout-navbar-collapse"
-                        />
-                    &nbsp;
-                        <span v-if="!expandAllChecked">
-                          {{ $t('expandAll') }}
-                        </span>
-                        <span v-else>
-                          {{ $t('collapseAll') }}
-                        </span>
-                      </span>
-                      <input
-                        v-model="expandAllChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary"
-                      >
-                    </label>
-                    <label
-                      v-if="!viewTypeChecked"
-                      class="label cursor-pointer text-sm mx-2 my-auto flex justify-between"
+                      class="label cursor-pointer text-sm flex justify-between items-center gap-2"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
-                      <LazyIcon
+                      <Icon
                         v-if="!expandAllHandlesChecked"
-                        class="dark:text-white"
+                        class="dark:text-white shrink-0"
                         name="tabler:layout-navbar-expand"
                       />
-                      <LazyIcon
+                      <Icon
                         v-else
-                        class="dark:text-white"
+                        class="dark:text-white shrink-0"
                         name="tabler:layout-navbar-collapse"
                       />
                       <span
                         v-if="!expandAllHandlesChecked"
-                        class="label-text text-gray-800 dark:text-gray-200"
+                        class="label-text text-gray-800 dark:text-gray-200 flex-1"
                       >
                         {{ $t('expandAll') }}
                       </span>
                       <span
                         v-else
-                        class="label-text text-gray-800 dark:text-gray-200"
+                        class="label-text text-gray-800 dark:text-gray-200 flex-1"
                       >
                         {{ $t('collapseAll') }}
                       </span>
@@ -293,7 +234,7 @@
                       <input
                         v-model="expandAllHandlesChecked"
                         type="checkbox"
-                        class="toggle toggle-primary"
+                        class="toggle toggle-primary shrink-0"
                       >
                     </label>
                   </div>
@@ -321,13 +262,13 @@
                       <ais-current-refinements 
                         :class-names="{
                           'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                          'ais-CurrentRefinements-item': 'border border-neutral text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
+                          'ais-CurrentRefinements-item': 'border border-neutral text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
                           'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
                           'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                         }"
                       >
                         <template #item="{ item, refine, createURL }">
-                          <strong class="font-bold text-neutral dark:text-primary-100 ">
+                          <strong class="font-bold text-sm dark:text-primary-100">
                             {{ $t(item.label.split(".").at(-1)) }}:
                           </strong>
                           <ul class="list-none p-0 m-0">
@@ -632,29 +573,85 @@ const routerInstance = defaultRouter();
 const stateMapping = {
     stateToRoute(uiState) {
         const indexUiState = uiState[props.indexName] || {};
-        const numericRefinements = indexUiState.numericRefinements || {};
-        const prodYearsOnlyFlag = indexUiState.prodYearsOnly === true ? '1' : undefined;
+        
+        const route: any = {};
+        
+        // Add query if present
+        if (indexUiState.query) {
+            route.query = indexUiState.query;
+        }
+        
+        // Add refinement lists (facets)
+        if (indexUiState.refinementList) {
+            Object.keys(indexUiState.refinementList).forEach(key => {
+                if (indexUiState.refinementList[key].length > 0) {
+                    route[key] = indexUiState.refinementList[key];
+                }
+            });
+        }
+        
+        // Add numeric refinements
+        if (indexUiState.numericRefinements && Object.keys(indexUiState.numericRefinements).length > 0) {
+            route.numericRefinement = indexUiState.numericRefinements;
+        }
+        
+        // Add range
+        if (indexUiState.range) {
+            Object.keys(indexUiState.range).forEach(key => {
+                route[`range_${key}`] = indexUiState.range[key];
+            });
+        }
+        
+        // Add page
+        if (indexUiState.page && indexUiState.page > 1) {
+            route.page = indexUiState.page;
+        }
 
-        // Only serialize numeric refinements if not empty
-        const hasNumeric = Object.keys(numericRefinements).length > 0;
-
-        return {
-            [`${props.indexName}[query]`]: indexUiState.query || '',
-            ...(hasNumeric ? { [`${props.indexName}[numericRefinement]`]: numericRefinements } : {}),
-            ...(prodYearsOnlyFlag ? { [`${props.indexName}[prodYearsOnly]`]: prodYearsOnlyFlag } : {}),
-        };
+        return route;
     },
 
     routeToState(routeState) {
-        const numericRefinements = routeState[`${props.indexName}[numericRefinement]`] || {};
-        const prodYearsOnlyFlag = routeState[`${props.indexName}[prodYearsOnly]`] === '1';
+        const uiState: any = {
+            query: routeState.query || '',
+        };
+        
+        // Reconstruct refinement lists
+        const refinementList: any = {};
+        Object.keys(routeState).forEach(key => {
+            if (key !== 'query' && key !== 'numericRefinement' && key !== 'page' && !key.startsWith('range_')) {
+                refinementList[key] = Array.isArray(routeState[key]) ? routeState[key] : [routeState[key]];
+            }
+        });
+        
+        if (Object.keys(refinementList).length > 0) {
+            uiState.refinementList = refinementList;
+        }
+        
+        // Reconstruct numeric refinements
+        if (routeState.numericRefinement) {
+            uiState.numericRefinements = routeState.numericRefinement;
+        }
+        
+        // Reconstruct range
+        const range: any = {};
+        Object.keys(routeState).forEach(key => {
+            if (key.startsWith('range_')) {
+                const rangeKey = key.replace('range_', '');
+                range[rangeKey] = routeState[key];
+            }
+        });
+        
+        if (Object.keys(range).length > 0) {
+            uiState.range = range;
+        }
+        
+        // Add page
+        if (routeState.page) {
+            uiState.page = Number(routeState.page);
+        }
 
         return {
-            [props.indexName]: {
-                query: routeState[`${props.indexName}[query]`] || '',
-                numericRefinements,
-                prodYearsOnly: prodYearsOnlyFlag,
-            },
+            [props.indexName]: uiState,
         };
     },
 };

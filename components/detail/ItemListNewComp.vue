@@ -217,9 +217,9 @@
 
 <script setup lang="ts">
 defineProps({
-  items: { type: Array, required: true },
-  highlightResult: { type: Object, required: false, default: () => ({}) },
-  productionDetailsChecked: { type: Boolean, required: false, default: false },
-  showAdminStats: { type: Boolean, required: false, default: false },
+    items: { type: Array, required: true },
+    highlightResult: { type: Object, required: false, default: () => ({}) },
+    productionDetailsChecked: { type: Boolean, required: false, default: false },
+    showAdminStats: { type: Boolean, required: false, default: false },
 });
 </script>

@@ -5,7 +5,7 @@
         <figure class="hidden dark:bg-gray-700 h-60 lg:p-4 lg:inline-flex self-center">
           <img
             class="hidden object-contain h-4/5 w-4/5 lg:inline-flex"
-            src="/img/AV-EFI-Logo.png"
+            src="/img/AV-EFI-Logo.svg"
             alt="Login Figure"
             title="🥳"
           >

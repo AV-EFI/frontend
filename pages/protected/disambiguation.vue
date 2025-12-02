@@ -3,7 +3,7 @@
     <GlobalBreadcrumbsComp 
       :breadcrumbs="[
         ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/index?${useRuntimeConfig().public.SEARCH_INIT_URL_PARAMS}`],
+        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/`],
         [$t('disambiguation'), '/protected/disambiguation']
       ]"
     />

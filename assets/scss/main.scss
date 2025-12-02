@@ -176,12 +176,14 @@
 
 @font-face {
   font-family: 'BreeSerif';
-  src: url('@/assets/fonts/BreeSerif-Regular.ttf') format('truetype');
+  src: url('/fonts/BreeSerif-Regular.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('@/assets/fonts/Inter.ttf') format('truetype');
+  src: url('/fonts/Inter.ttf') format('truetype');
+  font-display: swap;
 }
 
 html, body {
