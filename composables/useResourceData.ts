@@ -34,9 +34,7 @@ export const useResourceData = async (id: string, prefix?: string) => {
                     resourceType.value = "compilationManifestation";
                 }
             }
-        }
-        console.log('Resource Type:', resourceType);
-  
+        }  
         // Modify handle for manifestationOrItem type
         let effectiveHandle = fullId;
         if (resourceType.value === 'manifestationOrItem' && data) {

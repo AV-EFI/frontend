@@ -29,7 +29,7 @@
       >
         <div class="w-full p-0 my-0 mx-auto justify-center items-center">
           <LazyCartAddToShoppingCartComp
-            :film-id="id ?? item?.objectID"
+            :film-id="id ?? item?.handle"
             :film-title="item?.has_record?.has_primary_title.has_name"
             class="w-48 btn-block btn-sm flex item-start"
             role="menuitem"
@@ -42,7 +42,7 @@
       >
         <div class="w-full p-0 my-0 mx-auto justify-center items-center z-20">
           <LazyCartAddToComparisonComp
-            :film-id="id ?? item?.objectID"
+            :film-id="id ?? item?.handle"
             :film-title="item?.has_record?.has_primary_title.has_name"
             class="btn-block btn-sm w-48 flex item-start"
             role="menuitem"

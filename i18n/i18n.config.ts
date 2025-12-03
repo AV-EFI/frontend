@@ -576,6 +576,14 @@ export default defineI18nConfig(() => ({
                 }
             },
             'noSuggestionsFound': 'No suggestions found',
+            'errorLoadingDatasets': 'Error loading datasets',
+            'incompleteData': 'Incomplete Data',
+            'failedToLoad': 'Failed to load',
+            'invalidComparisonUrl': 'Invalid Comparison URL',
+            'missingBothDatasets': 'Both dataset identifiers are missing. Please provide \'prev\' and \'next\' query parameters.',
+            'missingDataset1': 'Dataset 1 identifier is missing. Please provide \'prev\' query parameter.',
+            'missingDataset2': 'Dataset 2 identifier is missing. Please provide \'next\' query parameter.',
+            'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
             'showSuggestions': 'Show suggestions',
             "seo": {
                 "home": {
@@ -606,6 +614,14 @@ export default defineI18nConfig(() => ({
                 "resource": {
                     "title": "{title} – AVefi",
                     "description": "Audiovisual work from German film archives."
+                },
+                "vocab": {
+                    "title": "Vocabulary Browser – AVefi",
+                    "titleWithField": "Vocabulary: {field} | AVefi",
+                    "titleWithFieldAndFilter": "Vocabulary: {field} – \"{filter}\" | AVefi",
+                    "description": "The AVefi vocabulary browser displays authority data fields like genre or keywords used across participating film archives.",
+                    "descriptionWithField": "Vocabulary view for the field \"{field}\". Explore used authority data and their usage in the holdings of AVefi partner archives.",
+                    "descriptionWithFieldAndFilter": "Vocabulary view for the field \"{field}\" with entries matching \"{filter}\". Explore used authority data across participating film archives."
                 }
             },
             ...avefiLocales.en
@@ -619,6 +635,14 @@ export default defineI18nConfig(() => ({
             "restShortFilmCollectionLinkText": "Zur Sammlung",
             'showSuggestions': 'Vorschläge anzeigen',
             'noSuggestionsFound': 'Keine Vorschläge gefunden',
+            'errorLoadingDatasets': 'Fehler beim Laden der Datensätze',
+            'incompleteData': 'Unvollständige Daten',
+            'failedToLoad': 'Laden fehlgeschlagen',
+            'invalidComparisonUrl': 'Ungültige Vergleichs-URL',
+            'missingBothDatasets': 'Beide Datensatz-Identifikatoren fehlen. Bitte geben Sie \'prev\' und \'next\' als Query-Parameter an.',
+            'missingDataset1': 'Datensatz 1-Identifikator fehlt. Bitte geben Sie den \'prev\' Query-Parameter an.',
+            'missingDataset2': 'Datensatz 2-Identifikator fehlt. Bitte geben Sie den \'next\' Query-Parameter an.',
+            'comparisonUrlHelp': 'Beispiel: /compare?prev=21.11155/work-123&next=21.11155/work-456',
             "hero": {
                 "pill": "Filmwissenschaft • Linked Data • Forschung",
                 "badgeLine": "PID-ready • Normdaten • FDO-kompatibel"
@@ -1215,6 +1239,14 @@ export default defineI18nConfig(() => ({
                 "resource": {
                     "title": "{title} – AVefi",
                     "description": "Audiovisuelles Werk aus deutschen Filmarchiven."
+                },
+                "vocab": {
+                    "title": "Vokabularbrowser – AVefi",
+                    "titleWithField": "Vokabular: {field} | AVefi",
+                    "titleWithFieldAndFilter": "Vokabular: {field} – \"{filter}\" | AVefi",
+                    "description": "Der Vokabularbrowser von AVefi zeigt genutzte Normdaten-Felder wie Genre oder Schlagwörter über teilnehmende Filmarchive hinweg.",
+                    "descriptionWithField": "Vokabularansicht für das Feld \"{field}\". Erkunden Sie genutzte Normdaten und deren Nutzung in den Beständen der AVefi-Partnerarchive.",
+                    "descriptionWithFieldAndFilter": "Vokabularansicht für das Feld \"{field}\" mit Einträgen passend zu \"{filter}\". Erkunden Sie genutzte Normdaten über teilnehmende Filmarchive hinweg."
                 }
             },
             ...avefiLocales.de

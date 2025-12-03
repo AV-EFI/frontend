@@ -255,13 +255,13 @@ export default defineNuxtConfig({
         ],
         // ⬇️ add concrete EFI/PID pages here
         urls: [
-            { loc: '/search?21.11155-denormalised-work%5Bquery%5D=Metropolis' },
-            { loc: '/search?21.11155-denormalised-work%5Bquery%5D=Berlin'},
-            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Short&21.11155-denormalised-work%5BrefinementList%5D%5Bmanifestation_event_type%5D%5B0%5D=RestorationEvent' },
-            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bhas_form%5D%5B0%5D=Documentary&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B0%5D=Protest&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B1%5D=Aufstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B2%5D=Widerstand&21.11155-denormalised-work%5BrefinementList%5D%5Bsubjects%5D%5B3%5D=Streik' },
-            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bdirectors_or_editors%5D%5B0%5D=Troller%2C%20Georg%20Stefan' },
-            { loc: '/search/index?21.11155-denormalised-work%5BrefinementList%5D%5Bproduction%5D%5B0%5D=Schlenker%2C%20Hermann&21.11155-denormalised-work%5BrefinementList%5D%5Bproduction%5D%5B1%5D=Hermann%20Schlenker%20Filmproduktion' },
-            { loc: '/search/?21.11155-denormalised-work%5BrefinementList%5D%5Blocated_in_has_name%5D%5B0%5D=Deutsche%20Demokratische%20Republik%20%28DDR%29' },
+            { loc: '/search/?has_form=Short&manifestation_event_type=RestorationEvent' },
+            { loc: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`},
+            { loc: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan` },
+            { loc: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion` },
+            { loc: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29` },
+            { loc: '/search/?query=Metropolis' },
+            { loc: '/search/?query=Berlin' },
             { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
             { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
         ],
@@ -273,6 +273,8 @@ export default defineNuxtConfig({
             '/logout',
             '/signout',
             '/error-500',
+            //TODO: check if /vocab should be included
+            '/vocab',
             '/nuxt.config',   // if this route exists, hide it
             '/_**',
             '/_nuxt/**',

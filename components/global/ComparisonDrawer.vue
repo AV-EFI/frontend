@@ -257,7 +257,7 @@ const navigateToComparison = () => {
     try {
         const objectIds: string[] = objectListStore.getObjectIds;
         if(objectIds.length == 2) {
-            navigateTo(`/compare_altern?prev=${objectIds[0]}&next=${objectIds[1]}`);
+            navigateTo(`/compare?prev=${objectIds[0]}&next=${objectIds[1]}`);
         }
     }
     catch(e) {

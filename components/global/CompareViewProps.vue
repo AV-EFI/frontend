@@ -1,21 +1,31 @@
 <template>
   <div class="editor mt-8">
-    <div class="grid grid-cols-2">
-      <div class="grid grid-cols-1 md:w-[420px] grid-rows-6 mr-0 ml-auto">
-        <ViewsWorkViewReduced
-          v-model="prev"
-          :title="$t('dataset1')"
-          class="col-span-full"
-        />
-      </div>
-      <div class="grid grid-cols-1 md:w-[420px] grid-rows-6 ml-0 mr-auto">
-        <ViewsWorkViewReduced
-          v-model="current"
-          :title="$t('dataset2')"
-          class="col-span-full"
-        />
+    <div v-if="loadingErrorKey" class="alert alert-error mx-auto w-96">
+      <Icon name="tabler:alert-circle" class="w-6 h-6" />
+      <div>
+        <h3 class="font-bold">{{ $t('errorLoadingDatasets') }}</h3>
+        <div class="text-sm">{{ $t(loadingErrorKey) }}</div>
       </div>
     </div>
+    
+    <div v-else-if="!prev || !current" class="alert alert-warning">
+      <Icon name="tabler:alert-triangle" class="w-6 h-6" />
+      <div>
+        <h3 class="font-bold">{{ $t('incompleteData') }}</h3>
+        <div class="text-sm">
+          <span v-if="!prev">{{ $t('dataset1') }}: {{ $t('failedToLoad') }}</span>
+          <span v-if="!current" class="ml-2">{{ $t('dataset2') }}: {{ $t('failedToLoad') }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <ViewsWorkViewReduced
+      v-else
+      v-model="prev"
+      :title="$t('dataset1')"
+      :compare-with="current"
+      :compare-title="$t('dataset2')"
+    />
   </div>
 </template>
 
@@ -24,39 +34,41 @@ import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElas
 
 const props = defineProps({
     items: {
-        type: Array<string>,
+        type: Array as PropType<(ElasticGetByIdResponse | string)[]>,
         required: true,
         default: () => []
     }
 });
 
 const objectListStore = useObjectListStore();
+const loadingErrorKey = ref<string | null>(null);
+const prev = ref<ElasticGetByIdResponse | null>(null);
+const current = ref<ElasticGetByIdResponse | null>(null);
 
-async function getCollectionType(routeParamsId: string): Promise<string> {  
-    const { data } = await useApiFetchLocal<Array<ElasticGetByIdResponse>>(
-        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
-        {
-            method: 'POST',
-            body: JSON.stringify({ documentId: routeParamsId }),
-            headers: {
-                'Authorization': `ApiKey ${useRuntimeConfig().public.ELASTIC_IMDB_APIKEY}`
-            }
-        }
-    );
-    
-    if (data) {
-        return JSON.stringify(data?.value?.at(0), null, 2);
+try {
+    if (!props.items[0] || !props.items[1]) {
+        throw new Error('missingBothDatasets');
     }
-    return "";
+    
+    const [prevData, currentData] = await Promise.all([
+        getDataSet(props.items[0]),
+        getDataSet(props.items[1])
+    ]);
+    
+    prev.value = prevData;
+    current.value = currentData;
+    
+    if (!prevData && !currentData) {
+        loadingErrorKey.value = 'missingBothDatasets';
+    } else if (!prevData) {
+        loadingErrorKey.value = 'missingDataset1';
+    } else if (!currentData) {
+        loadingErrorKey.value = 'missingDataset2';
+    }
+} catch (error) {
+    console.error('Error loading comparison datasets:', error);
+    loadingErrorKey.value = error instanceof Error && error.message ? error.message : 'errorLoadingDatasets';
 }
-
-const { data: prev } = await useAsyncData<string>('prev', () =>
-    getCollectionType(props.items[0])
-);
-
-const { data: current } = await useAsyncData<string|undefined>('current', () =>
-    getCollectionType(props.items[1])
-);
 
 onMounted(() => {
     if (objectListStore.comparisonDrawerOpen) {

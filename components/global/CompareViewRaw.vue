@@ -13,7 +13,7 @@
             <textarea
               v-if="prev"
               class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
-              v-html="prev"
+              v-html="JSON.stringify(prev, null, 2)"
             />
           </div>
           <div class="w-full md:w-1/2 p-1">
@@ -22,7 +22,7 @@
             </h3>
             <textarea
               class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
-              v-html="current"
+              v-html="JSON.stringify(current, null, 2)"
             />
           </div>
         </section>    
@@ -39,8 +39,8 @@
         class="w-[80vw] lg:w-full"
         theme="diffTheme"
         language="json"
-        :prev="prev"
-        :current="current"
+        :prev="JSON.stringify(prev, null, 2)"
+        :current="JSON.stringify(current, null, 2)"
         :folding="true"
         :input-delay="10"
         :virtual-scroll="false"
@@ -53,7 +53,7 @@
 import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
 const props = defineProps({
     'items': {
-        type: Array<string>,
+        type: Array as PropType<IAVefiListResponse[]>,
         required:true,
         default: () => []
     }
@@ -75,31 +75,9 @@ watch(colorModeCookie, (newValue) => {
     console.log('Color mode changed:', newValue);
 });
 
-async function getCollectionType (routeParamsId:string):Promise<string> {  
-    const { data } = await useApiFetchLocal<Array<IAVefiListResponse>>(
-        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}`,
-        {
-            method: 'POST',
-            body: JSON.stringify({documentId: routeParamsId}),
-            headers: {
-                'Authorization': `ApiKey ${useRuntimeConfig().public.ELASTIC_IMDB_APIKEY}`
-            }
-        }
-    );
-    
-    if(data) {
-        return JSON.stringify(data?.value?.at(0), null, 2);
-    }
-    return "";
-}
 
-const { data: prev } = await useAsyncData<string>('prev', () =>
-    getCollectionType(props.items[0])
-);
-
-const { data: current } = await useAsyncData<string|undefined>('current', () =>
-    getCollectionType(props.items[1])
-);
+const prev = await getDataSet(props.items[0]);
+const current = await getDataSet(props.items[1]);
 
 onMounted(() => {
     if(objectListStore.comparisonDrawerOpen) {

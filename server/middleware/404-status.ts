@@ -21,7 +21,7 @@ export default defineEventHandler((event) => {
         '/imprint',
         '/dataprotection',
         '/signout',
-        '/compare_altern',
+        '/compare',
         '/_nuxt/',
         '/api/',
         '/img/',

@@ -3,9 +3,26 @@ definePageMeta({
     auth: false,
 });
 const route = useRoute();
+const { t } = useI18n();
+
 const items = [];
 items[0] = route.query.prev;
 items[1] = route.query.next;
+
+const hasValidParams = computed(() => {
+    return items[0] && items[1];
+});
+
+const errorMessage = computed(() => {
+    if (!items[0] && !items[1]) {
+        return t('missingBothDatasets');
+    } else if (!items[0]) {
+        return t('missingDataset1');
+    } else if (!items[1]) {
+        return t('missingDataset2');
+    }
+    return null;
+});
 
 </script>
 <template>
@@ -17,7 +34,17 @@ items[1] = route.query.next;
       ]"
     />
     <div class="container mt-4 snap-y snap-mandatory md:px-4">
+      <div v-if="!hasValidParams" class="alert alert-error mb-4 w-96">
+        <Icon name="tabler:alert-circle" class="w-6 h-6" />
+        <div>
+          <h3 class="font-bold">{{ $t('invalidComparisonUrl') }}</h3>
+          <div class="text-sm">{{ errorMessage }}</div>
+          <div class="text-xs mt-2">{{ $t('comparisonUrlHelp') }}</div>
+        </div>
+      </div>
+      
       <div
+        v-else
         role="tablist"
         class="tabs tabs-bordered"
       >
@@ -44,7 +71,7 @@ items[1] = route.query.next;
           type="radio"
           name="compare_tabs"
           role="tab"
-          class="tab min-w-48"
+          class="tab min-w-48 hidden"
           :aria-label="$t('compareRaw')"
         >
         <div

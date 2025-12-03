@@ -431,7 +431,77 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router';
+import { useSeoMeta, useSchemaOrg, defineWebPage } from '#imports';
+
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const runtimeConfig = useRuntimeConfig();
+
+// SEO & Schema.org setup
+const seoField = route.query.field as string | undefined;
+const seoFilter = route.query.filter as string | undefined;
+const seoNormdata = route.query.normdata === 'true';
+
+// Field labels mapping (can be extended)
+const fieldLabels: Record<string, { de: string; en: string }> = {
+    has_genre: { de: 'Genre', en: 'Genre' },
+    has_subject: { de: 'Schlagwörter', en: 'Keywords' },
+    has_colour_type: { de: 'Farbtyp', en: 'Colour Type' },
+    has_sound_type: { de: 'Ton', en: 'Sound' },
+};
+
+const currentLocale = useI18n().locale.value;
+const fieldLabel = seoField ? (fieldLabels[seoField]?.[currentLocale as 'de' | 'en'] || seoField) : undefined;
+
+// Dynamic title
+const pageTitle = computed(() => {
+    if (fieldLabel && seoFilter) {
+        return t('seo.vocab.titleWithFieldAndFilter', { field: fieldLabel, filter: seoFilter });
+    }
+    if (fieldLabel) {
+        return t('seo.vocab.titleWithField', { field: fieldLabel });
+    }
+    return t('seo.vocab.title');
+});
+
+// Dynamic description
+const pageDescription = computed(() => {
+    if (fieldLabel && seoFilter) {
+        return t('seo.vocab.descriptionWithFieldAndFilter', { field: fieldLabel, filter: seoFilter });
+    }
+    if (fieldLabel) {
+        return t('seo.vocab.descriptionWithField', { field: fieldLabel });
+    }
+    return t('seo.vocab.description');
+});
+
+const canonical = (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/vocab';
+
+// Meta tags
+useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    ogImage: runtimeConfig.public.siteOgImage || ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
+    ogType: 'website',
+    ogUrl: canonical,
+    twitterCard: 'summary_large_image',
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+});
+
+// Schema.org
+useSchemaOrg([
+    defineWebPage({
+        '@id': canonical,
+        name: pageTitle.value.replace(' | AVefi', '').replace(' – AVefi', ''),
+        description: pageDescription.value,
+        url: canonical,
+    }),
+]);
 
 type FieldKey = 'has_subject' | 'has_genre'
 
@@ -451,10 +521,6 @@ const fieldOptions = computed(() => [
     { key: 'has_subject' as FieldKey, label: t('vocab.fields.hasSubject') },
     { key: 'has_genre' as FieldKey, label: t('vocab.fields.hasGenre') },
 ]);
-
-// Initialize from URL query params
-const route = useRoute();
-const router = useRouter();
 
 const selectedField = ref<FieldKey>((route.query.field as FieldKey) || 'has_subject');
 const filter = ref((route.query.filter as string) || '');
@@ -530,7 +596,7 @@ const filteredRows = computed(() => {
     // Letter filtering is now done server-side, no need to filter here
   
     // Filter by search query
-    const q = filter.value.trim().toLowerCase();
+    const q = filter?.value?.trim().toLowerCase();
     if (q) {
         filtered = filtered.filter((r) => {
             const matchesValue = r.value.toLowerCase().includes(q);

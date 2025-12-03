@@ -3,6 +3,21 @@
 
 @import "tailwindcss";
 
+/* Restore default text selection styling */
+input::selection,
+textarea::selection {
+  background-color: Highlight;
+  color: HighlightText;
+}
+
+@supports not (background-color: Highlight) {
+  input::selection,
+  textarea::selection {
+    background-color: #0078d4;
+    color: white;
+  }
+}
+
 @plugin "daisyui" {
    themes: avefi_light --default, avefi_dark --prefersdark;
     root: ":root";
