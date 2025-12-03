@@ -38,14 +38,12 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
-        //...(process.env.NODE_ENV === 'production' ? ['@nuxtjs/robots', 'nuxt3-winston-log'] : []),
         '@nuxtjs/i18n',
         //'@nuxtjs/tailwindcss',
         //'@nuxtjs/color-mode',
         '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
-        //'@nuxtjs/robots',
         'nuxt3-winston-log',
         '@dargmuesli/nuxt-cookie-control',
         'nuxt-nodemailer',
@@ -110,7 +108,6 @@ export default defineNuxtConfig({
             AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
             AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
             AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/academiccloud/auth',
-
             cms: {
                 // mirror the flag to the client to toggle UI affordances
                 allowUserTooltipEdits:
@@ -154,7 +151,7 @@ export default defineNuxtConfig({
     },
     site: {
         // Full base URL of the production site
-        url: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.av-efi.net',
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
         // Used by @nuxt/seo, @nuxt/robots, @nuxt/sitemap, OG-image, schema.org
         name: 'AVefi – Find films. Link data.',
         // Fallback (i18n SEO meta will override this per page)
@@ -175,8 +172,8 @@ export default defineNuxtConfig({
             // Core identity: AVefi consortium / service
             name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
             alternateName: 'AVefi',
-            url: 'https://www.av-efi.net',
-            logo: 'https://www.av-efi.net/img/avefi-og-image.png',
+            url: process.env.SITE_URL || 'https://www.av-efi.net',
+            logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
             description: 'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
             // Hosted / operated at GWDG
             serviceOperator: {
@@ -237,8 +234,12 @@ export default defineNuxtConfig({
         groups: [
             {
                 userAgent: '*',
+                disallow: '/'
+                /* TODO: re-enable when ready to be indexed                
+                userAgent: '*',
                 allow: process.env.NUXT_PUBLIC_INDEXABLE === 'true' ? '/' : '',
                 disallow: process.env.NUXT_PUBLIC_INDEXABLE === 'true' ? '' : '/',
+                */
             },
         ],
         sitemap: ['/sitemap.xml'],
@@ -265,7 +266,7 @@ export default defineNuxtConfig({
             { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
             { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
         ],
-        siteUrl: 'https://www.av-efi.net',
+        siteUrl: process.env.SITE_URL || 'https://www.av-efi.net',
         exclude: [
             '/protected/**',
             '/admin/**',
