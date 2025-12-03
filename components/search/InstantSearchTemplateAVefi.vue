@@ -32,108 +32,52 @@
               :aria-label="$t('searchresults')"
             >
               <div
-                class="searchbox"
+                class="searchbox relative"
                 role="search"
                 :aria-label="$t('searchbox')"
               >
-                <ais-search-box
-                  :ignore-composition-events="true"
-                  :submit-title="$t('submitQuery')"
-                  :reset-title="$t('resetQuery')"
-                  class="flex flex-row mt-2"
-                >
-                  <template #default="{ currentRefinement = '', refine = () => {}, isSearchStalled = false } = {}">
-                    <div
-                      class="flex flex-row items-center w-full py-1.5 px-2.5 rounded-l-xl rounded-r-none border border-primary-300 bg-white focus-within:ring-1 focus-within:!ring-primary-400 focus-within:!border-primary-400 group-data-[invalid]:border-red-400 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-400 group-data-[disabled]:bg-zinc-100 group-data-[disabled]:!cursor-not-allowed shadow-sm group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-primary-200 dark:group-data-[disabled]:bg-zinc-700 dark:group-data-[invalid]:border-red-400 dark:group-data-[invalid]:ring-red-400 max-md:max-w-[calc(100%-52px)] formkit-inner"
-                    >
-                      <label
-                        class="flex items-center -ml-0.5 mr-1.5 text-sm h-[1em] w-[1em] shrink-0 [&amp;>svg]:w-full text-zinc-600 dark:text-zinc-300 formkit-prefixIcon formkit-icon hidden"
-                        for="input_0"
-                        :aria-label="$t('search')"
+                <ais-search-box>
+                  <template #default="{ currentRefinement, refine, isSearchStalled }">
+                    <div class="flex flex-row mt-2">
+                      <div
+                        class="flex flex-row items-center w-full "
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 15 16"
-                        ><path
-                          d="M6.5,13.02c-1.41,0-2.82-.54-3.89-1.61-1.04-1.04-1.61-2.42-1.61-3.89s.57-2.85,1.61-3.89c2.14-2.14,5.63-2.14,7.78,0,1.04,1.04,1.61,2.42,1.61,3.89s-.57,2.85-1.61,3.89c-1.07,1.07-2.48,1.61-3.89,1.61Zm0-10c-1.15,0-2.3,.44-3.18,1.32-.85,.85-1.32,1.98-1.32,3.18s.47,2.33,1.32,3.18c1.75,1.75,4.61,1.75,6.36,0,.85-.85,1.32-1.98,1.32-3.18s-.47-2.33-1.32-3.18c-.88-.88-2.03-1.32-3.18-1.32Z"
-                          fill="currentColor"
-                        /><path
-                          d="M13.5,15c-.13,0-.26-.05-.35-.15l-3.38-3.38c-.2-.2-.2-.51,0-.71,.2-.2,.51-.2,.71,0l3.38,3.38c.2,.2,.2,.51,0,.71-.1,.1-.23,.15-.35,.15Z"
-                          fill="currentColor"
-                        /></svg>
-                      </label>
-                      <!-- Tooltip für exakte Suche -->
-                      <span
-                        class="relative ml-2 cursor-pointer select-none"
-                        tabindex="0"
-                        @mouseenter="showAlgoliaTooltip = true"
-                        @mouseleave="showAlgoliaTooltip = false"
-                        @focus="showAlgoliaTooltip = true"
-                        @blur="showAlgoliaTooltip = false"
-                      >
+                        <SearchQueryAutocomplete
+                          ref="qaRef"
+                          v-model="localSearchValue"
+                          name="search"
+                          :placeholder="$t('searchplaceholder')"
+                          :clear-title="$t('resetQuery')"
+                          :show-info-tooltip="true"
+                          :info-tooltip-text="$t('exactSearchTip')"
+                          :enforce-list="false"
+                          :recent-searches="recentSearchesWithUrl"
+                          class="flex-1"
+                          @submit="handleSearchSubmit($event, refine)"
+                          @clear="handleSearchClear(refine)"
+                          @recent-search-click="handleRecentSearchClick"
+                          @remove-recent="handleRemoveRecentSearch"
+                          @clear-history="handleClearAllHistory"
+                        />                      
                         <span
-                          class="text-neutral-500 dark:text-neutral-300 text-sm"
-                          role="img"
-                          aria-label="Info"
-                        >
-                          ⓘ
-                        </span>
-                        <span
-                          v-if="showAlgoliaTooltip"
-                          class="absolute top-full left-1/2 mt-2 -translate-x-1/2 z-10 w-64 p-2 text-sm leading-snug text-neutral-900 bg-white rounded-md shadow-lg dark:bg-zinc-800 dark:text-white"
-                          role="tooltip"
-                        >
-                          {{ $t('exactSearchTip') }}
-                        </span>
-                      </span>
-
-                      <input
-                        type="search"
-                        :aria-label="$t('search')"
-                        class="appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-zinc-700 min-w-0 min-h-[1.5em] grow outline-none bg-transparent selection:bg-bali-hai-100 placeholder:!text-zinc-300 group-data-[disabled]:!cursor-not-allowed dark:placeholder:!text-zinc-200/50 dark:!text-zinc-300 border-none p-0 focus:ring-0 formkit-input !text-lg p-2 !rounded-3xl"
-                        :value="currentRefinement"
-                        :placeholder="$t('searchplaceholder')"
-                        @input="currentRefinement = $event.target.value"
-                        @keyup.enter="refine(currentRefinement); searchQuery = currentRefinement ?? ''"
-                      >
-                      <span
-                        id="search-loading"
-                        :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm']"
-                      />
-                      <!-- Reset button -->
+                          id="search-loading"
+                          :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm ml-2']"
+                        />
+                      </div>
+                      
                       <button
-                        v-if="currentRefinement"
                         type="button"
-                        class="btn"
-                        :title="$t('resetQuery')"
-                        :aria-label="$t('resetQuery')"
-
-                        @click="
-                          refine('');
-                          currentRefinement = '';
-                          searchQuery = '';
-                        "
+                        class="btn btn-primary btn-lg h-[56px] rounded-xl rounded-l-none"
+                        :title="$t('search')"
+                        @click="$refs.qaRef?.submit()"
                       >
                         <Icon
-                          class="p-2 text-xl my-auto dark:text-white"
-                          name="mdi:clear-bold"
-                          aria-hidden="true"
+                          class="text-lg"
+                          name="formkit:search"
                         />
+                        <span class="hidden md:inline ml-2">{{ $t('search') }}</span>
                       </button>
                     </div>
-                    
-                    <button
-                      class="ais-SearchBox-submit btn btn-primary md:w-32 h-auto rounded-l-none !rounded-r-xl"
-                      :title="$t('search')"
-                      type="button"
-                      @click="refine(currentRefinement); searchQuery = currentRefinement;"
-                    >
-                      <Icon
-                        class="text-lg"
-                        name="formkit:search"
-                      />
-                      <span class="sr-only">{{ $t('search') }}</span>
-                    </button>
                   </template>
                 </ais-search-box>
               </div>
@@ -341,6 +285,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
+import Client from '@searchkit/instantsearch-client';
+import { config } from '../../searchConfig_avefi.ts';
+import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 
@@ -355,12 +303,116 @@ const productionDetailsChecked = ref(true);
 
 const expandedHandles = ref<Set<string>>(new Set());
 
-
 const searchQuery = ref('');
-import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi.ts';
+const localSearchValue = ref('');
+
+// Search history
+const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
+const recentSearches = ref<string[]>([]);
+const showRecentSearches = ref(false);
+const historyTrigger = ref(0);
+
+// Get full history items with URLs
+const recentSearchesWithUrl = computed(() => {
+    historyTrigger.value; // Make reactive
+    const history = getSearchHistory();
+    console.log('recentSearchesWithUrl computed:', history);
+    return history;
+});
+
+// Sync localSearchValue with URL query parameter
+const syncSearchValueFromUrl = () => {
+    if (typeof window === 'undefined') return;
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get('query');
+    
+    if (queryParam) {
+        localSearchValue.value = queryParam;
+        searchQuery.value = queryParam;
+    }
+};
+
+// Load recent searches on mount
+onMounted(() => {
+    // Sync search value from URL
+    syncSearchValueFromUrl();
+
+    // Close recent searches dropdown when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+        const searchbox = document.querySelector('.searchbox');
+        if (searchbox && !searchbox.contains(event.target as Node)) {
+            showRecentSearches.value = false;
+        }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    
+    // Watch for URL changes (browser back/forward)
+    const handlePopState = () => {
+        syncSearchValueFromUrl();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    // Watch for changes in latest-search-query
+    const updateFromStorage = () => {
+        syncSearchValueFromUrl();
+    };
+
+    window.addEventListener('storage', updateFromStorage);
+    
+    // Polling removed - using computed property recentSearchesWithUrl instead
+    
+    onBeforeUnmount(() => {
+        document.removeEventListener('click', handleClickOutside);
+        window.removeEventListener('popstate', handlePopState);
+        window.removeEventListener('storage', updateFromStorage);
+    });
+});
+
+// Search handlers
+const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
+    console.log('handleSearchSubmit called with:', value);
+    if (value && value.trim() !== '') {
+        addToSearchHistory(value);
+        historyTrigger.value++;
+        console.log('Search history after add:', getSearchHistory());
+    }
+    refine(value);
+    searchQuery.value = value;
+    showRecentSearches.value = false;
+};
+
+const handleSearchClear = (refine: (value: string) => void) => {
+    refine('');
+    searchQuery.value = '';
+    localSearchValue.value = '';
+};
+
+const handleRecentSearchClick = (item: any) => {
+    // Navigate to the full saved URL with all facets
+    if (item.url) {
+        window.location.href = `/search/${item.url}`;
+    } else {
+        // Fallback to just the query
+        localSearchValue.value = item.query;
+        searchQuery.value = item.query;
+    }
+    showRecentSearches.value = false;
+};
+
+const handleRemoveRecentSearch = (query: string) => {
+    removeFromHistory(query);
+    historyTrigger.value++;
+};
+
+const handleClearAllHistory = () => {
+    clearSearchHistory();
+    historyTrigger.value++;
+};
+
 // --- Algolia current refinements (active facets) ---
-import { inject, computed } from 'vue';
 
 const aisState = inject<any>('$_ais_state');
 const currentRefinements = computed(() => {
@@ -562,11 +614,6 @@ onBeforeUnmount(() => {
     if (observer) observer.disconnect();
 });
 
-import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
-import { simple as defaultMapping } from 'instantsearch.js/es/lib/stateMappings';
-import { expand } from '@formkit/icons';
-
-const showAlgoliaTooltip = ref(false);
 const routerInstance = defaultRouter();
 
 
@@ -666,7 +713,8 @@ routerInstance.write = (routeState) => {
             return;
         }
 
-        if (!routeState[useRuntimeConfig().public.ELASTIC_INDEX].query) {
+        const indexKey = useRuntimeConfig().public.ELASTIC_INDEX;
+        if (!routeState[indexKey] || !routeState[indexKey].query) {
             console.error('No search query in route state, not saving to localStorage.');
             return;
         }

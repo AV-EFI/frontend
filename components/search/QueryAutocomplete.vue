@@ -3,36 +3,85 @@
     class="relative w-full"
     @mousedown.stop
   >
-    <FormKit
-      v-model="displayValue"
-      type="text"
-      :name="name"
-      :placeholder="placeholder"
-      :autofocus="true"
-      autocomplete="off"
-      outer-class="!max-w-none w-full"
-      inner-class="!rounded-xl !h-[56px] w-full dark:!bg-slate-950 dark:!text-white !rounded-r-none"
-      input-class="!text-lg px-4 w-full dark:!text-white !h-12"
-      :aria-label="ariaLabel"
-      aria-autocomplete="list"
-      aria-haspopup="listbox"
-      :aria-owns="listboxId"
-      :aria-expanded="showDropdown ? 'true' : 'false'"
-      :aria-activedescendant="activeDescId"
-      @input="onInput"
-      @focus="onFocus"
-      @blur="onBlur"
-      @keydown="onKeydown"
-    />
+    <div class="relative">
+      <FormKit
+        v-model="displayValue"
+        type="text"
+        :name="name"
+        :placeholder="placeholder"
+        :autofocus="true"
+        autocomplete="off"
+        outer-class="!max-w-none w-full"
+        inner-class="!rounded-xl !h-[56px] w-full dark:!bg-slate-950 dark:!text-white !rounded-r-none"
+        input-class="!text-lg px-4 pr-10 w-full dark:!text-white !h-12"
+        :prefix-icon="showInfoTooltip ? 'info' : undefined"
+        :aria-label="ariaLabel"
+        aria-autocomplete="list"
+        aria-haspopup="listbox"
+        :aria-owns="listboxId"
+        :aria-expanded="showDropdown ? 'true' : 'false'"
+        :aria-activedescendant="activeDescId"
+        @input="onInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @keydown="onKeydown"
+      >
+        <template
+          v-if="showInfoTooltip && infoTooltipText"
+          #prefixIcon
+        >
+          <span
+            class="formkit-icon relative group cursor-help my-auto flex justify-center"
+            :title="infoTooltipText"
+          >
+            <Icon
+              name="tabler:info-circle"
+              class="text-gray-500 dark:text-gray-300 text-xl"
+            />
+          </span>
+        </template>
+      </FormKit>
+      
+      <!-- Clear button inside input -->
+      <button
+        v-if="displayValue"
+        type="button"
+        class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+        :title="clearTitle"
+        :aria-label="clearTitle"
+        @mousedown.stop.prevent="onClear"
+      >
+        <Icon
+          class="text-lg text-gray-500 dark:text-gray-400"
+          name="mdi:clear-bold"
+          aria-hidden="true"
+        />
+      </button>
+    </div>
 
     <!-- Suggestions dropdown -->
     <div
       v-show="showDropdown"
       :id="listboxId"
-      class="absolute z-[1100] w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-64 overflow-auto"
+      class="absolute z-[1100] w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-96 overflow-auto"
       role="listbox"
       :aria-label="ariaLabel"
     >
+      <!-- Recent searches header (only when input is empty) -->
+      <div
+        v-if="(!displayValue || displayValue.trim() === '') && props.recentSearches && props.recentSearches.length > 0"
+        class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+      >
+        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Recent Searches</span>
+        <button
+          type="button"
+          class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+          @mousedown.stop.prevent="emit('clear-history')"
+        >
+          Clear All
+        </button>
+      </div>
+      
       <template v-if="visibleSuggestions.length">
         <button
           v-for="(s, i) in visibleSuggestions"
@@ -40,7 +89,7 @@
           :key="s.type + '::' + s.text + '::' + i"
           type="button"
           :class="[
-            'w-full text-left px-3 py-2 flex items-center gap-2',
+            'w-full text-left px-3 py-2 flex items-center gap-2 group',
             'hover:bg-gray-100 dark:hover:bg-gray-700',
             i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
           ]"
@@ -62,6 +111,15 @@
           >
             ({{ s.count }})
           </span>
+          <!-- Remove button for recent searches -->
+          <button
+            v-if="s.type === 'recent'"
+            type="button"
+            class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
+            @mousedown.stop.prevent="emit('remove-recent', s.text)"
+          >
+            <Icon name="mdi:close" class="text-sm" />
+          </button>
         </button>
       </template>
 
@@ -87,19 +145,27 @@ const props = defineProps<{
   name?: string
   placeholder?: string
   ariaLabel?: string
+  clearTitle?: string
+  showInfoTooltip?: boolean
+  infoTooltipText?: string
   noResultsText?: string
   facetAttr?: string
   size?: number
   iconMap?: IconMap
   enforceList?: boolean
+  recentSearches?: Array<{ query: string; url: string; timestamp: number }>
 }>();
 
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
   (e: 'select', v: string): void
   (e: 'submit', v: string): void
+  (e: 'clear'): void
   (e: 'focus'): void
   (e: 'blur'): void
+  (e: 'recent-search-click', item: any): void
+  (e: 'remove-recent', query: string): void
+  (e: 'clear-history'): void
 }>();
 
 // ======= State =======
@@ -129,6 +195,17 @@ watch(() => props.modelValue, (v) => {
     if (typeof v === 'string') {
         displayValue.value = v;
         lastSelected.value = v;
+        // Fetch suggestions when modelValue changes externally
+        if (v && v.trim() !== '') {
+            fetchSuggestions(v);
+        }
+    }
+});
+
+// Fetch suggestions on mount if there's an initial value
+onMounted(() => {
+    if (displayValue.value && displayValue.value.trim() !== '') {
+        fetchSuggestions(displayValue.value);
     }
 });
 
@@ -204,7 +281,18 @@ async function fetchSuggestions(q: string): Promise<number> {
 }
 
 // ======= Filtering =======
-const visibleSuggestions = computed(() => suggestions.value);
+const visibleSuggestions = computed(() => {
+    // If input is empty and we have recent searches, show them at top
+    if ((!displayValue.value || displayValue.value.trim() === '') && props.recentSearches && props.recentSearches.length > 0) {
+        const recentAsSuggestions = props.recentSearches.map(item => ({
+            text: item.query,
+            type: 'recent',
+            url: item.url
+        }));
+        return [...recentAsSuggestions, ...suggestions.value];
+    }
+    return suggestions.value;
+});
 
 // ======= No results message =======
 const noResultsMessage = computed(() => {
@@ -219,6 +307,7 @@ function onInput(v: any) {
     if (!v) {
         displayValue.value = '';
         if (enforced.value) lastSelected.value = '';
+        emit('update:modelValue', '');
         debounce(async () => {
             const used = await fetchSuggestions('');
             if (!alive.value || used !== fetchToken || !canOpen()) return;
@@ -266,15 +355,28 @@ function onBlur() {
                 lastSelected.value = displayValue.value;
                 emit('update:modelValue', displayValue.value);
                 emit('select', displayValue.value);
-            } else {
-                displayValue.value = lastSelected.value || '';
+            } else if (lastSelected.value) {
+                displayValue.value = lastSelected.value;
             }
+        } else {
+            // Update lastSelected for non-enforced mode too
+            lastSelected.value = displayValue.value;
         }
         emit('blur');
     }, 120);
 }
 
-function onSelect(s: Suggestion) {
+function onClear() {
+    displayValue.value = '';
+    lastSelected.value = '';
+    suggestions.value = [];
+    showDropdown.value = false;
+    highlighted.value = -1;
+    emit('update:modelValue', '');
+    emit('clear');
+}
+
+function onSelect(s: any) {
     // 1) Prevent any pending reopen
     blockReopen(400);
     cancelDebounce();
@@ -283,13 +385,19 @@ function onSelect(s: Suggestion) {
     highlighted.value = -1;
     suggestions.value = [];  // optional: clear immediately
 
-    // 2) Apply value + emit
+    // 2) If it's a recent search with URL, emit special event
+    if (s.type === 'recent' && s.url) {
+        emit('recent-search-click', { query: s.text, url: s.url });
+        return;
+    }
+
+    // 3) Apply value + emit for normal suggestions
     displayValue.value = s.text;
     lastSelected.value = s.text;
     emit('update:modelValue', s.text);
     emit('select', s.text);
 
-    // 3) Make sure any immediate focus/keyup can't reopen
+    // 4) Make sure any immediate focus/keyup can't reopen
     // (no-op; guarded by canOpen() in onFocus/onInput handlers)
 }
 
@@ -328,16 +436,21 @@ function onKeydown(e: KeyboardEvent) {
             highlighted.value = Math.max(highlighted.value - 1, 0);
         }
     } else if (key === 'Enter') {
-        if (highlighted.value >= 0 && visibleSuggestions.value[highlighted.value]) {
+        if (showDropdown.value && highlighted.value >= 0 && visibleSuggestions.value[highlighted.value]) {
             onSelect(visibleSuggestions.value[highlighted.value]);
             return;
         }
-        if (enforced.value) {
+        if (enforced.value && showDropdown.value) {
             const exact = suggestions.value.find(s => s.text === displayValue.value);
-            if (exact) onSelect(exact);
-            return;
+            if (exact) {
+                onSelect(exact);
+                return;
+            }
         }
+        // Submit current display value regardless of dropdown state
         emit('submit', displayValue.value || '');
+        showDropdown.value = false;
+        blockReopen(400);
     } else if (key === 'Escape') {
         showDropdown.value = false;
         blockReopen(250); // avoid immediate reopen from stray focus
@@ -346,10 +459,11 @@ function onKeydown(e: KeyboardEvent) {
 
 // ======= Public submit() =======
 function submit() {
-    if (enforced.value) {
-        if (lastSelected.value) emit('submit', lastSelected.value);
+    if (enforced.value && lastSelected.value) {
+        emit('submit', lastSelected.value);
         return;
     }
+    // Always submit current display value
     emit('submit', displayValue.value || '');
 }
 defineExpose({ submit });
@@ -364,6 +478,7 @@ function iconClassFor(typeOrFacet: string, _text: string) {
     if (im[typeOrFacet]) return im[typeOrFacet];
 
     const tt = (typeOrFacet || '').toLowerCase();
+    if (tt === 'recent')          return 'formkit:history';
     if (tt.includes('title'))     return im.title            || 'tabler:letter-t';
     if (tt.includes('subject'))   return im.subjects         || 'tabler:tags';
     if (tt.includes('language'))  return im.in_language_code || 'tabler:language';

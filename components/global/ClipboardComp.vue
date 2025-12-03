@@ -1,18 +1,24 @@
 <template>
   <span
     :class="fontSize"
-    class="flex flex-row items-center whitespace-break-spaces"
+    class="flex flex-row items-center whitespace-break-spaces gap-1"
   >
-    {{ displayText }}
-    &nbsp;
-    <Icon
-      class="text-primary-600 dark:hover:text-primary-100 dark:text-primary-300 my-auto cursor-pointer min-w-4"
-      :class="[fontSize, darkBg ? 'text-primary-200 hover:text-primary-300' : '']"
-      name="tabler:copy"
-      :alt="`Copy ${displayText}`"
-      :title="`Copy ${displayText}`"
+    <span>{{ displayText }}</span>
+    <button
+      type="button"
+      class="inline-flex items-center text-primary-600 dark:hover:text-primary-100 dark:text-primary-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 rounded"
+      :class="[darkBg ? 'text-primary-200 hover:text-primary-300' : '']"
+      :aria-label="`${$t('copyToClipboard')}: ${displayText}`"
+      :title="`${$t('copyToClipboard')}: ${displayText}`"
       @click="useClipboardUtil()?.copyExtended(copyText ?? displayText)"
-    />
+    >
+      <Icon
+        class="min-w-4"
+        :class="[fontSize]"
+        name="tabler:copy"
+        aria-hidden="true"
+      />
+    </button>
   </span>
 </template>
 <script setup lang="ts">

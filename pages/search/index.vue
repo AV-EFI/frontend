@@ -16,6 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi';
 

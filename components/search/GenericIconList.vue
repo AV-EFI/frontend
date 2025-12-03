@@ -14,6 +14,7 @@
       >
         <div
           class="flex min-w-[6rem] gap-1.5 items-start"
+          tabindex="0"
           :aria-label="entry.aria"
           :title="entry.aria"
         >
@@ -55,9 +56,10 @@
               <button
                 v-if="hasOverflow(entry)"
                 type="button"
-                class="badge badge-accent badge-xs text-xs ml-1"
+                class="badge badge-accent badge-xs text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
                 :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
                 :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                :aria-controls="`icon-list-${entry.key}`"
                 @click="toggleExpand(entry.key)"
               >
                 {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})` }}
@@ -83,6 +85,7 @@
       >
         <div
           class="flex flex-row items-start gap-1.5 min-w-[6rem]"
+          tabindex="0"
           :aria-label="entry.aria"
           :title="entry.aria"
         >
@@ -112,9 +115,10 @@
               <button
                 v-if="hasOverflow(entry)"
                 type="button"
-                class="badge badge-neutral badge-outline badge-sm text-xs ml-1"
+                class="badge badge-neutral badge-outline badge-sm text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
                 :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
                 :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                :aria-controls="`icon-list-${entry.key}`"
                 @click="toggleExpand(entry.key)"
               >
                 {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})` }}

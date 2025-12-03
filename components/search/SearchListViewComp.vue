@@ -24,12 +24,26 @@
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
             :display-text="`${work?.handle ?? ''}`"
             :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
+            tabindex="0"
+            role="button"
+            :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`"
           />
           <h2
             :id="`work-title-${work?.handle ?? ''}`"
             class="card-title text-lg font-semibold mb"
           >
-            {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
+            <NuxtLink
+              v-if="work?.handle"
+              :to="`/res/${work.handle}`"
+              class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+              :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
+              target="_blank"
+            >
+              {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
+            </NuxtLink>
+            <span v-else>
+              {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
+            </span>
             <MicroBadgeCategoryComp
               :category="work?.category || 'avefi:WorkVariant'"
               :dense="false"
@@ -38,30 +52,33 @@
           </h2>
           <h3
             v-if="work?.has_record?.has_alternative_title"
+            class="text-sm"
           >
             <ul v-if="work?.has_record?.has_alternative_title">
               <li
                 v-for="alt in work?.has_record?.has_alternative_title"
                 :key="alt.id"
+                tabindex="0"
+                :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`"
               >
                 {{ alt.has_name }} ({{ $t(alt.type) }})
               </li>
             </ul>
           </h3>
         </div>
-        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group" :aria-label="$t('actions')">
           <NuxtLink 
             v-if="work?.handle"
             :to="`/res/${work.handle}`"
-            class="btn btn-circle btn-outline btn-md mr-2"
-            :aria-label="$t('detailviewlink')"
+            class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            :aria-label="`${$t('detailviewlink')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
             :title="$t('detailviewlink')"
             target="_blank"
           >
             <Icon
               name="mdi:eye-outline"
               class="text-2xl"
-              :alt="$t('detailviewlink')"
+              aria-hidden="true"
             />
           </NuxtLink>
           <GlobalActionContextComp
@@ -84,6 +101,9 @@
       <div
         v-if="work && work.handle && showHighlight[work.handle] && getHighlightSnippets(work).length > 0"
         class="my-2 ml-3 text-sm highlight-snippets"
+        tabindex="0"
+        role="region"
+        :aria-label="$t('lookWhatWeFound')"
       >
         <span>✨ <strong>{{ $t('lookWhatWeFound') }}</strong></span>
         <ul>
@@ -100,17 +120,17 @@
     <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center rounded-b-xl">
       <button
         v-if="work && work.handle"
-        class="btn btn-highlight btn-xs my-2"
-        :aria-label="$t('toggleDetails')"
+        class="btn btn-highlight btn-xs my-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        :aria-label="`${isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
         :title="$t('toggleDetails')"
         :aria-expanded="isExpanded[work.handle] || false"
+        :aria-controls="`details-${work.handle}`"
         @click="isExpanded[work.handle] = !isExpanded[work.handle]; showHighlight[work.handle] = !showHighlight[work.handle]"
       >
         <Icon
           :name="isExpanded[work.handle] ? 'mdi:minus' : 'mdi:plus'"
           class="text-lg"
-          :alt="isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')"
-          :title="isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')"
+          aria-hidden="true"
         />
         <span class="text-sm">
           {{ isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems') }}
@@ -124,7 +144,10 @@
     </div>
     <div
       v-show="work && work.handle && isExpanded[work.handle]"
+      :id="`details-${work.handle}`"
       class="card-body p-4 pt-0"
+      role="region"
+      :aria-labelledby="`work-title-${work?.handle ?? ''}`"
     >      
       <!-- EO WorkVariant -->
       <!-- Manifestations -->

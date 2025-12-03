@@ -8,14 +8,20 @@
         :placeholder="$t('searchplaceholder')"
         :aria-label="ariaLabel"
         :icon-map="iconMap"
+        :recent-searches="recentSearchesWithUrl"
         @submit="onSubmit"
+        @clear="term = ''"
+        @recent-search-click="handleRecentSearchClick"
+        @remove-recent="handleRemoveRecentSearch"
+        @clear-history="handleClearAllHistory"
+        @keydown.enter="submitFromButton"
       />
       <button
         type="button"
         class="btn btn-primary btn-lg h-[56px] !rounded-l-none !rounded-r-xl"
         @click="submitFromButton"
       >
-        {{ $t('search') }}
+        {{ buttonText }}
       </button>
     </div>
 
@@ -51,9 +57,22 @@ const route = useRoute();
 const term = ref(props.modelValue ?? '');
 const qaRef = ref<{ submit: () => void } | null>(null);
 
+// Search history
+const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
+const historyTrigger = ref(0);
+const recentSearchesWithUrl = computed(() => {
+    historyTrigger.value; // Make reactive
+    return getSearchHistory();
+});
+
 const ariaLabel = computed(() => props.ariaLabel ?? 'Search input');
 const buttonLabel = computed(() => props.buttonLabel ?? 'Search');
 const hint = computed(() => props.hint ?? '');
+
+const { t } = useI18n();
+const buttonText = computed(() => 
+    term.value?.trim() ? t('search') : t('showEntireCollection')
+);
 
 const iconMap = FACET_ICON_MAP;
 
@@ -63,8 +82,28 @@ function pushRoute(q: string) {
     router.push({ path: route.path, query });
 }
 
+function handleRecentSearchClick(item: any) {
+    if (item.url) {
+        window.location.href = `/search/${item.url}`;
+    }
+}
+
+function handleRemoveRecentSearch(query: string) {
+    removeFromHistory(query);
+    historyTrigger.value++;
+}
+
+function handleClearAllHistory() {
+    clearSearchHistory();
+    historyTrigger.value++;
+}
+
 function onSubmit(v: string) {
     term.value = v;
+    if (v && v.trim() !== '') {
+        addToSearchHistory(v);
+        historyTrigger.value++;
+    }
     emit('update:modelValue', term.value);
     emit('search', { q: term.value });
     redirectToSearchScreen(term.value);

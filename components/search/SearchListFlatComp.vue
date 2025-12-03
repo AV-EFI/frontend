@@ -14,17 +14,20 @@
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
             :display-text="work?.handle ?? ''"
             :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
+            tabindex="0"
+            role="button"
+            :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`"
           />
           <h2
+            :id="`flat-work-title-${work?.handle ?? ''}`"
             class="font-bold text-lg my-1"
-            :alt="$t('title')"
-            :title="$t('title')"
           >
             <a
               :href="`/film/${work.objectID}`"
+              :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
               :title="$t('detailviewlink')"
               target="_blank"
-              class="link dark:link-white no-underline hover:underline"
+              class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-1"
             >
               <span 
                 v-if="work._highlightResult?.has_record?.has_primary_title?.has_name"
@@ -46,6 +49,7 @@
           </h2>
           <h3
             v-if="work?.has_record?.has_alternative_title"
+            class="text-sm"
           >
             <ul
               v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name"
@@ -54,7 +58,8 @@
                 v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name"
                 :key="idx"
                 class="block"
-                :aria-label="$t('alternativeTitle')"
+                tabindex="0"
+                :aria-label="`${$t('alternativeTitle')}: ${work.has_record?.has_alternative_title?.[idx]?.has_name || ''} ${work.has_record?.has_alternative_title?.[idx]?.type ? '(' + $t(work.has_record.has_alternative_title[idx].type) + ')' : ''}`"
               >
                 <span v-html="alt.value" />
                 <span v-if="work.has_record?.has_alternative_title?.[idx]?.type">
@@ -66,25 +71,27 @@
               <li
                 v-for="alt in work?.has_record?.has_alternative_title"
                 :key="alt.id"
+                tabindex="0"
+                :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`"
               >
                 {{ alt.has_name }} ({{ $t(alt.type) }})
               </li>
             </ul>
           </h3>
         </div>
-        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto">
+        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group" :aria-label="$t('actions')">
           <NuxtLink 
             v-if="work?.handle"
             :to="`/film/${work.handle}`"
-            class="btn btn-circle btn-outline btn-md mr-2"
-            :aria-label="$t('detailviewlink')"
+            class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            :aria-label="`${$t('detailviewlink')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
             :title="$t('detailviewlink')"
             target="_blank"
           >
             <Icon
               name="mdi:eye-outline"
               class="text-2xl"
-              :alt="$t('detailviewlink')"
+              aria-hidden="true"
             />
           </NuxtLink>
           <GlobalActionContextComp
@@ -103,12 +110,13 @@
 
     <div class="divider my-0 divider-primary" />
     <!-- Search + Dropdown (FormKit) -->
-    <div class="px-4 py-2 flex items-center gap-2">
+    <div class="px-4 py-2 flex items-center gap-2" role="search" :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
       <FormKit
         type="dropdown"
         :name="`item-search-${work?.handle ?? ''}`"
         :label="$t('searchItems')"
         :placeholder="$t('searchItems')"
+        :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
         :options="suggestionsForWork(work).map(s => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
         :value="Array.isArray(searchQuery[work?.handle ?? '']) ? searchQuery[work?.handle ?? ''] : (searchQuery[work?.handle ?? ''] ? [searchQuery[work?.handle ?? '']] : [])"
         multiple
@@ -132,8 +140,10 @@
       <template v-else>
         <div class="flex items-center gap-2  bg-base-200/50">
           <button
-            class="btn btn-sm btn-outline"
-            :aria-label="$t('previous') || 'Previous'"
+            class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            :aria-label="`${$t('previous') || 'Previous'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+            :aria-controls="`carousel-${work?.handle ?? ''}`"
+            :disabled="carouselIndex[work?.handle ?? ''] === 0"
             @click="prev(work?.handle ?? '')"
           >
             ‹
@@ -208,15 +218,17 @@
                 </div>
                 <div class="flex justify-end p-2">
                   <button 
-                    class="btn btn-sm btn-block btn-outline mt-2"
-                    :aria-label="$t('viewItemDetails')"
+                    class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    :aria-label="`${$t('viewItemDetails')}: ${row.item?.handle || ''}`"
                     :title="$t('viewItemDetails')"
                     @click="navigateToItem(row.item, work?.handle ?? '')"
                   >
                     <Icon
                       name="mdi:eye-outline"
                       class="w-4 h-4 mr-1"
+                      aria-hidden="true"
                     />
+                    <span class="sr-only">{{ $t('viewItemDetails') }}</span>
                   </button>
                 </div>
               </article>
@@ -224,8 +236,10 @@
           </div>
 
           <button
-            class="btn btn-sm btn-outline"
-            :aria-label="$t('next') || 'Next'"
+            class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            :aria-label="`${$t('next') || 'Next'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+            :aria-controls="`carousel-${work?.handle ?? ''}`"
+            :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1"
             @click="next(work?.handle ?? '')"
           >
             ›

@@ -40,8 +40,14 @@
                 :help-text="$t('exactSearchTip')"
                 :dropdown-aria-label="$t('showSuggestions')"
                 :no-results-text="$t('noSuggestionsFound')"
+                :recent-searches="recentSearchesWithUrl"
                 @submit="onSubmit"
+                @clear="searchTerm = ''"
                 @select="onMainSelect"
+                @recent-search-click="handleRecentSearchClick"
+                @remove-recent="handleRemoveRecentSearch"
+                @clear-history="handleClearAllHistory"
+                @keydown.enter="redirectToSearchScreen"
               />
             </div>
 
@@ -54,7 +60,7 @@
                 :aria-label="$t('submitSearch')"
                 @click="handleClick"
               >
-                {{ $t('search') }}
+                {{ buttonText }}
               </button>
             </div>
           </div>
@@ -241,6 +247,14 @@ const { t, locale } = useI18n();
 const showValidationWarning = ref(false);
 const searchDataStore = useSearchParamsStore();
 
+// Search history
+const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
+const historyTrigger = ref(0);
+const recentSearchesWithUrl = computed(() => {
+    historyTrigger.value; // Make reactive
+    return getSearchHistory();
+});
+
 // Ensure nested branch exists
 if (!searchDataStore.formData.regularSearch) {
     searchDataStore.formData.regularSearch = { searchTerm: '', optionsList: [] };
@@ -260,6 +274,11 @@ const searchTerm = computed<string>({
 const canSubmit = computed(() =>
     (searchTerm.value?.trim()?.length ?? 0) > 0 ||
   facetFilters.value.some(f => f.facet && (f.valueRaw?.toString()?.trim()?.length ?? 0) > 0)
+);
+
+// --- Button text changes based on search term ---
+const buttonText = computed(() => 
+    searchTerm.value?.trim() ? t('search') : t('showEntireCollection')
 );
 
 // ---------------------- Facets meta & options ----------------------
@@ -574,9 +593,39 @@ async function onFacetDropdownClick(index: number) {
     row.showSuggestions = row.suggestions.length > 0;
 }
 
+// ---------------------- Recent search handlers ----------------------
+function handleRecentSearchClick(item: any) {
+    if (item.url) {
+        window.location.href = `/search/${item.url}`;
+    }
+}
+
+function handleRemoveRecentSearch(query: string) {
+    removeFromHistory(query);
+    historyTrigger.value++;
+}
+
+function handleClearAllHistory() {
+    clearSearchHistory();
+    historyTrigger.value++;
+}
+
+function handleSearchSubmit(value: string) {
+    if (value && value.trim() !== '') {
+        addToSearchHistory(value);
+        historyTrigger.value++;
+    }
+}
+
 // ---------------------- Main search select passthrough ----------------------
 function onMainSelect(v: string) {
     searchTerm.value = v;
+}
+
+function onSubmit(v: string) {
+    searchTerm.value = v;
+    handleSearchSubmit(v);
+    redirectToSearchScreen();
 }
 
 // ---------------------- Redirect (uses RAW values) ----------------------

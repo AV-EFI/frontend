@@ -64,6 +64,10 @@ import { useNuxtApp } from 'nuxt/app';
 import { setResponseStatus } from 'h3';
 import filmQuotesData from '~/data/film-quotes.json';
 
+definePageMeta({
+    name: 'error-500'
+});
+
 const { locale, t } = useI18n();
 const currentLocale = computed(() => locale.value);
 

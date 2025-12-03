@@ -50,8 +50,4 @@ em {
 .search-panel__results {
   flex: 3;
 }
-
-.searchbox {
-  margin-bottom: 2rem;
-}
 </style>

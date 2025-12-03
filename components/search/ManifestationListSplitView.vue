@@ -6,19 +6,19 @@
         <li
           v-for="(m, i) in paginatedManifestations"
           :key="i + currentPage"
-          :aria-label="$t('clickToSelectManifestation')"
-          :title="$t('clickToSelectManifestation')"
           class="px-2 pt-2"
         >
-          <a
-            class="group min-h-20 px-1 py-4 cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm"
+          <button
+            type="button"
+            class="group min-h-20 px-1 py-4 w-full text-left cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :class="[
               'transition-all duration-200 ease-in-out border',
               selectedIndex === i + currentPage * itemsPerPage
                 ? 'border-primary'
                 : 'border-transparent hover:border-base-300 dark:hover:border-base-400'
             ]"
-            :aria-current="selectedIndex === i + currentPage * itemsPerPage ? 'true' : 'false'"
+            :aria-label="`${$t('selectManifestation')}: ${m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer')} - ${getFilteredItems(m).length} ${$t('items')}`"
+            :aria-pressed="selectedIndex === i + currentPage * itemsPerPage"
             @click="selectedIndex = i + currentPage * itemsPerPage; triggerScrollToItem()"
           >
             <div class="flex flex-col justify-center leading-tight w-full">
@@ -46,7 +46,7 @@
                 :aria-label="$t('copyManifestationHandle')"
                 :dark-bg="false"
               />
-              <div class="text-sm font-medium mt-0.5">
+              <div class="text-sm font-medium mt-0.5" tabindex="0" :aria-label="`${$t('issuer')}: ${m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer')}`">
                 {{ m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer') }}
               </div>
               <SearchGenericIconList
@@ -54,15 +54,18 @@
                 level="manifestation"
               />
               <button 
-                class="btn btn-primary btn-outline btn-sm mt-2"
-                :aria-label="$t('viewManifestationDetails')"
+                type="button"
+                class="btn btn-primary btn-outline btn-sm mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                :aria-label="`${$t('viewManifestationDetails')}: ${m.handle}`"
                 :title="$t('viewManifestationDetails')"
                 @click.stop="navigateToItem(m)"
               >
                 <Icon
                   name="mdi:eye-outline"
                   class="w-4 h-4 mr-1"
+                  aria-hidden="true"
                 />
+                <span class="sr-only">{{ $t('viewManifestationDetails') }}</span>
               </button>
             </div>
             <div class="flex items-center px-1 self-start sm:self-center">
@@ -73,7 +76,7 @@
                 aria-hidden="true"
               />
             </div>
-          </a>
+          </button>
 
           <!-- Collapsible mobile detail -->
           <transition name="fade-slide">
@@ -96,11 +99,14 @@
                   v-for="(item, j) in getFilteredItems(m).slice(0, 3)"
                   :key="j"
                   class="bg-base-100 dark:bg-base-300 rounded-md p-2"
+                  tabindex="0"
+                  :aria-label="`${$t('item')}: ${item?.handle}`"
                 >
                   <div class="flex gap-2 items-center mb-1">
                     <Icon
                       name="tabler:tree"
                       class="text-primary w-4 h-4"
+                      aria-hidden="true"
                     />
                     <span class="text-sm font-semibold">{{ item?.handle }}</span>
                   </div>
@@ -124,18 +130,22 @@
 
       <div class="flex justify-between items-center mt-2 p-2">
         <button
-          class="btn btn-xs btn-outline"
+          type="button"
+          class="btn btn-xs btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           :disabled="currentPage === 0"
+          :aria-label="`${$t('prevPage')}: ${$t('manifestations')}`"
           @click="prevPage"
         >
           {{ $t('prevPage') }}
         </button>
-        <span class="text-xs">
+        <span class="text-xs" role="status" aria-live="polite">
           {{ $t('page') }} {{ currentPage + 1 }} / {{ totalPages }} — {{ manifestations.length }} {{ $t('total') }}
         </span>
         <button
-          class="btn btn-xs btn-outline"
+          type="button"
+          class="btn btn-xs btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           :disabled="currentPage >= totalPages - 1"
+          :aria-label="`${$t('nextPage')}: ${$t('manifestations')}`"
           @click="nextPage"
         >
           {{ $t('nextPage') }}
@@ -178,18 +188,21 @@
                 <Icon
                   name="tabler:hierarchy"
                   class="text-primary w-4 h-4 shrink-0"
+                  aria-hidden="true"
                 />
                 <MicroBadgeCategoryComp
                   category="avefi:Item"
                   :dense="false"
                 />
               </div>
-              <GlobalClipboardComp 
-                :display-text="item.handle"
-                class="font-semibold hover:text-gray-700 dark:hover:text-gray-300 my-2"
-                :aria-label="$t('copyItemHandle')"
-                font-size="text-sm"
-              />
+              <div tabindex="0" :aria-label="`${$t('item')}: ${item.handle}`" class="inline-block">
+                <GlobalClipboardComp 
+                  :display-text="item.handle"
+                  class="font-semibold hover:text-gray-700 dark:hover:text-gray-300 my-2"
+                  :aria-label="$t('copyItemHandle')"
+                  font-size="text-sm"
+                />
+              </div>
               <SearchGenericIconList
                 :data="item"
                 level="item"
@@ -199,26 +212,30 @@
                   v-if="item?.has_record?.has_webresource"
                   :href="item.has_record.has_webresource"
                   target="_blank"
-                  class="link link-primary dark:link-accent inline-flex items-center gap-1"
+                  class="link link-primary dark:link-accent inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                  :aria-label="`${$t('webresource')}: ${item.has_record.has_webresource}`"
                 >
                   <GlobalTooltipInfo
                     :text="$t('tooltip.webresource')"
                   />
-                  <Icon name="tabler:external-link" />
+                  <Icon name="tabler:external-link" aria-hidden="true" />
                   {{ $t('webresource') }}
                 </a>
               </div>
               <div class="flex justify-end">
                 <button 
-                  class="btn btn-sm btn-block btn-outline mt-2"
-                  :aria-label="$t('viewItemDetails')"
+                  type="button"
+                  class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  :aria-label="`${$t('viewItemDetails')}: ${item.handle}`"
                   :title="$t('viewItemDetails')"
                   @click="navigateToItem(item)"
                 >
                   <Icon
                     name="mdi:eye-outline"
                     class="w-4 h-4 mr-1"
+                    aria-hidden="true"
                   />
+                  <span>{{ $t('viewItemDetails') }}</span>
                 </button>
               </div>
             </li>
@@ -227,18 +244,22 @@
 
         <div class="flex justify-between items-center mt-2 px-2 text-xs">
           <button
-            class="btn btn-xs btn-outline"
+            type="button"
+            class="btn btn-xs btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :disabled="itemPage === 0"
+            :aria-label="`${$t('prevPage')}: ${$t('items')}`"
             @click="prevItemPage"
           >
             {{ $t('prevPage') }}
           </button>
-          <span>
+          <span role="status" aria-live="polite">
             {{ $t('page') }} {{ itemPage + 1 }} / {{ totalItemPages }}
           </span>
           <button
-            class="btn btn-xs btn-outline"
+            type="button"
+            class="btn btn-xs btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :disabled="itemPage >= totalItemPages.value - 1"
+            :aria-label="`${$t('nextPage')}: ${$t('items')}`"
             @click="nextItemPage"
           >
             {{ $t('nextPage') }}
@@ -250,6 +271,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, watch, nextTick } from 'vue';
+
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },
@@ -299,6 +322,11 @@ const navigateToItem = (item: any) => {
     const itemPath = `/res/${props.workVariantHandle}#${item?.handle?.replace('21.11155/', '')}`;
     window.open(itemPath, '_blank');
 };
+
+watch(selectedManifestation, () => {
+    itemPage.value = 0;
+    triggerScrollToItem();
+});
 
 function triggerScrollToItem() {
     nextTick(() => {

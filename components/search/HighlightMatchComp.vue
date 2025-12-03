@@ -1,5 +1,5 @@
 <template>
-  <li class="text-sm ml-2">
+  <li class="text-sm ml-2" tabindex="0">
     <span class="font-bold text-sm">
       {{ $t(`${field}`) }}:
     </span>
