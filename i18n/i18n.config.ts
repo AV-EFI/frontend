@@ -622,6 +622,12 @@ export default defineI18nConfig(() => ({
                     "description": "The AVefi vocabulary browser displays authority data fields like genre or keywords used across participating film archives.",
                     "descriptionWithField": "Vocabulary view for the field \"{field}\". Explore used authority data and their usage in the holdings of AVefi partner archives.",
                     "descriptionWithFieldAndFilter": "Vocabulary view for the field \"{field}\" with entries matching \"{filter}\". Explore used authority data across participating film archives."
+                },
+                "compare": {
+                    "title": "Compare Datasets – AVefi",
+                    "titleWithItems": "Compare {prev} vs {next} – AVefi",
+                    "description": "Compare two audiovisual work records side by side with difference highlighting.",
+                    "descriptionWithItems": "Side-by-side comparison of two film work records with synchronized views and difference highlighting for research and analysis."
                 }
             },
             ...avefiLocales.en
@@ -1247,6 +1253,12 @@ export default defineI18nConfig(() => ({
                     "description": "Der Vokabularbrowser von AVefi zeigt genutzte Normdaten-Felder wie Genre oder Schlagwörter über teilnehmende Filmarchive hinweg.",
                     "descriptionWithField": "Vokabularansicht für das Feld \"{field}\". Erkunden Sie genutzte Normdaten und deren Nutzung in den Beständen der AVefi-Partnerarchive.",
                     "descriptionWithFieldAndFilter": "Vokabularansicht für das Feld \"{field}\" mit Einträgen passend zu \"{filter}\". Erkunden Sie genutzte Normdaten über teilnehmende Filmarchive hinweg."
+                },
+                "compare": {
+                    "title": "Datensätze vergleichen – AVefi",
+                    "titleWithItems": "Vergleich {prev} vs {next} – AVefi",
+                    "description": "Vergleichen Sie zwei Datensätze audiovisueller Werke nebeneinander mit Unterschiedshervorhebung.",
+                    "descriptionWithItems": "Seitenvergleich zweier Filmwerk-Datensätze mit synchronisierten Ansichten und Unterschiedshervorhebung für Forschung und Analyse."
                 }
             },
             ...avefiLocales.de
