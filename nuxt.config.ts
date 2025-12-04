@@ -361,7 +361,7 @@ export default defineNuxtConfig({
         build: {
             chunkSizeWarningLimit: 750,
             target: 'esnext',
-            cssCodeSplit: process.env.NODE_ENV === 'production', // Only split CSS in production
+            cssCodeSplit: true,
             cssMinify: 'esbuild', // Use esbuild instead of lightningcss for compatibility
             rollupOptions: {
                 output: {

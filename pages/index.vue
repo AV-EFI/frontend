@@ -567,7 +567,7 @@ const cardItems = ref([
         link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
         imgAlt: 'AVefi Platzhalter Bild',
         imgCoverType: '',
-        imgSrc: '/img/placeholder-800x600.png',
+        imgSrc: '/img/placeholder-16x9.svg',
         imgSourceLink: '', // Ensure this is always a string
         imgSourceText: '',
         imgAuthor: '',
