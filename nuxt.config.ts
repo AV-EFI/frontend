@@ -361,37 +361,6 @@ export default defineNuxtConfig({
         build: {
             chunkSizeWarningLimit: 750,
             target: 'esnext',
-            cssCodeSplit: true,
-            cssMinify: 'esbuild', // Use esbuild instead of lightningcss for compatibility
-            rollupOptions: {
-                output: {
-                    manualChunks: (id: string) => {
-                        // Split vendor chunks for better caching
-                        if (id.includes('node_modules')) {
-                            if (id.includes('vue') || id.includes('vue-router')) {
-                                return 'vue-vendor';
-                            }
-                            if (id.includes('instantsearch') || id.includes('algoliasearch')) {
-                                return 'search-vendor';
-                            }
-                            // Separate chunk for other vendors
-                            return 'vendor';
-                        }
-                        // Split large CSS files
-                        if (id.includes('main.scss')) {
-                            return 'styles-main';
-                        }
-                        return undefined;
-                    },
-                    // Optimize CSS output
-                    assetFileNames: (assetInfo: { name?: string }) => {
-                        if (assetInfo.name?.endsWith('.css')) {
-                            return 'assets/css/[name]-[hash][extname]';
-                        }
-                        return 'assets/[name]-[hash][extname]';
-                    },
-                },
-            },
         },
         logLevel: 'error',
         css: {
