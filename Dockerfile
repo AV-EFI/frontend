@@ -4,6 +4,7 @@ ARG NODE_VERSION=20.19.4
 # Create build stage
 FROM node:${NODE_VERSION}-slim AS build
 
+ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Install git (Debian-based)
