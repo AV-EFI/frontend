@@ -6,13 +6,13 @@
     :open="showForm"
   >
     <summary
-      class="btn"
+      class="btn btn-xl min-h-6 h-auto"
       :title="showForm ? $t('closeForm') : $t('openForm')"
       :aria-label="showForm ? $t('closeForm') : $t('openForm')"
       :aria-expanded="showForm"
       @click.prevent="toggleForm"
     >
-    <Icon name="tabler:send " />
+    <Icon class="w-4 h-4 shrink-0" name="tabler:send" />
     </summary>
 
     <div
