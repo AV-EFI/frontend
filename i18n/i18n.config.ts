@@ -550,7 +550,7 @@ export default defineI18nConfig(() => ({
             },
             "build": {
                 "linked": {
-                    "title": "Daten verbinden",
+                    "title": "Link data",
                     "lead": "AVefi links film metadata from various institutions through unified identifiers, creating an open research infrastructure for audiovisual works.",
                     "authority": "Authority",
                     "crosswalk": "Crosswalk"

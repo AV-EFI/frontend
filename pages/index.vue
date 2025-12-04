@@ -199,7 +199,7 @@
 
     <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
     <section class="relative border-t border-base-200 py-6" role="region" :aria-label="$t('timeline.title')">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 min-h-[400px] ">
         <h3 class="text-3xl bree font-extrabold mb-6 text-center" tabindex="0">
           {{ $t('timeline.title') }}
         </h3>
@@ -252,9 +252,9 @@
 
     <!-- ======= CORE FUNCTIONS (your three cards) ======= -->
     <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-6">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="card shadow-md" role="group" :aria-label="$t('coreFunctionsTitle')">
+          <div class="card md:p-2 shadow-md" role="group" :aria-label="$t('coreFunctionsTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2">
                 <Icon name="fa:desktop" class="text-2xl text-primary" aria-hidden="true" />
@@ -279,7 +279,7 @@
             </div>
           </div>
 
-          <div class="card shadow-md" role="group" :aria-label="$t('forFilmResearchersTitle')">
+          <div class="card md:p-2 shadow-md" role="group" :aria-label="$t('forFilmResearchersTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2">
                 <Icon name="fa-film" class="text-2xl text-primary" aria-hidden="true" />
@@ -303,7 +303,7 @@
             </div>
           </div>
 
-          <div class="card shadow-md" role="group" :aria-label="$t('technicalBasicsTitle')">
+          <div class="card md:p-2 shadow-md" role="group" :aria-label="$t('technicalBasicsTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2">
                 <!-- Keyboardable swap -->
@@ -342,7 +342,7 @@
 
     <!-- ======= VIDEO BAND (kept, restyled) ======= -->
     <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-6">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <ClientOnly>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div class="lg:col-span-6">
@@ -374,7 +374,7 @@
 
     <!-- ======= PARTNERS (kept) ======= -->
     <section role="region" :aria-label="$t('partnersSection')" class="relative border-t border-base-200 py-6">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">
             <div class="">

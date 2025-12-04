@@ -41,7 +41,7 @@
               class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items md:hidden"
             >
               <li class="h-12 flex justify-center mr-2">
-                <MicroSendMailButt />
+                <LazyMicroSendMailButt />
               </li>
               <li class="h-12 flex justify-center">
                 <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
@@ -196,7 +196,7 @@
               <a href="/contact">{{ $t("faqAndGlossary") }}</a>
             </li>
             <li class="h-12 flex justify-center mr-2">
-              <MicroSendMailButt />
+              <LazyMicroSendMailButt />
             </li>
             <li
               v-if="data?.user"
