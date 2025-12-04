@@ -6,7 +6,7 @@
     :open="showForm"
   >
     <summary
-      class="btn btn-xl min-h-6 h-auto"
+      class="btn min-h-6 h-auto"
       :title="showForm ? $t('closeForm') : $t('openForm')"
       :aria-label="showForm ? $t('closeForm') : $t('openForm')"
       :aria-expanded="showForm"
