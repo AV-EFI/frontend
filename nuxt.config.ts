@@ -34,6 +34,14 @@ export default defineNuxtConfig({
             { baseName: 'glossary', dir: 'assets/glossary' }
         ],
         debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
+        prerender: {
+            crawlLinks: false,
+            routes: [
+                '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406',
+                '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88',
+                // Add more important film pages here
+            ]
+        }
     },
     modules: [
         '@pinia/nuxt',

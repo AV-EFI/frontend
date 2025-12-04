@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="item.has_record?.category === 'avefi:WorkVariant'"
+    v-if="item?.has_record?.category === 'avefi:WorkVariant'"
     class="dropdown dropdown-end"
   >
     <div
@@ -8,7 +8,7 @@
       role="button"
       aria-haspopup="true"
       aria-expanded="false"
-      :aria-label="$t('moreOptionsFor') + ' ' + (item?.has_record?.has_primary_title?.has_name || '')"
+      :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || '')"
       class="btn btn-outline btn-circle"
       :class="['btn-' + compSize]"
     >
@@ -30,7 +30,7 @@
         <div class="w-full p-0 my-0 mx-auto justify-center items-center">
           <LazyCartAddToShoppingCartComp
             :film-id="id ?? item?.handle"
-            :film-title="item?.has_record?.has_primary_title.has_name"
+            :film-title="item?.compound_record?._source?.has_record?.has_primary_title?.has_name"
             class="w-48 btn-block btn-sm flex item-start"
             role="menuitem"
           />
@@ -43,7 +43,6 @@
         <div class="w-full p-0 my-0 mx-auto justify-center items-center z-20">
           <LazyCartAddToComparisonComp
             :film-id="id ?? item?.handle"
-            :film-title="item?.has_record?.has_primary_title.has_name"
             class="btn-block btn-sm w-48 flex item-start"
             role="menuitem"
           />
@@ -71,7 +70,8 @@
 defineProps({
     item: {
         type: Object,
-        required: true,
+        required: false,
+        default: undefined,
     },
     compSize: {
         type: String,

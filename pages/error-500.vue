@@ -38,7 +38,7 @@
               :to="randomQuote.avefiUrl" 
               class="text-xs text-primary hover:underline inline-flex items-center gap-1"
             >
-              <Icon name="tabler:film" class="w-3 h-3" />
+              <Icon name="tabler:movie" class="w-3 h-3" />
               {{randomQuote.film}} @ AVefi
             </NuxtLink>
             <a 

@@ -14,7 +14,6 @@ export const useResourceData = async (id: string, prefix?: string) => {
         }
   
         const data: ElasticGetByIdResponse | null = await getDataSet(fullId);
-        console.log('Data:', data);
   
         // Extract resource_type from the response if available
         if (data?.compound_record?.resource_type) {
