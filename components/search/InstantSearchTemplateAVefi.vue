@@ -371,11 +371,29 @@ onMounted(() => {
     });
 });
 
+// Update URL query parameter
+const updateUrlQueryParam = (query: string) => {
+    if (typeof window === 'undefined') return;
+    
+    const url = new URL(window.location.href);
+    if (query && query.trim()) {
+        url.searchParams.set('query', query.trim());
+    } else {
+        url.searchParams.delete('query');
+    }
+    
+    // Update URL without triggering page reload
+    window.history.replaceState({}, '', url.toString());
+};
+
 // Search handlers
 const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
     console.log('handleSearchSubmit called with:', value);
     if (value && value.trim() !== '') {
-        addToSearchHistory(value);
+        // Update URL first, then save to history with the correct URL
+        updateUrlQueryParam(value);
+        const searchUrl = `?query=${encodeURIComponent(value.trim())}`;
+        addToSearchHistory(value, searchUrl);
         historyTrigger.value++;
         console.log('Search history after add:', getSearchHistory());
     }
@@ -388,16 +406,24 @@ const handleSearchClear = (refine: (value: string) => void) => {
     refine('');
     searchQuery.value = '';
     localSearchValue.value = '';
+    updateUrlQueryParam('');
 };
 
 const handleRecentSearchClick = (item: any) => {
-    // Navigate to the full saved URL with all facets
-    if (item.url) {
-        window.location.href = `/search/${item.url}`;
+    console.log('handleRecentSearchClick called with:', item);
+    // Navigate to the search page with the saved query
+    if (item.url && item.url.trim()) {
+        // item.url contains the full query string (e.g., "?query=something")
+        const fullUrl = `/search/${item.url}`;
+        console.log('Navigating to:', fullUrl);
+        window.location.href = fullUrl;
+    } else if (item.query) {
+        // Fallback: construct URL from query if url is missing
+        const fullUrl = `/search/?query=${encodeURIComponent(item.query)}`;
+        console.log('Fallback - Navigating to:', fullUrl);
+        window.location.href = fullUrl;
     } else {
-        // Fallback to just the query
-        localSearchValue.value = item.query;
-        searchQuery.value = item.query;
+        console.error('No query or url found in item:', item);
     }
     showRecentSearches.value = false;
 };
@@ -704,6 +730,7 @@ const stateMapping = {
 };
 
 
+/*
 routerInstance.write = (routeState) => {
     try {
         console.log('Router write:', routeState);
@@ -736,7 +763,7 @@ routerInstance.write = (routeState) => {
     // Still do the default routing update
     defaultRouter().write(routeState);
 };
-
+*/
 const extendedRouting = {
     router: routerInstance,
     stateMapping: stateMapping,

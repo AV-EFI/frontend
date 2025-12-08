@@ -72,16 +72,18 @@
         v-if="(!displayValue || displayValue.trim() === '') && props.recentSearches && props.recentSearches.length > 0"
         class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
       >
-        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Recent Searches</span>
+        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
+          {{ $t('recentSearches') }} / {{ $t('suggestions') }}
+        </span>
         <button
           type="button"
           class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
           @mousedown.stop.prevent="emit('clear-history')"
         >
-          Clear All
+          {{ $t('clearSearchHistory') }}
         </button>
       </div>
-      
+
       <template v-if="visibleSuggestions.length">
         <button
           v-for="(s, i) in visibleSuggestions"
