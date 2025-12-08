@@ -1,7 +1,7 @@
 # AVefi Frontend
 
 > **This repository is part of the AVefi project.**  
-> It includes the Nuxt 3 frontend with full Docker support for local development and production deployment.
+> It includes the Nuxt 4 frontend with full Docker support for local development and production deployment.
 
 ---
 
