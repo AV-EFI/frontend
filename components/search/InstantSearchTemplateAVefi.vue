@@ -59,10 +59,6 @@
                           @remove-recent="handleRemoveRecentSearch"
                           @clear-history="handleClearAllHistory"
                         />                      
-                        <span
-                          id="search-loading"
-                          :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm ml-2']"
-                        />
                       </div>
                       
                       <button
