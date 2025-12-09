@@ -1,0 +1,29 @@
+{
+    "comment": "Manual mapping of issuer IDs to image files in /public/img/",
+    "mappings": {
+        "https://w3id.org/isil/DE-2282": {
+            "name": "Haus des Dokumentarfilms",
+            "image": "/img/logo_hdf.jpg",
+            "alt": "Haus des Dokumentarfilms Logo"
+        },
+        "https://w3id.org/isil/DE-MUS-432511": {
+            "name": "Filmmuseum der Landeshauptstadt Düsseldorf",
+            "image": "/img/logo_fmd.png",
+            "alt": "Filmmuseum Düsseldorf Logo"
+        },
+        "https://w3id.org/isil/DE-MUS-407010": {
+            "name": "Deutsche Kinemathek - Museum für Film und Fernsehen",
+            "image": "/img/logo_sdk.png",
+            "alt": "Deutsche Kinemathek Logo"
+        },
+        "https://w3id.org/isil/DE-89": {
+            "name": "Technische Informationsbibliothek (TIB)",
+            "image": "/img/logo_tib.png",
+            "alt": "TIB Logo"
+        }
+    },
+    "fallback": {
+        "image": "/img/placeholder-16x9.svg",
+        "alt": "Institution Logo"
+    }
+}

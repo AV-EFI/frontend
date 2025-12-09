@@ -41,6 +41,7 @@
                 :dropdown-aria-label="$t('showSuggestions')"
                 :no-results-text="$t('noSuggestionsFound')"
                 :recent-searches="recentSearchesWithUrl"
+                :autofocus="false"
                 @submit="onSubmit"
                 @clear="searchTerm = ''"
                 @select="onMainSelect"

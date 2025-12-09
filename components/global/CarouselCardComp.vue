@@ -42,7 +42,7 @@
                   >
                 </div>
               </div>
-              <figcaption class="text-xs text-gray-500 h-8 mt-2 px-4 dark:text-gray-400">
+              <figcaption class="text-xs text-gray-500 h-8 mt-2 px-6 dark:text-gray-400">
                 <div v-if="item.imgSourceText">
                   {{ t('imageSource') }}: <a
                     :href="item.imgSourceLink"
@@ -63,7 +63,7 @@
                 decoding="async"
                 :class="`w-full h-48 lg:h-48 object-cover ${item.imgCoverType || 'object-center'}`"
               >
-              <figcaption class="text-xs text-gray-500 h-8 mt-2 px-4 dark:text-gray-400">
+              <figcaption class="text-xs text-gray-500 h-8 mt-2 px-6 dark:text-gray-400">
                 <div v-if="item.imgSourceText">
                   {{ t('imageSource') }}: <a
                     :href="item.imgSourceLink"

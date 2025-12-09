@@ -136,7 +136,7 @@ export default defineNuxtConfig({
         "/contact": { ssr: true }, 
         "/login": { ssr: true },
         "/film/**": {ssr: true},
-        "/res/**": {ssr: false},
+        "/res/**": {ssr: true},
         "/serial/**": {ssr: true},
         "/protected/institutionlist": {ssr: true},
         "/protected/dashboard": {ssr: true},

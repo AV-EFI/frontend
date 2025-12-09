@@ -61,30 +61,24 @@
       </template>      
       <template #cardBody>
         <div class="px-4 pb-4">
-          <div
-          >
-            <ClientOnly
-              fallback-tag="span"
-              fallback="Loading data..."
-            >
-              <LazyViewsWorkViewCompAVefi
-                  v-if="dataJson && (resourceType === 'workVariant' || resourceType === 'compilation' || resourceType === 'manifestationOrItem')"
-                  v-model="dataJson"
-                  :handle="dataJson.handle" 
-               />
-               <LazyViewsCompilationViewCompAVefi
-                  v-else-if="dataJson && resourceType === 'compilationManifestation'"
-                  v-model="dataJson"
-                  :handle="dataJson.handle"
-               />
-               <!-- Add other resource type components here when needed -->
-               <div v-else-if="dataJson && resourceType !== 'workVariant'" class="text-center text-gray-500">
-                 {{ $t('resourceTypeNotSupported') }}: {{ resourceType }}
-               </div>
-               <div v-else class="text-center text-gray-500">
-                 {{ $t('noDataAvailable') }}
-                </div>
-            </ClientOnly>
+          <div>
+            <ViewsWorkViewCompAVefi
+              v-if="dataJson && (resourceType === 'workVariant' || resourceType === 'compilation' || resourceType === 'manifestationOrItem')"
+              v-model="dataJson"
+              :handle="dataJson.handle" 
+            />
+            <ViewsCompilationViewCompAVefi
+              v-else-if="dataJson && resourceType === 'compilationManifestation'"
+              v-model="dataJson"
+              :handle="dataJson.handle"
+            />
+            <!-- Add other resource type components here when needed -->
+            <div v-else-if="dataJson && resourceType !== 'workVariant'" class="text-center text-gray-500">
+              {{ $t('resourceTypeNotSupported') }}: {{ resourceType }}
+            </div>
+            <div v-else class="text-center text-gray-500">
+              {{ $t('noDataAvailable') }}
+            </div>
           </div>
         </div>
       </template>
@@ -133,39 +127,44 @@ import { useSeoMeta, useSchemaOrg, defineBreadcrumb } from '#imports';
 const prefix = route.params.prefix;
 const id = route.params.id;
 
-// Load record from your backend:
-const { data: record } = await useFetch(`/api/res/${prefix}/${id}`);
-
 const { t } = useI18n();
 
+// Use the data already fetched via useResourceData
+const record = computed(() => dataJson.value?.compound_record?._source);
+
 // Construct title:
-const title = record.value?.has_primary_title?.has_name 
-    ? t('seo.resource.title', { title: record.value.has_primary_title.has_name })
-    : t('seo.resource.title', { title: 'Filmwerk' });
+const title = computed(() => 
+    record.value?.has_record?.has_primary_title?.has_name 
+        ? t('seo.resource.title', { title: record.value.has_record.has_primary_title.has_name })
+        : t('seo.resource.title', { title: 'Filmwerk' })
+);
 
 // Construct description:
-const description = record.value?.abstract || t('seo.resource.description');
+const description = computed(() => 
+    record.value?.has_record?.abstract || t('seo.resource.description')
+);
 
 // Construct canonical:
-const canonical = `https://www.av-efi.net/res/${prefix}/${id}`;
+const canonical = computed(() => `https://www.av-efi.net/res/${prefix}/${id}`);
 
 useSeoMeta({
-    title,
-    description,
+    title: title,
+    description: description,
     ogTitle: title,
     ogDescription: description,
     ogImage: '/img/avefi-og-image.png',
-    canonical,
+    ogUrl: canonical,
+    canonical: canonical,
 });
 
 // JSON-LD for CreativeWork (or Movie, but Movie is risky unless always correct)
-useSchemaOrg([
+useSchemaOrg(() => [
     {
         '@type': 'CreativeWork',
-        '@id': canonical,
-        name: title,
-        description: description,
-        url: canonical,
+        '@id': canonical.value,
+        name: title.value,
+        description: description.value,
+        url: canonical.value,
         identifier: id,
         sameAs: record.value?.same_as ?? [],
     },
@@ -173,7 +172,7 @@ useSchemaOrg([
         itemListElement: [
             { name: 'Startseite', item: 'https://www.av-efi.net/' },
             { name: 'Recherche', item: 'https://www.av-efi.net/search' },
-            { name: title, item: canonical },
+            { name: title.value, item: canonical.value },
         ],
     }),
 ]);

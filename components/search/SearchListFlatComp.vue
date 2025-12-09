@@ -106,6 +106,20 @@
         level="work"
         class="mt-1"
       />
+      
+      <!-- Badge for all items empty -->
+      <div
+        v-if="allItemsEmpty(work)"
+        class="mt-2"
+      >
+        <span
+          class="badge badge-manifestation badge-sm"
+          :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
+        >
+          <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
+          {{ $t('allItemsEmpty') || 'All Items Empty' }}
+        </span>
+      </div>
     </header>
 
     <div class="divider my-0 divider-primary" />
@@ -143,7 +157,7 @@
             class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :aria-label="`${$t('previous') || 'Previous'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
             :aria-controls="`carousel-${work?.handle ?? ''}`"
-            :disabled="carouselIndex[work?.handle ?? ''] === 0"
+            :disabled="carouselIndex[work?.handle ?? ''] === 0 || filteredRows(work).length <= pageSize()"
             @click="prev(work?.handle ?? '')"
           >
             ‹
@@ -169,11 +183,19 @@
                 <div class="card-body p-2 flex flex-col gap-2">
                   <!-- Primary (item-level) info -->
                   <div class="flex flex-col items-start gap-1 md:min-h-48">
-                    <MicroBadgeCategoryComp
-                      category="avefi:Item"
-                      :dense="false"
-                      class="mx-auto mb-2"
-                    />
+                    <div class="flex gap-2 mx-auto mb-2">
+                      <MicroBadgeCategoryComp
+                        category="avefi:Item"
+                        :dense="false"
+                      />
+                      <span
+                        v-if="isItemEmpty(row.item)"
+                        class="badge badge-item badge-outline badge-sm"
+                        :title="$t('emptyItemTooltip') || 'This item has no additional metadata'"
+                      >
+                        {{ $t('emptyItem') || 'Empty' }}
+                      </span>
+                    </div>
                     <h4>
                       <GlobalClipboardComp
                         class="text-xs text-base-content/90"
@@ -208,6 +230,13 @@
                   >
                     <div class="text-xs font-semibold text-base-content/70 flex items-center gap-1">
                       <span class="text-base-content/90">{{ $t('fromManifestation') || 'Manifestation' }}</span>
+                      <span
+                        v-if="isManifestationEmpty(row.mf)"
+                        class="badge badge-warning badge-xs ml-1"
+                        :title="$t('emptyManifestationTooltip') || 'This manifestation has no additional metadata'"
+                      >
+                        {{ $t('emptyManifestation') || 'Empty' }}
+                      </span>
                     </div>
                     <SearchGenericIconList
                       :data="row.mf"
@@ -239,7 +268,7 @@
             class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :aria-label="`${$t('next') || 'Next'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
             :aria-controls="`carousel-${work?.handle ?? ''}`"
-            :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1"
+            :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
             @click="next(work?.handle ?? '')"
           >
             ›
@@ -324,6 +353,50 @@ function get(obj: any, path: string): any {
 function has(obj: any, path: string): boolean {
     const v = get(obj, path);
     return v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0) && v !== '';
+}
+
+// Check if item has any meaningful data beyond handle
+function isItemEmpty(item: any): boolean {
+    if (!item) return true;
+    // Get all item fields from spec that should be shown (excluding handle)
+    const itemFieldsFromSpec = itemFields.value
+        .filter((f: any) => f.key !== 'item.handle')
+        .map((f: any) => {
+            // Remove "items." prefix from path since we're checking the item object directly
+            const path = f.path.replace(/^items\./, '');
+            return { path, altPaths: f.alt_paths || [] };
+        });
+    
+    // Check if any field has data
+    return !itemFieldsFromSpec.some(({ path, altPaths }) => {
+        if (has(item, path)) return true;
+        // Check alternative paths
+        return altPaths.some((altPath: string) => has(item, altPath.replace(/^items\./, '')));
+    });
+}
+
+// Check if manifestation has any meaningful data beyond handle
+function isManifestationEmpty(mf: any): boolean {
+    if (!mf) return true;
+    // Get manifestation fields spec (we need to define this or use the fields that are shown)
+    const manifestationFieldPaths = [
+        'has_record.described_by.has_issuer_name',
+        'in_language.code',
+        'has_record.has_sound_type',
+        'has_record.has_colour_type',
+        'duration_in_minutes',
+        'has_record.has_duration.has_value',
+        'has_record.has_extent.has_value'
+    ];
+    
+    return !manifestationFieldPaths.some(field => has(mf, field));
+}
+
+// Check if all items in a work are empty
+function allItemsEmpty(work: any): boolean {
+    const rows = buildRows(work);
+    if (rows.length === 0) return false; // No items at all, don't show badge
+    return rows.every(row => isItemEmpty(row.item));
 }
 function asList(val: any): string {
     if (Array.isArray(val))  {

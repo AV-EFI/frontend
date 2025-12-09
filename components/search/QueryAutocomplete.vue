@@ -9,7 +9,7 @@
         type="text"
         :name="name"
         :placeholder="placeholder"
-        :autofocus="true"
+        :autofocus="autofocus ?? false"
         autocomplete="off"
         outer-class="!max-w-none w-full"
         inner-class="!rounded-xl !h-[56px] w-full dark:!bg-slate-950 dark:!text-white !rounded-r-none"
@@ -156,6 +156,7 @@ const props = defineProps<{
   iconMap?: IconMap
   enforceList?: boolean
   recentSearches?: Array<{ query: string; url: string; timestamp: number }>
+  autofocus?: boolean
 }>();
 
 const emit = defineEmits<{
