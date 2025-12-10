@@ -1,6 +1,7 @@
 /**
  * Composable for managing search history in localStorage
  * Stores the latest 3 searches with timestamps and full URL
+ * Syncs across multiple browser tabs automatically
  */
 export const useSearchHistory = () => {
     const STORAGE_KEY = 'avefi-search-history';
@@ -12,33 +13,51 @@ export const useSearchHistory = () => {
     timestamp: number;
   }
 
-  // Internal reactive state
-  const historyState = ref<SearchHistoryItem[]>([]);
+  // Simple reactive ref for history
+  const history = ref<SearchHistoryItem[]>([]);
 
-  /**
-   * Load from localStorage into reactive state
-   */
-  const loadHistory = (): SearchHistoryItem[] => {
-      if (typeof window === 'undefined') return [];
-    
+  // Initialize from localStorage (client-side only)
+  if (import.meta.client) {
       try {
           const stored = localStorage.getItem(STORAGE_KEY);
-          if (!stored) return [];
-      
-          const history = JSON.parse(stored) as SearchHistoryItem[];
-          return Array.isArray(history) ? history : [];
+          if (stored) {
+              const parsed = JSON.parse(stored);
+              history.value = Array.isArray(parsed) ? parsed : [];
+          }
       } catch (error) {
-          console.error('Failed to parse search history:', error);
-          return [];
+          console.error('Failed to load search history:', error);
+      }
+
+      // Set up cross-tab sync listener
+      window.addEventListener('storage', (event) => {
+          if (event.key === STORAGE_KEY) {
+              try {
+                  const newHistory = event.newValue ? JSON.parse(event.newValue) : [];
+                  history.value = Array.isArray(newHistory) ? newHistory : [];
+              } catch (error) {
+                  console.error('Failed to sync search history across tabs:', error);
+              }
+          }
+      });
+  }
+
+  /**
+   * Save history to localStorage
+   */
+  const saveToStorage = () => {
+      if (typeof window === 'undefined') return;
+      try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(history.value));
+      } catch (error) {
+          console.error('Failed to save search history:', error);
       }
   };
 
   /**
-   * Get search history (returns reactive ref)
+   * Get search history
    */
   const getSearchHistory = (): SearchHistoryItem[] => {
-      historyState.value = loadHistory();
-      return historyState.value;
+      return history.value;
   };
 
   /**
@@ -49,31 +68,21 @@ export const useSearchHistory = () => {
       if (typeof window === 'undefined') return;
       if (!query || query.trim() === '') return;
 
-      try {
-          const history = loadHistory();
-          
-          // Use provided URL or get from latest-search-query
-          const searchUrl = url || localStorage.getItem('latest-search-query') || '';
+      // Use provided URL or get from latest-search-query
+      const searchUrl = url || localStorage.getItem('latest-search-query') || '';
       
-          // Remove existing entry with the same query (case-insensitive)
-          const filteredHistory = history.filter(
-              item => item.query.toLowerCase() !== query.toLowerCase()
-          );
+      // Remove existing entry with the same query (case-insensitive)
+      const filteredHistory = history.value.filter(
+          item => item.query.toLowerCase() !== query.toLowerCase()
+      );
 
-          // Add new query at the beginning with full URL
-          const newHistory: SearchHistoryItem[] = [
-              { query: query.trim(), url: searchUrl, timestamp: Date.now() },
-              ...filteredHistory
-          ];
+      // Add new query at the beginning with full URL
+      history.value = [
+          { query: query.trim(), url: searchUrl, timestamp: Date.now() },
+          ...filteredHistory
+      ].slice(0, MAX_HISTORY_SIZE);
 
-          // Keep only the latest MAX_HISTORY_SIZE items
-          const trimmedHistory = newHistory.slice(0, MAX_HISTORY_SIZE);
-
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmedHistory));
-          historyState.value = trimmedHistory;
-      } catch (error) {
-          console.error('Failed to save search history:', error);
-      }
+      saveToStorage();
   };
 
   /**
@@ -81,12 +90,9 @@ export const useSearchHistory = () => {
    */
   const clearSearchHistory = (): void => {
       if (typeof window === 'undefined') return;
-    
+      history.value = [];
       try {
-          console.log('Clearing search history from localStorage');
           localStorage.removeItem(STORAGE_KEY);
-          historyState.value = [];
-          console.log('Search history cleared. localStorage value:', localStorage.getItem(STORAGE_KEY));
       } catch (error) {
           console.error('Failed to clear search history:', error);
       }
@@ -96,7 +102,7 @@ export const useSearchHistory = () => {
    * Get search queries as a simple string array (most recent first)
    */
   const getSearchQueries = (): string[] => {
-      return getSearchHistory().map(item => item.query);
+      return history.value.map(item => item.query);
   };
 
   /**
@@ -105,17 +111,11 @@ export const useSearchHistory = () => {
   const removeFromHistory = (query: string): void => {
       if (typeof window === 'undefined') return;
 
-      try {
-          const history = loadHistory();
-          const filteredHistory = history.filter(
-              item => item.query.toLowerCase() !== query.toLowerCase()
-          );
+      history.value = history.value.filter(
+          item => item.query.toLowerCase() !== query.toLowerCase()
+      );
       
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredHistory));
-          historyState.value = filteredHistory;
-      } catch (error) {
-          console.error('Failed to remove from search history:', error);
-      }
+      saveToStorage();
   };
 
   /**
@@ -142,6 +142,7 @@ export const useSearchHistory = () => {
   };
 
   return {
+      history,
       getSearchHistory,
       addToSearchHistory,
       clearSearchHistory,

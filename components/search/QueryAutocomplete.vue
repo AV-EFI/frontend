@@ -1,134 +1,70 @@
 <template>
-  <div
-    class="relative w-full"
-    @mousedown.stop
-  >
+  <div class="relative w-full" @mousedown.stop>
     <div class="relative">
-      <FormKit
-        v-model="displayValue"
-        type="text"
-        :name="name"
-        :placeholder="placeholder"
-        :autofocus="autofocus ?? false"
-        autocomplete="off"
-        outer-class="!max-w-none w-full"
+      <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
+        :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
         inner-class="!rounded-xl !h-[56px] w-full dark:!bg-slate-950 dark:!text-white !rounded-r-none"
         input-class="!text-lg px-4 pr-10 w-full dark:!text-white !h-12"
-        :prefix-icon="showInfoTooltip ? 'info' : undefined"
-        :aria-label="ariaLabel"
-        aria-autocomplete="list"
-        aria-haspopup="listbox"
-        :aria-owns="listboxId"
-        :aria-expanded="showDropdown ? 'true' : 'false'"
-        :aria-activedescendant="activeDescId"
-        @input="onInput"
-        @focus="onFocus"
-        @blur="onBlur"
-        @keydown="onKeydown"
-      >
-        <template
-          v-if="showInfoTooltip && infoTooltipText"
-          #prefixIcon
-        >
-          <span
-            class="formkit-icon relative group cursor-help my-auto flex justify-center"
-            :title="infoTooltipText"
-          >
-            <Icon
-              name="tabler:info-circle"
-              class="text-gray-500 dark:text-gray-300 text-xl"
-            />
+        :prefix-icon="showInfoTooltip ? 'info' : undefined" :aria-label="ariaLabel" aria-autocomplete="list"
+        aria-haspopup="listbox" :aria-owns="listboxId" :aria-expanded="showDropdown ? 'true' : 'false'"
+        :aria-activedescendant="activeDescId" @input="onInput" @focus="onFocus" @blur="onBlur" @keydown="onKeydown">
+        <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
+          <span class="formkit-icon relative group cursor-help my-auto flex justify-center" :title="infoTooltipText">
+            <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 text-xl" />
           </span>
         </template>
       </FormKit>
-      
+
       <!-- Clear button inside input -->
-      <button
-        v-if="displayValue"
-        type="button"
+      <button v-if="displayValue" type="button"
         class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-        :title="clearTitle"
-        :aria-label="clearTitle"
-        @mousedown.stop.prevent="onClear"
-      >
-        <Icon
-          class="text-lg text-gray-500 dark:text-gray-400"
-          name="mdi:clear-bold"
-          aria-hidden="true"
-        />
+        :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
+        <Icon class="text-lg text-gray-500 dark:text-gray-400" name="mdi:clear-bold" aria-hidden="true" />
       </button>
     </div>
 
     <!-- Suggestions dropdown -->
-    <div
-      v-show="showDropdown"
-      :id="listboxId"
+    <div v-show="showDropdown" :id="listboxId"
       class="absolute z-[1100] w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-96 overflow-auto"
-      role="listbox"
-      :aria-label="ariaLabel"
-    >
+      role="listbox" :aria-label="ariaLabel">
       <!-- Recent searches header (only when input is empty) -->
       <div
         v-if="(!displayValue || displayValue.trim() === '') && props.recentSearches && props.recentSearches.length > 0"
-        class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
-      >
+        class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
         <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
           {{ $t('recentSearches') }} / {{ $t('suggestions') }}
         </span>
-        <button
-          type="button"
+        <button type="button"
           class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
-          @mousedown.stop.prevent="emit('clear-history')"
-        >
+          @mousedown.stop.prevent="emit('clear-history')">
           {{ $t('clearSearchHistory') }}
         </button>
       </div>
 
       <template v-if="visibleSuggestions.length">
-        <button
-          v-for="(s, i) in visibleSuggestions"
-          :id="optionId(i)"
-          :key="s.type + '::' + s.text + '::' + i"
-          type="button"
-          :class="[
+        <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
+          type="button" :class="[
             'w-full text-left px-3 py-2 flex items-center gap-2 group',
             'hover:bg-gray-100 dark:hover:bg-gray-700',
             i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
-          ]"
-          role="option"
-          :aria-selected="i === highlighted"
-          @mousedown.stop.prevent="onSelect(s)"
-        >
-          <Icon
-            class="shrink-0 text-base leading-none"
-            :name="iconClassFor(s.type, s.text)"
-            :title="typeLabel(s.type)"
-            aria-hidden="true"
-          />
+          ]" role="option" :aria-selected="i === highlighted" @mousedown.stop.prevent="onSelect(s)">
+          <Icon class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)" :title="typeLabel(s.type)"
+            aria-hidden="true" />
           <span class="text-sm opacity-70 uppercase hidden">{{ typeLabel(s.type) }}</span>
           <span class="text-base truncate">{{ s.text }}</span>
-          <span
-            v-if="s.count && s.count > 1"
-            class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0"
-          >
+          <span v-if="s.count && s.count > 1" class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
             ({{ s.count }})
           </span>
           <!-- Remove button for recent searches -->
-          <button
-            v-if="s.type === 'recent'"
-            type="button"
+          <button v-if="s.type === 'recent'" type="button"
             class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
-            @mousedown.stop.prevent="emit('remove-recent', s.text)"
-          >
+            @mousedown.stop.prevent="emit('remove-recent', s.text)">
             <Icon name="mdi:close" class="text-sm" />
           </button>
         </button>
       </template>
 
-      <div
-        v-else
-        class="px-3 py-2 text-sm text-gray-500 dark:text-gray-300 select-none"
-      >
+      <div v-else class="px-3 py-2 text-sm text-gray-500 dark:text-gray-300 select-none">
         {{ noResultsMessage }}
       </div>
     </div>
@@ -285,8 +221,8 @@ async function fetchSuggestions(q: string): Promise<number> {
 
 // ======= Filtering =======
 const visibleSuggestions = computed(() => {
-    // If input is empty and we have recent searches, show them at top
-    if ((!displayValue.value || displayValue.value.trim() === '') && props.recentSearches && props.recentSearches.length > 0) {
+    // Always show recent searches at the top if available
+    if (props.recentSearches && props.recentSearches.length > 0) {
         const recentAsSuggestions = props.recentSearches.map(item => ({
             text: item.query,
             type: 'recent',
@@ -334,13 +270,7 @@ function onInput(v: any) {
 }
 
 function onFocus() {
-    // Do NOT immediately reopen if we just selected with mouse
-    if (!canOpen()) return;
-    // Open only if we have something to show (or we’ll fetch)
-    if (!displayValue.value?.trim()) {
-        fetchSuggestions('');
-    }
-    showDropdown.value = true;
+    // Don't automatically open dropdown on focus
     emit('focus');
 }
 
@@ -361,10 +291,8 @@ function onBlur() {
             } else if (lastSelected.value) {
                 displayValue.value = lastSelected.value;
             }
-        } else {
-            // Update lastSelected for non-enforced mode too
-            lastSelected.value = displayValue.value;
         }
+        // Don't update lastSelected in non-enforced mode - let the user clear the input
         emit('blur');
     }, 120);
 }
