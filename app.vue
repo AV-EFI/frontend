@@ -53,7 +53,7 @@ watch(
 </script>
 
 <template>
-  <div class="">
+  <div id="app" v-cloak class="">
     <GlobalLoadingScreen />
     <NuxtLoadingIndicator />
     <NuxtLayout
@@ -106,3 +106,7 @@ watch(
     </NuxtLayout>
   </div>
 </template>
+
+<style>
+[v-cloak] { display: none !important; }
+</style>

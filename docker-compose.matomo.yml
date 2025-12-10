@@ -1,0 +1,43 @@
+services:
+  matomo-db:
+    image: mariadb:10
+    container_name: matomo-db
+    command: --max-allowed-packet=64MB
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: matomodbroot
+      MYSQL_DATABASE: matomo
+      MYSQL_USER: matomo
+      MYSQL_PASSWORD: matomodb
+    volumes:
+      - matomo-db:/var/lib/mysql
+    networks:
+      - matomo-network
+
+  matomo:
+    image: matomo:latest
+    container_name: matomo
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    environment:
+      MATOMO_DATABASE_HOST: matomo-db
+      MATOMO_DATABASE_ADAPTER: mysql
+      MATOMO_DATABASE_TABLES_PREFIX: matomo_
+      MATOMO_DATABASE_USERNAME: matomo
+      MATOMO_DATABASE_PASSWORD: matomodb
+      MATOMO_DATABASE_DBNAME: matomo
+    volumes:
+      - matomo-data:/var/www/html
+    networks:
+      - matomo-network
+    depends_on:
+      - matomo-db
+
+volumes:
+  matomo-db:
+  matomo-data:
+
+networks:
+  matomo-network:
+    driver: bridge

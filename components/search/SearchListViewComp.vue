@@ -17,7 +17,7 @@
         {{ $t('showHistory') }}
       </button>
     </div>
-    <header class="card-body p-4 pb-2">
+    <header class="card-body p-4 pb-2 gap-y-0" :aria-labelledby="`flat-work-title-${work?.handle ?? ''}`">
       <div class="flex flex-col md:flex-row justify-between">
         <div class="w-4/5 md:w-4/5">
           <GlobalClipboardComp
@@ -52,7 +52,7 @@
           </h2>
           <h3
             v-if="work?.has_record?.has_alternative_title"
-            class="text-sm"
+            class="text-sm text-left"
           >
             <ul v-if="work?.has_record?.has_alternative_title">
               <li
@@ -100,12 +100,14 @@
     >
       <div
         v-if="work && work.handle && showHighlight[work.handle] && getHighlightSnippets(work).length > 0"
-        class="my-2 ml-3 text-sm highlight-snippets"
+        class="mb-2 ml-4 text-sm highlight-snippets text-left"
         tabindex="0"
         role="region"
         :aria-label="$t('lookWhatWeFound')"
       >
-        <span>✨ <strong>{{ $t('lookWhatWeFound') }}</strong></span>
+        <span>✨ 
+          <strong>{{ $t('lookWhatWeFound') }}</strong>
+        </span>
         <ul>
           <SearchHighlightMatchComp
             v-for="(entry, i) in getHighlightSnippets(work)"
