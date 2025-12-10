@@ -10436,6 +10436,7 @@ __metadata:
     vue-eslint-parser: "npm:^10.2.0"
     vue-i18n: "npm:^11"
     vue-instantsearch: "npm:^4.21.3"
+    vue-matomo: "npm:^4.2.0"
     vue-range-slider: "npm:^0.6.0"
     vue-router: "npm:^4.5.0"
     vue3-easy-data-table: "npm:^1.5.47"
@@ -14268,6 +14269,13 @@ __metadata:
     vue-server-renderer:
       optional: true
   checksum: 10c0/9967c649c1203d63f185ae27d3bf3dfd5a78bedce5179d9cd832ea18726febc5ad8b6ae04fbcd692dd53e2a0af980292e86dea85e0166ee81625d13d75b2b330
+  languageName: node
+  linkType: hard
+
+"vue-matomo@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "vue-matomo@npm:4.2.0"
+  checksum: 10c0/c611d2c9be0145f225f3422e8551568593d9d8cbf7c26cf212663f81a3acbb73b348115356def9582f7f3b9ef8c9088b4eeccb8cb4d6afc53bfc559d53066653
   languageName: node
   linkType: hard
 

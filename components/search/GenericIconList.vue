@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="flex flex-col gap-y-1 text-[0.75rem] leading-snug text-base-content mt-1"
+    class="flex flex-col gap-y-1 text-[0.75rem] leading-snug text-base-content"
     role="list"
   >
     <!-- First row: located_in, years, directors_or_editors (WORK ONLY) -->

@@ -2,19 +2,15 @@ import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElas
 import { ref } from 'vue';
 import { getDataSet } from '@/utils/getDataSet.js';
 
-export const useResourceData = async (id: string, prefix?: string) => {
+export async function useResourceData(id: string, prefix?: string) {
     try {
-
         const resourceType = ref<string>('workVariant'); // Default resource type
-  
         // Handle missing prefix - expect it to be 21.11155
         let fullId = id;
         if (prefix && id.indexOf('.') < 0) {
             fullId = `${prefix}/${id}`;
         }
-  
         const data: ElasticGetByIdResponse | null = await getDataSet(fullId);
-  
         // Extract resource_type from the response if available
         if (data?.compound_record?.resource_type) {
             resourceType.value = data.compound_record.resource_type;
@@ -33,13 +29,12 @@ export const useResourceData = async (id: string, prefix?: string) => {
                     resourceType.value = "compilationManifestation";
                 }
             }
-        }  
+        }
         // Modify handle for manifestationOrItem type
         let effectiveHandle = fullId;
         if (resourceType.value === 'manifestationOrItem' && data) {
             effectiveHandle = `${data.compound_record?._source?.handle}#${data.handle}`;
         }
-  
         return {
             data: data as ElasticGetByIdResponse,
             resourceType,
@@ -52,4 +47,4 @@ export const useResourceData = async (id: string, prefix?: string) => {
             resourceType: ref<string>('workVariant')
         };
     }
-};
+}

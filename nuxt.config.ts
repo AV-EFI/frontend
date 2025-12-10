@@ -85,6 +85,7 @@ export default defineNuxtConfig({
             ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
             ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
             AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
+            PUBLIC_AVEFI_ELASTIC_API: process.env.PUBLIC_AVEFI_ELASTIC_API,
             AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT,
             MAIL_USER: process.env.MAIL_USER,
             MAIL_FROM: process.env.MAIL_FROM,
@@ -116,6 +117,11 @@ export default defineNuxtConfig({
             AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
             AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
             AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/academiccloud/auth',
+            
+            // Matomo Analytics
+            matomoUrl: process.env.MATOMO_URL || 'http://localhost:8888',
+            matomoSiteId: process.env.MATOMO_SITE_ID || 'AVefi',
+            
             cms: {
                 // mirror the flag to the client to toggle UI affordances
                 allowUserTooltipEdits:
