@@ -15,7 +15,8 @@
     "deploy": "npm run build",
     "generate:colours": "tsx scripts/generate-scss-vars.ts",
     "generate:interfaces": "node scripts/generate-interfaces.mjs",
-    "generate:suggestions": "tsx scripts/generate-query-suggestions.ts"
+    "generate:suggestions": "tsx scripts/generate-query-suggestions.ts",
+    "generate:issuers": "tsx scripts/generate-issuer-data.ts"
   },
   "dependencies": {
     "@dargmuesli/nuxt-cookie-control": "8.5.0",

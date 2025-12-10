@@ -5,6 +5,8 @@
       class="splash-screen"
       aria-label="Please wait"
       role="status"
+      aria-live="polite"
+      inert
     >
       <div class="splash-content">
         <!-- Logo -->
@@ -12,10 +14,11 @@
           src="/img/AV-EFI-Logo.svg"
           alt="AVefi Logo"
           class="logo"
+          aria-hidden="true"
         >
         <!-- Animated spinner -->
-        <div class="spinner" />
-        <span class="sr-only">Loading...</span>
+        <div class="spinner" aria-hidden="true" />
+        <span class="sr-only">Loading application...</span>
       </div>
     </div>
   </Transition>
@@ -29,7 +32,7 @@ onMounted(() => {
     // Add small delay to ensure styles are loaded
     setTimeout(() => {
         isLoading.value = false;
-    }, 1450);
+    }, 500);
 });
 </script>
 

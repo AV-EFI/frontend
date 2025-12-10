@@ -9,6 +9,7 @@
         :aria-label="ariaLabel"
         :icon-map="iconMap"
         :recent-searches="recentSearchesWithUrl"
+        :autofocus="false"
         @submit="onSubmit"
         @clear="term = ''"
         @recent-search-click="handleRecentSearchClick"

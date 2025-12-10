@@ -178,10 +178,18 @@
                       >
                     </label>
                   </div>
-                  <div class="col-span-full md:col-span-2 border-base-200 border-2 rounded-lg bg-base-100">
+                  <div 
+                    class="col-span-full md:col-span-2 border-base-200 border-2 rounded-lg bg-base-100"
+                    role="region"
+                    aria-label="Active search filters"
+                  >
                     <div class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
                       <div class="w-full md:w-1/2 flex flex-row justify-start">
-                        <h2 class="font-bold text-gray-800 dark:text-gray-200">
+                        <h2 
+                          id="active-facets-heading"
+                          class="font-bold text-gray-800 dark:text-gray-200"
+                          tabindex="-1"
+                        >
                           {{ $t('activeFacets') }}
                         </h2>
                       </div>
@@ -198,7 +206,11 @@
                         </ais-clear-refinements>
                       </div>
                     </div>
-                    <div class="w-full bg-white dark:bg-gray-800 rounded-lg p-2">
+                    <div 
+                      class="w-full bg-white dark:bg-gray-800 rounded-lg p-2"
+                      role="list"
+                      aria-labelledby="active-facets-heading"
+                    >
                       <ais-current-refinements 
                         :class-names="{
                           'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
@@ -208,28 +220,33 @@
                         }"
                       >
                         <template #item="{ item, refine, createURL }">
-                          <strong class="font-bold text-sm dark:text-primary-100">
-                            {{ $t(item.label.split(".").at(-1)) }}:
-                          </strong>
-                          <ul class="list-none p-0 m-0">
-                            <li
-                              v-for="refinement in item.refinements"
-                              :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
-                              class="flex items-center"
-                            >
-                              <a
-                                :href="createURL(refinement)"
-                                class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
-                                @click.prevent="refine(refinement)"
+                          <div role="listitem">
+                            <strong class="font-bold text-sm dark:text-primary-100">
+                              {{ $t(item.label.split(".").at(-1)) }}:
+                            </strong>
+                            <ul class="list-none p-0 m-0" role="list">
+                              <li
+                                v-for="refinement in item.refinements"
+                                :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
+                                class="flex items-center"
+                                role="listitem"
                               >
-                                {{ $t(refinement.label) }}
-                                <Icon
-                                  class="text-lg"
-                                  name="formkit:trash"
-                                />
-                              </a>
-                            </li>
-                          </ul>
+                                <a
+                                  :href="createURL(refinement)"
+                                  class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
+                                  :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
+                                  @click.prevent="refine(refinement)"
+                                >
+                                  {{ $t(refinement.label) }}
+                                  <Icon
+                                    class="text-lg"
+                                    name="formkit:trash"
+                                    aria-hidden="true"
+                                  />
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
                         </template>
                       </ais-current-refinements>
                     </div>
@@ -367,11 +384,16 @@ onMounted(() => {
     });
 });
 
+// URL updates are now handled by InstantSearch router
+// No need for manual window.history manipulation
+
 // Search handlers
 const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
     console.log('handleSearchSubmit called with:', value);
     if (value && value.trim() !== '') {
-        addToSearchHistory(value);
+        // Save to search history with the correct URL
+        const searchUrl = `?query=${encodeURIComponent(value.trim())}`;
+        addToSearchHistory(value, searchUrl);
         historyTrigger.value++;
         console.log('Search history after add:', getSearchHistory());
     }
@@ -387,13 +409,20 @@ const handleSearchClear = (refine: (value: string) => void) => {
 };
 
 const handleRecentSearchClick = (item: any) => {
-    // Navigate to the full saved URL with all facets
-    if (item.url) {
-        window.location.href = `/search/${item.url}`;
+    console.log('handleRecentSearchClick called with:', item);
+    // Navigate to the search page with the saved query
+    if (item.url && item.url.trim()) {
+        // item.url contains the full query string (e.g., "?query=something")
+        const fullUrl = `/search/${item.url}`;
+        console.log('Navigating to:', fullUrl);
+        window.location.href = fullUrl;
+    } else if (item.query) {
+        // Fallback: construct URL from query if url is missing
+        const fullUrl = `/search/?query=${encodeURIComponent(item.query)}`;
+        console.log('Fallback - Navigating to:', fullUrl);
+        window.location.href = fullUrl;
     } else {
-        // Fallback to just the query
-        localSearchValue.value = item.query;
-        searchQuery.value = item.query;
+        console.error('No query or url found in item:', item);
     }
     showRecentSearches.value = false;
 };
@@ -610,7 +639,8 @@ onBeforeUnmount(() => {
     if (observer) observer.disconnect();
 });
 
-const routerInstance = defaultRouter();
+// Initialize router only on client-side to avoid SSR issues
+const routerInstance = process.client ? defaultRouter() : null;
 
 
 const stateMapping = {
@@ -700,6 +730,7 @@ const stateMapping = {
 };
 
 
+/*
 routerInstance.write = (routeState) => {
     try {
         console.log('Router write:', routeState);
@@ -732,11 +763,12 @@ routerInstance.write = (routeState) => {
     // Still do the default routing update
     defaultRouter().write(routeState);
 };
-
-const extendedRouting = {
+*/
+// Only use routing on client-side
+const extendedRouting = process.client ? {
     router: routerInstance,
     stateMapping: stateMapping,
-};
+} : undefined;
 
 
 </script>

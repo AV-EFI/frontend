@@ -7,36 +7,37 @@
       ]"
     />
     <keep-alive>
-      <ClientOnly>      
-        <SearchSection
-          :search-client="searchClient"
-        />
-      </ClientOnly>
+      <SearchSection
+        v-if="searchClient"
+        :search-client="searchClient"
+      />
+      <div v-else class="text-center py-8">
+        <span class="loading loading-spinner loading-lg text-primary" />
+      </div>
     </keep-alive>
   </div>
 </template>
 <script setup lang="ts">
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi';
-
 import { useCurrentUrlState } from '../../composables/useCurrentUrlState';
 
 definePageMeta({
     auth: false,
-    ssr: false,
 });
 
-
-const searchClient = Client({
+// Initialize search client only on client-side
+const searchClient = process.client ? Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_SEARCH}`,  
-});
+}) : null;
 
 const { currentUrlState } = useCurrentUrlState();
 const { t } = useI18n();
+const route = useRoute();
 
-// Extract the value from query parameter
-const searchValue = ref<string | null>(null);
+// Extract the value from query parameter (SSR-compatible)
+const searchValue = ref<string | null>(route.query.query as string || null);
 
 const updateSearchValue = () => {
     if (typeof window === 'undefined') return;
@@ -47,7 +48,9 @@ const updateSearchValue = () => {
     if (newValue !== searchValue.value) {
         searchValue.value = newValue;
         // Force document title update
-        document.title = newValue ? t('seo.search.titleWithQuery', { query: newValue }) : t('seo.search.title');
+        if (process.client) {
+            document.title = newValue ? t('seo.search.titleWithQuery', { query: newValue }) : t('seo.search.title');
+        }
     }
 };
 
