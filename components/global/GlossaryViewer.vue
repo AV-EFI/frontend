@@ -92,6 +92,11 @@
               >
                 {{ $t('glossary.preview') || 'Preview' }}
               </button>
+              <button
+                class="btn btn-ghost btn-xs"
+                :title="$t('glossary.copyLink') || 'Copy link to term'"
+                @click="copyTermLink(rowId(entry))"
+              ><Icon name="tabler:link" /></button>
             </div>
 
             <div
@@ -151,7 +156,7 @@
                     class="btn btn-ghost btn-xs"
                     @click="closePreview"
                   >
-                    ✕
+                    <Icon name="tabler:x" />
                   </button>
                 </div>
               </div>
@@ -189,16 +194,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch, nextTick, onMounted } from 'vue';
 import type { IGlossaryEntry as GlossaryEntry } from '~/models/interfaces/manual/IGlossaryEntry';
 
 const DOCS_BASE = 'https://av-efi.github.io/av-efi-schema/';
 
 /* ---------- state ---------- */
-const rawQuery = ref(''); const query = ref('');
-let debounceTimer: ReturnType<typeof setTimeout>;
+// Accept props for initial query and anchor
+const props = defineProps({
+    initQuery: { type: String, default: '' },
+    initAnchor: { type: String, default: '' }
+});
+const emit = defineEmits(['update-query']);
+
+const rawQuery = ref(props.initQuery);
+const query = ref(props.initQuery);
+let debounceTimer;
 const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const activeLetter = ref<string | null>(null);
+// Sync activeLetter with URL query
+watch(activeLetter, (val) => {
+    emit('update-query', rawQuery.value, val);
+});
 
 const { data: entriesRaw, pending: loading } = await useFetch<GlossaryEntry[]>('/api/cms/glossary', {
     lazy: false, server: false,
@@ -208,8 +225,30 @@ const entries = computed(() => Array.isArray(entriesRaw.value) ? entriesRaw.valu
 /* ---------- search ---------- */
 watch(rawQuery, (val) => {
     clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => { query.value = (val ?? '').trim().toLowerCase(); }, 150);
+    debounceTimer = setTimeout(() => {
+        query.value = (val ?? '').trim().toLowerCase();
+        emit('update-query', rawQuery.value);
+    }, 150);
 });
+// Watch for prop changes (route updates)
+watch(() => props.initQuery, (val) => {
+    rawQuery.value = val;
+    query.value = val;
+});
+// Scroll to anchor on mount or when anchor changes
+function scrollToAnchor(anchor) {
+    if (!anchor) return;
+    nextTick(() => {
+        const el = document.getElementById(anchor);
+        if (el) {
+            const yOffset = -80; // Adjust for navbar height (e.g. 80px)
+            const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    });
+}
+onMounted(() => scrollToAnchor(props.initAnchor));
+watch(() => props.initAnchor, (val) => scrollToAnchor(val));
 
 const filteredGroups = computed(() => {
     const q = query.value;
@@ -330,6 +369,12 @@ async function loadInlineHtml(url: string) {
     } catch {
         inlineHtml.value = '';
     }
+}
+
+// Add method for copying deep link
+function copyTermLink(anchor) {
+    const url = `${window.location.origin}${window.location.pathname}?q=${rawQuery.value}${activeLetter.value ? `&letter=${activeLetter.value}` : ''}#${anchor}`;
+    navigator.clipboard.writeText(url);
 }
 </script>
 
