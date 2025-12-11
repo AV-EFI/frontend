@@ -318,6 +318,7 @@ function onSelect(s: any) {
 
     // 2) If it's a recent search with URL, emit special event
     if (s.type === 'recent' && s.url) {
+        // Only emit recent-search-click, do not update input value
         emit('recent-search-click', { query: s.text, url: s.url });
         return;
     }
@@ -327,8 +328,6 @@ function onSelect(s: any) {
     lastSelected.value = s.text;
     emit('update:modelValue', s.text);
     emit('select', s.text);
-
-    // 4) Make sure any immediate focus/keyup can't reopen
     // (no-op; guarded by canOpen() in onFocus/onInput handlers)
 }
 
@@ -390,11 +389,7 @@ function onKeydown(e: KeyboardEvent) {
 
 // ======= Public submit() =======
 function submit() {
-    if (enforced.value && lastSelected.value) {
-        emit('submit', lastSelected.value);
-        return;
-    }
-    // Always submit current display value
+    // Always submit current display value, not lastSelected
     emit('submit', displayValue.value || '');
 }
 defineExpose({ submit });

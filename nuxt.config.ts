@@ -138,8 +138,8 @@ export default defineNuxtConfig({
     routeRules: {
         "/": { ssr: true },
         "/search": { ssr: true },
-        //"/contact": { prerender: true },
-        "/contact": { ssr: true }, 
+        "/faq": { ssr: false },
+        "/glossary": { ssr: false },
         "/login": { ssr: true },
         "/film/**": {ssr: true},
         "/res/**": {ssr: true},

@@ -400,6 +400,9 @@ const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
         addToSearchHistory(value, searchUrl);
         historyTrigger.value++;
         console.log('Search history after add:', getSearchHistory());
+        // Update the URL query parameter to the new value
+        const newUrl = `${window.location.pathname}?query=${encodeURIComponent(value.trim())}`;
+        window.history.replaceState({}, '', newUrl);
     }
     refine(value);
     searchQuery.value = value;

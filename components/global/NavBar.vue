@@ -47,7 +47,10 @@
                 <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
               </li>
               <li class="h-12 flex justify-center">
-                <a href="/contact">{{ $t("faqAndGlossary") }}</a>
+                <a href="/faq">{{ $t("faq") }}</a>
+              </li>
+              <li class="h-12 flex justify-center">
+                <a href="/glossary">{{ $t('glossary.title') }}</a>
               </li>
               <li
                 v-if="data?.user"
@@ -193,7 +196,10 @@
               <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
             </li>
             <li class="h-12 flex justify-center">
-              <a href="/contact">{{ $t("faqAndGlossary") }}</a>
+              <a href="/faq">{{ $t("faq") }}</a>
+            </li>
+            <li class="h-12 flex justify-center">
+              <a href="/glossary">{{ $t('glossary.title') }}</a>
             </li>
             <li class="h-12 flex justify-center mr-2">
               <LazyMicroSendMailButt />

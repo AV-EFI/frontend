@@ -1,4 +1,3 @@
-
 // i18n.config.ts
 // This file is used to configure internationalization settings for the AVefi application.
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -50,8 +49,8 @@ export default defineI18nConfig(() => ({
             "glossary.definition": "Definition",
             "glossary.enumSource": "Enum Source",
             "glossary.category": "Category",
-            "glossary.noResults": "No glossary entries found",
             "glossary.search": "Search glossary",
+            "glossary.noResults": "No glossary entries found",
             "glossary.untranslated": "Untranslated",
             'glossary.all': "All Glossary Entries",
             "glossary.filterByLetter": ({ named }: { named: (key: string) => string }) => `Filter glossary by ${named('letter')}`,
@@ -123,6 +122,12 @@ export default defineI18nConfig(() => ({
                 "time4": "4 seconds ago"
             },
             "glossary": {
+                "title": "Glossary",
+                "description": "The glossary provides definitions and explanations of key terms used in AVefi. It helps users understand the terminology related to audiovisual works, manifestations, items, and more.",
+                "term": "Term",
+                "definition": "Definition",
+                "enumSource": "Enum Source",
+                "category": "Category",
                 "search": "Search glossary…",
                 "noResults": "No results.",
                 "all": "All",
@@ -133,7 +138,9 @@ export default defineI18nConfig(() => ({
                 "openInNewTab": "Open in new tab",
                 "viewDocs": "Documentation",
                 "loading": "Loading…",
-                "previewHint": "Pick an entry and click “Preview”."
+                "previewHint": "Pick an entry and click “Preview”.",
+                "copyLink": "Copy link to term",
+                "letter": "Letter"
             },
             "filteredInside": "Faceting active",
             "manifShort": "manif",
@@ -336,7 +343,7 @@ export default defineI18nConfig(() => ({
             'duration': 'Duration',
             'hello': 'Hello',
             'help': 'Help',
-            'faqAndGlossary': 'FAQ & Glossary',
+            'faq': 'FAQ',
             'helpAndGlossary': 'Help & Glossary',
             'hours': 'hours',
             'info': 'Info',
@@ -359,7 +366,6 @@ export default defineI18nConfig(() => ({
             'noResults': 'No results found',
             'open': 'Open',
             'other_ids': 'Other IDs',
-            'place': 'Place',
             'matchedField': 'Matched Field',
             'pleaseusemanifestationlink': 'Please use the link to the Manifestation or Work',
             'producers': 'Producers',
@@ -491,7 +497,7 @@ export default defineI18nConfig(() => ({
             "contact.about.2.beforeLink": "The specially developed AVefi schema follows the ",
             "contact.about.2.afterLink": ". Evidence is provided at the three levels Work/Variant, Manifestation, and Item",
             "contact.normdataContent.beforeLink": "Authority data used by the contributing institution, such as the ",
-            "contact.normdataContent.afterLink": ", are adopted and displayed accordingly.",
+            "contact.normdataContent.afterLink": " – are adopted and displayed accordingly.",
             "vocab": {
                 "pageTitle": "Vocab / Authority Data Export",
                 "pageDescription": "Shows distinct values for selected fields, including authority data links and data providers.",
@@ -531,19 +537,19 @@ export default defineI18nConfig(() => ({
                     "hasForm": "Form (has_form)"
                 }
             },
-            'videoSectionTitle': 'Find, discover and compare comprehensive data on film holdings of all genres',
-            'videoSectionDescription': 'Searchable are both film works and the versions of various participating film archives and collections.',
-            'advancedSearch': 'Advanced Search',
-            'showSimpleSearch': 'Show Simple Search',
-            'showAdvancedSearch': 'Show Advanced Search',
-            'addFacet': 'Add Facet',
-            'selectFacet': 'Select Facet',
-            'enterValue': 'Enter Value',
-            'recentSearches': 'Recent Searches',
-            'home': {
-                'breadcrumbs': 'Home',
-                'tagline': 'AVefi links film collections across institutions through unified identifiers, creating an open research infrastructure for audiovisual works.',
-                'welcome': 'Film metadata of all genres and types are available, with a particular focus on educational, instructional, and scientific films, as well as amateur films and home movies.',
+            "videoSectionTitle": 'Find, discover and compare comprehensive data on film holdings of all genres',
+            "videoSectionDescription": 'Searchable are both film works and the versions of various participating film archives and collections.',
+            "advancedSearch": "Advanced Search",
+            "showSimpleSearch": "Show Simple Search",
+            "showAdvancedSearch": "Show Advanced Search",
+            "addFacet": "Add Facet",
+            "selectFacet": "Select Facet",
+            "enterValue": "Enter Value",
+            "recentSearches": "Recent Searches",
+            "home": {
+                "breadcrumbs": "Home",
+                "tagline": "AVefi links film collections across institutions through unified identifiers, creating an open research infrastructure for audiovisual works.",
+                "welcome": "Film metadata of all genres and types are available, with a particular focus on educational, instructional, and scientific films, as well as amateur films and home movies.",
             },
             "hero": {
                 "pill": "Film science • Linked data • Research",
@@ -645,6 +651,18 @@ export default defineI18nConfig(() => ({
                     "titleWithItems": "Compare {prev} vs {next} – AVefi",
                     "description": "Compare two audiovisual work records side by side with difference highlighting.",
                     "descriptionWithItems": "Side-by-side comparison of two film work records with synchronized views and difference highlighting for research and analysis."
+                },
+                "glossary": {
+                    "title": "Glossary – AVefi",
+                    "description": "Definitions and explanations of key terms used in AVefi for audiovisual works, manifestations, items, and more.",
+                    "ogTitle": "Glossary | AVefi",
+                    "ogDescription": "Explore the AVefi glossary for definitions and explanations of all key terms used on the platform."
+                },
+                "faq": {
+                    "title": "FAQ – AVefi",
+                    "description": "Frequently asked questions about AVefi, the platform for film metadata and research.",
+                    "ogTitle": "FAQ | AVefi",
+                    "ogDescription": "Find answers to common questions about AVefi, its features, and how to use the platform."
                 }
             },
             ...avefiLocales.en
@@ -747,8 +765,8 @@ export default defineI18nConfig(() => ({
             "glossary.definition": "Definition",
             "glossary.enumSource": "Enum-Quelle",
             "glossary.category": "Kategorie",
-            "glossary.noResults": "Keine Glossareinträge gefunden",
             "glossary.search": "Glossar durchsuchen",
+            "glossary.noResults": "Keine Glossareinträge gefunden",
             "glossary.untranslated": "Nicht übersetzt",
             'glossary.all': "Alle Glossareinträge",
             "glossary.filterByLetter": ({ named }: { named: (key: string) => string }) => `Glossar nach ${named('letter')} filtern`,
@@ -785,7 +803,13 @@ export default defineI18nConfig(() => ({
                 "time4": "vor 4 Sekunden"
             },
             "glossary": {
-                "search": "Glossarbegriff suchen…",
+                "title": "Glossar",
+                "description": "Das Glossar bietet Definitionen und Erklärungen zu wichtigen Begriffen, die in AVefi verwendet werden. Es hilft den Nutzern, die Terminologie im Zusammenhang mit audiovisuellen Werken, Manifestationen, Exemplaren und mehr zu verstehen.",
+                "term": "Begriff",
+                "definition": "Definition",
+                "enumSource": "Enum-Quelle",
+                "category": "Kategorie",
+                "search": "Glossar durchsuchen",
                 "noResults": "Kein passender Glossarbegriff gefunden.",
                 "all": "Alle",
                 "filterByLetter": "Nach Buchstaben filtern {letter}",
@@ -1024,7 +1048,7 @@ export default defineI18nConfig(() => ({
             'subject': 'Schlagwort',
             'hello': 'Hallo',
             'help': 'Hilfe',
-            'faqAndGlossary': 'FAQ & Glossar',
+            'faq': 'FAQ',
             'helpAndGlossary': 'Hilfe & Glossar',
             'howToDoc': '<a href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf" target="_blank">AVefi How-to Dokument</a>',
             'manual': '<a href="https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf" target="_blank">AVefi Manual</a>',
@@ -1042,29 +1066,6 @@ export default defineI18nConfig(() => ({
             'contact.keywordsContent': 'Nachgewiesen sind alle Schlagworte, die die datengebende Institution vergeben hat.',
             'contact.normdata': 'Werden Normdaten verwendet?',
             'contact.normdataContent': 'Von der datengebenden Institution verwendete Normdaten - wie z.B. der <a class="link" href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html" target="_blank">Gemeinsamen Normdatei (GND)</a> - werden übernommen und entsprechend angezeigt.',
-            'Dataset1': 'Datensatz 1',
-            'Dataset2': 'Datensatz 2',
-            'language': 'Sprache',
-            'licensing': 'Lizensierung',
-            'licensingContent': 'Details zur Lizenzierung und Nachnutzung, wie Creative Commons, müssen noch festgelegt werden.',
-            'linkscollection': 'Linksammlung',            
-            'list': 'Liste',
-            'located_in_has_name': 'Ort',
-            'location': 'Ort',
-            'logList': 'Logs',
-            'logout': 'Abmelden',
-            'manifestation': 'Manifestation',
-            'mergeTool': 'Merge Tool',
-            'goToMerge': 'Merge zeigen',
-            'message': 'Nachricht',
-            'minutes': 'Minuten',
-            'multihelptext': ({ named }: { named: (key: string) => string }) => `Für die Entität mit dem efi <strong>${named('name')}</strong> wurden mehrere zugehörige Werke gefunden. Bitte beachten Sie, dass es sich hierbei um unterschiedliche Werke handelt, die alle mit dieser Entität in Verbindung stehen könnten. Um weitere Informationen zu einem bestimmten Werk zu erhalten, wählen Sie bitte eines aus der Liste aus. Nach der Auswahl werden Ihnen die detaillierten Angaben zu diesem Werk angezeigt - darunter z.B. Titel, Produktion, Regie und weitere relevante Metadaten.`,
-            'multiResults': 'Mehrere Ergebnisse',
-            'myDatasets': 'Meine Datensätze',
-            'noItemsFound': 'Keine Exemplare gefunden.',
-            'noResults': 'Keine Ergebnisse gefunden',
-            'open': 'Öffnen',
-            'other_ids': 'Weitere IDs',
             'contact.pids': 'Wieso werden PIDs vergeben?',
             'contact.pidsContent.0': 'Die Handle-PIDs dienen der Identifikation und Verknüpfung von Film-Metadaten.',
             'contact.pidsContent.1': 'Die zentral in der PID-Infrastruktur gesicherten, offenen Metadaten machen Filmdaten besser auffindbar und in weitere (Forschungs-)Prozesse integrierbar bzw. nachnutzbar. Darüber hinaus helfen PIDs Metadaten miteinander in Bezug setzen.',
@@ -1293,6 +1294,18 @@ export default defineI18nConfig(() => ({
                     "titleWithItems": "Vergleich {prev} vs {next} – AVefi",
                     "description": "Vergleichen Sie zwei Datensätze audiovisueller Werke nebeneinander mit Unterschiedshervorhebung.",
                     "descriptionWithItems": "Seitenvergleich zweier Filmwerk-Datensätze mit synchronisierten Ansichten und Unterschiedshervorhebung für Forschung und Analyse."
+                },
+                "glossary": {
+                    "title": "Glossar – AVefi",
+                    "description": "Das Glossar bietet Definitionen und Erklärungen zu wichtigen Begriffen, die in AVefi verwendet werden. Es hilft den Nutzern, die Terminologie im Zusammenhang mit audiovisuellen Werken, Manifestationen, Exemplaren und mehr zu verstehen.",
+                    "ogTitle": "Glossar | AVefi",
+                    "ogDescription": "Entdecken Sie das AVefi-Glossar für Definitionen und Erklärungen aller wichtigen Begriffe, die auf der Plattform verwendet werden."
+                },
+                "faq": {
+                    "title": "FAQ – AVefi",
+                    "description": "Frequently asked questions about AVefi, the platform for film metadata and research.",
+                    "ogTitle": "FAQ | AVefi",
+                    "ogDescription": "Find answers to common questions about AVefi, its features, and how to use the platform."
                 }
             },
             ...avefiLocales.de

@@ -49,7 +49,17 @@
               :dense="false"
               class="ml-2"
             />
+            <!-- Badge for all items empty -->
+            <span
+              v-if="allItemsEmpty(work)"
+              class="badge badge-manifestation badge-sm ml-2"
+              :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
+            >
+              <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
+              {{ $t('allItemsEmpty') || 'All Items Empty' }}
+            </span>
           </h2>
+          
           <h3
             v-if="work?.has_record?.has_alternative_title"
             class="text-sm text-left"
@@ -178,6 +188,44 @@
 </template>
 
 <script lang="ts" setup>
+import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
+// --- Helper functions for template ---
+function allItemsEmpty(work: any): boolean {
+    const rows = buildRows(work);
+    if (rows.length === 0) return false; // No items at all, don't show badge
+    return rows.every(row => isItemEmpty(row.item));
+}
+function isItemEmpty(item: any): boolean {
+    if (!item) return true;
+    // Get all item fields from spec that should be shown (excluding handle)
+    const itemFieldsFromSpec = [
+        'has_record.has_format',
+        'in_language.code',
+        'element_type',
+        'has_webresource',
+    ];
+    // Check if any field has data
+    return !itemFieldsFromSpec.some(path => has(item, path));
+}
+function get(obj: any, path: string): any {
+    if (!obj || !path) return undefined;
+    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+}
+function buildRows(work: any): Array<{ item: any, mf: any | null }> {
+    const rows: Array<{ item: any, mf: any | null }> = [];
+    const mfs: any[] = Array.isArray(work?.manifestations) ? work.manifestations : [];
+    for (const mf of mfs) {
+        const items: any[] = Array.isArray(mf?.items) ? mf.items : [];
+        for (const it of items) rows.push({ item: it, mf });
+    }
+    const tlItems: any[] = Array.isArray(work?.items) ? work.items : [];
+    for (const it of tlItems) {
+        rows.push({ item: it, mf: null });
+    }
+    return rows;
+}
+
+// --- End helpers ---
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
@@ -365,45 +413,7 @@ function getFilteredItems(manifestation: any) {
     return hits.map(h => h._source);
 }
 
-async function checkEmptyProperties(manifestations: any[]): Promise<void> {
-    for (const manifestation of manifestations) {
-        let allItemsEmpty = true;
-        for (const item of manifestation.items) {
-            if (!item.has_record?.has_format && !item.has_record?.in_language?.code && !item.has_record?.element_type && !item.has_record?.has_webresource) {
-                item.isEmpty = true;
-            } else {
-                item.isEmpty = false;
-                allItemsEmpty = false;
-            }
-        }
-        manifestation.allItemsEmpty = allItemsEmpty;
-    }
-}
-
-async function markDuplicateManifestations(manifestations: any[]): Promise<void> {
-    const seen = new Map();
-    if(manifestations.length === 0) return;
-    for (const manifestation of manifestations) {
-        if(manifestation?.has_record?.in_language !== undefined || manifestation?.has_record?.has_colour_type !== undefined || manifestation?.has_record?.is_manifestation_of !== undefined || manifestation?.has_record?.is_manifestation_of.length > 0) {
-            let alterTitles;  
-            if(manifestation?.has_record?.is_manifestation_of !== undefined) {
-                alterTitles = props.items
-                    ?.filter(item => manifestation?.has_record?.is_manifestation_of.flatMap(imo => imo?.id).includes(item?.handle))
-                    ?.flatMap(mir => mir.has_record?.has_alternative_title?.flatMap(alt => alt.has_name))
-                    .join(',');
-            }
-            const key = `${manifestation?.has_record?.in_language?.map(lang => lang.code).join(',')}-${manifestation?.has_record?.has_colour_type}-${manifestation?.has_record?.is_manifestation_of?.flatMap(imo => imo?.id)}-${alterTitles??''}`;
-            if (seen.has(key)) {
-                manifestation.isTwin = true;
-                seen.get(key).isTwin = true;
-            } else {
-                manifestation.isTwin = false;
-                seen.set(key, manifestation);
-            }
-        }
-    }
-}
-
+          
 watch(() => props.expandAllHandlesChecked, (newVal) => {
     props.items.forEach((item, i) => {
         const handle = item.handle;
@@ -487,15 +497,6 @@ function isFacetActive(facetKey: string, value: string): boolean {
     });
 }
 
-// ------- Utilities -------
-function get(obj: any, path: string): any {
-    if (!obj || !path) return undefined;
-    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
-}
-function has(obj: any, path: string): boolean {
-    const v = get(obj, path);
-    return v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0) && v !== '';
-}
 function asList(val: any): string {
     if (Array.isArray(val))  {
         if (val.length > 0 && typeof val[0] === 'object') {

@@ -20,14 +20,14 @@
           />
           <h2
             :id="`flat-work-title-${work?.handle ?? ''}`"
-            class="font-bold text-lg my-1"
+            class="font-bold text-lg my-1 text-left"
           >
             <a
               :href="`/film/${work.objectID}`"
               :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
               :title="$t('detailviewlink')"
               target="_blank"
-              class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-1"
+              class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
             >
               <span 
                 v-if="work._highlightResult?.has_record?.has_primary_title?.has_name"
@@ -49,7 +49,7 @@
           </h2>
           <h3
             v-if="work?.has_record?.has_alternative_title"
-            class="text-sm"
+            class="text-sm text-left opacity-80"
           >
             <ul
               v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name"
@@ -110,7 +110,7 @@
       <!-- Badge for all items empty -->
       <div
         v-if="allItemsEmpty(work)"
-        class="mt-2"
+        class="mt-2 text-left"
       >
         <span
           class="badge badge-manifestation badge-sm"
@@ -124,7 +124,7 @@
 
     <div class="divider my-0 divider-primary" />
     <!-- Search + Dropdown (FormKit) -->
-    <div class="px-4 py-2 flex items-center gap-2" role="search" :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
+    <div class="px-4 py-2 flex items-center gap-2 text-left" role="search" :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
       <FormKit
         type="dropdown"
         :name="`item-search-${work?.handle ?? ''}`"
@@ -188,13 +188,7 @@
                         category="avefi:Item"
                         :dense="false"
                       />
-                      <span
-                        v-if="isItemEmpty(row.item)"
-                        class="badge badge-item badge-outline badge-sm"
-                        :title="$t('emptyItemTooltip') || 'This item has no additional metadata'"
-                      >
-                        {{ $t('emptyItem') || 'Empty' }}
-                      </span>
+                      
                     </div>
                     <h4>
                       <GlobalClipboardComp
@@ -204,7 +198,16 @@
                       />
                     </h4>
                     <div class="divider my-0" />
+
+                    <span
+                        v-if="isItemEmpty(row.item)"
+                        class="badge badge-item mx-auto my-auto"
+                        :title="$t('emptyItemTooltip') || 'This item has no additional metadata'"
+                      >
+                        {{ $t('emptyItem') || 'Empty' }}
+                    </span>
                     <SearchGenericIconList
+                      v-else
                       :data="row.item"
                       level="item"
                       class="mt-2 items-start justify-start text-left"
@@ -293,6 +296,7 @@
 </template>
 
 <script setup lang="ts">
+import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { FormKit } from '@formkit/vue';
 import type { PropType } from 'vue';
