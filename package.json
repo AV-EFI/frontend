@@ -16,7 +16,9 @@
     "generate:colours": "tsx scripts/generate-scss-vars.ts",
     "generate:interfaces": "node scripts/generate-interfaces.mjs",
     "generate:suggestions": "tsx scripts/generate-query-suggestions.ts",
-    "generate:issuers": "tsx scripts/generate-issuer-data.ts"
+    "generate:issuers": "tsx scripts/generate-issuer-data.ts",
+    "check:contrast": "tsx utils/contrastCheck.ts",
+    "audit:accessibility": "echo 'Run your accessibility audit utility here'"
   },
   "dependencies": {
     "@dargmuesli/nuxt-cookie-control": "8.5.0",
