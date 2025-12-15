@@ -1,7 +1,8 @@
 <template>
   <div class="carousel-container flex items-center relative">
     <button :alt="$t('togglePreviousSlide')" :aria-label="$t('togglePreviousSlide')"
-      class="lg:flex my-auto z-10 p-2 lg:bg-gray-800 lg:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2"
+      class="lg:flex my-auto z-10 p-2 lg:bg-gray-800 lg:text-white text-black rounded-full bg-opacity-50 w-11 h-11 min-w-[44px] min-h-[44px] items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2"
+      style="min-width:44px;min-height:44px;"
       @click="prevSlide">
       <Icon name="tabler:chevron-left" />
     </button>
@@ -34,7 +35,8 @@
       </div>
     </div>
     <button
-      class="z-10 my-auto lg:flex p-2 lg:bg-gray-800 text-black lg:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-0"
+      class="z-10 my-auto lg:flex p-2 lg:bg-gray-800 text-black lg:text-white rounded-full bg-opacity-50 w-11 h-11 min-w-[44px] min-h-[44px] items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-0"
+      style="min-width:44px;min-height:44px;"
       :alt="$t('toggleNextSlide')" :aria-label="$t('toggleNextSlide')" @click="nextSlide">
       <Icon name="tabler:chevron-right" />
     </button>
@@ -45,55 +47,55 @@
 import { ref, defineProps, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
-  items: {
-    type: Array,
-    required: true
-  },
-  autoSlideInterval: {
-    type: Number,
-    default: 5000
-  }
+    items: {
+        type: Array,
+        required: true
+    },
+    autoSlideInterval: {
+        type: Number,
+        default: 5000
+    }
 });
 
 const currentIndex = ref(0);
 let autoSlideTimer = null;
 
 const prevSlide = () => {
-  currentIndex.value = (currentIndex.value - 1 + props.items.length) % props.items.length;
-  resetAutoSlide();
+    currentIndex.value = (currentIndex.value - 1 + props.items.length) % props.items.length;
+    resetAutoSlide();
 };
 
 const nextSlide = () => {
-  currentIndex.value = (currentIndex.value + 1) % props.items.length;
-  resetAutoSlide();
+    currentIndex.value = (currentIndex.value + 1) % props.items.length;
+    resetAutoSlide();
 };
 
 const startAutoSlide = () => {
-  if (props.autoSlideInterval > 0) {
-    autoSlideTimer = setInterval(() => {
-      currentIndex.value = (currentIndex.value + 1) % props.items.length;
-    }, props.autoSlideInterval);
-  }
+    if (props.autoSlideInterval > 0) {
+        autoSlideTimer = setInterval(() => {
+            currentIndex.value = (currentIndex.value + 1) % props.items.length;
+        }, props.autoSlideInterval);
+    }
 };
 
 const stopAutoSlide = () => {
-  if (autoSlideTimer) {
-    clearInterval(autoSlideTimer);
-    autoSlideTimer = null;
-  }
+    if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = null;
+    }
 };
 
 const resetAutoSlide = () => {
-  stopAutoSlide();
-  startAutoSlide();
+    stopAutoSlide();
+    startAutoSlide();
 };
 
 onMounted(() => {
-  startAutoSlide();
+    startAutoSlide();
 });
 
 onBeforeUnmount(() => {
-  stopAutoSlide();
+    stopAutoSlide();
 });
 </script>
 
@@ -127,5 +129,13 @@ onBeforeUnmount(() => {
 .slide-leave-to {
   opacity: 0;
   transform: translateX(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-inner,
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: none !important;
+  }
 }
 </style>

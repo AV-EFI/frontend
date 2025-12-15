@@ -26,7 +26,7 @@
       </div>
 
       <!-- Film Quote -->
-      <div v-if="randomQuote" class="card bg-base-100 dark:bg-base-200 shadow-lg backdrop-blur-sm">
+      <div v-if="randomQuote" class="card bg-base-100 dark:bg-base-200 shadow-lg backdrop-blur-sm" style="background-color:rgba(255,255,255,0.85);">
         <div class="card-body">
           <blockquote class="text-base text-base-content/80 mb-3 leading-relaxed" v-html="randomQuote.text" />
           <footer class="text-sm text-base-content/60">
