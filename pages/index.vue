@@ -377,7 +377,9 @@
           <div class="lg:col-span-7 flex justify-center">
             <div class="w-full max-w-xl" role="region"
               :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
-              <LazyGlobalCarouselComp :items="items" />
+              <ClientOnly>
+                <LazyGlobalCarouselComp :items="items" />
+              </ClientOnly>
             </div>
           </div>
         </div>
