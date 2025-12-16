@@ -2,7 +2,7 @@
   <div
     v-for="exemplar in items"
     :key="exemplar?.id || exemplar?.handle"
-    class="grid grid-cols-4 gap-x-2 gap-y-0 mb-2 grid-rows-[minmax(0,1fr)] px-2 md: ml-4 md:px-2 py-1 dark:text-white border-l-2 border-item text-neutral-700"
+    class="grid grid-cols-6 gap-x-2 gap-y-0 mb-2 grid-rows-[minmax(0,1fr)] px-2 md: ml-4 md:px-2 py-1 dark:text-white border-l-2 border-item text-neutral-700"
   >
     <div class="col-span-full row-start-1 mb-1">
       <MicroDividerComp
@@ -13,7 +13,7 @@
     </div>
 
     <!-- 01 EFI Handle -->
-    <div class="col-span-full md:col-span-4 row-start-2">
+    <div class="col-span-full md:col-span-6 row-start-2">
       <DetailKeyValueComp
         :id="exemplar?.handle"
         keytxt="efi"
@@ -38,7 +38,7 @@
         <SearchHighlightSingleComp
           :item="exemplar?.has_record?.has_access_status || null"
           :hitlite="highlightResult?.manifestations?.items?.has_record?.has_access_status?.matchedWords"
-          class="text-base"
+          class="text-sm"
         />
       </div>
     </div>
@@ -56,7 +56,7 @@
         <SearchHighlightListComp
           :items="(exemplar?.has_record?.has_format || []).map(f => f?.type).filter(Boolean)"
           :hilite="highlightResult?.manifestations?.items?.has_record?.has_format?.type?.matchedWords"
-          class="text-base"
+          class="text-sm"
         />
       </div>
     </div>
@@ -74,7 +74,7 @@
         <SearchHighlightSingleComp
           :item="exemplar?.has_record?.element_type || null"
           :hitlite="highlightResult?.manifestations?.items?.has_record?.element_type?.matchedWords"
-          class="text-base"
+          class="text-sm"
         />
       </div>
     </div>
@@ -88,7 +88,7 @@
         <SearchHighlightListComp
           :items="(exemplar?.has_record?.in_language || []).map(il => `${$t(il?.code)}${il?.usage?.length ? ' (' + il.usage.map(u => $t(u)).join(', ') + ')' : ''}`)"
           :hilite="highlightResult?.manifestations?.items?.has_record?.in_language?.code?.matchedWords"
-          class="text-base"
+          class="text-sm"
         />
       </div>
     </div>
@@ -99,7 +99,7 @@
         <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
           <MicroLabelComp label-text="has_sound_type" />
         </span>
-        <p class="text-base font-normal">
+        <p class="text-sm font-normal">
           {{ exemplar?.has_record?.has_sound_type ? $t(exemplar.has_record.has_sound_type) : '-' }}
         </p>
       </div>
@@ -111,7 +111,7 @@
         <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
           <MicroLabelComp label-text="has_colour_type" />
         </span>
-        <p class="text-base font-normal">
+        <p class="text-sm font-normal">
           {{ exemplar?.has_record?.has_colour_type ? $t(exemplar.has_record.has_colour_type) : '-' }}
         </p>
       </div>
@@ -123,7 +123,7 @@
         <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
           <MicroLabelComp label-text="has_duration" />
         </span>
-        <p class="text-base font-normal">
+        <p class="text-sm font-normal">
           {{
             exemplar?.duration_in_minutes
               ? `${exemplar.duration_in_minutes} ${$t('minutes')}`
@@ -141,7 +141,7 @@
         <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
           <MicroLabelComp label-text="avefi:Extent" />
         </span>
-        <p class="text-base font-normal">
+        <p class="text-sm font-normal">
           {{
             exemplar?.has_record?.has_extent?.has_value
               ? `${exemplar.has_record.has_extent.has_value} ${$t(exemplar.has_record.has_extent.has_unit)}`
@@ -157,13 +157,26 @@
         <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
           <MicroLabelComp label-text="has_frame_rate" />
         </span>
-        <p class="text-base font-normal">
-          {{ exemplar?.has_record?.has_frame_rate || '-' }}
+        <p class="text-sm font-normal">
+          {{ $t(exemplar?.has_record?.has_frame_rate || '-') }}
         </p>
       </div>
     </div>
 
-    <!-- 11 Webressource (array) -->
+    <!-- 10 BPS (Frame rate) -->
+    <div class="col-span-full md:col-span-1">
+      <div class="flex flex-col mb-1">
+        <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+          <MicroLabelComp label-text="has_note" />
+        </span>
+        <p class="text-sm font-normal">
+          {{ $t(exemplar?.has_record?.has_note || '-') }}
+        </p>
+      </div>
+    </div>
+
+
+    <!-- 12 Webressource (array) -->
     <div class="col-span-full md:col-span-1 flex flex-col justify-end">
       <span class="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-200">
         <MicroLabelComp label-text="webresource" />
@@ -183,7 +196,7 @@
               :href="url"
               target="_blank"
               rel="noopener"
-              class="link link-primary text-base font-semibold inline-flex items-center"
+              class="link link-primary text-sm font-semibold inline-flex items-center"
             >
               <Icon
                 name="tabler:external-link"

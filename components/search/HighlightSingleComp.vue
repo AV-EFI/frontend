@@ -29,7 +29,7 @@ const props = defineProps({
     fontSize: {
         type: String,
         required: false,
-        default: "text-base",
+        default: "text-sm",
     },
 });
 

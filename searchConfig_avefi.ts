@@ -49,6 +49,7 @@ export const config: SearchkitConfig = {
 
             // ---- ITEMS (exemplar level) – shown + faceted ----
             "manifestations.items",
+            "manifestations.items.has_record.has_access_status",
             "manifestations.items.has_record.has_format.type",
             "manifestations.items.has_record.has_colour_type",
             "manifestations.items.has_record.has_sound_type",
@@ -122,14 +123,12 @@ export const config: SearchkitConfig = {
                 nestedPath: "manifestations",
             },            
             // ----- Item-level (exemplare) -----
-            /*
             {
                 attribute: "has_access_status",
-                field: "manifestations.items.has_record.has_access_status.keyword",
+                field: "has_record.has_access_status.keyword",
                 type: "string",
                 nestedPath: "manifestations.items",
             },
-            */
             {
                 attribute: "has_format_type",
                 field: "has_record.has_format.type.keyword",

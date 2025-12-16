@@ -55,8 +55,9 @@
             <DetailKeyValueComp
               keytxt="title"
               :valtxt="manifestation?.has_record?.has_primary_title?.has_name"
-              class="col-span-full"
+              class="col-span-6"
               :clip="false"
+              font-size="text-sm"
             />
 
             <!-- 03 Datenhaltende Institution -->
@@ -64,8 +65,9 @@
               v-if="manifestation?.has_record?.described_by?.has_issuer_name"
               keytxt="dataholding"
               :valtxt="manifestation?.has_record?.described_by?.has_issuer_name"
-              class="col-span-full"
+              class="col-span-6"
               :clip="false"
+              font-size="text-sm"
             />
 
             <!-- 04 Web-Ressource -->

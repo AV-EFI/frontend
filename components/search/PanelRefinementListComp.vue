@@ -129,7 +129,7 @@
         :show-more-limit="10"
         :class-names="{
           'ais-RefinementList-labelText': 'text-xs',
-          'ais-RefinementList-checkbox': 'checkbox checkbox-xs',
+          'ais-RefinementList-checkbox': 'checkbox !w-4 !h-4 mr-2',
           'ais-RefinementList-count': 'badge badge-secondary font-bold text-white text-xs'
         }"
       >
@@ -186,7 +186,7 @@
                 @click="s?.refine?.(item.value)"
               >
                 <input
-                  class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-sm min-w-[44px] min-h-[44px]"
+                  class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs"
                   type="checkbox"
                   name="checkbox"
                   :value="item.value"
@@ -194,7 +194,6 @@
                   :aria-checked="item.isRefined"
                   :title="$t('refineBy', { label: item.label })"
                   :aria-label="$t('refineBy', { label: item.label })"
-                  style="min-width:44px;min-height:44px;"
                 >
                 <span>
                   {{ $t(item.label.replace('_', ':')) }}

@@ -93,6 +93,7 @@
               :valtxt="has_event_item?.has_date"
               :clip="false"
               :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"              
+              font-size="text-sm"
             />
           </template>
         </NuxtLayout>
@@ -165,6 +166,7 @@
               :valtxt="has_event_item?.has_date"
               :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
               :clip="false"
+              font-size="text-sm"
             />
           </template>
         </NuxtLayout>
@@ -215,6 +217,7 @@
               :valtxt="has_event_item?.located_in"
               :ul="true"
               :aria-label="$t('place') + ': ' + has_event_item?.located_in"
+              font-size="text-sm"
             />
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
@@ -270,6 +273,7 @@
                 :valtxt="has_event_item?.has_date"
                 :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
                 :clip="false"
+                font-size="text-sm"
               />
             </div>
           </template>

@@ -65,8 +65,8 @@ textarea::selection {
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 1rem;
-  --size-selector: 0.1875rem;
-  --size-field: 0.1875rem;
+  --size-selector: 0.2rem;
+  --size-field: 0.2rem;
   --border: 1px;
   --depth: 0;
   --noise: 0;
@@ -112,8 +112,8 @@ textarea::selection {
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 1rem;
-  --size-selector: 0.1875rem;
-  --size-field: 0.1875rem;
+  --size-selector: 0.2rem;
+  --size-field: 0.2rem;
   --border: 1px;
   --depth: 0;
   --noise: 0;
@@ -444,9 +444,9 @@ mark {
 .cookieControl button {
   border: 2px solid white;
   outline: 0;
-  font-size: 1rem;
+  font-size: .75rem;
   cursor: pointer;
-  padding: 1rem 1rem;
+  padding: .75rem .75rem!important;
   border-radius: .5rem;
   backface-visibility: hidden;
   transition:
