@@ -444,9 +444,9 @@ mark {
 .cookieControl button {
   border: 2px solid white;
   outline: 0;
-  font-size: 1rem;
+  font-size: .75rem!important;
   cursor: pointer;
-  padding: 1rem 1rem;
+  padding: .5rem .5rem!important;
   border-radius: .5rem;
   backface-visibility: hidden;
   transition:
@@ -749,6 +749,7 @@ mark {
   }
   .cookieControl__BarButtons button {
     width: 100%;
+    min-width: 64px;
   }
   .cookieControl__BarButtons button + button {
     margin: 10px 0 0;
