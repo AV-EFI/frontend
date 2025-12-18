@@ -3,7 +3,7 @@
 ## Props
 
 - `items`: Array
-- `viewTypeChecked`: Boolean
+- `viewTypeChecked`: 'accordion' | 'flat' | 'table' (string enum)
 - `productionDetailsChecked`: Boolean
 - `showAdminStats`: Boolean
 - `expandedHandles`: Object

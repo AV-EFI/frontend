@@ -100,7 +100,7 @@
                     aria-hidden="true"
                   >
                     <Icon
-                      name="i-mdi:tag-outline"
+                       name="tabler:tag"
                       size="18"
                     />
                   </span>
@@ -300,7 +300,7 @@ const availableFacets = computed<FacetOption[]>(() => {
         if (!config?.search_settings?.facet_attributes) return [];
         return config.search_settings.facet_attributes.map((f: any) => {
             const attribute = f.attribute || f;
-            const facetIcon = FACET_ICON_MAP[attribute] || 'i-mdi:tag-outline';
+            const facetIcon = FACET_ICON_MAP[attribute] || 'tabler:tag';
             const label = `${t(attribute)}`;
             return { label, value: attribute, icon: facetIcon };
         });

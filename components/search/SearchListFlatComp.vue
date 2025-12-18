@@ -89,7 +89,7 @@
             target="_blank"
           >
             <Icon
-              name="mdi:eye-outline"
+               name="tabler:eye"
               class="text-2xl"
               aria-hidden="true"
             />
@@ -213,7 +213,7 @@
                       class="mt-2 items-start justify-start text-left"
                     />
                   </div>
-                  <div v-if="row.item?.has_record?.has_webresource">
+                  <div v-if="row.item?.has_record?.has_webresource" class="flex items-start">
                     <GlobalTooltipInfo
                       :text="$t('tooltip.webresource')"
                     />
@@ -256,7 +256,7 @@
                     @click="navigateToItem(row.item, work?.handle ?? '')"
                   >
                     <Icon
-                      name="mdi:eye-outline"
+                       name="tabler:eye"
                       class="w-4 h-4 mr-1"
                       aria-hidden="true"
                     />
@@ -300,7 +300,7 @@ import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/u
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { FormKit } from '@formkit/vue';
 import type { PropType } from 'vue';
-import type { MovingImageRecordContainer } from 'models/interfaces/av_efi_schema';
+import type { MovingImageRecordContainer } from '@/models/interfaces/schema/avefi_schema_type_utils';
 import fieldsSpec from '../../models/interfaces/avefi_search_fields';
 defineProps({
     datasets: {
@@ -349,35 +349,6 @@ onBeforeUnmount(() => {
     window.removeEventListener('resize', updateViewportCols);
 });
 
-// ------- Utilities -------
-function get(obj: any, path: string): any {
-    if (!obj || !path) return undefined;
-    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
-}
-function has(obj: any, path: string): boolean {
-    const v = get(obj, path);
-    return v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0) && v !== '';
-}
-
-// Check if item has any meaningful data beyond handle
-function isItemEmpty(item: any): boolean {
-    if (!item) return true;
-    // Get all item fields from spec that should be shown (excluding handle)
-    const itemFieldsFromSpec = itemFields.value
-        .filter((f: any) => f.key !== 'item.handle')
-        .map((f: any) => {
-            // Remove "items." prefix from path since we're checking the item object directly
-            const path = f.path.replace(/^items\./, '');
-            return { path, altPaths: f.alt_paths || [] };
-        });
-    
-    // Check if any field has data
-    return !itemFieldsFromSpec.some(({ path, altPaths }) => {
-        if (has(item, path)) return true;
-        // Check alternative paths
-        return altPaths.some((altPath: string) => has(item, altPath.replace(/^items\./, '')));
-    });
-}
 
 // Check if manifestation has any meaningful data beyond handle
 function isManifestationEmpty(mf: any): boolean {
@@ -396,67 +367,6 @@ function isManifestationEmpty(mf: any): boolean {
     return !manifestationFieldPaths.some(field => has(mf, field));
 }
 
-// Check if all items in a work are empty
-function allItemsEmpty(work: any): boolean {
-    const rows = buildRows(work);
-    if (rows.length === 0) return false; // No items at all, don't show badge
-    return rows.every(row => isItemEmpty(row.item));
-}
-function asList(val: any): string {
-    if (Array.isArray(val))  {
-        if (val.length > 0 && typeof val[0] === 'object') {
-            return (val as any[]).map((v: any) => (v?.has_name ? String(v.has_name) : '')).filter((v: string) => v !== '').join(', ');
-        } else if (typeof val[0] === 'string' || typeof val[0] === 'number' || typeof val[0] === 'boolean') {
-            return (val as Array<string | number | boolean>).join(', ');
-        }
-        return (val as any[]).filter(v => v != null && v !== '').join(', ');
-    }
-    return String(val);
-}
-
-function yearsDisplay(work: any): string {
-    const years = get(work, 'years');
-    if (years && Array.isArray(years) && years.length) return years.join(', ');
-    const range = get(work, 'production_in_year');
-    if (range && typeof range === 'object') {
-        const from = (range.gte ?? range.gt ?? '');
-        const to = (range.lte ?? range.lt ?? '');
-        return [from, to].filter(Boolean).join('–');
-    }
-    return '';
-}
-function formatValue(val: any): string {
-    if (val === null || val === undefined) return '';
-    if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return String(val);
-    if (Array.isArray(val)) return val.map(formatValue).join(', ');
-    if (typeof val === 'object') {
-        return '{ ' + Object.entries(val).map(([k, v]) => `${k}: ${formatValue(v)}`).join(', ') + ' }';
-    }
-    return String(val);
-}
-
-// ------- Flatten rows (Work → Items, carrying manifestation context) -------
-function buildRows(work: any): Array<{ item: any, mf: any | null }> {
-    const rows: Array<{ item: any, mf: any | null }> = [];
-    const mfs: any[] = Array.isArray(work?.manifestations) ? work.manifestations : [];
-    const mfByHandle = new Map<string, any>();
-    for (const m of mfs) if (m?.handle) mfByHandle.set(String(m.handle), m);
-
-    // Preferred: items from manifestations (keep context)
-    for (const mf of mfs) {
-        const items: any[] = Array.isArray(mf?.items) ? mf.items : [];
-        for (const it of items) rows.push({ item: it, mf });
-    }
-
-    // Also: items directly under work.items with best-effort mf linkage
-    const tlItems: any[] = Array.isArray(work?.items) ? work.items : [];
-    for (const it of tlItems) {
-        const maybeHandle = get(it, 'is_item_of.id');
-        const mf = maybeHandle ? (mfByHandle.get(String(maybeHandle)) || null) : null;
-        rows.push({ item: it, mf });
-    }
-    return rows;
-}
 
 // ------- Produktions-Events parsing (display; search will only use placeName) -------
 function parsedEvents(mf: any): Array<{ placeName?: string; sameAsId?: string; sameAsCategory?: string; placeCategory?: string; }> {

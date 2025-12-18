@@ -80,7 +80,7 @@
     "@types/nodemailer": "^7",
     "@typescript-eslint/eslint-plugin": "^8.48.1",
     "@typescript-eslint/parser": "^8.48.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-vue": "^10.6.2",
     "export-to-csv": "^1.4.0",
     "nuxt-schema-org": "^5.0.9",

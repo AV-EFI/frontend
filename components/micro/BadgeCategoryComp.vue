@@ -9,7 +9,7 @@
       category === 'avefi:Manifestation' ? 'bg-manifestation' :
       category === 'avefi:Item' ? 'bg-item' : 'bg-primary',
       category === 'avefi:WorkVariantPart' ? 'bg-secondary/60 text-white mx-auto' : 'bg-primary',
-      'badge bg-neutral font-semibold dark:text-black',
+      'badge badge-xs bg-neutral font-semibold dark:text-black',
     ]"
   >
     {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}

@@ -225,7 +225,12 @@
 
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 
-const viewTypeChecked = ref(false);
+import { useStorage } from '@vueuse/core';
+const viewTypeChecked = useStorage('institutionListViewTypeChecked', false);
+
+watch(viewTypeChecked, () => {
+    expandAllChecked.value = false;
+});
 const expandAllChecked = ref(false);
 
 const props = defineProps({
@@ -246,9 +251,6 @@ watch(expandAllChecked, (newValue) => {
     expandAllItems();
 });
 
-watch(viewTypeChecked, (newValue) => {
-    expandAllChecked.value = false;
-});
 
 const expandAllItems = () => {
     const expandIcons = document.querySelectorAll('.expand-icon');

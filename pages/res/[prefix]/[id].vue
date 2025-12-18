@@ -36,7 +36,7 @@
       </template>
       <template #cardBody>
         <div class="px-4 pb-4">
-          <div v-if="pending" class="text-center py-8">
+          <div v-if="pending" class="text-center py-4">
             <span class="loading loading-spinner loading-lg text-primary" />
           </div>
           <div v-else-if="error" class="text-center text-red-500 py-8">
@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
 import { useRoute } from 'vue-router';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useAsyncData, useRuntimeConfig } from 'nuxt/app';
 
 definePageMeta({ auth: false });
@@ -107,21 +107,13 @@ const { data: result, error, pending } = await useAsyncData(
         if (resourceData?.compound_record?.resource_type) {
             resourceType = resourceData.compound_record.resource_type;
         } else if (resourceData?.handle !== resourceData?.compound_record?._source?.handle) {
-            if (
-                resourceData?.compound_record?._source?.manifestations?.length > 0 ||
-        resourceData?.compound_record?._source?.items?.length > 0
-            ) {
+            if (resourceData?.compound_record?._source?.manifestations?.length > 0 || resourceData?.compound_record?._source?.items?.length > 0) {
                 resourceType = 'manifestationOrItem';
             }
         } else {
-            if (
-                resourceData?.compound_record?._source?.parts &&
-        resourceData?.compound_record?._source?.has_record?.type === 'Serial'
-            ) {
+            if (resourceData?.compound_record?._source?.parts && resourceData?.compound_record?._source?.has_record?.type === 'Serial') {
                 resourceType = 'compilation';
-            } else if (
-                resourceData?.compound_record?._source?.has_record?.is_manifestation_of?.length > 1
-            ) {
+            } else if (resourceData?.compound_record?._source?.has_record?.is_manifestation_of?.length > 1) {
                 resourceType = 'compilationManifestation';
             }
         }
@@ -135,17 +127,38 @@ const { data: result, error, pending } = await useAsyncData(
         return {
             data: resourceData,
             resourceType,
-            effectiveHandle
+            effectiveHandle,
+            requestedHandle: fullId,
+            workHandle: resourceData?.compound_record?._source?.handle,
         };
     }
 );
+
+watchEffect(() => {
+    if (pending.value || error.value || !result.value) return;
+
+    // If hash exists, already canonical
+    if (route.hash) return;
+
+    const { requestedHandle, workHandle } = result.value;
+
+    // Already on workvariant
+    if (requestedHandle === workHandle) return;
+
+    navigateTo(
+        {
+            path: `/res/${workHandle}`,
+            hash: `#${requestedHandle}`,
+        },
+        { replace: true }
+    );
+});
 
 // Computed accessors
 const dataJson = computed(() => result.value?.data);
 const resourceType = computed(
     () => result.value?.resourceType ?? 'workVariant'
 );
-const effectiveHandle = computed(() => result.value?.effectiveHandle || id);
 
 const { t } = useI18n();
 
@@ -176,8 +189,7 @@ useSeoMeta({
     ogTitle: title,
     ogDescription: description,
     ogImage: '/img/avefi-og-image.png',
-    ogUrl: canonical,
-    canonical
+    ogUrl: canonical.value,
 });
 
 // Schema.org + Breadcrumbs

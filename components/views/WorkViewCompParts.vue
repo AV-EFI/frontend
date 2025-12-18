@@ -34,7 +34,16 @@
               :id="`part-title-${part?.handle ?? idxFallback()}`"
               class="card-title text-lg font-semibold"
             >
-              {{ get(part,'has_record.has_primary_title.has_name') || part?.handle || $t('title') }}
+            <NuxtLink
+                v-if="part?.handle"
+                :to="`/res/${part.handle}`"
+                class="link dark:link-white no-underline hover:underline"
+                :alt="$t('detailviewlink')"
+                :title="$t('detailviewlink')"
+                target="_blank"
+              >
+                {{ get(part,'has_record.has_primary_title.has_name') || part?.handle || $t('title') }}
+              </NuxtLink>
               <MicroBadgeCategoryComp
                 :category="part?.has_record?.category || 'avefi:WorkVariantPart'"
                 :dense="false"
@@ -65,7 +74,7 @@
               :title="$t('detailviewlink')"
               target="_blank"
             >
-              <Icon name="mdi:eye-outline" class="text-2xl" :alt="$t('detailviewlink')" />
+               <Icon name="tabler:eye" class="text-2xl" :alt="$t('detailviewlink')" />
             </NuxtLink>
 
             <a
@@ -77,7 +86,7 @@
               :aria-label="$t('open')"
               :title="$t('open')"
             >
-              <Icon name="mdi:open-in-new" class="text-2xl" :alt="$t('open')" />
+               <Icon name="tabler:external-link" class="text-2xl" :alt="$t('open')" />
             </a>
 
             <GlobalActionContextComp v-if="part" :item="part" />

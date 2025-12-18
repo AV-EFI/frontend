@@ -4,15 +4,15 @@
     <button
       ref="triggerRef"
       type="button"
-      class="btn btn-circle btn-outline btn-xs m-1"
+      class="btn btn-circle btn-outline btn-xs"
       aria-haspopup="true"
       :aria-expanded="String(open)"
       aria-controls="sameas-dropdown-menu"
       @click.stop="toggle()"
       @keydown="onTriggerKeydown"
     >
-      <Icon :class="['text-' + fontSize]" name="mdi:dots-horizontal" />
-      <span class="sr-only">Open external references</span>
+      <Icon :class="['text-' + fontSize]" name="tabler:dots" />
+      <span class="sr-only"> {{$t('openExternalReferences')}}</span>
     </button>
 
     <!-- Menu (fixed, viewport-positioned) -->
@@ -101,7 +101,7 @@
           class="link link-primary link-hover dark:link-accent"
           @click="close()"
         >
-          <Icon name="carbon:notebook-reference" size="1em" />
+          <Icon name="tabler:notebook" size="1em" />
           <span>&nbsp;{{ $t(item.category) }}</span>
         </a>
         <a
@@ -130,7 +130,7 @@ import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 
 const props = defineProps({
     sameAsData: { type: Array as () => Array<any>, default: () => [] },
-    fontSize: { type: String, default: 'base' },
+    fontSize: { type: String, default: 'xs' },
     type: { type: String, default: 'film' },
 });
 

@@ -10,7 +10,7 @@
   <!--
     <Icon
       class="text-primary-600 dark:text-primary-300 !align-baseline cursor-pointer"
-      name="mdi:clipboard-play-multiple-outline"
+      name="tabler:clipboard"
       :alt="`Copy ${displayText || targetPropertyValue}`"
       :title="`Copy ${displayText || targetPropertyValue}`"
       @click="copyExtended(targetPropertyValue, targetPropertyName)"

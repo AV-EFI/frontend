@@ -4,83 +4,106 @@
     role="group"
     :aria-label="`${$t(keytxt)}: ${Array.isArray(valtxt) ? valtxt.map(v => v?.has_name ?? v).join(', ') : ''}`"
   >
-    <MicroLabelComp
-      v-if="keytxt"
-      :label-text="keytxt"
-    />
-
-    <!-- Non-list display (Clipboard mode) -->
-    <div
-      v-if="!ul"
-      class="flex flex-row flex-wrap items-center justify-content-between hover:bg-slate-100 dark:hover:bg-slate-700"
-      role="group"
-      :aria-label="$t(keytxt)"
-    >
-      <GlobalClipboardComp
-        v-for="val in valtxt"
-        v-if="clip"
-        :key="val?.has_name ?? val"
-        :class="fontSize"
-        class="flex items-center mr-2 min-w-6"
-        :display-text="val?.has_name ?? val"
-        :copy-text="clipText ? clipText : (val?.has_name ?? val)"
-      />
-      <span
-        v-if="!clip"
-        class="flex-grow"
-        :class="fontSize"
-        :aria-label="`${$t(keytxt)}: ${valtxt.map(v => v?.has_name ?? v).join(', ')}`"
-      >
-        {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
-      </span>
-      <DetailSameAsComp
-        v-if="sameAs"
-        :same-as-data="sameAsData"
-        :type="sameAsType"
-        :class="fontSize"
-        class="flex items-end"
+    <!-- LABEL (fixed baseline, space always reserved) -->
+    <div class="h-4 flex items-start">
+      <MicroLabelComp
+        v-if="keytxt"
+        :label-text="keytxt"
       />
     </div>
 
-    <!-- List display (ul=true) -->
-    <div
-      v-else
-      :class="['max-h-64', overflowY, 'overflow-x-visible', {'bg-slate-100 dark:bg-gray-800 p-2 rounded-lg': bgColor}]"
-    >
-      <ul
-        v-if="valtxt"
-        role="list"
+    <!-- CONTENT (single normalized offset) -->
+    <div class="mt-1">
+
+      <!-- NON-LIST DISPLAY -->
+      <div
+        v-if="!ul"
+        class="flex flex-row flex-wrap items-start min-h-6 h-8 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
+        role="group"
         :aria-label="$t(keytxt)"
       >
-        <li
-          v-for="val in valtxt"
-          :key="val?.has_name ?? val"
-          class="flex flex-row items-center justify-between flex-wrap hover:bg-slate-100 dark:hover:bg-slate-700"
-          :class="`${fontSize}`"
-          role="listitem"
-          :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
-        >
-          <span 
-            class="flex-grow"
-            :class="[narrow? 'w-3/4':'']"
-          >
-            {{ val?.has_name ?? $t(val) }}
-          </span>
-          <DetailSameAsComp
-            v-if="sameAs"
-            :same-as-data="val.same_as"
-            :type="sameAsType"
-            class="flex-shrink-0 flex flex-row mr-4"
+        <!-- CLIPBOARD MODE -->
+        <template v-if="clip">
+          <GlobalClipboardComp
+            v-for="val in valtxt"
+            :key="val?.has_name ?? val"
+            :display-text="val?.has_name ?? val"
+            :copy-text="clipText ? clipText : (val?.has_name ?? val)"
+            class="flex items-start h-8 leading-5 mr-2 min-w-6"
             :class="fontSize"
           />
-        </li>
-      </ul>
-      <span
+        </template>
+
+        <!-- TEXT MODE -->
+        <span
+          v-else
+          class="flex-grow h-8 flex items-start leading-5 text-xs"
+          :aria-label="`${$t(keytxt)}: ${valtxt.map(v => v?.has_name ?? v).join(', ')}`"
+        >
+          {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
+        </span>
+
+        <!-- SAME AS -->
+        <DetailSameAsComp
+          v-if="sameAs"
+          :same-as-data="sameAsData"
+          :type="sameAsType"
+          class="h-8 flex items-start"
+          :class="fontSize"
+        />
+      </div>
+
+      <!-- LIST DISPLAY -->
+      <div
         v-else
-        aria-hidden="true"
+        :class="[
+          'max-h-32',
+          overflowY,
+          'overflow-x-visible'
+        ]"
       >
-        -
-      </span>
+        <!-- background & padding moved INSIDE to preserve baseline -->
+        <div
+          :class="{ 'bg-slate-100 dark:bg-gray-800 p-2 rounded-lg': bgColor }"
+        >
+          <ul
+            v-if="valtxt"
+            role="list"
+            :aria-label="$t(keytxt)"
+          >
+            <li
+              v-for="val in valtxt"
+              :key="val?.has_name ?? val"
+              class="flex flex-row items-start justify-between min-h-6 h-6 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
+              role="listitem"
+              :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
+              :class="fontSize"
+            >
+              <span
+                class="flex-grow h-8 flex items-start leading-5"
+                :class="[narrow ? 'w-3/4' : '']"
+              >
+                {{ val?.has_name ?? $t(val) }}
+              </span>
+
+              <DetailSameAsComp
+                v-if="sameAs"
+                :same-as-data="val.same_as"
+                :type="sameAsType"
+                class="h-8 flex items-start flex-shrink-0 mr-4"
+                :class="fontSize"
+              />
+            </li>
+          </ul>
+
+          <span
+            v-else
+            aria-hidden="true"
+          >
+            -
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -111,11 +134,11 @@ const props = defineProps({
     fontSize: {
         type: String,
         required: false,
-        default: "text-sm",
+        default: 'text-sm'
     },
     overflowY: {
         type: String,
-        default: 'overflow-y-auto'
+        default: ''
     },
     clip: {
         type: Boolean,

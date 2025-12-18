@@ -2,7 +2,7 @@
   <div class="grid-container col-span-full">
     <div class="grid grid-cols-12 gap-2">
       <!-- has_event -->
-      <!-- papa grid -->       
+      <!-- papa grid -->
       <div
         v-for="(has_event_item, event_index) in eventList"
         :key="event_index"
@@ -17,7 +17,7 @@
         >
           <template #heading>
             <span
-              class="dark:text-white"
+              class="dark:text-white leading-5"
               :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.category)"
               role="heading"
               aria-level="3"
@@ -28,7 +28,7 @@
 
           <template #left>
             <!-- has_activity (crew) -->
-            <div 
+            <div
               v-for="(has_activity_item, activity_index) in getCrewMemberList(has_event_item)"
               :key="activity_index"
               class="col-span-full"
@@ -49,7 +49,7 @@
 
           <template #center>
             <!-- has_activity (cast) -->
-            <div 
+            <div
               v-for="(has_activity_item, activity_index) in getCastMemberList(has_event_item)"
               :key="activity_index"
               class="grid col-span-12 grid-cols-8 activity"
@@ -74,7 +74,7 @@
           </template>
 
           <template #right>
-            <!-- 🔁 ORDER: Place → Year -->
+            <!-- 🔁 ORDER: Place → Year 1 -->
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
@@ -92,8 +92,7 @@
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.has_date"
               :clip="false"
-              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"              
-              font-size="text-sm"
+              :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
             />
           </template>
         </NuxtLayout>
@@ -105,7 +104,7 @@
         >
           <template #heading>
             <span
-              class="dark:text-white"
+              class="dark:text-white leading-5"
               :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.category)"
               role="heading"
               aria-level="3"
@@ -116,44 +115,57 @@
 
           <template #left>
             <!-- has_activity (crew) -->
-            <div 
+            <div
               v-for="(has_activity_item, activity_index) in getCrewMemberList(has_event_item)"
               :key="activity_index"
               class="col-span-full"
               :aria-label="$t('crewMember') + ': ' + has_activity_item.type"
               role="group"
             >
-              <MicroLabelComp
-                :label-text="has_activity_item.type"
-                class="text-ellipsis dark:text-gray-300"
-                :aria-label="$t('crewMemberType') + ': ' + has_activity_item.type"
-              />
-              <!-- has_agent -->
-              <ul :aria-label="$t('agentsList')">
-                <li
-                  v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
-                  :key="agent_index"
-                  :aria-label="$t('agent') + ': ' + has_agent_item.has_name"
-                >
-                  <span class="break-words inline dark:text-gray-300">
-                    {{ has_agent_item.has_name }}
-                    <DetailSameAsComp
-                      v-if="has_agent_item.same_as"
-                      :same-as-data="has_agent_item.same_as"
-                      type="person"
-                      :aria-label="$t('sameAs')"
-                    />
-                  </span>
-                </li>
-              </ul>
+              <!-- LABEL baseline normalized -->
+              <div class="h-4 flex items-start">
+                <MicroLabelComp
+                  :label-text="has_activity_item.type"
+                  class="text-ellipsis dark:text-gray-300"
+                  :aria-label="$t('crewMemberType') + ': ' + has_activity_item.type"
+                />
+              </div>
+
+              <!-- CONTENT baseline normalized -->
+              <div class="mt-1">
+                <!-- has_agent -->
+                <ul :aria-label="$t('agentsList')">
+                  <li
+                    v-for="(has_agent_item, agent_index) in has_activity_item.has_agent"
+                    :key="agent_index"
+                    :aria-label="$t('agent') + ': ' + has_agent_item.has_name"
+                    class="h-8 min-h-8 leading-5 flex items-start hover:bg-primary-50"
+                  >
+                    <span class="flex items-start gap-2 break-words dark:text-gray-300">
+                      <span class="leading-5">
+                        {{ has_agent_item.has_name }}
+                      </span>
+
+                      <DetailSameAsComp
+                        v-if="has_agent_item.same_as"
+                        :same-as-data="has_agent_item.same_as"
+                        type="person"
+                        :aria-label="$t('sameAs')"
+                        text="sm"
+                        class="h-8 flex items-start"
+                      />
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </template>
 
           <template #right>
-            <!-- 🔁 ORDER: Place → Year -->
+            <!-- 🔁 ORDER: Place → Year 2 -->
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
-              keytxt="place"
+              keytxt="located_in_has_name"
               class="col-span-full dark:text-gray-300"
               :valtxt="has_event_item?.located_in"
               :aria-label="$t('place') + ': ' + has_event_item?.located_in"
@@ -166,7 +178,7 @@
               :valtxt="has_event_item?.has_date"
               :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
               :clip="false"
-              font-size="text-sm"
+              font-size=""
             />
           </template>
         </NuxtLayout>
@@ -178,7 +190,7 @@
         >
           <template #heading>
             <span
-              class="dark:text-white"
+              class="dark:text-white leading-5"
               :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.category)"
               role="heading"
               aria-level="3"
@@ -189,7 +201,7 @@
 
           <template #left>
             <!-- has_activity (cast) -->
-            <div 
+            <div
               v-for="(has_activity_item, activity_index) in getCastMemberList(has_event_item)"
               :key="activity_index"
               class="col-span-full"
@@ -209,7 +221,7 @@
           </template>
 
           <template #right>
-            <!-- 🔁 ORDER: Place → Year -->
+            <!-- 🔁 ORDER: Place → Year 3 -->
             <DetailKeyValueListComp
               v-if="has_event_item?.located_in"
               keytxt="place"
@@ -217,7 +229,7 @@
               :valtxt="has_event_item?.located_in"
               :ul="true"
               :aria-label="$t('place') + ': ' + has_event_item?.located_in"
-              font-size="text-sm"
+              font-size="text-xs"
             />
             <DetailKeyValueComp
               v-if="has_event_item?.has_date"
@@ -238,7 +250,7 @@
         >
           <template #heading>
             <p
-              class="dark:text-white"
+              class="dark:text-white leading-5"
               :aria-label="$t('eventCategory') + ': ' + $t(has_event_item.category)"
               role="heading"
               aria-level="3"
@@ -273,7 +285,7 @@
                 :valtxt="has_event_item?.has_date"
                 :aria-label="$t('productionyear') + ': ' + has_event_item?.has_date"
                 :clip="false"
-                font-size="text-sm"
+                font-size=""
               />
             </div>
           </template>
@@ -289,22 +301,22 @@
 
 <script lang="ts" setup>
 import type { Event } from '../../models/interfaces/av_efi_schema';
-const eventList = defineModel({type: Array as PropType<Event[]>, required: true});
+const eventList = defineModel({ type: Array as PropType<Event[]>, required: true });
 
-function getCastMemberList (hasEvent: Event) {
+function getCastMemberList(hasEvent: Event) {
     try {
         return hasEvent.has_activity?.filter((hasAct) => hasAct.type == 'CastMember');
-    } catch(ex) {
-        console.error(ex);        
+    } catch (ex) {
+        console.error(ex);
     }
     return null;
 }
 
-function getCrewMemberList (hasEvent: Event) {
+function getCrewMemberList(hasEvent: Event) {
     try {
         return hasEvent.has_activity?.filter((hasAct) => hasAct.type != 'CastMember');
-    } catch(ex) {
-        console.error(ex);        
+    } catch (ex) {
+        console.error(ex);
     }
     return null;
 }
