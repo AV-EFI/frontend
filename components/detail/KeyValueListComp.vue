@@ -57,6 +57,7 @@
       <div
         v-else
         :class="[
+          'min-h-8',
           'max-h-32',
           overflowY,
           'overflow-x-visible'
