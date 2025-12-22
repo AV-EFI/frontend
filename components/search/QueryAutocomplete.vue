@@ -160,7 +160,14 @@ const emit = defineEmits<{
 }>();
 
 // ======= State =======
-const displayValue = ref(props.modelValue ?? '');
+const displayValue = computed<string>({
+    get() {
+        return props.modelValue ?? '';
+    },
+    set(v) {
+        emit('update:modelValue', v);
+    }
+});
 const lastSelected = ref<string>(props.modelValue ?? '');
 const suggestions = ref<Suggestion[]>([]);
 const showDropdown = ref(false);
@@ -181,17 +188,6 @@ const activeDescId = computed(() =>
     highlighted.value >= 0 ? optionId(highlighted.value) : undefined
 );
 
-// ======= External model sync =======
-watch(() => props.modelValue, (v) => {
-    if (typeof v === 'string') {
-        displayValue.value = v;
-        lastSelected.value = v;
-        // Fetch suggestions when modelValue changes externally
-        if (v && v.trim() !== '') {
-            fetchSuggestions(v);
-        }
-    }
-});
 
 // Fetch suggestions on mount if there's an initial value
 onMounted(() => {
