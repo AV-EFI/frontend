@@ -27,7 +27,7 @@
       </span><br>
 
       <span
-        class="text-sm xl:text-base font-bold text-gray-700 dark:text-gray-300"
+        class="text-sm font-bold text-gray-700 dark:text-gray-300"
         :aria-label="$t('same_as_label')"
       >
         same_as:

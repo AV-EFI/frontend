@@ -6,11 +6,11 @@
         <li
           v-for="(m, i) in paginatedManifestations"
           :key="i + currentPage"
-          class="px-2 pt-2"
+          class="px-1 pt-2"
         >
           <button
             type="button"
-            class="group min-h-20 px-1 py-4 w-full text-left cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            class="group min-h-20 py-2 px-2 w-full text-left cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :class="[
               'transition-all duration-200 ease-in-out border',
               selectedIndex === i + currentPage * itemsPerPage
@@ -28,6 +28,12 @@
                   :dense="false"
                   class="mr-2"
                 />
+                <div class="badge badge-manifestation badge-xs" v-if="allItemsEmpty(m)">
+                  {{ $t('allItemsEmpty') }}
+                  <GlobalTooltipInfo
+                    :text="$t('allItemsEmptyTooltip')"
+                  />
+                </div>
                 <span
                   class="text-sm ml-auto font-mono"
                   :alt="$t('itemsCount')"
@@ -61,7 +67,7 @@
                 @click.stop="navigateToItem(m)"
               >
                 <Icon
-                  name="mdi:eye-outline"
+                   name="tabler:eye"
                   class="w-4 h-4 mr-1"
                   aria-hidden="true"
                 />
@@ -70,7 +76,7 @@
             </div>
             <div class="flex items-center px-1 self-start sm:self-center">
               <Icon
-                name="mdi:chevron-up"
+                 name="tabler:chevron-up"
                 class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
                 :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
                 aria-hidden="true"
@@ -102,13 +108,13 @@
                   tabindex="0"
                   :aria-label="`${$t('item')}: ${item?.handle}`"
                 >
-                  <div class="flex gap-2 items-center mb-1">
+                  <div class="flex gap-2 items-start mb-1">
                     <Icon
                       name="tabler:tree"
                       class="text-primary w-4 h-4"
                       aria-hidden="true"
                     />
-                    <span class="text-sm font-semibold">{{ item?.handle }}</span>
+                    <span class="text-sm">{{ item?.handle }}</span>
                   </div>
                   <SearchGenericIconList
                     :data="item"
@@ -184,7 +190,7 @@
               role="group"
               :aria-label="$t('itemDetails', { handle: item.handle })"
             >
-              <div class="flex items-center gap-2 mb-1">
+              <div class="flex items-start gap-2">
                 <Icon
                   name="tabler:hierarchy"
                   class="text-primary w-4 h-4 shrink-0"
@@ -195,21 +201,29 @@
                   :dense="false"
                 />
               </div>
-              <div tabindex="0" :aria-label="`${$t('item')}: ${item.handle}`" class="inline-block">
+              <div tabindex="0" class="flex items-start" :aria-label="`${$t('item')}: ${item.handle}`">
                 <GlobalClipboardComp 
                   :display-text="item.handle"
-                  class="font-semibold hover:text-gray-700 dark:hover:text-gray-300 my-2"
+                  class="text-left hover:text-gray-700 dark:hover:text-gray-300 my-2"
                   :aria-label="$t('copyItemHandle')"
-                  font-size="text-sm"
+                  font-size="text-xs"
+                />
+              </div>
+              <div class="divider my-0"></div>
+              <span class="flex justify-start text-left font-semibold">{{ item?.has_record?.has_primary_title?.has_name }}</span>
+              <div v-if="isItemEmpty(item)" class="badge badge-item">
+                {{ $t('emptyItem') }}
+                <GlobalTooltipInfo
+                  :text="$t('emptyItemTooltip')"
                 />
               </div>
               <SearchGenericIconList
                 :data="item"
                 level="item"
               />
-              <div class="text-sm text-gray-500 dark:text-gray-300 mt-2 relative">
-                <a
-                  v-if="item?.has_record?.has_webresource"
+              <div class="divider divide-neutral-50 my-0"></div>
+              <div class="text-sm text-left flex justify-items-start text-gray-500 dark:text-gray-300 my-2 relative" v-if="item?.has_record?.has_webresource">
+                <a                  
                   :href="item.has_record.has_webresource"
                   target="_blank"
                   class="link link-primary dark:link-accent inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
@@ -222,20 +236,19 @@
                   {{ $t('webresource') }}
                 </a>
               </div>
-              <div class="flex justify-end">
+              <div class="flex justify-center">
                 <button 
                   type="button"
-                  class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  class="btn btn-primary btn-sm btn-block btn-outline my-auto focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   :aria-label="`${$t('viewItemDetails')}: ${item.handle}`"
                   :title="$t('viewItemDetails')"
                   @click="navigateToItem(item)"
                 >
                   <Icon
-                    name="mdi:eye-outline"
+                     name="tabler:eye"
                     class="w-4 h-4 mr-1"
                     aria-hidden="true"
                   />
-                  <span>{{ $t('viewItemDetails') }}</span>
                 </button>
               </div>
             </li>
@@ -272,6 +285,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, nextTick } from 'vue';
+import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
 
 const props = defineProps({
     manifestations: { type: Array, required: true },
@@ -326,6 +340,19 @@ const navigateToItem = (item: any) => {
 watch(selectedManifestation, () => {
     itemPage.value = 0;
     triggerScrollToItem();
+});
+
+watch(totalPages, (newVal) => {
+    if (currentPage.value >= newVal) {
+        currentPage.value = Math.max(0, newVal - 1);
+        selectedIndex.value = 0;
+    }
+});
+
+watch(totalItemPages, (newVal) => {
+    if (itemPage.value >= newVal) {
+        itemPage.value = Math.max(0, newVal - 1);
+    }
 });
 
 function triggerScrollToItem() {

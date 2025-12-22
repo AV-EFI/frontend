@@ -4,7 +4,7 @@ export default defineEventHandler((event) => {
     const url = getRequestURL(event);
     const path = url.pathname;
   
-    console.log('[404 Middleware] Checking path:', path);
+    //console.log('[404 Middleware] Checking path:', path);
   
     // Check if this is a catch-all route that should return 404
     // Exclude known valid routes

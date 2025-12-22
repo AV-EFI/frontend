@@ -11,7 +11,7 @@
         v-if="searchClient"
         :search-client="searchClient"
       />
-      <div v-else class="text-center py-8">
+      <div v-else class="text-center py-4">
         <span class="loading loading-spinner loading-lg text-primary" />
       </div>
     </keep-alive>

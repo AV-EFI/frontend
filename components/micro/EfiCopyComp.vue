@@ -37,7 +37,7 @@
     </svg>
     <Icon
       v-else
-      name="mdi:check-bold"
+      name="tabler:check"
       class="text-white w-5 h-5 transition-transform duration-400 ease-out"
     />
   </button>

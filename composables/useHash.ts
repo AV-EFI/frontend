@@ -10,7 +10,6 @@ export function useHash(scroll = true) {
 
                 setTimeout(() => {
                     const el = document.getElementById(hash.value);
-                    console.log(el);
                     if (el) {
                         // Open the closest collapse section
                         const collapseElement = el.closest('.collapse');

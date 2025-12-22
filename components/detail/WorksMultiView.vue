@@ -28,7 +28,7 @@
             class="flex items-center"
           >
             <Icon
-              name="mdi:map-marker-outline"
+               name="tabler:map-pin"
               class="mr-1"
               :alt="$t('country')"
               :title="$t('country')"

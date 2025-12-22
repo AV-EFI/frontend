@@ -30,7 +30,7 @@ defineProps ({
     },
     'fontSize': {
         type: String,
-        default: 'text-regular'
+        default: 'text-sm'
     },
     'darkBg': {
         type: Boolean,

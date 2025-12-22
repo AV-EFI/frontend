@@ -1,13 +1,5 @@
 <template>
   <div class="">
-    <NuxtLayout
-      name="partial-grid-2-1-flex"
-      class="mt-4"
-    >
-      <template #heading />
-      <template #right />
-    </NuxtLayout>
-
     <div
       v-for="(manifestation,i) in manifestationList"
       :key="manifestation._id || i"
@@ -22,150 +14,13 @@
         :alt="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
         :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
       >
-      <div class="collapse-title bg-base-100 dark:bg-slate-700 dark:text-white">
+      <div class="collapse-title dark:bg-slate-700 dark:text-white">
         <DetailManifestationHeaderComp :manifestation="manifestation" />
       </div>
 
-      <div class="collapse-content bg-gray-100 dark:bg-gray-800 dark:text-white">
-        <div class="w-full">
-          <LazyMicroDividerComp
-            label-text="avefi:Manifestation"
-            in-class="manifestation"
-          />
-        </div>
-
-        <NuxtLayout
-          name="partial-grid-2-1-flex"
-          left-class="border-l-2 border-manifestation pl-2"
-        >
-          <!-- LEFT: 1–5 -->
-          <template #left>
-            <!-- 01 EFI Handle -->
-            <DetailKeyValueComp
-              :id="manifestation.handle"
-              keytxt="efi"
-              :translate-key="false"
-              :valtxt="manifestation?.handle"
-              class="col-span-full"
-              :clip="true"
-              :clip-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${manifestation?.handle}`"
-            />
-
-            <!-- 02 Titel -->
-            <DetailKeyValueComp
-              keytxt="title"
-              :valtxt="manifestation?.has_record?.has_primary_title?.has_name"
-              class="col-span-full"
-              :clip="false"
-            />
-
-            <!-- 03 Datenhaltende Institution -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.described_by?.has_issuer_name"
-              keytxt="dataholding"
-              :valtxt="manifestation?.has_record?.described_by?.has_issuer_name"
-              class="col-span-full"
-              :clip="false"
-            />
-
-            <!-- 04 Web-Ressource -->
-            <div
-              v-if="webresources(manifestation).length"
-              class="col-span-full flex items-center gap-1"
-            >
-              <MicroLabelComp label-text="webresource" />
-              <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
-            </div>
-            <div
-              v-for="(webresource, idx) in webresources(manifestation)"
-              :key="webresource + '-' + idx"
-              class="col-span-full"
-            >
-              <a
-                :href="webresource"
-                target="_blank"
-                rel="noopener"
-                :title="safeT('webresource')"
-                :alt="safeT('webresource')"
-                class="link link-primary dark:link-accent inline-flex items-center gap-1"
-              >
-                <span>{{ safeT('webresource') }}<span v-if="webresources(manifestation).length > 1">&nbsp;{{ idx + 1 }}</span></span>
-                <Icon name="tabler:external-link" />
-              </a>
-            </div>
-
-            <!-- 05 Notiz -->
-            <DetailKeyValueListComp
-              v-if="Array.isArray(manifestation?.has_record?.has_note) && manifestation.has_record.has_note.length"
-              class="col-span-full text-justify md:pr-2"
-              keytxt="avefi:Note"
-              :valtxt="manifestation?.has_record?.has_note"
-              :ul="true"
-            />
-          </template>
-
-          <!-- RIGHT: 6–15 -->
-          <template #right>
-            <!-- 06–08 Manifestationsereignis (Typ/Datum/Ort) -->
-            <DetailHasEventComp
-              class="mt-0"
-              :model-value="manifestation?.has_record?.has_event ?? []"
-            />
-
-            <!-- 09 Sprache -->
-            <MicroLabelComp
-              v-if="manifestation?.has_record?.in_language?.length"
-              label-text="avefi:Language"
-              class="w-full"
-            />
-            <ul
-              v-if="manifestation?.has_record?.in_language?.length"
-              class="w-full mt-2"
-            >
-              <li
-                v-for="(lang, i) in manifestation?.has_record?.in_language"
-                :key="lang?.code || i"
-              >
-                <span v-if="lang?.code">{{ $t(lang.code) }}</span>
-                <span v-else>{{ $t('unknownLanguage') }}</span>
-                <span
-                  v-for="usage in (lang?.usage || [])"
-                  :key="usage"
-                >&nbsp;({{ $t(usage) }})</span>
-              </li>
-            </ul>
-
-            <!-- 10 Ton (Sound Type) -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_sound_type"
-              keytxt="has_sound_type"
-              :valtxt="manifestation?.has_record?.has_sound_type"
-              :clip="false"
-              class="w-full mt-2"
-            />
-
-            <!-- 12 Abspieldauer -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_duration?.has_value"
-              keytxt="avefi:Duration"
-              :valtxt="formatDuration(manifestation?.has_record?.has_duration?.has_value)"
-              :clip="false"
-              class="w-full mt-2"
-            />
-
-            <!-- 13 Länge / Größe -->
-            <DetailKeyValueComp
-              v-if="manifestation?.has_record?.has_extent?.has_value"
-              keytxt="avefi:Extent"
-              :valtxt="formatExtent(manifestation?.has_record?.has_extent)"
-              class="w-full mt-2"
-              :clip="false"
-            />
-          </template>
-        </NuxtLayout>
-
-        <!-- 16 Exemplare -->
-        <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4">
+      <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
+            <!-- 16 Exemplare -->
+          <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4">
           {{ safeT('items') }}
           <GlobalTooltipInfo
             :text="$t('tooltip.item')"

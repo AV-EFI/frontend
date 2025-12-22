@@ -27,7 +27,7 @@
             :aria-label="$t('searchcontent')"
           >
             <div
-              class="search-panel__results w-full py-2 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md px-2"
+              class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2"
               role="region"
               :aria-label="$t('searchresults')"
             >
@@ -59,10 +59,6 @@
                           @remove-recent="handleRemoveRecentSearch"
                           @clear-history="handleClearAllHistory"
                         />                      
-                        <span
-                          id="search-loading"
-                          :class="[!isSearchStalled ? 'hidden' : '','loading loading-spinner loading-sm ml-2']"
-                        />
                       </div>
                       
                       <button
@@ -108,17 +104,17 @@
                           />
                           <h2
                             v-else
-                            class="text-xl font-bold text-center text-gray-800 dark:text-gray-200"
+                            class="text-md font-bold text-center text-gray-800 dark:text-gray-200"
                           >
-                            {{ nbHits }} {{ $t('results') }}
+                            {{ nbHits }} {{ nbHits > 1 ? $t('results') : $t('result') }}
                           </h2>
                         </div>
                       </template>
                     </ais-stats>
                   </div>
                   <div class="md:col-span-2 w-full flex flex-col justify-center border-base-200 border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <p class="text-gray-800 dark:text-gray-200 text-center">
-                      sorting
+                    <p class="text-gray-800 dark:text-gray-200 text-center font-mono">
+                      @TODO: define sorting
                     </p>
                     <ais-sort-by
                       :items="sortItems"
@@ -128,49 +124,49 @@
                       aria-disabled="true"
                     />
                   </div>
-                  <div class="form-control w-full border-base-200 border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2">
+                  <div class="form-control w-full border-base-200 border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
                     <label 
                       class="label cursor-pointer text-sm flex justify-between items-center gap-2"
                       :aria-label="$t('toggleViewType')"
                     >
                       <Icon
                         name="tabler:info-circle"
-                        class="text-gray-500 dark:text-gray-300 shrink-0"
+                        class="text-gray-500 dark:text-gray-300 shrink-0 !w-4"
                         :title="$t('viewTypeCheckedWarning')"
                       />
-                      <span class="label-text text-gray-800 dark:text-gray-200 flex-1">
-                        {{ `${$t('accordionView')} / ${$t('flatView')}` }}
+                      <span class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                        {{ $t('viewType') }}
                       </span>
-                      <input
-                        v-model="viewTypeChecked"
-                        type="checkbox"
-                        class="toggle toggle-primary shrink-0"
-                      >
-                    </label>                    
+                      <select v-model="viewTypeChecked" class="select select-primary select-sm w-auto my-auto">
+                        <option value="accordion">{{ $t('accordionView') }}</option>
+                        <option value="flat">{{ $t('flatView') }}</option>
+                        <option value="table">{{ $t('tableView') }}</option>
+                      </select>
+                    </label>
                     <label
-                      v-if="!viewTypeChecked"
-                      class="label cursor-pointer text-sm flex justify-between items-center gap-2"
+                      v-if="viewTypeChecked === 'accordion'"
+                      class="label cursor-pointer text-sm flex justify-between items-center gap-2 my-auto"
                       :aria-label="$t('toggleExpandAllHandles')"
                     >
                       <Icon
                         v-if="!expandAllHandlesChecked"
-                        class="dark:text-white shrink-0"
+                        class="dark:text-white shrink-0 !w-4"
                         name="tabler:layout-navbar-expand"
                       />
                       <Icon
                         v-else
-                        class="dark:text-white shrink-0"
+                        class="dark:text-white shrink-0 !w-4"
                         name="tabler:layout-navbar-collapse"
                       />
                       <span
                         v-if="!expandAllHandlesChecked"
-                        class="label-text text-gray-800 dark:text-gray-200 flex-1"
+                        class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left"
                       >
                         {{ $t('expandAll') }}
                       </span>
                       <span
                         v-else
-                        class="label-text text-gray-800 dark:text-gray-200 flex-1"
+                        class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left"
                       >
                         {{ $t('collapseAll') }}
                       </span>
@@ -260,8 +256,8 @@
                 <div
                   class="flex w-full flex-col"
                 >
-                  <div class="divider divider-neutral w-full">
-                    <span v-if="searchQuery">
+                  <div class="divider divider-base-300 w-full">
+                    <span class="text-xs" v-if="searchQuery">
                       Suchergebnisse für '{{ searchQuery }}'
                     </span>
                   </div>
@@ -304,13 +300,29 @@
 <script setup lang="ts">
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
 import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi.ts';
+import { config } from '../../searchConfig_avefi';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
 const {$toggleFacetDrawerState}:any = useNuxtApp();
 
 // toggle top right 
-const viewTypeChecked = ref(false);
+const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
+const viewTypeChecked = ref<'accordion' | 'flat' | 'table'>('accordion');
+
+onMounted(() => {
+    if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem(VIEW_TYPE_KEY);
+        if (stored === 'accordion' || stored === 'flat' || stored === 'table') {
+            viewTypeChecked.value = stored as typeof viewTypeChecked.value;
+        }
+    }
+});
+
+watch(viewTypeChecked, (newValue) => {
+    if (typeof window !== 'undefined') {
+        localStorage.setItem(VIEW_TYPE_KEY, newValue);
+    }
+});
 
 const expandAllChecked = ref(false);
 

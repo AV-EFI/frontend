@@ -8,7 +8,7 @@
       v-if="type === 'searchresult'"
       :class="['flex justify-center flex-col w-4/5']"
     >
-      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
+      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300">
         {{ manifestation?.handle }}
       </h4>
       <h4 class="col-span-full font-semibold text-gray-900 dark:text-white my-1">
@@ -33,12 +33,13 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:paint-outline"
+            name="tabler:paint"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
           {{ $t(manifestation.has_record?.has_colour_type) }}
         </span>
+
         <span
           v-if="manifestation?.has_record?.in_language"
           class="flex flex-row items-center"
@@ -48,7 +49,7 @@
             <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
           </template>
           <Icon
-            name="mdi:language"
+            name="tabler:language"
             class="w-4 h-4 mr-1 inline-block"
             aria-hidden="true"
           />
@@ -56,7 +57,7 @@
         </span>
       </div>
 
-      <div class="flex flex-row mt-1 hidden">
+      <div class="flex flex-row mt-1">
         <div
           v-if="allItemsEmpty"
           class="badge bg-warning-300 text-white z-10"
@@ -77,64 +78,43 @@
       v-else
       class="flex flex-col justify-center w-4/5"
     >
-      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300 text-sm">
+      <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300"
+        :id="`manifestation-handle-${manifestation?.handle}`" >
         {{ manifestation?.handle }}
+        <MicroBadgeCategoryComp
+          :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
+          class="ml-2 inline-block"
+        />
       </h4>
       <h4 class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h4>
 
-      <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row flex-wrap">
-        <span
-          v-if="manifestation?.has_record?.has_event?.has_date"
-          class="flex flex-row justify-start items-center"
-          :aria-label="$t('productionyear') + ': ' + manifestation._source.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')"
-        >
-          {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
-        </span>
-        <span
-          v-if="manifestation?.has_record?.has_colour_type"
-          class="flex flex-row items-center mr-1"
-          :aria-label="$t('has_colour') + ': ' + $t(manifestation?.has_record?.has_colour_type)"
-        >
-          <template v-if="manifestation?.has_record?.has_event?.has_date">
-            <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
-          </template>
-          <Icon
-            name="mdi:paint-outline"
-            class="w-4 h-4 mr-1 inline-block"
-            aria-hidden="true"
-          />
-          {{ $t(manifestation?.has_record?.has_colour_type) }}
-        </span>
-        <span
-          v-if="Array.isArray(manifestation?.has_record?.in_language) && manifestation.has_record.in_language.length > 0 && manifestation.has_record?.in_language[0]?.code"
-          class="flex flex-row items-center mr-1"
-          :aria-label="formatInLanguageAria(manifestation.has_record.in_language)"
-        >
-          <template
-            v-if="manifestation?.has_record?.has_event?.length || manifestation?.has_record?.has_colour_type"
-          >
-            <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
-          </template>
-          <Icon
-            name="mdi:language"
-            class="w-4 h-4 mr-1 inline-block"
-            aria-hidden="true"
-          />
-          {{ formatInLanguageText(manifestation.has_record.in_language) }}
-        </span>
-        <span
-          v-if="manifestation.has_record.has_item"
-          class="flex flex-row items-center"
-        >
-          <Icon
-            name="tabler:hierarchy"
-            class="w-4 h-4 mr-1 inline-block"
-          />
-          {{ manifestation.has_record.has_item.length }}&nbsp;{{ manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items') }}
-        </span>
-      </div>
+      <!-- NORMALIZED ROW: SearchGenericIconList + item count share SAME baseline -->
+<div
+  class="col-span-full flex flex-row items-start flex-wrap gap-x-4 text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 min-h-4 leading-5"
+>
+  <!-- Search icons -->
+  <SearchGenericIconList
+    :data="manifestation"
+    level="manifestation"
+    class="inline-flex items-start leading-5"
+  />
+
+  <!-- Item count (icon + text treated as ONE baseline unit) -->
+  <span
+    v-if="manifestation.has_record.has_item"
+    class="flex flex-row items-start text-xs leading-[12px]"
+  >
+    <Icon
+      name="tabler:hierarchy"
+      class="h-[0.85rem] shrink-0 mr-1"
+      aria-hidden="true"
+    /><span class="inline-block flex-wrap h-[0.85rem] align-text-top">
+      {{ `${manifestation.has_record.has_item.length} ${manifestation.has_record.has_item.length === 1 ? $t('item') : $t('items')}` }}
+    </span>
+  </span>
+</div>
 
       <div class="flex flex-row mt-1">
         <div
@@ -204,5 +184,4 @@ function formatInLanguageAria(langs: any[]): string {
         .filter(Boolean)
         .join(', ');
 }
-
 </script>

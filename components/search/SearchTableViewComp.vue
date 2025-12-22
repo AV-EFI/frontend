@@ -1,227 +1,219 @@
 <template>
-  <EasyDataTable
-    table-class-name="customize_table w-[300px] md:w-auto"
-    table-theme-color="var(--primary)"
-    :headers="headers"
-    :items="items"
-    alternating
-    buttons-pagination
-    show-index
-    hide-footer
-    :rows-per-page="10"
-  >
-    <!-- header templates untouched, aria not needed here -->
+  <div class="overflow-x-auto w-full">
+    <table class="table w-full table-zebra table-sm border border-base-300">
+      <thead class="bg-base-200">
+        <tr>
+          <th></th>
+          <th>{{ $t('title') }}</th>
+          <th>{{ $t('AlternativeTitle') }}</th>
+          <th>{{ $t('country') }}</th>
+          <th>{{ $t('year') }}</th>
+          <th>{{ $t('directors_or_editors') }}</th>
+          <th>{{ $t('production') }}</th>
+        </tr>
+      </thead>
 
-    <template #item-has_record.has_primary_title.has_name="item">
-      <div
-        class="w-full flex flex-row"
-        role="region"
-        :aria-label="item?.has_record?.has_primary_title?.has_name"
-      >
-        <!-- inner content unchanged -->
-      </div>
-    </template>
+      <tbody>
+        <template v-for="(work, widx) in datasets" :key="work.handle ?? widx">
+          <!-- MAIN ROW -->
+          <tr v-if="work?.has_record">
+            <td>
+              <button class="btn btn-xs btn-square btn-ghost" @click="toggleExpand(work.handle)">
+                <Icon :name="expanded.has(work.handle)
+                    ? 'tabler:chevron-up'
+                    : 'tabler:chevron-down'" />
+              </button>
+            </td>
+            <td>
+              {{
+              work.has_record.has_primary_title?.has_name
+              || work.handle
+              }}
+            </td>
+            <td>
+              <ul v-if="Array.isArray(work.has_record.has_alternative_title)" class="list-disc ml-2">
+                <li v-for="alt in work.has_record.has_alternative_title" :key="alt.has_name">
+                  {{ alt.has_name }}
+                  <span v-if="alt.type"> ({{ $t(alt.type) }})</span>
+                </li>
+              </ul>
+            </td>
 
-    <!-- no changes needed in these item cell templates -->
+            <td>
+              <div v-for="loc in work.has_record.has_event?.[0]?.located_in || []" :key="loc.has_name">
+                {{ loc.has_name }}
+              </div>
+            </td>
 
-    <template #expand="item">
-      <div
-        v-if="!productionDetailsChecked" 
-        class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 py-2 md:ml-[64px] md:pl-4 bg-slate-50 dark:bg-gray-800 dark:text-white"
-        role="region"
-        :aria-label="`${$t('detailsFor')} ${item?.has_record?.has_primary_title?.has_name}`"
-      >
-        <!-- content untouched -->
-      </div>
+            <td>
+              <span v-if="Array.isArray(work.years)">
+                {{ work.years.join(', ') }}
+              </span>
+              <span v-else>
+                {{ work.years }}
+              </span>
+            </td>
 
-      <div
-        v-for="manifestation in item?.manifestations"
-        :key="manifestation.id"
-        class="collapse collapse-arrow rounded-none md:pl-[64px]"
-        role="group"
-        :aria-labelledby="`manifestation-header-${manifestation.id}`"
-      >
-        <input
-          type="checkbox"
-          class="manifestation-checkbox"
-          :aria-expanded="false"
-        >
-        <div
-          :id="`manifestation-header-${manifestation.id}`"
-          class="collapse-title py-2 bg-slate-100 dark:bg-slate-700 dark:text-white font-medium"
-        >
-          <DetailManifestationHeaderComp
-            :manifestation="manifestation"
-            type="searchresult"
-            comp-size="sm"
-          />
-        </div>
-        <div
-          class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white"
-          role="region"
-          :aria-label="`${$t('itemsFor')} ${manifestation.handle}`"
-        >
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <!-- content untouched -->
-          </div>
-          <hr class="my-2">
-          <h4
-            id="items-heading"
-            class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
-            :title="$t('tooltip.item')"
-          >
-            {{ $t('items') }}
-          </h4>
-          <table
-            class="table border-collapse border border-slate-400 table-sm max-w-full mt-2"
-            role="table"
-            :aria-labelledby="'items-heading'"
-          >
-            <thead class="bg-slate-200 dark:bg-slate-900 dark:text-white">
-              <tr role="row">
-                <th
-                  scope="col"
-                  class="border border-slate-300"
-                >
-                  efi
-                </th>
-                <th
-                  scope="col"
-                  class="border border-slate-300"
-                  :title="$t('tooltip.format')"
-                >
-                  {{ $t('has_format') }}
-                </th>
-                <th
-                  scope="col"
-                  class="border border-slate-300"
-                >
-                  {{ $t('item_element_type') }}
-                </th>
-                <th
-                  scope="col"
-                  class="border border-slate-300"
-                >
-                  {{ $t('in_language_code') }}
-                </th>
-                <th
-                  scope="col"
-                  class="border border-slate-300"
-                >
-                  {{ $t('webresource') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="exemplar in manifestation.items"
-                :key="exemplar.id"
-                class="bg-slate-100 dark:bg-gray-800 dark:text-white"
-                role="row"
-              >
-                <td
-                  class="border border-slate-200 dark:border-slate-600"
-                  role="cell"
-                >
-                  <p class="text-xs">
-                    {{ exemplar.handle }}
-                  </p>
-                  <LazyMicroEfiCopyComp
-                    :handle="exemplar.handle"
-                    comp-size="sm"
-                    class="z-10 relative hidden"
+            <td>
+              <template v-for="dir in work.directors_or_editors || []" :key="dir">
+                <span>
+                  {{ dir }}
+                </span>
+              </template>
+            </td>
+
+            <td>
+              {{ work.has_record.described_by?.has_issuer_name || '' }}
+            </td>
+          </tr>
+
+          <!-- EXPANDED -->
+          <tr v-if="expanded.has(work.handle)" class="bg-base-100">
+            <td></td>
+            <td colspan="6">
+              <div class="py-2 space-y-2">
+                <!-- MANIFESTATION (single dense row, NO table) -->
+                <div v-for="mf in work.manifestations || []" :key="mf.handle"
+                  class="mb-3 border border-base-300 rounded px-2 py-1">
+                  <!-- header line -->
+                  <div class="flex items-center gap-2 text-xs mb-1">
+                      <span class="text-xs font-semibold" >efi:</span>
+                      <span>{{ mf.handle }}</span>
+                      <MicroBadgeCategoryComp
+                        :category="mf?.has_record?.category || 'avefi:Manifestation'"
+                      />
+                  </div>
+                  <!-- icon-based metadata row -->
+                  <SearchGenericIconList                   
+                    :data="mf" 
+                    level="manifestation" 
                   />
-                </td>
-                <td
-                  class="border border-slate-200 dark:border-slate-600"
-                  role="cell"
-                >
-                  <SearchHighlightListComp
-                    :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
-                    :hilite="item._highlightResult?.manifestations?.items.has_record?.has_format.matchedWords"
-                    font-size="text-xs"
-                    class="mb-2"
-                  />
-                </td>
-                <td
-                  class="border border-slate-200 dark:border-slate-600"
-                  role="cell"
-                >
-                  <SearchHighlightSingleComp
-                    :item="exemplar?.has_record.element_type"
-                    :hitlite="item._highlightResult?.manifestations?.items.has_record?.element_type?.matchedWords"
-                    class="mb-2"
-                  />
-                </td>
-                <td
-                  class="border border-slate-200 dark:border-slate-600"
-                  role="cell"
-                >
-                  <SearchHighlightSingleComp
-                    :item="exemplar?.has_record?.in_language?.code"
-                    :hitlite="item._highlightResult?.manifestations?.items.has_record?.in_language?.code?.matchedWords"
-                    font-size="text-xs"
-                    class="mb-2"
-                  />
-                </td>
-                <td
-                  class="border border-slate-200 dark:border-slate-600"
-                  role="cell"
-                >
-                  <a
-                    v-if="exemplar?.has_record?.has_webresource"
-                    :href="exemplar?.has_record?.has_webresource"
-                    target="_blank"
-                    class="link link-primary dark:link-accent text-xs"
-                  >
-                    <Icon name="tabler:external-link" />&nbsp;{{ $t('webresource') }}
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </template>
-  </EasyDataTable>
+                  <h3 class="font-semibold mt-2">
+                    {{ $t('items') }}
+                  </h3>
+                  <table v-if="mf.items?.length" class="table table-xs table-zebra w-full border border-base-300 mt-2">
+                    <thead class="bg-base-200 text-xs">
+                      <tr>
+                        <th>efi</th>
+                        <th>{{ $t('has_access_status') }}</th>
+                        <th>{{ $t('has_format') }}</th>
+                        <th>{{ $t('item_element_type') }}</th>
+                        <th>{{ $t('has_language') }}</th>
+                        <th>{{ $t('has_sound_type') }}</th>
+                        <th>{{ $t('has_colour') }}</th>
+                        <th>{{ $t('has_duration') }}</th>
+                        <th>{{ $t('has_extent') }}</th>
+                        <th>{{ $t('has_frame_rate') }}</th>
+                        <th>{{ $t('has_webresource') }}</th>
+                        <th>{{ $t('detailedView') }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="item in mf.items" :key="item.handle" class="text-xs">
+                        <td>{{ item.handle }}</td>
+                        <td>{{ item.has_record?.has_access_status ? $t(item.has_record.has_access_status) : '—' }}</td>
+
+                        <td>
+                          {{
+                          (Array.isArray(item.has_record?.has_format)
+                          ? item.has_record.has_format.map(f => $t(f.type)).join(', ')
+                          : '')
+                          || '—'
+                          }}
+                        </td>
+
+                        <td>{{ item.has_record?.element_type ? $t(item.has_record.element_type) : '—' }}</td>
+
+                        <td>
+                          {{
+                          (Array.isArray(item.has_record?.in_language)
+                          ? item.has_record.in_language.map(l => $t(l.code || l)).join(', ')
+                          : '')
+                          || '—'
+                          }}
+                        </td>
+
+                        <td>{{ item.has_record?.has_sound_type ? $t(item.has_record.has_sound_type) : '—' }}</td>
+
+                        <td>{{ item.has_record?.has_colour_type ? $t(item.has_record.has_colour_type) : '—' }}</td>
+
+                        <td>
+                          {{
+                          item.has_record?.has_duration?.has_value
+                          ? formatDuration(item.has_record.has_duration.has_value)
+                          : '—'
+                          }}
+                        </td>
+
+                        <td>
+                          {{
+                          item.has_record?.has_extent?.has_value
+                          ? `${item.has_record.has_extent.has_value} ${item.has_record.has_extent.has_unit || ''}`
+                          : '—'
+                          }}
+                        </td>
+                        <td>{{ $t(item.has_record?.has_frame_rate || '—') }}</td>
+                        <td>
+                          <div v-for="has_web in item.has_record?.has_webresource || []" :key="has_web">
+                            <a class="link link-primary" :href="has_web || '#'">
+                              {{ $t('webresource') }}
+                            </a>
+                          </div>
+                        </td>
+                        <td>
+                          <NuxtLink
+                            target="_blank"
+                            :to="`/res/${item.handle}`"
+                            class="link link-primary"
+                          >
+                            {{ $t('detailviewlink') }}
+                          </NuxtLink>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
 </template>
-<script lang="ts" setup>
-import type { MovingImageRecordContainer } from '~/models/interfaces/schema/avefi_schema.ts';
 
-defineProps({
-    'items': {
-        type: Array as PropType<Array<MovingImageRecordContainer>>,
-        required:true
-    },
-    showAdminStats: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-    productionDetailsChecked: {
-        type: Boolean,
-        required: true,
+<script setup lang="ts">
+import { ref } from 'vue';
+import type { IAVefiWorkVariant } from '@/models/interfaces/search/IAVefiWorkVariant';
+
+defineProps<{ datasets: IAVefiWorkVariant[] }>();
+
+const expanded = ref(new Set<string>());
+
+function toggleExpand(handle: string) {
+    expanded.value.has(handle)
+        ? expanded.value.delete(handle)
+        : expanded.value.add(handle);
+}
+
+function formatDuration(has_value: any): string {
+    if (has_value) {
+        try {
+            const duration = has_value
+                .replace(/PT/g, '')
+                .replace(/S/g, '')
+                .replace(/M/g, ':')
+                .replace(/H/g, ':')
+                .split(':');
+            duration[0] = String(duration[0]).padStart(2, '0');
+            if (duration.length > 1) duration[1] = String(duration[1]).padStart(2, '0');
+            return duration.join(':');
+        } catch (error) {
+            console.error('Error formatting duration:', error);
+            return String(has_value);
+        }
     }
-});
-
-const headers = [
-    { text: 'title', value: 'has_record.has_primary_title.has_name' },
-    { text: 'alternativetitle', value: 'has_record.has_alternative_title.has_name' },
-    { text: 'country', value: 'has_record.has_event.located_in.has_name' },
-    { text: 'year', value: 'years' },
-    { text: 'directors_or_editors', value: 'directors_or_editors' },
-    { text: 'avefi:ProductionEvent', value: 'production' }
-];
-
+    return has_value;
+}
 </script>
-<style lang="css">
-.vue3-easy-data-table__body.customize_table td.expand, td.expand, td.expand:hover {
-  background-color: var(--primary-900)!important;
-}
-
-.avefi-dark .vue3-easy-data-table__body.customize_table td.expand, td.expand, td.expand:hover {
-  background-color: var(--slate-950)!important;
-}
-
-
-</style>

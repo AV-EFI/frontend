@@ -129,7 +129,7 @@
         :show-more-limit="10"
         :class-names="{
           'ais-RefinementList-labelText': 'text-xs',
-          'ais-RefinementList-checkbox': 'checkbox checkbox-xs',
+          'ais-RefinementList-checkbox': 'checkbox !w-4 !h-4 mr-2',
           'ais-RefinementList-count': 'badge badge-secondary font-bold text-white text-xs'
         }"
       >

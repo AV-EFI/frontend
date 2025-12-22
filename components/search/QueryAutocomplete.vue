@@ -19,55 +19,108 @@
       <button v-if="displayValue" type="button"
         class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
         :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
-        <Icon class="text-lg text-gray-500 dark:text-gray-400" name="mdi:clear-bold" aria-hidden="true" />
+        <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
       </button>
     </div>
 
-    <!-- Suggestions dropdown -->
-    <div v-show="showDropdown" :id="listboxId"
-      class="absolute z-[1100] w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-96 overflow-auto"
-      role="listbox" :aria-label="ariaLabel">
-      <!-- Recent searches header (only when input is empty) -->
-      <div
-        v-if="(!displayValue || displayValue.trim() === '') && props.recentSearches && props.recentSearches.length > 0"
-        class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-        <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
-          {{ $t('recentSearches') }} / {{ $t('suggestions') }}
-        </span>
-        <button type="button"
-          class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
-          @mousedown.stop.prevent="emit('clear-history')">
-          {{ $t('clearSearchHistory') }}
-        </button>
-      </div>
+        <!-- Suggestions dropdown -->
+        <div v-show="showDropdown" :id="listboxId"
+            class="absolute z-[1100] w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-96 overflow-auto"
+            role="listbox" :aria-label="ariaLabel">
+            <!-- Accessible headings for screen readers -->
+            <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
+                {{ $t('recentSearches') }}
+            </span>
+            <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only" id="autocomplete-suggestions-heading">
+                {{ $t('suggestions') }}
+            </span>
 
-      <template v-if="visibleSuggestions.length">
-        <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
-          type="button" :class="[
-            'w-full text-left px-3 py-2 flex items-center gap-2 group',
-            'hover:bg-gray-100 dark:hover:bg-gray-700',
-            i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
-          ]" role="option" :aria-selected="i === highlighted" @mousedown.stop.prevent="onSelect(s)">
-          <Icon class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)" :title="typeLabel(s.type)"
-            aria-hidden="true" />
-          <span class="text-sm opacity-70 uppercase hidden">{{ typeLabel(s.type) }}</span>
-          <span class="text-base truncate">{{ s.text }}</span>
-          <span v-if="s.count && s.count > 1" class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
-            ({{ s.count }})
-          </span>
-          <!-- Remove button for recent searches -->
-          <button v-if="s.type === 'recent'" type="button"
-            class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
-            @mousedown.stop.prevent="emit('remove-recent', s.text)">
-            <Icon name="mdi:close" class="text-sm" />
-          </button>
-        </button>
-      </template>
+            <!-- Recent searches header (only when input is empty) -->
+            <div
+                v-if="props.recentSearches && props.recentSearches.length > 0"
+                class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
+                    {{ $t('recentSearches') }} / {{ $t('suggestions') }}
+                </span>
+                <button type="button"
+                    class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+                    @mousedown.stop.prevent="emit('clear-history')">
+                    {{ $t('clearSearchHistory') }}
+                </button>
+            </div>
+            <div v-else>
+                v-if="props.recentSearches && props.recentSearches.length > 0"
+                class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
+                    {{ $t('suggestions') }}
+                </span>
+                <button type="button"
+                    class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+                    @mousedown.stop.prevent="emit('clear-history')">
+                    {{ $t('clearSearchHistory') }}
+                </button>
 
-      <div v-else class="px-3 py-2 text-sm text-gray-500 dark:text-gray-300 select-none">
-        {{ noResultsMessage }}
-      </div>
-    </div>
+            </div>
+
+
+            <template v-if="visibleSuggestions.length">
+                <!-- Visually hidden headings for screen readers only, do not affect structure -->
+                <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
+                    {{ $t('recentSearches') }}
+                </span>
+                <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only" id="autocomplete-suggestions-heading">
+                    {{ $t('suggestions') }}
+                </span>
+                <!-- Original flat rendering -->
+                <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
+                    type="button" :class="[
+                        'w-full text-left px-3 py-2 flex items-center gap-2 group',
+                        'hover:bg-gray-100 dark:hover:bg-gray-700',
+                        i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
+                    ]"
+                    role="option"
+                    :aria-selected="i === highlighted"
+                    :aria-label="`${typeLabel(s.type)}: ${s.text}`"
+                    @mousedown.stop.prevent="onSelect(s)">
+                    <Icon
+                        v-if="s.type === 'recent'"
+                        class="shrink-0 text-base leading-none"
+                        name="tabler:history"
+                        :title="typeLabel(s.type)"
+                        aria-hidden="true"
+                    />
+                    <Icon
+                        v-else-if="s.type === 'saved'"
+                        class="shrink-0 text-base leading-none"
+                        name="tabler:star"
+                        :title="typeLabel(s.type)"
+                        aria-hidden="true"
+                    />
+                    <Icon
+                        v-else
+                        class="shrink-0 text-base leading-none"
+                        :name="iconClassFor(s.type, s.text)"
+                        :title="typeLabel(s.type)"
+                        aria-hidden="true"
+                    />
+                    <span class="sr-only">{{ typeLabel(s.type) }}: </span>
+                    <span class="text-base truncate">{{ s.text }}</span>
+                    <span v-if="s.count && s.count > 1" class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
+                        ({{ s.count }})
+                    </span>
+                    <!-- Remove button for recent searches -->
+                    <span v-if="s.type === 'recent'" type="button"
+                        class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
+                        @mousedown.stop.prevent="emit('remove-recent', s.text)">
+                        <Icon name="tabler:x" class="text-sm" />
+                    </span>
+                </button>
+            </template>
+
+            <div v-else class="px-3 py-2 text-sm text-gray-500 dark:text-gray-300 select-none">
+                {{ noResultsMessage }}
+            </div>
+        </div>
   </div>
 </template>
 
@@ -265,7 +318,8 @@ function onInput(v: any) {
         const used = await fetchSuggestions(val);
         if (!alive.value || used !== fetchToken || !canOpen()) return;
         showDropdown.value = true;
-        highlighted.value = visibleSuggestions.value.length ? 0 : -1;
+        // Do NOT auto-highlight first item on input
+        highlighted.value = -1;
     });
 }
 
@@ -359,7 +413,11 @@ function onKeydown(e: KeyboardEvent) {
             });
         } else if (showDropdown.value) {
             // Navigate down in the list
-            highlighted.value = Math.min(highlighted.value + 1, visibleSuggestions.value.length - 1);
+            if (highlighted.value < 0 && visibleSuggestions.value.length > 0) {
+                highlighted.value = 0;
+            } else {
+                highlighted.value = Math.min(highlighted.value + 1, visibleSuggestions.value.length - 1);
+            }
         }
     } else if (key === 'ArrowUp') {
         if (showDropdown.value) {

@@ -13,7 +13,7 @@
         :key="entry.key"
       >
         <div
-          class="flex min-w-[6rem] gap-1.5 items-start"
+          class="flex min-w-2 gap-1.5 items-start"
           tabindex="0"
           :aria-label="entry.aria"
           :title="entry.aria"
@@ -84,7 +84,7 @@
         :key="entry.key"
       >
         <div
-          class="flex flex-row items-start gap-1.5 min-w-[6rem]"
+          class="flex flex-row items-start gap-1.5 min-w-2 leading-[12px]"
           tabindex="0"
           :aria-label="entry.aria"
           :title="entry.aria"
@@ -158,6 +158,7 @@ function visibleSegments(entry: { key: string; text: any }) {
 
 /* icons */
 const ICONS = {
+    access: 'tabler-lock-open',
     lang: 'tabler-language',
     colour: 'tabler-palette',
     sound: 'tabler-volume',
@@ -364,7 +365,18 @@ function buildIconEntries() {
 
     /* ---------- ITEM ---------- */
     if (level === 'item') {
-    // Format
+        //Status
+        const hasAccessStatus = d?.has_record?.has_access_status || d?.has_access_status;
+        if (hasAccessStatus) {
+            entries.push({
+                key: 'accessStatus',
+                icon: ICONS.access,
+                text: [{ text: t(hasAccessStatus), hilite: false }],
+                aria: t('has_access_status') + ': ' + t(hasAccessStatus)
+            });
+        }
+
+        // Format
         const hasFormat = d?.has_record?.has_format;
         const formats = asArray(hasFormat).map((f:any) => f?.type).filter(Boolean);
         if (formats.length) {

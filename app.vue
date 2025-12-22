@@ -4,7 +4,7 @@ const { locale, t: $t } = useI18n();
 
 useSeoMeta({
     titleTemplate: '%s | AVefi',
-    ogSiteName: `AVefi - ${$t('claim')}`,
+    ogSiteName: `AVefi - ${$t('avefiClaim')}`,
     twitterCard: 'summary_large_image',
 });
 

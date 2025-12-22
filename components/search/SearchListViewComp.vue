@@ -52,7 +52,7 @@
             <!-- Badge for all items empty -->
             <span
               v-if="allItemsEmpty(work)"
-              class="badge badge-manifestation badge-sm ml-2"
+              class="badge badge-manifestation badge-xs ml-2"
               :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
             >
               <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
@@ -86,7 +86,7 @@
             target="_blank"
           >
             <Icon
-              name="mdi:eye-outline"
+               name="tabler:eye"
               class="text-2xl"
               aria-hidden="true"
             />
@@ -140,7 +140,7 @@
         @click="isExpanded[work.handle] = !isExpanded[work.handle]; showHighlight[work.handle] = !showHighlight[work.handle]"
       >
         <Icon
-          :name="isExpanded[work.handle] ? 'mdi:minus' : 'mdi:plus'"
+           :name="isExpanded[work.handle] ? 'tabler:minus' : 'tabler:plus'"
           class="text-lg"
           aria-hidden="true"
         />
@@ -157,7 +157,7 @@
     <div
       v-show="work && work.handle && isExpanded[work.handle]"
       :id="`details-${work.handle}`"
-      class="card-body p-4 pt-0"
+      class="card-body p-2 pt-0"
       role="region"
       :aria-labelledby="`work-title-${work?.handle ?? ''}`"
     >      

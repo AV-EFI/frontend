@@ -142,7 +142,7 @@ export default defineNuxtConfig({
         "/glossary": { ssr: false },
         "/login": { ssr: true },
         "/film/**": {ssr: true},
-        "/res/**": {ssr: true},
+        "/res/**": {ssr: false},
         "/serial/**": {ssr: true},
         "/protected/institutionlist": {ssr: true},
         "/protected/dashboard": {ssr: true},

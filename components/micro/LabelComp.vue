@@ -1,7 +1,7 @@
 <template>
   <label 
     v-if="translateKey"
-    class="tracking-wide text-xs font-bold dark:text-slate-300 text-neutral"
+    class="tracking-wide text-xs font-bold dark:text-slate-300 text-neutral h-4"
     :class="fontSize"
     :aria-label="$t($props.labelText)"
   >
@@ -10,7 +10,7 @@
   </label>
   <label 
     v-else
-    class="tracking-wide text-xs font-bold dark:text-slate-300 text-neutral"
+    class="tracking-wide text-xs font-bold dark:text-slate-300 text-neutral h-4"
     :class="fontSize"
     :aria-label="labelText"
   >
@@ -28,7 +28,7 @@ defineProps({
     fontSize: {
         type: String,
         required: false,
-        default: "text-sm"
+        default: "text-xs"
     },
     translateKey: {
         type: Boolean,
