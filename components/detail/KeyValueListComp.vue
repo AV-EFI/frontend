@@ -14,11 +14,10 @@
 
     <!-- CONTENT (single normalized offset) -->
     <div class="mt-1">
-
       <!-- NON-LIST DISPLAY -->
       <div
         v-if="!ul"
-        class="flex flex-row flex-wrap items-start min-h-6 h-8 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
+        class="flex flex-row flex-wrap items-start min-h-8 h-8 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
         role="group"
         :aria-label="$t(keytxt)"
       >
@@ -65,7 +64,10 @@
       >
         <!-- background & padding moved INSIDE to preserve baseline -->
         <div
-          :class="{ 'bg-slate-100 dark:bg-gray-800 p-2 rounded-lg': bgColor }"
+          :class="[
+            { 'bg-slate-100 dark:bg-gray-800 p-2 rounded-lg': bgColor },
+            overflowY,
+          ]"
         >
           <ul
             v-if="valtxt"
@@ -75,13 +77,13 @@
             <li
               v-for="val in valtxt"
               :key="val?.has_name ?? val"
-              class="flex flex-row items-start justify-between min-h-6 h-6 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
+              class="flex flex-row items-start justify-between min-h-6 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
               role="listitem"
               :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
               :class="fontSize"
             >
               <span
-                class="flex-grow h-8 flex items-start leading-5"
+                class="flex-grow flex items-start leading-5"
                 :class="[narrow ? 'w-3/4' : '']"
               >
                 {{ val?.has_name ?? $t(val) }}
@@ -91,7 +93,7 @@
                 v-if="sameAs"
                 :same-as-data="val.same_as"
                 :type="sameAsType"
-                class="h-8 flex items-start flex-shrink-0 mr-4"
+                class="flex items-start flex-shrink-0 mr-4"
                 :class="fontSize"
               />
             </li>
