@@ -124,63 +124,80 @@
 </template>
 
 <script setup lang="ts">
-const t = useI18n().t;
+import { ref, computed, onBeforeUnmount } from 'vue';
+import { useI18n } from 'vue-i18n';
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
+const suppressNextInput = ref(false);
 
-type Suggestion = { text: string; type: string; count?: number }
-type IconMap = Record<string, string>
+const t = useI18n().t;
+
+type Suggestion = { text: string; type: string; count?: number; url?: string };
+type IconMap = Record<string, string>;
 
 const props = defineProps<{
-  modelValue?: string
-  name?: string
-  placeholder?: string
-  ariaLabel?: string
-  clearTitle?: string
-  showInfoTooltip?: boolean
-  infoTooltipText?: string
-  noResultsText?: string
-  facetAttr?: string
-  size?: number
-  iconMap?: IconMap
-  enforceList?: boolean
-  recentSearches?: Array<{ query: string; url: string; timestamp: number }>
-  autofocus?: boolean
+  modelValue?: string;
+  name?: string;
+  placeholder?: string;
+  ariaLabel?: string;
+  clearTitle?: string;
+  showInfoTooltip?: boolean;
+  infoTooltipText?: string;
+  noResultsText?: string;
+  facetAttr?: string;
+  size?: number;
+  iconMap?: IconMap;
+  enforceList?: boolean;
+  recentSearches?: Array<{ query: string; url: string; timestamp: number }>;
+  autofocus?: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', v: string): void
-  (e: 'select', v: string): void
-  (e: 'submit', v: string): void
-  (e: 'clear'): void
-  (e: 'focus'): void
-  (e: 'blur'): void
-  (e: 'recent-search-click', item: any): void
-  (e: 'remove-recent', query: string): void
-  (e: 'clear-history'): void
+  (e: 'update:modelValue', v: string): void;
+  (e: 'select', v: string): void;
+  (e: 'submit', v: string): void;
+  (e: 'clear'): void;
+  (e: 'focus'): void;
+  (e: 'blur'): void;
+  (e: 'recent-search-click', item: any): void;
+  (e: 'remove-recent', query: string): void;
+  (e: 'clear-history'): void;
 }>();
 
-// ======= State =======
+/* ==========================================================================
+   SINGLE SOURCE OF TRUTH (v-model proxy)
+   ========================================================================== */
+
 const displayValue = computed<string>({
-    get() {
-        return props.modelValue ?? '';
-    },
-    set(v) {
-        emit('update:modelValue', v);
-    }
+    get: () => props.modelValue ?? '',
+    set: v => emit('update:modelValue', v),
 });
-const lastSelected = ref<string>(props.modelValue ?? '');
+
+/* ==========================================================================
+   State
+   ========================================================================== */
+
 const suggestions = ref<Suggestion[]>([]);
 const showDropdown = ref(false);
 const highlighted = ref(-1);
 const fetching = ref(false);
+const lastSelected = ref('');
 
-// ======= Flags =======
+/* User intent: should suggestions be allowed to open? */
+const userInteracting = ref(false);
+
+/* ==========================================================================
+   Mode flags
+   ========================================================================== */
+
 const facetMode = computed(() => !!props.facetAttr);
 const enforced = computed(() =>
     typeof props.enforceList === 'boolean' ? props.enforceList : facetMode.value
 );
 
-// ======= A11y =======
+/* ==========================================================================
+   A11y ids
+   ========================================================================== */
+
 const uid = Math.random().toString(36).slice(2);
 const listboxId = `qa-listbox-${props.name || uid}`;
 const optionId = (i: number) => `qa-opt-${uid}-${i}`;
@@ -188,56 +205,46 @@ const activeDescId = computed(() =>
     highlighted.value >= 0 ? optionId(highlighted.value) : undefined
 );
 
+/* ==========================================================================
+   Debounce
+   ========================================================================== */
 
-// Fetch suggestions on mount if there's an initial value
-onMounted(() => {
-    if (displayValue.value && displayValue.value.trim() !== '') {
-        fetchSuggestions(displayValue.value);
-    }
-});
-
-// ======= Debounce (cancelable) =======
 let timer: ReturnType<typeof setTimeout> | null = null;
-function cancelDebounce() {
-    if (timer) {
-        clearTimeout(timer);
-        timer = null;
-    }
-}
+
 function debounce(fn: () => void, ms = 150) {
-    cancelDebounce();
+    if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
         timer = null;
         fn();
     }, ms);
 }
 
-// ======= Freshness guards =======
+function cancelDebounce() {
+    if (timer) {
+        clearTimeout(timer);
+        timer = null;
+    }
+}
+
+/* ==========================================================================
+   Fetching (token guarded)
+   ========================================================================== */
+
 const size = computed(() => Number(props.size ?? 10));
 let fetchToken = 0;
 const alive = ref(true);
 
 onBeforeUnmount(() => {
     alive.value = false;
+    fetchToken++;
     cancelDebounce();
-    fetchToken++; // invalidate any late responses
 });
 
-// ======= Reopen blocker (prevents pop-back) =======
-const reopenBlockUntil = ref(0);
-function blockReopen(ms = 350) {
-    reopenBlockUntil.value = Date.now() + ms;
-}
-function canOpen() {
-    return Date.now() >= reopenBlockUntil.value;
-}
-
-// ======= Fetch suggestions (token-guarded) =======
 async function fetchSuggestions(q: string): Promise<number> {
     const myToken = ++fetchToken;
     fetching.value = true;
 
-    if(q.length < 2) {
+    if (q.length < 2) {
         if (alive.value && myToken === fetchToken) {
             suggestions.value = defaultQuerySuggestions;
             fetching.value = false;
@@ -246,7 +253,7 @@ async function fetchSuggestions(q: string): Promise<number> {
     }
 
     try {
-        const body: any = facetMode.value
+        const body = facetMode.value
             ? { mode: 'facet', facetAttr: props.facetAttr, query: q.trim(), size: size.value }
             : { mode: 'query', query: q.trim(), size: size.value };
 
@@ -256,7 +263,7 @@ async function fetchSuggestions(q: string): Promise<number> {
         );
 
         if (!alive.value || myToken !== fetchToken) return myToken;
-        suggestions.value = res?.success && Array.isArray(res.suggestions) ? res.suggestions : [];
+        suggestions.value = res?.success ? res.suggestions ?? [] : [];
         return myToken;
     } catch {
         if (!alive.value || myToken !== fetchToken) return myToken;
@@ -267,205 +274,194 @@ async function fetchSuggestions(q: string): Promise<number> {
     }
 }
 
-// ======= Filtering =======
+/* ==========================================================================
+   Derived suggestions
+   ========================================================================== */
+
 const visibleSuggestions = computed(() => {
-    // Always show recent searches at the top if available
-    if (props.recentSearches && props.recentSearches.length > 0) {
-        const recentAsSuggestions = props.recentSearches.map(item => ({
-            text: item.query,
+    if (props.recentSearches?.length) {
+        const recent = props.recentSearches.map(r => ({
+            text: r.query,
             type: 'recent',
-            url: item.url
+            url: r.url,
         }));
-        return [...recentAsSuggestions, ...suggestions.value];
+        return [...recent, ...suggestions.value];
     }
     return suggestions.value;
 });
 
-// ======= No results message =======
-const noResultsMessage = computed(() => {
-    if (props.noResultsText) return props.noResultsText;
-    return displayValue.value?.trim() 
-        ? t('noSuggestionsFound')
-        : t('showSuggestions');
-});
+/* ==========================================================================
+   Messages
+   ========================================================================== */
 
-// ======= Input handlers =======
+const noResultsMessage = computed(() =>
+    props.noResultsText ??
+  (displayValue.value.trim() ? t('noSuggestionsFound') : t('showSuggestions'))
+);
+
+/* ==========================================================================
+   Input handlers
+   ========================================================================== */
+
 function onInput(v: any) {
-    if (!v) {
-        displayValue.value = '';
-        if (enforced.value) lastSelected.value = '';
-        emit('update:modelValue', '');
-        debounce(async () => {
-            const used = await fetchSuggestions('');
-            if (!alive.value || used !== fetchToken || !canOpen()) return;
-            showDropdown.value = true;
-            highlighted.value = visibleSuggestions.value.length ? 0 : -1;
-        });
+    if (suppressNextInput.value) {
+        suppressNextInput.value = false;
         return;
     }
 
     const val = typeof v === 'string' ? v : String(v ?? '');
+    userInteracting.value = true;
     displayValue.value = val;
-
-    if (!enforced.value) emit('update:modelValue', val);
 
     debounce(async () => {
         const used = await fetchSuggestions(val);
-        if (!alive.value || used !== fetchToken || !canOpen()) return;
+        if (!alive.value || used !== fetchToken) return;
+        if (!userInteracting.value) return;
         showDropdown.value = true;
-        // Do NOT auto-highlight first item on input
         highlighted.value = -1;
     });
 }
 
 function onFocus() {
-    // Don't automatically open dropdown on focus
     emit('focus');
 }
 
 function onBlur() {
     cancelDebounce();
-    fetchToken++;       // invalidate in-flight requests
-    // Delay closing so click on option can register
+    fetchToken++;
+    userInteracting.value = false;
+
     setTimeout(() => {
         showDropdown.value = false;
         highlighted.value = -1;
 
         if (enforced.value) {
-            const hasExact = suggestions.value.some(s => s.text === displayValue.value);
-            if (hasExact) {
-                lastSelected.value = displayValue.value;
-                emit('update:modelValue', displayValue.value);
-                emit('select', displayValue.value);
-            } else if (lastSelected.value) {
+            const exact = suggestions.value.some(s => s.text === displayValue.value);
+            if (!exact) {
                 displayValue.value = lastSelected.value;
             }
         }
-        // Don't update lastSelected in non-enforced mode - let the user clear the input
+
         emit('blur');
     }, 120);
 }
 
 function onClear() {
+    suppressNextInput.value = true;
+    userInteracting.value = false;
+
     displayValue.value = '';
-    lastSelected.value = '';
     suggestions.value = [];
     showDropdown.value = false;
     highlighted.value = -1;
-    emit('update:modelValue', '');
+
     emit('clear');
 }
 
-function onSelect(s: any) {
-    // 1) Prevent any pending reopen
-    blockReopen(400);
+function onSelect(s: Suggestion) {
     cancelDebounce();
-    fetchToken++;            // invalidate any in-flight fetch
+    fetchToken++;
+
+    userInteracting.value = false;
     showDropdown.value = false;
     highlighted.value = -1;
-    suggestions.value = [];  // optional: clear immediately
+    suggestions.value = [];
 
-    // 2) If it's a recent search with URL, emit special event
     if (s.type === 'recent' && s.url) {
-        // Only emit recent-search-click, do not update input value
         emit('recent-search-click', { query: s.text, url: s.url });
         return;
     }
 
-    // 3) Apply value + emit for normal suggestions
+    suppressNextInput.value = true;   // 👈 CRITICAL
     displayValue.value = s.text;
+
     lastSelected.value = s.text;
-    emit('update:modelValue', s.text);
     emit('select', s.text);
-    // (no-op; guarded by canOpen() in onFocus/onInput handlers)
 }
 
-// ======= Keys =======
+/* ==========================================================================
+   Keyboard
+   ========================================================================== */
+
 function onKeydown(e: KeyboardEvent) {
-    const key = e.key;
-    if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(key)) return;
-  
-    // Handle Tab: close dropdown and allow default behavior (focus next element)
-    if (key === 'Tab') {
+    if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key)) return;
+
+    if (e.key === 'Tab') {
+        userInteracting.value = false;
         showDropdown.value = false;
         highlighted.value = -1;
-        blockReopen(400); // prevent dropdown from reopening when focus moves
-        cancelDebounce(); // cancel any pending fetch
-        fetchToken++; // invalidate any in-flight requests
-        return; // allow default Tab behavior
+        return;
     }
-  
+
     e.preventDefault();
 
-    if (key === 'ArrowDown') {
-        if (!showDropdown.value && canOpen()) {
-            // Fetch suggestions if dropdown is closed and open it
-            fetchSuggestions(displayValue.value || '').then(() => {
-                if (alive.value) {
-                    showDropdown.value = true;
-                    highlighted.value = visibleSuggestions.value.length > 0 ? 0 : -1;
-                }
+    if (e.key === 'ArrowDown') {
+        userInteracting.value = true;
+
+        if (!showDropdown.value) {
+            fetchSuggestions(displayValue.value).then(() => {
+                if (!alive.value) return;
+                showDropdown.value = true;
+                highlighted.value = visibleSuggestions.value.length ? 0 : -1;
             });
-        } else if (showDropdown.value) {
-            // Navigate down in the list
-            if (highlighted.value < 0 && visibleSuggestions.value.length > 0) {
-                highlighted.value = 0;
-            } else {
-                highlighted.value = Math.min(highlighted.value + 1, visibleSuggestions.value.length - 1);
-            }
+        } else {
+            highlighted.value = Math.min(
+                highlighted.value + 1,
+                visibleSuggestions.value.length - 1
+            );
         }
-    } else if (key === 'ArrowUp') {
-        if (showDropdown.value) {
-            highlighted.value = Math.max(highlighted.value - 1, 0);
-        }
-    } else if (key === 'Enter') {
-        if (showDropdown.value && highlighted.value >= 0 && visibleSuggestions.value[highlighted.value]) {
+    }
+
+    if (e.key === 'ArrowUp') {
+        highlighted.value = Math.max(highlighted.value - 1, 0);
+    }
+
+    if (e.key === 'Enter') {
+        if (showDropdown.value && highlighted.value >= 0) {
             onSelect(visibleSuggestions.value[highlighted.value]);
             return;
         }
-        if (enforced.value && showDropdown.value) {
-            const exact = suggestions.value.find(s => s.text === displayValue.value);
-            if (exact) {
-                onSelect(exact);
-                return;
-            }
-        }
-        // Submit current display value regardless of dropdown state
-        emit('submit', displayValue.value || '');
+        emit('submit', displayValue.value);
         showDropdown.value = false;
-        blockReopen(400);
-    } else if (key === 'Escape') {
+        userInteracting.value = false;
+    }
+
+    if (e.key === 'Escape') {
+        userInteracting.value = false;
         showDropdown.value = false;
-        blockReopen(250); // avoid immediate reopen from stray focus
     }
 }
 
-// ======= Public submit() =======
+/* ==========================================================================
+   Public API
+   ========================================================================== */
+
 function submit() {
-    // Always submit current display value, not lastSelected
-    emit('submit', displayValue.value || '');
+    emit('submit', displayValue.value);
 }
+
 defineExpose({ submit });
 
-// ======= Icons =======
-const iconMap = computed<IconMap>(() => ({
-    ...(props.iconMap || {})
-}));
+/* ==========================================================================
+   Icons
+   ========================================================================== */
 
-function iconClassFor(typeOrFacet: string, _text: string) {
-    const im = iconMap.value || {};
-    if (im[typeOrFacet]) return im[typeOrFacet];
+const iconMap = computed<IconMap>(() => ({ ...(props.iconMap || {}) }));
 
-    const tt = (typeOrFacet || '').toLowerCase();
-    if (tt === 'recent')          return 'formkit:history';
-    if (tt.includes('title'))     return im.title            || 'tabler:letter-t';
-    if (tt.includes('subject'))   return im.subjects         || 'tabler:tags';
-    if (tt.includes('language'))  return im.in_language_code || 'tabler:language';
-    if (tt.includes('format'))    return im.has_format_type  || 'tabler:category';
+function iconClassFor(type: string) {
+    const im = iconMap.value;
+    const tt = type.toLowerCase();
+
+    if (im[type]) return im[type];
+    if (tt === 'recent') return 'formkit:history';
+    if (tt.includes('title')) return im.title || 'tabler:letter-t';
+    if (tt.includes('subject')) return im.subjects || 'tabler:tags';
+    if (tt.includes('language')) return im.in_language_code || 'tabler:language';
+    if (tt.includes('format')) return im.has_format_type || 'tabler:category';
     return 'tabler:search';
 }
 
 function typeLabel(type: string) {
-    return facetMode.value ? t(type) : t(type);
+    return t(type);
 }
 </script>
