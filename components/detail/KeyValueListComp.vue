@@ -138,7 +138,7 @@ const props = defineProps({
     },
     overflowY: {
         type: String,
-        default: ''
+        default: 'overflow-y-auto'
     },
     clip: {
         type: Boolean,
