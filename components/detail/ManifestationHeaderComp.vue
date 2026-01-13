@@ -104,7 +104,7 @@
   <!-- Item count (icon + text treated as ONE baseline unit) -->
   <span
     v-if="manifestation.has_record.has_item"
-    class="flex flex-row items-start text-xs leading-[12px]"
+    class="flex flex-row items-start text-xs leading-[14px]"
   >
     <Icon
       name="tabler:hierarchy"
