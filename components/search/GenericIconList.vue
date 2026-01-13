@@ -84,7 +84,7 @@
         :key="entry.key"
       >
         <div
-          class="flex flex-row items-start gap-1.5 min-w-2 leading-[12px]"
+          class="flex flex-row items-start gap-1.5 min-w-2 leading-[14px]"
           tabindex="0"
           :aria-label="entry.aria"
           :title="entry.aria"
