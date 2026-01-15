@@ -11,13 +11,24 @@
       <div class="hero min-h-[78vh]">
         <ClientOnly>
           <div class="hero-overlay">
+            <!-- Toggle button for video/image -->
+            <button
+              class="absolute top-4 right-4 z-50 btn btn-xs btn-primary"
+              @click="heroMediaVisible = !heroMediaVisible"
+              :aria-pressed="heroMediaVisible"
+              :title="heroMediaVisible ? 'Hide background media' : 'Show background media'"
+            >
+              <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4 mr-1" />
+              {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
+            </button>
             <!-- Background video (decorative) -->
-            <video autoplay muted loop playsinline preload="auto" aria-hidden="true"
+            <img v-if="!heroMediaVisible" class="w-full h-[470px] object-cover" src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
+            <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true"
               class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
               <source src="/vid/klappe_comp.mp4" type="video/mp4" />
             </video>
             <!-- Soft scrim -->
-            <div class="absolute inset-0 bg-gradient-to-b from-base-100/92 via-base-100/86 to-base-100/95"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-base-100/92 via-base-100/95 to-base-100/80"></div>
             <!-- Dotted grid -->
             <div class="absolute inset-0 opacity-15" aria-hidden="true">
               <div
@@ -396,6 +407,18 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
+
+// --- HERO overlay media toggle ---
+const heroMediaVisible = ref(true);
+const HERO_MEDIA_KEY = 'heroMediaVisible';
+
+onMounted(() => {
+    const stored = localStorage.getItem(HERO_MEDIA_KEY);
+    if (stored !== null) heroMediaVisible.value = stored === 'true';
+});
+watch(heroMediaVisible, (val) => {
+    localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
+});
 
 // ─────────────────────────────────────────────
 // SEO META (multi-language via i18n)
