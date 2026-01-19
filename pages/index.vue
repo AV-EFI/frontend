@@ -22,7 +22,7 @@
               {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
             </button>
             <!-- Background video (decorative) -->
-            <img v-if="!heroMediaVisible" class="w-full h-[470px] object-cover" src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
+            <img v-if="!heroMediaVisible" class="w-full md:h-[78vh] md:object-cover" src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
             <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true"
               class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
               <source src="/vid/klappe_comp.mp4" type="video/mp4" />

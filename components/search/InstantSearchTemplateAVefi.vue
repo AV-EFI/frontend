@@ -89,42 +89,114 @@
               </div>
               <div class="w-full">
                 <div
-                  class="w-full grid grid-cols-1 lg:grid-cols-4 gap-1 flex-col md:flex-row justify-between"
+                  class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
                   role="region"
                   :aria-label="$t('filteringsection')"
                 >
-                  <div class="w-full flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
-                    <ais-stats>
-                      <template #default="{ nbHits = 0 }">
-                        <div class="flex items-center justify-center h-10">
-                          <span
+                  <div class="w-full flex flex-row justify-center col-span-2 bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
+                    <ais-stats class="flex flex-row">
+                      <template #default="{ nbHits = 0, results }">
+                        <span
                             v-if="isSearchLoading"
                             id="custom-spinner"
                             class="loading loading-spinner loading-md text-primary"
                           />
-                          <h2
-                            v-else
-                            class="text-md font-bold text-center text-gray-800 dark:text-gray-200"
-                          >
-                            {{ nbHits }} {{ nbHits > 1 ? $t('results') : $t('result') }}
-                          </h2>
+                        <div v-else class="stats stats-vertical lg:stats-horizontal shadow">
+                          <div class="stat">
+                            <div class="stat-title">{{ $t('works') }}</div>
+                            <div class="stat-value">{{ nbHits }}</div>
+                          </div>
+
+                          <div class="stat">
+                            <div class="stat-title">{{ $t('manifestations') }}</div>
+                            <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
+                          </div>
+
+                          <div class="stat">
+                            <div class="stat-title">{{ $t('items') }}</div>
+                            <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>
+                          </div>
                         </div>
                       </template>
                     </ais-stats>
                   </div>
-                  <div class="md:col-span-2 w-full flex flex-col justify-center border-base-200 border-2 bg-white dark:bg-gray-800 rounded-lg p-2">
-                    <p class="text-gray-800 dark:text-gray-200 text-center font-mono">
-                      @TODO: define sorting
-                    </p>
-                    <ais-sort-by
-                      :items="sortItems"
-                      :class-names="{
-                        'ais-SortBy-select': 'hidden',
-                      }"
-                      aria-disabled="true"
-                    />
+                                  <div 
+                    class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg bg-base-100"
+                    role="region"
+                    :aria-label="$t('activeFacets')"
+                  >
+                    <div class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
+                      <div class="w-full md:w-1/2 flex flex-row justify-start">
+                        <h2 
+                          id="active-facets-heading"
+                          class="font-bold text-gray-800 dark:text-gray-200"
+                          tabindex="-1"
+                        >
+                          {{ $t('activeFacets') }}
+                        </h2>
+                      </div>
+                      <div class="w-full md:w-1/2 flex flex-row justify-end">
+                        <ais-clear-refinements 
+                          :class-names="{
+                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
+                            'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                          }"
+                        >
+                          <template #resetLabel>
+                            <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                          </template>
+                        </ais-clear-refinements>
+                      </div>
+                    </div>
+                    <div 
+                      class="w-full bg-white dark:bg-gray-800 rounded-lg p-2"
+                      role="list"
+                      aria-labelledby="active-facets-heading"
+                    >
+                      <ais-current-refinements 
+                        :class-names="{
+                          'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
+                          'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
+                          'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
+                          'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
+                        }"
+                      >
+                        <template #item="{ item, refine, createURL }">
+                          <div role="listitem" class="flex flex-col gap-1">
+                            <span class="text-left w-full">
+                              <strong class="font-bold text-sm dark:text-primary-100">
+                                {{ $t(item.label.split(".").at(-1)) }}:
+                              </strong>
+                            </span>
+                            <ul class="list-none p-0 m-0" role="list">
+                              <li
+                                v-for="refinement in item.refinements"
+                                :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
+                                class="flex items-center"
+                                role="listitem"
+                              >
+                                <a
+                                  :href="createURL(refinement)"
+                                  class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
+                                  :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
+                                  @click.prevent="refine(refinement)"
+                                >
+                                  {{ $t(refinement.label) }}
+                                  <Icon
+                                    class="text-lg"
+                                    name="formkit:trash"
+                                    aria-hidden="true"
+                                  />
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </template>
+                      </ais-current-refinements>
+                    </div>
                   </div>
-                  <div class="form-control w-full border-base-200 border-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
+
+                  <div class="form-control w-full border-base-200 border-2 col-span-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
                     <label 
                       class="label cursor-pointer text-sm flex justify-between items-center gap-2"
                       :aria-label="$t('toggleViewType')"
@@ -178,80 +250,8 @@
                       >
                     </label>
                   </div>
-                  <div 
-                    class="col-span-full md:col-span-2 border-base-200 border-2 rounded-lg bg-base-100"
-                    role="region"
-                    aria-label="Active search filters"
-                  >
-                    <div class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
-                      <div class="w-full md:w-1/2 flex flex-row justify-start">
-                        <h2 
-                          id="active-facets-heading"
-                          class="font-bold text-gray-800 dark:text-gray-200"
-                          tabindex="-1"
-                        >
-                          {{ $t('activeFacets') }}
-                        </h2>
-                      </div>
-                      <div class="w-full md:w-1/2 flex flex-row justify-end">
-                        <ais-clear-refinements 
-                          :class-names="{
-                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
-                            'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                          }"
-                        >
-                          <template #resetLabel>
-                            <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
-                          </template>
-                        </ais-clear-refinements>
-                      </div>
-                    </div>
-                    <div 
-                      class="w-full bg-white dark:bg-gray-800 rounded-lg p-2"
-                      role="list"
-                      aria-labelledby="active-facets-heading"
-                    >
-                      <ais-current-refinements 
-                        :class-names="{
-                          'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                          'ais-CurrentRefinements-item': 'border border-neutral text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
-                          'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                          'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
-                        }"
-                      >
-                        <template #item="{ item, refine, createURL }">
-                          <div role="listitem">
-                            <strong class="font-bold text-sm dark:text-primary-100">
-                              {{ $t(item.label.split(".").at(-1)) }}:
-                            </strong>
-                            <ul class="list-none p-0 m-0" role="list">
-                              <li
-                                v-for="refinement in item.refinements"
-                                :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
-                                class="flex items-center"
-                                role="listitem"
-                              >
-                                <a
-                                  :href="createURL(refinement)"
-                                  class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
-                                  :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
-                                  @click.prevent="refine(refinement)"
-                                >
-                                  {{ $t(refinement.label) }}
-                                  <Icon
-                                    class="text-lg"
-                                    name="formkit:trash"
-                                    aria-hidden="true"
-                                  />
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </template>
-                      </ais-current-refinements>
-                    </div>
-                  </div>
-                  <LazyDetailPaginationComp class="col-span-full md:col-span-2 border-base-200 border-2 rounded-lg" />
+                  
+                  <LazyDetailPaginationComp class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg" />
                 </div>
                 <div
                   class="flex w-full flex-col"
@@ -337,7 +337,6 @@ const localSearchValue = ref('');
 
 // Search history
 const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
-const recentSearches = ref<string[]>([]);
 const showRecentSearches = ref(false);
 const historyTrigger = ref(0);
 
@@ -361,6 +360,13 @@ const syncSearchValueFromUrl = () => {
         searchQuery.value = queryParam;
     }
 };
+
+
+// Use <ais-state-results> to access the raw search response
+// Example usage in template:
+// <ais-state-results v-slot="{ results }">
+//   <pre>{{ results }}</pre>
+// </ais-state-results>
 
 // Load recent searches on mount
 onMounted(() => {
@@ -405,13 +411,11 @@ onMounted(() => {
 
 // Search handlers
 const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
-    console.log('handleSearchSubmit called with:', value);
     if (value && value.trim() !== '') {
         // Save to search history with the correct URL
         const searchUrl = `?query=${encodeURIComponent(value.trim())}`;
         addToSearchHistory(value, searchUrl);
         historyTrigger.value++;
-        console.log('Search history after add:', getSearchHistory());
         // Update the URL query parameter to the new value
         const newUrl = `${window.location.pathname}?query=${encodeURIComponent(value.trim())}`;
         window.history.replaceState({}, '', newUrl);
@@ -457,8 +461,8 @@ const handleClearAllHistory = () => {
 };
 
 // --- Algolia current refinements (active facets) ---
-
 const aisState = inject<any>('$_ais_state');
+
 const currentRefinements = computed(() => {
     if (!aisState || !aisState.results) return [];
     // Algolia InstantSearch exposes current refinements in the UI state
@@ -490,73 +494,8 @@ const searchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
-/*
-        sorting: {
-            default: [
-                { field: "_score", order: "desc" },
-                { field: "has_record.has_primary_title.has_name.keyword", order: "asc" },
-            ],
-            _title_asc: {
-                field: "has_record.has_primary_title.has_name",
-                order: "asc",
-            },
-            _title_desc: {
-                field: "has_record.has_primary_title.has_name",
-                order: "desc",
-            },
-            _country_asc: {
-                field: "country",
-                order: "asc",
-            },
-            _country_desc: {
-                field: "country",
-                order: "desc",
-            },
-            _year_asc: {
-                field: "year",
-                order: "asc",
-            },
-            _year_desc: {
-                field: "year",
-                order: "desc",
-            },
-            _directors_asc: {
-                field: "directors_or_editors",
-                order: "asc",
-            },
-            _directors_desc: {
-                field: "directors_or_editors",
-                order: "desc",
-            },
-            _production_asc: {
-                field: "production",
-                order: "asc",
-            },
-            _production_desc: {
-                field: "production",
-                order: "desc",
-            },
-        },
-*/
-const sortingConfig = config?.search_settings?.sorting;
-let sortItems = [];
-if (sortingConfig && typeof sortingConfig === 'object') {
-    sortItems = Object.entries(sortingConfig)
-        .map(([key, value]: [string, any]) => ({
-            value: key,
-            label: value.field,
-        }));
-}
-console.log('Sorting items:', sortItems);
-/*
-const sortItems = config?.search_settings?.sorting?.map((option: any) => ({
-    value: option.index_name,
-    label: option.label,
-}));
-*/
 
 onMounted(() => {
-
     useCurrentUrlState();
     const saveSearchQuery = () => {
         const search = window?.location?.search;
@@ -587,11 +526,11 @@ const props = defineProps({
     },
 });
 
-watch(expandAllChecked, (newValue) => {
+watch(expandAllChecked, () => {
     expandAllItems();
 });
 
-watch(viewTypeChecked, (newValue) => {
+watch(viewTypeChecked, () => {
     expandAllChecked.value = false;
 
     // Reset all facets/refinements
@@ -652,6 +591,7 @@ onMounted(() => {
             }
         }, 100);
     }
+    console.log(aisState);
 });
 
 onBeforeUnmount(() => {
@@ -748,41 +688,6 @@ const stateMapping = {
     },
 };
 
-
-/*
-routerInstance.write = (routeState) => {
-    try {
-        console.log('Router write:', routeState);
-        // Check if the route state is empty
-        if (Object.keys(routeState).length === 0) {
-            console.error('Route state is empty, not saving to localStorage.');
-            return;
-        }
-
-        const indexKey = useRuntimeConfig().public.ELASTIC_INDEX;
-        if (!routeState[indexKey] || !routeState[indexKey].query) {
-            console.error('No search query in route state, not saving to localStorage.');
-            return;
-        }
-
-        //console.log('Structured state:', structuredState);
-        // Convert route state to URL
-        const url = routerInstance.createURL(routeState);
-        const search = url.includes('?') ? url.slice(url.indexOf('?')) : '';
-
-        // Save the query part only
-        localStorage.setItem('latest-search-query', search);
-        window.dispatchEvent(new StorageEvent('storage', { key: 'latest-search-query' }));
-        //useCurrentUrlState().updateFromStorage();
-        console.log('Saved latest-search-query:', localStorage.getItem('latest-search-query'));
-    } catch (e) {
-        console.error('Failed to store latest-search-query:', e);
-    }
-
-    // Still do the default routing update
-    defaultRouter().write(routeState);
-};
-*/
 // Only use routing on client-side
 const extendedRouting = process.client ? {
     router: routerInstance,
@@ -792,6 +697,10 @@ const extendedRouting = process.client ? {
 
 </script>
 <style scoped lang="scss">
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;

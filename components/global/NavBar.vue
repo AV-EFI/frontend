@@ -259,9 +259,9 @@
                   >
                     <a
                       role="menuitem"
-                      href="/protected/glossary"
+                      href="/protected/vocab"
                     >
-                      {{ $t('glossary.title') }}
+                      {{ $t('vocab.title') }}
                     </a>
                   </li>
                   <li role="none">

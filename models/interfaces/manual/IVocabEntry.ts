@@ -1,7 +1,11 @@
 /* eslint-disable */
-export interface IGlossaryEntry {
+export interface IVocabEntry {
   term: string;
   label: string;
+  labels: {
+    de?: string;
+    en?: string;
+  }
   description: string;
   definition: string;
   enumSource: string;

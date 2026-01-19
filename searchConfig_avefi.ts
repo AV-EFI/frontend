@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import type { SearchkitConfig } from "searchkit";
+import type { SearchkitConfigExtended } from "./types/searchkit-config-extended";
 
 // move creds to server-side for runtime.private access
-export const config: SearchkitConfig = {
+export const config: SearchkitConfigExtended = {
     connection: {
         host: "http://141.5.105.237:9200",
     },
@@ -235,4 +235,7 @@ export const config: SearchkitConfig = {
         },
     // snippet_attributes: ['plot'],
     },
+    // Custom properties for AVefi
+    nbManifestations: 0,
+    nbItems: 0,
 };

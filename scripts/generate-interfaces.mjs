@@ -15,7 +15,7 @@ const GENERATED_DIR = path.resolve("models/interfaces/generated");
 const OUT_DATA_DIR = path.resolve("assets/data");
 
 /** outputs */
-const GLOSSARY_JSON = path.join(OUT_DATA_DIR, "glossary.json");
+const VOCAB_JSON = path.join(OUT_DATA_DIR, "vocab.json");
 const FIELD_INDEX_JSON = path.join(OUT_DATA_DIR, "fieldIndex.json");
 const SCHEMA_TREE_JSON = path.join(OUT_DATA_DIR, "schemaTree.json");
 const ENTITIES_JSON = path.join(OUT_DATA_DIR, "entities.json");
@@ -96,7 +96,7 @@ try {
     } catch (err) {
       console.warn("⚠️ Final cleanup failed, retrying...");
       console.error(err);
-      try { run(`rmdir /S /Q "${TMP_DIR}"`); } catch {}
+      try { run(`rmdir /S /Q "${TMP_DIR}"`); } catch { }
     }
   }
 }
@@ -193,16 +193,51 @@ const enumCategory = (e) =>
   e.replace(/ActivityTypeEnum$/, "Activity Type").replace(/TypeEnum$/, " Type").replace(/Enum$/, "");
 const bucketFromIface = (n) =>
   /^(I)?AVefi?WorkVariant$/i.test(n) || /^Work(Variant)?$/i.test(n) ? "WorkVariant"
-  : /^(I)?AVefi?Manifestation$/i.test(n) || /^Manifestation$/i.test(n) ? "Manifestation"
-  : /^(I)?AVefi?Item$/i.test(n) || /^Item$/i.test(n) ? "Item"
-  : n;
+    : /^(I)?AVefi?Manifestation$/i.test(n) || /^Manifestation$/i.test(n) ? "Manifestation"
+      : /^(I)?AVefi?Item$/i.test(n) || /^Item$/i.test(n) ? "Item"
+        : n;
 
 function buildGlossaryAndIndexFromTS() {
   const schemaDir = TARGET_DIR;
   const generatedDir = GENERATED_DIR;
   const localePath = path.join(schemaDir, "locale_messages.json");
   const localeJson = exists(localePath) ? JSON.parse(read(localePath)) : {};
-  const tr = (k) => (localeJson?.de?.[k] ?? null);
+  const trLang = (lang, k) => (localeJson?.[lang]?.[k] ?? null);
+
+  const toTranslationKeyCandidates = (term) => {
+    const out = [term];
+
+    // Reverse TS-safe enum naming conventions:
+    // number_17FULL_STOP5mmFilm -> 17FULL_STOP5mmFilm -> 17.5mmFilm
+    if (term.startsWith("number_")) {
+      const stripped = term.replace(/^number_/, "");
+      out.push(stripped);
+      out.push(stripped.replace(/FULL_STOP/g, "."));
+    } else {
+      out.push(term.replace(/FULL_STOP/g, "."));
+    }
+
+    // De-duplicate while preserving order
+    return [...new Set(out)];
+  };
+
+  const resolveLabels = (term) => {
+    const candidates = toTranslationKeyCandidates(term);
+
+    let de = null;
+    let en = null;
+
+    for (const k of candidates) {
+      de = de ?? trLang("de", k);
+      en = en ?? trLang("en", k);
+      if (de && en) break;
+    }
+
+    // Fallback label: prefer de, then en, then something readable
+    const label = de || en || term;
+
+    return { label, labels: { de, en }, isTranslated: !!(de || en), translationKeysTried: candidates };
+  };
 
   /** @type {Array<{term:string,label:string,description:string,definition:string,enumSource:string,category:string,isTranslated:boolean}>} */
   const entries = [];
@@ -211,7 +246,10 @@ function buildGlossaryAndIndexFromTS() {
   /** @type {Record<string,{level:'WorkVariant'|'Manifestation'|'Item',path:string}>} */
   const fieldIndex = {};
 
-  const addEntry = (e) => { const k = `${e.term}|${e.enumSource}`; if (seen.has(k)) return; seen.add(k); entries.push(e); };
+  const addEntry = (e) => {
+    const k = `${e.term}|${e.enumSource}`;
+    if (seen.has(k)) return; seen.add(k); entries.push(e);
+  };
 
   const schemaFilesLocal = ["avefi_schema.ts", "avefi_schema_type_utils.ts"];
   const generatedFilesLocal = ["IAVefiWorkVariant.ts", "IAVefiManifestation.ts", "IAVefiItem.ts"];
@@ -227,8 +265,18 @@ function buildGlossaryAndIndexFromTS() {
       const enumName = em[1], body = em[2], category = enumCategory(enumName);
       let mm; while ((mm = enumMemberRe.exec(body))) {
         const raw = mm[1], key = mm[2]; if (!key) continue;
-        const { desc, def } = cleanJsDoc(raw); const t = tr(key);
-        entries.push({ term: key, label: t || key, description: desc, definition: def, enumSource: enumName, category, isTranslated: !!t });
+        const { desc, def } = cleanJsDoc(raw);
+        const { label, labels, isTranslated } = resolveLabels(key);
+        entries.push({
+          term: key,
+          label,
+          labels,                // NEW: language-aware payload
+          description: desc,
+          definition: def,
+          enumSource: enumName,
+          category,
+          isTranslated
+        });
       }
     }
 
@@ -237,7 +285,7 @@ function buildGlossaryAndIndexFromTS() {
       const ifaceName = im[1], body = im[2];
       const bucket = bucketFromIface(ifaceName);
       let pm; while ((pm = interfacePropRe.exec(body))) {
-        const raw = pm[1], prop = pm[2]; const { desc, def } = cleanJsDoc(raw); const t = tr(prop);
+        const raw = pm[1], prop = pm[2]; const { desc, def } = cleanJsDoc(raw); const t = trLang(prop);
         if (bucket === "WorkVariant" || bucket === "Manifestation" || bucket === "Item") {
           const dotted = `${bucket}.${prop}`;
           addEntry({ term: prop, label: t || prop, description: desc, definition: def, enumSource: dotted, category: bucket, isTranslated: !!t });
@@ -266,9 +314,9 @@ function buildGlossaryAndIndexFromTS() {
     }
   }
 
-  writeJson(GLOSSARY_JSON, entries);
+  writeJson(VOCAB_JSON, entries);
   writeJson(FIELD_INDEX_JSON, fieldIndex);
-  console.log(`📦 glossary(ts): ${entries.length} entries`);
+  console.log(`📦 vocab(ts): ${entries.length} entries`);
   console.log(`📦 fieldIndex(ts): ${Object.keys(fieldIndex).length} fields`);
 }
 buildGlossaryAndIndexFromTS();
@@ -290,7 +338,43 @@ if (!exists(modelPath)) {
   const enums = vocab?.enums || model?.enums || {};
   const localePath = path.join(TARGET_DIR, "locale_messages.json");
   const localeJson = exists(localePath) ? JSON.parse(read(localePath)) : {};
-  const tr = (k) => (localeJson?.de?.[k] ?? null);
+  const trLang = (lang, k) => (localeJson?.[lang]?.[k] ?? null);
+
+  const toTranslationKeyCandidates = (term) => {
+    const out = [term];
+
+    // Reverse TS-safe enum naming conventions:
+    // number_17FULL_STOP5mmFilm -> 17FULL_STOP5mmFilm -> 17.5mmFilm
+    if (term.startsWith("number_")) {
+      const stripped = term.replace(/^number_/, "");
+      out.push(stripped);
+      out.push(stripped.replace(/FULL_STOP/g, "."));
+    } else {
+      out.push(term.replace(/FULL_STOP/g, "."));
+    }
+
+    // De-duplicate while preserving order
+    return [...new Set(out)];
+  };
+
+  const resolveLabels = (term) => {
+    const candidates = toTranslationKeyCandidates(term);
+
+    let de = null;
+    let en = null;
+
+    for (const k of candidates) {
+      de = de ?? trLang("de", k);
+      en = en ?? trLang("en", k);
+      if (de && en) break;
+    }
+
+    // Fallback label: prefer de, then en, then something readable
+    const label = de || en || term;
+
+    return { label, labels: { de, en }, isTranslated: !!(de || en), translationKeysTried: candidates };
+  };
+
   const safeDesc = (x) => (typeof x === "string" ? x.trim() : "");
   const isEnum = (r) => !!enums[r];
 
@@ -344,60 +428,60 @@ if (!exists(modelPath)) {
   wvSlots.sort(); moiSlots.sort(); mSlots.sort(); iSlots.sort();
 
   // ---------- build strict W-M-I tree ----------
-  const root = node("MovingImageRecord", "MovingImageRecord", tr("MovingImageRecord") || "MovingImageRecord", []);
-  const wvRoot = node("WorkVariant", "MovingImageRecord.WorkVariant", tr(WV || "WorkVariant") || (WV || "WorkVariant"), []);
+  const root = node("MovingImageRecord", "MovingImageRecord", trLang("MovingImageRecord") || "MovingImageRecord", []);
+  const wvRoot = node("WorkVariant", "MovingImageRecord.WorkVariant", trLang(WV || "WorkVariant") || (WV || "WorkVariant"), []);
   root.children = [wvRoot];
 
   if (WV && wvSlots.length) {
     wvRoot.children.push(
       node("WorkVariant",
-           "MovingImageRecord.WorkVariant.WorkVariant",
-           tr(WV) || WV,
-           wvSlots)
+        "MovingImageRecord.WorkVariant.WorkVariant",
+        trLang(WV) || WV,
+        wvSlots)
     );
   }
 
   if (hasMOI && moiSlots.length) {
     wvRoot.children.push(
       node("ManifestationOrItem",
-           "MovingImageRecord.WorkVariant.ManifestationOrItem",
-           tr("ManifestationOrItem") || "ManifestationOrItem",
-           moiSlots)
+        "MovingImageRecord.WorkVariant.ManifestationOrItem",
+        trLang("ManifestationOrItem") || "ManifestationOrItem",
+        moiSlots)
     );
     wvRoot.children.push(
       node("ManifestationOrItemEnums",
-           "MovingImageRecord.WorkVariant.ManifestationOrItemEnums",
-           "ManifestationOrItemEnums",
-           [])
+        "MovingImageRecord.WorkVariant.ManifestationOrItemEnums",
+        "ManifestationOrItemEnums",
+        [])
     );
   }
 
   if (hasM) {
     const mCont = node("manifestations[]", "MovingImageRecord.WorkVariant.manifestations[]", "manifestations[]", []);
     const mNode = node("Manifestation",
-                       "MovingImageRecord.WorkVariant.manifestations[].Manifestation",
-                       tr("Manifestation") || "Manifestation",
-                       mSlots);
+      "MovingImageRecord.WorkVariant.manifestations[].Manifestation",
+      trLang("Manifestation") || "Manifestation",
+      mSlots);
     mCont.children.push(mNode);
     mCont.children.push(
       node("ManifestationEnums",
-           "MovingImageRecord.WorkVariant.manifestations[].ManifestationEnums",
-           "ManifestationEnums",
-           [])
+        "MovingImageRecord.WorkVariant.manifestations[].ManifestationEnums",
+        "ManifestationEnums",
+        [])
     );
 
     if (hasI) {
       const iCont = node("items[]", "MovingImageRecord.WorkVariant.manifestations[].items[]", "items[]", []);
       const iNode = node("Item",
-                         "MovingImageRecord.WorkVariant.manifestations[].items[].Item",
-                         tr("Item") || "Item",
-                         iSlots);
+        "MovingImageRecord.WorkVariant.manifestations[].items[].Item",
+        trLang("Item") || "Item",
+        iSlots);
       iCont.children.push(iNode);
       iCont.children.push(
         node("ItemEnums",
-             "MovingImageRecord.WorkVariant.manifestations[].items[].ItemEnums",
-             "ItemEnums",
-             [])
+          "MovingImageRecord.WorkVariant.manifestations[].items[].ItemEnums",
+          "ItemEnums",
+          [])
       );
       mCont.children.push(iCont);
     }
@@ -407,9 +491,9 @@ if (!exists(modelPath)) {
 
   wvRoot.children.push(
     node("WorkVariantEnums",
-         "MovingImageRecord.WorkVariant.WorkVariantEnums",
-         "WorkVariantEnums",
-         [])
+      "MovingImageRecord.WorkVariant.WorkVariantEnums",
+      "WorkVariantEnums",
+      [])
   );
 
   // ---------- write the tree ----------
@@ -426,7 +510,7 @@ if (!exists(modelPath)) {
 
   // Map term -> explorerPath by walking tree leaves with terms (skip *Enums; first hit wins)
   const explorerMap = {};
-  (function walk(list){
+  (function walk(list) {
     for (const n of list) {
       const isEnumsGroup = /Enums$/.test(n.name);
       if (n.terms?.length && !isEnumsGroup) {
@@ -486,7 +570,7 @@ if (!exists(modelPath)) {
       id: `class:${clsName}`,
       kind: "class",
       name: clsName,
-      label: tr(clsName) || clsName,
+      label: trLang(clsName) || clsName,
       description: safeDesc(clsDef?.description),
       explorerPath: cPath,
       docsUrl: `${DOCS_BASE}${clsName}/`,
@@ -497,7 +581,7 @@ if (!exists(modelPath)) {
         id: `slot:${clsName}.${s.name}`,
         kind: "slot",
         name: s.name,
-        label: tr(s.name) || s.name,
+        label: trLang(s.name) || s.name,
         description: safeDesc(s.description),
         explorerPath: `${cPath}.${s.name}`,
         owner: clsName,
@@ -519,7 +603,7 @@ if (!exists(modelPath)) {
       id: `enum:${enumName}`,
       kind: "enum",
       name: enumName,
-      label: tr(enumName) || enumName,
+      label: trLang(enumName) || enumName,
       description: safeDesc(enumDef?.description),
       explorerPath: ePath,
       docsUrl: `${DOCS_BASE}${enumName}/`,
@@ -532,7 +616,7 @@ if (!exists(modelPath)) {
         id: `enumMember:${enumName}.${m}`,
         kind: "enumMember",
         name: m,
-        label: tr(m) || m,
+        label: trLang(m) || m,
         description: safeDesc(mDef?.description || mDef?.meaning || ""),
         explorerPath: ePath,
         owner: enumName,
@@ -541,7 +625,7 @@ if (!exists(modelPath)) {
     }
   }
 
-  entities.sort((a,b) => (a.explorerPath + "|" + a.kind + "|" + a.label)
+  entities.sort((a, b) => (a.explorerPath + "|" + a.kind + "|" + a.label)
     .localeCompare(b.explorerPath + "|" + b.kind + "|" + b.label));
   writeJson(ENTITIES_JSON, entities);
 }

@@ -1,6 +1,6 @@
-// server/utils/useServerGlossary.ts
+// server/utils/useServerVocab.ts
 import { useStorage } from '#imports';
-import type { IGlossaryEntry as GlossaryEntry } from '@/models/interfaces/manual/IGlossaryEntry';
+import type { IVocabEntry as vocabEntry } from '@/models/interfaces/manual/IVocabEntry';
 
 /** Read a text file from Nitro server assets (works in dev & prod/prerender). */
 async function readAssetText(key: string): Promise<string> {
@@ -16,18 +16,18 @@ async function readAssetText(key: string): Promise<string> {
 /** Safe load of locale JSON (handles string/object). */
 async function loadLocale(): Promise<any> {
     try {
-        const txt = await readAssetText('glossary:locale_messages.json');
+        const txt = await readAssetText('vocab:locale_messages.json');
         return JSON.parse(txt);
     } catch {
         return {};
     }
 }
 
-export async function useServerGlossary(): Promise<GlossaryEntry[]> {
+export async function useServerVocab(): Promise<vocabEntry[]> {
     try {
     // ---- load sources from server assets ----
-        const schema1 = await readAssetText('glossary:avefi_schema.ts');
-        const schema2 = await readAssetText('glossary:avefi_schema_type_utils.ts');
+        const schema1 = await readAssetText('vocab:avefi_schema.ts');
+        const schema2 = await readAssetText('vocab:avefi_schema_type_utils.ts');
         const locale = await loadLocale();
 
         // ---- original parsing logic (with key regex fixed for CamelCase) ----
@@ -36,24 +36,55 @@ export async function useServerGlossary(): Promise<GlossaryEntry[]> {
         const files = [schema1, schema2];
 
         // helpers for labels/translations in multiple shapes
-        const getLabelDE = (enumName: string, key: string, value: string): string | undefined => {
-            // 1) language-map: { de: { Key: "…" } }
-            if (locale?.de && typeof locale.de === 'object' && typeof locale.de[key] === 'string') return locale.de[key];
-            // 2) nested map: { "Enum.Key": { de: "…" } } or { "Enum.Key": "…" }
-            const dotted = locale?.[`${enumName}.${key}`];
-            if (typeof dotted === 'string') return dotted;
-            if (dotted && typeof dotted.de === 'string') return dotted.de;
-            // fallback: enum value (usually English label)
-            return undefined;
+        const normalizeKeyCandidates = (key: string, value?: string) => {
+            const base = String(key || '');
+            const withoutNumber = base.replace(/^number_/, '');
+            const dotted = withoutNumber.replace(/FULL_STOP/g, '.');
+
+            // Candidate priority: most likely locale keys first
+            const cands = [
+                base,
+                withoutNumber,
+                dotted,
+                value, // sometimes enums store the human string in value
+            ].filter((v): v is string => typeof v === 'string' && v.trim().length > 0);
+
+            // de-dupe while preserving order
+            return Array.from(new Set(cands));
         };
-        const getLabelEN = (enumName: string, key: string, value: string): string | undefined => {
-            if (locale?.en && typeof locale.en === 'object' && typeof locale.en[key] === 'string') return locale.en[key];
-            const dotted = locale?.[`${enumName}.${key}`];
-            if (dotted && typeof dotted.en === 'string') return dotted.en;
+
+        const pickLocaleString = (obj: any, k: string): string | undefined => {
+            return (obj && typeof obj === 'object' && typeof obj[k] === 'string') ? obj[k] : undefined;
+        };
+
+        const getLabelDE = (enumName: string, key: string, value: string): string | undefined => {
+            for (const cand of normalizeKeyCandidates(key, value)) {
+                // 1) { de: { Key: "…" } }
+                const direct = pickLocaleString(locale?.de, cand);
+                if (direct) return direct;
+
+                // 2) { "Enum.Key": "…" } or { "Enum.Key": { de: "…" } }
+                const dotted = locale?.[`${enumName}.${cand}`];
+                if (typeof dotted === 'string') return dotted;
+                if (dotted && typeof dotted.de === 'string') return dotted.de;
+            }
             return undefined;
         };
 
-        const results: GlossaryEntry[] = [];
+        const getLabelEN = (enumName: string, key: string, value: string): string | undefined => {
+            for (const cand of normalizeKeyCandidates(key, value)) {
+                const direct = pickLocaleString(locale?.en, cand);
+                if (direct) return direct;
+
+                const dotted = locale?.[`${enumName}.${cand}`];
+                if (typeof dotted === 'string') return dotted; // if you ever store EN flat
+                if (dotted && typeof dotted.en === 'string') return dotted.en;
+            }
+            return undefined;
+        };
+
+
+        const results: vocabEntry[] = [];
 
         for (const content of files) {
             let enumMatch: RegExpExecArray | null;
@@ -102,20 +133,21 @@ export async function useServerGlossary(): Promise<GlossaryEntry[]> {
 
                     results.push({
                         term: keyName,
-                        label,                // <-- ✅ now set; UI will show it after the colon
+                        label,               
+                        labels: { de, en },
                         description,
                         definition,
                         enumSource: enumName,
                         category,
                         isTranslated
-                    } as GlossaryEntry);
+                    } as vocabEntry);
                 }
             }
         }
 
         return results;
     } catch (err) {
-        console.error('Error building glossary:', err);
+        console.error('Error building vocab:', err);
         return [];
     }
 }

@@ -35,7 +35,7 @@
             <NuxtLink
               v-if="work?.handle"
               :to="`/res/${work.handle}`"
-              class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+              class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left"
               :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
               target="_blank"
             >

@@ -10,11 +10,11 @@
       <NuxtLayout name="partial-layout-1-center">
         <template #title>
             <h1 class="text-2xl font-bold my-2 pl-2">
-                {{ $t('glossary.title') || 'Glossar' }}
+                {{ $t('vocab.title') || 'Vocabulary' }}
             </h1>
         </template>
         <template #cardBody>
-            <GlobalGlossaryViewer />
+            <GlobalVocabViewer />
         </template>
       </NuxtLayout>
     </div>

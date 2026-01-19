@@ -31,7 +31,7 @@ export default defineNuxtConfig({
         preset: 'node-server',
         compressPublicAssets: true,
         serverAssets: [
-            { baseName: 'glossary', dir: 'assets/glossary' }
+            { baseName: 'vocab', dir: 'assets/vocab' }
         ],
         debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
         prerender: {

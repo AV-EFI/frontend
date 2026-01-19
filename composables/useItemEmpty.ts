@@ -7,9 +7,17 @@ export function isItemEmpty(item: any): boolean {
     if (!item) return true;
     const itemFieldsFromSpec = [
         'has_record.has_format',
-        'in_language.code',
-        'element_type',
-        'has_webresource',
+        'has_record.in_language.code',
+        'has_record.elementy_type',
+        'has_record.has_sound_type',
+        'has_record.has_colour_type',
+        'has_record.has_frame_rate',
+        'has_record.has_extent',
+        'has_record.has_webresource',
+        'has_record.has_access_status',
+        'has_record.has_duration',
+
+
     ];
     return !itemFieldsFromSpec.some(path => has(item, path));
 }
