@@ -70,22 +70,6 @@ textarea::selection {
   --border: 1px;
   --depth: 0;
   --noise: 0;
-
-   /* DaisyUI btn-outline border customization (template-level) */
-   .btn-outline {
-     border-width: 2px !important;
-     border-style: solid !important;
-     border-color: var(--color-primary, #4d768d) !important;
-     background-color: transparent !important;
-     color: var(--color-primary, #4d768d) !important;
-     transition: border-color 0.2s, background-color 0.2s, color 0.2s;
-   }
-   .btn-outline:hover, .btn-outline:focus {
-     border-color: var(--color-primary-content, #fff) !important;
-     background-color: var(--color-primary, #4d768d) !important;
-     color: var(--color-primary-content, #fff) !important;
-   }
-   /* End DaisyUI btn-outline border customization */
 }
 
 @plugin "daisyui/theme" {
@@ -159,17 +143,17 @@ textarea::selection {
 @layer components {
   /* DaisyUI btn-outline border customization */
   .btn-outline {
-    border-width: 2px !important;
+    border-width: 1px !important;
     border-style: solid !important;
-    border-color: var(--color-primary, #4d768d) !important;
+    border-color: var(--color-neutral, #4a6173);
     background-color: transparent !important;
-    color: var(--color-primary, #4d768d) !important;
+    color: var(--color-neutral, #4a6173) !important;
     transition: border-color 0.2s, background-color 0.2s, color 0.2s;
   }
   .btn-outline:hover, .btn-outline:focus {
-    border-color: var(--color-primary-content, #fff) !important;
-    background-color: var(--color-primary, #4d768d) !important;
-    color: var(--color-primary-content, #fff) !important;
+    border-color: var(#888888, #888888) !important;
+    background-color: var(--color-base-200, #0f172a) !important;
+    color: var(#888888, #888888) !important;
   }
   /* End DaisyUI btn-outline border customization */
   .badge-work {
