@@ -3,7 +3,7 @@
     <div class="relative">
       <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
         :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
-        inner-class="!rounded-xl !h-[56px] w-full dark:!bg-slate-950 dark:!text-white !rounded-r-none"
+        inner-class="!rounded-xl !h-[56px] w-full dark:!bg-gray-950 dark:!text-white !rounded-r-none"
         input-class="!text-lg px-4 pr-10 w-full dark:!text-white !h-12"
         :prefix-icon="showInfoTooltip ? 'info' : undefined" :aria-label="ariaLabel" aria-autocomplete="list"
         aria-haspopup="listbox" :aria-owns="listboxId" :aria-expanded="showDropdown ? 'true' : 'false'"

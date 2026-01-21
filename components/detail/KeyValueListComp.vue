@@ -17,7 +17,7 @@
       <!-- NON-LIST DISPLAY -->
       <div
         v-if="!ul"
-        class="flex flex-row flex-wrap items-start min-h-8 h-8 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
+        class="flex flex-row flex-wrap items-start min-h-8 h-8 leading-5 hover:bg-gray-100 dark:hover:bg-gray-700"
         role="group"
         :aria-label="$t(keytxt)"
       >
@@ -65,7 +65,7 @@
         <!-- background & padding moved INSIDE to preserve baseline -->
         <div
           :class="[
-            { 'bg-slate-100 dark:bg-gray-800 p-2 rounded-lg': bgColor },
+            { 'bg-gray-100 dark:bg-gray-800 p-2 rounded-lg': bgColor },
             overflowY,
           ]"
         >
@@ -77,7 +77,7 @@
             <li
               v-for="val in valtxt"
               :key="val?.has_name ?? val"
-              class="flex flex-row items-start justify-between min-h-6 leading-5 hover:bg-slate-100 dark:hover:bg-slate-700"
+              class="flex flex-row items-start justify-between min-h-6 leading-5 hover:bg-gray-100 dark:hover:bg-gray-700"
               role="listitem"
               :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
               :class="fontSize"

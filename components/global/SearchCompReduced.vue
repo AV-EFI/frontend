@@ -72,7 +72,7 @@ const hint = computed(() => props.hint ?? '');
 
 const { t } = useI18n();
 const buttonText = computed(() => 
-    term.value?.trim() ? t('search') : t('showEntireCollection')
+    term.value?.trim() ? t('Search') : t('showEntireCollection')
 );
 
 const iconMap = FACET_ICON_MAP;

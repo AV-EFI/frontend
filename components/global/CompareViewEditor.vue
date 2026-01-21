@@ -14,7 +14,7 @@
         </button>
         <p
           v-if="showInfo"
-          class="flex-grow absolute top-4 left-16 right-16 bg-base-100 dark:bg-slate-900 rounded-lg p-2 text-md shadow-md alert alert-info text-primary-900 dark:text-primary-100 z-20"
+          class="flex-grow absolute top-4 left-16 right-16 bg-base-100 dark:bg-gray-900 rounded-lg p-2 text-md shadow-md alert alert-info text-primary-900 dark:text-primary-100 z-20"
         >
           {{ $t('mergeResultHelpText') }}
         </p>

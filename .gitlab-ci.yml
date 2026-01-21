@@ -35,11 +35,11 @@ variables:
 
 build_docker-staging:
   environment:
-    name: testbed
+    name: www
     action: prepare
-    url: https://testbed.av-efi.net
+    url: https://www.av-efi.net
   rules:
-    - if: $CI_COMMIT_BRANCH == "testbed"
+    - if: $CI_COMMIT_BRANCH == "www"
   extends: .build_docker
 
 build_docker-production:
@@ -89,10 +89,10 @@ build_docker-production:
 
 deploy-staging:
   environment:
-    name: testbed
-    url: https://testbed.av-efi.net
+    name: www
+    url: https://www.av-efi.net
   rules:
-    - if: $CI_COMMIT_BRANCH == "testbed"
+    - if: $CI_COMMIT_BRANCH == "www"
   extends: .deploy
 
 deploy-production:

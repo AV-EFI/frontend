@@ -16,7 +16,7 @@
   </span>
   <span
     v-else-if="category.indexOf('Serial') > -1 || category.indexOf('AnthologyFilm') > -1"
-    class="badge bg-base mx-auto"
+    class="badge bg-base mx-auto font-semibold dark:text-black"
     :title="$t(category ?? '')"
     :aria-label="$t(category ?? '')"
     role="status"

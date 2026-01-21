@@ -71,7 +71,7 @@
                           class="text-lg"
                           name="formkit:search"
                         />
-                        <span class="hidden md:inline ml-2">{{ $t('search') }}</span>
+                        <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                       </button>
                     </div>
                   </template>
@@ -102,17 +102,17 @@
                             class="loading loading-spinner loading-md text-primary"
                           />
                         <div v-else class="stats stats-vertical lg:stats-horizontal shadow">
-                          <div class="stat">
+                          <div class="stat p-2 px-4">
                             <div class="stat-title">{{ $t('works') }}</div>
                             <div class="stat-value">{{ nbHits }}</div>
                           </div>
 
-                          <div class="stat">
+                          <div class="stat p-2 px-4">
                             <div class="stat-title">{{ $t('manifestations') }}</div>
                             <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
                           </div>
 
-                          <div class="stat">
+                          <div class="stat p-2 px-4">
                             <div class="stat-title">{{ $t('items') }}</div>
                             <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>
                           </div>
@@ -161,6 +161,11 @@
                           'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                         }"
                       >
+                      <template v-slot="{ items }">
+                        <div v-if="items.length === 0" class="text-gray-500 text-sm dark">
+                          {{ $t('nofacetsselected') }}
+                        </div>
+                      </template>
                         <template #item="{ item, refine, createURL }">
                           <div role="listitem" class="flex flex-col gap-1">
                             <span class="text-left w-full">
@@ -190,6 +195,11 @@
                                 </a>
                               </li>
                             </ul>
+                          </div>
+                        </template>
+                        <template #noRefinement>
+                          <div class="text-gray-500 dark:text-gray-400 text-sm italic p-2">
+                            {{ $t('nofacetsselected') }}
                           </div>
                         </template>
                       </ais-current-refinements>

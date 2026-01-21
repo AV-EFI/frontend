@@ -84,7 +84,7 @@
                 <div class="">
                   <span
                     v-if="facetMeta(filter.facet)?.icon"
-                    class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-slate-900 dark:border-slate-700"
+                    class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
                     :title="facetMeta(filter.facet)?.label || filter.facet"
                     aria-hidden="true"
                   >
@@ -95,7 +95,7 @@
                   </span>
                   <span
                     v-else
-                    class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-slate-900 dark:border-slate-700"
+                    class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
                     :title="$t('selectFacet')"
                     aria-hidden="true"
                   >
@@ -113,7 +113,7 @@
                   :placeholder="$t('selectFacet') || 'Select Facet'"
                   :options="availableFacetsFiltered"
                   outer-class="flex-[0.9]"
-                  inner-class="dark:!bg-slate-950 dark:!text-white"
+                  inner-class="dark:!bg-gray-950 dark:!text-white"
                   @input="onFacetChange(index)"
                 />
 
@@ -129,7 +129,7 @@
                       type="text"
                       :placeholder="$t('enterValue') || 'Enter Value'"
                       outer-class="w-full"
-                      inner-class="dark:!bg-slate-950 dark:!text-white"
+                      inner-class="dark:!bg-gray-950 dark:!text-white"
                       :disabled="!filter.facet"
                       autocomplete="off"
                       :aria-autocomplete="'list'"
@@ -279,7 +279,7 @@ const canSubmit = computed(() =>
 
 // --- Button text changes based on search term ---
 const buttonText = computed(() => 
-    searchTerm.value?.trim() ? t('search') : t('showEntireCollection')
+    searchTerm.value?.trim() ? t('Search') : t('showEntireCollection')
 );
 
 // ---------------------- Facets meta & options ----------------------

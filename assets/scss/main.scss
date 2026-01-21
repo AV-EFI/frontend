@@ -39,7 +39,7 @@ textarea::selection {
   --color-secondary-content: oklch(98% 0.002 247.839);
   --color-accent: #ff1d25;
   --color-accent-content: #fefefe;
-  --color-neutral: #364754;
+  --color-neutral: #4a6173;
   --color-neutral-content: oklch(89.925% 0.016 262.749);
   --color-info: oklch(95% 0.045 203.388);
   --color-info-content: oklch(13.841% 0.012 332.664);
@@ -70,6 +70,22 @@ textarea::selection {
   --border: 1px;
   --depth: 0;
   --noise: 0;
+
+   /* DaisyUI btn-outline border customization (template-level) */
+   .btn-outline {
+     border-width: 2px !important;
+     border-style: solid !important;
+     border-color: var(--color-primary, #4d768d) !important;
+     background-color: transparent !important;
+     color: var(--color-primary, #4d768d) !important;
+     transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+   }
+   .btn-outline:hover, .btn-outline:focus {
+     border-color: var(--color-primary-content, #fff) !important;
+     background-color: var(--color-primary, #4d768d) !important;
+     color: var(--color-primary-content, #fff) !important;
+   }
+   /* End DaisyUI btn-outline border customization */
 }
 
 @plugin "daisyui/theme" {
@@ -141,6 +157,21 @@ textarea::selection {
 }
 
 @layer components {
+  /* DaisyUI btn-outline border customization */
+  .btn-outline {
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: var(--color-primary, #4d768d) !important;
+    background-color: transparent !important;
+    color: var(--color-primary, #4d768d) !important;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover, .btn-outline:focus {
+    border-color: var(--color-primary-content, #fff) !important;
+    background-color: var(--color-primary, #4d768d) !important;
+    color: var(--color-primary-content, #fff) !important;
+  }
+  /* End DaisyUI btn-outline border customization */
   .badge-work {
     --badge-bg: var(--color-work)!important;
     --badge-content: var(--color-base-100); /* or a custom contrast */

@@ -43,7 +43,7 @@ build_docker-staging:
     NUXT_NODEMAILER_HOST: $NUXT_NODEMAILER_HOST
     NUXT_NODEMAILER_FROM: $NUXT_NODEMAILER_FROM
   rules:
-    - if: $CI_COMMIT_BRANCH == "testbed"
+    - if: $CI_COMMIT_BRANCH == "www"
   extends: .build_docker
 
 .deploy:
@@ -81,8 +81,8 @@ build_docker-staging:
 
 deploy-staging:
   environment:
-    name: testbed
-    url: https://testbed.av-efi.de
+    name: www
+    url: https://www.av-efi.de
   variables:
     DEPLOY_SERVER: $STAGING_SERVER
     NUXT_SECRET: $STAGING_NUXT_SECRET
@@ -98,5 +98,5 @@ deploy-staging:
     NUXT_NODEMAILER_HOST: $NUXT_NODEMAILER_HOST
     NUXT_NODEMAILER_FROM: $NUXT_NODEMAILER_FROM
   rules:
-    - if: $CI_COMMIT_BRANCH == "testbed"
+    - if: $CI_COMMIT_BRANCH == "www"
   extends: .deploy

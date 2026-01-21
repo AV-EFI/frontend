@@ -2,7 +2,7 @@
   <div
     v-for="work in items"
     :key="work.handle"
-    class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+    class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`"
   >
@@ -52,7 +52,7 @@
             <!-- Badge for all items empty -->
             <span
               v-if="allItemsEmpty(work)"
-              class="badge badge-manifestation badge-xs ml-2"
+              class="badge badge-manifestation badge-xs ml-2 dark:text-black"
               :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
             >
               <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
@@ -141,10 +141,10 @@
       >
         <Icon
            :name="isExpanded[work.handle] ? 'tabler:minus' : 'tabler:plus'"
-          class="text-lg"
+          class="text-sm"
           aria-hidden="true"
         />
-        <span class="text-sm">
+        <span class="text-xs">
           {{ isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems') }}
         </span>
       </button>

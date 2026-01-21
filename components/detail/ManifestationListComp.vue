@@ -14,7 +14,7 @@
         :alt="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
         :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
       >
-      <div class="collapse-title dark:bg-slate-700 dark:text-white">
+      <div class="collapse-title dark:bg-gray-800 dark:text-white">
         <DetailManifestationHeaderComp :manifestation="manifestation" />
       </div>
 

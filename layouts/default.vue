@@ -8,7 +8,7 @@
     >
       <GlobalNavBar />
     </header>
-    <main class="main grow bg-base-100 dark:bg-slate-950 2xl:px-6 mt-[var(--header-height)]">
+    <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6 mt-[var(--header-height)]">
       <ClientOnly>
         <!--GlobalIndicatorComp /-->
       </ClientOnly>

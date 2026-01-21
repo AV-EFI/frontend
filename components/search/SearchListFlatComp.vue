@@ -2,7 +2,7 @@
   <section
     v-for="work in datasets"
     :key="work?.handle ?? Math.random()"
-    class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+    class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
     role="region"
     :aria-labelledby="`work-title-${work?.handle ?? ''}`"
   >
@@ -113,7 +113,7 @@
         class="mt-2 text-left"
       >
         <span
-          class="badge badge-manifestation badge-sm"
+          class="badge badge-manifestation badge-sm dark:text-black"
           :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
         >
           <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />

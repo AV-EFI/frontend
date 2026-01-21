@@ -28,7 +28,7 @@
                   :dense="false"
                   class="mr-2"
                 />
-                <div class="badge badge-manifestation badge-xs" v-if="allItemsEmpty(m)">
+                <div class="badge badge-manifestation badge-xs dark:text-black" v-if="allItemsEmpty(m)">
                   {{ $t('allItemsEmpty') }}
                   <GlobalTooltipInfo
                     :text="$t('allItemsEmptyTooltip')"
@@ -211,7 +211,7 @@
               </div>
               <div class="divider my-0"></div>
               <span class="flex justify-start text-left font-semibold">{{ item?.has_record?.has_primary_title?.has_name }}</span>
-              <div v-if="isItemEmpty(item)" class="badge badge-item">
+              <div v-if="isItemEmpty(item)" class="badge badge-ite">
                 {{ $t('emptyItem') }}
                 <GlobalTooltipInfo
                   :text="$t('emptyItemTooltip')"
@@ -285,7 +285,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, nextTick } from 'vue';
-import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
+import { allItemsEmpty, isItemEmpty } from '@/composables/useItemEmpty';
 
 const props = defineProps({
     manifestations: { type: Array, required: true },

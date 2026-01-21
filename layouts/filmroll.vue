@@ -7,7 +7,7 @@
       <div class="sprocket-wrapper left-0">
         <div class="sprocket left-sprocket" />
       </div>
-      <main class="main grow bg-base-100 dark:bg-slate-950 2xl:px-6">
+      <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6">
         <ClientOnly>
           <GlobalIndicatorComp />
         </ClientOnly>

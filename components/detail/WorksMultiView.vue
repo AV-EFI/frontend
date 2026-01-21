@@ -102,7 +102,7 @@
               type="checkbox"
               class="manifestation-checkbox"
             >
-            <div class="collapse-title bg-gray-100 dark:bg-slate-700 dark:text-white font-medium">
+            <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-medium">
               <LazyDetailManifestationHeaderComp
                 :manifestation="manifestation"
                 type="searchresult"
@@ -110,7 +110,7 @@
                 :all-items-empty="manifestation.allItemsEmpty"
               />
             </div>        
-            <div class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white">
+            <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
               <div class="grid grid-cols-1 md:grid-cols-4 gap-1 grid-rows-[minmax(0,1fr)]">
                 <!--top-->
                 <div class="col-span-full md:col-span-12 grid-cols-12 gap-2">

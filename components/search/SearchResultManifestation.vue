@@ -8,7 +8,7 @@
       type="checkbox"
       class="manifestation-checkbox"
     >
-    <div class="collapse-title bg-slate-100 dark:bg-slate-700 dark:text-white font-medium">
+    <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-medium">
       <p class="text-sm">
         {{ manifestation?.handle }}
       </p>
@@ -16,7 +16,7 @@
         {{ manifestation?.has_record?.described_by?.has_issuer_name }}
       </h3>
     </div>
-    <div class="collapse-content bg-slate-50 dark:bg-gray-800 dark:text-white">
+    <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
         <div class="col-span-1">
           <MicroLabelComp label-text="has_colour" />
@@ -36,7 +36,7 @@
       <div
         v-for="exemplar in manifestation.items"
         :key="exemplar.id"
-        class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-slate-200 rounded-lg p-2 dark:bg-slate-900 dark:text-white mt-2"
+        class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-gray-200 rounded-lg p-2 dark:bg-gray-900 dark:text-white mt-2"
       >
         <div class="row-start-1 col-span-3">
           <DetailKeyValueComp

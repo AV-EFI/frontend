@@ -13,7 +13,7 @@
     <div
       v-for="part in parts"
       :key="part?.handle || part?.url || Math.random()"
-      class="card bg-white border-base-300 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+      class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
       role="region"
       :aria-label="`${$t('title')}: ${get(part,'has_record.has_primary_title.has_name') || part?.handle || '(Untitled Part)'}`"
     >

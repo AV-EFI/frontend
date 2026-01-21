@@ -60,7 +60,7 @@
       <div class="flex flex-row mt-1">
         <div
           v-if="allItemsEmpty"
-          class="badge bg-warning-300 text-white z-10"
+          class="badge bg-warning-300 dark:text-black z-10"
           role="note"
           :aria-label="$t('emptyItemsLong')"
         >
@@ -119,7 +119,7 @@
       <div class="flex flex-row mt-1">
         <div
           v-if="allItemsEmpty"
-          class="badge bg-warning text-white z-10"
+          class="badge bg-warning-300 dark:text-black z-10"
           role="note"
           :aria-label="$t('emptyItemsLong')"
         >
