@@ -80,7 +80,7 @@
               
               <div class="mt-2 mb-2 w-full">
                 <button
-                  class="btn btn-primary lg:hidden"
+                  class="btn btn-block btn-lg btn-primary lg:hidden"
                   :title="$t('showFacetItems')"
                   @click="$toggleFacetDrawerState"
                 >
@@ -94,14 +94,14 @@
                   :aria-label="$t('filteringsection')"
                 >
                   <div class="w-full flex flex-row justify-center col-span-2 bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
-                    <ais-stats class="flex flex-row">
+                    <ais-stats class="flex flex-row w-full">
                       <template #default="{ nbHits = 0, results }">
                         <span
                             v-if="isSearchLoading"
                             id="custom-spinner"
                             class="loading loading-spinner loading-md text-primary"
                           />
-                        <div v-else class="stats stats-vertical lg:stats-horizontal shadow">
+                        <div v-else class="stats stats-vertical w-full lg:stats-horizontal w-full shadow">
                           <div class="stat p-2 px-4">
                             <div class="stat-title">{{ $t('works') }}</div>
                             <div class="stat-value">{{ nbHits }}</div>

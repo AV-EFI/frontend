@@ -1,92 +1,170 @@
 <template>
   <div>
-    <div v-if="mir" class="border-l-2 border-work px-2" role="region" :aria-label="`${$t('detailsFor')} ${
-        mir?.has_primary_title?.has_name ?? ''
-      }`">
-      <NuxtLayout name="partial-grid-2-1-no-heading">
-        <template #left>
-          <!-- 01–04 + 06–09: handled inside TopLevelComp
-               New: enforce 08.06.25 order, hide duplicate handle, swap years/places -->
-          <DetailWorkVariantTopLevelComp 
-            v-model="mir" 
-            :handle="dataObject?.compound_record?._source?.handle"
-            :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']" :order-key="'08-06-2025'"
-            :hide-second-handle="true" :swap-years-and-places="true" />
+    <div
+      v-if="mir"
+      class="border-l-2 border-work px-2"
+      role="region"
+      :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}`"
+    >
+      <!-- MOBILE-ONLY TOGGLE (does not affect desktop) -->
+      <div class="md:hidden mb-2">
+        <button
+          type="button"
+          class="btn btn-lg btn-outline w-full justify-between"
+          :aria-expanded="mirExpanded ? 'true' : 'false'"
+          :aria-controls="mirPanelId"
+          @click="mirExpanded = !mirExpanded"
+        >
+          <span class="truncate text-sm">
+            {{ $t('detailsFor') }} {{ mir?.has_primary_title?.has_name ?? '' }}
+          </span>
+          <span v-if="mirExpanded" :title="$t('collapse') || 'Collapse'">
+            <Icon name="tabler-chevron-up" />
+        </span>
+          <span v-else :title="$t('expand') || 'Expand'">
+            <Icon name="tabler-chevron-down" />
+          </span>
+        </button>
+      </div>
 
-          <!-- 05 Produktions-Events -->
-          <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
-            v-model="mir.has_event" />
-        </template>
+      <!-- ONLY THIS CONTENT COLLAPSES ON MOBILE -->
+      <div :id="mirPanelId" v-show="!isMobile || mirExpanded">
+        <NuxtLayout name="partial-grid-2-1-no-heading">
+          <template #left>
+            <!-- 01–04 + 06–09: handled inside TopLevelComp
+                 New: enforce 08.06.25 order, hide duplicate handle, swap years/places -->
+            <DetailWorkVariantTopLevelComp
+              v-model="mir"
+              :handle="dataObject?.compound_record?._source?.handle"
+              :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']"
+              :order-key="'08-06-2025'"
+              :hide-second-handle="true"
+              :swap-years-and-places="true"
+            />
 
-        <template #right>
-          <!-- 10 Genre -->
-          <DetailKeyValueListComp v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0" keytxt="avefi:Genre"
-            class="col-span-full mb-2" :ul="true" :same-as="true" :valtxt="mir.has_genre" />
+            <!-- 05 Produktions-Events -->
+            <DetailHasEventComp
+              v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
+              v-model="mir.has_event"
+            />
+          </template>
 
-          <!-- 11 Schlagwort -->
-          <DetailKeyValueListComp v-if="Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
-            class="col-span-full mt-1" keytxt="avefi:Subject" :bg-color="true" :valtxt="mir.has_subject" :same-as="true"
-            :ul="true" />
-        </template>
-      </NuxtLayout>
+          <template #right>
+            <!-- 10 Genre -->
+            <DetailKeyValueListComp
+              v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0"
+              keytxt="avefi:Genre"
+              class="col-span-full mb-2"
+              :ul="true"
+              :same-as="true"
+              :valtxt="mir.has_genre"
+            />
+
+            <!-- 11 Schlagwort -->
+            <DetailKeyValueListComp
+              v-if="Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
+              class="col-span-full mt-1"
+              keytxt="avefi:Subject"
+              :bg-color="true"
+              :valtxt="mir.has_subject"
+              :same-as="true"
+              :ul="true"
+            />
+          </template>
+        </NuxtLayout>
+      </div>
     </div>
+
     <div v-else>
       <pre>{{ mir }}</pre>
     </div>
 
     <!-- Manifestations block (unchanged; fully guarded) -->
-    <div v-if="manifestations?.length > 0" :class="[
+    <div
+      v-if="manifestations?.length > 0"
+      :class="[
         Array.isArray(manifestations) && manifestations.length < 1
           ? 'flex place-content-center'
           : '',
-      ]" role="region" aria-label="Manifestations">
+      ]"
+      role="region"
+      aria-label="Manifestations"
+    >
       <div class="mt-4 ml-2">
         <hr class="my-2 col-span-full" />
-        <h3 class="relative font-bold text-sm col-span-full text-primary-800 dark:text-primary-100 mb-1"
-          :alt="$t('manifestations')">
+        <h3
+          class="relative font-bold text-sm col-span-full text-primary-800 dark:text-primary-100 mb-1"
+          :alt="$t('manifestations')"
+        >
           {{ $t("manifestations") }}
           <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
         </h3>
-        <FormKit type="dropdown" name="manifestation-item-search" :label="$t('filterItemsAndManifestations')"
-          :placeholder="$t('filterItemsAndManifestations')" :options="
+        <FormKit
+          type="dropdown"
+          name="manifestation-item-search"
+          :label="$t('filterItemsAndManifestations')"
+          :placeholder="$t('filterItemsAndManifestations')"
+          :options="
             suggestionsForManifestations.map((s) => ({
               label: $t(s) !== s ? $t(s) : s,
               value: s,
             }))
-          " :value="searchQuery" multiple popover class="w-72" @input="onSearchInput" />
+          "
+          :value="searchQuery"
+          multiple
+          popover
+          class="w-72"
+          @input="onSearchInput"
+        />
       </div>
 
       <ClientOnly>
         <div v-if="loading" class="flex justify-center items-center min-h-[120px]">
           <span class="loading loading-spinner loading-lg text-primary" />
         </div>
-        <template v-if="
+        <template
+          v-if="
             Array.isArray(filteredManifestations) &&
             filteredManifestations.length > 0
-          ">
+          "
+        >
           <DetailManifestationListComp v-model="filteredManifestations" />
         </template>
       </ClientOnly>
     </div>
-    <div v-else-if="parts">      
+
+    <div v-else-if="parts">
       <ViewsWorkViewCompParts
         class="mt-4"
-        :parts="parts" 
-        :handle="dataObject?.compound_record?._source?.handle" 
+        :parts="parts"
+        :handle="dataObject?.compound_record?._source?.handle"
       />
     </div>
-    <div v-else class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4" role="alert"
-      aria-label="No manifestations available">
+
+    <div
+      v-else
+      class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4"
+      role="alert"
+      aria-label="No manifestations available"
+    >
       <MicroIconTextComp icon-name="tabler:mood-empty" text="noManifestations" />
     </div>
 
     <!-- 12 Letzte Bearbeitung -->
-    <div v-if="dataObject?._source?.['@timestamp']" class="w-full mt-4 justify-center items-center">
-      <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
-        :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
+    <div
+      v-if="dataObject?._source?.['@timestamp']"
+      class="w-full mt-4 justify-center items-center"
+    >
+      <DetailKeyValueComp
+        class="col-span-full mx-auto"
+        keytxt="lastedit"
+        :clip="false"
+        :valtxt="formatTimestamp(dataObject._source['@timestamp'])"
+      />
     </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
@@ -290,6 +368,15 @@ function formatTimestamp(ts: any): string {
         return "";
     }
 }
+
+const mirExpanded = ref(false);
+const mirPanelId = "mir-panel";
+
+const isMobile = computed(() => {
+    if (!process.client) return false;
+    return window.matchMedia("(max-width: 767px)").matches;
+});
+
 </script>
 
 <style scoped>

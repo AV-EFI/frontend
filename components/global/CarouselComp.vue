@@ -13,8 +13,8 @@
             class="absolute inset-0 flex justify-center items-center p-2">
             <div class="card bg-base-100 shadow-md w-full max-w-sm">
               <a :href="item.link" target="_blank" rel="noopener noreferrer" :aria-label="'Link to ' + item.link">
-                <figure class="px-6 pt-6">
-                  <img class="h-20 w-auto object-contain" :src="item.src" :alt="item.alt" :title="item.alt"
+                <figure class="px-6 pt-6 bg-white rounded">
+                  <img class="h-20 w-auto object-contain bg-white" :src="item.src" :alt="item.alt" :title="item.alt"
                     loading="lazy" fetchpriority="low" />
                 </figure>
                 <div class="card-body items-center text-center">

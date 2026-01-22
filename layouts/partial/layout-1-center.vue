@@ -7,7 +7,7 @@
   <section>
     <div 
       :class="[
-        'w-full mx-auto card card-side border-2 border-base-200 bg-white dark:bg-gray-900 rounded-xl shadow-xl',
+        'w-full mx-auto card card-side rounded-xl bg-white/95 dark:bg-gray-800 text-base-content border border-base-200 shadow-md',
         isFullWidth ? 'lg:!w-full' : 'lg:!w-4/5',
       ]"
     >

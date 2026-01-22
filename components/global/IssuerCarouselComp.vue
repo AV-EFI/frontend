@@ -20,9 +20,9 @@
                         <div v-for="(item, index) in issuerItems" v-show="currentIndex === index" :key="index"
                             class="absolute inset-0 flex justify-center items-center p-2">
                             <div class="card bg-base-100 shadow-md w-full max-w-sm">
-                                <figure class="px-6 pt-6">
+                                <figure class=" px-6 py-6 bg-white rounded">
                                     <img :src="item.image" :alt="item.imageAlt" :title="item.name"
-                                        class="h-20 w-auto object-contain" loading="lazy">
+                                        class="h-20 w-auto object-contain bg-white" loading="lazy">
                                 </figure>
                                 <div class="card-body items-center text-center">
                                     <h4 class="card-title text-base font-semibold line-clamp-2">

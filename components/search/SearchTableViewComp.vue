@@ -4,12 +4,11 @@
       <thead class="bg-base-200">
         <tr>
           <th></th>
-          <th>{{ $t('title') }}</th>
+          <th class="min-w-56">{{ $t('title') }}</th>
           <th>{{ $t('AlternativeTitle') }}</th>
           <th>{{ $t('country') }}</th>
           <th>{{ $t('year') }}</th>
           <th>{{ $t('directors_or_editors') }}</th>
-          <th>{{ $t('production') }}</th>
         </tr>
       </thead>
 
@@ -24,11 +23,25 @@
                     : 'tabler:chevron-down'" />
               </button>
             </td>
-            <td>
-              {{
-              work.has_record.has_primary_title?.has_name
-              || work.handle
-              }}
+            <td class="h-full">
+              <div class="flex flex-row items-center gap-x-1 h-full">
+                <span>
+                  {{
+                    work.has_record.has_primary_title?.has_name
+                    || work.handle
+                  }}
+                </span>
+                <div class="btn btn-xs btn-outline btn-primary btn-circle">
+                  <NuxtLink
+                    target="_blank"
+                    :to="`/res/${work.handle}`"
+                    class="link link-light flex"
+                    :aria-label="`${$t('detailedViewLinkFor')} ${work.has_record.has_primary_title?.has_name || work.handle}`"
+                  >
+                    <Icon class="text-xs dark:text-white" name="tabler:eye" />
+                  </NuxtLink>
+                </div>
+              </div>
             </td>
             <td>
               <ul v-if="Array.isArray(work.has_record.has_alternative_title)" class="list-disc ml-2">
@@ -61,10 +74,6 @@
                 </span>
               </template>
             </td>
-
-            <td>
-              {{ work.has_record.described_by?.has_issuer_name || '' }}
-            </td>
           </tr>
 
           <!-- EXPANDED -->
@@ -74,7 +83,7 @@
               <div class="py-2 space-y-2">
                 <!-- MANIFESTATION (single dense row, NO table) -->
                 <div v-for="mf in work.manifestations || []" :key="mf.handle"
-                  class="mb-3 border border-base-300 rounded px-2 py-1">
+                  class="mb-3 border border-base-200 rounded px-2 py-1">
                   <!-- header line -->
                   <div class="flex items-center gap-2 text-xs mb-1">
                       <span class="text-xs font-semibold" >efi:</span>

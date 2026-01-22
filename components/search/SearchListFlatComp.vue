@@ -176,7 +176,7 @@
               <article
                 v-for="row in filteredRows(work)"
                 :key="row.item?.handle ?? Math.random()"
-                class="item-card card border border-primary/40 bg-white/90 dark:bg-base-200 rounded-xl shadow-md"
+                class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl"
                 role="option"
                 :aria-label="row.item?.handle || 'item'"
               >
@@ -204,7 +204,10 @@
                         class="badge badge-item mx-auto my-auto"
                         :title="$t('emptyItemTooltip') || 'This item has no additional metadata'"
                       >
+                      <span class="text-black">
                         {{ $t('emptyItem') || 'Empty' }}
+
+                      </span>
                     </span>
                     <SearchGenericIconList
                       v-else

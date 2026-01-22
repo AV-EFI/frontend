@@ -1,10 +1,8 @@
 <template>
   <div class="min-h-screen bg-base-100 text-base-content flow">
     <!-- Skip link -->
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 btn btn-sm btn-primary"
-    >
+    <a href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 btn btn-sm btn-primary">
       {{ $t('skipToContent') || 'Skip to main content' }}
     </a>
 
@@ -13,237 +11,133 @@
       <div class="hero lg:min-h-[78vh]">
         <ClientOnly>
           <div class="hero-overlay">
-            <!-- Toggle button for video/image (glass pill, non-competing) -->
-            <div class="absolute top-4 right-4 z-50">
-              <button
-                class="btn btn-xs btn-primary
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                @click="heroMediaVisible = !heroMediaVisible"
-                :aria-pressed="heroMediaVisible"
-                :title="heroMediaVisible ? 'Hide background media' : 'Show background media'"
-              >
-                <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4" />
-                <span class="sr-only">
-                  {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
-                </span>
-              </button>
-            </div>
-
-            <!-- Background media -->
-            <img
-              v-if="!heroMediaVisible"
-              class="absolute inset-0 w-full h-full object-cover dark:invert"
-              src="/img/avefi_diamonds_prim_white.png"
-              alt="Diamond pattern primary white"
-            />
-            <video
-              v-else
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              aria-hidden="true"
-              tabindex="-1"
-              class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]"
+            <!-- Toggle button for video/image -->
+            <button
+              class="absolute top-4 right-4 z-50 btn btn-xs btn-primary"
+              @click="heroMediaVisible = !heroMediaVisible"
+              :aria-pressed="heroMediaVisible"
+              :title="heroMediaVisible ? 'Hide background media' : 'Show background media'"
             >
+              <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4 mr-1" />
+              {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
+            </button>
+            <!-- Background video (decorative) -->
+            <img v-if="!heroMediaVisible" class="w-full md:h-[78vh] md:object-cover" src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
+            <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true"
+              class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
               <source src="/vid/klappe_comp.mp4" type="video/mp4" />
             </video>
-
-<!-- Aurora / glow overlays (light + dark variants) -->
-<div
-  class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none"
-  aria-hidden="true"
-  :class="[
-    // LIGHT
-    `bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),
-        radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),
-        radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),
-        linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]`,
-    // DARK (swap “white wash” for “dark wash”)
-    `dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),
-        radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),
-        radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),
-        linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]`,
-    // slightly richer colors like your filter:saturate
-    `saturate-[1.05]`,
-  ]"
-/>
-
-<!-- Vignette -->
-<div
-  class="absolute inset-0 mix-blend-multiply dark:mix-blend-normal"
-  aria-hidden="true"
-  :class="[
-    `bg-[radial-gradient(1200px_700px_at_50%_40%,hsl(0_0%_0%/0.00)_42%,hsl(0_0%_0%/0.12)_100%),
-        linear-gradient(180deg,hsl(0_0%_0%/0.06),transparent_22%,transparent_78%,hsl(0_0%_0%/0.08))]`,
-    // In dark mode, the vignette must be gentler (otherwise it gets muddy)
-    `dark:bg-[radial-gradient(1200px_700px_at_50%_40%,hsl(0_0%_0%/0.00)_42%,hsl(0_0%_0%/0.10)_100%),
-        linear-gradient(180deg,hsl(0_0%_0%/0.04),transparent_22%,transparent_78%,hsl(0_0%_0%/0.06))]`,
-  ]"
-/>
-            <!-- Subtle grid -->
-            <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
+            <!-- Soft scrim -->
+            <div class="absolute inset-0 bg-gradient-to-b from-base-100/92 via-base-100/95 to-base-100/80"></div>
+            <!-- Dotted grid -->
+            <div class="absolute inset-0 opacity-15" aria-hidden="true">
               <div
-                class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
-                       [background-size:22px_22px]"
-              ></div>
+                class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.6)_1px,transparent_1px)] [background-size:22px_22px]">
+              </div>
+            </div>
+            <!-- Raycast-ish stripes -->
+            <div
+              class="absolute -top-40 -left-28 h-[48rem] lg:w-[48rem] opacity-25 [mask-image:linear-gradient(to_bottom,black,transparent_70%)]"
+              aria-hidden="true">
+              <div
+                class="size-full [background:repeating-linear-gradient(135deg,theme(colors.primary/30)_0_28px,transparent_28px_56px)]">
+              </div>
             </div>
           </div>
 
           <div class="hero-content w-full">
             <div class="w-full max-w-6xl mx-auto">
-              <!-- Center content panel: THIS is what makes it readable -->
-<div
-  class="
-    max-w-6xl mx-auto px-4 py-9 rounded-2xl
-    border
-    shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
-    supports-[backdrop-filter]:backdrop-blur-[10px]
-    motion-reduce:transition-none
-  "
-  :class="[
-    // LIGHT glass
-    'bg-white/70 border-white/40',
-    // DARK glass (this is what was missing)
-    'dark:bg-neutral/40 dark:border-white/10',
-    // subtle inner highlight like your inset 1px
-    'shadow-inner dark:shadow-none',
-  ]"
->
-                <div class="text-center">
-<h1
-  class="
-    mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
-    [text-shadow:0_1px_0_rgba(255,255,255,0.65)]
-    dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
-  "
-  tabindex="0"
->                    {{ $t('avefiClaim') }}
-                  </h1>
+              <div class="text-center">
+                <h1 class="mt-6 lg:mt-4 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight" tabindex="0">
+                  {{ $t('avefiClaim') }}
+                </h1>
+                <p class="mt-4 md:text-lg opacity-80 max-w-2xl mx-auto" tabindex="0">
+                  {{ $t('home.tagline') }}
+                </p>
+              </div>
 
-<p
-  class="
-    mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
-    [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
-    dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
-  "
-  tabindex="0"
->
-
-                    {{ $t('home.tagline') }}
-                  </p>
-                </div>
-
-                <!-- BIG centered search -->
-                <div class="mt-6 grid place-items-center">
-                  <div class="w-full max-w-4xl">
-                    <!-- Glass search card -->
-<div
-  class="
-    card
-    border
-    supports-[backdrop-filter]:backdrop-blur-[14px]
-    shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
-  "
-  :class="[
-    // LIGHT
-    'bg-white/55 border-white/35',
-    // DARK
-    'dark:bg-neutral/35 dark:border-white/10',
-  ]"
->                      <div
-                        id="home-search-area"
-                        class="card-body p-4 md:p-6 my-auto"
-                        role="search"
-                        :aria-labelledby="'home-search-label'"
-                        aria-live="polite"
-                        aria-atomic="false"
-                        tabindex="0"
-                      >
-                        <!-- Card header row: integrated mode switch -->
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                          <div
-                            class="md:justify-end"
-                            role="group"
-                            :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'"
-                          >
-                            <div class="join">
-                              <button
-                                class="join-item btn btn-sm"
-                                :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = false"
-                                :aria-pressed="!showAdvancedSearch"
-                                aria-controls="home-search-area"
-                              >
-                                {{ $t('showSimpleSearch') }}
-                              </button>
-                              <button
-                                class="join-item btn btn-sm"
-                                :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = true"
-                                :aria-pressed="showAdvancedSearch"
-                                aria-controls="home-search-area"
-                              >
-                                {{ $t('showAdvancedSearch') }}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Search component -->
-                        <component
-                          :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
-                          ref="searchCompRef"
-                          :aria-labelledby="'home-search-label'"
-                        />
-
-                      </div>
-                    </div>
-                    <!-- /glass search card -->
-                  </div>
+              <!-- Mode switch -->
+              <div class="mt-6 flex justify-center" role="group"
+                :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                <div class="join">
+                  <button class="join-item btn" :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                    @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
+                    aria-controls="home-search-area">
+                    {{ $t('showSimpleSearch') }}
+                  </button>
+                  <button class="join-item btn" :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                    @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
+                    aria-controls="home-search-area">
+                    {{ $t('showAdvancedSearch') }}
+                  </button>
                 </div>
               </div>
-              <!-- /hero-content-panel -->
+
+              <!-- BIG centered search -->
+              <div class="mt-5 grid place-items-center">
+                <div class="w-full max-w-4xl">
+                  <div class="card bg-base-100 shadow-2xl">
+                    <div id="home-search-area" class="card-body p-3 md:p-6 min-h-[150px] md:min-h-32 my-auto" role="search"
+                      :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
+                      <!-- Visible to SR only: label for the search input inside the child component -->
+                      <span id="home-search-label" class="sr-only">
+                        {{ $t('mainSearch') }}
+                      </span>
+
+                      <component :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
+                        ref="searchCompRef" :aria-labelledby="'home-search-label'" />
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3 text-sm opacity-80 flex items-center gap-3 hidden">
+                  <Icon name="fa:desktop" class="w-4 h-4" aria-hidden="true" />
+                  <span>{{ $t('hero.badgeLine') }}</span>
+                </div>
+              </div>
+
+              <!-- playful chips -->
+              <div class="mt-8 flex flex-wrap justify-center gap-3 hidden" role="group"
+                :aria-label="$t('heroChips') || 'Content chips'">
+                <div class="badge badge-work" tabindex="0">{{ $t('chips.works') }}</div>
+                <div class="badge badge-manifestation" tabindex="0">{{ $t('chips.manifestations') }}</div>
+                <div class="badge badge-item" tabindex="0">{{ $t('chips.items') }}</div>
+                <div class="badge badge-accent" tabindex="0">{{ $t('chips.authorityLinks') }}</div>
+              </div>
             </div>
           </div>
         </ClientOnly>
       </div>
     </section>
 
-<section
-  id="main"
-  role="main"
-  :aria-label="$t('featuredContent')"
-  class="relative overflow-hidden border-t border-base-200 py-10"
->
-  <!-- wash layer -->
-  <div
-    class="absolute inset-0 pointer-events-none saturate-[1.15] opacity-95"
-    aria-hidden="true"
-    :class="[
-      `bg-[radial-gradient(900px_520px_at_20%_10%,hsl(210_92%_70%/0.12),transparent_62%),
-          radial-gradient(900px_520px_at_80%_22%,hsl(330_90%_72%/0.10),transparent_62%),
-          radial-gradient(900px_520px_at_55%_88%,hsl(195_95%_68%/0.08),transparent_64%)]`,
-      // DARK: keep it but tone down
-      `dark:bg-[radial-gradient(900px_520px_at_20%_10%,hsl(210_92%_60%/0.10),transparent_62%),
-          radial-gradient(900px_520px_at_80%_22%,hsl(330_90%_60%/0.08),transparent_62%),
-          radial-gradient(900px_520px_at_55%_88%,hsl(195_95%_58%/0.06),transparent_64%)]`,
-    ]"
-  ></div>
-
-  <!-- content stays above -->
-  <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-      <div class="lg:col-span-12 flex justify-center">
-        <LazyGlobalCarouselCardComp :items="cardItems" />
+    <!-- ======= FEATURED (your text + carousel) ======= -->
+    <section id="main" role="main" :aria-label="$t('featuredContent')" class="relative border-t border-base-200 py-6">
+      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div class="lg:col-span-6">
+            <div class=" lg:h-full flex justify-center">
+              <div class="card-body p-6 my-auto">
+                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+                  {{ $t('bannerText') }}
+                </h2>
+                <p class="text-base md:text-lg opacity-80" tabindex="0">
+                  {{ $t('bannerDescription') }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="lg:col-span-6 flex justify-center">
+            <div class="w-[250px] md:w-[384px] lg:w-128 flex justify-center" role="region"
+              :aria-label="$t('featuredCarousel') || 'Featured collection carousel'">
+              <LazyGlobalCarouselCardComp :items="cardItems" />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- ======= BUILD THE PERFECT TOOL (2 cards only) ======= -->
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--b" role="region" :aria-label="$t('buildSection') || 'Build the perfect tool'">
+    <section class="relative border-t border-base-200 py-6" role="region"
+      :aria-label="$t('buildSection') || 'Build the perfect tool'">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
           <!-- Schema -->
@@ -251,15 +145,16 @@
             <div class="card-body">
               <div class="flex items-center gap-2 mb-2">
                 <Icon name="lucide:square-stack" class="text-primary" aria-hidden="true" />
-                <h3 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">
-                  {{ $t('build.schema.title') }}
-                </h3>
+                <h3 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">{{ $t('build.schema.title') }}</h3>
               </div>
-              <div class="mockup-code mt-3 text-sm" role="region" :aria-label="$t('build.schema.codeLabel') || 'Example schema representation'">
+              <div class="mockup-code mt-3 text-sm" role="region"
+                :aria-label="$t('build.schema.codeLabel') || 'Example schema representation'">
                 <pre data-prefix="$"><code>Work → Manifestation → Item</code></pre>
-                <pre data-prefix=">"><code>has_primary_title.has_name: "Menschen am Sonntag – Das Dokument der Gegenwart"</code></pre>
+                <pre
+                  data-prefix=">"><code>has_primary_title.has_name: "Menschen am Sonntag – Das Dokument der Gegenwart"</code></pre>
                 <pre data-prefix=">"><code>has_event.has_date: "1929/1930"</code></pre>
-                <pre data-prefix=">"><code>has_event.has_activity.Director: ["Siodmak, Robert", "Ulmer, Edgar G."]</code></pre>
+                <pre
+                  data-prefix=">"><code>has_event.has_activity.Director: ["Siodmak, Robert", "Ulmer, Edgar G."]</code></pre>
                 <pre data-prefix=">"><code>has_event.has_activity.Writer: ["Wilder, Billy"]</code></pre>
                 <pre data-prefix=">"><code>has_genre.has_name: "Fiction"</code></pre>
                 <pre data-prefix=">"><code>manifestations: [</code></pre>
@@ -280,8 +175,8 @@
             </div>
           </div>
 
-          <div class="lg:col-span-1 flex justify-center items-center max-w-sm px-6 md:px-6 lg:px-0 min-h-[300px]">
-            <div class="text-left max-w-md">
+          <div class="lg:col-span-1 flex justify-center items-center">
+            <div class="text-center lg:text-left max-w-md">
               <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('build.linked.title') }}
               </h3>
@@ -295,9 +190,10 @@
     </section>
 
     <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region" :aria-label="$t('timeline.title')">
-      <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
+    <section class="relative border-t border-base-200 py-6" role="region" :aria-label="$t('timeline.title')">
+      <div class="container mx-auto p-6 lg:px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+          <!-- Timeline Column -->
           <div class="w-full">
             <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
               {{ $t('timeline.title') }}
@@ -311,10 +207,10 @@
                   <div class="text-lg font-semibold">{{ $t('timeline.query.title') }}</div>
                   <div class="opacity-80">{{ $t('timeline.query.desc') }}</div>
                 </div>
-                <hr class="bg-primary/40" />
+                <hr class="bg-primary" />
               </li>
               <li role="listitem" tabindex="0">
-                <hr class="bg-primary/40" />
+                <hr class="bg-primary" />
                 <div class="timeline-middle text-primary my-2">
                   <Icon class="text-2xl" name="tabler:filter" aria-hidden="true" />
                 </div>
@@ -322,10 +218,10 @@
                   <div class="text-lg font-semibold">{{ $t('timeline.refine.title') }}</div>
                   <div class="opacity-80">{{ $t('timeline.refine.desc') }}</div>
                 </div>
-                <hr class="bg-primary/40" />
+                <hr class="bg-primary" />
               </li>
               <li role="listitem" tabindex="0">
-                <hr class="bg-primary/40" />
+                <hr class="bg-primary" />
                 <div class="timeline-middle text-primary my-2">
                   <Icon class="text-2xl" name="tabler:share-2" aria-hidden="true" />
                 </div>
@@ -333,10 +229,10 @@
                   <div class="text-lg font-semibold">{{ $t('timeline.share.title') }}</div>
                   <div class="opacity-80">{{ $t('timeline.share.desc') }}</div>
                 </div>
-                <hr class="bg-primary/40" />
+                <hr class="bg-primary" />
               </li>
               <li role="listitem" tabindex="0">
-                <hr class="bg-primary/40" />
+                <hr class="bg-primary" />
                 <div class="timeline-middle text-primary my-2">
                   <Icon class="text-2xl" name="tabler:books" aria-hidden="true" />
                 </div>
@@ -348,6 +244,7 @@
             </ul>
           </div>
 
+          <!-- Issuer Carousel Column -->
           <div class="w-full flex flex-col justify-center">
             <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
               {{ $t('topIssuers') || 'Top Publishers & Archives' }}
@@ -364,11 +261,11 @@
       </div>
     </section>
 
-    <!-- ======= CORE FUNCTIONS ======= -->
-    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-10 section-wash section-wash--b">
+    <!-- ======= CORE FUNCTIONS (your three cards) ======= -->
+    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="card md:p-2 shadow-md bg-white/90 dark:bg-transparent" role="group" :aria-label="$t('coreFunctionsTitle')">
+          <div class="card md:p-2 shadow-md" role="group" :aria-label="$t('coreFunctionsTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2 mb-2">
                 <Icon name="fa:desktop" class="text-2xl text-primary" aria-hidden="true" />
@@ -383,17 +280,19 @@
               </ul>
             </div>
             <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/projekt/" target="_blank" class="btn btn-outline max-md:btn-block">
+              <a href="https://projects.tib.eu/av-efi/projekt/" target="_blank"
+                class="btn btn-outline max-md:btn-block">
                 <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('coreFunctionsTitle') }}
               </a>
             </div>
           </div>
 
-          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group" :aria-label="$t('forFilmResearchersTitle')">
+          <div class="card md:p-2 shadow-md" role="group" :aria-label="$t('forFilmResearchersTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2 mb-2">
                 <Icon name="fa-film" class="text-2xl text-primary" aria-hidden="true" />
-                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}</h3>
+                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}
+                </h3>
               </div>
               <ul class="mt-2" role="list">
                 <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[0]') }}</span></li>
@@ -403,28 +302,25 @@
               </ul>
             </div>
             <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/metadaten/" target="_blank" class="btn btn-outline max-md:btn-block">
+              <a href="https://projects.tib.eu/av-efi/metadaten/" target="_blank"
+                class="btn btn-outline max-md:btn-block">
                 <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('forFilmResearchersTitle') }}
               </a>
             </div>
           </div>
 
-          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group" :aria-label="$t('technicalBasicsTitle')">
+          <div class="card md:p-2 shadow-md" role="group" :aria-label="$t('technicalBasicsTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2">
-                <label
-                  ref="swapToggleRef"
-                  tabindex="0"
-                  @keydown="onSwapKeydown"
-                  aria-label="Toggle code/heart icon"
-                  class="swap swap-flip h-[30px] text-2xl text-primary"
-                >
+                <!-- Keyboardable swap -->
+                <label ref="swapToggleRef" tabindex="0" @keydown="onSwapKeydown" aria-label="Toggle code/heart icon"
+                  class="swap swap-flip h-[30px] text-2xl text-primary">
                   <input type="checkbox" />
                   <div class="swap-off flex">
                     <Icon name="tabler:code" aria-hidden="true" />
                   </div>
                   <div class="swap-on flex">
-                    <Icon class="text-accent" name="fa-heart-o" aria-hidden="true" />
+                    <Icon class="animate-bounce text-accent" name="fa-heart-o" aria-hidden="true" />
                   </div>
                 </label>
                 <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('technicalBasicsTitle') }}</h3>
@@ -436,7 +332,8 @@
               </ul>
             </div>
             <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank" class="btn btn-outline max-md:btn-block">
+              <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank"
+                class="btn btn-outline max-md:btn-block">
                 <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('technicalBasicsTitle') }}
               </a>
             </div>
@@ -445,25 +342,20 @@
       </div>
     </section>
 
-    <!-- ======= VIDEO BAND ======= -->
-    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-10 section-wash section-wash--a">
+    <!-- ======= VIDEO BAND (kept, restyled) ======= -->
+    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <ClientOnly>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div class="lg:col-span-6">
-              <video
-                controls
-                preload="none"
-                poster="/img/avefi_vid_poster-1024.webp"
-                class="w-full rounded-xl border border-base-300 shadow-lg"
-                :aria-describedby="'video-desc'"
-              >
+              <video controls preload="none" poster="/img/avefi_vid_poster-1024.webp"
+                class="w-full rounded-xl border border-base-300 shadow-lg" :aria-describedby="'video-desc'">
                 <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
                 {{ $t('videoNotSupported') }}
               </video>
             </div>
             <div class="lg:col-span-6 lg:h-full">
-              <div class="bg-base-100 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
+              <div class="bg-base-100 rounded-xl p-6 md:p-8 lg:h-full">
                 <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                   {{ $t('videoSectionTitle') }}
                 </h3>
@@ -477,22 +369,25 @@
       </div>
     </section>
 
-    <!-- ======= PARTNERS ======= -->
-    <section role="region" :aria-label="$t('partnersSection')" class="relative border-t border-base-200 py-10 section-wash section-wash--b">
+    <!-- ======= PARTNERS (kept) ======= -->
+    <section role="region" :aria-label="$t('partnersSection')" class="relative border-t border-base-200 py-6">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">
-            <div class="card-body">
-              <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                {{ $t('partnersTitle') }}
-              </h3>
-              <p class="text-base md:text-lg opacity-80" tabindex="0">
-                {{ $t('partnersDescription') }}
-              </p>
+            <div class="">
+              <div class="card-body">
+                <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+                  {{ $t('partnersTitle') }}
+                </h3>
+                <p class="text-base md:text-lg opacity-80" tabindex="0">
+                  {{ $t('partnersDescription') }}
+                </p>
+              </div>
             </div>
           </div>
           <div class="lg:col-span-7 flex justify-center">
-            <div class="w-full max-w-xl" role="region" :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
+            <div class="w-full max-w-xl" role="region"
+              :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
               <ClientOnly>
                 <LazyGlobalCarouselComp :items="items" />
               </ClientOnly>
@@ -509,7 +404,6 @@ import { useRuntimeConfig, useSeoMeta } from 'nuxt/app';
 import { ref, onMounted, nextTick, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
@@ -536,17 +430,17 @@ useSeoMeta({
     ogDescription: t('seo.home.ogDescription'),
     ogType: 'website',
     ogUrl: (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + route.path,
-    ogImage:
-    runtimeConfig.public.siteOgImage ||
-    ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
+    ogImage: runtimeConfig.public.siteOgImage || ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
     twitterCard: 'summary_large_image',
     twitterTitle: t('seo.home.title'),
-    twitterDescription: t('seo.home.description'),
+    twitterDescription: t('seo.home.description')
 });
 
 // ─────────────────────────────────────────────
 // Schema.org: WebSite + SearchAction + WebPage
+// enables sitelinks search box in Google
 // ─────────────────────────────────────────────
+
 useSchemaOrg(() => {
     const baseUrl = runtimeConfig.public.siteUrl || 'https://www.av-efi.net';
     const url = baseUrl + route.path;
@@ -554,33 +448,32 @@ useSchemaOrg(() => {
         defineWebSite({
             name: t('seo.home.siteName'),
             url: baseUrl,
+            // This is what Google uses for the sitelinks search box:
             potentialAction: {
                 '@type': 'SearchAction',
                 target: `${baseUrl}/search/?q={search_term_string}`,
-                'query-input': 'required name=search_term_string',
-            },
+                'query-input': 'required name=search_term_string'
+            }
         }),
         defineWebPage({
             '@type': 'WebPage',
             name: t('seo.home.title'),
             description: t('seo.home.description'),
-            url,
-        }),
+            url
+        })
     ];
 });
+
 
 const showAdvancedSearch = ref(false);
 const searchCompRef = ref<HTMLElement | null>(null);
 const swapToggleRef = ref<HTMLElement | null>(null);
 
 function focusFirstInput(root?: HTMLElement | null) {
-    const scope =
-    root ??
-    ((searchCompRef.value &&
-    (searchCompRef.value as unknown as { $el: HTMLElement }).$el
-        ? (searchCompRef.value as unknown as { $el: HTMLElement }).$el
-        : searchCompRef.value as HTMLElement) ??
-      null);
+    const scope = root ?? (
+        (searchCompRef.value && (searchCompRef.value as unknown as { $el: HTMLElement }).$el ? (searchCompRef.value as unknown as { $el: HTMLElement }).$el : searchCompRef.value as HTMLElement) ??
+    null
+    );
     if (!scope) return;
     const el: HTMLElement | null = scope.querySelector(
         'input[type="text"], input:not([type]), textarea, [contenteditable="true"], [autofocus]'
@@ -598,6 +491,7 @@ function focusFirstInput(root?: HTMLElement | null) {
 
 onMounted(async () => {
     await nextTick();
+    // Delay focus until loading screen has disappeared (500ms + 500ms fade transition + 100ms buffer)
     setTimeout(() => {
         focusFirstInput();
     }, 1100);
@@ -626,7 +520,7 @@ function onSwapKeydown(e: KeyboardEvent) {
 
 definePageMeta({
     auth: false,
-    layout: 'default',
+    layout: 'default'
 });
 
 const items = ref([
@@ -667,6 +561,7 @@ const cardItems = ref([
     },
     {
         title: 'trollerTitle',
+        // Use Wikimedia thumbnail API (800px) instead of full 2MB+ image
         imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
         imgAlt: 'Georg Stefan Troller',
         description: 'trollerDescription',
@@ -688,7 +583,7 @@ const cardItems = ref([
         imgAlt: 'AVefi Platzhalter Bild',
         imgCoverType: '',
         imgSrc: '/img/placeholder-16x9.svg',
-        imgSourceLink: '',
+        imgSourceLink: '', // Ensure this is always a string
         imgSourceText: '',
         imgAuthor: '',
         imgLicense: '',
@@ -696,6 +591,7 @@ const cardItems = ref([
     },
     {
         title: 'ddrTitle',
+        // Use Wikimedia thumbnail API (800px) instead of full 2MB+ image
         imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg/800px-Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
         imgSourceText: 'German Federal Archives',
         imgAuthor: 'Christa Hochneder',
@@ -711,190 +607,22 @@ const cardItems = ref([
         link: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
         linkText: 'ddrLinkText',
         imgAlt: 'Außenaufnahme des Kinos "Capitol" in Leipzig bei Nacht',
-        imgSourceLink: ''
+        imgSourceLink: '' // Add this property as an empty string to match the type
     }
 ]);
 </script>
 
 <style scoped>
-/* ================================
-   HERO: mockup-like aurora + readability
-   ================================ */
-
-.aurora-layer {
-  /* aurora colors (soft) + a light wash so the pattern never dominates */
-  background:
-    radial-gradient(900px 600px at 18% 18%, hsl(210 80% 70% / 0.18), transparent 60%),
-    radial-gradient(900px 600px at 82% 22%, hsl(330 85% 72% / 0.16), transparent 60%),
-    radial-gradient(900px 600px at 56% 80%, hsl(200 85% 68% / 0.12), transparent 62%),
-    linear-gradient(180deg, hsl(0 0% 100% / 0.82), hsl(0 0% 100% / 0.88));
-  filter: saturate(1.05);
-}
-
-.vignette-layer {
-  /* stronger center legibility (darken edges very subtly, plus top/bottom)
-     important: keep it gentle so it doesn't look “dirty” */
-  background:
-    radial-gradient(1200px 700px at 50% 40%, hsl(0 0% 0% / 0.00) 42%, hsl(0 0% 0% / 0.12) 100%),
-    linear-gradient(180deg, hsl(0 0% 0% / 0.06), transparent 22%, transparent 78%, hsl(0 0% 0% / 0.08));
-  mix-blend-mode: multiply;
-}
-
-/* This panel is the key readability fix */
-.hero-content-panel {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 2.25rem 1rem 2.25rem 1rem;
-  border-radius: 1.25rem;
-  background: hsl(0 0% 100% / 0.68);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid hsl(0 0% 100% / 0.32);
+/* Premium but accessible shadows */
+.card {
   box-shadow:
-    0 28px 70px -52px hsl(0 0% 0% / 0.40),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* Optional: subtle text shadow helps on bright patterns */
-.hero-title {
-  text-shadow: 0 1px 0 hsl(0 0% 100% / 0.65);
-}
-.hero-lead {
-  text-shadow: 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* ================================
-   GLASS: pills + hero search card
-   ================================ */
-
-.glass-pill {
-  border: 1px solid hsl(0 0% 100% / 0.35);
-  background: hsl(0 0% 100% / 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow:
-    0 10px 24px -18px hsl(0 0% 0% / 0.35),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-.glass-pill--chip {
-  background: hsl(0 0% 100% / 0.46);
-  border: 1px solid hsl(0 0% 100% / 0.30);
-}
-
-/* Hero search card: glass + clean */
-.hero-glass-card {
-  border: 1px solid hsl(0 0% 100% / 0.30);
-  background: hsl(0 0% 100% / 0.50);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow:
-    0 26px 70px -48px hsl(0 0% 0% / 0.45),
-    0 8px 26px -18px hsl(0 0% 0% / 0.18),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
+    0 12px 32px -14px hsl(0 0% 0% / 0.25),
+    0 4px 14px -6px hsl(0 0% 0% / 0.12);
 }
 
 /* Remove legacy background helpers from old version */
 .movie-classics-bg {
   display: none !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
-}
-
-/* ================================
-   SECTION WASH: subtle “aurora” background
-   (applied to below-hero sections)
-   ================================ */
-
-.section-wash {
-  position: relative;
-  overflow: hidden;
-}
-
-.section-wash::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-
-  /* lightweight aurora glow */
-  background:
-    radial-gradient(900px 520px at 20% 10%, hsl(210 92% 70% / 0.12), transparent 62%),
-    radial-gradient(900px 520px at 80% 22%, hsl(330 90% 72% / 0.10), transparent 62%),
-    radial-gradient(900px 520px at 55% 88%, hsl(195 95% 68% / 0.08), transparent 64%);
-  filter: saturate(1.15);
-  opacity: 1;
-  mix-blend-mode: normal;
-}
-
-.section-wash--a::before {
-  opacity: 0.95;
-}
-
-.section-wash--b::before {
-  opacity: 0.80;
-  transform: rotate(180deg);
-}
-
-/* ensure actual content is above the wash */
-.section-wash > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ================================
-   GLASS PANEL: used for text blocks
-   ================================ */
-
-.glass-panel {
-  border-radius: 1.25rem;
-  border: 1px solid hsl(0 0% 100% / 0.42);
-  background: linear-gradient(
-    180deg,
-    hsl(0 0% 100% / 0.55),
-    hsl(0 0% 100% / 0.28)
-  );
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow:
-    0 26px 70px -56px hsl(0 0% 0% / 0.36),
-    0 10px 28px -22px hsl(0 0% 0% / 0.12),
-    inset 0 1px 0 hsl(0 0% 100% / 0.60);
-}
-
-/* ================================
-   PREMIUM CARD: consistent across page
-   ================================ */
-
-.premium-card {
-  border-radius: 1.25rem;
-  border: 1px solid hsl(0 0% 100% / 0.38);
-  background: linear-gradient(
-    180deg,
-    hsl(0 0% 100% / 0.52),
-    hsl(0 0% 100% / 0.22)
-  );
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow:
-    0 28px 74px -60px hsl(0 0% 0% / 0.40),
-    0 10px 26px -22px hsl(0 0% 0% / 0.12),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* Better section spacing rhythm */
-.container {
-  /* keep your layout, just give it breathing room */
-}
-
-/* optional: make dividers less “flat-grey” */
-.border-base-200 {
-  border-color: hsl(0 0% 0% / 0.08) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

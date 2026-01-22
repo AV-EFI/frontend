@@ -10,7 +10,7 @@
             <div class="col-span-full px-4">
               <GlobalClipboardComp :display-text="dataJson?.compound_record?._source?.handle"
                 :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
-                class="mb-2 text-sm text-base-content/90" />
+                class="mb-2 text-xs lg:text-sm text-base-content/90" />
               <div class="flex flex-row">
                 <h2
                   class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"

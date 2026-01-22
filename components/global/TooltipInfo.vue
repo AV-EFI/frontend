@@ -1,6 +1,6 @@
 <template>
   <span
-    class="ml-1 text-neutral-500 dark:text-neutral-300 text-sm cursor-help inline-flex items-center align-text-middle max-w-8"
+    class="ml-1 text-neutral-500 text-sm cursor-help inline-flex items-center align-text-middle max-w-8"
     role="img"
     aria-label="Info"
     tabindex="0"

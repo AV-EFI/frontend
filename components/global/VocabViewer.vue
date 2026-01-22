@@ -34,9 +34,9 @@
     <section v-for="group in filteredGroups" :key="group.category" class="mb-8">
       <h2 class="text-lg font-semibold mb-2 border-b pb-1" v-html="highlight(group.category)">
       </h2>
-      <ul class="flex flex-row flex-wrap gap-2">
+      <ul class="flex flex-row flex-wrap gap-1 lg:gap-2">
         <li v-for="entry in group.entries" :id="rowId(entry)" :key="entry.term + entry.enumSource + query"
-          :ref="(el:any)=>setRowRef(entry, el)" class="rounded-xl border border-base-200 bg-base-100 transition-all w-[calc(50%_-_0.25rem)]"
+          :ref="(el:any)=>setRowRef(entry, el)" class="rounded-xl border border-base-200 bg-base-100 transition-all w-full lg:w-[calc(50%_-_0.25rem)]"
           :class="isOpen(entry) ? 'grid lg:grid-cols-[1fr,minmax(300px,34rem)]' : 'block'">
           <!-- LEFT: entry content -->
           <div class="p-3">
@@ -65,7 +65,7 @@
               </button>
             </div>
 
-            <div v-if="entry.description" class="text-xs text-neutral-600 dark:text-neutral-300 mt-1 w-96"
+            <div v-if="entry.description" class="text-xs text-neutral-600 dark:text-neutral-300 mt-1 lg:w-96"
               v-html="highlight(entry.description)" />
             <details v-if="entry.definition" class="mt-1 text-xs text-neutral-500">
               <summary class="cursor-pointer underline underline-offset-2">
@@ -100,7 +100,7 @@
               </div>
 
               <!-- Body -->
-              <div ref="previewScrollEl" class="h-[60vh] overflow-auto">
+              <div ref="previewScrollEl" class="lg:h-[60vh] overflow-auto">
                 <iframe v-if="previewUrl && !forceInline" :key="previewUrl" :src="previewUrl"
                   class="w-full h-[60vh] border-0" @load="onIframeLoad" />
                 <div v-else-if="inlineHtml" class="p-4 prose prose-sm max-w-none" v-html="inlineHtml" />

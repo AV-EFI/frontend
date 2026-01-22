@@ -29,8 +29,11 @@
                   class="mr-2"
                 />
                 <div class="badge badge-manifestation badge-xs dark:text-black" v-if="allItemsEmpty(m)">
+                  <span class="hidden lg:visible">
                   {{ $t('allItemsEmpty') }}
+                  </span>
                   <GlobalTooltipInfo
+                  class="text-xs"
                     :text="$t('allItemsEmptyTooltip')"
                   />
                 </div>
@@ -246,7 +249,7 @@
                 >
                   <Icon
                      name="tabler:eye"
-                    class="w-4 h-4 mr-1"
+                    class="w-4 h-4 mr-1 dark:text-gray-200"
                     aria-hidden="true"
                   />
                 </button>

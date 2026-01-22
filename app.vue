@@ -59,7 +59,7 @@ watch(
     <NuxtLayout
       class="layouts"
     >
-      <div class="mt-2 container grow mx-auto dark:text-white dark:border-gray-700 px-2 xl:border-base-200 xl:border-2 xl:px-4">
+      <div class="mt-2 container grow mx-auto dark:text-white dark:border-gray-700 lg:px-2 xl:border-base-200 xl:border-2 xl:px-4">
         <NuxtPage />
       </div>
       <ClientOnly>

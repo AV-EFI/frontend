@@ -18,10 +18,10 @@
       </button>
     </div>
     <header class="card-body p-4 pb-2 gap-y-0" :aria-labelledby="`flat-work-title-${work?.handle ?? ''}`">
-      <div class="flex flex-col md:flex-row justify-between">
-        <div class="w-4/5 md:w-4/5">
+      <div class="flex flex-row justify-between">
+        <div class="w-3/5 lg:w-4/5">
           <GlobalClipboardComp
-            class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
+            class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300 text-left"
             :display-text="`${work?.handle ?? ''}`"
             :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
             tabindex="0"
@@ -30,7 +30,7 @@
           />
           <h2
             :id="`work-title-${work?.handle ?? ''}`"
-            class="card-title text-lg font-semibold mb"
+            class="card-title flex-col-reverse lg:flex-row text-lg font-semibold items-start"
           >
             <NuxtLink
               v-if="work?.handle"
@@ -47,16 +47,18 @@
             <MicroBadgeCategoryComp
               :category="work?.category || 'avefi:WorkVariant'"
               :dense="false"
-              class="ml-2"
+              class="ml-2 hidden lg:inline-block"
             />
             <!-- Badge for all items empty -->
             <span
               v-if="allItemsEmpty(work)"
-              class="badge badge-manifestation badge-xs ml-2 dark:text-black"
+              class="badge badge-outline badge-manifestation badge-xs lg:ml-2 dark:text-black"
               :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
             >
-              <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
+              <Icon name="tabler:alert-circle" class="w-3 h-3 lg:mr-1" />
+              <span class="hidden lg:inline-block">
               {{ $t('allItemsEmpty') || 'All Items Empty' }}
+              </span>
             </span>
           </h2>
           
@@ -76,7 +78,7 @@
             </ul>
           </h3>
         </div>
-        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group" :aria-label="$t('actions')">
+        <div class="w-2/5 lg:w-1/5 flex-row flex-wrap justify-end items-start lg:items-end mr-0 mt-2 md:my-auto flex" role="group" :aria-label="$t('actions')">
           <NuxtLink 
             v-if="work?.handle"
             :to="`/res/${work.handle}`"

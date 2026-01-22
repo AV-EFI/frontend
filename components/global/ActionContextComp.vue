@@ -10,7 +10,7 @@
       aria-expanded="false"
       :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || '')"
       class="btn btn-outline btn-circle"
-      :class="['btn-' + compSize]"
+      :class="['lg:btn-' + compSize]"
     >
       <Icon
         :class="['text-' + compSize]"

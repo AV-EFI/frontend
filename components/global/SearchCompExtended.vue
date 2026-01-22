@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full max-w-4xl mx-auto p-4backdrop-blur-sm rounded-lg"
+    class="w-full xs:max-w-xs md:w-full lg:max-w-4xl mx-auto p-4 backdrop-blur-sm rounded-lg"
     role="search"
     :aria-label="$t('mainSearch')"
   >
@@ -78,7 +78,7 @@
               <div
                 v-for="(filter, index) in facetFilters"
                 :key="filter.uid"
-                class="flex items-start gap-1 p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                class="flex items-start lg:gap-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
               >
                 <!-- Facet icon (reflects currently selected facet) -->
                 <div class="">

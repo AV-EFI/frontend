@@ -1,6 +1,6 @@
 <template>
   <div class="w-full my-auto">
-    <div class="flex flex-col sm:flex-row gap-0 items-stretch h-16">
+    <div class="flex flex-row gap-0 items-stretch h-16">
       <SearchQueryAutocomplete
         ref="qaRef"
         v-model="term"

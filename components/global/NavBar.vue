@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <nav
-    class="navbar border-b-2 border-base-200 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100"
+    class="navbar border-b-2 border-base-200 bg-base-100 dark:bg-gray-950 dark:text-white dark:border-gray-700 hover:!opacity-100 p-0 lg:p-2"
     :class="isScrolled ? 'md:mix-blend-multiply lg:opacity-90' : ''"
     :aria-label="ariaLabelMainNav"
   >
