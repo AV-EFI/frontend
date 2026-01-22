@@ -56,7 +56,7 @@
             <div class="ml-0">
               <button
                 type="submit"
-                class="!rounded-l-none !rounded-r-xl flex btn btn-primary btn-lg h-[56px]"
+                class="!rounded-l-none !rounded-r-xl flex btn btn-primary lg:btn-lg h-[56px]"
                 :class="{'btn-disabled opacity-50 cursor-not-allowed': !canSubmit}"
                 :aria-label="$t('submitSearch')"
                 @click="handleClick"

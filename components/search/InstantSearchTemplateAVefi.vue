@@ -63,7 +63,7 @@
                       
                       <button
                         type="button"
-                        class="btn btn-primary btn-lg h-[56px] rounded-xl rounded-l-none"
+                        class="btn btn-primary lg:btn-lg h-[56px] rounded-xl rounded-l-none"
                         :title="$t('search')"
                         @click="$refs.qaRef?.submit()"
                       >
