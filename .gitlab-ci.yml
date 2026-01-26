@@ -89,10 +89,10 @@ build_docker-production:
 
 deploy-staging:
   environment:
-    name: www
-    url: https://www.av-efi.net
+    name: testbed
+    url: https://testbed.av-efi.net
   rules:
-    - if: $CI_COMMIT_BRANCH == "www"
+    - if: $CI_COMMIT_BRANCH == "testbed"
   extends: .deploy
 
 deploy-production:
