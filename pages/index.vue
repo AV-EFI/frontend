@@ -1,27 +1,23 @@
 <template>
   <div class="min-h-screen bg-base-100 text-base-content flow">
     <!-- Skip link -->
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 btn btn-sm btn-primary"
-    >
+    <a href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 btn btn-sm btn-primary">
       {{ $t('skipToContent') || 'Skip to main content' }}
     </a>
 
     <!-- ======= HERO / SEARCH-FIRST ======= -->
     <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
-      <div class="hero lg:min-h-[78vh]">
+      <div class="hero max-lg:min-h-[48vh] lg:min-h-[58vh]">
         <ClientOnly>
-          <div class="hero-overlay">
+          <div class="hero-overlay w-full">
             <!-- Toggle button for video/image (glass pill, non-competing) -->
             <div class="absolute top-4 right-4 z-50">
               <button
                 class="btn btn-xs btn-primary
                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                @click="heroMediaVisible = !heroMediaVisible"
-                :aria-pressed="heroMediaVisible"
-                :title="heroMediaVisible ? 'Hide background media' : 'Show background media'"
-              >
+                @click="heroMediaVisible = !heroMediaVisible" :aria-pressed="heroMediaVisible"
+                :title="heroMediaVisible ? 'Hide background media' : 'Show background media'">
                 <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4" />
                 <span class="sr-only">
                   {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
@@ -30,106 +26,65 @@
             </div>
 
             <!-- Background media -->
-            <img
-              v-if="!heroMediaVisible"
-              class="absolute inset-0 w-full h-full object-cover dark:invert"
-              src="/img/avefi_diamonds_prim_white.png"
-              alt="Diamond pattern primary white"
-            />
-            <video
-              v-else
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              aria-hidden="true"
-              tabindex="-1"
-              class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]"
-            >
+            <img v-if="!heroMediaVisible" class="absolute inset-0 w-full h-full object-cover dark:invert"
+              src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
+            <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"
+              class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
               <source src="/vid/klappe_comp.mp4" type="video/mp4" />
             </video>
 
-<!-- Aurora / glow overlays (light + dark variants) -->
-<div
-  class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none"
-  aria-hidden="true"
-  :class="[
+            <!-- Aurora / glow overlays (light + dark variants) -->
+            <div
+              class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
+              aria-hidden="true" :class="[
     // LIGHT
-    `bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),
-        radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),
-        radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),
-        linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]`,
-    // DARK (swap “white wash” for “dark wash”)
-    `dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),
-        radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),
-        radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),
-        linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]`,
-    // slightly richer colors like your filter:saturate
-    `saturate-[1.05]`,
-  ]"
-/>
-
-<!-- Vignette -->
-<div
-  class="absolute inset-0 mix-blend-multiply dark:mix-blend-normal"
-  aria-hidden="true"
-  :class="[
-    `bg-[radial-gradient(1200px_700px_at_50%_40%,hsl(0_0%_0%/0.00)_42%,hsl(0_0%_0%/0.12)_100%),
-        linear-gradient(180deg,hsl(0_0%_0%/0.06),transparent_22%,transparent_78%,hsl(0_0%_0%/0.08))]`,
-    // In dark mode, the vignette must be gentler (otherwise it gets muddy)
-    `dark:bg-[radial-gradient(1200px_700px_at_50%_40%,hsl(0_0%_0%/0.00)_42%,hsl(0_0%_0%/0.10)_100%),
-        linear-gradient(180deg,hsl(0_0%_0%/0.04),transparent_22%,transparent_78%,hsl(0_0%_0%/0.06))]`,
-  ]"
-/>
+    'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
+    // DARK
+    'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
+  ]" />
+            <!-- Vignette -->
+            <div
+              class="absolute inset-0 pointer-events-none
+         mix-blend-multiply dark:mix-blend-normal
+         bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.14)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
+         dark:bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.18)_100%),linear-gradient(180deg,rgba(0,0,0,0.12),transparent_22%,transparent_78%,rgba(0,0,0,0.14))]">
+            </div>
             <!-- Subtle grid -->
             <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
-              <div
-                class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
-                       [background-size:22px_22px]"
-              ></div>
+              <div class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
+                       [background-size:22px_22px]"></div>
             </div>
           </div>
 
-          <div class="hero-content w-full">
-            <div class="w-full max-w-6xl mx-auto">
+          <div class="hero-content w-full lg:w-full">
+            <div class="w-full lg:max-w-6xl mx-auto">
               <!-- Center content panel: THIS is what makes it readable -->
-<div
-  class="
-    max-w-6xl mx-auto px-4 py-9 rounded-2xl
+              <div class="max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
     border
     shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
     supports-[backdrop-filter]:backdrop-blur-[10px]
     motion-reduce:transition-none
-  "
-  :class="[
+  " :class="[
     // LIGHT glass
-    'bg-white/70 border-white/40',
+    'bg-white/85 border-white/40',
     // DARK glass (this is what was missing)
     'dark:bg-neutral/40 dark:border-white/10',
     // subtle inner highlight like your inset 1px
     'shadow-inner dark:shadow-none',
-  ]"
->
+  ]">
                 <div class="text-center">
-<h1
-  class="
+                  <h1 class="
     mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
     [text-shadow:0_1px_0_rgba(255,255,255,0.65)]
     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
-  "
-  tabindex="0"
->                    {{ $t('avefiClaim') }}
+  " tabindex="0"> {{ $t('avefiClaim') }}
                   </h1>
 
-<p
-  class="
+                  <p class="
     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
     [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
-  "
-  tabindex="0"
->
+  " tabindex="0">
 
                     {{ $t('home.tagline') }}
                   </p>
@@ -139,64 +94,49 @@
                 <div class="mt-6 grid place-items-center">
                   <div class="w-full max-w-4xl">
                     <!-- Glass search card -->
-<div
-  class="
-    card
+                    <div class="card
     border
     supports-[backdrop-filter]:backdrop-blur-[14px]
     shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
-  "
-  :class="[
+  " :class="[
     // LIGHT
     'bg-white/55 border-white/35',
     // DARK
     'dark:bg-neutral/35 dark:border-white/10',
-  ]"
->                      <div
-                        id="home-search-area"
-                        class="card-body p-4 md:p-6 my-auto"
-                        role="search"
-                        :aria-labelledby="'home-search-label'"
-                        aria-live="polite"
-                        aria-atomic="false"
-                        tabindex="0"
-                      >
+  ]">
+                      <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
+                        :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
                         <!-- Card header row: integrated mode switch -->
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                          <div
-                            class="md:justify-end"
-                            role="group"
-                            :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'"
-                          >
-                            <div class="join">
-                              <button
-                                class="join-item btn btn-sm"
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
+                          <div class="md:justify-end" role="group"
+                            :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                            <div class="join w-full">
+                              <button class="join-item btn md:btn-sm"
                                 :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = false"
-                                :aria-pressed="!showAdvancedSearch"
-                                aria-controls="home-search-area"
-                              >
-                                {{ $t('showSimpleSearch') }}
+                                @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
+                                aria-controls="home-search-area">
+                                <span class="hidden md:block">
+                                  {{ $t('showSimpleSearch') }}
+                                </span>
+                                <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
+
                               </button>
-                              <button
-                                class="join-item btn btn-sm"
+                              <button class="join-item btn md:btn-sm"
                                 :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = true"
-                                :aria-pressed="showAdvancedSearch"
-                                aria-controls="home-search-area"
-                              >
-                                {{ $t('showAdvancedSearch') }}
+                                @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
+                                aria-controls="home-search-area">
+                                <span class="hidden md:block">
+                                  {{ $t('showAdvancedSearch') }}
+                                </span>
+                                <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
                               </button>
                             </div>
                           </div>
                         </div>
 
                         <!-- Search component -->
-                        <component
-                          :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
-                          ref="searchCompRef"
-                          :aria-labelledby="'home-search-label'"
-                        />
+                        <component :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
+                          ref="searchCompRef" :aria-labelledby="'home-search-label'" />
 
                       </div>
                     </div>
@@ -211,39 +151,32 @@
       </div>
     </section>
 
-<section
-  id="main"
-  role="main"
-  :aria-label="$t('featuredContent')"
-  class="relative overflow-hidden border-t border-base-200 py-10"
->
-  <!-- wash layer -->
-  <div
-    class="absolute inset-0 pointer-events-none saturate-[1.15] opacity-95"
-    aria-hidden="true"
-    :class="[
-      `bg-[radial-gradient(900px_520px_at_20%_10%,hsl(210_92%_70%/0.12),transparent_62%),
-          radial-gradient(900px_520px_at_80%_22%,hsl(330_90%_72%/0.10),transparent_62%),
-          radial-gradient(900px_520px_at_55%_88%,hsl(195_95%_68%/0.08),transparent_64%)]`,
-      // DARK: keep it but tone down
-      `dark:bg-[radial-gradient(900px_520px_at_20%_10%,hsl(210_92%_60%/0.10),transparent_62%),
-          radial-gradient(900px_520px_at_80%_22%,hsl(330_90%_60%/0.08),transparent_62%),
-          radial-gradient(900px_520px_at_55%_88%,hsl(195_95%_58%/0.06),transparent_64%)]`,
-    ]"
-  ></div>
+    <section id="main" role="main" :aria-label="$t('featuredContent')"
+      class="relative overflow-hidden border-t border-base-200 py-10">
+      <!-- wash layer -->
+      <!-- Aurora / glow overlays (light + dark variants) -->
+      <div
+        class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
+        aria-hidden="true" :class="[
+    // LIGHT
+    'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
+    // DARK
+    'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
+  ]" />
 
-  <!-- content stays above -->
-  <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-      <div class="lg:col-span-12 flex justify-center">
-        <LazyGlobalCarouselCardComp :items="cardItems" />
+      <!-- content stays above -->
+      <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div class="lg:col-span-12 flex justify-center">
+            <LazyGlobalCarouselCardComp :items="cardItems" />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- ======= BUILD THE PERFECT TOOL (2 cards only) ======= -->
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--b" role="region" :aria-label="$t('buildSection') || 'Build the perfect tool'">
+    <section class="relative border-t border-base-200 py-10 section-wash section-wash--b" role="region"
+      :aria-label="$t('buildSection') || 'Build the perfect tool'">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
           <!-- Schema -->
@@ -255,11 +188,14 @@
                   {{ $t('build.schema.title') }}
                 </h3>
               </div>
-              <div class="mockup-code mt-3 text-sm" role="region" :aria-label="$t('build.schema.codeLabel') || 'Example schema representation'">
+              <div class="mockup-code mt-3 text-sm" role="region"
+                :aria-label="$t('build.schema.codeLabel') || 'Example schema representation'">
                 <pre data-prefix="$"><code>Work → Manifestation → Item</code></pre>
-                <pre data-prefix=">"><code>has_primary_title.has_name: "Menschen am Sonntag – Das Dokument der Gegenwart"</code></pre>
+                <pre
+                  data-prefix=">"><code>has_primary_title.has_name: "Menschen am Sonntag – Das Dokument der Gegenwart"</code></pre>
                 <pre data-prefix=">"><code>has_event.has_date: "1929/1930"</code></pre>
-                <pre data-prefix=">"><code>has_event.has_activity.Director: ["Siodmak, Robert", "Ulmer, Edgar G."]</code></pre>
+                <pre
+                  data-prefix=">"><code>has_event.has_activity.Director: ["Siodmak, Robert", "Ulmer, Edgar G."]</code></pre>
                 <pre data-prefix=">"><code>has_event.has_activity.Writer: ["Wilder, Billy"]</code></pre>
                 <pre data-prefix=">"><code>has_genre.has_name: "Fiction"</code></pre>
                 <pre data-prefix=">"><code>manifestations: [</code></pre>
@@ -280,7 +216,7 @@
             </div>
           </div>
 
-          <div class="lg:col-span-1 flex justify-center items-center max-w-sm px-6 md:px-6 lg:px-0 min-h-[300px]">
+          <div class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0 min-h-[300px]">
             <div class="text-left max-w-md">
               <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('build.linked.title') }}
@@ -295,10 +231,11 @@
     </section>
 
     <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region" :aria-label="$t('timeline.title')">
+    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region"
+      :aria-label="$t('timeline.title')">
       <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-          <div class="w-full">
+          <div class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 lg:p-10 flex flex-col justify-center">
             <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
               {{ $t('timeline.title') }}
             </h3>
@@ -348,8 +285,8 @@
             </ul>
           </div>
 
-          <div class="w-full flex flex-col justify-center">
-            <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
+          <div class="w-full flex flex-col justify-center max-lg:mt-6">
+            <h3 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
               {{ $t('topIssuers') || 'Top Publishers & Archives' }}
             </h3>
             <div class="flex justify-center items-center">
@@ -365,10 +302,12 @@
     </section>
 
     <!-- ======= CORE FUNCTIONS ======= -->
-    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-10 section-wash section-wash--b">
+    <section role="region" :aria-label="$t('coreFunctionsSection')"
+      class="relative border-t border-base-200 py-10 section-wash section-wash--b">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="card md:p-2 shadow-md bg-white/90 dark:bg-transparent" role="group" :aria-label="$t('coreFunctionsTitle')">
+          <div class="card md:p-2 shadow-md bg-white/90 dark:bg-transparent" role="group"
+            :aria-label="$t('coreFunctionsTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2 mb-2">
                 <Icon name="fa:desktop" class="text-2xl text-primary" aria-hidden="true" />
@@ -383,17 +322,20 @@
               </ul>
             </div>
             <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/projekt/" target="_blank" class="btn btn-outline max-md:btn-block">
+              <a href="https://projects.tib.eu/av-efi/projekt/" target="_blank"
+                class="btn btn-outline max-md:btn-block">
                 <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('coreFunctionsTitle') }}
               </a>
             </div>
           </div>
 
-          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group" :aria-label="$t('forFilmResearchersTitle')">
+          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group"
+            :aria-label="$t('forFilmResearchersTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2 mb-2">
                 <Icon name="fa-film" class="text-2xl text-primary" aria-hidden="true" />
-                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}</h3>
+                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}
+                </h3>
               </div>
               <ul class="mt-2" role="list">
                 <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[0]') }}</span></li>
@@ -403,22 +345,19 @@
               </ul>
             </div>
             <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/metadaten/" target="_blank" class="btn btn-outline max-md:btn-block">
+              <a href="https://projects.tib.eu/av-efi/metadaten/" target="_blank"
+                class="btn btn-outline max-md:btn-block">
                 <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('forFilmResearchersTitle') }}
               </a>
             </div>
           </div>
 
-          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group" :aria-label="$t('technicalBasicsTitle')">
+          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group"
+            :aria-label="$t('technicalBasicsTitle')">
             <div class="card-body">
               <div class="flex justify-start items-center gap-2">
-                <label
-                  ref="swapToggleRef"
-                  tabindex="0"
-                  @keydown="onSwapKeydown"
-                  aria-label="Toggle code/heart icon"
-                  class="swap swap-flip h-[30px] text-2xl text-primary"
-                >
+                <label ref="swapToggleRef" tabindex="0" @keydown="onSwapKeydown" aria-label="Toggle code/heart icon"
+                  class="swap swap-flip h-[30px] text-2xl text-primary">
                   <input type="checkbox" />
                   <div class="swap-off flex">
                     <Icon name="tabler:code" aria-hidden="true" />
@@ -436,7 +375,8 @@
               </ul>
             </div>
             <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank" class="btn btn-outline max-md:btn-block">
+              <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank"
+                class="btn btn-outline max-md:btn-block">
                 <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('technicalBasicsTitle') }}
               </a>
             </div>
@@ -446,24 +386,20 @@
     </section>
 
     <!-- ======= VIDEO BAND ======= -->
-    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-10 section-wash section-wash--a">
+    <section role="region" :aria-label="$t('videoSection')"
+      class="relative border-t border-base-200 py-10 section-wash section-wash--a">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <ClientOnly>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div class="lg:col-span-6">
-              <video
-                controls
-                preload="none"
-                poster="/img/avefi_vid_poster-1024.webp"
-                class="w-full rounded-xl border border-base-300 shadow-lg"
-                :aria-describedby="'video-desc'"
-              >
+              <video controls preload="none" poster="/img/avefi_vid_poster-1024.webp"
+                class="w-full rounded-xl border border-base-300 shadow-lg" :aria-describedby="'video-desc'">
                 <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
                 {{ $t('videoNotSupported') }}
               </video>
             </div>
             <div class="lg:col-span-6 lg:h-full">
-              <div class="bg-base-100 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
+              <div class="bg-base-100/90 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
                 <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                   {{ $t('videoSectionTitle') }}
                 </h3>
@@ -478,7 +414,8 @@
     </section>
 
     <!-- ======= PARTNERS ======= -->
-    <section role="region" :aria-label="$t('partnersSection')" class="relative border-t border-base-200 py-10 section-wash section-wash--b">
+    <section role="region" :aria-label="$t('partnersSection')"
+      class="relative border-t border-base-200 py-10 section-wash section-wash--b">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">
@@ -492,9 +429,10 @@
             </div>
           </div>
           <div class="lg:col-span-7 flex justify-center">
-            <div class="w-full max-w-xl" role="region" :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
+            <div class="w-full max-w-xl" role="region"
+              :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
               <ClientOnly>
-                <LazyGlobalCarouselComp :items="items" />
+                <GlobalCarouselComp :items="items" />
               </ClientOnly>
             </div>
           </div>
@@ -515,7 +453,7 @@ const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
 // --- HERO overlay media toggle ---
-const heroMediaVisible = ref(true);
+const heroMediaVisible = ref(false);
 const HERO_MEDIA_KEY = 'heroMediaVisible';
 
 onMounted(() => {
@@ -633,7 +571,9 @@ const items = ref([
     { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },
     { src: '/img/logo_sdk.png', alt: 'Stiftung Deutsche Kinemathek', link: 'https://www.deutsche-kinemathek.de' },
     { src: '/img/logo_tib.png', alt: 'Technische Informationsbibliothek Hannover', link: 'https://www.tib.eu' },
-    { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' }
+    { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' },
+    { src: '/img/logo_mcdci.png', alt: 'Marburg Center for Digital Culture and Infrastructure', link: 'https://www.uni-marburg.de/de/mcdci'
+    }
 ]);
 
 const cardItems = ref([
@@ -687,7 +627,7 @@ const cardItems = ref([
         link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
         imgAlt: 'AVefi Platzhalter Bild',
         imgCoverType: '',
-        imgSrc: '/img/placeholder-16x9.svg',
+        //imgSrc: '/img/placeholder-16x9.svg',
         imgSourceLink: '',
         imgSourceText: '',
         imgAuthor: '',
@@ -744,7 +684,6 @@ const cardItems = ref([
 .hero-content-panel {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 2.25rem 1rem 2.25rem 1rem;
   border-radius: 1.25rem;
   background: hsl(0 0% 100% / 0.68);
   backdrop-filter: blur(10px);
@@ -759,6 +698,7 @@ const cardItems = ref([
 .hero-title {
   text-shadow: 0 1px 0 hsl(0 0% 100% / 0.65);
 }
+
 .hero-lead {
   text-shadow: 0 1px 0 hsl(0 0% 100% / 0.55);
 }
@@ -842,7 +782,7 @@ const cardItems = ref([
 }
 
 /* ensure actual content is above the wash */
-.section-wash > * {
+.section-wash>* {
   position: relative;
   z-index: 1;
 }
@@ -854,11 +794,9 @@ const cardItems = ref([
 .glass-panel {
   border-radius: 1.25rem;
   border: 1px solid hsl(0 0% 100% / 0.42);
-  background: linear-gradient(
-    180deg,
-    hsl(0 0% 100% / 0.55),
-    hsl(0 0% 100% / 0.28)
-  );
+  background: linear-gradient(180deg,
+      hsl(0 0% 100% / 0.55),
+      hsl(0 0% 100% / 0.28));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow:
@@ -874,22 +812,15 @@ const cardItems = ref([
 .premium-card {
   border-radius: 1.25rem;
   border: 1px solid hsl(0 0% 100% / 0.38);
-  background: linear-gradient(
-    180deg,
-    hsl(0 0% 100% / 0.52),
-    hsl(0 0% 100% / 0.22)
-  );
+  background: linear-gradient(180deg,
+      hsl(0 0% 100% / 0.52),
+      hsl(0 0% 100% / 0.22));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow:
     0 28px 74px -60px hsl(0 0% 0% / 0.40),
     0 10px 26px -22px hsl(0 0% 0% / 0.12),
     inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* Better section spacing rhythm */
-.container {
-  /* keep your layout, just give it breathing room */
 }
 
 /* optional: make dividers less “flat-grey” */

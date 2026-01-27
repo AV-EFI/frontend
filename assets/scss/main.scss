@@ -579,11 +579,11 @@ mark {
   background-color: var(--cookie-control-modalButtonBackground);
 }
 .cookieControl__Modal button:hover {
-  color: var(--cookie-control-modalButtonHoverColor);
-  background-color: var(--cookie-control-modalButtonHoverBackground);
+  color: var(--cookie-control-modalButtonHoverColor, #2d3a4f);
+  background-color: var(--cookie-control-modalButtonHoverBackground, #445269);
 }
 .cookieControl__Modal button:focus {
-  box-shadow: 0 0 0 3px var(--cookie-control-focusRingColor);
+  box-shadow: 0 0 0 3px var(--cookie-control-focusRingColor, #445269);
 }
 .cookieControl__ModalContent {
   position: relative;

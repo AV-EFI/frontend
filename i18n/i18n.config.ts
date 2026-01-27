@@ -451,7 +451,7 @@ export default defineI18nConfig(() => ({
             ],
             'learnMore': 'Learn more',
             'lookWhatWeFound' : 'These parts matched your query',
-            'forFilmResearchersTitle': 'For Film Researchers',
+            'forFilmResearchersTitle': 'Film Research',
             'forFilmResearchers': [
                 'Time savings through efficient search.',
                 'New insights through untapped collections.',
@@ -511,7 +511,7 @@ export default defineI18nConfig(() => ({
             "contact.normdataContent.beforeLink": "Authority data used by the contributing institution, such as the ",
             "contact.normdataContent.afterLink": " – are adopted and displayed accordingly.",
             "videoSectionTitle": 'Find, discover and compare comprehensive data on film holdings of all genres',
-            "videoSectionDescription": 'Searchable are both film works and the versions of various participating film archives and collections.',
+            "videoSectionDescription": 'Searchable are both film works and the versions of various participating film archives and collections, including their relationships, identifiers, and selected descriptive metadata, enabling differentiated discovery, comparison, and research across institutional boundaries.',
             "advancedSearch": "Advanced Search",
             "showSimpleSearch": "Show Simple Search",
             "showAdvancedSearch": "Show Advanced Search",
@@ -537,7 +537,7 @@ export default defineI18nConfig(() => ({
             "build": {
                 "linked": {
                     "title": "Link data",
-                    "lead": "AVefi links film metadata from various institutions through unified identifiers, creating an open research infrastructure for audiovisual works.",
+                    "lead": "AVefi links film metadata from various institutions through unified identifiers, creating an open research infrastructure for audiovisual works. Using persistent identifiers and shared authority data, AVefi connects works, manifestations, and items across archives and collections. This enables consistent referencing, reliable citation, and cross-institutional discovery, while preserving provenance and explicit relationships to support transparent research, advanced search, and machine-readable access for data-driven film studies.",
                     "authority": "Authority",
                     "crosswalk": "Crosswalk"
                 },
@@ -662,7 +662,7 @@ export default defineI18nConfig(() => ({
             "build": {
                 "linked": {
                     "title": "Verknüpfte Daten",
-                    "lead": "AVefi verknüpft Filmmetadaten verschiedener Institutionen über einheitliche Identifikatoren und schafft damit eine offene Forschungsinfrastruktur für audiovisuelle Werke.",
+                    "lead": "AVefi verknüpft Filmdatensätze verschiedener Institutionen über einheitliche Identifikatoren und schafft damit eine offene Forschungsinfrastruktur für audiovisuelle Werke. Mithilfe persistenter Identifikatoren und gemeinsamer Normdaten verbindet AVefi Werke, Manifestationen und Exemplare über Archive und Sammlungen hinweg. Dies ermöglicht eine konsistente Referenzierung, zuverlässige Zitierbarkeit und institutionenübergreifende Auffindbarkeit, während Provenienz und explizite Beziehungen erhalten bleiben, um transparente Forschung, erweiterte Suche und maschinenlesbaren Zugang für datengetriebene Filmwissenschaft zu unterstützen.",
                     "authority": "Normdaten",
                     "crosswalk": "Verknüpfung"
                 },
@@ -1150,7 +1150,7 @@ export default defineI18nConfig(() => ({
             'videoTitle': 'AVefi',
             'videoDescription': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
             'videoSectionTitle': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres.',
-            'videoSectionDescription': 'Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
+            'videoSectionDescription': 'Durchsuchbar sind sowohl Filmwerke als auch die jeweiligen Fassungen der beteiligten Filmarchive und Sammlungen, einschließlich ihrer Beziehungen, Identifikatoren und ausgewählter Metadaten, was eine differenzierte Recherche und den Vergleich über Institutionsgrenzen hinweg ermöglicht.',
             'videoNotSupported': 'Ihr Browser unterstützt das Video-Tag nicht.',
             'partnersTitle': 'Verbundpartner',
             'partnersDescription': 'AVefi ist ein Projekt der TIB, SDK, FMD und GWDG. Es wird mit beratender Expertise und konkreter Beteiligung von Praxispartnern unterstützt, darunter Archiven, Museen und wissenschaftlichen Einrichtungen aus dem Bereich Filmkultur und -forschung.',

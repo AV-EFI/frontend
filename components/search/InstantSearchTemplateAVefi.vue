@@ -354,7 +354,6 @@ const historyTrigger = ref(0);
 const recentSearchesWithUrl = computed(() => {
     historyTrigger.value; // Make reactive
     const history = getSearchHistory();
-    console.log('recentSearchesWithUrl computed:', history);
     return history;
 });
 
@@ -601,7 +600,6 @@ onMounted(() => {
             }
         }, 100);
     }
-    console.log(aisState);
 });
 
 onBeforeUnmount(() => {

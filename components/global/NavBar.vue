@@ -6,8 +6,8 @@
     :aria-label="ariaLabelMainNav"
   >
     <ClientOnly>
-      <div class="container flex flex-wrap justify-between mx-auto p-0">
-        <div class="navbar-start max-[400px]:w-full sm:w-1/2 md:w-2/5 flex justify-start">
+      <div class="container w-full flex flex-wrap justify-between mx-auto p-0">
+        <div class="navbar-start w-full sm:w-1/2 md:w-2/5 flex justify-start">
           <!-- Mobile menu toggle -->
           <div class="dropdown xl:hidden">
             <button

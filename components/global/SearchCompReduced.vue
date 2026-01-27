@@ -19,7 +19,7 @@
       />
       <button
         type="button"
-        class="btn btn-primary btn-lg h-[56px] !rounded-l-none !rounded-r-xl"
+        class="btn btn-primary lg:btn-lg h-[56px] !rounded-l-none !rounded-r-xl"
         @click="submitFromButton"
       >
         {{ buttonText }}

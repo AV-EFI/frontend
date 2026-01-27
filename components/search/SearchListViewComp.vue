@@ -358,8 +358,6 @@ onMounted(() => {
     props.items.forEach(item => {
         showHighlight.value[item.handle] = true;
     });
-
-    console.log('Facets active on mount:', props.nrOfFacetsActive);
 });
 
 watch(
@@ -370,7 +368,6 @@ watch(
                 showHighlight.value[item.handle] = true;
             }
         });
-        console.log('Items updated, facets active:', props.nrOfFacetsActive);
     },
     { immediate: true }
 );

@@ -9,10 +9,12 @@
       category === 'avefi:Manifestation' ? 'bg-manifestation' :
       category === 'avefi:Item' ? 'bg-item' : 'bg-primary',
       category === 'avefi:WorkVariantPart' ? 'bg-secondary/60 text-white mx-auto' : 'bg-primary',
-      'badge badge-xs bg-neutral font-semibold dark:text-black',
+      'badge badge-xs bg-neutral font-semibold dark:text-black h-4',
     ]"
   >
-    {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+    <span class="mx-auto my-auto">
+      {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+    </span>
   </span>
   <span
     v-else-if="category.indexOf('Serial') > -1 || category.indexOf('AnthologyFilm') > -1"
