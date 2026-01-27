@@ -59,7 +59,7 @@ watch(
     <NuxtLayout
       class="layouts"
     >
-      <div class="mt-2 container grow mx-auto dark:text-white dark:border-gray-700 lg:px-2 xl:border-base-200 xl:border-2 xl:px-4">
+      <div class="mt-2 max-lg:w-screen grow mx-auto dark:text-white dark:border-gray-700 xl:border-base-200 xl:border-2 px-0 lg:px-2 xl:px-4">
         <NuxtPage />
       </div>
       <ClientOnly>
@@ -94,12 +94,17 @@ watch(
           <h3>{{ $t('dataprotection') }}</h3>
           <p>{{ $t('cookiesModalDescription') }}</p>
         </template>
+
         <template #cookie="{ cookie }">
-          <span
-            :key="cookie.id"
-            v-text="cookie"
-          />
+          <h3 v-text="cookie.name[locale]" />          
+          <span v-html="cookie.description[locale]" />
+
+          <div v-if="cookie.targetCookieIds">
+            <b>Cookie ids: </b>
+            <span v-text="cookie?.targetCookieIds?.join(', ')" />
+          </div>
         </template>
+
         <GlobalAuthProvider />
       </LazyCookieControl>
       </ClientOnly>

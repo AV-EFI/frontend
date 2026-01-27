@@ -2,14 +2,14 @@
   <div class="relative w-full">
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
-      class="absolute left-2 top-1/2 z-10 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-200 shadow hidden sm:flex"
+      class="absolute -left-4 top-1/2 z-10 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow hidden sm:flex"
       :aria-label="t('togglePreviousSlide')">
       <Icon name="tabler:chevron-left" />
     </button>
     <div ref="carouselRef"
-      class="carousel carousel-center w-full bg-white dark:bg-base-200 rounded-box p-4 overflow-x-auto scroll-smooth">
+      class="carousel carousel-center w-full rounded-box p-4 overflow-x-auto scroll-smooth snap-none">
       <div v-for="(item, index) in items" :key="index"
-        class="carousel-item inline-block align-top flex flex-col items-center mx-2 w-[90vw] sm:w-72 md:w-80 lg:w-96">
+        class="carousel-item align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[90vw] sm:w-72 md:w-96">
 
         <figure class="w-full">
           <div v-if="item.imgSrc"
@@ -27,12 +27,13 @@
               decoding="async" />
           </div>
           <figcaption v-if="item.imgSourceText"
-            class="lg:h-[48px] break-words text-xs text-gray-500 mt-2 px-2 dark:text-gray-400">
+            class="h-auto min-h-12 break-words text-xs text-gray-500 mt-2 px-2 dark:text-gray-400">
             {{ t('imageSource') }}: <a :href="item.imgSourceLink" target="_blank" class="underline">{{
               item.imgSourceText }}</a>, {{ t('author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{
             item.imgLicenseLink }})
           </figcaption>
-          <div v-else class="min-h-[48px]"><span></span></div>
+          <figcaption v-else class="h-auto min-h-12 break-words text-xs text-gray-500 mt-2 px-2 dark:text-gray-400">
+          </figcaption>
         </figure>
         <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
           <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
@@ -56,18 +57,18 @@
     </div>
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="nextSlide"
-      class="absolute right-2 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-200 shadow hidden sm:flex"
+      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow hidden sm:flex"
       :aria-label="t('toggleNextSlide')">
       <Icon name="tabler:chevron-right" />
     </button>
     <!-- Mobile arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
-      class="absolute left-2 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-200 shadow flex sm:hidden"
+      class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow flex sm:hidden"
       :aria-label="t('togglePreviousSlide')">
       <Icon name="tabler:chevron-left" />
     </button>
     <button v-if="items.length > 1" @click="nextSlide"
-      class="absolute right-2 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-200 shadow flex sm:hidden"
+      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow flex sm:hidden"
       :aria-label="t('toggleNextSlide')">
       <Icon name="tabler:chevron-right" />
     </button>
@@ -75,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 const { t } = useI18n();
 
 interface CarouselItem {
@@ -106,24 +107,100 @@ const toggleText = (e: Event) => {
     showFullText.value = !showFullText.value;
 };
 
-
 const carouselRef = ref<HTMLElement | null>(null);
 
-const scrollAmount = 320; // px, adjust to match card width
+/**
+ * Safari / snap edge-cases: if smooth scroll is ignored, we fall back to an rAF tween.
+ */
+function smoothScrollTo(el: HTMLElement, left: number, duration = 420) {
+    // Try native first
+    try {
+        el.scrollTo({ left, behavior: 'smooth' });
+        return;
+    } catch {
+    // ignore and fallback
+    }
+
+    const start = el.scrollLeft;
+    const delta = left - start;
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const tick = (now: number) => {
+        const p = Math.min(1, (now - startTime) / duration);
+        el.scrollLeft = start + delta * easeInOutCubic(p);
+        if (p < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+}
+
+function getItems(): HTMLElement[] {
+    const el = carouselRef.value;
+    if (!el) return [];
+    return Array.from(el.querySelectorAll<HTMLElement>('.carousel-item'));
+}
+
+function getClosestIndex(): number {
+    const el = carouselRef.value;
+    if (!el) return 0;
+    const items = getItems();
+    if (!items.length) return 0;
+
+    const current = el.scrollLeft;
+    let bestIdx = 0;
+    let bestDist = Infinity;
+
+    for (let i = 0; i < items.length; i++) {
+        const dist = Math.abs(items[i].offsetLeft - current);
+        if (dist < bestDist) {
+            bestDist = dist;
+            bestIdx = i;
+        }
+    }
+    return bestIdx;
+}
+
+function scrollToIndex(idx: number) {
+    const el = carouselRef.value;
+    if (!el) return;
+
+    const items = getItems();
+    if (!items.length) return;
+
+    const clamped = Math.max(0, Math.min(idx, items.length - 1));
+    const targetLeft = items[clamped].offsetLeft;
+
+    smoothScrollTo(el, targetLeft);
+}
 
 const prevSlide = () => {
-    if (carouselRef.value) {
-        carouselRef.value.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    }
+    const i = getClosestIndex();
+    scrollToIndex(i - 1);
 };
 
 const nextSlide = () => {
-    if (carouselRef.value) {
-        carouselRef.value.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
+    const i = getClosestIndex();
+    scrollToIndex(i + 1);
 };
 
+function onResize() {
+    // After resize, align to the nearest snap item so buttons stay consistent
+    const i = getClosestIndex();
+    scrollToIndex(i);
+}
+
+onMounted(() => {
+    window.addEventListener('resize', onResize, { passive: true });
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', onResize);
+});
 </script>
+
 
 <style scoped>
 .carousel-item {

@@ -302,6 +302,9 @@ export default defineNuxtConfig({
     cookieControl: {
         locales: ['de', 'en'],
         colors: false,
+        isCssEnabled: true,
+        isAcceptNecessaryButtonEnabled: true,        
+        declineAllAcceptsNecessary: true,
         localeTexts: {
             en: {
                 bannerTitle: 'This website uses cookies',
@@ -335,16 +338,39 @@ export default defineNuxtConfig({
                         en: 'Used for Cookies, Search, Favourites and Authentication.',
                         de: 'Wird für Cookies, Suche, Favoriten und Authentifizierung verwendet.'
                     },
-                    targetCookieIds : ['cookie_control_consent', 'cookie_control_enabled_cookies']
+                    targetCookieIds : [
+                        'cookie_control_consent', 
+                        'cookie_control_enabled_cookies'
+                    ]
+                },
+                {
+                    id: 'i18n_redirected',
+                    name: { 
+                        en: 'Language Preference Cookies', 
+                        de: 'Sprachpräferenz-Cookies' 
+                    },
+                    description: {
+                        en: 'Stores the language preference of the user.',
+                        de: 'Speichert die Sprachpräferenz des Benutzers.'
+                    },
+                    targetCookieIds : ['i18n_redirected']
                 }
             ],
             optional: [
                 {
-                    id: 'ga',
-                    name: { en: 'Optionale Cookies', de: 'Optional Cookies' },
-                    description: { en: 'None yet', de: 'Noch keine' }
-                }
-            ]
+                    id: 'matomo',
+                    name: {
+                        en: 'Analytics (Matomo)',
+                        de: 'Analyse (Matomo)',
+                    },
+                    description: {
+                        en: 'Helps us understand usage to improve the service.',
+                        de: 'Hilft, die Nutzung zu verstehen und den Dienst zu verbessern.',
+                    },
+                    // purely informational for the banner UI
+                    targetCookieIds: ['_pk_id.*', '_pk_ses.*'],
+                },
+            ],
         }
     },
     devServer: {

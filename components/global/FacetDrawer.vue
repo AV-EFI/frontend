@@ -13,7 +13,7 @@
         class="drawer-overlay z-30"
         @click="toggleDrawer"
       />
-      <div class="menu w-screen md:w-[100vw] lg:w-80 overflow-hidden min-h-full max-md:bg-white max-md:w-90vw dark:bg-gray-950 text-base-content dark:text-white z-30">
+      <div class="menu w-full md:w-[100vw] lg:w-80 overflow-hidden min-h-full max-md:bg-white max-md:w-90vw dark:bg-gray-950 text-base-content dark:text-white z-30">
         <div class="flex flex-row justify-end">
           <button 
             class="btn btn-neutral w-16 lg:hidden"

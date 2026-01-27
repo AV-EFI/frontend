@@ -78,10 +78,10 @@
               <div
                 v-for="(filter, index) in facetFilters"
                 :key="filter.uid"
-                class="flex items-start lg:gap-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
               >
                 <!-- Facet icon (reflects currently selected facet) -->
-                <div class="">
+                <div class="flex flex-row items-center gap-2 mb-2 lg:mb-0">
                   <span
                     v-if="facetMeta(filter.facet)?.icon"
                     class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
@@ -187,19 +187,19 @@
                     </div>
                   </div>
                 </div>
-
-                <!-- Remove row -->
-                <button
-                  type="button"
-                  class="btn btn-outline btn-error p-2"
-                  :aria-label="$t('remove') || 'Remove'"
-                  @click="removeFacetFilter(index)"
-                >
-                  <Icon
-                    name="tabler:x"
-                    size="20"
-                  />
-                </button>
+              <div class="w-full lg:w-auto flex justify-end lg:justify-start">
+                              <button
+                                type="button"
+                                class="btn btn-outline btn-error p-2"
+                                :aria-label="$t('remove') || 'Remove'"
+                                @click="removeFacetFilter(index)"
+                              >
+                                <Icon
+                                  name="tabler:x"
+                                  size="20"
+                                />
+                              </button>
+              </div>
               </div>
 
               <button
@@ -633,20 +633,20 @@ function onSubmit(v: string) {
 function redirectToSearchScreen() {
     try {
         const pub = useRuntimeConfig().public;
-        const idx = pub.ELASTIC_INDEX;
+        //const idx = pub.ELASTIC_INDEX;
         const rawBase = pub.AVEFI_SEARCH_URL || 'search';
         const isAbsolute = /^https?:\/\//i.test(rawBase);
-        const base = isAbsolute ? `${rawBase.replace(/\/+$/, '')}/index`
-            : `/${rawBase.replace(/^\/+|\/+$/g, '')}/index`;
+        const base = isAbsolute ? `${rawBase.replace(/\/+$/, '')}/`
+            : `/${rawBase.replace(/^\/+|\/+$/g, '')}/`;
 
         const params = new URLSearchParams();
         const q = (searchTerm?.value ?? '').trim();
-        if (q) params.append(`${idx}[query]`, q);
+        if (q) params.append(`query`, q);
 
         if (Array.isArray(facetFilters?.value)) {
             facetFilters.value.forEach(f => {
                 if (f?.facet && f?.valueRaw) {
-                    params.append(`${idx}[refinementList][${f.facet}][0]`, f.valueRaw);
+                    params.append(`[refinementList][${f.facet}][0]`, f.valueRaw);
                 }
             });
         }

@@ -3,7 +3,7 @@
     <button
       :alt="t('togglePreviousSlide')"
       :aria-label="t('togglePreviousSlide')"
-      class="md:flex z-10 p-2 md:bg-gray-800 md:text-white text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
+      class="md:flex z-10 p-2 bg-white glass dark:bg-gray-400 text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
       @click="prevSlide"
     >
       <Icon name="tabler:chevron-left" />

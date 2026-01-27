@@ -2,7 +2,7 @@
   <div class="flex flex-col min-h-screen">
     <header
       :class="{'scrolled': isScrolled}"
-      class="fixed top-0 left-0 w-full max-w-screen z-30 border-0"
+      class="fixed top-0 left-0 z-30 border-0 w-full lg:w-90vw xl:overflow-hidden"
       @mouseenter="removeScrolledClass"
       @mouseleave="addScrolledClass"
     >

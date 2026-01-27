@@ -8,9 +8,9 @@
 
     <!-- ======= HERO / SEARCH-FIRST ======= -->
     <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
-      <div class="hero lg:min-h-[78vh]">
+      <div class="hero max-lg:min-h-[48vh] lg:min-h-[58vh]">
         <ClientOnly>
-          <div class="hero-overlay">
+          <div class="hero-overlay w-full">
             <!-- Toggle button for video/image (glass pill, non-competing) -->
             <div class="absolute top-4 right-4 z-50">
               <button
@@ -56,17 +56,17 @@
             </div>
           </div>
 
-          <div class="hero-content w-full">
-            <div class="w-full max-w-6xl mx-auto">
+          <div class="hero-content w-full lg:w-full">
+            <div class="w-full lg:max-w-6xl mx-auto">
               <!-- Center content panel: THIS is what makes it readable -->
-              <div class="max-w-6xl mx-auto px-4 py-9 rounded-2xl
+              <div class="max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
     border
     shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
     supports-[backdrop-filter]:backdrop-blur-[10px]
     motion-reduce:transition-none
   " :class="[
     // LIGHT glass
-    'bg-white/70 border-white/40',
+    'bg-white/85 border-white/40',
     // DARK glass (this is what was missing)
     'dark:bg-neutral/40 dark:border-white/10',
     // subtle inner highlight like your inset 1px
@@ -106,40 +106,62 @@
   ]">
                       <div id="home-search-area" class="card-body p-4 md:p-6 my-auto" role="search"
                         :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
-                        <!-- Card header row: integrated mode switch -->
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                          <div class="md:justify-end" role="group"
-                            :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
-                            <div class="join">
-                              <button class="join-item btn btn-sm"
-                                :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
-                                aria-controls="home-search-area">
-                                {{ $t('showSimpleSearch') }}
-                              </button>
-                              <button class="join-item btn btn-sm"
-                                :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
-                                aria-controls="home-search-area">
-                                {{ $t('showAdvancedSearch') }}
-                              </button>
+                        ]">
+                        <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
+                          :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
+                          <!-- Card header row: integrated mode switch -->
+                          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                            <div class="md:justify-end" role="group"
+                              :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                              <div class="join">
+                                <button class="join-item btn btn-sm" <div
+                                  class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
+                                  <div class="md:justify-end" role="group"
+                                    :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                                    <div class="join w-full">
+                                      <button class="join-item btn md:btn-sm"
+                                        :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                        @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
+                                        aria-controls="home-search-area">
+                                        {{ $t('showSimpleSearch') }}
+                                        @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
+                                        aria-controls="home-search-area">
+                                        <span class="hidden md:block">
+                                          {{ $t('showSimpleSearch') }}
+                                        </span>
+                                        <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
+
+                                      </button>
+                                      <button class="join-item btn btn-sm" <button class="join-item btn md:btn-sm"
+                                        :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                        @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
+                                        aria-controls="home-search-area">
+                                        {{ $t('showAdvancedSearch') }}
+                                        @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
+                                        aria-controls="home-search-area">
+                                        <span class="hidden md:block">
+                                          {{ $t('showAdvancedSearch') }}
+                                        </span>
+                                        <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
+                                      </button>
+                                    </div>
+                                  </div>
+                              </div>
+
+                              <!-- Search component -->
+                              <component
+                                :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
+                                ref="searchCompRef" :aria-labelledby="'home-search-label'" />
+
                             </div>
                           </div>
+                          <!-- /glass search card -->
                         </div>
-
-                        <!-- Search component -->
-                        <component :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
-                          ref="searchCompRef" :aria-labelledby="'home-search-label'" />
-
                       </div>
                     </div>
-                    <!-- /glass search card -->
+                    <!-- /hero-content-panel -->
                   </div>
                 </div>
-              </div>
-              <!-- /hero-content-panel -->
-            </div>
-          </div>
         </ClientOnly>
       </div>
     </section>
@@ -209,7 +231,8 @@
             </div>
           </div>
 
-          <div class="lg:col-span-1 flex justify-center items-center max-w-sm px-6 md:px-6 lg:px-0 min-h-[300px]">
+          <div
+            class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0 min-h-[300px]">
             <div class="text-left max-w-md">
               <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('build.linked.title') }}
@@ -228,7 +251,8 @@
       :aria-label="$t('timeline.title')">
       <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-          <div class="w-full">
+          <div
+            class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 lg:p-10 flex flex-col justify-center">
             <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
               {{ $t('timeline.title') }}
             </h3>
@@ -278,8 +302,8 @@
             </ul>
           </div>
 
-          <div class="w-full flex flex-col justify-center">
-            <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
+          <div class="w-full flex flex-col justify-center max-lg:mt-6">
+            <h3 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
               {{ $t('topIssuers') || 'Top Publishers & Archives' }}
             </h3>
             <div class="flex justify-center items-center">
@@ -392,7 +416,7 @@
               </video>
             </div>
             <div class="lg:col-span-6 lg:h-full">
-              <div class="bg-base-100 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
+              <div class="bg-base-100/90 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
                 <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                   {{ $t('videoSectionTitle') }}
                 </h3>
@@ -425,7 +449,7 @@
             <div class="w-full max-w-xl" role="region"
               :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
               <ClientOnly>
-                <LazyGlobalCarouselComp :items="items" />
+                <GlobalCarouselComp :items="items" />
               </ClientOnly>
             </div>
           </div>
@@ -446,7 +470,7 @@ const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
 // --- HERO overlay media toggle ---
-const heroMediaVisible = ref(true);
+const heroMediaVisible = ref(false);
 const HERO_MEDIA_KEY = 'heroMediaVisible';
 
 onMounted(() => {
@@ -564,7 +588,9 @@ const items = ref([
     { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },
     { src: '/img/logo_sdk.png', alt: 'Stiftung Deutsche Kinemathek', link: 'https://www.deutsche-kinemathek.de' },
     { src: '/img/logo_tib.png', alt: 'Technische Informationsbibliothek Hannover', link: 'https://www.tib.eu' },
-    { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' }
+    { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' },
+    { src: '/img/logo_mcdci.png', alt: 'Marburg Center for Digital Culture and Infrastructure', link: 'https://www.uni-marburg.de/de/mcdci'
+    }
 ]);
 
 const cardItems = ref([
@@ -618,7 +644,7 @@ const cardItems = ref([
         link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
         imgAlt: 'AVefi Platzhalter Bild',
         imgCoverType: '',
-        imgSrc: '/img/placeholder-16x9.svg',
+        //imgSrc: '/img/placeholder-16x9.svg',
         imgSourceLink: '',
         imgSourceText: '',
         imgAuthor: '',
@@ -675,7 +701,6 @@ const cardItems = ref([
 .hero-content-panel {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 2.25rem 1rem 2.25rem 1rem;
   border-radius: 1.25rem;
   background: hsl(0 0% 100% / 0.68);
   backdrop-filter: blur(10px);
@@ -813,11 +838,6 @@ const cardItems = ref([
     0 28px 74px -60px hsl(0 0% 0% / 0.40),
     0 10px 26px -22px hsl(0 0% 0% / 0.12),
     inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* Better section spacing rhythm */
-.container {
-  /* keep your layout, just give it breathing room */
 }
 
 /* optional: make dividers less “flat-grey” */
