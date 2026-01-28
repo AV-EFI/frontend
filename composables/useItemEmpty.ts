@@ -41,7 +41,19 @@ export function has(obj: any, path: string): boolean {
 
 export function get(obj: any, path: string): any {
     if (!obj || !path) return undefined;
-    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+    const parts = path.split('.');
+    let current = obj;
+    for (let i = 0; i < parts.length; i++) {
+        if (Array.isArray(current)) {
+            // Map and flatten, then deduplicate
+            const arr = current.map(item => get(item, parts.slice(i).join('.'))).flat().filter(x => x != null);
+            // Return only distinct values
+            return Array.from(new Set(arr));
+        }
+        current = current?.[parts[i]];
+        if (current == null) return current;
+    }
+    return current;
 }
 
 /**

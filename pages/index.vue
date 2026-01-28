@@ -104,64 +104,50 @@
     // DARK
     'dark:bg-neutral/35 dark:border-white/10',
   ]">
-                      <div id="home-search-area" class="card-body p-4 md:p-6 my-auto" role="search"
+                      <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
                         :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
-                        ]">
-                        <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
-                          :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
-                          <!-- Card header row: integrated mode switch -->
-                          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                            <div class="md:justify-end" role="group"
-                              :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
-                              <div class="join">
-                                <button class="join-item btn btn-sm" <div
-                                  class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
-                                  <div class="md:justify-end" role="group"
-                                    :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
-                                    <div class="join w-full">
-                                      <button class="join-item btn md:btn-sm"
-                                        :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                        @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
-                                        aria-controls="home-search-area">
-                                        {{ $t('showSimpleSearch') }}
-                                        @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
-                                        aria-controls="home-search-area">
-                                        <span class="hidden md:block">
-                                          {{ $t('showSimpleSearch') }}
-                                        </span>
-                                        <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
+                        <!-- Card header row: integrated mode switch -->
+                        <div
+                          class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
+                          <div class="md:justify-end" role="group"
+                            :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                            <div class="join w-full">
+                              <button class="join-item btn md:btn-sm"
+                                :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
+                                aria-controls="home-search-area">
+                                <span class="hidden md:block">
+                                  {{ $t('showSimpleSearch') }}
+                                </span>
+                                <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
 
-                                      </button>
-                                      <button class="join-item btn btn-sm" <button class="join-item btn md:btn-sm"
-                                        :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                        @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
-                                        aria-controls="home-search-area">
-                                        {{ $t('showAdvancedSearch') }}
-                                        @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
-                                        aria-controls="home-search-area">
-                                        <span class="hidden md:block">
-                                          {{ $t('showAdvancedSearch') }}
-                                        </span>
-                                        <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
-                                      </button>
-                                    </div>
-                                  </div>
-                              </div>
-
-                              <!-- Search component -->
-                              <component
-                                :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
-                                ref="searchCompRef" :aria-labelledby="'home-search-label'" />
-
+                              </button>
+                              <button class="join-item btn md:btn-sm"
+                                :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
+                                aria-controls="home-search-area">
+                                <span class="hidden md:block">
+                                  {{ $t('showAdvancedSearch') }}
+                                </span>
+                                <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
+                              </button>
                             </div>
                           </div>
-                          <!-- /glass search card -->
                         </div>
+
+                        <!-- Search component -->
+                        <component :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
+                          ref="searchCompRef" :aria-labelledby="'home-search-label'" />
+
                       </div>
                     </div>
-                    <!-- /hero-content-panel -->
+                    <!-- /glass search card -->
                   </div>
                 </div>
+              </div>
+              <!-- /hero-content-panel -->
+            </div>
+          </div>
         </ClientOnly>
       </div>
     </section>
@@ -198,7 +184,7 @@
           <div class="card shadow-xl" role="group" :aria-label="$t('build.schema.title')">
             <div class="card-body">
               <div class="flex items-center gap-2 mb-2">
-                <Icon name="lucide:square-stack" class="text-primary" aria-hidden="true" />
+                <Icon name="tabler:squares-selected" class="text-primary" aria-hidden="true" />
                 <h3 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">
                   {{ $t('build.schema.title') }}
                 </h3>

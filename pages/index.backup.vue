@@ -12,17 +12,15 @@
         <ClientOnly>
           <div class="hero-overlay">
             <!-- Toggle button for video/image -->
-            <button
-              class="absolute top-4 right-4 z-50 btn btn-xs btn-primary"
-              @click="heroMediaVisible = !heroMediaVisible"
-              :aria-pressed="heroMediaVisible"
-              :title="heroMediaVisible ? 'Hide background media' : 'Show background media'"
-            >
+            <button class="absolute top-4 right-4 z-50 btn btn-xs btn-primary"
+              @click="heroMediaVisible = !heroMediaVisible" :aria-pressed="heroMediaVisible"
+              :title="heroMediaVisible ? 'Hide background media' : 'Show background media'">
               <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4 mr-1" />
               {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
             </button>
             <!-- Background video (decorative) -->
-            <img v-if="!heroMediaVisible" class="w-full md:h-[78vh] md:object-cover" src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
+            <img v-if="!heroMediaVisible" class="w-full md:h-[78vh] md:object-cover"
+              src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
             <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true"
               class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
               <source src="/vid/klappe_comp.mp4" type="video/mp4" />
@@ -48,7 +46,8 @@
           <div class="hero-content w-full">
             <div class="w-full max-w-6xl mx-auto">
               <div class="text-center">
-                <h1 class="mt-6 lg:mt-4 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight" tabindex="0">
+                <h1 class="mt-6 lg:mt-4 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight"
+                  tabindex="0">
                   {{ $t('avefiClaim') }}
                 </h1>
                 <p class="mt-4 md:text-lg opacity-80 max-w-2xl mx-auto" tabindex="0">
@@ -77,8 +76,9 @@
               <div class="mt-5 grid place-items-center">
                 <div class="w-full max-w-4xl">
                   <div class="card bg-base-100 shadow-2xl">
-                    <div id="home-search-area" class="card-body p-3 md:p-6 min-h-[150px] md:min-h-32 my-auto" role="search"
-                      :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
+                    <div id="home-search-area" class="card-body p-3 md:p-6 min-h-[150px] md:min-h-32 my-auto"
+                      role="search" :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false"
+                      tabindex="0">
                       <!-- Visible to SR only: label for the search input inside the child component -->
                       <span id="home-search-label" class="sr-only">
                         {{ $t('mainSearch') }}
@@ -144,7 +144,7 @@
           <div class="card shadow-xl" role="group" :aria-label="$t('build.schema.title')">
             <div class="card-body">
               <div class="flex items-center gap-2 mb-2">
-                <Icon name="lucide:square-stack" class="text-primary" aria-hidden="true" />
+                <Icon name="tabler:squares-selected" class="text-primary" aria-hidden="true" />
                 <h3 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">{{ $t('build.schema.title') }}</h3>
               </div>
               <div class="mockup-code mt-3 text-sm" role="region"

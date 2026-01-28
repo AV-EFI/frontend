@@ -1,11 +1,7 @@
 <template>
-  <section
-    v-for="work in datasets"
-    :key="work?.handle ?? Math.random()"
+  <section v-for="work in datasets" :key="work?.handle ?? Math.random()"
     class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
-    role="region"
-    :aria-labelledby="`work-title-${work?.handle ?? ''}`"
-  >
+    role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
     <!-- Work header -->
     <header class="card-body p-4 pb-2 gap-y-0">
       <div class="flex flex-col md:flex-row justify-between">
@@ -13,54 +9,27 @@
           <GlobalClipboardComp
             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
             :display-text="work?.handle ?? ''"
-            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
-            tabindex="0"
-            role="button"
-            :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`"
-          />
-          <h2
-            :id="`flat-work-title-${work?.handle ?? ''}`"
-            class="font-bold text-lg my-1 text-left"
-          >
-            <a
-              :href="`/film/${work.objectID}`"
+            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
+            role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
+          <h2 :id="`flat-work-title-${work?.handle ?? ''}`" class="font-bold text-lg my-1 text-left">
+            <a :href="`/film/${work.objectID}`"
               :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
-              :title="$t('detailviewlink')"
-              target="_blank"
-              class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
-            >
-              <span 
-                v-if="work._highlightResult?.has_record?.has_primary_title?.has_name"
-              >
-                <ais-highlight
-                  attribute="has_record.has_primary_title.has_name"
-                  :hit="work"
-                />
+              :title="$t('detailviewlink')" target="_blank"
+              class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">
+              <span v-if="work._highlightResult?.has_record?.has_primary_title?.has_name">
+                <ais-highlight attribute="has_record.has_primary_title.has_name" :hit="work" />
               </span>
               <span v-else>
                 {{ work?.has_record?.has_primary_title?.has_name }}
               </span>
             </a>
-            <MicroBadgeCategoryComp
-              :category="work?.category || 'avefi:WorkVariant'"
-              :dense="false"
-              class="ml-2"
-            />
+            <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false" class="ml-2" />
           </h2>
-          <h3
-            v-if="work?.has_record?.has_alternative_title"
-            class="text-sm text-left opacity-80"
-          >
-            <ul
-              v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name"
-            >
-              <li
-                v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name"
-                :key="idx"
-                class="block"
-                tabindex="0"
-                :aria-label="`${$t('alternativeTitle')}: ${work.has_record?.has_alternative_title?.[idx]?.has_name || ''} ${work.has_record?.has_alternative_title?.[idx]?.type ? '(' + $t(work.has_record.has_alternative_title[idx].type) + ')' : ''}`"
-              >
+          <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left opacity-80">
+            <ul v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name">
+              <li v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name" :key="idx"
+                class="block" tabindex="0"
+                :aria-label="`${$t('alternativeTitle')}: ${work.has_record?.has_alternative_title?.[idx]?.has_name || ''} ${work.has_record?.has_alternative_title?.[idx]?.type ? '(' + $t(work.has_record.has_alternative_title[idx].type) + ')' : ''}`">
                 <span v-html="alt.value" />
                 <span v-if="work.has_record?.has_alternative_title?.[idx]?.type">
                   ({{ $t(work.has_record.has_alternative_title[idx].type) }})
@@ -68,54 +37,31 @@
               </li>
             </ul>
             <ul v-else-if="work?.has_record?.has_alternative_title">
-              <li
-                v-for="alt in work?.has_record?.has_alternative_title"
-                :key="alt.id"
-                tabindex="0"
-                :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`"
-              >
+              <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"
+                :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`">
                 {{ alt.has_name }} ({{ $t(alt.type) }})
               </li>
             </ul>
           </h3>
         </div>
-        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group" :aria-label="$t('actions')">
-          <NuxtLink 
-            v-if="work?.handle"
-            :to="`/film/${work.handle}`"
+        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group"
+          :aria-label="$t('actions')">
+          <NuxtLink v-if="work?.handle" :to="`/film/${work.handle}`"
             class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :aria-label="`${$t('detailviewlink')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-            :title="$t('detailviewlink')"
-            target="_blank"
-          >
-            <Icon
-               name="tabler:eye"
-              class="text-2xl"
-              aria-hidden="true"
-            />
+            :title="$t('detailviewlink')" target="_blank">
+            <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
           </NuxtLink>
-          <GlobalActionContextComp
-            v-if="work"
-            :item="work"
-          />
+          <GlobalActionContextComp v-if="work" :item="work" />
         </div>
       </div>
 
-      <SearchGenericIconList
-        :data="work"
-        level="work"
-        class="mt-1"
-      />
-      
+      <SearchGenericIconList :data="work" level="work" class="mt-1" />
+
       <!-- Badge for all items empty -->
-      <div
-        v-if="allItemsEmpty(work)"
-        class="mt-2 text-left"
-      >
-        <span
-          class="badge badge-manifestation badge-sm dark:text-black"
-          :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'"
-        >
+      <div v-if="allItemsEmpty(work)" class="mt-2 text-left">
+        <span class="badge badge-manifestation badge-sm dark:text-black"
+          :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
           <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
           {{ $t('allItemsEmpty') || 'All Items Empty' }}
         </span>
@@ -124,145 +70,92 @@
 
     <div class="divider my-0 divider-primary" />
     <!-- Search + Dropdown (FormKit) -->
-    <div class="px-4 py-2 flex items-center gap-2 text-left" role="search" :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
-      <FormKit
-        type="dropdown"
-        :name="`item-search-${work?.handle ?? ''}`"
-        :label="$t('searchItems')"
+    <div class="px-4 py-2 flex items-center gap-2 text-left" role="search"
+      :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
+      <FormKit type="dropdown" :name="`item-search-${work?.handle ?? ''}`" :label="$t('searchItems')"
         :placeholder="$t('searchItems')"
         :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
         :options="suggestionsForWork(work).map(s => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
         :value="Array.isArray(searchQuery[work?.handle ?? '']) ? searchQuery[work?.handle ?? ''] : (searchQuery[work?.handle ?? ''] ? [searchQuery[work?.handle ?? '']] : [])"
-        multiple
-        popover
-        class="w-72"
-        @input="val => onSearchInput(work?.handle ?? '', val)"
-      />
+        multiple popover class="w-72" @input="val => onSearchInput(work?.handle ?? '', val)" />
     </div>
     <!-- Items carousel -->
-    <section
-      class="px-5 py-2"
-      role="region"
-      :aria-label="$t('items') || 'Items'"
-    >
-      <div
-        v-if="loading[work?.handle ?? '']"
-        class="flex justify-center items-center min-h-[120px]"
-      >
+    <section class="px-5 py-2" role="region" :aria-label="$t('items') || 'Items'">
+      <div v-if="loading[work?.handle ?? '']" class="flex justify-center items-center min-h-[120px]">
         <span class="loading loading-spinner loading-lg text-primary" />
       </div>
       <template v-else>
         <div class="flex items-center gap-2  bg-base-200/50">
-          <button
-            class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          <button class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :aria-label="`${$t('previous') || 'Previous'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
             :aria-controls="`carousel-${work?.handle ?? ''}`"
             :disabled="carouselIndex[work?.handle ?? ''] === 0 || filteredRows(work).length <= pageSize()"
-            @click="prev(work?.handle ?? '')"
-          >
+            @click="prev(work?.handle ?? '')">
             ‹
           </button>
 
-          <div
-            :id="`carousel-${work?.handle ?? ''}`"
-            class="carousel-viewport"
-            role="listbox"
-            :aria-roledescription="$t('carousel') || 'carousel'"
-          >
-            <div
-              class="carousel-track"
-              :style="trackStyle(work)"
-            >
-              <article
-                v-for="row in filteredRows(work)"
-                :key="row.item?.handle ?? Math.random()"
-                class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl"
-                role="option"
-                :aria-label="row.item?.handle || 'item'"
-              >
+          <div :id="`carousel-${work?.handle ?? ''}`" class="carousel-viewport" role="listbox"
+            :aria-roledescription="$t('carousel') || 'carousel'">
+            <div class="carousel-track" :style="trackStyle(work)">
+              <article v-for="row in filteredRows(work)" :key="row.item?.handle ?? Math.random()"
+                class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl" role="option"
+                :aria-label="row.item?.handle || 'item'">
                 <div class="card-body p-2 flex flex-col gap-2">
                   <!-- Primary (item-level) info -->
                   <div class="flex flex-col items-start gap-1 md:min-h-48">
                     <div class="flex gap-2 mx-auto mb-2">
-                      <MicroBadgeCategoryComp
-                        category="avefi:Item"
-                        :dense="false"
-                      />
-                      
+                      <MicroBadgeCategoryComp category="avefi:Item" :dense="false" />
                     </div>
                     <h4>
-                      <GlobalClipboardComp
-                        class="text-xs text-base-content/90"
-                        :title="row.item?.handle || ''"
-                        :display-text="row.item?.handle || ''"
-                      />
+                      <GlobalClipboardComp class="text-xs text-base-content/90 text-left"
+                        :title="row.item?.handle || ''" :display-text="row.item?.handle || ''" />
                     </h4>
                     <div class="divider my-0" />
 
-                    <span
-                        v-if="isItemEmpty(row.item)"
-                        class="badge badge-item mx-auto my-auto"
-                        :title="$t('emptyItemTooltip') || 'This item has no additional metadata'"
-                      >
+                    <span v-if="isItemEmpty(row.item)" class="badge badge-item mx-auto my-auto"
+                      :title="$t('emptyItemTooltip') || 'This item has no additional metadata'">
                       <span class="text-black">
                         {{ $t('emptyItem') || 'Empty' }}
 
                       </span>
                     </span>
-                    <SearchGenericIconList
-                      v-else
-                      :data="row.item"
-                      level="item"
-                      class="mt-2 items-start justify-start text-left"
-                    />
+                    <SearchGenericIconList v-else :data="row.item" level="item"
+                      class="mt-2 items-start justify-start text-left" />
                   </div>
                   <div v-if="row.item?.has_record?.has_webresource" class="flex items-start">
-                    <GlobalTooltipInfo
-                      :text="$t('tooltip.webresource')"
-                    />
-                    <a
-                      v-if="row.item?.has_record?.has_webresource"
-                      :href="row.item?.has_record?.has_webresource"
-                      class="text-sm link link-primary"
-                    >
+                    <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
+                    <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource"
+                      class="text-sm link link-primary">
                       <Icon name="tabler:external-link" /> {{ $t('webresource') || 'View Web Resource' }}
                     </a>
                   </div>
 
                   <!-- Secondary (manifestation-level) info -->
-                  <div
-                    v-if="row.mf"
-                    class="border border-base-200 rounded-lg bg-base-100 flex flex-col gap-1 mt-4 mb-2"
-                  >
-                    <div class="text-xs font-semibold text-base-content/70 flex items-center gap-1">
-                      <span class="text-base-content/90">{{ $t('fromManifestation') || 'Manifestation' }}</span>
-                      <span
-                        v-if="isManifestationEmpty(row.mf)"
-                        class="badge badge-warning badge-xs ml-1"
-                        :title="$t('emptyManifestationTooltip') || 'This manifestation has no additional metadata'"
-                      >
+                  <div v-if="row.mf"
+                    class="border border-base-200 rounded-lg bg-base-100 flex flex-col gap-1 mt-4 mb-2">
+                    <div class="text-xs font-semibold text-base-content/70 flex flex-col items-center gap-1">
+                      <span class="text-base-content/90 text-left w-full">{{ $t('fromManifestation') || 'Manifestation'
+                        }}</span>
+                      <span v-if="row.mf?.has_record?.described_by?.has_issuer_name"
+                        class="text-base-content font-normal text-left w-full">
+                        <Icon class="mr-1" name="tabler:building"></Icon>
+                        {{ row.mf?.has_record?.described_by?.has_issuer_name }}
+                      </span>
+                      <span v-if="isManifestationEmpty(row.mf)" class="badge badge-warning badge-xs ml-1"
+                        :title="$t('emptyManifestationTooltip') || 'This manifestation has no additional metadata'">
                         {{ $t('emptyManifestation') || 'Empty' }}
                       </span>
                     </div>
-                    <SearchGenericIconList
-                      :data="row.mf"
-                      level="manifestation"
-                      class="items-start justify-start text-left"
-                    />
+                    <SearchGenericIconList :data="row.mf" level="manifestation"
+                      class="items-start justify-start text-left" />
                   </div>
                 </div>
                 <div class="flex justify-end p-2">
-                  <button 
+                  <button
                     class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    :aria-label="`${$t('viewItemDetails')}: ${row.item?.handle || ''}`"
-                    :title="$t('viewItemDetails')"
-                    @click="navigateToItem(row.item, work?.handle ?? '')"
-                  >
-                    <Icon
-                       name="tabler:eye"
-                      class="w-4 h-4 mr-1"
-                      aria-hidden="true"
-                    />
+                    :aria-label="`${$t('viewItemDetails')}: ${row.item?.handle || ''}`" :title="$t('viewItemDetails')"
+                    @click="navigateToItem(row.item, work?.handle ?? '')">
+                    <Icon name="tabler:eye" class="w-4 h-4 mr-1" aria-hidden="true" />
                     <span class="sr-only">{{ $t('viewItemDetails') }}</span>
                   </button>
                 </div>
@@ -270,13 +163,11 @@
             </div>
           </div>
 
-          <button
-            class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          <button class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             :aria-label="`${$t('next') || 'Next'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
             :aria-controls="`carousel-${work?.handle ?? ''}`"
             :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
-            @click="next(work?.handle ?? '')"
-          >
+            @click="next(work?.handle ?? '')">
             ›
           </button>
         </div>
@@ -287,10 +178,7 @@
         </div>
 
         <!-- Empty state -->
-        <p
-          v-if="filteredRows(work).length === 0"
-          class="mt-4 text-sm opacity-70"
-        >
+        <p v-if="filteredRows(work).length === 0" class="mt-4 text-sm opacity-70">
           {{ $t('noItemsFound') || 'No items found.' }}
         </p>
       </template>
@@ -396,16 +284,15 @@ const SEARCH_WHITELIST = [
     'item.has_webresource',
     'item.has_record.has_format.type',
     'item.has_record.element_type',
-    'item.in_language.code',
+    'item.has_record.in_language.code',
     'item.has_record.has_colour_type',
     'item.has_record.has_sound_type',
     'item.has_record.has_frame_rate',
+    'item.has_access_status',
     // Manifestation-level (selected subset)
     'mf.id',
     'mf.has_record.described_by.has_issuer_name',
     'mf.in_language.code',
-    'mf.has_record.has_colour_type',
-    'mf.has_record.has_sound_type',
     // Parsed event place name only (ignore IDs/categories in search)
     'mf.events.located_in.has_name'
 ];
@@ -447,7 +334,13 @@ function valuesForSearch(row: { item: any, mf: any | null }): string[] {
 function pushValue(arr: string[], v: any) {
     if (v === null || v === undefined) return;
     if (Array.isArray(v)) {
-        for (const x of v) if (x !== null && x !== undefined && String(x) !== '') arr.push(String(x));
+        for (const x of v) {
+            pushValue(arr, x); // recursively flatten
+        }
+    } else if (typeof v === 'object') {
+        if (typeof v.type === 'string' && v.type) arr.push(v.type);
+        if (typeof v.code === 'string' && v.code) arr.push(v.code);
+    // Optionally, add more fields here if needed
     } else {
         const s = String(v);
         if (s !== '') arr.push(s);
@@ -532,20 +425,35 @@ const navigateToItem = (item: any, workHandle: string) => {
 
 <style scoped>
 @reference "tailwindcss";
+
 /* carousel layout */
-.carousel-viewport { overflow: hidden; width: 100%; }
+.carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
 .carousel-track {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
   transition: transform 220ms ease-in-out;
 }
+
 @media (min-width: 640px) {
-  .carousel-track { grid-auto-columns: 50%; }
+  .carousel-track {
+    grid-auto-columns: 50%;
+  }
 }
+
 @media (min-width: 1024px) {
-  .carousel-track { grid-auto-columns: 33.3333%; }
+  .carousel-track {
+    grid-auto-columns: 33.3333%;
+  }
 }
-.item-card { margin: 0.5rem; }
+
+.item-card {
+  margin: 0.5rem;
+}
+
 /* Use class="font-medium text-base-content opacity-80 mr-1" for .kv-l and class="text-base-content" for .kv-v in markup instead of @apply here */
 </style>

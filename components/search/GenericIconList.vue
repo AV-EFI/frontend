@@ -1,140 +1,93 @@
 <template>
-  <ul
-    class="flex flex-col gap-y-1 text-[0.75rem] leading-snug text-base-content"
-    role="list"
-  >
-    <!-- First row: located_in, years, directors_or_editors (WORK ONLY) -->
-    <li
-      v-if="level === 'work' && iconEntries.length > 0"
-      class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start"
-    >
-      <template
-        v-for="entry in iconEntries.filter(e => ['located_in', 'years', 'directors_or_editors'].includes(e.key))"
-        :key="entry.key"
-      >
-        <div
-          class="flex min-w-2 gap-1.5 items-start"
-          tabindex="0"
-          :aria-label="entry.aria"
-          :title="entry.aria"
-        >
-          <div class="flex flex-col items-start">
-            <Icon
-              :name="entry.icon"
-              class="w-[0.85rem] h-[0.85rem] shrink-0 my-auto"
-              :class="[iconColor]"
-              aria-hidden="true"
-            />
-          </div>
+    <ul class="flex flex-col gap-y-1 text-[0.8rem] leading-snug text-base-content" role="list">
+        <!-- First row: located_in, years, directors_or_editors (WORK ONLY) -->
+        <li v-if="level === 'work' && iconEntries.length > 0"
+            class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start">
+            <template
+                v-for="entry in iconEntries.filter(e => ['located_in', 'years', 'directors_or_editors'].includes(e.key))"
+                :key="entry.key">
+                <div class="flex min-w-2 gap-1.5 items-start" tabindex="0" :aria-label="entry.aria" :title="entry.aria">
+                    <div class="flex flex-col items-start">
+                        <Icon :name="entry.icon" class="w-[0.85rem] h-[0.85rem] shrink-0 my-auto" :class="[iconColor]"
+                            aria-hidden="true" />
+                    </div>
 
-          <span class="inline-block flex-wrap">
-            <template v-if="Array.isArray(entry.text)">
-              <span v-if="visibleSegments(entry).length > 0">
-                <span>{{ visibleSegments(entry)[0]?.text }}</span>
-                <span
-                  v-if="visibleSegments(entry)[0]?.hilite"
-                  :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
-                  class="badge badge-xs bg-highlight text-white ml-1"
-                />
-                <span v-if="visibleSegments(entry).length > 1">, </span>
-              </span>
+                    <span class="inline-block flex-wrap">
+                        <template v-if="Array.isArray(entry.text)">
+                            <span v-if="visibleSegments(entry).length > 0">
+                                <span>{{ visibleSegments(entry)[0]?.text }}</span>
+                                <span v-if="visibleSegments(entry)[0]?.hilite"
+                                    :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
+                                    class="badge badge-xs bg-highlight text-white ml-1" />
+                                <span v-if="visibleSegments(entry).length > 1">, </span>
+                            </span>
 
-              <template
-                v-for="(segment, i) in visibleSegments(entry).slice(1)"
-                :key="i + 1"
-              >
-                <br>
-                <span>{{ segment.text }}</span>
-                <span
-                  v-if="segment.hilite"
-                  :title="`${$t('matchedField')}: ${segment.text}`"
-                  class="badge badge-xs bg-highlight text-white ml-1"
-                />
-                <span v-if="i < visibleSegments(entry).length - 2">, </span>
-              </template>
+                            <template v-for="(segment, i) in visibleSegments(entry).slice(1)" :key="i + 1">
+                                <br>
+                                <span>{{ segment.text }}</span>
+                                <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
+                                    class="badge badge-xs bg-highlight text-white ml-1" />
+                                <span v-if="i < visibleSegments(entry).length - 2">, </span>
+                            </template>
 
-              <button
-                v-if="hasOverflow(entry)"
-                type="button"
-                class="badge badge-accent badge-xs text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
-                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
-                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
-                :aria-controls="`icon-list-${entry.key}`"
-                @click="toggleExpand(entry.key)"
-              >
-                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})` }}
-              </button>
+                            <button v-if="hasOverflow(entry)" type="button"
+                                class="badge badge-accent badge-xs text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                                :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
+                                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`
+                                }}
+                            </button>
+                        </template>
+
+                        <template v-else>
+                            <span>{{ entry.text }}</span>
+                        </template>
+                    </span>
+                </div>
             </template>
+        </li>
 
-            <template v-else>
-              <span>{{ entry.text }}</span>
+        <!-- Second row: everything else -->
+        <li v-if="iconEntries.length > 0" class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start">
+            <template
+                v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'directors_or_editors'].includes(e.key))"
+                :key="entry.key">
+                <div class="flex flex-row items-start gap-1.5 min-w-2 leading-[16px]" tabindex="0"
+                    :aria-label="entry.aria" :title="entry.aria">
+                    <Icon :name="entry.icon" class="w-[0.85rem] h-[0.85rem] shrink-0" :class="[iconColor]"
+                        aria-hidden="true" />
+                    <span class="inline-block flex-wrap">
+                        <template v-if="Array.isArray(entry.text)">
+                            <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
+                                <span :class="{'line-clamp-1': visibleSegments(entry).length < 2}">
+                                    {{ segment.text }}
+                                </span>
+                                <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
+                                    class="badge badge-xs bg-highlight text-white ml-1" />
+                                <span v-if="i < visibleSegments(entry).length - 1">; </span>
+                            </template>
+
+                            <button v-if="hasOverflow(entry)" type="button"
+                                class="badge badge-neutral badge-outline badge-sm text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                                :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
+                                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`
+                                }}
+                            </button>
+                        </template>
+
+                        <template v-else>
+                            <span class="line-clamp-1">
+                                {{ entry.text }}
+                            </span>
+                        </template>
+                    </span>
+                </div>
             </template>
-          </span>
-        </div>
-      </template>
-    </li>
-
-    <!-- Second row: everything else -->
-    <li
-      v-if="iconEntries.length > 0"
-      class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start"
-    >
-      <template
-        v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'directors_or_editors'].includes(e.key))"
-        :key="entry.key"
-      >
-        <div
-          class="flex flex-row items-start gap-1.5 min-w-2 leading-[14px]"
-          tabindex="0"
-          :aria-label="entry.aria"
-          :title="entry.aria"
-        >
-          <Icon
-            :name="entry.icon"
-            class="w-[0.85rem] h-[0.85rem] shrink-0"
-            :class="[iconColor]"
-            aria-hidden="true"
-          />
-          <span class="inline-block flex-wrap">
-            <template v-if="Array.isArray(entry.text)">
-              <template
-                v-for="(segment, i) in visibleSegments(entry)"
-                :key="i"
-              >
-                <span :class="{'line-clamp-1': visibleSegments(entry).length < 2}">
-                  {{ segment.text }}
-                </span>
-                <span
-                  v-if="segment.hilite"
-                  :title="`${$t('matchedField')}: ${segment.text}`"
-                  class="badge badge-xs bg-highlight text-white ml-1"
-                />
-                <span v-if="i < visibleSegments(entry).length - 1">; </span>
-              </template>
-
-              <button
-                v-if="hasOverflow(entry)"
-                type="button"
-                class="badge badge-neutral badge-outline badge-sm text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
-                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
-                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
-                :aria-controls="`icon-list-${entry.key}`"
-                @click="toggleExpand(entry.key)"
-              >
-                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})` }}
-              </button>
-            </template>
-
-            <template v-else>
-              <span class="line-clamp-1">
-                {{ entry.text }}
-              </span>
-            </template>
-          </span>
-        </div>
-      </template>
-    </li>
-  </ul>
+        </li>
+    </ul>
 </template>
 
 <script setup lang="ts">
@@ -322,8 +275,22 @@ function buildIconEntries() {
 
     /* ---------- MANIFESTATION (handle, issuer, type, year, place) ---------- */
     if (level === 'manifestation') {
+
+        /*
+        const has_issuer_name = d?.has_record?.described_by?.has_issuer_name;
+        console.log('has_issuer_name:', has_issuer_name);
+        if (has_issuer_name) {
+                entries.push({
+                    key: 'has_issuer_name',
+                    icon: ICONS.issuer,
+                    text: [{ text: has_issuer_name, hilite: false }],
+                    aria: t('has_issuer_name') + ': ' + has_issuer_name
+                });
+        }
+                */
+
         // events (PublicationEvent / RestorationEvent etc.)
-        const evs = asArray(d?.has_record?.has_event);
+        const evs = asArray(d?.has_record?.has_event);        
 
         // Manifestationstyp (event type/category)
         const evTypes = evs.map((e:any) => e?.type || e?.category).filter(Boolean);
@@ -347,6 +314,7 @@ function buildIconEntries() {
                 aria: 'Jahresangabe (Manifestationstyp): ' + evYears.join(', ')
             });
         }
+        
 
         // Ortsangabe (Manifestationsereignis) → event.located_in.has_name
         const evPlaces = evs
@@ -480,7 +448,6 @@ function buildIconEntries() {
             'genre',
             'subject'
         ];
-    } else if (level === 'manifestation') {
     } else if (level === 'manifestation') {
         orderArr = [
             'eventType',  // Manifestationstyp
