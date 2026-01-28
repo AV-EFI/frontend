@@ -10,6 +10,7 @@ export function useHash(scroll = true) {
 
                 setTimeout(() => {
                     const el = document.getElementById(hash.value);
+                    console.log('Scrolling to hash element:', hash.value, el);
                     if (el) {
                         // Open the closest collapse section
                         const collapseElement = el.closest('.collapse');
@@ -21,7 +22,7 @@ export function useHash(scroll = true) {
 
                         setTimeout(() => {
                             el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-                            el.classList.add('bg-highlight', 'transition', 'duration-500', 'text-white');
+                            el.classList.add('bg-highlight', 'transition', 'duration-600', 'text-white');
                             setTimeout(() => {
                                 el.classList.remove('bg-highlight', 'text-white');
                                 const label = el.querySelector('label');
