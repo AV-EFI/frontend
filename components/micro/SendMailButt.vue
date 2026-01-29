@@ -1,50 +1,31 @@
 <template>
   <!-- Desktop -->
-  <details
-    ref="deskRef"
-    class="dropdown dropdown-bottom dropdown-end hidden md:block"
-    :open="showForm"
-  >
-    <summary
-      class="btn min-h-6 h-auto"
-      :title="showForm ? $t('closeForm') : $t('openForm')"
-      :aria-label="showForm ? $t('closeForm') : $t('openForm')"
-      :aria-expanded="showForm"
-      @click.prevent="toggleForm"
-    >
-    <Icon class="w-4 h-4 shrink-0" name="tabler:send" />
-    </summary>
-
-    <div
-      class="mt-2 p-4 border-base-100 rounded-lg shadow-lg bg-base-100 w-96 dropdown-content menu z-50"
-      role="form"
-      aria-labelledby="contact-form-heading"
-      @click.stop
-    >
+  <div class="relative hidden md:block" ref="deskRef">
+    <button class="btn min-h-6 h-auto" :title="showForm ? $t('closeForm') : $t('openForm')"
+      :aria-label="showForm ? $t('closeForm') : $t('openForm')" :aria-expanded="showForm" @click="toggleForm">
+      <Icon class="w-4 h-4 shrink-0" name="tabler:send" />
+    </button>
+    <div v-if="showForm"
+      class="absolute right-0 mt-2 p-4 border-base-100 rounded-lg shadow-lg w-96 dropdown-content menu z-[999]"
+      role="form" aria-labelledby="contact-form-heading" @click.stop>
       <MicroContactForm />
     </div>
-  </details>
+    <div v-if="showForm"
+      class="dropdown-override absolute right-0 mt-2 p-4 border-base-100 rounded-lg shadow-lg bg-base-100 w-96 dropdown-content menu"
+      role="form" aria-labelledby="contact-form-heading" @click.stop>
+      <MicroContactForm />
+    </div>
+  </div>
 
   <!-- Mobile modal (unchanged) -->
   <div class="block md:hidden">
-    <button
-      class="btn"
-      :aria-label="$t('openForm')"
-      @click="openMobileModal"
-    >
+    <button class="btn" :aria-label="$t('openForm')" @click="openMobileModal">
       <Icon name="tabler:send " />
     </button>
-    <dialog
-      id="mobileMailModal"
-      ref="modalRef"
-      class="modal"
-    >
+    <dialog id="mobileMailModal" ref="modalRef" class="modal">
       <div class="modal-box w-full max-w-none p-4">
         <form method="dialog">
-          <button
-            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            @click="closeMobileModal"
-          >
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeMobileModal">
             ✕
           </button>
         </form>
@@ -65,8 +46,8 @@ const toggleForm = () => { showForm.value = !showForm.value; };
 
 // close on outside click
 const onDocClick = (e: MouseEvent) => {
-    if (!deskRef.value) return;
-    if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
+  if (!deskRef.value) return;
+  if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
 };
 onMounted(() => document.addEventListener('click', onDocClick));
 onBeforeUnmount(() => document.removeEventListener('click', onDocClick));
@@ -76,7 +57,11 @@ const openMobileModal = () => { modalRef.value?.showModal(); };
 const closeMobileModal = () => { modalRef.value?.close(); };
 </script>
 <style scoped>
-summary::after {
-  content: none;
+/* No summary anymore, but keep dropdown styling if needed */
+.dropdown-override {
+  z-index: 9999 !important;
+  position: fixed !important;
+  right: 1rem;
+  top: 3.5rem;
 }
 </style>

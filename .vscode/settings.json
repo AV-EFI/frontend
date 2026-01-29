@@ -3,8 +3,9 @@
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "eslint.format.enable": true,
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
+  "editor.codeActionsOnSave": 
+  {
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.codeActionsOnSave.mode": "all",
   "editor.codeActionsOnSaveTimeout": 5000,
@@ -31,5 +32,6 @@
   },
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "eslint.codeActionsOnSave.options": {},
 }

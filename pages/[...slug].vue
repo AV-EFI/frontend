@@ -26,28 +26,20 @@
       </div>
 
       <!-- Film Quote -->
-      <div v-if="randomQuote" class="card bg-base-100 dark:bg-base-200 shadow-lg backdrop-blur-sm" style="background-color:rgba(255,255,255,0.85);">
+      <div v-if="randomQuote" class="card bg-base-100 dark:bg-base-800 shadow-lg backdrop-blur-sm">
         <div class="card-body">
           <blockquote class="text-base text-base-content/80 mb-3 leading-relaxed" v-html="randomQuote.text" />
           <footer class="text-sm text-base-content/60">
             — <cite>{{ randomQuote.film }}</cite> ({{ randomQuote.year }})
           </footer>
           <div class="flex gap-3 mt-1">
-            <NuxtLink 
-              v-if="randomQuote.avefiUrl" 
-              :to="randomQuote.avefiUrl" 
-              class="text-xs text-primary hover:underline inline-flex items-center gap-1"
-            >
+            <NuxtLink v-if="randomQuote.avefiUrl" :to="randomQuote.avefiUrl"
+              class="text-xs text-primary hover:underline inline-flex items-center gap-1">
               <Icon name="tabler:movie" class="w-3 h-3" />
               {{randomQuote.film}} @ AVefi
             </NuxtLink>
-            <a 
-              v-if="randomQuote.wikiquoteUrl" 
-              :href="randomQuote.wikiquoteUrl" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="text-xs text-primary hover:underline inline-flex items-center gap-1"
-            >
+            <a v-if="randomQuote.wikiquoteUrl" :href="randomQuote.wikiquoteUrl" target="_blank"
+              rel="noopener noreferrer" class="text-xs text-primary hover:underline inline-flex items-center gap-1">
               <Icon name="tabler:external-link" class="w-3 h-3" />
               Wikiquote
             </a>

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-base-100 text-base-content flow">
     <!-- Skip link -->
     <a href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 btn btn-sm btn-primary">
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
       {{ $t('skipToContent') || 'Skip to main content' }}
     </a>
 
@@ -12,7 +12,7 @@
         <ClientOnly>
           <div class="hero-overlay w-full">
             <!-- Toggle button for video/image (glass pill, non-competing) -->
-            <div class="absolute top-4 right-4 z-50">
+            <div class="absolute top-4 right-4 z-40">
               <button
                 class="btn btn-xs btn-primary
                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
