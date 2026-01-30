@@ -1,138 +1,82 @@
 <template>
-  <ais-panel
-    role="region"
-    :aria-labelledby="`facet-title-${props.attributeName}`"
-    :class-names="{
+  <ais-panel role="region" :aria-labelledby="`facet-title-${props.attributeName}`" :class-names="{
       'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-base-200 dark:border-primary-600 rounded-lg mb-2 max-md:!w-[90vw]',
       'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-gray-900 dark:text-white text-xs ',
       'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2 text-left'
     }"
-    :title="$t('showFacetsFor', { headerText: $t(props.headerText as string), category: $t(props.category as string) })"
-  >
+    :title="$t('showFacetsFor', { headerText: $t(props.headerText as string), category: $t(props.category as string) })">
     <!-- Header -->
     <template #header="h">
       <div class="flex items-center gap-2">
-        <Icon
-          :name="facetIcon"
-          class="w-4 h-4"
+        <Icon :name="facetIcon" class="w-4 h-4"
           :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
-          aria-hidden="true"
-        />
-        <h4
-          :id="`facet-title-${props.attributeName}`"
-          class="my-auto font-bold"
-          :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'"
-        >
+          aria-hidden="true" />
+        <h4 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"
+          :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'">
           {{ $t(props.headerText as string) }}
         </h4>
       </div>
 
-      <MicroBadgeCategoryComp
-        v-if="props.category"
-        :category="props.category"
-        :dense="true"
-        class="my-auto"
-      />
+      <MicroBadgeCategoryComp v-if="props.category" :category="props.category" :dense="true" class="my-auto" />
     </template>
 
     <!-- Body -->
     <template #default>
       <!-- ===== NUMERIC: slider + inputs ===== -->
-      <ais-range-input
-        v-if="isNumeric"
-        :key="`range-${props.attributeName}`"
-        :attribute="props.attributeName"
-      >
+      <ais-range-input v-if="isNumeric" :key="`range-${props.attributeName}`" :attribute="props.attributeName">
         <template #default="s">
           <!-- Slider -->
           <div class="p-4 m-4">
-            <Slider
-              :model-value="pendingModel(s?.currentRefinement ?? {}, s?.range ?? {})"
-              :min="boundMin(s?.range ?? {})"
-              :max="boundMax(s?.range ?? {})"
-              :step="1"
-              thumb-label
+            <Slider :model-value="pendingModel(s?.currentRefinement ?? {}, s?.range ?? {})"
+              :min="boundMin(s?.range ?? {})" :max="boundMax(s?.range ?? {})" :step="1" thumb-label
               class="w-full h-8 slider-primary"
               :aria-label="$t('refineBy', { headerText: $t(props.headerText as string) })"
-              @update:model-value="onSliderChangeLocal($event, s?.range ?? {})"
-            />
+              @update:model-value="onSliderChangeLocal($event, s?.range ?? {})" />
           </div>
 
           <!-- Numeric inputs (update local only) -->
           <div class="flex flex-row justify-around mt-2 p-2 gap-3">
-            <input
-              :id="`${inputId}-min`"
-              type="number"
-              inputmode="numeric"
+            <input :id="`${inputId}-min`" type="number" inputmode="numeric"
               class="input input-bordered input-xs w-24 bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300"
-              :placeholder="String(boundMin(s?.range ?? {}))"
-              :min="boundMin(s?.range ?? {})"
-              :max="boundMax(s?.range ?? {})"
-              :value="(pending?.[0] ?? boundMin(s?.range ?? {}))"
-              :disabled="!(s?.canRefine ?? false)"
-              @change="onMinChangeLocal($event, s?.range ?? {})"
-            >
+              :placeholder="String(boundMin(s?.range ?? {}))" :min="boundMin(s?.range ?? {})"
+              :max="boundMax(s?.range ?? {})" :value="(pending?.[0] ?? boundMin(s?.range ?? {}))"
+              :disabled="!(s?.canRefine ?? false)" @change="onMinChangeLocal($event, s?.range ?? {})">
             <div class="w-1/3 flex flex-col justify-center mb-3.5 max-w-16">
-              <Icon
-                class="mx-auto dark:text-white"
-                name="formkit:arrowright"
-              />
+              <Icon class="mx-auto dark:text-white" name="formkit:arrowright" />
             </div>
-            <input
-              :id="`${inputId}-max`"
-              type="number"
-              inputmode="numeric"
+            <input :id="`${inputId}-max`" type="number" inputmode="numeric"
               class="input input-bordered input-xs w-24 bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300"
-              :placeholder="String(boundMax(s?.range ?? {}))"
-              :min="boundMin(s?.range ?? {})"
-              :max="boundMax(s?.range ?? {})"
-              :value="(pending?.[1] ?? boundMax(s?.range ?? {}))"
-              :disabled="!(s?.canRefine ?? false)"
-              @change="onMaxChangeLocal($event, s?.range ?? {})"
-            >
+              :placeholder="String(boundMax(s?.range ?? {}))" :min="boundMin(s?.range ?? {})"
+              :max="boundMax(s?.range ?? {})" :value="(pending?.[1] ?? boundMax(s?.range ?? {}))"
+              :disabled="!(s?.canRefine ?? false)" @change="onMaxChangeLocal($event, s?.range ?? {})">
           </div>
 
           <!-- Actions -->
           <div class="text-center flex flex-row mt-4 mx-2 gap-2">
-            <button
-              class="btn btn-block btn-sm w-1/2"
-              :disabled="!(s?.canRefine ?? false)"
-              @click="resetLocal(s?.range ?? {})"
-            >
+            <button class="btn btn-block btn-sm w-1/2" :disabled="!(s?.canRefine ?? false)"
+              @click="resetLocal(s?.range ?? {})">
               {{ $t('reset') }}
             </button>
-            <button
-              class="btn btn-block btn-sm w-1/2 btn-primary"
+            <button class="btn btn-block btn-sm w-1/2 btn-primary"
               :disabled="!(s?.canRefine ?? false) || !hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})"
               :aria-disabled="(!(s?.canRefine ?? false) || !hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})).toString()"
-              @click="s?.refine && applyRefinement(s.refine, s?.range ?? {})"
-            >
+              @click="s?.refine && applyRefinement(s.refine, s?.range ?? {})">
               {{ $t('apply') }}
-              <span
-                v-if="hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})"
-                class="ml-1 text-md align-top text-warning-500 dark:text-warning-400"
-              >•</span>
+              <span v-if="hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})"
+                class="ml-1 text-md align-top text-warning-500 dark:text-warning-400">•</span>
             </button>
           </div>
         </template>
       </ais-range-input>
 
       <!-- ===== STRING: refinement list ===== -->
-      <ais-refinement-list
-        v-else
-        :attribute="props.attributeName"
-        :operator="props.operatorType"
-        :sort-by="['isRefined', 'count', 'name:asc']"
-        :searchable="props.isSearchable"
-        :limit="5"
-        :show-more="true"
-        :show-more-limit="10"
-        :class-names="{
+      <ais-refinement-list v-else :attribute="props.attributeName" :operator="props.operatorType"
+        :sort-by="['isRefined', 'count', 'name:asc']" :searchable="props.isSearchable" :limit="5" :show-more="true"
+        :show-more-limit="10" :class-names="{
           'ais-RefinementList-labelText': 'text-xs',
           'ais-RefinementList-checkbox': 'checkbox !w-4 !h-4 mr-2',
           'ais-RefinementList-count': 'badge badge-secondary font-bold text-white text-xs'
-        }"
-      >
+        }">
         <template #noResults="nr">
           {{ $t('noResults') }}
         </template>
@@ -142,59 +86,19 @@
         </template>
 
         <template #default="s">
-          <div
-            v-if="!(s?.items?.length)"
-            class="max-w-[250px] mx-auto my-2"
-          >
+          <div v-if="!(s?.items?.length)" class="max-w-[250px] mx-auto my-2">
             <p>{{ $t('noResults') }}</p>
             <p>{{ $t('tryAdjustingFacets') }}</p>
           </div>
 
-          <ais-search-box
-            v-if="props.isSearchable && (s?.items?.length ?? 0) > 0"
-            class="p-1 max-w-[250px] mx-auto"
-          >
-            <div class="formkit-inner !rounded-3xl">
-              <label
-                :aria-label="$t('searchInFacet', { facetName: $t(props.headerText as string) })"
-                :for="inputId"
-                class="label-text !text-sm !mb-0 !p-0 !text-neutral-500 dark:!text-neutral-300"
-              />
-              <input
-                :id="inputId"
-                type="search"
-                class="!text-sm p-1 !rounded-3xl w-full bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300 focus:outline-none ring-base-200 ring-1 focus:ring-2 focus:ring-base-300 px-2"
-                :placeholder="$t('search')"
-                @input="(e) => s?.searchForItems?.((e?.currentTarget as HTMLInputElement)?.value ?? '')"
-              >
-            </div>
-          </ais-search-box>
-
-          <ul
-            v-if="(s?.items?.length ?? 0) > 0"
-            class="ais-RefinementList py-2 max-md:max-w-[300px]"
-          >
-            <li
-              v-for="item in (s?.items ?? [])"
-              :key="item.value"
-              class="ais-RefinementList-item max-w-[250px]"
-            >
-              <label
-                class="ais-RefinementList-label"
-                :aria-label="$t('refineBy', { label: item.label })"
-                for="checkbox"
-                @click="s?.refine?.(item.value)"
-              >
-                <input
-                  class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs"
-                  type="checkbox"
-                  name="checkbox"
-                  :value="item.value"
-                  :checked="item.isRefined ?? 'checked'"
-                  :aria-checked="item.isRefined"
-                  :title="$t('refineBy', { label: item.label })"
-                  :aria-label="$t('refineBy', { label: item.label })"
-                >
+          <ul v-if="(s?.items?.length ?? 0) > 0" class="ais-RefinementList py-2 max-md:max-w-[300px]">
+            <li v-for="item in (s?.items ?? [])" :key="item.value" class="ais-RefinementList-item max-w-[250px]">
+              <label class="ais-RefinementList-label" :aria-label="$t('refineBy', { label: item.label })" for="checkbox"
+                @click="s?.refine?.(item.value)">
+                <input class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs" type="checkbox"
+                  name="checkbox" :value="item.value" :checked="item.isRefined ?? 'checked'"
+                  :aria-checked="item.isRefined" :title="$t('refineBy', { label: item.label })"
+                  :aria-label="$t('refineBy', { label: item.label })">
                 <span>
                   {{ $t(item.label.replace('_', ':')) }}
                 </span>
@@ -205,13 +109,9 @@
             </li>
           </ul>
 
-          <button
-            v-if="(s?.items?.length ?? 0) > 0"
-            class="btn btn-sm btn-primary btn-outline btn-block mx-auto"
-            :disabled="!(s?.canToggleShowMore ?? false)"
-            :aria-expanded="(s?.isShowingMore ?? false).toString()"
-            @click="s?.toggleShowMore?.()"
-          >
+          <button v-if="(s?.items?.length ?? 0) > 0" class="btn btn-sm btn-primary btn-outline btn-block mx-auto"
+            :disabled="!(s?.canToggleShowMore ?? false)" :aria-expanded="(s?.isShowingMore ?? false).toString()"
+            @click="s?.toggleShowMore?.()">
             {{ !(s?.isShowingMore) ? $t('showMore') : $t('showLess') }}
           </button>
         </template>
@@ -307,6 +207,7 @@ function resetLocal(range: any) {
     pending.value = [boundMin(range ?? {}), boundMax(range ?? {})];
 }
 function applyRefinement(refine: (v: any) => void, range: any) {
+  try {
     if (!pending.value) return;
     const [lo, hi] = pending.value;
     if (lo === boundMin(range ?? {}) && hi === boundMax(range ?? {})) {
@@ -316,6 +217,11 @@ function applyRefinement(refine: (v: any) => void, range: any) {
     }
     refine?.({ min: lo, max: hi });
     lastApplied.value = [lo, hi];
+
+  }
+  catch (error) {
+    console.error('Error applying refinement:', error);
+  }
 }
 function hasUnsaved(cr: any, range: any) {
     const applied = appliedFromCR(cr ?? {}, range ?? {});

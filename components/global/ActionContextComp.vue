@@ -49,10 +49,4 @@ const props = defineProps({
     }
 });
 
-console.log('ActionContextComp props:', {
-  item: props.item,
-  compSize: props.compSize,
-  id: props.id
-});
-
 </script>
