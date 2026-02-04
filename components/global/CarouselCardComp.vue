@@ -2,7 +2,7 @@
   <div class="relative w-full">
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
-      class="absolute -left-4 top-1/2 z-10 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow hidden sm:flex"
+      class="absolute -left-4 top-1/2 z-10 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
       :aria-label="t('togglePreviousSlide')">
       <Icon name="tabler:chevron-left" />
     </button>
@@ -10,7 +10,6 @@
       class="carousel carousel-center w-full rounded-box p-4 overflow-x-auto scroll-smooth snap-none">
       <div v-for="(item, index) in items" :key="index"
         class="carousel-item align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[90vw] sm:w-72 md:w-96">
-
         <figure class="w-full">
           <div v-if="item.imgSrc"
             class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
@@ -54,21 +53,76 @@
           </div>
         </div>
       </div>
+      <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
+      <div
+        class="carousel-item relative align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[90vw] sm:w-72 md:w-96">
+        <label class="swap swap-flip w-full h-full cursor-pointer">
+          <input type="checkbox" v-model="createOpen" aria-label="Toggle create form" />
+
+          <!-- swap-off: show only slogan -->
+          <div class="swap-off w-full h-full flex items-center justify-center p-6">
+            <div class="flex flex-col items-center">
+              <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
+                Create your own
+              </h2>
+              <div class="btn btn-primary btn-circle mt-2">
+                <Icon class="" name="tabler:plus" />
+              </div>
+            </div>
+          </div>
+
+          <!-- swap-on: the full form (same fields as before) -->
+          <div class="swap-on w-full h-full">
+            <figure class="w-full">
+              <div
+                class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-gray-100 dark:bg-base-200 flex items-center justify-center">
+                <img v-if="createForm.imgUrl" :src="createForm.imgUrl" :alt="createForm.title || 'Preview'"
+                  class="absolute inset-0 w-full h-full object-cover opacity-40" loading="lazy" decoding="async" />
+                <div class="relative z-10 flex items-center justify-center w-full h-full px-3">
+                  <div class="w-full">
+                    <input v-model="createForm.imgUrl" type="text" placeholder="Image URL (optional)"
+                      class="input input-bordered input-sm w-full" />
+                  </div>
+                </div>
+              </div>
+            </figure>
+            <div class="lg:h-72 lg:w-96 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
+              <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">Create your own</h2>
+              <input v-model="createForm.title" type="text" placeholder="Title"
+                class="input input-bordered input-sm mb-2 w-full" />
+              <textarea v-model="createForm.description" rows="3" placeholder="Description"
+                class="textarea textarea-bordered textarea-sm mb-2 w-full"></textarea>
+              <input v-model="createForm.link" type="text" placeholder="Search Link (Copy URL from search page)"
+                class="input input-bordered input-sm mb-2 w-full" />
+              <div class="mt-auto">
+                <button @click="handleCreate" class="btn btn-sm w-full md:w-auto btn-primary">Create</button>
+              </div>
+            </div>
+          </div>
+        </label>
+
+        <!-- Contact form overlay (opens after Create) -->
+        <div v-if="contactFormOpen" class="absolute inset-0 z-50 flex items-center justify-center p-4">
+          <div class="w-full max-w-lg">
+            <MicroContactForm :initialMessage="contactInitialMessage" @close="contactFormOpen = false" />
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="nextSlide"
-      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow hidden sm:flex"
+      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
       :aria-label="t('toggleNextSlide')">
       <Icon name="tabler:chevron-right" />
     </button>
     <!-- Mobile arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
-      class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow flex sm:hidden"
+      class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
       :aria-label="t('togglePreviousSlide')">
       <Icon name="tabler:chevron-left" />
     </button>
     <button v-if="items.length > 1" @click="nextSlide"
-      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow flex sm:hidden"
+      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
       :aria-label="t('toggleNextSlide')">
       <Icon name="tabler:chevron-right" />
     </button>
@@ -108,6 +162,58 @@ const toggleText = (e: Event) => {
 };
 
 const carouselRef = ref<HTMLElement | null>(null);
+
+// Emit created items to parent
+const emit = defineEmits<{
+  (e: 'create-item', payload: CarouselItem): void
+}>();
+
+const createForm = ref({
+    title: '',
+    description: '',
+    imgUrl: '',
+    link: '',
+    linkText: ''
+});
+
+// controls the daisyUI swap state for the create card
+const createOpen = ref(false);
+
+// contact form state for prefilled suggestion when creating a card
+const contactFormOpen = ref(false);
+const contactInitialMessage = ref('');
+
+function handleCreate() {
+  if (!createForm.value.title || !createForm.value.title.trim()) return;
+
+  const newItem: CarouselItem = {
+    title: createForm.value.title,
+    imgSrc: createForm.value.imgUrl || '',
+    imgAlt: createForm.value.title,
+    description: createForm.value.description || '',
+    link: createForm.value.link || '#',
+    linkText: createForm.value.linkText || 'Open',
+    imgSourceLink: '',
+    imgSourceText: '',
+    imgAuthor: '',
+    imgLicense: '',
+    imgLicenseLink: '',
+    imgCoverType: ''
+  };
+
+  emit('create-item', newItem);
+
+  // prepare contact form with prefilled message and open it
+  const title = newItem.title;
+  const description = newItem.description || '';
+  const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
+  contactInitialMessage.value = t('create.contactFormPrefill', { title, description, url }) as string;
+  contactFormOpen.value = true;
+
+  // reset form and close swap
+  createForm.value = { title: '', description: '', imgUrl: '', link: '', linkText: '' };
+  createOpen.value = false;
+}
 
 /**
  * Safari / snap edge-cases: if smooth scroll is ignored, we fall back to an rAF tween.

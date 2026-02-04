@@ -32,7 +32,38 @@
                         <Icon class="text-lg" name="formkit:search" />
                         <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                       </button>
+                      <!-- Context menu button -->
+                      <div class="relative ml-2" ref="searchMenuRef">
+                        <button type="button" class="btn btn-ghost btn-circle btn-outline lg:btn-lg w-[56px] h-[56px]"
+                          @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
+                          :title="$t('searchOptions')">
+                          <Icon name="tabler:dots" />
+                        </button>
+
+                        <div v-if="searchMenuOpen"
+                          class="absolute right-0 mt-2 p-2 bg-base-100 border rounded shadow-lg w-56 z-50" @click.stop>
+                          <ul class="menu menu-compact">
+                            <li>
+                              <button @click="shareSearch">
+                                <Icon name="tabler:share" class="w-4 h-4" />&nbsp;{{ $t('shareSearch') }}
+                              </button>
+                            </li>
+                            <li>
+                              <button @click="suggestSearch">
+                                <Icon name="tabler:message-circle" class="w-4 h-4" />&nbsp;{{ $t('suggestSearchToAVefi')
+                                }}
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div v-if="contactFormOpen"
+                          class="absolute right-0 mt-2 p-4 border rounded-lg bg-base-100 w-96 z-50" @click.stop>
+                          <MicroContactForm :initialMessage="contactInitialMessage" @close="contactFormOpen = false" />
+                        </div>
+                      </div>
                     </div>
+
                   </template>
                 </ais-search-box>
               </div>
@@ -200,6 +231,7 @@
 
 <script setup lang="ts">
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
+import { toast } from 'vue3-toastify';
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
@@ -359,6 +391,75 @@ const handleClearAllHistory = () => {
     clearSearchHistory();
     historyTrigger.value++;
 };
+
+// Context menu + contact form state
+const searchMenuOpen = ref(false);
+const contactFormOpen = ref(false);
+const contactInitialMessage = ref('');
+const searchMenuRef = ref<HTMLElement | null>(null);
+
+const toggleSearchMenu = (e?: Event) => {
+    if (e) e.stopPropagation();
+    searchMenuOpen.value = !searchMenuOpen.value;
+};
+
+function shareSearch() {
+    searchMenuOpen.value = false;
+    const q = searchQuery.value || localSearchValue.value || '';
+    const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
+
+    // Try native Web Share API first
+    if (typeof navigator !== 'undefined' && (navigator as any).share) {
+        try {
+            (navigator as any).share({
+                title: q || document.title,
+                text: q ? `Search: ${q}` : document.title,
+                url
+            });
+            return;
+        } catch (err) {
+            // fallthrough to clipboard fallback
+            console.warn('Web Share failed:', err);
+        }
+    }
+
+    // Fallback: copy URL to clipboard and notify
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+            toast.success($t('linkCopied') as string || 'Link copied to clipboard');
+        }).catch(() => {
+            // Last resort: show prompt
+            window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
+        });
+    } else {
+    // older browsers
+        try {
+            window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
+        } catch (e) {
+            console.warn('Unable to copy link', e);
+        }
+    }
+}
+
+function suggestSearch() {
+    searchMenuOpen.value = false;
+    const q = searchQuery.value || localSearchValue.value || '';
+    const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
+  contactInitialMessage.value = $t('share.suggestTemplate', { query: q, url: url }) as string;
+    contactFormOpen.value = true;
+}
+
+// Close menus on outside click
+const onDocClickForMenu = (ev: MouseEvent) => {
+    if (!searchMenuRef.value) return;
+    if (!searchMenuRef.value.contains(ev.target as Node)) {
+        searchMenuOpen.value = false;
+        contactFormOpen.value = false;
+    }
+};
+
+onMounted(() => document.addEventListener('click', onDocClickForMenu));
+onBeforeUnmount(() => document.removeEventListener('click', onDocClickForMenu));
 
 // --- Algolia current refinements (active facets) ---
 const aisState = inject<any>('$_ais_state');

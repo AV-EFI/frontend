@@ -1,8 +1,9 @@
 <template>
     <div class="flex flex-row gap-6 relative">
         <!-- Desktop sidebar (left, slide-in/out, relative) -->
-        <button class="hidden lg:block absolute -top-4 left-2 z-10" @click="desktopDrawerOpen = !desktopDrawerOpen"
-            :title="$t('toggleNavigation')" :aria-label="$t('toggleNavigation')">
+        <button class="hidden lg:block absolute -top-4 z-10" @click="desktopDrawerOpen = !desktopDrawerOpen"
+            :class="desktopDrawerOpen ? 'left-0' : 'left-5'" :title="$t('toggleNavigation')"
+            :aria-label="$t('toggleNavigation')">
             <div class="btn btn-sm btn-circle">
                 <Icon :name="desktopDrawerOpen ? 'tabler-caret-left' : 'tabler-caret-right'" />
             </div>
@@ -33,13 +34,18 @@
                                 <li v-for="(mf, idx) in filteredManifestations" :key="idx">
                                     <a @click.prevent="scrollToId(`manifestation-${idx}`)" class="cursor-pointer pl-4"
                                         :class="{ 'active': activeSection === `manifestation-${idx}` }">
-                                        <span class="text-ellipsis">
-                                            {{ $t(mf.has_record?.has_event[0]?.type) }}
-                                            {{ mf.has_primary_title?.has_name ?? $t('manifestation')}}
+                                        <span class="text-ellipsis" v-if="mf.has_record.has_event?.[0]">
+                                            {{ mf.has_record?.has_event?.[0]?.type ??
+                                            $t(mf.has_record?.has_event?.[0]?.type) }}
+                                        </span>
+                                        <span v-else>
+                                            {{ mf.has_record?.has_primary_title?.has_name ?? $t('manifestation') + ' ' +
+                                            (idx + 1) }}
                                         </span>
                                         <div :aria-label="$t('items')" class="badge">{{ mf.has_record?.has_item?.length
                                             }}
                                         </div>
+
                                     </a>
                                     <!--
                                     <ul v-if="Array.isArray(mf.items)">

@@ -8,12 +8,13 @@
     <div v-if="showForm"
       class="absolute right-0 mt-2 p-4 border-base-100 rounded-lg shadow-lg w-96 dropdown-content menu z-[999]"
       role="form" aria-labelledby="contact-form-heading" @click.stop>
-      <MicroContactForm />
+      <MicroContactForm @ContactFormClose="toggleForm" />
     </div>
     <div v-if="showForm"
       class="dropdown-override absolute right-0 mt-2 p-4 border-base-100 rounded-lg shadow-lg bg-base-100 w-96 dropdown-content menu"
       role="form" aria-labelledby="contact-form-heading" @click.stop>
-      <MicroContactForm />
+
+      <MicroContactForm @ContactFormClose="toggleForm" />
     </div>
   </div>
 
@@ -29,7 +30,7 @@
             ✕
           </button>
         </form>
-        <MicroContactForm />
+        <MicroContactForm @ContactFormClose="closeMobileModal" />
       </div>
     </dialog>
   </div>
@@ -46,8 +47,8 @@ const toggleForm = () => { showForm.value = !showForm.value; };
 
 // close on outside click
 const onDocClick = (e: MouseEvent) => {
-  if (!deskRef.value) return;
-  if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
+    if (!deskRef.value) return;
+    if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
 };
 onMounted(() => document.addEventListener('click', onDocClick));
 onBeforeUnmount(() => document.removeEventListener('click', onDocClick));

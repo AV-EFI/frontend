@@ -139,6 +139,12 @@
     "nextPage": "Nächste Seite",
     "prevPage": "Vorherige Seite",
     "copiedToClipboard": "in die Zwischenablage kopiert",
+    "linkCopied": "Link in die Zwischenablage kopiert",
+    "copyLinkPrompt": "Diesen Link kopieren",
+    "share": {
+        "shareTemplate": "Ich möchte diese Suche teilen:\n\nSuchanfrage: {query}\nURL: {url}",
+        "suggestTemplate": "Ich möchte diese Suche/Anfrage an AVefi vorschlagen:\n\nSuchanfrage: {query}\nURL: {url}"
+    },
     "clearalllist": "Liste leeren",
     "close": "Schließen",
     "closeDrawer": "Schließen",

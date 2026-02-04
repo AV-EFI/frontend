@@ -1,44 +1,25 @@
 <template>
   <div
-    class="collapse collapse-arrow border-2 border-base-300 dark:border-primary-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
+    class="collapse collapse-arrow border-2 border-base-200  border-base-200 dark:border-gray-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
     :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
-    :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
-    tabindex="0"
-  >
-    <input
-      type="checkbox"
-      class="collapse-checkbox"
-      :aria-label="$t('togglePanel')"
-    >
+    :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })" tabindex="0">
+    <input type="checkbox" class="collapse-checkbox" :aria-label="$t('togglePanel')">
 
     <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
       <div class="flex items-center gap-2">
-        <Icon
-          :name="facetIcon"
-          class="w-4 h-4"
+        <Icon :name="facetIcon" class="w-4 h-4"
           :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
-          aria-hidden="true"
-        />
-        <h4
-          :id="`facet-title-${props.attributeName}`"
-          class="my-auto font-bold"
-          :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'"
-        >
+          aria-hidden="true" />
+        <h4 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"
+          :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'">
           {{ $t(headerText as string) }}
         </h4>
       </div>
-      <MicroBadgeCategoryComp
-        v-if="category"
-        :category="category"
-        :dense="true"
-        class="my-auto"
-      />
+      <MicroBadgeCategoryComp v-if="category" :category="category" :dense="true" class="my-auto" />
     </div>
 
     <div class="collapse-content !pl-0 pr-0 dark:text-white text-xs">
-      <ais-configure
-        :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`"
-        :numeric-refinements="{
+      <ais-configure :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`" :numeric-refinements="{
           ...(appliedSliderValue[0] !== props.min || appliedSliderValue[1] !== props.max
             ? {
               'production_in_year': {
@@ -52,82 +33,37 @@
               'prodYearsOnly': { '=': 1 }
             }
             : {})
-        }"
-        class="hidden"
-      />
+        }" class="hidden" />
 
       <div class="p-4 m-4">
-        <Slider
-          v-model="sliderValue"
-          :min="props.min"
-          :max="props.max"
-          :step="1"
-          thumb-label
-          class="w-full h-8"
-          :aria-label="$t('refineBy', { headerText: $t(headerText) })"
-        />
+        <Slider v-model="sliderValue" :min="props.min" :max="props.max" :step="1" thumb-label class="w-full h-8"
+          :aria-label="$t('refineBy', { headerText: $t(headerText) })" />
       </div>
 
       <div class="flex flex-row justify-around mt-2 p-2">
-        <FormKit
-          v-model="sliderValue[0]"
-          type="number"
-          outer-class="!w-8"
-          :min="min"
-          :max="max"
-          :placeholder="String(min)"
-          number="integer"
-          :aria-label="$t('minimumProductionYear')"
-        />
+        <FormKit v-model="sliderValue[0]" type="number" outer-class="!w-8" :min="min" :max="max"
+          :placeholder="String(min)" number="integer" :aria-label="$t('minimumProductionYear')" />
         <div class="w-1/3 flex flex-col justify-center mb-3.5">
-          <Icon
-            class="mx-auto dark:text-white"
-            name="tabler:arrow-right"
-          />
+          <Icon class="mx-auto dark:text-white" name="tabler:arrow-right" />
         </div>
-        <FormKit
-          v-model="sliderValue[1]"
-          type="number"
-          outer-class="!w-8"
-          :min="min"
-          :max="max"
-          :placeholder="String(max)"
-          number="integer"
-          :aria-label="$t('maximumProductionYear')"
-        />
+        <FormKit v-model="sliderValue[1]" type="number" outer-class="!w-8" :min="min" :max="max"
+          :placeholder="String(max)" number="integer" :aria-label="$t('maximumProductionYear')" />
       </div>
 
-      <div
-        class="text-center mt-2 py-2 px-4"
-        :title="$t('prodYearOnlyProductionYearExtended')"
-      >
+      <div class="text-center mt-2 py-2 px-4" :title="$t('prodYearOnlyProductionYearExtended')">
         <label class="label cursor-pointer text-xs">
-          <input
-            v-model="prodYearOnly"
-            type="checkbox"
-            class="checkbox checkbox-xs"
-          >
+          <input v-model="prodYearOnly" type="checkbox" class="checkbox checkbox-xs">
           <span class="label-text ml-2">{{ $t('prodYearOnlyProductionYear') }}</span>
         </label>
       </div>
 
       <div class="text-center flex flex-row mt-4 mx-2">
-        <button
-          class="btn btn-block btn-xs w-1/2"
-          @click="resetSlider"
-        >
+        <button class="btn btn-block btn-xs w-1/2" @click="resetSlider">
           {{ $t('reset') }}
         </button>
-        <button
-          class="btn btn-block btn-xs w-1/2 btn-primary"
-          :disabled="!hasUnsavedChanges"
-          @click="applySlider"
-        >
+        <button class="btn btn-block btn-xs w-1/2 btn-primary" :disabled="!hasUnsavedChanges" @click="applySlider">
           {{ $t('apply') }}
-          <span
-            v-if="hasUnsavedChanges"
-            class="ml-1 text-md align-top text-warning-500 dark:text-warning-400"
-          >•</span>
+          <span v-if="hasUnsavedChanges" class="ml-1 text-md align-top text-warning-500 dark:text-warning-400">•</span>
         </button>
       </div>
     </div>

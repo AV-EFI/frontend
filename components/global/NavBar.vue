@@ -61,17 +61,18 @@
 
           <!-- Logo and claim -->
           <div class="mb-2 ml-2 flex items-center justify-center h-12">
-            <a class="dark:bg-white rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center" href="/"
+            <a class="rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center" href="/"
               :aria-label="$t('home.breadcrumbs')" :title="$t('home.breadcrumbs')">
-              <img src="/img/AV-EFI-Logo.svg" alt="AVefi Logo" class="my-auto" width="70" height="auto">
+              <img src="/img/AV-EFI-Logo.svg" alt="AVefi Logo" class="my-auto dark:hidden" width="70" height="auto">
+              <img src="/img/AV-EFI-Logo-dark.svg" alt="AVefi Logo dark" class="my-auto hidden dark:block" width="70"
+                height="auto">
             </a>
             <img :src="locale === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'" :alt="t('avefiClaim')"
               :title="t('avefiClaim')" class="hidden h-12 w-auto ml-2 rounded-lg dark:invert">
             <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
-              <span class="bree text-black dark:text-white my-auto"
-                v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
+              <span class="bree my-auto" v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
             </div>
-            <div v-if="envLabel !== 'Production'" class="badge badge-accent mr-auto ml-3 my-auto text-left h-6 w-24">
+            <div v-if="envLabel !== 'Production'" class="badge badge-neutral mr-auto ml-3 my-auto text-left h-6 w-24">
               {{ envLabel }}
             </div>
             <div v-if="!alphaClicked && envLabel === 'Production'"

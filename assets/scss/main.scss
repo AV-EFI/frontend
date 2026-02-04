@@ -32,14 +32,14 @@ textarea::selection {
   --color-base-100: oklch(99% 0.003 247.858);
   --color-base-200: oklch(96% 0.007 247.896);
   --color-base-300: oklch(86% 0.022 252.894);
-  --color-base-content: oklch(32.437% 0.022 264.182);
+  --color-base-content: #141b1f;
   --color-primary: #4d768d;
   --color-primary-content: oklch(98% 0.002 247.839);
   --color-secondary: #000000;
   --color-secondary-content: oklch(98% 0.002 247.839);
   --color-accent: #ff1d25;
   --color-accent-content: #fefefe;
-  --color-neutral: #4a6173;
+  --color-neutral: #141b1f;
   --color-neutral-content: oklch(89.925% 0.016 262.749);
   --color-info: oklch(95% 0.045 203.388);
   --color-info-content: oklch(13.841% 0.012 332.664);
@@ -49,8 +49,11 @@ textarea::selection {
   --color-warning-content: oklch(17.097% 0.017 84.093);
   --color-error: oklch(60.61% 0.12 15.341);
   --color-error-content: oklch(12.122% 0.024 15.341);
-  --color-highlight: #A53A42;
-  --color-highlight-content: #ffffff;
+
+    /*--color-highlight: #A53A42;*/
+    /*#ff748c*/
+  --color-highlight: #ffc0cb;
+  --color-highlight-content: #383838;
   --color-favourites-list: #B85A5E;            /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
   --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
@@ -59,9 +62,13 @@ textarea::selection {
   --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
   --color-compare-list-hover: #2B343B;
   --color-compare-list-content: #ffffff;
-  --color-work: #E8E2D2;          /* slightly warmer parchment, still neutral */
-  --color-manifestation: #D6CFBB; /* balanced greige with gentle beige depth */
-  --color-item: #C6BEA3;          /* richer sand-grey with mild olive warmth */  
+  --color-work: #8ea1a1;          /* slightly warmer parchment, still neutral */
+  --color-manifestation: #7c949e; /* balanced greige with gentle beige depth */
+  --color-item: #748599;          /* richer sand-grey with mild olive warmth */  
+
+  --color-userinfo: #3a4246;
+  --color-userinfo-content: oklch(89.925% 0.016 262.749);
+
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 1rem;
@@ -80,7 +87,7 @@ textarea::selection {
   --color-base-100: oklch(20.768% 0.039 265.754);
   --color-base-200: oklch(19.314% 0.037 265.754);
   --color-base-300: oklch(17.86% 0.034 265.754);
-  --color-base-content: oklch(84.153% 0.007 265.754);
+  --color-base-content: #dfe9ee;
   --color-primary: #4d768d;
   --color-primary-content: oklch(98% 0.002 247.839);
   --color-secondary: #000000;
@@ -88,7 +95,7 @@ textarea::selection {
   --color-accent: #ff1d25;
   --color-accent-content: #fefefe;
   --color-neutral: oklch(27.949% 0.036 260.03);
-  --color-neutral-content: oklch(85.589% 0.007 260.03);
+  --color-neutral-content: #ffffff;
   --color-info: oklch(68.455% 0.148 237.251);
   --color-info-content: oklch(0% 0 0);
   --color-success: oklch(78.452% 0.132 181.911);
@@ -97,7 +104,7 @@ textarea::selection {
   --color-warning-content: oklch(16.648% 0.027 82.95);
   --color-error: oklch(71.785% 0.17 13.118);
   --color-error-content: oklch(14.357% 0.034 13.118);
-  --color-highlight: #b2161d;
+  --color-highlight: #ff284d;
   --color-highlight-content: #ffffff;
   --color-favourites-list: #B85A5E;              /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
@@ -106,9 +113,14 @@ textarea::selection {
   --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
   --color-compare-list-hover: #2B343B;
   --color-compare-list-content: #ffffff;
-  --color-work: #F3E2B8;
-  --color-manifestation: #E8D39E;
-  --color-item: #DDC48B;
+
+  --color-work: #809595;          /* slightly warmer parchment, still neutral */
+  --color-manifestation: #728a8a; /* balanced greige with gentle beige depth */
+  --color-item: #677c7c;          /* richer sand-grey with mild olive warmth */  
+
+  --color-userinfo: #3a4246;
+  --color-userinfo-content: oklch(89.925% 0.016 262.749);
+
   --radius-selector: 0.5rem;
   --radius-field: 0.25rem;
   --radius-box: 1rem;
@@ -144,23 +156,33 @@ textarea::selection {
   /* End DaisyUI btn-outline border customization */
   .badge-work {
     --badge-bg: var(--color-work)!important;
-    --badge-content: var(--color-base-100); /* or a custom contrast */
+    --badge-content: var(--color-base-100)!important; /* or a custom contrast */
+    color: var(--color-white)!important;
   }
   .badge-manifestation {
     --badge-bg: var(--color-manifestation)!important;
-    --badge-content: var(--color-base-100); /* or a custom contrast */
+    --badge-content: var(--color-base-100)!important; /* or a custom contrast */
+    color: var(--color-white)!important;
   }
   .badge-item {
     --badge-bg: var(--color-item)!important;
-    --badge-content: var(--color-base-100); /* or a custom contrast */
+    --badge-content: var(--color-base-100)!important; /* or a custom contrast */
+    color: var(--color-white)!important;
   }
   .badge-favourites-list {
     --badge-bg: var(--color-favourites-list)!important;
     --badge-content: var(--color-favourites-list-content)!important;  
+    color: var(--color-white)!important;
   }
   .badge-compare-list {
     --badge-bg: var(--color-compare-list)!important;
     --badge-content: var(--color-compare-list-content)!important;
+    color: var(--color-white)!important;
+  }
+  .badge-userinfo {
+    --badge-bg: var(--color-userinfo)!important;
+    --badge-content: var(--color-userinfo-content)!important; /* or a custom contrast */
+    color: var(--color-userinfo-content)!important; 
   }
   .btn-highlight {
     background-color: var(--color-highlight)!important;
@@ -180,6 +202,9 @@ textarea::selection {
   }
   .bg-manifestation {
     background-color: var(--color-manifestation)!important;
+  }
+  .bg-userinfo {
+    background-color: #333333!important;
   }
   .bg-item {
     background-color: var(--color-item)!important;
@@ -545,6 +570,7 @@ mark {
   display: flex;
 }
 .cookieControl__Modal {
+  background: var(--color-neutral);
   position: fixed;
   top: 0;
   left: 0;

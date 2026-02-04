@@ -9,9 +9,10 @@
         </div>
         <div v-else-if="issuerItems.length > 0">
             <!-- Desktop/Large screens: original carousel -->
-            <div class="carousel-container items-center relative hidden lg:flex bg:white/80 dark:bg-base-200/60 rounded-box p-4">
+            <div
+                class="carousel-container items-center relative hidden lg:flex bg:white/80 dark:bg-base-200/60 rounded-box p-4">
                 <button :alt="$t('togglePreviousSlide')" :aria-label="$t('togglePreviousSlide')"
-                    class="md:flex z-10 p-2 bg-primary text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
+                    class="md:flex z-10 p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
                     @click="prevSlide">
                     <Icon name="tabler:chevron-left" />
                 </button>
@@ -30,7 +31,8 @@
                                             {{ item.name }}
                                         </h4>
                                         <p class="text-sm opacity-70">
-                                            {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ? $t('dataset') : $t('datasets') }}
+                                            {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ?
+                                            $t('dataset') : $t('datasets') }}
                                         </p>
                                         <div class="card-actions">
                                             <NuxtLink
@@ -47,7 +49,7 @@
                     </div>
                 </div>
                 <button :alt="$t('toggleNextSlide')" :aria-label="$t('toggleNextSlide')"
-                    class="z-10 md:flex p-2 bg-primary text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
+                    class="z-10 md:flex p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
                     @click="nextSlide">
                     <Icon name="tabler:chevron-right" />
                 </button>
@@ -55,22 +57,15 @@
 
             <!-- Mobile/Small screens: horizontal scrollable cards -->
             <div class="w-full relative lg:hidden">
-                <div ref="carouselRef" class="carousel carousel-center w-full bg-white/40 dark:bg-base-200/60 rounded-box p-4 overflow-x-auto scroll-smooth flex">
-                    <div
-                        v-for="(item, index) in issuerItems"
-                        :key="index"
-                        class="carousel-item align-top flex flex-col items-center mx-2 w-[85vw] sm:w-72 md:w-80 lg:w-96"
-                    >
+                <div ref="carouselRef"
+                    class="carousel carousel-center w-full bg-white/40 dark:bg-base-200/60 rounded-box p-4 overflow-x-auto scroll-smooth flex">
+                    <div v-for="(item, index) in issuerItems" :key="index"
+                        class="carousel-item align-top flex flex-col items-center mx-2 w-[85vw] sm:w-72 md:w-80 lg:w-96">
                         <figure class="w-full">
-                            <div class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white/80 dark:bg-white flex items-center justify-center">
-                                <img
-                                    :src="item.image"
-                                    :alt="item.imageAlt"
-                                    :title="item.name"
-                                    loading="lazy"
-                                    decoding="async"
-                                    class="max-w-full max-h-full object-contain z-10"
-                                >
+                            <div
+                                class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white/80 dark:bg-white flex items-center justify-center">
+                                <img :src="item.image" :alt="item.imageAlt" :title="item.name" loading="lazy"
+                                    decoding="async" class="max-w-full max-h-full object-contain z-10">
                             </div>
                         </figure>
                         <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
@@ -78,13 +73,12 @@
                                 {{ item.name }}
                             </h2>
                             <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:!line-clamp-none">
-                                {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ? $t('dataset') : $t('datasets') }}
+                                {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ? $t('dataset') :
+                                $t('datasets') }}
                             </p>
                             <div class="mt-auto">
-                                <NuxtLink
-                                    :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
-                                    class="btn btn-sm w-full md:w-auto btn-primary"
-                                >
+                                <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
+                                    class="btn btn-sm w-full md:w-auto btn-primary">
                                     {{ $t('viewDatasets') || 'View Datasets' }}
                                     <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
                                 </NuxtLink>
@@ -93,20 +87,14 @@
                     </div>
                 </div>
                 <!-- Mobile arrows -->
-                <button
-                    v-if="issuerItems.length > 1"
-                    @click="prevMobileSlide"
+                <button v-if="issuerItems.length > 1" @click="prevMobileSlide"
                     class="absolute -left-8 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-100 shadow flex"
-                    :aria-label="$t('togglePreviousSlide')"
-                >
+                    :aria-label="$t('togglePreviousSlide')">
                     <Icon name="tabler:chevron-left" />
                 </button>
-                <button
-                    v-if="issuerItems.length > 1"
-                    @click="nextMobileSlide"
+                <button v-if="issuerItems.length > 1" @click="nextMobileSlide"
                     class="absolute -right-8 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-100 shadow flex"
-                    :aria-label="$t('toggleNextSlide')"
-                >
+                    :aria-label="$t('toggleNextSlide')">
                     <Icon name="tabler:chevron-right" />
                 </button>
             </div>
@@ -205,7 +193,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-
 .slide-enter-active,
 .slide-leave-active {
     transition: all 0.5s ease;
