@@ -63,7 +63,7 @@
           <div class="swap-off w-full h-full flex items-center justify-center p-6">
             <div class="flex flex-col items-center">
               <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
-                Create your own
+                {{ t('create.yourOwn') || 'Create Your Own' }}
               </h2>
               <div class="btn btn-primary btn-circle mt-2">
                 <Icon class="" name="tabler:plus" />
@@ -87,7 +87,8 @@
               </div>
             </figure>
             <div class="lg:h-72 lg:w-96 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
-              <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">Create your own</h2>
+              <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">{{
+                t('create.yourOwn') || 'Create Your Own' }}</h2>
               <input v-model="createForm.title" type="text" placeholder="Title"
                 class="input input-bordered input-sm mb-2 w-full" />
               <textarea v-model="createForm.description" rows="3" placeholder="Description"
@@ -95,7 +96,7 @@
               <input v-model="createForm.link" type="text" placeholder="Search Link (Copy URL from search page)"
                 class="input input-bordered input-sm mb-2 w-full" />
               <div class="mt-auto">
-                <button @click="handleCreate" class="btn btn-sm w-full md:w-auto btn-primary">Create</button>
+                <button @click="handleCreate" class="btn btn-sm w-full md:w-auto btn-primary">{{$t('send')}}</button>
               </div>
             </div>
           </div>

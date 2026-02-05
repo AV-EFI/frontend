@@ -7209,6 +7209,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cytoscape@npm:^3.29.2":
+  version: 3.33.1
+  resolution: "cytoscape@npm:3.33.1"
+  checksum: 10c0/dffcf5f74df4d91517c4faf394df880d8283ce76edef19edba0c762941cf4f18daf7c4c955ec50c794f476ace39ad4394f8c98483222bd2682e1fd206e976411
+  languageName: node
+  linkType: hard
+
 "daisyui@npm:^5.2.3":
   version: 5.3.2
   resolution: "daisyui@npm:5.3.2"
@@ -10400,6 +10407,7 @@ __metadata:
     "@vueuse/nuxt": "npm:^10.11.1"
     algoliasearch: "npm:^4"
     axios: "npm:^1.9.0"
+    cytoscape: "npm:^3.29.2"
     daisyui: "npm:^5.2.3"
     eslint: "npm:^9.39.2"
     eslint-plugin-vue: "npm:^10.6.2"
