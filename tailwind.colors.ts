@@ -15,7 +15,7 @@ export const lightThemeColors = {
         content: '#fefefe',
     },
     neutral: {
-        DEFAULT: '#364754',
+        DEFAULT: '#141b1f',
         content: 'oklch(89.925% 0.016 262.749)',
     },
     info: {
@@ -35,8 +35,8 @@ export const lightThemeColors = {
         content: 'oklch(12.122% 0.024 15.341)',
     },
     custom: {
-        highlight: '#A53A42',
-        'highlight-content': '#ffffff',
+        highlight: '#ffc0cb',
+        'highlight-content': '#383838',
         'favourites-list': '#B85A5E',
         'favourites-list-content': '#ffffff',
         'favourites-list-hover': '#9A464A',
@@ -44,9 +44,11 @@ export const lightThemeColors = {
         'compare-list': '#3A434A',
         'compare-list-hover': '#2B343B',
         'compare-list-content': '#ffffff',
-        work: '#E8E2D2',
-        manifestation: '#D6CFBB',
-        item: '#C6BEA3',
+        work: '#8ea1a1',
+        manifestation: '#7c949e',
+        item: '#748599',
+        userinfo: '#3a4246',
+        'userinfo-content': 'oklch(89.925% 0.016 262.749)',
     },
 };
 
@@ -65,7 +67,7 @@ export const darkThemeColors = {
     },
     neutral: {
         DEFAULT: 'oklch(27.949% 0.036 260.03)',
-        content: 'oklch(85.589% 0.007 260.03)',
+        content: '#ffffff',
     },
     info: {
         DEFAULT: 'oklch(68.455% 0.148 237.251)',
@@ -84,7 +86,7 @@ export const darkThemeColors = {
         content: 'oklch(14.357% 0.034 13.118)',
     },
     custom: {
-        highlight: '#b2161d',
+        highlight: '#ff284d',
         'highlight-content': '#ffffff',
         'favourites-list': '#B85A5E',
         'favourites-list-content': '#ffffff',
@@ -93,8 +95,10 @@ export const darkThemeColors = {
         'compare-list': '#3A434A',
         'compare-list-hover': '#2B343B',
         'compare-list-content': '#ffffff',
-        work: '#F3E2B8',
-        manifestation: '#E8D39E',
-        item: '#DDC48B',
+        work: '#809595',
+        manifestation: '#728a8a',
+        item: '#677c7c',
+        userinfo: '#3a4246',
+        'userinfo-content': 'oklch(89.925% 0.016 262.749)',
     },
 };

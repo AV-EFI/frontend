@@ -585,6 +585,10 @@ export default defineI18nConfig(() => ({
                     "desc": "Generate persistent links for scholarly references."
                 }
             },
+            "create": {
+                "yourOwn": "Create Your Own",
+                "contactFormPrefill": "Contact Form Prefill"
+            },
             "topIssuers": "Top Publishers & Archives",
             "dataset": "dataset",
             "datasets": "datasets",
@@ -753,6 +757,10 @@ export default defineI18nConfig(() => ({
                     "title": "Zitieren",
                     "desc": "Erzeugen Sie persistente Links für wissenschaftliche Nachweise."
                 }
+            },
+            "create": {
+                "yourOwn": "Create Your Own",
+                "contactFormPrefill": "Contact Form Prefill"
             },
             "topIssuers": "Top Verlage & Archive",
             "dataset": "Datensatz",

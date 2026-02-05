@@ -80,12 +80,12 @@
       </div>
       <!-- Mobile arrows -->
       <button v-if="items.length > 1" @click="prevMobileSlide"
-        class="absolute -left-8 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-100 shadow flex"
+        class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-100 shadow flex"
         :aria-label="$t('togglePreviousSlide')">
         <Icon name="tabler:chevron-left" />
       </button>
       <button v-if="items.length > 1" @click="nextMobileSlide"
-        class="absolute -right-8 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-100 shadow flex"
+        class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-100 shadow flex"
         :aria-label="$t('toggleNextSlide')">
         <Icon name="tabler:chevron-right" />
       </button>

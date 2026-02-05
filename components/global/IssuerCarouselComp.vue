@@ -39,7 +39,7 @@
                                                 :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
                                                 class="btn btn-primary btn-sm">
                                                 {{ $t('viewDatasets') || 'View Datasets' }}
-                                                <Icon name="tabler:arrow-right" class="ml-1" />
+                                                <Icon class="text-white" name="tabler:arrow-right" />
                                             </NuxtLink>
                                         </div>
                                     </div>
@@ -51,7 +51,7 @@
                 <button :alt="$t('toggleNextSlide')" :aria-label="$t('toggleNextSlide')"
                     class="z-10 md:flex p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
                     @click="nextSlide">
-                    <Icon name="tabler:chevron-right" />
+                    <Icon class="text-white" name="tabler:chevron-right" />
                 </button>
             </div>
 
@@ -88,14 +88,14 @@
                 </div>
                 <!-- Mobile arrows -->
                 <button v-if="issuerItems.length > 1" @click="prevMobileSlide"
-                    class="absolute -left-8 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-100 shadow flex"
+                    class="absolute -left-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
                     :aria-label="$t('togglePreviousSlide')">
-                    <Icon name="tabler:chevron-left" />
+                    <Icon class="text-white" name="tabler:chevron-left" />
                 </button>
                 <button v-if="issuerItems.length > 1" @click="nextMobileSlide"
-                    class="absolute -right-8 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-white dark:bg-base-100 shadow flex"
+                    class="absolute -right-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
                     :aria-label="$t('toggleNextSlide')">
-                    <Icon name="tabler:chevron-right" />
+                    <Icon class="text-white" name="tabler:chevron-right" />
                 </button>
             </div>
         </div>
