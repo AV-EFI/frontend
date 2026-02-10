@@ -25,7 +25,7 @@
             </a>
             <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false" class="ml-2" />
           </h2>
-          <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left opacity-80">
+          <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left opacity-95">
             <ul v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name">
               <li v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name" :key="idx"
                 class="block" tabindex="0"
