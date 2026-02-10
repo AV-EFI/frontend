@@ -316,14 +316,13 @@ const runtimeConfig = useRuntimeConfig();
 // SEO & Schema.org setup
 const seoField = route.query.field as string | undefined;
 const seoFilter = route.query.filter as string | undefined;
-const seoNormdata = route.query.normdata === 'true';
 
 // Field labels mapping (can be extended)
 const fieldLabels: Record<string, { de: string; en: string }> = {
     has_genre: { de: 'Genre', en: 'Genre' },
     has_subject: { de: 'Schlagwörter', en: 'Keywords' },
-    has_colour_type: { de: 'Farbtyp', en: 'Colour Type' },
-    has_sound_type: { de: 'Ton', en: 'Sound' },
+//    has_colour_type: { de: 'Farbtyp', en: 'Colour Type' },
+//    has_sound_type: { de: 'Ton', en: 'Sound' },
 };
 
 const currentLocale = useI18n().locale.value;
@@ -351,7 +350,7 @@ const pageDescription = computed(() => {
     return t('seo.normdata.description');
 });
 
-const canonical = (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/vocab';
+const canonical = (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/normdata';
 
 // Meta tags
 useSeoMeta({
@@ -445,15 +444,18 @@ watch([selectedField, filter, showOnlyWithNormdata, activeLetter, currentPage, p
 }, { deep: true });
 
 const { data, pending, refresh } = useFetch(() => {
-    const url = `/api/elastic/vocab/${selectedField.value}`;
+    const url = `/api/elastic/normdata/${selectedField.value}`;
     const params = new URLSearchParams();
     if (activeLetter.value) {
         params.append('letter', activeLetter.value);
     }
+    if (filter.value.trim()) {
+        params.append('filter', filter.value.trim());
+    }
     return params.toString() ? `${url}?${params.toString()}` : url;
 }, {
     immediate: true,
-    watch: [activeLetter, selectedField],
+    watch: [activeLetter, selectedField, filter],
 });
 
 const rows = computed<Row[]>(() => (data.value?.rows as Row[]) || []);
@@ -600,7 +602,7 @@ async function exportData(scope: 'current', format: 'csv' | 'json' | 'xml') {
         return;
     }
 
-    const filename = `avefi_vocab_${selectedField.value}_page${currentPage.value}_${new Date().toISOString().slice(0, 10)}`;
+    const filename = `avefi_normdata_${selectedField.value}_page${currentPage.value}_${new Date().toISOString().slice(0, 10)}`;
 
     try {
         if (format === 'csv') {
@@ -632,7 +634,7 @@ async function exportAllResults(ignoreFilters: boolean = false) {
             params.append('letter', activeLetter.value);
         }
     
-        const response = await fetch(`/api/elastic/vocab/${selectedField.value}?${params.toString()}`);
+        const response = await fetch(`/api/elastic/normdata/${selectedField.value}?${params.toString()}`);
     
         if (!response.ok) {
             throw new Error('Export failed');
@@ -644,7 +646,7 @@ async function exportAllResults(ignoreFilters: boolean = false) {
         a.href = url;
     
         const filterSuffix = ignoreFilters ? 'complete' : (activeLetter.value || 'filtered');
-        a.download = `avefi_vocab_${selectedField.value}_all_${filterSuffix}_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.download = `avefi_normdata_${selectedField.value}_all_${filterSuffix}_${new Date().toISOString().slice(0, 10)}.csv`;
     
         document.body.appendChild(a);
         a.click();
@@ -659,7 +661,7 @@ async function exportAllResults(ignoreFilters: boolean = false) {
 }
 
 function exportSingleRow(row: Row) {
-    const filename = `avefi_vocab_${selectedField.value}_${row.value.substring(0, 30)}_${new Date().toISOString().slice(0, 10)}`;
+    const filename = `avefi_normdata_${selectedField.value}_${row.value.substring(0, 30)}_${new Date().toISOString().slice(0, 10)}`;
     const header = ['value', 'normdata_id', 'normdata_category', 'provider', 'docCount'];
     const lines = [header.join(';')];
   
@@ -764,7 +766,7 @@ function exportJson(filename: string) {
 }
 
 function exportXml(filename: string) {
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<vocabulary field="${selectedField.value}">\n`;
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<normdataulary field="${selectedField.value}">\n`;
   
     for (const r of sortedRows.value) {
         xml += `  <entry>\n`;
@@ -789,7 +791,7 @@ function exportXml(filename: string) {
         xml += `  </entry>\n`;
     }
   
-    xml += `</vocabulary>`;
+    xml += `</normdataulary>`;
   
     downloadBlob(xml, `${filename}.xml`, 'application/xml');
 }

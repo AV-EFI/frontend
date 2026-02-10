@@ -36,7 +36,8 @@
       </h2>
       <ul class="flex flex-row flex-wrap gap-1 lg:gap-2">
         <li v-for="entry in group.entries" :id="rowId(entry)" :key="entry.term + entry.enumSource + query"
-          :ref="(el:any)=>setRowRef(entry, el)" class="rounded-xl border border-base-200 bg-base-100 transition-all w-full lg:w-[calc(50%_-_0.25rem)]"
+          :ref="(el:any)=>setRowRef(entry, el)"
+          class="rounded-xl border border-base-200 bg-base-100 transition-all w-full lg:w-[calc(50%_-_0.25rem)]"
           :class="isOpen(entry) ? 'grid lg:grid-cols-[1fr,minmax(300px,34rem)]' : 'block'">
           <!-- LEFT: entry content -->
           <div class="p-3">
@@ -148,7 +149,9 @@ const emit = defineEmits(['update-query']);
 
 const rawQuery = ref(props.initQuery);
 const query = ref(props.initQuery);
-let debounceTimer: any;
+let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+let skipNextInitQuerySync = false;
+let latestEmittedQuery: string | null = null;
 
 const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const activeLetter = ref<string | null>(null);
@@ -187,7 +190,7 @@ function displayTerm(term: string): string {
 }
 // Sync activeLetter with URL query
 watch(activeLetter, (val) => {
-    emit('update-query', rawQuery.value, val);
+  emit('update-query', rawQuery.value, val || undefined);
 });
 
 const { locale } = useI18n();
@@ -241,11 +244,14 @@ function secondaryLabelAria(entry: VocabEntry): string {
 
 /* ---------- search ---------- */
 watch(rawQuery, (val) => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        query.value = (val ?? '').trim().toLowerCase();
-        emit('update-query', query.value);
-    }, 150);
+  if (debounceTimer) clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    query.value = (val ?? '').trim().toLowerCase();
+    latestEmittedQuery = query.value;
+    skipNextInitQuerySync = true;
+    emit('update-query', query.value, activeLetter.value || undefined);
+    debounceTimer = null;
+  }, 150);
 });
 
 // Watch for prop changes (route updates)
@@ -254,14 +260,17 @@ watch(
     (val) => {
         const next = String(val ?? '');
 
-        // If the user is already typing this exact value, do nothing.
-        // This avoids cursor jumps / last-character loss.
-        if (rawQuery.value === next) {
-            query.value = next.trim().toLowerCase(); // still keep filter state correct
-            return;
+        if (skipNextInitQuerySync && next === latestEmittedQuery) {
+          skipNextInitQuerySync = false;
+          return;
         }
 
-        // Only sync from route when it truly changed externally (e.g., back/forward navigation)
+        if (rawQuery.value === next) {
+          query.value = next.trim().toLowerCase();
+          return;
+        }
+
+        skipNextInitQuerySync = false;
         rawQuery.value = next;
         query.value = next.trim().toLowerCase();
     },
