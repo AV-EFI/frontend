@@ -309,7 +309,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Normal mode: limit to 100 results for display
-    const limitedRows = rows.slice(0, 100);
+    const limitedRows = rows.slice(0, 1000);
 
     return {
         field: fieldParam,
