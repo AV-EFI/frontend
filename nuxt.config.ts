@@ -59,6 +59,26 @@ export default defineNuxtConfig({
             ]
         },
         routeRules: {
+            // ✅ must be crawlable/indexable for Google to accept it as sitemap
+            '/sitemap.xml': {
+                headers: { 'X-Robots-Tag': 'index, follow' },
+            },
+            // ✅ robots.txt must be fetchable
+            '/robots.txt': {
+                headers: { 'X-Robots-Tag': 'index, follow' },
+            },
+
+            // OPTIONAL: allow your “test-preview” pages to be indexable even when site is locked
+            ...(indexable
+                ? {}
+                : {
+                    '/search': { headers: { 'X-Robots-Tag': 'index, follow' } },
+                    '/search/**': { headers: { 'X-Robots-Tag': 'index, follow' } },
+                    '/res/**': { headers: { 'X-Robots-Tag': 'index, follow' } },
+                    '/imprint': { headers: { 'X-Robots-Tag': 'index, follow' } },
+                }),
+
+            // 🔒 default lock-down for everything else
             '/**': indexable
                 ? {}
                 : {
