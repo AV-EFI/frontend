@@ -2,12 +2,10 @@
 <template>
   <NuxtLayout name="partial-layout-1-center">
     <template #navigation>
-      <GlobalBreadcrumbsComp
-        :breadcrumbs="[
+      <GlobalBreadcrumbsComp :breadcrumbs="[
           ['Home', '/'],
           [$t('faq'), '/faq'],
-        ]"
-      />
+        ]" />
     </template>
 
     <template #title>
@@ -31,7 +29,8 @@
                   <p class="my-2">{{ $t('contact.about.1') }}</p>
                   <p class="my-2">
                     {{ $t('contact.about.2.beforeLink') }}
-                    <a class="link" href="https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html" target="_blank">FIAF-Regelwerk</a>
+                    <a class="link" href="https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html"
+                      target="_blank">FIAF-Regelwerk</a>
                     {{ $t('contact.about.2.afterLink') }}
                   </p>
                 </div>
@@ -63,39 +62,40 @@
                 </div>
               </div>
 
-                <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.keywords')">
-                  <input type="checkbox">
-                  <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                    <h2>{{ $t('contact.keywords') }}</h2>
-                  </div>
-                  <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                    <p class="my-2">{{ $t('contact.keywordsContent') }}</p>
-                  </div>
+              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.keywords')">
+                <input type="checkbox">
+                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                  <h2>{{ $t('contact.keywords') }}</h2>
                 </div>
+                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                  <p class="my-2">{{ $t('contact.keywordsContent') }}</p>
+                </div>
+              </div>
 
-                <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.normdata')">
-                  <input type="checkbox">
-                  <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                    <h2>{{ $t('contact.normdata') }}</h2>
-                  </div>
-                  <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                    <p class="my-2">
-                      {{ $t('contact.normdataContent.beforeLink') }}
-                      <a class="link" href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html" target="_blank">Gemeinsamen Normdatei (GND)</a>
-                      {{ $t('contact.normdataContent.afterLink') }}
-                    </p>
-                  </div>
+              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.normdata')">
+                <input type="checkbox">
+                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                  <h2>{{ $t('contact.normdata') }}</h2>
                 </div>
+                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                  <p class="my-2">
+                    {{ $t('contact.normdataContent.beforeLink') }}
+                    <a class="link" href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html"
+                      target="_blank">Gemeinsamen Normdatei (GND)</a>
+                    {{ $t('contact.normdataContent.afterLink') }}
+                  </p>
+                </div>
+              </div>
 
-                <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.availability')">
-                  <input type="checkbox">
-                  <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                    <h2>{{ $t('contact.availability') }}</h2>
-                  </div>
-                  <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                    <p class="my-2">{{ $t('contact.availabilityContent') }}</p>
-                  </div>
+              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.availability')">
+                <input type="checkbox">
+                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                  <h2>{{ $t('contact.availability') }}</h2>
                 </div>
+                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                  <p class="my-2">{{ $t('contact.availabilityContent') }}</p>
+                </div>
+              </div>
 
               <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.pids')">
                 <input type="checkbox">
