@@ -2,10 +2,37 @@
 // All imports below are auto-imported by Nuxt
 const { locale, t: $t } = useI18n();
 
+useSchemaOrg([
+    defineWebSite({
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
+        name: 'AVefi',
+        publisher: {
+            '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity`,
+        },
+    }),
+])
+
 useSeoMeta({
     titleTemplate: '%s | AVefi',
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
     twitterCard: 'summary_large_image',
+    keywords: [
+        'AVefi',
+        'audiovisuelle Metadaten',
+        'Filmmetadaten',
+        'Filmarchive Deutschland',
+        'audiovisuelle Sammlungen',
+        'Forschungsdateninfrastruktur',
+        'Persistent Identifier',
+        'PID',
+        'Linked Open Data',
+        'FAIR data',
+        'Filmwissenschaft',
+        'Digital Humanities',
+        'Bestandsnachweis',
+        'Manifestationen',
+        'Normdaten (GND, VIAF, EIDR)',
+    ].join(', '),
 });
 
 // Optimize critical resource loading - preload fonts to prevent FOUT

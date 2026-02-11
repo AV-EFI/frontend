@@ -200,14 +200,14 @@ export default defineNuxtConfig({
         enabled: true,
         minify: true,
         identity: defineOrganization({
-            // Core identity: AVefi consortium / service
             name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
             alternateName: 'AVefi',
             url: process.env.SITE_URL || 'https://www.av-efi.net',
             logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
             description: 'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
-            // Hosted / operated at GWDG
-            serviceOperator: {
+
+            // ✅ Replace serviceOperator with provider (schema-valid relation)
+            provider: {
                 '@type': 'Organization',
                 name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG)',
                 alternateName: 'GWDG',
@@ -226,8 +226,9 @@ export default defineNuxtConfig({
                     email: 'support@gwdg.de',
                 },
             },
-            // Project / consortium structure
-            foundingDate: '2023-11-01', // adjust if you have a precise date
+
+            foundingDate: '2023-11-01',
+
             member: [
                 {
                     '@type': 'Organization',
@@ -253,12 +254,15 @@ export default defineNuxtConfig({
                 },
             ],
 
-            // Social + open repos
             sameAs: [
                 'https://github.com/AV-EFI',
                 'https://www.zotero.org/groups/5125890/avefi',
             ],
         }),
+
+        // ✅ Add exactly one publisher
+        // defaults must be true in your setup
+        defaults: true,
     },
     robots: {
         groups: [
@@ -270,9 +274,10 @@ export default defineNuxtConfig({
                 : {
                     userAgent: '*',
                     disallow: '/',
+                    allow: ['/search', '/search/**', '/res/**', '/res', '/imprint'],
                 },
         ],
-        sitemap: indexable ? ['/sitemap.xml'] : [],
+        sitemap: ['/sitemap.xml'],
     },
     // Sitemap
     sitemap: {
@@ -296,7 +301,6 @@ export default defineNuxtConfig({
             { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
             { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
         ],
-        siteUrl: process.env.SITE_URL || 'https://www.av-efi.net',
         exclude: [
             '/protected/**',
             '/admin/**',

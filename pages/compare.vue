@@ -82,7 +82,21 @@ useSeoMeta({
     ogUrl: canonical,
     twitterCard: 'summary',
     twitterTitle: pageTitle,
-    twitterDescription: pageDescription
+  twitterDescription: pageDescription,
+  keywords: [
+    'Vergleichsansicht',
+    'Datensatzvergleich',
+    'Filmvergleich',
+    'Metadatenvergleich',
+    'Versionen eines Films',
+    'Manifestationsvergleich',
+    'Exemplarvergleich',
+    'Parallelansicht',
+    'Filmmetadaten',
+    'Archivdaten',
+    'Persistent Identifier',
+    'Handle PID',
+  ].join(', '),
 });
 
 useSchemaOrg([

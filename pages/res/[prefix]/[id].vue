@@ -190,6 +190,23 @@ useSeoMeta({
     ogDescription: description,
     ogImage: '/img/avefi-og-image.png',
     ogUrl: canonical.value,
+    keywords: [
+        'Filmmetadaten',
+        'audiovisuelle Bestände',
+        'Archivdaten',
+        'Versionen eines Films',
+        'Manifestation',
+        'Exemplar',
+        'Persistent Identifier',
+        'Handle PID',
+        'Normdaten',
+        'GND',
+        'VIAF',
+        'EIDR',
+        'Linked Open Data',
+        'Forschungsdaten',
+        'Filmwissenschaft',
+    ].join(', '),
 });
 
 // Schema.org + Breadcrumbs

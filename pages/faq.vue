@@ -139,7 +139,21 @@ useSeoMeta({
     description: t('seo.faq.description'),
     ogTitle: t('seo.faq.ogTitle'),
     ogDescription: t('seo.faq.ogDescription'),
-    ogImage: '/img/avefi-og-image.png'
+  ogImage: '/img/avefi-og-image.png',
+  keywords: [
+    'FAQ',
+    'Häufig gestellte Fragen',
+    'Hilfe',
+    'Support',
+    'Nutzungshinweise',
+    'Anleitung',
+    'Filmrecherche Hilfe',
+    'Suchfunktionen',
+    'Filterfunktionen',
+    'Ergebnisanzeige',
+    'AVefi Portal',
+    'Filmmetadaten',
+  ].join(', '),
 });
 
 </script>

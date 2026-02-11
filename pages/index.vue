@@ -482,7 +482,23 @@ useSeoMeta({
     ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
     twitterCard: 'summary_large_image',
     twitterTitle: t('seo.home.title'),
-    twitterDescription: t('seo.home.description'),
+  twitterDescription: t('seo.home.description'),
+  keywords: [
+    'AVefi',
+    'Filmforschungsportal',
+    'Filmrecherche',
+    'Filmdatenbank',
+    'Filmmetadaten',
+    'audiovisuelle Bestände',
+    'Archivdaten',
+    'Filme suchen',
+    'wissenschaftliche Nutzung',
+    'Forschungsdaten',
+    'Filmwissenschaft',
+    'Linked Open Data',
+    'Normdaten',
+    'Persistent Identifier',
+  ].join(', '),
 });
 
 // ─────────────────────────────────────────────

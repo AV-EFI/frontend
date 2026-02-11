@@ -364,6 +364,22 @@ useSeoMeta({
     twitterCard: 'summary_large_image',
     twitterTitle: pageTitle,
     twitterDescription: pageDescription,
+    keywords: [
+        'Normdaten',
+        'GND',
+        'Gemeinsame Normdatei',
+        'VIAF',
+        'Authority Data',
+        'Personennormdaten',
+        'Körperschaftsnormdaten',
+        'Schlagwörter',
+        'Filmnormdaten',
+        'Identifikatoren',
+        'Persistent Identifier',
+        'Linked Open Data',
+        'Filmmetadaten',
+        'Archivdaten',
+    ].join(', '),
 });
 
 // Schema.org
