@@ -295,14 +295,11 @@ export default defineNuxtConfig({
     robots: {
         groups: [
             indexable
-                ? {
-                    userAgent: '*',
-                    allow: '/',
-                }
+                ? { userAgent: '*', allow: '/' }
                 : {
                     userAgent: '*',
-                    disallow: '/',
-                    allow: ['/search', '/search/**', '/res/**', '/res', '/imprint'],
+                    disallow: ['/',],
+                    allow: ['/search', '/res', '/res/', '/res/*', '/imprint'],
                 },
         ],
         sitemap: ['/sitemap.xml'],
