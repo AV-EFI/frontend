@@ -17,7 +17,7 @@
           @update-query="(q, letter) => router.replace({ query: { ...route.query, q, letter } })" />
       </div>
     </template>
-  </NuxtLayout>
+  </NuxtLayout>x
 </template>
 
 <script setup lang="ts">

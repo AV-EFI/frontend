@@ -16,6 +16,7 @@ useSeoMeta({
     titleTemplate: '%s | AVefi',
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
     twitterCard: 'summary_large_image',
+    publisher: `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity`,
     keywords: [
         'AVefi',
         'audiovisuelle Metadaten',

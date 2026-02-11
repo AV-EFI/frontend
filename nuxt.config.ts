@@ -17,15 +17,23 @@ export default defineNuxtConfig({
         pageTransition: false,
         head: {
             link: [
-                // Preconnect to external domains if needed
-                // { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+                // Favicons & app icons
+                { rel: 'icon', type: 'image/png', href: '/img/favicon-96x96.png', sizes: '96x96' },
+                { rel: 'icon', type: 'image/svg+xml', href: '/img/favicon.svg' },
+                { rel: 'shortcut icon', href: '/favicon.ico' },
+                { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
+                { rel: 'manifest', href: '/img/site.webmanifest' },
             ],
             meta: [
                 { 
                     name: 'google-site-verification',
                     content: 'mv2NfoSilsm-VcCIqXp-8m9WH-ldWlf2c_IDEqsaIwM'
-                }
-            ]
+                },
+                {
+                    name: 'apple-mobile-web-app-title',
+                    content: 'AVefi',
+                },
+            ]            
         }
     },
     // Inline critical CSS into the HTML to avoid render-blocking
@@ -281,37 +289,37 @@ export default defineNuxtConfig({
     },
     // Sitemap
     sitemap: {
-        include: [
+        excludeAppSources: true, // Exclude app sources to avoid conflicts with dynamic routes               
+        urls: [
             '/', 
             '/search',
             '/contact',
-            '/res/**',
             '/res',
-            '/imprint'
-        ],
-        // ⬇️ add concrete EFI/PID pages here
-        urls: [
+            '/imprint',
+
+            // concrete “testable” URLs
             { loc: '/search/?has_form=Short&manifestation_event_type=RestorationEvent' },
-            { loc: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`},
-            { loc: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan` },
-            { loc: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion` },
-            { loc: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29` },
+            { loc: '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik' },
+            { loc: '/search/?directors_or_editors=Troller%2C%20Georg%20Stefan' },
+            { loc: '/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion' },
+            { loc: '/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29' },
             { loc: '/search/?query=Metropolis' },
             { loc: '/search/?query=Berlin' },
+
             { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
             { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
         ],
+
+        // keep exclude if you want (won’t matter much if app sources are disabled)
         exclude: [
             '/protected/**',
             '/admin/**',
             '/login',
             '/logout',
             '/signout',
-            '/normdata',            
+            '/normdata',
             '/error-500',
-            //TODO: check if /vocab should be included
             '/vocab',
-            '/nuxt.config',   // if this route exists, hide it
             '/_**',
             '/_nuxt/**',
         ],
@@ -325,7 +333,7 @@ export default defineNuxtConfig({
         colors: false,
         isCssEnabled: true,
         isAcceptNecessaryButtonEnabled: true,        
-        declineAllAcceptsNecessary: true,
+        //declineAllAcceptsNecessary: true,
         localeTexts: {
             en: {
                 bannerTitle: 'This website uses cookies',
