@@ -1,4 +1,5 @@
 // nuxt.config.ts
+const indexable = process.env.NUXT_PUBLIC_INDEXABLE === 'true';
 
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from "nuxt-schema-org/schema";
@@ -41,7 +42,16 @@ export default defineNuxtConfig({
                 '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88',
                 // Add more important film pages here
             ]
-        }
+        },
+        routeRules: {
+            '/**': indexable
+                ? {}
+                : {
+                    headers: {
+                        'X-Robots-Tag': 'noindex, nofollow',
+                    },
+                },
+        },
     },
     modules: [
         '@pinia/nuxt',
@@ -244,19 +254,18 @@ export default defineNuxtConfig({
         }),
     },
     robots: {
-        // Let the module generate robots.txt, don't keep a static one that says "Disallow: /"
         groups: [
-            {
-                userAgent: '*',
-                disallow: '/'
-                /* TODO: re-enable when ready to be indexed                
-                userAgent: '*',
-                allow: process.env.NUXT_PUBLIC_INDEXABLE === 'true' ? '/' : '',
-                disallow: process.env.NUXT_PUBLIC_INDEXABLE === 'true' ? '' : '/',
-                */
-            },
+            indexable
+                ? {
+                    userAgent: '*',
+                    allow: '/',
+                }
+                : {
+                    userAgent: '*',
+                    disallow: '/',
+                },
         ],
-        sitemap: ['/sitemap.xml'],
+        sitemap: indexable ? ['/sitemap.xml'] : [],
     },
     // Sitemap
     sitemap: {
@@ -287,6 +296,7 @@ export default defineNuxtConfig({
             '/login',
             '/logout',
             '/signout',
+            '/normdata',            
             '/error-500',
             //TODO: check if /vocab should be included
             '/vocab',

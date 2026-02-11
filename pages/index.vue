@@ -27,7 +27,7 @@
 
             <!-- Background media -->
             <img v-if="!heroMediaVisible" class="absolute inset-0 w-full h-full object-cover dark:invert"
-              src="/img/avefi_diamonds_prim_white.png" alt="Diamond pattern primary white" />
+              src="/img/network_grayscale.png" alt="Diamond pattern primary white" />
             <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"
               class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
               <source src="/vid/klappe_comp.mp4" type="video/mp4" />
