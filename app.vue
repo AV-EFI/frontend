@@ -9,8 +9,28 @@ useSchemaOrg([
         publisher: {
             '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity`,
         },
+        // ✅ Replace serviceOperator with provider (schema-valid relation)            
+        provider: {
+            '@type': 'Organization',
+            name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG)',
+            alternateName: 'GWDG',
+            url: 'https://www.gwdg.de',
+            address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Burckhardtweg 4',
+                addressLocality: 'Göttingen',
+                postalCode: '37077',
+                addressCountry: 'DE',
+            },
+            contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'customer support',
+                telephone: '+49 551 39-30001',
+                email: 'support@gwdg.de',
+            },
+        },
     }),
-])
+]);
 
 useSeoMeta({
     titleTemplate: '%s | AVefi',

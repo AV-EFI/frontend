@@ -233,30 +233,7 @@ export default defineNuxtConfig({
             url: process.env.SITE_URL || 'https://www.av-efi.net',
             logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
             description: 'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
-
-            // ✅ Replace serviceOperator with provider (schema-valid relation)
-            provider: {
-                '@type': 'Organization',
-                name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG)',
-                alternateName: 'GWDG',
-                url: 'https://www.gwdg.de',
-                address: {
-                    '@type': 'PostalAddress',
-                    streetAddress: 'Burckhardtweg 4',
-                    addressLocality: 'Göttingen',
-                    postalCode: '37077',
-                    addressCountry: 'DE',
-                },
-                contactPoint: {
-                    '@type': 'ContactPoint',
-                    contactType: 'customer support',
-                    telephone: '+49 551 39-30001',
-                    email: 'support@gwdg.de',
-                },
-            },
-
             foundingDate: '2023-11-01',
-
             member: [
                 {
                     '@type': 'Organization',
