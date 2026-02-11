@@ -275,8 +275,20 @@ export default defineNuxtConfig({
                 ? { userAgent: '*', allow: '/' }
                 : {
                     userAgent: '*',
-                    disallow: ['/',],
-                    allow: ['/search', '/res', '/res/', '/res/*', '/imprint'],
+                    // ✅ allow crawling so sitemap can list URLs
+                    allow: '/',
+
+                    // ✅ block only sensitive areas
+                    disallow: [
+                        '/protected/**',
+                        '/admin/**',
+                        '/login',
+                        '/logout',
+                        '/signout',
+                        '/normdata',
+                        '/_nuxt/**',
+                        '/_**',
+                    ],
                 },
         ],
         sitemap: ['/sitemap.xml'],
