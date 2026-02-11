@@ -1,5 +1,6 @@
 // nuxt.config.ts
 const indexable = process.env.NUXT_PUBLIC_INDEXABLE === 'true';
+const isProduction = process.env.NODE_ENV === 'production';
 
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from "nuxt-schema-org/schema";
@@ -18,6 +19,12 @@ export default defineNuxtConfig({
             link: [
                 // Preconnect to external domains if needed
                 // { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+            ],
+            meta: [
+                { 
+                    name: 'google-site-verification',
+                    content: isProduction??'mv2NfoSilsm-VcCIqXp-8m9WH-ldWlf2c_IDEqsaIwM'
+                }
             ]
         }
     },
