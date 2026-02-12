@@ -3,22 +3,22 @@
     "mappings": {
         "https://w3id.org/isil/DE-2282": {
             "name": "Haus des Dokumentarfilms",
-            "image": "/img/logo_hdf.jpg",
+            "image": "/img/logo_hdf.webp",
             "alt": "Haus des Dokumentarfilms Logo"
         },
         "https://w3id.org/isil/DE-MUS-432511": {
             "name": "Filmmuseum der Landeshauptstadt Düsseldorf",
-            "image": "/img/logo_fmd.png",
+            "image": "/img/logo_fmd.webp",
             "alt": "Filmmuseum Düsseldorf Logo"
         },
         "https://w3id.org/isil/DE-MUS-407010": {
             "name": "Deutsche Kinemathek - Museum für Film und Fernsehen",
-            "image": "/img/logo_sdk.png",
+            "image": "/img/logo_sdk.webp",
             "alt": "Deutsche Kinemathek Logo"
         },
         "https://w3id.org/isil/DE-89": {
             "name": "Technische Informationsbibliothek (TIB)",
-            "image": "/img/logo_tib.png",
+            "image": "/img/logo_tib.webp",
             "alt": "TIB Logo"
         }
     },

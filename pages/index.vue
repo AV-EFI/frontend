@@ -12,7 +12,7 @@
         <ClientOnly>
           <div class="hero-overlay w-full">
             <!-- Toggle button for video/image (glass pill, non-competing) -->
-            <div class="absolute top-4 right-4 z-40">
+            <div class="absolute top-4 right-4 z-40 hidden">
               <button
                 class="btn btn-xs btn-primary
                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
@@ -26,12 +26,8 @@
             </div>
 
             <!-- Background media -->
-            <img v-if="!heroMediaVisible" class="absolute inset-0 w-full h-full object-cover dark:invert"
-              src="/img/network_grayscale.png" alt="Diamond pattern primary white" />
-            <video v-else autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"
-              class="absolute inset-0 w-full h-full object-cover brightness-[.9] contrast-[.98]">
-              <source src="/vid/klappe_comp.mp4" type="video/mp4" />
-            </video>
+            <img class="absolute inset-0 w-full h-full object-cover dark:invert"
+              src="/img/avefi_diamonds_prim_white.webp" fetchpriority="high" alt="Diamond pattern primary white" />
 
             <!-- Aurora / glow overlays (light + dark variants) -->
             <div
@@ -606,7 +602,7 @@ const cardItems = ref([
         imgAuthor: 'Deutsche Kinemathek',
         imgLicense: 'CC BY-SA 3.0',
         imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-        imgSrc: '/img/restaur_kurzfilme-800.webp',
+        imgSrc: '/img/restaur_kurzfilme.webp',
         imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',
         imgCoverType: ''
     },
@@ -620,18 +616,18 @@ const cardItems = ref([
         imgAuthor: 'Deutsche Kinemathek',
         imgLicense: 'CC BY-SA 3.0',
         imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-        imgSrc: '/img/aktiv_im_dok-800.webp',
+        imgSrc: '/img/aktiv_im_dok.webp',
         imgAlt: 'Schwarzweiß-Aufnahme von Demonstrierenden mit Transparenten und Fahnen',
         imgCoverType: ''
     },
     {
         title: 'trollerTitle',
-        imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+        imgSrc: '/img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp',
         imgAlt: 'Georg Stefan Troller',
         description: 'trollerDescription',
         link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
         linkText: 'trollerLinkText',
-        imgSourceLink: 'https://commons.wikimedia.org/wiki/File:Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+        imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
         imgSourceText: 'Wikimedia Commons',
         imgAuthor: 'ZDF',
         imgLicense: 'CC BY-SA 3.0',
