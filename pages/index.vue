@@ -10,12 +10,11 @@
     <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
       <div class="hero max-lg:min-h-[48vh] lg:min-h-[58vh]">
         <ClientOnly>
-          <div class="hero-overlay w-full">
+          <div class="hero-overlay w-full" :style="heroParallaxStyle">
             <!-- Toggle button for video/image (glass pill, non-competing) -->
             <div class="absolute top-4 right-4 z-40 hidden">
               <button
-                class="btn btn-xs btn-primary
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                class="btn btn-xs btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
                 @click="heroMediaVisible = !heroMediaVisible" :aria-pressed="heroMediaVisible"
                 :title="heroMediaVisible ? 'Hide background media' : 'Show background media'">
                 <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4" />
@@ -26,24 +25,24 @@
             </div>
 
             <!-- Background media -->
-            <picture>
-              <source
-                srcset="/img/avefi_diamonds_prim_mobile.webp 274w, /img/avefi_diamonds_prim_tablet.webp 400w, /img/avefi_diamonds_prim_desktop.webp 513w"
-                sizes="(max-width: 640px) 274px, (max-width: 1023px) 400px, 513px" type="image/webp" />
-              <img
-                class="absolute inset-0 w-full h-full object-cover object-center dark:invert max-w-full max-h-full lg:max-w-full lg:max-h-full"
-                src="/img/avefi_diamonds_prim_mobile.webp" width="513" height="342" fetchpriority="high"
-                alt="Diamond pattern primary white" />
-            </picture>
+            <ClientOnly>
+              <picture>
+                <source srcset="/img/avefi_diamonds_prim_mobile.webp" media="(max-width: 640px)" fetchpriority="high" />
+                <source srcset="/img/avefi_diamonds_prim_tablet.webp" media="(max-width: 1023px)" />
+                <source srcset="/img/avefi_diamonds_prim_desktop.webp" media="(min-width: 1024px)" />
+                <img src="/img/avefi_diamonds_prim_white.webp" alt="Diamond pattern primary desktop"
+                  class="max-sm:hidden lg:visible absolute inset-0 w-full h-full object-cover object-center dark:invert max-w-[600px] max-h-full lg:max-w-full lg:max-h-full" />
+              </picture>
+            </ClientOnly>
             <!-- Aurora / glow overlays (light + dark variants) -->
             <div
               class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
               aria-hidden="true" :class="[
-    // LIGHT
-    'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
-    // DARK
-    'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
-  ]" />
+                // LIGHT
+                'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
+                // DARK
+                'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
+              ]" />
             <!-- Vignette -->
             <div
               class="absolute inset-0 pointer-events-none
@@ -54,7 +53,8 @@
             <!-- Subtle grid -->
             <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
               <div class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
-                       [background-size:22px_22px]"></div>
+                       [background-size:22px_22px]">
+              </div>
             </div>
           </div>
 
@@ -114,7 +114,7 @@
                           <div class="md:justify-end" role="group"
                             :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
                             <div class="join w-full">
-                              <button class="join-item btn md:btn-sm"
+                              <button class="join-item btn md:btn-sm" :aria-label="$t('showSimpleSearch')"
                                 :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
                                 @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
                                 aria-controls="home-search-area">
@@ -124,7 +124,7 @@
                                 <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
 
                               </button>
-                              <button class="join-item btn md:btn-sm"
+                              <button class="join-item btn md:btn-sm" :aria-label="$t('showAdvancedSearch')"
                                 :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
                                 @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
                                 aria-controls="home-search-area">
@@ -187,9 +187,9 @@
             <div class="card-body">
               <div class="flex items-center gap-2 mb-2">
                 <Icon name="tabler:squares-selected" class="text-primary" aria-hidden="true" />
-                <h3 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">
+                <h2 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">
                   {{ $t('build.schema.title') }}
-                </h3>
+                </h2>
               </div>
               <div class="mockup-code mt-3 text-sm" role="region"
                 :aria-label="$t('build.schema.codeLabel') || 'Example schema representation'">
@@ -222,9 +222,9 @@
           <div
             class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0 min-h-[300px]">
             <div class="text-left max-w-md">
-              <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('build.linked.title') }}
-              </h3>
+              </h2>
               <p class="text-base md:text-lg opacity-80" tabindex="0">
                 {{ $t('build.linked.lead') }}
               </p>
@@ -241,9 +241,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
           <div
             class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 lg:p-10 flex flex-col justify-center">
-            <h3 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
+            <h2 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
               {{ $t('timeline.title') }}
-            </h3>
+            </h2>
             <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical" role="list">
               <li role="listitem" tabindex="0">
                 <div class="timeline-middle text-primary my-2">
@@ -291,9 +291,9 @@
           </div>
 
           <div class="w-full flex flex-col justify-center max-lg:mt-6">
-            <h3 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
+            <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
               {{ $t('topIssuers') || 'Top Publishers & Archives' }}
-            </h3>
+            </h2>
             <div class="flex justify-center items-center">
               <div class="w-full max-w-md">
                 <ClientOnly>
@@ -316,7 +316,9 @@
             <div class="card-body">
               <div class="flex justify-start items-center gap-2 mb-2">
                 <Icon name="fa:desktop" class="text-2xl text-primary" aria-hidden="true" />
-                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('coreFunctionsTitle') }}</h3>
+                <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
+                  {{ $t('coreFunctionsTitle') }}
+                </h2>
               </div>
               <ul class="mt-2" role="list">
                 <li class="mb-2" role="listitem"><span class="text-base">{{ $t('coreFunctions[0]') }}</span></li>
@@ -339,8 +341,8 @@
             <div class="card-body">
               <div class="flex justify-start items-center gap-2 mb-2">
                 <Icon name="fa-film" class="text-2xl text-primary" aria-hidden="true" />
-                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}
-                </h3>
+                <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}
+                </h2>
               </div>
               <ul class="mt-2" role="list">
                 <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[0]') }}</span></li>
@@ -371,7 +373,9 @@
                     <Icon class="text-accent" name="fa-heart-o" aria-hidden="true" />
                   </div>
                 </label>
-                <h3 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('technicalBasicsTitle') }}</h3>
+                <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
+                  {{ $t('technicalBasicsTitle') }}
+                </h2>
               </div>
               <ul class="mt-2" role="list">
                 <li class="mb-2" role="listitem"><span class="text-base">{{ $t('technicalBasics[0]') }}</span></li>
@@ -405,9 +409,9 @@
             </div>
             <div class="lg:col-span-6 lg:h-full">
               <div class="bg-base-100/90 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
-                <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                   {{ $t('videoSectionTitle') }}
-                </h3>
+                </h2>
                 <p id="video-desc" class="text-base md:text-lg opacity-80" tabindex="0">
                   {{ $t('videoSectionDescription') }}
                 </p>
@@ -425,9 +429,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">
             <div class="card-body">
-              <h3 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('partnersTitle') }}
-              </h3>
+              </h2>
               <p class="text-base md:text-lg opacity-80" tabindex="0">
                 {{ $t('partnersDescription') }}
               </p>
@@ -461,12 +465,29 @@ const runtimeConfig = useRuntimeConfig();
 const heroMediaVisible = ref(false);
 const HERO_MEDIA_KEY = 'heroMediaVisible';
 
+// Parallax effect
+import { computed, onUnmounted } from 'vue';
+const heroParallax = ref(0);
+const heroParallaxStyle = computed(() => ({
+  transform: `translateY(${heroParallax.value}px)`
+}));
+
+function onScrollParallax() {
+  // Clamp to max 40px for subtle effect
+  heroParallax.value = Math.min(window.scrollY * 0.18, 40);
+}
+
 onMounted(() => {
-    const stored = localStorage.getItem(HERO_MEDIA_KEY);
-    if (stored !== null) heroMediaVisible.value = stored === 'true';
+  window.addEventListener('scroll', onScrollParallax);
+  onScrollParallax();
+  const stored = localStorage.getItem(HERO_MEDIA_KEY);
+  if (stored !== null) heroMediaVisible.value = stored === 'true';
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScrollParallax);
 });
 watch(heroMediaVisible, (val) => {
-    localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
+  localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
 });
 
 // ─────────────────────────────────────────────

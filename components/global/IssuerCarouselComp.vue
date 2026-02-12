@@ -27,9 +27,9 @@
                                             class="h-20 w-auto object-contain bg-white" loading="lazy">
                                     </figure>
                                     <div class="card-body items-center text-center">
-                                        <h4 class="card-title text-base font-semibold line-clamp-2">
+                                        <h3 class="card-title text-base font-semibold line-clamp-2">
                                             {{ item.name }}
-                                        </h4>
+                                        </h3>
                                         <p class="text-sm opacity-70">
                                             {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ?
                                             $t('dataset') : $t('datasets') }}

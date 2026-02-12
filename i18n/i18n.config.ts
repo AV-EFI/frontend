@@ -609,8 +609,8 @@ export default defineI18nConfig(() => ({
                     "siteName": "AVefi – Audiovisual Research Infrastructure",
                     "title": "AVefi – Film metadata search across German archives",
                     "ogTitle": "AVefi – Connect film collections across archives",
-                    "description": "AVefi lets you search works, manifestations and items across multiple German film archives – with linked authority data, persistent identifiers and export options for research.",
-                    "ogDescription": "Discover film works across German archives. AVefi links records, authority data and persistent identifiers so you can search, refine and export film metadata for research and curation."
+                    "description": "Search film works, manifestations, and items across German archives with linked data and persistent identifiers.",
+                    "ogDescription": "Discover film works across German archives. Linked records, authority data, and persistent IDs for research and curation."
                 },
                 "search": {
                     "title": "Search – AVefi",

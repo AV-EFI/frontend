@@ -24,6 +24,15 @@ export default defineNuxtConfig({
                 { rel: 'shortcut icon', href: '/favicon.ico' },
                 { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
                 { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low' },
+                // Preload LCP hero image for mobile
+                {
+                    rel: 'preload',
+                    as: 'image',
+                    href: '/img/avefi_diamonds_prim_white.webp',
+                    imagesrcset: '/img/avefi_diamonds_prim_mobile.webp 274w, /img/avefi_diamonds_prim_tablet.webp 400w, /img/avefi_diamonds_prim_desktop.webp 513w',
+                    imagesizes: '(max-width: 640px) 274px, (max-width: 1023px) 400px, 513px',
+                    fetchpriority: 'high',
+                },
             ],
             meta: [
                 { 

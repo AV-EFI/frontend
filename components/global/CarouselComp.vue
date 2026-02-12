@@ -19,9 +19,9 @@
                       loading="lazy" fetchpriority="low" />
                   </figure>
                   <div class="card-body items-center text-center">
-                    <h4 class="card-title text-base font-semibold line-clamp-2">
+                    <h3 class="card-title text-base font-semibold line-clamp-2">
                       {{ item.alt }}
-                    </h4>
+                    </h3>
                     <div class="card-actions">
                       <NuxtLink target="_blank" rel="noopener" :to="`${item.link}`" class="btn btn-primary btn-sm">
                         {{ $t('viewHomepage') || 'View Homepage' }}
