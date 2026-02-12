@@ -5,6 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from "nuxt-schema-org/schema";
 import { defineNuxtConfig } from 'nuxt/config';
+import visualizer from 'rollup-plugin-visualizer';
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/svg+xml', href: '/img/favicon.svg' },
                 { rel: 'shortcut icon', href: '/favicon.ico' },
                 { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
-                { rel: 'manifest', href: '/img/site.webmanifest' },
+                { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low' },
             ],
             meta: [
                 { 
@@ -67,7 +68,18 @@ export default defineNuxtConfig({
             '/robots.txt': {
                 headers: { 'X-Robots-Tag': 'index, follow' },
             },
-
+            // Cache images for 1 year
+            '/img/**': {
+                headers: {
+                    'Cache-Control': 'public, max-age=31536000, immutable'
+                }
+            },
+            // Cache fonts for 1 year
+            '/fonts/**': {
+                headers: {
+                    'Cache-Control': 'public, max-age=31536000, immutable'
+                }
+            },
             // OPTIONAL: allow your “test-preview” pages to be indexable even when site is locked
             ...(indexable
                 ? {}
@@ -414,7 +426,11 @@ export default defineNuxtConfig({
     },
     vite: {
         plugins: [
-            tailwindcss()
+            tailwindcss(),
+            visualizer({
+                filename: 'bundle-analysis.html',
+                open: true,
+            })
         ],
         optimizeDeps: {
             include: ['export-to-csv', 'instantsearch.js', 'algoliasearch']       
@@ -436,6 +452,7 @@ export default defineNuxtConfig({
         build: {
             chunkSizeWarningLimit: 750,
             target: 'esnext',
+            sourcemap: true
         },
         logLevel: 'error',
         css: {

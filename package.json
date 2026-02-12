@@ -86,6 +86,7 @@
     "eslint-plugin-vue": "^10.6.2",
     "export-to-csv": "^1.4.0",
     "nuxt-schema-org": "^5.0.9",
+    "rollup-plugin-visualizer": "^6.0.5",
     "sass-embedded": "^1.93.2",
     "sharp": "^0.34.5",
     "ts-node": "^10.9.2",

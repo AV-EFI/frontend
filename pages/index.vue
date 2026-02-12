@@ -26,9 +26,15 @@
             </div>
 
             <!-- Background media -->
-            <img class="absolute inset-0 w-full h-full object-cover dark:invert"
-              src="/img/avefi_diamonds_prim_white.webp" fetchpriority="high" alt="Diamond pattern primary white" />
-
+            <picture>
+              <source
+                srcset="/img/avefi_diamonds_prim_mobile.webp 274w, /img/avefi_diamonds_prim_tablet.webp 400w, /img/avefi_diamonds_prim_desktop.webp 513w"
+                sizes="(max-width: 640px) 274px, (max-width: 1023px) 400px, 513px" type="image/webp" />
+              <img
+                class="absolute inset-0 w-full h-full object-cover object-center dark:invert max-w-full max-h-full lg:max-w-full lg:max-h-full"
+                src="/img/avefi_diamonds_prim_mobile.webp" width="513" height="342" fetchpriority="high"
+                alt="Diamond pattern primary white" />
+            </picture>
             <!-- Aurora / glow overlays (light + dark variants) -->
             <div
               class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
@@ -651,7 +657,7 @@ const cardItems = ref([
     },
     {
         title: 'ddrTitle',
-        imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg/800px-Bundesarchiv_Bild_183-C1115-0001-001%2C_Leipzig%2C_Petersstra%C3%9Fe%2C_Kino_%22Capitol%22%2C_Nacht.jpg',
+        imgSrc: '/img/Bundesarchiv_Bild_Leipzig_Capitol_Nacht.webp',
         imgSourceText: 'German Federal Archives',
         imgAuthor: 'Christa Hochneder',
         imgLicense: 'CC BY-SA 3.0 DE',
