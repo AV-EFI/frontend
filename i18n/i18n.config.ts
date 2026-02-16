@@ -245,6 +245,7 @@ export default defineI18nConfig(() => ({
             "footerPreferences": "Preferences",
             "footerInfo": "Information",
             "footerSponsoring": "Sponsoring",
+            "footerLicense": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).",
             "userMenu": "User Menu",
             'submitQuery': 'Submit query',
             'clearQuery': 'Clear query',
@@ -483,6 +484,14 @@ export default defineI18nConfig(() => ({
                 'Flexible integration: Allows easy integration into existing systems and workflows.',
                 'High data quality: Through the use of a type registry and data model.'
             ],
+            'licensingInfo': {
+                'title': 'Licensing and Reuse',
+                'content': [
+                    'All datasets, metadata, and accompanying information published on this website are – unless otherwise indicated – licensed under Creative Commons Attribution (CC BY).',
+                    'This license permits free use, redistribution, and adaptation of the content, including for commercial purposes, provided appropriate credit is given.',
+                    'By applying CC BY, the project affirms its commitment to openness, transparency, and the sustainable circulation of knowledge in the digital sphere. The data are designed to remain accessible and interoperable for research, cultural practice, and future reuse.',
+                ]
+            },
             'videoTitle': 'AVefi',
             'videoDescription': 'Find, discover and compare comprehensive data on film holdings of all genres. You can research both film works and versions from various participating film archives and collections.',
             'videoNotSupported': 'Your browser does not support the video tag.',
@@ -1037,6 +1046,7 @@ export default defineI18nConfig(() => ({
             "footerPreferences": "Einstellungen",
             "footerInfo": "Informationen",
             "footerSponsoring": "Sponsoring",
+            "footerLicense": "Lizensiert unter Creative Commons Attribution 4.0 International (CC BY 4.0).",
             "userMenu": "Benutzermenü",
             'close': 'Schließen',
             'located_in_has_name': 'Ort',
@@ -1237,6 +1247,14 @@ export default defineI18nConfig(() => ({
                 'Flexible Integration: Ermöglicht die einfache Einbindung in bestehende Systeme und Workflows.',
                 'Hohe Datenqualität: Durch die Verwendung einer Type-Registry und Datenmodell.'
             ],
+            'licensingInfo': {
+                'title': 'Lizenzinformationen',
+                'content': [
+                    'Die auf dieser Website veröffentlichten Datensätze, Metadaten und begleitenden Informationen stehen – sofern nicht anders gekennzeichnet – unter der Lizenz Creative Commons Attribution (CC BY).',
+                    'Diese Lizenz ermöglicht eine freie Nutzung, Weiterverbreitung und Bearbeitung der Inhalte, auch im kommerziellen Kontext, bei angemessener Namensnennung.',
+                    'Mit der Bereitstellung unter CC BY bekennt sich dieses Projekt zu Offenheit, Transparenz und nachhaltiger Wissenszirkulation im digitalen Raum. Die Daten sind darauf ausgelegt, langfristig zugänglich und anschlussfähig für Forschung, Vermittlung und weitere Kontexte zu sein.'
+                ]
+            },
             'videoTitle': 'AVefi',
             'videoDescription': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
             'videoSectionTitle': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres.',

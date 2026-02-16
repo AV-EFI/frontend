@@ -223,6 +223,13 @@
     "language": "Language",
     "licensing": "Licensing",
     "licensingContent": "Details about licensing and reuse, such as Creative Commons, are yet to be finalized.",
+    "licensingSection": {
+        "title": "Licensing & Open Data",
+        "deLabel": "🇩🇪 Deutsch",
+        "enLabel": "🇬🇧 English",
+        "deText": "Die auf dieser Website veröffentlichten Datensätze, Metadaten und begleitenden Informationen stehen – sofern nicht anders gekennzeichnet – unter der Lizenz Creative Commons Attribution (CC BY).<br><br>Diese Lizenz ermöglicht eine freie Nutzung, Weiterverbreitung und Bearbeitung der Inhalte, auch im kommerziellen Kontext, bei angemessener Namensnennung.<br><br>Mit der Bereitstellung unter CC BY bekennt sich dieses Projekt zu Offenheit, Transparenz und nachhaltiger Wissenszirkulation im digitalen Raum. Die Daten sind darauf ausgelegt, langfristig zugänglich und anschlussfähig für Forschung, Vermittlung und weitere Kontexte zu sein.",
+        "enText": "All datasets, metadata, and accompanying information published on this website are – unless otherwise indicated – licensed under Creative Commons Attribution (CC BY).<br><br>This license permits free use, redistribution, and adaptation of the content, including for commercial purposes, provided appropriate credit is given.<br><br>By applying CC BY, the project affirms its commitment to openness, transparency, and the sustainable circulation of knowledge in the digital sphere. The data are designed to remain accessible and interoperable for research, cultural practice, and future reuse."
+    },
     "linkscollection": "Links",
     "list": "List",
     "logList": "Logs",

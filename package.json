@@ -48,7 +48,7 @@
     "algoliasearch": "^4",
     "axios": "^1.9.0",
     "cytoscape": "^3.29.2",
-    "daisyui": "^5.2.3",
+    "daisyui": "5.5.18",
     "instantsearch.js": "^4.80.0",
     "nodemailer": "^7.0.9",
     "nuxt": "^4.1.3",
@@ -66,7 +66,6 @@
     "vue-instantsearch": "^4.21.3",
     "vue-range-slider": "^0.6.0",
     "vue-router": "^4.5.0",
-    "vue3-easy-data-table": "^1.5.47",
     "vue3-toastify": "^0.2.8",
     "yarn": "^1.22.22",
     "zod": "^3.24.1"
@@ -96,9 +95,6 @@
     "vue-eslint-parser": "^10.2.0",
     "vue-matomo": "^4.2.0",
     "vue-router": "^4.5.0"
-  },
-  "resolutions": {
-    "vue3-easy-data-table/vue": "^3.3.8"
   },
   "packageManager": "yarn@4.3.1"
 }

@@ -189,10 +189,14 @@
 <script setup lang="ts">
 import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { FormKit } from '@formkit/vue';
 import type { PropType } from 'vue';
 import type { MovingImageRecordContainer } from '@/models/interfaces/schema/avefi_schema_type_utils';
 import fieldsSpec from '../../models/interfaces/avefi_search_fields';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 defineProps({
     datasets: {
         type: Array as PropType<Array<MovingImageRecordContainer>>,

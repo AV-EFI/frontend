@@ -234,14 +234,61 @@
       </div>
     </section>
 
+    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region"
+      :aria-label="$t('timeline.title')">
+      <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+          <div class="text-left max-w-md w-full lg:col-span-1 flex flex-col justify-center p-6">
+            <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+              {{ $t('licensingInfo.title') }}
+            </h2>
+            <ul>
+              <li class="opacity-80">{{ $t('licensingInfo.content[0]') }}</li>
+              <li class="opacity-80">{{ $t('licensingInfo.content[1]') }}</li>
+              <li class="opacity-80">{{ $t('licensingInfo.content[2]') }}</li>
+            </ul>
+          </div>
+          <div class="flex justify-center items-center w-full lg:col-span-1 min-h-[300px]">
+            <a href="#" class="hover-3d my-12 mx-2 cursor-pointer">
+              <div
+                class="card w-80 lg:w-96 bg-neutral text-white bg-[radial-gradient(circle_at_bottom_left,#ffffff04_35%,transparent_36%),radial-gradient(circle_at_top_right,#ffffff04_35%,transparent_36%)] bg-size-[4.95em_4.95em]">
+                <div class="card-body">
+                  <div class="flex justify-between mb-10">
+                    <div class="font-bold">CC BY 4.0</div>
+                    <div class="text-5xl opacity-10">❁</div>
+                  </div>
+                  <div class="flex justify-center mb-4">
+                    <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons Logo"
+                      class="h-8 mr-2" />
+                    <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Attribution Logo"
+                      class="h-8" />
+                  </div>
+                  <div class="text-xs opacity-40 text-center">Creative Commons Attribution</div>
+                </div>
+              </div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
     <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region"
       :aria-label="$t('timeline.title')">
       <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
           <div
-            class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 lg:p-10 flex flex-col justify-center">
-            <h2 class="text-3xl bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
+            class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 flex flex-col justify-center">
+            <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
               {{ $t('timeline.title') }}
             </h2>
             <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical" role="list">
@@ -401,7 +448,7 @@
         <ClientOnly>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div class="lg:col-span-6">
-              <video controls preload="none" poster="/img/avefi_vid_poster-1024.webp"
+              <video controls preload="none" poster="/img/avefi_vid_poster.webp"
                 class="w-full rounded-xl border border-base-300 shadow-lg" :aria-describedby="'video-desc'">
                 <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
                 {{ $t('videoNotSupported') }}
@@ -700,52 +747,6 @@ const cardItems = ref([
 
 <style scoped>
 /* ================================
-   HERO: mockup-like aurora + readability
-   ================================ */
-
-.aurora-layer {
-  /* aurora colors (soft) + a light wash so the pattern never dominates */
-  background:
-    radial-gradient(900px 600px at 18% 18%, hsl(210 80% 70% / 0.18), transparent 60%),
-    radial-gradient(900px 600px at 82% 22%, hsl(330 85% 72% / 0.16), transparent 60%),
-    radial-gradient(900px 600px at 56% 80%, hsl(200 85% 68% / 0.12), transparent 62%),
-    linear-gradient(180deg, hsl(0 0% 100% / 0.82), hsl(0 0% 100% / 0.88));
-  filter: saturate(1.05);
-}
-
-.vignette-layer {
-  /* stronger center legibility (darken edges very subtly, plus top/bottom)
-     important: keep it gentle so it doesn't look “dirty” */
-  background:
-    radial-gradient(1200px 700px at 50% 40%, hsl(0 0% 0% / 0.00) 42%, hsl(0 0% 0% / 0.12) 100%),
-    linear-gradient(180deg, hsl(0 0% 0% / 0.06), transparent 22%, transparent 78%, hsl(0 0% 0% / 0.08));
-  mix-blend-mode: multiply;
-}
-
-/* This panel is the key readability fix */
-.hero-content-panel {
-  max-width: 72rem;
-  margin: 0 auto;
-  border-radius: 1.25rem;
-  background: hsl(0 0% 100% / 0.68);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid hsl(0 0% 100% / 0.32);
-  box-shadow:
-    0 28px 70px -52px hsl(0 0% 0% / 0.40),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* Optional: subtle text shadow helps on bright patterns */
-.hero-title {
-  text-shadow: 0 1px 0 hsl(0 0% 100% / 0.65);
-}
-
-.hero-lead {
-  text-shadow: 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* ================================
    GLASS: pills + hero search card
    ================================ */
 
@@ -774,18 +775,6 @@ const cardItems = ref([
     0 26px 70px -48px hsl(0 0% 0% / 0.45),
     0 8px 26px -18px hsl(0 0% 0% / 0.18),
     inset 0 1px 0 hsl(0 0% 100% / 0.55);
-}
-
-/* Remove legacy background helpers from old version */
-.movie-classics-bg {
-  display: none !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
 }
 
 /* ================================

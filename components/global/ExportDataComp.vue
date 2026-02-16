@@ -1,65 +1,37 @@
 <template>
-  <div class="relative inline-block">
-    <button
-      class="btn btn-primary w-full h-full"
-      :class="[btnSize]"
-      :alt="$t('exportdata')"
-      :title="$t('exportdata')"
-      aria-haspopup="true"
-      :aria-expanded="menuOpen.toString()"
-      aria-controls="export-menu"
-      @click="toggleMenu"
-      @keydown.enter.prevent="toggleMenu"
-      @keydown.space.prevent="toggleMenu"
-    >
-      <Icon
-        name="tabler:download"
-        class="text-xl w-4 h-4"
-      />
-      <span
-        v-if="showLabel"
-        class="hidden md:inline-block capitalize ml-1 text-left"
-        :class="[fixedWith? 'w-24' : '']"
-      >{{ $t('export') }}</span>
-    </button>
-  
-    <div
-      v-if="menuOpen"
-      id="export-menu"
-      role="menu"
-      class="absolute z-30 mt-2 bg-white border rounded shadow w-48"
-      style="top: calc(100% + 5px); right: 0;"
-    >
-      <ul>
-        <li
-          v-for="option in exportOptions"
-          :key="option.format"
-          role="none"
-        >
-          <button
-            role="menuitem"
-            tabindex="0"
-            class="w-full text-left px-4 py-2 hover:bg-gray-100"
-            @click="exportData(option.format)"
-            @keydown.enter.prevent="exportData(option.format)"
-            @keydown.space.prevent="exportData(option.format)"
-          >
-            {{ option.label }}
-          </button>
-        </li>
-      </ul>
+    <div class="relative inline-block">
+        <button class="btn btn-primary w-full h-full" :class="[btnSize]" :alt="$t('exportdata')"
+            :title="$t('exportdata')" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
+            aria-controls="export-menu" @click="toggleMenu" @keydown.enter.prevent="toggleMenu"
+            @keydown.space.prevent="toggleMenu">
+            <Icon name="tabler:download" class="text-xl w-4 h-4" />
+            <span v-if="showLabel" class="hidden md:inline-block capitalize ml-1 text-left"
+                :class="[fixedWith? 'w-24' : '']">{{ $t('export') }}</span>
+        </button>
+
+        <div v-if="menuOpen" id="export-menu" role="menu" class="absolute z-30 mt-2 bg-white border rounded shadow w-48"
+            style="top: calc(100% + 5px); right: 0;">
+            <ul>
+                <li v-for="option in exportOptions" :key="option.format" role="none">
+                    <button role="menuitem" tabindex="0" class="w-full text-left px-4 py-2 hover:bg-gray-100"
+                        @click="exportData(option.format)" @keydown.enter.prevent="exportData(option.format)"
+                        @keydown.space.prevent="exportData(option.format)">
+                        {{ option.label }}
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </template>
-  
+
 <script lang="ts" setup>
 import { mkConfig, generateCsv, download as downloadCsv } from 'export-to-csv';
-import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n';
   
 const { t: $t } = useI18n();
 const menuOpen = ref(false);
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
+const {$toast} = useNuxtApp();
   
 const props = defineProps({
     dataSetId: {
@@ -109,7 +81,7 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
     }
   
     if (!rawData || rawData.length === 0) {
-        toast.error('No data to export', { timeout: 2000 });
+        $toast?.error?.('No data to export', { timeout: 2000 });
         return;
     }
   
@@ -124,18 +96,18 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
             const csv = await generateCsv(csvConfig)(flattened);
             if (csv) {
                 downloadCsv(csvConfig)(csv);
-                toast.success('CSV exported!', { timeout: 2000 });
+                $toast?.success?.('CSV exported!', { timeout: 2000 });
             }
         } else if (format === 'json') {
             downloadBlob(JSON.stringify(flattened, null, 2), `${filename}.json`, 'application/json');
-            toast.success('JSON exported!', { timeout: 2000 });
+            $toast?.success?.('JSON exported!', { timeout: 2000 });
         } else if (format === 'xml') {
             const xml = jsonToXml(flattened);
             downloadBlob(xml, `${filename}.xml`, 'application/xml');
-            toast.success('XML exported!', { timeout: 2000 });
+            $toast?.success?.('XML exported!', { timeout: 2000 });
         }
     } catch (err) {
-        toast.error(`Export failed: ${err}`, { timeout: 3000 });
+        $toast?.error?.(`Export failed: ${err}`, { timeout: 3000 });
     }
 }
   
@@ -315,4 +287,3 @@ function sanitizeCsvValue(value: string): string {
     return value.replace(/\r?\n|\r/g, ' ').replace(/"/g, "'").trim();
 }
 </script>
-  

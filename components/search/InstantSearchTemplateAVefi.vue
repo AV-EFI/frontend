@@ -231,12 +231,11 @@
 
 <script setup lang="ts">
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
-import { toast } from 'vue3-toastify';
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
-const {$toggleFacetDrawerState}:any = useNuxtApp();
+const {$toggleFacetDrawerState, $toast}:any = useNuxtApp();
 
 // toggle top right 
 const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
@@ -426,7 +425,7 @@ function shareSearch() {
     // Fallback: copy URL to clipboard and notify
     if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(() => {
-            toast.success($t('linkCopied') as string || 'Link copied to clipboard');
+        $toast?.success?.($t('linkCopied') as string || 'Link copied to clipboard');
         }).catch(() => {
             // Last resort: show prompt
             window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);

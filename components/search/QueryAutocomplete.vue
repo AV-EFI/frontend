@@ -1,27 +1,29 @@
 <template>
-  <div class="relative w-full" @mousedown.stop>
-    <div class="relative">
-      <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
-        :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
-        inner-class="!rounded-xl !h-[56px] w-full dark:!bg-gray-950 dark:!text-white !rounded-r-none"
-        input-class="!text-lg px-4 pr-10 w-full dark:!text-white !h-12"
-        :prefix-icon="showInfoTooltip ? 'info' : undefined" :aria-label="ariaLabel" aria-autocomplete="list"
-        aria-haspopup="listbox" :aria-owns="listboxId" :aria-expanded="showDropdown ? 'true' : 'false'"
-        :aria-activedescendant="activeDescId" @input="onInput" @focus="onFocus" @blur="onBlur" @keydown="onKeydown">
-        <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
-          <span class="formkit-icon relative group cursor-help my-auto flex justify-center" :title="infoTooltipText">
-            <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 text-xl" />
-          </span>
-        </template>
-      </FormKit>
+    <div class="relative w-full" @mousedown.stop>
+        <div class="relative">
+            <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
+                :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
+                inner-class="!rounded-xl !h-[56px] w-full dark:!bg-gray-950 dark:!text-white !rounded-r-none"
+                input-class="!text-lg px-4 pr-10 w-full dark:!text-white !h-12"
+                :prefix-icon="showInfoTooltip ? 'info' : undefined" :aria-label="ariaLabel" aria-autocomplete="list"
+                aria-haspopup="listbox" :aria-owns="listboxId" :aria-expanded="showDropdown ? 'true' : 'false'"
+                :aria-activedescendant="activeDescId" @input="onInput" @focus="onFocus" @blur="onBlur"
+                @keydown="onKeydown">
+                <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
+                    <span class="formkit-icon relative group cursor-help my-auto flex justify-center"
+                        :title="infoTooltipText">
+                        <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 text-xl" />
+                    </span>
+                </template>
+            </FormKit>
 
-      <!-- Clear button inside input -->
-      <button v-if="displayValue" type="button"
-        class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-        :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
-        <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
-      </button>
-    </div>
+            <!-- Clear button inside input -->
+            <button v-if="displayValue" type="button"
+                class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
+                <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
+            </button>
+        </div>
 
         <!-- Suggestions dropdown -->
         <div v-show="showDropdown" :id="listboxId"
@@ -31,13 +33,13 @@
             <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
                 {{ $t('recentSearches') }}
             </span>
-            <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only" id="autocomplete-suggestions-heading">
+            <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only"
+                id="autocomplete-suggestions-heading">
                 {{ $t('suggestions') }}
             </span>
 
             <!-- Recent searches header (only when input is empty) -->
-            <div
-                v-if="props.recentSearches && props.recentSearches.length > 0"
+            <div v-if="props.recentSearches && props.recentSearches.length > 0"
                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
                     {{ $t('recentSearches') }} / {{ $t('suggestions') }}
@@ -64,10 +66,12 @@
 
             <template v-if="visibleSuggestions.length">
                 <!-- Visually hidden headings for screen readers only, do not affect structure -->
-                <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
+                <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only"
+                    id="recent-searches-heading">
                     {{ $t('recentSearches') }}
                 </span>
-                <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only" id="autocomplete-suggestions-heading">
+                <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only"
+                    id="autocomplete-suggestions-heading">
                     {{ $t('suggestions') }}
                 </span>
                 <!-- Original flat rendering -->
@@ -76,35 +80,18 @@
                         'w-full text-left px-3 py-2 flex items-center gap-2 group',
                         'hover:bg-gray-100 dark:hover:bg-gray-700',
                         i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
-                    ]"
-                    role="option"
-                    :aria-selected="i === highlighted"
-                    :aria-label="`${typeLabel(s.type)}: ${s.text}`"
+                    ]" role="option" :aria-selected="i === highlighted" :aria-label="`${typeLabel(s.type)}: ${s.text}`"
                     @mousedown.stop.prevent="onSelect(s)">
-                    <Icon
-                        v-if="s.type === 'recent'"
-                        class="shrink-0 text-base leading-none"
-                        name="tabler:history"
-                        :title="typeLabel(s.type)"
-                        aria-hidden="true"
-                    />
-                    <Icon
-                        v-else-if="s.type === 'saved'"
-                        class="shrink-0 text-base leading-none"
-                        name="tabler:star"
-                        :title="typeLabel(s.type)"
-                        aria-hidden="true"
-                    />
-                    <Icon
-                        v-else
-                        class="shrink-0 text-base leading-none"
-                        :name="iconClassFor(s.type, s.text)"
-                        :title="typeLabel(s.type)"
-                        aria-hidden="true"
-                    />
+                    <Icon v-if="s.type === 'recent'" class="shrink-0 text-base leading-none" name="tabler:history"
+                        :title="typeLabel(s.type)" aria-hidden="true" />
+                    <Icon v-else-if="s.type === 'saved'" class="shrink-0 text-base leading-none" name="tabler:star"
+                        :title="typeLabel(s.type)" aria-hidden="true" />
+                    <Icon v-else class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)"
+                        :title="typeLabel(s.type)" aria-hidden="true" />
                     <span class="sr-only">{{ typeLabel(s.type) }}: </span>
                     <span class="text-base truncate">{{ s.text }}</span>
-                    <span v-if="s.count && s.count > 1" class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
+                    <span v-if="s.count && s.count > 1"
+                        class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
                         ({{ s.count }})
                     </span>
                     <!-- Remove button for recent searches -->
@@ -120,13 +107,19 @@
                 {{ noResultsMessage }}
             </div>
         </div>
-  </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
+
 const suppressNextInput = ref(false);
 
 const t = useI18n().t;

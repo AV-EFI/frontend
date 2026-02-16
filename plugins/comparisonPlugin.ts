@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { toast } from "vue3-toastify";
 import { useObjectListStore } from '../stores/compareList';
 import { useShoppingCart } from "../stores/shoppingCart";
 
@@ -8,6 +7,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const shoppingCartStore = useShoppingCart();
     const $i18n:any = nuxtApp.$i18n || useNuxtApp().$i18n;
     const t = $i18n.t;
+    const toast = nuxtApp.$toast;
 
     const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
         if (filmId) {
@@ -15,15 +15,15 @@ export default defineNuxtPlugin((nuxtApp) => {
                 shoppingCartStore.addObject({ filmId, filmTitle })
                     .then((added) => {
                         if (added == "listfull") {
-                            toast.warn(t('shoppingcartfull'), { autoClose: 4000 });
+                            toast?.warn?.(t('shoppingcartfull'), { autoClose: 4000 });
                         }
                         else if (added == "already") {
-                            toast.warn(t('shoppingcartalready'), { autoClose: 3000 });
+                            toast?.warn?.(t('shoppingcartalready'), { autoClose: 3000 });
                         }
                         else if (added == "succ") {
-                            toast.success(t('addedtoshoppingcartparam', {'name': filmTitle}));
+                            toast?.success?.(t('addedtoshoppingcartparam', {'name': filmTitle}));
                         } else {
-                            toast('Something happened');
+                            toast && toast('Something happened');
                         }
                     });
 
@@ -31,15 +31,15 @@ export default defineNuxtPlugin((nuxtApp) => {
                 useObjectStore.addObject({ filmId, filmTitle })
                     .then((added) => {
                         if (added == "listfull") {
-                            toast.warn(t('comparisonfull'), { autoClose: 4000 });
+                            toast?.warn?.(t('comparisonfull'), { autoClose: 4000 });
                         }
                         else if (added == "already") {
-                            toast.warn(t('comparisonalready'), { autoClose: 3000 });
+                            toast?.warn?.(t('comparisonalready'), { autoClose: 3000 });
                         }
                         else if (added == "succ") {
-                            toast.success(t('addedtocomparisonparam', {'name': filmTitle}));
+                            toast?.success?.(t('addedtocomparisonparam', {'name': filmTitle}));
                         } else {
-                            toast('Something happened');
+                            toast && toast('Something happened');
                         }
                     });
             }

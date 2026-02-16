@@ -241,8 +241,12 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
-import { FormKit } from "@formkit/vue";
 import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IAVefiWorkVariant";
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 
 // Enable hash navigation for manifestations and items
 useHash();

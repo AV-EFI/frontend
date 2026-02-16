@@ -65,7 +65,8 @@ const emit = defineEmits<{
 function emitClose() {
   emit('ContactFormClose');
 }
-import { toast } from 'vue3-toastify';
+
+const {$toast} = useNuxtApp();
 
 const props = defineProps<{ initialMessage?: string; initialEmail?: string }>();
 
@@ -122,19 +123,19 @@ async function handleSubmit() {
 
         if ((res as any)?.success) {
             liveMsg.value = 'Message sent successfully!';
-            toast.success($t('messageSentSuccess'));
+          $toast?.success?.($t('messageSentSuccess'));
             email.value = '';
             message.value = '';
             captchaAnswer.value = '';
             generateCaptcha();
         } else {      
-            toast.error($t('messageSentError'));
+          $toast?.error?.($t('messageSentError'));
             throw new Error((res as any)?.error || 'Failed to send message');
         }
     } catch (err) {
         console.error(err);
         liveMsg.value = 'Failed to send message.';
-        toast.error($t('messageSentError'));
+        $toast?.error?.($t('messageSentError'));
     } finally {
         sending.value = false;
     }

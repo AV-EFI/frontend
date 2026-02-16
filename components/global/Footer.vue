@@ -30,6 +30,16 @@
             </h2>
             <ul>
               <li>
+                <p>{{ $t('footerLicense') }}</p>
+                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" class="link transition"
+                  :aria-label="$t('license')">
+                  <Icon name="tabler:creative-commons" />
+                  <span class="hidden lg:inline-flex sr-only">
+                    {{ $t('license') }}
+                  </span>
+                </a>
+              </li>
+              <li>
                 <a href="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="link transition"
                   :aria-label="$t('dataprotection')">
                   {{ $t('dataprotection') }}

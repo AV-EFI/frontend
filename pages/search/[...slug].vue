@@ -1,20 +1,16 @@
 <template>
-  <div class="container mx-auto p-2">
-    <GlobalBreadcrumbsComp :breadcrumbs="[
+    <div class="container mx-auto p-2">
+        <GlobalBreadcrumbsComp :breadcrumbs="[
         ['Home', '/'],
         [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
       ]" />
-    <keep-alive>
-      <InstantSearchTemplateAVefi
-        v-if="searchClient"
-        :search-client="searchClient"
-        @facetsChanged="onFacetsChanged"
-      />
-      <div v-else class="text-center py-4">
-        <span class="loading loading-spinner loading-lg text-primary" />
-      </div>
-    </keep-alive>
-  </div>
+        <keep-alive>
+            <SearchSection v-if="searchClient" :search-client="searchClient" @facetsChanged="onFacetsChanged" />
+            <div v-else class="text-center py-4">
+                <span class="loading loading-spinner loading-lg text-primary" />
+            </div>
+        </keep-alive>
+    </div>
 </template>
 <script setup lang="ts">
 import Client from '@searchkit/instantsearch-client';
@@ -206,15 +202,15 @@ useHead({
 .ais-SearchBox-form,
 .ais-SearchBox-input,
 .ais-SortBy-select {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .ais-SearchBox-input:focus {
-  border-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .ais-Pagination-item--selected {
-  background-color: var(--primary);
-  color: white;
+    background-color: var(--primary);
+    color: white;
 }
 </style>

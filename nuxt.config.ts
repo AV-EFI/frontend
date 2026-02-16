@@ -115,7 +115,6 @@ export default defineNuxtConfig({
         '@nuxtjs/i18n',
         //'@nuxtjs/tailwindcss',
         //'@nuxtjs/color-mode',
-        '@formkit/nuxt',
         '@nuxt/icon',
         '@vueuse/nuxt',
         'nuxt3-winston-log',
@@ -486,9 +485,6 @@ export default defineNuxtConfig({
             { code: 'en', iso: 'en-US', name: 'English' }
         ],
         vueI18n: './i18n.config.ts'
-    },
-    formkit: {
-        autoImport: false // Performance-Optimization: Disable auto-import to reduce bundle size
     },
     pinia: {
         storesDirs: ['stores']

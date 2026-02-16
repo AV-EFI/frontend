@@ -7216,10 +7216,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^5.2.3":
-  version: 5.3.2
-  resolution: "daisyui@npm:5.3.2"
-  checksum: 10c0/d5d1471c284b8b4f28468392ef18bd20b25fd73d9db2ee26db1706c7fd6448e3f02c2e5ceab207d86c82d6d1fe9340e94396432ace83c229177a6d6939a1f7ec
+"daisyui@npm:5.5.18":
+  version: 5.5.18
+  resolution: "daisyui@npm:5.5.18"
+  checksum: 10c0/2cff0aefc84e5e7c233bb53ee703b06a4c1dd5decc0eddb06a7a3b1f39b4f82ce287676b54de1a6b1cc1f7f9a4f7a0851fcdda8c6c684ff1b1bf1b078ba9c28e
   languageName: node
   linkType: hard
 
@@ -10408,7 +10408,7 @@ __metadata:
     algoliasearch: "npm:^4"
     axios: "npm:^1.9.0"
     cytoscape: "npm:^3.29.2"
-    daisyui: "npm:^5.2.3"
+    daisyui: "npm:5.5.18"
     eslint: "npm:^9.39.2"
     eslint-plugin-vue: "npm:^10.6.2"
     export-to-csv: "npm:^1.4.0"
@@ -10438,7 +10438,6 @@ __metadata:
     vue-matomo: "npm:^4.2.0"
     vue-range-slider: "npm:^0.6.0"
     vue-router: "npm:^4.5.0"
-    vue3-easy-data-table: "npm:^1.5.47"
     vue3-toastify: "npm:^0.2.8"
     yarn: "npm:^1.22.22"
     zod: "npm:^3.24.1"
@@ -14277,15 +14276,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue3-easy-data-table@npm:^1.5.47":
-  version: 1.5.47
-  resolution: "vue3-easy-data-table@npm:1.5.47"
-  dependencies:
-    vue: "npm:^3.2.45"
-  checksum: 10c0/1e44f877d79217743cec6b777ad4abe91fa4a3d60f4f54c7039dd0dccee828a1f33641e845d2b2d9fe3985735ad8c54206db10787af4c7062d9da357fde43c76
-  languageName: node
-  linkType: hard
-
 "vue3-toastify@npm:^0.2.8":
   version: 0.2.8
   resolution: "vue3-toastify@npm:0.2.8"
@@ -14298,7 +14288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.3.8, vue@npm:^3.5.13, vue@npm:^3.5.14, vue@npm:^3.5.22":
+"vue@npm:^3.5.13, vue@npm:^3.5.14, vue@npm:^3.5.22":
   version: 3.5.22
   resolution: "vue@npm:3.5.22"
   dependencies:

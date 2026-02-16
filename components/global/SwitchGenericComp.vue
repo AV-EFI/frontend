@@ -1,19 +1,15 @@
 <template>
-  <FormKit
-    v-model="state"
-    off-value="readonly"
-    on-value="edit"
-    type="toggle"
-    :off-value-label="labelOff"
-    :on-value-label="labelOn"
-    thumb-icon="tabler:edit"
-    thumb-color-on="(--primary-200)"
-    track-color-on="(--primary-500)"
-    icon-color-on="white"
-    $emit
-  />
+  <FormKit v-model="state" off-value="readonly" on-value="edit" type="toggle" :off-value-label="labelOff"
+    :on-value-label="labelOn" thumb-icon="tabler:edit" thumb-color-on="(--primary-200)" track-color-on="(--primary-500)"
+    icon-color-on="white" $emit />
 </template>
 <script setup lang="ts">
+
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 
 const state = defineModel({default: 'false', type: String});
 

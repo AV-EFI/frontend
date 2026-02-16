@@ -1,13 +1,10 @@
 <template>
-  <button
-    class="btn btn-xs btn-primary"
-    :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
-    :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
-    @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)"
-  >
-    <Icon name="tabler:arrow-right" />
-  </button>
-  <!--
+    <button class="btn btn-xs btn-primary" :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
+        :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
+        @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)">
+        <Icon name="tabler:arrow-right" />
+    </button>
+    <!--
     <Icon
       class="text-primary-600 dark:text-primary-300 !align-baseline cursor-pointer"
       name="tabler:clipboard"
@@ -18,7 +15,8 @@
     -->
 </template>
 <script setup lang="ts">
-import {toast} from 'vue3-toastify';
+
+const {$toast} = useNuxtApp();
 
 defineProps ({
     'targetPropertyValue': {
@@ -50,10 +48,10 @@ function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsI
         } 
         //copy(copyValue);
         emit("updateTargetModel", copyValue, copyPropertyName, sameAsId);
-        toast.info(`'${copyValue}', ${sameAsId} transferred`, {autoClose: 1000} );
+        $toast?.info?.(`'${copyValue}', ${sameAsId} transferred`, {autoClose: 1000} );
     }
     catch(e) {
-        toast.error('Copy error');
+        $toast?.error?.('Copy error');
     }
 }
 

@@ -79,6 +79,11 @@ const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tab
 import { ref, computed, onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 
 const props = defineProps({
     headerText: { type: String, default: 'Production Year' },

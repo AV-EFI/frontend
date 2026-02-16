@@ -113,10 +113,9 @@
 </template>
 
 <script setup lang="ts">
-import { toast } from 'vue3-toastify';
 import {useObjectListStore} from '../../stores/compareList';
 import {useShoppingCart} from '../../stores/shoppingCart';
-const {$toggleComparisonDrawerState}:any = useNuxtApp();
+const {$toggleComparisonDrawerState, $toast}:any = useNuxtApp();
 const shoppingCart = useShoppingCart();
 const objectListStore = useObjectListStore();
 const showInfo = ref(false);
@@ -151,7 +150,7 @@ const navigateToComparison = () => {
     }
     catch(e) {
         console.error(e);
-        toast.error($t('error'));
+      $toast?.error?.($t('error'));
     }
 };
 </script>

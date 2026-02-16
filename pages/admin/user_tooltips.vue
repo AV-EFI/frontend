@@ -1,7 +1,5 @@
 <template>
-  <GlobalBreadcrumbsComp
-    :breadcrumbs="[['Home','/'],[$t('userGlossary'),'admin/user_tooltips']]"
-  />
+  <GlobalBreadcrumbsComp :breadcrumbs="[['Home','/'],[$t('userGlossary'),'admin/user_tooltips']]" />
   <NuxtLayout name="partial-layout-1-center" padding-class="p-0">
     <template #title>
       <h2 class="text-2xl font-bold pl-2">{{ $t('ut.pageTitle') }}</h2>
@@ -27,14 +25,7 @@
           <div class="border rounded-lg p-2 h-[70vh] overflow-auto">
             <div v-if="loadingTree" class="p-4 opacity-60">{{ $t('ut.loadingTree') }}</div>
             <div v-else-if="!tree" class="p-4 opacity-60">{{ $t('ut.noTree') }}</div>
-            <TreeNode
-              v-else
-              :node="tree"
-              :filter="q"
-              :active-path="currentPath"
-              :root="true"
-              @select="onSelect"
-            />
+            <TreeNode v-else :node="tree" :filter="q" :active-path="currentPath" :root="true" @select="onSelect" />
           </div>
 
           <div class="mt-4 flex flex-wrap gap-2">
@@ -61,8 +52,10 @@
                 <input type="checkbox" class="checkbox checkbox-sm" v-model="staleSelectAll" />
                 <span class="label-text text-sm">{{ $t('ut.selectAll') }}</span>
               </label>
-              <button class="btn btn-sm" @click="deleteSelectedStale" :disabled="!staleSelection.size || !canEdit">{{ $t('ut.deleteSelected') }}</button>
-              <button class="btn btn-sm btn-outline" @click="deleteAllStale" :disabled="!staleList.length || !canEdit">{{ $t('ut.deleteAll') }}</button>
+              <button class="btn btn-sm" @click="deleteSelectedStale" :disabled="!staleSelection.size || !canEdit">{{
+                $t('ut.deleteSelected') }}</button>
+              <button class="btn btn-sm btn-outline" @click="deleteAllStale"
+                :disabled="!staleList.length || !canEdit">{{ $t('ut.deleteAll') }}</button>
             </div>
           </div>
 
@@ -83,55 +76,30 @@
                   <h3>{{ currentHint?.label }}</h3>
                   <p v-if="currentHint?.description" class="text-sm opacity-70 mt-1">
                     {{ currentHint.description }}
-                    <a v-if="currentHint?.docsUrl" :href="currentHint.docsUrl" target="_blank" class="link ml-2">{{ $t('ut.docs') }} ↗</a>
+                    <a v-if="currentHint?.docsUrl" :href="currentHint.docsUrl" target="_blank" class="link ml-2">{{
+                      $t('ut.docs') }} ↗</a>
                   </p>
                   <code class="text-xs opacity-70" v-if="currentPath">{{ currentPath }}</code>
                 </div>
               </div>
 
-              <FormKit
-                type="form"
-                :actions="false"
-                @submit="save"
-                :config="{ validationVisibility: 'live' }"
-                :disabled="!currentPath || !canEdit || saving"
-                class="mt-4"
-              >
+              <FormKit type="form" :actions="false" @submit="save" :config="{ validationVisibility: 'live' }"
+                :disabled="!currentPath || !canEdit || saving" class="mt-4">
                 <div class="grid gap-4 md:grid-cols-2 border-t pt-4">
-                  <FormKit
-                    type="textarea"
-                    name="de"
-                    v-model="form.de"
-                    :label="$t('ut.deLabel')"
-                    validation="length:0,2000"
-                    :placeholder="$t('ut.dePlaceholder')"
-                  />
-                  <FormKit
-                    type="textarea"
-                    name="en"
-                    v-model="form.en"
-                    :label="$t('ut.enLabel')"
-                    validation="length:0,2000"
-                    :placeholder="$t('ut.enPlaceholder')"
-                  />
+                  <FormKit type="textarea" name="de" v-model="form.de" :label="$t('ut.deLabel')"
+                    validation="length:0,2000" :placeholder="$t('ut.dePlaceholder')" />
+                  <FormKit type="textarea" name="en" v-model="form.en" :label="$t('ut.enLabel')"
+                    validation="length:0,2000" :placeholder="$t('ut.enPlaceholder')" />
                 </div>
                 <div class="grid gap-3 md:grid-cols-2 mt-2">
-  <FormKit
-    type="checkbox"
-    name="showDetail"
-    v-model="form.showDetail"
-    :label="$t('ut.showInDetail')"
-  />
-  <FormKit
-    type="checkbox"
-    name="showSearch"
-    v-model="form.showSearch"
-    :label="$t('ut.showInSearch')"
-  />
-</div>
+                  <FormKit type="checkbox" name="showDetail" v-model="form.showDetail" :label="$t('ut.showInDetail')" />
+                  <FormKit type="checkbox" name="showSearch" v-model="form.showSearch" :label="$t('ut.showInSearch')" />
+                </div>
                 <div class="mt-4 flex items-center gap-2 border-t pt-4">
-                  <button class="btn btn-primary" type="submit" :disabled="!currentPath || saving">{{ $t('ut.save') }}</button>
-                  <button class="btn btn-outline" type="button" @click="revert" :disabled="!dirty || saving">{{ $t('ut.revert') }}</button>
+                  <button class="btn btn-primary" type="submit" :disabled="!currentPath || saving">{{ $t('ut.save')
+                    }}</button>
+                  <button class="btn btn-outline" type="button" @click="revert" :disabled="!dirty || saving">{{
+                    $t('ut.revert') }}</button>
                   <span v-if="saving" class="loading loading-spinner loading-sm"></span>
                   <span v-if="savedFlash" class="text-success">{{ $t('ut.saved') }}</span>
                 </div>
@@ -154,13 +122,16 @@
                         <tr v-for="row in rows" :key="row.path">
                           <td class="align-top"><code>{{ row.path }}</code></td>
                           <td class="align-top">
-                            <textarea v-model="row.de" class="textarea textarea-bordered textarea-sm w-full" rows="2"></textarea>
+                            <textarea v-model="row.de" class="textarea textarea-bordered textarea-sm w-full"
+                              rows="2"></textarea>
                           </td>
                           <td class="align-top">
-                            <textarea v-model="row.en" class="textarea textarea-bordered textarea-sm w-full" rows="2"></textarea>
+                            <textarea v-model="row.en" class="textarea textarea-bordered textarea-sm w-full"
+                              rows="2"></textarea>
                           </td>
                           <td class="text-right align-top">
-                            <button class="btn btn-ghost btn-sm" @click="removeRow(row.path)" :disabled="!canEdit">✕</button>
+                            <button class="btn btn-ghost btn-sm" @click="removeRow(row.path)"
+                              :disabled="!canEdit">✕</button>
                           </td>
                         </tr>
                       </tbody>
@@ -168,7 +139,8 @@
                   </div>
 
                   <div class="mt-3 flex items-center gap-2">
-                    <button class="btn btn-sm" @click="saveAll" :disabled="saving || !canEdit">{{ $t('ut.btnSaveAll') }}</button>
+                    <button class="btn btn-sm" @click="saveAll" :disabled="saving || !canEdit">{{ $t('ut.btnSaveAll')
+                      }}</button>
                     <button class="btn btn-sm" @click="dedupe" :disabled="saving">{{ $t('ut.btnDedupe') }}</button>
                     <button class="btn btn-sm" @click="sortRows" :disabled="saving">{{ $t('ut.btnSort') }}</button>
                   </div>
@@ -184,6 +156,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, defineComponent, h } from 'vue';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 
 type HintMap = Record<string, { label?: string; description?: string; docsUrl?: string }>;
 type Row = {

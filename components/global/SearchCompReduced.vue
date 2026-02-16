@@ -22,6 +22,11 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
 import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 
 const props = defineProps<{
   modelValue?: string

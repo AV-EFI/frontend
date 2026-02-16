@@ -294,9 +294,6 @@ Files Modified:
 - `pages/compare.vue` (new)
 - `pages/compare_altern.vue` (deleted)
 - `i18n/i18n.config.ts` (+3 translation keys)
-- `i18n/locales/en.json` (+3 keys)
-- `i18n/locales/de.json` (+3 keys)
-
 ---
 
 🧹 Code Quality & Maintenance
