@@ -62,11 +62,14 @@ export default defineNuxtConfig({
         debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
         prerender: {
             crawlLinks: false,
+            routes: ['/', '/faq', '/glossary'],
+            /*
             routes: [
                 '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406',
                 '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88',
                 // Add more important film pages here
             ]
+            */
         },
         routeRules: {
             // ✅ must be crawlable/indexable for Google to accept it as sitemap
@@ -207,7 +210,7 @@ export default defineNuxtConfig({
         "/glossary": { ssr: false },
         "/login": { ssr: true },
         "/film/**": {ssr: true},
-        "/res/**": {ssr: false},
+        "/res/**": {ssr: false, prerender: false},
         "/serial/**": {ssr: true},
         "/protected/institutionlist": {ssr: true},
         "/protected/dashboard": {ssr: true},
