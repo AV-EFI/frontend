@@ -445,9 +445,10 @@
       class="relative border-t border-base-200 py-10 section-wash section-wash--a">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div class="lg:col-span-6">
+          <div class="lg:col-span-6 flex justify-center">
             <video controls preload="none" :poster="videoPosterSrc"
-              class="w-full rounded-xl border border-base-300 shadow-lg" :aria-describedby="'video-desc'">
+              class="w-full max-w-[260px] md:max-w-full rounded-xl border border-base-300 shadow-lg"
+              :aria-describedby="'video-desc'">
               <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
               {{ $t('videoNotSupported') }}
             </video>
@@ -505,7 +506,7 @@ const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
 const CARD_IMAGE_WIDTHS = [240, 320, 480, 720, 1024] as const;
-const CARD_IMAGE_SIZES = '(max-width: 480px) 92vw, (max-width: 1024px) 320px, 380px';
+const CARD_IMAGE_SIZES = '(max-width: 640px) 240px, (max-width: 1024px) 320px, 380px';
 
 type CardItem = {
   description: string;
@@ -535,21 +536,21 @@ type CardItem = {
 };
 
 function createResponsiveCardMedia(baseName: string, width: number, height: number) {
-  const normalized = baseName.replace(/\.(webp|jpg|jpeg|png)$/i, '');
-  const aspectRatio = height / width;
-  const blurWidth = CARD_IMAGE_WIDTHS[0];
-  const blurHeight = Math.round(aspectRatio * blurWidth);
+    const normalized = baseName.replace(/\.(webp|jpg|jpeg|png)$/i, '');
+    const aspectRatio = height / width;
+    const blurWidth = CARD_IMAGE_WIDTHS[0];
+    const blurHeight = Math.round(aspectRatio * blurWidth);
 
-  return {
-    imgSrc: `/img/${normalized}.webp`,
-    imgSrcSet: CARD_IMAGE_WIDTHS.map((w) => `/img/${normalized}-${w}.webp ${w}w`).join(', '),
-    imgSizes: CARD_IMAGE_SIZES,
-    imgWidth: width,
-    imgHeight: height,
-    imgBlurSrc: `/img/${normalized}-${blurWidth}.webp`,
-    imgBlurWidth: blurWidth,
-    imgBlurHeight: blurHeight,
-  } satisfies Partial<CardItem>;
+    return {
+        imgSrc: `/img/${normalized}.webp`,
+        imgSrcSet: CARD_IMAGE_WIDTHS.map((w) => `/img/${normalized}-${w}.webp ${w}w`).join(', '),
+        imgSizes: CARD_IMAGE_SIZES,
+        imgWidth: width,
+        imgHeight: height,
+        imgBlurSrc: `/img/${normalized}-${blurWidth}.webp`,
+        imgBlurWidth: blurWidth,
+        imgBlurHeight: blurHeight,
+    } satisfies Partial<CardItem>;
 }
 
 // --- HERO overlay media toggle ---
@@ -558,25 +559,25 @@ const HERO_MEDIA_KEY = 'heroMediaVisible';
 
 const heroParallax = ref(0);
 const heroParallaxStyle = computed(() => ({
-  transform: `translateY(${heroParallax.value}px)`
+    transform: `translateY(${heroParallax.value}px)`
 }));
 
 function onScrollParallax() {
-  // Clamp to max 40px for subtle effect
-  heroParallax.value = Math.min(window.scrollY * 0.18, 40);
+    // Clamp to max 40px for subtle effect
+    heroParallax.value = Math.min(window.scrollY * 0.18, 40);
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', onScrollParallax);
-  onScrollParallax();
-  const stored = localStorage.getItem(HERO_MEDIA_KEY);
-  if (stored !== null) heroMediaVisible.value = stored === 'true';
+    window.addEventListener('scroll', onScrollParallax);
+    onScrollParallax();
+    const stored = localStorage.getItem(HERO_MEDIA_KEY);
+    if (stored !== null) heroMediaVisible.value = stored === 'true';
 });
 onUnmounted(() => {
-  window.removeEventListener('scroll', onScrollParallax);
+    window.removeEventListener('scroll', onScrollParallax);
 });
 watch(heroMediaVisible, (val) => {
-  localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
+    localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
 });
 
 // ─────────────────────────────────────────────
@@ -594,23 +595,23 @@ useSeoMeta({
     ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
     twitterCard: 'summary_large_image',
     twitterTitle: t('seo.home.title'),
-  twitterDescription: t('seo.home.description'),
-  keywords: [
-    'AVefi',
-    'Filmforschungsportal',
-    'Filmrecherche',
-    'Filmdatenbank',
-    'Filmmetadaten',
-    'audiovisuelle Bestände',
-    'Archivdaten',
-    'Filme suchen',
-    'wissenschaftliche Nutzung',
-    'Forschungsdaten',
-    'Filmwissenschaft',
-    'Linked Open Data',
-    'Normdaten',
-    'Persistent Identifier',
-  ].join(', '),
+    twitterDescription: t('seo.home.description'),
+    keywords: [
+        'AVefi',
+        'Filmforschungsportal',
+        'Filmrecherche',
+        'Filmdatenbank',
+        'Filmmetadaten',
+        'audiovisuelle Bestände',
+        'Archivdaten',
+        'Filme suchen',
+        'wissenschaftliche Nutzung',
+        'Forschungsdaten',
+        'Filmwissenschaft',
+        'Linked Open Data',
+        'Normdaten',
+        'Persistent Identifier',
+    ].join(', '),
 });
 
 // ─────────────────────────────────────────────
@@ -700,121 +701,121 @@ definePageMeta({
 
 const prefersCompactPoster = useMediaQuery('(max-width: 1024px)');
 const videoPosterSrc = computed(() =>
-  prefersCompactPoster.value ? '/img/avefi_vid_poster-360.webp' : '/img/avefi_vid_poster-720.webp'
+    prefersCompactPoster.value ? '/img/avefi_vid_poster-360.webp' : '/img/avefi_vid_poster-720.webp'
 );
 
 const items = ref([
-  {
-    src: '/img/gwdg_logo.min.svg',
-    width: 176.871,
-    height: 52.384,
-    alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
-    link: 'https://www.gwdg.de'
-  },
-  {
-    src: '/img/logo_sdk.webp',
-    width: 50,
-    height: 56,
-    alt: 'Stiftung Deutsche Kinemathek',
-    link: 'https://www.deutsche-kinemathek.de'
-  },
-  {
-    src: '/img/logo_tib.webp',
-    width: 85,
-    height: 56,
-    alt: 'Technische Informationsbibliothek Hannover',
-    link: 'https://www.tib.eu'
-  },
-  {
-    src: '/img/logo_fmd.webp',
-    width: 199,
-    height: 56,
-    alt: 'Filmmuseum Düsseldorf',
-    link: 'https://www.duesseldorf.de/filmmuseum'
-  },
-  {
-    src: '/img/logo_mcdci.webp',
-    width: 56,
-    height: 56,
-    alt: 'Marburg Center for Digital Culture and Infrastructure',
-    link: 'https://www.uni-marburg.de/de/mcdci'
-  }
+    {
+        src: '/img/gwdg_logo.min.svg',
+        width: 176.871,
+        height: 52.384,
+        alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
+        link: 'https://www.gwdg.de'
+    },
+    {
+        src: '/img/logo_sdk.webp',
+        width: 50,
+        height: 56,
+        alt: 'Stiftung Deutsche Kinemathek',
+        link: 'https://www.deutsche-kinemathek.de'
+    },
+    {
+        src: '/img/logo_tib.webp',
+        width: 85,
+        height: 56,
+        alt: 'Technische Informationsbibliothek Hannover',
+        link: 'https://www.tib.eu'
+    },
+    {
+        src: '/img/logo_fmd.webp',
+        width: 199,
+        height: 56,
+        alt: 'Filmmuseum Düsseldorf',
+        link: 'https://www.duesseldorf.de/filmmuseum'
+    },
+    {
+        src: '/img/logo_mcdci.webp',
+        width: 56,
+        height: 56,
+        alt: 'Marburg Center for Digital Culture and Infrastructure',
+        link: 'https://www.uni-marburg.de/de/mcdci'
+    }
 ]);
 
 const cardItems = ref<CardItem[]>([
-  {
-    description: "restShortFilmCollectionDescription",
-    title: "restShortFilmCollectionTitle",
-    link: `/search/?has_form=Short&manifestation_event_type=RestorationEvent`,
-    linkText: 'restShortFilmCollectionLinkText',
-    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
-    imgSourceText: 'Deutsche Kinemathek',
-    imgAuthor: 'Deutsche Kinemathek',
-    imgLicense: 'CC BY-SA 3.0',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',
-    ...createResponsiveCardMedia('restaur_kurzfilme', 388, 210),
-  },
-  {
-    description: "docFilmCollectionDescription",
-    title: "docFilmCollectionTitle",
-    link: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`,
-    linkText: 'docFilmCollectionLinkText',
-    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
-    imgSourceText: 'Deutsche Kinemathek',
-    imgAuthor: 'Deutsche Kinemathek',
-    imgLicense: 'CC BY-SA 3.0',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    imgAlt: 'Schwarzweiß-Aufnahme von Demonstrierenden mit Transparenten und Fahnen',
-    ...createResponsiveCardMedia('aktiv_im_dok', 352, 256),
-  },
-  {
-    title: 'trollerTitle',
-    imgAlt: 'Georg Stefan Troller',
-    description: 'trollerDescription',
-    link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
-    linkText: 'trollerLinkText',
-    imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
-    imgSourceText: 'Wikimedia Commons',
-    imgAuthor: 'ZDF',
-    imgLicense: 'CC BY-SA 3.0',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    imgCoverType: 'object-top',
-    imgCaption: 'Georg Stefan Troller im ZDF bei "Vor 30 Jahren". 2011.',
-    ...createResponsiveCardMedia('Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren', 213, 256),
-  },
-  {
-    title: 'schlenkerTitle',
-    description: 'schlenkerDescription',
-    linkText: 'schlenkerLinkText',
-    link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
-    imgAlt: 'AVefi Platzhalter Bild',
-    imgCoverType: '',
-    imgSourceLink: '',
-    imgSourceText: '',
-    imgAuthor: '',
-    imgLicense: '',
-    imgLicenseLink: ''
-  },
-  {
-    title: 'ddrTitle',
-    imgSourceText: 'German Federal Archives',
-    imgAuthor: 'Christa Hochneder',
-    imgLicense: 'CC BY-SA 3.0 DE',
-    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
-    imgCoverType: 'object-center',
-    imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
-    imgDepictedPlace: 'Leipzig',
-    imgDate: '1964-11-15',
-    imgCollection: 'German Federal Archives',
-    imgAccessionNumber: 'Bild 183-C1115-0001-001',
-    description: 'ddrDescription',
-    link: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
-    linkText: 'ddrLinkText',
-    imgAlt: 'Außenaufnahme des Kinos "Capitol" in Leipzig bei Nacht',
-    imgSourceLink: '',
-    ...createResponsiveCardMedia('Bundesarchiv_Bild_Leipzig_Capitol_Nacht', 343, 256),
-  }
+    {
+        description: "restShortFilmCollectionDescription",
+        title: "restShortFilmCollectionTitle",
+        link: `/search/?has_form=Short&manifestation_event_type=RestorationEvent`,
+        linkText: 'restShortFilmCollectionLinkText',
+        imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+        imgSourceText: 'Deutsche Kinemathek',
+        imgAuthor: 'Deutsche Kinemathek',
+        imgLicense: 'CC BY-SA 3.0',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+        imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',
+        ...createResponsiveCardMedia('restaur_kurzfilme', 388, 210),
+    },
+    {
+        description: "docFilmCollectionDescription",
+        title: "docFilmCollectionTitle",
+        link: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`,
+        linkText: 'docFilmCollectionLinkText',
+        imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+        imgSourceText: 'Deutsche Kinemathek',
+        imgAuthor: 'Deutsche Kinemathek',
+        imgLicense: 'CC BY-SA 3.0',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+        imgAlt: 'Schwarzweiß-Aufnahme von Demonstrierenden mit Transparenten und Fahnen',
+        ...createResponsiveCardMedia('aktiv_im_dok', 352, 256),
+    },
+    {
+        title: 'trollerTitle',
+        imgAlt: 'Georg Stefan Troller',
+        description: 'trollerDescription',
+        link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
+        linkText: 'trollerLinkText',
+        imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+        imgSourceText: 'Wikimedia Commons',
+        imgAuthor: 'ZDF',
+        imgLicense: 'CC BY-SA 3.0',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+        imgCoverType: 'object-top',
+        imgCaption: 'Georg Stefan Troller im ZDF bei "Vor 30 Jahren". 2011.',
+        ...createResponsiveCardMedia('Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren', 213, 256),
+    },
+    {
+        title: 'schlenkerTitle',
+        description: 'schlenkerDescription',
+        linkText: 'schlenkerLinkText',
+        link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
+        imgAlt: 'AVefi Platzhalter Bild',
+        imgCoverType: '',
+        imgSourceLink: '',
+        imgSourceText: '',
+        imgAuthor: '',
+        imgLicense: '',
+        imgLicenseLink: ''
+    },
+    {
+        title: 'ddrTitle',
+        imgSourceText: 'German Federal Archives',
+        imgAuthor: 'Christa Hochneder',
+        imgLicense: 'CC BY-SA 3.0 DE',
+        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
+        imgCoverType: 'object-center',
+        imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
+        imgDepictedPlace: 'Leipzig',
+        imgDate: '1964-11-15',
+        imgCollection: 'German Federal Archives',
+        imgAccessionNumber: 'Bild 183-C1115-0001-001',
+        description: 'ddrDescription',
+        link: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
+        linkText: 'ddrLinkText',
+        imgAlt: 'Außenaufnahme des Kinos "Capitol" in Leipzig bei Nacht',
+        imgSourceLink: '',
+        ...createResponsiveCardMedia('Bundesarchiv_Bild_Leipzig_Capitol_Nacht', 343, 256),
+    }
 ]);
 </script>
 

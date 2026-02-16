@@ -9,7 +9,7 @@
     <div ref="carouselRef"
       class="carousel carousel-center w-full rounded-box p-4 overflow-x-auto scroll-smooth snap-none">
       <div v-for="(item, index) in items" :key="index"
-        class="carousel-item align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[90vw] sm:w-72 md:w-96">
+        class="carousel-item align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
         <figure class="w-full">
           <div v-if="item.imgSrc"
             class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
@@ -62,7 +62,7 @@
       </div>
       <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
       <div
-        class="carousel-item relative align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[90vw] sm:w-72 md:w-96">
+        class="carousel-item relative align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
         <label class="swap swap-flip w-full h-full cursor-pointer">
           <input type="checkbox" v-model="createOpen" aria-label="Toggle create form" />
 
