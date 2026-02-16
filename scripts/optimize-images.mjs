@@ -9,7 +9,9 @@ const __dirname = dirname(__filename);
 const publicDir = join(__dirname, '..', 'public');
 
 // Responsive widths chosen to match lighthouse guidance (mobile → desktop)
-const DEFAULT_WIDTHS = [240, 360, 480, 720, 1024];
+const DEFAULT_WIDTHS = [240, 320, 480, 720, 1024];
+const WEBP_QUALITY = 78;
+const JPEG_QUALITY = 82;
 
 const responsiveImages = [
   {
@@ -75,9 +77,9 @@ async function optimizeImages() {
           });
 
           if (format === 'webp') {
-            await pipeline.webp({ quality: 85 }).toFile(outputPath);
+            await pipeline.webp({ quality: WEBP_QUALITY }).toFile(outputPath);
           } else if (format === 'jpeg') {
-            await pipeline.jpeg({ quality: 85, mozjpeg: true }).toFile(outputPath);
+            await pipeline.jpeg({ quality: JPEG_QUALITY, mozjpeg: true }).toFile(outputPath);
           }
 
           const stats = await sharp(outputPath).metadata();

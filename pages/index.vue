@@ -504,8 +504,8 @@ const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
-const CARD_IMAGE_WIDTHS = [240, 360, 480, 720, 1024] as const;
-const CARD_IMAGE_SIZES = '(max-width: 640px) 90vw, (max-width: 1024px) 520px, 640px';
+const CARD_IMAGE_WIDTHS = [240, 320, 480, 720, 1024] as const;
+const CARD_IMAGE_SIZES = '(max-width: 480px) 92vw, (max-width: 1024px) 320px, 380px';
 
 type CardItem = {
   description: string;
@@ -698,9 +698,9 @@ definePageMeta({
     layout: 'default',
 });
 
-const prefersCompactPoster = useMediaQuery('(max-width: 640px)');
+const prefersCompactPoster = useMediaQuery('(max-width: 1024px)');
 const videoPosterSrc = computed(() =>
-  prefersCompactPoster.value ? '/img/avefi_vid_poster-540.webp' : '/img/avefi_vid_poster-960.webp'
+  prefersCompactPoster.value ? '/img/avefi_vid_poster-360.webp' : '/img/avefi_vid_poster-720.webp'
 );
 
 const items = ref([
