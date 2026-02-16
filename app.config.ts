@@ -1,2 +1,7 @@
 // app.config.ts
-export default defineAppConfig({});
+export default defineAppConfig({
+    nuxtLink: {
+        prefetchOn: ['hover'],
+        prefetchPayloads: false,
+    },
+});

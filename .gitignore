@@ -20,6 +20,7 @@ yarn-error.log*
 .idea
 .fleet
 .vscode
+bundle-analysis.html
 
 # Local env files
 .env

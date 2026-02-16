@@ -9,59 +9,57 @@
     <!-- ======= HERO / SEARCH-FIRST ======= -->
     <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
       <div class="hero max-lg:min-h-[48vh] lg:min-h-[58vh]">
-        <ClientOnly>
-          <div class="hero-overlay w-full" :style="heroParallaxStyle">
-            <!-- Toggle button for video/image (glass pill, non-competing) -->
-            <div class="absolute top-4 right-4 z-40 hidden">
-              <button
-                class="btn btn-xs btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                @click="heroMediaVisible = !heroMediaVisible" :aria-pressed="heroMediaVisible"
-                :title="heroMediaVisible ? 'Hide background media' : 'Show background media'">
-                <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4" />
-                <span class="sr-only">
-                  {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
-                </span>
-              </button>
-            </div>
+        <div class="hero-overlay w-full" :style="heroParallaxStyle">
+          <!-- Toggle button for video/image (glass pill, non-competing) -->
+          <div class="absolute top-4 right-4 z-40 hidden">
+            <button
+              class="btn btn-xs btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+              @click="heroMediaVisible = !heroMediaVisible" :aria-pressed="heroMediaVisible"
+              :title="heroMediaVisible ? 'Hide background media' : 'Show background media'">
+              <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4" />
+              <span class="sr-only">
+                {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
+              </span>
+            </button>
+          </div>
 
-            <!-- Background media -->
-            <ClientOnly>
-              <picture>
-                <source srcset="/img/avefi_diamonds_prim_mobile.webp" media="(max-width: 640px)" fetchpriority="high" />
-                <source srcset="/img/avefi_diamonds_prim_tablet.webp" media="(max-width: 1023px)" />
-                <source srcset="/img/avefi_diamonds_prim_desktop.webp" media="(min-width: 1024px)" />
-                <img src="/img/avefi_diamonds_prim_white.webp" alt="Diamond pattern primary desktop"
-                  class="max-sm:hidden lg:visible absolute inset-0 w-full h-full object-cover object-center dark:invert max-w-[600px] max-h-full lg:max-w-full lg:max-h-full" />
-              </picture>
-            </ClientOnly>
-            <!-- Aurora / glow overlays (light + dark variants) -->
-            <div
-              class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
-              aria-hidden="true" :class="[
+          <!-- Background media -->
+          <picture>
+            <source srcset="/img/avefi_diamonds_prim_mobile.webp" media="(max-width: 640px)" />
+            <source srcset="/img/avefi_diamonds_prim_tablet.webp" media="(max-width: 1023px)" />
+            <source srcset="/img/avefi_diamonds_prim_desktop.webp" media="(min-width: 1024px)" />
+            <img src="/img/avefi_diamonds_prim_white.webp" alt="Diamond pattern primary desktop" width="2040"
+              height="1360" loading="eager" fetchpriority="high" decoding="async" sizes="100vw"
+              class="max-sm:hidden lg:visible absolute inset-0 w-full h-full object-cover object-center dark:invert max-w-[600px] max-h-full lg:max-w-full lg:max-h-full" />
+          </picture>
+          <!-- Aurora / glow overlays (light + dark variants) -->
+          <div
+            class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
+            aria-hidden="true" :class="[
                 // LIGHT
                 'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
                 // DARK
                 'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
               ]" />
-            <!-- Vignette -->
-            <div
-              class="absolute inset-0 pointer-events-none
+          <!-- Vignette -->
+          <div
+            class="absolute inset-0 pointer-events-none
          mix-blend-multiply dark:mix-blend-normal
          bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.14)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
          dark:bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.18)_100%),linear-gradient(180deg,rgba(0,0,0,0.12),transparent_22%,transparent_78%,rgba(0,0,0,0.14))]">
-            </div>
-            <!-- Subtle grid -->
-            <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
-              <div class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
+          </div>
+          <!-- Subtle grid -->
+          <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
+            <div class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
                        [background-size:22px_22px]">
-              </div>
             </div>
           </div>
+        </div>
 
-          <div class="hero-content w-full lg:w-full">
-            <div class="w-full lg:max-w-6xl mx-auto">
-              <!-- Center content panel: THIS is what makes it readable -->
-              <div class="max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
+        <div class="hero-content w-full lg:w-full">
+          <div class="w-full lg:max-w-6xl mx-auto">
+            <!-- Center content panel: THIS is what makes it readable -->
+            <div class="max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
     border
     shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
     supports-[backdrop-filter]:backdrop-blur-[10px]
@@ -74,29 +72,29 @@
     // subtle inner highlight like your inset 1px
     'shadow-inner dark:shadow-none',
   ]">
-                <div class="text-center">
-                  <h1 class="
+              <div class="text-center">
+                <h1 class="
     mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
     [text-shadow:0_1px_0_rgba(255,255,255,0.65)]
     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
   " tabindex="0"> {{ $t('avefiClaim') }}
-                  </h1>
+                </h1>
 
-                  <p class="
+                <p class="
     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
     [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
   " tabindex="0">
 
-                    {{ $t('home.tagline') }}
-                  </p>
-                </div>
+                  {{ $t('home.tagline') }}
+                </p>
+              </div>
 
-                <!-- BIG centered search -->
-                <div class="mt-6 grid place-items-center">
-                  <div class="w-full max-w-4xl">
-                    <!-- Glass search card -->
-                    <div class="card
+              <!-- BIG centered search -->
+              <div class="mt-6 grid place-items-center">
+                <div class="w-full max-w-4xl">
+                  <!-- Glass search card -->
+                  <div class="card
     border
     supports-[backdrop-filter]:backdrop-blur-[14px]
     shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
@@ -106,51 +104,52 @@
     // DARK
     'dark:bg-neutral/35 dark:border-white/10',
   ]">
-                      <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
-                        :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
-                        <!-- Card header row: integrated mode switch -->
-                        <div
-                          class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
-                          <div class="md:justify-end" role="group"
-                            :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
-                            <div class="join w-full">
-                              <button class="join-item btn md:btn-sm" :aria-label="$t('showSimpleSearch')"
-                                :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
-                                aria-controls="home-search-area">
-                                <span class="hidden md:block">
-                                  {{ $t('showSimpleSearch') }}
-                                </span>
-                                <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
+                    <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
+                      :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
+                      <!-- Card header row: integrated mode switch -->
+                      <div
+                        class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
+                        <div class="md:justify-end" role="group"
+                          :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                          <div class="join w-full">
+                            <button class="join-item btn md:btn-sm" :aria-label="$t('showSimpleSearch')"
+                              :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                              @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
+                              aria-controls="home-search-area">
+                              <span class="hidden md:block">
+                                {{ $t('showSimpleSearch') }}
+                              </span>
+                              <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
 
-                              </button>
-                              <button class="join-item btn md:btn-sm" :aria-label="$t('showAdvancedSearch')"
-                                :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
-                                aria-controls="home-search-area">
-                                <span class="hidden md:block">
-                                  {{ $t('showAdvancedSearch') }}
-                                </span>
-                                <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
-                              </button>
-                            </div>
+                            </button>
+                            <button class="join-item btn md:btn-sm" :aria-label="$t('showAdvancedSearch')"
+                              :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                              @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
+                              aria-controls="home-search-area">
+                              <span class="hidden md:block">
+                                {{ $t('showAdvancedSearch') }}
+                              </span>
+                              <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
+                            </button>
                           </div>
                         </div>
+                      </div>
 
-                        <!-- Search component -->
+                      <!-- Search component -->
+                      <ClientOnly>
                         <component :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
                           ref="searchCompRef" :aria-labelledby="'home-search-label'" />
+                      </ClientOnly>
 
-                      </div>
                     </div>
-                    <!-- /glass search card -->
                   </div>
+                  <!-- /glass search card -->
                 </div>
               </div>
-              <!-- /hero-content-panel -->
             </div>
+            <!-- /hero-content-panel -->
           </div>
-        </ClientOnly>
+        </div>
       </div>
     </section>
 
@@ -288,7 +287,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
           <div
             class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 flex flex-col justify-center">
-            <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6 text-center" tabindex="0">
+            <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6" tabindex="0">
               {{ $t('timeline.title') }}
             </h2>
             <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical" role="list">
@@ -445,27 +444,25 @@
     <section role="region" :aria-label="$t('videoSection')"
       class="relative border-t border-base-200 py-10 section-wash section-wash--a">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <ClientOnly>
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div class="lg:col-span-6">
-              <video controls preload="none" poster="/img/avefi_vid_poster.webp"
-                class="w-full rounded-xl border border-base-300 shadow-lg" :aria-describedby="'video-desc'">
-                <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
-                {{ $t('videoNotSupported') }}
-              </video>
-            </div>
-            <div class="lg:col-span-6 lg:h-full">
-              <div class="bg-base-100/90 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
-                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                  {{ $t('videoSectionTitle') }}
-                </h2>
-                <p id="video-desc" class="text-base md:text-lg opacity-80" tabindex="0">
-                  {{ $t('videoSectionDescription') }}
-                </p>
-              </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-6">
+            <video controls preload="none" :poster="videoPosterSrc"
+              class="w-full rounded-xl border border-base-300 shadow-lg" :aria-describedby="'video-desc'">
+              <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
+              {{ $t('videoNotSupported') }}
+            </video>
+          </div>
+          <div class="lg:col-span-6 lg:h-full">
+            <div class="bg-base-100/90 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
+              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+                {{ $t('videoSectionTitle') }}
+              </h2>
+              <p id="video-desc" class="text-base md:text-lg opacity-80" tabindex="0">
+                {{ $t('videoSectionDescription') }}
+              </p>
             </div>
           </div>
-        </ClientOnly>
+        </div>
       </div>
     </section>
 
@@ -487,9 +484,7 @@
           <div class="lg:col-span-7 flex justify-center">
             <div class="w-full max-w-xl" role="region"
               :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
-              <ClientOnly>
-                <GlobalCarouselComp :items="items" />
-              </ClientOnly>
+              <GlobalCarouselComp :items="items" />
             </div>
           </div>
         </div>
@@ -500,20 +495,67 @@
 
 <script lang="ts" setup>
 import { useRuntimeConfig, useSeoMeta } from 'nuxt/app';
-import { ref, onMounted, nextTick, watch } from 'vue';
+import { ref, onMounted, nextTick, watch, computed, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useMediaQuery } from '@vueuse/core';
 
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
+const CARD_IMAGE_WIDTHS = [240, 360, 480, 720, 1024] as const;
+const CARD_IMAGE_SIZES = '(max-width: 640px) 90vw, (max-width: 1024px) 520px, 640px';
+
+type CardItem = {
+  description: string;
+  title: string;
+  link: string;
+  linkText: string;
+  imgSourceLink?: string;
+  imgSourceText?: string;
+  imgAuthor?: string;
+  imgLicense?: string;
+  imgLicenseLink?: string;
+  imgSrc?: string;
+  imgAlt?: string;
+  imgCoverType?: string;
+  imgCaption?: string;
+  imgDepictedPlace?: string;
+  imgDate?: string;
+  imgCollection?: string;
+  imgAccessionNumber?: string;
+  imgSrcSet?: string;
+  imgSizes?: string;
+  imgWidth?: number;
+  imgHeight?: number;
+  imgBlurSrc?: string;
+  imgBlurWidth?: number;
+  imgBlurHeight?: number;
+};
+
+function createResponsiveCardMedia(baseName: string, width: number, height: number) {
+  const normalized = baseName.replace(/\.(webp|jpg|jpeg|png)$/i, '');
+  const aspectRatio = height / width;
+  const blurWidth = CARD_IMAGE_WIDTHS[0];
+  const blurHeight = Math.round(aspectRatio * blurWidth);
+
+  return {
+    imgSrc: `/img/${normalized}.webp`,
+    imgSrcSet: CARD_IMAGE_WIDTHS.map((w) => `/img/${normalized}-${w}.webp ${w}w`).join(', '),
+    imgSizes: CARD_IMAGE_SIZES,
+    imgWidth: width,
+    imgHeight: height,
+    imgBlurSrc: `/img/${normalized}-${blurWidth}.webp`,
+    imgBlurWidth: blurWidth,
+    imgBlurHeight: blurHeight,
+  } satisfies Partial<CardItem>;
+}
+
 // --- HERO overlay media toggle ---
 const heroMediaVisible = ref(false);
 const HERO_MEDIA_KEY = 'heroMediaVisible';
 
-// Parallax effect
-import { computed, onUnmounted } from 'vue';
 const heroParallax = ref(0);
 const heroParallaxStyle = computed(() => ({
   transform: `translateY(${heroParallax.value}px)`
@@ -656,92 +698,123 @@ definePageMeta({
     layout: 'default',
 });
 
+const prefersCompactPoster = useMediaQuery('(max-width: 640px)');
+const videoPosterSrc = computed(() =>
+  prefersCompactPoster.value ? '/img/avefi_vid_poster-540.webp' : '/img/avefi_vid_poster-960.webp'
+);
+
 const items = ref([
-    { src: '/img/gwdg_logo.min.svg', alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen', link: 'https://www.gwdg.de' },
-    { src: '/img/logo_sdk.png', alt: 'Stiftung Deutsche Kinemathek', link: 'https://www.deutsche-kinemathek.de' },
-    { src: '/img/logo_tib.png', alt: 'Technische Informationsbibliothek Hannover', link: 'https://www.tib.eu' },
-    { src: '/img/logo_fmd.png', alt: 'Filmmuseum Düsseldorf', link: 'https://www.duesseldorf.de/filmmuseum' },
-    { src: '/img/logo_mcdci.png', alt: 'Marburg Center for Digital Culture and Infrastructure', link: 'https://www.uni-marburg.de/de/mcdci'
-    }
+  {
+    src: '/img/gwdg_logo.min.svg',
+    width: 176.871,
+    height: 52.384,
+    alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
+    link: 'https://www.gwdg.de'
+  },
+  {
+    src: '/img/logo_sdk.webp',
+    width: 50,
+    height: 56,
+    alt: 'Stiftung Deutsche Kinemathek',
+    link: 'https://www.deutsche-kinemathek.de'
+  },
+  {
+    src: '/img/logo_tib.webp',
+    width: 85,
+    height: 56,
+    alt: 'Technische Informationsbibliothek Hannover',
+    link: 'https://www.tib.eu'
+  },
+  {
+    src: '/img/logo_fmd.webp',
+    width: 199,
+    height: 56,
+    alt: 'Filmmuseum Düsseldorf',
+    link: 'https://www.duesseldorf.de/filmmuseum'
+  },
+  {
+    src: '/img/logo_mcdci.webp',
+    width: 56,
+    height: 56,
+    alt: 'Marburg Center for Digital Culture and Infrastructure',
+    link: 'https://www.uni-marburg.de/de/mcdci'
+  }
 ]);
 
-const cardItems = ref([
-    {
-        description: "restShortFilmCollectionDescription",
-        title: "restShortFilmCollectionTitle",
-        link: `/search/?has_form=Short&manifestation_event_type=RestorationEvent`,
-        linkText: 'restShortFilmCollectionLinkText',
-        imgSourceLink: 'https://www.deutsche-kinemathek.de/',
-        imgSourceText: 'Deutsche Kinemathek',
-        imgAuthor: 'Deutsche Kinemathek',
-        imgLicense: 'CC BY-SA 3.0',
-        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-        imgSrc: '/img/restaur_kurzfilme.webp',
-        imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',
-        imgCoverType: ''
-    },
-    {
-        description: "docFilmCollectionDescription",
-        title: "docFilmCollectionTitle",
-        link: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`,
-        linkText: 'docFilmCollectionLinkText',
-        imgSourceLink: 'https://www.deutsche-kinemathek.de/',
-        imgSourceText: 'Deutsche Kinemathek',
-        imgAuthor: 'Deutsche Kinemathek',
-        imgLicense: 'CC BY-SA 3.0',
-        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-        imgSrc: '/img/aktiv_im_dok.webp',
-        imgAlt: 'Schwarzweiß-Aufnahme von Demonstrierenden mit Transparenten und Fahnen',
-        imgCoverType: ''
-    },
-    {
-        title: 'trollerTitle',
-        imgSrc: '/img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp',
-        imgAlt: 'Georg Stefan Troller',
-        description: 'trollerDescription',
-        link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
-        linkText: 'trollerLinkText',
-        imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
-        imgSourceText: 'Wikimedia Commons',
-        imgAuthor: 'ZDF',
-        imgLicense: 'CC BY-SA 3.0',
-        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
-        imgCoverType: 'object-top',
-        imgCaption: 'Georg Stefan Troller im ZDF bei "Vor 30 Jahren". 2011.'
-    },
-    {
-        title: 'schlenkerTitle',
-        description: 'schlenkerDescription',
-        linkText: 'schlenkerLinkText',
-        link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
-        imgAlt: 'AVefi Platzhalter Bild',
-        imgCoverType: '',
-        //imgSrc: '/img/placeholder-16x9.svg',
-        imgSourceLink: '',
-        imgSourceText: '',
-        imgAuthor: '',
-        imgLicense: '',
-        imgLicenseLink: ''
-    },
-    {
-        title: 'ddrTitle',
-        imgSrc: '/img/Bundesarchiv_Bild_Leipzig_Capitol_Nacht.webp',
-        imgSourceText: 'German Federal Archives',
-        imgAuthor: 'Christa Hochneder',
-        imgLicense: 'CC BY-SA 3.0 DE',
-        imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
-        imgCoverType: 'object-center',
-        imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
-        imgDepictedPlace: 'Leipzig',
-        imgDate: '1964-11-15',
-        imgCollection: 'German Federal Archives',
-        imgAccessionNumber: 'Bild 183-C1115-0001-001',
-        description: 'ddrDescription',
-        link: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
-        linkText: 'ddrLinkText',
-        imgAlt: 'Außenaufnahme des Kinos "Capitol" in Leipzig bei Nacht',
-        imgSourceLink: ''
-    }
+const cardItems = ref<CardItem[]>([
+  {
+    description: "restShortFilmCollectionDescription",
+    title: "restShortFilmCollectionTitle",
+    link: `/search/?has_form=Short&manifestation_event_type=RestorationEvent`,
+    linkText: 'restShortFilmCollectionLinkText',
+    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+    imgSourceText: 'Deutsche Kinemathek',
+    imgAuthor: 'Deutsche Kinemathek',
+    imgLicense: 'CC BY-SA 3.0',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',
+    ...createResponsiveCardMedia('restaur_kurzfilme', 388, 210),
+  },
+  {
+    description: "docFilmCollectionDescription",
+    title: "docFilmCollectionTitle",
+    link: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`,
+    linkText: 'docFilmCollectionLinkText',
+    imgSourceLink: 'https://www.deutsche-kinemathek.de/',
+    imgSourceText: 'Deutsche Kinemathek',
+    imgAuthor: 'Deutsche Kinemathek',
+    imgLicense: 'CC BY-SA 3.0',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    imgAlt: 'Schwarzweiß-Aufnahme von Demonstrierenden mit Transparenten und Fahnen',
+    ...createResponsiveCardMedia('aktiv_im_dok', 352, 256),
+  },
+  {
+    title: 'trollerTitle',
+    imgAlt: 'Georg Stefan Troller',
+    description: 'trollerDescription',
+    link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
+    linkText: 'trollerLinkText',
+    imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
+    imgSourceText: 'Wikimedia Commons',
+    imgAuthor: 'ZDF',
+    imgLicense: 'CC BY-SA 3.0',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/',
+    imgCoverType: 'object-top',
+    imgCaption: 'Georg Stefan Troller im ZDF bei "Vor 30 Jahren". 2011.',
+    ...createResponsiveCardMedia('Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren', 213, 256),
+  },
+  {
+    title: 'schlenkerTitle',
+    description: 'schlenkerDescription',
+    linkText: 'schlenkerLinkText',
+    link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
+    imgAlt: 'AVefi Platzhalter Bild',
+    imgCoverType: '',
+    imgSourceLink: '',
+    imgSourceText: '',
+    imgAuthor: '',
+    imgLicense: '',
+    imgLicenseLink: ''
+  },
+  {
+    title: 'ddrTitle',
+    imgSourceText: 'German Federal Archives',
+    imgAuthor: 'Christa Hochneder',
+    imgLicense: 'CC BY-SA 3.0 DE',
+    imgLicenseLink: 'https://creativecommons.org/licenses/by-sa/3.0/de/deed.en',
+    imgCoverType: 'object-center',
+    imgCaption: 'Leipzig, Petersstraße, Kino "Capitol", Nacht. 7. Internationale Leipziger Dokumentar- und Kurzfilmwoche feierlich eröffnet. 15.11.1964.',
+    imgDepictedPlace: 'Leipzig',
+    imgDate: '1964-11-15',
+    imgCollection: 'German Federal Archives',
+    imgAccessionNumber: 'Bild 183-C1115-0001-001',
+    description: 'ddrDescription',
+    link: `/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29`,
+    linkText: 'ddrLinkText',
+    imgAlt: 'Außenaufnahme des Kinos "Capitol" in Leipzig bei Nacht',
+    imgSourceLink: '',
+    ...createResponsiveCardMedia('Bundesarchiv_Bild_Leipzig_Capitol_Nacht', 343, 256),
+  }
 ]);
 </script>
 

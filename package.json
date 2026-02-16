@@ -19,7 +19,8 @@
     "generate:suggestions": "tsx scripts/generate-query-suggestions.ts",
     "generate:issuers": "tsx scripts/generate-issuer-data.ts",
     "check:contrast": "tsx utils/contrastCheck.ts",
-    "audit:accessibility": "echo 'Run your accessibility audit utility here'"
+    "audit:accessibility": "echo 'Run your accessibility audit utility here'",
+    "report:images": "node scripts/report-image-metadata.mjs"
   },
   "dependencies": {
     "@dargmuesli/nuxt-cookie-control": "8.5.0",

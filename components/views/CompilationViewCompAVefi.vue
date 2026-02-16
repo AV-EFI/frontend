@@ -28,6 +28,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IAVefiWorkVariant";
+import type { Manifestation } from "~/models/interfaces/schema/avefi_schema_type_utils";
 
 // Enable hash navigation for manifestations and items
 useHash();
@@ -202,7 +203,7 @@ const suggestionsForManifestations = computed(() => {
     return Array.from(set).slice(0, 100);
 });
 
-function mfMatchesQuery(mf: any, q: string): boolean {
+function mfMatchesQuery(mf: Manifestation, q: string): boolean {
     if (!q) return true;
     return valuesForManifestation(mf).some((v) => v === q);
 }
@@ -210,7 +211,7 @@ function mfMatchesQuery(mf: any, q: string): boolean {
 const filteredManifestations = computed(() => {
     const selected = searchQuery.value;
     if (Array.isArray(selected) && selected.length > 0) {
-        return manifestations.value.filter((mf) =>
+        return manifestations.value.filter((mf: Manifestation) =>
             selected.every((q) => mfMatchesQuery(mf, q))
         );
     }

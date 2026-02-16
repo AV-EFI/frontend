@@ -8,70 +8,86 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const publicDir = join(__dirname, '..', 'public');
 
-// Image optimization configurations
-const images = [
+// Responsive widths chosen to match lighthouse guidance (mobile → desktop)
+const DEFAULT_WIDTHS = [240, 360, 480, 720, 1024];
+
+const responsiveImages = [
   {
     input: 'img/aktiv_im_dok.jpg',
-    outputs: [
-      { name: 'img/aktiv_im_dok-800.webp', width: 800, format: 'webp', quality: 85 },
-      { name: 'img/aktiv_im_dok-800.jpg', width: 800, format: 'jpeg', quality: 85 },
-    ]
+    baseOutput: 'img/aktiv_im_dok',
+    widths: DEFAULT_WIDTHS,
+    formats: ['webp', 'jpeg'],
   },
   {
     input: 'img/restaur_kurzfilme.jpg',
-    outputs: [
-      { name: 'img/restaur_kurzfilme-800.webp', width: 800, format: 'webp', quality: 85 },
-      { name: 'img/restaur_kurzfilme-800.jpg', width: 800, format: 'jpeg', quality: 85 },
-    ]
+    baseOutput: 'img/restaur_kurzfilme',
+    widths: DEFAULT_WIDTHS,
+    formats: ['webp', 'jpeg'],
+  },
+  {
+    input: 'img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp',
+    baseOutput: 'img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren',
+    widths: DEFAULT_WIDTHS,
+    formats: ['webp', 'jpeg'],
+  },
+  {
+    input: 'img/Bundesarchiv_Bild_Leipzig_Capitol_Nacht.webp',
+    baseOutput: 'img/Bundesarchiv_Bild_Leipzig_Capitol_Nacht',
+    widths: DEFAULT_WIDTHS,
+    formats: ['webp', 'jpeg'],
   },
   {
     input: 'img/avefi_vid_poster.webp',
-    outputs: [
-      { name: 'img/avefi_vid_poster-1024.webp', width: 1024, format: 'webp', quality: 85 },
-    ]
-  }
+    baseOutput: 'img/avefi_vid_poster',
+    widths: [360, 540, 720, 960, 1280],
+    formats: ['webp'],
+  },
 ];
 
 async function optimizeImages() {
   console.log('🖼️  Starting image optimization...\n');
 
-  for (const imageConfig of images) {
+  for (const imageConfig of responsiveImages) {
     const inputPath = join(publicDir, imageConfig.input);
-    
+
     if (!existsSync(inputPath)) {
       console.log(`⚠️  Skipping ${imageConfig.input} (not found)`);
       continue;
     }
 
     console.log(`📸 Processing: ${imageConfig.input}`);
-    
-    for (const output of imageConfig.outputs) {
-      const outputPath = join(publicDir, output.name);
-      const outputDir = dirname(outputPath);
 
-      // Ensure output directory exists
-      if (!existsSync(outputDir)) {
-        mkdirSync(outputDir, { recursive: true });
-      }
+    for (const width of imageConfig.widths) {
+      for (const format of imageConfig.formats) {
+        const extension = format === 'jpeg' ? 'jpg' : format;
+        const outputName = `${imageConfig.baseOutput}-${width}.${extension}`;
+        const outputPath = join(publicDir, outputName);
+        const outputDir = dirname(outputPath);
 
-      try {
-        const pipeline = sharp(inputPath).resize(output.width, null, {
-          withoutEnlargement: true,
-          fit: 'inside'
-        });
-
-        if (output.format === 'webp') {
-          await pipeline.webp({ quality: output.quality }).toFile(outputPath);
-        } else if (output.format === 'jpeg') {
-          await pipeline.jpeg({ quality: output.quality, mozjpeg: true }).toFile(outputPath);
+        if (!existsSync(outputDir)) {
+          mkdirSync(outputDir, { recursive: true });
         }
 
-        const stats = await sharp(outputPath).metadata();
-        console.log(`   ✅ Created: ${output.name} (${stats.width}x${stats.height})`);
-      } catch (error) {
-        console.error(`   ❌ Error processing ${output.name}:`, error.message);
+        try {
+          const pipeline = sharp(inputPath).resize(width, null, {
+            withoutEnlargement: true,
+            fit: 'inside'
+          });
+
+          if (format === 'webp') {
+            await pipeline.webp({ quality: 85 }).toFile(outputPath);
+          } else if (format === 'jpeg') {
+            await pipeline.jpeg({ quality: 85, mozjpeg: true }).toFile(outputPath);
+          }
+
+          const stats = await sharp(outputPath).metadata();
+          console.log(`   ✅ Created: ${outputName} (${stats.width}x${stats.height})`);
+        } catch (error) {
+          console.error(`   ❌ Error processing ${outputName}:`, error.message);
+        }
       }
     }
+
     console.log('');
   }
 

@@ -16,7 +16,8 @@
                 <a :href="item.link" target="_blank" rel="noopener noreferrer" :aria-label="'Link to ' + item.link">
                   <figure class="px-6 pt-6 pb-4 bg-white rounded">
                     <img class="h-20 w-auto object-contain bg-white" :src="item.src" :alt="item.alt" :title="item.alt"
-                      loading="lazy" fetchpriority="low" />
+                      loading="lazy" fetchpriority="low" decoding="async" :width="item.width || undefined"
+                      :height="item.height || undefined" />
                   </figure>
                   <div class="card-body items-center text-center">
                     <h3 class="card-title text-base font-semibold line-clamp-2">
@@ -54,6 +55,7 @@
               <div class="absolute inset-0 w-full h-full object-cover bg-white scale-110" aria-hidden="true">
                 <div class="relative z-10 flex items-center justify-center w-full h-full ">
                   <img :src="item.src" :alt="item.alt" loading="lazy" fetchpriority="low" decoding="async"
+                    :width="item.width || undefined" :height="item.height || undefined"
                     class="max-w-full max-h-full object-contain z-10 bg-white roundend-xl p-6">
                 </div>
               </div>
