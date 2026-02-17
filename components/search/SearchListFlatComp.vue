@@ -72,7 +72,7 @@
     <!-- Search + Dropdown (FormKit) -->
     <div class="px-4 py-2 flex items-center gap-2 text-left" role="search"
       :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
-      <FormKit type="dropdown" :name="`item-search-${work?.handle ?? ''}`" :label="$t('searchItems')"
+      <FormKit type="select" :name="`item-search-${work?.handle ?? ''}`" :label="$t('searchItems')"
         :placeholder="$t('searchItems')"
         :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
         :options="suggestionsForWork(work).map(s => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"

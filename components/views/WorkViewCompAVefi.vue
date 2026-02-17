@@ -35,40 +35,23 @@
                                     <a @click.prevent="scrollToId(`manifestation-${idx}`)" class="cursor-pointer pl-4"
                                         :class="{ 'active': activeSection === `manifestation-${idx}` }">
                                         <span class="text-ellipsis" v-if="mf.has_record.has_event?.[0]">
-                                            {{ mf.has_record?.has_event?.[0]?.type ??
-                                            $t(mf.has_record?.has_event?.[0]?.type) }}
+                                            {{ $t(mf.has_record?.has_event?.[0]?.type ?? '') !==
+                                            mf.has_record?.has_event?.[0]?.type
+                                            ? $t(mf.has_record?.has_event?.[0]?.type ?? '')
+                                            : (mf.has_record?.has_event?.[0]?.type || `${$t('manifestation')} ${idx +
+                                            1}`) }}
                                         </span>
                                         <span v-else>
                                             {{ mf.has_record?.has_primary_title?.has_name ?? $t('manifestation') + ' ' +
                                             (idx + 1) }}
                                         </span>
-                                        <div :aria-label="$t('items')" class="badge">{{ mf.has_record?.has_item?.length
-                                            }}
+                                        <div :aria-label="$t('items')" class="badge">
+                                            {{ mf.has_record?.has_item?.length }}
                                         </div>
-
                                     </a>
-                                    <!--
-                                    <ul v-if="Array.isArray(mf.items)">
-                                        <li v-for="(item, iidx) in mf.items" :key="iidx">
-                                            <a @click.prevent="scrollToId(`item-${idx}-${iidx}`)"
-                                                class="cursor-pointer pl-8"
-                                                :class="{ 'active': activeSection === `item-${idx}-${iidx}` }">
-                                                {{ item.has_name ?? $t('item') + ' ' + (iidx + 1) }}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                -->
                                 </li>
                             </ul>
                         </li>
-                        <!--
-                       <li v-for="(event, eidx) in mir?.has_event || []" :key="eidx">
-                            <a @click.prevent="scrollToId(`event-${eidx}`)" class="cursor-pointer pl-4"
-                                :class="{ 'active': activeSection === `event-${eidx}` }">
-                                {{ $t('event') }} {{ eidx + 1 }}
-                            </a>
-                        </li>
-                        -->
                     </ul>
                 </nav>
             </aside>
@@ -206,8 +189,8 @@
                         <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                     </h3>
 
-                    <FormKit type="dropdown" name="manifestation-item-search"
-                        :label="$t('filterItemsAndManifestations')" :placeholder="$t('filterItemsAndManifestations')"
+                    <FormKit type="select" name="manifestation-item-search" :label="$t('filterItemsAndManifestations')"
+                        :placeholder="$t('filterItemsAndManifestations')"
                         :options="suggestionsForManifestations.map((s) => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
                         :value="searchQuery" multiple popover class="w-72" @input="onSearchInput" />
                 </div>

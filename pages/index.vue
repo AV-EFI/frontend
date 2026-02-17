@@ -34,7 +34,7 @@
           </picture>
           <!-- Aurora / glow overlays (light + dark variants) -->
           <div
-            class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
+            class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none hidden md:block"
             aria-hidden="true" :class="[
                 // LIGHT
                 'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
@@ -43,13 +43,13 @@
               ]" />
           <!-- Vignette -->
           <div
-            class="absolute inset-0 pointer-events-none
+            class="absolute inset-0 pointer-events-none hidden md:block
          mix-blend-multiply dark:mix-blend-normal
          bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.14)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
          dark:bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.18)_100%),linear-gradient(180deg,rgba(0,0,0,0.12),transparent_22%,transparent_78%,rgba(0,0,0,0.14))]">
           </div>
           <!-- Subtle grid -->
-          <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
+          <div class="absolute inset-0 opacity-[0.08] hidden md:block" aria-hidden="true">
             <div class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
                        [background-size:22px_22px]">
             </div>
@@ -59,14 +59,14 @@
         <div class="hero-content w-full lg:w-full">
           <div class="w-full lg:max-w-6xl mx-auto">
             <!-- Center content panel: THIS is what makes it readable -->
-            <div class="max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
+            <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
     border
-    shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
-    supports-[backdrop-filter]:backdrop-blur-[10px]
+    shadow-none md:shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
+    md:supports-[backdrop-filter]:backdrop-blur-[10px]
     motion-reduce:transition-none
   " :class="[
     // LIGHT glass
-    'bg-white/85 border-white/40',
+    'bg-white/95 border-white/30 md:bg-white/85 md:border-white/40',
     // DARK glass (this is what was missing)
     'dark:bg-neutral/40 dark:border-white/10',
     // subtle inner highlight like your inset 1px
@@ -94,13 +94,13 @@
               <div class="mt-6 grid place-items-center">
                 <div class="w-full max-w-4xl">
                   <!-- Glass search card -->
-                  <div class="card
+                  <div class="hero-search-card card
     border
-    supports-[backdrop-filter]:backdrop-blur-[14px]
-    shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
+    shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
+    md:supports-[backdrop-filter]:backdrop-blur-[14px]
   " :class="[
     // LIGHT
-    'bg-white/55 border-white/35',
+    'bg-white border-white/30 md:bg-white/55 md:border-white/35',
     // DARK
     'dark:bg-neutral/35 dark:border-white/10',
   ]">
@@ -169,8 +169,26 @@
       <!-- content stays above -->
       <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          <div class="lg:col-span-12 flex justify-center">
-            <LazyGlobalCarouselCardComp :items="cardItems" />
+          <div class="lg:col-span-12 flex justify-center w-full" ref="featuredCarouselRef">
+            <ClientOnly v-if="featuredCarouselReady">
+              <LazyGlobalCarouselCardComp :items="cardItems" />
+            </ClientOnly>
+            <div v-else class="grid gap-4 md:grid-cols-2 w-full" aria-hidden="true">
+              <article v-for="(item, idx) in cardItems.slice(0, 2)" :key="`card-fallback-${idx}`"
+                class="card border border-base-200 bg-white/95 dark:bg-base-200/80 shadow-sm p-4">
+                <figure class="rounded-xl overflow-hidden mb-3 bg-base-200">
+                  <img v-if="item.imgSrc" :src="item.imgSrc" :srcset="item.imgSrcSet || undefined"
+                    :sizes="item.imgSizes || '50vw'" :alt="item.imgAlt" :width="item.imgWidth || undefined"
+                    :height="item.imgHeight || undefined" loading="lazy" decoding="async"
+                    class="w-full h-48 object-cover" />
+                </figure>
+                <h3 class="text-lg font-semibold mb-1">{{ $t(item.title) }}</h3>
+                <p class="text-sm opacity-80 line-clamp-3">{{ $t(item.description) }}</p>
+                <span class="btn btn-sm btn-ghost justify-start mt-3">
+                  {{ $t(item.linkText) }}
+                </span>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -258,9 +276,9 @@
                   </div>
                   <div class="flex justify-center mb-4">
                     <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons Logo"
-                      class="h-8 mr-2" />
+                      class="h-8 mr-2" loading="lazy" decoding="async" />
                     <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Attribution Logo"
-                      class="h-8" />
+                      class="h-8" loading="lazy" decoding="async" />
                   </div>
                   <div class="text-xs opacity-40 text-center">Creative Commons Attribution</div>
                 </div>
@@ -340,11 +358,23 @@
             <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
               {{ $t('topIssuers') || 'Top Publishers & Archives' }}
             </h2>
-            <div class="flex justify-center items-center">
-              <div class="w-full max-w-md">
+            <div class="flex justify-center items-center" ref="issuerCarouselRef">
+              <div v-if="issuerCarouselReady" class="w-full max-w-md">
                 <ClientOnly>
                   <LazyGlobalIssuerCarouselComp />
                 </ClientOnly>
+              </div>
+              <div v-else class="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4" aria-hidden="true">
+                <article v-for="issuer in issuerPlaceholderItems" :key="issuer.name"
+                  class="border border-base-200 rounded-2xl p-4 bg-white/90 dark:bg-base-200/70">
+                  <figure class="flex items-center justify-center h-20 mb-3">
+                    <img :src="issuer.image" :alt="issuer.alt" loading="lazy" decoding="async"
+                      class="max-h-full max-w-full object-contain" />
+                  </figure>
+                  <h3 class="text-base font-semibold">{{ issuer.name }}</h3>
+                  <p class="text-sm opacity-75">{{ issuer.count.toLocaleString() }} {{ issuer.count === 1 ?
+                    $t('dataset') : $t('datasets') }}</p>
+                </article>
               </div>
             </div>
           </div>
@@ -482,10 +512,20 @@
               </p>
             </div>
           </div>
-          <div class="lg:col-span-7 flex justify-center">
-            <div class="w-full max-w-xl" role="region"
+          <div class="lg:col-span-7 flex justify-center w-full" ref="partnersCarouselRef">
+            <div v-if="partnersCarouselReady" class="w-full max-w-xl" role="region"
               :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
-              <GlobalCarouselComp :items="items" />
+              <ClientOnly>
+                <GlobalCarouselComp :items="items" />
+              </ClientOnly>
+            </div>
+            <div v-else class="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-3 gap-4" aria-hidden="true">
+              <figure v-for="partner in partnerPreviewItems" :key="partner.alt"
+                class="border border-base-200 rounded-xl bg-white/90 dark:bg-base-200/60 p-4 flex items-center justify-center">
+                <img :src="partner.src" :alt="partner.alt" :width="partner.width || undefined"
+                  :height="partner.height || undefined" loading="lazy" decoding="async"
+                  class="max-w-full max-h-16 object-contain" />
+              </figure>
             </div>
           </div>
         </div>
@@ -495,15 +535,38 @@
 </template>
 
 <script lang="ts" setup>
-import { useRuntimeConfig, useSeoMeta } from 'nuxt/app';
+import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
 import { ref, onMounted, nextTick, watch, computed, onUnmounted } from 'vue';
+import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useMediaQuery } from '@vueuse/core';
+import { useMediaQuery, useIntersectionObserver } from '@vueuse/core';
+import topIssuersData from '~/data/top-issuers.json';
+import issuerImagesData from '~/data/issuer-images.json';
 
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
+const criticalLinks: any[] = [
+  {
+    rel: 'preload',
+    href: '/img/avefi_diamonds_prim_mobile.webp',
+    as: 'image',
+    media: '(max-width: 640px)',
+    fetchpriority: 'high',
+  },
+];
+
+if (runtimeConfig.public.matomoUrl) {
+  criticalLinks.push(
+    { rel: 'preconnect', href: runtimeConfig.public.matomoUrl, crossorigin: '' },
+    { rel: 'dns-prefetch', href: runtimeConfig.public.matomoUrl }
+  );
+}
+
+useHead({
+  link: criticalLinks,
+});
 
 const CARD_IMAGE_WIDTHS = [240, 320, 480, 720, 1024] as const;
 const CARD_IMAGE_SIZES = '(max-width: 640px) 240px, (max-width: 1024px) 320px, 380px';
@@ -557,27 +620,62 @@ function createResponsiveCardMedia(baseName: string, width: number, height: numb
 const heroMediaVisible = ref(false);
 const HERO_MEDIA_KEY = 'heroMediaVisible';
 
+const heroMotionBreakpoint = useMediaQuery('(min-width: 768px)');
+const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+const heroEffectsEnabled = computed(() => heroMotionBreakpoint.value && !prefersReducedMotion.value);
+
 const heroParallax = ref(0);
-const heroParallaxStyle = computed(() => ({
-    transform: `translateY(${heroParallax.value}px)`
-}));
+const heroParallaxStyle = computed(() => (
+  heroEffectsEnabled.value
+    ? { transform: `translateY(${heroParallax.value}px)` }
+    : {}
+));
 
 function onScrollParallax() {
-    // Clamp to max 40px for subtle effect
-    heroParallax.value = Math.min(window.scrollY * 0.18, 40);
+  if (!import.meta.client || !heroEffectsEnabled.value) return;
+  // Clamp to max 40px for subtle effect
+  heroParallax.value = Math.min(window.scrollY * 0.18, 40);
+}
+
+let parallaxAttached = false;
+function attachParallax() {
+  if (!import.meta.client || parallaxAttached) return;
+  window.addEventListener('scroll', onScrollParallax, { passive: true });
+  parallaxAttached = true;
+  onScrollParallax();
+}
+
+function detachParallax() {
+  if (!import.meta.client || !parallaxAttached) return;
+  window.removeEventListener('scroll', onScrollParallax);
+  parallaxAttached = false;
+  heroParallax.value = 0;
+}
+
+if (import.meta.client) {
+  watch(
+    heroEffectsEnabled,
+    (enabled) => {
+      if (enabled) attachParallax();
+      else detachParallax();
+    },
+    { immediate: true }
+  );
 }
 
 onMounted(() => {
-    window.addEventListener('scroll', onScrollParallax);
-    onScrollParallax();
+  if (import.meta.client) {
     const stored = localStorage.getItem(HERO_MEDIA_KEY);
     if (stored !== null) heroMediaVisible.value = stored === 'true';
+  }
 });
 onUnmounted(() => {
-    window.removeEventListener('scroll', onScrollParallax);
+  detachParallax();
 });
 watch(heroMediaVisible, (val) => {
+  if (import.meta.client) {
     localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
+  }
 });
 
 // ─────────────────────────────────────────────
@@ -817,6 +915,53 @@ const cardItems = ref<CardItem[]>([
         ...createResponsiveCardMedia('Bundesarchiv_Bild_Leipzig_Capitol_Nacht', 343, 256),
     }
 ]);
+
+    const featuredCarouselRef = ref<HTMLElement | null>(null);
+    const featuredCarouselReady = ref(false);
+    const issuerCarouselRef = ref<HTMLElement | null>(null);
+    const issuerCarouselReady = ref(false);
+    const partnersCarouselRef = ref<HTMLElement | null>(null);
+    const partnersCarouselReady = ref(false);
+
+    function deferHydration(target: Ref<HTMLElement | null>, flag: Ref<boolean>, options: IntersectionObserverInit = { rootMargin: '200px 0px' }) {
+      if (import.meta.server) return;
+      const { stop } = useIntersectionObserver(
+        target,
+        ([entry]) => {
+          if (entry?.isIntersecting) {
+            flag.value = true;
+            stop();
+          }
+        },
+        options
+      );
+    }
+
+    if (import.meta.client) {
+      deferHydration(featuredCarouselRef, featuredCarouselReady, { rootMargin: '120px 0px' });
+      deferHydration(issuerCarouselRef, issuerCarouselReady, { rootMargin: '0px 0px -25%' });
+      deferHydration(partnersCarouselRef, partnersCarouselReady, { rootMargin: '0px 0px -20%' });
+    }
+
+    const issuerPlaceholderItems = computed(() => {
+      const issuers = Array.isArray((topIssuersData as any)?.issuers)
+        ? (topIssuersData as any).issuers
+        : [];
+      const mappings = (issuerImagesData as any)?.mappings || {};
+      const fallback = (issuerImagesData as any)?.fallback || {};
+
+      return issuers.slice(0, 4).map((issuer: any) => {
+        const imageInfo = issuer.id && mappings[issuer.id] ? mappings[issuer.id] : null;
+        return {
+          name: issuer.name,
+          count: issuer.doc_count,
+          image: imageInfo?.image || fallback.image,
+          alt: imageInfo?.alt || `${issuer.name} Logo`
+        };
+      });
+    });
+
+    const partnerPreviewItems = computed(() => items.value.slice(0, 4));
 </script>
 
 <style scoped>
@@ -849,6 +994,27 @@ const cardItems = ref<CardItem[]>([
     0 26px 70px -48px hsl(0 0% 0% / 0.45),
     0 8px 26px -18px hsl(0 0% 0% / 0.18),
     inset 0 1px 0 hsl(0 0% 100% / 0.55);
+}
+
+.hero-panel,
+.hero-search-card {
+  transition: box-shadow 0.3s ease;
+}
+
+@media (max-width: 767px) {
+
+  .hero-panel,
+  .hero-search-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+  }
+
+  .hero-search-card {
+    padding: 1.5rem;
+  }
 }
 
 /* ================================

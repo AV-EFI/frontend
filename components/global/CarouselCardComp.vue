@@ -18,7 +18,8 @@
               alt="" loading="lazy" fetchpriority="low" decoding="async"
               :width="item.imgBlurWidth || item.imgWidth || undefined"
               :height="item.imgBlurHeight || item.imgHeight || undefined"
-              class="absolute inset-0 w-full h-full object-cover blur scale-110 opacity-30" aria-hidden="true">
+              class="absolute inset-0 w-full h-full object-cover opacity-20 hidden md:block md:blur md:scale-110 md:opacity-30"
+              aria-hidden="true">
             <div class="relative z-10 flex items-center justify-center w-full h-full">
               <img :src="item.imgSrc" :srcset="item.imgSrcSet || undefined" :sizes="item.imgSizes || undefined"
                 :alt="item.imgAlt" :width="item.imgWidth || undefined" :height="item.imgHeight || undefined"

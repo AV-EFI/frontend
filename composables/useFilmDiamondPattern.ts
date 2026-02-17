@@ -1,6 +1,6 @@
 // composables/useDiamondFilmPatternTabler.ts
 import { iconToSVG, replaceIDs } from '@iconify/utils';
-import tablerIcons from '@iconify-json/tabler/icons.json';
+import { filmDiamondIcons, filmDiamondIconNames } from '~/data/film-diamond-icons';
 
 export type Parity = 'even' | 'odd'
 export type SpreadMode = 'uniform' | 'checkerboard' | 'even' | 'odd' | 'custom'
@@ -167,10 +167,10 @@ function sanitizeIconBody(body: string) {
  * plus intrinsic dimensions so we can scale + center on crossings.
  */
 function getTablerIconBodyAndDims(name: string): { body: string; w: number; h: number } {
-    const icon = (tablerIcons as any).icons?.[name];
+    const icon = filmDiamondIcons[name];
 
     if (!icon) {
-        console.warn('[DiamondPattern] Missing Tabler icon:', name);
+        console.warn('[DiamondPattern] Missing film icon:', name);
         return { body: `<circle cx="12" cy="12" r="7" />`, w: 24, h: 24 };
     }
 
@@ -394,14 +394,7 @@ export function useDiamondFilmPatternTabler() {
 
         seed: 1337,
 
-        tablerIcons: [
-            'movie',
-            'video',
-            'device-tv',
-            'headphones',
-            'database-heart',
-            'chair-director',            
-        ],
+        tablerIcons: [...filmDiamondIconNames],
 
         iconBgPadding: 10,
         iconBgOpacity: 1,
