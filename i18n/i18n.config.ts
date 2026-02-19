@@ -89,6 +89,16 @@ export default defineI18nConfig(() => ({
                 "showInDetail": "Show in detail view",
                 "showInSearch": "Show in search results"
             },
+            "openAndExtendable": {
+                "title":"Offen und erweiterbar",
+                "content": [
+                    "AVefi bildet eine dynamische und zugleich verlässliche Plattform für die interdisziplinäre filmgetriebene Forschung, für die Filmkulturwelt und für die Filmarchivarbeit. Heterogene audiovisuelle Bestände werden über strukturierte, standardisierte Metadaten und Normdaten mit Hilfe von Persistent Identifiern (PID) eindeutig langfristig identifizierbar und vergleichbar gemacht. Leitend sind Linked Open Data und FAIR-Prinzipien für ein optimales Datenmanagement.",
+                    "Hintergrundinformationen auf der Projektwebsite.",
+                    "https://projects.tib.eu/av-efi",
+                    "Weitere Datenquellen und Kooperationspartner sind sehr willkommen."
+                ],
+                "cta": "Kontaktieren Sie uns"
+            },
             "error404": {
                 "title": "Error 404: Not found",
                 "pageNotFound": "Page Not Found",
@@ -191,7 +201,91 @@ export default defineI18nConfig(() => ({
             'toggleNextSlide': 'Toggle next slide',
             'togglePreviousSlide': 'Toggle previous slide',
             // Create card translations
-            'createYourOwn': 'Create your own',
+            'createYourOwn': {
+                'title': 'Wonach suchen Sie?',
+                'description': 'Senden Sie uns gerne Ihre Suchanfrage als Vorschlag für die Beispiele'
+            },
+            "press": {
+                "badgeLastUpdated": "Last updated {date}",
+                "title": "Press & Media Kit",
+                "subtitle": "Official AVefi logos, screenshots, and boilerplate copy.",
+                "contactLabel": "Press contact",
+                "downloadAll": "Download all (ZIP)",
+                "viewManifest": "View manifest",
+                "boilerplateSection": "Press boilerplate",
+                "boilerplateCopy": "Copy",
+                "boilerplateCopied": "Copied",
+                "usageSection": "Usage guidelines",
+                "brandSafety": "Brand safety",
+                "downloadFile": "Download {label}",
+                "errorTitle": "Unable to load the press kit at this time.",
+                "errorFallback": "Unknown error",
+                "metaTitle": "Press & Media Kit – AVefi",
+                "metaDescription": "Official AVefi logos, screenshots, and press documents for download.",
+                "boilerplateLabels": {
+                    "oneLiner": "One-liner",
+                    "short": "Short description",
+                    "long": "Long description"
+                },
+                "assetTypes": {
+                    "logo": "Logo",
+                    "image": "Image"
+                },
+                "manifest": {
+                    "boilerplate": {
+                        "oneLiner": "AVefi is a cross-institutional network system for the unambiguous identification and linking of audiovisual holdings through persistent film identifiers.",
+                        "short": "AVefi (Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren) is a project funded by the German Research Foundation (DFG). It develops and tests a web-based system for the cross-institutional identification and linking of films, their manifestations, and individual items. Persistent identifiers (PID) play a central role by enabling the unambiguous referencing of heterogeneous holdings.",
+                        "long": "Within the project AVefi – Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren – a cross-institutional, web-based system is being developed and tested. Its objective is the unambiguous identification and linking of film works, their manifestations, and individual items from heterogeneous institutional holdings. Persistent identifiers (PID) play a central role. They ensure long-term, stable referencing and make relationships between holdings from different institutions transparent and traceable. The underlying data model distinguishes between Work, Manifestation, and Item in accordance with the FIAF Moving Image Cataloguing Manual. Metadata are structured, formally validated, and made accessible through standardized interfaces. AVefi supports scientific use, structured film research, and the sustainable linking of audiovisual holdings. The system is open to additional data sources and cooperation."
+                    },
+                    "usage": {
+                        "title": "Usage Guidelines",
+                        "items": [
+                            "Use the provided logo files without altering proportions or colors.",
+                            "Reserve sufficient clear space around the AVefi wordmark so it remains legible.",
+                            "Pair screenshots and photography with attribution to \"AVefi\" and the original source archive when applicable.",
+                            "Contact the AVefi communications team before creating custom derivatives of the marks."
+                        ]
+                    },
+                    "sections": {
+                        "logos": {
+                            "title": "Logos",
+                            "badge": "Logos",
+                            "items": {
+                                "logoLight": {
+                                    "title": "AVefi Logo (Light)",
+                                    "notes": "Ideal for light and neutral backgrounds."
+                                },
+                                "logoDark": {
+                                    "title": "AVefi Logo (Dark)",
+                                    "notes": "Use on dark backgrounds for optimal contrast."
+                                }
+                            }
+                        },
+                        "claims": {
+                            "title": "Claim Lockups",
+                            "badge": "Claim lockups",
+                            "items": {
+                                "claimDe": {
+                                    "title": "Claim (DE)"
+                                },
+                                "claimEn": {
+                                    "title": "Claim (EN)"
+                                }
+                            }
+                        },
+                        "pressImages": {
+                            "title": "Press Images",
+                            "badge": "Press images",
+                            "items": {
+                                "ogImage": {
+                                    "title": "Open Graph Preview",
+                                    "notes": "Standard open-graph preview showing the AVefi interface."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             'create.addImagePlaceholder': 'Image URL (optional)',
             'create.titlePlaceholder': 'Title',
             'create.descriptionPlaceholder': 'Description',
@@ -708,10 +802,10 @@ export default defineI18nConfig(() => ({
             ...avefiLocales.en
         },
         de: {
-            "docFilmCollectionDescription": "Die Sammlung von Dokumentarfilmen vereint Werke, die Bewegungen und Akte des Widerstands - von Streiks und Aufständen bis hin zu politischem Engagement – dokumentieren und reflektieren. Die Auswahl der Filme ermöglicht tiefgehende Analysen zu Formen des zivilen Ungehorsams und eröffnet neue Perspektiven auf die Wechselwirkungen zwischen Film, Politik und Gesellschaft.",
+            "docFilmCollectionDescription": "Dokumentarfilme, die Bewegungen und Akte des Widerstands – von Streiks oder Aufständen bis zu politischem Engagement -dokumentieren und reflektieren: die Schlagwortsuche ermöglicht eine thematische Analyse zu Formen des zivilen Ungehorsams.",
             "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
             "docFilmCollectionLinkText": "Zur Sammlung",
-            "restShortFilmCollectionDescription": "Die Sammlung restaurierter Kurzfilme eröffnet neue Zugänge zum filmischen Erbe. Durch sorgfältige digitale Aufbereitung werden seltene und bislang schwer zugängliche Werke wieder sichtbar gemacht. Mit ihren umfangreichen Metadaten bietet die Sammlung zugleich eine wertvolle Grundlage für Forschung, Lehre und kuratorische Praxis.",
+            "restShortFilmCollectionDescription": "Neue Zugänge zum filmischen Erbe eröffnen sich durch restaurierte Fassungen, etwa von Kurzfilmen, die digital aufbereitet und erneut zugänglich gemacht wurden.",
             "restShortFilmCollectionTitle": "Restaurierte Kurzfilme",
             "restShortFilmCollectionLinkText": "Zur Sammlung",
             'showSuggestions': 'Vorschläge anzeigen',
@@ -736,8 +830,8 @@ export default defineI18nConfig(() => ({
             },
             "build": {
                 "linked": {
-                    "title": "Verknüpfte Daten",
-                    "lead": "AVefi verknüpft Filmdatensätze verschiedener Institutionen über einheitliche Identifikatoren und schafft damit eine offene Forschungsinfrastruktur für audiovisuelle Werke. Mithilfe persistenter Identifikatoren und gemeinsamer Normdaten verbindet AVefi Werke, Manifestationen und Exemplare über Archive und Sammlungen hinweg. Dies ermöglicht eine konsistente Referenzierung, zuverlässige Zitierbarkeit und institutionenübergreifende Auffindbarkeit, während Provenienz und explizite Beziehungen erhalten bleiben, um transparente Forschung, erweiterte Suche und maschinenlesbaren Zugang für datengetriebene Filmwissenschaft zu unterstützen.",
+                    "title": "Verknüpfte Daten im Verbund",
+                    "lead": "Alle Suchergebnisse lassen sich detailliert filtern. Für jeden erfassten Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Das Werk und seine unterschiedlichen Fassungen erhalten jeweils eigene, klar zugeordnete Identifikatoren. Das macht einzelne Manifestationen oder Exemplare leichter auffindbar und ermöglicht die konsistente Referenzierung und verlässliche Zitierbarkeit über Institutionsgrenzen hinweg.",
                     "authority": "Normdaten",
                     "crosswalk": "Verknüpfung"
                 },
@@ -747,6 +841,20 @@ export default defineI18nConfig(() => ({
                     "work": "Work/Variant",                    
                 }
 
+            },
+            "searchAndFind": {
+                "title": "Suchen und Finden",
+                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer Datenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche"
+            },
+            "callToAction": {
+                "title": "Ihre Bestände in AVefi",
+                "text": "AVefi ist offen für weitere Filmbestände und Kooperationspartner. Bringen Sie Ihre Daten ein und stärken Sie deren nachhaltige Auffindbarkeit und Zitierfähigkeit.",
+            },
+            "becomeAPartner": {
+                "title": "Werden Sie Teil der AVefi-Community",
+                "text": "Über unsere Mailingliste informieren wir Sie über Neuigkeiten",
+                "cta": "Mailingliste abonnieren",
+                "ctaLink": "https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
             },
             "timeline": {
                 "title": "Vom Datensatz zum Wissen",
@@ -771,7 +879,7 @@ export default defineI18nConfig(() => ({
                 "yourOwn": "Create Your Own",
                 "contactFormPrefill": "Contact Form Prefill"
             },
-            "topIssuers": "Top Verlage & Archive",
+            "topIssuers": "Archive",
             "dataset": "Datensatz",
             "datasets": "Datensätze",
             "viewDatasets": "Datensätze ansehen",
@@ -900,6 +1008,16 @@ export default defineI18nConfig(() => ({
                 "showInDetail": "In Detailansicht anzeigen",
                 "showInSearch": "In Suchergebnissen anzeigen"
             },
+            "openAndExtendable": {
+                "title":"Offen und erweiterbar",
+                "content": [
+                    "AVefi bildet eine dynamische und zugleich verlässliche Plattform für die interdisziplinäre filmgetriebene Forschung, für die Filmkulturwelt und für die Filmarchivarbeit. Heterogene audiovisuelle Bestände werden über strukturierte, standardisierte Metadaten und Normdaten mit Hilfe von Persistent Identifiern (PID) eindeutig langfristig identifizierbar und vergleichbar gemacht. Leitend sind Linked Open Data und FAIR-Prinzipien für ein optimales Datenmanagement.",
+                    "Hintergrundinformationen auf der Projektwebsite.",
+                    "https://projects.tib.eu/av-efi",
+                    "Weitere Datenquellen und Kooperationspartner sind sehr willkommen."
+                ],
+                "cta": "Kontaktieren Sie uns"
+            },
             "tooltip": {
                 "accessStatus": "Der Status gibt an, ob das Exemplar öffentlich zugänglich ist oder ob es Einschränkungen gibt.",
                 "format": "Das Format bezeichnet beim analogen Film die Breite des Filmmaterials oder bei Video die Breite des Videobandes.",
@@ -950,7 +1068,91 @@ export default defineI18nConfig(() => ({
             'searchInputAria': 'Suche nach Titel, Regisseur, Produktion, Schlagwort',
             'toggleNextSlide': 'Nächste Folie umschalten',
             // Create card translations
-            'createYourOwn': 'Erstelle dein eigenes',
+            'createYourOwn': {
+                'title': 'Wonach suchen Sie?',
+                'description': 'Senden Sie uns gerne Ihre Suchanfrage als Vorschlag für die Beispiele'
+            },
+            "press": {
+                "badgeLastUpdated": "Zuletzt aktualisiert {date}",
+                "title": "Presse- & Medienpaket",
+                "subtitle": "Offizielle AVefi-Logos, Screenshots und Basistexte.",
+                "contactLabel": "Pressekontakt",
+                "downloadAll": "Alles herunterladen (ZIP)",
+                "viewManifest": "Manifest anzeigen",
+                "boilerplateSection": "Presse-Bausteine",
+                "boilerplateCopy": "Kopieren",
+                "boilerplateCopied": "Kopiert",
+                "usageSection": "Nutzungsrichtlinien",
+                "brandSafety": "Markensicherheit",
+                "downloadFile": "{label} herunterladen",
+                "errorTitle": "Das Pressepaket kann derzeit nicht geladen werden.",
+                "errorFallback": "Unbekannter Fehler",
+                "metaTitle": "Presse- & Medienpaket – AVefi",
+                "metaDescription": "Offizielle AVefi-Logos, Screenshots und Pressematerialien zum Download.",
+                "boilerplateLabels": {
+                    "oneLiner": "One-liner",
+                    "short": "Kurzer Text",
+                    "long": "Ausführliche Beschreibung"
+                },
+                "assetTypes": {
+                    "logo": "Logo",
+                    "image": "Bild"
+                },
+                "manifest": {
+                    "boilerplate": {
+                        "oneLiner": "AVefi ist ein institutionsübergreifendes Verbundsystem zur eindeutigen Identifikation und Verknüpfung audiovisueller Bestände über persistente Filmidentifikatoren.",
+                        "short": "AVefi (Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren) ist ein von der Deutschen Forschungsgemeinschaft gefördertes Projekt. Es entwickelt und erprobt ein webbasiertes System zur institutionsübergreifenden Identifikation und Verknüpfung von Filmen, ihren Fassungen und Exemplaren. Zentral sind persistente Identifikatoren (PID), die eine eindeutige Referenzierung heterogener Bestände ermöglichen.",
+                        "long": "Im Projekt AVefi – Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren – wird ein institutionsübergreifendes, webbasiertes System entwickelt und erprobt. Ziel ist die eindeutige Identifikation und Verknüpfung von Film-Werken, ihren Manifestationen und einzelnen Exemplaren aus unterschiedlichen institutionellen Beständen. Persistente Identifikatoren (PID) übernehmen dabei eine zentrale Rolle. Sie ermöglichen eine langfristige, stabile Referenzierung und machen Beziehungen zwischen Beständen verschiedener Einrichtungen nachvollziehbar. Das zugrunde liegende Datenmodell unterscheidet zwischen Werk, Manifestation und Item entsprechend dem FIAF Moving Image Cataloguing Manual. Metadaten werden strukturiert erfasst, formal validiert und über standardisierte Schnittstellen zugänglich gemacht. AVefi dient der wissenschaftlichen Nutzung, der strukturierten Filmrecherche und der nachhaltigen Verknüpfung audiovisueller Bestände. Das System ist offen für weitere Datenquellen und Kooperationen."
+                    },
+                    "usage": {
+                        "title": "Nutzungsrichtlinien",
+                        "items": [
+                            "Verwenden Sie die bereitgestellten Logodateien, ohne Proportionen oder Farben zu verändern.",
+                            "Lassen Sie ausreichend Freiraum um das AVefi-Wortzeichen, damit es gut lesbar bleibt.",
+                            "Ergänzen Sie Screenshots und Fotos mit dem Hinweis \"AVefi\" sowie – falls zutreffend – dem ursprünglichen Quellarchiv.",
+                            "Kontaktieren Sie das AVefi-Communication-Team, bevor Sie eigene Ableitungen der Marken erstellen."
+                        ]
+                    },
+                    "sections": {
+                        "logos": {
+                            "title": "Logos",
+                            "badge": "Logos",
+                            "items": {
+                                "logoLight": {
+                                    "title": "AVefi-Logo (hell)",
+                                    "notes": "Ideal für helle und neutrale Hintergründe."
+                                },
+                                "logoDark": {
+                                    "title": "AVefi-Logo (dunkel)",
+                                    "notes": "Für dunkle Hintergründe mit optimalem Kontrast."
+                                }
+                            }
+                        },
+                        "claims": {
+                            "title": "Claim-Kombinationen",
+                            "badge": "Claim-Kombinationen",
+                            "items": {
+                                "claimDe": {
+                                    "title": "Claim (DE)"
+                                },
+                                "claimEn": {
+                                    "title": "Claim (EN)"
+                                }
+                            }
+                        },
+                        "pressImages": {
+                            "title": "Pressebilder",
+                            "badge": "Pressebilder",
+                            "items": {
+                                "ogImage": {
+                                    "title": "AVefi Open-Graph-Motiv",
+                                    "notes": "Standard-Open-Graph-Motiv mit der AVefi-Oberfläche."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             'create.addImagePlaceholder': 'Bild-URL (optional)',
             'create.titlePlaceholder': 'Titel',
             'create.descriptionPlaceholder': 'Beschreibung',
@@ -1260,16 +1462,16 @@ export default defineI18nConfig(() => ({
             'videoSectionTitle': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres.',
             'videoSectionDescription': 'Durchsuchbar sind sowohl Filmwerke als auch die jeweiligen Fassungen der beteiligten Filmarchive und Sammlungen, einschließlich ihrer Beziehungen, Identifikatoren und ausgewählter Metadaten, was eine differenzierte Recherche und den Vergleich über Institutionsgrenzen hinweg ermöglicht.',
             'videoNotSupported': 'Ihr Browser unterstützt das Video-Tag nicht.',
-            'partnersTitle': 'Verbundpartner',
-            'partnersDescription': 'AVefi ist ein Projekt der TIB, SDK, FMD und GWDG. Es wird mit beratender Expertise und konkreter Beteiligung von Praxispartnern unterstützt, darunter Archiven, Museen und wissenschaftlichen Einrichtungen aus dem Bereich Filmkultur und -forschung.',
+            'partnersTitle': 'Teamwork ',
+            'partnersDescription': 'AVefi ist ein Infrastrukturprojekt im Verbund. Die Verbundpartner werden mit beratender Expertise und konkreter Beteiligung von Praxispartnern unterstützt, darunter Archiven, Museen und wissenschaftlichen Einrichtungen aus dem Bereich Filmkultur und -forschung.',
             'trollerTitle': 'Georg Stefan Troller',
-            'trollerDescription': 'Georg Stefan Troller, österreichisch-französischer Filmemacher und Journalist, war bekannt für seinen Humanismus. Seine Dokumentarfilme verbanden persönliche Geschichten mit sozialen Themen und schufen eindringliche Porträts.',
+            'trollerDescription': 'Georg Stefan Troller (1921-2025) war ein österreichisch-französischer Filmemacher und Journalist. In seinen Dokumentarfilmen verband er persönliche Geschichten mit sozialen Themen und schufen eindringliche Porträts.',
             'trollerLinkText': 'Troller bei AVefi',
             'ddrTitle': 'Filmgeschichte der DDR',
             'ddrDescription': 'Diese Sammlung ist eine wertvolle Ressource zur Filmgeschichte der DDR. Umfangreiche Metadaten ermöglichen anspruchsvolle Forschung und fördern neue wissenschaftliche Erkenntnisse zu Kultur und Gesellschaft der DDR.',
             'ddrLinkText': 'Unsere Sammlung an DDR-Filmen',
             'schlenkerTitle': 'Hermann Schlenker',
-            'schlenkerDescription': "Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind heute wichtiger denn je, da sie ein wertvolles Zeitzeugnis von Kulturen darstellen, die sich im Wandel befinden oder bereits verschwunden sind.",
+            'schlenkerDescription': "Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind ein wertvolles Zeitzeugnis von Kulturen, die sich im Wandel befinden oder bereits verschwunden sind.",
             'schlenkerLinkText': 'Hermann Schlenker bei AVefi',
             'imageSource': 'Bildquelle',
             'author': 'Urheber',

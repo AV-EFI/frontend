@@ -281,7 +281,6 @@ export default defineNuxtConfig({
                     url: 'https://www.gwdg.de',
                 },
             ],
-
             sameAs: [
                 'https://github.com/AV-EFI',
                 'https://www.zotero.org/groups/5125890/avefi',
@@ -309,6 +308,7 @@ export default defineNuxtConfig({
                         '/logout',
                         '/signout',
                         '/normdata',
+                        '/explorer-poc',
                         '/_nuxt/**',
                         '/_**',
                     ],
@@ -325,7 +325,8 @@ export default defineNuxtConfig({
             '/contact',
             '/res',
             '/imprint',
-
+            '/press',
+            '/faq',
             // concrete “testable” URLs
             { loc: '/search/?has_form=Short&manifestation_event_type=RestorationEvent' },
             { loc: '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik' },
@@ -334,11 +335,9 @@ export default defineNuxtConfig({
             { loc: '/search/?located_in_has_name=Deutsche%20Demokratische%20Republik%20%28DDR%29' },
             { loc: '/search/?query=Metropolis' },
             { loc: '/search/?query=Berlin' },
-
             { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
             { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
         ],
-
         // keep exclude if you want (won’t matter much if app sources are disabled)
         exclude: [
             '/protected/**',

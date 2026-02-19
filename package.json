@@ -51,6 +51,7 @@
     "cytoscape": "^3.29.2",
     "daisyui": "5.5.18",
     "instantsearch.js": "^4.80.0",
+    "jszip": "^3.10.1",
     "nodemailer": "^7.0.9",
     "nuxt": "^4.1.3",
     "nuxt-nodemailer": "^1.1.2",

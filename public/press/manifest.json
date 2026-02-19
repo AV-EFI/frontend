@@ -1,0 +1,115 @@
+{
+    "lastUpdated": "2026-02-17",
+    "contact": {
+        "email": "contact@av-efi.net",
+        "label": "AVefi Communications"
+    },
+    "boilerplate": {
+        "oneLinerKey": "press.manifest.boilerplate.oneLiner",
+        "shortKey": "press.manifest.boilerplate.short",
+        "longKey": "press.manifest.boilerplate.long"
+    },
+    "usage": {
+        "titleKey": "press.manifest.usage.title",
+        "itemsKeys": [
+            "press.manifest.usage.items.0",
+            "press.manifest.usage.items.1",
+            "press.manifest.usage.items.2",
+            "press.manifest.usage.items.3"
+        ]
+    },
+    "sections": [
+        {
+            "id": "logos",
+            "titleKey": "press.manifest.sections.logos.title",
+            "badgeKey": "press.manifest.sections.logos.badge",
+            "items": [
+                {
+                    "id": "logo-light",
+                    "titleKey": "press.manifest.sections.logos.items.logoLight.title",
+                    "type": "logo",
+                    "preview": "/img/AV-EFI-Logo.svg",
+                    "notesKey": "press.manifest.sections.logos.items.logoLight.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/AV-EFI-Logo.svg"
+                        },
+                        {
+                            "label": "PNG",
+                            "path": "/img/AV-EFI-Logo.png"
+                        }
+                    ]
+                },
+                {
+                    "id": "logo-dark",
+                    "titleKey": "press.manifest.sections.logos.items.logoDark.title",
+                    "type": "logo",
+                    "preview": "/img/AV-EFI-Logo-dark.svg",
+                    "notesKey": "press.manifest.sections.logos.items.logoDark.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/AV-EFI-Logo-dark.svg"
+                        },
+                        {
+                            "label": "PNG",
+                            "path": "/img/AV-EFI-Logo-dark.png"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "claims",
+            "titleKey": "press.manifest.sections.claims.title",
+            "badgeKey": "press.manifest.sections.claims.badge",
+            "items": [
+                {
+                    "id": "claim-de",
+                    "titleKey": "press.manifest.sections.claims.items.claimDe.title",
+                    "type": "logo",
+                    "preview": "/img/avefi_claim_de.svg",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi_claim_de.svg"
+                        }
+                    ]
+                },
+                {
+                    "id": "claim-en",
+                    "titleKey": "press.manifest.sections.claims.items.claimEn.title",
+                    "type": "logo",
+                    "preview": "/img/avefi_claim_en.svg",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi_claim_en.svg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "press-images",
+            "titleKey": "press.manifest.sections.pressImages.title",
+            "badgeKey": "press.manifest.sections.pressImages.badge",
+            "items": [
+                {
+                    "id": "og-image",
+                    "titleKey": "press.manifest.sections.pressImages.items.ogImage.title",
+                    "type": "image",
+                    "preview": "/img/avefi-og-image.png",
+                    "notesKey": "press.manifest.sections.pressImages.items.ogImage.notes",
+                    "files": [
+                        {
+                            "label": "PNG",
+                            "path": "/img/avefi-og-image.png"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

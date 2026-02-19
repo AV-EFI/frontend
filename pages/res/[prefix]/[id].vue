@@ -25,7 +25,7 @@
           <template #right>
             <GlobalActionContextComp class="col-start-11 row-start-1 justify-self-end"
               :id="dataJson?.compound_record?._source?.handle" :item="dataJson?.compound_record?._source"
-              comp-size="2xl" />
+              comp-size="xl" />
           </template>
         </NuxtLayout>
       </template>

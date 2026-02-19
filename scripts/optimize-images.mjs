@@ -15,6 +15,24 @@ const JPEG_QUALITY = 82;
 
 const responsiveImages = [
   {
+    input: 'img/hermann_schlenker.jpg',
+    baseOutput: 'img/hermann_schlenker',
+    widths: DEFAULT_WIDTHS,
+    formats: ['webp', 'jpeg'],
+  },
+  {
+    input: 'img/avefi_nodes-hero.png',
+    baseOutput: 'img/avefi_nodes-hero',
+    widths: [...DEFAULT_WIDTHS, 2040],
+    formats: ['webp', 'jpeg'],
+  },
+  {
+    input: 'img/avefi_nodes-og.png',
+    baseOutput: 'img/avefi_nodes-og',
+    widths: [...DEFAULT_WIDTHS],
+    formats: ['webp', 'jpeg'],
+  },
+  {
     input: 'img/aktiv_im_dok.jpg',
     baseOutput: 'img/aktiv_im_dok',
     widths: DEFAULT_WIDTHS,

@@ -16,6 +16,7 @@ export default defineEventHandler((event) => {
         '/normdata/',
         '/protected/',
         '/admin/',
+        '/press',
         '/faq',
         '/glossary',
         '/vocab',

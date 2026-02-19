@@ -6,7 +6,7 @@
     <!-- Blending background layer -->
     <div v-if="isScrolled" class="absolute inset-0 w-full h-full md:mix-blend-multiply pointer-events-none z-0"></div>
     <ClientOnly>
-      <div class="container w-full flex flex-wrap justify-between mx-auto p-0 relative z-10">
+      <div class="container w-full flex flex-wrap justify-between mx-auto p-0 relative z-20">
         <div class="navbar-start w-full sm:w-1/2 md:w-2/5 flex justify-start">
           <!-- Mobile menu toggle -->
           <div class="dropdown xl:hidden">
@@ -67,7 +67,7 @@
               <img src="/img/AV-EFI-Logo-dark.svg" alt="AVefi Logo dark" class="my-auto hidden dark:block" width="70"
                 height="auto">
             </a>
-            <img :src="locale === 'en' ? '/img/avefi_claim_eng.svg' : '/img/avefi_claim_de.svg'" :alt="t('avefiClaim')"
+            <img :src="locale === 'en' ? '/img/avefi_claim_en.svg' : '/img/avefi_claim_de.svg'" :alt="t('avefiClaim')"
               :title="t('avefiClaim')" class="hidden h-12 w-auto ml-2 rounded-lg dark:invert">
             <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
               <span class="bree my-auto" v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
@@ -90,7 +90,8 @@
 
         <!-- Desktop menu (md and up) -->
         <div class="navbar-end w-3/5 flex-grow hidden md:flex">
-          <ul class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items">
+          <ul
+            class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items overflow-visible">
             <li v-if="shoppingCart.objects?.length > 0" class="h-12 flex justify-center">
               <button type="button" :aria-label="ariaLabelShoppingcart"
                 @click="$toggleComparisonDrawerState('shopping')">
@@ -119,6 +120,28 @@
             </li>
             <li class="h-12 flex justify-center mr-2">
               <LazyMicroSendMailButt />
+            </li>
+            <li class="h-12 overflow-visible">
+              <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
+                  :aria-label="$t('settingsMenu')" class="btn btn-outline btn-circle">
+                  <Icon name="tabler:dots" />
+                </div>
+                <ul tabindex="-1"
+                  class="dropdown-content w-32 menu bg-base-100 rounded-box z-10 shadow-sm [li:hover]:bg-transparent"
+                  role="menu" :aria-label="$t('moreOptions')">
+                  <li role="none" class="flex justify-center">
+                    <Suspense>
+                      <GlobalThemeSwitch />
+                    </Suspense>
+                  </li>
+                  <li role="none" class="flex justify-center">
+                    <Suspense>
+                      <GlobalLanguageSwitch />
+                    </Suspense>
+                  </li>
+                </ul>
+              </div>
             </li>
             <li v-if="data?.user" class="h-12 flex justify-center">
               <details @toggle="detailsOpen = ($event.target as HTMLDetailsElement)?.open">

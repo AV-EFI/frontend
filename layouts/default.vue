@@ -1,8 +1,7 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <header :class="{'scrolled': isScrolled}"
-      class="fixed top-0 left-0 z-30 border-0 w-full lg:w-90vw xl:overflow-hidden" @mouseenter="removeScrolledClass"
-      @mouseleave="addScrolledClass">
+    <header :class="{'scrolled': isScrolled}" class="fixed top-0 left-0 z-30 border-0 w-full lg:w-90vw"
+      @mouseenter="removeScrolledClass" @mouseleave="addScrolledClass">
       <GlobalNavBar />
     </header>
     <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6 mt-[var(--header-height)]">

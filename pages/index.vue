@@ -8,51 +8,24 @@
 
     <!-- ======= HERO / SEARCH-FIRST ======= -->
     <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
-      <div class="hero max-lg:min-h-[48vh] lg:min-h-[58vh]">
-        <div class="hero-overlay w-full" :style="heroParallaxStyle">
-          <!-- Toggle button for video/image (glass pill, non-competing) -->
-          <div class="absolute top-4 right-4 z-40 hidden">
-            <button
-              class="btn btn-xs btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-              @click="heroMediaVisible = !heroMediaVisible" :aria-pressed="heroMediaVisible"
-              :title="heroMediaVisible ? 'Hide background media' : 'Show background media'">
-              <Icon :name="heroMediaVisible ? 'tabler:video-off' : 'tabler:video'" class="w-4 h-4" />
-              <span class="sr-only">
-                {{ heroMediaVisible ? $t('hideVideo') : $t('showVideo') }}
-              </span>
-            </button>
-          </div>
-
-          <!-- Background media -->
-          <picture>
-            <source srcset="/img/avefi_diamonds_prim_mobile.webp" media="(max-width: 640px)" />
-            <source srcset="/img/avefi_diamonds_prim_tablet.webp" media="(max-width: 1023px)" />
-            <source srcset="/img/avefi_diamonds_prim_desktop.webp" media="(min-width: 1024px)" />
-            <img src="/img/avefi_diamonds_prim_white.webp" alt="Diamond pattern primary desktop" width="2040"
-              height="1360" loading="eager" fetchpriority="high" decoding="async" sizes="100vw"
-              class="max-sm:hidden lg:visible absolute inset-0 w-full h-full object-cover object-center dark:invert max-w-[600px] max-h-full lg:max-w-full lg:max-h-full" />
-          </picture>
+      <div class="hero max-sm:min-h-[48vh] sm:min-h-[32vh] lg:min-h-[58vh]">
+        <div class="hero-overlay absolute inset-0 w-full bg-center bg-cover 
+            bg-no-repeat bg-fixed
+            [background-image:url('/img/avefi_nodes-hero-480.webp')]
+            sm:[background-image:url('/img/avefi_nodes-hero-720.webp')]
+            lg:[background-image:url('/img/avefi_nodes-hero-1024.webp')]
+            xl:[background-image:url('/img/avefi_nodes-hero-2040.webp')]
+            dark:brightness-100 dark:invert dark:hue-rotate-180" aria-hidden="true">
           <!-- Aurora / glow overlays (light + dark variants) -->
           <div
             class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none hidden md:block"
             aria-hidden="true" :class="[
-                // LIGHT
-                'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
-                // DARK
-                'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
               ]" />
           <!-- Vignette -->
-          <div
-            class="absolute inset-0 pointer-events-none hidden md:block
-         mix-blend-multiply dark:mix-blend-normal
-         bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.14)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
-         dark:bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.18)_100%),linear-gradient(180deg,rgba(0,0,0,0.12),transparent_22%,transparent_78%,rgba(0,0,0,0.14))]">
-          </div>
-          <!-- Subtle grid -->
-          <div class="absolute inset-0 opacity-[0.08] hidden md:block" aria-hidden="true">
-            <div class="size-full bg-[radial-gradient(circle_at_1px_1px,theme(colors.base-300/.5)_1px,transparent_1px)]
-                       [background-size:22px_22px]">
-            </div>
+          <div class="absolute inset-0 pointer-events-none hidden md:block
+              mix-blend-multiply dark:mix-blend-normal
+              bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.08)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
+              dark:hidden">
           </div>
         </div>
 
@@ -60,32 +33,30 @@
           <div class="w-full lg:max-w-6xl mx-auto">
             <!-- Center content panel: THIS is what makes it readable -->
             <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
-    border
-    shadow-none md:shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
-    md:supports-[backdrop-filter]:backdrop-blur-[10px]
-    motion-reduce:transition-none
-  " :class="[
-    // LIGHT glass
-    'bg-white/95 border-white/30 md:bg-white/85 md:border-white/40',
-    // DARK glass (this is what was missing)
-    'dark:bg-neutral/40 dark:border-white/10',
-    // subtle inner highlight like your inset 1px
-    'shadow-inner dark:shadow-none',
-  ]">
+                  border
+                  shadow-none md:shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
+                  md:supports-[backdrop-filter]:backdrop-blur-[10px]
+                  motion-reduce:transition-none
+                " :class="[
+                  // LIGHT glass
+                  'bg-white/95 border-white/30 md:bg-white/85 md:border-white/40',
+                  // DARK glass (this is what was missing)
+                  'dark:bg-neutral/40 dark:border-white/10',
+                  // subtle inner highlight like your inset 1px
+                  'shadow-inner dark:shadow-none',
+                ]">
               <div class="text-center">
                 <h1 class="
-    mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
-    [text-shadow:0_1px_0_rgba(255,255,255,0.65)]
-    dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
-  " tabindex="0"> {{ $t('avefiClaim') }}
+                  mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
+                  [text-shadow:0_1px_0_rgba(255,255,255,0.75)]
+                  dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
+                " tabindex="0"> {{ $t('avefiClaim') }}
                 </h1>
-
                 <p class="
-    mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
-    [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
-    dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
-  " tabindex="0">
-
+                    mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
+                    [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
+                    dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
+                  " tabindex="0">
                   {{ $t('home.tagline') }}
                 </p>
               </div>
@@ -94,16 +65,14 @@
               <div class="mt-6 grid place-items-center">
                 <div class="w-full max-w-4xl">
                   <!-- Glass search card -->
-                  <div class="hero-search-card card
-    border
-    shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
-    md:supports-[backdrop-filter]:backdrop-blur-[14px]
-  " :class="[
-    // LIGHT
-    'bg-white border-white/30 md:bg-white/55 md:border-white/35',
-    // DARK
-    'dark:bg-neutral/35 dark:border-white/10',
-  ]">
+                  <div class="hero-search-card card border
+                              shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
+                              md:supports-[backdrop-filter]:backdrop-blur-[14px]" :class="[
+                        // LIGHT
+                        'bg-white border-white/30 md:bg-white/55 md:border-white/35',
+                        // DARK
+                        'dark:bg-neutral/35 dark:border-white/10',
+                      ]">
                     <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
                       :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
                       <!-- Card header row: integrated mode switch -->
@@ -159,17 +128,22 @@
       <!-- Aurora / glow overlays (light + dark variants) -->
       <div
         class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
-        aria-hidden="true" :class="[
-    // LIGHT
-    'bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_70%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_72%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_68%/0.12),transparent_62%),linear-gradient(180deg,hsl(0_0%_100%/0.82),hsl(0_0%_100%/0.88))]',
-    // DARK
-    'dark:bg-[radial-gradient(900px_600px_at_18%_18%,hsl(210_80%_60%/0.18),transparent_60%),radial-gradient(900px_600px_at_82%_22%,hsl(330_85%_62%/0.16),transparent_60%),radial-gradient(900px_600px_at_56%_80%,hsl(200_85%_58%/0.12),transparent_62%),linear-gradient(180deg,hsl(220_20%_10%/0.70),hsl(220_20%_10%/0.78))]',
-  ]" />
+        aria-hidden="true" />
 
       <!-- content stays above -->
       <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          <div class="lg:col-span-12 flex justify-center w-full" ref="featuredCarouselRef">
+          <div class="lg:col-span-4 flex justify-center w-full">
+            <div class="card flex flex-col justify-center">
+              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2">
+                {{ $t('searchAndFind.title') }}
+              </h2>
+              <p class="text-base md:text-lg opacity-80">
+                {{ $t('searchAndFind.text') }}
+              </p>
+            </div>
+          </div>
+          <div class="lg:col-span-8 flex justify-center w-full" ref="featuredCarouselRef">
             <ClientOnly v-if="featuredCarouselReady">
               <LazyGlobalCarouselCardComp :items="cardItems" />
             </ClientOnly>
@@ -193,110 +167,6 @@
         </div>
       </div>
     </section>
-
-    <!-- ======= BUILD THE PERFECT TOOL (2 cards only) ======= -->
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--b" role="region"
-      :aria-label="$t('buildSection') || 'Build the perfect tool'">
-      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
-          <!-- Schema -->
-          <div class="card shadow-xl" role="group" :aria-label="$t('build.schema.title')">
-            <div class="card-body">
-              <div class="flex items-center gap-2 mb-2">
-                <Icon name="tabler:squares-selected" class="text-primary" aria-hidden="true" />
-                <h2 class="text-3xl bree md:text-4xl font-extrabold" tabindex="0">
-                  {{ $t('build.schema.title') }}
-                </h2>
-              </div>
-              <div class="mockup-code mt-3 text-sm" role="region"
-                :aria-label="$t('build.schema.codeLabel') || 'Example schema representation'">
-                <pre data-prefix="$"><code>Work → Manifestation → Item</code></pre>
-                <pre
-                  data-prefix=">"><code>has_primary_title.has_name: "Menschen am Sonntag – Das Dokument der Gegenwart"</code></pre>
-                <pre data-prefix=">"><code>has_event.has_date: "1929/1930"</code></pre>
-                <pre
-                  data-prefix=">"><code>has_event.has_activity.Director: ["Siodmak, Robert", "Ulmer, Edgar G."]</code></pre>
-                <pre data-prefix=">"><code>has_event.has_activity.Writer: ["Wilder, Billy"]</code></pre>
-                <pre data-prefix=">"><code>has_genre.has_name: "Fiction"</code></pre>
-                <pre data-prefix=">"><code>manifestations: [</code></pre>
-                <pre data-prefix="⋮"><code>  has_primary_title.has_name: "Menschen am Sonntag"</code></pre>
-                <pre data-prefix="⋮"><code>  has_event.ProductionEvent.has_date: "2013/2014"</code></pre>
-                <pre data-prefix="⋮"><code>  has_event.ReleaseEvent.has_date: "2014"</code></pre>
-                <pre data-prefix="⋮"><code>  in_language.code: ["deu","eng","fra"]</code></pre>
-                <pre data-prefix="⋮"><code>  has_colour_type: "BlackAndWhite"</code></pre>
-                <pre data-prefix="⋮"><code>  has_sound_type: "Sound"</code></pre>
-                <pre data-prefix="⋮"><code>  items: [</code></pre>
-                <pre data-prefix="⋱"><code>    element_type: "DCP"</code></pre>
-                <pre data-prefix="⋱"><code>    has_format.type: "MXF"</code></pre>
-                <pre data-prefix="⋱"><code>    has_extent.has_value: 113</code></pre>
-                <pre data-prefix="⋱"><code>    has_access_status: "Distribution"</code></pre>
-                <pre data-prefix="⋮"><code>  ]</code></pre>
-                <pre data-prefix=">"><code>]</code></pre>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0 min-h-[300px]">
-            <div class="text-left max-w-md">
-              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                {{ $t('build.linked.title') }}
-              </h2>
-              <p class="text-base md:text-lg opacity-80" tabindex="0">
-                {{ $t('build.linked.lead') }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region"
-      :aria-label="$t('timeline.title')">
-      <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-          <div class="text-left max-w-md w-full lg:col-span-1 flex flex-col justify-center p-6">
-            <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-              {{ $t('licensingInfo.title') }}
-            </h2>
-            <ul>
-              <li class="opacity-80">{{ $t('licensingInfo.content[0]') }}</li>
-              <li class="opacity-80">{{ $t('licensingInfo.content[1]') }}</li>
-              <li class="opacity-80">{{ $t('licensingInfo.content[2]') }}</li>
-            </ul>
-          </div>
-          <div class="flex justify-center items-center w-full lg:col-span-1 min-h-[300px]">
-            <a href="#" class="hover-3d my-12 mx-2 cursor-pointer">
-              <div
-                class="card w-80 lg:w-96 bg-neutral text-white bg-[radial-gradient(circle_at_bottom_left,#ffffff04_35%,transparent_36%),radial-gradient(circle_at_top_right,#ffffff04_35%,transparent_36%)] bg-size-[4.95em_4.95em]">
-                <div class="card-body">
-                  <div class="flex justify-between mb-10">
-                    <div class="font-bold">CC BY 4.0</div>
-                    <div class="text-5xl opacity-10">❁</div>
-                  </div>
-                  <div class="flex justify-center mb-4">
-                    <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons Logo"
-                      class="h-8 mr-2" loading="lazy" decoding="async" />
-                    <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Attribution Logo"
-                      class="h-8" loading="lazy" decoding="async" />
-                  </div>
-                  <div class="text-xs opacity-40 text-center">Creative Commons Attribution</div>
-                </div>
-              </div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
 
     <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
     <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region"
@@ -353,29 +223,63 @@
               </li>
             </ul>
           </div>
+          <div
+            class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0 min-h-[300px]"
+            data-v-492e7cc2="">
+            <div class="text-left max-w-md" data-v-492e7cc2="">
+              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0" data-v-492e7cc2="">
+                {{ $t('build.linked.title') }}
+              </h2>
+              <p class="text-base md:text-lg opacity-80" tabindex="0" data-v-492e7cc2="">
+                {{ $t('build.linked.lead') }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="w-full flex flex-col justify-center max-lg:mt-6">
-            <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
-              {{ $t('topIssuers') || 'Top Publishers & Archives' }}
-            </h2>
-            <div class="flex justify-center items-center" ref="issuerCarouselRef">
-              <div v-if="issuerCarouselReady" class="w-full max-w-md">
-                <ClientOnly>
-                  <LazyGlobalIssuerCarouselComp />
-                </ClientOnly>
-              </div>
-              <div v-else class="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4" aria-hidden="true">
-                <article v-for="issuer in issuerPlaceholderItems" :key="issuer.name"
-                  class="border border-base-200 rounded-2xl p-4 bg-white/90 dark:bg-base-200/70">
-                  <figure class="flex items-center justify-center h-20 mb-3">
-                    <img :src="issuer.image" :alt="issuer.alt" loading="lazy" decoding="async"
-                      class="max-h-full max-w-full object-contain" />
-                  </figure>
-                  <h3 class="text-base font-semibold">{{ issuer.name }}</h3>
-                  <p class="text-sm opacity-75">{{ issuer.count.toLocaleString() }} {{ issuer.count === 1 ?
-                    $t('dataset') : $t('datasets') }}</p>
-                </article>
-              </div>
+
+
+    <!-- ======= VIDEO BAND ======= -->
+    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-10">
+      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
+        <div class="items-center mx-auto">
+          <div class="flex justify-center">
+            <video controls preload="none" :poster="videoPosterSrc"
+              class="w-full mx-auto md:max-w-full rounded-xl border border-base-300 shadow-lg"
+              :aria-describedby="'video-desc'">
+              <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
+              {{ $t('videoNotSupported') }}
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a">
+      <div class="px-4 text-center">
+        <div class="w-full flex flex-col justify-center max-lg:mt-6">
+          <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
+            {{ $t('topIssuers') || 'Top Publishers & Archives' }}
+          </h2>
+          <div class="flex" ref="issuerCarouselRef">
+            <div v-if="issuerCarouselReady" class="w-full">
+              <ClientOnly>
+                <LazyGlobalIssuerCarouselComp />
+              </ClientOnly>
+            </div>
+            <div v-else class="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4" aria-hidden="true">
+              <article v-for="issuer in issuerPlaceholderItems" :key="issuer.name"
+                class="border border-base-200 rounded-2xl p-4 bg-white/90 dark:bg-base-200/70">
+                <figure class="flex items-center justify-center h-20 mb-3">
+                  <img :src="issuer.image" :alt="issuer.alt" loading="lazy" decoding="async"
+                    class="max-h-full max-w-full object-contain" />
+                </figure>
+                <h3 class="text-base font-semibold">{{ issuer.name }}</h3>
+                <p class="text-sm opacity-75">{{ issuer.count.toLocaleString() }} {{ issuer.count === 1 ?
+                  $t('dataset') : $t('datasets') }}</p>
+              </article>
             </div>
           </div>
         </div>
@@ -383,149 +287,71 @@
     </section>
 
     <!-- ======= CORE FUNCTIONS ======= -->
-    <section role="region" :aria-label="$t('coreFunctionsSection')"
-      class="relative border-t border-base-200 py-10 section-wash section-wash--b">
+    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-10">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="card md:p-2 shadow-md bg-white/90 dark:bg-transparent" role="group"
-            :aria-label="$t('coreFunctionsTitle')">
-            <div class="card-body">
-              <div class="flex justify-start items-center gap-2 mb-2">
-                <Icon name="fa:desktop" class="text-2xl text-primary" aria-hidden="true" />
-                <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
-                  {{ $t('coreFunctionsTitle') }}
-                </h2>
-              </div>
-              <ul class="mt-2" role="list">
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('coreFunctions[0]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('coreFunctions[1]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('coreFunctions[2]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('coreFunctions[3]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('coreFunctions[4]') }}</span></li>
-              </ul>
-            </div>
-            <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/projekt/" target="_blank"
-                class="btn btn-outline max-md:btn-block">
-                <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('coreFunctionsTitle') }}
-              </a>
-            </div>
-          </div>
-
-          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group"
-            :aria-label="$t('forFilmResearchersTitle')">
-            <div class="card-body">
-              <div class="flex justify-start items-center gap-2 mb-2">
-                <Icon name="fa-film" class="text-2xl text-primary" aria-hidden="true" />
-                <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">{{ $t('forFilmResearchersTitle') }}
-                </h2>
-              </div>
-              <ul class="mt-2" role="list">
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[0]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[1]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[2]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('forFilmResearchers[3]') }}</span></li>
-              </ul>
-            </div>
-            <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/metadaten/" target="_blank"
-                class="btn btn-outline max-md:btn-block">
-                <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('forFilmResearchersTitle') }}
-              </a>
-            </div>
-          </div>
-
-          <div class="card md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group"
-            :aria-label="$t('technicalBasicsTitle')">
-            <div class="card-body">
-              <div class="flex justify-start items-center gap-2">
-                <label ref="swapToggleRef" tabindex="0" @keydown="onSwapKeydown" aria-label="Toggle code/heart icon"
-                  class="swap swap-flip h-[30px] text-2xl text-primary">
-                  <input type="checkbox" />
-                  <div class="swap-off flex">
-                    <Icon name="tabler:code" aria-hidden="true" />
-                  </div>
-                  <div class="swap-on flex">
-                    <Icon class="text-accent" name="fa-heart-o" aria-hidden="true" />
-                  </div>
-                </label>
-                <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
-                  {{ $t('technicalBasicsTitle') }}
-                </h2>
-              </div>
-              <ul class="mt-2" role="list">
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('technicalBasics[0]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('technicalBasics[1]') }}</span></li>
-                <li class="mb-2" role="listitem"><span class="text-base">{{ $t('technicalBasics[2]') }}</span></li>
-              </ul>
-            </div>
-            <div class="card-actions justify-end m-3">
-              <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank"
-                class="btn btn-outline max-md:btn-block">
-                <span class="sr-only">{{ $t('learnMore') }} – </span>{{ $t('technicalBasicsTitle') }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= VIDEO BAND ======= -->
-    <section role="region" :aria-label="$t('videoSection')"
-      class="relative border-t border-base-200 py-10 section-wash section-wash--a">
-      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div class="lg:col-span-6 flex justify-center">
-            <video controls preload="none" :poster="videoPosterSrc"
-              class="w-full max-w-[260px] md:max-w-full rounded-xl border border-base-300 shadow-lg"
-              :aria-describedby="'video-desc'">
-              <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
-              {{ $t('videoNotSupported') }}
-            </video>
-          </div>
-          <div class="lg:col-span-6 lg:h-full">
-            <div class="bg-base-100/90 rounded-xl p-6 md:p-8 lg:h-full border border-base-200/70">
-              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                {{ $t('videoSectionTitle') }}
+        <div class="card lg:max-w-96 md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group"
+          :aria-label="$t('openAndExtendable.title')">
+          <div class="card-body">
+            <div class="flex justify-start items-center gap-2">
+              <label ref="swapToggleRef" tabindex="0" @keydown="onSwapKeydown" aria-label="Toggle code/heart icon"
+                class="swap swap-flip h-[30px] text-2xl text-primary">
+                <input type="checkbox" />
+                <div class="swap-off flex">
+                  <Icon name="tabler:link" aria-hidden="true" />
+                </div>
+                <div class="swap-on flex">
+                  <Icon class="text-accent" name="fa-heart-o" aria-hidden="true" />
+                </div>
+              </label>
+              <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
+                {{ $t('openAndExtendable.title') }}
               </h2>
-              <p id="video-desc" class="text-base md:text-lg opacity-80" tabindex="0">
-                {{ $t('videoSectionDescription') }}
-              </p>
             </div>
+            <ul class="mt-2" role="list">
+              <li class="mb-2" role="listitem"><span class="text-base">{{ $t('openAndExtendable.content[0]') }}</span>
+              </li>
+              <li class="mb-2" role="listitem">
+                <a target="_blank" :href="$t('openAndExtendable.content[2]')" class="text-base text-primary underline">
+                  {{ $t('openAndExtendable.content[1]') }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-actions justify-end m-3">
+            <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank"
+              class="btn btn-outline max-md:btn-block">
+              <span class="sr-only">{{ $t('openAndExtendable.cta') }} – </span>{{ $t('openAndExtendable.cta') }}
+            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ======= PARTNERS ======= -->
-    <section role="region" :aria-label="$t('partnersSection')"
-      class="relative border-t border-base-200 py-10 section-wash section-wash--b">
+
+    <!-- ======= Call to Action & Community ======= -->
+    <section role="region" :aria-label="$t('callToAction.title')" class="relative border-t border-base-200 py-10">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-5">
             <div class="card-body">
               <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                {{ $t('partnersTitle') }}
+                {{ $t('callToAction.title') }}
               </h2>
               <p class="text-base md:text-lg opacity-80" tabindex="0">
-                {{ $t('partnersDescription') }}
+                {{ $t('callToAction.text') }}
               </p>
             </div>
           </div>
-          <div class="lg:col-span-7 flex justify-center w-full" ref="partnersCarouselRef">
-            <div v-if="partnersCarouselReady" class="w-full max-w-xl" role="region"
-              :aria-label="$t('partnersCarousel') || 'Project partners carousel'">
-              <ClientOnly>
-                <GlobalCarouselComp :items="items" />
-              </ClientOnly>
-            </div>
-            <div v-else class="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-3 gap-4" aria-hidden="true">
-              <figure v-for="partner in partnerPreviewItems" :key="partner.alt"
-                class="border border-base-200 rounded-xl bg-white/90 dark:bg-base-200/60 p-4 flex items-center justify-center">
-                <img :src="partner.src" :alt="partner.alt" :width="partner.width || undefined"
-                  :height="partner.height || undefined" loading="lazy" decoding="async"
-                  class="max-w-full max-h-16 object-contain" />
-              </figure>
+          <div class="lg:col-span-7 flex justify-center w-full">
+            <div class="w-full max-w-xl" role="region"
+              :aria-label="$t('becomeAPartner.title') || 'Become a partner call to action'">
+              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
+                {{ $t('becomeAPartner.title') }}
+              </h2>
+              <p>{{ $t('becomeAPartner.text') }}</p>
+              <a :href="$t('becomeAPartner.ctaLink')" target="_blank" class="btn btn-primary mt-4">
+                {{ $t('becomeAPartner.cta') }}
+              </a>
             </div>
           </div>
         </div>
@@ -536,11 +362,12 @@
 
 <script lang="ts" setup>
 import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
-import { ref, onMounted, nextTick, watch, computed, onUnmounted } from 'vue';
+import { ref, onMounted, nextTick, watch, computed } from 'vue';
 import type { Ref } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useMediaQuery, useIntersectionObserver } from '@vueuse/core';
+import { useMediaQuery, useIntersectionObserver, unrefElement } from '@vueuse/core';
 import topIssuersData from '~/data/top-issuers.json';
 import issuerImagesData from '~/data/issuer-images.json';
 
@@ -548,24 +375,24 @@ const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 const criticalLinks: any[] = [
-  {
-    rel: 'preload',
-    href: '/img/avefi_diamonds_prim_mobile.webp',
-    as: 'image',
-    media: '(max-width: 640px)',
-    fetchpriority: 'high',
-  },
+    {
+        rel: 'preload',
+        href: '/img/avefi_diamonds_prim_mobile.webp',
+        as: 'image',
+        media: '(max-width: 640px)',
+        fetchpriority: 'high',
+    },
 ];
 
 if (runtimeConfig.public.matomoUrl) {
-  criticalLinks.push(
-    { rel: 'preconnect', href: runtimeConfig.public.matomoUrl, crossorigin: '' },
-    { rel: 'dns-prefetch', href: runtimeConfig.public.matomoUrl }
-  );
+    criticalLinks.push(
+        { rel: 'preconnect', href: runtimeConfig.public.matomoUrl, crossorigin: '' },
+        { rel: 'dns-prefetch', href: runtimeConfig.public.matomoUrl }
+    );
 }
 
 useHead({
-  link: criticalLinks,
+    link: criticalLinks,
 });
 
 const CARD_IMAGE_WIDTHS = [240, 320, 480, 720, 1024] as const;
@@ -615,68 +442,6 @@ function createResponsiveCardMedia(baseName: string, width: number, height: numb
         imgBlurHeight: blurHeight,
     } satisfies Partial<CardItem>;
 }
-
-// --- HERO overlay media toggle ---
-const heroMediaVisible = ref(false);
-const HERO_MEDIA_KEY = 'heroMediaVisible';
-
-const heroMotionBreakpoint = useMediaQuery('(min-width: 768px)');
-const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
-const heroEffectsEnabled = computed(() => heroMotionBreakpoint.value && !prefersReducedMotion.value);
-
-const heroParallax = ref(0);
-const heroParallaxStyle = computed(() => (
-  heroEffectsEnabled.value
-    ? { transform: `translateY(${heroParallax.value}px)` }
-    : {}
-));
-
-function onScrollParallax() {
-  if (!import.meta.client || !heroEffectsEnabled.value) return;
-  // Clamp to max 40px for subtle effect
-  heroParallax.value = Math.min(window.scrollY * 0.18, 40);
-}
-
-let parallaxAttached = false;
-function attachParallax() {
-  if (!import.meta.client || parallaxAttached) return;
-  window.addEventListener('scroll', onScrollParallax, { passive: true });
-  parallaxAttached = true;
-  onScrollParallax();
-}
-
-function detachParallax() {
-  if (!import.meta.client || !parallaxAttached) return;
-  window.removeEventListener('scroll', onScrollParallax);
-  parallaxAttached = false;
-  heroParallax.value = 0;
-}
-
-if (import.meta.client) {
-  watch(
-    heroEffectsEnabled,
-    (enabled) => {
-      if (enabled) attachParallax();
-      else detachParallax();
-    },
-    { immediate: true }
-  );
-}
-
-onMounted(() => {
-  if (import.meta.client) {
-    const stored = localStorage.getItem(HERO_MEDIA_KEY);
-    if (stored !== null) heroMediaVisible.value = stored === 'true';
-  }
-});
-onUnmounted(() => {
-  detachParallax();
-});
-watch(heroMediaVisible, (val) => {
-  if (import.meta.client) {
-    localStorage.setItem(HERO_MEDIA_KEY, val ? 'true' : 'false');
-  }
-});
 
 // ─────────────────────────────────────────────
 // SEO META (multi-language via i18n)
@@ -738,19 +503,13 @@ useSchemaOrg(() => {
 });
 
 const showAdvancedSearch = ref(false);
-const searchCompRef = ref<HTMLElement | null>(null);
+const searchCompRef = ref<ComponentPublicInstance | HTMLElement | null>(null);
 const swapToggleRef = ref<HTMLElement | null>(null);
 
-function focusFirstInput(root?: HTMLElement | null) {
-    const scope =
-    root ??
-    ((searchCompRef.value &&
-    (searchCompRef.value as unknown as { $el: HTMLElement }).$el
-        ? (searchCompRef.value as unknown as { $el: HTMLElement }).$el
-        : searchCompRef.value as HTMLElement) ??
-      null);
-    if (!scope) return;
-    const el: HTMLElement | null = scope.querySelector(
+function focusFirstInput(root?: ComponentPublicInstance | HTMLElement | null) {
+    const scope = unrefElement(root ?? searchCompRef.value) as HTMLElement | null;
+    if (!scope || typeof scope.querySelector !== 'function') return;
+    const el = scope.querySelector<HTMLElement>(
         'input[type="text"], input:not([type]), textarea, [contenteditable="true"], [autofocus]'
     );
     if (el && typeof (el as HTMLElement).focus === 'function') {
@@ -799,46 +558,9 @@ definePageMeta({
 
 const prefersCompactPoster = useMediaQuery('(max-width: 1024px)');
 const videoPosterSrc = computed(() =>
-    prefersCompactPoster.value ? '/img/avefi_vid_poster-360.webp' : '/img/avefi_vid_poster-720.webp'
+    prefersCompactPoster.value ? '/img/avefi_vid_poster-360.webp' : '/img/avefi_vid_poster-1024.webp'
 );
 
-const items = ref([
-    {
-        src: '/img/gwdg_logo.min.svg',
-        width: 176.871,
-        height: 52.384,
-        alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
-        link: 'https://www.gwdg.de'
-    },
-    {
-        src: '/img/logo_sdk.webp',
-        width: 50,
-        height: 56,
-        alt: 'Stiftung Deutsche Kinemathek',
-        link: 'https://www.deutsche-kinemathek.de'
-    },
-    {
-        src: '/img/logo_tib.webp',
-        width: 85,
-        height: 56,
-        alt: 'Technische Informationsbibliothek Hannover',
-        link: 'https://www.tib.eu'
-    },
-    {
-        src: '/img/logo_fmd.webp',
-        width: 199,
-        height: 56,
-        alt: 'Filmmuseum Düsseldorf',
-        link: 'https://www.duesseldorf.de/filmmuseum'
-    },
-    {
-        src: '/img/logo_mcdci.webp',
-        width: 56,
-        height: 56,
-        alt: 'Marburg Center for Digital Culture and Infrastructure',
-        link: 'https://www.uni-marburg.de/de/mcdci'
-    }
-]);
 
 const cardItems = ref<CardItem[]>([
     {
@@ -916,52 +638,51 @@ const cardItems = ref<CardItem[]>([
     }
 ]);
 
-    const featuredCarouselRef = ref<HTMLElement | null>(null);
-    const featuredCarouselReady = ref(false);
-    const issuerCarouselRef = ref<HTMLElement | null>(null);
-    const issuerCarouselReady = ref(false);
-    const partnersCarouselRef = ref<HTMLElement | null>(null);
-    const partnersCarouselReady = ref(false);
+const featuredCarouselRef = ref<HTMLElement | null>(null);
+const featuredCarouselReady = ref(false);
+const issuerCarouselRef = ref<HTMLElement | null>(null);
+const issuerCarouselReady = ref(false);
+const partnersCarouselRef = ref<HTMLElement | null>(null);
+const partnersCarouselReady = ref(false);
 
-    function deferHydration(target: Ref<HTMLElement | null>, flag: Ref<boolean>, options: IntersectionObserverInit = { rootMargin: '200px 0px' }) {
-      if (import.meta.server) return;
-      const { stop } = useIntersectionObserver(
+function deferHydration(target: Ref<HTMLElement | null>, flag: Ref<boolean>, options: IntersectionObserverInit = { rootMargin: '200px 0px' }) {
+    if (import.meta.server) return;
+    const { stop } = useIntersectionObserver(
         target,
         ([entry]) => {
-          if (entry?.isIntersecting) {
-            flag.value = true;
-            stop();
-          }
+            if (entry?.isIntersecting) {
+                flag.value = true;
+                stop();
+            }
         },
         options
-      );
-    }
+    );
+}
 
-    if (import.meta.client) {
-      deferHydration(featuredCarouselRef, featuredCarouselReady, { rootMargin: '120px 0px' });
-      deferHydration(issuerCarouselRef, issuerCarouselReady, { rootMargin: '0px 0px -25%' });
-      deferHydration(partnersCarouselRef, partnersCarouselReady, { rootMargin: '0px 0px -20%' });
-    }
+if (import.meta.client) {
+    deferHydration(featuredCarouselRef, featuredCarouselReady, { rootMargin: '120px 0px' });
+    deferHydration(issuerCarouselRef, issuerCarouselReady, { rootMargin: '520px 0px' });
+    deferHydration(partnersCarouselRef, partnersCarouselReady, { rootMargin: '720px 0px' });
+}
 
-    const issuerPlaceholderItems = computed(() => {
-      const issuers = Array.isArray((topIssuersData as any)?.issuers)
+const issuerPlaceholderItems = computed(() => {
+    const issuers = Array.isArray((topIssuersData as any)?.issuers)
         ? (topIssuersData as any).issuers
         : [];
-      const mappings = (issuerImagesData as any)?.mappings || {};
-      const fallback = (issuerImagesData as any)?.fallback || {};
+    const mappings = (issuerImagesData as any)?.mappings || {};
+    const fallback = (issuerImagesData as any)?.fallback || {};
 
-      return issuers.slice(0, 4).map((issuer: any) => {
+    return issuers.slice(0, 4).map((issuer: any) => {
         const imageInfo = issuer.id && mappings[issuer.id] ? mappings[issuer.id] : null;
         return {
-          name: issuer.name,
-          count: issuer.doc_count,
-          image: imageInfo?.image || fallback.image,
-          alt: imageInfo?.alt || `${issuer.name} Logo`
+            name: issuer.name,
+            count: issuer.doc_count,
+            image: imageInfo?.image || fallback.image,
+            alt: imageInfo?.alt || `${issuer.name} Logo`
         };
-      });
     });
+});
 
-    const partnerPreviewItems = computed(() => items.value.slice(0, 4));
 </script>
 
 <style scoped>

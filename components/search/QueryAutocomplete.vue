@@ -3,18 +3,20 @@
         <div class="relative">
             <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
                 :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
-                inner-class="!rounded-xl !h-[56px] w-full dark:!bg-gray-950 dark:!text-white !rounded-r-none"
-                input-class="!text-lg px-4 pr-10 w-full dark:!text-white !h-12"
-                :prefix-icon="showInfoTooltip ? 'info' : undefined" :aria-label="ariaLabel" aria-autocomplete="list"
+                wrapper-class="flex flex-row"
+                inner-class="!rounded-xl !h-12 w-full dark:!bg-gray-950 dark:!text-white !rounded-r-none"
+                input-class="!text-lg border-none !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
                 aria-haspopup="listbox" :aria-owns="listboxId" :aria-expanded="showDropdown ? 'true' : 'false'"
                 :aria-activedescendant="activeDescId" @input="onInput" @focus="onFocus" @blur="onBlur"
                 @keydown="onKeydown">
-                <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
+                <!--
+               <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
                     <span class="formkit-icon relative group cursor-help my-auto flex justify-center"
                         :title="infoTooltipText">
                         <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 text-xl" />
                     </span>
                 </template>
+-->
             </FormKit>
 
             <!-- Clear button inside input -->

@@ -7,7 +7,7 @@
         @submit="onSubmit" @clear="term = ''" @recent-search-click="handleRecentSearchClick"
         @remove-recent="handleRemoveRecentSearch" @clear-history="handleClearAllHistory"
         @keydown.enter="submitFromButton" />
-      <button type="button" class="btn btn-primary lg:btn-lg h-[56px] !rounded-l-none !rounded-r-xl"
+      <button type="button" class="btn btn-primary lg:btn-lg h-12 !rounded-l-none !rounded-r-xl"
         @click="submitFromButton">
         {{ buttonText }}
       </button>

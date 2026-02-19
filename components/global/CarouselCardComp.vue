@@ -71,8 +71,10 @@
           <div class="swap-off w-full h-full flex items-center justify-center p-6">
             <div class="flex flex-col items-center">
               <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
-                {{ t('create.yourOwn') || 'Create Your Own' }}
+                {{ t('createYourOwn.title') || 'Create Your Own' }}
               </h2>
+              <p>{{ t('createYourOwn.description') || 'Send us your search query as a suggestion for the examples' }}
+              </p>
               <div class="btn btn-primary btn-circle mt-2">
                 <Icon class="" name="tabler:plus" />
               </div>

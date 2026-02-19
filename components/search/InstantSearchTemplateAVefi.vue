@@ -17,7 +17,7 @@
                 <ais-search-box>
                   <template #default="{ currentRefinement, refine, isSearchStalled }">
                     <div class="flex flex-row mt-2">
-                      <div class="flex flex-row items-center w-full ">
+                      <div class="flex flex-row items-center h-12 w-full ">
                         <SearchQueryAutocomplete ref="qaRef" v-model="localSearchValue" name="search"
                           :placeholder="$t('searchplaceholder')" :clear-title="$t('resetQuery')"
                           :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')" :enforce-list="false"
@@ -27,14 +27,14 @@
                           @clear-history="handleClearAllHistory" />
                       </div>
 
-                      <button type="button" class="btn btn-primary lg:btn-lg h-[56px] rounded-xl rounded-l-none"
+                      <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
                         :title="$t('search')" @click="$refs.qaRef?.submit()">
                         <Icon class="text-lg" name="formkit:search" />
                         <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                       </button>
                       <!-- Context menu button -->
                       <div class="relative ml-2" ref="searchMenuRef">
-                        <button type="button" class="btn btn-ghost btn-circle btn-outline lg:btn-lg w-[56px] h-[56px]"
+                        <button type="button" class="btn btn-ghost btn-circle btn-outline lg:btn-lg w-12 h-12"
                           @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
                           :title="$t('searchOptions')">
                           <Icon name="tabler:dots" />
@@ -59,7 +59,7 @@
 
                         <div v-if="contactFormOpen"
                           class="absolute right-0 mt-2 p-4 border rounded-lg bg-base-100 w-96 z-50" @click.stop>
-                          <MicroContactForm :initialMessage="contactInitialMessage" @close="contactFormOpen = false" />
+                          <MicroContactForm :initialMessage="contactInitialMessage" @ContactFormClose="toggleForm()" />
                         </div>
                       </div>
                     </div>
@@ -396,6 +396,9 @@ const searchMenuOpen = ref(false);
 const contactFormOpen = ref(false);
 const contactInitialMessage = ref('');
 const searchMenuRef = ref<HTMLElement | null>(null);
+
+const toggleForm = () => { contactFormOpen.value = !contactFormOpen.value; };
+
 
 const toggleSearchMenu = (e?: Event) => {
     if (e) e.stopPropagation();

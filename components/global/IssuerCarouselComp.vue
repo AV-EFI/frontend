@@ -8,48 +8,43 @@
             <span>{{ error }}</span>
         </div>
         <div v-else-if="issuerItems.length > 0">
-            <!-- Desktop/Large screens: original carousel -->
-            <div
-                class="carousel-container items-center relative hidden lg:flex bg:white/80 dark:bg-base-200/60 rounded-box p-4">
+            <!-- Desktop/Large screens: DaisyUI carousel -->
+            <div class="relative hidden lg:block">
                 <button :alt="$t('togglePreviousSlide')" :aria-label="$t('togglePreviousSlide')"
-                    class="md:flex z-10 p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
+                    class="hidden z-10 p-2 bg-neutral text-white rounded-full bg-opacity-70 w-11 h-11 flex items-center justify-center dark:bg-gray-600 dark:text-gray-200 absolute top-1/2 -translate-y-1/2 -left-6"
                     @click="prevSlide">
                     <Icon name="tabler:chevron-left" />
                 </button>
-                <div class="overflow-hidden rounded-box w-full p-4">
-                    <div class="relative w-full" style="min-height: 350px;">
-                        <TransitionGroup name="slide">
-                            <div v-for="(item, index) in issuerItems" v-show="currentIndex === index" :key="index"
-                                class="absolute inset-0 flex justify-center items-center p-2">
-                                <div class="card bg-base-100 shadow-md w-full max-w-sm">
-                                    <figure class="px-6 py-6 bg-white rounded">
-                                        <img :src="item.image" :alt="item.imageAlt" :title="item.name"
-                                            class="h-20 w-auto object-contain bg-white" loading="lazy">
-                                    </figure>
-                                    <div class="card-body items-center text-center">
-                                        <h3 class="card-title text-base font-semibold line-clamp-2">
-                                            {{ item.name }}
-                                        </h3>
-                                        <p class="text-sm opacity-70">
-                                            {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ?
-                                            $t('dataset') : $t('datasets') }}
-                                        </p>
-                                        <div class="card-actions">
-                                            <NuxtLink
-                                                :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
-                                                class="btn btn-primary btn-sm">
-                                                {{ $t('viewDatasets') || 'View Datasets' }}
-                                                <Icon class="text-white" name="tabler:arrow-right" />
-                                            </NuxtLink>
-                                        </div>
-                                    </div>
+                <div ref="desktopCarouselRef"
+                    class="carousel carousel-end rounded-box bg-white/80 dark:bg-base-200/60 p-6 gap-2 overflow-hidden scroll-smooth">
+                    <div v-for="(item, index) in issuerItems" :key="index"
+                        class="carousel-item w-72 xl:w-80 flex-shrink-0">
+                        <div class="card bg-base-100 shadow-md w-full">
+                            <figure class="px-6 py-6 bg-white rounded">
+                                <img :src="item.image" :alt="item.imageAlt" :title="item.name"
+                                    class="h-20 w-auto object-contain bg-white" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="card-body items-center text-center">
+                                <h3 class="card-title text-base font-semibold line-clamp-2">
+                                    {{ item.name }}
+                                </h3>
+                                <p class="text-sm opacity-70">
+                                    {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ?
+                                    $t('dataset') : $t('datasets') }}
+                                </p>
+                                <div class="card-actions">
+                                    <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
+                                        class="btn btn-primary btn-sm">
+                                        {{ $t('viewDatasets') || 'View Datasets' }}
+                                        <Icon class="text-white" name="tabler:arrow-right" />
+                                    </NuxtLink>
                                 </div>
                             </div>
-                        </TransitionGroup>
+                        </div>
                     </div>
                 </div>
                 <button :alt="$t('toggleNextSlide')" :aria-label="$t('toggleNextSlide')"
-                    class="z-10 md:flex p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
+                    class="hidden z-10 p-2 bg-neutral text-white rounded-full bg-opacity-70 w-11 h-11 flex items-center justify-center dark:bg-gray-600 dark:text-gray-200 absolute top-1/2 -translate-y-1/2 -right-6"
                     @click="nextSlide">
                     <Icon class="text-white" name="tabler:chevron-right" />
                 </button>
@@ -106,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import topIssuersData from '~/data/top-issuers.json';
 import issuerImagesData from '~/data/issuer-images.json';
 
@@ -125,6 +120,7 @@ const loading = ref(false);
 const error = ref<string | null>(null);
 const currentIndex = ref(0);
 let autoSlideTimer: any = null;
+const desktopCarouselRef = ref<HTMLElement | null>(null);
 
 const issuerItems = computed<IssuerItem[]>(() => {
     const issuers: Issuer[] = topIssuersData.issuers || [];
@@ -142,16 +138,22 @@ const issuerItems = computed<IssuerItem[]>(() => {
 });
 
 const prevSlide = () => {
+    if (!issuerItems.value.length) return;
     currentIndex.value = (currentIndex.value - 1 + issuerItems.value.length) % issuerItems.value.length;
     resetAutoSlide();
 };
 
 const nextSlide = () => {
+    if (!issuerItems.value.length) return;
     currentIndex.value = (currentIndex.value + 1) % issuerItems.value.length;
     resetAutoSlide();
 };
 
 const startAutoSlide = () => {
+    stopAutoSlide();
+    if (issuerItems.value.length <= 1) {
+        return;
+    }
     autoSlideTimer = setInterval(() => {
         currentIndex.value = (currentIndex.value + 1) % issuerItems.value.length;
     }, 6000);
@@ -185,26 +187,33 @@ const nextMobileSlide = () => {
 
 onMounted(() => {
     startAutoSlide();
+    nextTick(() => scrollDesktopToIndex('auto'));
 });
 
 onBeforeUnmount(() => {
     stopAutoSlide();
 });
+
+const scrollDesktopToIndex = (behavior: ScrollBehavior = 'smooth') => {
+    const carousel = desktopCarouselRef.value;
+    if (!carousel) return;
+    const items = carousel.querySelectorAll<HTMLElement>('.carousel-item');
+    if (!items.length) return;
+    const index = ((currentIndex.value % items.length) + items.length) % items.length;
+    const target = items[index];
+    if (!target) return;
+    const offset = target.offsetLeft - carousel.offsetLeft;
+    carousel.scrollTo({ left: offset, behavior });
+};
+
+watch(currentIndex, () => {
+    scrollDesktopToIndex();
+});
+
+watch(issuerItems, async () => {
+    currentIndex.value = 0;
+    await nextTick();
+    scrollDesktopToIndex('auto');
+    startAutoSlide();
+});
 </script>
-
-<style scoped>
-.slide-enter-active,
-.slide-leave-active {
-    transition: all 0.5s ease;
-}
-
-.slide-enter-from {
-    opacity: 0;
-    transform: translateX(100%);
-}
-
-.slide-leave-to {
-    opacity: 0;
-    transform: translateX(-100%);
-}
-</style>

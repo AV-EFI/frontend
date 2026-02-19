@@ -63,7 +63,7 @@ const emit = defineEmits<{
 }>();
 
 function emitClose() {
-  emit('ContactFormClose');
+    emit('ContactFormClose');
 }
 
 const {$toast} = useNuxtApp();

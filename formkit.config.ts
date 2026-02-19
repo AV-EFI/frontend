@@ -1,5 +1,5 @@
 import { defineFormKitConfig } from '@formkit/vue';
-import rootClasses from '~/formkit.theme';
+import { rootClasses } from './formkit.theme';
 import { createAutoAnimatePlugin } from '@formkit/addons';
 import { de, en } from '@formkit/i18n';
 import { genesisIcons } from '@formkit/icons';

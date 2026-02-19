@@ -1,102 +1,40 @@
 <template>
-  <div>
-    <!-- Desktop/Large screens: original carousel -->
-    <div class="carousel-container items-center relative hidden bg:white/80 dark:bg-base-200/60 lg:flex rounded-xl">
-      <button :alt="$t('togglePreviousSlide')" :aria-label="$t('togglePreviousSlide')"
-        class="lg:flex my-auto z-10 p-2 bg-neutral text-white rounded-full bg-opacity-50 w-11 h-11 min-w-[44px] min-h-[44px] items-center justify-center lg:mr-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2"
-        style="min-width:44px;min-height:44px;" @click="prevSlide">
-        <Icon name="tabler:chevron-left" />
-      </button>
-      <div class="overflow-hidden rounded-box w-full p-4">
-        <div class="relative w-full" style="min-height: 250px;">
-          <TransitionGroup name="slide">
-            <div v-for="(item, index) in items" v-show="currentIndex === index" :key="index"
-              class="absolute inset-0 flex justify-center items-center p-2">
-              <div class="card bg-base-100 shadow-md w-full max-w-sm">
-                <a :href="item.link" target="_blank" rel="noopener noreferrer" :aria-label="'Link to ' + item.link">
-                  <figure class="px-6 pt-6 pb-4 bg-white rounded">
-                    <img class="h-20 w-auto object-contain bg-white" :src="item.src" :alt="item.alt" :title="item.alt"
-                      loading="lazy" fetchpriority="low" decoding="async" :width="item.width || undefined"
-                      :height="item.height || undefined" />
-                  </figure>
-                  <div class="card-body items-center text-center">
-                    <h3 class="card-title text-base font-semibold line-clamp-2">
-                      {{ item.alt }}
-                    </h3>
-                    <div class="card-actions">
-                      <NuxtLink target="_blank" rel="noopener" :to="`${item.link}`" class="btn btn-primary btn-sm">
-                        {{ $t('viewHomepage') || 'View Homepage' }}
-                        <Icon name="tabler:arrow-right" class="ml-1" />
-                      </NuxtLink>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </TransitionGroup>
-        </div>
-      </div>
-      <button
-        class="z-10 my-auto lg:flex p-2 bg-neutral text-white rounded-full bg-opacity-50 w-11 h-11 min-w-[44px] min-h-[44px] items-center justify-center lg:ml-4 dark:bg-gray-600 dark:text-gray-200 lg:absolute lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:right-0"
-        style="min-width:44px;min-height:44px;" :alt="$t('toggleNextSlide')" :aria-label="$t('toggleNextSlide')"
-        @click="nextSlide">
-        <Icon name="tabler:chevron-right" />
-      </button>
-    </div>
-
-    <!-- Mobile/Small screens: horizontal scrollable cards -->
-    <div class="lg:hidden w-full relative">
-      <div ref="carouselRef"
-        class="carousel carousel-center w-full bg-white/90 dark:bg-base-200 rounded-box p-4 overflow-x-auto scroll-smooth flex">
-        <div v-for="(item, index) in items" :key="index"
-          class="carousel-item align-top flex flex-col items-center mx-4 w-80 md:w-80 lg:w-96">
-          <figure class="w-full">
-            <div v-if="item.src" class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white">
-              <div class="absolute inset-0 w-full h-full object-cover bg-white scale-110" aria-hidden="true">
-                <div class="relative z-10 flex items-center justify-center w-full h-full ">
-                  <img :src="item.src" :alt="item.alt" loading="lazy" fetchpriority="low" decoding="async"
-                    :width="item.width || undefined" :height="item.height || undefined"
-                    class="max-w-full max-h-full object-contain z-10 bg-white roundend-xl p-6">
-                </div>
-              </div>
-            </div>
-            <div v-else
-              class="w-full h-48 md:h-56 lg:h-64 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded overflow-hidden">
-              <img src="/img/placeholder-16x9.svg" alt="Avefi" class="object-cover w-full h-full" loading="lazy"
-                decoding="async" />
-            </div>
-          </figure>
-          <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
-            <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
-              {{ item.alt }}
-            </h2>
-            <div class="mt-auto">
-              <NuxtLink :to="`${item.link}`" class="btn btn-sm w-full md:w-auto btn-primary" target="_blank"
-                rel="noopener">
-                {{ $t('viewHomepage') || 'View Homepage' }}
-                <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
-              </NuxtLink>
-            </div>
+  <div ref="carouselRef" class="carousel rounded-box w-full p-4 overflow-x-auto scroll-smooth" role="region"
+    :aria-label="$t('partnersCarousel') || 'Partner carousel'">
+    <div v-for="(item, index) in items" :key="index" class="carousel-item w-full flex-shrink-0 px-2 lg:px-4"
+      :aria-hidden="currentIndex !== index" :tabindex="currentIndex === index ? 0 : -1">
+      <article class="card w-full shadow-md">
+        <figure class="px-4 pt-6 pb-2">
+          <div class="w-full h-48 flex items-center justify-center rounded-xl bg-white overflow-hidden"
+            aria-hidden="true">
+            <img v-if="item.src" :src="item.src" :alt="item.alt || item.title || ''" loading="lazy" decoding="async"
+              :width="item.width || undefined" :height="item.height || undefined"
+              class="w-full h-24 object-contain p-2" />
+            <img v-else src="/img/placeholder-16x9.svg" alt="Avefi placeholder" loading="lazy" decoding="async"
+              class="w-full h-full object-contain opacity-70" />
+          </div>
+        </figure>
+        <div class="card-body text-center items-center gap-3">
+          <h3 class="card-title text-base font-semibold">
+            {{ item.alt || item.title || '' }}
+          </h3>
+          <p v-if="item.description" class="text-sm opacity-80">
+            {{ item.description }}
+          </p>
+          <div class="card-actions">
+            <NuxtLink v-if="item.link" :to="item.link" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+              {{ item.linkText || $t('viewHomepage') || 'View Homepage' }}
+              <Icon name="tabler:arrow-right" class="ml-1" />
+            </NuxtLink>
           </div>
         </div>
-      </div>
-      <!-- Mobile arrows -->
-      <button v-if="items.length > 1" @click="prevMobileSlide"
-        class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-100 shadow flex"
-        :aria-label="$t('togglePreviousSlide')">
-        <Icon name="tabler:chevron-left" />
-      </button>
-      <button v-if="items.length > 1" @click="nextMobileSlide"
-        class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-100 shadow flex"
-        :aria-label="$t('toggleNextSlide')">
-        <Icon name="tabler:chevron-right" />
-      </button>
+      </article>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps, onMounted, onBeforeUnmount } from 'vue';
+import { ref, defineProps, onMounted, onBeforeUnmount, nextTick, watch } from 'vue';
 
 const props = defineProps({
   items: {
@@ -110,23 +48,28 @@ const props = defineProps({
 });
 
 const currentIndex = ref(0);
+const carouselRef = ref(null);
 let autoSlideTimer = null;
 
-const prevSlide = () => {
-  currentIndex.value = (currentIndex.value - 1 + props.items.length) % props.items.length;
-  resetAutoSlide();
+const scrollToSlide = () => {
+  const host = carouselRef.value;
+  if (!host) return;
+  const slides = host.querySelectorAll('.carousel-item');
+  const target = slides[currentIndex.value];
+  if (target) {
+    host.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+  }
 };
 
-const nextSlide = () => {
+const advanceSlide = () => {
+  if (!props.items.length) return;
   currentIndex.value = (currentIndex.value + 1) % props.items.length;
-  resetAutoSlide();
+  nextTick(scrollToSlide);
 };
 
 const startAutoSlide = () => {
-  if (props.autoSlideInterval > 0) {
-    autoSlideTimer = setInterval(() => {
-      currentIndex.value = (currentIndex.value + 1) % props.items.length;
-    }, props.autoSlideInterval);
+  if (props.autoSlideInterval > 0 && props.items.length > 1) {
+    autoSlideTimer = setInterval(advanceSlide, props.autoSlideInterval);
   }
 };
 
@@ -137,67 +80,42 @@ const stopAutoSlide = () => {
   }
 };
 
-const resetAutoSlide = () => {
-  stopAutoSlide();
-  startAutoSlide();
-};
-
-// Mobile scroll logic (fixed scroll amount like IssuerCarouselComp.vue)
-const carouselRef = ref(null);
-const scrollAmount = 320; // px, adjust to match card width
-const prevMobileSlide = () => {
-  if (carouselRef.value) {
-    carouselRef.value.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-  }
-};
-
-const nextMobileSlide = () => {
-  if (carouselRef.value) {
-    carouselRef.value.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-  }
-};
-
 onMounted(() => {
+  nextTick(scrollToSlide);
   startAutoSlide();
 });
 
 onBeforeUnmount(() => {
   stopAutoSlide();
 });
+
+watch(
+  () => props.items.length,
+  () => {
+    currentIndex.value = 0;
+    nextTick(scrollToSlide);
+    stopAutoSlide();
+    startAutoSlide();
+  }
+);
 </script>
 
 <style scoped>
-.carousel-inner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+.carousel {
+  scroll-snap-type: x mandatory;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
 }
 
 .carousel-item {
-  flex-shrink: 0;
-  width: 100%;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.5s ease;
-}
-
-.slide-enter-from {
-  opacity: 0;
-  transform: translateX(100%);
-}
-
-.slide-leave-to {
-  opacity: 0;
-  transform: translateX(-100%);
+  scroll-snap-align: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
-
-  .carousel-inner,
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: none !important;
+  .carousel {
+    scroll-behavior: auto;
   }
 }
 </style>
