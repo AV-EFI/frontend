@@ -19,7 +19,8 @@
             </button>
             <!-- Mobile dropdown -->
             <ul v-show="mobileMenuOpen" role="menu" :aria-label="ariaLabelMainMenu"
-              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items md:hidden">
+              class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items md:hidden"
+              @mousedown.stop>
               <li class="h-12 flex justify-center mr-2">
                 <LazyMicroSendMailButt />
               </li>
@@ -31,6 +32,28 @@
               </li>
               <li class="h-12 flex justify-center">
                 <a href="/vocab">{{ $t('vocab.title') }}</a>
+              </li>
+              <li class="h-12 overflow-visible">
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
+                    :aria-label="$t('settingsMenu')" class="btn btn-outline btn-circle">
+                    <Icon name="tabler:dots" />
+                  </div>
+                  <ul tabindex="-1"
+                    class="dropdown-content w-32 menu bg-base-100 rounded-box z-10 shadow-sm [li:hover]:bg-transparent"
+                    role="menu" :aria-label="$t('moreOptions')">
+                    <li role="none" class="flex justify-center">
+                      <Suspense>
+                        <GlobalThemeSwitch />
+                      </Suspense>
+                    </li>
+                    <li role="none" class="flex justify-center">
+                      <Suspense>
+                        <GlobalLanguageSwitch />
+                      </Suspense>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li v-if="data?.user" class="h-12 flex justify-center">
                 <a href="/protected/dashboard">{{ $t('dashboard') }}</a>
@@ -218,7 +241,7 @@ const objectListStore = useObjectListStore();
 const shoppingCart = useShoppingCart();
 
 const isScrolled = ref(false);
-const mobileMenuOpen = ref(false);
+const mobileMenuOpen = useState('navMobileMenuOpen', () => false);
 const detailsOpen = ref(false);
 
 const config = useRuntimeConfig();

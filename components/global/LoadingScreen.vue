@@ -1,21 +1,9 @@
 <template>
   <Transition name="fade">
-    <div
-      v-if="isLoading"
-      class="splash-screen"
-      aria-label="Please wait"
-      role="status"
-      aria-live="polite"
-      inert
-    >
+    <div v-if="isLoading" class="splash-screen" aria-label="Please wait" role="status" aria-live="polite" inert>
       <div class="splash-content">
         <!-- Logo -->
-        <img
-          src="/img/AV-EFI-Logo.svg"
-          alt="AVefi Logo"
-          class="logo"
-          aria-hidden="true"
-        >
+        <img src="/img/AV-EFI-Logo.svg" alt="AVefi Logo" class="logo" aria-hidden="true">
         <!-- Animated spinner -->
         <div class="spinner" aria-hidden="true" />
         <span class="sr-only">Loading application...</span>
@@ -71,21 +59,26 @@ onMounted(() => {
 .spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid rgba(59, 130, 246, 0.2);
-  border-top-color: rgb(59, 130, 246);
+  border: 4px solid oklch(86% 0.022 252.894);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(0.98);

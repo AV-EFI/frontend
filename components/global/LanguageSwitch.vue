@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto">
+  <div class="lg:mx-auto">
     <label class="swap swap-flip">
       <!-- this hidden checkbox controls the state -->
       <input v-model="$i18n.locale" type="checkbox" true-value="de" false-value="en" :value="$i18n.locale"

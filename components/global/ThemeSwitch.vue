@@ -16,7 +16,7 @@ const colorMode = useColorMode(
 
 <template>
   <ClientOnly>
-    <div class="mx-auto">
+    <div class="lg:mx-auto">
       <label class="swap swap-flip">
         <!-- this hidden checkbox controls the state -->
         <input v-model="colorMode" type="checkbox" true-value="avefi_light" false-value="avefi_dark" :value="colorMode"
@@ -44,5 +44,3 @@ const colorMode = useColorMode(
     </div>
   </ClientOnly>
 </template>
-
-<style scoped></style>

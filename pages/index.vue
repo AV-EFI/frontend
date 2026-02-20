@@ -293,16 +293,7 @@
           :aria-label="$t('openAndExtendable.title')">
           <div class="card-body">
             <div class="flex justify-start items-center gap-2">
-              <label ref="swapToggleRef" tabindex="0" @keydown="onSwapKeydown" aria-label="Toggle code/heart icon"
-                class="swap swap-flip h-[30px] text-2xl text-primary">
-                <input type="checkbox" />
-                <div class="swap-off flex">
-                  <Icon name="tabler:link" aria-hidden="true" />
-                </div>
-                <div class="swap-on flex">
-                  <Icon class="text-accent" name="fa-heart-o" aria-hidden="true" />
-                </div>
-              </label>
+              <Icon name="tabler:link" aria-hidden="true" />
               <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
                 {{ $t('openAndExtendable.title') }}
               </h2>
@@ -331,9 +322,9 @@
     <!-- ======= Call to Action & Community ======= -->
     <section role="region" :aria-label="$t('callToAction.title')" class="relative border-t border-base-200 py-10">
       <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div class="lg:col-span-5">
-            <div class="card-body">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-center w-full">
+          <div class="w-full lg:w-1/2 flex justify-center">
+            <div class="card-body w-full max-w-xl text-left">
               <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('callToAction.title') }}
               </h2>
@@ -342,8 +333,8 @@
               </p>
             </div>
           </div>
-          <div class="lg:col-span-7 flex justify-center w-full">
-            <div class="w-full max-w-xl" role="region"
+          <div class="w-full lg:w-1/2 flex justify-center">
+            <div class="w-full max-w-xl text-left" role="region"
               :aria-label="$t('becomeAPartner.title') || 'Become a partner call to action'">
               <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                 {{ $t('becomeAPartner.title') }}
@@ -729,8 +720,6 @@ const issuerPlaceholderItems = computed(() => {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     box-shadow: none !important;
-    background-color: rgba(255, 255, 255, 0.98) !important;
-    border-color: rgba(255, 255, 255, 0.35) !important;
   }
 
   .hero-search-card {
