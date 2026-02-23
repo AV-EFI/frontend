@@ -54,7 +54,7 @@
                     </ul>
                 </div>
                 <div
-                    class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0">
+                    class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 lg:px-0">
                     <div class="text-left max-w-md">
                         <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
                             {{ t('build.linked.title') }}

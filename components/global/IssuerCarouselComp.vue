@@ -83,12 +83,12 @@
                 </div>
                 <!-- Mobile arrows -->
                 <button v-if="issuerItems.length > 1" @click="prevMobileSlide"
-                    class="absolute -left-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
+                    class="absolute left-0 md:-left-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
                     :aria-label="$t('togglePreviousSlide')">
                     <Icon class="text-white" name="tabler:chevron-left" />
                 </button>
                 <button v-if="issuerItems.length > 1" @click="nextMobileSlide"
-                    class="absolute -right-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
+                    class="absolute right-0 md:-right-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
                     :aria-label="$t('toggleNextSlide')">
                     <Icon class="text-white" name="tabler:chevron-right" />
                 </button>

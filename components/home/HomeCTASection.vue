@@ -12,7 +12,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="w-full lg:w-1/2 flex justify-center">
+                <div class="card-body w-full max-w-xl text-left">
                     <div class="w-full max-w-xl text-left" role="region"
                         :aria-label="t('becomeAPartner.title') || 'Become a partner call to action'">
                         <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">

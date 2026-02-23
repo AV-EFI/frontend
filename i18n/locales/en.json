@@ -67,6 +67,9 @@
     "country": "Country",
     "bannerSection": "Selected collections and highlights from the world of film metadata",
     "featuredContent": "AVefi presents selected collections and key insights from the field of film metadata. Explore a variety of datasets, from comprehensive filmographies to detailed technical specifications, enabling in-depth analysis and new insights into the cinematic landscape.",
+    "featuredCarousel": {
+        "mobileFallback": "Scan the highlights comfortably on desktop—on mobile we focus fully on the search and its results."
+    },
     "coreFunctionsSection": "Core Functions",
     "videoSection": "AVefi Video",
     "partnersSection": "Partners",

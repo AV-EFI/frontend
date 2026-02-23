@@ -24,8 +24,8 @@
               <img :src="item.imgSrc" :srcset="item.imgSrcSet || undefined" :sizes="item.imgSizes || undefined"
                 :alt="item.imgAlt" :width="item.imgWidth || undefined" :height="item.imgHeight || undefined"
                 :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'auto'"
-                decoding="async" class="max-w-full max-h-full z-10"
-                :class="item.imgCoverType ? item.imgCoverType : 'object-contain'">
+                decoding="async" class="h-full w-auto max-w-full z-10"
+                :class="item.imgCoverType ? item.imgCoverType : 'object-cover'" />
             </div>
           </div>
           <div v-else
@@ -55,7 +55,9 @@
           </a>
           <div class="mt-auto">
             <a :href="item.link" class="btn btn-sm w-full md:w-auto btn-primary">
-              {{ t(item.linkText) }}
+              <span class="text-xs md:text-regular">
+                {{ t(item.linkText) }}
+              </span>
               <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
             </a>
           </div>
@@ -128,12 +130,12 @@
     </button>
     <!-- Mobile arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
-      class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
+      class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
       :aria-label="t('togglePreviousSlide')">
       <Icon name="tabler:chevron-left" />
     </button>
     <button v-if="items.length > 1" @click="nextSlide"
-      class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
+      class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
       :aria-label="t('toggleNextSlide')">
       <Icon name="tabler:chevron-right" />
     </button>

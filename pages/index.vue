@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <div class="hero-content w-full lg:w-full">
+                <div class="hero-content p-0 md:p-2 w-full lg:w-full">
                     <div class="w-full lg:max-w-6xl mx-auto">
                         <!-- Center content panel: THIS is what makes it readable -->
                         <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
@@ -50,11 +50,11 @@
                   'shadow-inner dark:shadow-none',
                 ]">
                             <div class="text-center">
-                                <h1 class="
-                  mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
+                                <h1 class="hero-title mt-2 bree text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
                   [text-shadow:0_1px_0_rgba(255,255,255,0.75)]
-                  dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
-                " tabindex="0"> {{ $t('avefiClaim') }}
+                  dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]" tabindex="0">
+                                    <span v-for="(line, idx) in heroClaimLines" :key="`hero-claim-${idx}`"
+                                        class="hero-title__line">{{ line }}</span>
                                 </h1>
                                 <p class="
                     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
@@ -333,7 +333,7 @@ import { ref, onMounted, nextTick, watch, defineAsyncComponent, computed } from 
 import type { Ref, ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useMediaQuery, useIntersectionObserver, unrefElement } from '@vueuse/core';
+import { useIntersectionObserver, unrefElement } from '@vueuse/core';
 import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
 
 const route = useRoute();
@@ -382,6 +382,14 @@ const SearchCompExtended = defineAsyncComponent({
     suspensible: true,
 });
 const featuredCarouselFallback = computed(() => t('featuredCarousel.mobileFallback') || DEFAULT_FEATURED_CAROUSEL_FALLBACK);
+const heroClaimLines = computed(() => {
+    const claim = t('avefiClaim');
+    if (typeof claim !== 'string') {
+        return [''];
+    }
+    const segments = claim.split(/(?<=\.)\s+/).filter(Boolean);
+    return segments.length ? segments : [claim];
+});
 
 const CARD_IMAGE_WIDTHS = [240, 320, 360, 480, 720] as const;
 const CARD_IMAGE_SIZES = '(max-width: 639px) 240px, (max-width: 1023px) 288px, 384px';
@@ -538,10 +546,7 @@ definePageMeta({
     layout: 'default',
 });
 
-const showFeaturedCarousel = useMediaQuery('(min-width: 1024px)', {
-    window: typeof window === 'undefined' ? undefined : window,
-    defaultValue: false,
-});
+const showFeaturedCarousel = ref(true);
 
 const cardItems = ref<CardItem[]>([
     {
@@ -692,6 +697,16 @@ if (import.meta.client) {
 .hero-panel,
 .hero-search-card {
     transition: box-shadow 0.3s ease;
+}
+
+.hero-title {
+    word-break: normal;
+    overflow-wrap: normal;
+    white-space: normal;
+}
+
+.hero-title__line {
+    display: block;
 }
 
 @media (max-width: 767px) {
