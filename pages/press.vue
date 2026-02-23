@@ -176,18 +176,18 @@ interface BilingualEntry {
 }
 
 const { data: manifest, error } = await useFetch<PressManifest>('/press/manifest.json', {
-  server: true,
-  lazy: false,
+    server: true,
+    lazy: false,
 });
 
 if (error.value) {
-  console.error('[press-page] Unable to load manifest', error.value);
+    console.error('[press-page] Unable to load manifest', error.value);
 }
 
 const { t } = useI18n();
 
 const translateKey = (key?: string | null, params?: Record<string, unknown>) =>
-  (key ? t(key, params) : '');
+    (key ? t(key, params) : '');
 const assetTypeLabel = (type: AssetType) => t(`press.assetTypes.${type}`);
 const formatBadge = (badgeKey?: string, fallback = '') => translateKey(badgeKey) || fallback;
 
@@ -195,120 +195,120 @@ const pressLocales = ['de', 'en'] as const;
 type PressLocale = (typeof pressLocales)[number];
 
 const localeLabels: Record<PressLocale, string> = {
-  de: 'Deutsch',
-  en: 'English',
+    de: 'Deutsch',
+    en: 'English',
 };
 
 const translatePressKey = (key: string, localeCode: PressLocale, params?: Record<string, unknown>) =>
-  t(key, params, { locale: localeCode });
+    t(key, params, { locale: localeCode });
 
 const bilingualEntries = (key?: string | null, params?: Record<string, unknown>): BilingualEntry[] => {
-  if (!key) {
-    return [];
-  }
-  return pressLocales
-    .map((localeCode) => ({
-      locale: localeCode,
-      label: localeLabels[localeCode],
-      text: translatePressKey(key, localeCode, params).trim(),
-    }))
-    .filter((entry) => entry.text.length);
+    if (!key) {
+        return [];
+    }
+    return pressLocales
+        .map((localeCode) => ({
+            locale: localeCode,
+            label: localeLabels[localeCode],
+            text: translatePressKey(key, localeCode, params).trim(),
+        }))
+        .filter((entry) => entry.text.length);
 };
 
 const bilingualInline = (key: string, params?: Record<string, unknown>) =>
-  bilingualEntries(key, params)
-    .map((entry) => entry.text)
-    .join(' / ');
+    bilingualEntries(key, params)
+        .map((entry) => entry.text)
+        .join(' / ');
 
 const manifestData = computed(() => manifest.value || null);
 const manifestErrorMessage = computed(() => {
-  const err = error.value;
-  if (!err) {
-    return '';
-  }
-  if (typeof err === 'string') {
-    return err;
-  }
-  return (err as { message?: string; statusMessage?: string }).message
+    const err = error.value;
+    if (!err) {
+        return '';
+    }
+    if (typeof err === 'string') {
+        return err;
+    }
+    return (err as { message?: string; statusMessage?: string }).message
     || (err as { statusMessage?: string }).statusMessage
     || t('press.errorFallback');
 });
 
 const boilerplateKeyMap: Record<BoilerplateCopyKey, keyof PressManifestBoilerplate> = {
-  oneLiner: 'oneLinerKey',
-  short: 'shortKey',
-  long: 'longKey'
+    oneLiner: 'oneLinerKey',
+    short: 'shortKey',
+    long: 'longKey'
 };
 const boilerplateOrder: BoilerplateCopyKey[] = ['oneLiner', 'short', 'long'];
 
 const boilerplateBlocks = computed<BoilerplateBlock[]>(() => {
-  const data = manifestData.value;
-  if (!data) {
-    return [];
-  }
+    const data = manifestData.value;
+    if (!data) {
+        return [];
+    }
 
-  return boilerplateOrder.map((key) => {
-    const manifestKey = boilerplateKeyMap[key];
-    return {
-      key,
-      labelKey: `press.boilerplateLabels.${key}`,
-      textKey: data.boilerplate[manifestKey]
-    };
-  });
+    return boilerplateOrder.map((key) => {
+        const manifestKey = boilerplateKeyMap[key];
+        return {
+            key,
+            labelKey: `press.boilerplateLabels.${key}`,
+            textKey: data.boilerplate[manifestKey]
+        };
+    });
 });
 
 const sections = computed(() => manifestData.value?.sections ?? []);
 const usageItems = computed(() => {
-  const data = manifestData.value;
-  if (!data) {
-    return [];
-  }
-  return data.usage.itemsKeys.map((usageKey) => translateKey(usageKey));
+    const data = manifestData.value;
+    if (!data) {
+        return [];
+    }
+    return data.usage.itemsKeys.map((usageKey) => translateKey(usageKey));
 });
 
 const copiedKey = ref<string | null>(null);
 let copyTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const copyBoilerplate = async (text: string, blockKey: BoilerplateCopyKey, localeCode: PressLocale) => {
-  if (!text) {
-    return;
-  }
-
-  if (typeof navigator === 'undefined' || !navigator.clipboard) {
-    return;
-  }
-
-  try {
-    await navigator.clipboard.writeText(text);
-    copiedKey.value = `${blockKey}-${localeCode}`;
-    if (copyTimeout) {
-      clearTimeout(copyTimeout);
+    if (!text) {
+        return;
     }
-    copyTimeout = setTimeout(() => {
-      copiedKey.value = null;
-      copyTimeout = null;
-    }, 2000);
-  } catch (clipboardError) {
-    console.error('Clipboard copy failed', clipboardError);
-  }
+
+    if (typeof navigator === 'undefined' || !navigator.clipboard) {
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(text);
+        copiedKey.value = `${blockKey}-${localeCode}`;
+        if (copyTimeout) {
+            clearTimeout(copyTimeout);
+        }
+        copyTimeout = setTimeout(() => {
+            copiedKey.value = null;
+            copyTimeout = null;
+        }, 2000);
+    } catch (clipboardError) {
+        console.error('Clipboard copy failed', clipboardError);
+    }
 };
 
 onBeforeUnmount(() => {
-  if (copyTimeout) {
-    clearTimeout(copyTimeout);
-  }
+    if (copyTimeout) {
+        clearTimeout(copyTimeout);
+    }
 });
 
 const getFileName = (path: string) => path.split('/').filter(Boolean).pop() ?? 'asset';
 const isImagePreview = (src?: string) => !!src && /\.(png|jpe?g|webp|svg)$/i.test(src);
 
 useHead(() => ({
-  title: t('press.metaTitle'),
-  meta: [
-    {
-      name: 'description',
-      content: t('press.metaDescription'),
-    },
-  ],
+    title: t('press.metaTitle'),
+    meta: [
+        {
+            name: 'description',
+            content: t('press.metaDescription'),
+        },
+    ],
 }));
 </script>

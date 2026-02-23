@@ -2,8 +2,7 @@
   <div class="w-full my-auto">
     <div class="flex flex-row gap-0 items-stretch h-16">
       <SearchQueryAutocomplete ref="qaRef" v-model="term" name="search" :placeholder="$t('searchplaceholder')"
-        :aria-label="ariaLabel" aria-autocomplete="list" aria-haspopup="listbox" aria-owns="qa-listbox-search"
-        aria-expanded="false" :icon-map="iconMap" :recent-searches="recentSearchesWithUrl" :autofocus="false"
+        :aria-label="ariaLabel" :icon-map="iconMap" :recent-searches="recentSearchesWithUrl" :autofocus="false"
         @submit="onSubmit" @clear="term = ''" @recent-search-click="handleRecentSearchClick"
         @remove-recent="handleRemoveRecentSearch" @clear-history="handleClearAllHistory"
         @keydown.enter="submitFromButton" />

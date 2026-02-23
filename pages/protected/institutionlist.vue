@@ -47,19 +47,19 @@ const uiState = {
 };
 
 const searchClient = SearchkitInstantSearchClient({
-  url: `${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/frontend/search`,
-  uiState: uiState,
+    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/frontend/search`,
+    uiState: uiState,
 });
 
 const {isInstantSearchReady, instantSearchError, ensureInstantSearchReady} = useInstantSearchLoader();
 
 onMounted(async () => {
-  try {
-    await ensureInstantSearchReady();
-  }
-  catch (error) {
-    console.error('Failed to load InstantSearch', error);
-  }
+    try {
+        await ensureInstantSearchReady();
+    }
+    catch (error) {
+        console.error('Failed to load InstantSearch', error);
+    }
 });
 
 </script>

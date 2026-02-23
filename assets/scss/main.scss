@@ -132,6 +132,22 @@ textarea::selection {
 }
 
 :root {
+  --header-height: 5rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: 6.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --header-height: 7.25rem;
+  }
+}
+
+:root {
   @media (max-width: 640px) {
     --toastify-toast-width: 90%!important;
   }

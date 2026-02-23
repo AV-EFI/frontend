@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import type { ExportOptions, ExportSource, ExportTarget } from '~/models/interfaces/manual/dataExportInterfaces';
 import { defineNuxtPlugin } from '#app';
 

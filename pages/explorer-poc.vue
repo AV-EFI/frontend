@@ -107,31 +107,31 @@ const determineLevelKey = computed(() => {
 
 const selectedWorkLevelLabel = computed(() => {
     switch (determineLevelKey.value) {
-        case 'manifestation':
-            return t('avefi_Manifestation');
-        case 'item':
-            return t('avefi_Item');
-        case 'workvariant':
-            return t('avefi_WorkVariant');
-        case 'unknown':
-            return 'Ebene unbekannt';
-        default:
-            return null;
+    case 'manifestation':
+        return t('avefi_Manifestation');
+    case 'item':
+        return t('avefi_Item');
+    case 'workvariant':
+        return t('avefi_WorkVariant');
+    case 'unknown':
+        return 'Ebene unbekannt';
+    default:
+        return null;
     }
 });
 
 const selectedWorkLevelColor = computed(() => {
     switch (determineLevelKey.value) {
-        case 'manifestation':
-            return 'var(--manifestation)';
-        case 'item':
-            return 'var(--item)';
-        case 'workvariant':
-            return 'var(--work)';
-        case 'unknown':
-            return 'var(--neutral)';
-        default:
-            return 'transparent';
+    case 'manifestation':
+        return 'var(--manifestation)';
+    case 'item':
+        return 'var(--item)';
+    case 'workvariant':
+        return 'var(--work)';
+    case 'unknown':
+        return 'var(--neutral)';
+    default:
+        return 'transparent';
     }
 });
 

@@ -49,13 +49,13 @@ type CarouselItem = {
 };
 
 withDefaults(
-  defineProps<{
+    defineProps<{
     items: CarouselItem[];
     autoSlideInterval?: number;
   }>(),
-  {
-    items: () => [],
-    autoSlideInterval: 5000,
-  }
+    {
+        items: () => [],
+        autoSlideInterval: 5000,
+    }
 );
 </script>

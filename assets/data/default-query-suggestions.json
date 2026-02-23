@@ -37,7 +37,7 @@
   {
     "text": "Kind",
     "type": "subjects",
-    "docCount": 310
+    "docCount": 308
   },
   {
     "text": "Stuttgart",
@@ -127,7 +127,7 @@
   {
     "text": "Nickel, Gitta",
     "type": "directors_or_editors",
-    "docCount": 57
+    "docCount": 56
   },
   {
     "text": "Fischer, Nina",
@@ -162,7 +162,7 @@
   {
     "text": "Lange, Hellmuth",
     "type": "directors_or_editors",
-    "docCount": 36
+    "docCount": 35
   },
   {
     "text": "Badekow, Heinz M.",
@@ -177,11 +177,6 @@
   {
     "text": "Sanders-Brahms, Helma",
     "type": "directors_or_editors",
-    "docCount": 34
-  },
-  {
-    "text": "Huntgeburth, Hermine",
-    "type": "directors_or_editors",
     "docCount": 33
   },
   {
@@ -190,12 +185,17 @@
     "docCount": 32
   },
   {
-    "text": "Sander, Helke",
+    "text": "Huntgeburth, Hermine",
     "type": "directors_or_editors",
     "docCount": 32
   },
   {
     "text": "Biedermann, Werner",
+    "type": "directors_or_editors",
+    "docCount": 30
+  },
+  {
+    "text": "Sander, Helke",
     "type": "directors_or_editors",
     "docCount": 30
   },

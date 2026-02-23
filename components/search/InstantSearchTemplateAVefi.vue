@@ -428,7 +428,7 @@ function shareSearch() {
     // Fallback: copy URL to clipboard and notify
     if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(() => {
-        $toast?.success?.($t('linkCopied') as string || 'Link copied to clipboard');
+            $toast?.success?.($t('linkCopied') as string || 'Link copied to clipboard');
         }).catch(() => {
             // Last resort: show prompt
             window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
@@ -447,7 +447,7 @@ function suggestSearch() {
     searchMenuOpen.value = false;
     const q = searchQuery.value || localSearchValue.value || '';
     const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
-  contactInitialMessage.value = $t('share.suggestTemplate', { query: q, url: url }) as string;
+    contactInitialMessage.value = $t('share.suggestTemplate', { query: q, url: url }) as string;
     contactFormOpen.value = true;
 }
 
@@ -497,29 +497,6 @@ const searchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
-
-onMounted(() => {
-    useCurrentUrlState();
-    const saveSearchQuery = () => {
-        const search = window?.location?.search;
-        if (search) {
-            localStorage.setItem('latest-search-query', search);
-        }
-    };
-
-    // 1. Handle browser history nav
-    window.addEventListener('popstate', saveSearchQuery);
-
-    // 2. Fallback polling (for InstantSearch internal router updates)
-    const interval = setInterval(saveSearchQuery, 500);
-
-    // Clean up
-    onBeforeUnmount(() => {
-        window.removeEventListener('popstate', saveSearchQuery);
-        clearInterval(interval);
-    });
-});
-
 
 const props = defineProps({
     indexName: {

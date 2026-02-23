@@ -1,38 +1,42 @@
 <template>
-  <div class="min-h-screen bg-base-100 text-base-content flow">
-    <!-- Skip link -->
-    <a href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
-      {{ $t('skipToContent') || 'Skip to main content' }}
-    </a>
+    <div class="min-h-screen bg-base-100 text-base-content flow">
+        <!-- Skip link -->
+        <a href="#main"
+            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
+            {{ $t('skipToContent') || 'Skip to main content' }}
+        </a>
 
-    <!-- ======= HERO / SEARCH-FIRST ======= -->
-    <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
-      <div class="hero max-sm:min-h-[48vh] sm:min-h-[32vh] lg:min-h-[58vh]">
-        <div class="hero-overlay absolute inset-0 w-full bg-center bg-cover 
-            bg-no-repeat bg-fixed
-            [background-image:url('/img/avefi_nodes-hero-480.webp')]
-            sm:[background-image:url('/img/avefi_nodes-hero-720.webp')]
-            lg:[background-image:url('/img/avefi_nodes-hero-1024.webp')]
-            xl:[background-image:url('/img/avefi_nodes-hero-2040.webp')]
-            dark:brightness-100 dark:invert dark:hue-rotate-180" aria-hidden="true">
-          <!-- Aurora / glow overlays (light + dark variants) -->
-          <div
-            class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none hidden md:block"
-            aria-hidden="true" :class="[
-              ]" />
-          <!-- Vignette -->
-          <div class="absolute inset-0 pointer-events-none hidden md:block
+        <!-- ======= HERO / SEARCH-FIRST ======= -->
+        <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
+            <div class="hero max-sm:min-h-[48vh] sm:min-h-[32vh] lg:min-h-[58vh]">
+                <div class="hero-overlay absolute inset-0 w-full h-full overflow-hidden" aria-hidden="true">
+                    <div
+                        class="absolute inset-0 md:hidden bg-gradient-to-b from-base-200 to-base-100 dark:from-neutral-900 dark:to-neutral-950">
+                    </div>
+                    <picture class="absolute inset-0 w-full h-full hidden md:block" aria-hidden="true">
+                        <source media="(min-width: 1280px)" srcset="/img/avefi_nodes-hero-2040.webp" type="image/webp">
+                        <source media="(min-width: 1024px)" srcset="/img/avefi_nodes-hero-1024.webp" type="image/webp">
+                        <source media="(min-width: 640px)" srcset="/img/avefi_nodes-hero-720.webp" type="image/webp">
+                        <img src="/img/avefi_nodes-hero-480.webp" width="2040" height="1360" alt=""
+                            class="h-full w-full object-cover object-center dark:brightness-100 dark:invert dark:hue-rotate-180"
+                            loading="eager" decoding="async" fetchpriority="high" sizes="100vw"
+                            srcset="/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w">
+                    </picture>
+                    <!-- Aurora / glow overlays (light + dark variants) -->
+                    <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none hidden md:block"
+                        aria-hidden="true"></div>
+                    <!-- Vignette -->
+                    <div class="absolute inset-0 pointer-events-none hidden md:block
               mix-blend-multiply dark:mix-blend-normal
               bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.08)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
               dark:hidden">
-          </div>
-        </div>
+                    </div>
+                </div>
 
-        <div class="hero-content w-full lg:w-full">
-          <div class="w-full lg:max-w-6xl mx-auto">
-            <!-- Center content panel: THIS is what makes it readable -->
-            <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
+                <div class="hero-content w-full lg:w-full">
+                    <div class="w-full lg:max-w-6xl mx-auto">
+                        <!-- Center content panel: THIS is what makes it readable -->
+                        <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
                   border
                   shadow-none md:shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
                   md:supports-[backdrop-filter]:backdrop-blur-[10px]
@@ -45,27 +49,27 @@
                   // subtle inner highlight like your inset 1px
                   'shadow-inner dark:shadow-none',
                 ]">
-              <div class="text-center">
-                <h1 class="
+                            <div class="text-center">
+                                <h1 class="
                   mt-2 bree text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
                   [text-shadow:0_1px_0_rgba(255,255,255,0.75)]
                   dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]
                 " tabindex="0"> {{ $t('avefiClaim') }}
-                </h1>
-                <p class="
+                                </h1>
+                                <p class="
                     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
                     [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
                     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
                   " tabindex="0">
-                  {{ $t('home.tagline') }}
-                </p>
-              </div>
+                                    {{ $t('home.tagline') }}
+                                </p>
+                            </div>
 
-              <!-- BIG centered search -->
-              <div class="mt-6 grid place-items-center">
-                <div class="w-full max-w-4xl">
-                  <!-- Glass search card -->
-                  <div class="hero-search-card card border
+                            <!-- BIG centered search -->
+                            <div class="mt-6 grid place-items-center">
+                                <div class="w-full max-w-4xl">
+                                    <!-- Glass search card -->
+                                    <div class="hero-search-card card border
                               shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
                               md:supports-[backdrop-filter]:backdrop-blur-[14px]" :class="[
                         // LIGHT
@@ -73,298 +77,269 @@
                         // DARK
                         'dark:bg-neutral/35 dark:border-white/10',
                       ]">
-                    <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
-                      :aria-labelledby="'home-search-label'" aria-live="polite" aria-atomic="false" tabindex="0">
-                      <!-- Card header row: integrated mode switch -->
-                      <div
-                        class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
-                        <div class="md:justify-end" role="group"
-                          :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
-                          <div class="join w-full">
-                            <button class="join-item btn md:btn-sm" :aria-label="$t('showSimpleSearch')"
-                              :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                              @click="showAdvancedSearch = false" :aria-pressed="!showAdvancedSearch"
-                              aria-controls="home-search-area">
-                              <span class="hidden md:block">
-                                {{ $t('showSimpleSearch') }}
-                              </span>
-                              <Icon name="tabler:zoom-scan" class="lg:hidden ml-1 md:ml-0" />
+                                        <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
+                                            :aria-labelledby="'home-search-label'" aria-live="polite"
+                                            aria-atomic="false" tabindex="0">
+                                            <!-- Card header row: integrated mode switch -->
+                                            <div
+                                                class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
+                                                <div class="md:justify-end" role="group"
+                                                    :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                                                    <div class="join w-full">
+                                                        <button class="join-item btn md:btn-sm"
+                                                            :aria-label="$t('showSimpleSearch')"
+                                                            :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                                            @click="showAdvancedSearch = false"
+                                                            :aria-pressed="!showAdvancedSearch"
+                                                            aria-controls="home-search-area">
+                                                            <span class="hidden md:block">
+                                                                {{ $t('showSimpleSearch') }}
+                                                            </span>
+                                                            <Icon name="tabler:zoom-scan"
+                                                                class="lg:hidden ml-1 md:ml-0" />
 
-                            </button>
-                            <button class="join-item btn md:btn-sm" :aria-label="$t('showAdvancedSearch')"
-                              :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                              @click="showAdvancedSearch = true" :aria-pressed="showAdvancedSearch"
-                              aria-controls="home-search-area">
-                              <span class="hidden md:block">
-                                {{ $t('showAdvancedSearch') }}
-                              </span>
-                              <Icon name="tabler:adjustments-cog" class="lg:hidden ml-1 md:ml-0" />
-                            </button>
-                          </div>
+                                                        </button>
+                                                        <button class="join-item btn md:btn-sm"
+                                                            :aria-label="$t('showAdvancedSearch')"
+                                                            :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                                            @click="showAdvancedSearch = true"
+                                                            @pointerenter="prefetchAdvancedSearch"
+                                                            @focus="prefetchAdvancedSearch"
+                                                            :aria-pressed="showAdvancedSearch"
+                                                            aria-controls="home-search-area">
+                                                            <span class="hidden md:block">
+                                                                {{ $t('showAdvancedSearch') }}
+                                                            </span>
+                                                            <Icon name="tabler:adjustments-cog"
+                                                                class="lg:hidden ml-1 md:ml-0" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Search component -->
+                                            <Suspense>
+                                                <template #default>
+                                                    <KeepAlive>
+                                                        <component :is="activeSearchComponent" ref="searchCompRef"
+                                                            :aria-labelledby="'home-search-label'" />
+                                                    </KeepAlive>
+                                                </template>
+                                                <template #fallback>
+                                                    <div
+                                                        class="h-24 flex items-center justify-center text-sm opacity-70">
+                                                        {{ $t('loadingSearch') || 'Loading search…' }}
+                                                    </div>
+                                                </template>
+                                            </Suspense>
+
+                                        </div>
+                                    </div>
+                                    <!-- /glass search card -->
+                                </div>
+                            </div>
                         </div>
-                      </div>
-
-                      <!-- Search component -->
-                      <ClientOnly>
-                        <component :is="showAdvancedSearch ? 'GlobalSearchCompExtended' : 'GlobalSearchCompReduced'"
-                          ref="searchCompRef" :aria-labelledby="'home-search-label'" />
-                      </ClientOnly>
-
+                        <!-- /hero-content-panel -->
                     </div>
-                  </div>
-                  <!-- /glass search card -->
                 </div>
-              </div>
             </div>
-            <!-- /hero-content-panel -->
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section id="main" role="main" :aria-label="$t('featuredContent')"
-      class="relative overflow-hidden border-t border-base-200 py-10">
-      <!-- wash layer -->
-      <!-- Aurora / glow overlays (light + dark variants) -->
-      <div
-        class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
-        aria-hidden="true" />
+        <NuxtLazyHydrate when-visible :offset="180">
+            <section id="main" role="main" :aria-label="$t('featuredContent')"
+                class="relative overflow-hidden border-t border-base-200 py-10">
+                <!-- wash layer -->
+                <!-- Aurora / glow overlays (light + dark variants) -->
+                <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
+                    aria-hidden="true"></div>
 
-      <!-- content stays above -->
-      <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          <div class="lg:col-span-4 flex justify-center w-full">
-            <div class="card flex flex-col justify-center">
-              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2">
-                {{ $t('searchAndFind.title') }}
-              </h2>
-              <p class="text-base md:text-lg opacity-80">
-                {{ $t('searchAndFind.text') }}
-              </p>
-            </div>
-          </div>
-          <div class="lg:col-span-8 flex justify-center w-full" ref="featuredCarouselRef">
-            <ClientOnly v-if="featuredCarouselReady">
-              <LazyGlobalCarouselCardComp :items="cardItems" />
-            </ClientOnly>
-            <div v-else class="grid gap-4 md:grid-cols-2 w-full" aria-hidden="true">
-              <article v-for="(item, idx) in cardItems.slice(0, 2)" :key="`card-fallback-${idx}`"
-                class="card border border-base-200 bg-white/95 dark:bg-base-200/80 shadow-sm p-4">
-                <figure class="rounded-xl overflow-hidden mb-3 bg-base-200">
-                  <img v-if="item.imgSrc" :src="item.imgSrc" :srcset="item.imgSrcSet || undefined"
-                    :sizes="item.imgSizes || '50vw'" :alt="item.imgAlt" :width="item.imgWidth || undefined"
-                    :height="item.imgHeight || undefined" loading="lazy" decoding="async"
-                    class="w-full h-48 object-cover" />
-                </figure>
-                <h3 class="text-lg font-semibold mb-1">{{ $t(item.title) }}</h3>
-                <p class="text-sm opacity-80 line-clamp-3">{{ $t(item.description) }}</p>
-                <span class="btn btn-sm btn-ghost justify-start mt-3">
-                  {{ $t(item.linkText) }}
-                </span>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="region"
-      :aria-label="$t('timeline.title')">
-      <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-          <div
-            class="w-full max-lg:card max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl p-6 flex flex-col justify-center">
-            <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6" tabindex="0">
-              {{ $t('timeline.title') }}
-            </h2>
-            <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical" role="list">
-              <li role="listitem" tabindex="0">
-                <div class="timeline-middle text-primary my-2">
-                  <Icon class="text-2xl" name="tabler:search" aria-hidden="true" />
+                <!-- content stays above -->
+                <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                        <div class="lg:col-span-4 flex justify-center w-full">
+                            <div class="card flex flex-col justify-center min-h-[18rem]">
+                                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2">
+                                    {{ $t('searchAndFind.title') }}
+                                </h2>
+                                <p class="text-base md:text-lg opacity-80">
+                                    {{ $t('searchAndFind.text') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div v-if="showFeaturedCarousel" class="lg:col-span-8 flex justify-center w-full"
+                            ref="featuredCarouselRef">
+                            <div class="relative w-full min-h-[32rem]">
+                                <ClientOnly>
+                                    <LazyGlobalCarouselCardComp v-if="featuredCarouselReady" :items="cardItems"
+                                        class="h-full transition-opacity duration-300"
+                                        :class="featuredCarouselReady ? 'opacity-100' : 'opacity-0 pointer-events-none'" />
+                                </ClientOnly>
+                                <div class="absolute inset-0 transition-opacity duration-200" role="presentation"
+                                    :class="featuredCarouselReady ? 'opacity-0 pointer-events-none' : 'opacity-100'">
+                                    <div class="carousel carousel-center w-full rounded-box p-4 overflow-hidden h-full"
+                                        aria-hidden="true">
+                                        <div v-for="n in 3" :key="`featured-skeleton-${n}`"
+                                            class="carousel-item align-top flex flex-col items-center mx-2 bg-white/90 dark:bg-gray-800/80 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
+                                            <article
+                                                class="card border border-base-200 bg-white/95 dark:bg-base-200/70 shadow-sm w-full">
+                                                <figure class="rounded-xl overflow-hidden mb-3 bg-base-200 h-48">
+                                                </figure>
+                                                <div class="space-y-3 px-4 pb-4">
+                                                    <div class="h-4 bg-base-200 rounded w-3/4"></div>
+                                                    <div class="h-3 bg-base-200 rounded w-full"></div>
+                                                    <div class="h-3 bg-base-200 rounded w-5/6"></div>
+                                                    <div class="mt-4 h-9 bg-base-200 rounded"></div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="lg:col-span-8 flex justify-center w-full">
+                            <div
+                                class="card bg-base-100 border border-dashed border-base-300 shadow-none max-w-xl xl:max-w-full w-full p-6">
+                                <p class="text-base md:text-lg opacity-80">
+                                    {{ featuredCarouselFallback }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="timeline-start md:text-end mb-4">
-                  <div class="text-lg font-semibold">{{ $t('timeline.query.title') }}</div>
-                  <div class="opacity-80">{{ $t('timeline.query.desc') }}</div>
-                </div>
-                <hr class="bg-primary/40" />
-              </li>
-              <li role="listitem" tabindex="0">
-                <hr class="bg-primary/40" />
-                <div class="timeline-middle text-primary my-2">
-                  <Icon class="text-2xl" name="tabler:filter" aria-hidden="true" />
-                </div>
-                <div class="timeline-end mb-4">
-                  <div class="text-lg font-semibold">{{ $t('timeline.refine.title') }}</div>
-                  <div class="opacity-80">{{ $t('timeline.refine.desc') }}</div>
-                </div>
-                <hr class="bg-primary/40" />
-              </li>
-              <li role="listitem" tabindex="0">
-                <hr class="bg-primary/40" />
-                <div class="timeline-middle text-primary my-2">
-                  <Icon class="text-2xl" name="tabler:share-2" aria-hidden="true" />
-                </div>
-                <div class="timeline-start md:text-end mb-4">
-                  <div class="text-lg font-semibold">{{ $t('timeline.share.title') }}</div>
-                  <div class="opacity-80">{{ $t('timeline.share.desc') }}</div>
-                </div>
-                <hr class="bg-primary/40" />
-              </li>
-              <li role="listitem" tabindex="0">
-                <hr class="bg-primary/40" />
-                <div class="timeline-middle text-primary my-2">
-                  <Icon class="text-2xl" name="tabler:books" aria-hidden="true" />
-                </div>
-                <div class="timeline-end">
-                  <div class="text-lg font-semibold">{{ $t('timeline.cite.title') }}</div>
-                  <div class="opacity-80">{{ $t('timeline.cite.desc') }}</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="lg:col-span-1 flex justify-center items-center max-w-md md:max-w-lg lg:max-w-full px-6 md:px-6 lg:px-0 min-h-[300px]"
-            data-v-492e7cc2="">
-            <div class="text-left max-w-md" data-v-492e7cc2="">
-              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0" data-v-492e7cc2="">
-                {{ $t('build.linked.title') }}
-              </h2>
-              <p class="text-base md:text-lg opacity-80" tabindex="0" data-v-492e7cc2="">
-                {{ $t('build.linked.lead') }}
-              </p>
+            </section>
+        </NuxtLazyHydrate>
+
+        <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
+        <NuxtLazyHydrate when-visible :offset="220">
+            <div ref="timelineSectionRef" class="lazy-section-anchor">
+                <ClientOnly>
+                    <HomeTimelineSection v-if="timelineReady" class="block transition-opacity duration-300" />
+                </ClientOnly>
+                <section v-if="!timelineReady"
+                    class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="presentation"
+                    aria-hidden="true">
+                    <div class="container mx-auto p-6 lg:px-4 lg:min-h-[320px] flex items-center">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                            <div class="w-full p-6 space-y-4">
+                                <div class="h-10 w-3/4 bg-base-200 rounded-full"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-base-200 rounded w-full"></div>
+                                    <div class="h-4 bg-base-200 rounded w-5/6"></div>
+                                    <div class="h-4 bg-base-200 rounded w-2/3"></div>
+                                </div>
+                            </div>
+                            <div class="w-full p-6 space-y-3">
+                                <div class="h-8 w-2/3 bg-base-200 rounded"></div>
+                                <div class="h-4 w-5/6 bg-base-200 rounded"></div>
+                                <div class="h-4 w-3/4 bg-base-200 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </NuxtLazyHydrate>
 
-
-
-    <!-- ======= VIDEO BAND ======= -->
-    <section role="region" :aria-label="$t('videoSection')" class="relative border-t border-base-200 py-10">
-      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="items-center mx-auto">
-          <div class="flex justify-center">
-            <video controls preload="none" :poster="videoPosterSrc"
-              class="w-full mx-auto md:max-w-full rounded-xl border border-base-300 shadow-lg"
-              :aria-describedby="'video-desc'">
-              <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
-              {{ $t('videoNotSupported') }}
-            </video>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative border-t border-base-200 py-10 section-wash section-wash--a">
-      <div class="px-4 text-center">
-        <div class="w-full flex flex-col justify-center max-lg:mt-6">
-          <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
-            {{ $t('topIssuers') || 'Top Publishers & Archives' }}
-          </h2>
-          <div class="flex" ref="issuerCarouselRef">
-            <div v-if="issuerCarouselReady" class="w-full">
-              <ClientOnly>
-                <LazyGlobalIssuerCarouselComp />
-              </ClientOnly>
+        <!-- ======= VIDEO BAND ======= -->
+        <NuxtLazyHydrate when-visible :offset="260">
+            <div ref="videoSectionRef" class="lazy-section-anchor">
+                <ClientOnly>
+                    <HomeVideoSection v-if="videoReady" class="block transition-opacity duration-300" />
+                </ClientOnly>
+                <section v-if="!videoReady" role="presentation" aria-hidden="true"
+                    class="relative border-t border-base-200 py-10">
+                    <div class="container mx-auto px-4 min-h-[260px] flex items-center">
+                        <div
+                            class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200">
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div v-else class="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4" aria-hidden="true">
-              <article v-for="issuer in issuerPlaceholderItems" :key="issuer.name"
-                class="border border-base-200 rounded-2xl p-4 bg-white/90 dark:bg-base-200/70">
-                <figure class="flex items-center justify-center h-20 mb-3">
-                  <img :src="issuer.image" :alt="issuer.alt" loading="lazy" decoding="async"
-                    class="max-h-full max-w-full object-contain" />
-                </figure>
-                <h3 class="text-base font-semibold">{{ issuer.name }}</h3>
-                <p class="text-sm opacity-75">{{ issuer.count.toLocaleString() }} {{ issuer.count === 1 ?
-                  $t('dataset') : $t('datasets') }}</p>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </NuxtLazyHydrate>
 
-    <!-- ======= CORE FUNCTIONS ======= -->
-    <section role="region" :aria-label="$t('coreFunctionsSection')" class="relative border-t border-base-200 py-10">
-      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="card lg:max-w-96 md:p-2 shadow-md  bg-white/90 dark:bg-transparent" role="group"
-          :aria-label="$t('openAndExtendable.title')">
-          <div class="card-body">
-            <div class="flex justify-start items-center gap-2">
-              <Icon name="tabler:link" aria-hidden="true" />
-              <h2 class="text-xl md:text-2xl font-extrabold bree" tabindex="0">
-                {{ $t('openAndExtendable.title') }}
-              </h2>
+        <!-- ======= ISSUER CAROUSEL ======= -->
+        <NuxtLazyHydrate when-visible :offset="320">
+            <div ref="issuerSectionRef" class="lazy-section-anchor">
+                <ClientOnly>
+                    <HomeIssuerSection v-if="issuerReady" class="block transition-opacity duration-300" />
+                </ClientOnly>
+                <section v-if="!issuerReady"
+                    class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="presentation"
+                    aria-hidden="true">
+                    <div class="px-4 text-center">
+                        <div class="w-full flex flex-col justify-center max-lg:mt-6">
+                            <div class="h-10 w-1/2 mx-auto bg-base-200 rounded mb-6"></div>
+                            <div class="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div v-for="n in 4" :key="`issuer-skeleton-${n}`"
+                                    class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <ul class="mt-2" role="list">
-              <li class="mb-2" role="listitem"><span class="text-base">{{ $t('openAndExtendable.content[0]') }}</span>
-              </li>
-              <li class="mb-2" role="listitem">
-                <a target="_blank" :href="$t('openAndExtendable.content[2]')" class="text-base text-primary underline">
-                  {{ $t('openAndExtendable.content[1]') }}
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="card-actions justify-end m-3">
-            <a href="https://projects.tib.eu/av-efi/pid/efi-infrastruktur/" target="_blank"
-              class="btn btn-outline max-md:btn-block">
-              <span class="sr-only">{{ $t('openAndExtendable.cta') }} – </span>{{ $t('openAndExtendable.cta') }}
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+        </NuxtLazyHydrate>
 
+        <!-- ======= CORE FUNCTIONS ======= -->
+        <NuxtLazyHydrate when-visible :offset="420">
+            <div ref="coreSectionRef" class="lazy-section-anchor">
+                <ClientOnly>
+                    <HomeCoreFunctionsSection v-if="coreReady" class="block transition-opacity duration-300" />
+                </ClientOnly>
+                <section v-if="!coreReady" role="presentation" aria-hidden="true"
+                    class="relative border-t border-base-200 py-10">
+                    <div class="container mx-auto px-4 min-h-[240px] flex items-center">
+                        <div class="card lg:max-w-96 md:p-6 border border-dashed border-base-300 bg-base-100">
+                            <div class="h-6 w-32 bg-base-200 rounded mb-4"></div>
+                            <div class="space-y-2">
+                                <div class="h-4 w-48 bg-base-200 rounded"></div>
+                                <div class="h-4 w-40 bg-base-200 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </NuxtLazyHydrate>
 
-    <!-- ======= Call to Action & Community ======= -->
-    <section role="region" :aria-label="$t('callToAction.title')" class="relative border-t border-base-200 py-10">
-      <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-        <div class="flex flex-col gap-8 lg:flex-row lg:items-center w-full">
-          <div class="w-full lg:w-1/2 flex justify-center">
-            <div class="card-body w-full max-w-xl text-left">
-              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                {{ $t('callToAction.title') }}
-              </h2>
-              <p class="text-base md:text-lg opacity-80" tabindex="0">
-                {{ $t('callToAction.text') }}
-              </p>
+        <!-- ======= CTA ======= -->
+        <NuxtLazyHydrate when-visible :offset="520">
+            <div ref="ctaSectionRef" class="lazy-section-anchor">
+                <ClientOnly>
+                    <HomeCTASection v-if="ctaReady" class="block transition-opacity duration-300" />
+                </ClientOnly>
+                <section v-if="!ctaReady" role="presentation" aria-hidden="true"
+                    class="relative border-t border-base-200 py-10">
+                    <div class="container mx-auto px-4 min-h-[320px] flex items-center">
+                        <div class="flex flex-col gap-6 lg:flex-row w-full">
+                            <div class="w-full lg:w-1/2 border border-dashed border-base-300 rounded-xl p-6 space-y-3">
+                                <div class="h-8 w-3/4 bg-base-200 rounded"></div>
+                                <div class="h-4 w-full bg-base-200 rounded"></div>
+                                <div class="h-4 w-2/3 bg-base-200 rounded"></div>
+                            </div>
+                            <div class="w-full lg:w-1/2 border border-dashed border-base-300 rounded-xl p-6 space-y-3">
+                                <div class="h-8 w-2/3 bg-base-200 rounded"></div>
+                                <div class="h-4 w-3/4 bg-base-200 rounded"></div>
+                                <div class="h-10 w-32 bg-base-200 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-          </div>
-          <div class="w-full lg:w-1/2 flex justify-center">
-            <div class="w-full max-w-xl text-left" role="region"
-              :aria-label="$t('becomeAPartner.title') || 'Become a partner call to action'">
-              <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2" tabindex="0">
-                {{ $t('becomeAPartner.title') }}
-              </h2>
-              <p>{{ $t('becomeAPartner.text') }}</p>
-              <a :href="$t('becomeAPartner.ctaLink')" target="_blank" class="btn btn-primary mt-4">
-                {{ $t('becomeAPartner.cta') }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+        </NuxtLazyHydrate>
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
-import { ref, onMounted, nextTick, watch, computed } from 'vue';
-import type { Ref } from 'vue';
-import type { ComponentPublicInstance } from 'vue';
+import { ref, onMounted, nextTick, watch, defineAsyncComponent, computed } from 'vue';
+import type { Ref, ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useMediaQuery, useIntersectionObserver, unrefElement } from '@vueuse/core';
-import topIssuersData from '~/data/top-issuers.json';
-import issuerImagesData from '~/data/issuer-images.json';
+import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
 
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
+const DEFAULT_FEATURED_CAROUSEL_FALLBACK = 'Scanne die Highlights bequem auf dem Desktop – auf dem Smartphone konzentrieren wir uns voll auf Suche und Ergebnisse.';
 const criticalLinks: any[] = [
     {
         rel: 'preload',
@@ -374,6 +349,16 @@ const criticalLinks: any[] = [
         fetchpriority: 'high',
     },
 ];
+
+criticalLinks.push({
+    rel: 'preload',
+    as: 'image',
+    href: '/img/avefi_nodes-hero-1024.webp',
+    imagesrcset:
+    '/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w',
+    imagesizes: '100vw',
+    fetchpriority: 'high',
+});
 
 if (runtimeConfig.public.matomoUrl) {
     criticalLinks.push(
@@ -386,8 +371,20 @@ useHead({
     link: criticalLinks,
 });
 
-const CARD_IMAGE_WIDTHS = [240, 320, 480, 720, 1024] as const;
-const CARD_IMAGE_SIZES = '(max-width: 640px) 240px, (max-width: 1024px) 320px, 380px';
+const HomeTimelineSection = defineAsyncComponent(() => import('~/components/home/HomeTimelineSection.vue'));
+const HomeVideoSection = defineAsyncComponent(() => import('~/components/home/HomeVideoSection.vue'));
+const HomeIssuerSection = defineAsyncComponent(() => import('~/components/home/HomeIssuerSection.vue'));
+const HomeCoreFunctionsSection = defineAsyncComponent(() => import('~/components/home/HomeCoreFunctionsSection.vue'));
+const HomeCTASection = defineAsyncComponent(() => import('~/components/home/HomeCTASection.vue'));
+const loadAdvancedSearchComponent = () => import('~/components/global/SearchCompExtended.vue');
+const SearchCompExtended = defineAsyncComponent({
+    loader: loadAdvancedSearchComponent,
+    suspensible: true,
+});
+const featuredCarouselFallback = computed(() => t('featuredCarousel.mobileFallback') || DEFAULT_FEATURED_CAROUSEL_FALLBACK);
+
+const CARD_IMAGE_WIDTHS = [240, 320, 360, 480, 720] as const;
+const CARD_IMAGE_SIZES = '(max-width: 639px) 240px, (max-width: 1023px) 288px, 384px';
 
 type CardItem = {
   description: string;
@@ -495,7 +492,14 @@ useSchemaOrg(() => {
 
 const showAdvancedSearch = ref(false);
 const searchCompRef = ref<ComponentPublicInstance | HTMLElement | null>(null);
-const swapToggleRef = ref<HTMLElement | null>(null);
+const advancedSearchPrefetched = ref(false);
+const activeSearchComponent = computed(() => (showAdvancedSearch.value ? SearchCompExtended : SearchCompReduced));
+
+async function prefetchAdvancedSearch() {
+    if (advancedSearchPrefetched.value) return;
+    advancedSearchPrefetched.value = true;
+    await loadAdvancedSearchComponent();
+}
 
 function focusFirstInput(root?: ComponentPublicInstance | HTMLElement | null) {
     const scope = unrefElement(root ?? searchCompRef.value) as HTMLElement | null;
@@ -521,37 +525,23 @@ onMounted(async () => {
     }, 1100);
 });
 
-watch(showAdvancedSearch, async () => {
+watch(showAdvancedSearch, async (isAdvanced) => {
+    if (isAdvanced) {
+        prefetchAdvancedSearch();
+    }
     await nextTick();
     focusFirstInput();
 });
-
-function onSwapKeydown(e: KeyboardEvent) {
-    if (e.key === ' ' || e.key === 'Enter') {
-        e.preventDefault();
-        const host = swapToggleRef.value;
-        if (!host) return;
-        const cb = host.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
-        if (cb) {
-            cb.checked = !cb.checked;
-            cb.dispatchEvent(new Event('change', { bubbles: true }));
-            cb.dispatchEvent(new Event('input', { bubbles: true }));
-        } else {
-            host.click();
-        }
-    }
-}
 
 definePageMeta({
     auth: false,
     layout: 'default',
 });
 
-const prefersCompactPoster = useMediaQuery('(max-width: 1024px)');
-const videoPosterSrc = computed(() =>
-    prefersCompactPoster.value ? '/img/avefi_vid_poster-360.webp' : '/img/avefi_vid_poster-1024.webp'
-);
-
+const showFeaturedCarousel = useMediaQuery('(min-width: 1024px)', {
+    window: typeof window === 'undefined' ? undefined : window,
+    defaultValue: false,
+});
 
 const cardItems = ref<CardItem[]>([
     {
@@ -631,10 +621,16 @@ const cardItems = ref<CardItem[]>([
 
 const featuredCarouselRef = ref<HTMLElement | null>(null);
 const featuredCarouselReady = ref(false);
-const issuerCarouselRef = ref<HTMLElement | null>(null);
-const issuerCarouselReady = ref(false);
-const partnersCarouselRef = ref<HTMLElement | null>(null);
-const partnersCarouselReady = ref(false);
+const timelineSectionRef = ref<HTMLElement | null>(null);
+const timelineReady = ref(false);
+const videoSectionRef = ref<HTMLElement | null>(null);
+const videoReady = ref(false);
+const issuerSectionRef = ref<HTMLElement | null>(null);
+const issuerReady = ref(false);
+const coreSectionRef = ref<HTMLElement | null>(null);
+const coreReady = ref(false);
+const ctaSectionRef = ref<HTMLElement | null>(null);
+const ctaReady = ref(false);
 
 function deferHydration(target: Ref<HTMLElement | null>, flag: Ref<boolean>, options: IntersectionObserverInit = { rootMargin: '200px 0px' }) {
     if (import.meta.server) return;
@@ -651,28 +647,13 @@ function deferHydration(target: Ref<HTMLElement | null>, flag: Ref<boolean>, opt
 }
 
 if (import.meta.client) {
-    deferHydration(featuredCarouselRef, featuredCarouselReady, { rootMargin: '120px 0px' });
-    deferHydration(issuerCarouselRef, issuerCarouselReady, { rootMargin: '520px 0px' });
-    deferHydration(partnersCarouselRef, partnersCarouselReady, { rootMargin: '720px 0px' });
+    deferHydration(featuredCarouselRef, featuredCarouselReady, { rootMargin: '180px 0px' });
+    deferHydration(timelineSectionRef, timelineReady, { rootMargin: '200px 0px' });
+    deferHydration(videoSectionRef, videoReady, { rootMargin: '260px 0px' });
+    deferHydration(issuerSectionRef, issuerReady, { rootMargin: '320px 0px' });
+    deferHydration(coreSectionRef, coreReady, { rootMargin: '420px 0px' });
+    deferHydration(ctaSectionRef, ctaReady, { rootMargin: '520px 0px' });
 }
-
-const issuerPlaceholderItems = computed(() => {
-    const issuers = Array.isArray((topIssuersData as any)?.issuers)
-        ? (topIssuersData as any).issuers
-        : [];
-    const mappings = (issuerImagesData as any)?.mappings || {};
-    const fallback = (issuerImagesData as any)?.fallback || {};
-
-    return issuers.slice(0, 4).map((issuer: any) => {
-        const imageInfo = issuer.id && mappings[issuer.id] ? mappings[issuer.id] : null;
-        return {
-            name: issuer.name,
-            count: issuer.doc_count,
-            image: imageInfo?.image || fallback.image,
-            alt: imageInfo?.alt || `${issuer.name} Logo`
-        };
-    });
-});
 
 </script>
 
@@ -682,49 +663,49 @@ const issuerPlaceholderItems = computed(() => {
    ================================ */
 
 .glass-pill {
-  border: 1px solid hsl(0 0% 100% / 0.35);
-  background: hsl(0 0% 100% / 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow:
-    0 10px 24px -18px hsl(0 0% 0% / 0.35),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
+    border: 1px solid hsl(0 0% 100% / 0.35);
+    background: hsl(0 0% 100% / 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+        0 10px 24px -18px hsl(0 0% 0% / 0.35),
+        inset 0 1px 0 hsl(0 0% 100% / 0.55);
 }
 
 .glass-pill--chip {
-  background: hsl(0 0% 100% / 0.46);
-  border: 1px solid hsl(0 0% 100% / 0.30);
+    background: hsl(0 0% 100% / 0.46);
+    border: 1px solid hsl(0 0% 100% / 0.30);
 }
 
 /* Hero search card: glass + clean */
 .hero-glass-card {
-  border: 1px solid hsl(0 0% 100% / 0.30);
-  background: hsl(0 0% 100% / 0.50);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow:
-    0 26px 70px -48px hsl(0 0% 0% / 0.45),
-    0 8px 26px -18px hsl(0 0% 0% / 0.18),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
+    border: 1px solid hsl(0 0% 100% / 0.30);
+    background: hsl(0 0% 100% / 0.50);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+        0 26px 70px -48px hsl(0 0% 0% / 0.45),
+        0 8px 26px -18px hsl(0 0% 0% / 0.18),
+        inset 0 1px 0 hsl(0 0% 100% / 0.55);
 }
 
 .hero-panel,
 .hero-search-card {
-  transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
 }
 
 @media (max-width: 767px) {
 
-  .hero-panel,
-  .hero-search-card {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
-  }
+    .hero-panel,
+    .hero-search-card {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+    }
 
-  .hero-search-card {
-    padding: 1.5rem;
-  }
+    .hero-search-card {
+        padding: 1.5rem;
+    }
 }
 
 /* ================================
@@ -733,39 +714,39 @@ const issuerPlaceholderItems = computed(() => {
    ================================ */
 
 .section-wash {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .section-wash::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-  /* lightweight aurora glow */
-  background:
-    radial-gradient(900px 520px at 20% 10%, hsl(210 92% 70% / 0.12), transparent 62%),
-    radial-gradient(900px 520px at 80% 22%, hsl(330 90% 72% / 0.10), transparent 62%),
-    radial-gradient(900px 520px at 55% 88%, hsl(195 95% 68% / 0.08), transparent 64%);
-  filter: saturate(1.15);
-  opacity: 1;
-  mix-blend-mode: normal;
+    /* lightweight aurora glow */
+    background:
+        radial-gradient(900px 520px at 20% 10%, hsl(210 92% 70% / 0.12), transparent 62%),
+        radial-gradient(900px 520px at 80% 22%, hsl(330 90% 72% / 0.10), transparent 62%),
+        radial-gradient(900px 520px at 55% 88%, hsl(195 95% 68% / 0.08), transparent 64%);
+    filter: saturate(1.15);
+    opacity: 1;
+    mix-blend-mode: normal;
 }
 
 .section-wash--a::before {
-  opacity: 0.95;
+    opacity: 0.95;
 }
 
 .section-wash--b::before {
-  opacity: 0.80;
-  transform: rotate(180deg);
+    opacity: 0.80;
+    transform: rotate(180deg);
 }
 
 /* ensure actual content is above the wash */
 .section-wash>* {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 /* ================================
@@ -773,46 +754,50 @@ const issuerPlaceholderItems = computed(() => {
    ================================ */
 
 .glass-panel {
-  border-radius: 1.25rem;
-  border: 1px solid hsl(0 0% 100% / 0.42);
-  background: linear-gradient(180deg,
-      hsl(0 0% 100% / 0.55),
-      hsl(0 0% 100% / 0.28));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow:
-    0 26px 70px -56px hsl(0 0% 0% / 0.36),
-    0 10px 28px -22px hsl(0 0% 0% / 0.12),
-    inset 0 1px 0 hsl(0 0% 100% / 0.60);
+    border-radius: 1.25rem;
+    border: 1px solid hsl(0 0% 100% / 0.42);
+    background: linear-gradient(180deg,
+            hsl(0 0% 100% / 0.55),
+            hsl(0 0% 100% / 0.28));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+        0 26px 70px -56px hsl(0 0% 0% / 0.36),
+        0 10px 28px -22px hsl(0 0% 0% / 0.12),
+        inset 0 1px 0 hsl(0 0% 100% / 0.55);
+}
+
+.glass-panel--dark {
+    border: 1px solid hsl(0 0% 100% / 0.20);
+    background: linear-gradient(180deg,
+            hsl(220 8% 14% / 0.84),
+            hsl(220 8% 8% / 0.92));
+    box-shadow:
+        0 24px 64px -48px hsl(0 0% 0% / 0.55),
+        inset 0 1px 0 hsl(0 0% 100% / 0.12);
 }
 
 /* ================================
-   PREMIUM CARD: consistent across page
+   HERO RESPONSIVE HELPERS
    ================================ */
 
-.premium-card {
-  border-radius: 1.25rem;
-  border: 1px solid hsl(0 0% 100% / 0.38);
-  background: linear-gradient(180deg,
-      hsl(0 0% 100% / 0.52),
-      hsl(0 0% 100% / 0.22));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow:
-    0 28px 74px -60px hsl(0 0% 0% / 0.40),
-    0 10px 26px -22px hsl(0 0% 0% / 0.12),
-    inset 0 1px 0 hsl(0 0% 100% / 0.55);
+.hero-panel ::selection,
+.hero-search-card ::selection {
+    background: hsl(0 0% 100% / 0.35);
+    color: inherit;
 }
 
-/* optional: make dividers less “flat-grey” */
-.border-base-200 {
-  border-color: hsl(0 0% 0% / 0.08) !important;
+.dark .hero-panel ::selection,
+.dark .hero-search-card ::selection {
+    background: hsl(0 0% 0% / 0.35);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
+/* ================================
+   TIMELINE + CTA skeleton helpers
+   ================================ */
+
+.lazy-section-anchor .card,
+.lazy-section-anchor section {
+    transition: opacity 0.4s ease;
 }
 </style>

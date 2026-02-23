@@ -26,30 +26,35 @@
             </h2>
             <ul>
               <li>
-                <p>{{ $t('footerLicense') }}</p>
-                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" class="link transition"
-                  :aria-label="$t('license')">
-                  <Icon name="tabler:creative-commons" />
-                  <span class="hidden lg:inline-flex sr-only">
-                    {{ $t('license') }}
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="link transition"
+                <a href="https://datenschutz.gwdg.de/services/av-efi" target="_blank"
+                  class="link transition inline-flex items-center py-2 px-3 rounded-md min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                   :aria-label="$t('dataprotection')">
                   {{ $t('dataprotection') }}
                 </a>
               </li>
               <li>
-                <a href="/imprint" class="link transition" :aria-label="$t('imprint')">
+                <a href="/imprint"
+                  class="link transition inline-flex items-center py-2 px-3 rounded-md min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  :aria-label="$t('imprint')">
                   {{ $t('imprint') }}
                 </a>
               </li>
               <li>
-                <NuxtLink to="/press" class="link transition" aria-label="Press &amp; Media Kit">
+                <NuxtLink to="/press"
+                  class="link transition inline-flex items-center py-2 px-3 rounded-md min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  aria-label="Press &amp; Media Kit">
                   Press &amp; Media Kit
                 </NuxtLink>
+              </li>
+              <li>
+                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+                  class="link transition inline-flex items-center gap-2 py-2 px-3 rounded-md min-h-12 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  :aria-label="$t('footerLicense')">
+                  <span class="">
+                    {{ $t('footerLicense') }}
+                    <Icon name="tabler:creative-commons" class="text-lg" />
+                  </span>
+                </a>
               </li>
             </ul>
 
@@ -74,8 +79,7 @@
             <div class="bg-transparent">
               <a href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"
                 target="_blank" aria-label="DFG Projektförderung">
-                <img alt="Sponsoring by DFG" title="❤️" class="object-contain h-20 w-full md:h-40 md:w-96"
-                  src="/img/DFG.svg">
+                <img alt="Sponsoring by DFG" title="❤️" class="object-contain h-20 w-full" src="/img/DFG.svg">
               </a>
             </div>
 

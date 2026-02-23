@@ -128,7 +128,7 @@ function customReset () {
 function customSubmitHandler (e) 
 {
     console.log(e);
-  $toast?.success?.("Form submitted");
+    $toast?.success?.("Form submitted");
 } 
 
 </script>

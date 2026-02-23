@@ -83,10 +83,10 @@ onMounted(() => generateCaptcha());
 
 // Keep message/email in sync if parent updates the initial props
 watch(() => props.initialMessage, (v) => {
-  if (v !== undefined) message.value = v || '';
+    if (v !== undefined) message.value = v || '';
 });
 watch(() => props.initialEmail, (v) => {
-  if (v !== undefined) email.value = v || '';
+    if (v !== undefined) email.value = v || '';
 });
 
 function generateCaptcha() {
@@ -123,13 +123,13 @@ async function handleSubmit() {
 
         if ((res as any)?.success) {
             liveMsg.value = 'Message sent successfully!';
-          $toast?.success?.($t('messageSentSuccess'));
+            $toast?.success?.($t('messageSentSuccess'));
             email.value = '';
             message.value = '';
             captchaAnswer.value = '';
             generateCaptcha();
         } else {      
-          $toast?.error?.($t('messageSentError'));
+            $toast?.error?.($t('messageSentError'));
             throw new Error((res as any)?.error || 'Failed to send message');
         }
     } catch (err) {

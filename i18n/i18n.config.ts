@@ -12,8 +12,8 @@ export default defineI18nConfig(() => ({
         en: {
             "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
             "docFilmCollectionTitle": "Activism in Documentary Film",
-            "docFilmCollectionLinkText": "Explore the Collection",
-            "restShortFilmCollectionLinkText": "Explore the Collection",
+            "docFilmCollectionLinkText": "Explore Activism Films",
+            "restShortFilmCollectionLinkText": "Explore Restored Films",
             "restShortFilmCollectionDescription": "The collection of restored short films opens up new pathways to the cinematic heritage. Through meticulous digital restoration, rare and previously hard-to-access works are made visible again. With its extensive metadata, the collection also provides a valuable foundation for research, teaching, and curatorial practice.",
             "restShortFilmCollectionTitle": "Restored Short Films",
             "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
@@ -669,6 +669,7 @@ export default defineI18nConfig(() => ({
                     "work": "Work/Variant",                    
                 }
             },
+            "searchModeSwitcher": "Search mode",
             "timeline": {
                 "title": "From record to knowledge",
                 "query": {
@@ -804,10 +805,10 @@ export default defineI18nConfig(() => ({
         de: {
             "docFilmCollectionDescription": "Dokumentarfilme, die Bewegungen und Akte des Widerstands – von Streiks oder Aufständen bis zu politischem Engagement -dokumentieren und reflektieren: die Schlagwortsuche ermöglicht eine thematische Analyse zu Formen des zivilen Ungehorsams.",
             "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
-            "docFilmCollectionLinkText": "Zur Sammlung",
+            "docFilmCollectionLinkText": "Aktivismus-Sammlung ansehen",
             "restShortFilmCollectionDescription": "Neue Zugänge zum filmischen Erbe eröffnen sich durch restaurierte Fassungen, etwa von Kurzfilmen, die digital aufbereitet und erneut zugänglich gemacht wurden.",
             "restShortFilmCollectionTitle": "Restaurierte Kurzfilme",
-            "restShortFilmCollectionLinkText": "Zur Sammlung",
+            "restShortFilmCollectionLinkText": "Restaurierte Filme entdecken",
             'showSuggestions': 'Vorschläge anzeigen',
             'noSuggestionsFound': 'Keine Vorschläge gefunden',
             'errorLoadingDatasets': 'Fehler beim Laden der Datensätze',
@@ -856,6 +857,7 @@ export default defineI18nConfig(() => ({
                 "cta": "Mailingliste abonnieren",
                 "ctaLink": "https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
             },
+            "searchModeSwitcher": "Suchmodus wechseln",
             "timeline": {
                 "title": "Vom Datensatz zum Wissen",
                 "query": {

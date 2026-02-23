@@ -190,7 +190,7 @@ function displayTerm(term: string): string {
 }
 // Sync activeLetter with URL query
 watch(activeLetter, (val) => {
-  emit('update-query', rawQuery.value, val || undefined);
+    emit('update-query', rawQuery.value, val || undefined);
 });
 
 const { locale } = useI18n();
@@ -244,14 +244,14 @@ function secondaryLabelAria(entry: VocabEntry): string {
 
 /* ---------- search ---------- */
 watch(rawQuery, (val) => {
-  if (debounceTimer) clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    query.value = (val ?? '').trim().toLowerCase();
-    latestEmittedQuery = query.value;
-    skipNextInitQuerySync = true;
-    emit('update-query', query.value, activeLetter.value || undefined);
-    debounceTimer = null;
-  }, 150);
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        query.value = (val ?? '').trim().toLowerCase();
+        latestEmittedQuery = query.value;
+        skipNextInitQuerySync = true;
+        emit('update-query', query.value, activeLetter.value || undefined);
+        debounceTimer = null;
+    }, 150);
 });
 
 // Watch for prop changes (route updates)
@@ -261,13 +261,13 @@ watch(
         const next = String(val ?? '');
 
         if (skipNextInitQuerySync && next === latestEmittedQuery) {
-          skipNextInitQuerySync = false;
-          return;
+            skipNextInitQuerySync = false;
+            return;
         }
 
         if (rawQuery.value === next) {
-          query.value = next.trim().toLowerCase();
-          return;
+            query.value = next.trim().toLowerCase();
+            return;
         }
 
         skipNextInitQuerySync = false;

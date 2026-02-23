@@ -4,7 +4,8 @@
       @mouseenter="removeScrolledClass" @mouseleave="addScrolledClass">
       <GlobalNavBar />
     </header>
-    <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6 mt-[var(--header-height)]">
+    <div class="h-[var(--header-height)] flex-shrink-0" aria-hidden="true"></div>
+    <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6">
       <ClientOnly>
         <!--GlobalIndicatorComp /-->
       </ClientOnly>
@@ -29,36 +30,79 @@ export default {
   data() {
     return {
       isScrolled: false,
-      showScrollToTop: false
+      showScrollToTop: false,
+      pageTallEnough: false,
+      scrollRafId: null,
+      resizeObserver: null,
     };
   },
   mounted() {
-    const header = document.querySelector('header');
-    const headerHeight = header.offsetHeight;
-    document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-    if (window) {
-      window.addEventListener('scroll', this.handleScroll);
-      this.checkPageHeight();
-    }
+    if (typeof window === 'undefined') return;
+    window.addEventListener('scroll', this.scheduleScrollUpdate, { passive: true });
+    this.observePageSize();
+    this.updatePageTallEnough();
+    this.applyScrollState();
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    if (typeof window === 'undefined') return;
+    window.removeEventListener('scroll', this.scheduleScrollUpdate);
+    if (this.scrollRafId) {
+      cancelAnimationFrame(this.scrollRafId);
+      this.scrollRafId = null;
+    }
+    if (this.resizeObserver?.disconnect) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    } else {
+      window.removeEventListener('resize', this.updatePageTallEnough);
+    }
   },
   methods: {
-    handleScroll() {
-      this.isScrolled = window.scrollY > 50;
-      this.showScrollToTop = window.scrollY > window.innerHeight * 3;
+    scheduleScrollUpdate() {
+      if (this.scrollRafId !== null) return;
+      this.scrollRafId = requestAnimationFrame(() => {
+        this.scrollRafId = null;
+        this.applyScrollState();
+      });
+    },
+    applyScrollState() {
+      if (typeof window === 'undefined') return;
+      const scrolled = window.scrollY > 50;
+      this.isScrolled = scrolled;
+      this.showScrollToTop = scrolled && this.pageTallEnough;
     },
     scrollToTop() {
+      if (typeof window === 'undefined') return;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
-    checkPageHeight() {
-      this.showScrollToTop = document.documentElement.scrollHeight > window.innerHeight * 3;
+    updatePageTallEnough() {
+      if (typeof document === 'undefined' || typeof window === 'undefined') return;
+      const doc = document.documentElement;
+      const pageHeight = doc?.scrollHeight || 0;
+      this.pageTallEnough = pageHeight > window.innerHeight * 3;
+      this.showScrollToTop = this.isScrolled && this.pageTallEnough;
+    },
+    observePageSize() {
+      if (typeof window === 'undefined' || typeof document === 'undefined') return;
+      if ('ResizeObserver' in window) {
+        this.resizeObserver = new ResizeObserver(() => {
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(() => this.updatePageTallEnough(), { timeout: 150 });
+          } else {
+            requestAnimationFrame(() => this.updatePageTallEnough());
+          }
+        });
+        const target = document.body || document.documentElement;
+        target && this.resizeObserver.observe(target);
+      } else {
+        window.addEventListener('resize', this.updatePageTallEnough, { passive: true });
+      }
     },
     removeScrolledClass() {
       this.isScrolled = false;
     },
     addScrolledClass() {
+      if (typeof window === 'undefined') return;
       this.isScrolled = window.scrollY > 50;
     }
   }

@@ -16,16 +16,16 @@
                     <Icon name="tabler:chevron-left" />
                 </button>
                 <div ref="desktopCarouselRef"
-                    class="carousel carousel-end rounded-box bg-white/80 dark:bg-base-200/60 p-6 gap-2 overflow-hidden scroll-smooth">
+                    class="carousel carousel-end rounded-box bg-white/80 dark:bg-base-200/60 p-4 gap-2 overflow-hidden scroll-smooth">
                     <div v-for="(item, index) in issuerItems" :key="index"
-                        class="carousel-item w-72 xl:w-80 flex-shrink-0">
+                        class="carousel-item w-64 xl:w-72 flex-shrink-0">
                         <div class="card bg-base-100 shadow-md w-full">
                             <figure class="px-6 py-6 bg-white rounded">
                                 <img :src="item.image" :alt="item.imageAlt" :title="item.name"
                                     class="h-20 w-auto object-contain bg-white" loading="lazy" decoding="async">
                             </figure>
                             <div class="card-body items-center text-center">
-                                <h3 class="card-title text-base font-semibold line-clamp-2">
+                                <h3 class="card-title text-base font-semibold line-clamp-3">
                                     {{ item.name }}
                                 </h3>
                                 <p class="text-sm opacity-70">

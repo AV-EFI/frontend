@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const publicDir = join(__dirname, '..', 'public');
 
-const targets = [
+const defaultTargets = [
     'img/avefi_diamonds_prim_mobile.webp',
     'img/avefi_diamonds_prim_tablet.webp',
     'img/avefi_diamonds_prim_desktop.webp',
@@ -30,6 +30,9 @@ const targets = [
 ];
 
 async function run() {
+    const extraTargets = process.argv.slice(2);
+    const targets = extraTargets.length ? extraTargets : defaultTargets;
+
     for (const rel of targets) {
         const abs = join(publicDir, rel);
         try {

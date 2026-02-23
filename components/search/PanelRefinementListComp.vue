@@ -207,21 +207,21 @@ function resetLocal(range: any) {
     pending.value = [boundMin(range ?? {}), boundMax(range ?? {})];
 }
 function applyRefinement(refine: (v: any) => void, range: any) {
-  try {
-    if (!pending.value) return;
-    const [lo, hi] = pending.value;
-    if (lo === boundMin(range ?? {}) && hi === boundMax(range ?? {})) {
-        refine?.({ min: undefined, max: undefined });
+    try {
+        if (!pending.value) return;
+        const [lo, hi] = pending.value;
+        if (lo === boundMin(range ?? {}) && hi === boundMax(range ?? {})) {
+            refine?.({ min: undefined, max: undefined });
+            lastApplied.value = [lo, hi];
+            return;
+        }
+        refine?.({ min: lo, max: hi });
         lastApplied.value = [lo, hi];
-        return;
-    }
-    refine?.({ min: lo, max: hi });
-    lastApplied.value = [lo, hi];
 
-  }
-  catch (error) {
-    console.error('Error applying refinement:', error);
-  }
+    }
+    catch (error) {
+        console.error('Error applying refinement:', error);
+    }
 }
 function hasUnsaved(cr: any, range: any) {
     const applied = appliedFromCR(cr ?? {}, range ?? {});

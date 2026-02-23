@@ -23,7 +23,21 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/svg+xml', href: '/img/favicon.svg' },
                 { rel: 'shortcut icon', href: '/favicon.ico' },
                 { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
-                { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low' },
+                { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low', defer: true },
+                {
+                    rel: 'preload',
+                    as: 'font',
+                    type: 'font/ttf',
+                    href: '/fonts/BreeSerif-Regular.ttf',
+                    crossorigin: 'anonymous'
+                },
+                {
+                    rel: 'preload',
+                    as: 'font',
+                    type: 'font/ttf',
+                    href: '/fonts/Inter.ttf',
+                    crossorigin: 'anonymous'
+                },
                 // Preload LCP hero image for mobile
                 {
                     rel: 'preload',
@@ -48,6 +62,7 @@ export default defineNuxtConfig({
     },
     // Inline critical CSS into the HTML to avoid render-blocking
     experimental: {
+        inlineSSRStyles: true,
         // payloadExtraction: false,
     },
     devtools: {

@@ -173,13 +173,6 @@ const applySlider = () => {
         query: updatedQuery,
     });
 
-    // Trigger InstantSearch to sync from URL
-    window.dispatchEvent(
-        new StorageEvent('storage', {
-            key: 'latest-search-query',
-            newValue: window.location.search,
-        }),
-    );
 };
 
 

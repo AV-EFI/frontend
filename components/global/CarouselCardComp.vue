@@ -2,7 +2,7 @@
   <div class="relative w-full">
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
-      class="absolute -left-4 top-1/2 z-10 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
+      class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
       :aria-label="t('togglePreviousSlide')">
       <Icon name="tabler:chevron-left" />
     </button>
@@ -10,7 +10,7 @@
       class="carousel carousel-center w-full rounded-box p-4 overflow-x-auto scroll-smooth snap-none">
       <div v-for="(item, index) in items" :key="index"
         class="carousel-item align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
-        <figure class="w-full">
+        <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
           <div v-if="item.imgSrc"
             class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
             <img :src="item.imgBlurSrc || item.imgSrc"
@@ -141,7 +141,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 const { t } = useI18n();
 
 interface CarouselItem {
@@ -180,6 +180,10 @@ const toggleText = (e: Event) => {
 };
 
 const carouselRef = ref<HTMLElement | null>(null);
+const currentIndex = ref(0);
+const slideWidth = ref(0);
+const totalSlides = computed(() => (props.items?.length || 0) + 1);
+let resizeObserver: ResizeObserver | null = null;
 
 // Emit created items to parent
 const emit = defineEmits<{
@@ -202,126 +206,108 @@ const contactFormOpen = ref(false);
 const contactInitialMessage = ref('');
 
 function handleCreate() {
-  if (!createForm.value.title || !createForm.value.title.trim()) return;
+    if (!createForm.value.title || !createForm.value.title.trim()) return;
 
-  const newItem: CarouselItem = {
-    title: createForm.value.title,
-    imgSrc: createForm.value.imgUrl || '',
-    imgAlt: createForm.value.title,
-    description: createForm.value.description || '',
-    link: createForm.value.link || '#',
-    linkText: createForm.value.linkText || 'Open',
-    imgSourceLink: '',
-    imgSourceText: '',
-    imgAuthor: '',
-    imgLicense: '',
-    imgLicenseLink: '',
-    imgCoverType: ''
-  };
-
-  emit('create-item', newItem);
-
-  // prepare contact form with prefilled message and open it
-  const title = newItem.title;
-  const description = newItem.description || '';
-  const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
-  contactInitialMessage.value = t('create.contactFormPrefill', { title, description, url }) as string;
-  contactFormOpen.value = true;
-
-  // reset form and close swap
-  createForm.value = { title: '', description: '', imgUrl: '', link: '', linkText: '' };
-  createOpen.value = false;
-}
-
-/**
- * Safari / snap edge-cases: if smooth scroll is ignored, we fall back to an rAF tween.
- */
-function smoothScrollTo(el: HTMLElement, left: number, duration = 420) {
-    // Try native first
-    try {
-        el.scrollTo({ left, behavior: 'smooth' });
-        return;
-    } catch {
-    // ignore and fallback
-    }
-
-    const start = el.scrollLeft;
-    const delta = left - start;
-    const startTime = performance.now();
-
-    const easeInOutCubic = (t: number) =>
-        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const tick = (now: number) => {
-        const p = Math.min(1, (now - startTime) / duration);
-        el.scrollLeft = start + delta * easeInOutCubic(p);
-        if (p < 1) requestAnimationFrame(tick);
+    const newItem: CarouselItem = {
+        title: createForm.value.title,
+        imgSrc: createForm.value.imgUrl || '',
+        imgAlt: createForm.value.title,
+        description: createForm.value.description || '',
+        link: createForm.value.link || '#',
+        linkText: createForm.value.linkText || 'Open',
+        imgSourceLink: '',
+        imgSourceText: '',
+        imgAuthor: '',
+        imgLicense: '',
+        imgLicenseLink: '',
+        imgCoverType: ''
     };
 
-    requestAnimationFrame(tick);
+    emit('create-item', newItem);
+
+    // prepare contact form with prefilled message and open it
+    const title = newItem.title;
+    const description = newItem.description || '';
+    const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
+    contactInitialMessage.value = t('create.contactFormPrefill', { title, description, url }) as string;
+    contactFormOpen.value = true;
+
+    // reset form and close swap
+    createForm.value = { title: '', description: '', imgUrl: '', link: '', linkText: '' };
+    createOpen.value = false;
 }
+const measureSlides = () => {
+  const host = carouselRef.value;
+  if (!host) {
+    slideWidth.value = 0;
+    return;
+  }
+  const slides = host.querySelectorAll<HTMLElement>('.carousel-item');
+  if (!slides.length) {
+    slideWidth.value = 0;
+    return;
+  }
+  if (slides.length >= 2) {
+    slideWidth.value = slides[1].offsetLeft - slides[0].offsetLeft;
+  } else {
+    slideWidth.value = slides[0].offsetWidth;
+  }
+};
 
-function getItems(): HTMLElement[] {
-    const el = carouselRef.value;
-    if (!el) return [];
-    return Array.from(el.querySelectorAll<HTMLElement>('.carousel-item'));
-}
-
-function getClosestIndex(): number {
-    const el = carouselRef.value;
-    if (!el) return 0;
-    const items = getItems();
-    if (!items.length) return 0;
-
-    const current = el.scrollLeft;
-    let bestIdx = 0;
-    let bestDist = Infinity;
-
-    for (let i = 0; i < items.length; i++) {
-        const dist = Math.abs(items[i].offsetLeft - current);
-        if (dist < bestDist) {
-            bestDist = dist;
-            bestIdx = i;
-        }
-    }
-    return bestIdx;
-}
-
-function scrollToIndex(idx: number) {
-    const el = carouselRef.value;
-    if (!el) return;
-
-    const items = getItems();
-    if (!items.length) return;
-
-    const clamped = Math.max(0, Math.min(idx, items.length - 1));
-    const targetLeft = items[clamped].offsetLeft;
-
-    smoothScrollTo(el, targetLeft);
-}
+const scrollToIndex = (index: number, behavior: ScrollBehavior = 'smooth') => {
+  const host = carouselRef.value;
+  if (!host || !slideWidth.value) return;
+  const total = totalSlides.value;
+  const clamped = Math.max(0, Math.min(index, total - 1));
+  currentIndex.value = clamped;
+  host.scrollTo({ left: slideWidth.value * clamped, behavior });
+};
 
 const prevSlide = () => {
-    const i = getClosestIndex();
-    scrollToIndex(i - 1);
+  scrollToIndex(currentIndex.value - 1);
 };
 
 const nextSlide = () => {
-    const i = getClosestIndex();
-    scrollToIndex(i + 1);
+  scrollToIndex(currentIndex.value + 1);
 };
 
-function onResize() {
-    // After resize, align to the nearest snap item so buttons stay consistent
-    const i = getClosestIndex();
-    scrollToIndex(i);
-}
+const handleScroll = () => {
+  const host = carouselRef.value;
+  if (!host || !slideWidth.value) return;
+  const idx = Math.round(host.scrollLeft / slideWidth.value);
+  currentIndex.value = Math.max(0, Math.min(idx, totalSlides.value - 1));
+};
 
 onMounted(() => {
-    window.addEventListener('resize', onResize, { passive: true });
+  measureSlides();
+  const host = carouselRef.value;
+  host?.addEventListener('scroll', handleScroll, { passive: true });
+
+  if (typeof window === 'undefined') return;
+
+  if ('ResizeObserver' in window) {
+    resizeObserver = new ResizeObserver(() => {
+      measureSlides();
+      scrollToIndex(currentIndex.value, 'auto');
+    });
+    if (host) {
+      resizeObserver.observe(host);
+    }
+  } else {
+    window.addEventListener('resize', measureSlides, { passive: true });
+  }
 });
 
 onUnmounted(() => {
-    window.removeEventListener('resize', onResize);
+  carouselRef.value?.removeEventListener('scroll', handleScroll);
+  if (resizeObserver?.disconnect) {
+    resizeObserver.disconnect();
+    resizeObserver = null;
+    return;
+  }
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', measureSlides);
+  }
 });
 </script>
 

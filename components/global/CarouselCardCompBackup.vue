@@ -100,8 +100,8 @@ const props = defineProps({
 // Track expanded state per card to avoid hydration mismatch
 const expandedStates = ref<Record<number, boolean>>({});
 const toggleText = (index: number, e: Event) => {
-  e.preventDefault();
-  expandedStates.value[index] = !expandedStates.value[index];
+    e.preventDefault();
+    expandedStates.value[index] = !expandedStates.value[index];
 };
 
 const currentIndex = ref(0);

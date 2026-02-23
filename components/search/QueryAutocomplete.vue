@@ -6,9 +6,9 @@
                 wrapper-class="flex flex-row"
                 inner-class="!rounded-xl !h-12 w-full dark:!bg-gray-950 dark:!text-white !rounded-r-none"
                 input-class="!text-lg border-none !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
-                aria-haspopup="listbox" :aria-owns="listboxId" :aria-expanded="showDropdown ? 'true' : 'false'"
-                :aria-activedescendant="activeDescId" @input="onInput" @focus="onFocus" @blur="onBlur"
-                @keydown="onKeydown">
+                :aria-label="ariaLabel" aria-haspopup="listbox" :aria-owns="listboxId"
+                :aria-expanded="showDropdown ? 'true' : 'false'" :aria-activedescendant="activeDescId" @input="onInput"
+                @focus="onFocus" @blur="onBlur" @keydown="onKeydown">
                 <!--
                <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
                     <span class="formkit-icon relative group cursor-help my-auto flex justify-center"
@@ -166,6 +166,8 @@ const displayValue = computed<string>({
     get: () => props.modelValue ?? '',
     set: v => emit('update:modelValue', v),
 });
+
+const ariaLabel = computed(() => props.ariaLabel ?? t('search'));
 
 /* ==========================================================================
    State

@@ -1,16 +1,16 @@
 <template>
   <div ref="carouselRef" class="carousel rounded-box w-full p-4 overflow-x-auto scroll-smooth" role="region"
     :aria-label="$t('partnersCarousel') || 'Partner carousel'">
-    <div v-for="(item, index) in items" :key="index" class="carousel-item w-full flex-shrink-0 px-2 lg:px-4"
-      :aria-hidden="currentIndex !== index" :tabindex="currentIndex === index ? 0 : -1">
+    <div v-for="(item, index) in items" :key="index" class="carousel-item w-full flex-shrink-0 px-2 lg:px-4">
       <article class="card w-full shadow-md">
-        <figure class="px-4 pt-6 pb-2">
+        <figure class="px-4 pt-2 pb-2">
           <div class="w-full h-48 flex items-center justify-center rounded-xl bg-white overflow-hidden"
             aria-hidden="true">
             <img v-if="item.src" :src="item.src" :alt="item.alt || item.title || ''" loading="lazy" decoding="async"
-              :width="item.width || undefined" :height="item.height || undefined"
+              :width="item.width || DEFAULT_LOGO_WIDTH" :height="item.height || DEFAULT_LOGO_HEIGHT"
               class="w-full h-24 object-contain p-2" />
             <img v-else src="/img/placeholder-16x9.svg" alt="Avefi placeholder" loading="lazy" decoding="async"
+              :width="DEFAULT_LOGO_WIDTH" :height="DEFAULT_LOGO_HEIGHT"
               class="w-full h-full object-contain opacity-70" />
           </div>
         </figure>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, onMounted, onBeforeUnmount, nextTick, watch } from 'vue';
+import { ref, defineProps, onMounted, onBeforeUnmount, nextTick, watch, computed } from 'vue';
 
 const props = defineProps({
   items: {
@@ -49,26 +49,42 @@ const props = defineProps({
 
 const currentIndex = ref(0);
 const carouselRef = ref(null);
+const slideWidth = ref(0);
+const itemCount = computed(() => props.items.length);
+const DEFAULT_LOGO_WIDTH = 320;
+const DEFAULT_LOGO_HEIGHT = 120;
 let autoSlideTimer = null;
+let resizeObserver = null;
 
-const scrollToSlide = () => {
+const measureSlides = () => {
   const host = carouselRef.value;
-  if (!host) return;
-  const slides = host.querySelectorAll('.carousel-item');
-  const target = slides[currentIndex.value];
-  if (target) {
-    host.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+  if (!host) {
+    slideWidth.value = 0;
+    return;
+  }
+  const firstSlide = host.querySelector('.carousel-item');
+  if (firstSlide) {
+    const rect = firstSlide.getBoundingClientRect();
+    slideWidth.value = rect.width;
+  } else {
+    slideWidth.value = host.clientWidth;
   }
 };
 
+const scrollToSlide = (behavior = 'smooth') => {
+  const host = carouselRef.value;
+  if (!host || !itemCount.value || !slideWidth.value) return;
+  host.scrollTo({ left: slideWidth.value * currentIndex.value, behavior });
+};
+
 const advanceSlide = () => {
-  if (!props.items.length) return;
-  currentIndex.value = (currentIndex.value + 1) % props.items.length;
-  nextTick(scrollToSlide);
+  if (!itemCount.value || !slideWidth.value) return;
+  currentIndex.value = (currentIndex.value + 1) % itemCount.value;
+  scrollToSlide();
 };
 
 const startAutoSlide = () => {
-  if (props.autoSlideInterval > 0 && props.items.length > 1) {
+  if (props.autoSlideInterval > 0 && itemCount.value > 1 && slideWidth.value) {
     autoSlideTimer = setInterval(advanceSlide, props.autoSlideInterval);
   }
 };
@@ -80,22 +96,52 @@ const stopAutoSlide = () => {
   }
 };
 
+const setupResizeObserver = () => {
+  if (typeof window === 'undefined') return;
+  if ('ResizeObserver' in window) {
+    resizeObserver = new ResizeObserver(() => {
+      measureSlides();
+      scrollToSlide('auto');
+    });
+    nextTick(() => {
+      if (carouselRef.value) {
+        resizeObserver.observe(carouselRef.value);
+      }
+    });
+  } else {
+    window.addEventListener('resize', measureSlides, { passive: true });
+  }
+};
+
 onMounted(() => {
-  nextTick(scrollToSlide);
-  startAutoSlide();
+  nextTick(() => {
+    measureSlides();
+    scrollToSlide('auto');
+    startAutoSlide();
+  });
+  setupResizeObserver();
 });
 
 onBeforeUnmount(() => {
   stopAutoSlide();
+  if (resizeObserver?.disconnect) {
+    resizeObserver.disconnect();
+    resizeObserver = null;
+  } else if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', measureSlides);
+  }
 });
 
 watch(
   () => props.items.length,
   () => {
-    currentIndex.value = 0;
-    nextTick(scrollToSlide);
     stopAutoSlide();
-    startAutoSlide();
+    currentIndex.value = 0;
+    nextTick(() => {
+      measureSlides();
+      scrollToSlide('auto');
+      startAutoSlide();
+    });
   }
 );
 </script>
