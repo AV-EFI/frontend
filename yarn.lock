@@ -1883,6 +1883,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify-json/formkit@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@iconify-json/formkit@npm:1.2.2"
+  dependencies:
+    "@iconify/types": "npm:*"
+  checksum: 10c0/6201f665acc839cbde84dfad15e30a727f2c6e5c56125ee2d7bfc31ce87b41d701a272c2462f9d5cf05dc8094af5e9a106fc67e1607aaaef44eaa98ca04405e5
+  languageName: node
+  linkType: hard
+
 "@iconify-json/tabler@npm:^1.2.23":
   version: 1.2.23
   resolution: "@iconify-json/tabler@npm:1.2.23"
@@ -10410,6 +10419,7 @@ __metadata:
     "@formkit/pro": "npm:^0.122.21"
     "@formkit/themes": "npm:^1.6.9"
     "@formkit/utils": "npm:^1.6.9"
+    "@iconify-json/formkit": "npm:^1.2.2"
     "@iconify-json/tabler": "npm:^1.2.23"
     "@nuxt/devtools": "npm:^1.6.4"
     "@nuxt/icon": "npm:^1.10.2"
