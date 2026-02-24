@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount, useId } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
@@ -195,7 +195,8 @@ const enforced = computed(() =>
    A11y ids
    ========================================================================== */
 
-const uid = Math.random().toString(36).slice(2);
+const rawUid = useId();
+const uid = (rawUid || Math.random().toString(36).slice(2)).replace(/[:]/g, '-');
 const listboxId = `qa-listbox-${props.name || uid}`;
 const optionId = (i: number) => `qa-opt-${uid}-${i}`;
 const activeDescId = computed(() =>

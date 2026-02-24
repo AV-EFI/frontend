@@ -18,7 +18,7 @@
                   <template #default="{ currentRefinement, refine, isSearchStalled }">
                     <div class="flex flex-row mt-2">
                       <div class="flex flex-row items-center h-12 w-full ">
-                        <SearchQueryAutocomplete ref="qaRef" v-model="localSearchValue" name="search"
+                        <SearchQueryAutocomplete v-model="localSearchValue" name="search"
                           :placeholder="$t('searchplaceholder')" :clear-title="$t('resetQuery')"
                           :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')" :enforce-list="false"
                           :recent-searches="recentSearchesWithUrl" class="flex-1"
@@ -28,7 +28,7 @@
                       </div>
 
                       <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
-                        :title="$t('search')" @click="$refs.qaRef?.submit()">
+                        :title="$t('search')" @click="handleSearchSubmit(localSearchValue, refine)">
                         <Icon class="text-lg" name="formkit:search" />
                         <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                       </button>
