@@ -833,7 +833,7 @@ export default defineI18nConfig(() => ({
             "build": {
                 "linked": {
                     "title": "efis für alle – Filme eindeutig identifiziert ",
-                    "lead": "AVefi ist ein Verbundsystem, das Filmbestände aus unterschiedlichen Institutionen verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werk und Fassungen erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Suchergebnisse lassen sich filtern, und Metadaten können frei nachgenutzt werden.",
+                    "lead": "AVefi ist ein Verbundsystem, das Filmbestände aus unterschiedlichen Institutionen verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Suchergebnisse lassen sich filtern und Metadaten können frei nachgenutzt werden.",
                     "authority": "Normdaten",
                     "crosswalk": "Verknüpfung"
                 },
@@ -846,7 +846,7 @@ export default defineI18nConfig(() => ({
             },
             "searchAndFind": {
                 "title": "Suchen und Finden",
-                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer Datenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen. Über die gebündelten Daten, von Produktions- bis zu Format- und Materialangaben, lassen sich Filmwerke und ihre verschiedenen Fassungen finden. Die Plattform bietet eine gute Übersicht über das jeweils konkrete Exemplar eines Filmarchivs oder einer Filmsammlung. Die Quellen mit weiteren filmografischen Informationen sind verlinkt."
+                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer institutionsübergreifenden Filmdatenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen. Über die gebündelten Daten, von Produktions- bis zu Format- und Materialangaben, lassen sich Filmwerke und ihre verschiedenen Fassungen finden. Die Plattform unterscheidet zwischen Werk, Manifestation und Exemplar. So werden unterschiedliche Manifestationen eines Films sowie konkrete Archivbestände transparent zugeordnet. Ergänzende filmografische Quellen sind direkt verlinkt."
             },
             "callToAction": {
                 "title": "Ihre Bestände in AVefi",
@@ -863,7 +863,7 @@ export default defineI18nConfig(() => ({
                 "title": "Vom Datensatz zum Wissen",
                 "query": {
                     "title": "Abfragen",
-                    "desc": "Suchen Sie über vernetzte Filmdatensätze hinweg."
+                    "desc": "Suchen Sie in vernetzten Filmdatensätzen."
                 },
                 "refine": {
                     "title": "Verfeinern",
@@ -1062,6 +1062,7 @@ export default defineI18nConfig(() => ({
             "messageSentSuccess": "Nachricht erfolgreich gesendet.",
             'bannerSection': 'Ausgewählte Sammlungen und Highlights aus der Welt der Filmdaten',
             'featuredContent': 'AVefi präsentiert ausgewählte Sammlungen und wichtige Erkenntnisse aus dem Bereich der Film-Metadaten. Erkunden Sie eine Vielzahl von Datensätzen, von umfassenden Filmographien bis hin zu detaillierten technischen Spezifikationen, die eine eingehende Analyse und neue Einblicke in die filmische Landschaft ermöglichen. Die Plattform verbindet institutionelle Datenquellen mit normierten Identifikatoren, unterstützt historische Forschung ebenso wie kuratorische Praxis und schafft neue Zugänge zu Werken, Formaten und Archivbeständen.',
+            'featuredContentAria': 'Ausgewählte Sammlungen und Highlights aus der Welt der Filmdaten',
             'coreFunctionsSection': 'Kernfunktionen',
             "openExternalReferences": "Externe Referenz öffnen",
             'lookWhatWeFound' : 'Gefunden in Ihrer Suche',

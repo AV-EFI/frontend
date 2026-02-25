@@ -9,7 +9,7 @@
             <img v-if="item.src" :src="item.src" :alt="item.alt || item.title || ''" loading="lazy" decoding="async"
               :width="item.width || DEFAULT_LOGO_WIDTH" :height="item.height || DEFAULT_LOGO_HEIGHT"
               class="w-full h-24 object-contain p-2" />
-            <img v-else src="/img/placeholder-16x9.svg" alt="Avefi placeholder" loading="lazy" decoding="async"
+            <img v-else src="/img/placeholder-16x9.svg" alt="AVefi placeholder" loading="lazy" decoding="async"
               :width="DEFAULT_LOGO_WIDTH" :height="DEFAULT_LOGO_HEIGHT"
               class="w-full h-full object-contain opacity-70" />
           </div>
@@ -37,14 +37,14 @@
 import { ref, defineProps, onMounted, onBeforeUnmount, nextTick, watch, computed } from 'vue';
 
 const props = defineProps({
-  items: {
-    type: Array,
-    required: true
-  },
-  autoSlideInterval: {
-    type: Number,
-    default: 5000
-  }
+    items: {
+        type: Array,
+        required: true
+    },
+    autoSlideInterval: {
+        type: Number,
+        default: 5000
+    }
 });
 
 const currentIndex = ref(0);
@@ -57,92 +57,92 @@ let autoSlideTimer = null;
 let resizeObserver = null;
 
 const measureSlides = () => {
-  const host = carouselRef.value;
-  if (!host) {
-    slideWidth.value = 0;
-    return;
-  }
-  const firstSlide = host.querySelector('.carousel-item');
-  if (firstSlide) {
-    const rect = firstSlide.getBoundingClientRect();
-    slideWidth.value = rect.width;
-  } else {
-    slideWidth.value = host.clientWidth;
-  }
+    const host = carouselRef.value;
+    if (!host) {
+        slideWidth.value = 0;
+        return;
+    }
+    const firstSlide = host.querySelector('.carousel-item');
+    if (firstSlide) {
+        const rect = firstSlide.getBoundingClientRect();
+        slideWidth.value = rect.width;
+    } else {
+        slideWidth.value = host.clientWidth;
+    }
 };
 
 const scrollToSlide = (behavior = 'smooth') => {
-  const host = carouselRef.value;
-  if (!host || !itemCount.value || !slideWidth.value) return;
-  host.scrollTo({ left: slideWidth.value * currentIndex.value, behavior });
+    const host = carouselRef.value;
+    if (!host || !itemCount.value || !slideWidth.value) return;
+    host.scrollTo({ left: slideWidth.value * currentIndex.value, behavior });
 };
 
 const advanceSlide = () => {
-  if (!itemCount.value || !slideWidth.value) return;
-  currentIndex.value = (currentIndex.value + 1) % itemCount.value;
-  scrollToSlide();
+    if (!itemCount.value || !slideWidth.value) return;
+    currentIndex.value = (currentIndex.value + 1) % itemCount.value;
+    scrollToSlide();
 };
 
 const startAutoSlide = () => {
-  if (props.autoSlideInterval > 0 && itemCount.value > 1 && slideWidth.value) {
-    autoSlideTimer = setInterval(advanceSlide, props.autoSlideInterval);
-  }
+    if (props.autoSlideInterval > 0 && itemCount.value > 1 && slideWidth.value) {
+        autoSlideTimer = setInterval(advanceSlide, props.autoSlideInterval);
+    }
 };
 
 const stopAutoSlide = () => {
-  if (autoSlideTimer) {
-    clearInterval(autoSlideTimer);
-    autoSlideTimer = null;
-  }
+    if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = null;
+    }
 };
 
 const setupResizeObserver = () => {
-  if (typeof window === 'undefined') return;
-  if ('ResizeObserver' in window) {
-    resizeObserver = new ResizeObserver(() => {
-      measureSlides();
-      scrollToSlide('auto');
-    });
-    nextTick(() => {
-      if (carouselRef.value) {
-        resizeObserver.observe(carouselRef.value);
-      }
-    });
-  } else {
-    window.addEventListener('resize', measureSlides, { passive: true });
-  }
+    if (typeof window === 'undefined') return;
+    if ('ResizeObserver' in window) {
+        resizeObserver = new ResizeObserver(() => {
+            measureSlides();
+            scrollToSlide('auto');
+        });
+        nextTick(() => {
+            if (carouselRef.value) {
+                resizeObserver.observe(carouselRef.value);
+            }
+        });
+    } else {
+        window.addEventListener('resize', measureSlides, { passive: true });
+    }
 };
 
 onMounted(() => {
-  nextTick(() => {
-    measureSlides();
-    scrollToSlide('auto');
-    startAutoSlide();
-  });
-  setupResizeObserver();
+    nextTick(() => {
+        measureSlides();
+        scrollToSlide('auto');
+        startAutoSlide();
+    });
+    setupResizeObserver();
 });
 
 onBeforeUnmount(() => {
-  stopAutoSlide();
-  if (resizeObserver?.disconnect) {
-    resizeObserver.disconnect();
-    resizeObserver = null;
-  } else if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', measureSlides);
-  }
+    stopAutoSlide();
+    if (resizeObserver?.disconnect) {
+        resizeObserver.disconnect();
+        resizeObserver = null;
+    } else if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', measureSlides);
+    }
 });
 
 watch(
-  () => props.items.length,
-  () => {
-    stopAutoSlide();
-    currentIndex.value = 0;
-    nextTick(() => {
-      measureSlides();
-      scrollToSlide('auto');
-      startAutoSlide();
-    });
-  }
+    () => props.items.length,
+    () => {
+        stopAutoSlide();
+        currentIndex.value = 0;
+        nextTick(() => {
+            measureSlides();
+            scrollToSlide('auto');
+            startAutoSlide();
+        });
+    }
 );
 </script>
 

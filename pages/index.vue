@@ -146,7 +146,7 @@
         </section>
 
         <NuxtLazyHydrate when-visible :offset="180">
-            <section id="main" role="main" :aria-label="$t('featuredContent')"
+            <section id="main" role="main" :aria-label="$t('featuredContentAria')"
                 class="relative overflow-hidden border-t border-base-200 py-10">
                 <!-- wash layer -->
                 <!-- Aurora / glow overlays (light + dark variants) -->

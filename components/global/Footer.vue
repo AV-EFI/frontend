@@ -90,10 +90,9 @@
             <div class="bg-transparent">
               <a href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"
                 target="_blank" aria-label="DFG Projektförderung">
-                <img alt="Sponsoring by DFG" title="❤️" class="object-contain h-20 w-full" src="/img/DFG.svg">
+                <img alt="Deutsche Forschungsgemeinschaft" title="❤️" class="object-contain h-20 w-full" src="/img/DFG.svg">
               </a>
             </div>
-
           </nav>
         </div>
       </div>

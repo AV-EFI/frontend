@@ -30,7 +30,7 @@
           </div>
           <div v-else
             class="w-full h-48 md:h-56 lg:h-64 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded overflow-hidden">
-            <img src="/img/placeholder-16x9.svg" alt="Avefi" class="object-cover w-full h-full" loading="lazy"
+            <img src="/img/placeholder-16x9.svg" alt="AVefi" class="object-cover w-full h-full" loading="lazy"
               decoding="async" />
           </div>
           <figcaption v-if="item.imgSourceText"
@@ -238,77 +238,77 @@ function handleCreate() {
     createOpen.value = false;
 }
 const measureSlides = () => {
-  const host = carouselRef.value;
-  if (!host) {
-    slideWidth.value = 0;
-    return;
-  }
-  const slides = host.querySelectorAll<HTMLElement>('.carousel-item');
-  if (!slides.length) {
-    slideWidth.value = 0;
-    return;
-  }
-  if (slides.length >= 2) {
-    slideWidth.value = slides[1].offsetLeft - slides[0].offsetLeft;
-  } else {
-    slideWidth.value = slides[0].offsetWidth;
-  }
+    const host = carouselRef.value;
+    if (!host) {
+        slideWidth.value = 0;
+        return;
+    }
+    const slides = host.querySelectorAll<HTMLElement>('.carousel-item');
+    if (!slides.length) {
+        slideWidth.value = 0;
+        return;
+    }
+    if (slides.length >= 2) {
+        slideWidth.value = slides[1].offsetLeft - slides[0].offsetLeft;
+    } else {
+        slideWidth.value = slides[0].offsetWidth;
+    }
 };
 
 const scrollToIndex = (index: number, behavior: ScrollBehavior = 'smooth') => {
-  const host = carouselRef.value;
-  if (!host || !slideWidth.value) return;
-  const total = totalSlides.value;
-  const clamped = Math.max(0, Math.min(index, total - 1));
-  currentIndex.value = clamped;
-  host.scrollTo({ left: slideWidth.value * clamped, behavior });
+    const host = carouselRef.value;
+    if (!host || !slideWidth.value) return;
+    const total = totalSlides.value;
+    const clamped = Math.max(0, Math.min(index, total - 1));
+    currentIndex.value = clamped;
+    host.scrollTo({ left: slideWidth.value * clamped, behavior });
 };
 
 const prevSlide = () => {
-  scrollToIndex(currentIndex.value - 1);
+    scrollToIndex(currentIndex.value - 1);
 };
 
 const nextSlide = () => {
-  scrollToIndex(currentIndex.value + 1);
+    scrollToIndex(currentIndex.value + 1);
 };
 
 const handleScroll = () => {
-  const host = carouselRef.value;
-  if (!host || !slideWidth.value) return;
-  const idx = Math.round(host.scrollLeft / slideWidth.value);
-  currentIndex.value = Math.max(0, Math.min(idx, totalSlides.value - 1));
+    const host = carouselRef.value;
+    if (!host || !slideWidth.value) return;
+    const idx = Math.round(host.scrollLeft / slideWidth.value);
+    currentIndex.value = Math.max(0, Math.min(idx, totalSlides.value - 1));
 };
 
 onMounted(() => {
-  measureSlides();
-  const host = carouselRef.value;
-  host?.addEventListener('scroll', handleScroll, { passive: true });
+    measureSlides();
+    const host = carouselRef.value;
+    host?.addEventListener('scroll', handleScroll, { passive: true });
 
-  if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
 
-  if ('ResizeObserver' in window) {
-    resizeObserver = new ResizeObserver(() => {
-      measureSlides();
-      scrollToIndex(currentIndex.value, 'auto');
-    });
-    if (host) {
-      resizeObserver.observe(host);
+    if ('ResizeObserver' in window) {
+        resizeObserver = new ResizeObserver(() => {
+            measureSlides();
+            scrollToIndex(currentIndex.value, 'auto');
+        });
+        if (host) {
+            resizeObserver.observe(host);
+        }
+    } else {
+        window.addEventListener('resize', measureSlides, { passive: true });
     }
-  } else {
-    window.addEventListener('resize', measureSlides, { passive: true });
-  }
 });
 
 onUnmounted(() => {
-  carouselRef.value?.removeEventListener('scroll', handleScroll);
-  if (resizeObserver?.disconnect) {
-    resizeObserver.disconnect();
-    resizeObserver = null;
-    return;
-  }
-  if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', measureSlides);
-  }
+    carouselRef.value?.removeEventListener('scroll', handleScroll);
+    if (resizeObserver?.disconnect) {
+        resizeObserver.disconnect();
+        resizeObserver = null;
+        return;
+    }
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', measureSlides);
+    }
 });
 </script>
 

@@ -139,7 +139,7 @@
                 >
                   <img
                     src="/img/placeholder-16x9.svg"
-                    alt="Avefi"
+                    alt="AVefi"
                     class="object-cover w-full h-full"
                     loading="lazy"
                     decoding="async"
