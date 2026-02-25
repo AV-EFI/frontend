@@ -807,7 +807,7 @@ export default defineI18nConfig(() => ({
             "docFilmCollectionDescription": "Dokumentarfilme, die Bewegungen und Akte des Widerstands dokumentieren und reflektieren: die Schlagwortsuche ermöglicht eine thematische Analyse zu Formen des zivilen Ungehorsams.",
             "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
             "docFilmCollectionLinkText": "Aktivismus-Sammlung ansehen",
-            "restShortFilmCollectionDescription": "Neue Zugänge zum filmischen Erbe eröffnen restaurierte Fassungen, etwa digital aufbereitete Kurzfilme.",
+            "restShortFilmCollectionDescription": "Neue Zugänge zum filmischen Erbe eröffnen restaurierte Manifestationen, etwa digital aufbereitete Kurzfilme.",
             "restShortFilmCollectionTitle": "Restaurierte Kurzfilme",
             "restShortFilmCollectionLinkText": "Restaurierte Filme entdecken",
             'showSuggestions': 'Vorschläge anzeigen',
@@ -846,7 +846,7 @@ export default defineI18nConfig(() => ({
             },
             "searchAndFind": {
                 "title": "Suchen und Finden",
-                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer institutionsübergreifenden Filmdatenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen. Über die gebündelten Daten, von Produktions- bis zu Format- und Materialangaben, lassen sich Filmwerke und ihre verschiedenen Fassungen finden. Die Plattform unterscheidet zwischen Werk, Manifestation und Exemplar. So werden unterschiedliche Manifestationen eines Films sowie konkrete Archivbestände transparent zugeordnet. Ergänzende filmografische Quellen sind direkt verlinkt."
+                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer institutionsübergreifenden Filmdatenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen. Über die gebündelten Daten, von Produktions- bis zu Format- und Materialangaben, lassen sich Filmwerke und ihre verschiedenen Manifestationen finden. Die Plattform unterscheidet zwischen Werk, Manifestation und Exemplar. So werden unterschiedliche Manifestationen eines Films sowie konkrete Archivbestände transparent zugeordnet. Ergänzende filmografische Quellen sind direkt verlinkt."
             },
             "callToAction": {
                 "title": "Ihre Bestände in AVefi",
@@ -1105,7 +1105,7 @@ export default defineI18nConfig(() => ({
                 "manifest": {
                     "boilerplate": {
                         "oneLiner": "AVefi ist ein institutionsübergreifendes Verbundsystem zur eindeutigen Identifikation und Verknüpfung audiovisueller Bestände über persistente Filmidentifikatoren.",
-                        "short": "AVefi (Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren) ist ein von der Deutschen Forschungsgemeinschaft gefördertes Projekt. Es entwickelt und erprobt ein webbasiertes System zur institutionsübergreifenden Identifikation und Verknüpfung von Filmen, ihren Fassungen und Exemplaren. Zentral sind persistente Identifikatoren (PID), die eine eindeutige Referenzierung heterogener Bestände ermöglichen.",
+                        "short": "AVefi (Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren) ist ein von der Deutschen Forschungsgemeinschaft gefördertes Projekt. Es entwickelt und erprobt ein webbasiertes System zur institutionsübergreifenden Identifikation und Verknüpfung von Filmen, ihren Manifestationen und Exemplaren. Zentral sind persistente Identifikatoren (PID), die eine eindeutige Referenzierung heterogener Bestände ermöglichen.",
                         "long": "Im Projekt AVefi – Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren – wird ein institutionsübergreifendes, webbasiertes System entwickelt und erprobt. Ziel ist die eindeutige Identifikation und Verknüpfung von Film-Werken, ihren Manifestationen und einzelnen Exemplaren aus unterschiedlichen institutionellen Beständen. Persistente Identifikatoren (PID) übernehmen dabei eine zentrale Rolle. Sie ermöglichen eine langfristige, stabile Referenzierung und machen Beziehungen zwischen Beständen verschiedener Einrichtungen nachvollziehbar. Das zugrunde liegende Datenmodell unterscheidet zwischen Werk, Manifestation und Item entsprechend dem FIAF Moving Image Cataloguing Manual. Metadaten werden strukturiert erfasst, formal validiert und über standardisierte Schnittstellen zugänglich gemacht. AVefi dient der wissenschaftlichen Nutzung, der strukturierten Filmrecherche und der nachhaltigen Verknüpfung audiovisueller Bestände. Das System ist offen für weitere Datenquellen und Kooperationen."
                     },
                     "usage": {
@@ -1465,7 +1465,7 @@ export default defineI18nConfig(() => ({
             'videoTitle': 'AVefi',
             'videoDescription': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenster teilnehmender Filmarchive und -sammlungen.',
             'videoSectionTitle': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres.',
-            'videoSectionDescription': 'Durchsuchbar sind sowohl Filmwerke als auch die jeweiligen Fassungen der beteiligten Filmarchive und Sammlungen, einschließlich ihrer Beziehungen, Identifikatoren und ausgewählter Metadaten, was eine differenzierte Recherche und den Vergleich über Institutionsgrenzen hinweg ermöglicht.',
+            'videoSectionDescription': 'Durchsuchbar sind sowohl Filmwerke als auch die jeweiligen Manifestationen und Exemplare der beteiligten Filmarchive und Sammlungen, einschließlich ihrer Beziehungen, Identifikatoren und ausgewählter Metadaten, was eine differenzierte Recherche und den Vergleich über Institutionsgrenzen hinweg ermöglicht.',
             'videoNotSupported': 'Ihr Browser unterstützt das Video-Tag nicht.',
             'partnersTitle': 'Teamwork ',
             'partnersDescription': 'AVefi ist ein Infrastrukturprojekt im Verbund. Die Verbundpartner arbeiten mit beratender Expertise und konkreter Beteiligung von Praxispartnern zusammen, darunter Archive, Museen und wissenschaftliche Einrichtungen aus dem Bereich Filmkultur und -forschung.',
