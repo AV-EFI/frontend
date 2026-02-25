@@ -19,8 +19,17 @@
         <div class="w-full md:w-4/5 mx-auto">
           <article class="container flex justify-center" role="region" :aria-label="$t('contact.articleContent')">
             <div id="c7273" class="frame frame-default frame-type-text frame-layout-0 w-full text-balance text-left">
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.about.heading')">
-                <input type="checkbox" checked>
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.about.heading')"
+                role="region"
+                :aria-label="$t('contact.about.heading')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.about.heading']"
+                  @change="(event) => handleToggle('contact.about.heading', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.about.heading') }}</h2>
                 </div>
@@ -36,8 +45,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.availableMetadata')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.availableMetadata')"
+                role="region"
+                :aria-label="$t('contact.availableMetadata')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.availableMetadata']"
+                  @change="(event) => handleToggle('contact.availableMetadata', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.availableMetadata') }}</h2>
                 </div>
@@ -46,8 +64,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.definitions')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.definitions')"
+                role="region"
+                :aria-label="$t('contact.definitions')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.definitions']"
+                  @change="(event) => handleToggle('contact.definitions', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.definitions') }}</h2>
                 </div>
@@ -62,8 +89,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.keywords')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.keywords')"
+                role="region"
+                :aria-label="$t('contact.keywords')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.keywords']"
+                  @change="(event) => handleToggle('contact.keywords', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.keywords') }}</h2>
                 </div>
@@ -72,8 +108,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.normdata')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.normdata')"
+                role="region"
+                :aria-label="$t('contact.normdata')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.normdata']"
+                  @change="(event) => handleToggle('contact.normdata', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.normdata') }}</h2>
                 </div>
@@ -87,8 +132,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.availability')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.availability')"
+                role="region"
+                :aria-label="$t('contact.availability')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.availability']"
+                  @change="(event) => handleToggle('contact.availability', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.availability') }}</h2>
                 </div>
@@ -97,8 +151,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.pids')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.pids')"
+                role="region"
+                :aria-label="$t('contact.pids')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.pids']"
+                  @change="(event) => handleToggle('contact.pids', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.pids') }}</h2>
                 </div>
@@ -108,8 +171,17 @@
                 </div>
               </div>
 
-              <div class="collapse collapse-arrow mt-2" role="region" :aria-label="$t('contact.dataProviders')">
-                <input type="checkbox">
+              <div
+                class="collapse collapse-arrow mt-2"
+                :id="hashFromKey('contact.dataProviders')"
+                role="region"
+                :aria-label="$t('contact.dataProviders')"
+              >
+                <input
+                  type="checkbox"
+                  :checked="openSections['contact.dataProviders']"
+                  @change="(event) => handleToggle('contact.dataProviders', event)"
+                >
                 <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
                   <h2>{{ $t('contact.dataProviders') }}</h2>
                 </div>
@@ -130,9 +202,78 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
 definePageMeta({ auth: false });
 
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
+type AccordionSection = {
+  key: string;
+  defaultOpen?: boolean;
+};
+
+const accordionSections: AccordionSection[] = [
+    { key: 'contact.about.heading', defaultOpen: true },
+    { key: 'contact.availableMetadata' },
+    { key: 'contact.definitions' },
+    { key: 'contact.keywords' },
+    { key: 'contact.normdata' },
+    { key: 'contact.availability' },
+    { key: 'contact.pids' },
+    { key: 'contact.dataProviders' },
+];
+
+const openSections = reactive<Record<string, boolean>>({});
+
+accordionSections.forEach((section) => {
+    openSections[section.key] = !!section.defaultOpen;
+});
+
+const hashFromKey = (key: string) => key.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
+
+const setSectionState = (key: string, isOpen: boolean) => {
+    openSections[key] = isOpen;
+    const targetHash = `#${hashFromKey(key)}`;
+    if (isOpen) {
+        router.replace({ hash: targetHash });
+    } else if (route.hash === targetHash) {
+        router.replace({ hash: '' });
+    }
+};
+
+const handleToggle = (key: string, event: Event) => {
+    const target = event.target as HTMLInputElement;
+    setSectionState(key, target.checked);
+};
+
+const openSectionFromHash = (hash?: string | null) => {
+    if (!hash) return;
+    const normalized = hash.replace('#', '');
+    const match = accordionSections.find((section) => hashFromKey(section.key) === normalized);
+    if (match) {
+        openSections[match.key] = true;
+        if (import.meta.client) {
+            requestAnimationFrame(() => {
+                const target = document.getElementById(normalized);
+                target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+    }
+};
+
+if (import.meta.client) {
+    watch(
+        () => route.hash,
+        (hash) => {
+            openSectionFromHash(hash);
+        },
+        { immediate: true },
+    );
+}
 
 useSeoMeta({
     title: t('seo.faq.title'),

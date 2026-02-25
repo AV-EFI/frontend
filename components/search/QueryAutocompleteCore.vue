@@ -29,7 +29,7 @@
 
         <!-- Suggestions dropdown -->
         <div v-show="showDropdown" :id="listboxId"
-            class="absolute z-[1100] w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-96 overflow-auto"
+            class="absolute z-[1100] w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-96 overflow-auto"
             role="listbox" :aria-label="ariaLabel">
             <!-- Accessible headings for screen readers -->
             <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
@@ -79,9 +79,9 @@
                 <!-- Original flat rendering -->
                 <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
                     type="button" :class="[
-                        'w-full text-left px-3 py-2 flex items-center gap-2 group',
-                        'hover:bg-gray-100 dark:hover:bg-gray-700',
-                        i === highlighted ? 'bg-gray-100 dark:bg-gray-700' : ''
+                        'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
+                        'hover:bg-gray-100 dark:hover:bg-gray-800/80',
+                        i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
                     ]" role="option" :aria-selected="i === highlighted" :aria-label="`${typeLabel(s.type)}: ${s.text}`"
                     @mousedown.stop.prevent="onSelect(s)">
                     <Icon v-if="s.type === 'recent'" class="shrink-0 text-base leading-none" name="tabler:history"
@@ -160,7 +160,7 @@ const emit = defineEmits<{
 
 /* ==========================================================================
    SINGLE SOURCE OF TRUTH (v-model proxy)
-   ========================================================================== */
+   ========================================================================= */
 
 const displayValue = computed<string>({
     get: () => props.modelValue ?? '',
@@ -171,7 +171,7 @@ const ariaLabel = computed(() => props.ariaLabel ?? t('search'));
 
 /* ==========================================================================
    State
-   ========================================================================== */
+   ========================================================================= */
 
 const suggestions = ref<Suggestion[]>([]);
 const showDropdown = ref(false);
@@ -184,7 +184,7 @@ const userInteracting = ref(false);
 
 /* ==========================================================================
    Mode flags
-   ========================================================================== */
+   ========================================================================= */
 
 const facetMode = computed(() => !!props.facetAttr);
 const enforced = computed(() =>
@@ -193,7 +193,7 @@ const enforced = computed(() =>
 
 /* ==========================================================================
    A11y ids
-   ========================================================================== */
+   ========================================================================= */
 
 const rawUid = useId();
 const uid = (rawUid || Math.random().toString(36).slice(2)).replace(/[:]/g, '-');
@@ -205,7 +205,7 @@ const activeDescId = computed(() =>
 
 /* ==========================================================================
    Debounce
-   ========================================================================== */
+   ========================================================================= */
 
 let timer: ReturnType<typeof setTimeout> | null = null;
 
@@ -226,7 +226,7 @@ function cancelDebounce() {
 
 /* ==========================================================================
    Fetching (token guarded)
-   ========================================================================== */
+   ========================================================================= */
 
 const size = computed(() => Number(props.size ?? 10));
 let fetchToken = 0;
@@ -274,7 +274,7 @@ async function fetchSuggestions(q: string): Promise<number> {
 
 /* ==========================================================================
    Derived suggestions
-   ========================================================================== */
+   ========================================================================= */
 
 const visibleSuggestions = computed(() => {
     if (props.recentSearches?.length) {
@@ -290,7 +290,7 @@ const visibleSuggestions = computed(() => {
 
 /* ==========================================================================
    Messages
-   ========================================================================== */
+   ========================================================================= */
 
 const noResultsMessage = computed(() =>
     props.noResultsText ??
@@ -299,7 +299,7 @@ const noResultsMessage = computed(() =>
 
 /* ==========================================================================
    Input handlers
-   ========================================================================== */
+   ========================================================================= */
 
 function onInput(v: any) {
     if (suppressNextInput.value) {
@@ -379,7 +379,7 @@ function onSelect(s: Suggestion) {
 
 /* ==========================================================================
    Keyboard
-   ========================================================================== */
+   ========================================================================= */
 
 function onKeydown(e: KeyboardEvent) {
     if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key)) return;
@@ -432,7 +432,7 @@ function onKeydown(e: KeyboardEvent) {
 
 /* ==========================================================================
    Public API
-   ========================================================================== */
+   ========================================================================= */
 
 function submit() {
     emit('submit', displayValue.value);
@@ -442,7 +442,7 @@ defineExpose({ submit });
 
 /* ==========================================================================
    Icons
-   ========================================================================== */
+   ========================================================================= */
 
 const iconMap = computed<IconMap>(() => ({ ...(props.iconMap || {}) }));
 

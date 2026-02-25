@@ -166,6 +166,19 @@ textarea::selection {
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
+  [data-theme="avefi_dark"] select,
+  [data-theme="avefi_dark"] select option,
+  [data-theme="avefi_dark"] select optgroup {
+    background-color: #050505;
+    color: #f3f4f6;
+  }
+
+  [data-theme="avefi_dark"] select option:checked,
+  [data-theme="avefi_dark"] select option:focus {
+    background-color: #1f2937;
+    color: #fdfdfd;
+  }
 }
 
 @layer components {

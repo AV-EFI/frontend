@@ -68,7 +68,6 @@
         class="carousel-item relative align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
         <label class="swap swap-flip w-full h-full cursor-pointer">
           <input type="checkbox" v-model="createOpen" aria-label="Toggle create form" />
-
           <!-- swap-off: show only slogan -->
           <div class="swap-off w-full h-full flex items-center justify-center p-6">
             <div class="flex flex-col items-center">

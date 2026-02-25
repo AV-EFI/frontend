@@ -28,7 +28,7 @@
   "githubIssues.alwaysPromptForNewIssueRepo": true,
   "github-actions.remote-name": "avefi-issues",
   "[vue]": {
-    "editor.defaultFormatter": "Vue.volar"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"

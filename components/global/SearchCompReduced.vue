@@ -5,7 +5,7 @@
         :aria-label="ariaLabel" :icon-map="iconMap" :recent-searches="recentSearchesWithUrl" :autofocus="false"
         @submit="onSubmit" @clear="term = ''" @recent-search-click="handleRecentSearchClick"
         @remove-recent="handleRemoveRecentSearch" @clear-history="handleClearAllHistory" />
-      <button type="button" class="btn btn-primary lg:btn-lg h-12 !md:rounded-l-none !md:rounded-r-xl"
+      <button type="button" class="btn btn-primary lg:btn-lg h-12 md:!rounded-l-none md:!rounded-r-xl"
         @click="submitFromButton">
         {{ buttonText }}
       </button>

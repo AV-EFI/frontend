@@ -24,7 +24,7 @@
                         <!-- Separate, stylable submit button -->
                         <div class="ml-0">
                             <button type="submit"
-                                class="!rounded-l-none !rounded-r-xl flex btn btn-primary lg:btn-lg h-12"
+                                class="h-full !rounded-l-none !rounded-r-xl flex btn btn-primary lg:btn-lg h-8"
                                 :class="{'btn-disabled opacity-50 cursor-not-allowed': !canSubmit}"
                                 :aria-label="$t('submitSearch')" @click="handleClick">
                                 {{ buttonText }}
@@ -60,8 +60,10 @@
                                 <!-- Facet select -->
                                 <FormKit v-model="filter.facet" type="select"
                                     :placeholder="$t('selectFacet') || 'Select Facet'"
-                                    :options="availableFacetsFiltered" outer-class="flex-[0.9]"
-                                    inner-class="dark:!bg-gray-950 dark:!text-white" @input="onFacetChange(index)" />
+                                    :options="availableFacetsFiltered" outer-class="flex-1 w-full lg:w-auto"
+                                    inner-class="dark:bg-neutral dark:text-accent"
+                                    input-class="!h-8 dark:!bg-[#050505] dark:!text-gray-100 dark:!border-gray-700"
+                                    @input="onFacetChange(index)" />
 
                                 <!-- Value input + dropdown -->
                                 <div class="flex-1 relative" @mousedown.stop>
@@ -69,14 +71,15 @@
                                         <!-- We bind to valueDisplay for UI, and keep valueRaw separately -->
                                         <FormKit :model-value="filter.valueDisplay" type="text"
                                             :placeholder="$t('enterValue') || 'Enter Value'" outer-class="w-full"
-                                            inner-class="dark:!bg-gray-950 dark:!text-white" :disabled="!filter.facet"
-                                            autocomplete="off" :aria-autocomplete="'list'" :aria-haspopup="'listbox'"
+                                            inner-class="!h-8 dark:!bg-gray-950 dark:!text-white"
+                                            input-class="!h-8 !w-full p-2" :disabled="!filter.facet" autocomplete="off"
+                                            :aria-autocomplete="'list'" :aria-haspopup="'listbox'"
                                             :aria-expanded="filter.showSuggestions ? 'true' : 'false'"
                                             :aria-activedescendant="filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
                                             @input="onValueInput(index, $event)" @focus="onValueFocus(index)"
                                             @blur="onValueBlur(index)" @keydown="onFacetKeydown($event, index)" />
                                         <button type="button"
-                                            class="h-8 px-2 py-1 mt-0 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
+                                            class="h-full min-h-8 px-3 py-1 mt-0 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
                                             :aria-label="$t('showSuggestions')" :disabled="!filter.facet"
                                             @mousedown.prevent.stop="onFacetDropdownClick(index)">
                                             <Icon name="tabler:chevron-down" size="16" />
@@ -85,16 +88,16 @@
 
                                     <!-- Suggestions -->
                                     <div v-if="filter.showSuggestions && filter.suggestions.length"
-                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-40 overflow-y-auto"
+                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
                                         role="listbox" @mousedown.stop>
                                         <div v-for="(s, si) in filter.suggestions.slice(0, 10)"
                                             :id="`facet-sugg-${filter.uid}-${si}`"
                                             :key="`facet-sugg-${filter.uid}-${si}-${s.raw}`" :class="[
-                        'px-3 py-2 cursor-pointer text-sm flex items-center gap-2',
-                        filter.highlighted === si 
-                          ? 'bg-blue-100 dark:bg-blue-900/40' 
-                          : 'hover:bg-gray-100 dark:hover:bg-gray-700'
-                      ]" role="option" :aria-selected="filter.highlighted === si"
+                                                'px-3 py-2 cursor-pointer text-sm flex items-center gap-2 text-gray-800 dark:text-gray-200',
+                                                filter.highlighted === si 
+                                                ? 'bg-blue-100 dark:bg-gray-900/80' 
+                                                : 'hover:bg-gray-100 dark:hover:bg-gray-800/70'
+                                            ]" role="option" :aria-selected="filter.highlighted === si"
                                             @mousedown.prevent.stop="selectSuggestion(index, s)">
                                             <!-- Show translated display text, keep raw in state -->
                                             <span class="flex-grow">{{ s.display }}</span>

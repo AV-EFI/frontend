@@ -803,10 +803,10 @@ export default defineI18nConfig(() => ({
             ...avefiLocales.en
         },
         de: {
-            "docFilmCollectionDescription": "Dokumentarfilme, die Bewegungen und Akte des Widerstands – von Streiks oder Aufständen bis zu politischem Engagement -dokumentieren und reflektieren: die Schlagwortsuche ermöglicht eine thematische Analyse zu Formen des zivilen Ungehorsams.",
+            "docFilmCollectionDescription": "Dokumentarfilme, die Bewegungen und Akte des Widerstands dokumentieren und reflektieren: die Schlagwortsuche ermöglicht eine thematische Analyse zu Formen des zivilen Ungehorsams.",
             "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
             "docFilmCollectionLinkText": "Aktivismus-Sammlung ansehen",
-            "restShortFilmCollectionDescription": "Neue Zugänge zum filmischen Erbe eröffnen sich durch restaurierte Fassungen, etwa von Kurzfilmen, die digital aufbereitet und erneut zugänglich gemacht wurden.",
+            "restShortFilmCollectionDescription": "Neue Zugänge zum filmischen Erbe eröffnen restaurierte Fassungen, etwa digital aufbereitete Kurzfilme.",
             "restShortFilmCollectionTitle": "Restaurierte Kurzfilme",
             "restShortFilmCollectionLinkText": "Restaurierte Filme entdecken",
             'showSuggestions': 'Vorschläge anzeigen',
@@ -831,8 +831,8 @@ export default defineI18nConfig(() => ({
             },
             "build": {
                 "linked": {
-                    "title": "Verknüpfte Daten im Verbund",
-                    "lead": "Alle Suchergebnisse lassen sich detailliert filtern. Für jeden erfassten Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Das Werk und seine unterschiedlichen Fassungen erhalten jeweils eigene, klar zugeordnete Identifikatoren. Das macht einzelne Manifestationen oder Exemplare leichter auffindbar und ermöglicht die konsistente Referenzierung und verlässliche Zitierbarkeit über Institutionsgrenzen hinweg.",
+                    "title": "efis für alle – Filme eindeutig identifiziert ",
+                    "lead": "AVefi ist ein Verbundsystem, das Filmbestände aus unterschiedlichen Institutionen verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werk und Fassungen erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Suchergebnisse lassen sich filtern, und Metadaten können frei nachgenutzt werden.",
                     "authority": "Normdaten",
                     "crosswalk": "Verknüpfung"
                 },
@@ -845,7 +845,7 @@ export default defineI18nConfig(() => ({
             },
             "searchAndFind": {
                 "title": "Suchen und Finden",
-                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer Datenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche"
+                "text": "AVefi zeigt die Vielfalt der Filmkultur in einer Datenbank: Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen. Über die gebündelten Daten, von Produktions- bis zu Format- und Materialangaben, lassen sich Filmwerke und ihre verschiedenen Fassungen finden. Die Plattform bietet eine gute Übersicht über das jeweils konkrete Exemplar eines Filmarchivs oder einer Filmsammlung. Die Quellen mit weiteren filmografischen Informationen sind verlinkt."
             },
             "callToAction": {
                 "title": "Ihre Bestände in AVefi",
@@ -853,7 +853,7 @@ export default defineI18nConfig(() => ({
             },
             "becomeAPartner": {
                 "title": "Werden Sie Teil der AVefi-Community",
-                "text": "Über unsere Mailingliste informieren wir Sie über Neuigkeiten",
+                "text": "Über unsere Mailingliste informieren wir Sie regelmäßig über Neuigkeiten und Entwicklungen rund um AVefi sowie über Veranstaltungen und neue Funktionen der Plattform.",
                 "cta": "Mailingliste abonnieren",
                 "ctaLink": "https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
             },
@@ -888,7 +888,7 @@ export default defineI18nConfig(() => ({
             "viewHomepage": "Zur Homepage",
             'home': {
                 'breadcrumbs': 'Home',
-                'tagline': 'AVefi verknüpft Filmbestände institutionenübergreifend über einheitliche Identifikatoren und schafft damit eine offene Forschungsinfrastruktur für audiovisuelle Werke.',
+                'tagline': 'AVefi verknüpft Bestände verschiedener Institutionen zu einem Filmwerk und macht sie dauerhaft eindeutig auffindbar für Recherche und Forschung.',
                 'welcome': 'Filmmetadaten aller Genres und Typen sind verfügbar, mit einem besonderen Fokus auf Bildungs-, Lehr- und Wissenschaftsfilme sowie Amateur- und Heimatfilme.',
             },
             'advancedSearch': 'Erweiterte Suche',
@@ -1013,7 +1013,7 @@ export default defineI18nConfig(() => ({
             "openAndExtendable": {
                 "title":"Offen und erweiterbar",
                 "content": [
-                    "AVefi bildet eine dynamische und zugleich verlässliche Plattform für die interdisziplinäre filmgetriebene Forschung, für die Filmkulturwelt und für die Filmarchivarbeit. Heterogene audiovisuelle Bestände werden über strukturierte, standardisierte Metadaten und Normdaten mit Hilfe von Persistent Identifiern (PID) eindeutig langfristig identifizierbar und vergleichbar gemacht. Leitend sind Linked Open Data und FAIR-Prinzipien für ein optimales Datenmanagement.",
+                    "AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur und Filmarchivarbeit. Sie basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit eindeutig identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.",
                     "Hintergrundinformationen auf der Projektwebsite.",
                     "https://projects.tib.eu/av-efi",
                     "Weitere Datenquellen und Kooperationspartner sind sehr willkommen."
@@ -1072,7 +1072,7 @@ export default defineI18nConfig(() => ({
             // Create card translations
             'createYourOwn': {
                 'title': 'Wonach suchen Sie?',
-                'description': 'Senden Sie uns gerne Ihre Suchanfrage als Vorschlag für die Beispiele'
+                'description': 'Senden Sie uns Ihre Suchanfrage als Vorschlag für die Galerie.'
             },
             "press": {
                 "badgeLastUpdated": "Zuletzt aktualisiert {date}",
@@ -1397,7 +1397,7 @@ export default defineI18nConfig(() => ({
             "clearSearchHistory": "Suchverlauf löschen",
             "clearAll": "Alle löschen",
             "removeFromHistory": "Aus Verlauf entfernen",
-            "showEntireCollection": "Ganzer Bestand",
+            "showEntireCollection": "Alles anzeigen",
             "filteringsection": "Filterbereich",
             'temporarytestdata': 'Temporär bis Testdaten vorhanden',
             'theme': 'Ansicht',
@@ -1465,9 +1465,9 @@ export default defineI18nConfig(() => ({
             'videoSectionDescription': 'Durchsuchbar sind sowohl Filmwerke als auch die jeweiligen Fassungen der beteiligten Filmarchive und Sammlungen, einschließlich ihrer Beziehungen, Identifikatoren und ausgewählter Metadaten, was eine differenzierte Recherche und den Vergleich über Institutionsgrenzen hinweg ermöglicht.',
             'videoNotSupported': 'Ihr Browser unterstützt das Video-Tag nicht.',
             'partnersTitle': 'Teamwork ',
-            'partnersDescription': 'AVefi ist ein Infrastrukturprojekt im Verbund. Die Verbundpartner werden mit beratender Expertise und konkreter Beteiligung von Praxispartnern unterstützt, darunter Archiven, Museen und wissenschaftlichen Einrichtungen aus dem Bereich Filmkultur und -forschung.',
+            'partnersDescription': 'AVefi ist ein Infrastrukturprojekt im Verbund. Die Verbundpartner arbeiten mit beratender Expertise und konkreter Beteiligung von Praxispartnern zusammen, darunter Archive, Museen und wissenschaftliche Einrichtungen aus dem Bereich Filmkultur und -forschung.',
             'trollerTitle': 'Georg Stefan Troller',
-            'trollerDescription': 'Georg Stefan Troller (1921-2025) war ein österreichisch-französischer Filmemacher und Journalist. In seinen Dokumentarfilmen verband er persönliche Geschichten mit sozialen Themen und schufen eindringliche Porträts.',
+            'trollerDescription': 'Georg Stefan Troller (1921-2025) war ein österreichisch-französischer Filmemacher und Journalist. In seinen Dokumentarfilmen verband er persönliche Geschichten mit sozialen Themen und schuf eindringliche Porträts.',
             'trollerLinkText': 'Troller bei AVefi',
             'ddrTitle': 'Filmgeschichte der DDR',
             'ddrDescription': 'Diese Sammlung ist eine wertvolle Ressource zur Filmgeschichte der DDR. Umfangreiche Metadaten ermöglichen anspruchsvolle Forschung und fördern neue wissenschaftliche Erkenntnisse zu Kultur und Gesellschaft der DDR.',

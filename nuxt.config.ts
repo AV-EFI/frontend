@@ -149,7 +149,7 @@ export default defineNuxtConfig({
     },
     icon: {
         // See: https://github.com/nuxt-modules/icon#configuration
-        collections: ['tabler'], // Uncomment if you want to use specific icon collections
+        collections: ['tabler', 'formkit'], // Uncomment if you want to use specific icon collections
     },
     components: {
         global: true,
@@ -367,9 +367,14 @@ export default defineNuxtConfig({
             '/_nuxt/**',
         ],
     },  
-    nuxt3WinstonLog: {
+    nuxt3WinstonLog: {        
         maxSize: "2048m",
         maxFiles: "14d",
+        level: isProduction ? 'info' : 'debug',
+        // Optional: Enable console logging in development for easier debugging
+        console: !isProduction,
+        skipRequestMiddlewareHandler: true,
+        skipErrorMiddlewareHandler: true,
     },
     cookieControl: {
         locales: ['de', 'en'],

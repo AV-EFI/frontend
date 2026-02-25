@@ -3,8 +3,8 @@
         <div class="container mx-auto px-4 min-h-[400px] flex items-center">
             <div class="items-center mx-auto w-full">
                 <div class="flex justify-center">
-                    <video controls preload="none" :poster="videoPosterSrc" width="1920" height="1080"
-                        class="w-full mx-auto md:max-w-full rounded-xl border border-base-300 shadow-lg"
+                    <video controls preload="none" :poster="videoPosterSrc" width="1024" height="768"
+                        class="w-full mx-auto md:max-w-3xl rounded-xl border border-base-300 shadow-lg"
                         :aria-describedby="'video-desc'">
                         <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
                         {{ t('videoNotSupported') }}

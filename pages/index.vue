@@ -156,16 +156,9 @@
                 <!-- content stays above -->
                 <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                        <div class="lg:col-span-4 flex justify-center w-full">
-                            <div class="card flex flex-col justify-center min-h-[18rem]">
-                                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight mb-2">
-                                    {{ $t('searchAndFind.title') }}
-                                </h2>
-                                <p class="text-base md:text-lg opacity-80">
-                                    {{ $t('searchAndFind.text') }}
-                                </p>
-                            </div>
-                        </div>
+                        <HomeSectionTextBlock :title="$t('searchAndFind.title')"
+                            :paragraphs="[$t('searchAndFind.text')]"
+                            wrapper-class="lg:col-span-4" />
                         <div v-if="showFeaturedCarousel" class="lg:col-span-8 flex justify-center w-full"
                             ref="featuredCarouselRef">
                             <div class="relative w-full min-h-[32rem]">
@@ -228,34 +221,48 @@
                                     <div class="h-4 bg-base-200 rounded w-2/3"></div>
                                 </div>
                             </div>
-                            <div class="w-full p-6 space-y-3">
-                                <div class="h-8 w-2/3 bg-base-200 rounded"></div>
-                                <div class="h-4 w-5/6 bg-base-200 rounded"></div>
-                                <div class="h-4 w-3/4 bg-base-200 rounded"></div>
+                            <HomeSectionTextBlock :title="$t('build.linked.title')"
+                                :paragraphs="[$t('build.linked.lead')]" wrapper-class="w-full" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </NuxtLazyHydrate>
+
+        <!-- ======= CORE FUNC & VIDEO BAND ======= -->
+        <NuxtLazyHydrate when-visible :offset="260">
+            <div
+                class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                <div ref="coreSectionRef" class="lazy-section-anchor w-full">
+                    <ClientOnly>
+                        <HomeCoreFunctionsSection v-if="coreReady" class="block transition-opacity duration-300" />
+                    </ClientOnly>
+                    <section v-if="!coreReady" role="presentation" aria-hidden="true"
+                        class="relative border-t border-base-200 py-10">
+                        <div class="container mx-auto px-4 min-h-[240px] flex items-center">
+                            <HomeSectionTextBlock :title="$t('openAndExtendable.title')"
+                                :paragraphs="[$t('openAndExtendable.content[0]'), $t('openAndExtendable.content[1]')]"
+                                wrapper-class="w-full"
+                                :cta-label="$t('openAndExtendable.cta')" :cta-href="$t('openAndExtendable.content[2]')"
+                                cta-target="_blank" />
+                        </div>
+                    </section>
+                </div>
+                <div ref="videoSectionRef" class="lazy-section-anchor w-full">
+                    <ClientOnly>
+                        <HomeVideoSection v-if="videoReady" class="block transition-opacity duration-300" />
+                    </ClientOnly>
+                    <section v-if="!videoReady" role="presentation" aria-hidden="true"
+                        class="relative border-t border-base-200 py-10">
+                        <div class="container mx-auto px-4 min-h-[260px] flex items-center">
+                            <div
+                                class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200">
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
         </NuxtLazyHydrate>
-
-        <!-- ======= VIDEO BAND ======= -->
-        <NuxtLazyHydrate when-visible :offset="260">
-            <div ref="videoSectionRef" class="lazy-section-anchor">
-                <ClientOnly>
-                    <HomeVideoSection v-if="videoReady" class="block transition-opacity duration-300" />
-                </ClientOnly>
-                <section v-if="!videoReady" role="presentation" aria-hidden="true"
-                    class="relative border-t border-base-200 py-10">
-                    <div class="container mx-auto px-4 min-h-[260px] flex items-center">
-                        <div
-                            class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200">
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </NuxtLazyHydrate>
-
         <!-- ======= ISSUER CAROUSEL ======= -->
         <NuxtLazyHydrate when-visible :offset="320">
             <div ref="issuerSectionRef" class="lazy-section-anchor">
@@ -278,26 +285,6 @@
             </div>
         </NuxtLazyHydrate>
 
-        <!-- ======= CORE FUNCTIONS ======= -->
-        <NuxtLazyHydrate when-visible :offset="420">
-            <div ref="coreSectionRef" class="lazy-section-anchor">
-                <ClientOnly>
-                    <HomeCoreFunctionsSection v-if="coreReady" class="block transition-opacity duration-300" />
-                </ClientOnly>
-                <section v-if="!coreReady" role="presentation" aria-hidden="true"
-                    class="relative border-t border-base-200 py-10">
-                    <div class="container mx-auto px-4 min-h-[240px] flex items-center">
-                        <div class="card lg:max-w-96 md:p-6 border border-dashed border-base-300 bg-base-100">
-                            <div class="h-6 w-32 bg-base-200 rounded mb-4"></div>
-                            <div class="space-y-2">
-                                <div class="h-4 w-48 bg-base-200 rounded"></div>
-                                <div class="h-4 w-40 bg-base-200 rounded"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </NuxtLazyHydrate>
 
         <!-- ======= CTA ======= -->
         <NuxtLazyHydrate when-visible :offset="520">
@@ -307,18 +294,16 @@
                 </ClientOnly>
                 <section v-if="!ctaReady" role="presentation" aria-hidden="true"
                     class="relative border-t border-base-200 py-10">
-                    <div class="container mx-auto px-4 min-h-[320px] flex items-center">
-                        <div class="flex flex-col gap-6 lg:flex-row w-full">
-                            <div class="w-full lg:w-1/2 border border-dashed border-base-300 rounded-xl p-6 space-y-3">
-                                <div class="h-8 w-3/4 bg-base-200 rounded"></div>
-                                <div class="h-4 w-full bg-base-200 rounded"></div>
-                                <div class="h-4 w-2/3 bg-base-200 rounded"></div>
-                            </div>
-                            <div class="w-full lg:w-1/2 border border-dashed border-base-300 rounded-xl p-6 space-y-3">
-                                <div class="h-8 w-2/3 bg-base-200 rounded"></div>
-                                <div class="h-4 w-3/4 bg-base-200 rounded"></div>
-                                <div class="h-10 w-32 bg-base-200 rounded"></div>
-                            </div>
+                    <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                            <HomeSectionTextBlock :title="$t('callToAction.title')"
+                                :paragraphs="[$t('callToAction.text')]" wrapper-class="w-full"
+                                variant="dashed" />
+                            <HomeSectionTextBlock :title="$t('becomeAPartner.title')"
+                                :paragraphs="[$t('becomeAPartner.text')]" wrapper-class="w-full"
+                                variant="dashed"
+                                :cta-label="$t('becomeAPartner.cta')" :cta-href="$t('becomeAPartner.ctaLink')"
+                                cta-target="_blank" />
                         </div>
                     </div>
                 </section>
@@ -335,6 +320,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useIntersectionObserver, unrefElement } from '@vueuse/core';
 import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
+import HomeSectionTextBlock from '~/components/home/HomeSectionTextBlock.vue';
 
 const route = useRoute();
 const { t } = useI18n();
@@ -603,6 +589,7 @@ const cardItems = ref<CardItem[]>([
         imgLicense: '',
         imgLicenseLink: ''
     },
+    /*
     {
         title: 'ddrTitle',
         imgSourceText: 'German Federal Archives',
@@ -622,6 +609,7 @@ const cardItems = ref<CardItem[]>([
         imgSourceLink: '',
         ...createResponsiveCardMedia('Bundesarchiv_Bild_Leipzig_Capitol_Nacht', 343, 256),
     }
+        */
 ]);
 
 const featuredCarouselRef = ref<HTMLElement | null>(null);

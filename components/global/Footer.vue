@@ -1,6 +1,7 @@
 <template>
   <ClientOnly>
-    <footer class="footer w-full bg-neutral text-white dark:text-white px-6 border-t-2 border-base-100"
+    <footer
+      class="footer w-full bg-neutral dark:bg-[#141b1f] text-white dark:text-white px-6 border-t-2 border-base-100"
       role="contentinfo" :aria-label="$t('footer')">
       <div class="container mx-auto p-2 lg:p-4 pb-6 md:pb-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
