@@ -50,9 +50,19 @@
               <li>
                 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
                   class="link transition inline-flex items-center gap-2 py-2 px-3 rounded-md min-h-12 focus-visible:outline-offset-2 focus-visible:outline-base-100"
-                  :aria-label="$t('footerLicense')">
+                  :aria-label="$t('footerLicenseContent')">
                   <span class="">
-                    {{ $t('footerLicense') }}
+                    {{ $t('footerLicenseContent') }}
+                    <Icon name="tabler:creative-commons" class="text-lg" />
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank"
+                  class="link transition inline-flex items-center gap-2 py-2 px-3 rounded-md min-h-12 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  :aria-label="$t('footerLicenseData')">
+                  <span class="">
+                    {{ $t('footerLicenseData') }}
                     <Icon name="tabler:creative-commons" class="text-lg" />
                   </span>
                 </a>
