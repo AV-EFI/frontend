@@ -333,6 +333,7 @@ export default defineNuxtConfig({
     },
     // Sitemap
     sitemap: {
+        zeroRuntime: true,
         excludeAppSources: true, // Exclude app sources to avoid conflicts with dynamic routes               
         urls: [
             '/', 
@@ -459,7 +460,7 @@ export default defineNuxtConfig({
             tailwindcss(),
             visualizer({
                 filename: 'bundle-analysis.html',
-                open: true,
+                open: false,
             })
         ],
         optimizeDeps: {
@@ -502,9 +503,11 @@ export default defineNuxtConfig({
         debug: true,
         strategy: 'no_prefix',
         defaultLocale: 'de',
+        langDir: './locales',
+        lazy: true,
         locales: [
-            { code: 'de', iso: 'de-DE', name: 'Deutsch' },
-            { code: 'en', iso: 'en-US', name: 'English' }
+            { code: 'de', iso: 'de-DE', name: 'Deutsch', file: 'de.ts' },
+            { code: 'en', iso: 'en-US', name: 'English', file: 'en.ts' }
         ],
         vueI18n: './i18n.config.ts'
     },

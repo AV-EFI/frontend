@@ -1,18 +1,16 @@
 <template>
-    <section role="region" :aria-label="t('videoSection')" class="relative border-t border-base-200 py-10">
-        <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-            <div class="items-center mx-auto w-full">
-                <div class="flex justify-center">
-                    <video controls preload="none" :poster="videoPosterSrc" width="1024" height="768"
-                        class="w-full mx-auto md:max-w-3xl rounded-xl border border-base-300 shadow-lg"
-                        :aria-describedby="'video-desc'">
-                        <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
-                        {{ t('videoNotSupported') }}
-                    </video>
-                </div>
+    <div role="region" :aria-label="t('home.sections.video.aria')" class="w-full min-h-75 md:min-h-100 flex items-center justify-between">
+        <div class="mx-auto w-full">
+            <div class="flex justify-center">
+                <video controls preload="none" :poster="videoPosterSrc" width="1024" height="768"
+                    class="w-full mx-auto md:max-w-3xl rounded-xl border border-base-300 shadow-lg"
+                    :aria-describedby="'video-desc'">
+                    <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
+                    {{ t('home.sections.video.notSupported') }}
+                </video>
             </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script setup>

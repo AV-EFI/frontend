@@ -1,16 +1,10 @@
 <template>
-  <section
-    class="relative border-t border-base-200 py-10 section-wash section-wash--a"
-    role="region"
-    :aria-label="t('timeline.title')"
-  >
-    <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
         <div
-          class="w-full p-6 flex flex-col justify-center max-lg:bg-white/70 max-lg:dark:bg-neutral/30 max-lg:shadow-lg max-lg:rounded-xl"
+          class="order-2 lg:order-1 w-full p-6 flex flex-col justify-center"
         >
           <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6" tabindex="0">
-            {{ t('timeline.title') }}
+            {{ t('home.sections.timeline.title') }}
           </h2>
 
           <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical" role="list">
@@ -21,8 +15,8 @@
               </div>
 
               <div class="timeline-start md:text-end mb-4">
-                <div class="text-lg font-semibold">{{ t('timeline.query.title') }}</div>
-                <div class="opacity-80">{{ t('timeline.query.desc') }}</div>
+                <div class="text-lg font-semibold">{{ t('home.sections.timeline.query.title') }}</div>
+                <div class="opacity-80">{{ t('home.sections.timeline.query.desc') }}</div>
               </div>
 
               <hr class="bg-primary/40" />
@@ -37,8 +31,8 @@
               </div>
 
               <div class="timeline-end mb-4">
-                <div class="text-lg font-semibold">{{ t('timeline.refine.title') }}</div>
-                <div class="opacity-80">{{ t('timeline.refine.desc') }}</div>
+                <div class="text-lg font-semibold">{{ t('home.sections.timeline.refine.title') }}</div>
+                <div class="opacity-80">{{ t('home.sections.timeline.refine.desc') }}</div>
               </div>
               <hr class="bg-primary/40" />
             </li>
@@ -52,8 +46,8 @@
               </div>
 
               <div class="timeline-start md:text-end mb-4">
-                <div class="text-lg font-semibold">{{ t('timeline.share.title') }}</div>
-                <div class="opacity-80">{{ t('timeline.share.desc') }}</div>
+                <div class="text-lg font-semibold">{{ t('home.sections.timeline.share.title') }}</div>
+                <div class="opacity-80">{{ t('home.sections.timeline.share.desc') }}</div>
               </div>
 
               <hr class="bg-primary/40" />
@@ -68,21 +62,19 @@
               </div>
 
               <div class="timeline-end">
-                <div class="text-lg font-semibold">{{ t('timeline.cite.title') }}</div>
-                <div class="opacity-80">{{ t('timeline.cite.desc') }}</div>
+                <div class="text-lg font-semibold">{{ t('home.sections.timeline.cite.title') }}</div>
+                <div class="opacity-80">{{ t('home.sections.timeline.cite.desc') }}</div>
               </div>
             </li>
           </ul>
         </div>
 
         <HomeSectionTextBlock
-          :title="t('build.linked.title')"
-          :paragraphs="[t('build.linked.lead')]"
-          wrapper-class="w-full"
+          :title="t('home.sections.build.linked.title')"
+          :paragraphs="[t('home.sections.build.linked.lead')]"
+          wrapper-class="order-1 lg:order-2 w-full"
         />
-      </div>
     </div>
-  </section>
 </template>
 
 <script setup>

@@ -7,49 +7,12 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
           <nav class="flex flex-col col-span-1" :aria-label="$t('footerInfo')">
             <h2 class="footer-title">
-              {{ $t("partnersTitle") }}
-              <LazyGlobalTooltipInfo :text="$t('partnersDescription')" />
-            </h2>
-            <div>
-              <div class="w-full 2xl:w-2/3 flex justify-start" ref="partnersCarouselRef">
-                <ClientOnly>
-                  <LazyGlobalCarouselComp :items="partnersItems">
-                  </LazyGlobalCarouselComp>
-                </ClientOnly>
-              </div>
-            </div>
-          </nav>
-
-          <!-- Info / Legal -->
-          <nav class="flex flex-col col-span-1" :aria-label="$t('footerInfo')">
-            <h2 class="footer-title">
-              Info
+              {{ $t('license') }}
             </h2>
             <ul>
-              <li>
-                <a href="https://datenschutz.gwdg.de/services/av-efi" target="_blank"
-                  class="link transition inline-flex items-center py-2 px-3 rounded-md min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
-                  :aria-label="$t('dataprotection')">
-                  {{ $t('dataprotection') }}
-                </a>
-              </li>
-              <li>
-                <a href="/imprint"
-                  class="link transition inline-flex items-center py-2 px-3 rounded-md min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
-                  :aria-label="$t('imprint')">
-                  {{ $t('imprint') }}
-                </a>
-              </li>
-              <li>
-                <NuxtLink to="/press"
-                  class="link transition inline-flex items-center py-2 px-3 rounded-md min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
-                  aria-label="Press &amp; Media Kit">
-                  Press &amp; Media Kit
-                </NuxtLink>
-              </li>
-              <li>
+              <li class="min-h-16">
                 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
-                  class="link transition inline-flex items-center gap-2 py-2 px-3 rounded-md min-h-12 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                   :aria-label="$t('footerLicenseContent')">
                   <span class="">
                     {{ $t('footerLicenseContent') }}
@@ -57,9 +20,9 @@
                   </span>
                 </a>
               </li>
-              <li>
+              <li class="min-h-16">
                 <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank"
-                  class="link transition inline-flex items-center gap-2 py-2 px-3 rounded-md min-h-12 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                   :aria-label="$t('footerLicenseData')">
                   <span class="">
                     {{ $t('footerLicenseData') }}
@@ -68,18 +31,36 @@
                 </a>
               </li>
             </ul>
+          </nav>
 
-            <!-- Alpha Notice -->
-            <div role="note" aria-live="polite" class="text-white opacity-95 w-full md:max-w-64 mt-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                class="stroke-primary dark:stroke-info h-6 w-6 shrink-0" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span class="transition" :aria-label="$t('alpha')">
-                {{ $t('alpha') }}
-              </span>
-            </div>
+          <!-- Info / Legal -->
+          <nav class="flex flex-col col-span-1" :aria-label="$t('footerInfo')">
+            <h2 class="footer-title">
+              Info
+            </h2>
+            <ul>
+              <li class="min-h-16">
+                <a href="https://datenschutz.gwdg.de/services/av-efi" target="_blank"
+                  class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  :aria-label="$t('dataprotection')">
+                  {{ $t('dataprotection') }}
+                </a>
+              </li>
+              <li class="min-h-16">
+                <a href="/imprint"
+                  class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  :aria-label="$t('imprint')">
+                  {{ $t('imprint') }}
+                </a>
+              </li>
+              <li class="min-h-16">
+                <NuxtLink to="/press"
+                  class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                  aria-label="Press &amp; Media Kit">
+                  Press &amp; Media Kit
+                </NuxtLink>
+              </li>
+            </ul>
           </nav>
 
           <!-- Sponsoring -->
@@ -99,42 +80,3 @@
     </footer>
   </ClientOnly>
 </template>
-<script setup lang="ts">
-const partnersItems = ref([
-    {
-        src: '/img/gwdg_logo.min.svg',
-        width: 176.871,
-        height: 52.384,
-        alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
-        link: 'https://www.gwdg.de'
-    },
-    {
-        src: '/img/logo_sdk.webp',
-        width: 50,
-        height: 56,
-        alt: 'Stiftung Deutsche Kinemathek',
-        link: 'https://www.deutsche-kinemathek.de'
-    },
-    {
-        src: '/img/logo_tib.webp',
-        width: 85,
-        height: 56,
-        alt: 'Technische Informationsbibliothek Hannover',
-        link: 'https://www.tib.eu'
-    },
-    {
-        src: '/img/logo_fmd.webp',
-        width: 199,
-        height: 56,
-        alt: 'Filmmuseum Düsseldorf',
-        link: 'https://www.duesseldorf.de/filmmuseum'
-    },
-    {
-        src: '/img/logo_mcdci.webp',
-        width: 56,
-        height: 56,
-        alt: 'Marburg Center for Digital Culture and Infrastructure',
-        link: 'https://www.uni-marburg.de/de/mcdci'
-    }
-]);
-</script>

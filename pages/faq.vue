@@ -202,14 +202,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeUnmount, onMounted, reactive } from 'vue';
 
 definePageMeta({ auth: false });
 
 const { t } = useI18n();
-const route = useRoute();
-const router = useRouter();
 
 type AccordionSection = {
   key: string;
@@ -235,19 +232,24 @@ accordionSections.forEach((section) => {
 
 const hashFromKey = (key: string) => key.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
 
-const setSectionState = (key: string, isOpen: boolean) => {
-    openSections[key] = isOpen;
-    const targetHash = `#${hashFromKey(key)}`;
+const updateLocationHash = (key: string, isOpen: boolean) => {
+    if (!import.meta.client) return;
+    const normalized = hashFromKey(key);
+    const currentHash = window.location.hash.replace('#', '');
     if (isOpen) {
-        router.replace({ hash: targetHash });
-    } else if (route.hash === targetHash) {
-        router.replace({ hash: '' });
+        if (currentHash === normalized) return;
+        const nextUrl = `${window.location.pathname}${window.location.search}#${normalized}`;
+        window.history.replaceState(window.history.state, '', nextUrl);
+    } else if (currentHash === normalized) {
+        const nextUrl = `${window.location.pathname}${window.location.search}`;
+        window.history.replaceState(window.history.state, '', nextUrl);
     }
 };
 
 const handleToggle = (key: string, event: Event) => {
     const target = event.target as HTMLInputElement;
-    setSectionState(key, target.checked);
+    openSections[key] = target.checked;
+    updateLocationHash(key, target.checked);
 };
 
 const openSectionFromHash = (hash?: string | null) => {
@@ -266,13 +268,18 @@ const openSectionFromHash = (hash?: string | null) => {
 };
 
 if (import.meta.client) {
-    watch(
-        () => route.hash,
-        (hash) => {
-            openSectionFromHash(hash);
-        },
-        { immediate: true },
-    );
+    const handleHashChange = () => {
+        openSectionFromHash(window.location.hash);
+    };
+
+    onMounted(() => {
+        openSectionFromHash(window.location.hash);
+        window.addEventListener('hashchange', handleHashChange);
+    });
+
+    onBeforeUnmount(() => {
+        window.removeEventListener('hashchange', handleHashChange);
+    });
 }
 
 useSeoMeta({

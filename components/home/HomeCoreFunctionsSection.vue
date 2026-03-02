@@ -1,17 +1,16 @@
 <template>
-    <section role="region" :aria-label="t('coreFunctionsSection')" class="relative border-t border-base-200 py-10">
-        <div class="container mx-auto px-4 min-h-[400px] flex items-center">
-            <HomeSectionTextBlock
-                :title="t('openAndExtendable.title')"
-                :paragraphs="[t('openAndExtendable.content[0]'), t('openAndExtendable.content[1]')]"
-                :cta-label="t('openAndExtendable.cta')"
-                :cta-href="t('openAndExtendable.content[2]')"
-                cta-target="_blank"
-                wrapper-class="mx-auto w-full lg:w-2xl"
-                cta-class="btn btn-outline max-md:btn-block"
-            />
-        </div>
-    </section>
+    <div class="w-full min-h-100 flex items-center justify-between">
+        <HomeSectionTextBlock
+            :title="t('home.sections.openAndExtendable.title')"
+            :paragraphs="[t('home.sections.openAndExtendable.content[0]'), t('home.sections.openAndExtendable.content[1]')]"
+            :cta-label="t('home.sections.openAndExtendable.cta')"
+            :cta-href="t('home.sections.openAndExtendable.content[2]')"
+            cta-target="_blank"
+            wrapper-class="w-full"
+            inner-class="max-w-none"
+            cta-class="btn btn-primary max-md:btn-block"
+        />
+    </div>
 </template>
 
 <script setup>

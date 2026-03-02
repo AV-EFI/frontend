@@ -7,7 +7,7 @@
             <p class="badge badge-primary mb-2 w-fit">
               {{ t('press.badgeLastUpdated', { date: new Date(manifestData.lastUpdated).toLocaleDateString() }) }}
             </p>
-            <h1 class="text-4xl font-bold">{{ t('press.title') }}</h1>
+            <h1 class="text-4xl font-bold bree mb-2">{{ t('press.title') }}</h1>
             <p class="text-lg text-base-content/80">{{ t('press.subtitle') }}</p>
           </div>
           <div class="flex flex-col gap-2 text-right">
@@ -34,9 +34,9 @@
             <div class="flex items-center justify-between gap-2">
               <h2 class="card-title text-base">{{ $t(block.labelKey) }}</h2>
             </div>
-            <div class="space-y-3">
+            <div class="px-2 lg:px-4 space-y-3">
               <div v-for="entry in bilingualEntries(block.textKey)" :key="`${block.key}-${entry.locale}`"
-                class="flex items-start gap-3">
+                class="flex items-start lg:gap-3 flex-wrap-reverse mt-2">
                 <div class="grow space-y-1">
                   <span class="text-xs uppercase tracking-wide text-base-content/60">{{ entry.label }}</span>
                   <p class="text-sm leading-relaxed text-base-content/80">{{ entry.text }}</p>
@@ -56,8 +56,8 @@
       </section>
 
       <section :aria-label="$t('press.usageSection')" class="card bg-base-100 shadow-xl">
-        <div class="card-body space-y-4">
-          <div class="flex items-center justify-between">
+        <div class="card-body px-2 lg:px-4 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
             <h2 class="card-title text-xl">{{ translateKey(manifestData.usage.titleKey) }}</h2>
             <span class="badge badge-outline">{{ t('press.brandSafety') }}</span>
           </div>
@@ -70,8 +70,8 @@
       </section>
 
       <section v-for="section in sections" :key="section.id" class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-2xl font-semibold">{{ translateKey(section.titleKey) }}</h2>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <h2 class="text-2xl bree font-semibold">{{ translateKey(section.titleKey) }}</h2>
           <span class="badge badge-secondary capitalize">
             {{ formatBadge(section.badgeKey, section.id.replace('-', ' ')) }}
           </span>
@@ -83,7 +83,7 @@
               <img :src="item.preview" :alt="translateKey(item.titleKey)" class="rounded-lg border border-base-200"
                 loading="lazy">
             </figure>
-            <div class="card-body space-y-4">
+            <div class="card-body px-2 lg:px-4 space-y-4">
               <div>
                 <h3 class="card-title text-lg">{{ translateKey(item.titleKey) }}</h3>
                 <p class="text-sm uppercase tracking-wide text-base-content/60">

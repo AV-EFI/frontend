@@ -3,13 +3,13 @@
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
       class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
-      :aria-label="t('togglePreviousSlide')">
+      :aria-label="t('home.carousel.aria.previous')">
       <Icon name="tabler:chevron-left" />
     </button>
     <div ref="carouselRef"
-      class="carousel carousel-center w-full rounded-box p-4 overflow-x-auto scroll-smooth snap-none">
+      class="carousel carousel-center w-full rounded-box px-0 sm:p-4 overflow-x-auto scroll-smooth snap-none">
       <div v-for="(item, index) in items" :key="index"
-        class="carousel-item align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
+        class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-800 w-[calc(100%-64px)] shrink-0 mx-8 sm:mx-2 sm:w-72 md:w-96">
         <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
           <div v-if="item.imgSrc"
             class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
@@ -30,16 +30,16 @@
           </div>
           <div v-else
             class="w-full h-48 md:h-56 lg:h-64 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded overflow-hidden">
-            <img src="/img/placeholder-16x9.svg" alt="AVefi" class="object-cover w-full h-full" loading="lazy"
+            <img src="/img/avefi_placeholder.webp" alt="AVefi" class="object-cover w-full h-full" loading="lazy"
               decoding="async" />
           </div>
           <figcaption v-if="item.imgSourceText"
-            class="h-auto min-h-12 break-words text-xs text-gray-500 mt-2 px-2 dark:text-gray-400">
-            {{ t('imageSource') }}: <a :href="item.imgSourceLink" target="_blank" class="underline">{{
-              item.imgSourceText }}</a>, {{ t('author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{
+            class="h-auto min-h-12 break-words text-xs text-gray-700 mt-2 px-2 dark:text-gray-400">
+            {{ t('home.carousel.labels.imageSource') }}: <a :href="item.imgSourceLink" target="_blank" class="underline">{{
+              item.imgSourceText }}</a>, {{ t('home.carousel.labels.author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{
             item.imgLicenseLink }})
           </figcaption>
-          <figcaption v-else class="h-auto min-h-12 break-words text-xs text-gray-500 mt-2 px-2 dark:text-gray-400">
+          <figcaption v-else class="h-auto min-h-12 break-words text-xs text-gray-700 mt-2 px-2 dark:text-gray-400">
           </figcaption>
         </figure>
         <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
@@ -51,10 +51,10 @@
             {{ t(item.description) }}
           </p>
           <a class="md:hidden link link-secondary mb-2 dark:link-info" @click="toggleText">
-            {{ showFullText ? t('showLess') : t('showMore') }}
+            {{ showFullText ? t('home.carousel.actions.showLess') : t('home.carousel.actions.showMore') }}
           </a>
           <div class="mt-auto">
-            <a :href="item.link" class="btn btn-sm w-full md:w-auto btn-primary">
+            <a :href="item.link" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">
               <span class="text-xs md:text-regular">
                 {{ t(item.linkText) }}
               </span>
@@ -65,16 +65,16 @@
       </div>
       <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
       <div
-        class="carousel-item relative align-top flex flex-col items-center mx-2 bg-white dark:bg-gray-800 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
+        class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-800 w-[calc(100%-64px)] shrink-0 mx-8 sm:mx-2 sm:w-72 md:w-96">
         <label class="swap swap-flip w-full h-full cursor-pointer">
           <input type="checkbox" v-model="createOpen" aria-label="Toggle create form" />
           <!-- swap-off: show only slogan -->
           <div class="swap-off w-full h-full flex items-center justify-center p-6">
             <div class="flex flex-col items-center">
               <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
-                {{ t('createYourOwn.title') || 'Create Your Own' }}
+                {{ t('home.carousel.create.title') || 'Create Your Own' }}
               </h2>
-              <p>{{ t('createYourOwn.description') || 'Send us your search query as a suggestion for the examples' }}
+              <p class="w-64 mx-auto">{{ t('home.carousel.create.description') || 'Send us your search query as a suggestion for the examples' }}
               </p>
               <div class="btn btn-primary btn-circle mt-2">
                 <Icon class="" name="tabler:plus" />
@@ -99,7 +99,7 @@
             </figure>
             <div class="lg:h-72 lg:w-96 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
               <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">{{
-                t('create.yourOwn') || 'Create Your Own' }}</h2>
+                t('home.carousel.create.yourOwn') || 'Create Your Own' }}</h2>
               <input v-model="createForm.title" type="text" placeholder="Title"
                 class="input input-bordered input-sm mb-2 w-full" />
               <textarea v-model="createForm.description" rows="3" placeholder="Description"
@@ -107,7 +107,7 @@
               <input v-model="createForm.link" type="text" placeholder="Search Link (Copy URL from search page)"
                 class="input input-bordered input-sm mb-2 w-full" />
               <div class="mt-auto">
-                <button @click="handleCreate" class="btn btn-sm w-full md:w-auto btn-primary">{{$t('send')}}</button>
+                <button @click="handleCreate" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">{{$t('home.carousel.actions.send')}}</button>
               </div>
             </div>
           </div>
@@ -124,18 +124,18 @@
     <!-- Desktop arrows -->
     <button v-if="items.length > 1" @click="nextSlide"
       class="absolute -right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
-      :aria-label="t('toggleNextSlide')">
+      :aria-label="t('home.carousel.aria.next')">
       <Icon name="tabler:chevron-right" />
     </button>
     <!-- Mobile arrows -->
     <button v-if="items.length > 1" @click="prevSlide"
       class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
-      :aria-label="t('togglePreviousSlide')">
+      :aria-label="t('home.carousel.aria.previous')">
       <Icon name="tabler:chevron-left" />
     </button>
     <button v-if="items.length > 1" @click="nextSlide"
       class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
-      :aria-label="t('toggleNextSlide')">
+      :aria-label="t('home.carousel.aria.next')">
       <Icon name="tabler:chevron-right" />
     </button>
   </div>
@@ -230,7 +230,7 @@ function handleCreate() {
     const title = newItem.title;
     const description = newItem.description || '';
     const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
-    contactInitialMessage.value = t('create.contactFormPrefill', { title, description, url }) as string;
+    contactInitialMessage.value = t('home.carousel.create.contactFormPrefill', { title, description, url }) as string;
     contactFormOpen.value = true;
 
     // reset form and close swap
@@ -255,13 +255,35 @@ const measureSlides = () => {
     }
 };
 
-const scrollToIndex = (index: number, behavior: ScrollBehavior = 'smooth') => {
+const getSlides = () => {
     const host = carouselRef.value;
-    if (!host || !slideWidth.value) return;
+    if (!host) return [] as HTMLElement[];
+    return Array.from(host.querySelectorAll<HTMLElement>('.carousel-item'));
+};
+
+const getCenteredOffset = (slide: HTMLElement) => {
+    const host = carouselRef.value;
+    if (!host || !slide) return 0;
+    const raw = slide.offsetLeft + (slide.offsetWidth / 2) - (host.clientWidth / 2);
+    const max = Math.max(0, host.scrollWidth - host.clientWidth);
+    return Math.min(Math.max(raw, 0), max);
+};
+
+const centerSlideAtIndex = (index: number, behavior: ScrollBehavior = 'smooth') => {
+    const host = carouselRef.value;
+    if (!host) return;
     const total = totalSlides.value;
+    if (!total) return;
     const clamped = Math.max(0, Math.min(index, total - 1));
+    const slides = getSlides();
+    const slide = slides[clamped];
+    if (!slide) return;
     currentIndex.value = clamped;
-    host.scrollTo({ left: slideWidth.value * clamped, behavior });
+    host.scrollTo({ left: getCenteredOffset(slide), behavior });
+};
+
+const scrollToIndex = (index: number, behavior: ScrollBehavior = 'smooth') => {
+    centerSlideAtIndex(index, behavior);
 };
 
 const prevSlide = () => {
@@ -275,12 +297,28 @@ const nextSlide = () => {
 const handleScroll = () => {
     const host = carouselRef.value;
     if (!host || !slideWidth.value) return;
-    const idx = Math.round(host.scrollLeft / slideWidth.value);
-    currentIndex.value = Math.max(0, Math.min(idx, totalSlides.value - 1));
+    const slides = getSlides();
+    if (!slides.length) return;
+
+    const viewportCenter = host.scrollLeft + (host.clientWidth / 2);
+    let closestIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    slides.forEach((slide, index) => {
+        const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+        const distance = Math.abs(slideCenter - viewportCenter);
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+        }
+    });
+
+    currentIndex.value = closestIndex;
 };
 
 onMounted(() => {
     measureSlides();
+    centerSlideAtIndex(currentIndex.value, 'auto');
     const host = carouselRef.value;
     host?.addEventListener('scroll', handleScroll, { passive: true });
 
@@ -289,7 +327,7 @@ onMounted(() => {
     if ('ResizeObserver' in window) {
         resizeObserver = new ResizeObserver(() => {
             measureSlides();
-            scrollToIndex(currentIndex.value, 'auto');
+            centerSlideAtIndex(currentIndex.value, 'auto');
         });
         if (host) {
             resizeObserver.observe(host);

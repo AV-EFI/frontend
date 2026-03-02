@@ -69,10 +69,6 @@ useHead({
 
 const auth = useAuth();
 
-onMounted(() => {
-    auth.startSessionPolling();
-});
-
 onBeforeUnmount(() => {
     auth.stopSessionPolling();
 });
@@ -80,6 +76,25 @@ onBeforeUnmount(() => {
 const {
     cookiesEnabledIds
 } = useCookieControl();
+
+const showCookieControl = ref(false);
+
+const scheduleCookieControlMount = () => {
+    if (!import.meta.client) return;
+    const idle = (window as typeof window & {
+    requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+  }).requestIdleCallback;
+
+    if (typeof idle === 'function') {
+        idle(() => {
+            showCookieControl.value = true;
+        }, { timeout: 1200 });
+    } else {
+        window.setTimeout(() => {
+            showCookieControl.value = true;
+        }, 400);
+    }
+};
 
 // example: react to a cookie being accepted
 watch(
@@ -98,6 +113,11 @@ watch(
     },
     { deep: true },
 );
+
+onMounted(() => {
+    auth.startSessionPolling();
+    scheduleCookieControlMount();
+});
 </script>
 
 <template>
@@ -110,43 +130,44 @@ watch(
         <NuxtPage />
       </div>
       <ClientOnly>
-        <LazyCookieControl :locale="locale">
-          <template #bar>
-            <h2>Cookies 🍪</h2>
-            <!--
-            This <p> tag is currently empty. It can be used to display text or other inline elements.
-            Note: Ensure to handle cookies appropriately in your application. Cookies can be used to store user preferences, session information, or tracking data.
-            - Use secure cookies for sensitive information.
-            - Set appropriate expiration dates for cookies.
-            - Be mindful of privacy regulations and user consent when using cookies.
-          -->
-            <p>{{ $t('cookiesDescription') }}</p>
-            <GlobalLanguageSwitch />
-            <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="dark:text-white link">
-              {{ $t('dataprotection') }}
-            </NuxtLink>
-            |
-            <NuxtLink to="/imprint" class="dark:text-white link">
-              {{ $t('imprint') }}
-            </NuxtLink>
-          </template>
-          <template #modal>
-            <h3>{{ $t('dataprotection') }}</h3>
-            <p>{{ $t('cookiesModalDescription') }}</p>
-          </template>
+        <Suspense>
+          <template #default>
+            <LazyCookieControl v-if="showCookieControl" :locale="locale">
+              <template #bar>
+                <h2>Cookies 🍪</h2>
+                <p>{{ $t('cookiesDescription') }}</p>
+                <GlobalLanguageSwitch />
+                <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="dark:text-white link">
+                  {{ $t('dataprotection') }}
+                </NuxtLink>
+                |
+                <NuxtLink to="/imprint" class="dark:text-white link">
+                  {{ $t('imprint') }}
+                </NuxtLink>
+              </template>
+              <template #modal>
+                <h3>{{ $t('dataprotection') }}</h3>
+                <p>{{ $t('cookiesModalDescription') }}</p>
+              </template>
 
-          <template #cookie="{ cookie }">
-            <h3 v-text="cookie.name[locale]" />
-            <span v-html="cookie.description[locale]" />
+              <template #cookie="{ cookie }">
+                <h3 v-text="cookie.name[locale]" />
+                <span v-html="cookie.description[locale]" />
 
-            <div v-if="cookie.targetCookieIds">
-              <b>Cookie ids: </b>
-              <span v-text="cookie?.targetCookieIds?.join(', ')" />
+                <div v-if="cookie.targetCookieIds">
+                  <b>Cookie ids: </b>
+                  <span v-text="cookie?.targetCookieIds?.join(', ')" />
+                </div>
+              </template>
+            </LazyCookieControl>
+          </template>
+          <template #fallback>
+            <div class="sr-only" role="status" aria-live="polite">
+              {{ $t('loadingCookies') || 'Loading cookie preferences…' }}
             </div>
           </template>
-
-          <GlobalAuthProvider />
-        </LazyCookieControl>
+        </Suspense>
+        <GlobalAuthProvider />
       </ClientOnly>
     </NuxtLayout>
   </div>

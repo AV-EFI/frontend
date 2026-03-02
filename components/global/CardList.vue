@@ -10,7 +10,7 @@
                             :title="item.alt || item.title || undefined" loading="lazy" decoding="async"
                             :width="item.width || undefined" :height="item.height || undefined"
                             class="max-h-20 object-contain" />
-                        <img v-else src="/img/placeholder-16x9.svg" alt="AVefi placeholder" loading="lazy"
+                        <img v-else src="/img/avefi_placeholder.webp" alt="AVefi placeholder" loading="lazy"
                             decoding="async" class="max-h-20 object-contain opacity-70" />
                     </div>
                 </figure>

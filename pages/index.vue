@@ -3,15 +3,15 @@
         <!-- Skip link -->
         <a href="#main"
             class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
-            {{ $t('skipToContent') || 'Skip to main content' }}
+            {{ $t('home.accessibility.skipToContent') || 'Skip to main content' }}
         </a>
 
         <!-- ======= HERO / SEARCH-FIRST ======= -->
-        <section id="hero" role="banner" :aria-label="$t('bannerSection')" class="relative z-20">
+        <section id="hero" role="banner" :aria-label="$t('home.hero.bannerSection')" class="relative z-20">
             <div class="hero max-sm:min-h-[48vh] sm:min-h-[32vh] lg:min-h-[58vh]">
                 <div class="hero-overlay absolute inset-0 w-full h-full overflow-hidden" aria-hidden="true">
                     <div
-                        class="absolute inset-0 md:hidden bg-gradient-to-b from-base-200 to-base-100 dark:from-neutral-900 dark:to-neutral-950">
+                        class="absolute inset-0 md:hidden bg-linear-to-b from-base-200 to-base-100 dark:from-neutral-900 dark:to-neutral-950">
                     </div>
                     <picture class="absolute inset-0 w-full h-full hidden md:block" aria-hidden="true">
                         <source media="(min-width: 1280px)" srcset="/img/avefi_nodes-hero-2040.webp" type="image/webp">
@@ -27,19 +27,19 @@
                         aria-hidden="true"></div>
                     <!-- Vignette -->
                     <div class="absolute inset-0 pointer-events-none hidden md:block
-              mix-blend-multiply dark:mix-blend-normal
-              bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.08)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
-              dark:hidden">
+                        mix-blend-multiply dark:mix-blend-normal
+                        bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.08)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
+                        dark:hidden">
                     </div>
                 </div>
 
                 <div class="hero-content p-0 md:p-2 w-full lg:w-full">
-                    <div class="w-full lg:max-w-6xl mx-auto">
+                    <div class="w-full lg:max-w-6xl lg:py-4 mx-auto">
                         <!-- Center content panel: THIS is what makes it readable -->
-                        <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 rounded-2xl
+                        <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 md:rounded-2xl
                   border
                   shadow-none md:shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
-                  md:supports-[backdrop-filter]:backdrop-blur-[10px]
+                  md:supports-backdrop-filter:backdrop-blur-[10px]
                   motion-reduce:transition-none
                 " :class="[
                   // LIGHT glass
@@ -61,7 +61,7 @@
                     [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
                     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
                   " tabindex="0">
-                                    {{ $t('home.tagline') }}
+                                    {{ $t('home.hero.tagline') }}
                                 </p>
                             </div>
 
@@ -71,12 +71,12 @@
                                     <!-- Glass search card -->
                                     <div class="hero-search-card card border
                               shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
-                              md:supports-[backdrop-filter]:backdrop-blur-[14px]" :class="[
-                        // LIGHT
-                        'bg-white border-white/30 md:bg-white/55 md:border-white/35',
-                        // DARK
-                        'dark:bg-neutral/35 dark:border-white/10',
-                      ]">
+                              md:supports-backdrop-filter:backdrop-blur-[14px]" 
+                              :class="[// LIGHT
+                                        'bg-white border-white/30 md:bg-white/55 md:border-white/35',
+                                        // DARK
+                                        'dark:bg-neutral/35 dark:border-white/10',
+                                    ]">
                                         <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
                                             :aria-labelledby="'home-search-label'" aria-live="polite"
                                             aria-atomic="false" tabindex="0">
@@ -84,23 +84,23 @@
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
                                                 <div class="md:justify-end" role="group"
-                                                    :aria-label="$t('searchModeSwitcher') || 'Search mode switcher'">
+                                                    :aria-label="$t('home.search.modeSwitcher') || 'Search mode switcher'">
                                                     <div class="join w-full">
                                                         <button class="join-item btn md:btn-sm"
-                                                            :aria-label="$t('showSimpleSearch')"
+                                                            :aria-label="$t('home.search.simple')"
                                                             :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
                                                             @click="showAdvancedSearch = false"
                                                             :aria-pressed="!showAdvancedSearch"
                                                             aria-controls="home-search-area">
                                                             <span class="hidden md:block">
-                                                                {{ $t('showSimpleSearch') }}
+                                                                {{ $t('home.search.simple') }}
                                                             </span>
                                                             <Icon name="tabler:zoom-scan"
                                                                 class="lg:hidden ml-1 md:ml-0" />
 
                                                         </button>
                                                         <button class="join-item btn md:btn-sm"
-                                                            :aria-label="$t('showAdvancedSearch')"
+                                                            :aria-label="$t('home.search.advanced')"
                                                             :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
                                                             @click="showAdvancedSearch = true"
                                                             @pointerenter="prefetchAdvancedSearch"
@@ -108,7 +108,7 @@
                                                             :aria-pressed="showAdvancedSearch"
                                                             aria-controls="home-search-area">
                                                             <span class="hidden md:block">
-                                                                {{ $t('showAdvancedSearch') }}
+                                                                {{ $t('home.search.advanced') }}
                                                             </span>
                                                             <Icon name="tabler:adjustments-cog"
                                                                 class="lg:hidden ml-1 md:ml-0" />
@@ -128,7 +128,7 @@
                                                 <template #fallback>
                                                     <div
                                                         class="h-24 flex items-center justify-center text-sm opacity-70">
-                                                        {{ $t('loadingSearch') || 'Loading search…' }}
+                                                        {{ $t('home.search.loading') || 'Loading search…' }}
                                                     </div>
                                                 </template>
                                             </Suspense>
@@ -145,75 +145,41 @@
             </div>
         </section>
 
-        <NuxtLazyHydrate when-visible :offset="180">
-            <section id="main" role="main" :aria-label="$t('featuredContentAria')"
-                class="relative overflow-hidden border-t border-base-200 py-10">
+            <section id="main" role="main" :aria-label="$t('home.featured.aria')"
+                class="relative border-t border-base-200 py-10 block transition-opacity duration-300">
                 <!-- wash layer -->
                 <!-- Aurora / glow overlays (light + dark variants) -->
                 <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
                     aria-hidden="true"></div>
 
                 <!-- content stays above -->
-                <div class="relative z-10 container mx-auto px-4 min-h-[400px] flex items-center">
+                <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-100 flex items-center justify-between py-2 md:py-4">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                        <HomeSectionTextBlock :title="$t('searchAndFind.title')"
-                            :paragraphs="[$t('searchAndFind.text')]"
+                        <HomeSectionTextBlock :title="$t('home.sections.searchAndFind.title')"
+                            :paragraphs="[$t('home.sections.searchAndFind.text[0]'), $t('home.sections.searchAndFind.text[1]')]"
                             wrapper-class="lg:col-span-4" />
-                        <div v-if="showFeaturedCarousel" class="lg:col-span-8 flex justify-center w-full"
-                            ref="featuredCarouselRef">
-                            <div class="relative w-full min-h-[32rem]">
+                        <div class="lg:col-span-8 flex justify-center w-full">
+                            <div class="relative w-full min-h-100">
                                 <ClientOnly>
-                                    <LazyGlobalCarouselCardComp v-if="featuredCarouselReady" :items="cardItems"
-                                        class="h-full transition-opacity duration-300"
-                                        :class="featuredCarouselReady ? 'opacity-100' : 'opacity-0 pointer-events-none'" />
+                                    <LazyGlobalCarouselCardComp :items="cardItems"
+                                        class="h-full transition-opacity duration-300" />
                                 </ClientOnly>
-                                <div class="absolute inset-0 transition-opacity duration-200" role="presentation"
-                                    :class="featuredCarouselReady ? 'opacity-0 pointer-events-none' : 'opacity-100'">
-                                    <div class="carousel carousel-center w-full rounded-box p-4 overflow-hidden h-full"
-                                        aria-hidden="true">
-                                        <div v-for="n in 3" :key="`featured-skeleton-${n}`"
-                                            class="carousel-item align-top flex flex-col items-center mx-2 bg-white/90 dark:bg-gray-800/80 w-[78vw] max-w-[240px] sm:max-w-none sm:w-72 md:w-96">
-                                            <article
-                                                class="card border border-base-200 bg-white/95 dark:bg-base-200/70 shadow-sm w-full">
-                                                <figure class="rounded-xl overflow-hidden mb-3 bg-base-200 h-48">
-                                                </figure>
-                                                <div class="space-y-3 px-4 pb-4">
-                                                    <div class="h-4 bg-base-200 rounded w-3/4"></div>
-                                                    <div class="h-3 bg-base-200 rounded w-full"></div>
-                                                    <div class="h-3 bg-base-200 rounded w-5/6"></div>
-                                                    <div class="mt-4 h-9 bg-base-200 rounded"></div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-else class="lg:col-span-8 flex justify-center w-full">
-                            <div
-                                class="card bg-base-100 border border-dashed border-base-300 shadow-none max-w-xl xl:max-w-full w-full p-6">
-                                <p class="text-base md:text-lg opacity-80">
-                                    {{ featuredCarouselFallback }}
-                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-        </NuxtLazyHydrate>
 
         <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
         <NuxtLazyHydrate when-visible :offset="220">
-            <div ref="timelineSectionRef" class="lazy-section-anchor">
-                <ClientOnly>
-                    <HomeTimelineSection v-if="timelineReady" class="block transition-opacity duration-300" />
-                </ClientOnly>
-                <section v-if="!timelineReady"
-                    class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="presentation"
-                    aria-hidden="true">
-                    <div class="container mx-auto p-6 lg:px-4 lg:min-h-[320px] flex items-center">
+            <HomeSectionShell wash="a">
+                <HomeLazySectionLoader root-margin="200px 0px">
+                    <template #content>
+                        <HomeTimelineSection />
+                    </template>
+                    <template #fallback>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-                            <div class="w-full p-6 space-y-4">
+                            <div class="w-full p-4 sm:p-6 space-y-4">
                                 <div class="h-10 w-3/4 bg-base-200 rounded-full"></div>
                                 <div class="space-y-2">
                                     <div class="h-4 bg-base-200 rounded w-full"></div>
@@ -221,93 +187,135 @@
                                     <div class="h-4 bg-base-200 rounded w-2/3"></div>
                                 </div>
                             </div>
-                            <HomeSectionTextBlock :title="$t('build.linked.title')"
-                                :paragraphs="[$t('build.linked.lead')]" wrapper-class="w-full" />
+                            <HomeSectionTextBlock :title="$t('home.sections.build.linked.title')"
+                                :paragraphs="[$t('home.sections.build.linked.lead')]" wrapper-class="w-full" />
                         </div>
-                    </div>
-                </section>
-            </div>
+                    </template>
+                </HomeLazySectionLoader>
+            </HomeSectionShell>
+        </NuxtLazyHydrate>
+
+        <!-- ======= ISSUER CAROUSEL ======= -->
+        <NuxtLazyHydrate when-visible :offset="260">
+            <HomeSectionShell wash="none">
+                <HomeLazySectionLoader root-margin="320px 0px">
+                    <template #content>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                            <HomeSectionTextBlock
+                                :title="t('home.sections.callToAction.title')"
+                                :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
+                                wrapper-class="w-full lg:col-span-6"
+                            />
+                            <div class="w-full lg:col-span-6 flex justify-center">
+                                <div class="relative w-full min-h-100 md:min-h-128">
+                                    <HomeIssuerSection />
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template #fallback>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                            <HomeSectionTextBlock
+                                :title="t('home.sections.callToAction.title')"
+                                :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
+                                wrapper-class="w-full col-span-4"
+                            />
+                            <div class="w-full lg:col-span-8 flex justify-center">
+                                <div class="relative w-full min-h-100 md:min-h-128">
+                                    <div class="px-4 sm:px-6 text-center">
+                                        <div class="w-full flex flex-col justify-center max-lg:mt-6">
+                                            <div class="h-10 w-1/2 mx-auto bg-base-200 rounded mb-6"></div>
+                                            <div class="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div v-for="n in 4" :key="`issuer-skeleton-${n}`"
+                                                    class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </HomeLazySectionLoader>
+            </HomeSectionShell>
         </NuxtLazyHydrate>
 
         <!-- ======= CORE FUNC & VIDEO BAND ======= -->
-        <NuxtLazyHydrate when-visible :offset="260">
-            <div
-                class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-                <div ref="coreSectionRef" class="lazy-section-anchor w-full">
-                    <ClientOnly>
-                        <HomeCoreFunctionsSection v-if="coreReady" class="block transition-opacity duration-300" />
-                    </ClientOnly>
-                    <section v-if="!coreReady" role="presentation" aria-hidden="true"
-                        class="relative border-t border-base-200 py-10">
-                        <div class="container mx-auto px-4 min-h-[240px] flex items-center">
-                            <HomeSectionTextBlock :title="$t('openAndExtendable.title')"
-                                :paragraphs="[$t('openAndExtendable.content[0]'), $t('openAndExtendable.content[1]')]"
-                                wrapper-class="w-full"
-                                :cta-label="$t('openAndExtendable.cta')" :cta-href="$t('openAndExtendable.content[2]')"
-                                cta-target="_blank" />
-                        </div>
-                    </section>
-                </div>
-                <div ref="videoSectionRef" class="lazy-section-anchor w-full">
-                    <ClientOnly>
-                        <HomeVideoSection v-if="videoReady" class="block transition-opacity duration-300" />
-                    </ClientOnly>
-                    <section v-if="!videoReady" role="presentation" aria-hidden="true"
-                        class="relative border-t border-base-200 py-10">
-                        <div class="container mx-auto px-4 min-h-[260px] flex items-center">
-                            <div
-                                class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200">
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </NuxtLazyHydrate>
-        <!-- ======= ISSUER CAROUSEL ======= -->
         <NuxtLazyHydrate when-visible :offset="320">
-            <div ref="issuerSectionRef" class="lazy-section-anchor">
-                <ClientOnly>
-                    <HomeIssuerSection v-if="issuerReady" class="block transition-opacity duration-300" />
-                </ClientOnly>
-                <section v-if="!issuerReady"
-                    class="relative border-t border-base-200 py-10 section-wash section-wash--a" role="presentation"
-                    aria-hidden="true">
-                    <div class="px-4 text-center">
-                        <div class="w-full flex flex-col justify-center max-lg:mt-6">
-                            <div class="h-10 w-1/2 mx-auto bg-base-200 rounded mb-6"></div>
-                            <div class="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div v-for="n in 4" :key="`issuer-skeleton-${n}`"
-                                    class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
+            <HomeSectionShell wash="a">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                    <HomeLazySectionLoader root-margin="420px 0px" anchor-class="lazy-section-anchor w-full">
+                        <template #content>
+                            <HomeCoreFunctionsSection />
+                        </template>
+                        <template #fallback>
+                            <div class="w-full min-h-100 flex items-center justify-between">
+                                <HomeSectionTextBlock
+                                    :title="$t('home.sections.openAndExtendable.title')"
+                                    :paragraphs="[$t('home.sections.openAndExtendable.content[0]'), $t('home.sections.openAndExtendable.content[1]')]"
+                                    wrapper-class="w-full"
+                                    inner-class="max-w-none"
+                                    :cta-label="$t('home.sections.openAndExtendable.cta')"
+                                    :cta-href="$t('home.sections.openAndExtendable.content[2]')"
+                                    cta-target="_blank"
+                                />
                             </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+                        </template>
+                    </HomeLazySectionLoader>
+                    <HomeLazySectionLoader root-margin="260px 0px" anchor-class="lazy-section-anchor w-full">
+                        <template #content>
+                            <HomeVideoSection />
+                        </template>
+                        <template #fallback>
+                            <div class="w-full min-h-100 flex items-center justify-between">
+                                <div class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200"></div>
+                            </div>
+                        </template>
+                    </HomeLazySectionLoader>
+                </div>
+            </HomeSectionShell>
         </NuxtLazyHydrate>
 
-
-        <!-- ======= CTA ======= -->
+        <!-- ======= PARTNERS ======= -->
         <NuxtLazyHydrate when-visible :offset="520">
-            <div ref="ctaSectionRef" class="lazy-section-anchor">
-                <ClientOnly>
-                    <HomeCTASection v-if="ctaReady" class="block transition-opacity duration-300" />
-                </ClientOnly>
-                <section v-if="!ctaReady" role="presentation" aria-hidden="true"
-                    class="relative border-t border-base-200 py-10">
-                    <div class="container mx-auto p-6 lg:px-4 lg:min-h-[400px] flex items-center">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-                            <HomeSectionTextBlock :title="$t('callToAction.title')"
-                                :paragraphs="[$t('callToAction.text')]" wrapper-class="w-full"
-                                variant="dashed" />
-                            <HomeSectionTextBlock :title="$t('becomeAPartner.title')"
-                                :paragraphs="[$t('becomeAPartner.text')]" wrapper-class="w-full"
-                                variant="dashed"
-                                :cta-label="$t('becomeAPartner.cta')" :cta-href="$t('becomeAPartner.ctaLink')"
-                                cta-target="_blank" />
+            <HomeSectionShell wash="none" content-class="min-h-[400px] flex items-center justify-between">
+                <HomeLazySectionLoader root-margin="520px 0px" anchor-class="lazy-section-anchor w-full">
+                    <template #content>
+                                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" role="region" :aria-label="t('home.sections.partners.title')">
+<div class="order-2 lg:order-1 flex flex-col justify-center lg:justify-start lg:col-span-6">
+      <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center">
+                {{ t('home.sections.partners.title') }}
+    </h2>
+            <div class="w-full flex justify-start">
+        <ClientOnly>
+          <LazyGlobalPartnersCarouselComp />
+        </ClientOnly>
+      </div>
+  </div>
+  <div class="order-1 lg:order-2 flex flex-col justify-center lg:col-span-6">
+      <HomeSectionTextBlock
+                :title="t('home.sections.becomePartner.title')"
+                :paragraphs="[$t('home.sections.partners.description'), $t('home.sections.becomePartner.text')]"
+        wrapper-class="w-full"
+                :cta-label="t('home.sections.becomePartner.cta')"
+                :cta-href="t('home.sections.becomePartner.ctaLink')"
+        cta-target="_blank"
+      />
+  </div>
                         </div>
-                    </div>
-                </section>
-            </div>
+                    </template>
+                    <template #fallback>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" aria-hidden="true">
+                            <div class="col-span-full lg:col-span-6 space-y-4 px-4 sm:px-6 lg:px-0">
+                                <div class="h-10 w-1/2 mx-auto bg-base-200 rounded"></div>
+                                <div class="w-full rounded-xl border border-dashed border-base-300 h-60 bg-base-100"></div>
+                            </div>
+                            <div class="col-span-full lg:col-span-6 px-4 sm:px-6 lg:px-0">
+                                <div class="w-full rounded-2xl border border-dashed border-base-300 h-60 bg-base-100"></div>
+                            </div>
+                        </div>
+                    </template>
+                </HomeLazySectionLoader>
+            </HomeSectionShell>
         </NuxtLazyHydrate>
     </div>
 </template>
@@ -315,18 +323,17 @@
 <script lang="ts" setup>
 import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
 import { ref, onMounted, nextTick, watch, defineAsyncComponent, computed } from 'vue';
-import type { Ref, ComponentPublicInstance } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useIntersectionObserver, unrefElement } from '@vueuse/core';
+import { unrefElement } from '@vueuse/core';
 import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
 import HomeSectionTextBlock from '~/components/home/HomeSectionTextBlock.vue';
 
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
-const DEFAULT_FEATURED_CAROUSEL_FALLBACK = 'Scanne die Highlights bequem auf dem Desktop – auf dem Smartphone konzentrieren wir uns voll auf Suche und Ergebnisse.';
-const criticalLinks: any[] = [
+const criticalLinks: Array<Record<string, string>> = [
     {
         rel: 'preload',
         href: '/img/avefi_diamonds_prim_mobile.webp',
@@ -361,15 +368,13 @@ const HomeTimelineSection = defineAsyncComponent(() => import('~/components/home
 const HomeVideoSection = defineAsyncComponent(() => import('~/components/home/HomeVideoSection.vue'));
 const HomeIssuerSection = defineAsyncComponent(() => import('~/components/home/HomeIssuerSection.vue'));
 const HomeCoreFunctionsSection = defineAsyncComponent(() => import('~/components/home/HomeCoreFunctionsSection.vue'));
-const HomeCTASection = defineAsyncComponent(() => import('~/components/home/HomeCTASection.vue'));
 const loadAdvancedSearchComponent = () => import('~/components/global/SearchCompExtended.vue');
 const SearchCompExtended = defineAsyncComponent({
     loader: loadAdvancedSearchComponent,
     suspensible: true,
 });
-const featuredCarouselFallback = computed(() => t('featuredCarousel.mobileFallback') || DEFAULT_FEATURED_CAROUSEL_FALLBACK);
 const heroClaimLines = computed(() => {
-    const claim = t('avefiClaim');
+    const claim = t('home.hero.claim');
     if (typeof claim !== 'string') {
         return [''];
     }
@@ -429,18 +434,18 @@ function createResponsiveCardMedia(baseName: string, width: number, height: numb
 // SEO META (multi-language via i18n)
 // ─────────────────────────────────────────────
 useSeoMeta({
-    title: t('seo.home.title'),
-    description: t('seo.home.description'),
-    ogTitle: t('seo.home.ogTitle'),
-    ogDescription: t('seo.home.ogDescription'),
+    title: t('home.seo.title'),
+    description: t('home.seo.description'),
+    ogTitle: t('home.seo.ogTitle'),
+    ogDescription: t('home.seo.ogDescription'),
     ogType: 'website',
     ogUrl: (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + route.path,
     ogImage:
     runtimeConfig.public.siteOgImage ||
     ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
     twitterCard: 'summary_large_image',
-    twitterTitle: t('seo.home.title'),
-    twitterDescription: t('seo.home.description'),
+    twitterTitle: t('home.seo.title'),
+    twitterDescription: t('home.seo.description'),
     keywords: [
         'AVefi',
         'Filmforschungsportal',
@@ -467,18 +472,26 @@ useSchemaOrg(() => {
     const url = baseUrl + route.path;
     return [
         defineWebSite({
-            name: t('seo.home.siteName'),
+            name: t('home.seo.siteName'),
             url: baseUrl,
-            potentialAction: {
-                '@type': 'SearchAction',
-                target: `${baseUrl}/search/?q={search_term_string}`,
-                'query-input': 'required name=search_term_string',
-            },
+            potentialAction: [
+                {
+                    '@type': 'SearchAction',
+                    // Provide EntryPoint array so @unhead/schema-org merge logic can iterate reliably
+                    target: [
+                        {
+                            '@type': 'EntryPoint',
+                            urlTemplate: `${baseUrl}/search/?q={search_term_string}`,
+                        }
+                    ],
+                    'query-input': 'required name=search_term_string',
+                },
+            ],
         }),
         defineWebPage({
             '@type': 'WebPage',
-            name: t('seo.home.title'),
-            description: t('seo.home.description'),
+            name: t('home.seo.title'),
+            description: t('home.seo.description'),
             url,
         }),
     ];
@@ -487,7 +500,13 @@ useSchemaOrg(() => {
 const showAdvancedSearch = ref(false);
 const searchCompRef = ref<ComponentPublicInstance | HTMLElement | null>(null);
 const advancedSearchPrefetched = ref(false);
-const activeSearchComponent = computed(() => (showAdvancedSearch.value ? SearchCompExtended : SearchCompReduced));
+const activeSearchComponent = computed(() => {
+    // Always return a valid component to avoid Vue warning
+    if (showAdvancedSearch.value) {
+        return SearchCompExtended || SearchCompReduced;
+    }
+    return SearchCompReduced;
+});
 
 async function prefetchAdvancedSearch() {
     if (advancedSearchPrefetched.value) return;
@@ -532,14 +551,12 @@ definePageMeta({
     layout: 'default',
 });
 
-const showFeaturedCarousel = ref(true);
-
 const cardItems = ref<CardItem[]>([
     {
-        description: "restShortFilmCollectionDescription",
-        title: "restShortFilmCollectionTitle",
+        description: 'home.cards.collections.restShort.description',
+        title: 'home.cards.collections.restShort.title',
         link: `/search/?has_form=Short&manifestation_event_type=RestorationEvent`,
-        linkText: 'restShortFilmCollectionLinkText',
+        linkText: 'home.cards.collections.restShort.linkText',
         imgSourceLink: 'https://www.deutsche-kinemathek.de/',
         imgSourceText: 'Deutsche Kinemathek',
         imgAuthor: 'Deutsche Kinemathek',
@@ -549,10 +566,10 @@ const cardItems = ref<CardItem[]>([
         ...createResponsiveCardMedia('restaur_kurzfilme', 388, 210),
     },
     {
-        description: "docFilmCollectionDescription",
-        title: "docFilmCollectionTitle",
+        description: 'home.cards.collections.docFilm.description',
+        title: 'home.cards.collections.docFilm.title',
         link: `/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik`,
-        linkText: 'docFilmCollectionLinkText',
+        linkText: 'home.cards.collections.docFilm.linkText',
         imgSourceLink: 'https://www.deutsche-kinemathek.de/',
         imgSourceText: 'Deutsche Kinemathek',
         imgAuthor: 'Deutsche Kinemathek',
@@ -562,11 +579,11 @@ const cardItems = ref<CardItem[]>([
         ...createResponsiveCardMedia('aktiv_im_dok', 352, 256),
     },
     {
-        title: 'trollerTitle',
+        title: 'home.cards.people.troller.title',
         imgAlt: 'Georg Stefan Troller',
-        description: 'trollerDescription',
+        description: 'home.cards.people.troller.description',
         link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
-        linkText: 'trollerLinkText',
+        linkText: 'home.cards.people.troller.linkText',
         imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
         imgSourceText: 'Wikimedia Commons',
         imgAuthor: 'ZDF',
@@ -577,9 +594,9 @@ const cardItems = ref<CardItem[]>([
         ...createResponsiveCardMedia('Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren', 213, 256),
     },
     {
-        title: 'schlenkerTitle',
-        description: 'schlenkerDescription',
-        linkText: 'schlenkerLinkText',
+        title: 'home.cards.people.schlenker.title',
+        description: 'home.cards.people.schlenker.description',
+        linkText: 'home.cards.people.schlenker.linkText',
         link: `/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion`,
         imgAlt: 'AVefi Platzhalter Bild',
         imgCoverType: '',
@@ -611,42 +628,6 @@ const cardItems = ref<CardItem[]>([
     }
         */
 ]);
-
-const featuredCarouselRef = ref<HTMLElement | null>(null);
-const featuredCarouselReady = ref(false);
-const timelineSectionRef = ref<HTMLElement | null>(null);
-const timelineReady = ref(false);
-const videoSectionRef = ref<HTMLElement | null>(null);
-const videoReady = ref(false);
-const issuerSectionRef = ref<HTMLElement | null>(null);
-const issuerReady = ref(false);
-const coreSectionRef = ref<HTMLElement | null>(null);
-const coreReady = ref(false);
-const ctaSectionRef = ref<HTMLElement | null>(null);
-const ctaReady = ref(false);
-
-function deferHydration(target: Ref<HTMLElement | null>, flag: Ref<boolean>, options: IntersectionObserverInit = { rootMargin: '200px 0px' }) {
-    if (import.meta.server) return;
-    const { stop } = useIntersectionObserver(
-        target,
-        ([entry]) => {
-            if (entry?.isIntersecting) {
-                flag.value = true;
-                stop();
-            }
-        },
-        options
-    );
-}
-
-if (import.meta.client) {
-    deferHydration(featuredCarouselRef, featuredCarouselReady, { rootMargin: '180px 0px' });
-    deferHydration(timelineSectionRef, timelineReady, { rootMargin: '200px 0px' });
-    deferHydration(videoSectionRef, videoReady, { rootMargin: '260px 0px' });
-    deferHydration(issuerSectionRef, issuerReady, { rootMargin: '320px 0px' });
-    deferHydration(coreSectionRef, coreReady, { rootMargin: '420px 0px' });
-    deferHydration(ctaSectionRef, ctaReady, { rootMargin: '520px 0px' });
-}
 
 </script>
 

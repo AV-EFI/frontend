@@ -23,7 +23,7 @@
         }
     },
     "fallback": {
-        "image": "/img/placeholder-16x9.svg",
+        "image": "/img/avefi_placeholder.webp",
         "alt": "Institution Logo"
     }
 }
