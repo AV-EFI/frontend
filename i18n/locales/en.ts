@@ -1,6 +1,7 @@
-import avefiLocales from '~/models/interfaces/schema/locale_messages.json';
+import avefiLocalesRaw from '~/models/interfaces/schema/locale_messages.json';
+const avefiEn = (avefiLocalesRaw as any).en ?? (avefiLocalesRaw as any).default?.en ?? {};
 
-export default {
+const avefiBase = {
     "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
     "docFilmCollectionTitle": "Activism in Documentary Film",
     "docFilmCollectionLinkText": "Explore Activism Films",
@@ -12,6 +13,8 @@ export default {
     "cookiesDescription": "We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.",
     "dataprotection": "Data Protection",
     "imprint": "Imprint",
+    "productionyear": "Production Year",
+    "country": "Place",
     "compareRegular": "Comparison view",
     "compareRaw": "Structure view",
     "exactSearchTip": "Use \"quotes\" to search for exact phrases – works for title, direction, production, and subjects (e.g. \"Bitte steigen Sie ein!\")",
@@ -172,7 +175,6 @@ export default {
     "in_language_code": "Language",
     "has_colour": "Colour",
     "productionyear": "Year of production",
-    "country": "Country",
     "messageSentError": "Error sending message. Please try again later.",
     "messageSentSuccess": "Message sent successfully.",
     'bannerSection': 'Selected collections and highlights from the world of film metadata',
@@ -325,10 +327,13 @@ export default {
     "hideVideo": "Hide Video",
     "showVideo": "Show Video",
     "openMenu": "Open Menu",
+    "settingsMenu": "Settings menu",
     "mainMenu": "Main Menu",
+    "moreOptions": "More options",
     "footerPreferences": "Preferences",
     "footerInfo": "Information",
     "footerSponsoring": "Sponsoring",
+    "license": "License",
     "footerLicenseContent": "Content licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).",
     "footerLicenseData": "Data licensed under Creative Commons Public Domain Dedication (CC0 1.0).",
     "userMenu": "User Menu",
@@ -356,6 +361,9 @@ export default {
     'refineBy': ({ named }: { named: (key: string) => string }) => `Refine by ${named('label')}`,
     'showFacetItems': 'Show facets',
     'preferences': 'Preferences',
+    'loadingCookies': 'Loading cookie preferences…',
+    'login': 'Sign in',
+    'Login': 'Sign in',
     'captchaText': ({ named }: { named: (key: string) => string }) => `What is ${named('name')}?`,
     'enterYourName': 'Enter your name',
     'enterYourCaptcha': 'Enter the captcha code',
@@ -425,6 +433,7 @@ export default {
     'enterSearchTermFirst': 'Please enter a search term first',
     'enterobjectname': 'enter object name',
     'expandAll': 'Expand all',
+    'expand': 'Expand',
     'viewType': 'View type',
     'tableView': 'Table',
     'exportdata': 'export data',
@@ -439,6 +448,14 @@ export default {
     'filmidentification': 'Film Identification',
     'filmportalref': 'reference at filmportal.de',
     'filmresearch': 'Research',
+    'copyToClipboard': 'Copy to clipboard',
+    'castMember': 'Cast member',
+    'CastMember': 'Cast member',
+    'crewMember': 'Crew member',
+    'crewMemberType': 'Crew member type',
+    'agentsList': 'Agents list',
+    'agent': 'Agent',
+    'sameAs': 'Same as',
     'filmsViewable': 'Films viewable',
     'filmsViewableContent': 'The AVefi platform provides access to films that are viewable online. The availability of films for viewing is determined by the contributing institution and may be subject to restrictions. The platform does not host films itself, but rather provides links to the respective institutions or platforms where the films can be viewed.',
     'gotoshoppingcart': 'Go to Favourites List',
@@ -832,6 +849,8 @@ export default {
     "datasets": "datasets",
     "viewDatasets": ({ name }: { name: string }) => `View Datasets from ${name}`,
     "viewHomepage": "View Homepage",
+    "switchToLightMode": "Switch to light mode",
+    "switchToDarkMode": "Switch to dark mode",
     'noSuggestionsFound': 'No suggestions found',
     'errorLoadingDatasets': 'Error loading datasets',
     'incompleteData': 'Incomplete Data',
@@ -939,6 +958,9 @@ export default {
     'contact.about.2':'The specially developed AVefi schema follows the FIAF rules. Evidence is provided at the three levels Work/Variant, Manifestation, and Item.',
     'howToDoc': 'AVefi How-to Document: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf',
     'manual': 'AVefi Manual: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf',
-    // ...existing code...
-    ...avefiLocales.en,
+};
+
+export default {
+    ...avefiBase,
+    ...avefiEn
 };

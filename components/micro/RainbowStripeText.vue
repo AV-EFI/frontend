@@ -1,53 +1,53 @@
 <template>
-  <div class="relative flex leading-none bungee">
-    <span
-      v-for="(char, index) in animatedChars"
-      :key="'char-' + index"
-      :class="[$attrs.class, 'relative inline-block align-top']"
-    >
-      <label class="swap swap-flip text-2xl">
-        <input
-          type="checkbox"
-          class="hidden"
-          :checked="isFlipped[index]"
-          readonly
+    <div class="relative flex leading-none bungee">
+        <span
+            v-for="(char, index) in animatedChars"
+            :key="'char-' + index"
+            :class="[$attrs.class, 'relative inline-block align-top']"
         >
-        <!-- Flipped (character) -->
-        <div class="swap-on">
-          <span
-            class="absolute inset-0 font-black tracking-tight"
-            :class="$attrs.class"
-            style="color: white; z-index: 0;"
-            aria-hidden="true"
-          >{{ char }}</span>
-          <span
-            class="absolute inset-0 font-black tracking-tight text-transparent"
-            :style="getMaskStyle(index)"
-            aria-hidden="true"
-          >{{ char }}</span>
-          <span
-            class="absolute inset-0 font-black tracking-tight text-transparent"
-            style="pointer-events: none; z-index: 10;"
-            :style="`
+            <label class="swap swap-flip text-2xl">
+                <input
+                    type="checkbox"
+                    class="hidden"
+                    :checked="isFlipped[index]"
+                    readonly
+                >
+                <!-- Flipped (character) -->
+                <div class="swap-on">
+                    <span
+                        class="absolute inset-0 font-black tracking-tight"
+                        :class="$attrs.class"
+                        style="color: white; z-index: 0;"
+                        aria-hidden="true"
+                    >{{ char }}</span>
+                    <span
+                        class="absolute inset-0 font-black tracking-tight text-transparent"
+                        :style="getMaskStyle(index)"
+                        aria-hidden="true"
+                    >{{ char }}</span>
+                    <span
+                        class="absolute inset-0 font-black tracking-tight text-transparent"
+                        style="pointer-events: none; z-index: 10;"
+                        :style="`
               -webkit-text-stroke: ${strokeWidth} ${strokeColor};
             `"
-            aria-hidden="true"
-          >{{ char }}</span>
-          <span class="invisible">{{ char }}</span>
-        </div>
-        <!-- Not flipped (emoji, only once) -->
-        <div class="swap-off">
-          <span
-            class="absolute inset-0 font-black tracking-tight emoji-flip"
-            :class="$attrs.class"
-            style="color: white; z-index: 0;"
-            aria-hidden="true"
-          >{{ emojiStart[index] }}</span>
-          <span class="invisible">{{ emojiStart[index] }}</span>
-        </div>
-      </label>
-    </span>
-  </div>
+                        aria-hidden="true"
+                    >{{ char }}</span>
+                    <span class="invisible">{{ char }}</span>
+                </div>
+                <!-- Not flipped (emoji, only once) -->
+                <div class="swap-off">
+                    <span
+                        class="absolute inset-0 font-black tracking-tight emoji-flip"
+                        :class="$attrs.class"
+                        style="color: white; z-index: 0;"
+                        aria-hidden="true"
+                    >{{ emojiStart[index] }}</span>
+                    <span class="invisible">{{ emojiStart[index] }}</span>
+                </div>
+            </label>
+        </span>
+    </div>
 </template>
 
 <script setup>

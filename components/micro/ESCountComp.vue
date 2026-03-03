@@ -1,16 +1,16 @@
 <template>
-  <span
-    v-if="error"
-    class="text-error"
-  >
-    Error: {{ error }}
-  </span>
-  <span v-else-if="isFetching">
-    <span class="loading loading-spinner text-primary" />
-  </span>
-  <span v-else>
-    {{ results }}
-  </span>
+    <span
+        v-if="error"
+        class="text-error"
+    >
+        Error: {{ error }}
+    </span>
+    <span v-else-if="isFetching">
+        <span class="loading loading-spinner text-primary" />
+    </span>
+    <span v-else>
+        {{ results }}
+    </span>
 </template>
 
 <script setup>

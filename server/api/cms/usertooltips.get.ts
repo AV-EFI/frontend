@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 import { readUserGlossary } from '../../utils/userGlossaryStore';
 
 type Row = { path: string; de: string; en: string };

@@ -1,204 +1,204 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <NuxtLayout name="partial-layout-1-center">
-    <template #navigation>
-      <GlobalBreadcrumbsComp :breadcrumbs="[
-          ['Home', '/'],
-          [$t('faq'), '/faq'],
-        ]" />
-    </template>
+    <NuxtLayout name="partial-layout-1-center">
+        <template #navigation>
+            <GlobalBreadcrumbsComp :breadcrumbs="[
+                ['Home', '/'],
+                [$t('faq'), '/faq'],
+            ]" />
+        </template>
 
-    <template #title>
-      <h2 class="text-lg font-bold mb-2">
-        {{ $t('faq') }}
-      </h2>
-    </template>
+        <template #title>
+            <h2 class="text-lg font-bold mb-2">
+                {{ $t('faq') }}
+            </h2>
+        </template>
 
-    <template #cardBody>
-      <div class="container" role="region" :aria-label="$t('contact.mainContent')">
-        <div class="w-full md:w-4/5 mx-auto">
-          <article class="container flex justify-center" role="region" :aria-label="$t('contact.articleContent')">
-            <div id="c7273" class="frame frame-default frame-type-text frame-layout-0 w-full text-balance text-left">
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.about.heading')"
-                role="region"
-                :aria-label="$t('contact.about.heading')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.about.heading']"
-                  @change="(event) => handleToggle('contact.about.heading', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.about.heading') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">{{ $t('contact.about.0') }}</p>
-                  <p class="my-2">{{ $t('contact.about.1') }}</p>
-                  <p class="my-2">
-                    {{ $t('contact.about.2.beforeLink') }}
-                    <a class="link" href="https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html"
-                      target="_blank">FIAF-Regelwerk</a>
-                    {{ $t('contact.about.2.afterLink') }}
-                  </p>
-                </div>
-              </div>
+        <template #cardBody>
+            <div class="container" role="region" :aria-label="$t('contact.mainContent')">
+                <div class="w-full md:w-4/5 mx-auto">
+                    <article class="container flex justify-center" role="region" :aria-label="$t('contact.articleContent')">
+                        <div id="c7273" class="frame frame-default frame-type-text frame-layout-0 w-full text-balance text-left">
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.about.heading')"
+                                role="region"
+                                :aria-label="$t('contact.about.heading')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.about.heading']"
+                                    @change="(event) => handleToggle('contact.about.heading', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.about.heading') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">{{ $t('contact.about.0') }}</p>
+                                    <p class="my-2">{{ $t('contact.about.1') }}</p>
+                                    <p class="my-2">
+                                        {{ $t('contact.about.2.beforeLink') }}
+                                        <a class="link" href="https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html"
+                                           target="_blank">FIAF-Regelwerk</a>
+                                        {{ $t('contact.about.2.afterLink') }}
+                                    </p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.availableMetadata')"
-                role="region"
-                :aria-label="$t('contact.availableMetadata')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.availableMetadata']"
-                  @change="(event) => handleToggle('contact.availableMetadata', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.availableMetadata') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">{{ $t('contact.availableMetadataContent') }}</p>
-                </div>
-              </div>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.availableMetadata')"
+                                role="region"
+                                :aria-label="$t('contact.availableMetadata')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.availableMetadata']"
+                                    @change="(event) => handleToggle('contact.availableMetadata', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.availableMetadata') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">{{ $t('contact.availableMetadataContent') }}</p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.definitions')"
-                role="region"
-                :aria-label="$t('contact.definitions')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.definitions']"
-                  @change="(event) => handleToggle('contact.definitions', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.definitions') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">{{ $t('contact.workContent.0') }}</p>
-                  <p class="my-2">{{ $t('contact.workContent.1') }}</p>
-                  <p class="my-2">{{ $t('contact.workContent.2') }}</p>
-                  <p class="my-2">{{ $t('contact.workContent.3') }}</p>
-                  <p class="my-2">{{ $t('contact.workContent.4') }}</p>
-                  <p class="my-2">{{ $t('contact.workContent.5') }}</p>
-                  <p class="my-2">{{ $t('contact.workContent.6') }}</p>
-                </div>
-              </div>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.definitions')"
+                                role="region"
+                                :aria-label="$t('contact.definitions')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.definitions']"
+                                    @change="(event) => handleToggle('contact.definitions', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.definitions') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">{{ $t('contact.workContent.0') }}</p>
+                                    <p class="my-2">{{ $t('contact.workContent.1') }}</p>
+                                    <p class="my-2">{{ $t('contact.workContent.2') }}</p>
+                                    <p class="my-2">{{ $t('contact.workContent.3') }}</p>
+                                    <p class="my-2">{{ $t('contact.workContent.4') }}</p>
+                                    <p class="my-2">{{ $t('contact.workContent.5') }}</p>
+                                    <p class="my-2">{{ $t('contact.workContent.6') }}</p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.keywords')"
-                role="region"
-                :aria-label="$t('contact.keywords')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.keywords']"
-                  @change="(event) => handleToggle('contact.keywords', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.keywords') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">{{ $t('contact.keywordsContent') }}</p>
-                </div>
-              </div>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.keywords')"
+                                role="region"
+                                :aria-label="$t('contact.keywords')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.keywords']"
+                                    @change="(event) => handleToggle('contact.keywords', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.keywords') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">{{ $t('contact.keywordsContent') }}</p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.normdata')"
-                role="region"
-                :aria-label="$t('contact.normdata')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.normdata']"
-                  @change="(event) => handleToggle('contact.normdata', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.normdata') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">
-                    {{ $t('contact.normdataContent.beforeLink') }}
-                    <a class="link" href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html"
-                      target="_blank">Gemeinsamen Normdatei (GND)</a>
-                    {{ $t('contact.normdataContent.afterLink') }}
-                  </p>
-                </div>
-              </div>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.normdata')"
+                                role="region"
+                                :aria-label="$t('contact.normdata')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.normdata']"
+                                    @change="(event) => handleToggle('contact.normdata', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.normdata') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">
+                                        {{ $t('contact.normdataContent.beforeLink') }}
+                                        <a class="link" href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html"
+                                           target="_blank">Gemeinsamen Normdatei (GND)</a>
+                                        {{ $t('contact.normdataContent.afterLink') }}
+                                    </p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.availability')"
-                role="region"
-                :aria-label="$t('contact.availability')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.availability']"
-                  @change="(event) => handleToggle('contact.availability', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.availability') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">{{ $t('contact.availabilityContent') }}</p>
-                </div>
-              </div>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.availability')"
+                                role="region"
+                                :aria-label="$t('contact.availability')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.availability']"
+                                    @change="(event) => handleToggle('contact.availability', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.availability') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">{{ $t('contact.availabilityContent') }}</p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.pids')"
-                role="region"
-                :aria-label="$t('contact.pids')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.pids']"
-                  @change="(event) => handleToggle('contact.pids', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.pids') }}</h2>
-                </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  <p class="my-2">{{ $t('contact.pidsContent.0') }}</p>
-                  <p>{{ $t('contact.pidsContent.1') }}</p>
-                </div>
-              </div>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.pids')"
+                                role="region"
+                                :aria-label="$t('contact.pids')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.pids']"
+                                    @change="(event) => handleToggle('contact.pids', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.pids') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    <p class="my-2">{{ $t('contact.pidsContent.0') }}</p>
+                                    <p>{{ $t('contact.pidsContent.1') }}</p>
+                                </div>
+                            </div>
 
-              <div
-                class="collapse collapse-arrow mt-2"
-                :id="hashFromKey('contact.dataProviders')"
-                role="region"
-                :aria-label="$t('contact.dataProviders')"
-              >
-                <input
-                  type="checkbox"
-                  :checked="openSections['contact.dataProviders']"
-                  @change="(event) => handleToggle('contact.dataProviders', event)"
-                >
-                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
-                  <h2>{{ $t('contact.dataProviders') }}</h2>
+                            <div
+                                class="collapse collapse-arrow mt-2"
+                                :id="hashFromKey('contact.dataProviders')"
+                                role="region"
+                                :aria-label="$t('contact.dataProviders')"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :checked="openSections['contact.dataProviders']"
+                                    @change="(event) => handleToggle('contact.dataProviders', event)"
+                                >
+                                <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-bold">
+                                    <h2>{{ $t('contact.dataProviders') }}</h2>
+                                </div>
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                    {{ $t('contact.dataProvidersContent') }}
+                                    <ul>
+                                        <li class="link"><span v-html="$t('howToDoc')" /></li>
+                                        <li class="link"><span v-html="$t('manual')" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
                 </div>
-                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                  {{ $t('contact.dataProvidersContent') }}
-                  <ul>
-                    <li class="link"><span v-html="$t('howToDoc')" /></li>
-                    <li class="link"><span v-html="$t('manual')" /></li>
-                  </ul>
-                </div>
-              </div>
             </div>
-          </article>
-        </div>
-      </div>
-    </template>
-  </NuxtLayout>
+        </template>
+    </NuxtLayout>
 </template>
 
 <script setup lang="ts">
@@ -209,8 +209,8 @@ definePageMeta({ auth: false });
 const { t } = useI18n();
 
 type AccordionSection = {
-  key: string;
-  defaultOpen?: boolean;
+    key: string;
+    defaultOpen?: boolean;
 };
 
 const accordionSections: AccordionSection[] = [

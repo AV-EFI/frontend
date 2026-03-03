@@ -1,16 +1,23 @@
 {
   // --- ESLint & formatting (your existing setup) ---
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
   "eslint.format.enable": true,
+  "eslint.run": "onType",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.codeActionsOnSave.mode": "all",
   "editor.codeActionsOnSaveTimeout": 5000,
   "eslint.useFlatConfig": true,
-  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.options": {
+    "overrideConfigFile": "eslint.config.mjs"
+  },
+  "eslint.probe": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "vue.server.hybridMode": true,
@@ -30,7 +37,15 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "eslint.codeActionsOnSave.options": {},
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
 }

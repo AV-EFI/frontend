@@ -1,120 +1,120 @@
 <template>
-  <div class="p-4 mx-auto max-w-7xl">
-    <!-- Search -->
-    <div class="mb-4">
-      <input v-model="rawQuery" type="text" class="input input-bordered w-full"
-        :placeholder="$t('vocab.search') || 'Search vocabulary…'"
-        :aria-label="$t('vocab.search') || 'Search vocabulary…'">
-    </div>
+    <div class="p-4 mx-auto max-w-7xl">
+        <!-- Search -->
+        <div class="mb-4">
+            <input v-model="rawQuery" type="text" class="input input-bordered w-full"
+                   :placeholder="$t('vocab.search') || 'Search vocabulary…'"
+                   :aria-label="$t('vocab.search') || 'Search vocabulary…'">
+        </div>
 
-    <!-- A–Z -->
-    <div class="flex flex-wrap gap-1 mb-4 text-sm">
-      <div class="w-full mb-2">
-        <button class="btn btn-xs" :class="{ 'btn-active': !activeLetter }" @click="activeLetter=null">
-          {{ $t('vocab.all') || 'All' }}
-        </button>
-      </div>
-      <button v-for="char in alphabet" :key="char" class="btn btn-xs"
-        :class="{ 'btn-outline': activeLetter!==char, 'btn-active': activeLetter===char }"
-        :aria-label="$t('vocab.filterByLetter', { letter: char })" :title="$t('vocab.filterByLetter', { letter: char })"
-        @click="activeLetter = activeLetter===char ? null : char">
-        {{ char }}
-      </button>
-    </div>
-
-    <!-- Loading / empty -->
-    <div v-if="loading" class="text-neutral-500">
-      Loading…
-    </div>
-    <div v-else-if="filteredGroups.length===0" class="text-neutral-500">
-      {{ $t('vocab.noResults') || 'No results.' }}
-    </div>
-
-    <!-- Groups -->
-    <section v-for="group in filteredGroups" :key="group.category" class="mb-8">
-      <h2 class="text-lg font-semibold mb-2 border-b pb-1" v-html="highlight(group.category)">
-      </h2>
-      <ul class="flex flex-row flex-wrap gap-1 lg:gap-2">
-        <li v-for="entry in group.entries" :id="rowId(entry)" :key="entry.term + entry.enumSource + query"
-          :ref="(el:any)=>setRowRef(entry, el)"
-          class="rounded-xl border border-base-200 bg-base-100 transition-all w-full lg:w-[calc(50%_-_0.25rem)]"
-          :class="isOpen(entry) ? 'grid lg:grid-cols-[1fr,minmax(300px,34rem)]' : 'block'">
-          <!-- LEFT: entry content -->
-          <div class="p-3">
-            <div class="flex flex-row max-w-md">
-              <span class="text-xs text-neutral-500">
-                <code>{{ displayTerm(entry.term) }}</code>
-              </span>
-              <button class="btn btn-ghost btn-xs ml-auto" @click="togglePreview(entry)">
-                {{ $t('vocab.preview') || 'Preview' }}
-              </button>
+        <!-- A–Z -->
+        <div class="flex flex-wrap gap-1 mb-4 text-sm">
+            <div class="w-full mb-2">
+                <button class="btn btn-xs" :class="{ 'btn-active': !activeLetter }" @click="activeLetter=null">
+                    {{ $t('vocab.all') || 'All' }}
+                </button>
             </div>
+            <button v-for="char in alphabet" :key="char" class="btn btn-xs"
+                    :class="{ 'btn-outline': activeLetter!==char, 'btn-active': activeLetter===char }"
+                    :aria-label="$t('vocab.filterByLetter', { letter: char })" :title="$t('vocab.filterByLetter', { letter: char })"
+                    @click="activeLetter = activeLetter===char ? null : char">
+                {{ char }}
+            </button>
+        </div>
 
-            <div class="font-medium flex items-center gap-2 flex-wrap">
-              <!-- DE + EN always shown (when present), with stable layout -->
-              <span class="text-base">
-                <span class="text-xs text-neutral-500">DE: </span>
-                <span v-html="highlight(labelDe(entry))" />
-                <span class="text-neutral-400 mx-2">|</span>
-                <span class="text-xs text-neutral-500">EN: </span>
-                <span v-html="highlight(labelEn(entry))" />
-              </span>
+        <!-- Loading / empty -->
+        <div v-if="loading" class="text-neutral-500">
+            Loading…
+        </div>
+        <div v-else-if="filteredGroups.length===0" class="text-neutral-500">
+            {{ $t('vocab.noResults') || 'No results.' }}
+        </div>
 
-              <button class="btn btn-ghost btn-xs" :title="$t('vocab.copyLink') || 'Copy link to term'"
-                @click="copyTermLink(rowId(entry))">
-                <Icon name="tabler:link" />
-              </button>
-            </div>
+        <!-- Groups -->
+        <section v-for="group in filteredGroups" :key="group.category" class="mb-8">
+            <h2 class="text-lg font-semibold mb-2 border-b pb-1" v-html="highlight(group.category)">
+            </h2>
+            <ul class="flex flex-row flex-wrap gap-1 lg:gap-2">
+                <li v-for="entry in group.entries" :id="rowId(entry)" :key="entry.term + entry.enumSource + query"
+                    :ref="(el:any)=>setRowRef(entry, el)"
+                    class="rounded-xl border border-base-200 bg-base-100 transition-all w-full lg:w-[calc(50%_-_0.25rem)]"
+                    :class="isOpen(entry) ? 'grid lg:grid-cols-[1fr,minmax(300px,34rem)]' : 'block'">
+                    <!-- LEFT: entry content -->
+                    <div class="p-3">
+                        <div class="flex flex-row max-w-md">
+                            <span class="text-xs text-neutral-500">
+                                <code>{{ displayTerm(entry.term) }}</code>
+                            </span>
+                            <button class="btn btn-ghost btn-xs ml-auto" @click="togglePreview(entry)">
+                                {{ $t('vocab.preview') || 'Preview' }}
+                            </button>
+                        </div>
 
-            <div v-if="entry.description" class="text-xs text-neutral-600 dark:text-neutral-300 mt-1 lg:w-96"
-              v-html="highlight(entry.description)" />
-            <details v-if="entry.definition" class="mt-1 text-xs text-neutral-500">
-              <summary class="cursor-pointer underline underline-offset-2">
-                {{ $t('vocab.moreInfo') || 'learn more' }}
-              </summary>
-              <p class="mt-1 pl-2" v-html="highlight(entry.definition)" />
-            </details>
+                        <div class="font-medium flex items-center gap-2 flex-wrap">
+                            <!-- DE + EN always shown (when present), with stable layout -->
+                            <span class="text-base">
+                                <span class="text-xs text-neutral-500">DE: </span>
+                                <span v-html="highlight(labelDe(entry))" />
+                                <span class="text-neutral-400 mx-2">|</span>
+                                <span class="text-xs text-neutral-500">EN: </span>
+                                <span v-html="highlight(labelEn(entry))" />
+                            </span>
 
-            <div class="text-xs text-neutral-400 mt-2 flex items-center gap-2">
-              <span>( {{ entry.enumSource }} )</span>
-              <a v-if="docUrl(entry)" :href="docUrl(entry)" target="_blank" rel="noopener" class="link link-primary">
-                {{ $t('vocab.viewDocs') || 'Documentation' }}
-              </a>
-            </div>
-          </div>
+                            <button class="btn btn-ghost btn-xs" :title="$t('vocab.copyLink') || 'Copy link to term'"
+                                    @click="copyTermLink(rowId(entry))">
+                                <Icon name="tabler:link" />
+                            </button>
+                        </div>
 
-          <!-- RIGHT: inline preview (only for this row) -->
-          <transition name="slidein">
-            <div v-if="isOpen(entry)" class="border-l border-base-200 bg-base-100 min-h-[16rem]">
-              <!-- Header -->
-              <div class="flex items-center gap-2 px-3 py-2 border-b border-base-200">
-                <strong class="truncate">{{ $t('vocab.preview') || 'Preview' }}</strong>
-                <span class="opacity-60 text-sm truncate">· {{ entry.term }}</span>
-                <div class="ml-auto flex items-center gap-2">
-                  <a v-if="previewUrl" :href="previewUrl" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">
-                    {{ $t('vocab.openInNewTab') || 'Open in new tab' }}
-                  </a>
-                  <button class="btn btn-ghost btn-xs" @click="closePreview">
-                    <Icon name="tabler:x" />
-                  </button>
-                </div>
-              </div>
+                        <div v-if="entry.description" class="text-xs text-neutral-600 dark:text-neutral-300 mt-1 lg:w-96"
+                             v-html="highlight(entry.description)" />
+                        <details v-if="entry.definition" class="mt-1 text-xs text-neutral-500">
+                            <summary class="cursor-pointer underline underline-offset-2">
+                                {{ $t('vocab.moreInfo') || 'learn more' }}
+                            </summary>
+                            <p class="mt-1 pl-2" v-html="highlight(entry.definition)" />
+                        </details>
 
-              <!-- Body -->
-              <div ref="previewScrollEl" class="lg:h-[60vh] overflow-auto">
-                <iframe v-if="previewUrl && !forceInline" :key="previewUrl" :src="previewUrl"
-                  class="w-full h-[60vh] border-0" @load="onIframeLoad" />
-                <div v-else-if="inlineHtml" class="p-4 prose prose-sm max-w-none" v-html="inlineHtml" />
-                <div v-else class="p-4 text-sm opacity-70">
-                  {{ $t('vocab.loading') || 'Loading…' }}
-                </div>
-              </div>
-            </div>
-          </transition>
-        </li>
-      </ul>
-    </section>
-  </div>
+                        <div class="text-xs text-neutral-400 mt-2 flex items-center gap-2">
+                            <span>( {{ entry.enumSource }} )</span>
+                            <a v-if="docUrl(entry)" :href="docUrl(entry)" target="_blank" rel="noopener" class="link link-primary">
+                                {{ $t('vocab.viewDocs') || 'Documentation' }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: inline preview (only for this row) -->
+                    <transition name="slidein">
+                        <div v-if="isOpen(entry)" class="border-l border-base-200 bg-base-100 min-h-[16rem]">
+                            <!-- Header -->
+                            <div class="flex items-center gap-2 px-3 py-2 border-b border-base-200">
+                                <strong class="truncate">{{ $t('vocab.preview') || 'Preview' }}</strong>
+                                <span class="opacity-60 text-sm truncate">· {{ entry.term }}</span>
+                                <div class="ml-auto flex items-center gap-2">
+                                    <a v-if="previewUrl" :href="previewUrl" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">
+                                        {{ $t('vocab.openInNewTab') || 'Open in new tab' }}
+                                    </a>
+                                    <button class="btn btn-ghost btn-xs" @click="closePreview">
+                                        <Icon name="tabler:x" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Body -->
+                            <div ref="previewScrollEl" class="lg:h-[60vh] overflow-auto">
+                                <iframe v-if="previewUrl && !forceInline" :key="previewUrl" :src="previewUrl"
+                                        class="w-full h-[60vh] border-0" @load="onIframeLoad" />
+                                <div v-else-if="inlineHtml" class="p-4 prose prose-sm max-w-none" v-html="inlineHtml" />
+                                <div v-else class="p-4 text-sm opacity-70">
+                                    {{ $t('vocab.loading') || 'Loading…' }}
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </li>
+            </ul>
+        </section>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -127,14 +127,14 @@ import { ref, computed, watch, nextTick, onMounted } from 'vue';
  */
 type VocabLabels = { de?: string | null; en?: string | null };
 type VocabEntry = {
-  term: string;
-  label?: string;
-  labels?: VocabLabels;
-  description?: string;
-  definition?: string;
-  enumSource: string;
-  category: string;
-  isTranslated: boolean;
+    term: string;
+    label?: string;
+    labels?: VocabLabels;
+    description?: string;
+    definition?: string;
+    enumSource: string;
+    category: string;
+    isTranslated: boolean;
 };
 
 const DOCS_BASE = 'https://av-efi.github.io/av-efi-schema/';
@@ -298,12 +298,12 @@ const filteredGroups = computed(() => {
     const q = query.value;
 
     const filtered = entries.value.filter((entry) => {
-    // Search should consider:
-    // - term
-    // - display label (current locale)
-    // - the other locale label (if present)
-    // - legacy entry.label
-    // - description/definition
+        // Search should consider:
+        // - term
+        // - display label (current locale)
+        // - the other locale label (if present)
+        // - legacy entry.label
+        // - description/definition
         const hay = [
             entry.term,
             displayTerm(entry.term),

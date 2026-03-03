@@ -1,83 +1,83 @@
 <template>
-  <div
-    v-for="manifestation in manifestation_items"
-    :key="manifestation.id"
-    class="collapse collapse-arrow"
-  >
-    <input
-      type="checkbox"
-      class="manifestation-checkbox"
+    <div
+        v-for="manifestation in manifestation_items"
+        :key="manifestation.id"
+        class="collapse collapse-arrow"
     >
-    <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-medium">
-      <p class="text-sm">
-        {{ manifestation?.handle }}
-      </p>
-      <h3 class="font-bold text-primary-900 dark:text-primary-200">
-        {{ manifestation?.has_record?.described_by?.has_issuer_name }}
-      </h3>
-    </div>
-    <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div class="col-span-1">
-          <MicroLabelComp label-text="has_colour" />
-          <SearchHighlightSingleComp 
-            :item="manifestation?.has_record?.has_colour_type"
-            class="mb-2"
-          />
+        <input
+            type="checkbox"
+            class="manifestation-checkbox"
+        >
+        <div class="collapse-title bg-gray-100 dark:bg-gray-700 dark:text-white font-medium">
+            <p class="text-sm">
+                {{ manifestation?.handle }}
+            </p>
+            <h3 class="font-bold text-primary-900 dark:text-primary-200">
+                {{ manifestation?.has_record?.described_by?.has_issuer_name }}
+            </h3>
         </div>
-      </div>
-      <hr class="my-2">
-      <h4
-        class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
-        :title="$t('tooltip.item')"
-      >
-        {{ $t('items') }}
-      </h4>
-      <div
-        v-for="exemplar in manifestation.items"
-        :key="exemplar.id"
-        class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-gray-200 rounded-lg p-2 dark:bg-gray-900 dark:text-white mt-2"
-      >
-        <div class="row-start-1 col-span-3">
-          <DetailKeyValueComp
-            keytxt="efi"
-            :valtxt="exemplar?.handle"
-            :clip="true"                  
-            class="mb-2"
-          />
-        </div>
-        <div class="row-start-1 col-start-4 col-span-1 flex flex-col justify-center">
-          <a
-            v-if="exemplar?.has_record?.has_webresource"
-            :href="exemplar?.has_record?.has_webresource"
-            target="_blank"
-            class="link link-primary dark:link-accent"
-          ><Icon
-            name="tabler:external-link"
-          />&nbsp;{{ $t('webresource') }}</a>
-        </div>
+        <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <div class="col-span-1">
+                    <MicroLabelComp label-text="has_colour" />
+                    <SearchHighlightSingleComp 
+                        :item="manifestation?.has_record?.has_colour_type"
+                        class="mb-2"
+                    />
+                </div>
+            </div>
+            <hr class="my-2">
+            <h4
+                class="font-bold text-item-900 dark:text-item-200 pl-1 underline decoration-item"
+                :title="$t('tooltip.item')"
+            >
+                {{ $t('items') }}
+            </h4>
+            <div
+                v-for="exemplar in manifestation.items"
+                :key="exemplar.id"
+                class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-gray-200 rounded-lg p-2 dark:bg-gray-900 dark:text-white mt-2"
+            >
+                <div class="row-start-1 col-span-3">
+                    <DetailKeyValueComp
+                        keytxt="efi"
+                        :valtxt="exemplar?.handle"
+                        :clip="true"                  
+                        class="mb-2"
+                    />
+                </div>
+                <div class="row-start-1 col-start-4 col-span-1 flex flex-col justify-center">
+                    <a
+                        v-if="exemplar?.has_record?.has_webresource"
+                        :href="exemplar?.has_record?.has_webresource"
+                        target="_blank"
+                        class="link link-primary dark:link-accent"
+                    ><Icon
+                        name="tabler:external-link"
+                    />&nbsp;{{ $t('webresource') }}</a>
+                </div>
 
-        <div class="row-start-2 col-span-1">
-          <MicroLabelComp
-            label-text="has_format"
-            :title="$t('tooltip.format')"
-          />
+                <div class="row-start-2 col-span-1">
+                    <MicroLabelComp
+                        label-text="has_format"
+                        :title="$t('tooltip.format')"
+                    />
           
-          <SearchHighlightListComp
-            :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
-            class="mb-2"
-          />
+                    <SearchHighlightListComp
+                        :items="exemplar?.has_record?.has_format?.map(form => form.type) || []"
+                        class="mb-2"
+                    />
+                </div>
+                <div class="row-start-2 col-span-1">
+                    <MicroLabelComp label-text="in_language_code" />
+                    <SearchHighlightSingleComp
+                        :item="exemplar?.has_record?.in_language?.code"
+                        class="mb-2"
+                    />
+                </div>
+            </div>
         </div>
-        <div class="row-start-2 col-span-1">
-          <MicroLabelComp label-text="in_language_code" />
-          <SearchHighlightSingleComp
-            :item="exemplar?.has_record?.in_language?.code"
-            class="mb-2"
-          />
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 <script lang="ts" setup>
 

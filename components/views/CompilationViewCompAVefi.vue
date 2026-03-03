@@ -1,26 +1,26 @@
 <template>
     <div>
         <div v-if="mir" class="border-l-2 border-work px-2" role="region" :aria-label="`${$t('detailsFor')} ${
-        mir?.has_primary_title?.has_name ?? ''
-      }`">
+            mir?.has_primary_title?.has_name ?? ''
+        }`">
         </div>
         <div v-else>
             <pre>{{ mir }}</pre>
         </div>
         <div v-if="mir?.is_manifestation_of.length > 0 && dataObject?.compound_record?._source?.work_variants?.length > 0"
-            class="mt-4">
+             class="mt-4">
             <div class="alert">
                 <p v-html="$t('multihelptext', {'name': dataObject?.compound_record?._source?.handle})"></p>
             </div>
             <ViewsWorkViewCompParts type="compilationManifestation"
-                :parts="dataObject?.compound_record?._source?.work_variants"
-                :handle="dataObject?.compound_record?._source?.handle" />
+                                    :parts="dataObject?.compound_record?._source?.work_variants"
+                                    :handle="dataObject?.compound_record?._source?.handle" />
         </div>
 
         <!-- 12 Letzte Bearbeitung -->
         <div v-if="dataObject?._source?.['@timestamp']" class="w-full mt-4 justify-center items-center">
             <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
-                :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
+                                :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
         </div>
     </div>
 </template>
@@ -44,9 +44,9 @@ try {
 
 // WorkVariant (optional)
 const mir = (dataObject?.compound_record?._source?.has_record ??
-  null) as WorkVariant | null;
+    null) as WorkVariant | null;
 const parts = (dataObject?.compound_record?._source?.parts ??
-  null) as WorkVariant | null;
+    null) as WorkVariant | null;
 
 // Manifestations (optional)
 const manifestations = ref<Manifestation[]>(
@@ -116,9 +116,9 @@ const productionYears = computed<string[]>(() => {
         }
     };
     if (mir) {
-    // many datasets store these at work-level root
-    // (mir.production_in_year / mir.years); if nested in has_record, mir already *is* has_record
-    // so both forms collapse to mir.*
+        // many datasets store these at work-level root
+        // (mir.production_in_year / mir.years); if nested in has_record, mir already *is* has_record
+        // so both forms collapse to mir.*
         add((mir as any).production_in_year);
         add((mir as any).years);
     }

@@ -1,189 +1,240 @@
 <template>
-  <section v-for="work in datasets" :key="work?.handle ?? Math.random()"
-    class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
-    role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
-    <!-- Work header -->
-    <header class="card-body p-4 pb-2 gap-y-0">
-      <div class="flex flex-col md:flex-row justify-between">
-        <div class="w-4/5 md:w-4/5">
-          <GlobalClipboardComp
-            class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
-            :display-text="work?.handle ?? ''"
-            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
-            role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
-          <h2 :id="`flat-work-title-${work?.handle ?? ''}`" class="font-bold text-lg my-1 text-left">
-            <a :href="`/film/${work.objectID}`"
-              :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
-              :title="$t('detailviewlink')" target="_blank"
-              class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">
-              <span v-if="work._highlightResult?.has_record?.has_primary_title?.has_name">
-                <ais-highlight attribute="has_record.has_primary_title.has_name" :hit="work" />
-              </span>
-              <span v-else>
-                {{ work?.has_record?.has_primary_title?.has_name }}
-              </span>
-            </a>
-            <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false" class="ml-2" />
-          </h2>
-          <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left opacity-95">
-            <ul v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name">
-              <li v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name" :key="idx"
-                class="block" tabindex="0"
-                :aria-label="`${$t('alternativeTitle')}: ${work.has_record?.has_alternative_title?.[idx]?.has_name || ''} ${work.has_record?.has_alternative_title?.[idx]?.type ? '(' + $t(work.has_record.has_alternative_title[idx].type) + ')' : ''}`">
-                <span v-html="alt.value" />
-                <span v-if="work.has_record?.has_alternative_title?.[idx]?.type">
-                  ({{ $t(work.has_record.has_alternative_title[idx].type) }})
-                </span>
-              </li>
-            </ul>
-            <ul v-else-if="work?.has_record?.has_alternative_title">
-              <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"
-                :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`">
-                {{ alt.has_name }} ({{ $t(alt.type) }})
-              </li>
-            </ul>
-          </h3>
-        </div>
-        <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group"
-          :aria-label="$t('actions')">
-          <NuxtLink v-if="work?.handle" :to="`/film/${work.handle}`"
-            class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            :aria-label="`${$t('detailviewlink')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-            :title="$t('detailviewlink')" target="_blank">
-            <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
-          </NuxtLink>
-          <GlobalActionContextComp v-if="work" :item="work" />
-        </div>
-      </div>
-
-      <SearchGenericIconList :data="work" level="work" class="mt-1" />
-
-      <!-- Badge for all items empty -->
-      <div v-if="allItemsEmpty(work)" class="mt-2 text-left">
-        <span class="badge badge-manifestation badge-sm dark:text-black"
-          :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
-          <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
-          {{ $t('allItemsEmpty') || 'All Items Empty' }}
-        </span>
-      </div>
-    </header>
-
-    <div class="divider my-0 divider-primary" />
-    <!-- Search + Dropdown (FormKit) -->
-    <div class="px-4 py-2 flex items-center gap-2 text-left" role="search"
-      :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
-      <FormKit type="select" :name="`item-search-${work?.handle ?? ''}`" :label="$t('searchItems')"
-        :placeholder="$t('searchItems')"
-        :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-        :options="suggestionsForWork(work).map(s => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
-        :value="Array.isArray(searchQuery[work?.handle ?? '']) ? searchQuery[work?.handle ?? ''] : (searchQuery[work?.handle ?? ''] ? [searchQuery[work?.handle ?? '']] : [])"
-        multiple popover class="w-72" @input="val => onSearchInput(work?.handle ?? '', val)" />
-    </div>
-    <!-- Items carousel -->
-    <section class="px-5 py-2" role="region" :aria-label="$t('items') || 'Items'">
-      <div v-if="loading[work?.handle ?? '']" class="flex justify-center items-center min-h-[120px]">
-        <span class="loading loading-spinner loading-lg text-primary" />
-      </div>
-      <template v-else>
-        <div class="flex items-center gap-2  bg-base-200/50">
-          <button class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            :aria-label="`${$t('previous') || 'Previous'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-            :aria-controls="`carousel-${work?.handle ?? ''}`"
-            :disabled="carouselIndex[work?.handle ?? ''] === 0 || filteredRows(work).length <= pageSize()"
-            @click="prev(work?.handle ?? '')">
-            ‹
-          </button>
-
-          <div :id="`carousel-${work?.handle ?? ''}`" class="carousel-viewport" role="listbox"
-            :aria-roledescription="$t('carousel') || 'carousel'">
-            <div class="carousel-track" :style="trackStyle(work)">
-              <article v-for="row in filteredRows(work)" :key="row.item?.handle ?? Math.random()"
-                class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl" role="option"
-                :aria-label="row.item?.handle || 'item'">
-                <div class="card-body p-2 flex flex-col gap-2">
-                  <!-- Primary (item-level) info -->
-                  <div class="flex flex-col items-start gap-1 md:min-h-48">
-                    <div class="flex gap-2 mx-auto mb-2">
-                      <MicroBadgeCategoryComp category="avefi:Item" :dense="false" />
-                    </div>
-                    <h4>
-                      <GlobalClipboardComp class="text-xs text-base-content/90 text-left"
-                        :title="row.item?.handle || ''" :display-text="row.item?.handle || ''" />
-                    </h4>
-                    <div class="divider my-0" />
-
-                    <span v-if="isItemEmpty(row.item)" class="badge badge-item mx-auto my-auto"
-                      :title="$t('emptyItemTooltip') || 'This item has no additional metadata'">
-                      <span class="text-black">
-                        {{ $t('emptyItem') || 'Empty' }}
-
-                      </span>
-                    </span>
-                    <SearchGenericIconList v-else :data="row.item" level="item"
-                      class="mt-2 items-start justify-start text-left" />
-                  </div>
-                  <div v-if="row.item?.has_record?.has_webresource" class="flex items-start">
-                    <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
-                    <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource"
-                      class="text-sm link link-primary">
-                      <Icon name="tabler:external-link" /> {{ $t('webresource') || 'View Web Resource' }}
-                    </a>
-                  </div>
-
-                  <!-- Secondary (manifestation-level) info -->
-                  <div v-if="row.mf"
-                    class="border border-base-200 rounded-lg bg-base-100 flex flex-col gap-1 mt-4 mb-2">
-                    <div class="text-xs font-semibold text-base-content/70 flex flex-col items-center gap-1">
-                      <span class="text-base-content/90 text-left w-full">{{ $t('fromManifestation') || 'Manifestation'
-                        }}</span>
-                      <span v-if="row.mf?.has_record?.described_by?.has_issuer_name"
-                        class="text-base-content font-normal text-left w-full">
-                        <Icon class="mr-1" name="tabler:building"></Icon>
-                        {{ row.mf?.has_record?.described_by?.has_issuer_name }}
-                      </span>
-                      <span v-if="isManifestationEmpty(row.mf)" class="badge badge-warning badge-xs ml-1"
-                        :title="$t('emptyManifestationTooltip') || 'This manifestation has no additional metadata'">
-                        {{ $t('emptyManifestation') || 'Empty' }}
-                      </span>
-                    </div>
-                    <SearchGenericIconList :data="row.mf" level="manifestation"
-                      class="items-start justify-start text-left" />
-                  </div>
+    <section v-for="(work, workIndex) in datasets" :key="work?.handle ?? work?.objectID ?? `work-${workIndex}`"
+             class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+             role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
+        <!-- Work header -->
+        <header class="card-body p-4 pb-2 gap-y-0">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="w-4/5 md:w-4/5">
+                    <GlobalClipboardComp
+                        class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
+                        :display-text="work?.handle ?? ''"
+                        :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
+                        role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
+                    <h2 :id="`flat-work-title-${work?.handle ?? ''}`" class="font-bold text-lg my-1 text-left">
+                        <a :href="`/film/${work.objectID}`"
+                           :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
+                           :title="$t('detailviewlink')" target="_blank"
+                           class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">
+                            <span v-if="work._highlightResult?.has_record?.has_primary_title?.has_name">
+                                <ais-highlight attribute="has_record.has_primary_title.has_name" :hit="work" />
+                            </span>
+                            <span v-else>
+                                {{ work?.has_record?.has_primary_title?.has_name }}
+                            </span>
+                        </a>
+                        <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false" class="ml-2" />
+                    </h2>
+                    <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left opacity-95">
+                        <ul v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name">
+                            <li v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name" :key="idx"
+                                class="block" tabindex="0"
+                                :aria-label="`${$t('alternativeTitle')}: ${work.has_record?.has_alternative_title?.[idx]?.has_name || ''} ${work.has_record?.has_alternative_title?.[idx]?.type ? '(' + $t(work.has_record.has_alternative_title[idx].type) + ')' : ''}`">
+                                <span v-html="alt.value" />
+                                <span v-if="work.has_record?.has_alternative_title?.[idx]?.type">
+                                    ({{ $t(work.has_record.has_alternative_title[idx].type) }})
+                                </span>
+                            </li>
+                        </ul>
+                        <ul v-else-if="work?.has_record?.has_alternative_title">
+                            <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"
+                                :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`">
+                                {{ alt.has_name }} ({{ $t(alt.type) }})
+                            </li>
+                        </ul>
+                    </h3>
                 </div>
-                <div class="flex justify-end p-2">
-                  <button
-                    class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    :aria-label="`${$t('viewItemDetails')}: ${row.item?.handle || ''}`" :title="$t('viewItemDetails')"
-                    @click="navigateToItem(row.item, work?.handle ?? '')">
-                    <Icon name="tabler:eye" class="w-4 h-4 mr-1" aria-hidden="true" />
-                    <span class="sr-only">{{ $t('viewItemDetails') }}</span>
-                  </button>
+                <div class="w-full md:w-1/5 flex flex-row flex-wrap justify-end items-end mr-0 mt-2 md:my-auto" role="group"
+                     :aria-label="$t('actions')">
+                    <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
+                              class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                              :aria-label="`${$t('detailviewlink')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+                              :title="$t('detailviewlink')" target="_blank">
+                        <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
+                    </NuxtLink>
+                    <GlobalActionContextComp v-if="work" :item="work" />
                 </div>
-              </article>
             </div>
-          </div>
 
-          <button class="btn btn-sm btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            :aria-label="`${$t('next') || 'Next'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-            :aria-controls="`carousel-${work?.handle ?? ''}`"
-            :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
-            @click="next(work?.handle ?? '')">
-            ›
-          </button>
+            <SearchGenericIconList :data="work" level="work" class="mt-1" />
+
+            <!-- Badge for all items empty -->
+            <div v-if="allItemsEmpty(work)" class="mt-2 text-left">
+                <span class="badge badge-manifestation badge-sm dark:text-black"
+                      :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
+                    <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
+                    {{ $t('allItemsEmpty') || 'All Items Empty' }}
+                </span>
+            </div>
+        </header>
+
+        <div class="divider my-0 divider-primary" />
+        <!-- Search + Dropdown (FormKit) -->
+        <div
+            class="px-4 py-2 flex flex-col items-start gap-2 text-left"
+            role="search"
+            :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`">
+            <div class="relative w-72">
+                <input
+                    type="text"
+                    class="input input-bordered w-full"
+                    :placeholder="$t('searchItems')"
+                    :value="optionFilterQuery[work?.handle ?? ''] || ''"
+                    :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+                    :aria-expanded="String(isAutocompleteOpen(work?.handle ?? ''))"
+                    aria-autocomplete="list"
+                    @focus="openAutocomplete(work?.handle ?? '')"
+                    @blur="closeAutocomplete(work?.handle ?? '')"
+                    @input="evt => onOptionFilterInput(work?.handle ?? '', evt)"
+                    @keydown="evt => onAutocompleteKeydown(work?.handle ?? '', work, evt)"
+                >
+
+                <ul
+                    v-if="isAutocompleteOpen(work?.handle ?? '') && filteredSuggestionsForWork(work).length > 0"
+                    class="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-base-300 bg-base-100 shadow"
+                    role="listbox"
+                >
+                    <li
+                        v-for="(suggestion, suggestionIndex) in filteredSuggestionsForWork(work)"
+                        :key="suggestion"
+                        class="px-3 py-2 cursor-pointer text-sm"
+                        :class="activeSuggestionIndex[work?.handle ?? ''] === suggestionIndex ? 'bg-base-200' : ''"
+                        role="option"
+                        :aria-selected="activeSuggestionIndex[work?.handle ?? ''] === suggestionIndex"
+                        @mousedown.prevent="selectSuggestion(work?.handle ?? '', suggestion)"
+                    >
+                        {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                    </li>
+                </ul>
+            </div>
+
+            <div
+                v-if="(searchQuery[work?.handle ?? ''] || []).length > 0"
+                class="flex flex-wrap gap-1"
+            >
+                <span
+                    v-for="selected in (searchQuery[work?.handle ?? ''] || [])"
+                    :key="selected"
+                    class="badge badge-outline gap-1"
+                >
+                    {{ $t(selected) !== selected ? $t(selected) : selected }}
+                    <button
+                        type="button"
+                        class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
+                        :aria-label="`${$t('remove') || 'Remove'}: ${selected}`"
+                        @click="removeSuggestion(work?.handle ?? '', selected)"
+                    >
+                        ×
+                    </button>
+                </span>
+            </div>
         </div>
+        <!-- Items carousel -->
+        <section class="px-5 py-2" role="region" :aria-label="$t('items') || 'Items'">
+            <div v-if="loading[work?.handle ?? '']" class="flex justify-center items-center min-h-30">
+                <span class="loading loading-spinner loading-lg text-primary" />
+            </div>
+            <template v-else>
+                <div class="flex items-center gap-2  bg-base-200/50">
+                    <button class="btn btn-sm btn-outline btn-circle focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                            :aria-label="`${$t('previous') || 'Previous'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+                            :aria-controls="`carousel-${work?.handle ?? ''}`"
+                            :disabled="carouselIndex[work?.handle ?? ''] === 0 || filteredRows(work).length <= pageSize()"
+                            @click="prev(work?.handle ?? '')">
+                        ‹
+                    </button>
 
-        <!-- Page indicator -->
-        <div class="mt-2 text-center text-xs opacity-70">
-          {{ pageInfo(work).label }}
-        </div>
+                    <div :id="`carousel-${work?.handle ?? ''}`" class="carousel-viewport" role="listbox"
+                         :aria-roledescription="$t('carousel') || 'carousel'">
+                        <div class="carousel-track" :style="trackStyle(work)">
+                            <article v-for="(row, rowIndex) in filteredRows(work)"
+                                     :key="row.item?.handle ?? row.item?.id ?? row.mf?.id ?? `row-${work?.handle ?? workIndex}-${rowIndex}`"
+                                     class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl" role="option"
+                                     :aria-label="row.item?.handle || 'item'">
+                                <div class="card-body p-2 flex flex-col gap-2">
+                                    <!-- Primary (item-level) info -->
+                                    <div class="flex flex-col items-start gap-1 md:min-h-48">
+                                        <div class="flex gap-2 mx-auto mb-2">
+                                            <MicroBadgeCategoryComp category="avefi:Item" :dense="false" />
+                                        </div>
+                                        <h4>
+                                            <GlobalClipboardComp class="text-xs text-base-content/90 text-left"
+                                                                 :title="row.item?.handle || ''" :display-text="row.item?.handle || ''" />
+                                        </h4>
+                                        <div class="divider my-0" />
 
-        <!-- Empty state -->
-        <p v-if="filteredRows(work).length === 0" class="mt-4 text-sm opacity-70">
-          {{ $t('noItemsFound') || 'No items found.' }}
-        </p>
-      </template>
+                                        <span v-if="isItemEmpty(row.item)" class="badge badge-item mx-auto my-auto"
+                                              :title="$t('emptyItemTooltip') || 'This item has no additional metadata'">
+                                            <span class="text-black">
+                                                {{ $t('emptyItem') || 'Empty' }}
+
+                                            </span>
+                                        </span>
+                                        <SearchGenericIconList v-else :data="row.item" level="item"
+                                                               class="mt-2 items-start justify-start text-left" />
+                                    </div>
+                                    <div v-if="row.item?.has_record?.has_webresource" class="flex items-start">
+                                        <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
+                                        <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource"
+                                           class="text-sm link link-primary">
+                                            <Icon name="tabler:external-link" /> {{ $t('webresource') || 'View Web Resource' }}
+                                        </a>
+                                    </div>
+
+                                    <!-- Secondary (manifestation-level) info -->
+                                    <div v-if="row.mf"
+                                         class="border border-base-200 rounded-lg bg-base-100 flex flex-col gap-1 mt-4 mb-2">
+                                        <div class="text-xs font-semibold text-base-content/70 flex flex-col items-center gap-1">
+                                            <span class="text-base-content/90 text-left w-full">{{ $t('fromManifestation') || 'Manifestation'
+                                            }}</span>
+                                            <span v-if="row.mf?.has_record?.described_by?.has_issuer_name"
+                                                  class="text-base-content font-normal text-left w-full">
+                                                <Icon class="mr-1" name="tabler:building"></Icon>
+                                                {{ row.mf?.has_record?.described_by?.has_issuer_name }}
+                                            </span>
+                                            <span v-if="isManifestationEmpty(row.mf)" class="badge badge-warning badge-xs ml-1"
+                                                  :title="$t('emptyManifestationTooltip') || 'This manifestation has no additional metadata'">
+                                                {{ $t('emptyManifestation') || 'Empty' }}
+                                            </span>
+                                        </div>
+                                        <SearchGenericIconList :data="row.mf" level="manifestation"
+                                                               class="items-start justify-start text-left" />
+                                    </div>
+                                </div>
+                                <div class="flex justify-end p-2">
+                                    <button
+                                        class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                                        :aria-label="`${$t('viewItemDetails')}: ${row.item?.handle || ''}`" :title="$t('viewItemDetails')"
+                                        @click="navigateToItem(row.item, work?.handle ?? '')">
+                                        <Icon name="tabler:eye" class="w-4 h-4 mr-1" aria-hidden="true" />
+                                        <span class="sr-only">{{ $t('viewItemDetails') }}</span>
+                                    </button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm btn-outline btn-circle focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                            :aria-label="`${$t('next') || 'Next'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+                            :aria-controls="`carousel-${work?.handle ?? ''}`"
+                            :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
+                            @click="next(work?.handle ?? '')">
+                        ›
+                    </button>
+                </div>
+
+                <!-- Page indicator -->
+                <div class="mt-2 text-center text-xs opacity-70">
+                    {{ pageInfo(work).label }}
+                </div>
+
+                <!-- Empty state -->
+                <p v-if="filteredRows(work).length === 0" class="mt-4 text-sm opacity-70">
+                    {{ $t('noItemsFound') || 'No items found.' }}
+                </p>
+            </template>
+        </section>
     </section>
-  </section>
 </template>
 
 <script setup lang="ts">
@@ -192,11 +243,6 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import type { PropType } from 'vue';
 import type { MovingImageRecordContainer } from '@/models/interfaces/schema/avefi_schema_type_utils';
 import fieldsSpec from '../../models/interfaces/avefi_search_fields';
-import { useFormKitLoader } from '~/composables/useFormKitLoader';
-
-const { ensureFormKitReady } = useFormKitLoader();
-
-await ensureFormKitReady();
 defineProps({
     datasets: {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
@@ -211,22 +257,92 @@ const perPageMobile = 1;
 
 // ------- State -------
 const searchQuery = ref<Record<string, string[]>>({});
+const optionFilterQuery = ref<Record<string, string>>({});
+const autocompleteOpen = ref<Record<string, boolean>>({});
+const activeSuggestionIndex = ref<Record<string, number>>({});
 const carouselIndex = ref<Record<string, number>>({});
 const viewportCols = ref(3);
 const loading = ref<Record<string, boolean>>({});
 
-function onSearchInput(handle: string, val: any) {
+function onSearchInput(handle: string, val: string | string[]) {
     searchQuery.value[handle] = Array.isArray(val) ? val : (val ? [val] : []);
     loading.value[handle] = true;
     setTimeout(() => {
-        loading.value[handle] = false;
-    }, 600);
+                   loading.value[handle] = false;
+               }, 
+               600);
+}
+
+function onOptionFilterInput(handle: string, event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    optionFilterQuery.value[handle] = target?.value ?? '';
+    autocompleteOpen.value[handle] = true;
+    activeSuggestionIndex.value[handle] = 0;
+}
+
+function isAutocompleteOpen(handle: string): boolean {
+    return !!autocompleteOpen.value[handle];
+}
+
+function openAutocomplete(handle: string) {
+    autocompleteOpen.value[handle] = true;
+    if (activeSuggestionIndex.value[handle] === undefined) {
+        activeSuggestionIndex.value[handle] = 0;
+    }
+}
+
+function closeAutocomplete(handle: string) {
+    setTimeout(() => {
+        autocompleteOpen.value[handle] = false;
+    }, 120);
+}
+
+function selectSuggestion(handle: string, suggestion: string) {
+    const selected = Array.isArray(searchQuery.value[handle]) ? [...searchQuery.value[handle]] : [];
+    if (!selected.includes(suggestion)) {
+        selected.push(suggestion);
+    }
+    onSearchInput(handle, selected);
+    optionFilterQuery.value[handle] = '';
+    autocompleteOpen.value[handle] = false;
+    activeSuggestionIndex.value[handle] = 0;
+}
+
+function removeSuggestion(handle: string, suggestion: string) {
+    const selected = Array.isArray(searchQuery.value[handle]) ? searchQuery.value[handle] : [];
+    onSearchInput(handle, selected.filter(value => value !== suggestion));
+}
+
+function onAutocompleteKeydown(handle: string, work: MovingImageRecordContainer, event: KeyboardEvent) {
+    const suggestions = filteredSuggestionsForWork(work);
+    if (!suggestions.length) return;
+
+    const currentIndex = activeSuggestionIndex.value[handle] ?? 0;
+
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        openAutocomplete(handle);
+        activeSuggestionIndex.value[handle] = Math.min(currentIndex + 1, suggestions.length - 1);
+    } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        openAutocomplete(handle);
+        activeSuggestionIndex.value[handle] = Math.max(currentIndex - 1, 0);
+    } else if (event.key === 'Enter') {
+        event.preventDefault();
+        const pick = suggestions[currentIndex] ?? suggestions[0];
+        if (pick) {
+            selectSuggestion(handle, pick);
+        }
+    } else if (event.key === 'Escape') {
+        autocompleteOpen.value[handle] = false;
+    }
 }
 
 // ------- Spec fields (ordered) -------
 const workFields = computed(() =>
     (fieldsSpec?.workvariant ?? []).filter((f: any) => f.show).sort((a: any, b: any) => a.order - b.order)
 );
+
 const itemFields = computed(() =>
     (fieldsSpec?.item ?? []).filter((f: any) => f.show).sort((a: any, b: any) => a.order - b.order)
 );
@@ -236,7 +352,7 @@ function updateViewportCols() {
     const w = window.innerWidth || 1280;
     viewportCols.value = w < 640 ? perPageMobile : (w < 1024 ? perPageTablet : perPageDesktop);
 }
-onMounted(() => {
+onMounted(async () => {
     updateViewportCols();
     window.addEventListener('resize', updateViewportCols);
 });
@@ -372,6 +488,14 @@ function suggestionsForWork(work: any): string[] {
     return Array.from(set).slice(0, 100);
 }
 
+function filteredSuggestionsForWork(work: any): string[] {
+    const all = suggestionsForWork(work);
+    const handle = work?.handle ?? '';
+    const query = (optionFilterQuery.value[handle] ?? '').trim().toLowerCase();
+    if (!query) return all;
+    return all.filter(suggestion => suggestion.toLowerCase().includes(query));
+}
+
 // ------- Filtered rows per work -------
 function filteredRows(work: any): Array<{ item: any, mf: any | null }> {
     const rows = buildRows(work);
@@ -421,7 +545,7 @@ function trackStyle(work: any) {
 }
 
 const navigateToItem = (item: any, workHandle: string) => {
-    const itemPath = `/film/${workHandle}#${item?.handle?.replace('21.11155/', '')}`;
+    const itemPath = `/film/${workHandle}#${item?.handle}`;
     window.open(itemPath, '_blank');
 };
 

@@ -1,28 +1,28 @@
 <template>
-  <div class="">
-    <div v-for="(manifestation,i) in manifestationList" :key="manifestation._id || i" :id="`manifestation-${i}`"
-      class="mt-2 collapse collapse-plus border-base-200 border-2">
-      <input :id="`manifestation-${manifestation.handle || manifestation._id}`" type="checkbox"
-        :name="`manifestation-${manifestation.handle || manifestation._id}`" class="manifestation-accordion-toggle"
-        :aria-label="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
-        :alt="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
-        :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })">
-      <div class="collapse-title dark:bg-gray-800 dark:text-white">
-        <DetailManifestationHeaderComp :manifestation="manifestation" />
-      </div>
+    <div class="">
+        <div v-for="(manifestation,i) in manifestationList" :key="manifestation._id || i" :id="`manifestation-${i}`"
+             class="mt-2 collapse collapse-plus border-base-200 border-2">
+            <input :id="`manifestation-${manifestation.handle || manifestation._id}`" type="checkbox"
+                   :name="`manifestation-${manifestation.handle || manifestation._id}`" class="manifestation-accordion-toggle"
+                   :aria-label="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
+                   :alt="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
+                   :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })">
+            <div class="collapse-title dark:bg-gray-800 dark:text-white">
+                <DetailManifestationHeaderComp :manifestation="manifestation" />
+            </div>
 
-      <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
-        <!-- 16 Exemplare -->
-        <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4">
-          {{ safeT('items') }}
-          <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
-        </h4>
-        <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
-          <DetailItemListNewComp v-if="manifestation?.items?.length > 0" :items="manifestation?.items" />
+            <div class="collapse-content bg-gray-50 dark:bg-gray-800 dark:text-white">
+                <!-- 16 Exemplare -->
+                <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4">
+                    {{ safeT('items') }}
+                    <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
+                </h4>
+                <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
+                    <DetailItemListNewComp v-if="manifestation?.items?.length > 0" :items="manifestation?.items" />
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts" setup>
@@ -35,16 +35,16 @@ const manifestationList = defineModel({
 });
 
 interface AVefiFEManifestation {
-  _source: Source;
-  _id: string;
-  index: string;
-  _score: number;
+    _source: Source;
+    _id: string;
+    index: string;
+    _score: number;
 }
 interface Source {
-  handle: string;
-  kip: string;
-  has_record: MovingImageRecord;
-  items: Item[];
+    handle: string;
+    kip: string;
+    has_record: MovingImageRecord;
+    items: Item[];
 }
 
 onMounted(() => {

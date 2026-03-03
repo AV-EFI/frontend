@@ -504,12 +504,13 @@ export default defineNuxtConfig({
         strategy: 'no_prefix',
         defaultLocale: 'de',
         langDir: './locales',
-        lazy: true,
         locales: [
             { code: 'de', iso: 'de-DE', name: 'Deutsch', file: 'de.ts' },
             { code: 'en', iso: 'en-US', name: 'English', file: 'en.ts' }
         ],
-        vueI18n: './i18n.config.ts'
+        vueI18n: './i18n.config.ts',
+        
+
     },
     pinia: {
         storesDirs: ['stores']

@@ -1,39 +1,39 @@
 <template>
-  <div>
-    <GlobalBreadcrumbsComp :breadcrumbs="[
-        ['Home', '/'],
-        [$t('myDatasets'), `/protected/institutionlist`],
-      ]" />
     <div>
-      <NuxtLayout name="partial-layout-1-full">
-        <template #heading>
-          <div class="lg:px-4">
-            <h1 class="text-xl font-bold dark:text-zinc-300">
-              {{ $t('myDatasets') }}
-            </h1>
-            <h2>{{ authData?.user?.institution }}</h2>
-          </div>
-        </template>
-        <template #content>
-          <ClientOnly>
-            <template #fallback>
-              <div class="py-8 flex justify-center">
-                <span class="loading loading-spinner loading-lg text-primary" />
-              </div>
-            </template>
-            <LazyDetailInstitutionListComp v-if="searchClient && isInstantSearchReady" :search-client="searchClient"
-              :index-name="useRuntimeConfig().public.ELASTIC_INDEX" :routing="true" />
-            <div v-else class="py-8 flex flex-col items-center gap-2 text-center">
-              <span v-if="!instantSearchError" class="loading loading-spinner loading-lg text-primary" />
-              <p v-else class="text-error text-sm">
-                {{ $t('error') }}
-              </p>
-            </div>
-          </ClientOnly>
-        </template>
-      </NuxtLayout>
+        <GlobalBreadcrumbsComp :breadcrumbs="[
+            ['Home', '/'],
+            [$t('myDatasets'), `/protected/institutionlist`],
+        ]" />
+        <div>
+            <NuxtLayout name="partial-layout-1-full">
+                <template #heading>
+                    <div class="lg:px-4">
+                        <h1 class="text-xl font-bold dark:text-zinc-300">
+                            {{ $t('myDatasets') }}
+                        </h1>
+                        <h2>{{ authData?.user?.institution }}</h2>
+                    </div>
+                </template>
+                <template #content>
+                    <ClientOnly>
+                        <template #fallback>
+                            <div class="py-8 flex justify-center">
+                                <span class="loading loading-spinner loading-lg text-primary" />
+                            </div>
+                        </template>
+                        <LazyDetailInstitutionListComp v-if="searchClient && isInstantSearchReady" :search-client="searchClient"
+                                                       :index-name="useRuntimeConfig().public.ELASTIC_INDEX" :routing="true" />
+                        <div v-else class="py-8 flex flex-col items-center gap-2 text-center">
+                            <span v-if="!instantSearchError" class="loading loading-spinner loading-lg text-primary" />
+                            <p v-else class="text-error text-sm">
+                                {{ $t('error') }}
+                            </p>
+                        </div>
+                    </ClientOnly>
+                </template>
+            </NuxtLayout>
+        </div>
     </div>
-  </div>
 </template>
 <script lang="ts" setup>
 import { onMounted } from 'vue';

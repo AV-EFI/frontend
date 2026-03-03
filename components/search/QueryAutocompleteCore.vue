@@ -2,14 +2,14 @@
     <div class="relative w-full" @mousedown.stop>
         <div class="relative">
             <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
-                :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
-                wrapper-class="flex flex-row"
-                inner-class="!rounded-xl !h-12 w-full dark:!bg-neutral dark:!text-white !rounded-r-none"
-                input-class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
-                :aria-label="ariaLabel" aria-haspopup="listbox" :aria-owns="listboxId"
-                :aria-expanded="showDropdown ? 'true' : 'false'" :aria-activedescendant="activeDescId" @input="onInput"
-                @focus="onFocus" @blur="onBlur" @keydown="onKeydown">
-                <!--
+                     :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
+                     wrapper-class="flex flex-row"
+                     inner-class="!rounded-xl !h-12 w-full dark:!bg-neutral dark:!text-white !rounded-r-none"
+                     input-class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
+                     :aria-label="ariaLabel" aria-haspopup="listbox" :aria-owns="listboxId"
+                     :aria-expanded="showDropdown ? 'true' : 'false'" :aria-activedescendant="activeDescId" @input="onInput"
+                     @focus="onFocus" @blur="onBlur" @keydown="onKeydown">
+                     <!--
                <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
                     <span class="formkit-icon relative group cursor-help my-auto flex justify-center"
                         :title="infoTooltipText">
@@ -21,45 +21,45 @@
 
             <!-- Clear button inside input -->
             <button v-if="displayValue" type="button"
-                class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
+                    class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                    :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
                 <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
             </button>
         </div>
 
         <!-- Suggestions dropdown -->
         <div v-show="showDropdown" :id="listboxId"
-            class="absolute z-[1100] w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-96 overflow-auto"
-            role="listbox" :aria-label="ariaLabel">
+             class="absolute z-[1100] w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-96 overflow-auto"
+             role="listbox" :aria-label="ariaLabel">
             <!-- Accessible headings for screen readers -->
             <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
                 {{ $t('recentSearches') }}
             </span>
             <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only"
-                id="autocomplete-suggestions-heading">
+                  id="autocomplete-suggestions-heading">
                 {{ $t('suggestions') }}
             </span>
 
             <!-- Recent searches header (only when input is empty) -->
             <div v-if="props.recentSearches && props.recentSearches.length > 0"
-                class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
                     {{ $t('recentSearches') }} / {{ $t('suggestions') }}
                 </span>
                 <button type="button"
-                    class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
-                    @mousedown.stop.prevent="emit('clear-history')">
+                        class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+                        @mousedown.stop.prevent="emit('clear-history')">
                     {{ $t('clearSearchHistory') }}
                 </button>
             </div>
             <div v-else-if="props.recentSearches && props.recentSearches.length > 0"
-                class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
                     {{ $t('suggestions') }}
                 </span>
                 <button type="button"
-                    class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
-                    @mousedown.stop.prevent="emit('clear-history')">
+                        class="text-xs text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
+                        @mousedown.stop.prevent="emit('clear-history')">
                     {{ $t('clearSearchHistory') }}
                 </button>
 
@@ -69,37 +69,37 @@
             <template v-if="visibleSuggestions.length">
                 <!-- Visually hidden headings for screen readers only, do not affect structure -->
                 <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only"
-                    id="recent-searches-heading">
+                      id="recent-searches-heading">
                     {{ $t('recentSearches') }}
                 </span>
                 <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only"
-                    id="autocomplete-suggestions-heading">
+                      id="autocomplete-suggestions-heading">
                     {{ $t('suggestions') }}
                 </span>
                 <!-- Original flat rendering -->
                 <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
-                    type="button" :class="[
-                        'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
-                        'hover:bg-gray-100 dark:hover:bg-gray-800/80',
-                        i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
-                    ]" role="option" :aria-selected="i === highlighted" :aria-label="`${typeLabel(s.type)}: ${s.text}`"
-                    @mousedown.stop.prevent="onSelect(s)">
+                        type="button" :class="[
+                            'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
+                            'hover:bg-gray-100 dark:hover:bg-gray-800/80',
+                            i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
+                        ]" role="option" :aria-selected="i === highlighted" :aria-label="`${typeLabel(s.type)}: ${s.text}`"
+                        @mousedown.stop.prevent="onSelect(s)">
                     <Icon v-if="s.type === 'recent'" class="shrink-0 text-base leading-none" name="tabler:history"
-                        :title="typeLabel(s.type)" aria-hidden="true" />
+                          :title="typeLabel(s.type)" aria-hidden="true" />
                     <Icon v-else-if="s.type === 'saved'" class="shrink-0 text-base leading-none" name="tabler:star"
-                        :title="typeLabel(s.type)" aria-hidden="true" />
+                          :title="typeLabel(s.type)" aria-hidden="true" />
                     <Icon v-else class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)"
-                        :title="typeLabel(s.type)" aria-hidden="true" />
+                          :title="typeLabel(s.type)" aria-hidden="true" />
                     <span class="sr-only">{{ typeLabel(s.type) }}: </span>
                     <span class="text-base truncate">{{ s.text }}</span>
                     <span v-if="s.count && s.count > 1"
-                        class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
+                          class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
                         ({{ s.count }})
                     </span>
                     <!-- Remove button for recent searches -->
                     <span v-if="s.type === 'recent'" type="button"
-                        class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
-                        @mousedown.stop.prevent="emit('remove-recent', s.text)">
+                          class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
+                          @mousedown.stop.prevent="emit('remove-recent', s.text)">
                         <Icon name="tabler:x" class="text-sm" />
                     </span>
                 </button>
@@ -130,32 +130,32 @@ type Suggestion = { text: string; type: string; count?: number; url?: string };
 type IconMap = Record<string, string>;
 
 const props = defineProps<{
-  modelValue?: string;
-  name?: string;
-  placeholder?: string;
-  ariaLabel?: string;
-  clearTitle?: string;
-  showInfoTooltip?: boolean;
-  infoTooltipText?: string;
-  noResultsText?: string;
-  facetAttr?: string;
-  size?: number;
-  iconMap?: IconMap;
-  enforceList?: boolean;
-  recentSearches?: Array<{ query: string; url: string; timestamp: number }>;
-  autofocus?: boolean;
+    modelValue?: string;
+    name?: string;
+    placeholder?: string;
+    ariaLabel?: string;
+    clearTitle?: string;
+    showInfoTooltip?: boolean;
+    infoTooltipText?: string;
+    noResultsText?: string;
+    facetAttr?: string;
+    size?: number;
+    iconMap?: IconMap;
+    enforceList?: boolean;
+    recentSearches?: Array<{ query: string; url: string; timestamp: number }>;
+    autofocus?: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', v: string): void;
-  (e: 'select', v: string): void;
-  (e: 'submit', v: string): void;
-  (e: 'clear'): void;
-  (e: 'focus'): void;
-  (e: 'blur'): void;
-  (e: 'recent-search-click', item: any): void;
-  (e: 'remove-recent', query: string): void;
-  (e: 'clear-history'): void;
+    (e: 'update:modelValue', v: string): void;
+    (e: 'select', v: string): void;
+    (e: 'submit', v: string): void;
+    (e: 'clear'): void;
+    (e: 'focus'): void;
+    (e: 'blur'): void;
+    (e: 'recent-search-click', item: any): void;
+    (e: 'remove-recent', query: string): void;
+    (e: 'clear-history'): void;
 }>();
 
 /* ==========================================================================
@@ -294,7 +294,7 @@ const visibleSuggestions = computed(() => {
 
 const noResultsMessage = computed(() =>
     props.noResultsText ??
-  (displayValue.value.trim() ? t('noSuggestionsFound') : t('showSuggestions'))
+    (displayValue.value.trim() ? t('noSuggestionsFound') : t('showSuggestions'))
 );
 
 /* ==========================================================================

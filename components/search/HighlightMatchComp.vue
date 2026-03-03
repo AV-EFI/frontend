@@ -1,13 +1,13 @@
 <template>
-  <li class="text-sm ml-4" tabindex="0">
-    <span class="font-bold text-sm">
-      {{ $t(`${field}`) }}:
-    </span>
-    <span
-      class="px-1 rounded-sm"
-      v-html="value"
-    />
-  </li>
+    <li class="text-sm ml-4" tabindex="0">
+        <span class="font-bold text-sm">
+            {{ $t(`${field}`) }}:
+        </span>
+        <span
+            class="px-1 rounded-sm"
+            v-html="value"
+        />
+    </li>
 </template>
   
 <script lang="ts" setup>

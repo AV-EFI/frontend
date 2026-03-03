@@ -1,21 +1,21 @@
 <template>
-  <div class="container mx-auto p-2">
-    <GlobalBreadcrumbsComp
-      :breadcrumbs="[
-        ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
-      ]"
-    />
-    <keep-alive>
-      <SearchSection
-        v-if="searchClient"
-        :search-client="searchClient"
-      />
-      <div v-else class="text-center py-4">
-        <span class="loading loading-spinner loading-lg text-primary" />
-      </div>
-    </keep-alive>
-  </div>
+    <div class="container mx-auto p-2">
+        <GlobalBreadcrumbsComp
+            :breadcrumbs="[
+                ['Home', '/'],
+                [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
+            ]"
+        />
+        <keep-alive>
+            <SearchSection
+                v-if="searchClient"
+                :search-client="searchClient"
+            />
+            <div v-else class="text-center py-4">
+                <span class="loading loading-spinner loading-lg text-primary" />
+            </div>
+        </keep-alive>
+    </div>
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';

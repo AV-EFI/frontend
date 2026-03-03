@@ -8,13 +8,13 @@ defineProps({
 </script>
 
 <template>
-  <div class="collapse">
-    <input type="checkbox"> 
-    <div class="collapse-title font-medium">
-      JSON data
+    <div class="collapse">
+        <input type="checkbox"> 
+        <div class="collapse-title font-medium">
+            JSON data
+        </div>
+        <div class="collapse-content"> 
+            <pre wrap>{{ apiData }}</pre>
+        </div>
     </div>
-    <div class="collapse-content"> 
-      <pre wrap>{{ apiData }}</pre>
-    </div>
-  </div>
 </template>

@@ -1,6 +1,7 @@
-import avefiLocales from '~/models/interfaces/schema/locale_messages.json';
+import locales from '~/models/interfaces/schema/locale_messages.json';
+const avefiDe = (locales as any).de ?? (locales as any).default?.de ?? {};
 
-export default {
+const deBase = {
     "docFilmCollectionDescription": "Dokumentarfilme, die Bewegungen und Akte des Widerstands dokumentieren und reflektieren: die Schlagwortsuche ermöglicht eine thematische Analyse zu Formen des zivilen Ungehorsams.",
     "docFilmCollectionTitle": "Aktivismus im Dokumentarfilm",
     "docFilmCollectionLinkText": "Aktivismus im Dokumentarfilm ansehen",
@@ -30,7 +31,7 @@ export default {
     "build": {
         "linked": {
             "title": "efis für alle – Filme eindeutig identifiziert ",
-            "lead": "AVefi ist ein Verbundsystem, das Filmbestände aus unterschiedlichen Institutionen verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Suchergebnisse lassen sich filtern und Metadaten können frei nachgenutzt werden.",
+            "lead": "AVefi ist ein Verbundsystem, das Filmbestände verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Das ermöglicht konsistentes Referenzieren und verlässliches Zitieren Suchergebnisse lassen sich filtern und Metadaten können frei nachgenutzt werden.",
             "authority": "Normdaten",
             "crosswalk": "Verknüpfung"
         },
@@ -44,7 +45,7 @@ export default {
     "searchAndFind": {
         "title": "Entdecken",
         "text": [
-            "AVefi zeigt die Vielfalt der Filmkultur in einer institutionsübergreifenden Filmdatenbank. Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen.",
+            "AVefi zeigt die Vielfalt der Filmkultur in einer Filmdatenbank. Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen.",
             "Die Plattform unterscheidet zwischen Werk, Manifestation und Exemplar. So werden Archivbestände eindeutig zugeordnet und vergleichbar. Ergänzende filmografische Quellen sind direkt verlinkt."
         ],
     },
@@ -58,7 +59,7 @@ export default {
     "becomeAPartner": {
         "title": "Werden Sie Teil der AVefi-Community",
         "text": "Über unsere Mailingliste informieren wir Sie über Neuigkeiten.",
-        "cta": "Mailingliste abonnieren",
+        "cta": "AVefi Mailingliste abonnieren",
         "ctaLink": "https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
     },
     "searchModeSwitcher": "Suchmodus wechseln",
@@ -90,6 +91,8 @@ export default {
     "datasets": "Datensätze",
     "viewDatasets": `Datensätze ansehen`,
     "viewHomepage": "Zur Homepage",
+    "switchToLightMode": "Wechsel zu hellem Modus",
+    "switchToDarkMode": "Wechsel zu dunklem Modus",
     'home': {
         'breadcrumbs': 'Home',
         'welcome': 'Filmmetadaten aller Genres und Typen sind verfügbar, mit einem besonderen Fokus auf Bildungs-, Lehr- und Wissenschaftsfilme sowie Amateur- und Heimatfilme.',
@@ -121,7 +124,7 @@ export default {
             'build': {
                 'linked': {
                     'title': 'efis für alle – Filme eindeutig identifiziert ',
-                    'lead': 'AVefi ist ein Verbundsystem, das Filmbestände aus unterschiedlichen Institutionen verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Suchergebnisse lassen sich filtern und Metadaten können frei nachgenutzt werden.'
+                    'lead': 'AVefi ist ein Verbundsystem, das Filmbestände aus unterschiedlichen Institutionen verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhalten jeweils eigene, dauerhaft gültige Identifikatoren. So werden Filmwerke institutionsübergreifend eindeutig identifiziert. Manifestationen und Exemplare sind gezielt auffindbar. Das ermöglicht konsistentes Referenzieren und verlässliches Zitieren. Suchergebnisse lassen sich filtern und Metadaten können frei nachgenutzt werden.'
                 }
             },
             'callToAction': {
@@ -153,7 +156,7 @@ export default {
             'openAndExtendable': {
                 'title': 'Offen und erweiterbar',
                 'content': [
-                    'AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur und Filmarchivarbeit. Sie basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit eindeutig identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.',
+                    'AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur und Film-Archivarbeit. Sie basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit eindeutig identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.',
                     'Hintergrundinformationen finden Sie auf der Projektwebsite.',
                     'https://projects.tib.eu/av-efi',
                     'Weitere Datenquellen und Kooperationspartner sind sehr willkommen.'
@@ -362,12 +365,12 @@ export default {
     "openAndExtendable": {
         "title":"Offen und erweiterbar",
         "content": [
-            "AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur und Filmarchivarbeit. Sie basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit eindeutig identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.",
+            "AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur und Film-Archivarbeit. Sie basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit eindeutig identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.",
             "Hintergrundinformationen finden Sie auf der Projektwebsite.",
             "https://projects.tib.eu/av-efi",
             "Weitere Datenquellen und Kooperationspartner sind sehr willkommen."
         ],
-        "cta": "Kontaktieren Sie uns"
+        "cta": "Zur Projektwebsite"
     },
     "tooltip": {
         "accessStatus": "Der Status gibt an, ob das Exemplar öffentlich zugänglich ist oder ob es Einschränkungen gibt.",
@@ -595,10 +598,13 @@ export default {
     "hideVideo": "Video ausblenden",
     "showVideo": "Video anzeigen",
     "openMenu": "Menü öffnen",
+    "settingsMenu": "Einstellungsmenü",
     "mainMenu": "Main Menu",
+    "moreOptions": "Mehr Optionen",
     "footerPreferences": "Einstellungen",
     "footerInfo": "Informationen",
     "footerSponsoring": "Sponsoring",
+    "license": "Lizenz",
     "footerLicenseData": "Daten lizenziert unter Creative Commons Public Domain Dedication (CC0 1.0).",
     "footerLicenseContent": "Inhalte lizenziert unter Creative Commons Attribution 4.0 International (CC BY 4.0).",
     "userMenu": "Benutzermenü",
@@ -609,6 +615,7 @@ export default {
     'openDrawer': 'Öffnen',
     'cookiesModalDescription': 'Hier können Sie Ihre Cookie-Einstellungen anpassen. Sie haben die Möglichkeit, bestimmte Cookies zu aktivieren oder zu deaktivieren, die für die Funktionalität und Verbesserung unserer Website verwendet werden. Bitte beachten Sie, dass das Deaktivieren einiger Cookies die Nutzung der Website beeinträchtigen kann.',
     'comparison': 'Vergleich',
+    'loadingCookies': 'Cookie-Einstellungen werden geladen…',
     'comparisonalready': 'Das Element befindet sich bereits im Vergleich',
     'comparisonfull': 'Der Vergleich darf maximal zwei Elemente beinhalten. Um ein neues Element hinzufügen, bitte eines aus der Liste entfernen.',
     'comparisonComponent': 'Die Vergleichskomponente ermöglicht es Nutzern, bis zu zwei Datensätze gleichzeitig auszuwählen und in einer Vergleichsansicht gegenüberzustellen. Datensätze können hinzugefügt oder entfernt und das Ergebnis als CSV-, XML- oder JSON-Datei exportiert werden.',
@@ -646,6 +653,7 @@ export default {
     'exportAsXML': 'Export als XML',
     'Episode/Part': 'Folge/Teil',
     'expandAll': 'Alle ausklappen',
+    'expand': 'Ausklappen',
     'viewType': 'Ansicht',
     'tableView': 'Tabelle',
     'facettype': 'Typ',
@@ -655,6 +663,14 @@ export default {
     'filmidentification': 'Filmdatenredaktion',
     'filmportalref': 'Referenz bei filmportal.de',
     'filmresearch': 'Suche',
+    'copyToClipboard': 'In Zwischenablage kopieren',
+    'castMember': 'Darsteller*in',
+    'CastMember': 'Darsteller*in',
+    'crewMember': 'Mitwirkende Person',
+    'crewMemberType': 'Art der Mitwirkung',
+    'agentsList': 'Agentenliste',
+    'agent': 'Agent',
+    'sameAs': 'Gleich wie',
     'filter': 'Filtern',
     "has_event": "Ereignis",
     'gotodisamiguationparam': () => `Zu Disambiguierung`,
@@ -937,5 +953,10 @@ export default {
         "filterByLetter": "Nach Buchstabe filtern"
     },
     "skipToContent": "Zum Inhalt springen",
-    ...avefiLocales.de
+};
+
+// IMPORTANT: merge in avefiLocales.de (choose order intentionally)
+export default {
+    ...deBase, 
+    ...avefiDe
 };

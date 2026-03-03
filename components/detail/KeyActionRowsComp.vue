@@ -31,7 +31,7 @@
                     <!-- value -->
                     <div class="min-w-0 flex-1">
                         <a v-if="row.href" :href="row.href" class="link link-hover text-sm break-words"
-                            :title="row.title ?? row.text">
+                           :title="row.title ?? row.text">
                             {{ row.text }}
                         </a>
 
@@ -50,8 +50,8 @@
                         <slot name="rowAction" :row="row" :index="idx">
                             <!-- Default: use existing AVefi same_as menu if present -->
                             <DetailSameAsComp v-if="row.same_as" :same-as-data="row.same_as" :type="sameAsType"
-                                :aria-label="sameAsAriaLabel(row.text)" text="sm"
-                                class="flex h-6 items-start opacity-70 group-hover:opacity-100 focus-within:opacity-100" />
+                                              :aria-label="sameAsAriaLabel(row.text)" text="sm"
+                                              class="flex h-6 items-start opacity-70 group-hover:opacity-100 focus-within:opacity-100" />
                         </slot>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
         <!-- Show more / less -->
         <div v-if="rows.length > initialVisible" class="mt-2">
             <button type="button" class="btn btn-ghost btn-sm" @click="expanded = !expanded"
-                :aria-expanded="expanded ? 'true' : 'false'">
+                    :aria-expanded="expanded ? 'true' : 'false'">
                 <span v-if="!expanded">Show more ({{ rows.length - initialVisible }})</span>
                 <span v-else>Show less</span>
             </button>
@@ -75,33 +75,33 @@ import { computed, ref } from "vue";
 type SameAsPayload = any;
 
 type InputValue =
-  | string
-  | {
-      has_name?: string;
-      label?: string;
-      text?: string;
-      same_as?: SameAsPayload;
-      href?: string;
-      meta?: string;
-      key?: string | number;
-      title?: string;
+    | string
+    | {
+        has_name?: string;
+        label?: string;
+        text?: string;
+        same_as?: SameAsPayload;
+        href?: string;
+        meta?: string;
+        key?: string | number;
+        title?: string;
     };
 
 type NormalizedRow = {
-  key?: string | number;
-  text: string;
-  title?: string;
-  href?: string;
-  meta?: string;
-  same_as?: SameAsPayload;
+    key?: string | number;
+    text: string;
+    title?: string;
+    href?: string;
+    meta?: string;
+    same_as?: SameAsPayload;
 };
 
 const props = defineProps<{
-  keyLabel: string;
-  values: InputValue[] | null | undefined;
-  sameAsType: "person" | "place" | "subject" | "genre" | "work" | "manifestation" | "item" | string;
-  showCount?: boolean;
-  initialVisible?: number;
+    keyLabel: string;
+    values: InputValue[] | null | undefined;
+    sameAsType: "person" | "place" | "subject" | "genre" | "work" | "manifestation" | "item" | string;
+    showCount?: boolean;
+    initialVisible?: number;
 }>();
 
 const expanded = ref(false);

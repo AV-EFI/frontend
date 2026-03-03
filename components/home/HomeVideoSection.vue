@@ -3,8 +3,8 @@
         <div class="mx-auto w-full">
             <div class="flex justify-center">
                 <video controls preload="none" :poster="videoPosterSrc" width="1024" height="768"
-                    class="w-full mx-auto md:max-w-3xl rounded-xl border border-base-300 shadow-lg"
-                    :aria-describedby="'video-desc'">
+                       class="w-full mx-auto md:max-w-3xl rounded-xl border border-base-300 shadow-lg"
+                       :aria-describedby="'video-desc'">
                     <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
                     {{ t('home.sections.video.notSupported') }}
                 </video>

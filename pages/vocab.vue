@@ -1,23 +1,23 @@
 <template>
-  <NuxtLayout name="partial-layout-1-center">
-    <template #navigation>
-      <GlobalBreadcrumbsComp :breadcrumbs="[
-          ['Home', '/'],
-          [$t('vocab.title'), '/vocab'],
-        ]" />
-    </template>
-    <template #title>
-      <h2 class="text-lg font-bold mb-2">
-        {{ $t('vocab.title') }}
-      </h2>
-    </template>
-    <template #cardBody>
-      <div class="container" role="region" :aria-label="$t('vocab.title')">
-        <GlobalVocabViewer :init-query="glossaryQuery" :init-anchor="glossaryHash"
-          @update-query="(q, letter) => router.replace({ query: { ...route.query, q, letter } })" />
-      </div>
-    </template>
-  </NuxtLayout>x
+    <NuxtLayout name="partial-layout-1-center">
+        <template #navigation>
+            <GlobalBreadcrumbsComp :breadcrumbs="[
+                ['Home', '/'],
+                [$t('vocab.title'), '/vocab'],
+            ]" />
+        </template>
+        <template #title>
+            <h2 class="text-lg font-bold mb-2">
+                {{ $t('vocab.title') }}
+            </h2>
+        </template>
+        <template #cardBody>
+            <div class="container" role="region" :aria-label="$t('vocab.title')">
+                <GlobalVocabViewer :init-query="glossaryQuery" :init-anchor="glossaryHash"
+                                   @update-query="(q, letter) => router.replace({ query: { ...route.query, q, letter } })" />
+            </div>
+        </template>
+    </NuxtLayout>x
 </template>
 
 <script setup lang="ts">

@@ -1,62 +1,62 @@
 <template>
-  <div class="relative w-full">
-    <!-- DESKTOP -->
-    <div class="hidden lg:flex items-center relative bg-white/80 dark:bg-base-200/80 rounded-box p-4">
-      <button
-        v-if="items.length > 1"
-        class="nav-btn left"
-        @click="prev"
-        :aria-label="t('togglePreviousSlide')"
-      >
-        <Icon name="tabler:chevron-left" />
-      </button>
+    <div class="relative w-full">
+        <!-- DESKTOP -->
+        <div class="hidden lg:flex items-center relative bg-white/80 dark:bg-base-200/80 rounded-box p-4">
+            <button
+                v-if="items.length > 1"
+                class="nav-btn left"
+                @click="prev"
+                :aria-label="t('togglePreviousSlide')"
+            >
+                <Icon name="tabler:chevron-left" />
+            </button>
 
-      <div class="relative w-full overflow-hidden" :style="{ minHeight: minHeightPx }">
-        <TransitionGroup name="slide">
-          <div
-            v-for="(item, i) in items"
-            v-show="i === index"
-            :key="keyOf(item, i)"
-            class="absolute inset-0 flex justify-center"
-          >
-            <component :is="cardComponent" :item="item" />
-          </div>
-        </TransitionGroup>
-      </div>
+            <div class="relative w-full overflow-hidden" :style="{ minHeight: minHeightPx }">
+                <TransitionGroup name="slide">
+                    <div
+                        v-for="(item, i) in items"
+                        v-show="i === index"
+                        :key="keyOf(item, i)"
+                        class="absolute inset-0 flex justify-center"
+                    >
+                        <component :is="cardComponent" :item="item" />
+                    </div>
+                </TransitionGroup>
+            </div>
 
-      <button
-        v-if="items.length > 1"
-        class="nav-btn right"
-        @click="next"
-        :aria-label="t('toggleNextSlide')"
-      >
-        <Icon name="tabler:chevron-right" />
-      </button>
-    </div>
-
-    <!-- MOBILE -->
-    <div class="lg:hidden relative">
-      <div
-        ref="mobileRef"
-        class="carousel carousel-center overflow-x-auto scroll-smooth p-4"
-      >
-        <div
-          v-for="(item, i) in items"
-          :key="keyOf(item, i)"
-          class="carousel-item mx-2"
-        >
-          <component :is="cardComponent" :item="item" />
+            <button
+                v-if="items.length > 1"
+                class="nav-btn right"
+                @click="next"
+                :aria-label="t('toggleNextSlide')"
+            >
+                <Icon name="tabler:chevron-right" />
+            </button>
         </div>
-      </div>
 
-      <button class="mobile-btn left" @click="prevMobile">
-        <Icon name="tabler:chevron-left" />
-      </button>
-      <button class="mobile-btn right" @click="nextMobile">
-        <Icon name="tabler:chevron-right" />
-      </button>
+        <!-- MOBILE -->
+        <div class="lg:hidden relative">
+            <div
+                ref="mobileRef"
+                class="carousel carousel-center overflow-x-auto scroll-smooth p-4"
+            >
+                <div
+                    v-for="(item, i) in items"
+                    :key="keyOf(item, i)"
+                    class="carousel-item mx-2"
+                >
+                    <component :is="cardComponent" :item="item" />
+                </div>
+            </div>
+
+            <button class="mobile-btn left" @click="prevMobile">
+                <Icon name="tabler:chevron-left" />
+            </button>
+            <button class="mobile-btn right" @click="nextMobile">
+                <Icon name="tabler:chevron-right" />
+            </button>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,65 +1,65 @@
 <!-- components/MicroContactForm.vue -->
 <template>
-  <form class="space-y-4 text-left relative" novalidate @submit.prevent="handleSubmit">
-    <!-- Close button -->
-    <button type="button" class="btn btn-ghost btn-sm absolute right-2 top-0" @click="emitClose" aria-label="Close">
-      ✕
-    </button>
-    <!-- Email -->
-    <div>
-      <label for="email" class="block text-left text-sm font-medium mt-2">
-        {{ $t('email') }}
-      </label>
-      <input id="email" v-model="email" type="email" class="input input-bordered w-full mt-1" required
-        autocomplete="email" aria-describedby="emailHelp">
-      <p id="emailHelp" class="text-xs text-gray-500">
-        {{ $t('emailHelpText') }}
-      </p>
-    </div>
+    <form class="space-y-4 text-left relative" novalidate @submit.prevent="handleSubmit">
+        <!-- Close button -->
+        <button type="button" class="btn btn-ghost btn-sm absolute right-2 top-0" @click="emitClose" aria-label="Close">
+            ✕
+        </button>
+        <!-- Email -->
+        <div>
+            <label for="email" class="block text-left text-sm font-medium mt-2">
+                {{ $t('email') }}
+            </label>
+            <input id="email" v-model="email" type="email" class="input input-bordered w-full mt-1" required
+                   autocomplete="email" aria-describedby="emailHelp">
+            <p id="emailHelp" class="text-xs text-gray-500">
+                {{ $t('emailHelpText') }}
+            </p>
+        </div>
 
-    <!-- Message -->
-    <div>
-      <label for="message" class="block text-left text-sm font-medium">
-        {{ $t('enterYourMessage') }}
-      </label>
-      <textarea id="message" v-model="message" class="textarea textarea-bordered w-full mt-1" required
-        aria-describedby="messageHelpText" rows="5" />
-      <p id="messageHelpText" class="text-xs text-gray-500">
-        {{ $t('messageHelpText') }}
-      </p>
-    </div>
+        <!-- Message -->
+        <div>
+            <label for="message" class="block text-left text-sm font-medium">
+                {{ $t('enterYourMessage') }}
+            </label>
+            <textarea id="message" v-model="message" class="textarea textarea-bordered w-full mt-1" required
+                      aria-describedby="messageHelpText" rows="5" />
+            <p id="messageHelpText" class="text-xs text-gray-500">
+                {{ $t('messageHelpText') }}
+            </p>
+        </div>
 
-    <!-- Simple math Captcha -->
-    <div>
-      <label for="captcha" class="block text-left text-sm font-medium">
-        {{ $t('captchaQuestion') }}: <span class="font-bold">{{ captchaQuestion }}</span>
-      </label>
-      <input id="captcha" v-model="captchaAnswer" type="text" class="input input-bordered w-full mt-1" required
-        inputmode="numeric" aria-describedby="captchaHelpText">
-      <p id="captchaHelpText" class="text-xs text-gray-500">
-        {{ $t('captchaHelpText') }}
-      </p>
-    </div>
+        <!-- Simple math Captcha -->
+        <div>
+            <label for="captcha" class="block text-left text-sm font-medium">
+                {{ $t('captchaQuestion') }}: <span class="font-bold">{{ captchaQuestion }}</span>
+            </label>
+            <input id="captcha" v-model="captchaAnswer" type="text" class="input input-bordered w-full mt-1" required
+                   inputmode="numeric" aria-describedby="captchaHelpText">
+            <p id="captchaHelpText" class="text-xs text-gray-500">
+                {{ $t('captchaHelpText') }}
+            </p>
+        </div>
 
-    <!-- Honeypot (should stay empty) -->
-    <input v-model="hp" type="text" class="hidden" aria-hidden="true" tabindex="-1" autocomplete="off">
+        <!-- Honeypot (should stay empty) -->
+        <input v-model="hp" type="text" class="hidden" aria-hidden="true" tabindex="-1" autocomplete="off">
 
-    <!-- Submit -->
-    <button type="submit" class="btn btn-primary w-full" :disabled="sending">
-      {{ sending ? $t('sending') : $t('send') }}
-    </button>
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary w-full" :disabled="sending">
+            {{ sending ? $t('sending') : $t('send') }}
+        </button>
 
-    <!-- Live region for feedback -->
-    <p class="sr-only" aria-live="polite">
-      {{ liveMsg }}
-    </p>
-  </form>
+        <!-- Live region for feedback -->
+        <p class="sr-only" aria-live="polite">
+            {{ liveMsg }}
+        </p>
+    </form>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 const emit = defineEmits<{
-  (e: 'ContactFormClose'): void
+    (e: 'ContactFormClose'): void
 }>();
 
 function emitClose() {

@@ -9,7 +9,7 @@
                 <div class="flex min-w-2 gap-1.5 items-start" tabindex="0" :aria-label="entry.aria" :title="entry.aria">
                     <div class="flex flex-col items-start">
                         <Icon :name="entry.icon" class="w-[0.85rem] h-[0.85rem] shrink-0 my-auto" :class="[iconColor]"
-                            aria-hidden="true" />
+                              aria-hidden="true" />
                     </div>
 
                     <span class="inline-block flex-wrap">
@@ -17,8 +17,8 @@
                             <span v-if="visibleSegments(entry).length > 0">
                                 <span>{{ visibleSegments(entry)[0]?.text }}</span>
                                 <span v-if="visibleSegments(entry)[0]?.hilite"
-                                    :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
-                                    class="badge badge-xs bg-highlight text-white ml-1" />
+                                      :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
+                                      class="badge badge-xs bg-highlight text-white ml-1" />
                                 <span v-if="visibleSegments(entry).length > 1">, </span>
                             </span>
 
@@ -26,15 +26,15 @@
                                 <br>
                                 <span>{{ segment.text }}</span>
                                 <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
-                                    class="badge badge-xs bg-highlight text-white ml-1" />
+                                      class="badge badge-xs bg-highlight text-white ml-1" />
                                 <span v-if="i < visibleSegments(entry).length - 2">, </span>
                             </template>
 
                             <button v-if="hasOverflow(entry)" type="button"
-                                class="badge badge-accent badge-xs text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
-                                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
-                                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
-                                :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
+                                    class="badge badge-accent badge-xs text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                                    :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                                    :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                                    :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
                                 {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`
                                 }}
                             </button>
@@ -54,9 +54,9 @@
                 v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'directors_or_editors'].includes(e.key))"
                 :key="entry.key">
                 <div class="flex flex-row items-start gap-1.5 min-w-2 leading-[16px]" tabindex="0"
-                    :aria-label="entry.aria" :title="entry.aria">
+                     :aria-label="entry.aria" :title="entry.aria">
                     <Icon :name="entry.icon" class="w-[0.85rem] h-[0.85rem] shrink-0" :class="[iconColor]"
-                        aria-hidden="true" />
+                          aria-hidden="true" />
                     <span class="inline-block flex-wrap">
                         <template v-if="Array.isArray(entry.text)">
                             <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
@@ -64,15 +64,15 @@
                                     {{ segment.text }}
                                 </span>
                                 <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
-                                    class="badge badge-xs bg-highlight text-white ml-1" />
+                                      class="badge badge-xs bg-highlight text-white ml-1" />
                                 <span v-if="i < visibleSegments(entry).length - 1">; </span>
                             </template>
 
                             <button v-if="hasOverflow(entry)" type="button"
-                                class="badge badge-neutral badge-outline badge-sm text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
-                                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
-                                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
-                                :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
+                                    class="badge badge-neutral badge-outline badge-sm text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                                    :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                                    :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
+                                    :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
                                 {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`
                                 }}
                             </button>
@@ -151,7 +151,7 @@ function buildIconEntries() {
 
     /* ---------- WORK ---------- */
     if (level === 'work') {
-    // Produktionsorte
+        // Produktionsorte
         const workEvents = asArray(d?.has_record?.has_event);
         const locs = workEvents.flatMap((ev: any) => asArray(ev?.located_in));
         const locTexts = locs.map((loc: any) => {

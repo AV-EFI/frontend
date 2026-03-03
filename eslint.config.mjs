@@ -47,19 +47,31 @@ export default [
 
       // Custom rules
       'consistent-return': 'error',
-      'indent': ['warn', 4],
       'no-else-return': 'warn',
       'semi': ['warn', 'always'],
       'space-unary-ops': 'error',
       'camelcase': 'warn',
       'no-unused-vars': 'off', // TS übernimmt
       '@typescript-eslint/no-unused-vars': 'error',
+
+      // Vue indentation (template + script)
+      'vue/html-indent': ['warn', 4, {
+        attribute: 1,
+        baseIndent: 1,
+        closeBracket: 0,
+        alignAttributesVertically: true,
+      }],
+      'vue/script-indent': ['warn', 4, {
+        baseIndent: 0,
+        switchCase: 1,
+      }],
     },
   },
   // 👇 Override: Disable camelcase in .vue files
   {
     files: ['**/*.vue'],
     rules: {
+      indent: 'off',
       camelcase: 'off',
     },
   },

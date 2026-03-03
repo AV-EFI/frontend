@@ -1,6 +1,6 @@
 <template>
     <div class="w-full xs:max-w-xs md:w-full lg:max-w-4xl mx-auto p-4 backdrop-blur-sm rounded-lg" role="search"
-        :aria-label="$t('mainSearch')">
+         :aria-label="$t('mainSearch')">
         <ClientOnly>
             <template v-if="searchDataStore && searchDataStore.formData">
                 <span id="search-input-label" class="sr-only">
@@ -8,25 +8,25 @@
                 </span>
 
                 <FormKit id="searchComp" v-model="searchDataStore.formData" type="form" :actions="false"
-                    name="searchComp" role="search" :aria-label="$t('searchForm')" @submit="redirectToSearchScreen">
+                         name="searchComp" role="search" :aria-label="$t('searchForm')" @submit="redirectToSearchScreen">
                     <!-- Query input + submit -->
                     <div class="flex w-full mx-auto mb-4 relative" role="group" :aria-labelledby="'search-input-label'">
                         <div class="flex-grow relative">
                             <SearchQueryAutocomplete ref="qaRef" v-model="searchTerm" name="search"
-                                :placeholder="$t('searchplaceholder')" :aria-label="ariaLabel" :icon-map="iconMap"
-                                :help-text="$t('exactSearchTip')" :dropdown-aria-label="$t('showSuggestions')"
-                                :no-results-text="$t('noSuggestionsFound')" :recent-searches="recentSearchesWithUrl"
-                                :autofocus="false" @submit="onSubmit" @clear="searchTerm = ''" @select="onMainSelect"
-                                @recent-search-click="handleRecentSearchClick" @remove-recent="handleRemoveRecentSearch"
-                                @clear-history="handleClearAllHistory" @keydown.enter="redirectToSearchScreen" />
+                                                     :placeholder="$t('searchplaceholder')" :aria-label="ariaLabel" :icon-map="iconMap"
+                                                     :help-text="$t('exactSearchTip')" :dropdown-aria-label="$t('showSuggestions')"
+                                                     :no-results-text="$t('noSuggestionsFound')" :recent-searches="recentSearchesWithUrl"
+                                                     :autofocus="false" @submit="onSubmit" @clear="searchTerm = ''" @select="onMainSelect"
+                                                     @recent-search-click="handleRecentSearchClick" @remove-recent="handleRemoveRecentSearch"
+                                                     @clear-history="handleClearAllHistory" @keydown.enter="redirectToSearchScreen" />
                         </div>
 
                         <!-- Separate, stylable submit button -->
                         <div class="ml-0">
                             <button type="submit"
-                                class="h-full !rounded-l-none !rounded-r-xl flex btn btn-primary lg:btn-lg h-8"
-                                :class="{'btn-disabled opacity-50 cursor-not-allowed': !canSubmit}"
-                                :aria-label="$t('submitSearch')" @click="handleClick">
+                                    class="h-full !rounded-l-none !rounded-r-xl flex btn btn-primary lg:btn-lg h-8"
+                                    :class="{'btn-disabled opacity-50 cursor-not-allowed': !canSubmit}"
+                                    :aria-label="$t('submitSearch')" @click="handleClick">
                                 {{ buttonText }}
                             </button>
                         </div>
@@ -42,67 +42,67 @@
 
                         <div class="space-y-2">
                             <div v-for="(filter, index) in facetFilters" :key="filter.uid"
-                                class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                 class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 <!-- Facet icon (reflects currently selected facet) -->
                                 <div class="flex flex-row items-center gap-2 mb-2 lg:mb-0">
                                     <span v-if="facetMeta(filter.facet)?.icon"
-                                        class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
-                                        :title="facetMeta(filter.facet)?.label || filter.facet" aria-hidden="true">
+                                          class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
+                                          :title="facetMeta(filter.facet)?.label || filter.facet" aria-hidden="true">
                                         <Icon :name="facetMeta(filter.facet)?.icon" size="18" />
                                     </span>
                                     <span v-else
-                                        class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
-                                        :title="$t('selectFacet')" aria-hidden="true">
+                                          class="inline-flex items-center justify-center size-8 rounded-md bg-base-100 border border-base-300 dark:bg-gray-900 dark:border-slate-700"
+                                          :title="$t('selectFacet')" aria-hidden="true">
                                         <Icon name="tabler:tag" size="18" />
                                     </span>
                                 </div>
 
                                 <!-- Facet select -->
                                 <FormKit v-model="filter.facet" type="select"
-                                    :placeholder="$t('selectFacet') || 'Select Facet'"
-                                    :options="availableFacetsFiltered" outer-class="flex-1 w-full lg:w-auto"
-                                    inner-class="dark:bg-neutral dark:text-accent"
-                                    input-class="!h-8 dark:!bg-[#050505] dark:!text-gray-100 dark:!border-gray-700"
-                                    @input="onFacetChange(index)" />
+                                         :placeholder="$t('selectFacet') || 'Select Facet'"
+                                         :options="availableFacetsFiltered" outer-class="flex-1 w-full lg:w-auto"
+                                         inner-class="dark:bg-neutral dark:text-accent"
+                                         input-class="!h-8 dark:!bg-[#050505] dark:!text-gray-100 dark:!border-gray-700"
+                                         @input="onFacetChange(index)" />
 
                                 <!-- Value input + dropdown -->
                                 <div class="flex-1 relative" @mousedown.stop>
                                     <div class="flex justify-items-start items-start gap-2">
                                         <!-- We bind to valueDisplay for UI, and keep valueRaw separately -->
                                         <FormKit :model-value="filter.valueDisplay" type="text"
-                                            :placeholder="$t('enterValue') || 'Enter Value'" outer-class="w-full"
-                                            inner-class="!h-8 dark:!bg-gray-950 dark:!text-white"
-                                            input-class="!h-8 !w-full p-2" :disabled="!filter.facet" autocomplete="off"
-                                            :aria-autocomplete="'list'" :aria-haspopup="'listbox'"
-                                            :aria-expanded="filter.showSuggestions ? 'true' : 'false'"
-                                            :aria-activedescendant="filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
-                                            @input="onValueInput(index, $event)" @focus="onValueFocus(index)"
-                                            @blur="onValueBlur(index)" @keydown="onFacetKeydown($event, index)" />
+                                                 :placeholder="$t('enterValue') || 'Enter Value'" outer-class="w-full"
+                                                 inner-class="!h-8 dark:!bg-gray-950 dark:!text-white"
+                                                 input-class="!h-8 !w-full p-2" :disabled="!filter.facet" autocomplete="off"
+                                                 :aria-autocomplete="'list'" :aria-haspopup="'listbox'"
+                                                 :aria-expanded="filter.showSuggestions ? 'true' : 'false'"
+                                                 :aria-activedescendant="filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
+                                                 @input="onValueInput(index, $event)" @focus="onValueFocus(index)"
+                                                 @blur="onValueBlur(index)" @keydown="onFacetKeydown($event, index)" />
                                         <button type="button"
-                                            class="h-full min-h-8 px-3 py-1 mt-0 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
-                                            :aria-label="$t('showSuggestions')" :disabled="!filter.facet"
-                                            @mousedown.prevent.stop="onFacetDropdownClick(index)">
+                                                class="h-full min-h-8 px-3 py-1 mt-0 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
+                                                :aria-label="$t('showSuggestions')" :disabled="!filter.facet"
+                                                @mousedown.prevent.stop="onFacetDropdownClick(index)">
                                             <Icon name="tabler:chevron-down" size="16" />
                                         </button>
                                     </div>
 
                                     <!-- Suggestions -->
                                     <div v-if="filter.showSuggestions && filter.suggestions.length"
-                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
-                                        role="listbox" @mousedown.stop>
+                                         class="absolute z-10 w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
+                                         role="listbox" @mousedown.stop>
                                         <div v-for="(s, si) in filter.suggestions.slice(0, 10)"
-                                            :id="`facet-sugg-${filter.uid}-${si}`"
-                                            :key="`facet-sugg-${filter.uid}-${si}-${s.raw}`" :class="[
-                                                'px-3 py-2 cursor-pointer text-sm flex items-center gap-2 text-gray-800 dark:text-gray-200',
-                                                filter.highlighted === si 
-                                                ? 'bg-blue-100 dark:bg-gray-900/80' 
-                                                : 'hover:bg-gray-100 dark:hover:bg-gray-800/70'
-                                            ]" role="option" :aria-selected="filter.highlighted === si"
-                                            @mousedown.prevent.stop="selectSuggestion(index, s)">
+                                             :id="`facet-sugg-${filter.uid}-${si}`"
+                                             :key="`facet-sugg-${filter.uid}-${si}-${s.raw}`" :class="[
+                                                 'px-3 py-2 cursor-pointer text-sm flex items-center gap-2 text-gray-800 dark:text-gray-200',
+                                                 filter.highlighted === si 
+                                                     ? 'bg-blue-100 dark:bg-gray-900/80' 
+                                                     : 'hover:bg-gray-100 dark:hover:bg-gray-800/70'
+                                             ]" role="option" :aria-selected="filter.highlighted === si"
+                                             @mousedown.prevent.stop="selectSuggestion(index, s)">
                                             <!-- Show translated display text, keep raw in state -->
                                             <span class="flex-grow">{{ s.display }}</span>
                                             <span v-if="s.count && s.count > 1"
-                                                class="text-xs text-gray-500 dark:text-gray-400 shrink-0">
+                                                  class="text-xs text-gray-500 dark:text-gray-400 shrink-0">
                                                 ({{ s.count }})
                                             </span>
                                         </div>
@@ -110,15 +110,15 @@
                                 </div>
                                 <div class="w-full lg:w-auto flex justify-end lg:justify-start">
                                     <button type="button" class="btn btn-outline btn-error p-2"
-                                        :aria-label="$t('remove') || 'Remove'" @click="removeFacetFilter(index)">
+                                            :aria-label="$t('remove') || 'Remove'" @click="removeFacetFilter(index)">
                                         <Icon name="tabler:x" size="20" />
                                     </button>
                                 </div>
                             </div>
 
                             <button type="button"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-primary dark:text-white border border-primary-600 dark:border-primary-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
-                                @click="addFacetFilter">
+                                    class="flex items-center gap-2 px-4 py-2 text-sm text-primary dark:text-white border border-primary-600 dark:border-primary-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                    @click="addFacetFilter">
                                 <Icon name="tabler:plus" size="16" />
                                 {{ $t('addFacet') || 'Add Facet' }}
                             </button>
@@ -126,7 +126,7 @@
                     </div>
 
                     <p v-if="showValidationWarning" role="alert" aria-live="assertive"
-                        class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-gray-800 text-xs mt-2 p-2 rounded-lg">
+                       class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-gray-800 text-xs mt-2 p-2 rounded-lg">
                         {{ $t('enterSearchTermFirst') }}
                     </p>
                 </FormKit>
@@ -184,7 +184,7 @@ const searchTerm = computed<string>({
 // --- Submit enabled if a term OR any filled facet (raw) ---
 const canSubmit = computed(() =>
     (searchTerm.value?.trim()?.length ?? 0) > 0 ||
-  facetFilters.value.some(f => f.facet && (f.valueRaw?.toString()?.trim()?.length ?? 0) > 0)
+    facetFilters.value.some(f => f.facet && (f.valueRaw?.toString()?.trim()?.length ?? 0) > 0)
 );
 
 // --- Button text changes based on search term ---
@@ -230,21 +230,21 @@ function facetMeta(value?: string | null) {
 
 // ---------------------- Facet row model ----------------------
 interface FacetSuggestion {
-  raw: string
-  display: string
-  count?: number
+    raw: string
+    display: string
+    count?: number
 }
 interface FacetFilter {
-  uid: string
-  facet: string
-  valueRaw: string
-  valueDisplay: string
-  suggestions: FacetSuggestion[]
-  showSuggestions: boolean
-  highlighted: number
-  // runtime helpers
-  _abort?: AbortController | null
-  _debounce?: ReturnType<typeof setTimeout> | null
+    uid: string
+    facet: string
+    valueRaw: string
+    valueDisplay: string
+    suggestions: FacetSuggestion[]
+    showSuggestions: boolean
+    highlighted: number
+    // runtime helpers
+    _abort?: AbortController | null
+    _debounce?: ReturnType<typeof setTimeout> | null
 }
 
 const facetFilters = ref<FacetFilter[]>([]);
@@ -361,7 +361,7 @@ function onFacetChange(index: number) {
     // fetch initial suggestions for the newly selected facet
     const attr = row.facet;
     if (attr) {
-    // immediate (not debounced) initial fetch to populate dropdown quickly
+        // immediate (not debounced) initial fetch to populate dropdown quickly
         fetchFacetSuggestions(index, attr, '');
     }
 }
@@ -487,7 +487,7 @@ async function onFacetDropdownClick(index: number) {
     console.log('onFacetDropdownClick for row:', index, row);
     if (!row) return;
     if(row.showSuggestions) {
-    // already open
+        // already open
         row.showSuggestions = false;
         return;
     }

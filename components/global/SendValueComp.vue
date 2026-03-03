@@ -1,7 +1,7 @@
 <template>
     <button class="btn btn-xs btn-primary" :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
-        :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
-        @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)">
+            :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
+            @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)">
         <Icon name="tabler:arrow-right" />
     </button>
     <!--
@@ -57,7 +57,7 @@ function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsI
 
 //const emit= defineEmits(["updateTargetModel"]);
 const emit = defineEmits<{
-  (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string)
+    (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string)
 }>();
 
 </script>

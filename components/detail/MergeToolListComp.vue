@@ -1,72 +1,72 @@
 <template>
-  <div>
-    <table class="table table-xs table-zebra w-full">
-      <thead>
-        <tr>
-          <th>ID 1</th>
-          <th>Title 1</th>
-          <th>ID 2</th>
-          <th>Title 2</th>
-          <th>Status</th>
-          <th>Similarity</th>
-          <th class="min-w-[112px]">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            357A73F8-F9C4-4B0A-A333-E943EB3C3F84
-          </td>
-          <td>Tunguska - die Kisten sind da</td>
-          <td>
-            0FE417A7-D2E8-45B8-90AD-3BF376E3C425
-          </td>
-          <td>
-            TUNGUSKA - DIE KISTEN SIND DA
-          </td>
-          <td :class="{'text-orange-500 dark:text-orange-300': true}">
-            Open
-          </td>
-          <td :class="getColor(75)">
-            75%
-          </td>
-          <td>
-            <button
-              class="btn btn-primary btn-xs"
-              @click="showDetails('21.11155/0FE417A7-D2E8-45B8-90AD-3BF376E3C425','21.11155/357A73F8-F9C4-4B0A-A333-E943EB3C3F84')"
-            >
-              {{ $t('goToMerge') }}
-            </button>
-          </td>
-        </tr>
-        <tr
-          v-for="(pair, index) in itemPairs"
-          :key="index"
-        >
-          <td>{{ pair.items[0].id }}</td>
-          <td>{{ pair.items[0].title }}</td>
-          <td>{{ pair.items[1]?.id || 'N/A' }}</td>
-          <td>{{ pair.items[1]?.title || 'N/A' }}</td>
-          <td :class="{'text-green-500 dark:text-green-300': true}">
-            Resolved
-          </td>
-          <td :class="getColor(pair.similarity)">
-            {{ pair.similarity }}%
-          </td>
-          <td>
-            <button
-              class="btn btn-primary btn-disabled btn-xs"
-              @click="showDetails(pair.items)"
-            >
-              Show Details
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div>
+        <table class="table table-xs table-zebra w-full">
+            <thead>
+                <tr>
+                    <th>ID 1</th>
+                    <th>Title 1</th>
+                    <th>ID 2</th>
+                    <th>Title 2</th>
+                    <th>Status</th>
+                    <th>Similarity</th>
+                    <th class="min-w-[112px]">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        357A73F8-F9C4-4B0A-A333-E943EB3C3F84
+                    </td>
+                    <td>Tunguska - die Kisten sind da</td>
+                    <td>
+                        0FE417A7-D2E8-45B8-90AD-3BF376E3C425
+                    </td>
+                    <td>
+                        TUNGUSKA - DIE KISTEN SIND DA
+                    </td>
+                    <td :class="{'text-orange-500 dark:text-orange-300': true}">
+                        Open
+                    </td>
+                    <td :class="getColor(75)">
+                        75%
+                    </td>
+                    <td>
+                        <button
+                            class="btn btn-primary btn-xs"
+                            @click="showDetails('21.11155/0FE417A7-D2E8-45B8-90AD-3BF376E3C425','21.11155/357A73F8-F9C4-4B0A-A333-E943EB3C3F84')"
+                        >
+                            {{ $t('goToMerge') }}
+                        </button>
+                    </td>
+                </tr>
+                <tr
+                    v-for="(pair, index) in itemPairs"
+                    :key="index"
+                >
+                    <td>{{ pair.items[0].id }}</td>
+                    <td>{{ pair.items[0].title }}</td>
+                    <td>{{ pair.items[1]?.id || 'N/A' }}</td>
+                    <td>{{ pair.items[1]?.title || 'N/A' }}</td>
+                    <td :class="{'text-green-500 dark:text-green-300': true}">
+                        Resolved
+                    </td>
+                    <td :class="getColor(pair.similarity)">
+                        {{ pair.similarity }}%
+                    </td>
+                    <td>
+                        <button
+                            class="btn btn-primary btn-disabled btn-xs"
+                            @click="showDetails(pair.items)"
+                        >
+                            Show Details
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script setup>
@@ -106,7 +106,7 @@ const items = ref(Array.from({ length: 20 }, () => {
     const shouldDuplicate = Math.floor(Math.random() * 2) === 0;
     const title = getRandomTitle();
     if (shouldDuplicate) {
-    // Create two items with the same title (simulate identical pair)
+        // Create two items with the same title (simulate identical pair)
         return {
             id: uuidv4(),
             title: title
@@ -122,7 +122,7 @@ const items = ref(Array.from({ length: 20 }, () => {
 // After creating the initial items, randomly duplicate some titles to create pairs
 for (let i = 0; i < items.value.length - 1; i++) {
     if (Math.floor(Math.random() * 4) === 0) {
-    // Set the next item's title to be identical to the current item's title
+        // Set the next item's title to be identical to the current item's title
         items.value[i + 1].title = items.value[i].title;
         i++; // Skip next to avoid triple pairing
     }

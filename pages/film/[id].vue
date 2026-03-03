@@ -11,7 +11,7 @@ await navigateTo(`/res/${id}${route.hash || ''}`, {
 </script>
 
 <template>
-  <div>
+    <div>
     <!-- This template will not render due to immediate redirect -->
-  </div>
+    </div>
 </template>

@@ -1,46 +1,46 @@
 <template>
-  <div class="p-4">
-    <ul class="space-y-4">
-      <li
-        v-for="log in logs"
-        :key="log.id"
-        class="p-4 border rounded-lg shadow-md"
-      >
-        <div class="text-sm text-gray-500">
-          {{ log.date }}
-        </div>
-        <div class="text-lg font-semibold">
-          {{ log.message }}
-        </div>
-        <div :class="log.status === 'Success' ? 'text-green-500' : 'text-red-500'">
-          {{ log.status }}
-        </div>
-        <div class="text-sm text-gray-700">
-          Successful Dataset Imports: {{ log.successfulImports }}
-        </div>
-        <div class="text-sm text-gray-700">
-          Created EFIs: {{ log.createdEfis }}
-        </div>
-        <div class="text-sm text-gray-700">
-          Merged Datasets: {{ log.mergedDatasets }}
-        </div>
-        <button
-          class="mt-2 text-blue-500 hover:underline"
-          @click="toggleDetails(log.id)"
-        >
-          {{ log.showDetails ? 'Hide Details' : 'Show Details' }}
-        </button>
-        <div
-          v-if="log.showDetails"
-          class="mt-2 text-sm text-gray-700"
-        >
-          <!-- Add more detailed information here if needed -->
-          Detailed information about log entry {{ log.id }},
-          Optional Download Link, ...
-        </div>
-      </li>
-    </ul>
-  </div>
+    <div class="p-4">
+        <ul class="space-y-4">
+            <li
+                v-for="log in logs"
+                :key="log.id"
+                class="p-4 border rounded-lg shadow-md"
+            >
+                <div class="text-sm text-gray-500">
+                    {{ log.date }}
+                </div>
+                <div class="text-lg font-semibold">
+                    {{ log.message }}
+                </div>
+                <div :class="log.status === 'Success' ? 'text-green-500' : 'text-red-500'">
+                    {{ log.status }}
+                </div>
+                <div class="text-sm text-gray-700">
+                    Successful Dataset Imports: {{ log.successfulImports }}
+                </div>
+                <div class="text-sm text-gray-700">
+                    Created EFIs: {{ log.createdEfis }}
+                </div>
+                <div class="text-sm text-gray-700">
+                    Merged Datasets: {{ log.mergedDatasets }}
+                </div>
+                <button
+                    class="mt-2 text-blue-500 hover:underline"
+                    @click="toggleDetails(log.id)"
+                >
+                    {{ log.showDetails ? 'Hide Details' : 'Show Details' }}
+                </button>
+                <div
+                    v-if="log.showDetails"
+                    class="mt-2 text-sm text-gray-700"
+                >
+                    <!-- Add more detailed information here if needed -->
+                    Detailed information about log entry {{ log.id }},
+                    Optional Download Link, ...
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script setup lang="ts">

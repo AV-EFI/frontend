@@ -1,38 +1,38 @@
 <template>
-  <ClientOnly>
-    <LazyGlobalBreadcrumbsComp
-      :breadcrumbs="[
-        ['Home', '/'],
-        [$t('profile'), '/protected/me']
-      ]"
-      class="mb-4"
-    />
-    <div v-if="fatalError" class="p-6 text-center text-error">
-      <p>{{ $t('errorOccurred') }}: {{ fatalError }}</p>
-    </div>
-    <div v-else-if="auth.data.value?.user">
-      <NuxtLayout name="partial-layout-1-center">
-        <template #title>
-          <div class="flex px-4">
-            <h2 class="text-2xl">
-              {{ $t('profile') }}
-            </h2>
-          </div>
-        </template>
-        <template #cardBody>
-          <div class="p-4 space-y-4">
-            <p><strong>Name:</strong> {{ profile.user.name }}</p>
-            <p><strong>Email:</strong> {{ profile.user.email }}</p>
-            <p><strong>Institution:</strong> {{ profile.user.institution }}</p>
-            <p><strong>Expires:</strong> {{ profile.expires }}</p>
-          </div>
-        </template>
-      </NuxtLayout>
-    </div>
-    <div v-else class="p-6 text-center">
-      <p>{{ $t('notLoggedIn') }}</p>
-    </div>
-  </ClientOnly>
+    <ClientOnly>
+        <LazyGlobalBreadcrumbsComp
+            :breadcrumbs="[
+                ['Home', '/'],
+                [$t('profile'), '/protected/me']
+            ]"
+            class="mb-4"
+        />
+        <div v-if="fatalError" class="p-6 text-center text-error">
+            <p>{{ $t('errorOccurred') }}: {{ fatalError }}</p>
+        </div>
+        <div v-else-if="auth.data.value?.user">
+            <NuxtLayout name="partial-layout-1-center">
+                <template #title>
+                    <div class="flex px-4">
+                        <h2 class="text-2xl">
+                            {{ $t('profile') }}
+                        </h2>
+                    </div>
+                </template>
+                <template #cardBody>
+                    <div class="p-4 space-y-4">
+                        <p><strong>Name:</strong> {{ profile.user.name }}</p>
+                        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+                        <p><strong>Institution:</strong> {{ profile.user.institution }}</p>
+                        <p><strong>Expires:</strong> {{ profile.expires }}</p>
+                    </div>
+                </template>
+            </NuxtLayout>
+        </div>
+        <div v-else class="p-6 text-center">
+            <p>{{ $t('notLoggedIn') }}</p>
+        </div>
+    </ClientOnly>
 </template>
 
 <script setup lang="ts">

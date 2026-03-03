@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-base-100 text-base-content flow">
         <!-- Skip link -->
         <a href="#main"
-            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
+           class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
             {{ $t('home.accessibility.skipToContent') || 'Skip to main content' }}
         </a>
 
@@ -18,13 +18,13 @@
                         <source media="(min-width: 1024px)" srcset="/img/avefi_nodes-hero-1024.webp" type="image/webp">
                         <source media="(min-width: 640px)" srcset="/img/avefi_nodes-hero-720.webp" type="image/webp">
                         <img src="/img/avefi_nodes-hero-480.webp" width="2040" height="1360" alt=""
-                            class="h-full w-full object-cover object-center dark:brightness-100 dark:invert dark:hue-rotate-180"
-                            loading="eager" decoding="async" fetchpriority="high" sizes="100vw"
-                            srcset="/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w">
+                             class="h-full w-full object-cover object-center dark:brightness-100 dark:invert dark:hue-rotate-180"
+                             loading="eager" decoding="async" fetchpriority="high" sizes="100vw"
+                             srcset="/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w">
                     </picture>
                     <!-- Aurora / glow overlays (light + dark variants) -->
                     <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none hidden md:block"
-                        aria-hidden="true"></div>
+                         aria-hidden="true"></div>
                     <!-- Vignette -->
                     <div class="absolute inset-0 pointer-events-none hidden md:block
                         mix-blend-multiply dark:mix-blend-normal
@@ -48,13 +48,13 @@
                   'dark:bg-neutral/40 dark:border-white/10',
                   // subtle inner highlight like your inset 1px
                   'shadow-inner dark:shadow-none',
-                ]">
+                        ]">
                             <div class="text-center">
                                 <h1 class="hero-title mt-2 bree text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
                   [text-shadow:0_1px_0_rgba(255,255,255,0.75)]
                   dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]" tabindex="0">
                                     <span v-for="(line, idx) in heroClaimLines" :key="`hero-claim-${idx}`"
-                                        class="hero-title__line">{{ line }}</span>
+                                          class="hero-title__line">{{ line }}</span>
                                 </h1>
                                 <p class="
                     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
@@ -72,46 +72,46 @@
                                     <div class="hero-search-card card border
                               shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
                               md:supports-backdrop-filter:backdrop-blur-[14px]" 
-                              :class="[// LIGHT
-                                        'bg-white border-white/30 md:bg-white/55 md:border-white/35',
-                                        // DARK
-                                        'dark:bg-neutral/35 dark:border-white/10',
-                                    ]">
+                                         :class="[// LIGHT
+                                             'bg-white border-white/30 md:bg-white/55 md:border-white/35',
+                                             // DARK
+                                             'dark:bg-neutral/35 dark:border-white/10',
+                                         ]">
                                         <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
-                                            :aria-labelledby="'home-search-label'" aria-live="polite"
-                                            aria-atomic="false" tabindex="0">
+                                             :aria-labelledby="'home-search-label'" aria-live="polite"
+                                             aria-atomic="false" tabindex="0">
                                             <!-- Card header row: integrated mode switch -->
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
                                                 <div class="md:justify-end" role="group"
-                                                    :aria-label="$t('home.search.modeSwitcher') || 'Search mode switcher'">
+                                                     :aria-label="$t('home.search.modeSwitcher') || 'Search mode switcher'">
                                                     <div class="join w-full">
                                                         <button class="join-item btn md:btn-sm"
-                                                            :aria-label="$t('home.search.simple')"
-                                                            :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                                            @click="showAdvancedSearch = false"
-                                                            :aria-pressed="!showAdvancedSearch"
-                                                            aria-controls="home-search-area">
+                                                                :aria-label="$t('home.search.simple')"
+                                                                :class="!showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                                                @click="showAdvancedSearch = false"
+                                                                :aria-pressed="!showAdvancedSearch"
+                                                                aria-controls="home-search-area">
                                                             <span class="hidden md:block">
                                                                 {{ $t('home.search.simple') }}
                                                             </span>
                                                             <Icon name="tabler:zoom-scan"
-                                                                class="lg:hidden ml-1 md:ml-0" />
+                                                                  class="lg:hidden ml-1 md:ml-0" />
 
                                                         </button>
                                                         <button class="join-item btn md:btn-sm"
-                                                            :aria-label="$t('home.search.advanced')"
-                                                            :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
-                                                            @click="showAdvancedSearch = true"
-                                                            @pointerenter="prefetchAdvancedSearch"
-                                                            @focus="prefetchAdvancedSearch"
-                                                            :aria-pressed="showAdvancedSearch"
-                                                            aria-controls="home-search-area">
+                                                                :aria-label="$t('home.search.advanced')"
+                                                                :class="showAdvancedSearch ? 'btn-primary' : 'btn-ghost'"
+                                                                @click="showAdvancedSearch = true"
+                                                                @pointerenter="prefetchAdvancedSearch"
+                                                                @focus="prefetchAdvancedSearch"
+                                                                :aria-pressed="showAdvancedSearch"
+                                                                aria-controls="home-search-area">
                                                             <span class="hidden md:block">
                                                                 {{ $t('home.search.advanced') }}
                                                             </span>
                                                             <Icon name="tabler:adjustments-cog"
-                                                                class="lg:hidden ml-1 md:ml-0" />
+                                                                  class="lg:hidden ml-1 md:ml-0" />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -122,7 +122,7 @@
                                                 <template #default>
                                                     <KeepAlive>
                                                         <component :is="activeSearchComponent" ref="searchCompRef"
-                                                            :aria-labelledby="'home-search-label'" />
+                                                                   :aria-labelledby="'home-search-label'" />
                                                     </KeepAlive>
                                                 </template>
                                                 <template #fallback>
@@ -145,30 +145,30 @@
             </div>
         </section>
 
-            <section id="main" role="main" :aria-label="$t('home.featured.aria')"
-                class="relative border-t border-base-200 py-10 block transition-opacity duration-300">
-                <!-- wash layer -->
-                <!-- Aurora / glow overlays (light + dark variants) -->
-                <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
-                    aria-hidden="true"></div>
+        <section id="main" role="main" :aria-label="$t('home.featured.aria')"
+                 class="relative border-t border-base-200 py-10 block transition-opacity duration-300">
+            <!-- wash layer -->
+            <!-- Aurora / glow overlays (light + dark variants) -->
+            <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
+                 aria-hidden="true"></div>
 
-                <!-- content stays above -->
-                <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-100 flex items-center justify-between py-2 md:py-4">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                        <HomeSectionTextBlock :title="$t('home.sections.searchAndFind.title')"
-                            :paragraphs="[$t('home.sections.searchAndFind.text[0]'), $t('home.sections.searchAndFind.text[1]')]"
-                            wrapper-class="lg:col-span-4" />
-                        <div class="lg:col-span-8 flex justify-center w-full">
-                            <div class="relative w-full min-h-100">
-                                <ClientOnly>
-                                    <LazyGlobalCarouselCardComp :items="cardItems"
-                                        class="h-full transition-opacity duration-300" />
-                                </ClientOnly>
-                            </div>
+            <!-- content stays above -->
+            <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-100 flex items-center justify-between py-2 md:py-4">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <HomeSectionTextBlock :title="$t('home.sections.searchAndFind.title')"
+                                          :paragraphs="[$t('home.sections.searchAndFind.text[0]'), $t('home.sections.searchAndFind.text[1]')]"
+                                          wrapper-class="lg:col-span-4" />
+                    <div class="lg:col-span-8 flex justify-center w-full">
+                        <div class="relative w-full min-h-100">
+                            <ClientOnly>
+                                <LazyGlobalCarouselCardComp :items="cardItems"
+                                                            class="h-full transition-opacity duration-300" />
+                            </ClientOnly>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
         <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
         <NuxtLazyHydrate when-visible :offset="220">
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                             <HomeSectionTextBlock :title="$t('home.sections.build.linked.title')"
-                                :paragraphs="[$t('home.sections.build.linked.lead')]" wrapper-class="w-full" />
+                                                  :paragraphs="[$t('home.sections.build.linked.lead')]" wrapper-class="w-full" />
                         </div>
                     </template>
                 </HomeLazySectionLoader>
@@ -227,7 +227,7 @@
                                             <div class="h-10 w-1/2 mx-auto bg-base-200 rounded mb-6"></div>
                                             <div class="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div v-for="n in 4" :key="`issuer-skeleton-${n}`"
-                                                    class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
+                                                     class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -254,10 +254,10 @@
                                     :paragraphs="[$t('home.sections.openAndExtendable.content[0]'), $t('home.sections.openAndExtendable.content[1]')]"
                                     wrapper-class="w-full"
                                     inner-class="max-w-none"
-                                    :cta-label="$t('home.sections.openAndExtendable.cta')"
-                                    :cta-href="$t('home.sections.openAndExtendable.content[2]')"
-                                    cta-target="_blank"
                                 />
+                                <div class="btn btn-primary" @click="openContactForm()">
+                                    {{ $t('home.sections.openAndExtendable.cta') }}
+                                </div>
                             </div>
                         </template>
                     </HomeLazySectionLoader>
@@ -280,27 +280,24 @@
             <HomeSectionShell wash="none" content-class="min-h-[400px] flex items-center justify-between">
                 <HomeLazySectionLoader root-margin="520px 0px" anchor-class="lazy-section-anchor w-full">
                     <template #content>
-                                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" role="region" :aria-label="t('home.sections.partners.title')">
-<div class="order-2 lg:order-1 flex flex-col justify-center lg:justify-start lg:col-span-6">
-      <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center">
-                {{ t('home.sections.partners.title') }}
-    </h2>
-            <div class="w-full flex justify-start">
-        <ClientOnly>
-          <LazyGlobalPartnersCarouselComp />
-        </ClientOnly>
-      </div>
-  </div>
-  <div class="order-1 lg:order-2 flex flex-col justify-center lg:col-span-6">
-      <HomeSectionTextBlock
-                :title="t('home.sections.becomePartner.title')"
-                :paragraphs="[$t('home.sections.partners.description'), $t('home.sections.becomePartner.text')]"
-        wrapper-class="w-full"
-                :cta-label="t('home.sections.becomePartner.cta')"
-                :cta-href="t('home.sections.becomePartner.ctaLink')"
-        cta-target="_blank"
-      />
-  </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" role="region" :aria-label="t('home.sections.partners.title')">
+                            <div class="order-2 lg:order-1 flex flex-col justify-center lg:justify-start lg:col-span-6">
+                                <div class="w-full flex justify-start">
+                                    <ClientOnly>
+                                        <LazyGlobalPartnersCarouselComp />
+                                    </ClientOnly>
+                                </div>
+                            </div>
+                            <div class="order-1 lg:order-2 flex flex-col justify-center lg:col-span-6">
+                                <HomeSectionTextBlock
+                                    :title="t('home.sections.becomePartner.title')"
+                                    :paragraphs="[$t('home.sections.partners.description'), $t('home.sections.becomePartner.text')]"
+                                    wrapper-class="w-full"
+                                    :cta-label="t('home.sections.becomePartner.cta')"
+                                    :cta-href="t('home.sections.becomePartner.ctaLink')"
+                                    cta-target="_blank"
+                                />
+                            </div>
                         </div>
                     </template>
                     <template #fallback>
@@ -343,12 +340,18 @@ const criticalLinks: Array<Record<string, string>> = [
     },
 ];
 
+const openContactForm = () => {
+    if (typeof window === 'undefined') return;
+    window.dispatchEvent(new CustomEvent('open-contact-form'));
+};
+
+
 criticalLinks.push({
     rel: 'preload',
     as: 'image',
     href: '/img/avefi_nodes-hero-1024.webp',
     imagesrcset:
-    '/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w',
+        '/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w',
     imagesizes: '100vw',
     fetchpriority: 'high',
 });
@@ -386,30 +389,30 @@ const CARD_IMAGE_WIDTHS = [240, 320, 360, 480, 720] as const;
 const CARD_IMAGE_SIZES = '(max-width: 639px) 240px, (max-width: 1023px) 288px, 384px';
 
 type CardItem = {
-  description: string;
-  title: string;
-  link: string;
-  linkText: string;
-  imgSourceLink?: string;
-  imgSourceText?: string;
-  imgAuthor?: string;
-  imgLicense?: string;
-  imgLicenseLink?: string;
-  imgSrc?: string;
-  imgAlt?: string;
-  imgCoverType?: string;
-  imgCaption?: string;
-  imgDepictedPlace?: string;
-  imgDate?: string;
-  imgCollection?: string;
-  imgAccessionNumber?: string;
-  imgSrcSet?: string;
-  imgSizes?: string;
-  imgWidth?: number;
-  imgHeight?: number;
-  imgBlurSrc?: string;
-  imgBlurWidth?: number;
-  imgBlurHeight?: number;
+    description: string;
+    title: string;
+    link: string;
+    linkText: string;
+    imgSourceLink?: string;
+    imgSourceText?: string;
+    imgAuthor?: string;
+    imgLicense?: string;
+    imgLicenseLink?: string;
+    imgSrc?: string;
+    imgAlt?: string;
+    imgCoverType?: string;
+    imgCaption?: string;
+    imgDepictedPlace?: string;
+    imgDate?: string;
+    imgCollection?: string;
+    imgAccessionNumber?: string;
+    imgSrcSet?: string;
+    imgSizes?: string;
+    imgWidth?: number;
+    imgHeight?: number;
+    imgBlurSrc?: string;
+    imgBlurWidth?: number;
+    imgBlurHeight?: number;
 };
 
 function createResponsiveCardMedia(baseName: string, width: number, height: number) {
@@ -441,8 +444,8 @@ useSeoMeta({
     ogType: 'website',
     ogUrl: (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + route.path,
     ogImage:
-    runtimeConfig.public.siteOgImage ||
-    ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
+        runtimeConfig.public.siteOgImage ||
+        ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
     twitterCard: 'summary_large_image',
     twitterTitle: t('home.seo.title'),
     twitterDescription: t('home.seo.description'),

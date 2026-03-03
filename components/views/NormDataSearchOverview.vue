@@ -6,7 +6,7 @@
 
         <!-- WORK -->
         <section v-if="sections.work.entries.length" class="border border-base-300 rounded-lg p-3 mb-3" role="region"
-            :aria-label="$t('workLevel')">
+                 :aria-label="$t('workLevel')">
             <header class="flex items-center justify-between mb-2 gap-2">
                 <h4 class="font-medium text-base">
                     {{ $t('workLevel') }}
@@ -31,7 +31,7 @@
                     <span>→</span>
                     <template v-if="row.type === 'normref'">
                         <router-link v-if="isInternalId(row.value.id)" class="link link-primary"
-                            :to="toInternalRoute(row.value.id!)" :title="row.value.id" target="_blank">
+                                     :to="toInternalRoute(row.value.id!)" :title="row.value.id" target="_blank">
                             {{ row.value.id }}
                         </router-link>
                         <span v-else class="font-mono" :title="row.value.id">{{ row.value.id }}</span>
@@ -50,7 +50,7 @@
 
         <!-- MANIFESTATIONS -->
         <section v-if="sections.manifestations.entries.length" class="border border-base-300 rounded-lg p-3 mb-3"
-            role="region" :aria-label="$t('manifestationLevel')">
+                 role="region" :aria-label="$t('manifestationLevel')">
             <header class="flex items-center justify-between mb-2 gap-2">
                 <h4 class="font-medium text-base">
                     {{ $t('manifestationLevel') }}
@@ -75,7 +75,7 @@
                     <span>→</span>
                     <template v-if="row.type === 'normref'">
                         <router-link v-if="isInternalId(row.value.id)" class="link link-primary"
-                            :to="toInternalRoute(row.value.id!)" :title="row.value.id" target="_blank">
+                                     :to="toInternalRoute(row.value.id!)" :title="row.value.id" target="_blank">
                             {{ row.value.id }}
                         </router-link>
                         <span v-else class="font-mono" :title="row.value.id">{{ row.value.id }}</span>
@@ -96,7 +96,7 @@
 
         <!-- ITEMS -->
         <section v-if="sections.items.entries.length" class="border border-base-300 rounded-lg p-3" role="region"
-            :aria-label="$t('itemLevel')">
+                 :aria-label="$t('itemLevel')">
             <header class="flex items-center justify-between mb-2 gap-2">
                 <h4 class="font-medium text-base">
                     {{ $t('itemLevel') }}
@@ -121,7 +121,7 @@
                     <span>→</span>
                     <template v-if="row.type === 'normref'">
                         <router-link v-if="isInternalId(row.value.id)" class="link link-primary"
-                            :to="toInternalRoute(row.value.id!)" :title="row.value.id" target="_blank">
+                                     :to="toInternalRoute(row.value.id!)" :title="row.value.id" target="_blank">
                             {{ row.value.id }}
                         </router-link>
                         <span v-else class="font-mono" :title="row.value.id">{{ row.value.id }}</span>
@@ -150,38 +150,38 @@ import { computed } from 'vue';
 type NormRef = { id?: string; category?: string; has_name?: string; note?: string }
 type Identifier = { id_category?: string; id_value?: string; note?: string }
 type Row =
-  | { type: 'normref'; path: string; value: NormRef }
-  | { type: 'identifier'; path: string; value: Identifier }
+    | { type: 'normref'; path: string; value: NormRef }
+    | { type: 'identifier'; path: string; value: Identifier }
 
 type KibanaFieldConfig = {
-  viewType: 'discover' | 'lens'
-  savedObjectId?: string
-  dataViewId?: string
-  fieldExists?: string
-  filterMode?: 'doc' | 'exists' | 'custom'
-  customKql?: string
+    viewType: 'discover' | 'lens'
+    savedObjectId?: string
+    dataViewId?: string
+    fieldExists?: string
+    filterMode?: 'doc' | 'exists' | 'custom'
+    customKql?: string
 }
 
 const props = defineProps<{
-  doc: Record<string, any>
-  kibana?: {
-    baseUrl: string
-    timeFrom?: string
-    timeTo?: string
-    views?: {
-      is_part_of?: KibanaFieldConfig
-      same_as?: KibanaFieldConfig
-      has_event?: KibanaFieldConfig
-      has_identifier?: KibanaFieldConfig
-      m_same_as?: KibanaFieldConfig
-      m_has_record_same_as?: KibanaFieldConfig
-      m_has_identifier?: KibanaFieldConfig
-      m_is_manifestation_of?: KibanaFieldConfig
-      i_has_record_same_as?: KibanaFieldConfig
-      i_has_identifier?: KibanaFieldConfig
-      i_same_as?: KibanaFieldConfig
+    doc: Record<string, any>
+    kibana?: {
+        baseUrl: string
+        timeFrom?: string
+        timeTo?: string
+        views?: {
+            is_part_of?: KibanaFieldConfig
+            same_as?: KibanaFieldConfig
+            has_event?: KibanaFieldConfig
+            has_identifier?: KibanaFieldConfig
+            m_same_as?: KibanaFieldConfig
+            m_has_record_same_as?: KibanaFieldConfig
+            m_has_identifier?: KibanaFieldConfig
+            m_is_manifestation_of?: KibanaFieldConfig
+            i_has_record_same_as?: KibanaFieldConfig
+            i_has_identifier?: KibanaFieldConfig
+            i_same_as?: KibanaFieldConfig
+        }
     }
-  }
 }>();
 
 const getArr = (x: any) => (Array.isArray(x) ? x : x ? [x] : []);
@@ -193,7 +193,7 @@ const toInternalRoute = (id: string) => `/res/${id}`;
 function collectWork(doc: any): Row[] {
     if (!isObj(doc)) return [];
     const rows: Row[] = []
-  ;['is_part_of', 'same_as', 'has_event'].forEach((key) => {
+    ;['is_part_of', 'same_as', 'has_event'].forEach((key) => {
         getArr(doc?.[key]).forEach((e: NormRef, i: number) => {
             if (isObj(e) && (e.id || e.has_name || e.category)) {
                 rows.push({ type: 'normref', path: `${key}[${i}]`, value: e });
@@ -284,9 +284,9 @@ const sections = computed(() => ({
 const hasAny = computed(
     () =>
         sections.value.work.entries.length +
-      sections.value.manifestations.entries.length +
-      sections.value.items.entries.length >
-    0
+        sections.value.manifestations.entries.length +
+        sections.value.items.entries.length >
+        0
 );
 
 const handle = computed(() => props.doc?.handle || props.doc?._source?.handle || '');

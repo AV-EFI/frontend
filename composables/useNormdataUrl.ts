@@ -1,5 +1,6 @@
 export function useNormdataUrl() {
     function getNormdataUrl(category: string, id: string): string {
+
         if (category === 'avefi:GNDResource') {
             return `https://explore.gnd.network/gnd/${id}`;
         } else if (category === 'avefi:VIAFResource') {
@@ -14,6 +15,10 @@ export function useNormdataUrl() {
             return `https://ui.eidr.org/view/content?id=${id}`;
         } else if (category === 'avefi:TGNResource') {
             return `http://vocab.getty.edu/page/tgn/${id}`;
+        } else if (category === 'avefi:ISNIResource') {
+            return `https://isni.org/isni/${id}`;
+        } else if (category === 'avefi:AVefiResource') {
+            return `https://hdl.handle.net/${id}`;
         }
     
         // Fallback: return the ID as-is (might be a full URL already)

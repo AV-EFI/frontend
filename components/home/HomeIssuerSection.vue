@@ -12,10 +12,10 @@
                 </div>
                 <div v-else class="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4" aria-hidden="true">
                     <article v-for="issuer in issuerPlaceholderItems" :key="issuer.name"
-                        class="border border-base-200 rounded-2xl p-4 bg-white/90 dark:bg-base-200/70">
+                             class="border border-base-200 rounded-2xl p-4 bg-white/90 dark:bg-base-200/70">
                         <figure class="flex items-center justify-center h-20 mb-3">
                             <img :src="issuer.image" :alt="issuer.alt" loading="lazy" decoding="async" width="220"
-                                height="80" class="max-h-full max-w-full object-contain" />
+                                 height="80" class="max-h-full max-w-full object-contain" />
                         </figure>
                         <h3 class="text-base font-semibold">{{ issuer.name }}</h3>
                         <p class="text-sm opacity-75">{{ issuer.count.toLocaleString() }} {{ issuer.count === 1 ?

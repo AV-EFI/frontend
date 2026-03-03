@@ -23,7 +23,8 @@
     "generate:images": "node scripts/optimize-images.mjs",
     "check:contrast": "tsx utils/contrastCheck.ts",
     "audit:accessibility": "echo 'Run your accessibility audit utility here'",
-    "report:images": "node scripts/report-image-metadata.mjs"
+    "report:images": "node scripts/report-image-metadata.mjs",
+    "test:normdata": "node --test scripts/tests/normdata-identifiers.test.mjs"
   },
   "dependencies": {
     "@dargmuesli/nuxt-cookie-control": "8.5.0",
@@ -53,6 +54,8 @@
     "axios": "^1.9.0",
     "cytoscape": "^3.29.2",
     "daisyui": "5.5.18",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
     "instantsearch.js": "^4.80.0",
     "jszip": "^3.10.1",
     "nodemailer": "^7.0.9",
@@ -87,7 +90,7 @@
     "@types/nodemailer": "^7",
     "@typescript-eslint/eslint-plugin": "^8.48.1",
     "@typescript-eslint/parser": "^8.48.1",
-    "eslint": "^10.0.2",
+    "eslint": "^9",
     "eslint-plugin-vue": "^10.6.2",
     "export-to-csv": "^1.4.0",
     "nuxt-schema-org": "^5.0.9",
@@ -101,6 +104,9 @@
     "vue-eslint-parser": "^10.2.0",
     "vue-matomo": "^4.2.0",
     "vue-router": "^4.5.0"
+  },
+  "resolutions": {
+    "serialize-javascript": "7.0.3"
   },
   "packageManager": "yarn@4.3.1"
 }

@@ -1,21 +1,21 @@
 <template>
     <div class="relative inline-block">
         <button class="btn btn-primary w-full h-full" :class="[btnSize]" :alt="$t('exportdata')"
-            :title="$t('exportdata')" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
-            aria-controls="export-menu" @click="toggleMenu" @keydown.enter.prevent="toggleMenu"
-            @keydown.space.prevent="toggleMenu">
+                :title="$t('exportdata')" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
+                aria-controls="export-menu" @click="toggleMenu" @keydown.enter.prevent="toggleMenu"
+                @keydown.space.prevent="toggleMenu">
             <Icon name="tabler:download" class="text-xl w-4 h-4" />
             <span v-if="showLabel" class="hidden md:inline-block capitalize ml-1 text-left"
-                :class="[fixedWith? 'w-24' : '']">{{ $t('export') }}</span>
+                  :class="[fixedWith? 'w-24' : '']">{{ $t('export') }}</span>
         </button>
 
-        <div v-if="menuOpen" id="export-menu" role="menu" class="absolute z-30 mt-2 bg-white border rounded shadow w-48"
-            style="top: calc(100% + 5px); right: 0;">
+        <div v-if="menuOpen" id="export-menu" role="menu" class="absolute z-30 mt-2 bg-base-100 border rounded shadow w-48"
+             style="top: calc(100% + 5px); right: 0;">
             <ul>
                 <li v-for="option in exportOptions" :key="option.format" role="none">
-                    <button role="menuitem" tabindex="0" class="w-full text-left px-4 py-2 hover:bg-gray-100"
-                        @click="exportData(option.format)" @keydown.enter.prevent="exportData(option.format)"
-                        @keydown.space.prevent="exportData(option.format)">
+                    <button role="menuitem" tabindex="0" class="w-full text-left px-4 py-2 hover:bg-base-200"
+                            @click="exportData(option.format)" @keydown.enter.prevent="exportData(option.format)"
+                            @keydown.space.prevent="exportData(option.format)">
                         {{ option.label }}
                     </button>
                 </li>
@@ -221,9 +221,9 @@ function deepFlattenToObjectStructured(entry: any) {
         for (const activity of event.has_activity || []) {
             if (
                 activity.category !== "avefi:ProducingActivity" &&
-          activity.category !== "avefi:DirectingActivity" &&
-          activity.category !== "avefi:CastActivity" &&
-          activity.category !== "avefi:EditingActivity"
+                activity.category !== "avefi:DirectingActivity" &&
+                activity.category !== "avefi:CastActivity" &&
+                activity.category !== "avefi:EditingActivity"
             ) {
                 for (const agent of activity.has_agent || []) {
                     if (agent.has_name) {

@@ -1,232 +1,231 @@
 <template>
-  <div>
-    <div class="container">
-      <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
-        :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
-        <ais-configure :hits-per-page.camel="20" />
-        <div class="search-panel" role="region" :aria-label="$t('searchpanel')">
-          <ClientOnly>
-            <GlobalFacetDrawer :view-type-checked="viewTypeChecked" />
-          </ClientOnly>
-          <!-- Center -->
-          <div class="drawer-content w-full flex flex-col items-center justify-center max-md:w-screen" role="region"
-            :aria-label="$t('searchcontent')">
-            <div class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2"
-              role="region" :aria-label="$t('searchresults')">
-              <div class="searchbox relative" role="search" :aria-label="$t('searchbox')">
-                <ais-search-box>
-                  <template #default="{ currentRefinement, refine, isSearchStalled }">
-                    <div class="flex flex-row mt-2">
-                      <div class="flex flex-row items-center h-12 w-full ">
-                        <SearchQueryAutocomplete v-model="localSearchValue" name="search"
-                          :placeholder="$t('searchplaceholder')" :clear-title="$t('resetQuery')"
-                          :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')" :enforce-list="false"
-                          :recent-searches="recentSearchesWithUrl" class="flex-1"
-                          @submit="handleSearchSubmit($event, refine)" @clear="handleSearchClear(refine)"
-                          @recent-search-click="handleRecentSearchClick" @remove-recent="handleRemoveRecentSearch"
-                          @clear-history="handleClearAllHistory" />
-                      </div>
+    <div>
+        <div class="container">
+            <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
+                                :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
+                <ais-configure :hits-per-page.camel="20" />
+                <div class="search-panel" role="region" :aria-label="$t('searchpanel')">
+                    <ClientOnly>
+                        <GlobalFacetDrawer :view-type-checked="viewTypeChecked" />
+                    </ClientOnly>
+                    <!-- Center -->
+                    <div class="drawer-content w-full flex flex-col items-center justify-center max-md:w-screen" role="region"
+                         :aria-label="$t('searchcontent')">
+                        <div class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2"
+                             role="region" :aria-label="$t('searchresults')">
+                            <div class="searchbox relative" role="search" :aria-label="$t('searchbox')">
+                                <ais-search-box>
+                                    <template #default="{ currentRefinement, refine, isSearchStalled }">
+                                        <div class="flex flex-row mt-2">
+                                            <div class="flex flex-row items-center h-12 w-full ">
+                                                <SearchQueryAutocomplete v-model="localSearchValue" name="search"
+                                                                         :placeholder="$t('searchplaceholder')" :clear-title="$t('resetQuery')"
+                                                                         :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')" :enforce-list="false"
+                                                                         :recent-searches="recentSearchesWithUrl" class="flex-1"
+                                                                         @submit="handleSearchSubmit($event, refine)" @clear="handleSearchClear(refine)"
+                                                                         @recent-search-click="handleRecentSearchClick" @remove-recent="handleRemoveRecentSearch"
+                                                                         @clear-history="handleClearAllHistory" />
+                                            </div>
 
-                      <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
-                        :title="$t('search')" @click="handleSearchSubmit(localSearchValue, refine)">
-                        <Icon class="text-lg" name="formkit:search" />
-                        <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
-                      </button>
-                      <!-- Context menu button -->
-                      <div class="relative ml-2" ref="searchMenuRef">
-                        <button type="button" class="btn btn-ghost btn-circle btn-outline lg:btn-lg w-12 h-12"
-                          @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
-                          :title="$t('searchOptions')">
-                          <Icon name="tabler:dots" />
-                        </button>
+                                            <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
+                                                    :title="$t('search')" @click="handleSearchSubmit(localSearchValue, refine)">
+                                                <Icon class="text-lg" name="formkit:search" />
+                                                <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
+                                            </button>
+                                            <!-- Context menu button -->
+                                            <div class="relative ml-2" ref="searchMenuRef">
+                                                <button type="button" class="btn btn-ghost btn-circle btn-outline lg:btn-lg w-12 h-12"
+                                                        @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
+                                                        :title="$t('searchOptions')">
+                                                    <Icon name="tabler:dots" />
+                                                </button>
 
-                        <div v-if="searchMenuOpen"
-                          class="absolute right-0 mt-2 p-2 bg-base-100 border rounded shadow-lg w-56 z-50" @click.stop>
-                          <ul class="menu menu-compact">
-                            <li>
-                              <button @click="shareSearch">
-                                <Icon name="tabler:share" class="w-4 h-4" />&nbsp;{{ $t('shareSearch') }}
-                              </button>
-                            </li>
-                            <li>
-                              <button @click="suggestSearch">
-                                <Icon name="tabler:message-circle" class="w-4 h-4" />&nbsp;{{ $t('suggestSearchToAVefi')
-                                }}
-                              </button>
-                            </li>
-                          </ul>
+                                                <div v-if="searchMenuOpen"
+                                                     class="absolute right-0 mt-2 p-2 bg-base-100 border rounded shadow-lg w-56 z-50" @click.stop>
+                                                    <ul class="menu menu-compact">
+                                                        <li>
+                                                            <button @click="shareSearch">
+                                                                <Icon name="tabler:share" class="w-4 h-4" />&nbsp;{{ $t('shareSearch') }}
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button @click="suggestSearch">
+                                                                <Icon name="tabler:message-circle" class="w-4 h-4" />&nbsp;{{ $t('suggestSearchToAVefi') }}
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div v-if="contactFormOpen"
+                                                     class="absolute right-0 mt-2 p-4 border rounded-lg bg-base-100 w-96 z-50" @click.stop>
+                                                    <MicroContactForm :initialMessage="contactInitialMessage" @ContactFormClose="toggleForm()" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </template>
+                                </ais-search-box>
+                            </div>
+
+                            <div class="mt-2 mb-2 w-full">
+                                <button class="btn btn-block btn-lg btn-primary lg:hidden" :title="$t('showFacetItems')"
+                                        @click="$toggleFacetDrawerState">
+                                    <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                                </button>
+                            </div>
+                            <div class="w-full">
+                                <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
+                                     role="region" :aria-label="$t('filteringsection')">
+                                    <div
+                                        class="w-full flex flex-row justify-center col-span-2 bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
+                                        <ais-stats class="flex flex-row w-full">
+                                            <template #default="{ nbHits = 0, results }">
+                                                <span v-if="isSearchLoading" id="custom-spinner"
+                                                      class="loading loading-spinner loading-md text-primary" />
+                                                <div v-else class="stats stats-vertical w-full lg:stats-horizontal w-full shadow">
+                                                    <div class="stat p-2 px-4">
+                                                        <div class="stat-title">{{ $t('works') }}</div>
+                                                        <div class="stat-value">{{ nbHits }}</div>
+                                                    </div>
+
+                                                    <div class="stat p-2 px-4">
+                                                        <div class="stat-title">{{ $t('manifestations') }}</div>
+                                                        <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
+                                                    </div>
+
+                                                    <div class="stat p-2 px-4">
+                                                        <div class="stat-title">{{ $t('items') }}</div>
+                                                        <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </ais-stats>
+                                    </div>
+                                    <div class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg bg-base-100" role="region"
+                                         :aria-label="$t('activeFacets')">
+                                        <div
+                                            class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-t-lg rounded-b-none">
+                                            <div class="w-full md:w-1/2 flex flex-row justify-start">
+                                                <h2 id="active-facets-heading" class="font-bold text-gray-800 dark:text-gray-200" tabindex="-1">
+                                                    {{ $t('activeFacets') }}
+                                                </h2>
+                                            </div>
+                                            <div class="w-full md:w-1/2 flex flex-row justify-end">
+                                                <ais-clear-refinements :class-names="{
+                                                    'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
+                                                    'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                                }">
+                                                    <template #resetLabel>
+                                                        <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                                                    </template>
+                                                </ais-clear-refinements>
+                                            </div>
+                                        </div>
+                                        <div class="w-full bg-white dark:bg-gray-800 rounded-t-none rounded-b-lg p-2" role="list"
+                                             aria-labelledby="active-facets-heading">
+                                            <ais-current-refinements :class-names="{
+                                                'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
+                                                'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
+                                                'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
+                                                'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
+                                            }">
+                                                <template v-slot="{ items }">
+                                                    <div v-if="items.length === 0" class="text-gray-500 text-sm dark">
+                                                        {{ $t('nofacetsselected') }}
+                                                    </div>
+                                                </template>
+                                                <template #item="{ item, refine, createURL }">
+                                                    <div role="listitem" class="flex flex-col gap-1">
+                                                        <span class="text-left w-full">
+                                                            <strong class="font-bold text-sm dark:text-primary-100">
+                                                                {{ $t(item.label.split(".").at(-1)) }}:
+                                                            </strong>
+                                                        </span>
+                                                        <ul class="list-none p-0 m-0" role="list">
+                                                            <li v-for="refinement in item.refinements"
+                                                                :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
+                                                                class="flex items-center" role="listitem">
+                                                                <a :href="createURL(refinement)"
+                                                                   class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
+                                                                   :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
+                                                                   @click.prevent="refine(refinement)">
+                                                                    {{ $t(refinement.label) }}
+                                                                    <Icon class="text-lg" name="formkit:trash" aria-hidden="true" />
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </template>
+                                                <template #noRefinement>
+                                                    <div class="text-gray-500 dark:text-gray-400 text-sm italic p-2">
+                                                        {{ $t('nofacetsselected') }}
+                                                    </div>
+                                                </template>
+                                            </ais-current-refinements>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="form-control w-full border-base-200 border-2 col-span-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
+                                        <label class="label cursor-pointer text-sm flex justify-between items-center gap-2"
+                                               :aria-label="$t('toggleViewType')">
+                                            <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 shrink-0 !w-4"
+                                                  :title="$t('viewTypeCheckedWarning')" />
+                                            <span class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                                                {{ $t('viewType') }}
+                                            </span>
+                                            <select v-model="viewTypeChecked" class="select select-primary select-sm w-auto my-auto">
+                                                <option value="accordion">{{ $t('accordionView') }}</option>
+                                                <option value="flat">{{ $t('flatView') }}</option>
+                                                <option value="table">{{ $t('tableView') }}</option>
+                                            </select>
+                                        </label>
+                                        <label v-if="viewTypeChecked === 'accordion'"
+                                               class="label cursor-pointer text-sm flex justify-between items-center gap-2 my-auto"
+                                               :aria-label="$t('toggleExpandAllHandles')">
+                                            <Icon v-if="!expandAllHandlesChecked" class="dark:text-white shrink-0 !w-4"
+                                                  name="tabler:layout-navbar-expand" />
+                                            <Icon v-else class="dark:text-white shrink-0 !w-4" name="tabler:layout-navbar-collapse" />
+                                            <span v-if="!expandAllHandlesChecked"
+                                                  class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                                                {{ $t('expandAll') }}
+                                            </span>
+                                            <span v-else class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                                                {{ $t('collapseAll') }}
+                                            </span>
+
+                                            <input v-model="expandAllHandlesChecked" type="checkbox" class="toggle toggle-primary shrink-0">
+                                        </label>
+                                    </div>
+
+                                    <LazyDetailPaginationComp class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg" />
+                                </div>
+                                <div class="flex w-full flex-col">
+                                    <div class="divider divider-base-300 w-full">
+                                        <span class="text-xs" v-if="searchQuery">
+                                            Suchergebnisse für '{{ searchQuery }}'
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="overflow-x-auto w-full" style="overflow-y:hidden;">
+                                    <ais-hits class="">
+                                        <template #default="{ items }">
+                                            <SearchNoResultsComp v-if="items.length === 0" class="text-center text-gray-500 py-6" />
+                                            <SearchHitsComp v-else :items="items" :view-type-checked="viewTypeChecked"
+                                                            :production-details-checked="productionDetailsChecked" :expanded-handles="expandedHandles"
+                                                            :expand-all-handles-checked="expandAllHandlesChecked" :is-search-loading="isSearchLoading"
+                                                            :current-refinements="currentRefinements" />
+                                        </template>
+                                    </ais-hits>
+                                </div>
+                                <LazyDetailPaginationComp />
+                            </div>
                         </div>
-
-                        <div v-if="contactFormOpen"
-                          class="absolute right-0 mt-2 p-4 border rounded-lg bg-base-100 w-96 z-50" @click.stop>
-                          <MicroContactForm :initialMessage="contactInitialMessage" @ContactFormClose="toggleForm()" />
-                        </div>
-                      </div>
                     </div>
-
-                  </template>
-                </ais-search-box>
-              </div>
-
-              <div class="mt-2 mb-2 w-full">
-                <button class="btn btn-block btn-lg btn-primary lg:hidden" :title="$t('showFacetItems')"
-                  @click="$toggleFacetDrawerState">
-                  <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
-                </button>
-              </div>
-              <div class="w-full">
-                <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
-                  role="region" :aria-label="$t('filteringsection')">
-                  <div
-                    class="w-full flex flex-row justify-center col-span-2 bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
-                    <ais-stats class="flex flex-row w-full">
-                      <template #default="{ nbHits = 0, results }">
-                        <span v-if="isSearchLoading" id="custom-spinner"
-                          class="loading loading-spinner loading-md text-primary" />
-                        <div v-else class="stats stats-vertical w-full lg:stats-horizontal w-full shadow">
-                          <div class="stat p-2 px-4">
-                            <div class="stat-title">{{ $t('works') }}</div>
-                            <div class="stat-value">{{ nbHits }}</div>
-                          </div>
-
-                          <div class="stat p-2 px-4">
-                            <div class="stat-title">{{ $t('manifestations') }}</div>
-                            <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
-                          </div>
-
-                          <div class="stat p-2 px-4">
-                            <div class="stat-title">{{ $t('items') }}</div>
-                            <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>
-                          </div>
-                        </div>
-                      </template>
-                    </ais-stats>
-                  </div>
-                  <div class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg bg-base-100" role="region"
-                    :aria-label="$t('activeFacets')">
-                    <div
-                      class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-lg">
-                      <div class="w-full md:w-1/2 flex flex-row justify-start">
-                        <h2 id="active-facets-heading" class="font-bold text-gray-800 dark:text-gray-200" tabindex="-1">
-                          {{ $t('activeFacets') }}
-                        </h2>
-                      </div>
-                      <div class="w-full md:w-1/2 flex flex-row justify-end">
-                        <ais-clear-refinements :class-names="{
-                            'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
-                            'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                          }">
-                          <template #resetLabel>
-                            <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
-                          </template>
-                        </ais-clear-refinements>
-                      </div>
-                    </div>
-                    <div class="w-full bg-white dark:bg-gray-800 rounded-lg p-2" role="list"
-                      aria-labelledby="active-facets-heading">
-                      <ais-current-refinements :class-names="{
-                          'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                          'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
-                          'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                          'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
-                        }">
-                        <template v-slot="{ items }">
-                          <div v-if="items.length === 0" class="text-gray-500 text-sm dark">
-                            {{ $t('nofacetsselected') }}
-                          </div>
-                        </template>
-                        <template #item="{ item, refine, createURL }">
-                          <div role="listitem" class="flex flex-col gap-1">
-                            <span class="text-left w-full">
-                              <strong class="font-bold text-sm dark:text-primary-100">
-                                {{ $t(item.label.split(".").at(-1)) }}:
-                              </strong>
-                            </span>
-                            <ul class="list-none p-0 m-0" role="list">
-                              <li v-for="refinement in item.refinements"
-                                :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
-                                class="flex items-center" role="listitem">
-                                <a :href="createURL(refinement)"
-                                  class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
-                                  :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
-                                  @click.prevent="refine(refinement)">
-                                  {{ $t(refinement.label) }}
-                                  <Icon class="text-lg" name="formkit:trash" aria-hidden="true" />
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </template>
-                        <template #noRefinement>
-                          <div class="text-gray-500 dark:text-gray-400 text-sm italic p-2">
-                            {{ $t('nofacetsselected') }}
-                          </div>
-                        </template>
-                      </ais-current-refinements>
-                    </div>
-                  </div>
-
-                  <div
-                    class="form-control w-full border-base-200 border-2 col-span-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
-                    <label class="label cursor-pointer text-sm flex justify-between items-center gap-2"
-                      :aria-label="$t('toggleViewType')">
-                      <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 shrink-0 !w-4"
-                        :title="$t('viewTypeCheckedWarning')" />
-                      <span class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
-                        {{ $t('viewType') }}
-                      </span>
-                      <select v-model="viewTypeChecked" class="select select-primary select-sm w-auto my-auto">
-                        <option value="accordion">{{ $t('accordionView') }}</option>
-                        <option value="flat">{{ $t('flatView') }}</option>
-                        <option value="table">{{ $t('tableView') }}</option>
-                      </select>
-                    </label>
-                    <label v-if="viewTypeChecked === 'accordion'"
-                      class="label cursor-pointer text-sm flex justify-between items-center gap-2 my-auto"
-                      :aria-label="$t('toggleExpandAllHandles')">
-                      <Icon v-if="!expandAllHandlesChecked" class="dark:text-white shrink-0 !w-4"
-                        name="tabler:layout-navbar-expand" />
-                      <Icon v-else class="dark:text-white shrink-0 !w-4" name="tabler:layout-navbar-collapse" />
-                      <span v-if="!expandAllHandlesChecked"
-                        class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
-                        {{ $t('expandAll') }}
-                      </span>
-                      <span v-else class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
-                        {{ $t('collapseAll') }}
-                      </span>
-
-                      <input v-model="expandAllHandlesChecked" type="checkbox" class="toggle toggle-primary shrink-0">
-                    </label>
-                  </div>
-
-                  <LazyDetailPaginationComp class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg" />
                 </div>
-                <div class="flex w-full flex-col">
-                  <div class="divider divider-base-300 w-full">
-                    <span class="text-xs" v-if="searchQuery">
-                      Suchergebnisse für '{{ searchQuery }}'
-                    </span>
-                  </div>
-                </div>
-                <div class="overflow-x-auto w-full" style="overflow-y:hidden;">
-                  <ais-hits class="">
-                    <template #default="{ items }">
-                      <SearchNoResultsComp v-if="items.length === 0" class="text-center text-gray-500 py-6" />
-                      <SearchHitsComp v-else :items="items" :view-type-checked="viewTypeChecked"
-                        :production-details-checked="productionDetailsChecked" :expanded-handles="expandedHandles"
-                        :expand-all-handles-checked="expandAllHandlesChecked" :is-search-loading="isSearchLoading"
-                        :current-refinements="currentRefinements" />
-                    </template>
-                  </ais-hits>
-                </div>
-                <LazyDetailPaginationComp />
-              </div>
-            </div>
-          </div>
+            </ais-instant-search>
         </div>
-      </ais-instant-search>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -434,7 +433,7 @@ function shareSearch() {
             window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
         });
     } else {
-    // older browsers
+        // older browsers
         try {
             window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
         } catch (e) {

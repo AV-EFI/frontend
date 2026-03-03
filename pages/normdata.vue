@@ -18,13 +18,13 @@
                 </label>
                 <div class="relative">
                     <select v-model="selectedField" class="select select-bordered select-sm w-full" :disabled="pending"
-                        @change="reload">
+                            @change="reload">
                         <option v-for="opt in fieldOptions" :key="opt.key" :value="opt.key">
                             {{ opt.label }}
                         </option>
                     </select>
                     <span v-if="pending"
-                        class="loading loading-spinner loading-xs absolute right-10 top-1/2 -translate-y-1/2"></span>
+                          class="loading loading-spinner loading-xs absolute right-10 top-1/2 -translate-y-1/2"></span>
                 </div>
             </div>
 
@@ -34,16 +34,16 @@
                 </label>
                 <div class="relative">
                     <input v-model="filter" type="text" class="input input-bordered input-sm w-full"
-                        :class="{ 'pr-8': pending }" :placeholder="$t('normdata.filterPlaceholder')">
+                           :class="{ 'pr-8': pending }" :placeholder="$t('normdata.filterPlaceholder')">
                     <span v-if="pending"
-                        class="loading loading-spinner loading-xs absolute right-3 top-1/2 -translate-y-1/2"></span>
+                          class="loading loading-spinner loading-xs absolute right-3 top-1/2 -translate-y-1/2"></span>
                 </div>
             </div>
 
             <div class="form-control">
                 <label class="label cursor-pointer gap-2">
                     <input v-model="showOnlyWithNormdata" type="checkbox" class="checkbox checkbox-sm"
-                        :disabled="pending">
+                           :disabled="pending">
                     <span class="label-text text-sm">{{ $t('normdata.onlyWithNormdata') }}</span>
                 </label>
             </div>
@@ -61,38 +61,38 @@
 
             <div class="relative inline-block ml-auto">
                 <button class="btn btn-sm btn-primary" :alt="'Export Data'" :title="'Export Data'" aria-haspopup="true"
-                    :aria-expanded="String(menuOpen)" aria-controls="export-menu" :disabled="!sortedRows.length"
-                    @click="toggleMenu" @keydown.enter.prevent="toggleMenu" @keydown.space.prevent="toggleMenu">
+                        :aria-expanded="String(menuOpen)" aria-controls="export-menu" :disabled="!sortedRows.length"
+                        @click="toggleMenu" @keydown.enter.prevent="toggleMenu" @keydown.space.prevent="toggleMenu">
                     <Icon name="tabler:download" class="w-4 h-4" />
                     <span class="ml-1">{{ $t('normdata.export') }}</span>
                 </button>
                 <div v-if="menuOpen" id="export-menu" role="menu"
-                    class="absolute z-30 mt-2 bg-base-100 border border-base-300 rounded shadow-lg w-56"
-                    style="top: calc(100% + 5px); right: 0;">
+                     class="absolute z-30 mt-2 bg-base-100 border border-base-300 rounded shadow-lg w-56"
+                     style="top: calc(100% + 5px); right: 0;">
                     <ul class="menu menu-compact">
                         <li role="none">
                             <button role="menuitem" tabindex="0" class="w-full text-left"
-                                @click="exportData('current', 'csv')"
-                                @keydown.enter.prevent="exportData('current', 'csv')"
-                                @keydown.space.prevent="exportData('current', 'csv')">
+                                    @click="exportData('current', 'csv')"
+                                    @keydown.enter.prevent="exportData('current', 'csv')"
+                                    @keydown.space.prevent="exportData('current', 'csv')">
                                 <Icon name="tabler:table" class="w-4 h-4" />
                                 {{ $t('normdata.currentPageCSV') }}
                             </button>
                         </li>
                         <li role="none">
                             <button role="menuitem" tabindex="0" class="w-full text-left"
-                                @click="exportData('current', 'json')"
-                                @keydown.enter.prevent="exportData('current', 'json')"
-                                @keydown.space.prevent="exportData('current', 'json')">
+                                    @click="exportData('current', 'json')"
+                                    @keydown.enter.prevent="exportData('current', 'json')"
+                                    @keydown.space.prevent="exportData('current', 'json')">
                                 <Icon name="tabler:braces" class="w-4 h-4" />
                                 {{ $t('normdata.currentPageJSON') }}
                             </button>
                         </li>
                         <li role="none">
                             <button role="menuitem" tabindex="0" class="w-full text-left"
-                                @click="exportData('current', 'xml')"
-                                @keydown.enter.prevent="exportData('current', 'xml')"
-                                @keydown.space.prevent="exportData('current', 'xml')">
+                                    @click="exportData('current', 'xml')"
+                                    @keydown.enter.prevent="exportData('current', 'xml')"
+                                    @keydown.space.prevent="exportData('current', 'xml')">
                                 <Icon name="tabler:code" class="w-4 h-4" />
                                 {{ $t('normdata.currentPageXML') }}
                             </button>
@@ -102,8 +102,8 @@
                         </li>
                         <li role="none">
                             <button role="menuitem" tabindex="0" class="w-full text-left" :disabled="exportingAll"
-                                @click="exportAllResults(false)" @keydown.enter.prevent="exportAllResults(false)"
-                                @keydown.space.prevent="exportAllResults(false)">
+                                    @click="exportAllResults(false)" @keydown.enter.prevent="exportAllResults(false)"
+                                    @keydown.space.prevent="exportAllResults(false)">
                                 <Icon v-if="exportingAll" name="tabler:loader" class="w-4 h-4 animate-spin" />
                                 <Icon v-else name="tabler:database-export" class="w-4 h-4" />
                                 {{ $t('normdata.allFilteredResults') }}
@@ -111,9 +111,9 @@
                         </li>
                         <li role="none">
                             <button role="menuitem" tabindex="0" class="w-full text-left"
-                                :disabled="exportingAllUnfiltered" @click="exportAllResults(true)"
-                                @keydown.enter.prevent="exportAllResults(true)"
-                                @keydown.space.prevent="exportAllResults(true)">
+                                    :disabled="exportingAllUnfiltered" @click="exportAllResults(true)"
+                                    @keydown.enter.prevent="exportAllResults(true)"
+                                    @keydown.space.prevent="exportAllResults(true)">
                                 <Icon v-if="exportingAllUnfiltered" name="tabler:loader" class="w-4 h-4 animate-spin" />
                                 <Icon v-else name="tabler:database" class="w-4 h-4" />
                                 {{ $t('normdata.completeDataset') }}
@@ -137,15 +137,15 @@
             <div class="flex items-center gap-2 mb-2">
                 <span class="text-sm font-medium">{{ $t('normdata.filterByLetter') }}</span>
                 <button class="btn btn-xs" :class="{ 'btn-active': !activeLetter }" :disabled="pending"
-                    @click="activeLetter = null">
+                        @click="activeLetter = null">
                     {{ $t('normdata.all') }}
                 </button>
                 <span v-if="pending" class="loading loading-spinner loading-xs ml-2"></span>
             </div>
             <div class="flex flex-wrap gap-1">
                 <button v-for="char in alphabet" :key="char" class="btn btn-xs"
-                    :class="{ 'btn-outline': activeLetter !== char, 'btn-active': activeLetter === char }"
-                    :disabled="pending" @click="activeLetter = activeLetter === char ? null : char">
+                        :class="{ 'btn-outline': activeLetter !== char, 'btn-active': activeLetter === char }"
+                        :disabled="pending" @click="activeLetter = activeLetter === char ? null : char">
                     {{ char }}
                 </button>
             </div>
@@ -155,7 +155,7 @@
         <div class="overflow-x-auto border border-base-300 rounded-lg relative">
             <!-- Loading overlay -->
             <div v-if="pending"
-                class="absolute inset-0 bg-base-100/90 backdrop-blur-sm z-20 flex items-center justify-center">
+                 class="absolute inset-0 bg-base-100/90 backdrop-blur-sm z-20 flex items-center justify-center">
                 <div class="flex flex-col items-center gap-2">
                     <span class="loading loading-spinner loading-lg text-primary"></span>
                     <span class="text-sm text-base-content/70">{{ $t('normdata.loading') }}</span>
@@ -168,30 +168,30 @@
                         <th class="w-12 text-right">#</th>
                         <th class="w-80">
                             <button class="flex items-center gap-1 hover:text-primary" :disabled="pending"
-                                @click="toggleSort('value')">
+                                    @click="toggleSort('value')">
                                 {{ $t('normdata.value') }}
                                 <Icon v-if="sortBy === 'value'"
-                                    :name="sortOrder === 'asc' ? 'tabler:arrow-up' : 'tabler:arrow-down'"
-                                    class="w-3 h-3" />
+                                      :name="sortOrder === 'asc' ? 'tabler:arrow-up' : 'tabler:arrow-down'"
+                                      class="w-3 h-3" />
                             </button>
                         </th>
                         <th>{{ $t('normdata.normdata') }}</th>
                         <th class="w-80">
                             <button class="flex items-center gap-1 hover:text-primary" :disabled="pending"
-                                @click="toggleSort('provider')">
+                                    @click="toggleSort('provider')">
                                 {{ $t('normdata.provider') }}
                                 <Icon v-if="sortBy === 'provider'"
-                                    :name="sortOrder === 'asc' ? 'tabler:arrow-up' : 'tabler:arrow-down'"
-                                    class="w-3 h-3" />
+                                      :name="sortOrder === 'asc' ? 'tabler:arrow-up' : 'tabler:arrow-down'"
+                                      class="w-3 h-3" />
                             </button>
                         </th>
                         <th class="w-20">
                             <button class="flex items-center gap-1 hover:text-primary" :disabled="pending"
-                                @click="toggleSort('docCount')">
+                                    @click="toggleSort('docCount')">
                                 <span class="text-right block w-full">{{ $t('normdata.docs') }}</span>
                                 <Icon v-if="sortBy === 'docCount'"
-                                    :name="sortOrder === 'asc' ? 'tabler:arrow-up' : 'tabler:arrow-down'"
-                                    class="w-3 h-3" />
+                                      :name="sortOrder === 'asc' ? 'tabler:arrow-up' : 'tabler:arrow-down'"
+                                      class="w-3 h-3" />
                             </button>
                         </th>
                         <th class="w-16"></th>
@@ -218,9 +218,9 @@
                         <td class="max-w-md">
                             <div v-if="row.normdataRefs.length" class="space-y-1">
                                 <div v-for="(ref, refIdx) in row.normdataRefs" :key="refIdx"
-                                    class="flex items-start gap-2 flex-wrap">
+                                     class="flex items-start gap-2 flex-wrap">
                                     <a :href="getExternalUrl(ref)" class="link link-primary text-xs break-all"
-                                        target="_blank" rel="noreferrer">
+                                       target="_blank" rel="noreferrer">
                                         <span v-html="highlightText(ref.id)"></span>
                                     </a>
                                     <span v-if="ref.category" class="badge badge-sm badge-outline whitespace-nowrap">
@@ -239,7 +239,7 @@
                         <td class="text-center">
                             <div class="dropdown dropdown-end relative">
                                 <button tabindex="0" class="btn btn-ghost btn-xs"
-                                    :aria-label="'Actions for ' + row.value">
+                                        :aria-label="'Actions for ' + row.value">
                                     <Icon name="tabler:dots-vertical" class="w-4 h-4" />
                                 </button>
                                 <ul tabindex="0"
@@ -276,7 +276,7 @@
             <div class="flex items-center gap-1">
                 <template v-for="page in visiblePages" :key="page">
                     <button v-if="typeof page === 'number'" class="btn btn-sm"
-                        :class="{ 'btn-active': currentPage === page }" @click="currentPage = page">
+                            :class="{ 'btn-active': currentPage === page }" @click="currentPage = page">
                         {{ page }}
                     </button>
                     <span v-else class="px-2">...</span>
@@ -292,9 +292,9 @@
 
             <span class="text-sm ml-4">
                 {{ $t('normdata.page') }} {{ currentPage }} {{ $t('normdata.of') }} {{ totalPages }} ({{
-                sortedRows.length }}
+                    sortedRows.length }}
                 {{
-                $t('normdata.entries') }})
+                    $t('normdata.entries') }})
             </span>
         </div>
 
@@ -395,15 +395,15 @@ useSchemaOrg([
 type FieldKey = 'has_subject' | 'has_genre'
 
 interface NormdataRef {
-  id: string
-  category: string
+    id: string
+    category: string
 }
 
 interface Row {
-  value: string
-  normdataRefs: NormdataRef[]
-  provider: string | null
-  docCount: number
+    value: string
+    normdataRefs: NormdataRef[]
+    provider: string | null
+    docCount: number
 }
 
 const fieldOptions = computed(() => [
@@ -554,12 +554,12 @@ const visiblePages = computed(() => {
     const current = currentPage.value;
   
     if (total <= 7) {
-    // Show all pages if 7 or fewer
+        // Show all pages if 7 or fewer
         for (let i = 1; i <= total; i++) {
             pages.push(i);
         }
     } else {
-    // Always show first page
+        // Always show first page
         pages.push(1);
     
         if (current > 3) {
@@ -641,7 +641,7 @@ async function exportAllResults(ignoreFilters: boolean = false) {
     stateRef.value = true;
   
     try {
-    // Call backend to export all results for this field
+        // Call backend to export all results for this field
         const params = new URLSearchParams();
         params.append('export', 'true');
     

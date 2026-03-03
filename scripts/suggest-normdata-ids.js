@@ -42,13 +42,80 @@ function pickId(x) {
 function extractGndId(idOrUrl) {
     const raw = String(idOrUrl ?? "").trim();
     if (!raw) return null;
-    // Accept: "1098433076" or "https://d-nb.info/gnd/1098433076" or "https://lobid.org/gnd/1098433076"
-    const m = raw.match(/(?:d-nb\.info\/gnd\/|lobid\.org\/gnd\/)?(\d{6,})/);
-    return m ? m[1] : null;
+
+    // Accept canonical IDs and URLs, e.g.:
+    // - 1098433076
+    // - 4079163-4
+    // - 127756258X
+    // - https://d-nb.info/gnd/4079163-4
+    // - https://lobid.org/gnd/4079163-4.json
+    // - https://explore.gnd.network/gnd/4079163-4
+    let candidate = raw;
+
+    const fromUrl = raw.match(/(?:d-nb\.info\/gnd\/|lobid\.org\/gnd\/|explore\.gnd\.network\/gnd\/)([^/?#]+)/i);
+    if (fromUrl?.[1]) {
+        candidate = fromUrl[1];
+    }
+
+    candidate = candidate.replace(/\.json$/i, "").trim();
+
+    // Legacy GND with check digit after hyphen (e.g. 4079163-4, 4299903-8)
+    if (/^\d{6,9}-[\dX]$/i.test(candidate)) return candidate.toUpperCase();
+
+    // Compact canonical form used by some records (e.g. 1098433076, 127756258X)
+    if (/^\d{9,10}[\dX]?$/i.test(candidate)) return candidate.toUpperCase();
+
+    // Fallback for plain numeric fragments if present
+    const numeric = candidate.match(/^(\d{6,10})$/);
+    return numeric ? numeric[1] : null;
 }
 
 function uniq(arr) {
     return Array.from(new Set(arr.filter(Boolean)));
+}
+
+function extractViafId(value) {
+    const raw = String(value ?? "").trim();
+    if (!raw) return null;
+    const m = raw.match(/viaf\.org\/(?:en\/)?viaf\/(\d+)/i);
+    return m?.[1] || null;
+}
+
+function collectLinkedIds(value) {
+    if (!value) return [];
+    const arr = Array.isArray(value) ? value : [value];
+    const out = [];
+    for (const entry of arr) {
+        if (typeof entry === "string") out.push(entry);
+        else if (entry && typeof entry === "object") {
+            if (entry.id) out.push(entry.id);
+            if (entry["@id"]) out.push(entry["@id"]);
+            if (entry.sameAs) out.push(...collectLinkedIds(entry.sameAs));
+        }
+    }
+    return out;
+}
+
+function findViafId(...sources) {
+    for (const source of sources) {
+        const linked = collectLinkedIds(source);
+        for (const idOrUri of linked) {
+            const viafId = extractViafId(idOrUri);
+            if (viafId) return viafId;
+        }
+    }
+    return null;
+}
+
+function normalizeWikidataId(value) {
+    const raw = String(value ?? "").trim();
+    if (!raw) return null;
+
+    const fromUrl = raw.match(/wikidata\.org\/wiki\/(Q\d+)/i);
+    if (fromUrl?.[1]) return fromUrl[1].toUpperCase();
+
+    const match = raw.match(/Q\d+/i);
+    return match ? match[0].toUpperCase() : null;
 }
 
 /* ------------------------------ GND: context ------------------------------ */
@@ -108,6 +175,61 @@ function variantsOf(d) {
     return Array.isArray(d?.variantName) ? d.variantName.map((v) => String(v).trim()).filter(Boolean) : [];
 }
 
+function normalizeMatchText(value) {
+    return String(value ?? "")
+        .toLowerCase()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim();
+}
+
+function hasWholeToken(haystack, needle) {
+    if (!haystack || !needle) return false;
+    return haystack.split(" ").includes(needle);
+}
+
+function startsWithToken(haystack, needle) {
+    if (!haystack || !needle) return false;
+    return haystack.startsWith(`${needle} `) || haystack === needle;
+}
+
+const CONTEXT_STOPWORDS = new Set([
+    "in",
+    "im",
+    "der",
+    "die",
+    "das",
+    "des",
+    "den",
+    "dem",
+    "und",
+    "mit",
+    "von",
+    "vom",
+    "zur",
+    "zum",
+    "für",
+    "city",
+    "town",
+    "state",
+]);
+
+function extractContextTokens(text) {
+    const normalized = normalizeMatchText(text);
+    if (!normalized) return [];
+    return uniq(
+        normalized
+            .split(" ")
+            .map((token) => token.trim())
+            .filter((token) => token.length >= 4 && !CONTEXT_STOPWORDS.has(token))
+    );
+}
+
+function isPlaceCandidate(doc) {
+    return asArray(doc?.type).includes("PlaceOrGeographicName");
+}
+
 function isFilmish(d) {
     // Heuristic: some records include gndSubjectCategory entries; we bias towards ones mentioning Film.
     const cats = asArray(d?.gndSubjectCategory)
@@ -117,16 +239,28 @@ function isFilmish(d) {
     return cats.includes("film");
 }
 
-function scoreCandidate(doc, normalizedQuery) {
-    const pref = preferredNameOf(doc).toLowerCase();
-    const vars = variantsOf(doc).map((v) => v.toLowerCase());
+function scoreCandidate(doc, normalizedQuery, options = {}) {
+    const pref = normalizeMatchText(preferredNameOf(doc));
+    const prefRaw = String(preferredNameOf(doc) ?? "").toLowerCase();
+    const vars = variantsOf(doc).map((v) => normalizeMatchText(v));
+    const isShortQuery = normalizedQuery.length > 0 && normalizedQuery.length <= 4;
+    const contextTokens = Array.isArray(options.contextTokens) ? options.contextTokens : [];
 
     let score = 0;
 
     if (pref === normalizedQuery) score += 1000;
     if (vars.some((v) => v === normalizedQuery)) score += 900;
-    if (pref.includes(normalizedQuery)) score += 300;
-    if (vars.some((v) => v.includes(normalizedQuery))) score += 250;
+
+    if (startsWithToken(pref, normalizedQuery)) score += 550;
+    if (vars.some((v) => startsWithToken(v, normalizedQuery))) score += 500;
+
+    if (hasWholeToken(pref, normalizedQuery)) score += 450;
+    if (vars.some((v) => hasWholeToken(v, normalizedQuery))) score += 400;
+
+    if (!isShortQuery) {
+        if (pref.includes(normalizedQuery)) score += 300;
+        if (vars.some((v) => v.includes(normalizedQuery))) score += 250;
+    }
 
     // Bias towards "film-ish" subject categories if present.
     if (isFilmish(doc)) score += 50;
@@ -135,60 +269,234 @@ function scoreCandidate(doc, normalizedQuery) {
     const gndId = extractGndId(doc?.gndIdentifier || doc?.id);
     if (gndId) score += 20;
 
+    if (contextTokens.length && isPlaceCandidate(doc)) {
+        const corpus = `${pref} ${vars.join(" ")}`.trim();
+        let contextHits = 0;
+        for (const token of contextTokens) {
+            if (hasWholeToken(corpus, token)) contextHits += 1;
+        }
+        score += contextHits * 600;
+    }
+
+    if (isPlaceCandidate(doc) && startsWithToken(pref, normalizedQuery)) {
+        if (prefRaw.includes("(landkreis")) score += 1200;
+        else if (prefRaw.includes("(kreis")) score += 900;
+        else if (prefRaw.includes("(stadt")) score += 700;
+    }
+
     return score;
+}
+
+const MIN_SCORE_FOR_MATCH = 250;
+const MIN_SCORE_FOR_ACRONYM_MATCH = 900;
+
+function isAcronymLikeQuery(query) {
+    const raw = String(query ?? "").trim();
+    if (!raw) return false;
+    return /^[A-ZÄÖÜ0-9]{2,6}$/.test(raw);
+}
+
+function isExactOrVariantExact(doc, normalizedQuery) {
+    const pref = normalizeMatchText(preferredNameOf(doc));
+    const vars = variantsOf(doc).map((v) => normalizeMatchText(v));
+    return pref === normalizedQuery || vars.some((v) => v === normalizedQuery);
+}
+
+function detectMatchType(doc, normalizedQuery) {
+    const pref = normalizeMatchText(preferredNameOf(doc));
+    const vars = variantsOf(doc).map((v) => normalizeMatchText(v));
+
+    if (pref === normalizedQuery) return "preferred_exact";
+    if (vars.some((v) => v === normalizedQuery)) return "variant_exact";
+    if (pref.includes(normalizedQuery)) return "preferred_contains";
+    return "ranked_best";
+}
+
+async function fetchGndMembers(url) {
+    const res = await fetch(url, { headers: { accept: "application/json" } });
+    if (!res.ok) {
+        if (process.env.DEBUG_GND) console.warn("GND SEARCH HTTP", res.status, url);
+        return [];
+    }
+    const data = await res.json();
+    return Array.isArray(data?.member) ? data.member : [];
+}
+
+const wikidataEntityContextCache = new Map(); // QID -> token[]
+
+async function fetchWikidataContextTokens(qid) {
+    const normalizedQid = normalizeWikidataId(qid);
+    if (!normalizedQid) return [];
+    if (wikidataEntityContextCache.has(normalizedQid)) {
+        return wikidataEntityContextCache.get(normalizedQid);
+    }
+
+    const url = `https://www.wikidata.org/wiki/Special:EntityData/${normalizedQid}.json`;
+    try {
+        const res = await fetch(url, { headers: { accept: "application/json" } });
+        if (!res.ok) {
+            wikidataEntityContextCache.set(normalizedQid, []);
+            return [];
+        }
+
+        const data = await res.json();
+        const entity = data?.entities?.[normalizedQid];
+        if (!entity) {
+            wikidataEntityContextCache.set(normalizedQid, []);
+            return [];
+        }
+
+        const texts = [
+            entity?.labels?.de?.value,
+            entity?.labels?.en?.value,
+            entity?.descriptions?.de?.value,
+            entity?.descriptions?.en?.value,
+        ].filter(Boolean);
+
+        const tokens = uniq(texts.flatMap((text) => extractContextTokens(text))).slice(0, 20);
+        wikidataEntityContextCache.set(normalizedQid, tokens);
+        return tokens;
+    } catch (e) {
+        if (process.env.DEBUG_WD) console.error("WD ENTITY ERROR", normalizedQid, e);
+        wikidataEntityContextCache.set(normalizedQid, []);
+        return [];
+    }
+}
+
+function selectBestGndCandidate(members, query, options = {}) {
+    const normalized = normalizeMatchText(query);
+    const acronymLike = isAcronymLikeQuery(query);
+    const minScore = acronymLike ? MIN_SCORE_FOR_ACRONYM_MATCH : MIN_SCORE_FOR_MATCH;
+
+    const pool = acronymLike
+        ? members.filter((member) => isExactOrVariantExact(member, normalized))
+        : members;
+
+    if (!pool.length) return null;
+
+    let best = null;
+    let bestScore = -Infinity;
+    for (const member of pool) {
+        const score = scoreCandidate(member, normalized, options);
+        if (score > bestScore) {
+            best = member;
+            bestScore = score;
+        }
+    }
+
+    if (!best || bestScore < minScore) {
+        return null;
+    }
+
+    return {
+        best,
+        bestScore,
+        normalized,
+    };
 }
 
 /**
  * Query GND via lobid for a string, return best match.
  * Uses SubjectHeading filter by default (as you requested).
  */
-async function queryGND(value) {
+async function queryGND(value, wikidataId = null) {
     const q = cleanQuery(value);
     if (!q) return null;
+    const centuryLikeQuery = /^\d{1,2}\.\s*jahrhundert$/i.test(q);
+    const decadeLikeQuery =
+        /^\d{3,4}er(?:\s+jahre)?$/i.test(q) ||
+        /^\d{1,2}0er(?:\s+jahre)?$/i.test(q) ||
+        /^\d{3,4}s$/i.test(q);
+    const temporalLikeQuery = centuryLikeQuery || decadeLikeQuery;
 
-    const url =
+    const subjectUrl =
         `https://lobid.org/gnd/search?q=${encodeURIComponent(q)}` +
-        `&filter=%2B(type:SubjectHeading)&format=json`;
+        `&filter=%2B(type:SubjectHeading)&size=200&format=json`;
+
+    const broadUrl = `https://lobid.org/gnd/search?q=${encodeURIComponent(q)}&size=200&format=json`;
 
     try {
-        const res = await fetch(url, { headers: { accept: "application/json" } });
-        if (!res.ok) {
-            if (process.env.DEBUG_GND) console.warn("GND SEARCH HTTP", res.status, url);
-            return null;
+        const contextTokens = await fetchWikidataContextTokens(wikidataId);
+
+        if (temporalLikeQuery) {
+            const broadMembers = await fetchGndMembers(broadUrl);
+            const exactBroad = broadMembers.filter((member) =>
+                isExactOrVariantExact(member, normalizeMatchText(q))
+            );
+            const selectedCentury = exactBroad.length ? selectBestGndCandidate(exactBroad, q, { contextTokens }) : null;
+            if (!selectedCentury) return null;
+
+            const { best } = selectedCentury;
+            const gndId = extractGndId(best?.gndIdentifier || best?.id);
+            const matchType = detectMatchType(best, normalizeMatchText(q));
+
+            let detail = null;
+            let context = {};
+            let viafId = findViafId(best?.sameAs, best?.identifiedBy);
+
+            if (gndId && (process.env.GND_WITH_CONTEXT === "1" || !viafId)) {
+                detail = await fetchGndDetailById(gndId);
+                if (process.env.GND_WITH_CONTEXT === "1" && detail) {
+                    context = extractContext(detail);
+                }
+                if (!viafId) {
+                    viafId = findViafId(detail?.sameAs, detail?.identifiedBy);
+                }
+            }
+
+            return {
+                gndIdentifier: gndId || null,
+                preferredName: preferredNameOf(best) || null,
+                variantName: variantsOf(best),
+                type: Array.isArray(best?.type) ? best.type : [],
+                matchType,
+                gnd_uri: gndId ? `https://d-nb.info/gnd/${gndId}` : null,
+                gnd_lobid_json: gndId ? `https://lobid.org/gnd/${gndId}.json` : null,
+                gnd_explorer: gndId ? `https://explore.gnd.network/gnd/${gndId}` : null,
+                viaf_id: viafId || null,
+                viaf_uri: viafId ? `https://viaf.org/en/viaf/${viafId}` : null,
+                ...context,
+            };
         }
 
-        const data = await res.json();
-        const members = Array.isArray(data?.member) ? data.member : [];
-        if (!members.length) return null;
+        const subjectMembers = await fetchGndMembers(subjectUrl);
+        const selectedSubject = subjectMembers.length ? selectBestGndCandidate(subjectMembers, q, { contextTokens }) : null;
 
-        const normalized = q.toLowerCase();
+        const normalized = normalizeMatchText(q);
+        let selected = selectedSubject;
 
-        // pick best by score
-        let best = null;
-        let bestScore = -Infinity;
-        for (const m of members) {
-            const s = scoreCandidate(m, normalized);
-            if (s > bestScore) {
-                best = m;
-                bestScore = s;
+        const subjectIsExact = selectedSubject?.best ? isExactOrVariantExact(selectedSubject.best, normalized) : false;
+        if (!subjectIsExact) {
+            const broadMembers = await fetchGndMembers(broadUrl);
+            const exactBroad = broadMembers.filter((member) => isExactOrVariantExact(member, normalized));
+            if (exactBroad.length) {
+                const exactSelection = selectBestGndCandidate(exactBroad, q, { contextTokens });
+                if (exactSelection) selected = exactSelection;
+            } else {
+                const broadSelection = selectBestGndCandidate(broadMembers, q, { contextTokens });
+                if (broadSelection) selected = broadSelection;
             }
         }
-        if (!best) return null;
+
+        if (!selected) return null;
+
+        const { best } = selected;
 
         const gndId = extractGndId(best?.gndIdentifier || best?.id);
-        const matchType =
-            preferredNameOf(best).toLowerCase() === normalized
-                ? "preferred_exact"
-                : variantsOf(best).some((v) => v.toLowerCase() === normalized)
-                    ? "variant_exact"
-                    : preferredNameOf(best).toLowerCase().includes(normalized)
-                        ? "preferred_contains"
-                        : "ranked_best";
+        const matchType = detectMatchType(best, normalized);
 
+        let detail = null;
         let context = {};
-        if (process.env.GND_WITH_CONTEXT === "1" && gndId) {
-            const detail = await fetchGndDetailById(gndId);
-            if (detail) context = extractContext(detail);
+        let viafId = findViafId(best?.sameAs, best?.identifiedBy);
+
+        if (gndId && (process.env.GND_WITH_CONTEXT === "1" || !viafId)) {
+            detail = await fetchGndDetailById(gndId);
+            if (process.env.GND_WITH_CONTEXT === "1" && detail) {
+                context = extractContext(detail);
+            }
+            if (!viafId) {
+                viafId = findViafId(detail?.sameAs, detail?.identifiedBy);
+            }
         }
 
         const out = {
@@ -202,6 +510,8 @@ async function queryGND(value) {
             gnd_uri: gndId ? `https://d-nb.info/gnd/${gndId}` : null,
             gnd_lobid_json: gndId ? `https://lobid.org/gnd/${gndId}.json` : null,
             gnd_explorer: gndId ? `https://explore.gnd.network/gnd/${gndId}` : null,
+            viaf_id: viafId || null,
+            viaf_uri: viafId ? `https://viaf.org/en/viaf/${viafId}` : null,
 
             // context
             ...context,
@@ -289,29 +599,38 @@ async function suggestNormdataIds(values) {
     for (const item of values) {
         const value = item?.value ?? item?.genre ?? item?.subject ?? "";
         const normdata_id = item?.normdata_id ?? item?.id ?? undefined;
+        const normalizedNormdataId = extractGndId(normdata_id);
 
         let gndResult = null;
         let wikidata = null;
 
-        if (!normdata_id) {
-            gndResult = await queryGND(value);
+        if (!normalizedNormdataId) {
             wikidata = await queryWikidata(value);
+            const wikidataIdForMatch = normalizeWikidataId(wikidata);
+            gndResult = await queryGND(value, wikidataIdForMatch);
         }
+
+        const wikidataId = normalizeWikidataId(wikidata);
 
         results.push({
             genre: value,
 
-            gnd_id: normdata_id || gndResult?.gndIdentifier || null,
+            gnd_id: normalizedNormdataId || gndResult?.gndIdentifier || null,
             gnd_label: gndResult?.preferredName || null,
             gnd_type: gndResult?.type || [],
             gnd_match_type: gndResult?.matchType || null,
 
             // links
-            gnd_uri: gndResult?.gnd_uri || (normdata_id ? `https://d-nb.info/gnd/${normdata_id}` : null),
+            gnd_uri:
+                gndResult?.gnd_uri || (normalizedNormdataId ? `https://d-nb.info/gnd/${normalizedNormdataId}` : null),
             gnd_lobid_json:
-                gndResult?.gnd_lobid_json || (normdata_id ? `https://lobid.org/gnd/${normdata_id}.json` : null),
+                gndResult?.gnd_lobid_json ||
+                (normalizedNormdataId ? `https://lobid.org/gnd/${normalizedNormdataId}.json` : null),
             gnd_explorer:
-                gndResult?.gnd_explorer || (normdata_id ? `https://explore.gnd.network/gnd/${normdata_id}` : null),
+                gndResult?.gnd_explorer ||
+                (normalizedNormdataId ? `https://explore.gnd.network/gnd/${normalizedNormdataId}` : null),
+            viaf_id: gndResult?.viaf_id ?? null,
+            viaf_uri: gndResult?.viaf_uri ?? null,
 
             // synonyms
             gnd_synonyms: gndResult?.variantName || [],
@@ -322,7 +641,8 @@ async function suggestNormdataIds(values) {
             gnd_related_ids: gndResult?.gnd_related_ids ?? [],
             gnd_narrower_ids: gndResult?.gnd_narrower_ids ?? [],
 
-            wikidata_id: wikidata || null,
+            wikidata_id: wikidataId,
+            wikidata_uri: wikidataId ? `https://www.wikidata.org/wiki/${wikidataId}` : null,
         });
     }
 
@@ -330,6 +650,7 @@ async function suggestNormdataIds(values) {
 }
 
 export { suggestNormdataIds, queryGND, queryWikidata };
+export { selectBestGndCandidate };
 
 /* ---------------------------------- CLI ---------------------------------- */
 

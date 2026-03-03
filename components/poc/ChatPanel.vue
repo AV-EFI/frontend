@@ -6,7 +6,7 @@
                 Noch keine Unterhaltung. Ergänzen Sie den Kontext und stellen Sie eine Frage.
             </p>
             <div v-for="message in messages" :key="message.id" class="rounded-box bg-base-100 p-2 text-sm" :class="message.author === 'user' ? 'self-end bg-primary text-primary-content' : 'self-start'
-                ">
+            ">
                 <p>{{ message.text }}</p>
                 <ul v-if="message.sources?.length" class="mt-1 flex flex-wrap gap-1 text-xs">
                     <li v-for="source in message.sources" :key="source.id" class="badge badge-outline badge-xs">
@@ -18,9 +18,9 @@
         <form class="mt-4 flex flex-col gap-2" @submit.prevent="submit">
             <label class="text-xs font-semibold uppercase tracking-wide" for="poc-chat-input">Nachricht</label>
             <textarea id="poc-chat-input" v-model="draft" rows="3" class="textarea textarea-bordered"
-                :disabled="sending" placeholder="Kurze Frage zum ausgewählten Kontext" />
+                      :disabled="sending" placeholder="Kurze Frage zum ausgewählten Kontext" />
             <button type="submit" class="btn btn-secondary btn-sm self-end"
-                :disabled="sending || draft.trim().length === 0">
+                    :disabled="sending || draft.trim().length === 0">
                 <span v-if="sending" class="loading loading-spinner loading-xs" aria-hidden="true" />
                 <span v-else>Senden</span>
             </button>

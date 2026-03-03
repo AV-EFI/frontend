@@ -1,52 +1,52 @@
 <template>
-  <div class="border-2 border-base-200 dark:border-neutral-400">
-    <div class="">
-      <div class="editor mt-2">
-        <section>
-          <h2 class="text-2xl font-bold mb-4">
-            {{ $t('comparison') }}
-          </h2>
-          <div class="w-full md:w-1/2 p-1">
-            <h3 class="text-xl mb-4">
-              {{ $t('dataset1') }}
-            </h3>
-            <textarea
-              v-if="prev"
-              class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
-              v-html="JSON.stringify(prev, null, 2)"
-            />
-          </div>
-          <div class="w-full md:w-1/2 p-1">
-            <h3 class="text-xl mb-4">
-              {{ $t('dataset2') }}
-            </h3>
-            <textarea
-              class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
-              v-html="JSON.stringify(current, null, 2)"
-            />
-          </div>
-        </section>    
-      </div>
+    <div class="border-2 border-base-200 dark:border-neutral-400">
+        <div class="">
+            <div class="editor mt-2">
+                <section>
+                    <h2 class="text-2xl font-bold mb-4">
+                        {{ $t('comparison') }}
+                    </h2>
+                    <div class="w-full md:w-1/2 p-1">
+                        <h3 class="text-xl mb-4">
+                            {{ $t('dataset1') }}
+                        </h3>
+                        <textarea
+                            v-if="prev"
+                            class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
+                            v-html="JSON.stringify(prev, null, 2)"
+                        />
+                    </div>
+                    <div class="w-full md:w-1/2 p-1">
+                        <h3 class="text-xl mb-4">
+                            {{ $t('dataset2') }}
+                        </h3>
+                        <textarea
+                            class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-800 dark:text-white"
+                            v-html="JSON.stringify(current, null, 2)"
+                        />
+                    </div>
+                </section>    
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="viewer flex flex-col md:flex-row flex-wrap w-full">
-    <section class="mt-4 w-full min-h-96">
-      <h2 class="text-2xl font-bold mb-4">
-        Diff
-      </h2>
-      <Diff
-        mode="unified"
-        class="w-[80vw] lg:w-full"
-        theme="diffTheme"
-        language="json"
-        :prev="JSON.stringify(prev, null, 2)"
-        :current="JSON.stringify(current, null, 2)"
-        :folding="true"
-        :input-delay="10"
-        :virtual-scroll="false"
-      />
-    </section>
-  </div>
+    <div class="viewer flex flex-col md:flex-row flex-wrap w-full">
+        <section class="mt-4 w-full min-h-96">
+            <h2 class="text-2xl font-bold mb-4">
+                Diff
+            </h2>
+            <Diff
+                mode="unified"
+                class="w-[80vw] lg:w-full"
+                theme="diffTheme"
+                language="json"
+                :prev="JSON.stringify(prev, null, 2)"
+                :current="JSON.stringify(current, null, 2)"
+                :folding="true"
+                :input-delay="10"
+                :virtual-scroll="false"
+            />
+        </section>
+    </div>
 </template>
 
 <script setup lang="ts">

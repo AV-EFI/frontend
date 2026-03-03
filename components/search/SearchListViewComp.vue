@@ -1,9 +1,9 @@
 <template>
     <div v-for="work in items" :key="work.handle"
-        class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4"
-        role="region" :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`">
+         class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4"
+         role="region" :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`">
         <div v-if="showAdminStats"
-            class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-800 dark:text-white text-sm">
+             class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-800 dark:text-white text-sm">
             <span>Status: <span class="badge badge-success text-white">Public</span></span>
             <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
             <span>{{ work?.has_record?.described_by?.has_issuer_name }}</span>
@@ -22,19 +22,19 @@
                     <h2 :id="`work-title-${work?.handle ?? ''}`"
                         class="card-title flex-col-reverse lg:flex-row text-lg font-semibold items-start">
                         <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
-                            class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left"
-                            :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
-                            target="_blank">
+                                  class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left"
+                                  :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
+                                  target="_blank">
                             {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
                         </NuxtLink>
                         <span v-else>
                             {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
                         </span>
                         <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false"
-                            class="ml-2 hidden lg:inline-block" />
+                                                class="ml-2 hidden lg:inline-block" />
                         <!-- Badge for all items empty -->
                         <span v-if="allItemsEmpty(work)" class="badge badge-userinfo badge-sm lg:ml-2 dark:text-black"
-                            :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
+                              :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
                             <Icon name="tabler:alert-circle" class="w-3 h-3 2xl:mr-1" />
                             <span class="hidden 2xl:inline-block text-xs">
                                 {{ $t('allItemsEmpty') || 'All Items Empty' }}
@@ -52,11 +52,11 @@
                     </h3>
                 </div>
                 <div class="w-2/5 lg:w-1/5 flex-row flex-wrap justify-end items-start lg:items-end mr-0 mt-2 md:my-auto flex"
-                    role="group" :aria-label="$t('actions')">
+                     role="group" :aria-label="$t('actions')">
                     <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
-                        class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                        :aria-label="`${$t('detailviewlink')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
-                        :title="$t('detailviewlink')" target="_blank">
+                              class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                              :aria-label="`${$t('detailviewlink')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
+                              :title="$t('detailviewlink')" target="_blank">
                         <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
                     </NuxtLink>
                     <GlobalActionContextComp v-if="work" :item="work" />
@@ -67,36 +67,36 @@
         </header>
         <Transition name="fade" mode="out-in">
             <div v-if="work && work.handle && showHighlight[work.handle] && getHighlightSnippets(work).length > 0"
-                class="mb-2 ml-4 text-sm highlight-snippets text-left" tabindex="0" role="region"
-                :aria-label="$t('lookWhatWeFound')">
+                 class="mb-2 ml-4 text-sm highlight-snippets text-left" tabindex="0" role="region"
+                 :aria-label="$t('lookWhatWeFound')">
                 <span>✨
                     <strong>{{ $t('lookWhatWeFound') }}</strong>
                 </span>
                 <ul>
                     <SearchHighlightMatchComp v-for="(entry, i) in getHighlightSnippets(work)" :key="i + entry.value"
-                        :value="entry.value" :field="entry.key" />
+                                              :value="entry.value" :field="entry.key" />
                 </ul>
             </div>
         </Transition>
 
         <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center rounded-b-xl">
             <button v-if="work && work.handle"
-                class="btn btn-primary btn-xs my-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                :aria-label="`${isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
-                :title="$t('toggleDetails')" :aria-expanded="isExpanded[work.handle] || false"
-                :aria-controls="`details-${work.handle}`"
-                @click="isExpanded[work.handle] = !isExpanded[work.handle]; showHighlight[work.handle] = !showHighlight[work.handle]">
+                    class="btn btn-primary btn-xs my-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    :aria-label="`${isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
+                    :title="$t('toggleDetails')" :aria-expanded="isExpanded[work.handle] || false"
+                    :aria-controls="`details-${work.handle}`"
+                    @click="isExpanded[work.handle] = !isExpanded[work.handle]; showHighlight[work.handle] = !showHighlight[work.handle]">
                 <Icon :name="isExpanded[work.handle] ? 'tabler:minus' : 'tabler:plus'" class="text-sm"
-                    aria-hidden="true" />
+                      aria-hidden="true" />
                 <span class="text-xs">
                     {{ isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems') }}
                 </span>
             </button>
             <span v-if="refinementsActive" :title="$t('tooltip.refinementsActive')"
-                class="badge badge-sm bg-highlight animate-pulse" />
+                  class="badge badge-sm bg-highlight animate-pulse" />
         </div>
         <div v-show="work && work.handle && isExpanded[work.handle]" :id="`details-${work.handle}`"
-            class="card-body p-2 pt-0" role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
+             class="card-body p-2 pt-0" role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
             <!-- EO WorkVariant -->
             <!-- Manifestations -->
             <hr class="my-2">
@@ -109,7 +109,7 @@
                     <GlobalTooltipInfo :text="$t('tooltip.manifestation')" class="absolute ml-2" />
                 </h3>
                 <SearchManifestationListSplitView :manifestations="getFilteredManifestations(work)"
-                    :get-filtered-items="getFilteredItems" :work-variant-handle="work?.handle" />
+                                                  :get-filtered-items="getFilteredItems" :work-variant-handle="work?.handle" />
             </div>
         </div>
     </div>
@@ -192,7 +192,7 @@ function parseRefinementsFromUrl(href: string) {
     };
 
     for (const [key, value] of params.entries()) {
-    // Match keys like: [refinementList][has_genre_has_name][0]
+        // Match keys like: [refinementList][has_genre_has_name][0]
         const match = key.match(/\[refinementList]\[([^\]]+)](?:\[\d+])?$/);
         if (match) {
             const facet = match[1];

@@ -1,17 +1,17 @@
 <template>
-  <div
-    class="pagination px-2 flex justify-center w-full bg-white dark:bg-gray-800"
-    role="navigation"
-    :aria-label="$t('pagination')"
-  >
-    <ais-pagination
-      :class-names="{
-        'ais-Pagination': 'flex justify-center my-auto bg-white dark:bg-gray-800',
-        'ais-Pagination-list': 'flex space-x-1 my-1',
-        'ais-Pagination-item': 'btn btn-sm btn-circle btn-primary btn-outline hover:text-white text-center',
-        'ais-Pagination-link': 'text-center vertical-align-middle text-[12px] dark:text-gray-200',
-        'ais-Pagination-item--selected': 'btn btn-sm btn-circle btn-accent !text-white'
-      }"
-    />
-  </div>
+    <div
+        class="pagination px-2 flex justify-center w-full bg-white dark:bg-gray-800"
+        role="navigation"
+        :aria-label="$t('pagination')"
+    >
+        <ais-pagination
+            :class-names="{
+                'ais-Pagination': 'flex justify-center my-auto bg-white dark:bg-gray-800',
+                'ais-Pagination-list': 'flex space-x-1 my-1',
+                'ais-Pagination-item': 'btn btn-sm btn-circle btn-primary btn-outline hover:text-white text-center',
+                'ais-Pagination-link': 'text-center vertical-align-middle text-[12px] dark:text-gray-200',
+                'ais-Pagination-item--selected': 'btn btn-sm btn-circle btn-accent !text-white'
+            }"
+        />
+    </div>
 </template>

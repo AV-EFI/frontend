@@ -1,7 +1,7 @@
 <template>
-  <ClientOnly>
-    <AsyncFilmDiamondPatternGenerator />
-  </ClientOnly>
+    <ClientOnly>
+        <AsyncFilmDiamondPatternGenerator />
+    </ClientOnly>
 </template>
 
 <script setup lang="ts">

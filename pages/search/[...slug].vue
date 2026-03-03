@@ -1,9 +1,9 @@
 <template>
     <div class="container mx-auto p-2">
         <GlobalBreadcrumbsComp :breadcrumbs="[
-        ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
-      ]" />
+            ['Home', '/'],
+            [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
+        ]" />
         <keep-alive>
             <SearchSection v-if="searchClient" :search-client="searchClient" @facetsChanged="onFacetsChanged" />
             <div v-else class="text-center py-4">
@@ -138,7 +138,7 @@ function sendFacetEventsFromUrl() {
     if (typeof window === 'undefined') return;
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.forEach((value, key) => {
-    // Only send for facet/filter params (not query, page, etc.)
+        // Only send for facet/filter params (not query, page, etc.)
         if (key !== 'query' && key !== 'page' && key !== 'sortBy' && key !== 'hitsPerPage') {
             $matomo?.trackEvent('Search', 'Facet', key, value);
             console.log('[Matomo] Facet event:', key, value);

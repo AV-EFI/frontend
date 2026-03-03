@@ -1,29 +1,29 @@
 <template>
-  <div class="flex flex-col min-h-screen">
-    <header class="dark:bg-gray-800">
-      <GlobalNavBar />
-    </header>
-    <div class="filmroll-container">
-      <div class="sprocket-wrapper left-0">
-        <div class="sprocket left-sprocket" />
-      </div>
-      <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6">
-        <ClientOnly>
-          <GlobalIndicatorComp />
-        </ClientOnly>
-        <slot />
-        <ClientOnly>
-          <LazyGlobalComparisonDrawer />
-        </ClientOnly>
-      </main>
-      <div class="sprocket-wrapper right-0">
-        <div class="sprocket right-sprocket" />
-      </div>
+    <div class="flex flex-col min-h-screen">
+        <header class="dark:bg-gray-800">
+            <GlobalNavBar />
+        </header>
+        <div class="filmroll-container">
+            <div class="sprocket-wrapper left-0">
+                <div class="sprocket left-sprocket" />
+            </div>
+            <main class="main grow bg-base-100 dark:bg-gray-950 2xl:px-6">
+                <ClientOnly>
+                    <GlobalIndicatorComp />
+                </ClientOnly>
+                <slot />
+                <ClientOnly>
+                    <LazyGlobalComparisonDrawer />
+                </ClientOnly>
+            </main>
+            <div class="sprocket-wrapper right-0">
+                <div class="sprocket right-sprocket" />
+            </div>
+        </div>
+        <footer class="dark:bg-gray-800">
+            <LazyGlobalFooter />
+        </footer>
     </div>
-    <footer class="dark:bg-gray-800">
-      <LazyGlobalFooter />
-    </footer>
-  </div>
 </template>
 
 <style scoped>

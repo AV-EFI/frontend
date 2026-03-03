@@ -11,7 +11,7 @@
             </header>
             <div class="space-y-3">
                 <p v-for="(paragraph, idx) in normalizedParagraphs" :key="`paragraph-${idx}`"
-                    class="text-base text-base-content/80" tabindex="0">
+                   class="text-base text-base-content/80" tabindex="0">
                     {{ paragraph }}
                 </p>
                 <slot />
