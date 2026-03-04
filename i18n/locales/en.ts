@@ -12,7 +12,6 @@ const avefiBase = {
     'missingDataset1': 'Dataset 1 identifier is missing. Please provide the \'prev\' query parameter.',
     'missingDataset2': 'Dataset 2 identifier is missing. Please provide the \'next\' query parameter.',
     'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
-
     "hero": {
         "pill": "Film Studies • Linked Data • Research",
         "badgeLine": "PID-ready • Authority Data • FDO-compatible"
@@ -75,7 +74,6 @@ const avefiBase = {
 
     "switchToLightMode": "Switch to light mode",
     "switchToDarkMode": "Switch to dark mode",
-
     'home': {
         'breadcrumbs': 'Home',
         'welcome': 'Film metadata across all genres and formats is available, with a particular focus on educational, instructional, and research films as well as amateur and regional film collections.',

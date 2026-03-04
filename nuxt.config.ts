@@ -68,65 +68,72 @@ export default defineNuxtConfig({
     devtools: {
         enabled: false
     },
-    nitro: {
-        preset: 'node-server',
-        compressPublicAssets: true,
-        serverAssets: [
-            { baseName: 'vocab', dir: 'assets/vocab' }
-        ],
-        debug: process.env.NUXT_DEBUG === 'true', // Server Stacktraces
-        prerender: {
-            crawlLinks: false,
-            routes: ['/', '/faq', '/glossary'],
-            /*
-            routes: [
-                '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406',
-                '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88',
-                // Add more important film pages here
-            ]
-            */
-        },
-        routeRules: {
-            // ✅ must be crawlable/indexable for Google to accept it as sitemap
-            '/sitemap.xml': {
-                headers: { 'X-Robots-Tag': 'index, follow' },
-            },
-            // ✅ robots.txt must be fetchable
-            '/robots.txt': {
-                headers: { 'X-Robots-Tag': 'index, follow' },
-            },
-            // Cache images for 1 year
-            '/img/**': {
-                headers: {
-                    'Cache-Control': 'public, max-age=31536000, immutable'
-                }
-            },
-            // Cache fonts for 1 year
-            '/fonts/**': {
-                headers: {
-                    'Cache-Control': 'public, max-age=31536000, immutable'
-                }
-            },
-            // OPTIONAL: allow your “test-preview” pages to be indexable even when site is locked
-            ...(indexable
-                ? {}
-                : {
-                    '/search': { headers: { 'X-Robots-Tag': 'index, follow' } },
-                    '/search/**': { headers: { 'X-Robots-Tag': 'index, follow' } },
-                    '/res/**': { headers: { 'X-Robots-Tag': 'index, follow' } },
-                    '/imprint': { headers: { 'X-Robots-Tag': 'index, follow' } },
-                }),
+    // ✅ Replace ONLY the nitro.routeRules block with this version.
+// ✅ Keeps your existing caching headers intact.
+// ✅ Ensures /sitemap.xml + /robots.txt are ALWAYS fetchable (no noindex).
+// ✅ Pre-release: everything else is noindex,nofollow when indexable=false.
+// ✅ Release: site becomes indexable when indexable=true, BUT /search stays noindex (recommended).
 
-            // 🔒 default lock-down for everything else
-            '/**': indexable
-                ? {}
-                : {
-                    headers: {
-                        'X-Robots-Tag': 'noindex, nofollow',
-                    },
-                },
-        },
+nitro: {
+  preset: 'node-server',
+  compressPublicAssets: true,
+  serverAssets: [
+    { baseName: 'vocab', dir: 'assets/vocab' }
+  ],
+  debug: process.env.NUXT_DEBUG === 'true',
+  prerender: {
+    crawlLinks: false,
+    routes: ['/', '/faq', '/glossary'],
+  },
+  routeRules: {
+    // --- ALWAYS allow Google to fetch these (GSC needs it) ---
+    '/sitemap.xml': {
+      headers: {
+        'X-Robots-Tag': 'index, follow',
+        'Content-Type': 'application/xml; charset=utf-8',
+      },
     },
+    '/robots.txt': {
+      headers: {
+        'X-Robots-Tag': 'index, follow',
+        'Content-Type': 'text/plain; charset=utf-8',
+      },
+    },
+
+    // --- Keep your caching exactly as-is ---
+    '/img/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    },
+    '/fonts/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    },
+
+    // --- Release policy: keep search out of the index (strongly recommended) ---
+    ...(indexable
+      ? {
+          '/search': {
+            headers: { 'X-Robots-Tag': 'noindex, follow' },
+          },
+          '/search/**': {
+            headers: { 'X-Robots-Tag': 'noindex, follow' },
+          },
+        }
+      : {}),
+
+    // --- Pre-release lock-down: block indexing for the whole site ---
+    '/**': indexable
+      ? {}
+      : {
+          headers: {
+            'X-Robots-Tag': 'noindex, nofollow',
+          },
+        },
+  },
+},
     modules: [
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
