@@ -26,7 +26,7 @@ const avefiBase = {
 
     "build": {
         "linked": {
-            "title": "EFIs for all – uniquely identifying films",
+            "title": "efis for all – uniquely identifying films",
             "lead": "AVefi is a federated system connecting film holdings across institutions. For each film, AVefi assigns Uniform Film Identifiers (efis). Works, Manifestations, and Items each receive their own persistent identifiers. Film works can therefore be uniquely identified across archives, while manifestations and items remain precisely distinguishable. This enables consistent referencing, reliable scholarly citation, searchable results, and open reuse of metadata.",
             "authority": "Authority data",
             "crosswalk": "Linking"
@@ -94,13 +94,10 @@ const avefiBase = {
             'advanced': 'Show advanced search',
             'loading': 'Loading search…'
         },
-
         'featured': {
             'aria': 'Featured collections and highlights from the world of film data'
         },
-
         'sections': {
-
             'searchAndFind': {
                 'title': 'Explore',
                 "text": [
@@ -108,17 +105,15 @@ const avefiBase = {
                     "The platform distinguishes between Work, Manifestation, and Item. This structure enables precise identification and comparison of archival holdings. Additional filmographic resources are linked directly."
                 ],
             },
-
             'build': {
                 'linked': {
-                    'title': 'EFIs for all – uniquely identifying films',
+                    'title': 'efis for all – uniquely identifying films',
                     'lead': [
                         'AVefi is a federated system for film holdings from multiple institutions. For each film, AVefi assigns Uniform Film Identifiers (efis). Works, Manifestations, and Items each receive their own persistent identifiers.',
                         'This allows film works to be referenced unambiguously across institutions. Manifestations and items remain clearly distinguishable, enabling consistent referencing and reliable citation.'
                     ]
                 }
             },
-
             'callToAction': {
                 'title': 'Your collections in AVefi',
                 'text': [
@@ -252,7 +247,10 @@ const avefiBase = {
             'title': 'AVefi – Film database and cross-archive film discovery',
             'ogTitle': 'AVefi – Discover film works across archives',
             'description': 'AVefi enables the discovery of film works, manifestations, and items across multiple film archives. Authority data links, persistent identifiers, and structured metadata support research, archival practice, and digital film studies.',
-            'ogDescription': 'Discover film works across archives. AVefi connects film metadata, authority data, and persistent identifiers to enable precise search, filtering, and reuse of audiovisual collections for research and archival practice.'
+            'ogDescription': 'Discover film works across archives. AVefi connects film metadata, authority data, and persistent identifiers to enable precise search, filtering, and reuse of audiovisual collections for research and archival practice.',
+            'datasetTitle': 'AVefi – Film Metadata Catalog',
+            'datasetDescription': 'AVefi connects film metadata from multiple institutions and assigns persistent identifiers (efis) for works, manifestations, and items.',
+            'catalogTitle': 'AVefi – Film Metadata Catalog'
         }
     },
     "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
@@ -264,6 +262,11 @@ const avefiBase = {
     "country": "Place",
     "compareRegular": "Comparison view",
     "compareRaw": "Structure view",
+    'advancedSearch': 'Advanced search',
+    'addFacet': 'Add facet',
+    'selectFacet': 'Select facet',
+    'enterValue': 'Enter value',
+    'item': 'Item',
     "exactSearchTip": "Use \"quotes\" to search for exact phrases – works for title, direction, production, and subjects (e.g. \"Bitte steigen Sie ein!\")",
     "detailviewlink": "Open detailed view",
     'viewItemDetails': 'View Item on WorkVariant Details Page',
@@ -411,7 +414,6 @@ const avefiBase = {
     "item_element_type": "Element type",
     "in_language_code": "Language",
     "has_colour": "Colour",
-    "productionyear": "Year of production",
     "messageSentError": "Error sending message. Please try again later.",
     "messageSentSuccess": "Message sent successfully.",
     'bannerSection': 'Selected collections and highlights from the world of film metadata',
@@ -644,7 +646,10 @@ const avefiBase = {
         'shareTemplate': 'I want to share this search:\n\nQuery: {query}\nURL: {url}',
         'suggestTemplate': 'I would like to suggest this search/query for AVefi:\n\nQuery: {query}\nURL: {url}'
     },
+    'shareSearch': 'Share search',
+    'suggestSearchToAVefi': 'Share search/query with the AVefi team',
     'closeDrawer': 'Close',
+    'close': 'Close',
     'openDrawer': 'Open',
     "place": "Place",
     'showFacetsFor': ({ named }: { named: (key: string) => string }) => `Show facets for ${named('headerText')} on level ${named('category')}`,
@@ -701,7 +706,7 @@ const avefiBase = {
     'multihelptext': ({ named }: { named: (key: string) => string }) => `Several works have been found that are associated with the entity identified by efi <strong>${named('name')}</strong>. Please note that these are distinct works that may be linked to this entity in various ways. To view more detailed information about a specific work, please select one from the list. Once selected, you will be shown details such as the production information, directors and other relevant metadata.`,
     'multiResults': 'Multiple Results',
     'filter': 'filter',
-    'gotodisamiguationparam': 'Go to disambiguation',
+    'gotodisamiguationparam': () => `Go to disambiguation`,
     'grid': 'Grid',
     'goToMerge': 'View Merge',
     "has_note": "Note",
@@ -768,10 +773,14 @@ const avefiBase = {
     'subject': 'Subject',
     'subjects': 'Subjects',
     "searchcontent": "Search content",
+    "searchpanel": "Search panel",
     "searchresults": "Search results",
     "searchbox": "Searchbox",
+    "mainSearch": "Main search",
     "Search": "Search",
+    "submitSearch": "Submit search",
     "resetQuery": "Reset query",
+    "recentSearches": "Recent searches",
     "clearSearchHistory": "Clear search history",
     "clearAll": "Clear all",
     "removeFromHistory": "Remove from history",
@@ -869,274 +878,72 @@ const avefiBase = {
     "contact.about.2.afterLink": ". Evidence is provided at the three levels Work/Variant, Manifestation, and Item",
     "contact.normdataContent.beforeLink": "Authority data used by the contributing institution, such as the ",
     "contact.normdataContent.afterLink": " – are adopted and displayed accordingly.",
-    "videoSectionTitle": 'Find, discover and compare comprehensive data on film holdings of all genres',
-    "videoSectionDescription": 'Searchable are both film works and the versions of various participating film archives and collections, including their relationships, identifiers, and selected descriptive metadata, enabling differentiated discovery, comparison, and research across institutional boundaries.',
-    "advancedSearch": "Advanced Search",
-    "addFacet": "Add Facet",
-    "selectFacet": "Select Facet",
-    "enterValue": "Enter Value",
-    "recentSearches": "Recent Searches",
-    "home": {
-        "breadcrumbs": "Home",
-        "welcome": "Film metadata of all genres and types are available, with a particular focus on educational, instructional, and scientific films, as well as amateur films and home movies.",
-        "accessibility": {
-            "skipToContent": "Skip to main content"
+    'skipToContent': 'Skip to content',
+    'videoSectionTitle': 'Find, discover, and compare comprehensive data on film holdings across all genres.',
+    'videoSectionDescription': 'Searchable are both film works and the respective manifestations and items from participating film archives and collections, including their relationships, identifiers, and selected metadata for nuanced cross-institutional research and comparison.',
+    'seo': {
+        'home': {
+            'siteName': 'AVefi – Infrastructure for Audiovisual Research',
+            'title': 'AVefi – Film data search across archives',
+            'ogTitle': 'AVefi – Find film works and materials across archives',
+            'description': 'AVefi enables research across works, manifestations, and items in multiple German film archives, with authority-data linking, persistent identifiers, and export functions for research and practice.',
+            'ogDescription': 'Discover film works across archives. AVefi links metadata, authority data, and persistent identifiers so you can search, refine, and export holdings with precision.'
         },
-        "hero": {
-            "bannerSection": "Selected collections and highlights from the world of film metadata",
-            "tagline": "AVefi links film collections across institutions through unified identifiers, creating an open research infrastructure for audiovisual works.",
-            "claim": "Find films. Link data."
+        'search': {
+            'title': 'Search – AVefi',
+            'titleWithQuery': '{query} – Search results',
+            'description': 'Search film works, manifestations, and audiovisual materials from German archives.',
+            'descriptionWithQuery': 'Search results for "{query}". Discover works and audiovisual materials in German film archives.'
         },
-        "search": {
-            "modeSwitcher": "Search mode",
-            "simple": "Show Simple Search",
-            "advanced": "Show Advanced Search",
-            "loading": "Loading search…"
+        'contact': {
+            'title': 'Contact – AVefi',
+            'description': 'FAQ and glossary for the AVefi project',
+            'ogTitle': 'Contact – AVefi',
+            'ogDescription': 'FAQ and glossary for the AVefi project'
         },
-        "featured": {
-            "aria": "Selected collections and highlights from the world of film metadata"
+        'imprint': {
+            'title': 'Imprint – AVefi',
+            'description': 'Legal information about the AVefi project',
+            'ogTitle': 'Imprint – AVefi',
+            'ogDescription': 'Legal information about the AVefi project'
         },
-        "sections": {
-            "searchAndFind": {
-                "title": "Discover",
-                "text": [
-                    "AVefi showcases the diversity of film culture in a cross-institutional film database. The spectrum ranges from early cinema and utilitarian and documentary films to amateur and auteur films. Use our examples as an entry point for searching titles, topics, places, and people.",
-                    "The platform distinguishes between work, manifestation, and item. This makes archive holdings clearly assignable and comparable. Additional filmographic sources are linked directly."
-                ]
-            },
-            "build": {
-                "linked": {
-                    "title": "efis for all – films clearly identified",
-                    "lead": "AVefi is a consortium system that links film holdings from different institutions. For each film, AVefi assigns uniform film identifiers (efis). Works, manifestations, and items each receive their own persistent identifiers. This enables unambiguous identification across institutions, targeted discovery of manifestations and items, flexible filtering, and open reuse of metadata."
-                }
-            },
-            "callToAction": {
-                "title": "Your holdings in AVefi",
-                "text": [
-                    "AVefi is open to additional film holdings and cooperation partners. Contribute your data and strengthen long-term discoverability and citability.",
-                    "With persistent identifiers and structured metadata, your holdings become uniquely referenceable and visible across institutions. Integration follows established domain standards and supports long-term scholarly use."
-                ]
-            },
-            "timeline": {
-                "title": "From record to knowledge",
-                "query": {
-                    "title": "Query",
-                    "desc": "Search across interconnected film records."
-                },
-                "refine": {
-                    "title": "Refine",
-                    "desc": "Filter by facets like language, format, or place."
-                },
-                "share": {
-                    "title": "Share",
-                    "desc": "Save and share reproducible search states."
-                },
-                "cite": {
-                    "title": "Cite",
-                    "desc": "Generate persistent links for scholarly references."
-                }
-            },
-            "openAndExtendable": {
-                "title": "Open and extensible",
-                "content": [
-                    "AVefi is a platform for interdisciplinary film-related research, film culture, and film archive practice. It is based on structured metadata, authority data, and persistent identifiers (PIDs). Heterogeneous audiovisual holdings can be identified and compared reliably across institutions, guided by linked open data and FAIR principles.",
-                    "Background information is available on the project website.",
-                    "https://projects.tib.eu/av-efi",
-                    "Additional data sources and cooperation partners are highly welcome."
-                ],
-                "cta": "Contact us"
-            },
-            "video": {
-                "aria": "AVefi Video",
-                "notSupported": "Your browser does not support the video tag."
-            },
-            "issuers": {
-                "title": "Top Publishers & Archives"
-            },
-            "partners": {
-                "title": "Partners",
-                "description": "AVefi is a project by TIB, SDK, FMD, and GWDG. It is supported by advisory expertise and active participation from practice partners, including archives, museums, and academic institutions in the field of film culture and research."
-            },
-            "becomePartner": {
-                "title": "Become part of the AVefi community",
-                "text": "We keep you informed about updates via our mailing list.",
-                "cta": "Subscribe to mailing list",
-                "ctaLink": "https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
-            }
+        'resource': {
+            'title': '{title} – AVefi',
+            'description': 'Audiovisual work from German film archives.'
         },
-        "common": {
-            "dataset": "dataset",
-            "datasets": "datasets"
+        'vocab': {
+            'title': 'Vocabulary Browser – AVefi',
+            'titleWithField': 'Vocabulary: {field} | AVefi',
+            'titleWithFieldAndFilter': 'Vocabulary: {field} – "{filter}" | AVefi',
+            'description': 'The AVefi vocabulary browser shows authority-data fields such as genre or subjects across participating film archives.',
+            'descriptionWithField': 'Vocabulary view for the field "{field}". Explore authority-data usage across AVefi partner archives.',
+            'descriptionWithFieldAndFilter': 'Vocabulary view for the field "{field}" with entries matching "{filter}". Explore authority-data usage across participating film archives.'
         },
-        "carousel": {
-            "aria": {
-                "previous": "Toggle previous slide",
-                "next": "Toggle next slide"
-            },
-            "labels": {
-                "imageSource": "Image source",
-                "author": "Author"
-            },
-            "actions": {
-                "showLess": "Show less",
-                "showMore": "Show more",
-                "send": "Send",
-                "viewDatasets": "View Datasets",
-                "viewHomepage": "View Homepage",
-                "noIssuersFound": "No issuers found"
-            },
-            "create": {
-                "title": "What are you looking for?",
-                "description": "Send us your search query as a suggestion for the examples",
-                "yourOwn": "Create Your Own",
-                "contactFormPrefill": "I created a carousel card:\n\nTitle: {title}\nDescription: {description}\nSearch URL: {url}"
-            }
+        'compare': {
+            'title': 'Compare datasets – AVefi',
+            'titleWithItems': 'Comparison {prev} vs {next} – AVefi',
+            'description': 'Compare two audiovisual datasets side by side with highlighted differences.',
+            'descriptionWithItems': 'Side-by-side comparison of two film-work datasets with synchronized views and difference highlighting for research and analysis.'
         },
-        "cards": {
-            "collections": {
-                "docFilm": {
-                    "description": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
-                    "title": "Activism in Documentary Film",
-                    "linkText": "Explore Activism Films"
-                },
-                "restShort": {
-                    "description": "The collection of restored short films opens up new pathways to the cinematic heritage. Through meticulous digital restoration, rare and previously hard-to-access works are made visible again. With its extensive metadata, the collection also provides a valuable foundation for research, teaching, and curatorial practice.",
-                    "title": "Restored Short Films",
-                    "linkText": "Explore Restored Films"
-                }
-            },
-            "people": {
-                "troller": {
-                    "title": "Georg Stefan Troller",
-                    "description": "Georg Stefan Troller is a French-German journalist, author, and filmmaker. He is known for his travel documentaries and interviews with prominent figures.",
-                    "linkText": "G.S. Troller at AVefi"
-                },
-                "schlenker": {
-                    "title": "Hermann Schlenker",
-                    "description": "Hermann Schlenker's ethnographic works from the second half of the 20th century are more important today than ever, as they represent a valuable contemporary testimony of cultures that are changing or have already disappeared.",
-                    "linkText": "Hermann Schlenker at AVefi"
-                }
-            }
+        'glossary': {
+            'title': 'Glossary – AVefi',
+            'description': 'The glossary provides definitions and explanations for key terms used in AVefi. It helps users understand terminology related to audiovisual works, manifestations, items, and more.',
+            'ogTitle': 'Glossary | AVefi',
+            'ogDescription': 'Explore the AVefi glossary for definitions and explanations of all key terms used on the platform.'
         },
-        "seo": {
-            "siteName": "AVefi – Audiovisual Research Infrastructure",
-            "title": "AVefi – Film metadata search across German archives",
-            "ogTitle": "AVefi – Connect film collections across archives",
-            "description": "Search film works, manifestations, and items across German archives with linked data and persistent identifiers.",
-            "ogDescription": "Discover film works across German archives. Linked records, authority data, and persistent IDs for research and curation."
-        }
-    },
-    "hero": {
-        "pill": "Film science • Linked data • Research",
-        "badgeLine": "PID-ready • Authority data • FDO-friendly"
-    },
-    "chips": {
-        "works": "Works",
-        "manifestations": "Manifestations",
-        "items": "Items",
-        "authorityLinks": "Authority Links"
-    },
-    "build": {
-        "linked": {
-            "title": "Link data",
-            "lead": "AVefi links film metadata from various institutions through unified identifiers, creating an open research infrastructure for audiovisual works. Using persistent identifiers and shared authority data, AVefi connects works, manifestations, and items across archives and collections. This enables consistent referencing, reliable citation, and cross-institutional discovery, while preserving provenance and explicit relationships to support transparent research, advanced search, and machine-readable access for data-driven film studies.",
-            "authority": "Authority",
-            "crosswalk": "Crosswalk"
+        'faq': {
+            'title': 'FAQ – AVefi',
+            'description': 'Frequently asked questions about AVefi, the platform for film metadata and research.',
+            'ogTitle': 'FAQ | AVefi',
+            'ogDescription': 'Find answers to common questions about AVefi, its features, and how to use the platform.'
         },
-        "schema": {
-            "title": "Schema",
-            "lead": "The AVefi schema follows the FIAF rules and provides detailed metadata at the levels of Work/Variant, Manifestation, and Item.",
-            "work": "Work/Variant",                    
-        }
-    },
-    "timeline": {
-        "title": "From record to knowledge",
-        "query": {
-            "title": "Query",
-            "desc": "Search across interconnected film records."
-        },
-        "refine": {
-            "title": "Refine",
-            "desc": "Filter by facets like language, format, or place."
-        },
-        "share": {
-            "title": "Share",
-            "desc": "Save and share reproducible search states."
-        },
-        "cite": {
-            "title": "Cite",
-            "desc": "Generate persistent links for scholarly references."
-        }
-    },
-    "create": {
-        "yourOwn": "Create Your Own",
-        "contactFormPrefill": "Contact Form Prefill"
-    },
-    "topIssuers": "Top Publishers & Archives",
-    "dataset": "dataset",
-    "datasets": "datasets",
-    "viewDatasets": ({ name }: { name: string }) => `View Datasets from ${name}`,
-    "viewHomepage": "View Homepage",
-    "switchToLightMode": "Switch to light mode",
-    "switchToDarkMode": "Switch to dark mode",
-    'noSuggestionsFound': 'No suggestions found',
-    'errorLoadingDatasets': 'Error loading datasets',
-    'incompleteData': 'Incomplete Data',
-    'failedToLoad': 'Failed to load',
-    'invalidComparisonUrl': 'Invalid Comparison URL',
-    'missingBothDatasets': 'Both dataset identifiers are missing. Please provide \'prev\' and \'next\' query parameters.',
-    'missingDataset1': 'Dataset 1 identifier is missing. Please provide \'prev\' query parameter.',
-    'missingDataset2': 'Dataset 2 identifier is missing. Please provide \'next\' query parameter.',
-    'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
-    'showSuggestions': 'Show suggestions',
-    "seo": {
-        "search": {
-            "title": "Search – AVefi",
-            "titleWithQuery": "{query} – Search results",
-            "description": "Browse film works, manifestations and audiovisual materials from German archives.",
-            "descriptionWithQuery": "Search results for \"{query}\". Discover works and audiovisual materials in German film archives."
-        },
-        "contact": {
-            "title": "Contact – AVefi",
-            "description": "FAQ and glossary about the AVefi project",
-            "ogTitle": "Contact – AVefi",
-            "ogDescription": "FAQ and glossary about the AVefi project"
-        },
-        "imprint": {
-            "title": "Imprint – AVefi",
-            "description": "Legal information about the AVefi project",
-            "ogTitle": "Imprint – AVefi",
-            "ogDescription": "Legal information about the AVefi project"
-        },
-        "resource": {
-            "title": "{title} – AVefi",
-            "description": "Audiovisual work from German film archives."
-        },
-        "compare": {
-            "title": "Compare Datasets – AVefi",
-            "titleWithItems": "Compare {prev} vs {next} – AVefi",
-            "description": "Compare two audiovisual work records side by side with difference highlighting.",
-            "descriptionWithItems": "Side-by-side comparison of two film work records with synchronized views and difference highlighting for research and analysis."
-        },
-        "vocab": {
-            "title": "Vocabulary – AVefi",
-            "description": "Definitions and explanations of key terms used in AVefi for audiovisual works, manifestations, items, and more.",
-            "ogTitle": "Vocabulary | AVefi",
-            "ogDescription": "Explore the AVefi vocabulary for definitions and explanations of all key terms used on the platform."
-        },
-        "faq": {
-            "title": "FAQ – AVefi",
-            "description": "Frequently asked questions about AVefi, the platform for film metadata and research.",
-            "ogTitle": "FAQ | AVefi",
-            "ogDescription": "Find answers to common questions about AVefi, its features, and how to use the platform."
-        },
-        "normdata": {
-            "titleWithFieldAndFilter": "{field} — {filter} | AVefi",
-            "titleWithField": "{field} | AVefi",
-            "title": "Normdata | AVefi",
-            "descriptionWithFieldAndFilter": "Browse normdata for {field} matching \"{filter}\".",
-            "descriptionWithField": "Browse normdata for {field}.",
-            "description": "Browse controlled vocabulary and normdata."
+        'normdata': {
+            'titleWithFieldAndFilter': '{field} — {filter} | AVefi',
+            'titleWithField': '{field} | AVefi',
+            'title': 'Normdata | AVefi',
+            'descriptionWithFieldAndFilter': 'Browse normdata for {field} matching "{filter}".',
+            'descriptionWithField': 'Browse normdata for {field}.',
+            'description': 'Browse controlled vocabulary and authority data.'
         }
     },
     "normdata": {

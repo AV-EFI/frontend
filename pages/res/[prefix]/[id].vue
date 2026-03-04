@@ -262,106 +262,125 @@ useHead({
  * DataCatalog -> Dataset -> Movie (+ WebPage)
  * with SearchAction for /search
  * -------------------------- */
+/** ---------------------------
+ * Schema.org graph:
+ * WebPage + DataCatalog + Dataset + Movie + Breadcrumb
+ * (Dataset texts via i18n, no unresolved keys)
+ * -------------------------- */
+import { useSchemaOrg, defineBreadcrumb } from '#imports';
+
+// Stable node ids
+const websiteId = computed(() => `${siteUrl.value}/#website`);
 const identityId = computed(() => `${siteUrl.value}#identity`);
 const catalogId = computed(() => `${siteUrl.value}#catalog`);
 const datasetId = computed(() => `${siteUrl.value}#dataset`);
 const webpageId = computed(() => `${canonical.value}#webpage`);
 
+// ✅ i18n-backed dataset texts (no raw keys in JSON-LD)
+const datasetName = computed(() => t('home.seo.datasetTitle'));
+const datasetDescription = computed(() => t('home.seo.datasetDescription'));
 useSchemaOrg(() => {
     const graph: any[] = [];
 
-    // WebPage node (clean mainEntity)
+    // --- WebPage (detail page) ---
     graph.push({
         '@id': webpageId.value,
         '@type': 'WebPage',
         url: canonical.value,
         name: title.value,
         description: description.value,
-        inLanguage: ['de', 'en'],
-        isPartOf: { '@id': siteUrl.value }, // harmless, can be omitted
+        inLanguage: ['de-DE', 'en-US'],
+        isPartOf: { '@id': websiteId.value },
+        primaryImageOfPage: { '@id': `${siteUrl.value}/#logo` },
+        mainEntity: { '@id': canonical.value },
+        potentialAction: [
+            {
+                '@type': 'ReadAction',
+                target: [canonical.value],
+            },
+        ],
     });
 
-    // DataCatalog (portal)
+    // --- DataCatalog (portal) ---
     graph.push({
         '@id': catalogId.value,
         '@type': 'DataCatalog',
         name: 'AVefi – Film Metadata Catalog',
         url: siteUrl.value,
-        inLanguage: ['de', 'en'],
+        inLanguage: ['de-DE', 'en-US'],
         publisher: { '@id': identityId.value },
         dataset: { '@id': datasetId.value },
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteUrl.value}/search/?query={search_term_string}`,
+            target: `${siteUrl.value}/search?query={search_term_string}`,
             'query-input': 'required name=search_term_string',
         },
     });
 
-    // Dataset (Dataset Search signal)
+    // --- Dataset (Dataset Search signal) ---
     graph.push({
         '@id': datasetId.value,
         '@type': 'Dataset',
-        name: 'AVefi – Einheitliche Filmidentifikatoren (efis) und verknüpfte Filmmetadaten',
-        description:
-            'AVefi verknüpft Filmmetadaten aus mehreren Institutionen und vergibt persistente Identifikatoren (efis) für Werk, Manifestation und Exemplar.',
+        name: datasetName.value,
+        description: datasetDescription.value,
         url: siteUrl.value,
-        inLanguage: ['de', 'en'],
+        inLanguage: ['de-DE', 'en-US'],
         isAccessibleForFree: true,
         includedInDataCatalog: { '@id': catalogId.value },
         publisher: { '@id': identityId.value },
-        keywords: [
+        // keep keywords mixed: portal + record-specific enrichment
+        keywords: uniqStrings([
+            'AVefi',
             'film metadata',
             'audiovisual archives',
             'persistent identifiers',
             'linked open data',
-            'authority data',
-            'film research',
-        ],
+            ...schemaKeywords.value,
+        ]),
         sameAs: uniqStrings([
             'https://github.com/AV-EFI',
             'https://www.zotero.org/groups/5125890/avefi',
         ]),
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteUrl.value}/search/?query={search_term_string}`,
+            target: `${siteUrl.value}/search?query={search_term_string}`,
             'query-input': 'required name=search_term_string',
         },
     });
 
-    // Movie node (this record)
+    // --- Movie (this record) ---
     const handle = normalizeText(record.value?.handle) || `${prefix.value}/${id.value}`;
-
-    const identifier = [
-        {
-            '@type': 'PropertyValue',
-            propertyID: 'Handle',
-            value: handle,
-        },
-    ];
 
     graph.push({
         '@id': canonical.value,
         '@type': 'Movie',
+        url: canonical.value,
         name: primaryTitle.value || title.value,
         description: description.value,
-        url: canonical.value,
+        inLanguage: ['de-DE', 'en-US'],
         mainEntityOfPage: { '@id': webpageId.value },
-        identifier,
+        identifier: [
+            {
+                '@type': 'PropertyValue',
+                propertyID: 'Handle',
+                value: handle,
+            },
+        ],
         isPartOf: { '@id': datasetId.value },
         includedInDataCatalog: { '@id': catalogId.value },
         provider: { '@id': identityId.value },
-        inLanguage: ['de', 'en'],
         keywords: schemaKeywords.value.length ? schemaKeywords.value : undefined,
         sameAs: schemaSameAs.value.length ? schemaSameAs.value : undefined,
     });
 
-    // Breadcrumbs
+    // --- Breadcrumbs ---
     graph.push(
         defineBreadcrumb({
+            '@id': `${canonical.value}#breadcrumb`,
             itemListElement: [
-                { name: t('home.breadcrumbs'), item: `${siteUrl.value}/` },
-                { name: t('filmresearch'), item: `${siteUrl.value}/search` },
-                { name: primaryTitle.value || title.value, item: canonical.value },
+                { name: t('home.breadcrumbs'), item: `${siteUrl.value}/`, position: 1 },
+                { name: t('filmresearch'), item: `${siteUrl.value}/search`, position: 2 },
+                { name: primaryTitle.value || title.value, item: canonical.value, position: 3 },
             ],
         })
     );

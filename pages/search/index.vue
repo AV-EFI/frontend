@@ -53,7 +53,6 @@ const searchClient = process.client
 
 // Base site url (prefer nuxt site config if available via runtime, fallback to prod)
 const siteUrl = computed(() => {
-    // In your nuxt.config.ts you have site.url + runtime public.siteUrl/origin, but this is safest:
     return (runtime.public.siteUrl || runtime.public.origin || process.env.SITE_URL || 'https://www.av-efi.net').replace(/\/$/, '');
 });
 
@@ -113,7 +112,6 @@ const hasOnlyAllowedParams = computed(() => {
     const allow = allowedParams.value;
 
     for (const key of Object.keys(q)) {
-        // route.query might include empty values; still treat unknown keys as disallowed
         if (!allow.has(key)) return false;
     }
     return true;
@@ -124,8 +122,6 @@ const normalizedParams = computed(() =>
 );
 
 const hasIndexableParams = computed(() => {
-    // “Indexable” = either no params OR only allowed params (and at least one meaningful param)
-    // You can tighten this later (e.g., only index if query OR certain facets present).
     if (!hasOnlyAllowedParams.value) return false;
 
     // If there are no params at all => indexable base search page
@@ -136,7 +132,6 @@ const hasIndexableParams = computed(() => {
 });
 
 const canonicalUrl = computed(() => {
-    // If unknown params exist => canonical to base search
     if (!hasOnlyAllowedParams.value) return baseSearchUrl.value;
 
     const qs = normalizedParams.value.toString();
@@ -144,7 +139,6 @@ const canonicalUrl = computed(() => {
 });
 
 const robotsDirective = computed(() => {
-    // For “messy”/unknown params: keep crawl-follow, but noindex to avoid junk index
     return hasIndexableParams.value ? 'index,follow' : 'noindex,follow';
 });
 
@@ -169,15 +163,12 @@ const description = computed(() =>
         : t('seo.search.description')
 );
 
-// Use @nuxtjs/seo helper
 useSeoMeta({
     title,
     description,
     ogTitle: title,
     ogDescription: description,
     ogUrl: canonicalUrl.value,
-    // ogImage etc can stay global in site config or be set here if you want:
-    // ogImage: `${siteUrl.value}/img/avefi-og-image.png`,
 });
 
 // Canonical + robots + og:url consistency
@@ -192,13 +183,25 @@ useHead({
 });
 
 /**
- * ---- Schema.org (optional but recommended) ----
- * You already have WebSite + SearchAction + SearchResultsPage in the generated graph. :contentReference[oaicite:1]{index=1}
- * This makes the SearchResultsPage URL align to the canonical (incl. allowed query params).
+ * ---- Schema.org (recommended) ----
+ * Patch: add WebSite SearchAction (potentialAction) so Google understands your site search.
  */
-import { useSchemaOrg, defineWebPage, defineBreadcrumb } from '#imports';
+import { useSchemaOrg, defineWebSite, defineWebPage, defineBreadcrumb } from '#imports';
 
 useSchemaOrg(() => [
+    // ✅ Merge into the existing WebSite node via same @id
+    defineWebSite({
+        '@id': `${siteUrl.value}/#website`,
+        url: siteUrl.value,
+        name: 'AVefi',
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: `${baseSearchUrl.value}?query={search_term_string}`,
+            'query-input': 'required name=search_term_string',
+        },
+    }),
+
+    // ✅ Keep SearchResultsPage aligned to canonical (incl. allowed query params)
     defineWebPage({
         '@type': ['WebPage', 'SearchResultsPage'],
         '@id': `${canonicalUrl.value}#webpage`,
@@ -208,11 +211,12 @@ useSchemaOrg(() => [
         inLanguage: 'de-DE',
         isPartOf: { '@id': `${siteUrl.value}/#website` },
     }),
+
     defineBreadcrumb({
         '@id': `${canonicalUrl.value}#breadcrumb`,
         itemListElement: [
-            { name: t('home.breadcrumbs'), item: `${siteUrl.value}/` },
-            { name: t('filmresearch'), item: baseSearchUrl.value },
+            { name: t('home.breadcrumbs'), item: `${siteUrl.value}/`, position: 1 },
+            { name: t('filmresearch'), item: baseSearchUrl.value, position: 2 },
         ],
     }),
 ]);
