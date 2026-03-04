@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                             <HomeSectionTextBlock :title="$t('home.sections.build.linked.title')"
-                                                  :paragraphs="[$t('home.sections.build.linked.lead')]" wrapper-class="w-full" />
+                                                  :paragraphs="[$t('home.sections.build.linked.lead[0]'), $t('home.sections.build.linked.lead[1]')]" wrapper-class="w-full" />
                         </div>
                     </template>
                 </HomeLazySectionLoader>
@@ -291,11 +291,8 @@
                             <div class="order-1 lg:order-2 flex flex-col justify-center lg:col-span-6">
                                 <HomeSectionTextBlock
                                     :title="t('home.sections.becomePartner.title')"
-                                    :paragraphs="[$t('home.sections.partners.description'), $t('home.sections.becomePartner.text')]"
-                                    wrapper-class="w-full"
-                                    :cta-label="t('home.sections.becomePartner.cta')"
-                                    :cta-href="t('home.sections.becomePartner.ctaLink')"
-                                    cta-target="_blank"
+                                    :paragraphs="[$t('home.sections.partners.description')]"
+                                    wrapper-class="w-full justify-center"
                                 />
                             </div>
                         </div>

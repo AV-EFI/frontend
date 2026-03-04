@@ -1,9 +1,13 @@
 <template>
     <div>
-        <div class="container">
+        <div class="container rounded-lg border border-base-200 bg-white dark:bg-base-200 p-2 py-6 lg:px-4">
             <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
+                <h1 class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4 max-w-32" tabindex="0">
+                    {{ $t('filmresearch') }}
+                </h1>
+
                 <div class="search-panel" role="region" :aria-label="$t('searchpanel')">
                     <ClientOnly>
                         <GlobalFacetDrawer :view-type-checked="viewTypeChecked" />
@@ -11,7 +15,7 @@
                     <!-- Center -->
                     <div class="drawer-content w-full flex flex-col items-center justify-center max-md:w-screen" role="region"
                          :aria-label="$t('searchcontent')">
-                        <div class="search-panel__results w-full py-2 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md px-2"
+                        <div class="search-panel__results w-full p-2"
                              role="region" :aria-label="$t('searchresults')">
                             <div class="searchbox relative" role="search" :aria-label="$t('searchbox')">
                                 <ais-search-box>

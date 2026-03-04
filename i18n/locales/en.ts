@@ -2,12 +2,261 @@ import avefiLocalesRaw from '~/models/interfaces/schema/locale_messages.json';
 const avefiEn = (avefiLocalesRaw as any).en ?? (avefiLocalesRaw as any).default?.en ?? {};
 
 const avefiBase = {
-    "docFilmCollectionDescription": "The collection of documentary films brings together works that document and reflect movements and acts of resistance — from strikes and uprisings to political engagement. The selection of films enables in-depth analyses of forms of civil disobedience and offers new perspectives on the interplay between film, politics, and society.",
-    "docFilmCollectionTitle": "Activism in Documentary Film",
-    "docFilmCollectionLinkText": "Explore Activism Films",
-    "restShortFilmCollectionLinkText": "Explore Restored Films",
-    "restShortFilmCollectionDescription": "The collection of restored short films opens up new pathways to the cinematic heritage. Through meticulous digital restoration, rare and previously hard-to-access works are made visible again. With its extensive metadata, the collection also provides a valuable foundation for research, teaching, and curatorial practice.",
-    "restShortFilmCollectionTitle": "Restored Short Films",
+    'showSuggestions': 'Show suggestions',
+    'noSuggestionsFound': 'No suggestions found',
+    'errorLoadingDatasets': 'Error loading datasets',
+    'incompleteData': 'Incomplete data',
+    'failedToLoad': 'Failed to load',
+    'invalidComparisonUrl': 'Invalid comparison URL',
+    'missingBothDatasets': 'Both dataset identifiers are missing. Please provide the \'prev\' and \'next\' query parameters.',
+    'missingDataset1': 'Dataset 1 identifier is missing. Please provide the \'prev\' query parameter.',
+    'missingDataset2': 'Dataset 2 identifier is missing. Please provide the \'next\' query parameter.',
+    'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
+
+    "hero": {
+        "pill": "Film Studies • Linked Data • Research",
+        "badgeLine": "PID-ready • Authority Data • FDO-compatible"
+    },
+
+    "chips": {
+        "works": "Works",
+        "manifestations": "Manifestations",
+        "items": "Items",
+        "authorityLinks": "Authority data links"
+    },
+
+    "build": {
+        "linked": {
+            "title": "EFIs for all – uniquely identifying films",
+            "lead": "AVefi is a federated system connecting film holdings across institutions. For each film, AVefi assigns Uniform Film Identifiers (efis). Works, Manifestations, and Items each receive their own persistent identifiers. Film works can therefore be uniquely identified across archives, while manifestations and items remain precisely distinguishable. This enables consistent referencing, reliable scholarly citation, searchable results, and open reuse of metadata.",
+            "authority": "Authority data",
+            "crosswalk": "Linking"
+        },
+
+        "schema": {
+            "title": "Schema",
+            "lead": "The AVefi schema follows FIAF cataloguing standards and provides detailed metadata across the levels of Work/Variant, Manifestation, and Item.",
+            "work": "Work/Variant"
+        }
+    },
+
+    "timeline": {
+        "title": "From dataset to knowledge",
+        "query": {
+            "title": "Query",
+            "desc": "Search across interconnected film datasets."
+        },
+        "refine": {
+            "title": "Refine",
+            "desc": "Filter by language, format, or location."
+        },
+        "share": {
+            "title": "Share",
+            "desc": "Save and share reproducible search states."
+        },
+        "cite": {
+            "title": "Cite",
+            "desc": "Generate persistent links for scholarly references."
+        }
+    },
+
+    "create": {
+        "yourOwn": "Create Your Own",
+        "contactFormPrefill": "Contact form prefill"
+    },
+
+    "topIssuers": "Participating archives",
+
+    "dataset": "Dataset",
+    "datasets": "Datasets",
+
+    "viewDatasets": "View datasets",
+    "viewHomepage": "Visit homepage",
+
+    "switchToLightMode": "Switch to light mode",
+    "switchToDarkMode": "Switch to dark mode",
+
+    'home': {
+        'breadcrumbs': 'Home',
+        'welcome': 'Film metadata across all genres and formats is available, with a particular focus on educational, instructional, and research films as well as amateur and regional film collections.',
+
+        'accessibility': {
+            'skipToContent': 'Skip to content'
+        },
+
+        'hero': {
+            'bannerSection': 'Featured collections and highlights from the world of film data',
+            'tagline': 'AVefi connects holdings from multiple institutions into unified film works and makes them permanently identifiable for discovery and research.',
+            'claim': 'Find films. Connect data.'
+        },
+
+        'search': {
+            'modeSwitcher': 'Switch search mode',
+            'simple': 'Show simple search',
+            'advanced': 'Show advanced search',
+            'loading': 'Loading search…'
+        },
+
+        'featured': {
+            'aria': 'Featured collections and highlights from the world of film data'
+        },
+
+        'sections': {
+
+            'searchAndFind': {
+                'title': 'Explore',
+                "text": [
+                    "AVefi reveals the diversity of film culture through a structured film database. The range spans early cinema, educational and documentary films, as well as amateur and auteur productions. Use the curated examples as an entry point to search for titles, topics, places, and people.",
+                    "The platform distinguishes between Work, Manifestation, and Item. This structure enables precise identification and comparison of archival holdings. Additional filmographic resources are linked directly."
+                ],
+            },
+
+            'build': {
+                'linked': {
+                    'title': 'EFIs for all – uniquely identifying films',
+                    'lead': [
+                        'AVefi is a federated system for film holdings from multiple institutions. For each film, AVefi assigns Uniform Film Identifiers (efis). Works, Manifestations, and Items each receive their own persistent identifiers.',
+                        'This allows film works to be referenced unambiguously across institutions. Manifestations and items remain clearly distinguishable, enabling consistent referencing and reliable citation.'
+                    ]
+                }
+            },
+
+            'callToAction': {
+                'title': 'Your collections in AVefi',
+                'text': [
+                    'AVefi is open to additional film collections and cooperation partners. Contribute your data and strengthen the sustainable discoverability and citability of your holdings.',
+                    'Persistent identifiers and structured metadata increase the visibility and long-term research value of your collections. They can be linked with authority data and other research datasets and used in broader scholarly contexts.'
+                ]
+            },
+
+            'timeline': {
+                'title': 'From dataset to knowledge',
+                'query': {
+                    'title': 'Query',
+                    'desc': 'Search across interconnected film datasets.'
+                },
+                'refine': {
+                    'title': 'Refine',
+                    'desc': 'Filter by language, format, or location.'
+                },
+                'share': {
+                    'title': 'Share',
+                    'desc': 'Save and share reproducible search states.'
+                },
+                'cite': {
+                    'title': 'Cite',
+                    'desc': 'Generate persistent links for scholarly references.'
+                }
+            },
+
+            'openAndExtendable': {
+                'title': 'Open and extensible',
+                'content': [
+                    'AVefi is a platform for interdisciplinary film research, film culture, and archival practice. The system is continuously developed and expands dynamically through new data sources and cooperation partners. The infrastructure is based on structured metadata, authority data, and persistent identifiers (PID). Heterogeneous audiovisual holdings can therefore be identified and compared. The data model follows established domain standards and is guided by Linked Open Data and FAIR principles.',
+                    'Background information is available on the project website.',
+                    'https://projects.tib.eu/av-efi',
+                    'Additional data sources and cooperation partners are highly welcome.'
+                ],
+                'cta': 'Contact us'
+            },
+
+            'video': {
+                'aria': 'AVefi video',
+                'notSupported': 'Your browser does not support the video tag.'
+            },
+
+            'issuers': {
+                'title': 'Participating archives'
+            },
+
+            'partners': {
+                'title': 'Collaboration',
+                'description': 'AVefi is a collaborative research infrastructure project. Partner institutions contribute advisory expertise and practical participation, including archives, museums, and research institutions working in the field of film culture and film studies.'
+            },
+
+            'becomePartner': {
+                'title': 'Join the AVefi community',
+                'text': 'Subscribe to our mailing list to receive project updates and news.',
+                'cta': 'Subscribe to the AVefi mailing list',
+                'ctaLink': 'https://listserv.gwdg.de/mailman/listinfo/av-efi-community'
+            }
+        },
+
+        'common': {
+            'dataset': 'Dataset',
+            'datasets': 'Datasets'
+        },
+
+        'carousel': {
+            'aria': {
+                'previous': 'Switch to previous slide',
+                'next': 'Switch to next slide'
+            },
+
+            'labels': {
+                'imageSource': 'Image source',
+                'author': 'Author'
+            },
+
+            'actions': {
+                'showLess': 'Show less',
+                'showMore': 'Show more',
+                'send': 'Send',
+                'viewDatasets': 'View datasets',
+                'viewHomepage': 'Visit homepage',
+                'noIssuersFound': 'No archives found'
+            },
+
+            'create': {
+                'title': 'What would you like to explore?',
+                'description': 'Send us your search query as a suggestion for the gallery.',
+                'yourOwn': 'Create Your Own',
+                'contactFormPrefill': 'I created a carousel card:\n\nTitle: {title}\nDescription: {description}\nSearch URL: {url}'
+            }
+        },
+
+        'cards': {
+            'collections': {
+
+                'docFilm': {
+                    'description': 'Documentary films that document and reflect movements and acts of resistance. Keyword searches enable thematic exploration of civil disobedience and protest.',
+                    'title': 'Activism in documentary film',
+                    'linkText': 'Explore activism in documentary film'
+                },
+
+                'restShort': {
+                    'description': 'Restored manifestations, such as digitally preserved short films, open new perspectives on film heritage.',
+                    'title': 'Restored short films',
+                    'linkText': 'Discover restored films'
+                }
+
+            },
+
+            'people': {
+
+                'troller': {
+                    'title': 'Georg Stefan Troller',
+                    'description': 'Georg Stefan Troller (1921–2025) was an Austrian-French filmmaker and journalist. His documentary films combined personal narratives with social themes, creating powerful portraits.',
+                    'linkText': 'G. S. Troller in AVefi'
+                },
+
+                'schlenker': {
+                    'title': 'Hermann Schlenker',
+                    'description': 'Hermann Schlenker’s ethnographic films from the second half of the twentieth century document cultures in transition and provide valuable historical testimony.',
+                    'linkText': 'Hermann Schlenker in AVefi'
+                }
+
+            }
+        },
+
+        'seo': {
+            'siteName': 'AVefi – Infrastructure for Audiovisual Research',
+            'title': 'AVefi – Film database and cross-archive film discovery',
+            'ogTitle': 'AVefi – Discover film works across archives',
+            'description': 'AVefi enables the discovery of film works, manifestations, and items across multiple film archives. Authority data links, persistent identifiers, and structured metadata support research, archival practice, and digital film studies.',
+            'ogDescription': 'Discover film works across archives. AVefi connects film metadata, authority data, and persistent identifiers to enable precise search, filtering, and reuse of audiovisual collections for research and archival practice.'
+        }
+    },
     "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
     "mainNavigation": "Main navigation",
     "cookiesDescription": "We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.",
@@ -82,16 +331,6 @@ const avefiBase = {
         "noChildren": "No children",
         "showInDetail": "Show in detail view",
         "showInSearch": "Show in search results"
-    },
-    "openAndExtendable": {
-        "title":"Offen und erweiterbar",
-        "content": [
-            "AVefi bildet eine dynamische und zugleich verlässliche Plattform für die interdisziplinäre filmgetriebene Forschung, für die Filmkulturwelt und für die Filmarchivarbeit. Heterogene audiovisuelle Bestände werden über strukturierte, standardisierte Metadaten und Normdaten mit Hilfe von Persistent Identifiern (PID) eindeutig langfristig identifizierbar und vergleichbar gemacht. Leitend sind Linked Open Data und FAIR-Prinzipien für ein optimales Datenmanagement.",
-            "Hintergrundinformationen auf der Projektwebsite.",
-            "https://projects.tib.eu/av-efi",
-            "Weitere Datenquellen und Kooperationspartner sind sehr willkommen."
-        ],
-        "cta": "Kontaktieren Sie uns"
     },
     "error404": {
         "title": "Error 404: Not found",
@@ -597,15 +836,9 @@ const avefiBase = {
     'videoNotSupported': 'Your browser does not support the video tag.',
     'partnersTitle': 'Partners',
     'partnersDescription': 'AVefi is a project by TIB, SDK, FMD, and GWDG. It is supported by advisory expertise and active participation from practice partners, including archives, museums, and academic institutions in the field of film culture and research.',
-    'trollerTitle': 'Georg Stefan Troller',
-    'trollerDescription': 'Georg Stefan Troller is a French-German journalist, author, and filmmaker. He is known for his travel documentaries and interviews with prominent figures.',
-    'trollerLinkText': 'G.S. Troller at AVefi',
     'ddrTitle': 'GDR Films',
     'ddrDescription': 'This collection represents a unique resource dealing with the film history of the GDR. By providing comprehensive metadata, it enables sophisticated research projects and contributes to the further development of scientific knowledge about the culture and society of the GDR.',
     'ddrLinkText': 'View collection',
-    'schlenkerTitle': 'Hermann Schlenker',
-    'schlenkerDescription': "Hermann Schlenker's ethnographic works from the second half of the 20th century are more important today than ever, as they represent a valuable contemporary testimony of cultures that are changing or have already disappeared.",
-    'schlenkerLinkText': 'Hermann Schlenker at AVefi',
     'imageSource': 'Image source',
     'copyValueToTargetModelPropertyName': ({ named }: { named: (key: string) => string }) => `Transfer value of ${named('name')} to result`,
     "moreOptionsFor": "More options for",
@@ -641,8 +874,6 @@ const avefiBase = {
     "videoSectionTitle": 'Find, discover and compare comprehensive data on film holdings of all genres',
     "videoSectionDescription": 'Searchable are both film works and the versions of various participating film archives and collections, including their relationships, identifiers, and selected descriptive metadata, enabling differentiated discovery, comparison, and research across institutional boundaries.',
     "advancedSearch": "Advanced Search",
-    "showSimpleSearch": "Show Simple Search",
-    "showAdvancedSearch": "Show Advanced Search",
     "addFacet": "Add Facet",
     "selectFacet": "Select Facet",
     "enterValue": "Enter Value",
@@ -820,7 +1051,6 @@ const avefiBase = {
             "work": "Work/Variant",                    
         }
     },
-    "searchModeSwitcher": "Search mode",
     "timeline": {
         "title": "From record to knowledge",
         "query": {
@@ -862,13 +1092,6 @@ const avefiBase = {
     'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
     'showSuggestions': 'Show suggestions',
     "seo": {
-        "home": {
-            "siteName": "AVefi – Audiovisual Research Infrastructure",
-            "title": "AVefi – Film metadata search across German archives",
-            "ogTitle": "AVefi – Connect film collections across archives",
-            "description": "Search film works, manifestations, and items across German archives with linked data and persistent identifiers.",
-            "ogDescription": "Discover film works across German archives. Linked records, authority data, and persistent IDs for research and curation."
-        },
         "search": {
             "title": "Search – AVefi",
             "titleWithQuery": "{query} – Search results",
