@@ -232,7 +232,7 @@ nitro: {
         "/glossary": { ssr: false },
         "/login": { ssr: true },
         "/film/**": {ssr: true},
-        "/res/**": {ssr: false, prerender: false},
+        "/res/**": {ssr: true, prerender: false},
         "/serial/**": {ssr: true},
         "/protected/institutionlist": {ssr: true},
         "/protected/dashboard": {ssr: true},

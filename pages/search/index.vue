@@ -189,19 +189,20 @@ useHead({
 import { useSchemaOrg, defineWebSite, defineWebPage, defineBreadcrumb } from '#imports';
 
 useSchemaOrg(() => [
-    // ✅ Merge into the existing WebSite node via same @id
     defineWebSite({
-        '@id': `${siteUrl.value}/#website`,
+        '@id': `${siteUrl.value}#website`, // ✅ no "/#"
         url: siteUrl.value,
         name: 'AVefi',
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${baseSearchUrl.value}?query={search_term_string}`,
+            target: {
+                '@type': 'EntryPoint',
+                urlTemplate: `${baseSearchUrl.value}?query={search_term_string}`,
+            },
             'query-input': 'required name=search_term_string',
         },
     }),
 
-    // ✅ Keep SearchResultsPage aligned to canonical (incl. allowed query params)
     defineWebPage({
         '@type': ['WebPage', 'SearchResultsPage'],
         '@id': `${canonicalUrl.value}#webpage`,
@@ -209,7 +210,7 @@ useSchemaOrg(() => [
         name: title.value,
         description: description.value,
         inLanguage: 'de-DE',
-        isPartOf: { '@id': `${siteUrl.value}/#website` },
+        isPartOf: { '@id': `${siteUrl.value}#website` }, // ✅ no "/#"
     }),
 
     defineBreadcrumb({
@@ -220,6 +221,7 @@ useSchemaOrg(() => [
         ],
     }),
 ]);
+
 </script>
 
 <style>
