@@ -271,7 +271,7 @@ import { useSchemaOrg, defineBreadcrumb } from '#imports';
 
 // Stable node ids
 const websiteId = computed(() => `${siteUrl.value}/#website`);
-const identityId = computed(() => `${siteUrl.value}#identity`);
+const identityId = computed(() => `${siteUrl.value}/#organization`);
 const catalogId = computed(() => `${siteUrl.value}/#catalog`);
 const datasetId = computed(() => `${siteUrl.value}/#dataset`);
 const webpageId = computed(() => `${canonical.value}#webpage`);
