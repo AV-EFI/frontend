@@ -250,7 +250,12 @@ const avefiBase = {
             'ogDescription': 'Discover film works across archives. AVefi connects film metadata, authority data, and persistent identifiers to enable precise search, filtering, and reuse of audiovisual collections for research and archival practice.',
             'datasetTitle': 'AVefi – Film Metadata Catalog',
             'datasetDescription': 'AVefi connects film metadata from multiple institutions and assigns persistent identifiers (efis) for works, manifestations, and items.',
-            'catalogTitle': 'AVefi – Film Metadata Catalog'
+            'catalogTitle': 'AVefi – Film Metadata Catalog',
+            'catalogDescription': 'Catalog for linked film metadata and persistent identifiers (efis) from multiple participating institutions.',
+            'projectTitle': 'AVefi – Research Infrastructure for Audiovisual Metadata',
+            'projectDescription': 'AVefi connects film collections from multiple institutions into unified film works and makes them permanently discoverable and citable through persistent identifiers (efis).',
+            'projectFundingTitle': 'DFG Research Infrastructure Project'
+
         }
     },
     "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",

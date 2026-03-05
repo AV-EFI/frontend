@@ -1,16 +1,16 @@
 {
   // --- ESLint & formatting (your existing setup) ---
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "eslint.format.enable": true,
   "eslint.run": "onType",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": true
   },
   "editor.codeActionsOnSaveTimeout": 5000,
+  "editor.formatOnPaste": false,
   "eslint.useFlatConfig": true,
   "eslint.options": {
     "overrideConfigFile": "eslint.config.mjs"
@@ -22,6 +22,9 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "vue.server.hybridMode": true,
   "prettier.enable": false,
+  "files.associations": {
+    "nuxt.config.ts": "typescript"
+  },
 
   // --- GitHub integration (added) ---
   "githubPullRequests.remotes": ["avefi-issues"],
@@ -33,19 +36,10 @@
   ],
   "githubIssues.alwaysPromptForNewIssueRepo": true,
   "github-actions.remote-name": "avefi-issues",
-  "[vue]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
   "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.formatOnSave": false
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.formatOnSave": false
   },
 }

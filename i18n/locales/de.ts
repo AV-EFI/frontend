@@ -219,7 +219,12 @@ const deBase = {
             'ogDescription': 'Entdecken Sie Filmwerke über Archive hinweg. AVefi verknüpft Metadaten, Normdaten und Persistent Identifiers, sodass Filmbestände gezielt durchsucht, verfeinert und für Forschung und Archivpraxis genutzt werden können.',
             'datasetTitle': 'AVefi – Filmmetadatenkatalog',
             'datasetDescription': 'AVefi verknüpft Filmmetadaten aus mehreren Institutionen und vergibt persistente Identifikatoren (efis) für Werk, Manifestation und Exemplar.',
-            'catalogTitle': 'AVefi – Film Metadata Catalog'        }
+            'catalogTitle': 'AVefi – Film Metadata Catalog',
+            'catalogDescription': 'Katalog für verknüpfte Filmmetadaten und persistente Identifikatoren (efis) aus mehreren beteiligten Institutionen.',
+            'projectTitle': 'AVefi – Forschungsinfrastruktur für audiovisuelle Metadaten',
+            'projectDescription': 'AVefi verknüpft Filmbestände mehrerer Institutionen zu einheitlichen Filmwerken und macht diese über persistente Identifikatoren (efis) dauerhaft auffindbar und zitierfähig.',
+            'projectFundingTitle': 'DFG-Forschungsinfrastrukturprojekt'
+          }
     },
     'advancedSearch': 'Erweiterte Suche',
     'addFacet': 'Facette hinzufügen',

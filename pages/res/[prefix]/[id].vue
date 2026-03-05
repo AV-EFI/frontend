@@ -312,7 +312,12 @@ useSchemaOrg(() => {
         dataset: { '@id': datasetId.value },
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteUrl.value}/search?query={search_term_string}`,
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${siteUrl.value}/search?query={search_term_string}`,
+                },
+            ],
             'query-input': 'required name=search_term_string',
         },
     });
@@ -343,7 +348,12 @@ useSchemaOrg(() => {
         ]),
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteUrl.value}/search?query={search_term_string}`,
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${siteUrl.value}/search?query={search_term_string}`,
+                },
+            ],
             'query-input': 'required name=search_term_string',
         },
     });

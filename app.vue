@@ -3,13 +3,28 @@
 const { locale, t: $t } = useI18n();
 
 useSchemaOrg([
+    // --- WebSite (global) ---
     defineWebSite({
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#website`,
         url: process.env.SITE_URL || 'https://www.av-efi.net',
         name: 'AVefi',
         publisher: {
             '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity`,
         },
-        // ✅ Replace serviceOperator with provider (schema-valid relation)            
+
+        // ✅ Explicit SearchAction (Knowledge-Graph / sitelinks search)
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${process.env.SITE_URL || 'https://www.av-efi.net'}/search?query={search_term_string}`,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
+
+        // ✅ Replace serviceOperator with provider (schema-valid relation)
         provider: {
             '@type': 'Organization',
             name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG)',
@@ -30,6 +45,88 @@ useSchemaOrg([
             },
         },
     }),
+
+    // --- DataCatalog (global) ---
+    {
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#catalog`,
+        '@type': 'DataCatalog',
+        name: 'AVefi – Film Metadata Catalog',
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
+        inLanguage: ['de-DE', 'en-US'],
+        publisher: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity` },
+        dataset: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#dataset` },
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${process.env.SITE_URL || 'https://www.av-efi.net'}/search?query={search_term_string}`,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
+    },
+
+    // --- Dataset (global) ---
+    {
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#dataset`,
+        '@type': 'Dataset',
+        name: $t('home.seo.datasetTitle'),
+        description: $t('home.seo.datasetDescription'),
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
+        inLanguage: ['de-DE', 'en-US'],
+        isAccessibleForFree: true,
+        includedInDataCatalog: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#catalog` },
+        publisher: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity` },
+        sameAs: [
+            'https://github.com/AV-EFI',
+            'https://www.zotero.org/groups/5125890/avefi',
+        ],
+        keywords: [
+            'film metadata',
+            'audiovisual archives',
+            'persistent identifiers',
+            'linked open data',
+            'authority data',
+            'film research',
+            'FAIR data',
+        ],
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${process.env.SITE_URL || 'https://www.av-efi.net'}/search?query={search_term_string}`,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
+    },
+
+    // --- ResearchProject (global, Knowledge Graph hint) ---
+    {
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#project`,
+        '@type': 'ResearchProject',
+        name: $t('home.seo.projectTitle'),
+        alternateName: 'AVefi',
+        description: $t('home.seo.projectDescription'),
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
+        inLanguage: ['de-DE', 'en-US'],
+        publisher: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity` },
+        hasPart: [
+            { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#catalog` },
+            { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#dataset` },
+        ],
+        funding: {
+            '@type': 'Grant',
+            name: $t('home.seo.projectFundingTitle'),
+            funder: {
+                '@type': 'Organization',
+                name: 'Deutsche Forschungsgemeinschaft',
+                url: 'https://www.dfg.de',
+            },
+        },
+    },
 ]);
 
 useSeoMeta({
