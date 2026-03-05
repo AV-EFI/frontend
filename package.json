@@ -107,7 +107,8 @@
   },
   "resolutions": {
     "serialize-javascript": "7.0.3",
-    "immutable": "5.1.5"
+    "immutable": "5.1.5",
+    "svgo": "4.0.1"
   },
   "packageManager": "yarn@4.3.1"
 }
