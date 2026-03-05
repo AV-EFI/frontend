@@ -323,9 +323,8 @@ export default defineNuxtConfig({
       sameAs: ['https://github.com/AV-EFI', 'https://www.zotero.org/groups/5125890/avefi'],
     }),
 
-    // ✅ Add exactly one publisher
-    // defaults must be true in your setup
-    defaults: true,
+    // Use explicit schema nodes from app/pages and avoid auto i18n WebSite workTranslation injection.
+    defaults: false,
   },
 
   robots: {
