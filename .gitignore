@@ -15,36 +15,31 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Misc
-.DS_Store
+# IDE / local editor files
+.vscode
+.vscode-test
 .idea
 .fleet
-.vscode
+
+# OS / generated misc
+.DS_Store
 bundle-analysis.html
+tmp_schema
 
 # Local env files
 .env
 .env.local
 !.env.example
 
-# wrangler files
+# Wrangler files
 .wrangler
 .dev.vars
 
-# yarn files
+# Yarn state files
 .yarn/install-state.gz
 .yarn/unplugged/
 .yarn/build-state.yml
 
-.vscode
-.vscode-test
-.yarn/install-state.gz
-
-# Lock files
+# Lock files (keep yarn.lock tracked)
 package-lock.json*
-yarn.lock
 pnpm-lock.yaml
-.vscode
-.vscode/settings.json
-.env.local
-tmp_schema
