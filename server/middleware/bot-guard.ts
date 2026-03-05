@@ -44,12 +44,6 @@ function isAllowedInSchemaMode(path: string): boolean {
   // ✅ Always allow: robots + sitemap
   if (path === '/robots.txt' || path === '/sitemap.xml') return true;
 
-  // ✅ Allow essential assets/runtime
-  if (path.startsWith('/_nuxt/')) return true;
-  if (path.startsWith('/img/')) return true;
-  if (path.startsWith('/fonts/')) return true;
-  if (path.startsWith('/favicon')) return true;
-
   // ✅ Allow only selected pages
   if (path === '/') return true;
   if (path === '/press' || path.startsWith('/press/')) return true;

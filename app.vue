@@ -1,27 +1,30 @@
 <script setup lang="ts">
 // All imports below are auto-imported by Nuxt
 const { locale, t: $t } = useI18n();
-const schemaOrigin = 'https://www.av-efi.net';
-const schemaId = (node: 'identity' | 'website' | 'catalog' | 'dataset' | 'project' | 'logo') => `${schemaOrigin}/#${node}`;
-const searchActionUrlTemplate = `${schemaOrigin}/search?query={search_term_string}`;
+const siteUrl = useSiteUrl();
+const schemaWebSiteId = computed(() => `${siteUrl.value}/#website`);
+const schemaIdentityId = computed(() => `${siteUrl.value}#identity`);
+const schemaId = (node: 'catalog' | 'dataset' | 'project' | 'logo') => `${siteUrl.value}/#${node}`;
+const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);
 
 useSchemaOrg([
     {
         '@id': schemaId('logo'),
         '@type': 'ImageObject',
-        url: `${schemaOrigin}/img/avefi-og-image.png`,
-        contentUrl: `${schemaOrigin}/img/avefi-og-image.png`,
+        url: `${siteUrl.value}/img/avefi-og-image.png`,
+        contentUrl: `${siteUrl.value}/img/avefi-og-image.png`,
     },
 
     // --- WebSite (global) ---
+    // Keep exactly one global WebSite node; page-level schema must merge via this stable @id.
     defineWebSite({
-        '@id': schemaId('website'),
-        url: schemaOrigin,
+        '@id': schemaWebSiteId.value,
+        url: siteUrl.value,
         name: 'AVefi',
         inLanguage: ['de-DE', 'en-US'],
         image: { '@id': schemaId('logo') },
         publisher: {
-            '@id': schemaId('identity'),
+            '@id': schemaIdentityId.value,
         },
 
         // ✅ Explicit SearchAction (Knowledge-Graph / sitelinks search)
@@ -30,7 +33,7 @@ useSchemaOrg([
             target: [
                 {
                     '@type': 'EntryPoint',
-                    urlTemplate: searchActionUrlTemplate,
+                    urlTemplate: searchActionUrlTemplate.value,
                 },
             ],
             'query-input': 'required name=search_term_string',
@@ -63,9 +66,9 @@ useSchemaOrg([
         '@id': schemaId('catalog'),
         '@type': 'DataCatalog',
         name: 'AVefi – Film Metadata Catalog',
-        url: schemaOrigin,
+        url: siteUrl.value,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaId('identity') },
+        publisher: { '@id': schemaIdentityId.value },
         dataset: { '@id': schemaId('dataset') },
     },
 
@@ -75,11 +78,11 @@ useSchemaOrg([
         '@type': 'Dataset',
         name: $t('home.seo.datasetTitle'),
         description: $t('home.seo.datasetDescription'),
-        url: schemaOrigin,
+        url: siteUrl.value,
         inLanguage: ['de-DE', 'en-US'],
         isAccessibleForFree: true,
         includedInDataCatalog: { '@id': schemaId('catalog') },
-        publisher: { '@id': schemaId('identity') },
+        publisher: { '@id': schemaIdentityId.value },
         sameAs: [
             'https://github.com/AV-EFI',
             'https://www.zotero.org/groups/5125890/avefi',
@@ -102,9 +105,9 @@ useSchemaOrg([
         name: $t('home.seo.projectTitle'),
         alternateName: 'AVefi',
         description: $t('home.seo.projectDescription'),
-        url: schemaOrigin,
+        url: siteUrl.value,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaId('identity') },
+        publisher: { '@id': schemaIdentityId.value },
         hasPart: [
             { '@id': schemaId('catalog') },
             { '@id': schemaId('dataset') },
@@ -124,9 +127,9 @@ useSchemaOrg([
 useSeoMeta({
     titleTemplate: '%s | AVefi',
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
-    ogUrl: schemaOrigin,
+    ogUrl: siteUrl.value,
     twitterCard: 'summary_large_image',
-    publisher: schemaId('identity'),
+    publisher: schemaIdentityId.value,
     keywords: [
         'AVefi',
         'Filmdatenbank',
@@ -169,7 +172,7 @@ useSeoMeta({
 useHead({
     link: [
         // Preload critical fonts (Inter is used for body text)
-        { rel: 'canonical', href: process.env.SITE_URL || 'https://www.av-efi.net' },
+        { rel: 'canonical', href: siteUrl.value },
         { rel: 'preload', href: '/fonts/Inter.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
         { rel: 'preload', href: '/fonts/BreeSerif-Regular.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
     ],
