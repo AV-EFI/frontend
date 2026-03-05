@@ -288,9 +288,10 @@ export default defineNuxtConfig({
     enabled: true,
     minify: true,
     identity: defineOrganization({
+      '@id': 'https://www.av-efi.net/#identity',
       name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
       alternateName: 'AVefi',
-      url: process.env.SITE_URL || 'https://www.av-efi.net',
+      url: 'https://www.av-efi.net',
       logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
       description:
         'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
