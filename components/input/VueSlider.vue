@@ -1,63 +1,88 @@
 <template>
     <div
-        class="collapse collapse-arrow border-2 border-base-200  border-base-200 dark:border-gray-600 bg-white rounded-lg mb-1 max-md:!w-[90vw]"
+        class="collapse collapse-arrow border-2 border-base-200 dark:border-gray-600 dark:bg-gray-900 rounded-lg mb-1 max-md:!w-[90vw]"
         :title="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
-        :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })" tabindex="0">
+        :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
+        tabindex="0"
+    >
         <input type="checkbox" class="collapse-checkbox" :aria-label="$t('togglePanel')">
 
         <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
             <div class="flex items-center gap-2">
-                <Icon :name="facetIcon" class="w-4 h-4"
-                      :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
-                      aria-hidden="true" />
-                <h4 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"
-                    :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'">
+                <Icon
+                    :name="facetIcon"
+                    class="w-4 h-4"
+                    :class="hasActiveRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
+                    aria-hidden="true"
+                />
+                <h4
+                    :id="`facet-title-${props.attributeName}`"
+                    class="my-auto font-bold"
+                    :class="hasActiveRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
+                >
                     {{ $t(headerText as string) }}
                 </h4>
             </div>
             <MicroBadgeCategoryComp v-if="category" :category="category" :dense="true" class="my-auto" />
         </div>
 
-        <div class="collapse-content !pl-0 pr-0 dark:text-white text-xs">
-            <ais-configure :key="`${appliedSliderValue.join('-')}-${appliedProdYearOnly}`" :numeric-refinements="{
-                ...(appliedSliderValue[0] !== props.min || appliedSliderValue[1] !== props.max
-                    ? {
-                        'production_in_year': {
-                            '>=': appliedSliderValue[0],
-                            '<=': appliedSliderValue[1]
-                        }
-                    }
-                    : {}),
-                ...(appliedProdYearOnly
-                    ? {
-                        'prodYearsOnly': { '=': 1 }
-                    }
-                    : {})
-            }" class="hidden" />
+        <div class="collapse-content !pl-0 pr-0 dark:text-white text-xs dark:bg-gray-900">
+            <ais-configure
+                v-if="sliderReady"
+                :key="configureKey"
+                :numeric-refinements="configureNumericRefinements"
+                class="hidden"
+            />
 
-            <div class="p-4 m-4">
-                <Slider v-model="sliderValue" :min="props.min" :max="props.max" :step="1" thumb-label class="w-full h-8"
-                        :aria-label="$t('refineBy', { headerText: $t(headerText) })" />
+            <div class="p-4 m-4 dark:bg-gray-800 rounded-lg">
+                <Slider
+                    v-model="sliderValue"
+                    :min="props.min"
+                    :max="props.max"
+                    :step="1"
+                    thumb-label
+                    class="w-full h-8"
+                    :aria-label="$t('refineBy', { headerText: $t(headerText) })"
+                />
             </div>
 
-            <div class="flex flex-row justify-around mt-2 p-2">
-                <FormKit v-model="sliderValue[0]" type="number" outer-class="!w-8" :min="min" :max="max"
-                         :placeholder="String(min)" number="integer" :aria-label="$t('minimumProductionYear')" />
+            <div class="flex flex-row justify-around mt-2 p-2 dark:bg-gray-800 rounded-lg">
+                <FormKit
+                    v-model="sliderValue[0]"
+                    type="number"
+                    outer-class="!w-8"
+                    :min="min"
+                    :max="max"
+                    :placeholder="String(min)"
+                    number="integer"
+                    :aria-label="$t('minimumProductionYear')"
+                />
                 <div class="w-1/3 flex flex-col justify-center mb-3.5">
                     <Icon class="mx-auto dark:text-white" name="tabler:arrow-right" />
                 </div>
-                <FormKit v-model="sliderValue[1]" type="number" outer-class="!w-8" :min="min" :max="max"
-                         :placeholder="String(max)" number="integer" :aria-label="$t('maximumProductionYear')" />
+                <FormKit
+                    v-model="sliderValue[1]"
+                    type="number"
+                    outer-class="!w-8"
+                    :min="min"
+                    :max="max"
+                    :placeholder="String(max)"
+                    number="integer"
+                    :aria-label="$t('maximumProductionYear')"
+                />
             </div>
 
-            <div class="text-center mt-2 py-2 px-4" :title="$t('prodYearOnlyProductionYearExtended')">
+            <div
+                class="text-center mt-2 py-2 px-4 dark:bg-gray-800 rounded-lg"
+                :title="$t('prodYearOnlyProductionYearExtended')"
+            >
                 <label class="label cursor-pointer text-xs">
                     <input v-model="prodYearOnly" type="checkbox" class="checkbox checkbox-xs">
                     <span class="label-text ml-2">{{ $t('prodYearOnlyProductionYear') }}</span>
                 </label>
             </div>
 
-            <div class="text-center flex flex-row mt-4 mx-2">
+            <div class="text-center flex flex-row mt-4 mx-2 dark:bg-gray-800 rounded-lg">
                 <button class="btn btn-block btn-xs w-1/2" @click="resetSlider">
                     {{ $t('reset') }}
                 </button>
@@ -71,18 +96,14 @@
 </template>
 
 <script setup lang="ts">
-
 // facet icon mapping
 import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
-const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
-
-import { ref, computed, onMounted, watchEffect } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 
 const { ensureFormKitReady } = useFormKitLoader();
-
 await ensureFormKitReady();
 
 const props = defineProps({
@@ -93,37 +114,132 @@ const props = defineProps({
     max: { type: Number, default: 2025 },
 });
 
-const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
+const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
+
 const route = useRoute();
 const router = useRouter();
 
-const sliderValue = ref<[number, number]>([props.min, props.max]);
-const prodYearOnly = ref(false);
-const appliedSliderValue = ref<[number, number]>([props.min, props.max]);
-const appliedProdYearOnly = ref(false);
+function getSingleQueryValue(value: unknown): string | undefined {
+    if (Array.isArray(value)) {
+        return typeof value[0] === 'string' ? value[0] : undefined;
+    }
+    return typeof value === 'string' ? value : undefined;
+}
 
-onMounted(() => {
-    const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][>=]`] as string);
-    const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][<=]`] as string);
-    const raw = route.query?.[`${indexName}[numericRefinement][prodYearsOnly][=]`] === '1';
+function parseIntOrUndefined(value: unknown): number | undefined {
+    const single = getSingleQueryValue(value);
+    if (!single) return undefined;
 
-    if (!isNaN(start) && !isNaN(end)) {
-        sliderValue.value = [start, end];
-        appliedSliderValue.value = [start, end];
+    const parsed = parseInt(single, 10);
+    return Number.isNaN(parsed) ? undefined : parsed;
+}
+
+function parseBooleanOne(value: unknown): boolean {
+    return getSingleQueryValue(value) === '1';
+}
+
+function clampRange(range: [number, number]): [number, number] {
+    let [from, to] = range;
+
+    if (!Number.isFinite(from)) from = props.min;
+    if (!Number.isFinite(to)) to = props.max;
+
+    from = Math.max(props.min, Math.min(props.max, Math.trunc(from)));
+    to = Math.max(props.min, Math.min(props.max, Math.trunc(to)));
+
+    if (from > to) {
+        return [to, from];
     }
 
-    prodYearOnly.value = raw;
-    appliedProdYearOnly.value = raw;
+    return [from, to];
+}
+
+function getStateFromRoute(query: Record<string, unknown>) {
+    const start = parseIntOrUndefined(query['numericRefinement[production_in_year][>=]']);
+    const end = parseIntOrUndefined(query['numericRefinement[production_in_year][<=]']);
+    const only = parseBooleanOne(query['numericRefinement[prodYearsOnly][=]']);
+
+    const range = clampRange([
+        start ?? props.min,
+        end ?? props.max,
+    ]);
+
+    return {
+        range,
+        prodYearOnly: only,
+    };
+}
+
+// IMPORTANT: initialize synchronously from route query
+const initialState = getStateFromRoute(route.query as Record<string, unknown>);
+
+const sliderValue = ref<[number, number]>([...initialState.range] as [number, number]);
+const prodYearOnly = ref(initialState.prodYearOnly);
+
+const appliedSliderValue = ref<[number, number]>([...initialState.range] as [number, number]);
+const appliedProdYearOnly = ref(initialState.prodYearOnly);
+
+// Guard initial hidden configure render until state is seeded from URL
+const sliderReady = ref(true);
+
+const hasActiveRefinements = computed(() => {
+    return (
+        appliedSliderValue.value[0] !== props.min ||
+        appliedSliderValue.value[1] !== props.max ||
+        appliedProdYearOnly.value
+    );
 });
 
-watchEffect(() => {
-    const start = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][>=]`] as string);
-    const end = parseInt(route.query?.[`${indexName}[numericRefinement][production_in_year][<=]`] as string);
-    sliderValue.value = [
-        !isNaN(start) ? start : props.min,
-        !isNaN(end) ? end : props.max,
-    ];
+const hasUnsavedChanges = computed(() => {
+    const [from, to] = clampRange(sliderValue.value);
+    const [appliedFrom, appliedTo] = appliedSliderValue.value;
+
+    return (
+        from !== appliedFrom ||
+        to !== appliedTo ||
+        prodYearOnly.value !== appliedProdYearOnly.value
+    );
 });
+
+const configureKey = computed(() => {
+    return `${appliedSliderValue.value[0]}-${appliedSliderValue.value[1]}-${appliedProdYearOnly.value ? '1' : '0'}`;
+});
+
+const configureNumericRefinements = computed(() => {
+    const [from, to] = appliedSliderValue.value;
+
+    return {
+        ...(from !== props.min || to !== props.max
+            ? {
+                production_in_year: {
+                    '>=': from,
+                    '<=': to,
+                },
+            }
+            : {}),
+        ...(appliedProdYearOnly.value
+            ? {
+                prodYearsOnly: {
+                    '=': 1,
+                },
+            }
+            : {}),
+    };
+});
+
+// Keep local and applied state in sync with route changes coming from browser navigation
+// or other widgets / clear refinements, but do not run an immediate reset after initial sync.
+watch(
+    () => route.query,
+    (query) => {
+        const nextState = getStateFromRoute(query as Record<string, unknown>);
+
+        sliderValue.value = [...nextState.range] as [number, number];
+        appliedSliderValue.value = [...nextState.range] as [number, number];
+        prodYearOnly.value = nextState.prodYearOnly;
+        appliedProdYearOnly.value = nextState.prodYearOnly;
+    }
+);
 
 const resetSlider = () => {
     sliderValue.value = [props.min, props.max];
@@ -132,56 +248,65 @@ const resetSlider = () => {
 };
 
 const applySlider = () => {
-    const [from, to] = sliderValue.value;
+    const [from, to] = clampRange(sliderValue.value);
     const isDefaultRange = from === props.min && to === props.max;
 
+    sliderValue.value = [from, to];
     appliedSliderValue.value = [from, to];
     appliedProdYearOnly.value = prodYearOnly.value;
 
-    // Parse current URL params directly
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Remove existing slider-related params
+    // Remove existing slider-related params first
     for (const key of Array.from(urlParams.keys())) {
         if (
-            key.startsWith(`${indexName}[numericRefinement][production_in_year][`) ||
-            key === `${indexName}[numericRefinement][prodYearsOnly][=]`
+            key.startsWith('numericRefinement[production_in_year][') ||
+            key === 'numericRefinement[prodYearsOnly][=]'
         ) {
             urlParams.delete(key);
         }
     }
 
-    // Add new slider params if different from default
+    // Add production year only if not default range
     if (!isDefaultRange) {
-        urlParams.set(`${indexName}[numericRefinement][production_in_year][>=]`, from.toString());
-        urlParams.set(`${indexName}[numericRefinement][production_in_year][<=]`, to.toString());
+        urlParams.set('numericRefinement[production_in_year][>=]', String(from));
+        urlParams.set('numericRefinement[production_in_year][<=]', String(to));
     }
 
     if (prodYearOnly.value) {
-        urlParams.set(`${indexName}[numericRefinement][prodYearsOnly][=]`, '1');
+        urlParams.set('numericRefinement[prodYearsOnly][=]', '1');
     }
 
-    // Convert URLSearchParams back to plain object for Vue Router
-    const updatedQuery: Record<string, string> = {};
+    const updatedQuery: Record<string, string | string[]> = {};
     for (const [key, value] of urlParams.entries()) {
-        updatedQuery[key] = value;
+        if (updatedQuery[key] === undefined) {
+            updatedQuery[key] = value;
+        } else if (Array.isArray(updatedQuery[key])) {
+            (updatedQuery[key] as string[]).push(value);
+        } else {
+            updatedQuery[key] = [updatedQuery[key] as string, value];
+        }
     }
 
-    // Update the route with merged query params
     router.replace({
         path: route.path,
         query: updatedQuery,
     });
-
 };
 
+const clearFromExternalEvent = () => {
+    sliderValue.value = [props.min, props.max];
+    appliedSliderValue.value = [props.min, props.max];
+    prodYearOnly.value = false;
+    appliedProdYearOnly.value = false;
+};
 
-const hasUnsavedChanges = computed(() => {
-    const [from, to] = sliderValue.value;
-    const [appliedFrom, appliedTo] = appliedSliderValue.value;
-    return (
-        from !== appliedFrom || to !== appliedTo || prodYearOnly.value !== appliedProdYearOnly.value
-    );
+onMounted(() => {
+    window.addEventListener('avefi:clear-production-year', clearFromExternalEvent);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('avefi:clear-production-year', clearFromExternalEvent);
 });
 </script>
 

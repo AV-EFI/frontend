@@ -582,6 +582,7 @@ const deBase = {
     "userMenu": "Benutzermenü",
     'close': 'Schließen',
     'located_in_has_name': 'Ort',
+    'Located_in_has_name': 'Ort',
     'closeDrawer': 'Schließen',
     "place": "Ort",
     'openDrawer': 'Öffnen',

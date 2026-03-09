@@ -231,6 +231,31 @@ onMounted(() => {
     auth.startSessionPolling();
     scheduleCookieControlMount();
 });
+
+// Theme initialization
+const colorMode = useColorMode({
+    attribute: 'data-theme',
+    initialValue: 'avefi_light',
+    modes: {
+        avefi_light: 'avefi_light',
+        dark: 'dark',
+    },
+    storageKey: 'avefi-color-mode',
+});
+
+function setHtmlThemeAttribute(mode: string) {
+    if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', mode);
+    }
+}
+
+onMounted(() => {
+    setHtmlThemeAttribute(colorMode.value);
+});
+
+watch(colorMode, (newMode) => {
+    setHtmlThemeAttribute(newMode);
+});
 </script>
 
 <template>

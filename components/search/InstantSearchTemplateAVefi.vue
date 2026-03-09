@@ -117,7 +117,7 @@
                                             <div class="w-full md:w-1/2 flex flex-row justify-end">
                                                 <ais-clear-refinements :class-names="{
                                                     'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
-                                                    'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                                    'ais-CurrentRefinements-delete': 'ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                                 }">
                                                     <template #resetLabel>
                                                         <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
@@ -134,7 +134,7 @@
                                                 'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
                                             }">
                                                 <template v-slot="{ items }">
-                                                    <div v-if="items.length === 0" class="text-gray-500 text-sm dark">
+                                                    <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-gray-500 text-sm dark">
                                                         {{ $t('nofacetsselected') }}
                                                     </div>
                                                 </template>
@@ -154,7 +154,7 @@
                                                                    :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
                                                                    @click.prevent="refine(refinement)">
                                                                     {{ $t(refinement.label) }}
-                                                                    <Icon class="text-lg" name="formkit:trash" aria-hidden="true" />
+                                                                    <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -166,14 +166,27 @@
                                                     </div>
                                                 </template>
                                             </ais-current-refinements>
+                                            <!-- Custom chip for production year slider -->
+                                            <div v-if="hasProductionYearRefinement" class="flex flex-row flex-wrap gap-2 mt-2">
+                                                <div class="border flex flex-col items-start border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 rounded-lg p-1 md:w-auto md:max-w-xs">
+                                                    <strong class="font-bold text-sm mb-2 dark:text-primary-100 mr-2">
+                                                        {{ $t('productionyear') }}:
+                                                    </strong>
+                                                    <div class="flex flex-row items-start cursor-pointer" @click="clearProductionYearRefinement" :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`">
+                                                        <span class="text-sm">{{ productionYearLabel }}</span>
+                                                        <div class="ml-2 my-auto">
+                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
                                     <div
                                         class="form-control w-full border-base-200 border-2 col-span-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
                                         <label class="label cursor-pointer text-sm flex justify-between items-center gap-2"
                                                :aria-label="$t('toggleViewType')">
-                                            <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 shrink-0 !w-4"
+                                            <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 shrink-0 w-4!"
                                                   :title="$t('viewTypeCheckedWarning')" />
                                             <span class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
                                                 {{ $t('viewType') }}
@@ -233,6 +246,75 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter, useRoute } from 'vue-router';
+const router = useRouter();
+const route = useRoute();
+
+function getProductionYearRefinement() {
+    const uiState = aisState?.uiState?.[props.indexName] || {};
+    const num = uiState.numericRefinements || {};
+
+    let from = num.production_in_year?.['>='];
+    let to = num.production_in_year?.['<='];
+
+    from = Array.isArray(from) ? from[0] : from;
+    to = Array.isArray(to) ? to[0] : to;
+
+    if (from === undefined || to === undefined) {
+        const q = route.query;
+
+        from =
+            q['numericRefinement[production_in_year][>=]'] ??
+            q[`[numericRefinement][production_in_year][>=]`] ??
+            (q.numericRefinement as any)?.production_in_year?.['>='];
+
+        to =
+            q['numericRefinement[production_in_year][<=]'] ??
+            q[`[numericRefinement][production_in_year][<=]`] ??
+            (q.numericRefinement as any)?.production_in_year?.['<='];
+
+        from = Array.isArray(from) ? from[0] : from;
+        to = Array.isArray(to) ? to[0] : to;
+    }
+
+    return { from, to };
+}
+
+const hasProductionYearRefinement = computed(() => {
+    const { from, to } = getProductionYearRefinement();
+    return from !== undefined || to !== undefined;
+});
+
+const productionYearLabel = computed(() => {
+    const { from, to } = getProductionYearRefinement();
+    if (from && to) {
+        return `${from} – ${to}`;
+    } else if (from) {
+        return `≥ ${from}`;
+    } else if (to) {
+        return `≤ ${to}`;
+    } 
+    return '';
+    
+});
+
+function clearProductionYearRefinement() {
+    const updatedQuery: Record<string, any> = { ...route.query };
+
+    delete updatedQuery['numericRefinement[production_in_year][>=]'];
+    delete updatedQuery['numericRefinement[production_in_year][<=]'];
+    delete updatedQuery['numericRefinement[prodYearsOnly][=]'];
+
+    router.replace({
+        path: route.path,
+        query: updatedQuery,
+    });
+
+    if (process.client) {
+        window.dispatchEvent(new CustomEvent('avefi:clear-production-year'));
+    }
+}
+
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
 import Client from '@searchkit/instantsearch-client';
 import { config } from '../../searchConfig_avefi';
@@ -346,14 +428,11 @@ onMounted(() => {
 // Search handlers
 const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
     if (value && value.trim() !== '') {
-        // Save to search history with the correct URL
         const searchUrl = `?query=${encodeURIComponent(value.trim())}`;
         addToSearchHistory(value, searchUrl);
         historyTrigger.value++;
-        // Update the URL query parameter to the new value
-        const newUrl = `${window.location.pathname}?query=${encodeURIComponent(value.trim())}`;
-        window.history.replaceState({}, '', newUrl);
     }
+
     refine(value);
     searchQuery.value = value;
     showRecentSearches.value = false;
@@ -366,21 +445,14 @@ const handleSearchClear = (refine: (value: string) => void) => {
 };
 
 const handleRecentSearchClick = (item: any) => {
-    console.log('handleRecentSearchClick called with:', item);
-    // Navigate to the search page with the saved query
     if (item.url && item.url.trim()) {
-        // item.url contains the full query string (e.g., "?query=something")
-        const fullUrl = `/search/${item.url}`;
-        console.log('Navigating to:', fullUrl);
-        window.location.href = fullUrl;
+        window.location.href = `/search/${item.url}`;
     } else if (item.query) {
-        // Fallback: construct URL from query if url is missing
-        const fullUrl = `/search/?query=${encodeURIComponent(item.query)}`;
-        console.log('Fallback - Navigating to:', fullUrl);
-        window.location.href = fullUrl;
+        window.location.href = `/search/?query=${encodeURIComponent(item.query)}`;
     } else {
         console.error('No query or url found in item:', item);
     }
+
     showRecentSearches.value = false;
 };
 
@@ -496,10 +568,69 @@ const currentRefinements = computed(() => {
     return refinements;
 });
 
-const searchClient = Client({
+const baseSearchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
+
+function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
+    const result: Record<string, Record<string, number>> = {};
+
+    if (!Array.isArray(numericFilters)) {
+        return result;
+    }
+
+    for (const rawFilter of numericFilters) {
+        if (typeof rawFilter !== 'string') continue;
+
+        const match = rawFilter.match(/^(.+?)(<=|>=|=|<|>)(-?\d+(?:\.\d+)?)$/);
+        if (!match) continue;
+
+        const [, rawField, operator, rawValue] = match;
+        const field = rawField.trim();
+        const value = Number(rawValue);
+
+        if (!field || !Number.isFinite(value)) continue;
+
+        if (!result[field]) {
+            result[field] = {};
+        }
+
+        result[field][operator] = value;
+    }
+
+    return result;
+}
+
+const searchClient = {
+    ...baseSearchClient,
+
+    async search(requests: any[]) {
+        const rewrittenRequests = requests.map((request) => {
+            const params = { ...(request.params || {}) };
+
+            if (params.numericFilters) {
+                const converted = convertNumericFiltersToNumericRefinements(params.numericFilters);
+
+                if (Object.keys(converted).length > 0) {
+                    params['numeric-refinements'] = {
+                        ...(params['numeric-refinements'] || {}),
+                        ...converted,
+                    };
+                }
+
+                delete params.numericFilters;
+            }
+
+            return {
+                ...request,
+                params,
+            };
+        });
+
+        return baseSearchClient.search(rewrittenRequests);
+    },
+};
 
 const props = defineProps({
     indexName: {
@@ -580,8 +711,49 @@ onBeforeUnmount(() => {
     if (observer) observer.disconnect();
 });
 
-// Initialize router only on client-side to avoid SSR issues
-const routerInstance = process.client ? defaultRouter() : null;
+const routerInstance = process.client
+    ? defaultRouter({
+        cleanUrlOnDispose: false,
+
+        createURL({ qsModule, location, routeState }) {
+            const currentParams = new URLSearchParams(location.search);
+
+            const preservedSliderParams: Record<string, string | string[]> = {};
+
+            const sliderKeys = [
+                'numericRefinement[production_in_year][>=]',
+                'numericRefinement[production_in_year][<=]',
+                'numericRefinement[prodYearsOnly][=]',
+            ];
+
+            for (const key of sliderKeys) {
+                const values = currentParams.getAll(key);
+                if (values.length === 1) {
+                    preservedSliderParams[key] = values[0];
+                } else if (values.length > 1) {
+                    preservedSliderParams[key] = values;
+                }
+            }
+
+            const mergedRouteState = {
+                ...routeState,
+                ...preservedSliderParams,
+            };
+
+            const queryString = qsModule.stringify(mergedRouteState, {
+                addQueryPrefix: true,
+                arrayFormat: 'indices',
+                encode: true,
+            });
+
+            return `${location.pathname}${queryString}${location.hash}`;
+        },
+
+        parseURL({ qsModule, location }) {
+            return qsModule.parse(location.search.slice(1));
+        },
+    })
+    : null;
 
 
 const stateMapping = {
@@ -594,22 +766,30 @@ const stateMapping = {
                 route.query = indexUiState.query;
             }
 
-            // Defensive: Only add arrays, never undefined/null
             if (indexUiState.refinementList) {
                 Object.entries(indexUiState.refinementList).forEach(([key, value]) => {
                     if (Array.isArray(value)) {
                         route[key] = value;
                     } else if (value !== undefined && value !== null) {
                         route[key] = [value];
-                         
                         console.warn(`[stateToRoute] Facet "${key}" was not an array. Value was wrapped in array.`);
                     }
                 });
             }
 
+            /*
             if (indexUiState.numericRefinements && Object.keys(indexUiState.numericRefinements).length > 0) {
-                route.numericRefinement = indexUiState.numericRefinements;
+                route.numericRefinement = {};
+
+                Object.entries(indexUiState.numericRefinements).forEach(([attr, ops]) => {
+                    route.numericRefinement[attr] = {};
+
+                    Object.entries(ops as Record<string, any>).forEach(([op, val]) => {
+                        route.numericRefinement[attr][op] = Array.isArray(val) ? val[0] : val;
+                    });
+                });
             }
+                */
 
             if (indexUiState.range) {
                 Object.keys(indexUiState.range).forEach(key => {
@@ -623,41 +803,88 @@ const stateMapping = {
 
             return route;
         } catch (error) {
-             
             console.error('Error in stateToRoute:', error);
-            alert('Fehler beim Verarbeiten der Such-Filter (stateToRoute).');
             return {};
         }
     },
 
     routeToState(routeState) {
         try {
-            const uiState: any = {
+            const uiState: any = {};
+            uiState[props.indexName] = {
                 query: routeState?.query || '',
             };
 
             const refinementList: any = {};
             Object.keys(routeState || {}).forEach(key => {
-                if (key !== 'query' && key !== 'numericRefinement' && key !== 'page' && !key.startsWith('range_')) {
+                if (
+                    key !== 'query' &&
+                    key !== 'numericRefinement' &&
+                    !key.startsWith('numericRefinement[') &&
+                    key !== 'page' &&
+                    !key.startsWith('range_')
+                ) {
                     const value = routeState[key];
+
                     if (Array.isArray(value)) {
                         refinementList[key] = value;
                     } else if (value !== undefined && value !== null) {
                         refinementList[key] = [value];
-                         
                         console.warn(`[routeToState] Facet "${key}" was not an array. Value was wrapped in array.`);
-                    } else {
-                        refinementList[key] = [];
                     }
                 }
             });
 
             if (Object.keys(refinementList).length > 0) {
-                uiState.refinementList = refinementList;
+                uiState[props.indexName].refinementList = refinementList;
             }
 
-            if (routeState?.numericRefinement) {
-                uiState.numericRefinements = routeState.numericRefinement;
+            const numericRefinements: any = {};
+
+            // Preferred nested object form
+            if (routeState.numericRefinement && typeof routeState.numericRefinement === 'object') {
+                Object.entries(routeState.numericRefinement).forEach(([attr, ops]) => {
+                    if (typeof ops === 'object' && ops !== null) {
+                        Object.entries(ops as Record<string, any>).forEach(([op, val]) => {
+                            if (!numericRefinements[attr]) numericRefinements[attr] = {};
+                            numericRefinements[attr][op] = Array.isArray(val) ? val : [val];
+                        });
+                    }
+                });
+            }
+
+            // Fallback: flat bracket keys
+            Object.keys(routeState || {}).forEach((key) => {
+                const flatMatch = key.match(/^numericRefinement\[([^\]]+)\]\[([^\]]+)\]$/);
+
+                if (flatMatch) {
+                    const attr = flatMatch[1];
+                    const op = flatMatch[2];
+                    const value = routeState[key];
+
+                    if (!numericRefinements[attr]) numericRefinements[attr] = {};
+                    numericRefinements[attr][op] = Array.isArray(value) ? value : [value];
+                }
+            });
+
+            // Also handle index-prefixed keys if needed
+            Object.keys(routeState || {}).forEach(key => {
+                const indexPrefixMatch = key.match(
+                    new RegExp(`^${props.indexName}\\[numericRefinement\\]\\[([^\\]]+)\\]\\[([^\\]]+)\\]$`)
+                );
+
+                if (indexPrefixMatch) {
+                    const attr = indexPrefixMatch[1];
+                    const op = indexPrefixMatch[2];
+                    const value = routeState[key];
+
+                    if (!numericRefinements[attr]) numericRefinements[attr] = {};
+                    numericRefinements[attr][op] = Array.isArray(value) ? value : [value];
+                }
+            });
+
+            if (Object.keys(numericRefinements).length > 0) {
+                uiState[props.indexName].numericRefinements = numericRefinements;
             }
 
             const range: any = {};
@@ -669,25 +896,19 @@ const stateMapping = {
             });
 
             if (Object.keys(range).length > 0) {
-                uiState.range = range;
+                uiState[props.indexName].range = range;
             }
 
             if (routeState?.page) {
-                uiState.page = Number(routeState.page);
+                uiState[props.indexName].page = Number(routeState.page);
             }
 
-            return {
-                [props.indexName]: uiState,
-            };
+            return uiState;
         } catch (error) {
-             
             console.error('Error in routeToState:', error);
-            alert('Fehler beim Verarbeiten der Such-Filter (routeToState).');
-            return {
-                [props.indexName]: { query: '' },
-            };
+            return { [props.indexName]: { query: '' } };
         }
-    },
+    }
 };
 
 // Only use routing on client-side

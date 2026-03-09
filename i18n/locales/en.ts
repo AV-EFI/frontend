@@ -85,7 +85,7 @@ const avefiBase = {
         'hero': {
             'bannerSection': 'Featured collections and highlights from the world of film data',
             'tagline': 'AVefi connects holdings from multiple institutions into unified film works and makes them permanently identifiable for discovery and research.',
-            'claim': 'Find films. Connect data.'
+            'claim': 'Find films. Link data.'
         },
 
         'search': {
