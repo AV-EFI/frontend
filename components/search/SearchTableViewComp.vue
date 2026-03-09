@@ -25,13 +25,20 @@
                         </td>
                         <td class="h-full">
                             <div class="flex flex-row items-center gap-x-1 h-full">
-                                <span>
-                                    {{
-                                        work.has_record.has_primary_title?.has_name
-                                            || work.handle
-                                    }}
-                                </span>
-                                <div class="btn btn-xs btn-outline btn-primary btn-circle">
+                                <div class="flex flex-col">
+                                    <GlobalClipboardComp 
+                                        :key="work.handle"
+                                        :display-text="work.handle"
+                                        :copy-text="work.handle"
+                                        class="text-xs font-light">{{ work.handle }}</GlobalClipboardComp>
+                                    <span class="text-sm font-medium">
+                                        {{
+                                            work.has_record.has_primary_title?.has_name
+                                                || work.handle
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="ml-1 btn btn-xs btn-outline btn-primary btn-circle">
                                     <NuxtLink
                                         target="_blank"
                                         :to="`/res/${work.handle}`"
