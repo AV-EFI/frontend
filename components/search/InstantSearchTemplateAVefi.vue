@@ -250,6 +250,31 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
+const preservedSliderParams = ref<Record<string, string | string[]>>({});
+
+function syncPreservedSliderParamsFromRoute() {
+    const next: Record<string, string | string[]> = {};
+
+    const sliderKeys = [
+        'numericRefinement[production_in_year][>=]',
+        'numericRefinement[production_in_year][<=]',
+        'numericRefinement[prodYearsOnly][=]',
+    ];
+
+    for (const key of sliderKeys) {
+        const value = route.query[key];
+
+        if (Array.isArray(value)) {
+            next[key] = value;
+        } else if (typeof value === 'string') {
+            next[key] = value;
+        }
+    }
+
+    preservedSliderParams.value = next;
+}
+
+
 function getProductionYearRefinement() {
     const uiState = aisState?.uiState?.[props.indexName] || {};
     const num = uiState.numericRefinements || {};
@@ -716,28 +741,9 @@ const routerInstance = process.client
         cleanUrlOnDispose: false,
 
         createURL({ qsModule, location, routeState }) {
-            const currentParams = new URLSearchParams(location.search);
-
-            const preservedSliderParams: Record<string, string | string[]> = {};
-
-            const sliderKeys = [
-                'numericRefinement[production_in_year][>=]',
-                'numericRefinement[production_in_year][<=]',
-                'numericRefinement[prodYearsOnly][=]',
-            ];
-
-            for (const key of sliderKeys) {
-                const values = currentParams.getAll(key);
-                if (values.length === 1) {
-                    preservedSliderParams[key] = values[0];
-                } else if (values.length > 1) {
-                    preservedSliderParams[key] = values;
-                }
-            }
-
             const mergedRouteState = {
                 ...routeState,
-                ...preservedSliderParams,
+                ...preservedSliderParams.value,
             };
 
             const queryString = qsModule.stringify(mergedRouteState, {
@@ -748,7 +754,6 @@ const routerInstance = process.client
 
             return `${location.pathname}${queryString}${location.hash}`;
         },
-
         parseURL({ qsModule, location }) {
             return qsModule.parse(location.search.slice(1));
         },
