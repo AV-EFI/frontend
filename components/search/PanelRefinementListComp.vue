@@ -11,10 +11,10 @@
                 <Icon :name="facetIcon" class="w-4 h-4"
                       :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
                       aria-hidden="true" />
-                <h4 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"
+                <h3 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"
                     :class="!h?.hasRefinements ? 'text-primary-200 dark:text-primary-600' : 'text-primary-600 dark:text-primary-100'">
                     {{ $t(props.headerText as string) }}
-                </h4>
+                </h3>
             </div>
 
             <MicroBadgeCategoryComp v-if="props.category" :category="props.category" :dense="true" class="my-auto" />

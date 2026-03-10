@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="objectListStore.objects?.length > 0 || shoppingCart.objects?.length > 0"
+        v-if="objectListStore.objects?.length > 0 || favourites.objects?.length > 0"
         class="hidden avefi_indicator indicator-item indicator-bottom indicator-end rounded-l-xl bg-base-100 dark:bg-base-800 flex flex-row justify-between min-w-28 hover:transition-all h-16 z-30 focus:outline-none focus:ring focus:ring-violet-300"
         role="region"
         :aria-label="$t('gotocomp')"
@@ -28,17 +28,17 @@
             <div
                 class="badge bg-favourites-list hover:bg-favourites-list font-bold text-white text-center join-item"
                 :title="$t('elementsincomparison')"
-                :aria-label="`${$t('elementsincomparison')}: ${shoppingCart.objects?.length}`"
+                :aria-label="`${$t('elementsincomparison')}: ${favourites.objects?.length}`"
             >
                 <span class="hidden text-xs transition-all ease-in-out delay-150">
-                    {{ $t('shoppingcart') }}
+                    {{ $t('favourites') }}
                 </span>
-                {{ shoppingCart.objects?.length }}
+                {{ favourites.objects?.length }}
             </div>
             <div
                 class="badge bg-compare-list font-bold text-white text-center join-item"
-                :title="$t('elementsinshoppingcart')"
-                :aria-label="`${$t('elementsinshoppingcart')}: ${objectListStore.objects?.length}`"
+                :title="$t('elementsinfavourites')"
+                :aria-label="`${$t('elementsinfavourites')}: ${objectListStore.objects?.length}`"
             >
                 <span class="hidden text-xs">
                     {{ $t('comparison') }}
@@ -51,10 +51,10 @@
 
 <script setup lang="ts">
 import { useObjectListStore } from '../../stores/compareList';
-import { useShoppingCart } from '../../stores/shoppingCart';
+import { useFavourites } from '../../stores/favourites';
 
 const objectListStore = useObjectListStore();
-const shoppingCart = useShoppingCart();
+const favourites = useFavourites();
 </script>
 
 <style scoped>

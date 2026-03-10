@@ -14,22 +14,12 @@
         <header class="card-body p-4 pb-2 gap-y-0" :aria-labelledby="`flat-work-title-${work?.handle ?? ''}`">
             <div class="flex flex-row justify-between">
                 <div class="w-3/5 lg:w-4/5">
-                    <GlobalClipboardComp
-                        class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300 text-left"
-                        :display-text="`${work?.handle ?? ''}`"
-                        :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
-                        role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
-                    <h2 :id="`work-title-${work?.handle ?? ''}`"
-                        class="card-title flex-col-reverse lg:flex-row text-lg font-semibold items-start">
-                        <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
-                                  class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left"
-                                  :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
-                                  target="_blank">
-                            {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
-                        </NuxtLink>
-                        <span v-else>
-                            {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
-                        </span>
+                    <div class="w-full flex flex-row justfiy-start items-center mb-1">
+                        <GlobalClipboardComp
+                            class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300 text-left"
+                            :display-text="`${work?.handle ?? ''}`"
+                            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
+                            role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
                         <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false"
                                                 class="ml-2 hidden lg:inline-block" />
                         <!-- Badge for all items empty -->
@@ -40,8 +30,22 @@
                                 {{ $t('allItemsEmpty') || 'All Items Empty' }}
                             </span>
                         </span>
-                    </h2>
 
+                    </div>
+                    <h2 :id="`work-title-${work?.handle ?? ''}`"
+                        class="card-title flex-col-reverse lg:flex-row text-lg font-semibold items-start">
+                        <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
+                                  class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left leading-5 mb-1"
+                                  :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
+                                  target="_blank">
+                            {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
+                        </NuxtLink>
+                        <span v-else>
+                            {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
+                        </span>
+                    </h2>
+                    
+                    
                     <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left">
                         <ul v-if="work?.has_record?.has_alternative_title">
                             <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"

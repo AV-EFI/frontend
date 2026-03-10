@@ -11,7 +11,7 @@
             </ClientOnly>
             <slot />
             <ClientOnly>
-                <LazyGlobalComparisonDrawer />
+                <GlobalComparisonDrawer />
             </ClientOnly>
         </main>
         <footer class="dark:bg-gray-800">

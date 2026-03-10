@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-x-auto w-full">
-        <table class="table w-full table-zebra table-sm border border-base-300">
+        <table class="table w-full table-zebra table-sm border border-base-300 z-30">
             <thead class="bg-base-200">
                 <tr>
                     <th></th>
@@ -24,7 +24,7 @@
                             </button>
                         </td>
                         <td class="h-full">
-                            <div class="flex flex-row items-center gap-x-1 h-full">
+                            <div class="flex flex-row justify-between items-center gap-x-1 h-full">
                                 <div class="flex flex-col">
                                     <GlobalClipboardComp 
                                         :key="work.handle"
@@ -38,15 +38,19 @@
                                         }}
                                     </span>
                                 </div>
-                                <div class="ml-1 btn btn-xs btn-outline btn-primary btn-circle">
-                                    <NuxtLink
-                                        target="_blank"
-                                        :to="`/res/${work.handle}`"
-                                        class="link link-light flex"
-                                        :aria-label="`${$t('detailedViewLinkFor')} ${work.has_record.has_primary_title?.has_name || work.handle}`"
-                                    >
-                                        <Icon class="text-xs dark:text-white" name="tabler:eye" />
-                                    </NuxtLink>
+                                <div class="min-w-12">
+                                    <div class="mr-1 btn btn-xs btn-outline btn-primary btn-circle">
+                                        <NuxtLink
+                                            target="_blank"
+                                            :to="`/res/${work.handle}`"
+                                            class="link link-light flex"
+                                            :title="`${$t('detailedViewLinkFor', { name: work.has_record.has_primary_title?.has_name || work.handle })}`"
+                                            :aria-label="`${$t('detailedViewLinkFor', { name: work.has_record.has_primary_title?.has_name || work.handle })}`"
+                                        >
+                                            <Icon class="text-xs dark:text-white" name="tabler:eye" />
+                                        </NuxtLink>
+                                    </div>
+                                    <GlobalActionContextComp comp-size="xs" :item="work" />
                                 </div>
                             </div>
                         </td>
@@ -201,7 +205,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { IAVefiWorkVariant } from '@/models/interfaces/search/IAVefiWorkVariant';
+import type { IAVefiWorkVariant } from '@/models/interfaces/generated/IAVefiWorkVariant';
 
 defineProps<{ datasets: IAVefiWorkVariant[] }>();
 

@@ -4,10 +4,10 @@
             <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
-                <h1 class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4 max-w-32" tabindex="0">
+                <h1 class="text-lg font-bold xl:text-xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4 max-w-32" tabindex="0">
                     {{ $t('filmresearch') }}
                 </h1>
-
+                <div class="divider" />
                 <div class="search-panel" role="region" :aria-label="$t('searchpanel')">
                     <ClientOnly>
                         <GlobalFacetDrawer :view-type-checked="viewTypeChecked" />

@@ -49,7 +49,7 @@
         </li>
 
         <!-- Second row: everything else -->
-        <li v-if="iconEntries.length > 0" class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start">
+        <li v-if="iconEntries.length > 0" class="flex flex-row flex-wrap gap-y-1 gap-x-3 items-start text-left justify-start">
             <template
                 v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'directors_or_editors'].includes(e.key))"
                 :key="entry.key">

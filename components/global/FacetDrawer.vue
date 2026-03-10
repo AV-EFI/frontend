@@ -8,6 +8,7 @@
             :checked="objectListStore.facetDrawerOpen"
         >
         <div class="drawer-side max-md:w-full z-30 lg:z-10 h-full max-md:h-screen">
+            <h2 class="text-lg font-semibold ml-6 2xl:ml-4 mt-6">{{$t('facets')}}</h2>
             <label
                 aria-label="close sidebar"
                 class="drawer-overlay z-30"

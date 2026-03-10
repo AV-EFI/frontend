@@ -115,11 +115,11 @@
                 <div class="navbar-end w-3/5 flex-grow hidden md:flex">
                     <ul
                         class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items overflow-visible">
-                        <li v-if="shoppingCart.objects?.length > 0" class="h-12 flex justify-center">
-                            <button type="button" :aria-label="ariaLabelShoppingcart"
-                                    @click="$toggleComparisonDrawerState('shopping')">
-                                {{ $t("shoppingcart") }}
-                                <span class="indicator-item badge badge-favourites-list text-white">{{ shoppingCart.objects?.length
+                        <li v-if="favourites.objects?.length > 0" class="h-12 flex justify-center">
+                            <button type="button" :aria-label="ariaLabelFavourites"
+                                    @click="$toggleComparisonDrawerState('favourites')">
+                                {{ $t("favourites") }}
+                                <span class="indicator-item badge badge-favourites-list text-white">{{ favourites.objects?.length
                                 }}</span>
                             </button>
                         </li>
@@ -228,7 +228,7 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useObjectListStore } from '../../stores/compareList.js';
-import { useShoppingCart } from '../../stores/shoppingCart.js';
+import { useFavourites } from '../../stores/favourites.js';
 import { useCurrentUrlState } from '../../composables/useCurrentUrlState.js';
 
 const runtime = useRuntimeConfig();
@@ -238,7 +238,7 @@ const { data, signOut, signIn } = useAuth();
 const { locale, t } = useI18n();
 
 const objectListStore = useObjectListStore();
-const shoppingCart = useShoppingCart();
+const favourites = useFavourites();
 
 const isScrolled = ref(false);
 const mobileMenuOpen = useState('navMobileMenuOpen', () => false);
@@ -269,7 +269,7 @@ const ariaLabelUserMenu = computed(() => t('userMenu'));
 const ariaLabelLogout = computed(() => t('logout'));
 const ariaLabelLogin = computed(() => t('login'));
 const ariaLabelComparison = computed(() => t('comparison'));
-const ariaLabelShoppingcart = computed(() => t('shoppingcart'));
+const ariaLabelFavourites = computed(() => t('favourites'));
 </script>
 
 <style scoped>

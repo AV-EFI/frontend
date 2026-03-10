@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useObjectListStore } from '../stores/compareList';
-import { useShoppingCart } from "../stores/shoppingCart";
+import { useFavourites } from "../stores/favourites";
 
 export default defineNuxtPlugin((nuxtApp) => {
     const useObjectStore = useObjectListStore();
-    const shoppingCartStore = useShoppingCart();
+    const favouritesStore = useFavourites();
     const $i18n:any = nuxtApp.$i18n || useNuxtApp().$i18n;
     const t = $i18n.t;
     const toast = nuxtApp.$toast;
 
     const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
         if (filmId) {
-            if(listType == "shoppingcart") {
-                shoppingCartStore.addObject({ filmId, filmTitle })
+            if(listType == "favourites") {
+                favouritesStore.addObject({ filmId, filmTitle })
                     .then((added) => {
                         if (added == "listfull") {
-                            toast?.warn?.(t('shoppingcartfull'), { autoClose: 4000 });
+                            toast?.warn?.(t('favouritesfull'), { autoClose: 4000 });
                         }
                         else if (added == "already") {
-                            toast?.warn?.(t('shoppingcartalready'), { autoClose: 3000 });
+                            toast?.warn?.(t('favouritesalready'), { autoClose: 3000 });
                         }
                         else if (added == "succ") {
-                            toast?.success?.(t('addedtoshoppingcartparam', {'name': filmTitle}));
+                            toast?.success?.(t('addedtofavouritesparam', {'name': filmTitle}));
                         } else {
                             toast && toast('Something happened');
                         }

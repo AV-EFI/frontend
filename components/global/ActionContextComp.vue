@@ -2,18 +2,18 @@
     <div v-if="item?.has_record?.category === 'avefi:WorkVariant'" class="dropdown dropdown-end">
         <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
              :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || '')"
-             class="btn btn-outline btn-circle" :class="['lg:btn-' + compSize]">
+             class="btn btn-outline btn-circle" :class="['btn-' + compSize]">
             <Icon :class="['text-' + compSize]" name="tabler:dots" />
         </div>
 
         <ul tabindex="0"
-            class="p-2 shadow-md menu dropdown-content bg-base-100 rounded-box w-64 z-[1] [li:hover]:bg-transparent"
+            class="p-2 shadow-md menu dropdown-content bg-base-100 rounded-box w-64 z-20 [li:hover]:bg-transparent"
             role="menu" :aria-label="$t('moreOptions')">
             <li role="none">
                 <div class="w-full p-0 my-0 mx-auto justify-center items-center">
-                    <LazyCartAddToShoppingCartComp :film-id="id ?? item?.handle"
-                                                   :film-title="item?.has_record?.has_primary_title?.has_name" class="w-48 btn-block btn-sm flex item-start"
-                                                   role="menuitem" />
+                    <LazyCartAddToFavouritesComp :film-id="id ?? item?.handle"
+                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="w-48 btn-block btn-sm flex item-start"
+                                                 role="menuitem" />
                 </div>
             </li>
             <li role="none" class="mt-1">

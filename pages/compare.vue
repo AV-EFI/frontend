@@ -115,7 +115,7 @@ useSchemaOrg([
             ['Home', '/'],
             [$t('comparison'), ''],
         ]" />
-        <div class="container mt-4 snap-y snap-mandatory md:px-4">
+        <div class="container mt-4 snap-y snap-mandatory md:px-4 mx-auto">
             <div v-if="!hasValidParams" class="alert alert-error mb-4 w-96">
                 <Icon name="tabler:alert-circle" class="w-6 h-6" />
                 <div>

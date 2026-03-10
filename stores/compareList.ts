@@ -67,20 +67,19 @@ export const useObjectListStore = defineStore({
                     this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
                     setTimeout(() => {
                         const radioElement = document.getElementById('comparison_list_tab') as HTMLInputElement;
-                        const shoppingElement = document.getElementById('shopping_cart_tab') as HTMLInputElement;
-                        if (radioElement && shoppingElement) {
-                            shoppingElement.checked = false;
+                        const favouritesElement = document.getElementById('favourites_list_tab') as HTMLInputElement;
+                        if (radioElement && favouritesElement) {
+                            favouritesElement.checked = false;
                             radioElement.checked = true;
                         }
                     }, 300);
-                } else if (type === 'shopping') {
-                    console.log("shopping cart tab clicked");
+                } else if (type === 'favourites') {
                     this.comparisonDrawerOpen = !this.comparisonDrawerOpen;
                     setTimeout(() => {
                         const radioElement = document.getElementById('comparison_list_tab') as HTMLInputElement;
-                        const shoppingElement = document.getElementById('shopping_cart_tab') as HTMLInputElement;
-                        if (radioElement && shoppingElement) {
-                            shoppingElement.checked = true;
+                        const favouritesElement = document.getElementById('favourites_list_tab') as HTMLInputElement;
+                        if (radioElement && favouritesElement) {
+                            favouritesElement.checked = true;
                             radioElement.checked = false;
                         }
                     }, 300);                
