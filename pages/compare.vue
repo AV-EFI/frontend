@@ -3,8 +3,6 @@ definePageMeta({
     auth: false,
 });
 
-
-
 const route = useRoute();
 const { t } = useI18n();
 

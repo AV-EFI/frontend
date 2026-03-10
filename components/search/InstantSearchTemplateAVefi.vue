@@ -246,33 +246,19 @@
 </template>
 
 <script setup lang="ts">
+import { useMatomoTracking } from '~/composables/useMatomoTracking';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
+const {
+    trackSearchSubmitted,
+    trackFacetUsed,
+    trackEvent,
+    trackResultViewChanged,
+} = useMatomoTracking();
+
 const preservedSliderParams = ref<Record<string, string | string[]>>({});
-
-function syncPreservedSliderParamsFromRoute() {
-    const next: Record<string, string | string[]> = {};
-
-    const sliderKeys = [
-        'numericRefinement[production_in_year][>=]',
-        'numericRefinement[production_in_year][<=]',
-        'numericRefinement[prodYearsOnly][=]',
-    ];
-
-    for (const key of sliderKeys) {
-        const value = route.query[key];
-
-        if (Array.isArray(value)) {
-            next[key] = value;
-        } else if (typeof value === 'string') {
-            next[key] = value;
-        }
-    }
-
-    preservedSliderParams.value = next;
-}
 
 
 function getProductionYearRefinement() {
@@ -364,6 +350,8 @@ watch(viewTypeChecked, (newValue) => {
     if (typeof window !== 'undefined') {
         localStorage.setItem(VIEW_TYPE_KEY, newValue);
     }
+
+    trackResultViewChanged(newValue);
 });
 
 const expandAllChecked = ref(false);
@@ -410,41 +398,32 @@ const syncSearchValueFromUrl = () => {
 // </ais-state-results>
 
 // Load recent searches on mount
-onMounted(() => {
-    // Sync search value from URL
+const handleClickOutside = (event: MouseEvent) => {
+    const searchbox = document.querySelector('.searchbox');
+    if (searchbox && !searchbox.contains(event.target as Node)) {
+        showRecentSearches.value = false;
+    }
+};
+
+const handlePopState = () => {
     syncSearchValueFromUrl();
+};
 
-    // Close recent searches dropdown when clicking outside
-    const handleClickOutside = (event: MouseEvent) => {
-        const searchbox = document.querySelector('.searchbox');
-        if (searchbox && !searchbox.contains(event.target as Node)) {
-            showRecentSearches.value = false;
-        }
-    };
+const updateFromStorage = () => {
+    syncSearchValueFromUrl();
+};
 
+onMounted(() => {
+    syncSearchValueFromUrl();
     document.addEventListener('click', handleClickOutside);
-    
-    // Watch for URL changes (browser back/forward)
-    const handlePopState = () => {
-        syncSearchValueFromUrl();
-    };
-
     window.addEventListener('popstate', handlePopState);
-    
-    // Watch for changes in latest-search-query
-    const updateFromStorage = () => {
-        syncSearchValueFromUrl();
-    };
-
     window.addEventListener('storage', updateFromStorage);
-    
-    // Polling removed - using computed property recentSearchesWithUrl instead
-    
-    onBeforeUnmount(() => {
-        document.removeEventListener('click', handleClickOutside);
-        window.removeEventListener('popstate', handlePopState);
-        window.removeEventListener('storage', updateFromStorage);
-    });
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+    window.removeEventListener('popstate', handlePopState);
+    window.removeEventListener('storage', updateFromStorage);
 });
 
 // URL updates are now handled by InstantSearch router
@@ -452,10 +431,15 @@ onMounted(() => {
 
 // Search handlers
 const handleSearchSubmit = (value: string, refine: (value: string) => void) => {
-    if (value && value.trim() !== '') {
-        const searchUrl = `?query=${encodeURIComponent(value.trim())}`;
-        addToSearchHistory(value, searchUrl);
+    const trimmed = value?.trim() || '';
+
+    if (trimmed !== '') {
+        const searchUrl = `?query=${encodeURIComponent(trimmed)}`;
+        addToSearchHistory(trimmed, searchUrl);
         historyTrigger.value++;
+
+        trackSearchSubmitted('main_search');
+        trackEvent('Search', 'Query Length', String(trimmed.length));
     }
 
     refine(value);
@@ -467,9 +451,13 @@ const handleSearchClear = (refine: (value: string) => void) => {
     refine('');
     searchQuery.value = '';
     localSearchValue.value = '';
+
+    trackEvent('Search', 'Cleared');
 };
 
 const handleRecentSearchClick = (item: any) => {
+    trackEvent('Search History', 'Recent Search Clicked');
+
     if (item.url && item.url.trim()) {
         window.location.href = `/search/${item.url}`;
     } else if (item.query) {
@@ -508,9 +496,12 @@ const toggleSearchMenu = (e?: Event) => {
 function shareSearch() {
     searchMenuOpen.value = false;
     const q = searchQuery.value || localSearchValue.value || '';
-    const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
+    const url = typeof window !== 'undefined'
+        ? `${window.location.origin}${window.location.pathname}${window.location.search}`
+        : '';
 
-    // Try native Web Share API first
+    trackEvent('Search', 'Share Clicked');
+
     if (typeof navigator !== 'undefined' && (navigator as any).share) {
         try {
             (navigator as any).share({
@@ -518,37 +509,67 @@ function shareSearch() {
                 text: q ? `Search: ${q}` : document.title,
                 url
             });
+
+            trackEvent('Search', 'Shared Native');
             return;
         } catch (err) {
-            // fallthrough to clipboard fallback
             console.warn('Web Share failed:', err);
+            trackEvent('Search', 'Share Failed');
         }
     }
 
-    // Fallback: copy URL to clipboard and notify
     if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(() => {
             $toast?.success?.($t('linkCopied') as string || 'Link copied to clipboard');
+            trackEvent('Search', 'Share Link Copied');
         }).catch(() => {
-            // Last resort: show prompt
             window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
+            trackEvent('Search', 'Share Prompt Fallback');
         });
     } else {
-        // older browsers
         try {
             window.prompt($t('copyLinkPrompt') as string || 'Copy this link', url);
+            trackEvent('Search', 'Share Prompt Fallback');
         } catch (e) {
             console.warn('Unable to copy link', e);
         }
     }
 }
 
+function syncPreservedSliderParamsFromRoute() {
+    const next: Record<string, string | string[]> = {};
+
+    const sliderKeys = [
+        'numericRefinement[production_in_year][>=]',
+        'numericRefinement[production_in_year][<=]',
+        'numericRefinement[prodYearsOnly][=]',
+    ];
+
+    for (const key of sliderKeys) {
+        const value = route.query[key];
+
+        if (Array.isArray(value)) {
+            next[key] = value;
+        } else if (typeof value === 'string') {
+            next[key] = value;
+        }
+    }
+
+    preservedSliderParams.value = next;
+}
+
+
 function suggestSearch() {
     searchMenuOpen.value = false;
     const q = searchQuery.value || localSearchValue.value || '';
-    const url = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search}` : '';
+    const url = typeof window !== 'undefined'
+        ? `${window.location.origin}${window.location.pathname}${window.location.search}`
+        : '';
+
     contactInitialMessage.value = $t('share.suggestTemplate', { query: q, url: url }) as string;
     contactFormOpen.value = true;
+
+    trackEvent('Search', 'Suggest Search Opened');
 }
 
 // Close menus on outside click
@@ -760,6 +781,37 @@ const routerInstance = process.client
     })
     : null;
 
+
+watch(
+    () => route.query,
+    (newQuery, oldQuery) => {
+        if (!oldQuery) return;
+
+        const changedKeys = new Set([
+            ...Object.keys(newQuery || {}),
+            ...Object.keys(oldQuery || {})
+        ]);
+
+        for (const key of changedKeys) {
+            const newVal = (newQuery as any)?.[key];
+            const oldVal = (oldQuery as any)?.[key];
+
+            if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+                if (
+                    key !== 'query' &&
+                    key !== 'page' &&
+                    !key.startsWith('range_') &&
+                    key !== 'numericRefinement'
+                ) {
+                    trackFacetUsed(key);
+                }
+            }
+        }
+
+        syncPreservedSliderParamsFromRoute();
+    },
+    { deep: true, immediate: true }
+);    
 
 const stateMapping = {
     stateToRoute(uiState) {
