@@ -689,6 +689,19 @@
     "isTranslated": true
   },
   {
+    "term": "Creator",
+    "label": "Autor/Schöpfer",
+    "labels": {
+      "de": "Autor/Schöpfer",
+      "en": "Creator"
+    },
+    "description": "An entity responsible (contentwise) for making the film. Creator should be used for agents that have influenced the production of the film and left a personal mark in doing so. Usually, the director is assumed to be the or at least a creator, but under certain circumstances, e.g. in science or educational films, the influence and contribution of others (such as cinematographer, script or even unspecified) may be significant enough to consider them creators as well. Hence, Creator is suitable, for instance, to point out agents beside the director that may possibly have intillectual property rights under German jurisdiction (check see_also section). Note that Writer, especially in the context of feature films, is considered the creator of a pre-product, not the film itself.",
+    "definition": "",
+    "enumSource": "DirectingActivityTypeEnum",
+    "category": "DirectingActivity Type",
+    "isTranslated": true
+  },
+  {
     "term": "Director",
     "label": "Regie",
     "labels": {
@@ -709,6 +722,19 @@
       "en": "Fight Arranger"
     },
     "description": "FIAF Glossary of Filmographic Terms B.3.7",
+    "definition": "",
+    "enumSource": "DirectingActivityTypeEnum",
+    "category": "DirectingActivity Type",
+    "isTranslated": true
+  },
+  {
+    "term": "Filmmaker",
+    "label": "Filmemacher",
+    "labels": {
+      "de": "Filmemacher",
+      "en": "Filmmaker"
+    },
+    "description": "A person, family or organization responsible for creating an independent or personal film. A filmmaker is individually responsible for the conception and execution of all aspects of the film.",
     "definition": "",
     "enumSource": "DirectingActivityTypeEnum",
     "category": "DirectingActivity Type",
@@ -741,19 +767,6 @@
     "isTranslated": true
   },
   {
-    "term": "AssistantEditor",
-    "label": "Redaktionsassistenz",
-    "labels": {
-      "de": "Redaktionsassistenz",
-      "en": "Assistant Editor"
-    },
-    "description": "Assistant to the Editor, see also the description for Editor",
-    "definition": "",
-    "enumSource": "EditingActivityTypeEnum",
-    "category": "EditingActivity Type",
-    "isTranslated": true
-  },
-  {
     "term": "AssistantFilmEditor",
     "label": "Cutterassistent",
     "labels": {
@@ -761,19 +774,6 @@
       "en": "Assistant Film Editor"
     },
     "description": "FIAF Glossary of Filmographic Terms B.10.2",
-    "definition": "",
-    "enumSource": "EditingActivityTypeEnum",
-    "category": "EditingActivity Type",
-    "isTranslated": true
-  },
-  {
-    "term": "Editor",
-    "label": "Redaktion",
-    "labels": {
-      "de": "Redaktion",
-      "en": "Editor"
-    },
-    "description": "Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team",
     "definition": "",
     "enumSource": "EditingActivityTypeEnum",
     "category": "EditingActivity Type",
@@ -1885,6 +1885,19 @@
     "isTranslated": true
   },
   {
+    "term": "AssistantEditor",
+    "label": "Redaktionsassistenz",
+    "labels": {
+      "de": "Redaktionsassistenz",
+      "en": "Assistant Editor"
+    },
+    "description": "Assistant to the Editor, see also the description for Editor",
+    "definition": "",
+    "enumSource": "WritingActivityTypeEnum",
+    "category": "WritingActivity Type",
+    "isTranslated": true
+  },
+  {
     "term": "BasedonCharactersCreatedby",
     "label": "Nach Charakteren von",
     "labels": {
@@ -1892,6 +1905,19 @@
       "en": "Based on Characters Created by"
     },
     "description": "FIAF Glossary of Filmographic Terms B.4.5",
+    "definition": "",
+    "enumSource": "WritingActivityTypeEnum",
+    "category": "WritingActivity Type",
+    "isTranslated": true
+  },
+  {
+    "term": "Editor",
+    "label": "Redaktion",
+    "labels": {
+      "de": "Redaktion",
+      "en": "Editor"
+    },
+    "description": "Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team",
     "definition": "",
     "enumSource": "WritingActivityTypeEnum",
     "category": "WritingActivity Type",
@@ -12012,6 +12038,19 @@
     "isTranslated": true
   },
   {
+    "term": "Creator",
+    "label": "Autor/Schöpfer",
+    "labels": {
+      "de": "Autor/Schöpfer",
+      "en": "Creator"
+    },
+    "description": "An entity responsible (contentwise) for making the film. Creator should be used for agents that have influenced the production of the film and left a personal mark in doing so. Usually, the director is assumed to be the or at least a creator, but under certain circumstances, e.g. in science or educational films, the influence and contribution of others (such as cinematographer, script or even unspecified) may be significant enough to consider them creators as well. Hence, Creator is suitable, for instance, to point out agents beside the director that may possibly have intillectual property rights under German jurisdiction (check see_also section). Note that Writer, especially in the context of feature films, is considered the creator of a pre-product, not the film itself.",
+    "definition": "",
+    "enumSource": "DirectingActivityTypeEnum",
+    "category": "DirectingActivity Type",
+    "isTranslated": true
+  },
+  {
     "term": "Director",
     "label": "Regie",
     "labels": {
@@ -12032,6 +12071,19 @@
       "en": "Fight Arranger"
     },
     "description": "FIAF Glossary of Filmographic Terms B.3.7",
+    "definition": "",
+    "enumSource": "DirectingActivityTypeEnum",
+    "category": "DirectingActivity Type",
+    "isTranslated": true
+  },
+  {
+    "term": "Filmmaker",
+    "label": "Filmemacher",
+    "labels": {
+      "de": "Filmemacher",
+      "en": "Filmmaker"
+    },
+    "description": "A person, family or organization responsible for creating an independent or personal film. A filmmaker is individually responsible for the conception and execution of all aspects of the film.",
     "definition": "",
     "enumSource": "DirectingActivityTypeEnum",
     "category": "DirectingActivity Type",
@@ -12064,19 +12116,6 @@
     "isTranslated": true
   },
   {
-    "term": "AssistantEditor",
-    "label": "Redaktionsassistenz",
-    "labels": {
-      "de": "Redaktionsassistenz",
-      "en": "Assistant Editor"
-    },
-    "description": "Assistant to the Editor, see also the description for Editor",
-    "definition": "",
-    "enumSource": "EditingActivityTypeEnum",
-    "category": "EditingActivity Type",
-    "isTranslated": true
-  },
-  {
     "term": "AssistantFilmEditor",
     "label": "Cutterassistent",
     "labels": {
@@ -12084,19 +12123,6 @@
       "en": "Assistant Film Editor"
     },
     "description": "FIAF Glossary of Filmographic Terms B.10.2",
-    "definition": "",
-    "enumSource": "EditingActivityTypeEnum",
-    "category": "EditingActivity Type",
-    "isTranslated": true
-  },
-  {
-    "term": "Editor",
-    "label": "Redaktion",
-    "labels": {
-      "de": "Redaktion",
-      "en": "Editor"
-    },
-    "description": "Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team",
     "definition": "",
     "enumSource": "EditingActivityTypeEnum",
     "category": "EditingActivity Type",
@@ -13208,6 +13234,19 @@
     "isTranslated": true
   },
   {
+    "term": "AssistantEditor",
+    "label": "Redaktionsassistenz",
+    "labels": {
+      "de": "Redaktionsassistenz",
+      "en": "Assistant Editor"
+    },
+    "description": "Assistant to the Editor, see also the description for Editor",
+    "definition": "",
+    "enumSource": "WritingActivityTypeEnum",
+    "category": "WritingActivity Type",
+    "isTranslated": true
+  },
+  {
     "term": "BasedonCharactersCreatedby",
     "label": "Nach Charakteren von",
     "labels": {
@@ -13215,6 +13254,19 @@
       "en": "Based on Characters Created by"
     },
     "description": "FIAF Glossary of Filmographic Terms B.4.5",
+    "definition": "",
+    "enumSource": "WritingActivityTypeEnum",
+    "category": "WritingActivity Type",
+    "isTranslated": true
+  },
+  {
+    "term": "Editor",
+    "label": "Redaktion",
+    "labels": {
+      "de": "Redaktion",
+      "en": "Editor"
+    },
+    "description": "Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team",
     "definition": "",
     "enumSource": "WritingActivityTypeEnum",
     "category": "WritingActivity Type",

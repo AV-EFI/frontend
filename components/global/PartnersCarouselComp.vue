@@ -50,10 +50,9 @@
                                 :to="item.link"
                                 target="_blank"
                                 rel="noopener"
-                                class="btn btn-primary btn-sm w-full md:w-auto"
+                                class="link w-full md:w-auto"
                             >
                                 {{ item.linkText || $t('home.carousel.actions.viewHomepage') || 'View Homepage' }}
-                                <Icon name="tabler:arrow-right" class="ml-1" />
                             </NuxtLink>
                         </div>
                     </div>
@@ -96,11 +95,11 @@ type EmblaApi = {
 
 const partnersItems = ref([
     {
-        src: '/img/gwdg_logo.min.svg',
-        width: 176.871,
-        height: 52.384,
-        alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
-        link: 'https://www.gwdg.de'
+        src: '/img/logo_tib.webp',
+        width: 85,
+        height: 80,
+        alt: 'Technische Informationsbibliothek Hannover',
+        link: 'https://www.tib.eu'
     },
     {
         src: '/img/logo_sdk.webp',
@@ -110,18 +109,18 @@ const partnersItems = ref([
         link: 'https://www.deutsche-kinemathek.de'
     },
     {
-        src: '/img/logo_tib.webp',
-        width: 85,
-        height: 80,
-        alt: 'Technische Informationsbibliothek Hannover',
-        link: 'https://www.tib.eu'
-    },
-    {
         src: '/img/logo_fmd.webp',
         width: 199,
         height: 80,
         alt: 'Filmmuseum Düsseldorf',
         link: 'https://www.duesseldorf.de/filmmuseum'
+    },
+    {
+        src: '/img/gwdg_logo.min.svg',
+        width: 176.871,
+        height: 52.384,
+        alt: 'Gesellschaft für wissenschaftliche Datenverarbeitung Göttingen',
+        link: 'https://www.gwdg.de'
     },
     {
         src: '/img/logo_mcdci.webp',

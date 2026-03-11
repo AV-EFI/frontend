@@ -60,10 +60,10 @@
                 <SearchGenericIconList :data="manifestation" level="manifestation" class="inline-flex items-start leading-5" />
 
                 <!-- Item count (icon + text treated as ONE baseline unit) -->
-                <span v-if="manifestation.has_record.has_item" class="flex flex-row items-start text-xs leading-[14px]">
+                <span v-if="manifestation.items?.length > 0" class="flex flex-row items-start text-xs leading-[14px]">
                     <Icon name="tabler:hierarchy" class="h-[0.85rem] shrink-0 mr-1" aria-hidden="true" /><span
                         class="inline-block flex-wrap h-[0.85rem] align-text-top">
-                        {{ `${manifestation.has_record.has_item.length} ${manifestation.has_record.has_item.length === 1 ?
+                        {{ `${manifestation.items.length} ${manifestation.items.length === 1 ?
                             $t('item') :
                             $t('items')}` }}
                     </span>

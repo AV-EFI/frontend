@@ -325,7 +325,7 @@
             </div>
 
             <div
-                v-if="mir.has_item"
+                v-if="mir.items && mir.items.length > 0"
             >
                 <h2
                     :title="$t('tooltip.item')"
@@ -343,15 +343,15 @@
                     </thead>
                     <tbody>
                         <tr
-                            v-for="item in mir.has_item"
+                            v-for="item in mir.items"
                             :key="item.id"
                         >
-                            <td>{{ item?.id }}</td>
+                            <td>{{ item?.handle }}</td>
                             <td>{{ $t(item.category) }}</td>
                             <td>-</td>
                             <td class="flex justify-center">
                                 <a
-                                    :href="`/res/${item.id}`"
+                                    :href="`/res/${item.handle}`"
                                 >
                                     <Icon
                                         class="text-2xl"

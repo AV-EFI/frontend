@@ -46,7 +46,7 @@
                                                 (idx + 1) }}
                                         </span>
                                         <div :aria-label="$t('items')" class="badge">
-                                            {{ mf.has_record?.has_item?.length }}
+                                            {{ mf.items?.length }}
                                         </div>
                                     </a>
                                 </li>
@@ -189,10 +189,54 @@
                         <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                     </h3>
 
-                    <FormKit type="select" name="manifestation-item-search" :label="$t('filterItemsAndManifestations')"
-                             :placeholder="$t('filterItemsAndManifestations')"
-                             :options="suggestionsForManifestations.map((s) => ({ label: $t(s) !== s ? $t(s) : s, value: s }))"
-                             :value="searchQuery" multiple popover class="w-72" @input="onSearchInput" />
+                    <!-- Native input + custom dropdown for filter -->
+                    <div class="relative w-72 mb-2">
+                        <input
+                            type="text"
+                            class="input input-bordered w-full"
+                            :placeholder="$t('filterItemsAndManifestations')"
+                            v-model="optionFilterQuery"
+                            :aria-label="$t('filterItemsAndManifestations')"
+                            :aria-expanded="String(autocompleteOpen)"
+                            aria-autocomplete="list"
+                            @focus="autocompleteOpen = true"
+                            @blur="closeAutocomplete()"
+                            @input="onOptionFilterInput"
+                            @keydown="onAutocompleteKeydown"
+                        >
+
+                        <ul
+                            v-if="autocompleteOpen && filteredSuggestions.length > 0"
+                            class="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-base-300 bg-base-100 shadow"
+                            role="listbox"
+                        >
+                            <li
+                                v-for="(suggestion, suggestionIndex) in filteredSuggestions"
+                                :key="suggestion"
+                                class="px-3 py-2 cursor-pointer text-sm"
+                                :class="activeSuggestionIndex === suggestionIndex ? 'bg-base-200' : ''"
+                                role="option"
+                                :aria-selected="activeSuggestionIndex === suggestionIndex"
+                                @mousedown.prevent="selectSuggestion(suggestion)"
+                            >
+                                {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1 mb-2">
+                        <span v-for="selected in searchQuery" :key="selected" class="badge badge-outline gap-1">
+                            {{ $t(selected) !== selected ? $t(selected) : selected }}
+                            <button
+                                type="button"
+                                class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
+                                :aria-label="`${$t('remove') || 'Remove'}: ${selected}`"
+                                @click="removeSuggestion(selected)"
+                            >
+                                ×
+                            </button>
+                        </span>
+                    </div>
                 </div>
 
                 <ClientOnly>
@@ -261,6 +305,9 @@ const manifestations = ref<Manifestation[]>(
 
 // --- Dynamic search state (manifestation filter) ---
 const searchQuery = ref<string[]>([]);
+const optionFilterQuery = ref("");
+const autocompleteOpen = ref(false);
+const activeSuggestionIndex = ref(0);
 const loading = ref(false);
 
 function onSearchInput(val: any) {
@@ -270,6 +317,64 @@ function onSearchInput(val: any) {
         loading.value = false;
     }, 600);
 }
+
+function onOptionFilterInput() {
+    autocompleteOpen.value = true;
+    activeSuggestionIndex.value = 0;
+}
+
+function closeAutocomplete() {
+    setTimeout(() => {
+        autocompleteOpen.value = false;
+    }, 120);
+}
+
+function selectSuggestion(suggestion: string) {
+    if (!searchQuery.value.includes(suggestion)) {
+        searchQuery.value.push(suggestion);
+        onSearchInput(searchQuery.value);
+    }
+    optionFilterQuery.value = "";
+    autocompleteOpen.value = false;
+    activeSuggestionIndex.value = 0;
+}
+
+function removeSuggestion(suggestion: string) {
+    searchQuery.value = searchQuery.value.filter(value => value !== suggestion);
+    onSearchInput(searchQuery.value);
+}
+
+function onAutocompleteKeydown(event: KeyboardEvent) {
+    const suggestions = filteredSuggestions.value;
+    if (!suggestions.length) return;
+
+    const currentIndex = activeSuggestionIndex.value;
+
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        autocompleteOpen.value = true;
+        activeSuggestionIndex.value = Math.min(currentIndex + 1, suggestions.length - 1);
+    } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        autocompleteOpen.value = true;
+        activeSuggestionIndex.value = Math.max(currentIndex - 1, 0);
+    } else if (event.key === 'Enter') {
+        event.preventDefault();
+        const pick = suggestions[currentIndex] ?? suggestions[0];
+        if (pick) {
+            selectSuggestion(pick);
+        }
+    } else if (event.key === 'Escape') {
+        autocompleteOpen.value = false;
+    }
+}
+
+const filteredSuggestions = computed(() => {
+    const all = suggestionsForManifestations.value;
+    const query = (optionFilterQuery.value ?? '').trim().toLowerCase();
+    if (!query) return all;
+    return all.filter(suggestion => suggestion.toLowerCase().includes(query));
+});
 
 // --- SEARCH WHITELIST (manifestation/item fields) ---
 const SEARCH_WHITELIST = [

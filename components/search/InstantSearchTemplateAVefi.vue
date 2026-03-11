@@ -316,6 +316,8 @@ function clearProductionYearRefinement() {
     delete updatedQuery['numericRefinement[production_in_year][<=]'];
     delete updatedQuery['numericRefinement[prodYearsOnly][=]'];
 
+    trackEvent('Facet', 'Production Year Cleared');
+
     router.replace({
         path: route.path,
         query: updatedQuery,
@@ -337,13 +339,22 @@ const {$toggleFacetDrawerState, $toast}:any = useNuxtApp();
 const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
 const viewTypeChecked = ref<'accordion' | 'flat' | 'table'>('accordion');
 
-onMounted(() => {
+const hasInitializedViewType = ref(false);
+
+import { nextTick } from 'vue';
+
+const isRestoringViewType = ref(true);
+
+onMounted(async () => {
     if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(VIEW_TYPE_KEY);
         if (stored === 'accordion' || stored === 'flat' || stored === 'table') {
             viewTypeChecked.value = stored as typeof viewTypeChecked.value;
         }
     }
+
+    await nextTick();
+    isRestoringViewType.value = false;
 });
 
 watch(viewTypeChecked, (newValue) => {
@@ -351,8 +362,24 @@ watch(viewTypeChecked, (newValue) => {
         localStorage.setItem(VIEW_TYPE_KEY, newValue);
     }
 
+    if (isRestoringViewType.value) return;
+
     trackResultViewChanged(newValue);
 });
+
+watch(viewTypeChecked, () => {
+    if (isRestoringViewType.value) return;
+
+    expandAllChecked.value = false;
+
+    setTimeout(() => {
+        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
+        if (clearBtn instanceof HTMLElement) {
+            clearBtn.click();
+        }
+    }, 0);
+});
+
 
 const expandAllChecked = ref(false);
 
@@ -380,16 +407,13 @@ const recentSearchesWithUrl = computed(() => {
 // Sync localSearchValue with URL query parameter
 const syncSearchValueFromUrl = () => {
     if (typeof window === 'undefined') return;
-    
+
     const urlParams = new URLSearchParams(window.location.search);
     const queryParam = urlParams.get('query');
-    
-    if (queryParam) {
-        localSearchValue.value = queryParam;
-        searchQuery.value = queryParam;
-    }
-};
 
+    localSearchValue.value = queryParam || '';
+    searchQuery.value = queryParam || '';
+};
 
 // Use <ais-state-results> to access the raw search response
 // Example usage in template:
@@ -610,7 +634,6 @@ const currentRefinements = computed(() => {
             });
         }
     });
-    console.log('Current refinements:', refinements);
     return refinements;
 });
 
@@ -688,19 +711,6 @@ const props = defineProps({
 
 watch(expandAllChecked, () => {
     expandAllItems();
-});
-
-watch(viewTypeChecked, () => {
-    expandAllChecked.value = false;
-
-    // Reset all facets/refinements
-    // Find the clear refinements button and click it
-    setTimeout(() => {
-        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
-        if (clearBtn instanceof HTMLElement) {
-            clearBtn.click();
-        }
-    }, 0);
 });
 
 const expandAllItems = () => {
@@ -781,38 +791,6 @@ const routerInstance = process.client
     })
     : null;
 
-
-watch(
-    () => route.query,
-    (newQuery, oldQuery) => {
-        if (!oldQuery) return;
-
-        const changedKeys = new Set([
-            ...Object.keys(newQuery || {}),
-            ...Object.keys(oldQuery || {})
-        ]);
-
-        for (const key of changedKeys) {
-            const newVal = (newQuery as any)?.[key];
-            const oldVal = (oldQuery as any)?.[key];
-
-            if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-                if (
-                    key !== 'query' &&
-                    key !== 'page' &&
-                    !key.startsWith('range_') &&
-                    key !== 'numericRefinement'
-                ) {
-                    trackFacetUsed(key);
-                }
-            }
-        }
-
-        syncPreservedSliderParamsFromRoute();
-    },
-    { deep: true, immediate: true }
-);    
-
 const stateMapping = {
     stateToRoute(uiState) {
         try {
@@ -834,19 +812,30 @@ const stateMapping = {
                 });
             }
 
-            /*
-            if (indexUiState.numericRefinements && Object.keys(indexUiState.numericRefinements).length > 0) {
-                route.numericRefinement = {};
-
+            if (indexUiState.numericRefinements) {
                 Object.entries(indexUiState.numericRefinements).forEach(([attr, ops]) => {
-                    route.numericRefinement[attr] = {};
-
                     Object.entries(ops as Record<string, any>).forEach(([op, val]) => {
-                        route.numericRefinement[attr][op] = Array.isArray(val) ? val[0] : val;
+                        const normalized = Array.isArray(val) ? val[0] : val;
+
+                        if (normalized !== undefined && normalized !== null && normalized !== '') {
+                            route[`numericRefinement[${attr}][${op}]`] = normalized;
+                        }
                     });
                 });
             }
-                */
+
+            if (indexUiState.range?.production_in_year) {
+                const rawRange = String(indexUiState.range.production_in_year);
+                const [from, to] = rawRange.split(':');
+
+                if (from !== undefined && from !== '') {
+                    route['numericRefinement[production_in_year][>=]'] = from;
+                }
+
+                if (to !== undefined && to !== '') {
+                    route['numericRefinement[production_in_year][<=]'] = to;
+                }
+            }
 
             if (indexUiState.range) {
                 Object.keys(indexUiState.range).forEach(key => {
@@ -880,6 +869,7 @@ const stateMapping = {
                     !key.startsWith('numericRefinement[') &&
                     key !== 'page' &&
                     !key.startsWith('range_')
+
                 ) {
                     const value = routeState[key];
 
@@ -967,6 +957,41 @@ const stateMapping = {
         }
     }
 };
+
+watch(
+    () => route.query,
+    (newQuery, oldQuery) => {
+        syncPreservedSliderParamsFromRoute();
+
+        if (!oldQuery) return;
+
+        const changedKeys = new Set([
+            ...Object.keys(newQuery || {}),
+            ...Object.keys(oldQuery || {})
+        ]);
+
+        for (const key of changedKeys) {
+            const newVal = (newQuery as any)?.[key];
+            const oldVal = (oldQuery as any)?.[key];
+
+            if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+                if (
+                    key !== 'query' &&
+                    key !== 'page' &&
+                    key !== 'numericRefinement' &&
+                    (!key.startsWith('range_') || key === 'range_production_in_year')
+                ) {
+                    trackFacetUsed(key);
+                }
+            }
+        }
+    },
+    { deep: true, immediate: true }
+);
+
+onMounted(() => {
+    syncPreservedSliderParamsFromRoute();
+});
 
 // Only use routing on client-side
 const extendedRouting = process.client ? {

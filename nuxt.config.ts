@@ -33,6 +33,23 @@ export default defineNuxtConfig({
         { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low', defer: true },
         {
           rel: 'preload',
+          script: [
+            {
+              hid: 'theme-init',
+              innerHTML: `(() => {
+                try {
+                  const key = 'avefi-color-mode';
+                  const mode = localStorage.getItem(key) || 'avefi_light';
+                  document.documentElement.setAttribute('data-theme', mode);
+                } catch (e) {}
+              })();`,
+              type: 'text/javascript',
+              tagPosition: 'head',
+            },
+          ],
+          __dangerouslyDisableSanitizersByTagID: {
+            'theme-init': ['innerHTML'],
+          },
           as: 'font',
           type: 'font/ttf',
           href: '/fonts/BreeSerif-Regular.ttf',

@@ -42,6 +42,7 @@ const props = defineProps<{
     ctaClass?: string;
     eyebrow?: string;
     variant?: 'default' | 'dashed' | 'minimal';
+    ctaType?: 'button' | 'link';
     unstyled?: boolean;
 }>();
 
@@ -77,5 +78,10 @@ const computedCtaRel = computed(() => {
     return props.ctaTarget === '_blank' ? 'noopener noreferrer' : undefined;
 });
 
-const ctaClasses = computed(() => props.ctaClass || 'btn btn-primary mt-4');
+const ctaClasses = computed(() => {
+    if (props.ctaType === 'button') {
+        return props.ctaClass || 'btn btn-primary mt-4';
+    }
+    return props.ctaClass || 'link mt-4';
+});
 </script>

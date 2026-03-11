@@ -270,7 +270,7 @@ export const manifestation: FieldMapEntry[] = [
         level: 'manifestation',
         orderSuggested: 16,
         order_2025_06_08: 16,
-        esPath: 'manifestations.has_item', // relation to item ids
+        esPath: 'manifestations.items', // relation to item ids
     },
 ];
 

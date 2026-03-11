@@ -75,7 +75,7 @@ const deBase = {
         },
         'hero': {
             'bannerSection': 'Ausgewählte Sammlungen und Highlights aus der Welt der Filmdaten',
-            'tagline': 'AVefi verknüpft Bestände verschiedener Institutionen zu einem Filmwerk und macht sie dauerhaft eindeutig auffindbar für Recherche und Forschung.',
+            'tagline': 'AVefi verknüpft Bestandsdaten verschiedener Institutionen zu einem Filmwerk und macht sie dauerhaft eindeutig auffindbar für Recherche und Forschung.',
             'claim': 'Filme finden. Daten verbinden.'
         },
         'search': {
@@ -91,8 +91,8 @@ const deBase = {
             'searchAndFind': {
                 'title': 'Entdecken',
                 "text": [
-                    "AVefi zeigt die Vielfalt der Filmkultur in einer Filmdatenbank. Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateur- und Autorenfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen.",
-                    "Die Plattform unterscheidet zwischen Werk, Manifestation und Exemplar. Dadurch lassen sich Archivbestände präzise zuordnen und vergleichen. Ergänzende filmografische Quellen sind direkt verlinkt."
+                    "AVefi zeigt die Vielfalt der Filmkultur in einer Filmdatenbank. Das Spektrum reicht vom frühen Film über Gebrauchs- und Dokumentar- bis zu Amateurfilmen. Nutzen Sie unsere Beispiele als Einstieg in die Suche nach Titeln, Themen, Orten und Personen.",
+                    "Die Plattform bündelt filmbezogene Metadaten und unterscheidet dabei zwischen Filmwerk, Manifestation und Exemplar. Dadurch lassen sich Archivbestände präzise zuordnen und vergleichen. Die Quellen mit ergänzenden Informationen sind direkt verlinkt."
                 ],
             },
             'build': {
@@ -100,16 +100,19 @@ const deBase = {
                     'title': 'efis für alle – Filme eindeutig identifiziert ',
                     'lead':  [
                       'AVefi ist ein Verbundsystem für Filmbestände aus unterschiedlichen Institutionen. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhalten jeweils eigene, dauerhaft gültige Identifikatoren.',
-                      'Dadurch lassen sich Filmwerke institutionsübergreifend eindeutig referenzieren. Manifestationen und Exemplare bleiben präzise unterscheidbar. Das ermöglicht konsistentes Referenzieren und verlässliches Zitieren.'
+                      'So lassen sich Filmwerke institutionsübergreifend eindeutig identifizieren. Manifestationen und Exemplare sind unterscheidbar und gezielt auffindbar. Das ermöglicht konsistentes Referenzieren und verlässliches Zitieren.'
                     ]
                 }
             },
             'callToAction': {
                 'title': 'Ihre Bestände in AVefi',
                 'text': [
-                    'AVefi ist offen für weitere Filmbestände und Kooperationspartner. Bringen Sie Ihre Daten ein und stärken Sie deren nachhaltige Auffindbarkeit und Zitierfähigkeit.',
-                    'Durch persistente Identifikatoren und strukturierte Metadaten werden Ihre Bestände besser sichtbar und langfristig wissenschaftlich nutzbar. Sie können mit Normdaten und weiteren Forschungsdaten verknüpft und in übergreifenden Forschungskontexten genutzt werden.'
-                ]
+                    'AVefi ist offen für weitere Filmbestände aus Archiven und Sammlungen. Bringen Sie Ihre Daten ein und stärken Sie deren nachhaltige Nutzung. Durch persistente Identifikatoren und strukturierte Metadaten werden Ihre Bestände besser sichtbar und langfristig wissenschaftlich nutzbar.',
+                    'Neue Kooperationspartner sind sehr willkommen.',
+                    'Kontaktieren Sie uns'
+                ],
+                'cta': 'Kontaktieren Sie uns',
+                'ctaLink': 'https://projects.tib.eu/av-efi'
             },
             'timeline': {
                 'title': 'Vom Datensatz zum Wissen',
@@ -133,10 +136,9 @@ const deBase = {
             'openAndExtendable': {
                 'title': 'Offen und erweiterbar',
                 'content': [
-                    'AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur und Film-Archivarbeit. Sie wird kontinuierlich weiterentwickelt und erweitert sich dynamisch um neue Datenquellen und Kooperationspartner. Die Infrastruktur basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.',
+                    'AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur- und Filmarchivarbeit. Sie wird kontinuierlich weiterentwickelt und erweitert sich dynamisch um neue Datenquellen und Kooperationspartner. Die Infrastruktur basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.',
                     'Hintergrundinformationen finden Sie auf der Projektwebsite.',
                     'https://projects.tib.eu/av-efi',
-                    'Weitere Datenquellen und Kooperationspartner sind sehr willkommen.'
                 ],
                 'cta': 'Kontaktieren Sie uns'
             },
@@ -153,7 +155,7 @@ const deBase = {
             },
             'becomePartner': {
                 'title': 'Teamwork',
-                'text': 'Über unsere Mailingliste informieren wir Sie über Neuigkeiten.',
+                'text': 'AVefi ist ein Infrastrukturprojekt im Verbund. Die Verbundpartner arbeiten mit beratender Expertise und konkreter Beteiligung von Praxispartnern zusammen, darunter Archive, Museen und wissenschaftliche Einrichtungen aus dem Bereich Filmkultur und -forschung.',
                 'cta': 'AVefi Mailingliste abonnieren',
                 'ctaLink': 'https://listserv.gwdg.de/mailman/listinfo/av-efi-community'
             }
@@ -733,7 +735,6 @@ const deBase = {
     'showchildren': 'Kind-Elemente anzeigen',
     'showfavourites': 'Favoriten zeigen',
     'showFacetsFor': ({ named }: { named: (key: string) => string }) => `Facetten für ${named('headerText')} auf Ebene ${named('category')} zeigen`,
-    'favourites': 'Favoriten',
     'favouritesalready': 'Das Element befindet sich bereits in der Favoriten',
     'favouritesfull': 'Die Favoriten darf maximal zehn Elemente beinhalten. Um ein neues Element hinzufügen, bitte eines aus der Liste entfernen.',
     'message': 'Nachricht',

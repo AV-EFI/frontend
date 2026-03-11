@@ -202,8 +202,11 @@
                     <template #content>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                             <HomeSectionTextBlock
-                                :title="t('home.sections.callToAction.title')"
+                                :title="$t('home.sections.callToAction.title')"
                                 :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
+                                :cta-label="$t('home.sections.callToAction.cta')"
+                                :cta-href="$t('home.sections.callToAction.ctaLink')"
+                                cta-type="link"
                                 wrapper-class="w-full lg:col-span-6"
                             />
                             <div class="w-full lg:col-span-6 flex justify-center">

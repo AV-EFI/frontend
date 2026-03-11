@@ -16,14 +16,12 @@ const avefiBase = {
         "pill": "Film Studies • Linked Data • Research",
         "badgeLine": "PID-ready • Authority Data • FDO-compatible"
     },
-
     "chips": {
         "works": "Works",
         "manifestations": "Manifestations",
         "items": "Items",
         "authorityLinks": "Authority data links"
     },
-
     "build": {
         "linked": {
             "title": "efis for all – uniquely identifying films",
@@ -84,7 +82,7 @@ const avefiBase = {
 
         'hero': {
             'bannerSection': 'Featured collections and highlights from the world of film data',
-            'tagline': 'AVefi connects holdings from multiple institutions into unified film works and makes them permanently identifiable for discovery and research.',
+            'tagline': 'AVefi connects the holdings of multiple institutions  to a film work and makes them permanently identifiable for discovery and research.',
             'claim': 'Find films. Link data.'
         },
 
@@ -101,27 +99,27 @@ const avefiBase = {
             'searchAndFind': {
                 'title': 'Explore',
                 "text": [
-                    "AVefi reveals the diversity of film culture through a structured film database. The range spans early cinema, educational and documentary films, as well as amateur and auteur productions. Use the curated examples as an entry point to search for titles, topics, places, and people.",
-                    "The platform distinguishes between Work, Manifestation, and Item. This structure enables precise identification and comparison of archival holdings. Additional filmographic resources are linked directly."
+                    "AVefi lets you explore the diversity of film culture through a structured film database. Its range spans from early cinema to educational and other utility films to amateur productions. Use our examples as an entry point for searching for titles, topics, places and people.",
+                    "The platform bundles film-related metadata and distinguishes between Work, Manifestation, and Item. This structure enables precise identification and comparison of archival holdings. The data sources with additional information are linked directly."
                 ],
             },
             'build': {
                 'linked': {
                     'title': 'efis for all – uniquely identifying films',
                     'lead': [
-                        'AVefi is a federated system for film holdings from multiple institutions. For each film, AVefi assigns Uniform Film Identifiers (efis). Works, Manifestations, and Items each receive their own persistent identifiers.',
-                        'This allows film works to be referenced unambiguously across institutions. Manifestations and items remain clearly distinguishable, enabling consistent referencing and reliable citation.'
+                        'AVefi is a network system for audiovisual holdings from multiple institutions. For each film, AVefi assigns a unique film identifier (efi). Works, Manifestations, and Items each receive their own persistent identifiers.',
+                        'This allows film works to be uniquely identified across institutions, while manifestations and items can be clearly distinguished and easily found. This makes consistent referencing and reliable citation possible.'
                     ]
                 }
             },
             'callToAction': {
-                'title': 'Your collections in AVefi',
+                'title': 'Your holdings in AVefi',
                 'text': [
-                    'AVefi is open to additional film collections and cooperation partners. Contribute your data and strengthen the sustainable discoverability and citability of your holdings.',
-                    'Persistent identifiers and structured metadata increase the visibility and long-term research value of your collections. They can be linked with authority data and other research datasets and used in broader scholarly contexts.'
-                ]
+                    'AVefi is open to additional film holdings from archives and collections. Contribute your data and strengthen the sustainable discoverability and citability. Persistent identifiers and structured metadata increase the visibility and long-term research value of your collections.',
+                    'New cooperation partners are very welcome.'
+                ],
+                'cta': 'Contact us'
             },
-
             'timeline': {
                 'title': 'From dataset to knowledge',
                 'query': {
@@ -141,23 +139,19 @@ const avefiBase = {
                     'desc': 'Generate persistent links for scholarly references.'
                 }
             },
-
             'openAndExtendable': {
-                'title': 'Open and extensible',
+                'title': 'Open and expandable',
                 'content': [
-                    'AVefi is a platform for interdisciplinary film research, film culture, and archival practice. The system is continuously developed and expands dynamically through new data sources and cooperation partners. The infrastructure is based on structured metadata, authority data, and persistent identifiers (PID). Heterogeneous audiovisual holdings can therefore be identified and compared. The data model follows established domain standards and is guided by Linked Open Data and FAIR principles.',
-                    'Background information is available on the project website.',
+                    'AVefi is a platform for interdisciplinary film-related research, film cultural activities, and film archiving. It is continuously being developed and dynamically expanded to include new data sources and cooperation partners. The infrastructure is based on structured metadata, authority data, and persistent identifiers (PID). This allows heterogeneous audiovisual collections to be identified and compared. The data schema is based on established standards. Linked Open Data and FAIR principles are the guiding principles.',
+                    'More information can be found on our project website.',
                     'https://projects.tib.eu/av-efi',
-                    'Additional data sources and cooperation partners are highly welcome.'
                 ],
-                'cta': 'Contact us'
+                'cta': 'More information can be found on our project website.'
             },
-
             'video': {
                 'aria': 'AVefi video',
                 'notSupported': 'Your browser does not support the video tag.'
             },
-
             'issuers': {
                 'title': 'Participating archives'
             },
@@ -168,13 +162,12 @@ const avefiBase = {
             },
 
             'becomePartner': {
-                'title': 'Join the AVefi community',
-                'text': 'Subscribe to our mailing list to receive project updates and news.',
+                'title': 'Teamwork',
+                'text': 'AVefi is a collaborative infrastructure project. The project partners work together with the advisory expertise and concrete participation of practical partners, including archives, museums, and academic institutions in the field of film culture and research.',
                 'cta': 'Subscribe to the AVefi mailing list',
                 'ctaLink': 'https://listserv.gwdg.de/mailman/listinfo/av-efi-community'
             }
         },
-
         'common': {
             'dataset': 'Dataset',
             'datasets': 'Datasets'
@@ -241,7 +234,6 @@ const avefiBase = {
 
             }
         },
-
         'seo': {
             'siteName': 'AVefi – Infrastructure for Audiovisual Research',
             'title': 'AVefi – Film database and cross-archive film discovery',
@@ -695,7 +687,7 @@ const avefiBase = {
     'favourites': 'Favourites',
     'filmidentification': 'Film Identification',
     'filmportalref': 'reference at filmportal.de',
-    'filmresearch': 'Research',
+    'filmresearch': 'Search',
     'copyToClipboard': 'Copy to clipboard',
     'castMember': 'Cast member',
     'CastMember': 'Cast member',
