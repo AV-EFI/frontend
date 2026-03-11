@@ -475,6 +475,11 @@ const filteredManifestations = computed<any[]>(() => {
     }
 
     function mfLevelMatches(mf: any, q: string): boolean {
+        // Strict match for event type
+        if (q === 'TheatricalDistributionEvent') {
+            const events = Array.isArray(mf.has_record?.has_event) ? mf.has_record.has_event : [];
+            return events.some(ev => ev?.type === q);
+        }
         for (const p of SEARCH_WHITELIST) {
             if (p.startsWith("items.")) continue;
             const vals: string[] = [];

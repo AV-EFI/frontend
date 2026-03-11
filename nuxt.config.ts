@@ -33,45 +33,6 @@ export default defineNuxtConfig({
         { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low', defer: true },
         {
           rel: 'preload',
-          script: [
-                  style: [
-                    {
-                      hid: 'preload-dark-theme-colors',
-                      innerHTML: `html[data-theme="avefi_dark"], [data-theme="avefi_dark"] {
-                        background: #1e1e1e !important;
-                        color: #dfe9ee !important;
-                        --color-base-100: oklch(20.768% 0.039 265.754);
-                        --color-base-content: #dfe9ee;
-                        --color-primary: #4d768d;
-                        --color-primary-content: oklch(98% 0.002 247.839);
-                        --color-secondary: #000000;
-                        --color-secondary-content: oklch(98% 0.002 247.839);
-                        --color-accent: #d8899c;
-                        --color-accent-content: #3a1f26;
-                        --color-neutral: oklch(27.949% 0.036 260.03);
-                        --color-neutral-content: #ffffff;
-                      }
-                      `,
-                      type: 'text/css',
-                      tagPosition: 'head',
-                    },
-                  ],
-            {
-              hid: 'theme-init',
-              innerHTML: `(() => {
-                try {
-                  const key = 'avefi-color-mode';
-                  const mode = localStorage.getItem(key) || 'avefi_light';
-                  document.documentElement.setAttribute('data-theme', mode);
-                } catch (e) {}
-              })();`,
-              type: 'text/javascript',
-              tagPosition: 'head',
-            },
-          ],
-          __dangerouslyDisableSanitizersByTagID: {
-            'theme-init': ['innerHTML'],
-          },
           as: 'font',
           type: 'font/ttf',
           href: '/fonts/BreeSerif-Regular.ttf',
@@ -95,6 +56,45 @@ export default defineNuxtConfig({
           fetchpriority: 'high',
         },
       ],
+      style: [
+        {
+          hid: 'preload-dark-theme-colors',
+          innerHTML: `html[data-theme="avefi_dark"], [data-theme="avefi_dark"] {
+            background: #1e1e1e !important;
+            color: #dfe9ee !important;
+            --color-base-100: oklch(20.768% 0.039 265.754);
+            --color-base-content: #dfe9ee;
+            --color-primary: #4d768d;
+            --color-primary-content: oklch(98% 0.002 247.839);
+            --color-secondary: #000000;
+            --color-secondary-content: oklch(98% 0.002 247.839);
+            --color-accent: #d8899c;
+            --color-accent-content: #3a1f26;
+            --color-neutral: oklch(27.949% 0.036 260.03);
+            --color-neutral-content: #ffffff;
+          }
+          `,
+          type: 'text/css',
+          tagPosition: 'head',
+        },
+      ],
+      script: [
+        {
+          hid: 'theme-init',
+          innerHTML: `(() => {
+            try {
+              const key = 'avefi-color-mode';
+              const mode = localStorage.getItem(key) || 'avefi_light';
+              document.documentElement.setAttribute('data-theme', mode);
+            } catch (e) {}
+          })();`,
+          type: 'text/javascript',
+          tagPosition: 'head',
+        },
+      ],
+      __dangerouslyDisableSanitizersByTagID: {
+        'theme-init': ['innerHTML'],
+      },
       meta: [
         {
           name: 'google-site-verification',
