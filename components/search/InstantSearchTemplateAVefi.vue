@@ -115,14 +115,14 @@
                                                 </h2>
                                             </div>
                                             <div class="w-full md:w-1/2 flex flex-row justify-end">
-                                                <ais-clear-refinements :class-names="{
-                                                    'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
-                                                    'ais-CurrentRefinements-delete': 'ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                                                }">
-                                                    <template #resetLabel>
-                                                        <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
-                                                    </template>
-                                                </ais-clear-refinements>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                                                    @click="handleClearAllRefinements"
+                                                    :aria-label="$t('clearallfilters')"
+                                                >
+                                                    <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="w-full bg-white dark:bg-gray-800 rounded-t-none rounded-b-lg p-2" role="list"
@@ -131,7 +131,7 @@
                                                 'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
                                                 'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
                                                 'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                                                'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
+                                                'ais-ClearRefinements-button': 'btn hover:bg-red-600 text-white',
                                             }">
                                                 <template v-slot="{ items }">
                                                     <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-gray-500 text-sm dark">
@@ -167,7 +167,7 @@
                                                 </template>
                                             </ais-current-refinements>
                                             <!-- Custom chip for production year slider -->
-                                            <div v-if="hasProductionYearRefinement" class="flex flex-row flex-wrap gap-2 mt-2">
+                                            <div v-if="hasProductionYearRefinement && productionYearLabel" class="flex flex-row flex-wrap gap-2 mt-2">
                                                 <div class="border flex flex-col items-start border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 rounded-lg p-1 md:w-auto md:max-w-xs">
                                                     <strong class="font-bold text-sm mb-2 dark:text-primary-100 mr-2">
                                                         {{ $t('productionyear') }}:
@@ -175,7 +175,7 @@
                                                     <div class="flex flex-row items-start cursor-pointer" @click="clearProductionYearRefinement" :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`">
                                                         <span class="text-sm">{{ productionYearLabel }}</span>
                                                         <div class="ml-2 my-auto">
-                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                        
+                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                         
                                                         </div>
                                                     </div>
                                                 </div>
@@ -292,11 +292,15 @@ function getProductionYearRefinement() {
 }
 
 const hasProductionYearRefinement = computed(() => {
+    if (forceHideProductionYearChip.value) return false;
+
     const { from, to } = getProductionYearRefinement();
     return from !== undefined || to !== undefined;
 });
 
 const productionYearLabel = computed(() => {
+    if (forceHideProductionYearChip.value) return '';
+
     const { from, to } = getProductionYearRefinement();
     if (from && to) {
         return `${from} – ${to}`;
@@ -304,17 +308,35 @@ const productionYearLabel = computed(() => {
         return `≥ ${from}`;
     } else if (to) {
         return `≤ ${to}`;
-    } 
+    }
     return '';
-    
 });
 
 function clearProductionYearRefinement() {
+    forceHideProductionYearChip.value = true;
+
     const updatedQuery: Record<string, any> = { ...route.query };
 
     delete updatedQuery['numericRefinement[production_in_year][>=]'];
     delete updatedQuery['numericRefinement[production_in_year][<=]'];
     delete updatedQuery['numericRefinement[prodYearsOnly][=]'];
+    delete updatedQuery['range_production_in_year'];
+
+    // Algolia UI-State mitbereinigen
+    if (aisState?.uiState?.[props.indexName]) {
+        const indexUiState = { ...aisState.uiState[props.indexName] };
+
+        if (indexUiState.numericRefinements) {
+            delete indexUiState.numericRefinements.production_in_year;
+            delete indexUiState.numericRefinements.prodYearsOnly;
+        }
+
+        if (indexUiState.range) {
+            delete indexUiState.range.production_in_year;
+        }
+
+        aisState.uiState[props.indexName] = indexUiState;
+    }
 
     trackEvent('Facet', 'Production Year Cleared');
 
@@ -367,19 +389,7 @@ watch(viewTypeChecked, (newValue) => {
     trackResultViewChanged(newValue);
 });
 
-watch(viewTypeChecked, () => {
-    if (isRestoringViewType.value) return;
-
-    expandAllChecked.value = false;
-
-    setTimeout(() => {
-        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
-        if (clearBtn instanceof HTMLElement) {
-            clearBtn.click();
-        }
-    }, 0);
-});
-
+const forceHideProductionYearChip = ref(false);
 
 const expandAllChecked = ref(false);
 
@@ -641,6 +651,37 @@ const baseSearchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
+
+function handleClearAllRefinements() {
+    trackEvent('Facets', 'Clear All Clicked');
+
+    if (hasProductionYearRefinement.value) {
+        clearProductionYearRefinement();
+    }
+
+    nextTick(() => {
+        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
+        if (clearBtn instanceof HTMLElement) {
+            clearBtn.click();
+        }
+    });
+}
+
+watch(
+    () => route.query,
+    (query) => {
+        const hasProdYearInRoute =
+            query['numericRefinement[production_in_year][>=]'] !== undefined ||
+            query['numericRefinement[production_in_year][<=]'] !== undefined ||
+            query['numericRefinement[prodYearsOnly][=]'] !== undefined ||
+            query['range_production_in_year'] !== undefined;
+
+        if (!hasProdYearInRoute) {
+            forceHideProductionYearChip.value = false;
+        }
+    },
+    { deep: true, immediate: true }
+);
 
 function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
     const result: Record<string, Record<string, number>> = {};
