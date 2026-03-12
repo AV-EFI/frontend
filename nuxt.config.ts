@@ -366,43 +366,23 @@ export default defineNuxtConfig({
     // Use explicit schema nodes from app/pages and avoid auto i18n WebSite workTranslation injection.
     defaults: false,
   },
-
   robots: {
     groups: isSchema
       ? [
         {
-          userAgent: 'Googlebot',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-        {
-          userAgent: 'Google-InspectionTool',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-        {
           userAgent: '*',
-          disallow: ['/'],
+          allow: '/',
+          disallow: [
+            '/protected/**',
+            '/admin/**',
+            '/login',
+            '/logout',
+            '/signout',
+            '/normdata',
+            '/explorer-poc',
+            '/_nuxt/**',
+            '/_**',
+          ],
         },
       ]
       : [
