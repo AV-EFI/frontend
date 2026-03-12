@@ -2,10 +2,10 @@
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 export default defineNuxtPlugin(({ $pinia }: any) => {
-    $pinia.use(piniaPluginPersistedstate);
-    return {
-        provide: {
-            persistedState: piniaPluginPersistedstate
-        }
-    };
+  $pinia.use(piniaPluginPersistedstate);
+  return {
+    provide: {
+      persistedState: piniaPluginPersistedstate
+    }
+  };
 });

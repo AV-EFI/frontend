@@ -1,17 +1,16 @@
 <template>
     <div ref="target" :class="anchorClass">
-        <ClientOnly>
-            <div v-if="isReady" :class="contentClass">
-                <slot name="content" />
-            </div>
-        </ClientOnly>
-        <div v-if="!isReady" :class="fallbackClass">
+        <div v-if="hydrated && isReady" :class="contentClass">
+            <slot name="content" />
+        </div>
+        <div v-else :class="fallbackClass">
             <slot name="fallback" />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue';
 import { useDeferredVisibility } from '~/composables/useDeferredVisibility';
 
 const props = withDefaults(defineProps<{
@@ -26,5 +25,10 @@ const props = withDefaults(defineProps<{
     fallbackClass: '',
 });
 
+const hydrated = ref(false);
 const { target, isReady } = useDeferredVisibility({ rootMargin: props.rootMargin });
+
+onMounted(() => {
+    hydrated.value = true;
+});
 </script>

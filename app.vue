@@ -232,30 +232,23 @@ onMounted(() => {
     scheduleCookieControlMount();
 });
 
-// Theme initialization
-const colorMode = useColorMode({
-    attribute: 'data-theme',
-    initialValue: 'avefi_light',
-    modes: {
-        avefi_light: 'avefi_light',
-        dark: 'dark',
+const colorModeCookie = useCookie<'avefi_light' | 'avefi_dark' | 'dark'>('avefi-color-mode', {
+    default: () => 'avefi_light',
+});
+
+const normalizedTheme = computed(() =>
+    colorModeCookie.value === 'avefi_dark' || colorModeCookie.value === 'dark'
+        ? 'avefi_dark'
+        : 'avefi_light'
+);
+
+useHead(() => ({
+    htmlAttrs: {
+        'data-theme': normalizedTheme.value,
+        class: normalizedTheme.value === 'avefi_dark' ? 'dark' : '',
     },
-    storageKey: 'avefi-color-mode',
-});
+}));
 
-function setHtmlThemeAttribute(mode: string) {
-    if (typeof document !== 'undefined') {
-        document.documentElement.setAttribute('data-theme', mode);
-    }
-}
-
-onMounted(() => {
-    setHtmlThemeAttribute(colorMode.value);
-});
-
-watch(colorMode, (newMode) => {
-    setHtmlThemeAttribute(newMode);
-});
 </script>
 
 <template>

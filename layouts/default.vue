@@ -1,34 +1,46 @@
 <template>
     <div class="flex flex-col min-h-screen">
-        <header :class="{'scrolled': isScrolled}" class="fixed top-0 left-0 z-30 border-0 w-full lg:w-90vw"
-                @mouseenter="removeScrolledClass" @mouseleave="addScrolledClass">
+        <header
+            :class="{ scrolled: isScrolled }"
+            class="fixed top-0 left-0 z-30 border-0 w-full lg:w-90vw"
+            @mouseenter="removeScrolledClass"
+            @mouseleave="addScrolledClass"
+        >
             <GlobalNavBar />
         </header>
+
         <div class="h-[var(--header-height)] flex-shrink-0" aria-hidden="true"></div>
+
         <main class="main grow bg-base-100 2xl:px-6">
-            <ClientOnly>
-                <!--GlobalIndicatorComp /-->
-            </ClientOnly>
             <slot />
-            <ClientOnly>
-                <GlobalComparisonDrawer />
-            </ClientOnly>
+            <GlobalComparisonDrawer v-if="hydrated" />
         </main>
+
         <footer class="dark:bg-gray-800">
-            <LazyGlobalFooter />
+            <GlobalFooter />
         </footer>
-        <button v-if="showScrollToTop"
-                class="fixed z-20 bottom-20 right-[20px] p-2 bg-neutral border-2 border-white dark:bg-secondary-600 h-[42px] w-[42px] text-white rounded-full"
-                :title="$t('scrollToTop')" @click="scrollToTop">
+
+        <button
+            v-if="hydrated && showScrollToTop"
+            class="fixed z-20 bottom-20 right-[20px] p-2 bg-neutral border-2 border-white dark:bg-secondary-600 h-[42px] w-[42px] text-white rounded-full"
+            :title="$t('scrollToTop')"
+            @click="scrollToTop"
+        >
             <Icon name="tabler:chevron-up" class="text-lg" />
         </button>
     </div>
 </template>
 
 <script>
+import GlobalFooter from '~/components/global/Footer.vue';
+
 export default {
+    components: {
+        GlobalFooter,
+    },
     data() {
         return {
+            hydrated: false,
             isScrolled: false,
             showScrollToTop: false,
             pageTallEnough: false,
@@ -37,6 +49,7 @@ export default {
         };
     },
     mounted() {
+        this.hydrated = true;
         if (typeof window === 'undefined') return;
         window.addEventListener('scroll', this.scheduleScrollUpdate, { passive: true });
         this.observePageSize();

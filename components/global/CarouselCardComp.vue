@@ -145,24 +145,24 @@ const { t } = useI18n();
 
 interface CarouselItem {
     title: string;
-    imgSrc?: string;
-    imgAlt?: string;
+    imgSrc?: string | undefined;
+    imgAlt?: string | undefined;
     description: string;
     link: string;
     linkText: string;
-    imgSourceLink: string;
-    imgSourceText: string;
-    imgAuthor: string;
-    imgLicense: string;
-    imgLicenseLink: string;
-    imgCoverType?: string;
-    imgSrcSet?: string;
-    imgSizes?: string;
-    imgWidth?: number;
-    imgHeight?: number;
-    imgBlurSrc?: string;
-    imgBlurWidth?: number;
-    imgBlurHeight?: number;
+    imgSourceLink?: string | undefined;
+    imgSourceText?: string | undefined;
+    imgAuthor?: string | undefined;
+    imgLicense?: string | undefined;
+    imgLicenseLink?: string | undefined;
+    imgCoverType?: string | undefined;
+    imgSrcSet?: string | undefined;
+    imgSizes?: string | undefined;
+    imgWidth?: number | undefined;
+    imgHeight?: number | undefined;
+    imgBlurSrc?: string | undefined;
+    imgBlurWidth?: number | undefined;
+    imgBlurHeight?: number | undefined;
 }
 
 const props = defineProps({

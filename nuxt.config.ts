@@ -1,6 +1,7 @@
 // nuxt.config.ts
 const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | schema | release
 const indexSearch = process.env.NUXT_PUBLIC_INDEX_SEARCH === 'true';
+
 const isPre = releaseMode === 'pre';
 const isSchema = releaseMode === 'schema';
 const isRelease = releaseMode === 'release';
@@ -30,7 +31,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/svg+xml', href: '/img/favicon.svg' },
         { rel: 'shortcut icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low', defer: true },
+        { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low' },
         {
           rel: 'preload',
           as: 'font',
@@ -58,7 +59,6 @@ export default defineNuxtConfig({
       ],
       style: [
         {
-          hid: 'preload-dark-theme-colors',
           innerHTML: `html[data-theme="avefi_dark"], [data-theme="avefi_dark"] {
             background: #1e1e1e !important;
             color: #dfe9ee !important;
@@ -80,21 +80,33 @@ export default defineNuxtConfig({
       ],
       script: [
         {
-          hid: 'theme-init',
           innerHTML: `(() => {
-            try {
-              const key = 'avefi-color-mode';
-              const mode = localStorage.getItem(key) || 'avefi_light';
-              document.documentElement.setAttribute('data-theme', mode);
-            } catch (e) {}
-          })();`,
+              try {
+                const key = 'avefi-color-mode';
+                const root = document.documentElement;
+
+                const cookieMatch = document.cookie.match(/(?:^|; )avefi-color-mode=([^;]+)/);
+                const cookieValue = cookieMatch ? decodeURIComponent(cookieMatch[1]) : null;
+                const stored = localStorage.getItem(key);
+
+                const mode =
+                  stored ||
+                  cookieValue ||
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? 'avefi_dark'
+                    : 'avefi_light');
+
+                root.setAttribute('data-theme', mode);
+                root.classList.toggle('dark', mode === 'avefi_dark');
+
+                localStorage.setItem(key, mode);
+                document.cookie = 'avefi-color-mode=' + mode + '; path=/; max-age=31536000; SameSite=Lax';
+              } catch (e) {}
+            })();`,
           type: 'text/javascript',
           tagPosition: 'head',
         },
       ],
-      __dangerouslyDisableSanitizersByTagID: {
-        'theme-init': ['innerHTML'],
-      },
       meta: [
         {
           name: 'google-site-verification',
@@ -110,7 +122,7 @@ export default defineNuxtConfig({
 
   // Inline critical CSS into the HTML to avoid render-blocking
   experimental: {
-    inlineSSRStyles: true,
+    // inlineSSRStyles: true, // Removed invalid property
     // payloadExtraction: false,
   },
 
@@ -125,7 +137,7 @@ export default defineNuxtConfig({
     debug: process.env.NUXT_DEBUG === 'true',
     prerender: {
       crawlLinks: false,
-      routes: ['/', '/faq', '/glossary'],
+      routes: ['/faq', '/vocab', '/imprint', '/press'],
     },
 
     // Response-header policies (X-Robots-Tag etc.)
@@ -144,7 +156,6 @@ export default defineNuxtConfig({
           'Content-Type': 'text/plain; charset=utf-8',
         },
       },
-
       // ✅ Caching unverändert
       '/img/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
       '/fonts/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
@@ -152,16 +163,15 @@ export default defineNuxtConfig({
       // ✅ Search nur indexieren wenn explizit gewünscht UND release/schema
       ...((isRelease || isSchema) && !indexSearch
         ? {
-            '/search': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
-            '/search/**': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
-          }
+          '/search': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
+          '/search/**': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
+        }
         : {}),
 
-      // ✅ Pre-release: alles noindex
       ...(isPre
         ? {
-            '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
-          }
+          '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+        }
         : {}),
     },
   },
@@ -204,16 +214,17 @@ export default defineNuxtConfig({
       // release switches
       releaseMode,
       indexSearch,
-
       // bot/rate limit knobs (used by server middleware, e.g. server/middleware/bot-guard.ts)
       rateLimitEnabled: process.env.NUXT_PUBLIC_RATE_LIMIT_ENABLED === 'true',
       rateLimitAvg: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_AVG ?? 8),
       rateLimitBurst: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_BURST ?? 20),
-      schemaTestUaAllowlist: (process.env.NUXT_PUBLIC_SCHEMA_TEST_UA_ALLOWLIST ?? 'Googlebot')
+      schemaTestUaAllowlist: (
+        process.env.NUXT_PUBLIC_SCHEMA_TEST_UA_ALLOWLIST ??
+        'Googlebot,Google-InspectionTool'
+      )
         .split(',')
         .map((s) => s.trim())
         .filter(Boolean),
-
       ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
       origin: process.env.ORIGIN,
       frontendUrl: process.env.ORIGIN,
@@ -275,12 +286,10 @@ export default defineNuxtConfig({
       ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
     },
   },
-
   routeRules: {
     '/': { ssr: true },
     '/search': { ssr: true },
     '/faq': { ssr: false },
-    '/glossary': { ssr: false },
     '/login': { ssr: true },
     '/film/**': { ssr: true },
     '/res/**': { ssr: true, prerender: false },
@@ -305,24 +314,16 @@ export default defineNuxtConfig({
       pass: process.env.MAIL_PASSWORD,
     },
   },
-
   site: {
-    // Full base URL of the production site
     url: process.env.SITE_URL || 'https://www.av-efi.net',
-    // Used by @nuxt/seo, @nuxt/robots, @nuxt/sitemap, OG-image, schema.org
     name: 'AVefi – Find films. Link data.',
-    // Fallback (i18n SEO meta will override this per page)
     description:
-      'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
-    // Whether Google is allowed to index the site
-    // dev/staging: NUXT_PUBLIC_INDEXABLE=false
-    // production : NUXT_PUBLIC_INDEXABLE=true
-    indexable: process.env.NUXT_PUBLIC_INDEXABLE === 'true',
-    // Enable automatic Open Graph image generation (if using @nuxtjs/og-image)
-    // You can override with runtimeConfig.public.siteOgImage
+    'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
+    indexable:
+    process.env.NUXT_PUBLIC_INDEXABLE === 'true' ||
+    isSchema,
     image: '/img/avefi-og-image.png',
   },
-
   schemaOrg: {
     enabled: true,
     minify: true,
@@ -367,31 +368,62 @@ export default defineNuxtConfig({
   },
 
   robots: {
-    groups: [
-      process.env.NUXT_PUBLIC_INDEXABLE === 'true'
-        ? { userAgent: '*', allow: '/' }
-        : {
-            userAgent: '*',
-            // ✅ allow crawling so sitemap can list URLs
-            allow: '/',
-
-            // ✅ block only sensitive areas
-            disallow: [
-              '/protected/**',
-              '/admin/**',
-              '/login',
-              '/logout',
-              '/signout',
-              '/normdata',
-              '/explorer-poc',
-              '/_nuxt/**',
-              '/_**',
-            ],
-          },
-    ],
+    groups: isSchema
+      ? [
+        {
+          userAgent: 'Googlebot',
+          allow: '/',
+          disallow: [
+            '/protected/**',
+            '/admin/**',
+            '/login',
+            '/logout',
+            '/signout',
+            '/normdata',
+            '/explorer-poc',
+            '/_nuxt/**',
+            '/_**',
+          ],
+        },
+        {
+          userAgent: 'Google-InspectionTool',
+          allow: '/',
+          disallow: [
+            '/protected/**',
+            '/admin/**',
+            '/login',
+            '/logout',
+            '/signout',
+            '/normdata',
+            '/explorer-poc',
+            '/_nuxt/**',
+            '/_**',
+          ],
+        },
+        {
+          userAgent: '*',
+          disallow: ['/'],
+        },
+      ]
+      : [
+        {
+          userAgent: '*',
+          allow: '/',
+          disallow: [
+            '/protected/**',
+            '/admin/**',
+            '/login',
+            '/logout',
+            '/signout',
+            '/normdata',
+            '/explorer-poc',
+            '/_nuxt/**',
+            '/_**',
+          ],
+        },
+      ],
     sitemap: ['/sitemap.xml'],
   },
-
   // Sitemap
   sitemap: {
     zeroRuntime: true,
@@ -533,11 +565,8 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
-      tailwindcss(),
-      visualizer({
-        filename: 'bundle-analysis.html',
-        open: false,
-      }),
+      tailwindcss,
+      visualizer,
     ],
     optimizeDeps: {
       include: ['export-to-csv', 'instantsearch.js', 'algoliasearch'],

@@ -75,4 +75,12 @@ export default [
       camelcase: 'off',
     },
   },
+
+  // 👇 Enforce indentation for .ts files
+  {
+    files: ['**/*.ts'],
+    rules: {
+      indent: ['warn', 2], // Change to 4 for 4 spaces
+    },
+  },
 ];

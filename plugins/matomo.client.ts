@@ -1,23 +1,23 @@
 // plugins/matomo.client.ts
-import { defineNuxtPlugin, useRuntimeConfig, useRouter } from '#app'
-import { watch } from 'vue'
-import { useMatomoTracking } from '~/composables/useMatomoTracking'
+import { defineNuxtPlugin, useRuntimeConfig, useRouter } from '#app';
+import { watch } from 'vue';
+import { useMatomoTracking } from '~/composables/useMatomoTracking';
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const config = useRuntimeConfig()
-  const router = useRouter()
+  const config = useRuntimeConfig();
+  const router = useRouter();
 
-  const matomoUrl = config.public.matomoUrl
-  const siteId = config.public.matomoSiteId
+  const matomoUrl = config.public.matomoUrl;
+  const siteId = config.public.matomoSiteId;
 
-  let isMatomoBooted = false
-  let removeAfterEachHook: (() => void) | null = null
+  let isMatomoBooted = false;
+  let removeAfterEachHook: (() => void) | null = null;
 
   const bootMatomo = async () => {
-    if (isMatomoBooted) return
-    if (!matomoUrl || !siteId) return
+    if (isMatomoBooted) return;
+    if (!matomoUrl || !siteId) return;
 
-    const { default: VueMatomo } = await import('vue-matomo')
+    const { default: VueMatomo } = await import('vue-matomo');
 
     nuxtApp.vueApp.use(VueMatomo, {
       host: matomoUrl,
@@ -35,66 +35,66 @@ export default defineNuxtPlugin((nuxtApp) => {
       enableHeartBeatTimer: true,
       heartBeatTimerInterval: 15,
       debug: import.meta.dev,
-    })
+    });
 
-    isMatomoBooted = true
+    isMatomoBooted = true;
 
     const {
       rememberConsentGiven,
       trackPageView,
       trackEvent,
       setPreferenceDimensions,
-    } = useMatomoTracking()
+    } = useMatomoTracking();
 
-    rememberConsentGiven()
+    rememberConsentGiven();
 
     // Initial dimensions + initial pageview
-    setPreferenceDimensions()
-    trackPageView(document.title)
+    setPreferenceDimensions();
+    trackPageView(document.title);
 
     // Optional initial event
-    trackEvent('Preferences', 'Loaded', 'initial_state')
+    trackEvent('Preferences', 'Loaded', 'initial_state');
 
     // Track all SPA navigations manually
     removeAfterEachHook = router.afterEach(() => {
-      setPreferenceDimensions()
-      trackPageView(document.title)
-    })
-  }
+      setPreferenceDimensions();
+      trackPageView(document.title);
+    });
+  };
 
   const stopMatomo = () => {
-    if (!isMatomoBooted) return
+    if (!isMatomoBooted) return;
 
     const {
       clearPreferenceDimensions,
       forgetConsentGiven,
       deleteCookies,
-    } = useMatomoTracking()
+    } = useMatomoTracking();
 
-    clearPreferenceDimensions()
-    forgetConsentGiven()
-    deleteCookies()
+    clearPreferenceDimensions();
+    forgetConsentGiven();
+    deleteCookies();
 
     if (removeAfterEachHook) {
-      removeAfterEachHook()
-      removeAfterEachHook = null
+      removeAfterEachHook();
+      removeAfterEachHook = null;
     }
-  }
+  };
 
-  const { cookiesEnabledIds } = useCookieControl()
+  const { cookiesEnabledIds } = useCookieControl();
 
   watch(
     cookiesEnabledIds,
     async (ids) => {
       const hasMatomoConsent =
-        Array.isArray(ids) && ids.includes('matomo')
+        Array.isArray(ids) && ids.includes('matomo');
 
       if (hasMatomoConsent) {
-        await bootMatomo()
+        await bootMatomo();
       } else {
-        stopMatomo()
+        stopMatomo();
       }
     },
     { immediate: true }
-  )
-})
+  );
+});

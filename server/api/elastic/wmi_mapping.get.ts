@@ -22,27 +22,27 @@ export default defineEventHandler(async (event) => {
 import {Client} from '@elastic/elasticsearch';
 
 export default defineEventHandler(async (event) => {
-    try {
-        const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
+  try {
+    const client = new Client({ node: useRuntimeConfig().public.ELASTIC_HOST_PUBLIC });
 
-        const documentId = String(await getQuery(event).documentId);
+    const documentId = String(await getQuery(event).documentId);
 
-        if (!documentId) {
-            return { error: 'documentId is required' };
+    if (!documentId) {
+      return { error: 'documentId is required' };
+    }
+    const result = await client.search({
+      index: useRuntimeConfig().public.ELASTIC_INDEX_MAPPING,
+      query: {
+        "ids" : {
+          "values" : documentId
         }
-        const result = await client.search({
-            index: useRuntimeConfig().public.ELASTIC_INDEX_MAPPING,
-            query: {
-                "ids" : {
-                    "values" : documentId
-                }
-            },
-        });
+      },
+    });
 
-        return result.hits.hits;
-    }
-    catch(ex) {
-        console.log(ex);
-        return null;
-    }
+    return result.hits.hits;
+  }
+  catch(ex) {
+    console.log(ex);
+    return null;
+  }
 });

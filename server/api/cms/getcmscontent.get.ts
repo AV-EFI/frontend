@@ -16,29 +16,29 @@ interface GetCMSContentParams {
 }
 
 export default defineEventHandler(async (event) => {
-    const query = getQuery(event) as GetCMSContentParams;
-    const { contenttype, id, locale } = query;
+  const query = getQuery(event) as GetCMSContentParams;
+  const { contenttype, id, locale } = query;
 
-    if (!contenttype || !CONTENTTYPE_RE.test(contenttype)) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid content type' });
-    }
+  if (!contenttype || !CONTENTTYPE_RE.test(contenttype)) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid content type' });
+  }
 
-    if (locale && !LOCALE_RE.test(locale)) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid locale' });
-    }
+  if (locale && !LOCALE_RE.test(locale)) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid locale' });
+  }
 
-    const url = `${STRAPI_URL}/api/${encodeURIComponent(contenttype)}${locale ? `?locale=${encodeURIComponent(locale)}` : ''}`;
+  const url = `${STRAPI_URL}/api/${encodeURIComponent(contenttype)}${locale ? `?locale=${encodeURIComponent(locale)}` : ''}`;
 
-    try {
-        const response = await axios.get(url, {
-            params: id ? { id } : {},
-            headers: {
-                Authorization: `Bearer ${STRAPI_TOKEN}`,
-            },
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching CMS content:', error);
-        throw error;
-    }
+  try {
+    const response = await axios.get(url, {
+      params: id ? { id } : {},
+      headers: {
+        Authorization: `Bearer ${STRAPI_TOKEN}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching CMS content:', error);
+    throw error;
+  }
 });

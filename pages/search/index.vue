@@ -7,15 +7,20 @@
             ]"
         />
 
-        <keep-alive>
-            <SearchSection
-                v-if="searchClient"
-                :search-client="searchClient"
-            />
-            <div v-else class="text-center py-4">
-                <span class="loading loading-spinner loading-lg text-primary" />
-            </div>
-        </keep-alive>
+        <div v-if="isClient">
+            <client-only>
+                <SearchSection
+                    v-if="searchClient"
+                    :search-client="searchClient"
+                />
+                <div v-else class="text-center py-4">
+                    <span class="loading loading-spinner loading-lg text-primary" />
+                </div>
+            </client-only>
+        </div>
+        <div v-else class="text-center py-4">
+            <span class="loading loading-spinner loading-lg text-primary" />
+        </div>
     </div>
 </template>
 
@@ -35,7 +40,9 @@ const { currentUrlState } = useCurrentUrlState();
 /**
  * Search client (client-only) — keep SSR stable but avoid running client instantiation on server.
  */
-const searchClient = process.client
+import { ref } from 'vue';
+const isClient = typeof window !== 'undefined';
+const searchClient = isClient
     ? Client({
         config: searchkitConfig as any,
         url: `${runtime.public.AVEFI_ELASTIC_API}/${runtime.public.AVEFI_SEARCH}`,

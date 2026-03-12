@@ -12,7 +12,7 @@ export default defineEventHandler(async () => {
       de: store.entries[path]?.de ?? '',
       en: store.entries[path]?.en ?? '',
       showDetail: store.entries[path]?.showDetail ?? false,
-        showSearch: store.entries[path]?.showSearch ?? false,
+      showSearch: store.entries[path]?.showSearch ?? false,
     }));
   return { entries, updatedAt: store.updatedAt };
 });

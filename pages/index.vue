@@ -22,10 +22,8 @@
                              loading="eager" decoding="async" fetchpriority="high" sizes="100vw"
                              srcset="/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w">
                     </picture>
-                    <!-- Aurora / glow overlays (light + dark variants) -->
                     <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none hidden md:block"
                          aria-hidden="true"></div>
-                    <!-- Vignette -->
                     <div class="absolute inset-0 pointer-events-none hidden md:block
                         mix-blend-multiply dark:mix-blend-normal
                         bg-[radial-gradient(1200px_700px_at_50%_40%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.08)_100%),linear-gradient(180deg,rgba(0,0,0,0.08),transparent_22%,transparent_78%,rgba(0,0,0,0.10))]
@@ -35,18 +33,14 @@
 
                 <div class="hero-content p-0 md:p-2 w-full lg:w-full">
                     <div class="w-full lg:max-w-6xl lg:py-4 mx-auto">
-                        <!-- Center content panel: THIS is what makes it readable -->
                         <div class="hero-panel max-w-90vw lg:max-w-6xl mx-auto px-4 py-9 md:rounded-2xl
                   border
                   shadow-none md:shadow-[0_28px_70px_-52px_rgba(0,0,0,0.40)]
                   md:supports-backdrop-filter:backdrop-blur-[10px]
                   motion-reduce:transition-none
                 " :class="[
-                  // LIGHT glass
                   'bg-white/95 border-white/30 md:bg-white/85 md:border-white/40',
-                  // DARK glass (this is what was missing)
                   'dark:bg-neutral/40 dark:border-white/10',
-                  // subtle inner highlight like your inset 1px
                   'shadow-inner dark:shadow-none',
                         ]">
                             <div class="text-center">
@@ -65,22 +59,18 @@
                                 </p>
                             </div>
 
-                            <!-- BIG centered search -->
                             <div class="mt-6 grid place-items-center">
                                 <div class="w-full max-w-4xl">
-                                    <!-- Glass search card -->
                                     <div class="hero-search-card card border
                               shadow-none md:shadow-[0_26px_70px_-48px_rgba(0,0,0,0.45),0_8px_26px_-18px_rgba(0,0,0,0.18)]
-                              md:supports-backdrop-filter:backdrop-blur-[14px]" 
-                                         :class="[// LIGHT
+                              md:supports-backdrop-filter:backdrop-blur-[14px]"
+                                         :class="[
                                              'bg-white border-white/30 md:bg-white/55 md:border-white/35',
-                                             // DARK
                                              'dark:bg-neutral/35 dark:border-white/10',
                                          ]">
                                         <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
                                              :aria-labelledby="'home-search-label'" aria-live="polite"
                                              aria-atomic="false" tabindex="0">
-                                            <!-- Card header row: integrated mode switch -->
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
                                                 <div class="md:justify-end" role="group"
@@ -97,7 +87,6 @@
                                                             </span>
                                                             <Icon name="tabler:zoom-scan"
                                                                   class="lg:hidden ml-1 md:ml-0" />
-
                                                         </button>
                                                         <button class="join-item btn md:btn-sm"
                                                                 :aria-label="$t('home.search.advanced')"
@@ -117,29 +106,34 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Search component -->
-                                            <Suspense>
-                                                <template #default>
-                                                    <KeepAlive>
-                                                        <component :is="activeSearchComponent" ref="searchCompRef"
-                                                                   :aria-labelledby="'home-search-label'" />
-                                                    </KeepAlive>
-                                                </template>
-                                                <template #fallback>
-                                                    <div
-                                                        class="h-24 flex items-center justify-center text-sm opacity-70">
-                                                        {{ $t('home.search.loading') || 'Loading search…' }}
-                                                    </div>
-                                                </template>
-                                            </Suspense>
-
+                                            <div class="min-h-24">
+                                                <div v-if="isClientMounted">
+                                                    <Suspense>
+                                                        <template #default>
+                                                            <KeepAlive>
+                                                                <component
+                                                                    :is="activeSearchComponent"
+                                                                    ref="searchCompRef"
+                                                                    :aria-labelledby="'home-search-label'"
+                                                                />
+                                                            </KeepAlive>
+                                                        </template>
+                                                        <template #fallback>
+                                                            <div class="h-24 flex items-center justify-center text-sm opacity-70">
+                                                                {{ $t('home.search.loading') || 'Loading search…' }}
+                                                            </div>
+                                                        </template>
+                                                    </Suspense>
+                                                </div>
+                                                <div v-else class="h-24 flex items-center justify-center text-sm opacity-70">
+                                                    {{ $t('home.search.loading') || 'Loading search…' }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <!-- /glass search card -->
                                 </div>
                             </div>
                         </div>
-                        <!-- /hero-content-panel -->
                     </div>
                 </div>
             </div>
@@ -147,12 +141,9 @@
 
         <section id="main" role="main" :aria-label="$t('home.featured.aria')"
                  class="relative border-t border-base-200 py-10 block transition-opacity duration-300">
-            <!-- wash layer -->
-            <!-- Aurora / glow overlays (light + dark variants) -->
             <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
                  aria-hidden="true"></div>
 
-            <!-- content stays above -->
             <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-100 flex items-center justify-between py-2 md:py-4">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                     <HomeSectionTextBlock :title="$t('home.sections.searchAndFind.title')"
@@ -160,10 +151,17 @@
                                           wrapper-class="lg:col-span-4" />
                     <div class="lg:col-span-8 flex justify-center w-full">
                         <div class="relative w-full min-h-100">
-                            <ClientOnly>
-                                <LazyGlobalCarouselCardComp :items="cardItems"
-                                                            class="h-full transition-opacity duration-300" />
-                            </ClientOnly>
+                            <div v-if="isClientMounted" class="h-full min-h-100">
+                                <LazyGlobalCarouselCardComp
+                                    :items="cardItems"
+                                    class="h-full transition-opacity duration-300"
+                                />
+                            </div>
+                            <div
+                                v-else
+                                class="h-full min-h-100 rounded-xl border border-dashed border-base-300 bg-base-100"
+                                aria-hidden="true">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,149 +169,148 @@
         </section>
 
         <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
-        <NuxtLazyHydrate when-visible :offset="220">
-            <HomeSectionShell wash="a">
-                <HomeLazySectionLoader root-margin="200px 0px">
-                    <template #content>
-                        <HomeTimelineSection />
-                    </template>
-                    <template #fallback>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-                            <div class="w-full p-4 sm:p-6 space-y-4">
-                                <div class="h-10 w-3/4 bg-base-200 rounded-full"></div>
-                                <div class="space-y-2">
-                                    <div class="h-4 bg-base-200 rounded w-full"></div>
-                                    <div class="h-4 bg-base-200 rounded w-5/6"></div>
-                                    <div class="h-4 bg-base-200 rounded w-2/3"></div>
-                                </div>
+        <HomeSectionShell wash="a">
+            <HomeLazySectionLoader root-margin="200px 0px">
+                <template #content>
+                    <HomeTimelineSection />
+                </template>
+                <template #fallback>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                        <div class="w-full p-4 sm:p-6 space-y-4">
+                            <div class="h-10 w-3/4 bg-base-200 rounded-full"></div>
+                            <div class="space-y-2">
+                                <div class="h-4 bg-base-200 rounded w-full"></div>
+                                <div class="h-4 bg-base-200 rounded w-5/6"></div>
+                                <div class="h-4 bg-base-200 rounded w-2/3"></div>
                             </div>
-                            <HomeSectionTextBlock :title="$t('home.sections.build.linked.title')"
-                                                  :paragraphs="[$t('home.sections.build.linked.lead[0]'), $t('home.sections.build.linked.lead[1]')]" wrapper-class="w-full" />
                         </div>
-                    </template>
-                </HomeLazySectionLoader>
-            </HomeSectionShell>
-        </NuxtLazyHydrate>
+                        <HomeSectionTextBlock :title="$t('home.sections.build.linked.title')"
+                                              :paragraphs="[$t('home.sections.build.linked.lead[0]'), $t('home.sections.build.linked.lead[1]')]"
+                                              wrapper-class="w-full" />
+                    </div>
+                </template>
+            </HomeLazySectionLoader>
+        </HomeSectionShell>
 
         <!-- ======= ISSUER CAROUSEL ======= -->
-        <NuxtLazyHydrate when-visible :offset="260">
-            <HomeSectionShell wash="none">
-                <HomeLazySectionLoader root-margin="320px 0px">
-                    <template #content>
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                            <HomeSectionTextBlock
-                                :title="$t('home.sections.callToAction.title')"
-                                :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
-                                :cta-label="$t('home.sections.callToAction.cta')"
-                                :cta-href="$t('home.sections.callToAction.ctaLink')"
-                                cta-type="link"
-                                wrapper-class="w-full lg:col-span-6"
-                            />
-                            <div class="w-full lg:col-span-6 flex justify-center">
-                                <div class="relative w-full min-h-100 md:min-h-128">
-                                    <HomeIssuerSection />
-                                </div>
+        <HomeSectionShell wash="none">
+            <HomeLazySectionLoader root-margin="320px 0px">
+                <template #content>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                        <HomeSectionTextBlock
+                            :title="$t('home.sections.callToAction.title')"
+                            :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
+                            :cta-label="$t('home.sections.callToAction.cta')"
+                            :cta-href="$t('home.sections.callToAction.ctaLink')"
+                            cta-type="link"
+                            wrapper-class="w-full lg:col-span-6"
+                        />
+                        <div class="w-full lg:col-span-6 flex justify-center">
+                            <div class="relative w-full min-h-100 md:min-h-128">
+                                <HomeIssuerSection />
                             </div>
                         </div>
-                    </template>
-                    <template #fallback>
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                            <HomeSectionTextBlock
-                                :title="t('home.sections.callToAction.title')"
-                                :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
-                                wrapper-class="w-full col-span-4"
-                            />
-                            <div class="w-full lg:col-span-8 flex justify-center">
-                                <div class="relative w-full min-h-100 md:min-h-128">
-                                    <div class="px-4 sm:px-6 text-center">
-                                        <div class="w-full flex flex-col justify-center max-lg:mt-6">
-                                            <div class="h-10 w-1/2 mx-auto bg-base-200 rounded mb-6"></div>
-                                            <div class="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                <div v-for="n in 4" :key="`issuer-skeleton-${n}`"
-                                                     class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
-                                            </div>
+                    </div>
+                </template>
+                <template #fallback>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                        <HomeSectionTextBlock
+                            :title="t('home.sections.callToAction.title')"
+                            :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
+                            wrapper-class="w-full col-span-4"
+                        />
+                        <div class="w-full lg:col-span-8 flex justify-center">
+                            <div class="relative w-full min-h-100 md:min-h-128">
+                                <div class="px-4 sm:px-6 text-center">
+                                    <div class="w-full flex flex-col justify-center max-lg:mt-6">
+                                        <div class="h-10 w-1/2 mx-auto bg-base-200 rounded mb-6"></div>
+                                        <div class="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div v-for="n in 4" :key="`issuer-skeleton-${n}`"
+                                                 class="border border-dashed border-base-300 rounded-2xl p-4 bg-base-100"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </template>
-                </HomeLazySectionLoader>
-            </HomeSectionShell>
-        </NuxtLazyHydrate>
+                    </div>
+                </template>
+            </HomeLazySectionLoader>
+        </HomeSectionShell>
 
         <!-- ======= CORE FUNC & VIDEO BAND ======= -->
-        <NuxtLazyHydrate when-visible :offset="320">
-            <HomeSectionShell wash="a">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-                    <HomeLazySectionLoader root-margin="420px 0px" anchor-class="lazy-section-anchor w-full">
-                        <template #content>
-                            <HomeCoreFunctionsSection />
-                        </template>
-                        <template #fallback>
-                            <div class="w-full min-h-100 flex items-center justify-between">
-                                <HomeSectionTextBlock
-                                    :title="$t('home.sections.openAndExtendable.title')"
-                                    :paragraphs="[$t('home.sections.openAndExtendable.content[0]'), $t('home.sections.openAndExtendable.content[1]')]"
-                                    wrapper-class="w-full"
-                                    inner-class="max-w-none"
-                                />
-                                <div class="btn btn-primary" @click="openContactForm()">
-                                    {{ $t('home.sections.openAndExtendable.cta') }}
-                                </div>
-                            </div>
-                        </template>
-                    </HomeLazySectionLoader>
-                    <HomeLazySectionLoader root-margin="260px 0px" anchor-class="lazy-section-anchor w-full">
-                        <template #content>
-                            <HomeVideoSection />
-                        </template>
-                        <template #fallback>
-                            <div class="w-full min-h-100 flex items-center justify-between">
-                                <div class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200"></div>
-                            </div>
-                        </template>
-                    </HomeLazySectionLoader>
-                </div>
-            </HomeSectionShell>
-        </NuxtLazyHydrate>
-
-        <!-- ======= PARTNERS ======= -->
-        <NuxtLazyHydrate when-visible :offset="520">
-            <HomeSectionShell wash="none" content-class="min-h-[400px] flex items-center justify-between">
-                <HomeLazySectionLoader root-margin="520px 0px" anchor-class="lazy-section-anchor w-full">
+        <HomeSectionShell wash="a">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                <HomeLazySectionLoader root-margin="420px 0px" anchor-class="lazy-section-anchor w-full">
                     <template #content>
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" role="region" :aria-label="t('home.sections.partners.title')">
-                            <div class="order-2 lg:order-1 flex flex-col justify-center lg:justify-start lg:col-span-6">
-                                <div class="w-full flex justify-start">
-                                    <ClientOnly>
-                                        <LazyGlobalPartnersCarouselComp />
-                                    </ClientOnly>
-                                </div>
-                            </div>
-                            <div class="order-1 lg:order-2 flex flex-col justify-center lg:col-span-6">
-                                <HomeSectionTextBlock
-                                    :title="t('home.sections.becomePartner.title')"
-                                    :paragraphs="[$t('home.sections.partners.description')]"
-                                    wrapper-class="w-full justify-center"
-                                />
-                            </div>
-                        </div>
+                        <HomeCoreFunctionsSection />
                     </template>
                     <template #fallback>
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" aria-hidden="true">
-                            <div class="col-span-full lg:col-span-6 space-y-4 px-4 sm:px-6 lg:px-0">
-                                <div class="h-10 w-1/2 mx-auto bg-base-200 rounded"></div>
-                                <div class="w-full rounded-xl border border-dashed border-base-300 h-60 bg-base-100"></div>
-                            </div>
-                            <div class="col-span-full lg:col-span-6 px-4 sm:px-6 lg:px-0">
-                                <div class="w-full rounded-2xl border border-dashed border-base-300 h-60 bg-base-100"></div>
+                        <div class="w-full min-h-100 flex items-center justify-between">
+                            <HomeSectionTextBlock
+                                :title="$t('home.sections.openAndExtendable.title')"
+                                :paragraphs="[$t('home.sections.openAndExtendable.content[0]'), $t('home.sections.openAndExtendable.content[1]')]"
+                                wrapper-class="w-full"
+                                inner-class="max-w-none"
+                            />
+                            <div class="btn btn-primary" @click="openContactForm()">
+                                {{ $t('home.sections.openAndExtendable.cta') }}
                             </div>
                         </div>
                     </template>
                 </HomeLazySectionLoader>
-            </HomeSectionShell>
-        </NuxtLazyHydrate>
+
+                <HomeLazySectionLoader root-margin="260px 0px" anchor-class="lazy-section-anchor w-full">
+                    <template #content>
+                        <HomeVideoSection />
+                    </template>
+                    <template #fallback>
+                        <div class="w-full min-h-100 flex items-center justify-between">
+                            <div class="w-full max-w-4xl mx-auto rounded-xl border border-dashed border-base-300 h-60 bg-base-200"></div>
+                        </div>
+                    </template>
+                </HomeLazySectionLoader>
+            </div>
+        </HomeSectionShell>
+
+        <!-- ======= PARTNERS ======= -->
+        <HomeSectionShell wash="none" content-class="min-h-[400px] flex items-center justify-between">
+            <HomeLazySectionLoader root-margin="520px 0px" anchor-class="lazy-section-anchor w-full">
+                <template #content>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" role="region" :aria-label="t('home.sections.partners.title')">
+                        <div class="order-2 lg:order-1 flex flex-col justify-center lg:justify-start lg:col-span-6">
+                            <div class="w-full flex justify-start">
+                                <div v-if="isClientMounted" class="w-full min-h-60">
+                                    <LazyGlobalPartnersCarouselComp />
+                                </div>
+                                <div
+                                    v-else
+                                    class="w-full rounded-xl border border-dashed border-base-300 h-60 bg-base-100"
+                                    aria-hidden="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-1 lg:order-2 flex flex-col justify-center lg:col-span-6">
+                            <HomeSectionTextBlock
+                                :title="t('home.sections.becomePartner.title')"
+                                :paragraphs="[$t('home.sections.partners.description')]"
+                                wrapper-class="w-full justify-center"
+                            />
+                        </div>
+                    </div>
+                </template>
+                <template #fallback>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" aria-hidden="true">
+                        <div class="col-span-full lg:col-span-6 space-y-4 px-4 sm:px-6 lg:px-0">
+                            <div class="h-10 w-1/2 mx-auto bg-base-200 rounded"></div>
+                            <div class="w-full rounded-xl border border-dashed border-base-300 h-60 bg-base-100"></div>
+                        </div>
+                        <div class="col-span-full lg:col-span-6 px-4 sm:px-6 lg:px-0">
+                            <div class="w-full rounded-2xl border border-dashed border-base-300 h-60 bg-base-100"></div>
+                        </div>
+                    </div>
+                </template>
+            </HomeLazySectionLoader>
+        </HomeSectionShell>
     </div>
 </template>
 
@@ -327,10 +324,13 @@ import { unrefElement } from '@vueuse/core';
 import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
 import HomeSectionTextBlock from '~/components/home/HomeSectionTextBlock.vue';
 
+const isClientMounted = ref(false);
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = useSiteUrl();
+
+
 const criticalLinks: Array<Record<string, string>> = [
     {
         rel: 'preload',
@@ -342,8 +342,9 @@ const criticalLinks: Array<Record<string, string>> = [
 ];
 
 const openContactForm = () => {
-    if (typeof window === 'undefined') return;
-    window.dispatchEvent(new CustomEvent('open-contact-form'));
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('open-contact-form'));
+    }
 };
 
 
@@ -489,12 +490,20 @@ useSchemaOrg(() => {
 const showAdvancedSearch = ref(false);
 const searchCompRef = ref<ComponentPublicInstance | HTMLElement | null>(null);
 const advancedSearchPrefetched = ref(false);
+
 const activeSearchComponent = computed(() => {
-    // Always return a valid component to avoid Vue warning
     if (showAdvancedSearch.value) {
         return SearchCompExtended || SearchCompReduced;
     }
     return SearchCompReduced;
+});
+
+onMounted(async () => {
+    isClientMounted.value = true;
+    await nextTick();
+    setTimeout(() => {
+        focusFirstInput();
+    }, 1100);
 });
 
 async function prefetchAdvancedSearch() {
@@ -504,6 +513,7 @@ async function prefetchAdvancedSearch() {
 }
 
 function focusFirstInput(root?: ComponentPublicInstance | HTMLElement | null) {
+    if (typeof window === 'undefined') return;
     const scope = unrefElement(root ?? searchCompRef.value) as HTMLElement | null;
     if (!scope || typeof scope.querySelector !== 'function') return;
     const el = scope.querySelector<HTMLElement>(
@@ -519,13 +529,6 @@ function focusFirstInput(root?: ComponentPublicInstance | HTMLElement | null) {
         } catch {}
     }
 }
-
-onMounted(async () => {
-    await nextTick();
-    setTimeout(() => {
-        focusFirstInput();
-    }, 1100);
-});
 
 watch(showAdvancedSearch, async (isAdvanced) => {
     if (isAdvanced) {

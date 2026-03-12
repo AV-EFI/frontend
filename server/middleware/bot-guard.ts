@@ -40,18 +40,41 @@ function uaMatchesAllowlist(ua: string, allow: string[]): boolean {
   return allow.some((a) => a && u.includes(a.toLowerCase()));
 }
 
-function isAllowedInSchemaMode(path: string): boolean {
-  // ✅ Always allow: robots + sitemap
-  if (path === '/robots.txt' || path === '/sitemap.xml') return true;
+function isAlwaysPublicPath(path: string): boolean {
+  return path === '/robots.txt' || path === '/sitemap.xml';
+}
 
-  // ✅ Allow only selected pages
+function isSensitivePath(path: string): boolean {
+  return (
+    path.startsWith('/protected') ||
+    path.startsWith('/admin') ||
+    path === '/login' ||
+    path === '/logout' ||
+    path === '/signout' ||
+    path === '/normdata' ||
+    path === '/explorer-poc'
+  );
+}
+
+function isNeverIndexButFetchablePath(path: string): boolean {
+  return path.startsWith('/_nuxt') || path.startsWith('/_');
+}
+
+function isAllowedInSchemaMode(path: string): boolean {
+  // Always allow robots/sitemap
+  if (isAlwaysPublicPath(path)) return true;
+
+  // Public pages you want Google to test
   if (path === '/') return true;
   if (path === '/press' || path.startsWith('/press/')) return true;
-
-  // ✅ Allow detail pages only
+  if (path === '/search' || path.startsWith('/search/')) return true;
   if (path.startsWith('/res/')) return true;
 
-  // ❌ Everything else is blocked (incl. /search)
+  // Optional static pages
+  if (path === '/faq') return true;
+  if (path === '/imprint') return true;
+  if (path === '/contact') return true;
+
   return false;
 }
 
@@ -66,55 +89,80 @@ export default defineEventHandler((event) => {
 
   const allowlist: string[] = Array.isArray(cfg.schemaTestUaAllowlist)
     ? cfg.schemaTestUaAllowlist
-    : ['Googlebot', 'Bingbot', 'Google-InspectionTool'];
+    : ['Googlebot', 'Google-InspectionTool'];
 
   const ua = String(getRequestHeader(event, 'user-agent') ?? '');
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
   const path = event.path || '/';
 
+  const isGoogleTestUa = uaMatchesAllowlist(ua, allowlist);
+
   // ----------------------------
-  // SCHEMA MODE: hard allowlist by path + UA
+  // Sensitive/internal routes: never index
+  // ----------------------------
+  if (isSensitivePath(path)) {
+    setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
+
+    if (releaseMode === 'schema') {
+      throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
+    }
+  }
+
+  if (isNeverIndexButFetchablePath(path)) {
+    setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
+  }
+
+  // ----------------------------
+  // SCHEMA MODE:
+  // - only selected paths are accessible
+  // - Googlebot / InspectionTool can index them
+  // - everyone else sees noindex
   // ----------------------------
   if (releaseMode === 'schema') {
-    // 1) Path allowlist
     if (!isAllowedInSchemaMode(path)) {
       throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
     }
 
-    // 2) UA allowlist (anti-“random bot”)
-    //    Note: UA spoofing is possible; this is still useful as a pre-WAF guard.
-    if (!uaMatchesAllowlist(ua, allowlist)) {
-      throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
+    // robots.txt and sitemap.xml must remain fetchable
+    if (!isAlwaysPublicPath(path)) {
+      setResponseHeader(
+        event,
+        'X-Robots-Tag',
+        isGoogleTestUa
+          ? 'index, follow, max-image-preview:large'
+          : 'noindex, nofollow, noarchive'
+      );
     }
-
-    // 3) Make sure allowed pages are indexable for the test phase
-    //    (search is blocked anyway; so safe)
-    setResponseHeader(event, 'X-Robots-Tag', 'index, follow');
   }
 
   // ----------------------------
-  // PRE MODE: force noindex everywhere (except you may still want sitemap/robots fetchable)
+  // PRE MODE: force noindex everywhere
   // ----------------------------
   if (releaseMode === 'pre') {
-    // allow sitemap/robots still fetchable but noindex
-    setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow');
+    setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
   }
 
   // ----------------------------
-  // RATE LIMIT (optional, for all modes if enabled)
+  // RELEASE MODE:
+  // allow normal indexing unless routeRules or page-level meta override it
+  // ----------------------------
+  if (releaseMode === 'release') {
+    // no forced override here
+  }
+
+  // ----------------------------
+  // RATE LIMIT
   // ----------------------------
   if (rateLimitEnabled) {
-    // In schema-mode, requests are already heavily gated; keep it anyway.
     const key =
-      releaseMode === 'schema'
-        ? `${ip}:schema`
-        : path.startsWith('/search')
-          ? `${ip}:search`
-          : path.startsWith('/res')
-            ? `${ip}:res`
-            : `${ip}:other`;
+  releaseMode === 'schema'
+    ? `${ip}:schema:${path.startsWith('/search') ? 'search' : path.startsWith('/res') ? 'res' : 'other'}`
+    : path.startsWith('/search')
+      ? `${ip}:search`
+      : path.startsWith('/res')
+        ? `${ip}:res`
+        : `${ip}:other`;
 
-    // Optionally: schema-mode a bit looser because only a few UAs pass
     const localAvg = releaseMode === 'schema' ? Math.max(avg, 10) : avg;
     const localBurst = releaseMode === 'schema' ? Math.max(burst, 30) : burst;
 
