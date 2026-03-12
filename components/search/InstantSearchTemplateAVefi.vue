@@ -175,7 +175,7 @@
                                                     <div class="flex flex-row items-start cursor-pointer" @click="clearProductionYearRefinement" :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`">
                                                         <span class="text-sm">{{ productionYearLabel }}</span>
                                                         <div class="ml-2 my-auto">
-                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                         
+                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -312,7 +312,9 @@ const productionYearLabel = computed(() => {
     return '';
 });
 
-function clearProductionYearRefinement() {
+const isClearingAllRefinements = ref(false);
+
+async function clearProductionYearRefinement() {
     forceHideProductionYearChip.value = true;
 
     const updatedQuery: Record<string, any> = { ...route.query };
@@ -322,17 +324,26 @@ function clearProductionYearRefinement() {
     delete updatedQuery['numericRefinement[prodYearsOnly][=]'];
     delete updatedQuery['range_production_in_year'];
 
-    // Algolia UI-State mitbereinigen
+    const nextPreserved = { ...preservedSliderParams.value };
+    delete nextPreserved['numericRefinement[production_in_year][>=]'];
+    delete nextPreserved['numericRefinement[production_in_year][<=]'];
+    delete nextPreserved['numericRefinement[prodYearsOnly][=]'];
+    preservedSliderParams.value = nextPreserved;
+
     if (aisState?.uiState?.[props.indexName]) {
         const indexUiState = { ...aisState.uiState[props.indexName] };
 
         if (indexUiState.numericRefinements) {
-            delete indexUiState.numericRefinements.production_in_year;
-            delete indexUiState.numericRefinements.prodYearsOnly;
+            const numericRefinements = { ...indexUiState.numericRefinements };
+            delete numericRefinements.production_in_year;
+            delete numericRefinements.prodYearsOnly;
+            indexUiState.numericRefinements = numericRefinements;
         }
 
         if (indexUiState.range) {
-            delete indexUiState.range.production_in_year;
+            const range = { ...indexUiState.range };
+            delete range.production_in_year;
+            indexUiState.range = range;
         }
 
         aisState.uiState[props.indexName] = indexUiState;
@@ -340,13 +351,38 @@ function clearProductionYearRefinement() {
 
     trackEvent('Facet', 'Production Year Cleared');
 
-    router.replace({
+    await router.replace({
         path: route.path,
         query: updatedQuery,
     });
 
+    await nextTick();
+
     if (process.client) {
         window.dispatchEvent(new CustomEvent('avefi:clear-production-year'));
+    }
+}
+
+async function handleClearAllRefinements() {
+    isClearingAllRefinements.value = true;
+
+    try {
+        trackEvent('Facets', 'Clear All Clicked');
+
+        if (hasProductionYearRefinement.value) {
+            await clearProductionYearRefinement();
+        }
+
+        await nextTick();
+
+        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
+        if (clearBtn instanceof HTMLElement) {
+            clearBtn.click();
+        }
+
+        await nextTick();
+    } finally {
+        isClearingAllRefinements.value = false;
     }
 }
 
@@ -651,21 +687,6 @@ const baseSearchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
 });
-
-function handleClearAllRefinements() {
-    trackEvent('Facets', 'Clear All Clicked');
-
-    if (hasProductionYearRefinement.value) {
-        clearProductionYearRefinement();
-    }
-
-    nextTick(() => {
-        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
-        if (clearBtn instanceof HTMLElement) {
-            clearBtn.click();
-        }
-    });
-}
 
 watch(
     () => route.query,
@@ -1004,6 +1025,7 @@ watch(
     (newQuery, oldQuery) => {
         syncPreservedSliderParamsFromRoute();
 
+        if (isClearingAllRefinements.value) return;
         if (!oldQuery) return;
 
         const changedKeys = new Set([

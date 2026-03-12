@@ -56,13 +56,34 @@ function isSensitivePath(path: string): boolean {
   );
 }
 
+/**
+ * Internal/framework routes that must stay fetchable for Nuxt/Nitro prerendering,
+ * payload loading, i18n lazy messages, sitemap styling, etc.
+ * These routes must never be indexed.
+ */
+function isInternalFrameworkPath(path: string): boolean {
+  return (
+    path.startsWith('/_nuxt/') ||
+    path.startsWith('/_i18n/') ||
+    path.startsWith('/__sitemap__/') ||
+    path.endsWith('/_payload.json') ||
+    path === '/_payload.json'
+  );
+}
+
+/**
+ * Publicly fetchable but never indexable routes/assets.
+ */
 function isNeverIndexButFetchablePath(path: string): boolean {
-  return path.startsWith('/_nuxt') || path.startsWith('/_');
+  return isInternalFrameworkPath(path);
 }
 
 function isAllowedInSchemaMode(path: string): boolean {
   // Always allow robots/sitemap
   if (isAlwaysPublicPath(path)) return true;
+
+  // Internal framework fetches required for working prerender/build/runtime
+  if (isInternalFrameworkPath(path)) return true;
 
   // Public pages you want Google to test
   if (path === '/') return true;
@@ -74,6 +95,12 @@ function isAllowedInSchemaMode(path: string): boolean {
   if (path === '/faq') return true;
   if (path === '/imprint') return true;
   if (path === '/contact') return true;
+
+  // Explicit public download/API endpoints needed by allowed pages
+  if (path === '/api/press-kit.zip') return true;
+
+  // Add only if /vocab should be accessible in schema mode
+  if (path === '/vocab') return true;
 
   return false;
 }
@@ -108,6 +135,9 @@ export default defineEventHandler((event) => {
     }
   }
 
+  // ----------------------------
+  // Framework/internal fetchable paths: never index, but allow fetching
+  // ----------------------------
   if (isNeverIndexButFetchablePath(path)) {
     setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
   }
@@ -117,14 +147,16 @@ export default defineEventHandler((event) => {
   // - only selected paths are accessible
   // - Googlebot / InspectionTool can index them
   // - everyone else sees noindex
+  // - internal framework routes remain fetchable but never indexable
   // ----------------------------
   if (releaseMode === 'schema') {
     if (!isAllowedInSchemaMode(path)) {
       throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
     }
 
-    // robots.txt and sitemap.xml must remain fetchable
-    if (!isAlwaysPublicPath(path)) {
+    // robots.txt / sitemap.xml stay fetchable without forced override
+    // internal framework routes stay fetchable but never indexable
+    if (!isAlwaysPublicPath(path) && !isInternalFrameworkPath(path)) {
       setResponseHeader(
         event,
         'X-Robots-Tag',
@@ -155,13 +187,19 @@ export default defineEventHandler((event) => {
   // ----------------------------
   if (rateLimitEnabled) {
     const key =
-  releaseMode === 'schema'
-    ? `${ip}:schema:${path.startsWith('/search') ? 'search' : path.startsWith('/res') ? 'res' : 'other'}`
-    : path.startsWith('/search')
-      ? `${ip}:search`
-      : path.startsWith('/res')
-        ? `${ip}:res`
-        : `${ip}:other`;
+      releaseMode === 'schema'
+        ? `${ip}:schema:${
+          path.startsWith('/search')
+            ? 'search'
+            : path.startsWith('/res')
+              ? 'res'
+              : 'other'
+        }`
+        : path.startsWith('/search')
+          ? `${ip}:search`
+          : path.startsWith('/res')
+            ? `${ip}:res`
+            : `${ip}:other`;
 
     const localAvg = releaseMode === 'schema' ? Math.max(avg, 10) : avg;
     const localBurst = releaseMode === 'schema' ? Math.max(burst, 30) : burst;

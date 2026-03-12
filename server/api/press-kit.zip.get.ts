@@ -1,7 +1,13 @@
-import { createError, setHeader } from 'h3';
+// server/api/press-kit.zip.ts
+import {
+  defineEventHandler,
+  createError,
+  setHeader,
+  setResponseStatus,
+} from 'h3';
 import JSZip from 'jszip';
 import { promises as fs } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { join, resolve, relative } from 'node:path';
 
 type ManifestFile = {
   label: string;
@@ -23,7 +29,7 @@ type PressManifest = {
 };
 
 export default defineEventHandler(async (event) => {
-  const publicDir = join(process.cwd(), 'public');
+  const publicDir = resolve(process.cwd(), 'public');
   const manifestPath = join(publicDir, 'press', 'manifest.json');
 
   let manifest: PressManifest;
@@ -33,10 +39,14 @@ export default defineEventHandler(async (event) => {
     manifest = JSON.parse(manifestRaw) as PressManifest;
   } catch (error) {
     console.error('[press-kit] Manifest read failed', error);
-    throw createError({ statusCode: 500, statusMessage: 'Unable to load press kit manifest.' });
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Unable to load press kit manifest.',
+    });
   }
 
   const filePaths = new Set<string>();
+
   for (const section of manifest.sections ?? []) {
     for (const item of section.items ?? []) {
       for (const file of item.files ?? []) {
@@ -48,37 +58,74 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!filePaths.size) {
-    throw createError({ statusCode: 404, statusMessage: 'No press kit assets found.' });
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'No press kit assets found.',
+    });
   }
 
-  const zip = new JSZip();
+  const validatedFiles: Array<{
+    originalPath: string;
+    normalizedPath: string;
+    absolutePath: string;
+  }> = [];
 
   for (const originalPath of filePaths) {
     const normalizedPath = originalPath.replace(/^\/+/, '');
     const absolutePath = resolve(publicDir, normalizedPath);
+    const rel = relative(publicDir, absolutePath);
 
-    if (!absolutePath.startsWith(publicDir)) {
+    if (rel.startsWith('..') || rel.includes('\0')) {
       console.warn('[press-kit] Ignored path outside public directory:', originalPath);
       continue;
     }
 
     try {
-      const fileBuffer = await fs.readFile(absolutePath);
-      zip.file(normalizedPath, fileBuffer);
+      await fs.access(absolutePath);
+      validatedFiles.push({ originalPath, normalizedPath, absolutePath });
     } catch (error) {
-      console.error('[press-kit] Unable to add asset to zip:', originalPath, error);
-      throw createError({ statusCode: 500, statusMessage: 'Failed to assemble press kit.' });
+      console.error('[press-kit] Missing asset referenced by manifest:', originalPath, absolutePath, error);
+      throw createError({
+        statusCode: 500,
+        statusMessage: `Missing press kit asset: ${originalPath}`,
+      });
     }
   }
 
-  const archive = await zip.generateAsync({
+  if (!validatedFiles.length) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'No valid press kit assets found.',
+    });
+  }
+
+  setHeader(event, 'Content-Type', 'application/zip');
+  setHeader(event, 'Content-Disposition', 'attachment; filename="AVefi_PressKit.zip"');
+  setHeader(event, 'Cache-Control', 'public, max-age=3600');
+
+  if (event.method === 'HEAD') {
+    setResponseStatus(event, 200);
+    return '';
+  }
+
+  const zip = new JSZip();
+
+  for (const file of validatedFiles) {
+    try {
+      const fileBuffer = await fs.readFile(file.absolutePath);
+      zip.file(file.normalizedPath, fileBuffer);
+    } catch (error) {
+      console.error('[press-kit] Unable to add asset to zip:', file.originalPath, error);
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to assemble press kit.',
+      });
+    }
+  }
+
+  return await zip.generateAsync({
     type: 'nodebuffer',
     compression: 'DEFLATE',
     compressionOptions: { level: 9 },
   });
-
-  setHeader(event, 'Content-Type', 'application/zip');
-  setHeader(event, 'Content-Disposition', 'attachment; filename="AVefi_PressKit.zip"');
-
-  return archive;
 });
