@@ -14,7 +14,7 @@
                 <Icon name="tabler:chevron-left" />
             </button>
 
-            <div ref="viewportRef" class="w-full mx-auto rounded-box px-2 sm:px-4 lg:px-6 py-0 sm:py-4 bg-base-200 overflow-hidden">
+            <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-4 sm:px-4 lg:px-6 py-0 sm:py-4 bg-base-200 overflow-hidden">
                 <div ref="containerRef" class="flex touch-pan-y">
                     <div v-for="(item, index) in issuerItems" :key="index"
                          class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg align-top flex flex-col items-center lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
@@ -25,7 +25,7 @@
                             </div>
                         </figure>
                         <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-100 rounded-lg">
-                            <h2 class="card-title text-base font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100">
+                            <h2 class="card-title text-base font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
                             <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none!">

@@ -7,18 +7,20 @@
             wrapper-class="w-full"
             inner-class="max-w-none"
         />
-        <div class="ml-6 btn btn-primary" @click="toggleForm()">
+        <button class="ml-6 btn btn-primary" type="button" @click="openContactDrawer">
             {{ $t('home.sections.openAndExtendable.cta') }}
-        </div>
+        </button>
     </div>
 </template>
 
 <script setup>
 import HomeSectionTextBlock from '~/components/home/HomeSectionTextBlock.vue';
 import { useI18n } from 'vue-i18n';
-const toggleForm = () => {
-    if (typeof window === 'undefined') return;
-    window.dispatchEvent(new CustomEvent('open-contact-form'));
-};
+
 const { t } = useI18n();
+
+const openContactDrawer = () => {
+    if (typeof window === 'undefined') return;
+    window.dispatchEvent(new Event('open-contact-drawer'));
+};
 </script>

@@ -14,7 +14,7 @@
                         class="card w-[250px] md:w-[384px] lg:w-128 shadow-xl md:h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
                         <figure v-if="item.imgSrc" class="flex flex-col items-center">
                             <div class="relative w-full h-48 lg:h-48 rounded overflow-hidden">
-                                <img :src="item.imgSrc" alt="" loading="lazy" decoding="async"
+                                <img :src="item.imgSrc" :alt="item.imgAlt" loading="lazy" decoding="async"
                                      class="absolute inset-0 w-full h-full object-cover blur scale-110 opacity-30" aria-hidden="true"
                                      width="400" height="267">
                                 <div class="relative z-10 flex items-center justify-center w-full h-full">

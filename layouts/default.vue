@@ -14,6 +14,7 @@
         <main class="main grow bg-base-100 2xl:px-6">
             <slot />
             <GlobalComparisonDrawer v-if="hydrated" />
+            <GlobalContactDrawer v-if="hydrated" />
         </main>
 
         <footer class="dark:bg-gray-800">
@@ -33,10 +34,12 @@
 
 <script>
 import GlobalFooter from '~/components/global/Footer.vue';
+import GlobalContactDrawer from '~/components/global/ContactDrawer.vue';
 
 export default {
     components: {
         GlobalFooter,
+        GlobalContactDrawer,
     },
     data() {
         return {

@@ -4,8 +4,8 @@
             <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
                      :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
                      wrapper-class="flex flex-row"
-                     inner-class="!rounded-xl !h-12 w-full dark:!bg-neutral dark:!text-white !rounded-r-none"
-                     input-class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
+                     inner-class="!rounded-xl !h-12 w-full dark:!bg-neutral dark:!text-white lg:rounded-r-none!"
+                     input-class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
                      :aria-label="ariaLabel" aria-haspopup="listbox" :aria-owns="listboxId"
                      :aria-expanded="showDropdown ? 'true' : 'false'" :aria-activedescendant="activeDescId" @input="onInput"
                      @focus="onFocus" @blur="onBlur" @keydown="onKeydown">

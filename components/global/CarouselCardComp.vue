@@ -7,7 +7,7 @@
             <Icon name="tabler:chevron-left" />
         </button>
         <div ref="viewportRef"
-             class="w-full mx-auto rounded-box px-2 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
+             class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div v-for="(item, index) in items" :key="index"
                      class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-800 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
@@ -35,12 +35,12 @@
                                  decoding="async" />
                         </div>
                         <figcaption v-if="item.imgSourceText"
-                                    class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-2 dark:text-gray-400">
+                                    class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 dark:text-gray-400">
                             {{ t('home.carousel.labels.imageSource') }}: <a :href="item.imgSourceLink" target="_blank" class="underline">{{
                                 item.imgSourceText }}</a>, {{ t('home.carousel.labels.author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{
                                 item.imgLicenseLink }})
                         </figcaption>
-                        <figcaption v-else class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-2 dark:text-gray-400">
+                        <figcaption v-else class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 dark:text-gray-400">
                         </figcaption>
                     </figure>
                     <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">

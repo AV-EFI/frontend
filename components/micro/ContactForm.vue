@@ -1,10 +1,6 @@
 <!-- components/MicroContactForm.vue -->
 <template>
     <form class="space-y-4 text-left relative" novalidate @submit.prevent="handleSubmit">
-        <!-- Close button -->
-        <button type="button" class="btn btn-ghost btn-sm absolute right-2 top-0" @click="emitClose" aria-label="Close">
-            ✕
-        </button>
         <!-- Email -->
         <div>
             <label for="email" class="block text-left text-sm font-medium mt-2">

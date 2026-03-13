@@ -551,12 +551,18 @@ const handleClearAllHistory = () => {
 
 // Context menu + contact form state
 const searchMenuOpen = ref(false);
-const contactFormOpen = ref(false);
-const contactInitialMessage = ref('');
 const searchMenuRef = ref<HTMLElement | null>(null);
 
-const toggleForm = () => { contactFormOpen.value = !contactFormOpen.value; };
+const toggleForm = (e?: Event, initialMessage = '') => {
+    if (e) e.stopPropagation();
+    if (typeof window === 'undefined') return;
 
+    window.dispatchEvent(
+        new CustomEvent('open-contact-drawer', {
+            detail: { initialMessage }
+        })
+    );
+};
 
 const toggleSearchMenu = (e?: Event) => {
     if (e) e.stopPropagation();
@@ -628,26 +634,31 @@ function syncPreservedSliderParamsFromRoute() {
     preservedSliderParams.value = next;
 }
 
-
 function suggestSearch() {
     searchMenuOpen.value = false;
+
     const q = searchQuery.value || localSearchValue.value || '';
     const url = typeof window !== 'undefined'
         ? `${window.location.origin}${window.location.pathname}${window.location.search}`
         : '';
 
-    contactInitialMessage.value = $t('share.suggestTemplate', { query: q, url: url }) as string;
-    contactFormOpen.value = true;
+    const initialMessage = $t('share.suggestTemplate', { query: q, url }) as string;
+
+    window.dispatchEvent(
+        new CustomEvent('open-contact-drawer', {
+            detail: { initialMessage }
+        })
+    );
 
     trackEvent('Search', 'Suggest Search Opened');
 }
+
 
 // Close menus on outside click
 const onDocClickForMenu = (ev: MouseEvent) => {
     if (!searchMenuRef.value) return;
     if (!searchMenuRef.value.contains(ev.target as Node)) {
         searchMenuOpen.value = false;
-        contactFormOpen.value = false;
     }
 };
 

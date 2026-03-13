@@ -7,7 +7,7 @@
             <Icon name="tabler:chevron-left" />
         </button>
 
-        <div ref="viewportRef" class="w-full mx-auto rounded-box px-2 sm:px-4 lg:px-4 py-0 sm:py-4 bg-base-200 overflow-hidden">
+        <div ref="viewportRef" class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 sm:py-4 bg-base-200 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div
                     v-for="(item, index) in partnersItems"
