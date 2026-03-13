@@ -883,69 +883,69 @@ const avefiBase = {
   'skipToContent': 'Skip to content',
   'videoSectionTitle': 'Find, discover, and compare comprehensive data on film holdings across all genres.',
   'videoSectionDescription': 'Searchable are both film works and the respective manifestations and items from participating film archives and collections, including their relationships, identifiers, and selected metadata for nuanced cross-institutional research and comparison.',
-  'seo': {
-    'home': {
-      'siteName': 'AVefi – Infrastructure for Audiovisual Research',
-      'title': 'AVefi – Film data search across archives',
-      'ogTitle': 'AVefi – Find film works and materials across archives',
-      'description': 'AVefi enables research across works, manifestations, and items in multiple German film archives, with authority-data linking, persistent identifiers, and export functions for research and practice.',
-      'ogDescription': 'Discover film works across archives. AVefi links metadata, authority data, and persistent identifiers so you can search, refine, and export holdings with precision.'
+  "seo": {
+    "home": {
+      "siteName": "AVefi – Film Metadata Database for Audiovisual Research",
+      "title": "Film Metadata Database for Film Archives – AVefi",
+      "ogTitle": "AVefi – Film Metadata Database for Works from Archives",
+      "description": "AVefi is a film metadata database for film archives and audiovisual collections. Search film works, manifestations, and items across multiple institutions using authority links, persistent identifiers (efi), and structured film metadata for research and archival work.",
+      "ogDescription": "Discover film works across archives. AVefi connects film metadata, authority data, and persistent identifiers so audiovisual holdings can be searched, compared, and used for scholarly research."
     },
-    'search': {
-      'title': 'Search – AVefi',
-      'titleWithQuery': '{query} – Search results',
-      'description': 'Search film works, manifestations, and audiovisual materials from German archives.',
-      'descriptionWithQuery': 'Search results for "{query}". Discover works and audiovisual materials in German film archives.'
+    "search": {
+      "title": "Film Archive Search – AVefi",
+      "titleWithQuery": "{query} – Film Search | AVefi",
+      "description": "Search film works, manifestations, and audiovisual materials from film archives. Use filters and authority data to research film metadata across multiple archives.",
+      "descriptionWithQuery": "Search results for \"{query}\" in the AVefi film metadata database. Discover film works and audiovisual materials from multiple film archives."
     },
-    'contact': {
-      'title': 'Contact – AVefi',
-      'description': 'FAQ and glossary for the AVefi project',
-      'ogTitle': 'Contact – AVefi',
-      'ogDescription': 'FAQ and glossary for the AVefi project'
+    "contact": {
+      "title": "Contact and FAQ – AVefi Film Metadata Database",
+      "description": "FAQ, background information, and glossary for the AVefi film metadata database and research infrastructure.",
+      "ogTitle": "Contact – AVefi",
+      "ogDescription": "Information, FAQ, and glossary for the AVefi platform for film metadata."
     },
-    'imprint': {
-      'title': 'Imprint – AVefi',
-      'description': 'Legal information about the AVefi project',
-      'ogTitle': 'Imprint – AVefi',
-      'ogDescription': 'Legal information about the AVefi project'
+    "imprint": {
+      "title": "Legal Notice – AVefi Film Metadata Database",
+      "description": "Legal information about the AVefi platform for film metadata.",
+      "ogTitle": "Legal Notice – AVefi",
+      "ogDescription": "Legal information about the AVefi platform."
     },
-    'resource': {
-      'title': '{title} – AVefi',
-      'description': 'Audiovisual work from German film archives.'
+    "resource": {
+      "title": "{title} – Film Work | AVefi",
+      "description": "Film work with metadata from film archives. AVefi displays manifestations, items, and linked film metadata from multiple institutions."
     },
-    'vocab': {
-      'title': 'Vocabulary Browser – AVefi',
-      'titleWithField': 'Vocabulary: {field} | AVefi',
-      'titleWithFieldAndFilter': 'Vocabulary: {field} – "{filter}" | AVefi',
-      'description': 'The AVefi vocabulary browser shows authority-data fields such as genre or subjects across participating film archives.',
-      'descriptionWithField': 'Vocabulary view for the field "{field}". Explore authority-data usage across AVefi partner archives.',
-      'descriptionWithFieldAndFilter': 'Vocabulary view for the field "{field}" with entries matching "{filter}". Explore authority-data usage across participating film archives.'
+    "vocab": {
+      "title": "Film Metadata Vocabulary – AVefi",
+      "titleWithField": "Vocabulary: {field} – Film Metadata | AVefi",
+      "titleWithFieldAndFilter": "Vocabulary: {field} – \"{filter}\" | AVefi",
+      "description": "The AVefi vocabulary explains key concepts related to film metadata, authority data, and audiovisual cultural heritage.",
+      "descriptionWithField": "Vocabulary view for the field \"{field}\". Explore controlled terms and authority data used in film archives.",
+      "descriptionWithFieldAndFilter": "Vocabulary view for \"{field}\" with entries matching \"{filter}\". Explore film metadata and authority data across multiple archives."
     },
-    'compare': {
-      'title': 'Compare datasets – AVefi',
-      'titleWithItems': 'Comparison {prev} vs {next} – AVefi',
-      'description': 'Compare two audiovisual datasets side by side with highlighted differences.',
-      'descriptionWithItems': 'Side-by-side comparison of two film-work datasets with synchronized views and difference highlighting for research and analysis.'
+    "compare": {
+      "title": "Compare Film Metadata – AVefi",
+      "titleWithItems": "Film Metadata Comparison {prev} vs {next} – AVefi",
+      "description": "Compare metadata of audiovisual works from film archives side by side.",
+      "descriptionWithItems": "Side-by-side comparison of two film work datasets with synchronized views and highlighted differences for research and archival analysis."
     },
-    'glossary': {
-      'title': 'Glossary – AVefi',
-      'description': 'The glossary provides definitions and explanations for key terms used in AVefi. It helps users understand terminology related to audiovisual works, manifestations, items, and more.',
-      'ogTitle': 'Glossary | AVefi',
-      'ogDescription': 'Explore the AVefi glossary for definitions and explanations of all key terms used on the platform.'
+    "glossary": {
+      "title": "Glossary – AVefi",
+      "description": "The glossary provides definitions and explanations of key terms related to film metadata, manifestations, items, and other concepts used in the AVefi platform.",
+      "ogTitle": "Glossary | AVefi",
+      "ogDescription": "Explore the AVefi glossary for definitions and explanations of key concepts related to film metadata and audiovisual collections."
     },
-    'faq': {
-      'title': 'FAQ – AVefi',
-      'description': 'Frequently asked questions about AVefi, the platform for film metadata and research.',
-      'ogTitle': 'FAQ | AVefi',
-      'ogDescription': 'Find answers to common questions about AVefi, its features, and how to use the platform.'
+    "faq": {
+      "title": "FAQ – AVefi",
+      "description": "Frequently asked questions about the AVefi film metadata database, its features, and its use for research and archival work.",
+      "ogTitle": "FAQ | AVefi",
+      "ogDescription": "Find answers to common questions about the AVefi platform for film metadata and audiovisual collections."
     },
-    'normdata': {
-      'titleWithFieldAndFilter': '{field} — {filter} | AVefi',
-      'titleWithField': '{field} | AVefi',
-      'title': 'Normdata | AVefi',
-      'descriptionWithFieldAndFilter': 'Browse normdata for {field} matching "{filter}".',
-      'descriptionWithField': 'Browse normdata for {field}.',
-      'description': 'Browse controlled vocabulary and authority data.'
+    "normdata": {
+      "title": "Authority Data for Film Metadata – AVefi",
+      "titleWithField": "{field} – Authority Data | AVefi",
+      "titleWithFieldAndFilter": "{field} – {filter} | Authority Data | AVefi",
+      "description": "Browse authority data and controlled vocabulary used in film archives.",
+      "descriptionWithField": "Authority data overview for the field \"{field}\" in the AVefi film metadata database.",
+      "descriptionWithFieldAndFilter": "Authority data for \"{field}\" with entries matching \"{filter}\" across the AVefi partner archives."
     }
   },
   "normdata": {

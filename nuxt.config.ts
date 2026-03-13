@@ -11,8 +11,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from 'nuxt-schema-org/schema';
 import { defineNuxtConfig } from 'nuxt/config';
-import visualizer from 'rollup-plugin-visualizer';
-
+import { visualizer } from 'rollup-plugin-visualizer';
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
@@ -316,25 +315,25 @@ export default defineNuxtConfig({
   },
   site: {
     url: process.env.SITE_URL || 'https://www.av-efi.net',
-    name: 'AVefi – Find films. Link data.',
+    name: 'AVefi',
     description:
     'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
     indexable:
-    process.env.NUXT_PUBLIC_INDEXABLE === 'true' ||
-    isSchema,
+    process.env.NUXT_PUBLIC_INDEXABLE === 'true' || isSchema,
     image: '/img/avefi-og-image.png',
   },
+
   schemaOrg: {
     enabled: true,
     minify: true,
     identity: defineOrganization({
       '@id': 'https://www.av-efi.net/#organization',
-      name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
-      alternateName: 'AVefi',
+      name: 'AVefi',
+      alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
       url: 'https://www.av-efi.net',
       logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
       description:
-        'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
+      'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
       foundingDate: '2023-11-01',
       member: [
         {
@@ -360,48 +359,31 @@ export default defineNuxtConfig({
           url: 'https://www.gwdg.de',
         },
       ],
-      sameAs: ['https://github.com/AV-EFI', 'https://www.zotero.org/groups/5125890/avefi'],
+      sameAs: [
+        'https://github.com/AV-EFI',
+        'https://www.zotero.org/groups/5125890/avefi',
+      ],
     }),
-
-    // Use explicit schema nodes from app/pages and avoid auto i18n WebSite workTranslation injection.
     defaults: false,
   },
   robots: {
-    groups: isSchema
-      ? [
-        {
-          userAgent: '*',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-      ]
-      : [
-        {
-          userAgent: '*',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-      ],
+    groups: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: [
+          '/protected/**',
+          '/admin/**',
+          '/login',
+          '/logout',
+          '/signout',
+          '/normdata',
+          '/explorer-poc',
+          '/_nuxt/**',
+          '/_**',
+        ],
+      },
+    ],
     sitemap: ['/sitemap.xml'],
   },
   // Sitemap
@@ -546,7 +528,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       tailwindcss,
-      visualizer,
+      ...(process.env.BUILD_ANALYZE === 'true' ? [visualizer()] : []),
     ],
     optimizeDeps: {
       include: ['export-to-csv', 'instantsearch.js', 'algoliasearch'],
@@ -587,7 +569,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    debug: true,
+    debug: false,
     strategy: 'no_prefix',
     defaultLocale: 'de',
     langDir: './locales',
