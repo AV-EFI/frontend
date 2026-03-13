@@ -163,7 +163,6 @@ const record = computed(() => dataJson.value?.compound_record?._source);
 const siteUrl = computed(() => {
     const u =
         (config.public.siteUrl as string | undefined) ||
-        (config.public.siteUrl as string | undefined) ||
         (config.public.origin as string | undefined) ||
         'https://www.av-efi.net';
     return String(u).replace(/\/+$/, '');
@@ -279,8 +278,17 @@ const webpageId = computed(() => `${canonical.value}#webpage`);
 // ✅ i18n-backed dataset texts (no raw keys in JSON-LD)
 const datasetName = computed(() => t('home.seo.datasetTitle'));
 const datasetDescription = computed(() => t('home.seo.datasetDescription'));
+
 useSchemaOrg(() => {
     const graph: any[] = [];
+
+    // Shared org reference
+    const orgRef = {
+        '@type': 'Organization',
+        '@id': identityId.value,
+        name: 'AVefi',
+        url: siteUrl.value,
+    };
 
     // --- WebPage (detail page) ---
     graph.push({
@@ -308,7 +316,7 @@ useSchemaOrg(() => {
         name: 'AVefi – Film Metadata Catalog',
         url: siteUrl.value,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': identityId.value },
+        publisher: orgRef,
         dataset: { '@id': datasetId.value },
         potentialAction: {
             '@type': 'SearchAction',
@@ -332,8 +340,11 @@ useSchemaOrg(() => {
         inLanguage: ['de-DE', 'en-US'],
         isAccessibleForFree: true,
         includedInDataCatalog: { '@id': catalogId.value },
-        publisher: { '@id': identityId.value },
-        // keep keywords mixed: portal + record-specific enrichment
+
+        publisher: orgRef,
+        creator: orgRef,
+        license: 'https://creativecommons.org/publicdomain/zero/1.0/',
+
         keywords: uniqStrings([
             'AVefi',
             'film metadata',
@@ -378,7 +389,7 @@ useSchemaOrg(() => {
         ],
         isPartOf: { '@id': datasetId.value },
         includedInDataCatalog: { '@id': catalogId.value },
-        provider: { '@id': identityId.value },
+        provider: orgRef,
         keywords: schemaKeywords.value.length ? schemaKeywords.value : undefined,
         sameAs: schemaSameAs.value.length ? schemaSameAs.value : undefined,
     });

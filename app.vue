@@ -66,7 +66,12 @@ useSchemaOrg([
         alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
         inLanguage: ['de-DE', 'en-US'],
         image: { '@id': schemaId('logo') },
-        publisher: { '@id': schemaIdentityId.value },
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
 
         potentialAction: {
             '@type': 'SearchAction',
@@ -107,7 +112,12 @@ useSchemaOrg([
         name: 'AVefi – Film Metadata Catalog',
         url: siteUrl.value,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaIdentityId.value },
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
         dataset: { '@id': schemaId('dataset') },
     },
 
@@ -121,7 +131,23 @@ useSchemaOrg([
         inLanguage: ['de-DE', 'en-US'],
         isAccessibleForFree: true,
         includedInDataCatalog: { '@id': schemaId('catalog') },
-        publisher: { '@id': schemaIdentityId.value },
+
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+
+        creator: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+
+        license: 'https://creativecommons.org/publicdomain/zero/1.0/',
+
         sameAs: [
             'https://github.com/AV-EFI',
             'https://www.zotero.org/groups/5125890/avefi',
@@ -146,7 +172,12 @@ useSchemaOrg([
         description: $t('home.seo.projectDescription'),
         url: siteUrl.value,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaIdentityId.value },
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
         hasPart: [
             { '@id': schemaId('catalog') },
             { '@id': schemaId('dataset') },
@@ -215,6 +246,7 @@ useHead({
     ],
     style: [],
 });
+
 const auth = useAuth();
 
 onBeforeUnmount(() => {
