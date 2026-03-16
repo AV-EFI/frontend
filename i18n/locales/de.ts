@@ -1029,26 +1029,26 @@ const deBase = {
 export default {
   ...deBase, 
   ...avefiDe,
-  accessibilityStatement: "Erklaerung zur Barrierefreiheit",
+  accessibilityStatement: "Erklärung zur Barrierefreiheit",
   seo: {
     ...deBase.seo,
     ...avefiDe.seo,
     faq: {
       title: "FAQ - AVefi Filmdatenbank",
-      description: "Hauefig gestellte Fragen, Hintergrundinformationen und Hilfetexte zu AVefi.",
+      description: "Häufig gestellte Fragen, Hintergrundinformationen und Hilfetexte zu AVefi.",
       ogTitle: "FAQ - AVefi",
-      ogDescription: "Antworten auf haeufige Fragen zur Nutzung und zum Hintergrund von AVefi."
+      ogDescription: "Antworten auf häufige Fragen zur Nutzung und zum Hintergrund von AVefi."
     },
     accessibility: {
-      title: "Erklaerung zur Barrierefreiheit - AVefi Filmdatenbank",
+      title: "Erklärung zur Barrierefreiheit - AVefi Filmdatenbank",
       description: "Diese Seite beschreibt Standards, aktuellen Stand und Kontaktwege zur digitalen Barrierefreiheit bei AVefi.",
-      ogTitle: "Erklaerung zur Barrierefreiheit - AVefi",
-      ogDescription: "Informationen zur digitalen Barrierefreiheit bei AVefi sowie offizielle Referenzen und Kontaktmoeglichkeiten."
+      ogTitle: "Erklärung zur Barrierefreiheit - AVefi",
+      ogDescription: "Informationen zur digitalen Barrierefreiheit bei AVefi sowie offizielle Referenzen und Kontaktmöglichkeiten."
     }
   },
   accessibilityPage: {
-    title: "Erklaerung zur Barrierefreiheit",
-    intro: "Diese Erklaerung beschreibt, wie AVefi digitale Barrierefreiheit fuer Website und angrenzende Oberflaechen umsetzt. AVefi versteht sich als offene, wissenschaftlich fundierte Infrastruktur. Entsprechend formulieren wir diese Informationen sachlich, nachvollziehbar und moeglichst barrierearm.",
+    title: "Erklärung zur Barrierefreiheit",
+    intro: "Diese Erklärung beschreibt, wie AVefi digitale Barrierefreiheit für Website und angrenzende Oberflächen umsetzt. AVefi versteht sich als offene, wissenschaftlich fundierte Infrastruktur. Entsprechend formulieren wir diese Informationen sachlich, nachvollziehbar und möglichst barrierearm.",
     commitment: {
       title: "Unser Anspruch",
       body: "AVefi orientiert sich an anerkannten Standards der digitalen Barrierefreiheit. Grundlage sind insbesondere die Web Content Accessibility Guidelines (WCAG) 2.1 auf Konformitaetsstufe AA. Barrierefreiheit ist fuer uns Teil von Informationsqualitaet, Zugangsoffenheit und langfristiger Nutzbarkeit.",
