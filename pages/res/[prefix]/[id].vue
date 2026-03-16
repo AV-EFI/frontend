@@ -63,6 +63,7 @@
                             v-if="dataJson && (resourceType === 'workVariant' || resourceType === 'compilation' || resourceType === 'manifestationOrItem')"
                             v-model="dataJson"
                             :handle="dataJson.handle"
+                            :requested-handle="requestedHandle"
                         />
                         <ViewsCompilationViewCompAVefi
                             v-else-if="dataJson && resourceType === 'compilationManifestation'"
@@ -153,6 +154,7 @@ const { data: result, error, pending } = await useAsyncData(
  * -------------------------- */
 const dataJson = computed(() => result.value?.data);
 const resourceType = computed(() => result.value?.resourceType ?? 'workVariant');
+const requestedHandle = computed(() => result.value?.requestedHandle ?? '');
 
 // Work record (compound_record._source)
 const record = computed(() => dataJson.value?.compound_record?._source);

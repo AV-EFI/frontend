@@ -2,10 +2,11 @@
     <div role="list" :aria-label="$t('manifestations')">
         <section
             v-for="(manifestation, i) in manifestationList"
-            :id="`manifestation-${i}`"
+            :id="getManifestationAnchorId(manifestation, i)"
             :key="manifestation._id || i"
             class="mt-2 border-base-200 border-2 rounded-lg overflow-hidden bg-base-100"
             role="listitem"
+            :data-manifestation-index="i"
             :aria-labelledby="`manifestation-heading-${i}`"
         >
             <button
@@ -47,6 +48,7 @@
                         v-if="manifestation?.items?.length > 0"
                         :items="manifestation?.items"
                         :manifestation-index="i"
+                        :manifestation-handle="manifestation?.handle || ''"
                     />
                 </div>
             </div>
@@ -113,6 +115,10 @@ function handleOpenManifestation(event: Event) {
         ...openManifestations.value,
         [index]: true,
     };
+}
+
+function getManifestationAnchorId(manifestation: Source, index: number) {
+    return manifestation?.handle || `manifestation-${index}`;
 }
 
 function safeT(input: unknown): string {

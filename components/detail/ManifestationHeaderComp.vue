@@ -42,8 +42,8 @@
             </div>
         </div>
 
-        <div v-else class="flex flex-col justify-center w-4/5">
-            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300" :id="`${manifestation?.handle}`">
+        <div v-else class="flex flex-col justify-center w-full">
+            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300">
                 {{ manifestation?.handle }}
                 <MicroBadgeCategoryComp :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
                                         class="ml-2 inline-block" />
@@ -54,14 +54,17 @@
 
             <!-- NORMALIZED ROW: SearchGenericIconList + item count share SAME baseline -->
             <div
-                class="col-span-full flex flex-row items-start flex-wrap gap-x-4 text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 min-h-4 leading-5">
+                class="col-span-full flex flex-row items-center flex-wrap gap-x-4 gap-y-1 text-[0.8rem] leading-4 text-gray-700 dark:text-neutral-200">
                 <!-- Search icons -->
-                <SearchGenericIconList :data="manifestation" level="manifestation" class="inline-flex items-start leading-5" />
+                <SearchGenericIconList :data="manifestation" level="manifestation" class="inline-flex items-center" />
 
                 <!-- Item count (icon + text treated as ONE baseline unit) -->
-                <span v-if="manifestation.items?.length > 0" class="flex flex-row items-start text-xs leading-[14px]">
-                    <Icon name="tabler:hierarchy" class="h-[0.85rem] shrink-0 mr-1" aria-hidden="true" /><span
-                        class="inline-block flex-wrap h-[0.85rem] align-text-top">
+                <span
+                    v-if="manifestation.items?.length > 0"
+                    class="inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4"
+                >
+                    <Icon name="tabler:hierarchy" class="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    <span class="inline-flex items-center whitespace-nowrap leading-4">
                         {{ `${manifestation.items.length} ${manifestation.items.length === 1 ?
                             $t('item') :
                             $t('items')}` }}

@@ -2,51 +2,84 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export function useHash(scroll = true) {
   const hash = ref('');
+  let highlightTimer: ReturnType<typeof setTimeout> | null = null;
+  let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const openTargetManifestation = (hashValue: string) => {
+    const manifestationMatch = hashValue.match(/^manifestation-(\d+)$/);
+    const itemMatch = hashValue.match(/^item-(\d+)-\d+$/);
+    const directIndex = manifestationMatch?.[1] ?? itemMatch?.[1];
+    const directTarget = document.getElementById(hashValue);
+    const parentManifestation = directTarget?.closest('section[data-manifestation-index]') as HTMLElement | null;
+    const parentIndex = parentManifestation?.dataset?.manifestationIndex;
+    const rawIndex = directIndex ?? parentIndex;
+    if (!rawIndex) return;
+
+    window.dispatchEvent(new CustomEvent('detail:openManifestation', {
+      detail: { index: Number(rawIndex) },
+    }));
+  };
+
+  const highlightAndScroll = (hashValue: string) => {
+    const el = document.getElementById(hashValue);
+    if (!(el instanceof HTMLElement)) return;
+
+    const hadTabIndex = el.hasAttribute('tabindex');
+    if (!hadTabIndex) {
+      el.setAttribute('tabindex', '-1');
+    }
+
+    el.classList.add(
+      'bg-highlight',
+      'text-white',
+      'outline',
+      'outline-2',
+      'outline-primary',
+      'transition-colors',
+      'duration-500'
+    );
+
+    el.focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+
+    if (highlightTimer) clearTimeout(highlightTimer);
+    highlightTimer = setTimeout(() => {
+      el.classList.remove(
+        'bg-highlight',
+        'text-white',
+        'outline',
+        'outline-2',
+        'outline-primary',
+        'transition-colors',
+        'duration-500'
+      );
+      if (!hadTabIndex) {
+        el.removeAttribute('tabindex');
+      }
+    }, 3200);
+  };
+
+  const updateHash = () => {
+    hash.value = window.location.hash.slice(1);
+    if (!scroll || !hash.value) return;
+
+    if (scrollTimer) clearTimeout(scrollTimer);
+    openTargetManifestation(hash.value);
+
+    scrollTimer = setTimeout(() => {
+      highlightAndScroll(hash.value);
+    }, 260);
+  };
 
   onMounted(() => {
-    const updateHash = () => {
-      hash.value = window.location.hash.slice(1);
-      if (scroll && hash.value) {
-
-        setTimeout(() => {
-          const el = document.getElementById(hash.value);
-          console.log('Scrolling to hash element:', hash.value, el);
-          if (el) {
-            // Open the closest collapse section
-            const collapseElement = el.closest('.collapse');
-            const parentToggle = collapseElement?.querySelector('.manifestation-accordion-toggle') as HTMLInputElement | null;
-
-            if (parentToggle) {
-              parentToggle.checked = true;
-            }
-
-            setTimeout(() => {
-              el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-              el.classList.add('bg-highlight', 'transition', 'duration-600', 'text-white');
-              setTimeout(() => {
-                el.classList.remove('bg-highlight', 'text-white');
-                const label = el.querySelector('label');
-                if (label) {
-                  label.appendChild(
-                    Object.assign(document.createElement('span'), {
-                      className: 'ml-1 badge badge-highlight bg-highlight border-highlight badge-xs',
-                      title: 'Referenzierter efi'
-                    })
-                  );
-                }
-              }, 3200);
-            }, 900);
-          }
-        }, 1200);
-      }
-    };
-
     updateHash();
     window.addEventListener('hashchange', updateHash);
+  });
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('hashchange', updateHash);
-    });
+  onBeforeUnmount(() => {
+    window.removeEventListener('hashchange', updateHash);
+    if (scrollTimer) clearTimeout(scrollTimer);
+    if (highlightTimer) clearTimeout(highlightTimer);
   });
 
   return { hash };

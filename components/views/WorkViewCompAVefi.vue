@@ -34,9 +34,9 @@
                             </button>
                             <ul>
                                 <li v-for="(mf, idx) in filteredManifestations" :key="idx">
-                                    <button type="button" @click="scrollToId(`manifestation-${idx}`)" class="cursor-pointer pl-4 text-left w-full"
-                                            :class="{ 'active': activeSection === `manifestation-${idx}` }"
-                                            :aria-current="activeSection === `manifestation-${idx}` ? 'location' : undefined">
+                                    <button type="button" @click="scrollToId(getManifestationAnchorId(mf, idx))" class="cursor-pointer pl-4 text-left w-full"
+                                            :class="{ 'active': activeSection === getManifestationAnchorId(mf, idx) }"
+                                            :aria-current="activeSection === getManifestationAnchorId(mf, idx) ? 'location' : undefined">
                                         <span class="text-ellipsis" v-if="mf.has_record.has_event?.[0]">
                                             {{ $t(mf.has_record?.has_event?.[0]?.type ?? '') !==
                                                 mf.has_record?.has_event?.[0]?.type
@@ -87,18 +87,18 @@
                             </button>
                             <ul>
                                 <li v-for="(mf, idx) in filteredManifestations" :key="idx">
-                                    <button type="button" @click="scrollToId(`manifestation-${idx}`); drawerOpen = false"
-                                            :class="{ 'active': activeSection === `manifestation-${idx}` }"
-                                            :aria-current="activeSection === `manifestation-${idx}` ? 'location' : undefined"
+                                    <button type="button" @click="scrollToId(getManifestationAnchorId(mf, idx)); drawerOpen = false"
+                                            :class="{ 'active': activeSection === getManifestationAnchorId(mf, idx) }"
+                                            :aria-current="activeSection === getManifestationAnchorId(mf, idx) ? 'location' : undefined"
                                             class="cursor-pointer pl-2 text-left w-full">
                                         {{ mf.has_primary_title?.has_name ?? $t('manifestation') + ' ' + (idx + 1) }}
                                     </button>
 
                                     <ul v-if="Array.isArray(mf.items)">
                                         <li v-for="(item, iidx) in mf.items" :key="iidx">
-                                            <button type="button" @click="scrollToId(`item-${idx}-${iidx}`); drawerOpen = false"
-                                                    :class="{ 'active': activeSection === `item-${idx}-${iidx}` }"
-                                                    :aria-current="activeSection === `item-${idx}-${iidx}` ? 'location' : undefined"
+                                            <button type="button" @click="scrollToId(getItemAnchorId(item, idx, iidx)); drawerOpen = false"
+                                                    :class="{ 'active': activeSection === getItemAnchorId(item, idx, iidx) }"
+                                                    :aria-current="activeSection === getItemAnchorId(item, idx, iidx) ? 'location' : undefined"
                                                     class="cursor-pointer pl-8 text-left w-full">
                                                 {{ item.has_name ?? $t('item') + ' ' + (iidx + 1) }}
                                             </button>
@@ -299,6 +299,16 @@ useHash();
 type Manifestation = any; // keep as-is if you already have a real type elsewhere
 
 const desktopDrawerOpen = ref(true);
+const props = defineProps({
+    handle: {
+        type: String,
+        default: '',
+    },
+    requestedHandle: {
+        type: String,
+        default: '',
+    },
+});
 
 const dataJson = defineModel({ type: Object, required: true });
 
@@ -581,11 +591,11 @@ const sectionIds = computed<string[]>(() => {
 
     // Manifestations + items (FILTERED!)
     for (let idx = 0; idx < filteredManifestations.value.length; idx++) {
-        ids.push(`manifestation-${idx}`);
         const mf = filteredManifestations.value[idx];
+        ids.push(getManifestationAnchorId(mf, idx));
         const items = Array.isArray(mf?.items) ? mf.items : [];
         for (let iidx = 0; iidx < items.length; iidx++) {
-            ids.push(`item-${idx}-${iidx}`);
+            ids.push(getItemAnchorId(items[iidx], idx, iidx));
         }
     }
 
@@ -598,56 +608,64 @@ const sectionIds = computed<string[]>(() => {
     return ids;
 });
 
-function getHeaderHeightPx() {
-    if (typeof window === 'undefined') return 64;
-    const root = document.documentElement;
-    const cssVar = root.style.getPropertyValue('--header-height');
-    if (cssVar) {
-        const px = parseInt(cssVar, 10);
-        if (!isNaN(px)) return px;
-        // Try to parse e.g. '64px'
-        const match = cssVar.match(/(\d+)(px)?/);
-        if (match) return parseInt(match[1], 10);
-    }
-    // fallback: try computed style
-    const computed = getComputedStyle(root).getPropertyValue('--header-height');
-    if (computed) {
-        const px = parseInt(computed, 10);
-        if (!isNaN(px)) return px;
-        const match = computed.match(/(\d+)(px)?/);
-        if (match) return parseInt(match[1], 10);
-    }
-    return 64;
-}
-
-function openManifestationForTarget(id: string) {
-    const manifestationMatch = id.match(/^manifestation-(\d+)$/);
-    const itemMatch = id.match(/^item-(\d+)-\d+$/);
-    const rawIndex = manifestationMatch?.[1] ?? itemMatch?.[1];
-    if (!rawIndex || !import.meta.client) return;
-    window.dispatchEvent(new CustomEvent('detail:openManifestation', {
-        detail: { index: Number(rawIndex) },
-    }));
-}
-
-function performScrollToId(id: string) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const headerHeight = getHeaderHeightPx();
-    const rect = el.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const top = rect.top + scrollTop - headerHeight;
-    window.scrollTo({ top, behavior: "smooth" });
-    activeSection.value = id;
-}
-
 function scrollToId(id: string) {
-    openManifestationForTarget(id);
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            performScrollToId(id);
-        });
-    });
+    if (!import.meta.client) return;
+
+    const nextUrl = `${window.location.pathname}${window.location.search}#${id}`;
+    activeSection.value = id;
+
+    if (window.location.hash === `#${id}`) {
+        window.dispatchEvent(new Event('hashchange'));
+        return;
+    }
+
+    window.history.replaceState(window.history.state, '', nextUrl);
+    window.dispatchEvent(new Event('hashchange'));
+}
+
+function getManifestationAnchorId(manifestation: any, index: number) {
+    return manifestation?.handle || `manifestation-${index}`;
+}
+
+function getItemAnchorId(item: any, manifestationIndex: number, itemIndex: number) {
+    return item?.handle || `item-${manifestationIndex}-${itemIndex}`;
+}
+
+function findTargetIdForRequestedHandle(handle: string) {
+    const normalizedHandle = handle.trim();
+    if (!normalizedHandle) return '';
+
+    for (let idx = 0; idx < manifestations.value.length; idx++) {
+        const manifestation = manifestations.value[idx];
+        if (manifestation?.handle === normalizedHandle) {
+            return getManifestationAnchorId(manifestation, idx);
+        }
+
+        const items = Array.isArray(manifestation?.items) ? manifestation.items : [];
+        for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+            if (items[itemIndex]?.handle === normalizedHandle) {
+                return getItemAnchorId(items[itemIndex], idx, itemIndex);
+            }
+        }
+    }
+
+    return '';
+}
+
+function syncHashToRequestedHandle() {
+    if (!import.meta.client) return;
+
+    const requestedHandle = props.requestedHandle?.trim();
+    const currentWorkHandle = dataObject?.compound_record?._source?.handle?.trim();
+    if (!requestedHandle || requestedHandle === currentWorkHandle) return;
+    if (window.location.hash) return;
+
+    const targetId = findTargetIdForRequestedHandle(requestedHandle);
+    if (!targetId) return;
+
+    const nextUrl = `${window.location.pathname}${window.location.search}#${requestedHandle}`;
+    window.history.replaceState(window.history.state, '', nextUrl);
+    window.dispatchEvent(new Event('hashchange'));
 }
 
 // ✅ Robust active section tracking via IntersectionObserver
@@ -761,6 +779,9 @@ onMounted(() => {
         else (mediaQuery as any).addListener(mediaListener);
 
         initObserver();
+        nextTick(() => {
+            syncHashToRequestedHandle();
+        });
     }
 });
 
@@ -770,6 +791,7 @@ watch(
     async () => {
         if (!process.client) return;
         await initObserver();
+        syncHashToRequestedHandle();
     }
 );
 

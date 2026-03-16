@@ -2,7 +2,7 @@
     <div role="list" :aria-label="$t('items')">
         <article
             v-for="(exemplar, itemIndex) in items"
-            :id="`item-${manifestationIndex}-${itemIndex}`"
+            :id="getItemAnchorId(exemplar, itemIndex)"
             :key="exemplar?.id || exemplar?.handle"
             class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 dark:text-white border-l-2 border-item text-neutral-700"
             role="listitem"
@@ -16,7 +16,7 @@
                 />
                 <h5
                     :id="`item-heading-${manifestationIndex}-${itemIndex}`"
-                    class="text-sm font-semibold text-primary-700 dark:text-primary-200 mb-2"
+                    class="text-sm font-semibold text-primary-700 dark:text-primary-200"
                 >
                     {{ `${$t('item')} ${itemIndex + 1}` }}
                 </h5>
@@ -24,7 +24,6 @@
 
             <div class="col-span-full md:col-span-12">
                 <DetailKeyValueComp
-                    :id="exemplar?.handle"
                     keytxt="efi"
                     :translate-key="false"
                     :valtxt="exemplar?.handle"
@@ -232,8 +231,13 @@
 defineProps({
     items: { type: Array, required: true },
     manifestationIndex: { type: Number, required: true },
+    manifestationHandle: { type: String, required: false, default: '' },
     highlightResult: { type: Object, required: false, default: () => ({}) },
     productionDetailsChecked: { type: Boolean, required: false, default: false },
     showAdminStats: { type: Boolean, required: false, default: false },
 });
+
+function getItemAnchorId(exemplar: any, itemIndex: number) {
+    return exemplar?.handle || `item-${itemIndex}`;
+}
 </script>
