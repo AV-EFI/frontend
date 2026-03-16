@@ -260,6 +260,7 @@ const avefiBase = {
   "cookiesDescription": "We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.",
   "dataprotection": "Data Protection",
   "imprint": "Imprint",
+  "accessibilityStatement": "Accessibility Statement",
   "productionyear": "Production Year",
   "country": "Place",
   "compareRegular": "Comparison view",
@@ -909,6 +910,12 @@ const avefiBase = {
       "ogTitle": "Legal Notice – AVefi",
       "ogDescription": "Legal information about the AVefi platform."
     },
+    "accessibility": {
+      "title": "Accessibility â€“ AVefi Film Metadata Database",
+      "description": "Information about accessibility at AVefi, including standards, current status, and how to report barriers.",
+      "ogTitle": "Accessibility â€“ AVefi",
+      "ogDescription": "Learn how AVefi approaches accessibility and how to report accessibility issues."
+    },
     "resource": {
       "title": "{title} – Film Work | AVefi",
       "description": "Film work with metadata from film archives. AVefi displays manifestations, items, and linked film metadata from multiple institutions."
@@ -983,9 +990,139 @@ const avefiBase = {
       "hasGenre": "Genre"
     }
   },
+  "accessibilityPage": {
+    "title": "Accessibility",
+    "intro": "AVefi is committed to making its digital services accessible to as many people as possible. We aim to design and maintain our website and product interfaces so they are usable, understandable, and robust for people with different abilities and assistive technologies.",
+    "commitment": {
+      "title": "Our commitment",
+      "body": "We strive to follow recognized accessibility standards, in particular the Web Content Accessibility Guidelines (WCAG) 2.1, Level AA. These guidelines provide the foundation for perceivable, operable, understandable, and robust digital experiences.",
+      "areas": [
+        "website content and navigation",
+        "forms and interactive controls",
+        "color contrast and typography",
+        "keyboard navigation",
+        "semantic HTML and screen reader compatibility",
+        "responsive layouts across devices"
+      ]
+    },
+    "principles": {
+      "title": "Accessibility principles",
+      "perceivable": {
+        "title": "Perceivable",
+        "body": "Information and interface components should be presented in ways users can perceive. This includes sufficient color contrast, meaningful text alternatives, and a clear visual hierarchy."
+      },
+      "operable": {
+        "title": "Operable",
+        "body": "The interface should be usable with different input methods, including keyboard navigation. Interactive elements should be large enough, predictable, and easy to activate."
+      },
+      "understandable": {
+        "title": "Understandable",
+        "body": "Content and actions should be clear and consistent. Labels, headings, and navigation patterns should help users understand where they are and what will happen next."
+      },
+      "robust": {
+        "title": "Robust",
+        "body": "Our code and components should work reliably across browsers, devices, and assistive technologies, using standards-based HTML and accessible implementation patterns."
+      }
+    },
+    "status": {
+      "title": "Current status",
+      "body": "We are continuously improving accessibility across AVefi. Some areas of the platform may not yet fully meet our target standard, especially where third-party components or legacy content are involved. Accessibility improvements are part of our ongoing design, development, and QA process."
+    },
+    "feedback": {
+      "title": "Feedback and contact",
+      "body": "If you experience barriers while using AVefi, or if you notice accessibility issues, please let us know. Your feedback helps us improve.",
+      "contactLabel": "Contact",
+      "includeLabel": "Please include:",
+      "includeItems": [
+        "the page or feature where the issue occurred",
+        "the device and browser you used",
+        "a short description of the problem"
+      ]
+    },
+    "improvement": {
+      "title": "Ongoing improvement",
+      "body": "We regularly review our digital services and aim to improve accessibility over time through design reviews, implementation standards, and testing."
+    }
+  },
 };
 
 export default {
   ...avefiBase,
-  ...avefiEn
+  ...avefiEn,
+  accessibilityStatement: "Accessibility Statement",
+  seo: {
+    ...avefiBase.seo,
+    ...avefiEn.seo,
+    faq: {
+      title: "FAQ - AVefi Film Metadata Database",
+      description: "Frequently asked questions, background information, and help texts for AVefi.",
+      ogTitle: "FAQ - AVefi",
+      ogDescription: "Answers to common questions about using AVefi and its research context."
+    },
+    accessibility: {
+      title: "Accessibility Statement - AVefi Film Metadata Database",
+      description: "This page outlines standards, current status, and contact routes for digital accessibility at AVefi.",
+      ogTitle: "Accessibility Statement - AVefi",
+      ogDescription: "Information about digital accessibility at AVefi, including official references and contact options."
+    }
+  },
+  accessibilityPage: {
+    title: "Accessibility Statement",
+    intro: "This statement explains how AVefi addresses digital accessibility across the website and related interfaces. AVefi is designed as an open, research-oriented infrastructure. The information on this page is therefore intended to be factual, clear, and easy to follow.",
+    commitment: {
+      title: "Our commitment",
+      body: "AVefi follows recognized accessibility standards. The main reference point is the Web Content Accessibility Guidelines (WCAG) 2.1, Level AA. For us, accessibility is part of information quality, open access, and long-term usability.",
+      areas: [
+        "website content and navigation",
+        "forms and interactive controls",
+        "color contrast and typography",
+        "keyboard navigation",
+        "semantic HTML and screen reader compatibility",
+        "responsive layouts across devices"
+      ]
+    },
+    standards: {
+      title: "Standards and official references",
+      body: "The following official sources and standards are particularly relevant to our accessibility work:",
+      niedersachsenVersion: "as of 2020-11-11, version 1.0"
+    },
+    principles: {
+      title: "Accessibility principles",
+      perceivable: {
+        title: "Perceivable",
+        body: "Information must be provided in forms people can perceive. This includes sufficient contrast, meaningful text alternatives, and a clear visual hierarchy."
+      },
+      operable: {
+        title: "Operable",
+        body: "The interface must work with different input methods, including keyboard navigation. Interactive elements should be predictable, reachable, and easy to activate."
+      },
+      understandable: {
+        title: "Understandable",
+        body: "Content, labels, and actions should be clear and consistent. People should be able to understand where they are and what will happen next."
+      },
+      robust: {
+        title: "Robust",
+        body: "Code and components should work reliably across browsers, devices, and assistive technologies. This depends on standards-based and accessible implementation patterns."
+      }
+    },
+    status: {
+      title: "Current status",
+      body: "AVefi is developed continuously. As part of that work, we review barriers in navigation, content, interaction, and technical implementation. Some areas may not yet fully meet the target standard, especially where third-party components or legacy content are involved."
+    },
+    feedback: {
+      title: "Feedback and contact",
+      body: "If you encounter barriers or notice accessibility issues, please let us know. Concrete feedback helps us review and improve the affected area.",
+      contactLabel: "Accessibility contact",
+      includeLabel: "Please include:",
+      includeItems: [
+        "the page or feature where the issue occurred",
+        "the device and browser you used",
+        "a short description of the problem"
+      ]
+    },
+    improvement: {
+      title: "Ongoing improvement",
+      body: "We review texts, components, and interaction patterns on a regular basis and adjust them where needed. This includes clarity, keyboard access, contrast, semantic structure, and robust technical implementation."
+    }
+  }
 };

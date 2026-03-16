@@ -240,6 +240,7 @@ const deBase = {
   "cookiesDescription": "Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige Cookies sind notwendig, um die grundlegenden Funktionen der Website zu gewährleisten, während andere uns helfen, die Website zu verbessern und Ihnen personalisierte Inhalte anzubieten. Sie können Ihre Cookie-Einstellungen jederzeit ändern.",
   "dataprotection": "Datenschutzerklärung",
   "imprint": "Impressum",
+  "accessibilityStatement": "Barrierefreiheit",
   'compareRegular': 'Vergleichsansicht',
   'compareRaw': 'Strukturansicht',
   "exactSearchTip": "„Anführungszeichen“ schränken die Suche auf exakte Wortgruppen ein – funktioniert für Titel, Regie, Produktion, Schlagworte (z. B. \"Bitte steigen Sie ein!\")",
@@ -887,6 +888,12 @@ const deBase = {
       "ogTitle": "Impressum – AVefi",
       "ogDescription": "Rechtliche Informationen zur AVefi-Plattform."
     },
+    "accessibility": {
+      "title": "Barrierefreiheit â€“ AVefi Filmdatenbank",
+      "description": "Informationen zur digitalen Barrierefreiheit bei AVefi, zu Standards, aktuellem Status und KontaktmÃ¶glichkeiten bei Barrieren.",
+      "ogTitle": "Barrierefreiheit â€“ AVefi",
+      "ogDescription": "Erfahren Sie, wie AVefi digitale Barrierefreiheit umsetzt und wie Sie Barrieren melden kÃ¶nnen."
+    },
     "resource": {
       "title": "{title} – Filmwerk | AVefi",
       "description": "Filmwerk mit Metadaten aus Filmarchiven. AVefi zeigt Manifestationen, Exemplare und verknüpfte Filmdaten aus mehreren Institutionen."
@@ -961,11 +968,141 @@ const deBase = {
       "hasGenre": "Genre"
     }
   },
+  "accessibilityPage": {
+    "title": "Barrierefreiheit",
+    "intro": "AVefi setzt sich dafÃ¼r ein, digitale Angebote fÃ¼r mÃ¶glichst viele Menschen zugÃ¤nglich zu machen. Unsere Website und ProduktoberflÃ¤chen sollen fÃ¼r Menschen mit unterschiedlichen FÃ¤higkeiten und assistiven Technologien nutzbar, verstÃ¤ndlich und robust sein.",
+    "commitment": {
+      "title": "Unser Anspruch",
+      "body": "Wir orientieren uns an anerkannten Standards der digitalen Barrierefreiheit, insbesondere an den Web Content Accessibility Guidelines (WCAG) 2.1 auf KonformitÃ¤tsstufe AA. Diese Richtlinien bilden den Rahmen fÃ¼r wahrnehmbare, bedienbare, verstÃ¤ndliche und robuste digitale Erlebnisse.",
+      "areas": [
+        "Website-Inhalte und Navigation",
+        "Formulare und interaktive Bedienelemente",
+        "Farbkontrast und Typografie",
+        "Tastaturbedienung",
+        "Semantisches HTML und Screenreader-KompatibilitÃ¤t",
+        "Responsive Layouts auf unterschiedlichen GerÃ¤ten"
+      ]
+    },
+    "principles": {
+      "title": "Leitprinzipien",
+      "perceivable": {
+        "title": "Wahrnehmbar",
+        "body": "Informationen und OberflÃ¤chenelemente sollen so prÃ¤sentiert werden, dass sie von Nutzenden wahrgenommen werden kÃ¶nnen. Dazu gehÃ¶ren ausreichende Farbkontraste, sinnvolle Textalternativen und eine klare visuelle Hierarchie."
+      },
+      "operable": {
+        "title": "Bedienbar",
+        "body": "Die OberflÃ¤che soll mit unterschiedlichen Eingabemethoden nutzbar sein, einschlieÃŸlich der Tastaturnavigation. Interaktive Elemente sollen ausreichend groÃŸ, vorhersehbar und leicht auslÃ¶sbar sein."
+      },
+      "understandable": {
+        "title": "VerstÃ¤ndlich",
+        "body": "Inhalte und Aktionen sollen klar und konsistent sein. Beschriftungen, Ãœberschriften und Navigationsmuster sollen dabei helfen zu verstehen, wo man sich befindet und was als NÃ¤chstes geschieht."
+      },
+      "robust": {
+        "title": "Robust",
+        "body": "Code und Komponenten sollen Ã¼ber Browser, GerÃ¤te und assistive Technologien hinweg zuverlÃ¤ssig funktionieren und auf standardbasierten, zugÃ¤nglichen Implementierungsmustern aufbauen."
+      }
+    },
+    "status": {
+      "title": "Aktueller Stand",
+      "body": "Wir verbessern die Barrierefreiheit von AVefi kontinuierlich. Einige Bereiche der Plattform erfÃ¼llen den Zielstandard mÃ¶glicherweise noch nicht vollstÃ¤ndig, insbesondere dort, wo Drittanbieter-Komponenten oder Ã¤ltere Inhalte eingebunden sind. Barrierefreiheit ist Teil unseres laufenden Design-, Entwicklungs- und QualitÃ¤tssicherungsprozesses."
+    },
+    "feedback": {
+      "title": "Feedback und Kontakt",
+      "body": "Wenn Sie bei der Nutzung von AVefi auf Barrieren stoÃŸen oder Probleme mit der Barrierefreiheit bemerken, teilen Sie uns dies bitte mit. Ihr Feedback hilft uns, das Angebot weiter zu verbessern.",
+      "contactLabel": "Kontakt",
+      "includeLabel": "Bitte geben Sie mÃ¶glichst Folgendes an:",
+      "includeItems": [
+        "die betroffene Seite oder Funktion",
+        "das verwendete GerÃ¤t und den Browser",
+        "eine kurze Beschreibung des Problems"
+      ]
+    },
+    "improvement": {
+      "title": "Kontinuierliche Verbesserung",
+      "body": "Wir Ã¼berprÃ¼fen unsere digitalen Dienste regelmÃ¤ÃŸig und arbeiten daran, die Barrierefreiheit durch Design-Reviews, Implementierungsstandards und Tests fortlaufend zu verbessern."
+    }
+  },
   "skipToContent": "Zum Inhalt springen",
 };
 
 // IMPORTANT: merge in avefiLocales.de (choose order intentionally)
 export default {
   ...deBase, 
-  ...avefiDe
+  ...avefiDe,
+  accessibilityStatement: "Erklaerung zur Barrierefreiheit",
+  seo: {
+    ...deBase.seo,
+    ...avefiDe.seo,
+    faq: {
+      title: "FAQ - AVefi Filmdatenbank",
+      description: "Hauefig gestellte Fragen, Hintergrundinformationen und Hilfetexte zu AVefi.",
+      ogTitle: "FAQ - AVefi",
+      ogDescription: "Antworten auf haeufige Fragen zur Nutzung und zum Hintergrund von AVefi."
+    },
+    accessibility: {
+      title: "Erklaerung zur Barrierefreiheit - AVefi Filmdatenbank",
+      description: "Diese Seite beschreibt Standards, aktuellen Stand und Kontaktwege zur digitalen Barrierefreiheit bei AVefi.",
+      ogTitle: "Erklaerung zur Barrierefreiheit - AVefi",
+      ogDescription: "Informationen zur digitalen Barrierefreiheit bei AVefi sowie offizielle Referenzen und Kontaktmoeglichkeiten."
+    }
+  },
+  accessibilityPage: {
+    title: "Erklaerung zur Barrierefreiheit",
+    intro: "Diese Erklaerung beschreibt, wie AVefi digitale Barrierefreiheit fuer Website und angrenzende Oberflaechen umsetzt. AVefi versteht sich als offene, wissenschaftlich fundierte Infrastruktur. Entsprechend formulieren wir diese Informationen sachlich, nachvollziehbar und moeglichst barrierearm.",
+    commitment: {
+      title: "Unser Anspruch",
+      body: "AVefi orientiert sich an anerkannten Standards der digitalen Barrierefreiheit. Grundlage sind insbesondere die Web Content Accessibility Guidelines (WCAG) 2.1 auf Konformitaetsstufe AA. Barrierefreiheit ist fuer uns Teil von Informationsqualitaet, Zugangsoffenheit und langfristiger Nutzbarkeit.",
+      areas: [
+        "Website-Inhalte und Navigation",
+        "Formulare und interaktive Bedienelemente",
+        "Farbkontrast und Typografie",
+        "Tastaturbedienung",
+        "Semantisches HTML und Screenreader-Kompatibilitaet",
+        "Responsive Layouts auf unterschiedlichen Geraeten"
+      ]
+    },
+    standards: {
+      title: "Standards und offizielle Referenzen",
+      body: "Massgeblich sind dabei insbesondere folgende offiziellen Quellen und Regelwerke:",
+      niedersachsenVersion: "Stand 11.11.2020, Version 1.0"
+    },
+    principles: {
+      title: "Leitprinzipien",
+      perceivable: {
+        title: "Wahrnehmbar",
+        body: "Informationen muessen in wahrnehmbarer Form bereitstehen. Dazu gehoeren ausreichende Kontraste, sinnvolle Textalternativen und eine klare visuelle Hierarchie."
+      },
+      operable: {
+        title: "Bedienbar",
+        body: "Die Oberflaeche muss mit unterschiedlichen Eingabemethoden nutzbar sein, einschliesslich der Tastatur. Interaktive Elemente sollen vorhersehbar, gut erreichbar und leicht ausloesbar sein."
+      },
+      understandable: {
+        title: "Verstaendlich",
+        body: "Inhalte, Bezeichnungen und Aktionen sollen klar und konsistent sein. Nutzende sollen erkennen koennen, wo sie sich befinden und was als Naechstes geschieht."
+      },
+      robust: {
+        title: "Robust",
+        body: "Code und Komponenten sollen ueber Browser, Geraete und assistive Technologien hinweg zuverlaessig funktionieren. Grundlage sind standardbasierte und zugaengliche Implementierungsmuster."
+      }
+    },
+    status: {
+      title: "Aktueller Stand",
+      body: "AVefi wird fortlaufend weiterentwickelt. Dabei pruefen wir Barrieren in Navigation, Inhalt, Interaktion und technischer Umsetzung. Einzelne Bereiche koennen den Zielstandard noch nicht vollstaendig erreichen, insbesondere bei Drittkomponenten oder aelteren Inhalten."
+    },
+    feedback: {
+      title: "Feedback und Kontakt",
+      body: "Wenn Sie auf Barrieren stossen oder Hinweise zur digitalen Zugaenglichkeit haben, freuen wir uns ueber Ihre Rueckmeldung. Bitte beschreiben Sie die betroffene Stelle so konkret wie moeglich.",
+      contactLabel: "Kontakt bei Barrieren",
+      includeLabel: "Bitte geben Sie moeglichst Folgendes an:",
+      includeItems: [
+        "die betroffene Seite oder Funktion",
+        "das verwendete Geraet und den Browser",
+        "eine kurze Beschreibung des Problems"
+      ]
+    },
+    improvement: {
+      title: "Kontinuierliche Verbesserung",
+      body: "Texte, Komponenten und Interaktionsmuster werden regelmaessig ueberprueft und bei Bedarf angepasst. Dabei achten wir auf Verstaendlichkeit, Tastaturbedienbarkeit, Kontrast, semantische Struktur und robuste technische Umsetzung."
+    }
+  }
 };

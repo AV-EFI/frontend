@@ -54,6 +54,13 @@
                                 </a>
                             </li>
                             <li class="min-h-16">
+                                <NuxtLink to="/accessibility"
+                                          class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
+                                          :aria-label="$t('accessibilityStatement')">
+                                    {{ $t('accessibilityStatement') }}
+                                </NuxtLink>
+                            </li>
+                            <li class="min-h-16">
                                 <a href="https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
                                    target="_blank"
                                    class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"

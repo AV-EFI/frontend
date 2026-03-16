@@ -446,6 +446,7 @@ export default defineNuxtConfig({
       '/contact',
       '/res',
       '/imprint',
+      '/accessibility',
       '/press',
       '/faq',
       // concrete “testable” URLs
