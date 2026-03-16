@@ -498,12 +498,8 @@ const activeSearchComponent = computed(() => {
     return SearchCompReduced;
 });
 
-onMounted(async () => {
+onMounted(() => {
     isClientMounted.value = true;
-    await nextTick();
-    setTimeout(() => {
-        focusFirstInput();
-    }, 1100);
 });
 
 async function prefetchAdvancedSearch() {

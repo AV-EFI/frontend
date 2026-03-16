@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount, useId } from 'vue';
+import { ref, computed, onBeforeUnmount, useId, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
@@ -178,6 +178,7 @@ const showDropdown = ref(false);
 const highlighted = ref(-1);
 const fetching = ref(false);
 const lastSelected = ref('');
+const selectionLock = ref<string | null>(null);
 
 /* User intent: should suggestions be allowed to open? */
 const userInteracting = ref(false);
@@ -308,6 +309,18 @@ function onInput(v: any) {
     }
 
     const val = typeof v === 'string' ? v : String(v ?? '');
+
+    if (selectionLock.value !== null) {
+        if (val === selectionLock.value) {
+            cancelDebounce();
+            userInteracting.value = false;
+            showDropdown.value = false;
+            highlighted.value = -1;
+            return;
+        }
+        selectionLock.value = null;
+    }
+
     userInteracting.value = true;
     displayValue.value = val;
 
@@ -347,6 +360,7 @@ function onBlur() {
 function onClear() {
     suppressNextInput.value = true;
     userInteracting.value = false;
+    selectionLock.value = null;
 
     displayValue.value = '';
     suggestions.value = [];
@@ -360,6 +374,7 @@ function onSelect(s: Suggestion) {
     cancelDebounce();
     fetchToken++;
 
+    selectionLock.value = s.text;
     userInteracting.value = false;
     showDropdown.value = false;
     highlighted.value = -1;
@@ -429,6 +444,16 @@ function onKeydown(e: KeyboardEvent) {
         showDropdown.value = false;
     }
 }
+
+watch(
+    () => props.modelValue,
+    (nextValue) => {
+        if (selectionLock.value === null) return;
+        if ((nextValue ?? '') !== selectionLock.value) {
+            selectionLock.value = null;
+        }
+    }
+);
 
 /* ==========================================================================
    Public API
