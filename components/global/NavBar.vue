@@ -97,22 +97,12 @@
                         </div>
                         <div v-if="envLabel !== 'Production'" class="badge badge-neutral mr-auto ml-3 my-auto text-left h-6 w-24">
                             {{ envLabel }}
-                        </div>
-                        <div v-if="!alphaClicked && envLabel === 'Production'"
-                             class="inline-block mr-auto ml-3 my-auto text-left h-6 w-24 cursor-pointer"
-                             @click="alphaClicked = !alphaClicked">
-                            <span :aria-label="t('alpha')" :title="t('alpha')">alpha</span>
-                        </div>
-                        <div class="h-12 ml-3 flex items-center justify-center" @click="alphaClicked = !alphaClicked">
-                            <MicroRainbowStripeText v-if="alphaClicked && envLabel === 'Production'"
-                                                    class="font-black flex justify-center text-4xl uppercase mr-auto my-auto cursor-pointer" text="alpha"
-                                                    :aria-label="t('alpha')" :title="t('alpha')" />
-                        </div>
+                        </div>                        
                     </div>
                 </div>
 
                 <!-- Desktop menu (md and up) -->
-                <div class="navbar-end w-3/5 flex-grow hidden md:flex">
+                <div class="navbar-end w-3/5 grow hidden md:flex">
                     <ul
                         class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items overflow-visible">
                         <li v-if="favourites.objects?.length > 0" class="h-12 flex justify-center">
@@ -246,8 +236,6 @@ const detailsOpen = ref(false);
 
 const config = useRuntimeConfig();
 const envLabel = config.public.ENV_LABEL;
-
-const alphaClicked = ref(false);
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;

@@ -9,7 +9,9 @@ services:
   av-efi-frontend:
     image: alpine/socat
     container_name: av-efi-frontend
-    command: tcp-listen:3000,fork,reuseaddr tcp-connect:host.docker.internal:3000
+    command: tcp-listen:3000,fork,reuseaddr tcp-connect:${DEV_FORWARD_HOST:-host.docker.internal}:${DEV_FORWARD_PORT:-3000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - proxy-network
     restart: unless-stopped

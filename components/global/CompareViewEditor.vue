@@ -90,7 +90,7 @@ async function getCollectionType(routeParamsId: string): Promise<ElasticGetByIdR
     return data as ElasticGetByIdResponse;
     /*
     const { data } = await useApiFetchLocal<Array<IAVefiWorkVariant>>(
-        `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_GET_WORK}/${routeParamsId}`,
+        `${useRuntimeConfig().public.elasticApiBase}/${useRuntimeConfig().public.AVEFI_GET_WORK}/${routeParamsId}`,
         {
             method: 'GET'
         }

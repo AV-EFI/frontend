@@ -119,6 +119,8 @@
 </template>
 
 <script setup lang="ts">
+import deMessages from '~/i18n/locales/de';
+import enMessages from '~/i18n/locales/en';
 import { useI18n } from 'vue-i18n';
 
 interface PressManifestFile {
@@ -193,14 +195,33 @@ const formatBadge = (badgeKey?: string, fallback = '') => translateKey(badgeKey)
 
 const pressLocales = ['de', 'en'] as const;
 type PressLocale = (typeof pressLocales)[number];
+const pressMessagesByLocale: Record<PressLocale, Record<string, unknown>> = {
+    de: deMessages as Record<string, unknown>,
+    en: enMessages as Record<string, unknown>,
+};
 
 const localeLabels: Record<PressLocale, string> = {
     de: 'Deutsch',
     en: 'English',
 };
 
-const translatePressKey = (key: string, localeCode: PressLocale, params?: Record<string, unknown>) =>
-    t(key, params, { locale: localeCode });
+const getMessageByPath = (messages: Record<string, unknown>, key: string): unknown =>
+    key.split('.').reduce<unknown>((current, segment) => {
+        if (current && typeof current === 'object' && segment in (current as Record<string, unknown>)) {
+            return (current as Record<string, unknown>)[segment];
+        }
+        return undefined;
+    }, messages);
+
+const interpolateMessage = (message: string, params?: Record<string, unknown>) =>
+    params
+        ? message.replace(/\{(\w+)\}/g, (_, paramKey: string) => String(params[paramKey] ?? ''))
+        : message;
+
+const translatePressKey = (key: string, localeCode: PressLocale, params?: Record<string, unknown>) => {
+    const message = getMessageByPath(pressMessagesByLocale[localeCode], key);
+    return typeof message === 'string' ? interpolateMessage(message, params) : '';
+};
 
 const bilingualEntries = (key?: string | null, params?: Record<string, unknown>): BilingualEntry[] => {
     if (!key) {

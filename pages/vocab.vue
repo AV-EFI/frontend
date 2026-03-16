@@ -28,8 +28,8 @@ const router = useRouter();
 useSeoMeta({
     title: t('seo.vocab.title'),
     description: t('seo.vocab.description'),
-    ogTitle: t('seo.vocab.ogTitle'),
-    ogDescription: t('seo.vocab.ogDescription'),
+    ogTitle: t('seo.vocab.title'),
+    ogDescription: t('seo.vocab.description'),
     ogImage: '/img/avefi-og-image.png',
     keywords: [
         'Glossar',

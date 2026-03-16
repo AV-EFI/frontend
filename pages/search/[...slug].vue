@@ -24,7 +24,7 @@ definePageMeta({
 // Initialize search client only on client-side
 const searchClient = process.client ? Client({
     config: config,
-    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_SEARCH}`,  
+    url: `${useRuntimeConfig().public.elasticApiBase}/${useRuntimeConfig().public.searchApiPath}`,
 }) : null;
 
 const { currentUrlState } = useCurrentUrlState();

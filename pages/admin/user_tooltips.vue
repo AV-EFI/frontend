@@ -158,6 +158,10 @@
 import { ref, computed, onMounted, defineComponent, h } from 'vue';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 
+definePageMeta({
+    auth: true,
+});
+
 const { ensureFormKitReady } = useFormKitLoader();
 
 await ensureFormKitReady();

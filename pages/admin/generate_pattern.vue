@@ -31,6 +31,10 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from 'vue';
 
+definePageMeta({
+    auth: true,
+});
+
 const PatternGenerator = defineAsyncComponent(() => import('~/components/global/FilmDiamondPatternGenerator.vue'));
 const showGenerator = ref(false);
 

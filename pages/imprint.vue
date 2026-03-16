@@ -9,7 +9,7 @@
                     Die nachstehenden Informationen enthalten die gesetzlich vorgesehenen Pflichtangaben zur
                     Anbieterkennzeichnung, zu den datenschutzrechtlichen Informationspflichten sowie wichtige rechtliche Hinweise
                     zur Internet-Präsenz der Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG), die sich
-                    aus den Seiten <a href="http://www.av-efi.net" class="link link-primary">http://www.av-efi.net</a>
+                    aus den Seiten <a href="/" class="link link-primary">www.av-efi.net</a>
                     zusammensetzt.
                 </p>
 

@@ -5,6 +5,7 @@ definePageMeta({
 
 const route = useRoute();
 const { t } = useI18n();
+const siteUrl = useSiteUrl();
 
 const items = [];
 items[0] = route.query.prev;
@@ -63,8 +64,7 @@ const pageDescription = computed(() => {
 });
 
 const canonical = computed(() => {
-    const config = useRuntimeConfig();
-    const baseUrl = config.public.SITE_URL || 'https://www.av-efi.net';
+    const baseUrl = siteUrl.value || 'https://www.av-efi.net';
     if (hasValidParams.value) {
         return `${baseUrl}/compare?prev=${items[0]}&next=${items[1]}`;
     }

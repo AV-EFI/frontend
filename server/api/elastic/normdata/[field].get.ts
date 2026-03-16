@@ -1,5 +1,6 @@
 // server/api/vocab/[field].get.ts
 import { defineEventHandler, getRouterParam, getQuery, createError } from 'h3';
+import { getElasticsearchApiKey, getElasticsearchNode } from '~/server/utils/elasticsearchRuntime';
 
 type WhitelistKey = 'has_subject' | 'has_genre' | 'has_form' // extend as needed
 
@@ -102,11 +103,9 @@ export default defineEventHandler(async (event) => {
   const filterText = filterTextRaw?.trim() ? filterTextRaw.trim() : undefined;
   const queryFilters: any[] = [];
 
-  // ⬇️ Adapt to your runtimeConfig
-  const config = useRuntimeConfig();
-  const esHost = config.elasticsearch?.host || process.env.ELASTIC_HOST_PUBLIC || process.env.ELASTIC_HOST_INTERNAL;
-  const esIndex = config.elasticsearch?.index || process.env.ELASTIC_INDEX;
-  const esApiKey = config.elasticsearch?.apiKey || process.env.ELASTIC_APIKEY;
+  const esHost = getElasticsearchNode();
+  const esIndex = process.env.ELASTIC_INDEX;
+  const esApiKey = getElasticsearchApiKey();
 
   if (!esHost || !esIndex) {
     throw createError({

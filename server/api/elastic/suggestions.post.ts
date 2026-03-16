@@ -2,6 +2,7 @@
 import { defineEventHandler, readBody } from 'h3';
 import { $fetch } from 'ofetch';
 import { config as searchkitConfig } from '~/searchConfig_avefi';
+import { getElasticsearchNode } from '../../utils/elasticsearchRuntime';
 
 /**
  * One endpoint, two modes:
@@ -102,7 +103,7 @@ const FACETS: Record<
 export default defineEventHandler(async (event) => {
   const body = await readBody<Req>(event);
   const cfg = useRuntimeConfig();
-  const host  = cfg.public.ELASTIC_HOST_PUBLIC || cfg.public.ELASTIC_HOST;
+  const host = getElasticsearchNode();
   const index = cfg.public.ELASTIC_INDEX;
   if (!host || !index) return { success: false, suggestions: [] };
 

@@ -696,7 +696,7 @@ const currentRefinements = computed(() => {
 
 const baseSearchClient = Client({
     config: config,
-    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_ELASTIC_API_SEARCH_ENDPOINT}`,
+    url: `${useRuntimeConfig().public.elasticApiBase}/${useRuntimeConfig().public.searchApiPath}`,
 });
 
 watch(

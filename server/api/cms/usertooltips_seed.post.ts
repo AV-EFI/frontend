@@ -2,6 +2,7 @@
 import { join } from 'node:path';
 import { promises as fs } from 'node:fs';
 import { readUserGlossary, writeUserGlossary } from '../../utils/userGlossaryStore';
+import { requireAuthenticatedUser } from '../../utils/requireAuthenticatedUser';
 
 type I18nPayload = {
   en?: Record<string, string>;
@@ -72,7 +73,7 @@ function resolveKeyToPaths(key: string, entities: Entity[]): string[] {
 }
 
 export default defineEventHandler(async (event) => {
-  // Auth/ACL goes here if needed.
+  await requireAuthenticatedUser(event);
 
   const body = (await readBody<I18nPayload>(event)) || {};
   const de: Record<string, string> = body.de || {};

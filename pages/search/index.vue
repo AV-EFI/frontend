@@ -45,7 +45,7 @@ const isClient = typeof window !== 'undefined';
 const searchClient = isClient
     ? Client({
         config: searchkitConfig as any,
-        url: `${runtime.public.AVEFI_ELASTIC_API}/${runtime.public.AVEFI_SEARCH}`,
+        url: `${runtime.public.elasticApiBase}/${runtime.public.searchApiPath}`,
     })
     : null;
 

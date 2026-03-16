@@ -614,7 +614,7 @@ function onSubmit(v: string) {
 function redirectToSearchScreen() {
     try {
         const pub = useRuntimeConfig().public;
-        const rawBase = pub.AVEFI_SEARCH_URL || 'search';
+        const rawBase = pub.searchRouteBase || pub.SEARCH_URL || 'search';
         const isAbsolute = /^https?:\/\//i.test(rawBase);
         const base = isAbsolute
             ? `${rawBase.replace(/\/+$/, '')}/`

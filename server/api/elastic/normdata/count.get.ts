@@ -1,4 +1,5 @@
 import { defineEventHandler, getQuery } from 'h3';
+import { getElasticsearchApiKey, getElasticsearchNode } from '~/server/utils/elasticsearchRuntime';
 
 type Cfg = {
   ES_URL: string
@@ -10,11 +11,7 @@ type Cfg = {
 
 // .env-Anpassung: Host/Index nach deiner Variablenkonvention
 function cfgFromEnv(): Cfg {
-  const host =
-    process.env.ELASTIC_HOST_INTERNAL ||
-    process.env.ELASTIC_GWDG_HOST ||
-    process.env.ELASTIC_HOST_PUBLIC ||
-    'http://localhost:9200';
+  const host = process.env.ELASTIC_GWDG_HOST || getElasticsearchNode();
 
   const index =
     process.env.ELASTIC_INDEX ||
@@ -24,7 +21,7 @@ function cfgFromEnv(): Cfg {
   return {
     ES_URL: host,
     ES_INDEX: index,
-    ES_APIKEY: process.env.ELASTIC_APIKEY, // ApiKey (optional)
+    ES_APIKEY: getElasticsearchApiKey(), // ApiKey (optional)
     ES_USERNAME: process.env.ELASTIC_USERNAME, // optional Fallback
     ES_PASSWORD: process.env.ELASTIC_PASSWORD, // optional Fallback
   };

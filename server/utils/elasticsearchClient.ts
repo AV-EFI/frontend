@@ -1,4 +1,5 @@
 import { createError } from 'h3';
+import { getElasticsearchApiKey, getElasticsearchNodes } from './elasticsearchRuntime';
 
 export interface ElasticsearchRequestOptions {
     path: string;
@@ -12,24 +13,8 @@ export interface ElasticsearchRequestOptions {
 const DEFAULT_TIMEOUT_MS = 8000;
 
 export async function elasticsearchRequest<T>(options: ElasticsearchRequestOptions): Promise<T> {
-  const runtimeConfig = useRuntimeConfig();
-  const baseCandidates = [
-    runtimeConfig.private?.ELASTIC_HOST_INTERNAL,
-    runtimeConfig.public?.ELASTIC_HOST_INTERNAL,
-    runtimeConfig.private?.ELASTIC_HOST_PUBLIC,
-    runtimeConfig.public?.ELASTIC_HOST_PUBLIC,
-  ]
-    .map((candidate) => (typeof candidate === 'string' ? candidate.trim() : ''))
-    .filter((candidate): candidate is string => candidate.length > 0);
-
-  if (baseCandidates.length === 0) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Elasticsearch base URL is not configured',
-    });
-  }
-
-  const apiKey = runtimeConfig.private?.ELASTIC_APIKEY ?? runtimeConfig.public?.ELASTIC_APIKEY;
+  const baseCandidates = getElasticsearchNodes();
+  const apiKey = getElasticsearchApiKey();
 
   let lastError: Error | null = null;
 

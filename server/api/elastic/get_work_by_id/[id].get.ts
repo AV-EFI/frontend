@@ -1,5 +1,6 @@
 import { defineEventHandler, getRouterParam } from 'h3';
 import { $fetch } from 'ofetch';
+import { getElasticsearchApiKey, getElasticsearchNode } from '~/server/utils/elasticsearchRuntime';
 
 export default defineEventHandler(async (event) => {
   // Extract the ID from the route
@@ -9,12 +10,14 @@ export default defineEventHandler(async (event) => {
   }
 
   // Example: Query Elasticsearch (replace with your actual host and query)
-  const elasticHost = process.env.ELASTIC_HOST_PUBLIC || 'http://localhost:9200';
+  const elasticHost = getElasticsearchNode();
   const index = process.env.ELASTIC_INDEX || 'your_index';
   const url = `${elasticHost}/${index}/_doc/${id}`;
+  const apiKey = getElasticsearchApiKey();
+  const headers = apiKey ? { Authorization: `ApiKey ${apiKey}` } : undefined;
 
   try {
-    const result = await $fetch(url);
+    const result = await $fetch(url, { headers });
     console.log('Elasticsearch result:', result);
 
     if(result) {

@@ -1,12 +1,44 @@
 // nuxt.config.ts
 const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | schema | release
 const indexSearch = process.env.NUXT_PUBLIC_INDEX_SEARCH === 'true';
+const buildProfile = process.env.NUXT_BUILD_PROFILE ?? 'ci';
 
 const isPre = releaseMode === 'pre';
 const isSchema = releaseMode === 'schema';
 const isRelease = releaseMode === 'release';
+const isFastBuildProfile = buildProfile === 'local';
+const shouldRunBuildQa = !isFastBuildProfile;
+const shouldEnableReleaseModules = !isFastBuildProfile;
 
 const isProduction = process.env.NODE_ENV === 'production';
+const publicSiteUrl =
+  process.env.NUXT_PUBLIC_SITE_URL ||
+  process.env.SITE_URL ||
+  process.env.ORIGIN ||
+  'https://www.av-efi.net';
+const publicApiUrl =
+  process.env.NUXT_PUBLIC_API_URL ||
+  process.env.API_URL ||
+  process.env.AVEFI_INTERNAL_API ||
+  '/api';
+const publicElasticApiBase =
+  process.env.NUXT_PUBLIC_ELASTIC_API_BASE ||
+  process.env.PUBLIC_AVEFI_ELASTIC_API ||
+  process.env.AVEFI_ELASTIC_API ||
+  '/rest/v1';
+const publicSearchApiPath =
+  process.env.NUXT_PUBLIC_SEARCH_API_PATH ||
+  process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT ||
+  process.env.AVEFI_SEARCH ||
+  'frontend/search';
+const publicSearchRouteBase =
+  process.env.NUXT_PUBLIC_SEARCH_ROUTE_BASE ||
+  process.env.SEARCH_URL ||
+  process.env.AVEFI_SEARCH_URL ||
+  'search';
+const publicSiteOgImage =
+  process.env.NUXT_PUBLIC_SITE_OG_IMAGE ||
+  `${publicSiteUrl.replace(/\/+$/, '')}/img/avefi-og-image.png`;
 
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from 'nuxt-schema-org/schema';
@@ -19,6 +51,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-31',
   ssr: true,
+  debug: false,
 
   app: {
     baseURL: '/',
@@ -133,10 +166,24 @@ export default defineNuxtConfig({
     preset: 'node-server',
     compressPublicAssets: true,
     serverAssets: [{ baseName: 'vocab', dir: 'assets/vocab' }],
-    debug: process.env.NUXT_DEBUG === 'true',
+    debug: !isProduction && process.env.NUXT_DEBUG === 'true',
+    externals: {
+      // On Windows, Nitro's traced node_modules output can collide when multiple
+      // major versions of readable-stream are externalized. Inline the packages
+      // that drag those versions in so Nitro only links one external copy.
+      inline: process.platform === 'win32'
+        ? [
+          /^readable-stream(?:\/.*)?$/,
+          /^winston(?:\/.*)?$/,
+          /^winston-transport(?:\/.*)?$/,
+          /^winston-daily-rotate-file(?:\/.*)?$/,
+          /^jszip(?:\/.*)?$/,
+        ]
+        : [],
+    },
     prerender: {
       crawlLinks: false,
-      routes: ['/faq', '/vocab', '/imprint', '/press'],
+      routes: shouldRunBuildQa ? ['/faq', '/vocab', '/imprint', '/press'] : [],
     },
 
     // Response-header policies (X-Robots-Tag etc.)
@@ -183,13 +230,17 @@ export default defineNuxtConfig({
     //'@nuxtjs/color-mode',
     '@nuxt/icon',
     '@vueuse/nuxt',
-    'nuxt3-winston-log',
     '@dargmuesli/nuxt-cookie-control',
     'nuxt-nodemailer',
-    '@nuxtjs/seo',
-    '@nuxtjs/robots',
-    '@nuxtjs/sitemap',
     'nuxt-schema-org',
+    ...(shouldEnableReleaseModules
+      ? [
+        'nuxt3-winston-log',
+        '@nuxtjs/seo',
+        '@nuxtjs/robots',
+        '@nuxtjs/sitemap',
+      ]
+      : []),
   ],
 
   extends: './pages',
@@ -225,33 +276,31 @@ export default defineNuxtConfig({
         .map((s) => s.trim())
         .filter(Boolean),
       ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
-      origin: process.env.ORIGIN,
-      frontendUrl: process.env.ORIGIN,
-      siteUrl: process.env.ORIGIN,
-      ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
-      ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
-      ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
+      origin: publicSiteUrl,
+      frontendUrl: publicSiteUrl,
+      siteUrl: publicSiteUrl,
+      siteOgImage: publicSiteOgImage,
+      apiUrl: publicApiUrl,
+      elasticApiBase: publicElasticApiBase,
+      searchApiPath: publicSearchApiPath,
+      searchRouteBase: publicSearchRouteBase,
+      AVEFI_INTERNAL_API: publicApiUrl,
+      AVEFI_ELASTIC_API: publicElasticApiBase,
+      PUBLIC_AVEFI_ELASTIC_API: publicElasticApiBase,
+      AVEFI_ELASTIC_API_SEARCH_ENDPOINT: publicSearchApiPath,
+      AVEFI_SEARCH: publicSearchApiPath,
+      SEARCH_URL: publicSearchRouteBase,
+      AVEFI_SEARCH_URL: publicSearchRouteBase,
+      authGuardBypassInDev: !isProduction && process.env.AUTH_GUARD_BYPASS_IN_DEV !== 'false',
       ELASTIC_INDEX: process.env.ELASTIC_INDEX,
       ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
       ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
-      AVEFI_ELASTIC_API: process.env.AVEFI_ELASTIC_API,
-      PUBLIC_AVEFI_ELASTIC_API: process.env.PUBLIC_AVEFI_ELASTIC_API,
-      AVEFI_ELASTIC_API_SEARCH_ENDPOINT: process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT,
-      MAIL_USER: process.env.MAIL_USER,
-      MAIL_FROM: process.env.MAIL_FROM,
-      MAIL_TO: process.env.MAIL_TO,
-      MAIL_TO_2: process.env.MAIL_TO_2,
-
       AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
-      AVEFI_SEARCH: process.env.AVEFI_SEARCH,
       AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
       AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
       AVEFI_GET_MANIFEST: process.env.AVEFI_GET_MANIFEST,
       AVEFI_GET_MANIFEST_BY_WORK: process.env.AVEFI_GET_MANIFEST_BY_WORK,
-      AVEFI_ELASTIC_INTERNAL: process.env.AVEFI_ELASTIC_INTERNAL,
       AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
-      AVEFI_SEARCH_URL: process.env.AVEFI_SEARCH_URL,
-      SEARCH_URL: process.env.SEARCH_URL,
       SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
       KEYCLOAK_URL: process.env.KEYCLOAK_URL,
       KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
@@ -281,6 +330,7 @@ export default defineNuxtConfig({
 
     private: {
       NUXT_SECRET: process.env.NUXT_SECRET,
+      ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
       ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
       ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
     },
@@ -314,7 +364,7 @@ export default defineNuxtConfig({
     },
   },
   site: {
-    url: process.env.SITE_URL || 'https://www.av-efi.net',
+    url: publicSiteUrl,
     name: 'AVefi',
     description:
     'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
@@ -331,7 +381,7 @@ export default defineNuxtConfig({
       name: 'AVefi',
       alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
       url: 'https://www.av-efi.net',
-      logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
+      logo: publicSiteOgImage,
       description:
       'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
       foundingDate: '2023-11-01',
@@ -520,6 +570,20 @@ export default defineNuxtConfig({
     },
   },
 
+  linkChecker: {
+    enabled: shouldRunBuildQa,
+    runOnBuild: shouldRunBuildQa,
+    excludeLinks: [
+      '/api/press-kit.zip',
+      '/img/AV-EFI-Logo.svg',
+      '/img/AV-EFI-Logo.png',
+      '/img/AV-EFI-Logo-dark.svg',
+      '/img/AV-EFI-Logo-dark.png',
+      '/img/avefi_claim_de.svg',
+      '/img/avefi_claim_en.svg',
+    ],
+  },
+
   devServer: {
     host: '0.0.0.0',
     port: 3000,
@@ -550,7 +614,7 @@ export default defineNuxtConfig({
     build: {
       chunkSizeWarningLimit: 750,
       target: 'esnext',
-      sourcemap: true,
+      sourcemap: shouldRunBuildQa,
     },
     logLevel: 'error',
     css: {

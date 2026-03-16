@@ -1,7 +1,8 @@
+@use 'sass:meta';
 @use '_variables';
 @use '_colors';
 
-@import "tailwindcss";
+@include meta.load-css("tailwindcss");
 
 /* Restore default text selection styling */
 input::selection,

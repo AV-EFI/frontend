@@ -1,9 +1,10 @@
 export default defineNuxtPlugin(() => {
   const userAuth = useCookie('auth:token');
   const config = useRuntimeConfig();
+  const baseURL = config.public.apiUrl || '/api';
 
   const $apiFetch = $fetch.create({
-    baseURL: config.public.apiUrl,
+    baseURL,
     onRequest({ options }) {
       const headers = new Headers();
       headers.set('Accept', 'application/json');

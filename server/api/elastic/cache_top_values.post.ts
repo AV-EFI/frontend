@@ -4,6 +4,7 @@ import { $fetch } from 'ofetch';
 import { promises as fs } from 'fs';
 import { resolve } from 'pathe';
 import { config as searchkitConfig } from '~/searchConfig_avefi';
+import { getElasticsearchNode } from '../../utils/elasticsearchRuntime';
 
 type FacetCfg = { attribute: string; field: string; type: 'string'|'numeric'; nestedPath?: string }
 type SearchAttr = { field: string; weight?: number }
@@ -24,7 +25,7 @@ function toTypeKey(field: string): string {
 
 export default defineEventHandler(async () => {
   const cfg = useRuntimeConfig();
-  const host  = cfg.public.ELASTIC_HOST_PUBLIC || cfg.public.ELASTIC_HOST;
+  const host = getElasticsearchNode();
   const index = cfg.public.ELASTIC_INDEX;
   if (!host || !index) return { success: false, message: 'Missing ES host/index' };
 

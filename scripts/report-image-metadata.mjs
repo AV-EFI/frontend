@@ -1,33 +1,15 @@
 #!/usr/bin/env node
 import sharp from 'sharp';
 import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { getDeclaredOutputs, imageJobs, publicDir, staticRuntimeImages } from './image-manifest.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const publicDir = join(__dirname, '..', 'public');
+const isImagePath = (relPath) => /\.(?:avif|gif|ico|jpe?g|png|svg|webp)$/iu.test(relPath);
 
-const defaultTargets = [
-    'img/avefi_diamonds_prim_mobile.webp',
-    'img/avefi_diamonds_prim_tablet.webp',
-    'img/avefi_diamonds_prim_desktop.webp',
-    'img/avefi_diamonds_prim_white.webp',
-    'img/restaur_kurzfilme.webp',
-    'img/aktiv_im_dok.webp',
-    'img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp',
-    'img/Bundesarchiv_Bild_Leipzig_Capitol_Nacht.webp',
-    'img/avefi_vid_poster.webp',
-    'img/logo_sdk.png',
-    'img/logo_tib.png',
-    'img/logo_fmd.png',
-    'img/logo_mcdci.png',
-    'img/logo_hdf.webp',
-    'img/logo_fmd.webp',
-    'img/logo_sdk.webp',
-    'img/logo_tib.webp',
-    'img/logo_mcdci.webp',
-];
+const defaultTargets = Array.from(new Set([
+    ...staticRuntimeImages.filter(isImagePath),
+    ...imageJobs.map((job) => job.input),
+    ...getDeclaredOutputs(),
+]));
 
 async function run() {
     const extraTargets = process.argv.slice(2);

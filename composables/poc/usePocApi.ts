@@ -51,7 +51,7 @@ export function usePocApi() {
     return value.endsWith('/') ? value.slice(0, -1) : value;
   };
 
-  const internalBase = normalizeBase(runtimeConfig.public?.AVEFI_INTERNAL_API) || '/api';
+  const internalBase = normalizeBase(runtimeConfig.public?.apiUrl) || '/api';
   const pocBase = `${normalizeBase(internalBase)}/poc`;
   const buildUrl = (path: string) => `${pocBase}${path}`;
 

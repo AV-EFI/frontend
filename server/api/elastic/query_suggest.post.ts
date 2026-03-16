@@ -2,6 +2,7 @@
 import { defineEventHandler, readBody } from 'h3';
 import { $fetch } from 'ofetch';
 import { config as searchkitConfig } from '~/searchConfig_avefi';
+import { getElasticsearchNode } from '../../utils/elasticsearchRuntime';
 
 type SearchAttr = { field: string; weight?: number }
 type Req = { query?: string; size?: number }
@@ -24,7 +25,7 @@ export default defineEventHandler(async (event) => {
   const size = Number(body.size) || 10;
 
   const cfg = useRuntimeConfig();
-  const host  = cfg.public.ELASTIC_HOST_PUBLIC || cfg.public.ELASTIC_HOST;
+  const host = getElasticsearchNode();
   const index = cfg.public.ELASTIC_INDEX;
   if (!host || !index) return { success: false, suggestions: [] };
 

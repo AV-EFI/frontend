@@ -39,6 +39,7 @@
 import { onMounted } from 'vue';
 import SearchkitInstantSearchClient from '@searchkit/instantsearch-client';
 const { data:authData } = useAuth();
+const runtimeConfig = useRuntimeConfig();
 
 const uiState = {
     refinementList: {
@@ -47,7 +48,7 @@ const uiState = {
 };
 
 const searchClient = SearchkitInstantSearchClient({
-    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_INTERNAL}/frontend/search`,
+    url: `${runtimeConfig.public.elasticApiBase}/${runtimeConfig.public.searchApiPath}`,
     uiState: uiState,
 });
 

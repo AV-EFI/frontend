@@ -9,9 +9,9 @@
  * Usage:
  *   ELASTIC_HOST="https://..." ELASTIC_INDEX="index-name" ts-node scripts/generate-query-suggestions.ts
  */
-import 'dotenv/config'
 import fs from 'node:fs'
 import path from 'node:path'
+import { config as loadEnv } from 'dotenv'
 import { $fetch } from 'ofetch'
 // Adjust this import path if your searchConfig_avefi lives elsewhere:
 import { config as searchkitConfig } from '../searchConfig_avefi'
@@ -38,18 +38,51 @@ function keywordField(field: string): string {
   return field.endsWith('.keyword') ? field : `${field}.keyword`
 }
 
+function loadLocalEnv() {
+  const cwd = process.cwd()
+  const envFiles = ['.env.local', '.env']
+
+  for (const file of envFiles) {
+    const fullPath = path.resolve(cwd, file)
+    if (fs.existsSync(fullPath)) {
+      loadEnv({ path: fullPath, override: false })
+    }
+  }
+}
+
+function ensureFallbackSuggestionsFile(outFile: string) {
+  const outDir = path.dirname(outFile)
+
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true })
+  }
+
+  if (!fs.existsSync(outFile)) {
+    fs.writeFileSync(outFile, '[]\n', 'utf8')
+    console.warn(
+      `[generate-query-suggestions] Created fallback suggestions file at ${outFile}`
+    )
+  }
+}
+
 async function main() {
+  loadLocalEnv()
+
+  const outDir = path.resolve(process.cwd(), 'assets', 'data')
+  const outFile = path.join(outDir, 'default-query-suggestions.json')
   const host =
     process.env.ELASTIC_HOST_PUBLIC ||
+    process.env.ELASTIC_HOST_INTERNAL ||
     process.env.ELASTIC_HOST
 
   const index = process.env.ELASTIC_INDEX
 
   if (!host || !index) {
-    console.error(
-      '[generate-query-suggestions] ERROR: ELASTIC_HOST / ELASTIC_HOST_PUBLIC and ELASTIC_INDEX must be set in env.'
+    ensureFallbackSuggestionsFile(outFile)
+    console.warn(
+      '[generate-query-suggestions] Skipping refresh because ELASTIC_HOST_* / ELASTIC_INDEX are not set.'
     )
-    process.exit(1)
+    return
   }
 
   const searchAttrs = (searchkitConfig?.search_settings?.search_attributes || []) as SearchAttr[]
@@ -92,11 +125,12 @@ async function main() {
       body: esBody,
     })
   } catch (err: any) {
-    console.error(
-      '[generate-query-suggestions] ERROR while calling Elasticsearch:',
+    ensureFallbackSuggestionsFile(outFile)
+    console.warn(
+      '[generate-query-suggestions] Elasticsearch unavailable, keeping existing suggestions file:',
       err?.data || err?.message || err
     )
-    process.exit(1)
+    return
   }
 
   const rawSuggestions: Suggestion[] = []
@@ -120,8 +154,9 @@ async function main() {
   }
 
   if (!rawSuggestions.length) {
-    console.warn('[generate-query-suggestions] No buckets returned, nothing to write.')
-    process.exit(0)
+    ensureFallbackSuggestionsFile(outFile)
+    console.warn('[generate-query-suggestions] No buckets returned, keeping existing suggestions file.')
+    return
   }
 
   // De-duplicate suggestions by (type, text) and combine docCount
@@ -144,10 +179,6 @@ async function main() {
 
   // Cut to maxSuggestions
   const topSuggestions = mergedSuggestions.slice(0, maxSuggestions)
-
-  // Decide on output path (adjust if you prefer a different location)
-  const outDir = path.resolve(process.cwd(), 'assets', 'data')
-  const outFile = path.join(outDir, 'default-query-suggestions.json')
 
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir, { recursive: true })

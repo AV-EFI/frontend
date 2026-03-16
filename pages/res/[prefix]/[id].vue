@@ -120,7 +120,7 @@ const { data: result, error, pending } = await useAsyncData(
             fullId = `${prefix.value}/${fullId}`;
         }
 
-        const url = `${config.public.PUBLIC_AVEFI_ELASTIC_API}/${config.public.AVEFI_GET_WORK}/${fullId}`;
+        const url = `${config.public.elasticApiBase}/${config.public.AVEFI_GET_WORK}/${fullId}`;
         const resourceData = await $fetch(url);
 
         // Determine resource type (your existing logic)
@@ -160,13 +160,7 @@ const resourceType = computed(() => result.value?.resourceType ?? 'workVariant')
 const record = computed(() => dataJson.value?.compound_record?._source);
 
 // Base site URL (prefer nuxt site/origin if present)
-const siteUrl = computed(() => {
-    const u =
-        (config.public.siteUrl as string | undefined) ||
-        (config.public.origin as string | undefined) ||
-        'https://www.av-efi.net';
-    return String(u).replace(/\/+$/, '');
-});
+const siteUrl = useSiteUrl();
 
 // ✅ Canonical is ALWAYS /res/<prefix>/<id>
 const canonical = computed(() => `${siteUrl.value}/res/${prefix.value}/${id.value}`);

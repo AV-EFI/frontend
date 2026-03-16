@@ -67,7 +67,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 
 html[theme=avefi_dark] {
   .hljs {
-    background: #1e1e1e!important;
+    background: var(--color-base-100)!important;
     color: red!important;
   }
   .hljs-string {
