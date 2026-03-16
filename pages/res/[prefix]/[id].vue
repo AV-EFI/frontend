@@ -17,7 +17,6 @@
                             <div class="flex flex-row">
                                 <h1
                                     class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
-                                    :alt="dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name"
                                 >
                                     {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
                                 </h1>
@@ -81,13 +80,12 @@
             </template>
         </NuxtLayout>
 
-        <div class="collapse">
-            <input type="checkbox" />
-            <div class="collapse-title font-medium">Raw data</div>
+        <details class="collapse">
+            <summary class="collapse-title cursor-pointer font-medium">Raw data</summary>
             <div class="collapse-content">
                 <pre>{{ dataJson }}</pre>
             </div>
-        </div>
+        </details>
     </div>
 </template>
 

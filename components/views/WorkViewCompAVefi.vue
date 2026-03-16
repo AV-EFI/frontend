@@ -5,35 +5,38 @@
                 :class="desktopDrawerOpen ? 'left-0' : 'left-5'" :title="$t('toggleNavigation')"
                 :aria-label="$t('toggleNavigation')">
             <div class="btn btn-sm btn-circle">
-                <Icon :name="desktopDrawerOpen ? 'tabler-caret-left' : 'tabler-caret-right'" />
+                <Icon :name="desktopDrawerOpen ? 'tabler-caret-left' : 'tabler-caret-right'" aria-hidden="true" />
             </div>
         </button>
         <transition name="slide-sidebar">
             <aside v-if="desktopDrawerOpen"
                    class="hidden lg:block w-72 shrink-0 order-1 self-start bg-base-200 z-0 mt-4 py-4">
                 <span class="font-semibold p-2">{{ $t('workNavigation') }}</span>
-                <nav aria-label="Work navigation" class="sticky top-8 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <nav :aria-label="$t('workNavigation')" class="sticky top-8 max-h-[calc(100vh-2rem)] overflow-y-auto">
                     <ul class="menu bg-base-200 rounded-box">
                         <li>
-                            <a @click.prevent="scrollToId('work-events')" class="cursor-pointer"
-                               :class="{ 'active': activeSection === 'work-events' }">
+                            <button type="button" @click="scrollToId('work-events')" class="cursor-pointer text-left"
+                                    :class="{ 'active': activeSection === 'work-events' }"
+                                    :aria-current="activeSection === 'work-events' ? 'location' : undefined">
                                 <span v-if="normalizedEvents?.length > 0">
                                     {{ $t(normalizedEvents[0]?.raw?.category) }}
                                 </span>
                                 <span v-else>
                                     {{ $t('workEvents') }}
                                 </span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a @click.prevent="scrollToId('manifestations')" class="cursor-pointer"
-                               :class="{ 'active': activeSection === 'manifestations' }">
+                            <button type="button" @click="scrollToId('manifestations')" class="cursor-pointer text-left"
+                                    :class="{ 'active': activeSection === 'manifestations' }"
+                                    :aria-current="activeSection === 'manifestations' ? 'location' : undefined">
                                 {{ $t('manifestations') }}
-                            </a>
+                            </button>
                             <ul>
                                 <li v-for="(mf, idx) in filteredManifestations" :key="idx">
-                                    <a @click.prevent="scrollToId(`manifestation-${idx}`)" class="cursor-pointer pl-4"
-                                       :class="{ 'active': activeSection === `manifestation-${idx}` }">
+                                    <button type="button" @click="scrollToId(`manifestation-${idx}`)" class="cursor-pointer pl-4 text-left w-full"
+                                            :class="{ 'active': activeSection === `manifestation-${idx}` }"
+                                            :aria-current="activeSection === `manifestation-${idx}` ? 'location' : undefined">
                                         <span class="text-ellipsis" v-if="mf.has_record.has_event?.[0]">
                                             {{ $t(mf.has_record?.has_event?.[0]?.type ?? '') !==
                                                 mf.has_record?.has_event?.[0]?.type
@@ -45,10 +48,10 @@
                                             {{ mf.has_record?.has_primary_title?.has_name ?? $t('manifestation') + ' ' +
                                                 (idx + 1) }}
                                         </span>
-                                        <div :aria-label="$t('items')" class="badge">
+                                        <span class="badge" :aria-label="`${mf.items?.length || 0} ${$t('items')}`">
                                             {{ mf.items?.length }}
-                                        </div>
-                                    </a>
+                                        </span>
+                                    </button>
                                 </li>
                             </ul>
                         </li>
@@ -61,39 +64,44 @@
             <div class="drawer-overlay bg-black bg-opacity-40" @click="drawerOpen = false"></div>
 
             <div class="drawer-side fixed left-0 top-0 w-72 h-full bg-base-200 shadow-xl overflow-y-auto">
-                <div class="btn btn-sm btn-circle absolute top-4 right-4" @click="drawerOpen = false"
-                     aria-label="Close navigation">
-                    <Icon name="tabler-x" />
-                </div>
-                <nav aria-label="Work navigation" class="sticky top-8 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <button type="button" class="btn btn-sm btn-circle absolute top-4 right-4" @click="drawerOpen = false"
+                        :aria-label="`${$t('close')} ${$t('workNavigation')}`"
+                        :title="`${$t('close')} ${$t('workNavigation')}`">
+                    <Icon name="tabler-x" aria-hidden="true" />
+                </button>
+                <nav id="work-navigation-drawer" :aria-label="$t('workNavigation')" class="sticky top-8 max-h-[calc(100vh-2rem)] overflow-y-auto">
                     <ul class="menu bg-base-200 rounded-box p-2">
                         <li>
-                            <a @click.prevent="scrollToId('work-events'); drawerOpen = false"
-                               :class="{ 'active': activeSection === 'work-events' }" class="cursor-pointer">
+                            <button type="button" @click="scrollToId('work-events'); drawerOpen = false"
+                                    :class="{ 'active': activeSection === 'work-events' }" class="cursor-pointer text-left"
+                                    :aria-current="activeSection === 'work-events' ? 'location' : undefined">
                                 {{ $t('workEvents') }}
-                            </a>
+                            </button>
                         </li>
 
                         <li>
-                            <a @click.prevent="scrollToId('manifestations'); drawerOpen = false"
-                               :class="{ 'active': activeSection === 'manifestations' }" class="cursor-pointer">
+                            <button type="button" @click="scrollToId('manifestations'); drawerOpen = false"
+                                    :class="{ 'active': activeSection === 'manifestations' }" class="cursor-pointer text-left"
+                                    :aria-current="activeSection === 'manifestations' ? 'location' : undefined">
                                 {{ $t('manifestations') }}
-                            </a>
+                            </button>
                             <ul>
                                 <li v-for="(mf, idx) in filteredManifestations" :key="idx">
-                                    <a @click.prevent="scrollToId(`manifestation-${idx}`); drawerOpen = false"
-                                       :class="{ 'active': activeSection === `manifestation-${idx}` }"
-                                       class="cursor-pointer pl-2">
+                                    <button type="button" @click="scrollToId(`manifestation-${idx}`); drawerOpen = false"
+                                            :class="{ 'active': activeSection === `manifestation-${idx}` }"
+                                            :aria-current="activeSection === `manifestation-${idx}` ? 'location' : undefined"
+                                            class="cursor-pointer pl-2 text-left w-full">
                                         {{ mf.has_primary_title?.has_name ?? $t('manifestation') + ' ' + (idx + 1) }}
-                                    </a>
+                                    </button>
 
                                     <ul v-if="Array.isArray(mf.items)">
                                         <li v-for="(item, iidx) in mf.items" :key="iidx">
-                                            <a @click.prevent="scrollToId(`item-${idx}-${iidx}`); drawerOpen = false"
-                                               :class="{ 'active': activeSection === `item-${idx}-${iidx}` }"
-                                               class="cursor-pointer pl-8">
+                                            <button type="button" @click="scrollToId(`item-${idx}-${iidx}`); drawerOpen = false"
+                                                    :class="{ 'active': activeSection === `item-${idx}-${iidx}` }"
+                                                    :aria-current="activeSection === `item-${idx}-${iidx}` ? 'location' : undefined"
+                                                    class="cursor-pointer pl-8 text-left w-full">
                                                 {{ item.has_name ?? $t('item') + ' ' + (iidx + 1) }}
-                                            </a>
+                                            </button>
                                         </li>
                                     </ul>
                                 </li>
@@ -101,10 +109,11 @@
                         </li>
 
                         <li v-for="(event, eidx) in mir?.has_event || []" :key="eidx">
-                            <a @click.prevent="scrollToId(`event-${eidx}`); drawerOpen = false"
-                               :class="{ 'active': activeSection === `event-${eidx}` }" class="cursor-pointer pl-4">
+                            <button type="button" @click="scrollToId(`event-${eidx}`); drawerOpen = false"
+                                    :class="{ 'active': activeSection === `event-${eidx}` }" class="cursor-pointer pl-4 text-left w-full"
+                                    :aria-current="activeSection === `event-${eidx}` ? 'location' : undefined">
                                 {{ $t('event') }} {{ eidx + 1 }}
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -113,15 +122,21 @@
 
         <!-- Mobile drawer button -->
         <div class="fixed top-4 left-4 z-50 lg:hidden order-0">
-            <button class="btn btn-primary btn-circle" @click="drawerOpen = true" aria-label="Open navigation">
-                <Icon name="tabler-list-tree" />
+            <button class="btn btn-primary btn-circle" @click="drawerOpen = true"
+                    :aria-label="`${$t('openMenu')}: ${$t('workNavigation')}`"
+                    :aria-controls="'work-navigation-drawer'"
+                    :aria-expanded="drawerOpen ? 'true' : 'false'">
+                <Icon name="tabler-list-tree" aria-hidden="true" />
             </button>
         </div>
 
         <!-- Main content (right) -->
         <div class="flex-1 min-w-0 order-2">
-            <div v-if="mir" class="border-l-2 border-work px-2" role="region"
-                 :aria-label="`${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}`">
+            <section v-if="mir" class="border-l-2 border-work px-2"
+                     :aria-labelledby="'work-details-heading'">
+                <h2 id="work-details-heading" class="sr-only">
+                    {{ `${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}` }}
+                </h2>
                 <!-- MOBILE-ONLY TOGGLE (does not affect desktop) -->
                 <div class="md:hidden mb-2">
                     <button type="button" class="btn btn-lg btn-outline w-full justify-between"
@@ -131,10 +146,10 @@
                             {{ $t('detailsFor') }} {{ mir?.has_primary_title?.has_name ?? '' }}
                         </span>
                         <span v-if="mirExpanded" :title="$t('collapse') || 'Collapse'">
-                            <Icon name="tabler-chevron-up" />
+                            <Icon name="tabler-chevron-up" aria-hidden="true" />
                         </span>
                         <span v-else :title="$t('expand') || 'Expand'">
-                            <Icon name="tabler-chevron-down" />
+                            <Icon name="tabler-chevron-down" aria-hidden="true" />
                         </span>
                     </button>
                 </div>
@@ -173,18 +188,17 @@
                         </template>
                     </NuxtLayout>
                 </div>
-            </div>
+            </section>
 
             <div v-else>
                 <pre>{{ mir }}</pre>
             </div>
 
             <!-- Manifestations block -->
-            <div v-if="filteredManifestations.length > 0" id="manifestations" role="region" aria-label="Manifestations">
+            <section v-if="filteredManifestations.length > 0" id="manifestations" :aria-labelledby="'manifestations-heading'">
                 <div class="mt-4 ml-2">
                     <hr class="my-2 col-span-full" />
-                    <h3 class="relative font-bold text-sm col-span-full text-primary-800 dark:text-primary-100 mb-1"
-                        :alt="$t('manifestations')">
+                    <h3 id="manifestations-heading" class="relative font-bold text-sm col-span-full text-primary-800 dark:text-primary-100 mb-1">
                         {{ $t("manifestations") }}
                         <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                     </h3>
@@ -198,6 +212,8 @@
                             v-model="optionFilterQuery"
                             :aria-label="$t('filterItemsAndManifestations')"
                             :aria-expanded="String(autocompleteOpen)"
+                            :aria-controls="autocompleteListId"
+                            :aria-activedescendant="activeSuggestionId"
                             aria-autocomplete="list"
                             @focus="autocompleteOpen = true"
                             @blur="closeAutocomplete()"
@@ -207,12 +223,14 @@
 
                         <ul
                             v-if="autocompleteOpen && filteredSuggestions.length > 0"
+                            :id="autocompleteListId"
                             class="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-base-300 bg-base-100 shadow"
                             role="listbox"
                         >
                             <li
                                 v-for="(suggestion, suggestionIndex) in filteredSuggestions"
                                 :key="suggestion"
+                                :id="`${autocompleteListId}-option-${suggestionIndex}`"
                                 class="px-3 py-2 cursor-pointer text-sm"
                                 :class="activeSuggestionIndex === suggestionIndex ? 'bg-base-200' : ''"
                                 role="option"
@@ -233,7 +251,7 @@
                                 :aria-label="`${$t('remove') || 'Remove'}: ${selected}`"
                                 @click="removeSuggestion(selected)"
                             >
-                                ×
+                                &times;
                             </button>
                         </span>
                     </div>
@@ -245,7 +263,7 @@
                     </div>
                     <DetailManifestationListComp v-else v-model="filteredManifestations" />
                 </ClientOnly>
-            </div>
+            </section>
 
             <div v-else-if="parts">
                 <ViewsWorkViewCompParts class="mt-4" :parts="parts"
@@ -253,12 +271,12 @@
             </div>
 
             <div v-else class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4" role="alert"
-                 aria-label="No manifestations available">
+                 :aria-label="$t('noManifestations')">
                 <MicroIconTextComp icon-name="tabler:mood-empty" text="noManifestations" />
             </div>
 
             <!-- 12 Letzte Bearbeitung -->
-            <div v-if="dataObject?._source?.['@timestamp']" class="w-full mt-4 justify-center items-center">
+            <div v-if="dataObject?._source?.['@timestamp']" id="last-edit" class="w-full mt-4 justify-center items-center">
                 <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
                                     :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
             </div>
@@ -309,6 +327,13 @@ const optionFilterQuery = ref("");
 const autocompleteOpen = ref(false);
 const activeSuggestionIndex = ref(0);
 const loading = ref(false);
+const autocompleteListId = 'manifestation-filter-suggestions';
+
+const activeSuggestionId = computed(() => (
+    autocompleteOpen.value && filteredSuggestions.value[activeSuggestionIndex.value]
+        ? `${autocompleteListId}-option-${activeSuggestionIndex.value}`
+        : undefined
+));
 
 function onSearchInput(val: any) {
     searchQuery.value = Array.isArray(val) ? val : val ? [val] : [];
@@ -595,18 +620,34 @@ function getHeaderHeightPx() {
     return 64;
 }
 
-function scrollToId(id: string) {
+function openManifestationForTarget(id: string) {
+    const manifestationMatch = id.match(/^manifestation-(\d+)$/);
+    const itemMatch = id.match(/^item-(\d+)-\d+$/);
+    const rawIndex = manifestationMatch?.[1] ?? itemMatch?.[1];
+    if (!rawIndex || !import.meta.client) return;
+    window.dispatchEvent(new CustomEvent('detail:openManifestation', {
+        detail: { index: Number(rawIndex) },
+    }));
+}
+
+function performScrollToId(id: string) {
     const el = document.getElementById(id);
-    console.log(id);
-    console.log(el);
-    if (el) {
-        const headerHeight = getHeaderHeightPx();
-        const rect = el.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const top = rect.top + scrollTop - headerHeight;
-        window.scrollTo({ top, behavior: "smooth" });
-        activeSection.value = id; // immediate feedback
-    }
+    if (!el) return;
+    const headerHeight = getHeaderHeightPx();
+    const rect = el.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const top = rect.top + scrollTop - headerHeight;
+    window.scrollTo({ top, behavior: "smooth" });
+    activeSection.value = id;
+}
+
+function scrollToId(id: string) {
+    openManifestationForTarget(id);
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            performScrollToId(id);
+        });
+    });
 }
 
 // ✅ Robust active section tracking via IntersectionObserver
@@ -642,7 +683,6 @@ function normalizeEvent(evt: Event): NormalizedEvent {
 }
 
 const normalizedEvents = computed<NormalizedEvent[]>(() => {
-    console.log(mir?.has_event);
     const events = Array.isArray(mir?.has_event) ? mir.has_event : [];
     return events.map((evt) => normalizeEvent(evt));
 });

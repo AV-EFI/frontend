@@ -1,15 +1,13 @@
 <template>
     <div class="grid-container col-span-full">
         <div class="grid grid-cols-12 gap-6">
-            <div v-for="(entry, eventIndex) in normalizedEvents" :key="eventIndex" :id="`event-${eventIndex}`"
-                 class="col-span-12 space-y-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
-                 :aria-label="$t('event') + ': ' + (entry.raw?.category ? $t(entry.raw.category) : '')" role="region">
+            <section v-for="(entry, eventIndex) in normalizedEvents" :key="eventIndex" :id="`event-${eventIndex}`"
+                     class="col-span-12 space-y-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+                     :aria-labelledby="`event-heading-${eventIndex}`">
                 <header class="flex flex-col gap-1">
-                    <span class="text-base font-medium leading-5 dark:text-white"
-                          :aria-label="$t('eventCategory') + ': ' + (entry.raw?.category ? $t(entry.raw.category) : '')"
-                          role="heading" aria-level="3">
+                    <h3 :id="`event-heading-${eventIndex}`" class="text-base font-medium leading-5 dark:text-white">
                         {{ entry.raw?.category ? $t(entry.raw.category) : '' }}
-                    </span>
+                    </h3>
                 </header>
 
                 <div class="flex flex-row flex-wrap gap-2 lg:gap-4">
@@ -33,6 +31,9 @@
 
                     <!-- ===================== CREW ===================== -->
                     <section v-if="entry.crew.length" class="w-full space-y-2" :aria-label="$t('crewMember')" role="group">
+                        <h4 class="text-sm font-semibold leading-5 dark:text-white">
+                            {{ $t('crewMember') }}
+                        </h4>
                         <div class="flex flex-row flex-wrap gap-2">
                             <div v-for="(activity, activityIndex) in entry.crew" :key="activityIndex"
                                  class="w-full lg:w-[calc(50%-0.25rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800"
@@ -72,6 +73,9 @@
                     <!-- ===================== CAST ===================== -->
                     <section v-if="entry.cast.length" class="w-full lg:w-1/2 space-y-2" :aria-label="$t('castMember')"
                              role="group">
+                        <h4 class="text-sm font-semibold leading-5 dark:text-white">
+                            {{ $t('castMember') }}
+                        </h4>
                         <div class="flex flex-row flex-wrap gap-2">
                             <div v-for="(activity, activityIndex) in entry.cast" :key="activityIndex"
                                  class="w-full rounded-md border border-gray-100 p-2 dark:border-gray-800"
@@ -108,7 +112,7 @@
                         </div>
                     </section>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 </template>

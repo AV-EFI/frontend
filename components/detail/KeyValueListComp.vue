@@ -1,9 +1,5 @@
 <template>
-    <div
-        class="flex flex-col"
-        role="group"
-        :aria-label="`${$t(keytxt)}: ${Array.isArray(valtxt) ? valtxt.map(v => v?.has_name ?? v).join(', ') : ''}`"
-    >
+    <div class="flex flex-col">
         <!-- LABEL (fixed baseline, space always reserved) -->
         <div class="h-4 flex items-start">
             <MicroLabelComp
@@ -18,8 +14,6 @@
             <div
                 v-if="!ul"
                 class="flex flex-row flex-wrap items-start min-h-8 h-8 leading-5 hover:bg-gray-100 dark:hover:bg-gray-700"
-                role="group"
-                :aria-label="$t(keytxt)"
             >
                 <!-- CLIPBOARD MODE -->
                 <template v-if="clip">
@@ -37,7 +31,6 @@
                 <span
                     v-else
                     class="flex-grow h-8 flex items-start leading-5 text-xs"
-                    :aria-label="`${$t(keytxt)}: ${valtxt.map(v => v?.has_name ?? v).join(', ')}`"
                 >
                     {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
                 </span>
@@ -71,15 +64,12 @@
                 >
                     <ul
                         v-if="valtxt"
-                        role="list"
                         :aria-label="$t(keytxt)"
                     >
                         <li
                             v-for="val in valtxt"
                             :key="val?.has_name ?? val"
                             class="flex flex-row items-start justify-between min-h-6 leading-5 hover:bg-gray-100 dark:hover:bg-gray-700"
-                            role="listitem"
-                            :aria-label="`${$t(keytxt)}: ${val?.has_name ?? val}`"
                             :class="fontSize"
                         >
                             <span

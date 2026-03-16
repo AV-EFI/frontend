@@ -1,11 +1,5 @@
 <template>
-    <div
-        class="flex flex-col"
-        role="group"
-        :aria-label="translateKey
-            ? `${$t(keytxt)}: ${typeof valtxt === 'string' ? $t(valtxt) : valtxt}`
-            : `${keytxt}: ${$t(valtxt)}`"
-    >
+    <div class="flex flex-col">
         <!-- LABEL (normalized height, space always reserved) -->
         <div class="h-4 flex items-start">
             <MicroLabelComp

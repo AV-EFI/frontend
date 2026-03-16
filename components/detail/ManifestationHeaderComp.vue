@@ -1,11 +1,10 @@
 <template>
-    <div class="flex flex-row lg:flex-row justify-between lg:items-center" role="group"
-         :aria-label="`${manifestation?.has_record?.described_by?.has_issuer_name ?? manifestation?.handle}`">
+    <div class="flex flex-row lg:flex-row justify-between lg:items-center">
         <div v-if="type === 'searchresult'" :class="['flex justify-center flex-col w-4/5']">
             <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300">
                 {{ manifestation?.handle }}
             </h4>
-            <h4 class="col-span-full font-semibold text-gray-900 dark:text-white my-1">
+            <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1">
                 {{ manifestation?.has_record?.described_by?.has_issuer_name }}
             </h4>
 
@@ -49,7 +48,7 @@
                 <MicroBadgeCategoryComp :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
                                         class="ml-2 inline-block" />
             </h4>
-            <h4 class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
+            <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
                 {{ manifestation?.has_record?.described_by?.has_issuer_name }}
             </h4>
 
@@ -101,6 +100,10 @@ const props = defineProps({
     allItemsEmpty: {
         type: Boolean as PropType<boolean>,
         default: false,
+    },
+    headingId: {
+        type: String as PropType<string>,
+        default: '',
     },
 });
 

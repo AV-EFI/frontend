@@ -62,8 +62,8 @@
         <div v-if="rows.length > initialVisible" class="mt-2">
             <button type="button" class="btn btn-ghost btn-sm" @click="expanded = !expanded"
                     :aria-expanded="expanded ? 'true' : 'false'">
-                <span v-if="!expanded">Show more ({{ rows.length - initialVisible }})</span>
-                <span v-else>Show less</span>
+                <span v-if="!expanded">{{ $t('showMore') }} ({{ rows.length - initialVisible }})</span>
+                <span v-else>{{ $t('showLess') }}</span>
             </button>
         </div>
     </section>
@@ -71,6 +71,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+const { t: $t } = useI18n();
 
 type SameAsPayload = any;
 
@@ -154,6 +155,6 @@ const visibleRows = computed(() => {
 });
 
 function sameAsAriaLabel(valueText: string) {
-    return `External links for ${valueText}`;
+    return `${$t('sameAs')}: ${valueText}`;
 }
 </script>
