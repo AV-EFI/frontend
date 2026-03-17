@@ -378,7 +378,7 @@ export default defineNuxtConfig({
     enabled: true,
     minify: true,
     identity: defineOrganization({
-      '@id': 'https://www.av-efi.net#identity',
+      '@id': 'https://www.av-efi.net/#identity',
       name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
       alternateName: 'AVefi',
       url: 'https://www.av-efi.net',

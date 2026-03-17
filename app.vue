@@ -1,30 +1,27 @@
 <script setup lang="ts">
 // All imports below are auto-imported by Nuxt
 const { locale, t: $t } = useI18n();
-const siteUrl = useSiteUrl();
-const schemaWebSiteId = computed(() => `${siteUrl.value}/#website`);
-const schemaIdentityId = computed(() => `${siteUrl.value}#identity`);
-const schemaId = (node: 'catalog' | 'dataset' | 'project' | 'logo') => `${siteUrl.value}/#${node}`;
-const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);
+const schemaOrigin = 'https://www.av-efi.net';
+const schemaId = (node: 'identity' | 'website' | 'catalog' | 'dataset' | 'project' | 'logo') => `${schemaOrigin}/#${node}`;
+const searchActionUrlTemplate = `${schemaOrigin}/search?query={search_term_string}`;
 
 useSchemaOrg([
     {
         '@id': schemaId('logo'),
         '@type': 'ImageObject',
-        url: `${siteUrl.value}/img/avefi-og-image.png`,
-        contentUrl: `${siteUrl.value}/img/avefi-og-image.png`,
+        url: `${schemaOrigin}/img/avefi-og-image.png`,
+        contentUrl: `${schemaOrigin}/img/avefi-og-image.png`,
     },
 
     // --- WebSite (global) ---
-    // Keep exactly one global WebSite node; page-level schema must merge via this stable @id.
     defineWebSite({
-        '@id': schemaWebSiteId.value,
-        url: siteUrl.value,
+        '@id': schemaId('website'),
+        url: schemaOrigin,
         name: 'AVefi',
         inLanguage: ['de-DE', 'en-US'],
         image: { '@id': schemaId('logo') },
         publisher: {
-            '@id': schemaIdentityId.value,
+            '@id': schemaId('identity'),
         },
 
         // ✅ Explicit SearchAction (Knowledge-Graph / sitelinks search)
@@ -33,7 +30,7 @@ useSchemaOrg([
             target: [
                 {
                     '@type': 'EntryPoint',
-                    urlTemplate: searchActionUrlTemplate.value,
+                    urlTemplate: searchActionUrlTemplate,
                 },
             ],
             'query-input': 'required name=search_term_string',
@@ -66,9 +63,9 @@ useSchemaOrg([
         '@id': schemaId('catalog'),
         '@type': 'DataCatalog',
         name: 'AVefi – Film Metadata Catalog',
-        url: siteUrl.value,
+        url: schemaOrigin,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaIdentityId.value },
+        publisher: { '@id': schemaId('identity') },
         dataset: { '@id': schemaId('dataset') },
     },
 
@@ -78,11 +75,11 @@ useSchemaOrg([
         '@type': 'Dataset',
         name: $t('home.seo.datasetTitle'),
         description: $t('home.seo.datasetDescription'),
-        url: siteUrl.value,
+        url: schemaOrigin,
         inLanguage: ['de-DE', 'en-US'],
         isAccessibleForFree: true,
         includedInDataCatalog: { '@id': schemaId('catalog') },
-        publisher: { '@id': schemaIdentityId.value },
+        publisher: { '@id': schemaId('identity') },
         sameAs: [
             'https://github.com/AV-EFI',
             'https://www.zotero.org/groups/5125890/avefi',
@@ -105,9 +102,9 @@ useSchemaOrg([
         name: $t('home.seo.projectTitle'),
         alternateName: 'AVefi',
         description: $t('home.seo.projectDescription'),
-        url: siteUrl.value,
+        url: schemaOrigin,
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaIdentityId.value },
+        publisher: { '@id': schemaId('identity') },
         hasPart: [
             { '@id': schemaId('catalog') },
             { '@id': schemaId('dataset') },
@@ -127,9 +124,9 @@ useSchemaOrg([
 useSeoMeta({
     titleTemplate: '%s | AVefi',
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
-    ogUrl: siteUrl.value,
+    ogUrl: schemaOrigin,
     twitterCard: 'summary_large_image',
-    publisher: schemaIdentityId.value,
+    publisher: schemaId('identity'),
     keywords: [
         'AVefi',
         'Filmdatenbank',
@@ -172,7 +169,7 @@ useSeoMeta({
 useHead({
     link: [
         // Preload critical fonts (Inter is used for body text)
-        { rel: 'canonical', href: siteUrl.value },
+        { rel: 'canonical', href: process.env.SITE_URL || 'https://www.av-efi.net' },
         { rel: 'preload', href: '/fonts/Inter.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
         { rel: 'preload', href: '/fonts/BreeSerif-Regular.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
     ],

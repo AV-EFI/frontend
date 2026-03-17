@@ -328,9 +328,6 @@ const isClientMounted = ref(false);
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
-const siteUrl = useSiteUrl();
-
-
 const criticalLinks: Array<Record<string, string>> = [
     {
         rel: 'preload',
@@ -470,19 +467,34 @@ useSeoMeta({
 });
 
 // ─────────────────────────────────────────────
-// Schema.org: page-level WebPage merged into global WebSite from app.vue
+// Schema.org: WebSite + SearchAction + WebPage
 // ─────────────────────────────────────────────
 useSchemaOrg(() => {
-    const baseUrl = siteUrl.value;
+    const baseUrl = runtimeConfig.public.siteUrl || 'https://www.av-efi.net';
     const url = baseUrl + route.path;
     return [
+        defineWebSite({
+            name: t('home.seo.siteName'),
+            url: baseUrl,
+            potentialAction: [
+                {
+                    '@type': 'SearchAction',
+                    // Provide EntryPoint array so @unhead/schema-org merge logic can iterate reliably
+                    target: [
+                        {
+                            '@type': 'EntryPoint',
+                            urlTemplate: `${baseUrl}/search/?query={search_term_string}`,
+                        }
+                    ],
+                    'query-input': 'required name=search_term_string',
+                },
+            ],
+        }),
         defineWebPage({
             '@type': 'WebPage',
-            '@id': `${url}#webpage`,
             name: t('home.seo.title'),
             description: t('home.seo.description'),
             url,
-            isPartOf: { '@id': `${baseUrl}/#website` },
         }),
     ];
 });

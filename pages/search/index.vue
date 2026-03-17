@@ -34,7 +34,7 @@ definePageMeta({ auth: false });
 
 const runtime = useRuntimeConfig();
 const route = useRoute();
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const { currentUrlState } = useCurrentUrlState();
 
 /**
@@ -58,7 +58,10 @@ const searchClient = isClient
  * - Keep canonical stable (order + encoding) so duplicates collapse correctly.
  */
 
-const siteUrl = useSiteUrl();
+// Base site url (prefer nuxt site config if available via runtime, fallback to prod)
+const siteUrl = computed(() => {
+    return (runtime.public.siteUrl || runtime.public.origin || process.env.SITE_URL || 'https://www.av-efi.net').replace(/\/$/, '');
+});
 
 const baseSearchUrl = computed(() => `${siteUrl.value}/search`);
 
@@ -190,20 +193,33 @@ useHead({
  * ---- Schema.org (recommended) ----
  * Patch: add WebSite SearchAction (potentialAction) so Google understands your site search.
  */
-import { useSchemaOrg, defineWebPage, defineBreadcrumb } from '#imports';
-
-const schemaLanguage = computed(() => (locale.value === 'en' ? 'en-US' : 'de-DE'));
+import { useSchemaOrg, defineWebSite, defineWebPage, defineBreadcrumb } from '#imports';
 
 useSchemaOrg(() => [
+    defineWebSite({
+        '@id': `${siteUrl.value}#website`, // ✅ no "/#"
+        url: siteUrl.value,
+        name: 'AVefi',
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${baseSearchUrl.value}?query={search_term_string}`,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
+    }),
+
     defineWebPage({
         '@type': ['WebPage', 'SearchResultsPage'],
         '@id': `${canonicalUrl.value}#webpage`,
         url: canonicalUrl.value,
         name: title.value,
         description: description.value,
-        inLanguage: schemaLanguage.value,
-        // Page nodes merge into the global WebSite node from app.vue.
-        isPartOf: { '@id': `${siteUrl.value}/#website` },
+        inLanguage: 'de-DE',
+        isPartOf: { '@id': `${siteUrl.value}#website` }, // ✅ no "/#"
     }),
 
     defineBreadcrumb({

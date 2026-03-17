@@ -86,6 +86,13 @@ function isAllowedInSchemaMode(path: string): boolean {
   if (isInternalFrameworkPath(path)) return true;
 
   // Public pages you want Google to test
+  // ✅ Allow essential assets/runtime
+  if (path.startsWith('/_nuxt/')) return true;
+  if (path.startsWith('/img/')) return true;
+  if (path.startsWith('/fonts/')) return true;
+  if (path.startsWith('/favicon')) return true;
+
+  // ✅ Allow only selected pages
   if (path === '/') return true;
   if (path === '/press' || path.startsWith('/press/')) return true;
   if (path === '/search' || path.startsWith('/search/')) return true;
