@@ -122,6 +122,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Slider from '@vueform/slider';
 
 const props = withDefaults(defineProps<{
@@ -145,6 +146,7 @@ const props = withDefaults(defineProps<{
 });
 
 const inputId = `facet-search-${props.attributeName}_${Math.random().toString(36).substring(2, 15)}`;
+const { t } = useI18n();
 
 const isDurationName = computed(
     () => props.attributeName === 'item_duration_in_minutes' || props.attributeName === 'duration_in_minutes'
@@ -234,7 +236,7 @@ import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIco
 const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
 
 function translatedFacetLabel(raw: string) {
-    return $t(raw.replace('_', ':'));
+    return t(raw.replace('_', ':'));
 }
 
 function refinementItemId(item: { value: string }) {
@@ -242,19 +244,19 @@ function refinementItemId(item: { value: string }) {
 }
 
 function refinementGroupScreenreaderText() {
-    return $t('showFacetsFor', {
-        headerText: $t(props.headerText as string),
-        category: props.category ? $t(props.category as string) : $t('category'),
+    return t('showFacetsFor', {
+        headerText: t(props.headerText as string),
+        category: props.category ? t(props.category as string) : t('category'),
     });
 }
 
 function refinementItemScreenreaderText(item: { label: string; count?: number; isRefined?: boolean }) {
-    return $t('refinementOption', {
-        facetName: $t(props.headerText as string),
-        category: props.category ? $t(props.category as string) : $t('category'),
+    return t('refinementOption', {
+        facetName: t(props.headerText as string),
+        category: props.category ? t(props.category as string) : t('category'),
         label: translatedFacetLabel(item.label),
         count: String(item.count ?? 0),
-        state: item.isRefined ? $t('selected') : $t('notSelected'),
+        state: item.isRefined ? t('selected') : t('notSelected'),
     });
 }
 </script>
