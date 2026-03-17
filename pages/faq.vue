@@ -34,13 +34,13 @@
                                     <h2>{{ $t('contact.about.heading') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    <p class="my-2">{{ $t('contact.about.0') }}</p>
-                                    <p class="my-2">{{ $t('contact.about.1') }}</p>
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.about.0')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.about.1')" />
                                     <p class="my-2">
-                                        {{ $t('contact.about.2.beforeLink') }}
+                                        <GlobalGlossaryTextComp tag="span" :text="$t('contact.about.2.beforeLink')" />
                                         <a class="link" href="https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html"
                                            target="_blank">FIAF-Regelwerk</a>
-                                        {{ $t('contact.about.2.afterLink') }}
+                                        <GlobalGlossaryTextComp tag="span" :text="$t('contact.about.2.afterLink')" />
                                     </p>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                     <h2>{{ $t('contact.availableMetadata') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    <p class="my-2">{{ $t('contact.availableMetadataContent') }}</p>
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.availableMetadataContent')" />
                                 </div>
                             </div>
 
@@ -79,13 +79,13 @@
                                     <h2>{{ $t('contact.definitions') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    <p class="my-2">{{ $t('contact.workContent.0') }}</p>
-                                    <p class="my-2">{{ $t('contact.workContent.1') }}</p>
-                                    <p class="my-2">{{ $t('contact.workContent.2') }}</p>
-                                    <p class="my-2">{{ $t('contact.workContent.3') }}</p>
-                                    <p class="my-2">{{ $t('contact.workContent.4') }}</p>
-                                    <p class="my-2">{{ $t('contact.workContent.5') }}</p>
-                                    <p class="my-2">{{ $t('contact.workContent.6') }}</p>
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.0')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.1')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.2')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.3')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.4')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.5')" />
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.workContent.6')" />
                                 </div>
                             </div>
 
@@ -104,7 +104,7 @@
                                     <h2>{{ $t('contact.keywords') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    <p class="my-2">{{ $t('contact.keywordsContent') }}</p>
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.keywordsContent')" />
                                 </div>
                             </div>
 
@@ -124,10 +124,10 @@
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
                                     <p class="my-2">
-                                        {{ $t('contact.normdataContent.beforeLink') }}
+                                        <GlobalGlossaryTextComp tag="span" :text="$t('contact.normdataContent.beforeLink')" />
                                         <a class="link" href="https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html"
                                            target="_blank">Gemeinsamen Normdatei (GND)</a>
-                                        {{ $t('contact.normdataContent.afterLink') }}
+                                        <GlobalGlossaryTextComp tag="span" :text="$t('contact.normdataContent.afterLink')" />
                                     </p>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                     <h2>{{ $t('contact.availability') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    <p class="my-2">{{ $t('contact.availabilityContent') }}</p>
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.availabilityContent')" />
                                 </div>
                             </div>
 
@@ -166,8 +166,8 @@
                                     <h2>{{ $t('contact.pids') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    <p class="my-2">{{ $t('contact.pidsContent.0') }}</p>
-                                    <p>{{ $t('contact.pidsContent.1') }}</p>
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.pidsContent.0')" />
+                                    <GlobalGlossaryTextComp tag="p" :text="$t('contact.pidsContent.1')" />
                                 </div>
                             </div>
 
@@ -186,7 +186,7 @@
                                     <h2>{{ $t('contact.dataProviders') }}</h2>
                                 </div>
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
-                                    {{ $t('contact.dataProvidersContent') }}
+                                    <GlobalGlossaryTextComp tag="p" class="my-2" :text="$t('contact.dataProvidersContent')" />
                                     <ul>
                                         <li class="link"><span v-html="$t('howToDoc')" /></li>
                                         <li class="link"><span v-html="$t('manual')" /></li>
