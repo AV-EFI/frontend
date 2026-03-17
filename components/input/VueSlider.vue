@@ -42,7 +42,7 @@
                     :step="1"
                     thumb-label
                     class="w-full h-8"
-                    :aria-label="$t('refineBy', { headerText: $t(headerText) })"
+                    :aria-labelledby="`facet-title-${props.attributeName}`"
                 />
             </div>
 

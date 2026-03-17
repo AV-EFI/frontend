@@ -22,10 +22,10 @@
                                     <template #default="{ currentRefinement, refine, isSearchStalled }">
                                         <div class="flex flex-row mt-2">
                                             <div class="flex flex-row items-center h-12 w-full ">
-                                                <SearchQueryAutocomplete v-model="localSearchValue" name="search"
+                                                <SearchQueryAutocomplete ref="queryAutocompleteRef" v-model="localSearchValue" name="search"
                                                                          :placeholder="$t('searchplaceholder')" :clear-title="$t('resetQuery')"
                                                                          :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')" :enforce-list="false"
-                                                                         :recent-searches="recentSearchesWithUrl" class="flex-1"
+                                                                         :recent-searches="recentSearchesWithUrl" :autofocus="true" class="flex-1"
                                                                          @submit="handleSearchSubmit($event, refine)" @clear="handleSearchClear(refine)"
                                                                          @recent-search-click="handleRecentSearchClick" @remove-recent="handleRemoveRecentSearch"
                                                                          @clear-history="handleClearAllHistory" />
@@ -442,6 +442,7 @@ const localSearchValue = ref('');
 const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
 const showRecentSearches = ref(false);
 const historyTrigger = ref(0);
+const queryAutocompleteRef = ref<{ focusInput?: () => void } | null>(null);
 
 // Get full history items with URLs
 const recentSearchesWithUrl = computed(() => {
@@ -488,6 +489,12 @@ onMounted(() => {
     document.addEventListener('click', handleClickOutside);
     window.addEventListener('popstate', handlePopState);
     window.addEventListener('storage', updateFromStorage);
+
+    nextTick(() => {
+        setTimeout(() => {
+            queryAutocompleteRef.value?.focusInput?.();
+        }, 80);
+    });
 });
 
 onBeforeUnmount(() => {

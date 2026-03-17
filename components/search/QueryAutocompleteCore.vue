@@ -1,23 +1,28 @@
 <template>
     <div class="relative w-full" @mousedown.stop>
         <div class="relative">
-            <FormKit v-model="displayValue" type="text" :name="name" :placeholder="placeholder"
-                     :autofocus="autofocus ?? false" autocomplete="off" outer-class="!max-w-none w-full"
-                     wrapper-class="flex flex-row"
-                     inner-class="!rounded-xl !h-12 w-full dark:!bg-neutral dark:!text-white lg:rounded-r-none!"
-                     input-class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none !focus:border-none px-4 pr-10 w-full dark:!text-white !h-12"
-                     :aria-label="ariaLabel" aria-haspopup="listbox" :aria-owns="listboxId"
-                     :aria-expanded="showDropdown ? 'true' : 'false'" :aria-activedescendant="activeDescId" @input="onInput"
-                     @focus="onFocus" @blur="onBlur" @keydown="onKeydown">
-                     <!--
-               <template v-if="showInfoTooltip && infoTooltipText" #prefixIcon>
-                    <span class="formkit-icon relative group cursor-help my-auto flex justify-center"
-                        :title="infoTooltipText">
-                        <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 text-xl" />
-                    </span>
-                </template>
--->
-            </FormKit>
+            <div class="flex flex-row !max-w-none w-full">
+                <input
+                    ref="inputRef"
+                    v-model="displayValue"
+                    type="text"
+                    :name="name"
+                    :placeholder="placeholder"
+                    :autofocus="autofocus ?? false"
+                    autocomplete="off"
+                    class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none px-4 pr-10 w-full dark:!text-white h-12 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    :aria-label="ariaLabel"
+                    aria-autocomplete="list"
+                    aria-haspopup="listbox"
+                    :aria-controls="listboxId"
+                    :aria-expanded="showDropdown ? 'true' : 'false'"
+                    :aria-activedescendant="activeDescId"
+                    @input="onNativeInput"
+                    @focus="onFocus"
+                    @blur="onBlur"
+                    @keydown="onKeydown"
+                >
+            </div>
 
             <!-- Clear button inside input -->
             <button v-if="displayValue" type="button"
@@ -30,16 +35,7 @@
         <!-- Suggestions dropdown -->
         <div v-show="showDropdown" :id="listboxId"
              class="absolute z-[1100] w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-96 overflow-auto"
-             role="listbox" :aria-label="ariaLabel">
-            <!-- Accessible headings for screen readers -->
-            <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only" id="recent-searches-heading">
-                {{ $t('recentSearches') }}
-            </span>
-            <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only"
-                  id="autocomplete-suggestions-heading">
-                {{ $t('suggestions') }}
-            </span>
-
+             role="listbox" :aria-label="listboxAriaLabel">
             <!-- Recent searches header (only when input is empty) -->
             <div v-if="props.recentSearches && props.recentSearches.length > 0"
                  class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
@@ -65,31 +61,20 @@
 
             </div>
 
-
             <template v-if="visibleSuggestions.length">
-                <!-- Visually hidden headings for screen readers only, do not affect structure -->
-                <span v-if="visibleSuggestions.some(s => s.type === 'recent')" class="sr-only"
-                      id="recent-searches-heading">
-                    {{ $t('recentSearches') }}
-                </span>
-                <span v-if="visibleSuggestions.some(s => s.type !== 'recent')" class="sr-only"
-                      id="autocomplete-suggestions-heading">
-                    {{ $t('suggestions') }}
-                </span>
-                <!-- Original flat rendering -->
                 <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
                         type="button" :class="[
                             'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
                             'hover:bg-gray-100 dark:hover:bg-gray-800/80',
                             i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
-                        ]" role="option" :aria-selected="i === highlighted" :aria-label="`${typeLabel(s.type)}: ${s.text}`"
+                        ]" role="option" :aria-selected="i === highlighted"
                         @mousedown.stop.prevent="onSelect(s)">
                     <Icon v-if="s.type === 'recent'" class="shrink-0 text-base leading-none" name="tabler:history"
-                          :title="typeLabel(s.type)" aria-hidden="true" />
+                          aria-hidden="true" />
                     <Icon v-else-if="s.type === 'saved'" class="shrink-0 text-base leading-none" name="tabler:star"
-                          :title="typeLabel(s.type)" aria-hidden="true" />
+                          aria-hidden="true" />
                     <Icon v-else class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)"
-                          :title="typeLabel(s.type)" aria-hidden="true" />
+                          aria-hidden="true" />
                     <span class="sr-only">{{ typeLabel(s.type) }}: </span>
                     <span class="text-base truncate">{{ s.text }}</span>
                     <span v-if="s.count && s.count > 1"
@@ -113,14 +98,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount, useId, watch } from 'vue';
+import { ref, computed, onBeforeUnmount, onMounted, nextTick, useId, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
-
-const { ensureFormKitReady } = useFormKitLoader();
-
-await ensureFormKitReady();
 
 const suppressNextInput = ref(false);
 
@@ -203,6 +183,8 @@ const optionId = (i: number) => `qa-opt-${uid}-${i}`;
 const activeDescId = computed(() =>
     highlighted.value >= 0 ? optionId(highlighted.value) : undefined
 );
+const listboxAriaLabel = computed(() => t('suggestions'));
+const inputRef = ref<HTMLInputElement | null>(null);
 
 /* ==========================================================================
    Debounce
@@ -237,6 +219,14 @@ onBeforeUnmount(() => {
     alive.value = false;
     fetchToken++;
     cancelDebounce();
+});
+
+onMounted(async () => {
+    if (!props.autofocus) return;
+    await nextTick();
+    setTimeout(() => {
+        focusInput();
+    }, 80);
 });
 
 async function fetchSuggestions(q: string): Promise<number> {
@@ -463,7 +453,21 @@ function submit() {
     emit('submit', displayValue.value);
 }
 
-defineExpose({ submit });
+function onNativeInput(event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    onInput(target?.value ?? '');
+}
+
+function focusInput() {
+    const input = inputRef.value;
+    if (!input) return;
+    input.focus();
+    if (typeof input.value === 'string' && 'selectionStart' in input) {
+        input.selectionStart = input.selectionEnd = input.value.length;
+    }
+}
+
+defineExpose({ submit, focusInput });
 
 /* ==========================================================================
    Icons
