@@ -864,29 +864,29 @@ const deBase = {
   "contact.normdataContent.afterLink": " – werden übernommen und entsprechend angezeigt.",
   "seo": {
     "home": {
-      "siteName": "AVefi – Filmdatenbank für audiovisuelle Forschung",
-      "title": "Filmdatenbank für Filmarchive – AVefi",
-      "ogTitle": "AVefi – Filmdatenbank für Filmwerke aus Archiven",
-      "description": "AVefi ist eine Filmdatenbank für Filmarchive und audiovisuelle Sammlungen. Recherchieren Sie Filmwerke, Manifestationen und Exemplare aus mehreren Institutionen mit Normdaten-Verknüpfungen, Persistent Identifiers (efi) und strukturierten Filmmetadaten für Forschung und Archivarbeit.",
-      "ogDescription": "Entdecken Sie Filmwerke über Archive hinweg. AVefi verknüpft Filmmetadaten, Normdaten und Persistent Identifiers, damit audiovisuelle Bestände gezielt recherchiert, verglichen und wissenschaftlich genutzt werden können."
+      "siteName": "AVefi – Infrastruktur für audiovisuelle Forschung",
+      "title": "AVefi – Filmdaten-Recherche über Archive hinweg",
+      "ogTitle": "AVefi – Filmwerke und Materialien archivübergreifend finden",
+      "description": "AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.",
+      "ogDescription": "Entdecken Sie Filmwerke über Archive hinweg. AVefi verknüpft Metadaten, Normdaten und Persistent Identifiers, damit Sie Filmbestände gezielt durchsuchen, verfeinern und exportieren können."
     },
     "search": {
-      "title": "Filmrecherche in Archiven – AVefi",
-      "titleWithQuery": "{query} – Filmrecherche | AVefi",
-      "description": "Durchsuchen Sie Filmwerke, Manifestationen und audiovisuelle Materialien aus Filmarchiven. Nutzen Sie Filter und Normdaten, um Filmdaten über mehrere Archive hinweg zu recherchieren.",
-      "descriptionWithQuery": "Suchergebnisse zu \"{query}\" in der AVefi-Filmdatenbank. Entdecken Sie Filmwerke und audiovisuelle Materialien aus mehreren Filmarchiven."
+      "title": "Recherche – AVefi",
+      "titleWithQuery": "{query} – Suchergebnisse",
+      "description": "Durchsuchen Sie Filmwerke, Manifestationen und audiovisuelle Materialien aus deutschen Archiven.",
+      "descriptionWithQuery": "Suchergebnisse zu \"{query}\". Entdecken Sie Werke und audiovisuelle Materialien in deutschen Filmarchiven."
     },
     "contact": {
-      "title": "Kontakt und FAQ – AVefi Filmdatenbank",
-      "description": "FAQ, Hintergrundinformationen und Glossar zur AVefi-Filmdatenbank und Forschungsinfrastruktur.",
+      "title": "Kontakt – AVefi",
+      "description": "FAQ und Glossar zum AVefi-Projekt",
       "ogTitle": "Kontakt – AVefi",
-      "ogDescription": "Informationen, FAQ und Glossar zur AVefi-Plattform für Filmmetadaten."
+      "ogDescription": "FAQ und Glossar zum AVefi-Projekt"
     },
     "imprint": {
-      "title": "Impressum – AVefi Filmdatenbank",
-      "description": "Rechtliche Informationen zur AVefi-Plattform für Filmmetadaten.",
+      "title": "Impressum – AVefi",
+      "description": "Rechtliche Informationen zum AVefi-Projekt",
       "ogTitle": "Impressum – AVefi",
-      "ogDescription": "Rechtliche Informationen zur AVefi-Plattform."
+      "ogDescription": "Rechtliche Informationen zum AVefi-Projekt"
     },
     "accessibility": {
       "title": "Barrierefreiheit â€“ AVefi Filmdatenbank",
@@ -895,42 +895,42 @@ const deBase = {
       "ogDescription": "Erfahren Sie, wie AVefi digitale Barrierefreiheit umsetzt und wie Sie Barrieren melden kÃ¶nnen."
     },
     "resource": {
-      "title": "{title} – Filmwerk | AVefi",
-      "description": "Filmwerk mit Metadaten aus Filmarchiven. AVefi zeigt Manifestationen, Exemplare und verknüpfte Filmdaten aus mehreren Institutionen."
+      "title": "{title} – AVefi",
+      "description": "Audiovisuelles Werk aus deutschen Filmarchiven."
     },
     "vocab": {
-      "title": "Filmmetadaten Vokabular – AVefi",
-      "titleWithField": "Vokabular: {field} – Filmmetadaten | AVefi",
+      "title": "Vokabularbrowser – AVefi",
+      "titleWithField": "Vokabular: {field} | AVefi",
       "titleWithFieldAndFilter": "Vokabular: {field} – \"{filter}\" | AVefi",
-      "description": "Das AVefi-Vokabular erklärt wichtige Begriffe aus Filmmetadaten, Normdaten und audiovisuellem Kulturerbe.",
-      "descriptionWithField": "Vokabularansicht für das Feld \"{field}\". Erkunden Sie kontrollierte Begriffe und Normdaten aus Filmarchiven.",
-      "descriptionWithFieldAndFilter": "Vokabularansicht für \"{field}\" mit Einträgen zu \"{filter}\". Erkunden Sie Filmmetadaten und Normdaten aus mehreren Archiven."
+      "description": "Der Vokabularbrowser von AVefi zeigt genutzte Normdaten-Felder wie Genre oder Schlagwörter über teilnehmende Filmarchive hinweg.",
+      "descriptionWithField": "Vokabularansicht für das Feld \"{field}\". Erkunden Sie genutzte Normdaten und deren Nutzung in den Beständen der AVefi-Partnerarchive.",
+      "descriptionWithFieldAndFilter": "Vokabularansicht für das Feld \"{field}\" mit Einträgen passend zu \"{filter}\". Erkunden Sie genutzte Normdaten über teilnehmende Filmarchive hinweg."
     },
     "compare": {
-      "title": "Filmdaten vergleichen – AVefi",
-      "titleWithItems": "Filmdaten Vergleich {prev} vs {next} – AVefi",
-      "description": "Vergleichen Sie Metadaten audiovisueller Werke aus Filmarchiven nebeneinander.",
-      "descriptionWithItems": "Seitenvergleich zweier Filmwerk-Datensätze mit synchronisierten Ansichten und Unterschiedshervorhebung für Forschung und Archivarbeit."
+      "title": "Datensätze vergleichen – AVefi",
+      "titleWithItems": "Vergleich {prev} vs {next} – AVefi",
+      "description": "Vergleichen Sie zwei Datensätze audiovisueller Werke nebeneinander mit Unterschiedshervorhebung.",
+      "descriptionWithItems": "Seitenvergleich zweier Filmwerk-Datensätze mit synchronisierten Ansichten und Unterschiedshervorhebung für Forschung und Analyse."
     },
     "glossary": {
       "title": "Glossar – AVefi",
-      "description": "Das Glossar bietet Definitionen und Erklärungen zu wichtigen Begriffen aus Filmmetadaten, Manifestationen, Exemplaren und weiteren Konzepten der AVefi-Plattform.",
+      "description": "Das Glossar bietet Definitionen und Erklärungen zu wichtigen Begriffen, die in AVefi verwendet werden. Es hilft den Nutzern, die Terminologie im Zusammenhang mit audiovisuellen Werken, Manifestationen, Exemplaren und mehr zu verstehen.",
       "ogTitle": "Glossar | AVefi",
-      "ogDescription": "Entdecken Sie das AVefi-Glossar für Definitionen und Erklärungen zentraler Begriffe aus Filmmetadaten und audiovisuellen Beständen."
+      "ogDescription": "Entdecken Sie das AVefi-Glossar für Definitionen und Erklärungen aller wichtigen Begriffe, die auf der Plattform verwendet werden."
     },
     "faq": {
       "title": "FAQ – AVefi",
-      "description": "Häufige Fragen zur AVefi-Filmdatenbank, ihren Funktionen und der Nutzung für Forschung und Archivarbeit.",
+      "description": "Frequently asked questions about AVefi, the platform for film metadata and research.",
       "ogTitle": "FAQ | AVefi",
-      "ogDescription": "Antworten auf häufige Fragen zur AVefi-Plattform für Filmmetadaten und audiovisuelle Bestände."
+      "ogDescription": "Find answers to common questions about AVefi, its features, and how to use the platform."
     },
     "normdata": {
-      "title": "Normdaten für Filmmetadaten – AVefi",
-      "titleWithField": "{field} – Normdaten | AVefi",
-      "titleWithFieldAndFilter": "{field} – {filter} | Normdaten | AVefi",
-      "description": "Durchsuchen Sie Normdaten und kontrolliertes Vokabular aus Filmarchiven.",
-      "descriptionWithField": "Normdatenübersicht für das Feld \"{field}\" in der AVefi-Filmdatenbank.",
-      "descriptionWithFieldAndFilter": "Normdaten für \"{field}\" mit Einträgen zu \"{filter}\" aus den Beständen der AVefi-Archive."
+      "titleWithFieldAndFilter": "{field} — {filter} | AVefi",
+      "titleWithField": "{field} | AVefi",
+      "title": "Normdaten | AVefi",
+      "descriptionWithFieldAndFilter": "Durchsuchen Sie Normdaten für {field}, die \"{filter}\" entsprechen.",
+      "descriptionWithField": "Durchsuchen Sie Normdaten für {field}.",
+      "description": "Durchsuchen Sie kontrolliertes Vokabular und Normdaten."
     }
   },
   "normdata": {
