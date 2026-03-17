@@ -1,15 +1,249 @@
 <script setup lang="ts">
 // All imports below are auto-imported by Nuxt
 const { locale, t: $t } = useI18n();
+const siteUrl = useSiteUrl();
 
-// Optimize critical resource loading - preload fonts to prevent FOUT
+const schemaWebSiteId = computed(() => `${siteUrl.value}/#website`);
+const schemaIdentityId = computed(() => `${siteUrl.value}/#organization`);
+const schemaId = (node: 'catalog' | 'dataset' | 'project' | 'logo') => `${siteUrl.value}/#${node}`;
+const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);
+
+useSchemaOrg([
+    // --- Logo ---
+    {
+        '@id': schemaId('logo'),
+        '@type': 'ImageObject',
+        url: `${siteUrl.value}/img/avefi-og-image.png`,
+        contentUrl: `${siteUrl.value}/img/avefi-og-image.png`,
+    },
+
+    // --- Organization (explicit, because defaults: false) ---
+    {
+        '@id': schemaIdentityId.value,
+        '@type': 'Organization',
+        name: 'AVefi',
+        alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
+        url: siteUrl.value,
+        logo: { '@id': schemaId('logo') },
+        description:
+            'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for research and archival practice.',
+        foundingDate: '2023-11-01',
+        sameAs: [
+            'https://github.com/AV-EFI',
+            'https://www.zotero.org/groups/5125890/avefi',
+        ],
+        member: [
+            {
+                '@type': 'Organization',
+                name: 'TIB – Leibniz Information Centre for Science and Technology',
+                url: 'https://www.tib.eu',
+            },
+            {
+                '@type': 'Organization',
+                name: 'Stiftung Deutsche Kinemathek – Museum für Film und Fernsehen',
+                alternateName: 'Deutsche Kinemathek',
+                url: 'https://www.deutsche-kinemathek.de/',
+            },
+            {
+                '@type': 'Organization',
+                name: 'Filmmuseum Düsseldorf',
+                url: 'https://www.duesseldorf.de/filmmuseum',
+            },
+            {
+                '@type': 'Organization',
+                name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen',
+                alternateName: 'GWDG',
+                url: 'https://www.gwdg.de',
+            },
+        ],
+    },
+
+    // --- WebSite (global) ---
+    defineWebSite({
+        '@id': schemaWebSiteId.value,
+        url: siteUrl.value,
+        name: 'AVefi',
+        alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
+        inLanguage: ['de-DE', 'en-US'],
+        image: { '@id': schemaId('logo') },
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: searchActionUrlTemplate.value,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
+
+        provider: {
+            '@type': 'Organization',
+            name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen',
+            alternateName: 'GWDG',
+            url: 'https://www.gwdg.de',
+            address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Burckhardtweg 4',
+                addressLocality: 'Göttingen',
+                postalCode: '37077',
+                addressCountry: 'DE',
+            },
+            contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'customer support',
+                telephone: '+49 551 39-30001',
+                email: 'support@gwdg.de',
+            },
+        },
+    }),
+
+    // --- DataCatalog (global) ---
+    {
+        '@id': schemaId('catalog'),
+        '@type': 'DataCatalog',
+        name: 'AVefi – Film Metadata Catalog',
+        url: siteUrl.value,
+        inLanguage: ['de-DE', 'en-US'],
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+        dataset: { '@id': schemaId('dataset') },
+    },
+
+    // --- Dataset (global) ---
+    {
+        '@id': schemaId('dataset'),
+        '@type': 'Dataset',
+        name: $t('home.seo.datasetTitle'),
+        description: $t('home.seo.datasetDescription'),
+        url: siteUrl.value,
+        inLanguage: ['de-DE', 'en-US'],
+        isAccessibleForFree: true,
+        includedInDataCatalog: { '@id': schemaId('catalog') },
+
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+
+        creator: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+
+        license: 'https://creativecommons.org/publicdomain/zero/1.0/',
+
+        sameAs: [
+            'https://github.com/AV-EFI',
+            'https://www.zotero.org/groups/5125890/avefi',
+        ],
+        keywords: [
+            'film metadata',
+            'audiovisual archives',
+            'persistent identifiers',
+            'linked open data',
+            'authority data',
+            'film research',
+            'FAIR data',
+        ],
+    },
+
+    // --- ResearchProject (global) ---
+    {
+        '@id': schemaId('project'),
+        '@type': 'ResearchProject',
+        name: $t('home.seo.projectTitle'),
+        alternateName: 'AVefi',
+        description: $t('home.seo.projectDescription'),
+        url: siteUrl.value,
+        inLanguage: ['de-DE', 'en-US'],
+        publisher: {
+            '@type': 'Organization',
+            '@id': schemaIdentityId.value,
+            name: 'AVefi',
+            url: siteUrl.value,
+        },
+        hasPart: [
+            { '@id': schemaId('catalog') },
+            { '@id': schemaId('dataset') },
+        ],
+        funding: {
+            '@type': 'Grant',
+            name: $t('home.seo.projectFundingTitle'),
+            funder: {
+                '@type': 'Organization',
+                name: 'Deutsche Forschungsgemeinschaft',
+                url: 'https://www.dfg.de',
+            },
+        },
+    },
+]);
+
+useSeoMeta({
+    titleTemplate: '%s | AVefi',
+    ogSiteName: `AVefi - ${$t('avefiClaim')}`,
+    ogUrl: siteUrl.value,
+    twitterCard: 'summary_large_image',
+    publisher: schemaIdentityId.value,
+    keywords: [
+        'AVefi',
+        'Filmdatenbank',
+        'Filmrecherche',
+        'Filmdaten',
+        'Filmdaten Recherche',
+        'Filmmetadaten',
+        'Filmwerke Datenbank',
+        'Filmarchive',
+        'Filmarchive Deutschland',
+        'Filmarchiv Recherche',
+        'Filmarchiv Datenbank',
+        'Filmarchiv Bestände',
+        'audiovisuelle Archive',
+        'audiovisuelle Sammlungen',
+        'audiovisuelle Bestände',
+        'audiovisuelle Metadaten',
+        'audiovisuelle Forschungsdaten',
+        'audiovisuelle Forschungsinfrastruktur',
+        'Forschungsdaten Film',
+        'Filmwissenschaft',
+        'Filmforschung',
+        'Medienwissenschaft',
+        'Digital Humanities',
+        'Filmdatenmodell',
+        'Werk Manifestation Exemplar',
+        'Normdaten',
+        'GND Film',
+        'VIAF Film',
+        'EIDR Film',
+        'Persistent Identifier',
+        'PID',
+        'Linked Open Data',
+        'Linked Open Data Film',
+        'FAIR Data',
+    ].join(', '),
+});
+
 useHead({
     link: [
-        // Preload critical fonts (Inter is used for body text)
+        { rel: 'canonical', href: siteUrl.value },
         { rel: 'preload', href: '/fonts/Inter.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
         { rel: 'preload', href: '/fonts/BreeSerif-Regular.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
     ],
-    // Use media="print" trick to load non-critical CSS without blocking
     style: [],
 });
 

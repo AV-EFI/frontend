@@ -317,7 +317,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRuntimeConfig, useHead } from 'nuxt/app';
+import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
 import { ref, onMounted, nextTick, watch, defineAsyncComponent, computed } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -330,6 +330,9 @@ const isClientMounted = ref(false);
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
+const siteUrl = useSiteUrl();
+
+
 const criticalLinks: Array<Record<string, string>> = [
     {
         rel: 'preload',
@@ -433,6 +436,58 @@ function createResponsiveCardMedia(baseName: string, width: number, height: numb
         imgBlurHeight: blurHeight,
     } satisfies Partial<CardItem>;
 }
+
+// ─────────────────────────────────────────────
+// SEO META (multi-language via i18n)
+// ─────────────────────────────────────────────
+useSeoMeta({
+    title: t('home.seo.title'),
+    description: t('home.seo.description'),
+    ogTitle: t('home.seo.ogTitle'),
+    ogDescription: t('home.seo.ogDescription'),
+    ogType: 'website',
+    ogUrl: (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + route.path,
+    ogImage:
+        runtimeConfig.public.siteOgImage ||
+        ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
+    twitterCard: 'summary_large_image',
+    twitterTitle: t('home.seo.title'),
+    twitterDescription: t('home.seo.description'),
+    keywords: [
+        'AVefi',
+        'Filmforschungsportal',
+        'Filmrecherche',
+        'Filmdatenbank',
+        'Filmmetadaten',
+        'audiovisuelle Bestände',
+        'Archivdaten',
+        'Filme suchen',
+        'wissenschaftliche Nutzung',
+        'Forschungsdaten',
+        'Filmwissenschaft',
+        'Linked Open Data',
+        'Normdaten',
+        'Persistent Identifier',
+    ].join(', '),
+});
+
+// ─────────────────────────────────────────────
+// Schema.org: page-level WebPage merged into global WebSite from app.vue
+// ─────────────────────────────────────────────
+useSchemaOrg(() => {
+    const baseUrl = siteUrl.value;
+    const url = baseUrl + route.path;
+    return [
+        defineWebPage({
+            '@type': 'WebPage',
+            '@id': `${url}#webpage`,
+            name: t('home.seo.title'),
+            description: t('home.seo.description'),
+            url,
+            isPartOf: { '@id': `${baseUrl}/#website` },
+        }),
+    ];
+});
 
 const showAdvancedSearch = ref(false);
 const searchCompRef = ref<ComponentPublicInstance | HTMLElement | null>(null);
@@ -725,4 +780,3 @@ const cardItems = ref<CardItem[]>([
     transition: opacity 0.4s ease;
 }
 </style>
-

@@ -281,7 +281,26 @@ if (import.meta.client) {
         window.removeEventListener('hashchange', handleHashChange);
     });
 }
-
 
+useSeoMeta({
+    title: t('seo.faq.title'),
+    description: t('seo.faq.description'),
+    ogTitle: t('seo.faq.ogTitle'),
+    ogDescription: t('seo.faq.ogDescription'),
+    ogImage: '/img/avefi-og-image.png',
+    keywords: [
+        'FAQ',
+        'HÃ¤ufig gestellte Fragen',
+        'Hilfe',
+        'Support',
+        'Nutzungshinweise',
+        'Anleitung',
+        'Filmrecherche Hilfe',
+        'Suchfunktionen',
+        'Filterfunktionen',
+        'Ergebnisanzeige',
+        'AVefi Portal',
+        'Filmmetadaten',
+    ].join(', '),
+});
 </script>
-

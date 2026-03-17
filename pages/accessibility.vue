@@ -172,6 +172,12 @@ const principles = computed(() => [
         body: t('accessibilityPage.principles.robust.body'),
     },
 ]);
-
-</script>
 
+useSeoMeta({
+    title: t('seo.accessibility.title'),
+    description: t('seo.accessibility.description'),
+    ogTitle: t('seo.accessibility.ogTitle'),
+    ogDescription: t('seo.accessibility.ogDescription'),
+    ogImage: '/img/avefi-og-image.png',
+});
+</script>

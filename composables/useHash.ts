@@ -60,7 +60,7 @@ export function useHash(scroll = true) {
     el.focus({ preventScroll: true });
 
     if (scrollTimer) clearTimeout(scrollTimer);
-    
+
     scrollTimer = window.setTimeout(() => {
       const scrollRoot = document.scrollingElement;
       const absoluteTop = window.scrollY + el.getBoundingClientRect().top;

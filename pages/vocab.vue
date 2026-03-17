@@ -24,9 +24,30 @@
 definePageMeta({ auth: false });
 const { t } = useI18n();
 const route = useRoute();
-const router = useRouter();
+const router = useRouter();
+useSeoMeta({
+    title: t('seo.vocab.title'),
+    description: t('seo.vocab.description'),
+    ogTitle: t('seo.vocab.title'),
+    ogDescription: t('seo.vocab.description'),
+    ogImage: '/img/avefi-og-image.png',
+    keywords: [
+        'Glossar',
+        'Vokabular',
+        'Begriffserklärungen',
+        'Filmfachbegriffe',
+        'Metadatenbegriffe',
+        'Thesaurus',
+        'Controlled Vocabulary',
+        'Definitionen',
+        'Filmwissenschaft',
+        'Archivwesen',
+        'Normdatenbegriffe',
+        'AV-Metadaten',
+        'Hilfeseiten',
+    ].join(', '),
+});
 // Pass query and hash to GlossaryViewer
 const glossaryQuery = computed(() => route.query.q || '');
 const glossaryHash = computed(() => route.hash ? route.hash.replace('#','') : '');
 </script>
-

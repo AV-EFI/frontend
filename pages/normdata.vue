@@ -306,6 +306,7 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
+import { useSeoMeta, useSchemaOrg, defineWebPage } from '#imports';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -351,9 +352,45 @@ const pageDescription = computed(() => {
 
 const canonical = (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/normdata';
 
-// Meta tags
+// Meta tags
+useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    ogImage: runtimeConfig.public.siteOgImage || ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
+    ogType: 'website',
+    ogUrl: canonical,
+    twitterCard: 'summary_large_image',
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+    keywords: [
+        'Normdaten',
+        'GND',
+        'Gemeinsame Normdatei',
+        'VIAF',
+        'Authority Data',
+        'Personennormdaten',
+        'Körperschaftsnormdaten',
+        'Schlagwörter',
+        'Filmnormdaten',
+        'Identifikatoren',
+        'Persistent Identifier',
+        'Linked Open Data',
+        'Filmmetadaten',
+        'Archivdaten',
+    ].join(', '),
+});
 
-// Schema.org
+// Schema.org
+useSchemaOrg([
+    defineWebPage({
+        '@id': canonical,
+        name: pageTitle.value.replace(' | AVefi', '').replace(' – AVefi', ''),
+        description: pageDescription.value,
+        url: canonical,
+    }),
+]);
 
 type FieldKey = 'has_subject' | 'has_genre'
 

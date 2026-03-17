@@ -107,7 +107,26 @@ definePageMeta({
 });
 
 const { t } = useI18n();
-
+
+useSeoMeta({
+    title: t('seo.imprint.title'),
+    description: t('seo.imprint.description'),
+    ogTitle: t('seo.imprint.ogTitle'),
+    ogDescription: t('seo.imprint.ogDescription'),
+    ogImage: '/img/avefi-og-image.png',
+    keywords: [
+        'Impressum',
+        'Anbieterkennzeichnung',
+        'Rechtliche Hinweise',
+        'Kontakt',
+        'Betreiberangaben',
+        'Nutzungsbedingungen',
+        'Haftungsausschluss',
+        'Urheberrecht',
+        'Verantwortlich im Sinne des Presserechts',
+        'Adresse',
+        'AVefi',
+    ].join(', '),
+});
 
 </script>
-
