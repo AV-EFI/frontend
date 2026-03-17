@@ -4,9 +4,10 @@ export function useHash(scroll = true) {
   const hash = ref('');
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
   let retryTimer: ReturnType<typeof setTimeout> | null = null;
-  const debugPrefix = '[useHash]';
-  const actionDelayMs = 140;
-  const scrollDelayMs = 220;
+  let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+  let isInitialLoad = true;
+  const actionDelayMs = 900;
+  const postOpenDelayMs = 900;
 
   const normalizeHashValue = (value: string) => {
     if (!value) return '';
@@ -23,10 +24,6 @@ export function useHash(scroll = true) {
 
   const openTargetManifestation = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
-    console.debug(`${debugPrefix} openTargetManifestation`, {
-      hashValue,
-      normalized,
-    });
     const manifestationMatch = normalized.match(/^manifestation-(\d+)$/);
     const itemMatch = normalized.match(/^item-(\d+)-\d+$/);
     const directIndex = manifestationMatch?.[1] ?? itemMatch?.[1];
@@ -45,19 +42,15 @@ export function useHash(scroll = true) {
   const highlightAndScroll = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
     const el = findTargetElement(normalized);
-    console.debug(`${debugPrefix} highlightAndScroll`, {
-      hashValue,
-      normalized,
-      found: el instanceof HTMLElement,
-    });
     if (!(el instanceof HTMLElement)) return false;
+    const heading = el.querySelector('h5');
 
     const hadTabIndex = el.hasAttribute('tabindex');
     if (!hadTabIndex) {
       el.setAttribute('tabindex', '-1');
     }
 
-    el.classList.add(
+    heading?.classList.add(
       'bg-highlight',
       'text-white',
       'transition-colors',
@@ -65,21 +58,30 @@ export function useHash(scroll = true) {
     );
 
     el.focus({ preventScroll: true });
-    window.setTimeout(() => {
-      const targetTop = window.scrollY + el.getBoundingClientRect().top;
-      window.scrollTo({
-        top: Math.max(targetTop - window.innerHeight * 0.35, 0),
-        behavior: 'smooth',
-      });
-    }, scrollDelayMs);
-    console.debug(`${debugPrefix} scrolled`, {
-      id: el.id,
-      tagName: el.tagName,
-    });
+
+    if (scrollTimer) clearTimeout(scrollTimer);
+    
+    scrollTimer = window.setTimeout(() => {
+      const scrollRoot = document.scrollingElement;
+      const absoluteTop = window.scrollY + el.getBoundingClientRect().top;
+      const targetTop = Math.max(absoluteTop - window.innerHeight * 0.35, 0);
+
+      if (scrollRoot?.scrollTo) {
+        scrollRoot.scrollTo({
+          top: targetTop,
+          behavior: 'smooth',
+        });
+      } else {
+        window.scrollTo({
+          top: targetTop,
+          behavior: 'smooth',
+        });
+      }
+    }, postOpenDelayMs);
 
     if (highlightTimer) clearTimeout(highlightTimer);
     highlightTimer = setTimeout(() => {
-      el.classList.remove(
+      heading?.classList.remove(
         'bg-highlight',
         'text-white',
         'transition-colors',
@@ -95,32 +97,23 @@ export function useHash(scroll = true) {
 
   const applyHash = () => {
     hash.value = normalizeHashValue(window.location.hash);
-    console.debug(`${debugPrefix} applyHash`, {
-      locationHash: window.location.hash,
-      normalizedHash: hash.value,
-      scroll,
-    });
     if (!scroll || !hash.value) return;
 
     if (retryTimer) clearTimeout(retryTimer);
     retryTimer = window.setTimeout(() => {
-      const openedManifestation = openTargetManifestation(hash.value);
-      if (openedManifestation) {
-        highlightAndScroll(hash.value);
-        return;
+      if (isInitialLoad) {
+        window.scrollTo(0, 0);
+        isInitialLoad = false;
       }
 
-      if (highlightAndScroll(hash.value)) return;
-
+      const openedManifestation = openTargetManifestation(hash.value);
       retryTimer = window.setTimeout(() => {
-        openTargetManifestation(hash.value);
         highlightAndScroll(hash.value);
-      }, 220);
+      }, openedManifestation ? postOpenDelayMs : 220);
     }, actionDelayMs);
   };
 
   onMounted(() => {
-    console.debug(`${debugPrefix} mounted`);
     applyHash();
     window.addEventListener('hashchange', applyHash);
   });
@@ -130,6 +123,7 @@ export function useHash(scroll = true) {
     window.removeEventListener('hashchange', applyHash);
     if (retryTimer) clearTimeout(retryTimer);
     if (highlightTimer) clearTimeout(highlightTimer);
+    if (scrollTimer) clearTimeout(scrollTimer);
   });
 
   return { hash };
