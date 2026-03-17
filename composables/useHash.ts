@@ -119,7 +119,6 @@ export function useHash(scroll = true) {
   });
 
   onBeforeUnmount(() => {
-    console.debug(`${debugPrefix} beforeUnmount`);
     window.removeEventListener('hashchange', applyHash);
     if (retryTimer) clearTimeout(retryTimer);
     if (highlightTimer) clearTimeout(highlightTimer);
