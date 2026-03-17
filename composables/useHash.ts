@@ -5,6 +5,8 @@ export function useHash(scroll = true) {
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
   let retryTimer: ReturnType<typeof setTimeout> | null = null;
   const debugPrefix = '[useHash]';
+  const actionDelayMs = 140;
+  const scrollDelayMs = 220;
 
   const normalizeHashValue = (value: string) => {
     if (!value) return '';
@@ -55,8 +57,6 @@ export function useHash(scroll = true) {
       el.setAttribute('tabindex', '-1');
     }
 
-    const targetTop = window.scrollY + el.getBoundingClientRect().top;
-
     el.classList.add(
       'bg-highlight',
       'text-white',
@@ -66,11 +66,12 @@ export function useHash(scroll = true) {
 
     el.focus({ preventScroll: true });
     window.setTimeout(() => {
+      const targetTop = window.scrollY + el.getBoundingClientRect().top;
       window.scrollTo({
         top: Math.max(targetTop - window.innerHeight * 0.35, 0),
         behavior: 'smooth',
       });
-    }, 600);
+    }, scrollDelayMs);
     console.debug(`${debugPrefix} scrolled`, {
       id: el.id,
       tagName: el.tagName,
@@ -101,22 +102,21 @@ export function useHash(scroll = true) {
     });
     if (!scroll || !hash.value) return;
 
-    const openedManifestation = openTargetManifestation(hash.value);
-    if (openedManifestation) {
-      if (retryTimer) clearTimeout(retryTimer);
-      retryTimer = window.setTimeout(() => {
-        highlightAndScroll(hash.value);
-      }, 120);
-      return;
-    }
-
-    if (highlightAndScroll(hash.value)) return;
-
     if (retryTimer) clearTimeout(retryTimer);
     retryTimer = window.setTimeout(() => {
-      openTargetManifestation(hash.value);
-      highlightAndScroll(hash.value);
-    }, 180);
+      const openedManifestation = openTargetManifestation(hash.value);
+      if (openedManifestation) {
+        highlightAndScroll(hash.value);
+        return;
+      }
+
+      if (highlightAndScroll(hash.value)) return;
+
+      retryTimer = window.setTimeout(() => {
+        openTargetManifestation(hash.value);
+        highlightAndScroll(hash.value);
+      }, 220);
+    }, actionDelayMs);
   };
 
   onMounted(() => {
