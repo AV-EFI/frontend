@@ -60,9 +60,6 @@ export function useHash(scroll = true) {
     el.classList.add(
       'bg-highlight',
       'text-white',
-      'outline',
-      'outline-2',
-      'outline-primary',
       'transition-colors',
       'duration-500'
     );
@@ -84,9 +81,6 @@ export function useHash(scroll = true) {
       el.classList.remove(
         'bg-highlight',
         'text-white',
-        'outline',
-        'outline-2',
-        'outline-primary',
         'transition-colors',
         'duration-500'
       );
