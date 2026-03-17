@@ -378,7 +378,7 @@ export default defineNuxtConfig({
     enabled: true,
     minify: true,
     identity: defineOrganization({
-      '@id': 'https://www.av-efi.net/#organization',
+      '@id': 'https://www.av-efi.net#identity',
       name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
       alternateName: 'AVefi',
       url: 'https://www.av-efi.net',
@@ -413,14 +413,16 @@ export default defineNuxtConfig({
       sameAs: ['https://github.com/AV-EFI', 'https://www.zotero.org/groups/5125890/avefi'],
     }),
 
-    // Use explicit schema nodes from app/pages and avoid auto i18n WebSite workTranslation injection.
-    defaults: false,
+    // ✅ Add exactly one publisher
+    // defaults must be true in your setup
+    defaults: true,
   },
+
   robots: {
     groups: isSchema
       ? [
         {
-          userAgent: '*',
+          userAgent: 'Googlebot',
           allow: '/',
           disallow: [
             '/protected/**',
@@ -433,6 +435,25 @@ export default defineNuxtConfig({
             '/_nuxt/**',
             '/_**',
           ],
+        },
+        {
+          userAgent: 'Google-InspectionTool',
+          allow: '/',
+          disallow: [
+            '/protected/**',
+            '/admin/**',
+            '/login',
+            '/logout',
+            '/signout',
+            '/normdata',
+            '/explorer-poc',
+            '/_nuxt/**',
+            '/_**',
+          ],
+        },
+        {
+          userAgent: '*',
+          disallow: ['/'],
         },
       ]
       : [

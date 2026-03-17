@@ -3,7 +3,7 @@
 const { locale, t: $t } = useI18n();
 const siteUrl = useSiteUrl();
 const schemaWebSiteId = computed(() => `${siteUrl.value}/#website`);
-const schemaIdentityId = computed(() => `${siteUrl.value}/#organization`);
+const schemaIdentityId = computed(() => `${siteUrl.value}#identity`);
 const schemaId = (node: 'catalog' | 'dataset' | 'project' | 'logo') => `${siteUrl.value}/#${node}`;
 const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);
 
