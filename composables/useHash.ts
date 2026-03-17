@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 export function useHash(scroll = true) {
   const hash = ref('');
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
+  let retryTimer: ReturnType<typeof setTimeout> | null = null;
   const debugPrefix = '[useHash]';
 
   const normalizeHashValue = (value: string) => {
@@ -54,6 +55,8 @@ export function useHash(scroll = true) {
       el.setAttribute('tabindex', '-1');
     }
 
+    const targetTop = window.scrollY + el.getBoundingClientRect().top;
+
     el.classList.add(
       'bg-highlight',
       'text-white',
@@ -65,7 +68,12 @@ export function useHash(scroll = true) {
     );
 
     el.focus({ preventScroll: true });
-    el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    window.setTimeout(() => {
+      window.scrollTo({
+        top: Math.max(targetTop - window.innerHeight * 0.35, 0),
+        behavior: 'smooth',
+      });
+    }, 140);
     console.debug(`${debugPrefix} scrolled`, {
       id: el.id,
       tagName: el.tagName,
@@ -101,13 +109,19 @@ export function useHash(scroll = true) {
 
     const openedManifestation = openTargetManifestation(hash.value);
     if (openedManifestation) {
-      window.setTimeout(() => {
+      if (retryTimer) clearTimeout(retryTimer);
+      retryTimer = window.setTimeout(() => {
         highlightAndScroll(hash.value);
-      }, 80);
+      }, 120);
       return;
     }
 
-    highlightAndScroll(hash.value);
+    if (highlightAndScroll(hash.value)) return;
+
+    if (retryTimer) clearTimeout(retryTimer);
+    retryTimer = window.setTimeout(() => {
+      highlightAndScroll(hash.value);
+    }, 180);
   };
 
   onMounted(() => {
@@ -119,6 +133,7 @@ export function useHash(scroll = true) {
   onBeforeUnmount(() => {
     console.debug(`${debugPrefix} beforeUnmount`);
     window.removeEventListener('hashchange', applyHash);
+    if (retryTimer) clearTimeout(retryTimer);
     if (highlightTimer) clearTimeout(highlightTimer);
   });
 

@@ -93,7 +93,7 @@
 <script setup lang="ts">
 import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
 import { useRoute } from 'vue-router';
-import { computed, nextTick, watch } from 'vue';
+import { computed } from 'vue';
 import { useAsyncData, useRuntimeConfig } from 'nuxt/app';
 
 definePageMeta({ auth: false });
@@ -148,25 +148,6 @@ const { data: result, error, pending } = await useAsyncData(
 const dataJson = computed(() => result.value?.data);
 const resourceType = computed(() => result.value?.resourceType ?? 'workVariant');
 const requestedHandle = computed(() => result.value?.requestedHandle ?? '');
-let lastHashDispatch = '';
-
-watch(
-    [pending, () => route.hash, requestedHandle],
-    async ([isPending, currentHash, currentRequestedHandle]) => {
-        if (!import.meta.client || isPending || !currentHash || !currentRequestedHandle) return;
-
-        const normalizedHash = currentHash.startsWith('#') ? currentHash.slice(1) : currentHash;
-        const targetHash = decodeURIComponent(normalizedHash);
-        if (lastHashDispatch === targetHash) return;
-
-        await nextTick();
-        requestAnimationFrame(() => {
-            lastHashDispatch = targetHash;
-            window.dispatchEvent(new Event('hashchange'));
-        });
-    },
-    { immediate: true }
-);
 
 const breadcrumbs = computed(() => [
     ['Home', '/'],
