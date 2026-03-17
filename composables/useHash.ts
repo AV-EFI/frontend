@@ -3,7 +3,6 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 export function useHash(scroll = true) {
   const hash = ref('');
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
-  let scrollTimer: ReturnType<typeof setTimeout> | null = null;
 
   const normalizeHashValue = (value: string) => {
     if (!value) return '';
@@ -75,34 +74,21 @@ export function useHash(scroll = true) {
     return true;
   };
 
-  const scheduleHighlight = (hashValue: string, attempt = 0) => {
-    if (!scroll || !hashValue) return;
-
-    if (scrollTimer) clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => {
-      openTargetManifestation(hashValue);
-      const didScroll = highlightAndScroll(hashValue);
-      if (!didScroll && attempt < 1) {
-        scheduleHighlight(hashValue, attempt + 1);
-      }
-    }, attempt === 0 ? 260 : 160);
-  };
-
-  const updateHash = () => {
+  const applyHash = () => {
     hash.value = normalizeHashValue(window.location.hash);
     if (!scroll || !hash.value) return;
 
-    scheduleHighlight(hash.value);
+    openTargetManifestation(hash.value);
+    highlightAndScroll(hash.value);
   };
 
   onMounted(() => {
-    updateHash();
-    window.addEventListener('hashchange', updateHash);
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
   });
 
   onBeforeUnmount(() => {
-    window.removeEventListener('hashchange', updateHash);
-    if (scrollTimer) clearTimeout(scrollTimer);
+    window.removeEventListener('hashchange', applyHash);
     if (highlightTimer) clearTimeout(highlightTimer);
   });
 

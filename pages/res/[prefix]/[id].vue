@@ -160,10 +160,10 @@ watch(
         if (lastHashDispatch === targetHash) return;
 
         await nextTick();
-        window.setTimeout(() => {
+        requestAnimationFrame(() => {
             lastHashDispatch = targetHash;
             window.dispatchEvent(new Event('hashchange'));
-        }, 0);
+        });
     },
     { immediate: true }
 );
