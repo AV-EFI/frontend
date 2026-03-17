@@ -40,6 +40,10 @@ function uaMatchesAllowlist(ua: string, allow: string[]): boolean {
   return allow.some((a) => a && u.includes(a.toLowerCase()));
 }
 
+function isBotUa(ua: string): boolean {
+  return /bot|crawler|spider|slurp|bingpreview|facebookexternalhit|linkedinbot|twitterbot|applebot|duckduckbot|yandex|baiduspider|semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|seznambot|sogou/i.test(ua);
+}
+
 function isAlwaysPublicPath(path: string): boolean {
   return path === '/robots.txt' || path === '/sitemap.xml';
 }
@@ -116,55 +120,40 @@ function isNeverIndexButFetchablePath(path: string): boolean {
   return isPublicRuntimeOrApiPath(path);
 }
 
-function isAllowedInSchemaMode(path: string): boolean {
-  // Always allow robots/sitemap
-  if (isAlwaysPublicPath(path)) return true;
-
-  // Public runtime/API needed for pages to work in schema test mode
-  if (isPublicRuntimeOrApiPath(path)) return true;
-
-  // Public pages you want Google to test
-  if (path === '/') return true;
-  if (path === '/press' || path.startsWith('/press/')) return true;
-  if (path === '/search' || path.startsWith('/search/')) return true;
-  if (path.startsWith('/res/')) return true;
-
-  // Optional static pages
-  if (path === '/faq') return true;
-  if (path === '/imprint') return true;
-  if (path === '/contact') return true;
-  if (path === '/vocab') return true;
-
-  return false;
-}
-
 export default defineEventHandler((event) => {
   const cfg = useRuntimeConfig().public as any;
 
-  const releaseMode = String(cfg.releaseMode ?? 'pre'); // pre | schema | release
+  const releaseMode = String(cfg.releaseMode ?? 'pre'); // pre | release
   const rateLimitEnabled = Boolean(cfg.rateLimitEnabled);
   const avg = Number(cfg.rateLimitAvg ?? 8);
   const burst = Number(cfg.rateLimitBurst ?? 20);
-
-  const allowlist: string[] = Array.isArray(cfg.schemaTestUaAllowlist)
-    ? cfg.schemaTestUaAllowlist
-    : ['Googlebot', 'Google-InspectionTool'];
-
+  const allowlist: string[] = Array.isArray(cfg.botUaAllowlist)
+    ? cfg.botUaAllowlist
+    : [
+      'Googlebot',
+      'Google-InspectionTool',
+      'Bingbot',
+      'msnbot',
+      'Applebot',
+      'DuckDuckBot',
+      'DuckAssistBot',
+      'Twitterbot',
+      'OAI-SearchBot',
+      'GPTBot',
+      'Claude-SearchBot',
+      'PerplexityBot',
+    ];
   const ua = String(getRequestHeader(event, 'user-agent') ?? '');
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
   const path = event.path || '/';
-
-  const isSchemaAllowedUa = uaMatchesAllowlist(ua, allowlist);
+  const isAllowedBotUa = uaMatchesAllowlist(ua, allowlist);
+  const isBotRequest = isBotUa(ua);
 
   // ----------------------------
   // Sensitive public page routes
   // ----------------------------
   if (isSensitivePagePath(path)) {
     setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
-
-    if (releaseMode === 'schema') {
-      throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
-    }
   }
 
   // ----------------------------
@@ -173,7 +162,7 @@ export default defineEventHandler((event) => {
   if (isSensitiveApiPath(path)) {
     setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
 
-    if (releaseMode === 'schema' || releaseMode === 'pre') {
+    if (releaseMode === 'pre') {
       throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
     }
   }
@@ -194,37 +183,22 @@ export default defineEventHandler((event) => {
   }
 
   // ----------------------------
-  // SCHEMA MODE:
-  // - only selected paths are accessible
-  // - Googlebot / InspectionTool can index allowed HTML pages
-  // - runtime/API routes remain fetchable but never indexable
-  // ----------------------------
-  if (releaseMode === 'schema') {
-    if (!isAllowedInSchemaMode(path)) {
-      throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
-    }
-
-    // robots.txt / sitemap.xml stay fetchable without forced override
-    // runtime/api/internal paths stay fetchable but never indexable
-    if (!isAlwaysPublicPath(path) && !isNeverIndexButFetchablePath(path)) {
-      setResponseHeader(
-        event,
-        'X-Robots-Tag',
-        isSchemaAllowedUa
-          ? 'index, follow, max-image-preview:large'
-          : 'noindex, nofollow, noarchive'
-      );
-    }
-  }
-
-  // ----------------------------
   // RELEASE MODE:
-  // - public pages can be indexed normally
+  // - allowlisted bots can crawl/index normal public HTML pages
+  // - non-allowlisted bots are rejected
   // - runtime/api paths already got noindex above
-  // - no UA-gating here
   // ----------------------------
   if (releaseMode === 'release') {
-    // intentionally no forced header override for normal public HTML pages
+    if (isBotRequest && !isAlwaysPublicPath(path) && !isNeverIndexButFetchablePath(path)) {
+      if (!isAllowedBotUa) {
+        setResponseHeader(event, 'X-Robots-Tag', 'noindex, nofollow, noarchive');
+        throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
+      }
+
+      if (!isSensitivePagePath(path)) {
+        setResponseHeader(event, 'X-Robots-Tag', 'index, follow, max-image-preview:large');
+      }
+    }
   }
 
   // ----------------------------
@@ -249,18 +223,14 @@ export default defineEventHandler((event) => {
     const key = `${ip}:${releaseMode}:${bucket}`;
 
     const localAvg =
-      releaseMode === 'schema'
-        ? Math.max(avg, 10)
-        : bucket === 'api-search'
-          ? Math.max(4, avg)
-          : avg;
+      bucket === 'api-search'
+        ? Math.max(4, avg)
+        : avg;
 
     const localBurst =
-      releaseMode === 'schema'
-        ? Math.max(burst, 30)
-        : bucket === 'api-search'
-          ? Math.max(10, Math.floor(burst / 2))
-          : burst;
+      bucket === 'api-search'
+        ? Math.max(10, Math.floor(burst / 2))
+        : burst;
 
     const ok = consumeToken(key, localAvg, localBurst);
     if (!ok) {

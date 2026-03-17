@@ -1,10 +1,10 @@
 // nuxt.config.ts
-const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | schema | release
+const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | release
 const indexSearch = process.env.NUXT_PUBLIC_INDEX_SEARCH === 'true';
+const disableIndexing = process.env.NUXT_PUBLIC_DISABLE_INDEXING === 'true';
 const buildProfile = process.env.NUXT_BUILD_PROFILE ?? 'ci';
 
 const isPre = releaseMode === 'pre';
-const isSchema = releaseMode === 'schema';
 const isRelease = releaseMode === 'release';
 const isFastBuildProfile = buildProfile === 'local';
 const shouldRunBuildQa = !isFastBuildProfile;
@@ -140,14 +140,24 @@ export default defineNuxtConfig({
         },
       ],
       meta: [
-        {
-          name: 'google-site-verification',
-          content: 'mv2NfoSilsm-VcCIqXp-8m9WH-ldWlf2c_IDEqsaIwM',
-        },
+        ...(!disableIndexing
+          ? [
+            {
+              name: 'google-site-verification',
+              content: 'mv2NfoSilsm-VcCIqXp-8m9WH-ldWlf2c_IDEqsaIwM',
+            },
+          ]
+          : []),
         {
           name: 'apple-mobile-web-app-title',
           content: 'AVefi',
         },
+        ...(disableIndexing
+          ? [
+            { name: 'robots', content: 'noindex, nofollow, noarchive' },
+            { name: 'googlebot', content: 'noindex, nofollow, noarchive' },
+          ]
+          : []),
       ],
     },
   },
@@ -188,6 +198,17 @@ export default defineNuxtConfig({
 
     // Response-header policies (X-Robots-Tag etc.)
     routeRules: {
+      ...(disableIndexing
+        ? {
+          '/**': {
+            headers: {
+              'X-Robots-Tag': 'noindex, nofollow, noarchive',
+            },
+          },
+        }
+        : {}),
+      ...(!disableIndexing
+        ? {
       // ✅ immer fetchbar (GSC braucht das)
       '/sitemap.xml': {
         headers: {
@@ -206,8 +227,8 @@ export default defineNuxtConfig({
       '/img/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
       '/fonts/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
 
-      // ✅ Search nur indexieren wenn explizit gewünscht UND release/schema
-      ...((isRelease || isSchema) && !indexSearch
+      // ✅ Search nur indexieren wenn explizit gewünscht UND release
+      ...(isRelease && !indexSearch
         ? {
           '/search': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
           '/search/**': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
@@ -217,6 +238,8 @@ export default defineNuxtConfig({
       ...(isPre
         ? {
           '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+        }
+        : {}),
         }
         : {}),
     },
@@ -264,13 +287,14 @@ export default defineNuxtConfig({
       // release switches
       releaseMode,
       indexSearch,
+      disableIndexing,
       // bot/rate limit knobs (used by server middleware, e.g. server/middleware/bot-guard.ts)
       rateLimitEnabled: process.env.NUXT_PUBLIC_RATE_LIMIT_ENABLED === 'true',
       rateLimitAvg: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_AVG ?? 8),
       rateLimitBurst: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_BURST ?? 20),
-      schemaTestUaAllowlist: (
-        process.env.NUXT_PUBLIC_SCHEMA_TEST_UA_ALLOWLIST ??
-        'Googlebot,Google-InspectionTool'
+      botUaAllowlist: (
+        process.env.NUXT_PUBLIC_BOT_UA_ALLOWLIST ??
+        'Googlebot,Google-InspectionTool,Bingbot,msnbot,Applebot,DuckDuckBot,DuckAssistBot,Twitterbot,OAI-SearchBot,GPTBot,Claude-SearchBot,PerplexityBot'
       )
         .split(',')
         .map((s) => s.trim())
@@ -369,7 +393,7 @@ export default defineNuxtConfig({
     description:
     'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
     indexable:
-    process.env.NUXT_PUBLIC_INDEXABLE === 'true' || isSchema,
+    process.env.NUXT_PUBLIC_INDEXABLE === 'true',
     image: '/img/avefi-og-image.png',
   },
 
