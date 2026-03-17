@@ -5,12 +5,58 @@ export function useHash(scroll = true) {
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
   let scrollTimer: ReturnType<typeof setTimeout> | null = null;
   let pendingHash = '';
+  let observer: MutationObserver | null = null;
+
+  const normalizeHashValue = (value: string) => {
+    if (!value) return '';
+
+    const raw = value.startsWith('#') ? value.slice(1) : value;
+    try {
+      return decodeURIComponent(raw);
+    } catch {
+      return raw;
+    }
+  };
+
+  const findTargetElement = (hashValue: string) => {
+    const normalized = normalizeHashValue(hashValue);
+    return document.getElementById(normalized);
+  };
+
+  const stopObserving = () => {
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+  };
+
+  const ensureObserver = (hashValue: string) => {
+    if (!scroll || !hashValue || observer) return;
+
+    observer = new MutationObserver(() => {
+      if (pendingHash !== hashValue) {
+        stopObserving();
+        return;
+      }
+
+      openTargetManifestation(hashValue);
+      if (highlightAndScroll(hashValue)) {
+        stopObserving();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  };
 
   const openTargetManifestation = (hashValue: string) => {
-    const manifestationMatch = hashValue.match(/^manifestation-(\d+)$/);
-    const itemMatch = hashValue.match(/^item-(\d+)-\d+$/);
+    const normalized = normalizeHashValue(hashValue);
+    const manifestationMatch = normalized.match(/^manifestation-(\d+)$/);
+    const itemMatch = normalized.match(/^item-(\d+)-\d+$/);
     const directIndex = manifestationMatch?.[1] ?? itemMatch?.[1];
-    const directTarget = document.getElementById(hashValue);
+    const directTarget = findTargetElement(normalized);
     const parentManifestation = directTarget?.closest('section[data-manifestation-index]') as HTMLElement | null;
     const parentIndex = parentManifestation?.dataset?.manifestationIndex;
     const rawIndex = directIndex ?? parentIndex;
@@ -22,7 +68,7 @@ export function useHash(scroll = true) {
   };
 
   const highlightAndScroll = (hashValue: string) => {
-    const el = document.getElementById(hashValue);
+    const el = findTargetElement(hashValue);
     if (!(el instanceof HTMLElement)) return false;
 
     const hadTabIndex = el.hasAttribute('tabindex');
@@ -73,13 +119,18 @@ export function useHash(scroll = true) {
       const didScroll = highlightAndScroll(hashValue);
       if (!didScroll && attempt < 8) {
         scheduleHighlight(hashValue, attempt + 1);
+      } else if (!didScroll) {
+        ensureObserver(hashValue);
+      } else {
+        stopObserving();
       }
     }, attempt === 0 ? 260 : 180);
   };
 
   const updateHash = () => {
-    hash.value = window.location.hash.slice(1);
+    hash.value = normalizeHashValue(window.location.hash);
     pendingHash = hash.value;
+    stopObserving();
     if (!scroll || !hash.value) return;
 
     scheduleHighlight(hash.value);
@@ -92,6 +143,7 @@ export function useHash(scroll = true) {
 
   onBeforeUnmount(() => {
     window.removeEventListener('hashchange', updateHash);
+    stopObserving();
     if (scrollTimer) clearTimeout(scrollTimer);
     if (highlightTimer) clearTimeout(highlightTimer);
   });
