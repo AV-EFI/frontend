@@ -197,7 +197,7 @@
             </div>
 
             <!-- Manifestations block -->
-            <section v-if="filteredManifestations.length > 0" id="manifestations" :aria-labelledby="'manifestations-heading'">
+            <section v-if="manifestations.length > 0" id="manifestations" :aria-labelledby="'manifestations-heading'">
                 <div class="mt-4 ml-2">
                     <hr class="my-2 col-span-full" />
                     <h3 id="manifestations-heading" class="relative font-bold text-sm col-span-full text-primary-800 dark:text-primary-100 mb-1">
@@ -262,6 +262,17 @@
                 <ClientOnly>
                     <div v-if="loading" class="flex justify-center items-center min-h-[120px]">
                         <span class="loading loading-spinner loading-lg text-primary" />
+                    </div>
+                    <div
+                        v-else-if="filteredManifestations.length === 0"
+                        class="alert alert-info mt-3"
+                        role="status"
+                        :aria-label="$t('noResults')"
+                    >
+                        <div>
+                            <p class="font-semibold">{{ $t('noResults') }}</p>
+                            <p class="text-sm">{{ $t('tryClearingFiltersOrQuery') }}</p>
+                        </div>
                     </div>
                     <DetailManifestationListComp v-else v-model="filteredManifestations" />
                 </ClientOnly>
@@ -414,22 +425,27 @@ const filteredSuggestions = computed(() => {
 });
 
 // --- SEARCH WHITELIST (manifestation/item fields) ---
-const SEARCH_WHITELIST = [
-    // Manifestation-level
+const MANIFESTATION_SEARCH_FIELDS = [
     "has_record.described_by.has_issuer_name",
     "has_record.in_language.code",
     "has_record.has_colour_type",
     "has_record.has_sound_type",
-    // Item-level (full paths)
-    "items.has_webresource",
-    "items.has_record.has_format.type",
-    "items.has_record.element_type",
-    "items.has_record.in_language.code",
-    "items.has_record.has_colour_type",
-    "items.has_record.has_sound_type",
-    "items.has_record.has_frame_rate",
-    "items.has_record.has_access_status",
-    "items.has_record.note",
+    "has_record.has_event.type",
+    "has_record.has_event.category",
+    "has_record.has_event.has_date",
+    "has_record.has_event.located_in.has_name",
+];
+
+const ITEM_SEARCH_FIELDS = [
+    "has_webresource",
+    "has_record.has_format.type",
+    "has_record.element_type",
+    "has_record.in_language.code",
+    "has_record.has_colour_type",
+    "has_record.has_sound_type",
+    "has_record.has_frame_rate",
+    "has_record.has_access_status",
+    "has_record.note",
 ];
 
 function get(obj: any, path: string): any {
@@ -464,22 +480,10 @@ function pushValue(arr: string[], v: any) {
     }
 }
 
-function valuesForManifestation(mf: any): string[] {
-    const vals: string[] = [];
-
-    for (const p of SEARCH_WHITELIST) {
-        if (p.startsWith("items.")) {
-            const items = Array.isArray(mf?.items) ? mf.items : [];
-            for (const it of items) pushValue(vals, get(it, p.slice(6)));
-        } else {
-            pushValue(vals, get(mf, p));
-        }
-    }
-
-    // Deduplicate (case-insensitive) and filter out empty/whitespace-only values
+function dedupeValues(values: string[]) {
     const seen = new Set<string>();
     const out: string[] = [];
-    for (const s of vals) {
+    for (const s of values) {
         const trimmed = s.trim();
         if (!trimmed) continue;
         const k = trimmed.toLowerCase();
@@ -489,6 +493,53 @@ function valuesForManifestation(mf: any): string[] {
         }
     }
     return out;
+}
+
+function manifestationLevelValues(mf: any): string[] {
+    const vals: string[] = [];
+    for (const p of MANIFESTATION_SEARCH_FIELDS) {
+        pushValue(vals, get(mf, p));
+    }
+    return dedupeValues(vals);
+}
+
+function itemLevelValues(item: any): string[] {
+    const vals: string[] = [];
+    for (const p of ITEM_SEARCH_FIELDS) {
+        pushValue(vals, get(item, p));
+    }
+    return dedupeValues(vals);
+}
+
+function valuesForManifestation(mf: any): string[] {
+    const manifestationValues = manifestationLevelValues(mf);
+    const itemValues = (Array.isArray(mf?.items) ? mf.items : []).flatMap((item: any) => itemLevelValues(item));
+    return dedupeValues([...manifestationValues, ...itemValues]);
+}
+
+function queryScope(q: string) {
+    let matchesManifestation = false;
+    let matchesItem = false;
+
+    for (const mf of manifestations.value) {
+        if (!matchesManifestation && manifestationLevelValues(mf).includes(q)) {
+            matchesManifestation = true;
+        }
+
+        if (!matchesItem) {
+            const items = Array.isArray(mf?.items) ? mf.items : [];
+            if (items.some((item: any) => itemLevelValues(item).includes(q))) {
+                matchesItem = true;
+            }
+        }
+
+        if (matchesManifestation && matchesItem) break;
+    }
+
+    return {
+        manifestation: matchesManifestation,
+        item: matchesItem,
+    };
 }
 
 const suggestionsForManifestations = computed(() => {
@@ -511,48 +562,39 @@ const filteredManifestations = computed<any[]>(() => {
         return manifestations.value;
     }
 
-    function mfLevelMatches(mf: any, q: string): boolean {
-        // Strict match for event type
-        if (q === 'TheatricalDistributionEvent') {
-            const events = Array.isArray(mf.has_record?.has_event) ? mf.has_record.has_event : [];
-            return events.some(ev => ev?.type === q);
-        }
-        for (const p of SEARCH_WHITELIST) {
-            if (p.startsWith("items.")) continue;
-            const vals: string[] = [];
-            pushValue(vals, get(mf, p));
-            if (vals.some((v) => v === q)) return true;
-        }
-        return false;
-    }
+    const manifestationQueries = selected.filter((q) => {
+        const scope = queryScope(q);
+        return scope.manifestation;
+    });
 
-    function filterItems(items: any[], selected: string[]): any[] {
-        return items.filter((it) =>
-            selected.every((q) => {
-                let matched = false;
-                for (const p of SEARCH_WHITELIST) {
-                    if (!p.startsWith("items.")) continue;
-                    const vals: string[] = [];
-                    pushValue(vals, get(it, p.slice(6)));
-                    if (vals.some((v) => v === q)) {
-                        matched = true;
-                        break;
-                    }
-                }
-                return matched;
-            })
-        );
-    }
+    const itemQueries = selected.filter((q) => {
+        const scope = queryScope(q);
+        return scope.item && !scope.manifestation;
+    });
 
     return manifestations.value
         .map((mf) => {
+            const manifestationValues = manifestationLevelValues(mf);
             const items = Array.isArray(mf.items) ? mf.items : [];
-            const filteredItems = filterItems(items, selected);
-            const hasMfLevelMatch = selected.every((q) => mfLevelMatches(mf, q));
+            const hasManifestationMatch = manifestationQueries.every((q) => manifestationValues.includes(q));
 
-            if (filteredItems.length > 0 || hasMfLevelMatch) {
+            if (!hasManifestationMatch) {
+                return null;
+            }
+
+            if (itemQueries.length === 0) {
+                return { ...mf, items };
+            }
+
+            const filteredItems = items.filter((item: any) => {
+                const itemValues = itemLevelValues(item);
+                return itemQueries.every((q) => itemValues.includes(q));
+            });
+
+            if (filteredItems.length > 0) {
                 return { ...mf, items: filteredItems };
             }
+
             return null;
         })
         .filter((mf) => mf !== null) as any[];

@@ -1049,13 +1049,28 @@ const avefiBase = {
   },
 };
 
+const mergedSeo = {
+  ...avefiBase.seo,
+  ...avefiEn.seo,
+  home: { ...avefiBase.seo?.home, ...avefiEn.seo?.home },
+  search: { ...avefiBase.seo?.search, ...avefiEn.seo?.search },
+  contact: { ...avefiBase.seo?.contact, ...avefiEn.seo?.contact },
+  imprint: { ...avefiBase.seo?.imprint, ...avefiEn.seo?.imprint },
+  accessibility: { ...avefiBase.seo?.accessibility, ...avefiEn.seo?.accessibility },
+  resource: { ...avefiBase.seo?.resource, ...avefiEn.seo?.resource },
+  vocab: { ...avefiBase.seo?.vocab, ...avefiEn.seo?.vocab },
+  compare: { ...avefiBase.seo?.compare, ...avefiEn.seo?.compare },
+  glossary: { ...avefiBase.seo?.glossary, ...avefiEn.seo?.glossary },
+  faq: { ...avefiBase.seo?.faq, ...avefiEn.seo?.faq },
+  normdata: { ...avefiBase.seo?.normdata, ...avefiEn.seo?.normdata },
+};
+
 export default {
   ...avefiBase,
   ...avefiEn,
   accessibilityStatement: "Accessibility Statement",
   seo: {
-    ...avefiBase.seo,
-    ...avefiEn.seo,
+    ...mergedSeo,
     resource: {
       title: "{title} – Film Work | AVefi",
       description: "Film work with metadata from film archives. AVefi displays manifestations, items, and linked film metadata from multiple institutions."
