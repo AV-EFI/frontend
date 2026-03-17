@@ -4,6 +4,7 @@ export function useHash(scroll = true) {
   const hash = ref('');
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
   let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+  let pendingHash = '';
 
   const openTargetManifestation = (hashValue: string) => {
     const manifestationMatch = hashValue.match(/^manifestation-(\d+)$/);
@@ -22,7 +23,7 @@ export function useHash(scroll = true) {
 
   const highlightAndScroll = (hashValue: string) => {
     const el = document.getElementById(hashValue);
-    if (!(el instanceof HTMLElement)) return;
+    if (!(el instanceof HTMLElement)) return false;
 
     const hadTabIndex = el.hasAttribute('tabindex');
     if (!hadTabIndex) {
@@ -57,18 +58,31 @@ export function useHash(scroll = true) {
         el.removeAttribute('tabindex');
       }
     }, 3200);
+
+    return true;
+  };
+
+  const scheduleHighlight = (hashValue: string, attempt = 0) => {
+    if (!scroll || !hashValue || pendingHash !== hashValue) return;
+
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      if (pendingHash !== hashValue) return;
+
+      openTargetManifestation(hashValue);
+      const didScroll = highlightAndScroll(hashValue);
+      if (!didScroll && attempt < 8) {
+        scheduleHighlight(hashValue, attempt + 1);
+      }
+    }, attempt === 0 ? 260 : 180);
   };
 
   const updateHash = () => {
     hash.value = window.location.hash.slice(1);
+    pendingHash = hash.value;
     if (!scroll || !hash.value) return;
 
-    if (scrollTimer) clearTimeout(scrollTimer);
-    openTargetManifestation(hash.value);
-
-    scrollTimer = setTimeout(() => {
-      highlightAndScroll(hash.value);
-    }, 260);
+    scheduleHighlight(hash.value);
   };
 
   onMounted(() => {
