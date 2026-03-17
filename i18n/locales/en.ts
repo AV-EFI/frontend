@@ -1053,6 +1053,10 @@ export default {
   seo: {
     ...avefiBase.seo,
     ...avefiEn.seo,
+    resource: {
+      title: "{title} – Film Work | AVefi",
+      description: "Film work with metadata from film archives. AVefi displays manifestations, items, and linked film metadata from multiple institutions."
+    },
     faq: {
       title: "FAQ - AVefi Film Metadata Database",
       description: "Frequently asked questions, background information, and help texts for AVefi.",

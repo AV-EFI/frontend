@@ -1033,6 +1033,10 @@ export default {
   seo: {
     ...deBase.seo,
     ...avefiDe.seo,
+    resource: {
+      title: "{title} – Filmwerk | AVefi",
+      description: "Filmwerk mit Metadaten aus Filmarchiven. AVefi zeigt Manifestationen, Exemplare und verknüpfte Filmdaten aus mehreren Institutionen."
+    },
     faq: {
       title: "FAQ - AVefi Filmdatenbank",
       description: "Häufig gestellte Fragen, Hintergrundinformationen und Hilfetexte zu AVefi.",
