@@ -70,7 +70,7 @@ export function useHash(scroll = true) {
         top: Math.max(targetTop - window.innerHeight * 0.35, 0),
         behavior: 'smooth',
       });
-    }, 140);
+    }, 600);
     console.debug(`${debugPrefix} scrolled`, {
       id: el.id,
       tagName: el.tagName,
@@ -114,6 +114,7 @@ export function useHash(scroll = true) {
 
     if (retryTimer) clearTimeout(retryTimer);
     retryTimer = window.setTimeout(() => {
+      openTargetManifestation(hash.value);
       highlightAndScroll(hash.value);
     }, 180);
   };
