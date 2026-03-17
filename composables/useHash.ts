@@ -4,8 +4,6 @@ export function useHash(scroll = true) {
   const hash = ref('');
   let highlightTimer: ReturnType<typeof setTimeout> | null = null;
   let scrollTimer: ReturnType<typeof setTimeout> | null = null;
-  let pendingHash = '';
-  let observer: MutationObserver | null = null;
 
   const normalizeHashValue = (value: string) => {
     if (!value) return '';
@@ -18,38 +16,7 @@ export function useHash(scroll = true) {
     }
   };
 
-  const findTargetElement = (hashValue: string) => {
-    const normalized = normalizeHashValue(hashValue);
-    return document.getElementById(normalized);
-  };
-
-  const stopObserving = () => {
-    if (observer) {
-      observer.disconnect();
-      observer = null;
-    }
-  };
-
-  const ensureObserver = (hashValue: string) => {
-    if (!scroll || !hashValue || observer) return;
-
-    observer = new MutationObserver(() => {
-      if (pendingHash !== hashValue) {
-        stopObserving();
-        return;
-      }
-
-      openTargetManifestation(hashValue);
-      if (highlightAndScroll(hashValue)) {
-        stopObserving();
-      }
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
-  };
+  const findTargetElement = (hashValue: string) => document.getElementById(normalizeHashValue(hashValue));
 
   const openTargetManifestation = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
@@ -109,28 +76,20 @@ export function useHash(scroll = true) {
   };
 
   const scheduleHighlight = (hashValue: string, attempt = 0) => {
-    if (!scroll || !hashValue || pendingHash !== hashValue) return;
+    if (!scroll || !hashValue) return;
 
     if (scrollTimer) clearTimeout(scrollTimer);
     scrollTimer = setTimeout(() => {
-      if (pendingHash !== hashValue) return;
-
       openTargetManifestation(hashValue);
       const didScroll = highlightAndScroll(hashValue);
-      if (!didScroll && attempt < 8) {
+      if (!didScroll && attempt < 1) {
         scheduleHighlight(hashValue, attempt + 1);
-      } else if (!didScroll) {
-        ensureObserver(hashValue);
-      } else {
-        stopObserving();
       }
-    }, attempt === 0 ? 260 : 180);
+    }, attempt === 0 ? 260 : 160);
   };
 
   const updateHash = () => {
     hash.value = normalizeHashValue(window.location.hash);
-    pendingHash = hash.value;
-    stopObserving();
     if (!scroll || !hash.value) return;
 
     scheduleHighlight(hash.value);
@@ -143,7 +102,6 @@ export function useHash(scroll = true) {
 
   onBeforeUnmount(() => {
     window.removeEventListener('hashchange', updateHash);
-    stopObserving();
     if (scrollTimer) clearTimeout(scrollTimer);
     if (highlightTimer) clearTimeout(highlightTimer);
   });
