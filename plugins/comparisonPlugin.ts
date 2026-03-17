@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const useObjectStore = useObjectListStore();
   const favouritesStore = useFavourites();
   const $i18n:any = nuxtApp.$i18n || useNuxtApp().$i18n;
-  const t = $i18n.t;
+  const t = (key: string, params?: Record<string, unknown>) => $i18n.t(key, params);
   const toast = nuxtApp.$toast;
 
   const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
