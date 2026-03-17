@@ -6186,9 +6186,8 @@ __metadata:
   linkType: hard
 
 "devalue@npm:^5.1.1, devalue@npm:^5.6.2":
-  version: 5.6.3
-  resolution: "devalue@npm:5.6.3"
-  checksum: 10c0/701fbe57b9b8b71cf5f9e706a6c977cffadd5083298e442d460e82f04480b8c5656aa3c6eb36aed33b387f4266aed6abd2143cd91e94f96931302225d14789ba
+  version: 5.6.4
+  resolution: "devalue@npm:5.6.4"
   languageName: node
   linkType: hard
 
@@ -11978,15 +11977,14 @@ __metadata:
   linkType: hard
 
 "tar@npm:^7.4.0, tar@npm:^7.5.4":
-  version: 7.5.9
-  resolution: "tar@npm:7.5.9"
+  version: 7.5.10
+  resolution: "tar@npm:7.5.10"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10c0/e870beb1b2477135ca2abe86b2d18f7b35d0a4e3a37bbc523d3b8f7adca268dfab543f26528a431d569897f8c53a7cac745cdfbc4411c2f89aeeacc652b81b0a
   languageName: node
   linkType: hard
 
@@ -12265,9 +12263,8 @@ __metadata:
   linkType: hard
 
 "undici@npm:^6.21.1":
-  version: 6.23.0
-  resolution: "undici@npm:6.23.0"
-  checksum: 10c0/d846b3fdfd05aa6081ba1eab5db6bbc21b283042c7a43722b86d1ee2bf749d7c990ceac0c809f9a07ffd88b1b0f4c0f548a8362c035088cb1997d63abdda499c
+  version: 6.24.0
+  resolution: "undici@npm:6.24.0"
   languageName: node
   linkType: hard
 
@@ -12281,11 +12278,10 @@ __metadata:
   linkType: hard
 
 "unhead@npm:2.1.6":
-  version: 2.1.6
-  resolution: "unhead@npm:2.1.6"
+  version: 2.1.11
+  resolution: "unhead@npm:2.1.11"
   dependencies:
     hookable: "npm:^6.0.1"
-  checksum: 10c0/305db226c42ca2a0ac5abee2e17290f34576d944f458f530dd4d126cd7ac1591154c623df96e04c8d93db22ae89d5a092af852204944a22a01686addb1a71808
   languageName: node
   linkType: hard
 
