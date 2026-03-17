@@ -132,7 +132,9 @@
 
         <!-- Main content (right) -->
         <div class="flex-1 min-w-0 order-2">
-            <section v-if="mir" class="border-l-2 border-work px-2"
+            <section v-if="mir"
+                     :id="dataObject?.compound_record?._source?.handle || undefined"
+                     class="border-l-2 border-work px-2"
                      :aria-labelledby="'work-details-heading'">
                 <h2 id="work-details-heading" class="sr-only">
                     {{ `${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}` }}
