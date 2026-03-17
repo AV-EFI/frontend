@@ -1,27 +1,15 @@
 <script setup lang="ts">
 // All imports below are auto-imported by Nuxt
 const { locale, t: $t } = useI18n();
-const schemaOrigin = 'https://www.av-efi.net';
-const schemaId = (node: 'identity' | 'website' | 'catalog' | 'dataset' | 'project' | 'logo') => `${schemaOrigin}/#${node}`;
-const searchActionUrlTemplate = `${schemaOrigin}/search?query={search_term_string}`;
 
 useSchemaOrg([
-    {
-        '@id': schemaId('logo'),
-        '@type': 'ImageObject',
-        url: `${schemaOrigin}/img/avefi-og-image.png`,
-        contentUrl: `${schemaOrigin}/img/avefi-og-image.png`,
-    },
-
     // --- WebSite (global) ---
     defineWebSite({
-        '@id': schemaId('website'),
-        url: schemaOrigin,
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#website`,
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
         name: 'AVefi',
-        inLanguage: ['de-DE', 'en-US'],
-        image: { '@id': schemaId('logo') },
         publisher: {
-            '@id': schemaId('identity'),
+            '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity`,
         },
 
         // ✅ Explicit SearchAction (Knowledge-Graph / sitelinks search)
@@ -30,7 +18,7 @@ useSchemaOrg([
             target: [
                 {
                     '@type': 'EntryPoint',
-                    urlTemplate: searchActionUrlTemplate,
+                    urlTemplate: `${process.env.SITE_URL || 'https://www.av-efi.net'}/search?query={search_term_string}`,
                 },
             ],
             'query-input': 'required name=search_term_string',
@@ -60,26 +48,36 @@ useSchemaOrg([
 
     // --- DataCatalog (global) ---
     {
-        '@id': schemaId('catalog'),
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#catalog`,
         '@type': 'DataCatalog',
         name: 'AVefi – Film Metadata Catalog',
-        url: schemaOrigin,
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaId('identity') },
-        dataset: { '@id': schemaId('dataset') },
+        publisher: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity` },
+        dataset: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#dataset` },
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${process.env.SITE_URL || 'https://www.av-efi.net'}/search?query={search_term_string}`,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
     },
 
     // --- Dataset (global) ---
     {
-        '@id': schemaId('dataset'),
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#dataset`,
         '@type': 'Dataset',
         name: $t('home.seo.datasetTitle'),
         description: $t('home.seo.datasetDescription'),
-        url: schemaOrigin,
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
         inLanguage: ['de-DE', 'en-US'],
         isAccessibleForFree: true,
-        includedInDataCatalog: { '@id': schemaId('catalog') },
-        publisher: { '@id': schemaId('identity') },
+        includedInDataCatalog: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#catalog` },
+        publisher: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity` },
         sameAs: [
             'https://github.com/AV-EFI',
             'https://www.zotero.org/groups/5125890/avefi',
@@ -93,21 +91,31 @@ useSchemaOrg([
             'film research',
             'FAIR data',
         ],
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: [
+                {
+                    '@type': 'EntryPoint',
+                    urlTemplate: `${process.env.SITE_URL || 'https://www.av-efi.net'}/search?query={search_term_string}`,
+                },
+            ],
+            'query-input': 'required name=search_term_string',
+        },
     },
 
     // --- ResearchProject (global, Knowledge Graph hint) ---
     {
-        '@id': schemaId('project'),
+        '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#project`,
         '@type': 'ResearchProject',
         name: $t('home.seo.projectTitle'),
         alternateName: 'AVefi',
         description: $t('home.seo.projectDescription'),
-        url: schemaOrigin,
+        url: process.env.SITE_URL || 'https://www.av-efi.net',
         inLanguage: ['de-DE', 'en-US'],
-        publisher: { '@id': schemaId('identity') },
+        publisher: { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity` },
         hasPart: [
-            { '@id': schemaId('catalog') },
-            { '@id': schemaId('dataset') },
+            { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#catalog` },
+            { '@id': `${process.env.SITE_URL || 'https://www.av-efi.net'}#dataset` },
         ],
         funding: {
             '@type': 'Grant',
@@ -124,9 +132,9 @@ useSchemaOrg([
 useSeoMeta({
     titleTemplate: '%s | AVefi',
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
-    ogUrl: schemaOrigin,
+    ogUrl: process.env.SITE_URL || 'https://www.av-efi.net',
     twitterCard: 'summary_large_image',
-    publisher: schemaId('identity'),
+    publisher: `${process.env.SITE_URL || 'https://www.av-efi.net'}#identity`,
     keywords: [
         'AVefi',
         'Filmdatenbank',
