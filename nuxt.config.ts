@@ -92,8 +92,8 @@ export default defineNuxtConfig({
       style: [
         {
           innerHTML: `html[data-theme="avefi_dark"], [data-theme="avefi_dark"] {
-            background: #1e1e1e !important;
-            color: #dfe9ee !important;
+            background: oklch(20.768% 0.039 265.754) !important;
+            color: oklch(20.768% 0.039 265.754) !important;
             --color-base-100: oklch(20.768% 0.039 265.754);
             --color-base-content: #dfe9ee;
             --color-primary: #4d768d;
@@ -209,37 +209,37 @@ export default defineNuxtConfig({
         : {}),
       ...(!disableIndexing
         ? {
-      // ✅ immer fetchbar (GSC braucht das)
-      '/sitemap.xml': {
-        headers: {
-          // Sitemap selbst muss nicht indexiert werden – aber darf gecrawlt werden
-          'X-Robots-Tag': 'noindex, follow',
-          'Content-Type': 'application/xml; charset=utf-8',
-        },
-      },
-      '/robots.txt': {
-        headers: {
-          'X-Robots-Tag': 'index, follow',
-          'Content-Type': 'text/plain; charset=utf-8',
-        },
-      },
-      // ✅ Caching unverändert
-      '/img/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
-      '/fonts/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+          // ✅ immer fetchbar (GSC braucht das)
+          '/sitemap.xml': {
+            headers: {
+              // Sitemap selbst muss nicht indexiert werden – aber darf gecrawlt werden
+              'X-Robots-Tag': 'noindex, follow',
+              'Content-Type': 'application/xml; charset=utf-8',
+            },
+          },
+          '/robots.txt': {
+            headers: {
+              'X-Robots-Tag': 'index, follow',
+              'Content-Type': 'text/plain; charset=utf-8',
+            },
+          },
+          // ✅ Caching unverändert
+          '/img/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+          '/fonts/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
 
-      // ✅ Search nur indexieren wenn explizit gewünscht UND release
-      ...(isRelease && !indexSearch
-        ? {
-          '/search': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
-          '/search/**': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
-        }
-        : {}),
+          // ✅ Search nur indexieren wenn explizit gewünscht UND release
+          ...(isRelease && !indexSearch
+            ? {
+              '/search': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
+              '/search/**': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
+            }
+            : {}),
 
-      ...(isPre
-        ? {
-          '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
-        }
-        : {}),
+          ...(isPre
+            ? {
+              '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+            }
+            : {}),
         }
         : {}),
     },
