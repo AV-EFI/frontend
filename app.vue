@@ -80,10 +80,6 @@ useHead(() => ({
         'data-theme': normalizedTheme.value,
         class: normalizedTheme.value === 'avefi_dark' ? 'dark' : '',
     },
-    meta: [
-        { name: 'robots', content: 'noindex, nofollow, noarchive' },
-        { name: 'googlebot', content: 'noindex, nofollow, noarchive' },
-    ],
 }));
 
 </script>

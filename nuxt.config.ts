@@ -1,6 +1,7 @@
 // nuxt.config.ts
 const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | schema | release
 const buildProfile = process.env.NUXT_BUILD_PROFILE ?? 'ci';
+const disableIndexing = process.env.NUXT_PUBLIC_DISABLE_INDEXING === 'true';
 
 const isFastBuildProfile = buildProfile === 'local';
 const shouldRunBuildQa = !isFastBuildProfile;
@@ -137,6 +138,12 @@ export default defineNuxtConfig({
           name: 'apple-mobile-web-app-title',
           content: 'AVefi',
         },
+        ...(disableIndexing
+          ? [
+            { name: 'robots', content: 'noindex, nofollow, noarchive' },
+            { name: 'googlebot', content: 'noindex, nofollow, noarchive' },
+          ]
+          : []),
       ],
     },
   },
@@ -174,6 +181,15 @@ export default defineNuxtConfig({
       crawlLinks: false,
       routes: shouldRunBuildQa ? ['/faq', '/vocab', '/imprint', '/press'] : [],
     },
+    routeRules: disableIndexing
+      ? {
+        '/**': {
+          headers: {
+            'X-Robots-Tag': 'noindex, nofollow, noarchive',
+          },
+        },
+      }
+      : {},
   },
 
   modules: [
@@ -212,6 +228,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       releaseMode,
+      disableIndexing,
       ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
       origin: publicSiteUrl,
       frontendUrl: publicSiteUrl,
