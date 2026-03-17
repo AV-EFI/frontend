@@ -73,6 +73,8 @@ build_docker-production:
     - echo "MAIL_PASSWORD=$MAIL_PASSWORD"
     - echo "MAIL_TO=$MAIL_TO"
     - echo "MAIL_TO_2=$MAIL_TO_2"
+    - echo "NUXT_PUBLIC_DISABLE_INDEXING=$NUXT_PUBLIC_DISABLE_INDEXING"
+    - echo "NUXT_PUBLIC_BOT_UA_ALLOWLIST=$NUXT_PUBLIC_BOT_UA_ALLOWLIST"
     - envsubst < .env.tmpl > .env
     # Create the new deployment directory if it doesn't exist
     - ssh $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p $DEPLOY_PATH"

@@ -1,5 +1,6 @@
 // nuxt.config.ts
 const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | schema | release
+const indexSearch = process.env.NUXT_PUBLIC_INDEX_SEARCH === 'true';
 const buildProfile = process.env.NUXT_BUILD_PROFILE ?? 'ci';
 const disableIndexing = process.env.NUXT_PUBLIC_DISABLE_INDEXING === 'true';
 
@@ -38,7 +39,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineNuxtConfig } from 'nuxt/config';
 import visualizer from 'rollup-plugin-visualizer';
 
-// 📝 Explanation:
+// Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
 
@@ -52,7 +53,6 @@ export default defineNuxtConfig({
     pageTransition: false,
     head: {
       link: [
-        // Favicons & app icons
         { rel: 'icon', type: 'image/png', href: '/img/favicon-96x96.png', sizes: '96x96' },
         { rel: 'icon', type: 'image/svg+xml', href: '/img/favicon.svg' },
         { rel: 'shortcut icon', href: '/favicon.ico' },
@@ -72,7 +72,6 @@ export default defineNuxtConfig({
           href: '/fonts/Inter.ttf',
           crossorigin: 'anonymous',
         },
-        // Preload LCP hero image for mobile
         {
           rel: 'preload',
           as: 'image',
@@ -148,11 +147,7 @@ export default defineNuxtConfig({
     },
   },
 
-  // Inline critical CSS into the HTML to avoid render-blocking
-  experimental: {
-    // inlineSSRStyles: true, // Removed invalid property
-    // payloadExtraction: false,
-  },
+  experimental: {},
 
   devtools: {
     enabled: false,
@@ -164,9 +159,6 @@ export default defineNuxtConfig({
     serverAssets: [{ baseName: 'vocab', dir: 'assets/vocab' }],
     debug: !isProduction && process.env.NUXT_DEBUG === 'true',
     externals: {
-      // On Windows, Nitro's traced node_modules output can collide when multiple
-      // major versions of readable-stream are externalized. Inline the packages
-      // that drag those versions in so Nitro only links one external copy.
       inline: process.platform === 'win32'
         ? [
           /^readable-stream(?:\/.*)?$/,
@@ -196,28 +188,21 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
-    //'@nuxtjs/tailwindcss',
-    //'@nuxtjs/color-mode',
     '@nuxt/icon',
     '@vueuse/nuxt',
     '@dargmuesli/nuxt-cookie-control',
     'nuxt-nodemailer',
-    ...(shouldEnableReleaseModules
-      ? [
-        'nuxt3-winston-log',
-      ]
-      : []),
+    ...(shouldEnableReleaseModules ? ['nuxt3-winston-log'] : []),
   ],
 
   extends: './pages',
 
   imports: {
-    dirs: ['~/stores', '~/plugins'], // keine Wildcards
+    dirs: ['~/stores', '~/plugins'],
   },
 
   icon: {
-    // See: https://github.com/nuxt-modules/icon#configuration
-    collections: ['tabler', 'formkit'], // Uncomment if you want to use specific icon collections
+    collections: ['tabler', 'formkit'],
   },
 
   components: {
@@ -228,7 +213,18 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       releaseMode,
+      indexSearch,
       disableIndexing,
+      rateLimitEnabled: process.env.NUXT_PUBLIC_RATE_LIMIT_ENABLED === 'true',
+      rateLimitAvg: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_AVG ?? 8),
+      rateLimitBurst: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_BURST ?? 20),
+      botUaAllowlist: (
+        process.env.NUXT_PUBLIC_BOT_UA_ALLOWLIST ??
+        'Googlebot,Google-InspectionTool,Bingbot,msnbot,Applebot,DuckDuckBot,DuckAssistBot,Twitterbot,OAI-SearchBot,GPTBot,Claude-SearchBot,PerplexityBot'
+      )
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean),
       ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
       origin: publicSiteUrl,
       frontendUrl: publicSiteUrl,
@@ -261,21 +257,15 @@ export default defineNuxtConfig({
       WMI_CACHE_KEY: 'WMI_CACHE_KEY',
       KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
       AVEFI_COPY_PID_URL: process.env.AVEFI_COPY_PID_URL,
-
-      // AUTH endpoints
       AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
       AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
       AUTH_SIGNIN_ENDPOINT: process.env.AUTH_SIGNIN_ENDPOINT || '/auth/signin/keycloak',
       AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
       AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
       AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/academiccloud/auth',
-
-      // Matomo Analytics
       matomoUrl: process.env.MATOMO_URL || 'http://localhost:8888',
       matomoSiteId: process.env.MATOMO_SITE_ID || 'AVefi',
-
       cms: {
-        // mirror the flag to the client to toggle UI affordances
         allowUserTooltipEdits:
           process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' || process.env.NODE_ENV === 'production',
       },
@@ -301,8 +291,6 @@ export default defineNuxtConfig({
     '/protected/mergetool': { ssr: true },
     '/normdata': { ssr: true },
     '/protected/normdata': { ssr: true },
-    // Cached for 1 hour
-    //"/api/*": { cache: { maxAge: 60 * 60 } },
   },
 
   nodemailer: {
@@ -320,7 +308,6 @@ export default defineNuxtConfig({
     maxSize: '2048m',
     maxFiles: '14d',
     level: isProduction ? 'info' : 'debug',
-    // Optional: Enable console logging in development for easier debugging
     console: !isProduction,
     skipRequestMiddlewareHandler: true,
     skipErrorMiddlewareHandler: true,
@@ -331,7 +318,6 @@ export default defineNuxtConfig({
     colors: false,
     isCssEnabled: true,
     isAcceptNecessaryButtonEnabled: true,
-    //declineAllAcceptsNecessary: true,
     localeTexts: {
       en: {
         bannerTitle: 'This website uses cookies',
@@ -387,7 +373,6 @@ export default defineNuxtConfig({
             en: 'Helps us understand usage to improve the service.',
             de: 'Hilft, die Nutzung zu verstehen und den Dienst zu verbessern.',
           },
-          // purely informational for the banner UI
           targetCookieIds: ['_pk_id.*', '_pk_ses.*'],
         },
       ],
@@ -442,10 +427,9 @@ export default defineNuxtConfig({
     },
     logLevel: 'error',
     css: {
-      devSourcemap: false, // Disable CSS sourcemaps in dev for faster builds
+      devSourcemap: false,
       preprocessorOptions: {
         scss: {
-          // Optimize SCSS compilation
           additionalData: `@use "sass:math";`,
         },
       },
@@ -472,16 +456,12 @@ export default defineNuxtConfig({
     storesDirs: ['stores'],
   },
 
-  css: ['~/assets/scss/main.scss'], // Main styles will be code-split
+  css: ['~/assets/scss/main.scss'],
 
   postcss: {
     plugins: {
-      '@tailwindcss/postcss': {}, // ✅ v4 plugin
+      '@tailwindcss/postcss': {},
       autoprefixer: {},
     },
   },
 });
-
-
-
-
