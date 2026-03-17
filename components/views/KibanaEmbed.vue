@@ -1,27 +1,27 @@
 <template>
-  <div class="w-full">
-    <button
-      class="btn btn-sm btn-outline mb-2"
-      type="button"
-      :aria-label="ariaLabel || 'Toggle Kibana view'"
-      @click="load = !load"
-    >
-      {{ load ? 'Hide Kibana view' : 'Show Kibana view' }}
-    </button>
+    <div class="w-full">
+        <button
+            class="btn btn-sm btn-outline mb-2"
+            type="button"
+            :aria-label="ariaLabel || 'Toggle Kibana view'"
+            @click="load = !load"
+        >
+            {{ load ? 'Hide Kibana view' : 'Show Kibana view' }}
+        </button>
 
-    <div
-      v-if="load"
-      class="border rounded-md"
-    >
-      <iframe
-        :src="finalUrl"
-        class="w-full h-[520px] rounded-md"
-        referrerpolicy="no-referrer"
-        loading="lazy"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-      />
+        <div
+            v-if="load"
+            class="border rounded-md"
+        >
+            <iframe
+                :src="finalUrl"
+                class="w-full h-[520px] rounded-md"
+                referrerpolicy="no-referrer"
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            />
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -31,16 +31,16 @@ type ViewType = 'discover' | 'lens'
 type FilterMode = 'exists' | 'custom'
 
 const props = defineProps<{
-  baseUrl: string
-  viewType: ViewType
-  savedObjectId?: string
-  dataViewId?: string
-  fieldExists?: string
-  filterMode?: FilterMode
-  customKql?: string
-  timeFrom?: string
-  timeTo?: string
-  ariaLabel?: string
+    baseUrl: string
+    viewType: ViewType
+    savedObjectId?: string
+    dataViewId?: string
+    fieldExists?: string
+    filterMode?: FilterMode
+    customKql?: string
+    timeFrom?: string
+    timeTo?: string
+    ariaLabel?: string
 }>();
 
 const load = ref(false);

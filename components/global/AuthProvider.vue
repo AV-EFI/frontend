@@ -1,6 +1,6 @@
 <!-- components/AuthProvider.vue -->
 <template>
-  <slot />
+    <slot />
 </template>
 
 <script setup lang="ts">

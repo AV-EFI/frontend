@@ -21,6 +21,7 @@ prefixes:
   wdrs: http://www.w3.org/2007/05/powder-s#
 
 emit_prefixes:
+- dcterms
 - fiaf
 - pronom
 - rdfs
@@ -508,6 +509,31 @@ enums:
           in_language: default
         description: FIAF Glossary of Filmographic Terms B.3.5
         meaning: fiaf:Continuity
+      Creator:
+        structured_aliases:
+        - literal_form: Autor/Schöpfer
+          in_language: de
+        - literal_form: Creator
+          in_language: en
+        description: >-
+          An entity responsible (contentwise) for making the film.
+          Creator should be used for agents that have influenced the
+          production of the film and left a personal mark in doing so.
+          Usually, the director is assumed to be the or at least a
+          creator, but under certain circumstances, e.g. in science or
+          educational films, the influence and contribution of others
+          (such as cinematographer, script or even unspecified) may be
+          significant enough to consider them creators as well. Hence,
+          Creator is suitable, for instance, to point out agents
+          beside the director that may possibly have intillectual
+          property rights under German jurisdiction (check see_also
+          section). Note that Writer, especially in the context of
+          feature films, is considered the creator of a pre-product,
+          not the film itself.
+        see_also:
+        - https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#creator
+        - https://www.urheberrecht.de/film/
+        meaning: dcterms:creator
       Director:
         structured_aliases:
         - literal_form: Regie
@@ -524,6 +550,19 @@ enums:
           in_language: en
         description: FIAF Glossary of Filmographic Terms B.3.7
         meaning: fiaf:FightArranger
+      Filmmaker:
+        structured_aliases:
+        - literal_form: Filmemacher
+          in_language: de
+        - literal_form: Filmmaker
+          in_language: en
+        description: >-
+          A person, family or organization responsible for creating an
+          independent or personal film. A filmmaker is individually
+          responsible for the conception and execution of all aspects
+          of the film.
+        see_also:
+        - https://www.loc.gov/marc/relators/relaterm.html
       SecondUnitDirector:
         structured_aliases:
         - literal_form: Regisseur des zweiten Drehteams
@@ -551,14 +590,6 @@ enums:
       Activity types / roles. See also: FIAF Glossary of Filmographic
       Terms B.10
     permissible_values:
-      AssistantEditor:
-        structured_aliases:
-        - literal_form: Redaktionsassistenz
-          in_language: de
-        - literal_form: Assistant Editor
-          in_language: en
-        description: >-
-          Assistant to the Editor, see also the description for Editor
       AssistantFilmEditor:
         structured_aliases:
         - literal_form: Cutterassistent
@@ -567,18 +598,6 @@ enums:
           in_language: en
         description: FIAF Glossary of Filmographic Terms B.10.2
         meaning: fiaf:AssistantFilmEditor
-      Editor:
-        structured_aliases:
-        - literal_form: Redaktion
-          in_language: de
-        - literal_form: Editor
-          in_language: en
-        description: >-
-          Person responsible content-wise in a non-fiction film
-          production, e.g. a documentary. Unlike a film editor, this
-          activity includes duties like writing a concept, drafting
-          the story, and preparing interviews in preproduction as well
-          as supervising and supporting the camera team
       FilmEditor:
         structured_aliases:
         - literal_form: Cutter
@@ -1339,6 +1358,14 @@ enums:
           in_language: en
         description: FIAF Glossary of Filmographic Terms B.4.11
         meaning: fiaf:Adaptation
+      AssistantEditor:
+        structured_aliases:
+        - literal_form: Redaktionsassistenz
+          in_language: de
+        - literal_form: Assistant Editor
+          in_language: en
+        description: >-
+          Assistant to the Editor, see also the description for Editor
       BasedonCharactersCreatedby:
         structured_aliases:
         - literal_form: Nach Charakteren von
@@ -1347,6 +1374,18 @@ enums:
           in_language: en
         description: FIAF Glossary of Filmographic Terms B.4.5
         meaning: fiaf:BasedonCharactersCreatedby
+      Editor:
+        structured_aliases:
+        - literal_form: Redaktion
+          in_language: de
+        - literal_form: Editor
+          in_language: en
+        description: >-
+          Person responsible content-wise in a non-fiction film
+          production, e.g. a documentary. Unlike a film editor, this
+          activity includes duties like writing a concept, drafting
+          the story, and preparing interviews in preproduction as well
+          as supervising and supporting the camera team
       Idea:
         structured_aliases:
         - literal_form: Nach einer Idee von

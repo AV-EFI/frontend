@@ -1,76 +1,100 @@
 // plugins/matomo.client.ts
 import { defineNuxtPlugin, useRuntimeConfig, useRouter } from '#app';
 import { watch } from 'vue';
-
-// IMPORTANT: do NOT import vue-matomo at top-level if you want to avoid any eager init.
-// We'll dynamic-import it only after consent.
+import { useMatomoTracking } from '~/composables/useMatomoTracking';
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const config = useRuntimeConfig();
-    const router = useRouter();
+  const config = useRuntimeConfig();
+  const router = useRouter();
 
-    const matomoUrl = config.public.matomoUrl;
-    const siteId = config.public.matomoSiteId;
+  const matomoUrl = config.public.matomoUrl;
+  const siteId = config.public.matomoSiteId;
 
-    let isMatomoBooted = false;
+  let isMatomoBooted = false;
+  let removeAfterEachHook: (() => void) | null = null;
 
-    const bootMatomo = async () => {
-        if (isMatomoBooted) return;
-        isMatomoBooted = true;
+  const bootMatomo = async () => {
+    if (isMatomoBooted) return;
+    if (!matomoUrl || !siteId) return;
 
-        const { default: VueMatomo } = await import('vue-matomo');
+    const { default: VueMatomo } = await import('vue-matomo');
 
-        nuxtApp.vueApp.use(VueMatomo, {
-            host: matomoUrl,
-            siteId,
-            router,
+    nuxtApp.vueApp.use(VueMatomo, {
+      host: matomoUrl,
+      siteId,
+      router,
 
-            // These two are the important bits when you care about consent:
-            requireConsent: true,
-            // If you want "cookie-less tracking" (still may do requests):
-            disableCookies: true,
+      // Consent-aware setup
+      requireConsent: true,
+      disableCookies: true,
 
-            enableLinkTracking: true,
-            trackInitialView: true,
-            enableHeartBeatTimer: true,
-            heartBeatTimerInterval: 15,
-            debug: process.env.NODE_ENV === 'development',
-        })
+      // We will track page views manually so dimensions are applied first
+      trackInitialView: false,
 
-        // Tell Matomo consent is granted
-        // vue-matomo exposes $matomo on nuxtApp in many setups, but to be robust:
-        ;(window as any)._paq = (window as any)._paq || []
-        ;(window as any)._paq.push(['rememberConsentGiven']);
-    };
+      enableLinkTracking: true,
+      enableHeartBeatTimer: true,
+      heartBeatTimerInterval: 15,
+      debug: import.meta.dev,
+    });
 
-    const stopMatomo = () => {
-    // If you never loaded it, nothing to do.
-        if (!isMatomoBooted) return
+    isMatomoBooted = true;
 
-        // If user revokes later, you can request Matomo to forget consent + delete cookies.
-        ;(window as any)._paq = (window as any)._paq || []
-        ;(window as any)._paq.push(['forgetConsentGiven'])
-        ;(window as any)._paq.push(['deleteCookies']);
+    const {
+      rememberConsentGiven,
+      trackPageView,
+      trackEvent,
+      setPreferenceDimensions,
+    } = useMatomoTracking();
 
-    // NOTE: We do NOT try to "uninstall" the Vue plugin at runtime.
-    // Practically, revocation means no tracking calls + cookies deleted.
-    };
+    rememberConsentGiven();
 
-    // CookieControl composable
-    const { cookiesEnabledIds } = useCookieControl();
+    // Initial dimensions + initial pageview
+    setPreferenceDimensions();
+    trackPageView(document.title);
 
-    // React whenever the selection changes (initial load included)
-    watch(
-        cookiesEnabledIds,
-        async (ids) => {
-            const hasMatomoConsent = Array.isArray(ids) && ids.includes('matomo');
+    // Optional initial event
+    trackEvent('Preferences', 'Loaded', 'initial_state');
 
-            if (hasMatomoConsent) {
-                await bootMatomo();
-            } else {
-                stopMatomo();
-            }
-        },
-        { immediate: true }
-    );
+    // Track all SPA navigations manually
+    removeAfterEachHook = router.afterEach(() => {
+      setPreferenceDimensions();
+      trackPageView(document.title);
+    });
+  };
+
+  const stopMatomo = () => {
+    if (!isMatomoBooted) return;
+
+    const {
+      clearPreferenceDimensions,
+      forgetConsentGiven,
+      deleteCookies,
+    } = useMatomoTracking();
+
+    clearPreferenceDimensions();
+    forgetConsentGiven();
+    deleteCookies();
+
+    if (removeAfterEachHook) {
+      removeAfterEachHook();
+      removeAfterEachHook = null;
+    }
+  };
+
+  const { cookiesEnabledIds } = useCookieControl();
+
+  watch(
+    cookiesEnabledIds,
+    async (ids) => {
+      const hasMatomoConsent =
+        Array.isArray(ids) && ids.includes('matomo');
+
+      if (hasMatomoConsent) {
+        await bootMatomo();
+      } else {
+        stopMatomo();
+      }
+    },
+    { immediate: true }
+  );
 });

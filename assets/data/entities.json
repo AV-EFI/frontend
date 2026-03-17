@@ -847,6 +847,16 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DirectingActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "enumMember:DirectingActivityTypeEnum.Creator",
+    "kind": "enumMember",
+    "name": "Creator",
+    "label": "Creator",
+    "description": "An entity responsible (contentwise) for making the film. Creator should be used for agents that have influenced the production of the film and left a personal mark in doing so. Usually, the director is assumed to be the or at least a creator, but under certain circumstances, e.g. in science or educational films, the influence and contribution of others (such as cinematographer, script or even unspecified) may be significant enough to consider them creators as well. Hence, Creator is suitable, for instance, to point out agents beside the director that may possibly have intillectual property rights under German jurisdiction (check see_also section). Note that Writer, especially in the context of feature films, is considered the creator of a pre-product, not the film itself.",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.DirectingActivity.DirectingActivityEnums",
+    "owner": "DirectingActivityTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/DirectingActivityTypeEnum/#permissible-values"
+  },
+  {
     "id": "enumMember:DirectingActivityTypeEnum.Director",
     "kind": "enumMember",
     "name": "Director",
@@ -862,6 +872,16 @@
     "name": "FightArranger",
     "label": "FightArranger",
     "description": "FIAF Glossary of Filmographic Terms B.3.7",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.DirectingActivity.DirectingActivityEnums",
+    "owner": "DirectingActivityTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/DirectingActivityTypeEnum/#permissible-values"
+  },
+  {
+    "id": "enumMember:DirectingActivityTypeEnum.Filmmaker",
+    "kind": "enumMember",
+    "name": "Filmmaker",
+    "label": "Filmmaker",
+    "description": "A person, family or organization responsible for creating an independent or personal film. A filmmaker is individually responsible for the conception and execution of all aspects of the film.",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.DirectingActivity.DirectingActivityEnums",
     "owner": "DirectingActivityTypeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/DirectingActivityTypeEnum/#permissible-values"
@@ -938,31 +958,11 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/EditingActivityTypeEnum/"
   },
   {
-    "id": "enumMember:EditingActivityTypeEnum.AssistantEditor",
-    "kind": "enumMember",
-    "name": "AssistantEditor",
-    "label": "AssistantEditor",
-    "description": "Assistant to the Editor, see also the description for Editor",
-    "explorerPath": "MovingImageRecord.WorkVariant.Activity.EditingActivity.EditingActivityEnums",
-    "owner": "EditingActivityTypeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/EditingActivityTypeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:EditingActivityTypeEnum.AssistantFilmEditor",
     "kind": "enumMember",
     "name": "AssistantFilmEditor",
     "label": "AssistantFilmEditor",
     "description": "FIAF Glossary of Filmographic Terms B.10.2",
-    "explorerPath": "MovingImageRecord.WorkVariant.Activity.EditingActivity.EditingActivityEnums",
-    "owner": "EditingActivityTypeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/EditingActivityTypeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:EditingActivityTypeEnum.Editor",
-    "kind": "enumMember",
-    "name": "Editor",
-    "label": "Editor",
-    "description": "Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.EditingActivity.EditingActivityEnums",
     "owner": "EditingActivityTypeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/EditingActivityTypeEnum/#permissible-values"
@@ -2441,11 +2441,31 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/WritingActivityTypeEnum/#permissible-values"
   },
   {
+    "id": "enumMember:WritingActivityTypeEnum.AssistantEditor",
+    "kind": "enumMember",
+    "name": "AssistantEditor",
+    "label": "AssistantEditor",
+    "description": "Assistant to the Editor, see also the description for Editor",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.WritingActivity.WritingActivityEnums",
+    "owner": "WritingActivityTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/WritingActivityTypeEnum/#permissible-values"
+  },
+  {
     "id": "enumMember:WritingActivityTypeEnum.BasedonCharactersCreatedby",
     "kind": "enumMember",
     "name": "BasedonCharactersCreatedby",
     "label": "BasedonCharactersCreatedby",
     "description": "FIAF Glossary of Filmographic Terms B.4.5",
+    "explorerPath": "MovingImageRecord.WorkVariant.Activity.WritingActivity.WritingActivityEnums",
+    "owner": "WritingActivityTypeEnum",
+    "docsUrl": "https://av-efi.github.io/av-efi-schema/WritingActivityTypeEnum/#permissible-values"
+  },
+  {
+    "id": "enumMember:WritingActivityTypeEnum.Editor",
+    "kind": "enumMember",
+    "name": "Editor",
+    "label": "Editor",
+    "description": "Person responsible content-wise in a non-fiction film production, e.g. a documentary. Unlike a film editor, this activity includes duties like writing a concept, drafting the story, and preparing interviews in preproduction as well as supervising and supporting the camera team",
     "explorerPath": "MovingImageRecord.WorkVariant.Activity.WritingActivity.WritingActivityEnums",
     "owner": "WritingActivityTypeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/WritingActivityTypeEnum/#permissible-values"

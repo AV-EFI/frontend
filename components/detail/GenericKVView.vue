@@ -1,33 +1,33 @@
 <template>
-  <div class="space-y-3">
-    <KVNode
-      :value="data"
-      :path="rootPathComputed"
-      :labels="labels"
-      :tooltips="tooltips"
-      :mode="modeComputed"
-    />
+    <div class="space-y-3">
+        <KVNode
+            :value="data"
+            :path="rootPathComputed"
+            :labels="labels"
+            :tooltips="tooltips"
+            :mode="modeComputed"
+        />
 
-    <div
-      v-if="stale.length"
-      class="alert alert-warning mt-4"
-    >
-      {{ stale.length }} field(s) are not in the current model schema.
-      <details class="mt-2">
-        <summary class="cursor-pointer">
-          Show
-        </summary>
-        <ul class="list-disc ml-6 mt-2">
-          <li
-            v-for="p in stale"
-            :key="p"
-          >
-            <code>{{ p }}</code>
-          </li>
-        </ul>
-      </details>
+        <div
+            v-if="stale.length"
+            class="alert alert-warning mt-4"
+        >
+            {{ stale.length }} field(s) are not in the current model schema.
+            <details class="mt-2">
+                <summary class="cursor-pointer">
+                    Show
+                </summary>
+                <ul class="list-disc ml-6 mt-2">
+                    <li
+                        v-for="p in stale"
+                        :key="p"
+                    >
+                        <code>{{ p }}</code>
+                    </li>
+                </ul>
+            </details>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -37,22 +37,22 @@ type LabelEntry = { de?: string; en?: string };
 type Labels = Record<string, LabelEntry>;
 
 type TipEntry = {
-  de?: string;
-  en?: string;
-  showDetail?: boolean;
-  showSearch?: boolean;
+    de?: string;
+    en?: string;
+    showDetail?: boolean;
+    showSearch?: boolean;
 };
 type Tips = Record<string, TipEntry>;
 
 const props = defineProps<{
-  /** payload from backend decorator */
-  decorated: { data: any; _meta: { labels: Labels; tooltips: Tips; stalePaths: string[] } };
-  /** current UI language */
-  lang?: 'de' | 'en';
-  /** root path where `data` lives */
-  rootPath?: string;
-  /** visibility mode (affects showDetail/showSearch) */
-  mode?: 'detail' | 'search';
+    /** payload from backend decorator */
+    decorated: { data: any; _meta: { labels: Labels; tooltips: Tips; stalePaths: string[] } };
+    /** current UI language */
+    lang?: 'de' | 'en';
+    /** root path where `data` lives */
+    rootPath?: string;
+    /** visibility mode (affects showDetail/showSearch) */
+    mode?: 'detail' | 'search';
 }>();
 
 const lang = computed(() => props.lang ?? 'de');
@@ -77,7 +77,7 @@ function canonicalCandidates(path: string): string[] {
     }
     if (
         /\.manifestations\[\]\.(?!Manifestation\.)/.test(path) &&
-    /\.items\[\]\.(?!Item\.)/.test(path)
+        /\.items\[\]\.(?!Item\.)/.test(path)
     ) {
         out.push(
             path
@@ -140,9 +140,9 @@ const KVNode = defineComponent({
 
             const tip = tipFor(path);
             const title = (tip?.[lang.value as 'de' | 'en'] ||
-        tip?.en ||
-        tip?.de ||
-        '') as string;
+                tip?.en ||
+                tip?.de ||
+                '') as string;
 
             return h('div', { class: 'grid grid-cols-[240px_1fr] gap-3 items-start' }, [
                 h('div', { class: 'text-sm font-medium flex items-center gap-1' }, [

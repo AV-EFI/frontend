@@ -1,412 +1,412 @@
 <template>
-  <div class="space-y-4">
-    <!-- Comparison mode: two columns -->
-    <div v-if="compareWith" class="grid grid-cols-2 gap-8">
-      <!-- Left column -->
-      <div class="space-y-4">
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
-              {{ title }}
-            </p>
-            <h2 class="text-lg font-normal dark:text-primary-100">
-              <a
-                class="link link-hover"
-                :href="`/res/${data.handle}`"
-                target="_blank"
-              >
-                {{ primaryTitle || '—' }}
-              </a>
-            </h2>
-          </div>
-        </div>
+    <div class="space-y-4">
+        <!-- Comparison mode: two columns -->
+        <div v-if="compareWith" class="grid grid-cols-2 gap-8">
+            <!-- Left column -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
+                            {{ title }}
+                        </p>
+                        <h2 class="text-lg font-normal dark:text-primary-100">
+                            <a
+                                class="link link-hover"
+                                :href="`/res/${data.handle}`"
+                                target="_blank"
+                            >
+                                {{ primaryTitle || '—' }}
+                            </a>
+                        </h2>
+                    </div>
+                </div>
         
-        <table class="table table-xs table-zebra w-full">
-          <tbody>
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('handle') }">
-              <td class="font-semibold w-1/3">efi</td>
-              <td>{{ data?.handle || data?.compound_record?._source?.handle || '—' }}</td>
-            </tr>
+                <table class="table table-xs table-zebra w-full">
+                    <tbody>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('handle') }">
+                            <td class="font-semibold w-1/3">efi</td>
+                            <td>{{ data?.handle || data?.compound_record?._source?.handle || '—' }}</td>
+                        </tr>
             
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('alternativeTitles') }">
-              <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
-              <td>
-                <ul v-if="alternativeTitles.length" class="list-disc list-inside space-y-1">
-                  <li v-for="(alt, i) in alternativeTitles" :key="i">{{ alt }}</li>
-                </ul>
-                <span v-else>—</span>
-              </td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('alternativeTitles') }">
+                            <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
+                            <td>
+                                <ul v-if="alternativeTitles.length" class="list-disc list-inside space-y-1">
+                                    <li v-for="(alt, i) in alternativeTitles" :key="i">{{ alt }}</li>
+                                </ul>
+                                <span v-else>—</span>
+                            </td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('directors') }">
-              <td class="font-semibold">{{ $t('directors') }}</td>
-              <td>{{ directors || '—' }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('directors') }">
+                            <td class="font-semibold">{{ $t('directors') }}</td>
+                            <td>{{ directors || '—' }}</td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionYear') }">
-              <td class="font-semibold">{{ $t('year') }}</td>
-              <td>{{ productionYear || '—' }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionYear') }">
+                            <td class="font-semibold">{{ $t('year') }}</td>
+                            <td>{{ productionYear || '—' }}</td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionCountry') }">
-              <td class="font-semibold">{{ $t('country') }}</td>
-              <td>{{ productionCountry || '—' }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionCountry') }">
+                            <td class="font-semibold">{{ $t('country') }}</td>
+                            <td>{{ productionCountry || '—' }}</td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workType') }">
-              <td class="font-semibold">{{ $t('facettype') }}</td>
-              <td>{{ translateValue(workType) }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workType') }">
+                            <td class="font-semibold">{{ $t('facettype') }}</td>
+                            <td>{{ translateValue(workType) }}</td>
+                        </tr>
 
-            <template v-if="showDetailed">
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('producers') }">
-                <td class="font-semibold">{{ $t('producers') }}</td>
-                <td>{{ producers || '—' }}</td>
-              </tr>
+                        <template v-if="showDetailed">
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('producers') }">
+                                <td class="font-semibold">{{ $t('producers') }}</td>
+                                <td>{{ producers || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('castMembers') }">
-                <td class="font-semibold">{{ $t('castmembers') }}</td>
-                <td>{{ castMembers || '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('castMembers') }">
+                                <td class="font-semibold">{{ $t('castmembers') }}</td>
+                                <td>{{ castMembers || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('subjects') }">
-                <td class="font-semibold">{{ $t('subjects') }}</td>
-                <td>
-                  <div v-if="subjects.length" class="flex flex-wrap gap-1">
-                    <span v-for="(subj, i) in subjects" :key="i" class="badge badge-sm">{{ translateValue(subj) }}</span>
-                  </div>
-                  <span v-else>—</span>
-                </td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('subjects') }">
+                                <td class="font-semibold">{{ $t('subjects') }}</td>
+                                <td>
+                                    <div v-if="subjects.length" class="flex flex-wrap gap-1">
+                                        <span v-for="(subj, i) in subjects" :key="i" class="badge badge-sm">{{ translateValue(subj) }}</span>
+                                    </div>
+                                    <span v-else>—</span>
+                                </td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('genres') }">
-                <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
-                <td>
-                  <div v-if="genres.length" class="flex flex-wrap gap-1">
-                    <span v-for="(genre, i) in genres" :key="i" class="badge badge-sm">{{ translateValue(genre) }}</span>
-                  </div>
-                  <span v-else>—</span>
-                </td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('genres') }">
+                                <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
+                                <td>
+                                    <div v-if="genres.length" class="flex flex-wrap gap-1">
+                                        <span v-for="(genre, i) in genres" :key="i" class="badge badge-sm">{{ translateValue(genre) }}</span>
+                                    </div>
+                                    <span v-else>—</span>
+                                </td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('languages') }">
-                <td class="font-semibold">{{ $t('has_language') }}</td>
-                <td>{{ languages.length ? translateArray(languages).join(', ') : '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('languages') }">
+                                <td class="font-semibold">{{ $t('has_language') }}</td>
+                                <td>{{ languages.length ? translateArray(languages).join(', ') : '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('duration') }">
-                <td class="font-semibold">{{ $t('duration') }}</td>
-                <td>{{ duration || '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('duration') }">
+                                <td class="font-semibold">{{ $t('duration') }}</td>
+                                <td>{{ duration || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workCategory') }">
-                <td class="font-semibold">{{ $t('category') }}</td>
-                <td>{{ translateValue(workCategory) }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workCategory') }">
+                                <td class="font-semibold">{{ $t('category') }}</td>
+                                <td>{{ translateValue(workCategory) }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('dataProvider') }">
-                <td class="font-semibold">{{ $t('dataprovider') }}</td>
-                <td>{{ dataProvider || '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('dataProvider') }">
+                                <td class="font-semibold">{{ $t('dataprovider') }}</td>
+                                <td>{{ dataProvider || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('manifestationCount') }">
-                <td class="font-semibold">{{ $t('manifestations') }}</td>
-                <td>{{ manifestationCount }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('manifestationCount') }">
+                                <td class="font-semibold">{{ $t('manifestations') }}</td>
+                                <td>{{ manifestationCount }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('itemCount') }">
-                <td class="font-semibold">{{ $t('items') }}</td>
-                <td>{{ itemCount }}</td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('itemCount') }">
+                                <td class="font-semibold">{{ $t('items') }}</td>
+                                <td>{{ itemCount }}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
 
-      <!-- Right column -->
-      <div class="space-y-4">
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
-              {{ compareTitle }}
-            </p>
-            <h2 class="text-lg font-normal dark:text-primary-100">
-              <a
-                class="link link-hover"
-                :href="`/res/${compareWith.handle}`"
-                target="_blank"
-              >
-                {{ comparePrimaryTitle || '—' }}
-              </a>
-            </h2>
-          </div>
-        </div>
+            <!-- Right column -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
+                            {{ compareTitle }}
+                        </p>
+                        <h2 class="text-lg font-normal dark:text-primary-100">
+                            <a
+                                class="link link-hover"
+                                :href="`/res/${compareWith.handle}`"
+                                target="_blank"
+                            >
+                                {{ comparePrimaryTitle || '—' }}
+                            </a>
+                        </h2>
+                    </div>
+                </div>
         
-        <table class="table table-xs table-zebra w-full">
-          <tbody>
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('handle') }">
-              <td class="font-semibold w-1/3">efi</td>
-              <td>{{ compareWith?.handle || compareWith?.compound_record?._source?.handle || '—' }}</td>
-            </tr>
+                <table class="table table-xs table-zebra w-full">
+                    <tbody>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('handle') }">
+                            <td class="font-semibold w-1/3">efi</td>
+                            <td>{{ compareWith?.handle || compareWith?.compound_record?._source?.handle || '—' }}</td>
+                        </tr>
             
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('alternativeTitles') }">
-              <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
-              <td>
-                <ul v-if="compareAlternativeTitles.length" class="list-disc list-inside space-y-1">
-                  <li v-for="(alt, i) in compareAlternativeTitles" :key="i">{{ alt }}</li>
-                </ul>
-                <span v-else>—</span>
-              </td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('alternativeTitles') }">
+                            <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
+                            <td>
+                                <ul v-if="compareAlternativeTitles.length" class="list-disc list-inside space-y-1">
+                                    <li v-for="(alt, i) in compareAlternativeTitles" :key="i">{{ alt }}</li>
+                                </ul>
+                                <span v-else>—</span>
+                            </td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('directors') }">
-              <td class="font-semibold">{{ $t('directors') }}</td>
-              <td>{{ compareDirectors || '—' }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('directors') }">
+                            <td class="font-semibold">{{ $t('directors') }}</td>
+                            <td>{{ compareDirectors || '—' }}</td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionYear') }">
-              <td class="font-semibold">{{ $t('year') }}</td>
-              <td>{{ compareProductionYear || '—' }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionYear') }">
+                            <td class="font-semibold">{{ $t('year') }}</td>
+                            <td>{{ compareProductionYear || '—' }}</td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionCountry') }">
-              <td class="font-semibold">{{ $t('country') }}</td>
-              <td>{{ compareProductionCountry || '—' }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionCountry') }">
+                            <td class="font-semibold">{{ $t('country') }}</td>
+                            <td>{{ compareProductionCountry || '—' }}</td>
+                        </tr>
 
-            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workType') }">
-              <td class="font-semibold">{{ $t('facettype') }}</td>
-              <td>{{ translateValue(compareWorkType) }}</td>
-            </tr>
+                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workType') }">
+                            <td class="font-semibold">{{ $t('facettype') }}</td>
+                            <td>{{ translateValue(compareWorkType) }}</td>
+                        </tr>
 
-            <template v-if="showDetailed">
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('producers') }">
-                <td class="font-semibold">{{ $t('producers') }}</td>
-                <td>{{ compareProducers || '—' }}</td>
-              </tr>
+                        <template v-if="showDetailed">
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('producers') }">
+                                <td class="font-semibold">{{ $t('producers') }}</td>
+                                <td>{{ compareProducers || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('castMembers') }">
-                <td class="font-semibold">{{ $t('castmembers') }}</td>
-                <td>{{ compareCastMembers || '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('castMembers') }">
+                                <td class="font-semibold">{{ $t('castmembers') }}</td>
+                                <td>{{ compareCastMembers || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('subjects') }">
-                <td class="font-semibold">{{ $t('subjects') }}</td>
-                <td>
-                  <div v-if="compareSubjects.length" class="flex flex-wrap gap-1">
-                    <span v-for="(subj, i) in compareSubjects" :key="i" class="badge badge-sm">{{ translateValue(subj) }}</span>
-                  </div>
-                  <span v-else>—</span>
-                </td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('subjects') }">
+                                <td class="font-semibold">{{ $t('subjects') }}</td>
+                                <td>
+                                    <div v-if="compareSubjects.length" class="flex flex-wrap gap-1">
+                                        <span v-for="(subj, i) in compareSubjects" :key="i" class="badge badge-sm">{{ translateValue(subj) }}</span>
+                                    </div>
+                                    <span v-else>—</span>
+                                </td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('genres') }">
-                <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
-                <td>
-                  <div v-if="compareGenres.length" class="flex flex-wrap gap-1">
-                    <span v-for="(genre, i) in compareGenres" :key="i" class="badge badge-sm">{{ translateValue(genre) }}</span>
-                  </div>
-                  <span v-else>—</span>
-                </td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('genres') }">
+                                <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
+                                <td>
+                                    <div v-if="compareGenres.length" class="flex flex-wrap gap-1">
+                                        <span v-for="(genre, i) in compareGenres" :key="i" class="badge badge-sm">{{ translateValue(genre) }}</span>
+                                    </div>
+                                    <span v-else>—</span>
+                                </td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('languages') }">
-                <td class="font-semibold">{{ $t('has_language') }}</td>
-                <td>{{ compareLanguages.length ? translateArray(compareLanguages).join(', ') : '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('languages') }">
+                                <td class="font-semibold">{{ $t('has_language') }}</td>
+                                <td>{{ compareLanguages.length ? translateArray(compareLanguages).join(', ') : '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('duration') }">
-                <td class="font-semibold">{{ $t('duration') }}</td>
-                <td>{{ compareDuration || '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('duration') }">
+                                <td class="font-semibold">{{ $t('duration') }}</td>
+                                <td>{{ compareDuration || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workCategory') }">
-                <td class="font-semibold">{{ $t('category') }}</td>
-                <td>{{ translateValue(compareWorkCategory) }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workCategory') }">
+                                <td class="font-semibold">{{ $t('category') }}</td>
+                                <td>{{ translateValue(compareWorkCategory) }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('dataProvider') }">
-                <td class="font-semibold">{{ $t('dataprovider') }}</td>
-                <td>{{ compareDataProvider || '—' }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('dataProvider') }">
+                                <td class="font-semibold">{{ $t('dataprovider') }}</td>
+                                <td>{{ compareDataProvider || '—' }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('manifestationCount') }">
-                <td class="font-semibold">{{ $t('manifestations') }}</td>
-                <td>{{ compareManifestationCount }}</td>
-              </tr>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('manifestationCount') }">
+                                <td class="font-semibold">{{ $t('manifestations') }}</td>
+                                <td>{{ compareManifestationCount }}</td>
+                            </tr>
 
-              <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('itemCount') }">
-                <td class="font-semibold">{{ $t('items') }}</td>
-                <td>{{ compareItemCount }}</td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Single mode: normal view -->
-    <div v-else class="space-y-4">
-      <!-- Header with toggle -->
-      <div class="flex items-center justify-between gap-4">
-        <div class="flex-1">
-          <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
-            {{ title }}
-          </p>
-          <h2 class="text-lg font-normal dark:text-primary-100">
-            <a
-              class="link link-hover"
-              :href="`/res/${data.handle}`"
-              target="_blank"
-            >
-              {{ primaryTitle || '—' }}
-            </a>
-          </h2>
+                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('itemCount') }">
+                                <td class="font-semibold">{{ $t('items') }}</td>
+                                <td>{{ compareItemCount }}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <button
-          type="button"
-          class="btn btn-sm btn-ghost"
-          @click="showDetailed = !showDetailed"
-        >
-          <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="w-4 h-4" />
-          {{ showDetailed ? $t('showLess') : $t('showMore') }}
-        </button>
-      </div>
 
-      <!-- Compact table -->
-      <table class="table table-xs table-zebra w-full">
-        <tbody>
-          <!-- Essential properties (always visible) -->
-          <tr>
-            <td class="font-semibold w-1/3">efi</td>
-            <td>{{ data?.handle || data?.compound_record?._source?.handle || '—' }}</td>
-          </tr>
+        <!-- Single mode: normal view -->
+        <div v-else class="space-y-4">
+            <!-- Header with toggle -->
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1">
+                    <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
+                        {{ title }}
+                    </p>
+                    <h2 class="text-lg font-normal dark:text-primary-100">
+                        <a
+                            class="link link-hover"
+                            :href="`/res/${data.handle}`"
+                            target="_blank"
+                        >
+                            {{ primaryTitle || '—' }}
+                        </a>
+                    </h2>
+                </div>
+                <button
+                    type="button"
+                    class="btn btn-sm btn-ghost"
+                    @click="showDetailed = !showDetailed"
+                >
+                    <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="w-4 h-4" />
+                    {{ showDetailed ? $t('showLess') : $t('showMore') }}
+                </button>
+            </div>
+
+            <!-- Compact table -->
+            <table class="table table-xs table-zebra w-full">
+                <tbody>
+                    <!-- Essential properties (always visible) -->
+                    <tr>
+                        <td class="font-semibold w-1/3">efi</td>
+                        <td>{{ data?.handle || data?.compound_record?._source?.handle || '—' }}</td>
+                    </tr>
           
-          <tr>
-            <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
-            <td>
-              <ul v-if="alternativeTitles.length" class="list-disc list-inside space-y-1">
-                <li v-for="(alt, i) in alternativeTitles" :key="i">{{ alt }}</li>
-              </ul>
-              <span v-else>—</span>
-            </td>
-          </tr>
+                    <tr>
+                        <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
+                        <td>
+                            <ul v-if="alternativeTitles.length" class="list-disc list-inside space-y-1">
+                                <li v-for="(alt, i) in alternativeTitles" :key="i">{{ alt }}</li>
+                            </ul>
+                            <span v-else>—</span>
+                        </td>
+                    </tr>
 
-          <tr>
-            <td class="font-semibold">{{ $t('directors') }}</td>
-            <td>{{ directors || '—' }}</td>
-          </tr>
+                    <tr>
+                        <td class="font-semibold">{{ $t('directors') }}</td>
+                        <td>{{ directors || '—' }}</td>
+                    </tr>
 
-          <tr>
-            <td class="font-semibold">{{ $t('year') }}</td>
-            <td>{{ productionYear || '—' }}</td>
-          </tr>
+                    <tr>
+                        <td class="font-semibold">{{ $t('year') }}</td>
+                        <td>{{ productionYear || '—' }}</td>
+                    </tr>
 
-          <tr>
-            <td class="font-semibold">{{ $t('country') }}</td>
-            <td>{{ productionCountry || '—' }}</td>
-          </tr>
+                    <tr>
+                        <td class="font-semibold">{{ $t('country') }}</td>
+                        <td>{{ productionCountry || '—' }}</td>
+                    </tr>
 
-          <tr>
-            <td class="font-semibold">{{ $t('facettype') }}</td>
-            <td>{{ translateValue(workType) }}</td>
-          </tr>
+                    <tr>
+                        <td class="font-semibold">{{ $t('facettype') }}</td>
+                        <td>{{ translateValue(workType) }}</td>
+                    </tr>
 
-          <!-- Detailed properties (shown when expanded) -->
-          <template v-if="showDetailed">
-            <tr>
-              <td class="font-semibold">{{ $t('producers') }}</td>
-              <td>{{ producers || '—' }}</td>
-            </tr>
+                    <!-- Detailed properties (shown when expanded) -->
+                    <template v-if="showDetailed">
+                        <tr>
+                            <td class="font-semibold">{{ $t('producers') }}</td>
+                            <td>{{ producers || '—' }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('castmembers') }}</td>
-              <td>{{ castMembers || '—' }}</td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('castmembers') }}</td>
+                            <td>{{ castMembers || '—' }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('subjects') }}</td>
-              <td>
-                <div v-if="subjects.length" class="flex flex-wrap gap-1">
-                  <span v-for="(subj, i) in subjects" :key="i" class="badge badge-sm">{{ translateValue(subj) }}</span>
-                </div>
-                <span v-else>—</span>
-              </td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('subjects') }}</td>
+                            <td>
+                                <div v-if="subjects.length" class="flex flex-wrap gap-1">
+                                    <span v-for="(subj, i) in subjects" :key="i" class="badge badge-sm">{{ translateValue(subj) }}</span>
+                                </div>
+                                <span v-else>—</span>
+                            </td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
-              <td>
-                <div v-if="genres.length" class="flex flex-wrap gap-1">
-                  <span v-for="(genre, i) in genres" :key="i" class="badge badge-sm">{{ translateValue(genre) }}</span>
-                </div>
-                <span v-else>—</span>
-              </td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
+                            <td>
+                                <div v-if="genres.length" class="flex flex-wrap gap-1">
+                                    <span v-for="(genre, i) in genres" :key="i" class="badge badge-sm">{{ translateValue(genre) }}</span>
+                                </div>
+                                <span v-else>—</span>
+                            </td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('has_language') }}</td>
-              <td>{{ languages.length ? translateArray(languages).join(', ') : '—' }}</td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('has_language') }}</td>
+                            <td>{{ languages.length ? translateArray(languages).join(', ') : '—' }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('duration') }}</td>
-              <td>{{ duration || '—' }}</td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('duration') }}</td>
+                            <td>{{ duration || '—' }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('category') }}</td>
-              <td>{{ translateValue(workCategory) }}</td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('category') }}</td>
+                            <td>{{ translateValue(workCategory) }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('dataprovider') }}</td>
-              <td>{{ dataProvider || '—' }}</td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('dataprovider') }}</td>
+                            <td>{{ dataProvider || '—' }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('manifestations') }}</td>
-              <td>{{ manifestationCount }}</td>
-            </tr>
+                        <tr>
+                            <td class="font-semibold">{{ $t('manifestations') }}</td>
+                            <td>{{ manifestationCount }}</td>
+                        </tr>
 
-            <tr>
-              <td class="font-semibold">{{ $t('items') }}</td>
-              <td>{{ itemCount }}</td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
-    </div>
+                        <tr>
+                            <td class="font-semibold">{{ $t('items') }}</td>
+                            <td>{{ itemCount }}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
     
-    <!-- Controls for comparison mode -->
-    <div v-if="compareWith" class="flex items-center justify-between gap-4 mt-4">
-      <button
-        type="button"
-        class="btn btn-sm btn-ghost"
-        @click="showDetailed = !showDetailed"
-      >
-        <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="w-4 h-4" />
-        {{ showDetailed ? $t('showLess') : $t('showMore') }}
-      </button>
+        <!-- Controls for comparison mode -->
+        <div v-if="compareWith" class="flex items-center justify-between gap-4 mt-4">
+            <button
+                type="button"
+                class="btn btn-sm btn-ghost"
+                @click="showDetailed = !showDetailed"
+            >
+                <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="w-4 h-4" />
+                {{ showDetailed ? $t('showLess') : $t('showMore') }}
+            </button>
       
-      <label class="flex items-center gap-2 cursor-pointer">
-        <input
-          v-model="highlightDiffs"
-          type="checkbox"
-          class="checkbox checkbox-sm"
-        />
-        <span class="text-sm">{{ $t('highlightDifferences') }}</span>
-      </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                    v-model="highlightDiffs"
+                    type="checkbox"
+                    class="checkbox checkbox-sm"
+                />
+                <span class="text-sm">{{ $t('highlightDifferences') }}</span>
+            </label>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
 const data = defineModel({ type: Object as PropType<ElasticGetByIdResponse>, required: true });
 const props = defineProps<{
-  title: string;
-  compareWith?: ElasticGetByIdResponse;
-  compareTitle?: string;
+    title: string;
+    compareWith?: ElasticGetByIdResponse;
+    compareTitle?: string;
 }>();
 
 const showDetailed = ref(false);
@@ -824,41 +824,41 @@ function isDifferent(field: string): boolean {
     if (!props.compareWith) return false;
     
     switch (field) {
-    case 'handle':
-        return (data.value?.handle || data.value?.compound_record?._source?.handle) !== 
-                   (props.compareWith?.handle || props.compareWith?.compound_record?._source?.handle);
-    case 'alternativeTitles':
-        return JSON.stringify(alternativeTitles.value) !== JSON.stringify(compareAlternativeTitles.value);
-    case 'directors':
-        return directors.value !== compareDirectors.value;
-    case 'producers':
-        return producers.value !== compareProducers.value;
-    case 'castMembers':
-        return castMembers.value !== compareCastMembers.value;
-    case 'productionYear':
-        return productionYear.value !== compareProductionYear.value;
-    case 'productionCountry':
-        return productionCountry.value !== compareProductionCountry.value;
-    case 'subjects':
-        return JSON.stringify(subjects.value) !== JSON.stringify(compareSubjects.value);
-    case 'genres':
-        return JSON.stringify(genres.value) !== JSON.stringify(compareGenres.value);
-    case 'languages':
-        return JSON.stringify(languages.value) !== JSON.stringify(compareLanguages.value);
-    case 'duration':
-        return duration.value !== compareDuration.value;
-    case 'workCategory':
-        return workCategory.value !== compareWorkCategory.value;
-    case 'workType':
-        return workType.value !== compareWorkType.value;
-    case 'dataProvider':
-        return dataProvider.value !== compareDataProvider.value;
-    case 'manifestationCount':
-        return manifestationCount.value !== compareManifestationCount.value;
-    case 'itemCount':
-        return itemCount.value !== compareItemCount.value;
-    default:
-        return false;
+        case 'handle':
+            return (data.value?.handle || data.value?.compound_record?._source?.handle) !== 
+                (props.compareWith?.handle || props.compareWith?.compound_record?._source?.handle);
+        case 'alternativeTitles':
+            return JSON.stringify(alternativeTitles.value) !== JSON.stringify(compareAlternativeTitles.value);
+        case 'directors':
+            return directors.value !== compareDirectors.value;
+        case 'producers':
+            return producers.value !== compareProducers.value;
+        case 'castMembers':
+            return castMembers.value !== compareCastMembers.value;
+        case 'productionYear':
+            return productionYear.value !== compareProductionYear.value;
+        case 'productionCountry':
+            return productionCountry.value !== compareProductionCountry.value;
+        case 'subjects':
+            return JSON.stringify(subjects.value) !== JSON.stringify(compareSubjects.value);
+        case 'genres':
+            return JSON.stringify(genres.value) !== JSON.stringify(compareGenres.value);
+        case 'languages':
+            return JSON.stringify(languages.value) !== JSON.stringify(compareLanguages.value);
+        case 'duration':
+            return duration.value !== compareDuration.value;
+        case 'workCategory':
+            return workCategory.value !== compareWorkCategory.value;
+        case 'workType':
+            return workType.value !== compareWorkType.value;
+        case 'dataProvider':
+            return dataProvider.value !== compareDataProvider.value;
+        case 'manifestationCount':
+            return manifestationCount.value !== compareManifestationCount.value;
+        case 'itemCount':
+            return itemCount.value !== compareItemCount.value;
+        default:
+            return false;
     }
 }
 </script>

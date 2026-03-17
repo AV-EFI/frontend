@@ -1,21 +1,21 @@
 <template>
-  <div class="mt-4">
-    <section>
-      <div class="grid grid-cols-7 xl:grid-cols-8 gap-2 w-100 grid-rows-[48px_64px_64px_auto_auto_auto_64px_64px_auto_auto_auto_auto_auto_auto] auto-rows-fr">
-        <ViewsWorkViewEditorStretched
-          v-if="prev"
-          v-model="prev"
-          @update-target-model-g-p="onUpdateTargetModelGP"
-        />
-        <ViewsWorkViewEditorStretched
-          v-if="current"
-          v-model="current"
-          @update-target-model-g-p="onUpdateTargetModelGP"
-        />
-        <ViewsWorkViewEditorResultStretched v-model="mergedDataset" />
-      </div>
-    </section>
-  </div>
+    <div class="mt-4">
+        <section>
+            <div class="grid grid-cols-7 xl:grid-cols-8 gap-2 w-100 grid-rows-[48px_64px_64px_auto_auto_auto_64px_64px_auto_auto_auto_auto_auto_auto] auto-rows-fr">
+                <ViewsWorkViewEditorStretched
+                    v-if="prev"
+                    v-model="prev"
+                    @update-target-model-g-p="onUpdateTargetModelGP"
+                />
+                <ViewsWorkViewEditorStretched
+                    v-if="current"
+                    v-model="current"
+                    @update-target-model-g-p="onUpdateTargetModelGP"
+                />
+                <ViewsWorkViewEditorResultStretched v-model="mergedDataset" />
+            </div>
+        </section>
+    </div>
 </template>
 <script lang="ts" setup>
 import type { MergedDataset } from '@/models/interfaces/manual/IMergedDataSet';

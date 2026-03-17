@@ -13,7 +13,7 @@
             <span v-for="chip in chips" :key="chip.id" class="badge badge-outline gap-2">
                 <span>{{ chip.label }}</span>
                 <button type="button" class="btn btn-circle btn-ghost btn-xs" :aria-label="`Entferne ${chip.label}`"
-                    @click="$emit('remove', chip.id)">
+                        @click="$emit('remove', chip.id)">
                     x
                 </button>
             </span>

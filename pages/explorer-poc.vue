@@ -4,12 +4,12 @@
             <ExplorerSearchBox v-model="searchQueryRef" :loading="isSearching" @search="handleSearch" />
             <p v-if="searchError" class="alert alert-error text-sm">{{ searchError }}</p>
             <WorkResultList :results="searchResultsRef" :selected-handle="selectedWorkHandleRef"
-                :loading="isSearching || isLoadingWork" @select="handleSelectWork" />
+                            :loading="isSearching || isLoadingWork" @select="handleSelectWork" />
             <div v-if="selectedWorkLevelLabel" class="selected-level-callout" role="status">
                 <span class="selected-level-heading">Aktuelle Ebene</span>
                 <span class="selected-level-value">
                     <span class="selected-level-indicator" :style="{ backgroundColor: selectedWorkLevelColor }"
-                        aria-hidden="true" />
+                          aria-hidden="true" />
                     <span>{{ selectedWorkLevelLabel }}</span>
                 </span>
             </div>
@@ -19,8 +19,8 @@
         <section class="w-full md:w-1/2">
             <ClientOnly>
                 <GraphView v-if="graphNodes.length" :nodes="graphNodes" :edges="graphEdges"
-                    :selected-node-id="selectedNodeIdRef" :aria-label="graphAriaLabel"
-                    @node-selected="onNodeSelected" />
+                           :selected-node-id="selectedNodeIdRef" :aria-label="graphAriaLabel"
+                           @node-selected="onNodeSelected" />
                 <template #fallback>
                     <div class="flex h-96 items-center justify-center rounded-box bg-base-200">
                         <p class="text-sm text-base-content/70">Graph wird geladen...</p>
@@ -34,7 +34,7 @@
 
         <section class="flex w-full flex-col gap-4 md:w-1/4">
             <SidebarPanel :selected-node="selectedNodeRef" :node-list="nodeListRef" :stats="graphStats"
-                :agent-facets="agentFacetsRef" @select-node="onNodeSelected" @add-context="addNodeToContext" />
+                          :agent-facets="agentFacetsRef" @select-node="onNodeSelected" @add-context="addNodeToContext" />
             <ContextTray :chips="contextChipsRef" @remove="removeContextChip" @clear="clearContextChips" />
             <ChatPanel :messages="chatMessagesRef" :sending="isSendingMessageRef" @send="handleChatMessage" />
         </section>

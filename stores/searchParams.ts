@@ -1,29 +1,29 @@
 import { defineStore } from 'pinia';
 
 export const useSearchParamsStore = defineStore({
-    id: 'searchParamsStore',
-    state: () => {
-        return {
-            //formData: useStorage('avefi-searchParams', [])            
-            formData: {
-                searchToggle: false,
-                regularSearch: {
-                    searchTerm: '',
-                    optionsList: [] as IOptions[]
-                } as IRegularSearch | null,
-                extendedSearch: {
-                    searchTermExtended: '', operators: [{
-                        searchTerm: '',
-                        booleanOperator: 'and',
-                        fieldOperator: 'Title'
-                    }
-                    ]
-                } as IExtendedSearch | null
-            }
-        };
-    },
-    actions: {
-        /*
+  id: 'searchParamsStore',
+  state: () => {
+    return {
+      //formData: useStorage('avefi-searchParams', [])            
+      formData: {
+        searchToggle: false,
+        regularSearch: {
+          searchTerm: '',
+          optionsList: [] as IOptions[]
+        } as IRegularSearch | null,
+        extendedSearch: {
+          searchTermExtended: '', operators: [{
+            searchTerm: '',
+            booleanOperator: 'and',
+            fieldOperator: 'Title'
+          }
+          ]
+        } as IExtendedSearch | null
+      }
+    };
+  },
+  actions: {
+    /*
         async searchMovies({ search }: { search?: string }) {
             let apiUrl = `${useRuntimeConfig().public.frontendUrl}/api/work-levels/sampleData`;
             if (search) {
@@ -48,14 +48,14 @@ export const useSearchParamsStore = defineStore({
             return null;
         }
             */
-    },
-    getters: {
-    },
-    persist: {
-        key: 'avefi-searchparams',
-        storage: persistedState.sessionStorage,
-        paths: ['formData']
-    }
+  },
+  getters: {
+  },
+  persist: {
+    key: 'avefi-searchparams',
+    storage: persistedState.sessionStorage,
+    paths: ['formData']
+  }
 }
 );
 

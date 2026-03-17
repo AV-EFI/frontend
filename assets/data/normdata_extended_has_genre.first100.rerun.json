@@ -1,0 +1,829 @@
+[
+  {
+    "genre": "Abenteuerfilm",
+    "gnd_id": "4140759-3",
+    "gnd_label": "Abenteuerfilm",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4140759-3",
+    "gnd_lobid_json": "https://lobid.org/gnd/4140759-3.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4140759-3",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Abenteuerfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q319221",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q319221"
+  },
+  {
+    "genre": "Amateurfilm",
+    "gnd_id": "4132119-4",
+    "gnd_label": "Amateurfilm",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4132119-4",
+    "gnd_lobid_json": "https://lobid.org/gnd/4132119-4.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4132119-4",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Amateurfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q455620",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q455620"
+  },
+  {
+    "genre": "Animationsfilm",
+    "gnd_id": "4142484-0",
+    "gnd_label": "Animationsfilm",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "AuthorityResource",
+      "SubjectHeading"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4142484-0",
+    "gnd_lobid_json": "https://lobid.org/gnd/4142484-0.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4142484-0",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Trickfilm",
+      "Animationsfilme",
+      "Animated cartoon",
+      "Animation <Film>",
+      "Multiplikationsfilm",
+      "Trickfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q202866",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q202866"
+  },
+  {
+    "genre": "Antikriegsfilm",
+    "gnd_id": "4165687-8",
+    "gnd_label": "Kriegsfilm",
+    "gnd_type": [
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "variant_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4165687-8",
+    "gnd_lobid_json": "https://lobid.org/gnd/4165687-8.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4165687-8",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Antikriegsfilm",
+      "Kriegsfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Bergfilm",
+    "gnd_id": "4477724-3",
+    "gnd_label": "Bergfilm",
+    "gnd_type": [
+      "SubjectHeading",
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4477724-3",
+    "gnd_lobid_json": "https://lobid.org/gnd/4477724-3.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4477724-3",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q819652",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q819652"
+  },
+  {
+    "genre": "Biopic",
+    "gnd_id": "4373947-7",
+    "gnd_label": "Biografischer Film",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "variant_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4373947-7",
+    "gnd_lobid_json": "https://lobid.org/gnd/4373947-7.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4373947-7",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Biographischer Film",
+      "Biopic",
+      "Filmbiografie",
+      "Filmbiographie",
+      "Biopicture"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Documentation/Report",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Dokumentarfilm",
+    "gnd_id": "4012653-5",
+    "gnd_label": "Dokumentarfilm",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4012653-5",
+    "gnd_lobid_json": "https://lobid.org/gnd/4012653-5.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4012653-5",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Nichtfiktionaler Film",
+      "Dokumentationsfilm",
+      "Dokumentarfilme",
+      "Dokumentarischer Film"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q93204",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q93204"
+  },
+  {
+    "genre": "Dokumentation",
+    "gnd_id": "4012656-0",
+    "gnd_label": "Dokumentation",
+    "gnd_type": [
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4012656-0",
+    "gnd_lobid_json": "https://lobid.org/gnd/4012656-0.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4012656-0",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Literaturdokumentation",
+      "Dokumentationswesen"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q788790",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q788790"
+  },
+  {
+    "genre": "Drama",
+    "gnd_id": "4012899-4",
+    "gnd_label": "Drama",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4012899-4",
+    "gnd_lobid_json": "https://lobid.org/gnd/4012899-4.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4012899-4",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Dramatisches Werk",
+      "Dramatik",
+      "Theaterstück <Sachschlagwort>",
+      "Dramen",
+      "Schauspiel"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q212841",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q212841"
+  },
+  {
+    "genre": "Fantastischer Film",
+    "gnd_id": "4126326-1",
+    "gnd_label": "Fantastischer Film",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4126326-1",
+    "gnd_lobid_json": "https://lobid.org/gnd/4126326-1.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4126326-1",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Phantastische Filme",
+      "Fantasy-Film",
+      "Phantastischer Film",
+      "Fantastische Filme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Fiction",
+    "gnd_id": "10305244-6",
+    "gnd_label": "Fiction",
+    "gnd_type": [
+      "CorporateBody",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/10305244-6",
+    "gnd_lobid_json": "https://lobid.org/gnd/10305244-6.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/10305244-6",
+    "viaf_id": "140338891",
+    "viaf_uri": "https://viaf.org/en/viaf/140338891",
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q410236",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q410236"
+  },
+  {
+    "genre": "Heimatfilm",
+    "gnd_id": "4138226-2",
+    "gnd_label": "Heimatfilm",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4138226-2",
+    "gnd_lobid_json": "https://lobid.org/gnd/4138226-2.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4138226-2",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Heimatfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q304538",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q304538"
+  },
+  {
+    "genre": "Horrorfilm",
+    "gnd_id": "4127415-5",
+    "gnd_label": "Horrorfilm",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4127415-5",
+    "gnd_lobid_json": "https://lobid.org/gnd/4127415-5.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4127415-5",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Schauerfilm",
+      "Gruselfilm"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q200092",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q200092"
+  },
+  {
+    "genre": "Kammerspielfilm",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q1502766",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q1502766"
+  },
+  {
+    "genre": "Kinderfilm",
+    "gnd_id": "4163815-3",
+    "gnd_label": "Kinderfilm",
+    "gnd_type": [
+      "SubjectHeading",
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4163815-3",
+    "gnd_lobid_json": "https://lobid.org/gnd/4163815-3.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4163815-3",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Kinderfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q1674641",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q1674641"
+  },
+  {
+    "genre": "Kom├Âdie",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Kriminalfilm",
+    "gnd_id": "4033175-1",
+    "gnd_label": "Kriminalfilm",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "AuthorityResource",
+      "SubjectHeading"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4033175-1",
+    "gnd_lobid_json": "https://lobid.org/gnd/4033175-1.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4033175-1",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Kriminalfilme",
+      "Detektivfilm"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q959790",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q959790"
+  },
+  {
+    "genre": "Lehrfilm",
+    "gnd_id": "4167177-6",
+    "gnd_label": "Lehrfilm",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4167177-6",
+    "gnd_lobid_json": "https://lobid.org/gnd/4167177-6.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4167177-6",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Lehrfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Melodram",
+    "gnd_id": "4169388-7",
+    "gnd_label": "Melodram",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4169388-7",
+    "gnd_lobid_json": "https://lobid.org/gnd/4169388-7.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4169388-7",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q191489",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q191489"
+  },
+  {
+    "genre": "Musikfilm",
+    "gnd_id": "4170822-2",
+    "gnd_label": "Musikfilm",
+    "gnd_type": [
+      "SubjectHeadingSensoStricto",
+      "SubjectHeading",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4170822-2",
+    "gnd_lobid_json": "https://lobid.org/gnd/4170822-2.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4170822-2",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Musikfilme"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q842256",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q842256"
+  },
+  {
+    "genre": "M├ñrchenfilm",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Operettenfilm",
+    "gnd_id": "4574084-7",
+    "gnd_label": "Operettenfilm",
+    "gnd_type": [
+      "SubjectHeading",
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4574084-7",
+    "gnd_lobid_json": "https://lobid.org/gnd/4574084-7.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4574084-7",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Tonfilmoperette",
+      "Filmoperette",
+      "Operette / Musikfilm"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Satire",
+    "gnd_id": "4051752-4",
+    "gnd_label": "Satire",
+    "gnd_type": [
+      "SubjectHeading",
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4051752-4",
+    "gnd_lobid_json": "https://lobid.org/gnd/4051752-4.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4051752-4",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Satiren"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q128758",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q128758"
+  },
+  {
+    "genre": "Schwarze Kom├Âdie",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Science-Fiction",
+    "gnd_id": "1098433076",
+    "gnd_label": "Science-Fiction",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/1098433076",
+    "gnd_lobid_json": "https://lobid.org/gnd/1098433076.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/1098433076",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Science Fiction",
+      "Sciencefiction",
+      "Utopie <Sciencefiction>"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q24925",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q24925"
+  },
+  {
+    "genre": "Spielfilm",
+    "gnd_id": "1286825091",
+    "gnd_label": "Spielfilm",
+    "gnd_type": [
+      "AuthorityResource",
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/1286825091",
+    "gnd_lobid_json": "https://lobid.org/gnd/1286825091.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/1286825091",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Spiel-Film"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q12912091",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q12912091"
+  },
+  {
+    "genre": "Theaterfilm",
+    "gnd_id": "1070597430",
+    "gnd_label": "Theaterfilmfest (2014 : Düsseldorf)",
+    "gnd_type": [
+      "ConferenceOrEvent",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_contains",
+    "gnd_uri": "https://d-nb.info/gnd/1070597430",
+    "gnd_lobid_json": "https://lobid.org/gnd/1070597430.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/1070597430",
+    "viaf_id": "315587433",
+    "viaf_uri": "https://viaf.org/en/viaf/315587433",
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Thriller",
+    "gnd_id": "4185351-9",
+    "gnd_label": "Thriller",
+    "gnd_type": [
+      "SubjectHeading",
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4185351-9",
+    "gnd_lobid_json": "https://lobid.org/gnd/4185351-9.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4185351-9",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Psychothriller"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q44320",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q44320"
+  },
+  {
+    "genre": "Unterhaltung",
+    "gnd_id": "4186996-5",
+    "gnd_label": "Unterhaltung",
+    "gnd_type": [
+      "SubjectHeading",
+      "SubjectHeadingSensoStricto",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "preferred_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4186996-5",
+    "gnd_lobid_json": "https://lobid.org/gnd/4186996-5.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4186996-5",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q173799",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q173799"
+  },
+  {
+    "genre": "WIRTSCHAFTSFILM",
+    "gnd_id": "4248464-9",
+    "gnd_label": "Industriefilm",
+    "gnd_type": [
+      "SubjectHeading",
+      "AuthorityResource",
+      "SubjectHeadingSensoStricto"
+    ],
+    "gnd_match_type": "variant_exact",
+    "gnd_uri": "https://d-nb.info/gnd/4248464-9",
+    "gnd_lobid_json": "https://lobid.org/gnd/4248464-9.json",
+    "gnd_explorer": "https://explore.gnd.network/gnd/4248464-9",
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [
+      "Wirtschaftsfilm",
+      "Unternehmensfilm"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Western",
+    "gnd_id": null,
+    "gnd_label": "University of Western Ontario",
+    "gnd_type": [
+      "CorporateBody",
+      "AuthorityResource"
+    ],
+    "gnd_match_type": "variant_exact",
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": "145077589",
+    "viaf_uri": "https://viaf.org/en/viaf/145077589",
+    "gnd_synonyms": [
+      "Western",
+      "Western University",
+      "Universidad de Western Ontario",
+      "Western University Canada",
+      "Université de Western Ontario"
+    ],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": "Q248180",
+    "wikidata_uri": "https://www.wikidata.org/wiki/Q248180"
+  },
+  {
+    "genre": "Wirtschaftsfilm > Imagefilm",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  },
+  {
+    "genre": "Wirtschaftsfilm >Werbefilm",
+    "gnd_id": null,
+    "gnd_label": null,
+    "gnd_type": [],
+    "gnd_match_type": null,
+    "gnd_uri": null,
+    "gnd_lobid_json": null,
+    "gnd_explorer": null,
+    "viaf_id": null,
+    "viaf_uri": null,
+    "gnd_synonyms": [],
+    "gnd_parent_id": null,
+    "gnd_broader_ids": [],
+    "gnd_related_ids": [],
+    "gnd_narrower_ids": [],
+    "wikidata_id": null,
+    "wikidata_uri": null
+  }
+]

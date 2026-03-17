@@ -1,197 +1,178 @@
 <template>
-  <GlobalBreadcrumbsComp
-    :breadcrumbs="[['Home','/'],[$t('userGlossary'),'admin/user_tooltips']]"
-  />
-  <NuxtLayout name="partial-layout-1-center" padding-class="p-0">
-    <template #title>
-      <h2 class="text-2xl font-bold pl-2">{{ $t('ut.pageTitle') }}</h2>
-    </template>
+    <GlobalBreadcrumbsComp :breadcrumbs="[['Home','/'],[$t('userGlossary'),'admin/user_tooltips']]" />
+    <NuxtLayout name="partial-layout-1-center" padding-class="p-0">
+        <template #title>
+            <h2 class="text-2xl font-bold pl-2">{{ $t('ut.pageTitle') }}</h2>
+        </template>
 
-    <template #cardBody>
-      <div class="mx-auto p-2 grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
-        <!-- LEFT: Tree + controls -->
-        <section>
-          <div v-if="!canEdit" class="alert alert-info my-3">
-            {{ $t('ut.editingDisabled') }}
-          </div>
+        <template #cardBody>
+            <div class="mx-auto p-2 grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+                <!-- LEFT: Tree + controls -->
+                <section>
+                    <div v-if="!canEdit" class="alert alert-info my-3">
+                        {{ $t('ut.editingDisabled') }}
+                    </div>
 
-          <h1 class="text-2xl font-bold mb-2">{{ $t('ut.sectionTitle') }}</h1>
-          <div class="text-sm opacity-70 mb-3" v-if="updatedAt">
-            {{ $t('ut.lastSaved') }}: {{ formatDate(updatedAt) }}
-          </div>
+                    <h1 class="text-2xl font-bold mb-2">{{ $t('ut.sectionTitle') }}</h1>
+                    <div class="text-sm opacity-70 mb-3" v-if="updatedAt">
+                        {{ $t('ut.lastSaved') }}: {{ formatDate(updatedAt) }}
+                    </div>
 
-          <div class="mb-3">
-            <input v-model="q" class="input input-bordered w-full" :placeholder="$t('ut.searchPlaceholder')" />
-          </div>
+                    <div class="mb-3">
+                        <input v-model="q" class="input input-bordered w-full" :placeholder="$t('ut.searchPlaceholder')" />
+                    </div>
 
-          <div class="border rounded-lg p-2 h-[70vh] overflow-auto">
-            <div v-if="loadingTree" class="p-4 opacity-60">{{ $t('ut.loadingTree') }}</div>
-            <div v-else-if="!tree" class="p-4 opacity-60">{{ $t('ut.noTree') }}</div>
-            <TreeNode
-              v-else
-              :node="tree"
-              :filter="q"
-              :active-path="currentPath"
-              :root="true"
-              @select="onSelect"
-            />
-          </div>
+                    <div class="border rounded-lg p-2 h-[70vh] overflow-auto">
+                        <div v-if="loadingTree" class="p-4 opacity-60">{{ $t('ut.loadingTree') }}</div>
+                        <div v-else-if="!tree" class="p-4 opacity-60">{{ $t('ut.noTree') }}</div>
+                        <TreeNode v-else :node="tree" :filter="q" :active-path="currentPath" :root="true" @select="onSelect" />
+                    </div>
 
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button class="btn btn-sm" @click="exportJSON">{{ $t('ut.exportJSON') }}</button>
-            <button class="btn btn-sm" @click="exportCSV">{{ $t('ut.exportCSV') }}</button>
-          </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <button class="btn btn-sm" @click="exportJSON">{{ $t('ut.exportJSON') }}</button>
+                        <button class="btn btn-sm" @click="exportCSV">{{ $t('ut.exportCSV') }}</button>
+                    </div>
 
-          <!-- Stale (orphan) tooltips -->
-          <div v-if="staleList.length" class="alert alert-warning mt-4">
-            <div class="flex-1">
-              <span class="font-semibold">{{ $t('ut.headsUp') }}</span>
-              {{ staleList.length }} {{ $t('ut.staleRest') }}
-              <details class="mt-2">
-                <summary class="cursor-pointer">{{ $t('ut.showList') }}</summary>
-                <ul class="list-disc ml-6 mt-2">
-                  <li v-for="p in staleList" :key="p">
-                    <a class="link" href="#" @click.prevent="jumpTo(p)">{{ p }}</a>
-                  </li>
-                </ul>
-              </details>
+                    <!-- Stale (orphan) tooltips -->
+                    <div v-if="staleList.length" class="alert alert-warning mt-4">
+                        <div class="flex-1">
+                            <span class="font-semibold">{{ $t('ut.headsUp') }}</span>
+                            {{ staleList.length }} {{ $t('ut.staleRest') }}
+                            <details class="mt-2">
+                                <summary class="cursor-pointer">{{ $t('ut.showList') }}</summary>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li v-for="p in staleList" :key="p">
+                                        <a class="link" href="#" @click.prevent="jumpTo(p)">{{ p }}</a>
+                                    </li>
+                                </ul>
+                            </details>
+                        </div>
+                        <div class="flex items-center gap-2 mt-3">
+                            <label class="label cursor-pointer gap-2">
+                                <input type="checkbox" class="checkbox checkbox-sm" v-model="staleSelectAll" />
+                                <span class="label-text text-sm">{{ $t('ut.selectAll') }}</span>
+                            </label>
+                            <button class="btn btn-sm" @click="deleteSelectedStale" :disabled="!staleSelection.size || !canEdit">{{
+                                $t('ut.deleteSelected') }}</button>
+                            <button class="btn btn-sm btn-outline" @click="deleteAllStale"
+                                    :disabled="!staleList.length || !canEdit">{{ $t('ut.deleteAll') }}</button>
+                        </div>
+                    </div>
+
+                    <div v-if="errors.length" class="alert alert-error mt-4">
+                        <ul class="list-disc ml-6">
+                            <li v-for="(e,i) in errors" :key="i">{{ e }}</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- RIGHT: Editor -->
+                <section>
+                    <div class="card bg-base-100 shadow">
+                        <div class="card-body">
+                            <div class="flex flex-col items-start justify-between gap-3">
+                                <div>
+                                    <h2 class="card-title">{{ $t('ut.editTooltip') }}</h2>
+                                    <h3>{{ currentHint?.label }}</h3>
+                                    <p v-if="currentHint?.description" class="text-sm opacity-70 mt-1">
+                                        {{ currentHint.description }}
+                                        <a v-if="currentHint?.docsUrl" :href="currentHint.docsUrl" target="_blank" class="link ml-2">{{
+                                            $t('ut.docs') }} ↗</a>
+                                    </p>
+                                    <code class="text-xs opacity-70" v-if="currentPath">{{ currentPath }}</code>
+                                </div>
+                            </div>
+
+                            <FormKit type="form" :actions="false" @submit="save" :config="{ validationVisibility: 'live' }"
+                                     :disabled="!currentPath || !canEdit || saving" class="mt-4">
+                                <div class="grid gap-4 md:grid-cols-2 border-t pt-4">
+                                    <FormKit type="textarea" name="de" v-model="form.de" :label="$t('ut.deLabel')"
+                                             validation="length:0,2000" :placeholder="$t('ut.dePlaceholder')" />
+                                    <FormKit type="textarea" name="en" v-model="form.en" :label="$t('ut.enLabel')"
+                                             validation="length:0,2000" :placeholder="$t('ut.enPlaceholder')" />
+                                </div>
+                                <div class="grid gap-3 md:grid-cols-2 mt-2">
+                                    <FormKit type="checkbox" name="showDetail" v-model="form.showDetail" :label="$t('ut.showInDetail')" />
+                                    <FormKit type="checkbox" name="showSearch" v-model="form.showSearch" :label="$t('ut.showInSearch')" />
+                                </div>
+                                <div class="mt-4 flex items-center gap-2 border-t pt-4">
+                                    <button class="btn btn-primary" type="submit" :disabled="!currentPath || saving">{{ $t('ut.save')
+                                    }}</button>
+                                    <button class="btn btn-outline" type="button" @click="revert" :disabled="!dirty || saving">{{
+                                        $t('ut.revert') }}</button>
+                                    <span v-if="saving" class="loading loading-spinner loading-sm"></span>
+                                    <span v-if="savedFlash" class="text-success">{{ $t('ut.saved') }}</span>
+                                </div>
+                            </FormKit>
+
+                            <details class="collapse collapse-arrow bg-base-200 mt-6">
+                                <summary class="collapse-title text-md font-medium">{{ $t('ut.bulkEdit') }}</summary>
+                                <div class="collapse-content">
+                                    <div class="overflow-x-auto mt-3">
+                                        <table class="table table-zebra">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ $t('ut.thPath') }}</th>
+                                                    <th>{{ $t('ut.thDe') }}</th>
+                                                    <th>{{ $t('ut.thEn') }}</th>
+                                                    <th class="text-right">{{ $t('ut.thActions') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="row in rows" :key="row.path">
+                                                    <td class="align-top"><code>{{ row.path }}</code></td>
+                                                    <td class="align-top">
+                                                        <textarea v-model="row.de" class="textarea textarea-bordered textarea-sm w-full"
+                                                                  rows="2"></textarea>
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <textarea v-model="row.en" class="textarea textarea-bordered textarea-sm w-full"
+                                                                  rows="2"></textarea>
+                                                    </td>
+                                                    <td class="text-right align-top">
+                                                        <button class="btn btn-ghost btn-sm" @click="removeRow(row.path)"
+                                                                :disabled="!canEdit">✕</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mt-3 flex items-center gap-2">
+                                        <button class="btn btn-sm" @click="saveAll" :disabled="saving || !canEdit">{{ $t('ut.btnSaveAll')
+                                        }}</button>
+                                        <button class="btn btn-sm" @click="dedupe" :disabled="saving">{{ $t('ut.btnDedupe') }}</button>
+                                        <button class="btn btn-sm" @click="sortRows" :disabled="saving">{{ $t('ut.btnSort') }}</button>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="flex items-center gap-2 mt-3">
-              <label class="label cursor-pointer gap-2">
-                <input type="checkbox" class="checkbox checkbox-sm" v-model="staleSelectAll" />
-                <span class="label-text text-sm">{{ $t('ut.selectAll') }}</span>
-              </label>
-              <button class="btn btn-sm" @click="deleteSelectedStale" :disabled="!staleSelection.size || !canEdit">{{ $t('ut.deleteSelected') }}</button>
-              <button class="btn btn-sm btn-outline" @click="deleteAllStale" :disabled="!staleList.length || !canEdit">{{ $t('ut.deleteAll') }}</button>
-            </div>
-          </div>
-
-          <div v-if="errors.length" class="alert alert-error mt-4">
-            <ul class="list-disc ml-6">
-              <li v-for="(e,i) in errors" :key="i">{{ e }}</li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- RIGHT: Editor -->
-        <section>
-          <div class="card bg-base-100 shadow">
-            <div class="card-body">
-              <div class="flex flex-col items-start justify-between gap-3">
-                <div>
-                  <h2 class="card-title">{{ $t('ut.editTooltip') }}</h2>
-                  <h3>{{ currentHint?.label }}</h3>
-                  <p v-if="currentHint?.description" class="text-sm opacity-70 mt-1">
-                    {{ currentHint.description }}
-                    <a v-if="currentHint?.docsUrl" :href="currentHint.docsUrl" target="_blank" class="link ml-2">{{ $t('ut.docs') }} ↗</a>
-                  </p>
-                  <code class="text-xs opacity-70" v-if="currentPath">{{ currentPath }}</code>
-                </div>
-              </div>
-
-              <FormKit
-                type="form"
-                :actions="false"
-                @submit="save"
-                :config="{ validationVisibility: 'live' }"
-                :disabled="!currentPath || !canEdit || saving"
-                class="mt-4"
-              >
-                <div class="grid gap-4 md:grid-cols-2 border-t pt-4">
-                  <FormKit
-                    type="textarea"
-                    name="de"
-                    v-model="form.de"
-                    :label="$t('ut.deLabel')"
-                    validation="length:0,2000"
-                    :placeholder="$t('ut.dePlaceholder')"
-                  />
-                  <FormKit
-                    type="textarea"
-                    name="en"
-                    v-model="form.en"
-                    :label="$t('ut.enLabel')"
-                    validation="length:0,2000"
-                    :placeholder="$t('ut.enPlaceholder')"
-                  />
-                </div>
-                <div class="grid gap-3 md:grid-cols-2 mt-2">
-  <FormKit
-    type="checkbox"
-    name="showDetail"
-    v-model="form.showDetail"
-    :label="$t('ut.showInDetail')"
-  />
-  <FormKit
-    type="checkbox"
-    name="showSearch"
-    v-model="form.showSearch"
-    :label="$t('ut.showInSearch')"
-  />
-</div>
-                <div class="mt-4 flex items-center gap-2 border-t pt-4">
-                  <button class="btn btn-primary" type="submit" :disabled="!currentPath || saving">{{ $t('ut.save') }}</button>
-                  <button class="btn btn-outline" type="button" @click="revert" :disabled="!dirty || saving">{{ $t('ut.revert') }}</button>
-                  <span v-if="saving" class="loading loading-spinner loading-sm"></span>
-                  <span v-if="savedFlash" class="text-success">{{ $t('ut.saved') }}</span>
-                </div>
-              </FormKit>
-
-              <details class="collapse collapse-arrow bg-base-200 mt-6">
-                <summary class="collapse-title text-md font-medium">{{ $t('ut.bulkEdit') }}</summary>
-                <div class="collapse-content">
-                  <div class="overflow-x-auto mt-3">
-                    <table class="table table-zebra">
-                      <thead>
-                        <tr>
-                          <th>{{ $t('ut.thPath') }}</th>
-                          <th>{{ $t('ut.thDe') }}</th>
-                          <th>{{ $t('ut.thEn') }}</th>
-                          <th class="text-right">{{ $t('ut.thActions') }}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="row in rows" :key="row.path">
-                          <td class="align-top"><code>{{ row.path }}</code></td>
-                          <td class="align-top">
-                            <textarea v-model="row.de" class="textarea textarea-bordered textarea-sm w-full" rows="2"></textarea>
-                          </td>
-                          <td class="align-top">
-                            <textarea v-model="row.en" class="textarea textarea-bordered textarea-sm w-full" rows="2"></textarea>
-                          </td>
-                          <td class="text-right align-top">
-                            <button class="btn btn-ghost btn-sm" @click="removeRow(row.path)" :disabled="!canEdit">✕</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div class="mt-3 flex items-center gap-2">
-                    <button class="btn btn-sm" @click="saveAll" :disabled="saving || !canEdit">{{ $t('ut.btnSaveAll') }}</button>
-                    <button class="btn btn-sm" @click="dedupe" :disabled="saving">{{ $t('ut.btnDedupe') }}</button>
-                    <button class="btn btn-sm" @click="sortRows" :disabled="saving">{{ $t('ut.btnSort') }}</button>
-                  </div>
-                </div>
-              </details>
-            </div>
-          </div>
-        </section>
-      </div>
-    </template>
-  </NuxtLayout>
+        </template>
+    </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, defineComponent, h } from 'vue';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
+
+definePageMeta({
+    auth: true,
+});
+
+const { ensureFormKitReady } = useFormKitLoader();
+
+await ensureFormKitReady();
 
 type HintMap = Record<string, { label?: string; description?: string; docsUrl?: string }>;
 type Row = {
-  path: string;
-  de: string;
-  en: string;
-  showDetail?: boolean;
-  showSearch?: boolean;
+    path: string;
+    de: string;
+    en: string;
+    showDetail?: boolean;
+    showSearch?: boolean;
 };
 type TreeNodeT = { name: string; path: string; kind: 'object'|'array'|'group'|'string'; description?: string; children: TreeNodeT[] };
 
@@ -424,8 +405,8 @@ const TreeNode = defineComponent({
             const t = this.term;
             const matches = (n: any): boolean =>
                 (n.name?.toLowerCase().includes(t) ||
-         n.path?.toLowerCase().includes(t)) ||
-        (n.children || []).some(matches);
+                    n.path?.toLowerCase().includes(t)) ||
+                (n.children || []).some(matches);
             return kids.filter(matches);
         }
     },

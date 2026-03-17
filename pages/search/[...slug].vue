@@ -1,20 +1,16 @@
 <template>
-  <div class="container mx-auto p-2">
-    <GlobalBreadcrumbsComp :breadcrumbs="[
-        ['Home', '/'],
-        [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
-      ]" />
-    <keep-alive>
-      <InstantSearchTemplateAVefi
-        v-if="searchClient"
-        :search-client="searchClient"
-        @facetsChanged="onFacetsChanged"
-      />
-      <div v-else class="text-center py-4">
-        <span class="loading loading-spinner loading-lg text-primary" />
-      </div>
-    </keep-alive>
-  </div>
+    <div class="container mx-auto p-2">
+        <GlobalBreadcrumbsComp :breadcrumbs="[
+            ['Home', '/'],
+            [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
+        ]" />
+        <keep-alive>
+            <SearchSection v-if="searchClient" :search-client="searchClient" @facetsChanged="onFacetsChanged" />
+            <div v-else class="text-center py-4 rounded-lg border-2 border-base-200">
+                <span class="loading loading-spinner loading-lg text-primary" aria-live="polite" aria-busy="true" />
+            </div>
+        </keep-alive>
+    </div>
 </template>
 <script setup lang="ts">
 import Client from '@searchkit/instantsearch-client';
@@ -28,7 +24,7 @@ definePageMeta({
 // Initialize search client only on client-side
 const searchClient = process.client ? Client({
     config: config,
-    url: `${useRuntimeConfig().public.AVEFI_ELASTIC_API}/${useRuntimeConfig().public.AVEFI_SEARCH}`,  
+    url: `${useRuntimeConfig().public.elasticApiBase}/${useRuntimeConfig().public.searchApiPath}`,
 }) : null;
 
 const { currentUrlState } = useCurrentUrlState();
@@ -142,7 +138,7 @@ function sendFacetEventsFromUrl() {
     if (typeof window === 'undefined') return;
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.forEach((value, key) => {
-    // Only send for facet/filter params (not query, page, etc.)
+        // Only send for facet/filter params (not query, page, etc.)
         if (key !== 'query' && key !== 'page' && key !== 'sortBy' && key !== 'hitsPerPage') {
             $matomo?.trackEvent('Search', 'Facet', key, value);
             console.log('[Matomo] Facet event:', key, value);
@@ -206,15 +202,15 @@ useHead({
 .ais-SearchBox-form,
 .ais-SearchBox-input,
 .ais-SortBy-select {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .ais-SearchBox-input:focus {
-  border-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .ais-Pagination-item--selected {
-  background-color: var(--primary);
-  color: white;
+    background-color: var(--primary);
+    color: white;
 }
 </style>

@@ -1,6 +1,7 @@
 // server/api/cms/usertooltips.put.ts
-/* eslint-disable */
+ 
 import { readUserGlossary, writeUserGlossary } from '../../utils/userGlossaryStore';
+import { requireAuthenticatedUser } from '../../utils/requireAuthenticatedUser';
 
 const toBool = (v) => {
   if (v === undefined || v === null || v === '') return undefined;
@@ -12,6 +13,8 @@ const toBool = (v) => {
 };
 
 export default defineEventHandler(async (event) => {
+  await requireAuthenticatedUser(event);
+
   const payload = await readBody(event);
   const rows = Array.isArray(payload?.entries) ? payload.entries : [];
 

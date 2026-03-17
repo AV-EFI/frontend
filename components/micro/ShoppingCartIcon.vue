@@ -7,8 +7,8 @@ defineProps({
 });
 </script>
 <template>
-  <Icon
-    :alt="alt"
-    name="tabler:heart-plus"
-  />
+    <Icon
+        :alt="alt"
+        name="tabler:heart-plus"
+    />
 </template>

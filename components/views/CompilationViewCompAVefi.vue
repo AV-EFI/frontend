@@ -1,35 +1,34 @@
 <template>
-  <div>
-    <div v-if="mir" class="border-l-2 border-work px-2" role="region" :aria-label="`${$t('detailsFor')} ${
-        mir?.has_primary_title?.has_name ?? ''
-      }`">
-    </div>
-    <div v-else>
-      <pre>{{ mir }}</pre>
-    </div>
-    <div v-if="mir?.is_manifestation_of.length > 0 && dataObject?.compound_record?._source?.work_variants?.length > 0" class="mt-4">
-        <div class="alert">
-            <p v-html="$t('multihelptext', {'name': dataObject?.compound_record?._source?.handle})"></p>
+    <div>
+        <div v-if="mir" class="border-l-2 border-work px-2" role="region" :aria-label="`${$t('detailsFor')} ${
+            mir?.has_primary_title?.has_name ?? ''
+        }`">
         </div>
-        <ViewsWorkViewCompParts
-          type="compilationManifestation"
-          :parts="dataObject?.compound_record?._source?.work_variants"
-          :handle="dataObject?.compound_record?._source?.handle"
-        />
-    </div>
+        <div v-else>
+            <pre>{{ mir }}</pre>
+        </div>
+        <div v-if="mir?.is_manifestation_of.length > 0 && dataObject?.compound_record?._source?.work_variants?.length > 0"
+             class="mt-4">
+            <div class="alert">
+                <p v-html="$t('multihelptext', {'name': dataObject?.compound_record?._source?.handle})"></p>
+            </div>
+            <ViewsWorkViewCompParts type="compilationManifestation"
+                                    :parts="dataObject?.compound_record?._source?.work_variants"
+                                    :handle="dataObject?.compound_record?._source?.handle" />
+        </div>
 
-    <!-- 12 Letzte Bearbeitung -->
-    <div v-if="dataObject?._source?.['@timestamp']" class="w-full mt-4 justify-center items-center">
-      <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
-        :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
+        <!-- 12 Letzte Bearbeitung -->
+        <div v-if="dataObject?._source?.['@timestamp']" class="w-full mt-4 justify-center items-center">
+            <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
+                                :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { FormKit } from "@formkit/vue";
 import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IAVefiWorkVariant";
+import type { Manifestation } from "~/models/interfaces/schema/avefi_schema_type_utils";
 
 // Enable hash navigation for manifestations and items
 useHash();
@@ -45,9 +44,9 @@ try {
 
 // WorkVariant (optional)
 const mir = (dataObject?.compound_record?._source?.has_record ??
-  null) as WorkVariant | null;
+    null) as WorkVariant | null;
 const parts = (dataObject?.compound_record?._source?.parts ??
-  null) as WorkVariant | null;
+    null) as WorkVariant | null;
 
 // Manifestations (optional)
 const manifestations = ref<Manifestation[]>(
@@ -117,9 +116,9 @@ const productionYears = computed<string[]>(() => {
         }
     };
     if (mir) {
-    // many datasets store these at work-level root
-    // (mir.production_in_year / mir.years); if nested in has_record, mir already *is* has_record
-    // so both forms collapse to mir.*
+        // many datasets store these at work-level root
+        // (mir.production_in_year / mir.years); if nested in has_record, mir already *is* has_record
+        // so both forms collapse to mir.*
         add((mir as any).production_in_year);
         add((mir as any).years);
     }
@@ -204,7 +203,7 @@ const suggestionsForManifestations = computed(() => {
     return Array.from(set).slice(0, 100);
 });
 
-function mfMatchesQuery(mf: any, q: string): boolean {
+function mfMatchesQuery(mf: Manifestation, q: string): boolean {
     if (!q) return true;
     return valuesForManifestation(mf).some((v) => v === q);
 }
@@ -212,7 +211,7 @@ function mfMatchesQuery(mf: any, q: string): boolean {
 const filteredManifestations = computed(() => {
     const selected = searchQuery.value;
     if (Array.isArray(selected) && selected.length > 0) {
-        return manifestations.value.filter((mf) =>
+        return manifestations.value.filter((mf: Manifestation) =>
             selected.every((q) => mfMatchesQuery(mf, q))
         );
     }
@@ -232,6 +231,6 @@ function formatTimestamp(ts: any): string {
 
 <style scoped>
 .collapse-plus>.collapse-title:after {
-  top: 25%;
+    top: 25%;
 }
 </style>

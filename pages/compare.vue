@@ -3,10 +3,9 @@ definePageMeta({
     auth: false,
 });
 
-
-
 const route = useRoute();
 const { t } = useI18n();
+const siteUrl = useSiteUrl();
 
 const items = [];
 items[0] = route.query.prev;
@@ -65,8 +64,7 @@ const pageDescription = computed(() => {
 });
 
 const canonical = computed(() => {
-    const config = useRuntimeConfig();
-    const baseUrl = config.public.SITE_URL || 'https://www.av-efi.net';
+    const baseUrl = siteUrl.value || 'https://www.av-efi.net';
     if (hasValidParams.value) {
         return `${baseUrl}/compare?prev=${items[0]}&next=${items[1]}`;
     }
@@ -82,7 +80,21 @@ useSeoMeta({
     ogUrl: canonical,
     twitterCard: 'summary',
     twitterTitle: pageTitle,
-    twitterDescription: pageDescription
+    twitterDescription: pageDescription,
+    keywords: [
+        'Vergleichsansicht',
+        'Datensatzvergleich',
+        'Filmvergleich',
+        'Metadatenvergleich',
+        'Versionen eines Films',
+        'Manifestationsvergleich',
+        'Exemplarvergleich',
+        'Parallelansicht',
+        'Filmmetadaten',
+        'Archivdaten',
+        'Persistent Identifier',
+        'Handle PID',
+    ].join(', '),
 });
 
 useSchemaOrg([
@@ -96,68 +108,39 @@ useSchemaOrg([
 
 </script>
 <template>
-  <div class="scroll-auto">
-    <GlobalBreadcrumbsComp
-      :breadcrumbs="[
-        ['Home', '/'],
-        [$t('comparison'), ''],
-      ]"
-    />
-    <div class="container mt-4 snap-y snap-mandatory md:px-4">
-      <div v-if="!hasValidParams" class="alert alert-error mb-4 w-96">
-        <Icon name="tabler:alert-circle" class="w-6 h-6" />
-        <div>
-          <h3 class="font-bold">{{ $t('invalidComparisonUrl') }}</h3>
-          <div class="text-sm">{{ errorMessage }}</div>
-          <div class="text-xs mt-2">{{ $t('comparisonUrlHelp') }}</div>
+    <div class="scroll-auto">
+        <GlobalBreadcrumbsComp :breadcrumbs="[
+            ['Home', '/'],
+            [$t('comparison'), ''],
+        ]" />
+        <div class="container mt-4 snap-y snap-mandatory md:px-4 mx-auto">
+            <div v-if="!hasValidParams" class="alert alert-error mb-4 w-96">
+                <Icon name="tabler:alert-circle" class="w-6 h-6" />
+                <div>
+                    <h3 class="font-bold">{{ $t('invalidComparisonUrl') }}</h3>
+                    <div class="text-sm">{{ errorMessage }}</div>
+                    <div class="text-xs mt-2">{{ $t('comparisonUrlHelp') }}</div>
+                </div>
+            </div>
+
+            <div v-else role="tablist" class="tabs tabs-bordered">
+                <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48" :aria-label="$t('compareRegular')"
+                       checked="true">
+                <div role="tabpanel"
+                     class="tab-content bg-base-100 border-base-300 rounded-box p-2 md:p-6 snap-always snap-start">
+                    <ClientOnly fallback-tag="span" fallback="Loading datasets ...">
+                        <LazyGlobalCompareViewProps :items="items" />
+                    </ClientOnly>
+                </div>
+                <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48 hidden" :aria-label="$t('compareRaw')">
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 snap-always snap-start">
+                    <div>
+                        <ClientOnly fallback-tag="span" fallback="Loading datasets ...">
+                            <LazyGlobalCompareViewRaw :items="items" />
+                        </ClientOnly>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      
-      <div
-        v-else
-        role="tablist"
-        class="tabs tabs-bordered"
-      >
-        <input
-          type="radio"
-          name="compare_tabs"
-          role="tab"
-          class="tab min-w-48"
-          :aria-label="$t('compareRegular')"
-          checked="true"
-        >
-        <div
-          role="tabpanel"
-          class="tab-content bg-base-100 border-base-300 rounded-box p-2 md:p-6 snap-always snap-start"
-        >
-          <ClientOnly
-            fallback-tag="span"
-            fallback="Loading datasets ..."
-          >
-            <LazyGlobalCompareViewProps :items="items" />
-          </ClientOnly>
-        </div>
-        <input
-          type="radio"
-          name="compare_tabs"
-          role="tab"
-          class="tab min-w-48 hidden"
-          :aria-label="$t('compareRaw')"
-        >
-        <div
-          role="tabpanel"
-          class="tab-content bg-base-100 border-base-300 p-6 snap-always snap-start"
-        >
-          <div>
-            <ClientOnly
-              fallback-tag="span"
-              fallback="Loading datasets ..."
-            >
-              <LazyGlobalCompareViewRaw :items="items" />
-            </ClientOnly>
-          </div>  
-        </div>
-      </div>
     </div>
-  </div>
 </template>

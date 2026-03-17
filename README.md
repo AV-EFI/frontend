@@ -62,7 +62,9 @@ services:
   av-efi-frontend:
     image: alpine/socat
     container_name: av-efi-frontend
-    command: tcp-listen:3000,fork,reuseaddr tcp-connect:host.docker.internal:3000
+    command: tcp-listen:3000,fork,reuseaddr tcp-connect:${DEV_FORWARD_HOST:-host.docker.internal}:${DEV_FORWARD_PORT:-3000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - proxy-network
     restart: unless-stopped
@@ -95,6 +97,31 @@ http://localhost:8080/
 ```
 
 > If you open `localhost:3000` directly, you **bypass Traefik** and backend/API routes will fail.
+
+If `http://localhost:8080/` returns `502 Bad Gateway` while `http://localhost:3000/` works, the problem is the Docker forwarding hop, not Nuxt itself.
+
+Check in this order:
+
+1. Restart the dummy proxy container:
+   ```bash
+   docker compose -f docker-compose.dev.yml down
+   docker compose -f docker-compose.dev.yml up -d
+   ```
+
+2. If Docker Desktop still cannot reach `host.docker.internal`, override the forward target explicitly:
+   ```powershell
+   $env:DEV_FORWARD_HOST="192.168.2.32"
+   docker compose -f docker-compose.dev.yml up -d
+   ```
+
+3. If you need a non-default port:
+   ```powershell
+   $env:DEV_FORWARD_HOST="192.168.2.32"
+   $env:DEV_FORWARD_PORT="3000"
+   docker compose -f docker-compose.dev.yml up -d
+   ```
+
+Use your actual host IP from `ipconfig`, not the example above.
 
 ---
 

@@ -12,10 +12,10 @@
         <ul v-else class="flex max-h-64 flex-col gap-2 overflow-y-auto pr-1">
             <li v-for="result in enhancedResults" :key="result.handle">
                 <button type="button" class="result-button" :class="[
-                    result.meta.buttonModifier,
-                    { 'result-button--selected': result.handle === selectedHandle },
-                ]" :title="result.title ? `${result.title} (${result.handle})` : result.handle"
-                    @click="onSelect(result.handle)">
+                            result.meta.buttonModifier,
+                            { 'result-button--selected': result.handle === selectedHandle },
+                        ]" :title="result.title ? `${result.title} (${result.handle})` : result.handle"
+                        @click="onSelect(result.handle)">
                     <span class="result-level-bar" :style="{
                         backgroundColor: result.meta.barColor,
                         width: result.meta.barWidth,
@@ -23,7 +23,7 @@
                     <span class="flex w-full flex-col gap-1">
                         <span class="flex items-start justify-between gap-2">
                             <span class="result-title" :class="result.meta.titleClass">{{ result.title ?? result.handle
-                                }}</span>
+                            }}</span>
                             <span class="result-level-badge" :style="{
                                 backgroundColor: result.meta.badgeBg,
                                 color: result.meta.badgeFg,

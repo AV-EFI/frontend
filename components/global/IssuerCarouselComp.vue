@@ -1,6 +1,6 @@
 <template>
-    <div class="w-full">
-        <div v-if="loading" class="flex justify-center items-center min-h-[300px]">
+    <div ref="rootRef" class="relative w-full">
+        <div v-if="loading" class="flex justify-center items-center min-h-75">
             <span class="loading loading-spinner loading-lg text-primary" />
         </div>
         <div v-else-if="error" class="alert alert-error">
@@ -8,105 +8,68 @@
             <span>{{ error }}</span>
         </div>
         <div v-else-if="issuerItems.length > 0">
-            <!-- Desktop/Large screens: original carousel -->
-            <div
-                class="carousel-container items-center relative hidden lg:flex bg:white/80 dark:bg-base-200/60 rounded-box p-4">
-                <button :alt="$t('togglePreviousSlide')" :aria-label="$t('togglePreviousSlide')"
-                    class="md:flex z-10 p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
-                    @click="prevSlide">
-                    <Icon name="tabler:chevron-left" />
-                </button>
-                <div class="overflow-hidden rounded-box w-full p-4">
-                    <div class="relative w-full" style="min-height: 350px;">
-                        <TransitionGroup name="slide">
-                            <div v-for="(item, index) in issuerItems" v-show="currentIndex === index" :key="index"
-                                class="absolute inset-0 flex justify-center items-center p-2">
-                                <div class="card bg-base-100 shadow-md w-full max-w-sm">
-                                    <figure class="px-6 py-6 bg-white rounded">
-                                        <img :src="item.image" :alt="item.imageAlt" :title="item.name"
-                                            class="h-20 w-auto object-contain bg-white" loading="lazy">
-                                    </figure>
-                                    <div class="card-body items-center text-center">
-                                        <h4 class="card-title text-base font-semibold line-clamp-2">
-                                            {{ item.name }}
-                                        </h4>
-                                        <p class="text-sm opacity-70">
-                                            {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ?
-                                            $t('dataset') : $t('datasets') }}
-                                        </p>
-                                        <div class="card-actions">
-                                            <NuxtLink
-                                                :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
-                                                class="btn btn-primary btn-sm">
-                                                {{ $t('viewDatasets') || 'View Datasets' }}
-                                                <Icon class="text-white" name="tabler:arrow-right" />
-                                            </NuxtLink>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </TransitionGroup>
-                    </div>
-                </div>
-                <button :alt="$t('toggleNextSlide')" :aria-label="$t('toggleNextSlide')"
-                    class="z-10 md:flex p-2 bg-neutral text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
-                    @click="nextSlide">
-                    <Icon class="text-white" name="tabler:chevron-right" />
-                </button>
-            </div>
+            <button v-if="issuerItems.length > 1 && isReady" @click="prevSlide"
+                    class="absolute -left-10 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
+                    :aria-label="$t('home.carousel.aria.previous')">
+                <Icon name="tabler:chevron-left" />
+            </button>
 
-            <!-- Mobile/Small screens: horizontal scrollable cards -->
-            <div class="w-full relative lg:hidden">
-                <div ref="carouselRef"
-                    class="carousel carousel-center w-full bg-white/40 dark:bg-base-200/60 rounded-box p-4 overflow-x-auto scroll-smooth flex">
+            <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-4 sm:px-4 lg:px-6 py-0 sm:py-4 bg-base-200 overflow-hidden">
+                <div ref="containerRef" class="flex touch-pan-y">
                     <div v-for="(item, index) in issuerItems" :key="index"
-                        class="carousel-item align-top flex flex-col items-center mx-2 w-[85vw] sm:w-72 md:w-80 lg:w-96">
-                        <figure class="w-full">
-                            <div
-                                class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white/80 dark:bg-white flex items-center justify-center">
-                                <img :src="item.image" :alt="item.imageAlt" :title="item.name" loading="lazy"
-                                    decoding="async" class="max-w-full max-h-full object-contain z-10">
+                         class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg align-top flex flex-col items-center lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
+                        <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
+                            <div class="relative w-full h-20 py-2 overflow-hidden bg-white flex items-center justify-center rounded-lg">
+                                <img :src="`${item.image}`" :alt="item.imageAlt" :title="item.name" loading="lazy" decoding="async"
+                                     class="h-full w-auto max-w-full object-contain" />
                             </div>
                         </figure>
-                        <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
-                            <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
+                        <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-100 rounded-lg">
+                            <h2 class="card-title text-base font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
-                            <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:!line-clamp-none">
-                                {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ? $t('dataset') :
-                                $t('datasets') }}
+                            <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none!">
+                                {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ? $t('home.common.dataset') : $t('home.common.datasets') }}
                             </p>
                             <div class="mt-auto">
                                 <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
-                                    class="btn btn-sm w-full md:w-auto btn-primary">
-                                    {{ $t('viewDatasets') || 'View Datasets' }}
+                                          class="btn btn-sm w-full md:w-auto btn-primary">
+                                    <span class="text-xs md:text-regular">
+                                        {{ $t('home.carousel.actions.viewDatasets') || 'View Datasets' }}
+                                    </span>
                                     <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
                                 </NuxtLink>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Mobile arrows -->
-                <button v-if="issuerItems.length > 1" @click="prevMobileSlide"
-                    class="absolute -left-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
-                    :aria-label="$t('togglePreviousSlide')">
-                    <Icon class="text-white" name="tabler:chevron-left" />
-                </button>
-                <button v-if="issuerItems.length > 1" @click="nextMobileSlide"
-                    class="absolute -right-6 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral dark:bg-base-100 shadow flex"
-                    :aria-label="$t('toggleNextSlide')">
-                    <Icon class="text-white" name="tabler:chevron-right" />
-                </button>
             </div>
+
+            <button v-if="issuerItems.length > 1 && isReady" @click="nextSlide"
+                    class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
+                    :aria-label="$t('home.carousel.aria.next')">
+                <Icon name="tabler:chevron-right" />
+            </button>
+
+            <button v-if="issuerItems.length > 1 && isReady" @click="prevSlide"
+                    class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
+                    :aria-label="$t('home.carousel.aria.previous')">
+                <Icon name="tabler:chevron-left" />
+            </button>
+            <button v-if="issuerItems.length > 1 && isReady" @click="nextSlide"
+                    class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
+                    :aria-label="$t('home.carousel.aria.next')">
+                <Icon name="tabler:chevron-right" />
+            </button>
         </div>
         <div v-else class="text-center text-base-content/60 py-8">
-            {{ $t('noIssuersFound') || 'No issuers found' }}
+            {{ $t('home.carousel.actions.noIssuersFound') || 'No issuers found' }}
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
 import topIssuersData from '~/data/top-issuers.json';
 import issuerImagesData from '~/data/issuer-images.json';
 
@@ -121,10 +84,30 @@ interface IssuerItem extends Issuer {
     imageAlt: string;
 }
 
+type EmblaApi = {
+    scrollPrev: () => void;
+    scrollNext: () => void;
+    on: (event: 'select' | 'reInit', cb: () => void) => void;
+    off: (event: 'select' | 'reInit', cb: () => void) => void;
+    destroy: () => void;
+};
+
+const props = defineProps({
+    autoSlideInterval: {
+        type: Number,
+        default: 7000
+    }
+});
+
 const loading = ref(false);
 const error = ref<string | null>(null);
-const currentIndex = ref(0);
-let autoSlideTimer: any = null;
+const rootRef = ref<HTMLElement | null>(null);
+const viewportRef = ref<HTMLElement | null>(null);
+const containerRef = ref<HTMLElement | null>(null);
+const emblaApi = shallowRef<EmblaApi | null>(null);
+const autoplayPlugin = shallowRef<{ stop?: () => void; play?: () => void } | null>(null);
+const isReady = computed(() => !!emblaApi.value);
+let visibilityObserver: IntersectionObserver | null = null;
 
 const issuerItems = computed<IssuerItem[]>(() => {
     const issuers: Issuer[] = topIssuersData.issuers || [];
@@ -141,70 +124,75 @@ const issuerItems = computed<IssuerItem[]>(() => {
     });
 });
 
+const initEmbla = async () => {
+    if (!viewportRef.value || emblaApi.value) return;
+
+    const [{ default: EmblaCarousel }, { default: Autoplay }] = await Promise.all([
+        import('embla-carousel'),
+        import('embla-carousel-autoplay')
+    ]);
+
+    const plugins: unknown[] = [];
+    if (props.autoSlideInterval > 0 && issuerItems.value.length > 1) {
+        const autoplay = Autoplay({
+            delay: props.autoSlideInterval,
+            stopOnInteraction: true,
+            stopOnMouseEnter: true
+        });
+        autoplayPlugin.value = autoplay;
+        plugins.push(autoplay);
+    }
+
+    emblaApi.value = EmblaCarousel(viewportRef.value, {
+        align: 'center',
+        containScroll: 'trimSnaps',
+        loop: true,
+        slidesToScroll: 2,
+        breakpoints: {
+            '(max-width: 1023px)': {
+                slidesToScroll: 1
+            }
+        }
+    }, plugins);
+};
+
 const prevSlide = () => {
-    currentIndex.value = (currentIndex.value - 1 + issuerItems.value.length) % issuerItems.value.length;
-    resetAutoSlide();
+    emblaApi.value?.scrollPrev();
 };
 
 const nextSlide = () => {
-    currentIndex.value = (currentIndex.value + 1) % issuerItems.value.length;
-    resetAutoSlide();
-};
-
-const startAutoSlide = () => {
-    autoSlideTimer = setInterval(() => {
-        currentIndex.value = (currentIndex.value + 1) % issuerItems.value.length;
-    }, 6000);
-};
-
-const stopAutoSlide = () => {
-    if (autoSlideTimer) {
-        clearInterval(autoSlideTimer);
-        autoSlideTimer = null;
-    }
-};
-
-const resetAutoSlide = () => {
-    stopAutoSlide();
-    startAutoSlide();
-};
-
-// Mobile scroll logic
-const carouselRef = ref<HTMLElement | null>(null);
-const scrollAmount = 320; // px, adjust to match card width
-const prevMobileSlide = () => {
-    if (carouselRef.value) {
-        carouselRef.value.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    }
-};
-const nextMobileSlide = () => {
-    if (carouselRef.value) {
-        carouselRef.value.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
+    emblaApi.value?.scrollNext();
 };
 
 onMounted(() => {
-    startAutoSlide();
+    if (!rootRef.value) return;
+
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+        visibilityObserver = new IntersectionObserver((entries) => {
+            const entry = entries[0];
+            if (!entry?.isIntersecting) return;
+            initEmbla();
+            visibilityObserver?.disconnect();
+            visibilityObserver = null;
+        }, { rootMargin: '200px 0px' });
+
+        visibilityObserver.observe(rootRef.value);
+        return;
+    }
+
+    initEmbla();
 });
 
 onBeforeUnmount(() => {
-    stopAutoSlide();
+    visibilityObserver?.disconnect();
+    visibilityObserver = null;
+
+    if (emblaApi.value) {
+        emblaApi.value.destroy();
+        emblaApi.value = null;
+    }
+
+    autoplayPlugin.value?.stop?.();
+    autoplayPlugin.value = null;
 });
 </script>
-
-<style scoped>
-.slide-enter-active,
-.slide-leave-active {
-    transition: all 0.5s ease;
-}
-
-.slide-enter-from {
-    opacity: 0;
-    transform: translateX(100%);
-}
-
-.slide-leave-to {
-    opacity: 0;
-    transform: translateX(-100%);
-}
-</style>

@@ -1,68 +1,19 @@
 <template>
-  <!-- Desktop -->
-  <div class="relative hidden md:block" ref="deskRef">
-    <button class="btn min-h-6 h-auto" :title="showForm ? $t('closeForm') : $t('openForm')"
-      :aria-label="showForm ? $t('closeForm') : $t('openForm')" :aria-expanded="showForm" @click="toggleForm">
-      <Icon class="w-4 h-4 shrink-0" name="tabler:send" />
+    <button
+        class="btn min-h-6 h-auto home-mail-button"
+        :title="$t('openForm')"
+        :aria-label="$t('openForm')"
+        @click="toggleContactDrawer"
+    >
+        <Icon class="w-4 h-4 shrink-0" name="tabler:send" />
     </button>
-    <div v-if="showForm"
-      class="absolute right-0 mt-2 p-4 border-base-100 rounded-lg shadow-lg w-96 dropdown-content menu z-[999]"
-      role="form" aria-labelledby="contact-form-heading" @click.stop>
-      <MicroContactForm @ContactFormClose="toggleForm" />
-    </div>
-    <div v-if="showForm"
-      class="dropdown-override absolute right-0 mt-2 p-4 border-base-100 rounded-lg shadow-lg bg-base-100 w-96 dropdown-content menu"
-      role="form" aria-labelledby="contact-form-heading" @click.stop>
-
-      <MicroContactForm @ContactFormClose="toggleForm" />
-    </div>
-  </div>
-
-  <!-- Mobile modal (unchanged) -->
-  <div class="block md:hidden">
-    <button class="btn" :aria-label="$t('openForm')" @click="openMobileModal">
-      <Icon name="tabler:send " />
-    </button>
-    <dialog id="mobileMailModal" ref="modalRef" class="modal">
-      <div class="modal-box w-full max-w-none p-4">
-        <form method="dialog">
-          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeMobileModal">
-            ✕
-          </button>
-        </form>
-        <MicroContactForm @ContactFormClose="closeMobileModal" />
-      </div>
-    </dialog>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-
-const showForm = ref(false);
-const deskRef = ref<HTMLElement | null>(null);
-const modalRef = ref<HTMLDialogElement | null>(null);
-
-const toggleForm = () => { showForm.value = !showForm.value; };
-
-// close on outside click
-const onDocClick = (e: MouseEvent) => {
-    if (!deskRef.value) return;
-    if (!deskRef.value.contains(e.target as Node)) showForm.value = false;
+const toggleContactDrawer = () => {
+    window.dispatchEvent(new Event('toggle-contact-drawer'));
 };
-onMounted(() => document.addEventListener('click', onDocClick));
-onBeforeUnmount(() => document.removeEventListener('click', onDocClick));
-
-// mobile modal
-const openMobileModal = () => { modalRef.value?.showModal(); };
-const closeMobileModal = () => { modalRef.value?.close(); };
 </script>
+
 <style scoped>
-/* No summary anymore, but keep dropdown styling if needed */
-.dropdown-override {
-  z-index: 9999 !important;
-  position: fixed !important;
-  right: 1rem;
-  top: 3.5rem;
-}
 </style>

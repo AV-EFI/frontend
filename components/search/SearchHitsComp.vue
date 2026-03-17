@@ -1,42 +1,42 @@
 <template>
-  <div v-if="isSearchLoading">
-    <GlobalSkeletonLoaderComp
-      v-for="index in 5"
-      :key="index"
-    />
-  </div>
-  <div v-else>
-    <SearchListFlatComp
-      v-if="viewTypeChecked === 'flat' && items"
-      :datasets="items"
-      :production-details-checked="productionDetailsChecked"
-      :show-admin-stats="showAdminStats"
-      :current-refinements="currentRefinements"
-    />
-    <SearchListViewComp
-      v-else-if="viewTypeChecked === 'accordion' && items"
-      :items="items"
-      :production-details-checked="productionDetailsChecked"
-      :show-admin-stats="showAdminStats"
-      :expanded-handles="expandedHandles"
-      :facets-active="facetsActive"
-      :nr-of-facets-active="nrOfFacetsActive"
-      :expand-all-handles-checked="expandAllHandlesChecked"
-      :current-refinements="currentRefinements"
-    />
-    <SearchTableViewComp
-      v-else-if="viewTypeChecked === 'table' && items"
-      :datasets="items"
-      :production-details-checked="productionDetailsChecked"
-      :show-admin-stats="showAdminStats"
-      :expanded-handles="expandedHandles"
-      :expand-all-handles-checked="expandAllHandlesChecked"
-      :current-refinements="currentRefinements"
-    />
-    <div v-else>
-      <pre>error</pre>
+    <div v-if="isSearchLoading">
+        <GlobalSkeletonLoaderComp
+            v-for="index in 5"
+            :key="index"
+        />
     </div>
-  </div>
+    <div v-else>
+        <SearchListFlatComp
+            v-if="viewTypeChecked === 'flat' && items"
+            :datasets="items"
+            :production-details-checked="productionDetailsChecked"
+            :show-admin-stats="showAdminStats"
+            :current-refinements="currentRefinements"
+        />
+        <SearchListViewComp
+            v-else-if="viewTypeChecked === 'accordion' && items"
+            :items="items"
+            :production-details-checked="productionDetailsChecked"
+            :show-admin-stats="showAdminStats"
+            :expanded-handles="expandedHandles"
+            :facets-active="facetsActive"
+            :nr-of-facets-active="nrOfFacetsActive"
+            :expand-all-handles-checked="expandAllHandlesChecked"
+            :current-refinements="currentRefinements"
+        />
+        <SearchTableViewComp
+            v-else-if="viewTypeChecked === 'table' && items"
+            :datasets="items"
+            :production-details-checked="productionDetailsChecked"
+            :show-admin-stats="showAdminStats"
+            :expanded-handles="expandedHandles"
+            :expand-all-handles-checked="expandAllHandlesChecked"
+            :current-refinements="currentRefinements"
+        />
+        <div v-else>
+            <pre>error</pre>
+        </div>
+    </div>
 </template>
 <script setup lang="ts">
 import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';

@@ -1,32 +1,32 @@
 <template>
-  <div class="editor mt-8">
-    <div v-if="loadingErrorKey" class="alert alert-error mx-auto w-96">
-      <Icon name="tabler:alert-circle" class="w-6 h-6" />
-      <div>
-        <h3 class="font-bold">{{ $t('errorLoadingDatasets') }}</h3>
-        <div class="text-sm">{{ $t(loadingErrorKey) }}</div>
-      </div>
-    </div>
-    
-    <div v-else-if="!prev || !current" class="alert alert-warning">
-      <Icon name="tabler:alert-triangle" class="w-6 h-6" />
-      <div>
-        <h3 class="font-bold">{{ $t('incompleteData') }}</h3>
-        <div class="text-sm">
-          <span v-if="!prev">{{ $t('dataset1') }}: {{ $t('failedToLoad') }}</span>
-          <span v-if="!current" class="ml-2">{{ $t('dataset2') }}: {{ $t('failedToLoad') }}</span>
+    <div class="editor mt-8">
+        <div v-if="loadingErrorKey" class="alert alert-error mx-auto w-96">
+            <Icon name="tabler:alert-circle" class="w-6 h-6" />
+            <div>
+                <h3 class="font-bold">{{ $t('errorLoadingDatasets') }}</h3>
+                <div class="text-sm">{{ $t(loadingErrorKey) }}</div>
+            </div>
         </div>
-      </div>
-    </div>
     
-    <ViewsWorkViewReduced
-      v-else
-      v-model="prev"
-      :title="$t('dataset1')"
-      :compare-with="current"
-      :compare-title="$t('dataset2')"
-    />
-  </div>
+        <div v-else-if="!prev || !current" class="alert alert-warning">
+            <Icon name="tabler:alert-triangle" class="w-6 h-6" />
+            <div>
+                <h3 class="font-bold">{{ $t('incompleteData') }}</h3>
+                <div class="text-sm">
+                    <span v-if="!prev">{{ $t('dataset1') }}: {{ $t('failedToLoad') }}</span>
+                    <span v-if="!current" class="ml-2">{{ $t('dataset2') }}: {{ $t('failedToLoad') }}</span>
+                </div>
+            </div>
+        </div>
+    
+        <ViewsWorkViewReduced
+            v-else
+            v-model="prev"
+            :title="$t('dataset1')"
+            :compare-with="current"
+            :compare-title="$t('dataset2')"
+        />
+    </div>
 </template>
 
 <script setup lang="ts">

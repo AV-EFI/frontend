@@ -2,5 +2,5 @@
 import { useServerVocab } from '~/server/utils/useServerVocab';
 
 export default defineEventHandler(async () => {
-    return await useServerVocab();
+  return await useServerVocab();
 });

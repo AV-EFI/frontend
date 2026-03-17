@@ -1,41 +1,41 @@
 <template>
-  <ul
-    class="flex flex-col sm:flex-row sm:flex-wrap gap-y-1 sm:gap-x-3 text-[0.75rem] leading-snug text-base-content mt-1"
-    role="list"
-  >
-    <li
-      v-for="entry in metaEntries"
-      :key="entry.key"
-      class="flex flex-row items-center gap-1.5 min-w-[6rem]"
-      :aria-label="entry.aria"
-      :title="entry.aria"
+    <ul
+        class="flex flex-col sm:flex-row sm:flex-wrap gap-y-1 sm:gap-x-3 text-[0.75rem] leading-snug text-base-content mt-1"
+        role="list"
     >
-      <Icon
-        :name="entry.icon"
-        class="w-[0.85rem] h-[0.85rem] text-primary shrink-0 my-auto"
-        aria-hidden="true"
-      />
-      <span class="inline-block flex-wrap">
-        <template v-if="Array.isArray(entry.text)">
-          <template
-            v-for="(segment, i) in entry.text"
-            :key="i"
-          >
-            <span>{{ segment.text }}</span>
-            <span
-              v-if="segment.hilite"
-              :title="`${$t('matchedField')}: ${segment.text}`"
-              class="badge badge-xs bg-highlight text-white ml-1"
+        <li
+            v-for="entry in metaEntries"
+            :key="entry.key"
+            class="flex flex-row items-center gap-1.5 min-w-[6rem]"
+            :aria-label="entry.aria"
+            :title="entry.aria"
+        >
+            <Icon
+                :name="entry.icon"
+                class="w-[0.85rem] h-[0.85rem] text-primary shrink-0 my-auto"
+                aria-hidden="true"
             />
-            <span v-if="i < entry.text.length - 1">, </span>
-          </template>
-        </template>
-        <template v-else>
-          {{ entry.text }}
-        </template>
-      </span>
-    </li>
-  </ul>
+            <span class="inline-block flex-wrap">
+                <template v-if="Array.isArray(entry.text)">
+                    <template
+                        v-for="(segment, i) in entry.text"
+                        :key="i"
+                    >
+                        <span>{{ segment.text }}</span>
+                        <span
+                            v-if="segment.hilite"
+                            :title="`${$t('matchedField')}: ${segment.text}`"
+                            class="badge badge-xs bg-highlight text-white ml-1"
+                        />
+                        <span v-if="i < entry.text.length - 1">, </span>
+                    </template>
+                </template>
+                <template v-else>
+                    {{ entry.text }}
+                </template>
+            </span>
+        </li>
+    </ul>
 </template>
 
 <script setup lang="ts">

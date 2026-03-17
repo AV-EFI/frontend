@@ -1,88 +1,114 @@
 <template>
-    <ul class="flex flex-col gap-y-1 text-[0.8rem] leading-snug text-base-content" role="list">
+    <ul :class="rootClasses" role="list">
         <!-- First row: located_in, years, directors_or_editors (WORK ONLY) -->
-        <li v-if="level === 'work' && iconEntries.length > 0"
-            class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start">
+        <li
+            v-if="level === 'work' && iconEntries.length > 0"
+            :class="primaryRowClasses"
+        >
             <template
                 v-for="entry in iconEntries.filter(e => ['located_in', 'years', 'directors_or_editors'].includes(e.key))"
                 :key="entry.key">
-                <div class="flex min-w-2 gap-1.5 items-start" tabindex="0" :aria-label="entry.aria" :title="entry.aria">
-                    <div class="flex flex-col items-start">
-                        <Icon :name="entry.icon" class="w-[0.85rem] h-[0.85rem] shrink-0 my-auto" :class="[iconColor]"
-                            aria-hidden="true" />
-                    </div>
+                <div
+                    :class="primaryEntryClasses"
+                    tabindex="0"
+                    :aria-label="entry.aria"
+                    :title="entry.aria"
+                >
+                    <Icon
+                        :name="entry.icon"
+                        :class="iconClasses"
+                        aria-hidden="true"
+                    />
 
-                    <span class="inline-block flex-wrap">
-                        <template v-if="Array.isArray(entry.text)">
-                            <span v-if="visibleSegments(entry).length > 0">
-                                <span>{{ visibleSegments(entry)[0]?.text }}</span>
-                                <span v-if="visibleSegments(entry)[0]?.hilite"
-                                    :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
-                                    class="badge badge-xs bg-highlight text-white ml-1" />
-                                <span v-if="visibleSegments(entry).length > 1">, </span>
-                            </span>
+                    <span :class="primaryTextClasses">
+                        <span :id="entryContentId(entry)" :class="primaryValueClasses">
+                            <template v-if="Array.isArray(entry.text)">
+                                <span v-if="visibleSegments(entry).length > 0">
+                                    <span>{{ visibleSegments(entry)[0]?.text }}</span>
+                                    <span v-if="visibleSegments(entry)[0]?.hilite"
+                                          :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
+                                          class="badge badge-xs bg-highlight text-white ml-1" />
+                                    <span v-if="visibleSegments(entry).length > 1">, </span>
+                                </span>
 
-                            <template v-for="(segment, i) in visibleSegments(entry).slice(1)" :key="i + 1">
-                                <br>
-                                <span>{{ segment.text }}</span>
-                                <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
-                                    class="badge badge-xs bg-highlight text-white ml-1" />
-                                <span v-if="i < visibleSegments(entry).length - 2">, </span>
+                                <template v-for="(segment, i) in visibleSegments(entry).slice(1)" :key="i + 1">
+                                    <br>
+                                    <span>{{ segment.text }}</span>
+                                    <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
+                                          class="badge badge-xs bg-highlight text-white ml-1" />
+                                    <span v-if="i < visibleSegments(entry).length - 2">, </span>
+                                </template>
                             </template>
 
-                            <button v-if="hasOverflow(entry)" type="button"
-                                class="badge badge-accent badge-xs text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
-                                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
-                                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
-                                :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
-                                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`
-                                }}
-                            </button>
-                        </template>
+                            <template v-else>
+                                <span :class="singleValueClasses">{{ entry.text }}</span>
+                            </template>
+                        </span>
 
-                        <template v-else>
-                            <span>{{ entry.text }}</span>
-                        </template>
+                        <button
+                            v-if="hasOverflow(entry)"
+                            type="button"
+                            :class="toggleButtonClasses"
+                            :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                            :aria-label="toggleLabel(entry)"
+                            :aria-controls="entryContentId(entry)"
+                            @click="toggleExpand(entry.key)"
+                        >
+                            {{ toggleText(entry) }}
+                        </button>
                     </span>
                 </div>
             </template>
         </li>
 
         <!-- Second row: everything else -->
-        <li v-if="iconEntries.length > 0" class="flex flex-row flex-wrap gap-x-3 items-start text-left justify-start">
+        <li
+            v-if="iconEntries.length > 0"
+            :class="secondaryRowClasses"
+        >
             <template
                 v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'directors_or_editors'].includes(e.key))"
                 :key="entry.key">
-                <div class="flex flex-row items-start gap-1.5 min-w-2 leading-[16px]" tabindex="0"
-                    :aria-label="entry.aria" :title="entry.aria">
-                    <Icon :name="entry.icon" class="w-[0.85rem] h-[0.85rem] shrink-0" :class="[iconColor]"
-                        aria-hidden="true" />
-                    <span class="inline-block flex-wrap">
-                        <template v-if="Array.isArray(entry.text)">
-                            <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
-                                <span :class="{'line-clamp-1': visibleSegments(entry).length < 2}">
-                                    {{ segment.text }}
-                                </span>
-                                <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
-                                    class="badge badge-xs bg-highlight text-white ml-1" />
-                                <span v-if="i < visibleSegments(entry).length - 1">; </span>
+                <div
+                    :class="entryClasses"
+                    tabindex="0"
+                     :aria-label="entry.aria" :title="entry.aria">
+                    <Icon
+                        :name="entry.icon"
+                        :class="iconClasses"
+                        aria-hidden="true"
+                    />
+                    <span :class="textClasses">
+                        <span :id="entryContentId(entry)" :class="valueBlockClasses">
+                            <template v-if="Array.isArray(entry.text)">
+                                <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
+                                    <span :class="segmentClasses(entry)">
+                                        {{ segment.text }}
+                                    </span>
+                                    <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
+                                          class="badge badge-xs bg-highlight text-white ml-1" />
+                                    <span v-if="i < visibleSegments(entry).length - 1">; </span>
+                                </template>
                             </template>
 
-                            <button v-if="hasOverflow(entry)" type="button"
-                                class="badge badge-neutral badge-outline badge-sm text-xs ml-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
-                                :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
-                                :aria-label="isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`"
-                                :aria-controls="`icon-list-${entry.key}`" @click="toggleExpand(entry.key)">
-                                {{ isExpanded(entry.key) ? $t('showLess') : `${$t('showMore')} (+${hiddenCount(entry)})`
-                                }}
-                            </button>
-                        </template>
+                            <template v-else>
+                                <span :class="singleValueClasses">
+                                    {{ entry.text }}
+                                </span>
+                            </template>
+                        </span>
 
-                        <template v-else>
-                            <span class="line-clamp-1">
-                                {{ entry.text }}
-                            </span>
-                        </template>
+                        <button
+                            v-if="hasOverflow(entry)"
+                            type="button"
+                            :class="toggleButtonClasses"
+                            :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                            :aria-label="toggleLabel(entry)"
+                            :aria-controls="entryContentId(entry)"
+                            @click="toggleExpand(entry.key)"
+                        >
+                            {{ toggleText(entry) }}
+                        </button>
                     </span>
                 </div>
             </template>
@@ -96,6 +122,72 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 const props = defineProps<{ data: any, level: 'work' | 'manifestation' | 'item', iconColor: string }>();
+
+const isManifestationLevel = computed(() => props.level === 'manifestation');
+const baseEntryClasses = 'max-w-full rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1';
+const rootClasses = computed(() =>
+    isManifestationLevel.value
+        ? 'flex flex-row flex-wrap items-center gap-2 text-[0.8rem] leading-4 text-base-content'
+        : 'flex flex-col gap-1.5 text-[0.8rem] leading-snug text-base-content'
+);
+const primaryRowClasses = computed(() =>
+    'flex flex-row flex-wrap gap-2 items-start text-left justify-start'
+);
+const secondaryRowClasses = computed(() =>
+    isManifestationLevel.value
+        ? 'flex flex-row flex-wrap items-center gap-2 text-left justify-start'
+        : 'flex flex-row flex-wrap gap-2 items-start text-left justify-start'
+);
+const primaryEntryClasses = computed(() =>
+    `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses}`
+);
+const entryClasses = computed(() =>
+    isManifestationLevel.value
+        ? `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 leading-4 ${baseEntryClasses}`
+        : `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses}`
+);
+const iconClasses = computed(() =>
+    isManifestationLevel.value
+        ? ['w-3.5', 'h-3.5', 'shrink-0', props.iconColor]
+        : ['w-3.5', 'h-3.5', 'shrink-0', 'mt-0.5', props.iconColor]
+);
+const primaryTextClasses = computed(() =>
+    'min-w-0 inline-flex flex-col items-start gap-1 leading-[16px]'
+);
+const textClasses = computed(() =>
+    isManifestationLevel.value
+        ? 'min-w-0 inline-flex flex-col items-start gap-1 leading-4'
+        : 'min-w-0 inline-flex flex-col items-start gap-1 leading-[16px]'
+);
+const primaryValueClasses = computed(() =>
+    'min-w-0'
+);
+const valueBlockClasses = computed(() =>
+    isManifestationLevel.value
+        ? 'min-w-0 inline-flex flex-wrap items-center gap-x-0.5 whitespace-nowrap leading-4'
+        : 'min-w-0 inline-flex flex-wrap items-start gap-x-0.5 leading-[16px]'
+);
+const singleValueClasses = computed(() =>
+    isManifestationLevel.value
+        ? 'whitespace-nowrap'
+        : 'break-words'
+);
+const toggleButtonClasses = 'text-xs text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 rounded-sm';
+function segmentClasses(entry: { text: any[] }) {
+    return {
+        'line-clamp-1': visibleSegments(entry).length < 2,
+        'whitespace-nowrap': isManifestationLevel.value,
+    };
+}
+function entryContentId(entry: { key: string }) {
+    return `generic-icon-list-${props.level}-${entry.key}`;
+}
+function toggleText(entry: { key: string; text: any }) {
+    return isExpanded(entry.key) ? t('showLess') : `${t('showMore')} (+${hiddenCount(entry)})`;
+}
+function toggleLabel(entry: { key: string; text: any }) {
+    return toggleText(entry);
+}
 
 /* expand/collapse */
 const expandedMap = ref<Record<string, boolean>>({});
@@ -151,7 +243,7 @@ function buildIconEntries() {
 
     /* ---------- WORK ---------- */
     if (level === 'work') {
-    // Produktionsorte
+        // Produktionsorte
         const workEvents = asArray(d?.has_record?.has_event);
         const locs = workEvents.flatMap((ev: any) => asArray(ev?.located_in));
         const locTexts = locs.map((loc: any) => {

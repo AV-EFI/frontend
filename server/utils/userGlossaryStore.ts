@@ -19,37 +19,37 @@ export interface UserGlossaryFile {
 }
 
 async function ensureDir() {
-    await fs.mkdir(DATA_DIR, { recursive: true });
+  await fs.mkdir(DATA_DIR, { recursive: true });
 }
 
 export async function readUserGlossary(): Promise<UserGlossaryFile> {
-    await ensureDir();
-    try {
-        const raw = await fs.readFile(FILE_PATH, 'utf8');
-        return JSON.parse(raw) as UserGlossaryFile;
-    } catch {
-        const empty: UserGlossaryFile = { entries: {}, updatedAt: new Date().toISOString() };
-        await writeUserGlossary(empty);
-        return empty;
-    }
+  await ensureDir();
+  try {
+    const raw = await fs.readFile(FILE_PATH, 'utf8');
+    return JSON.parse(raw) as UserGlossaryFile;
+  } catch {
+    const empty: UserGlossaryFile = { entries: {}, updatedAt: new Date().toISOString() };
+    await writeUserGlossary(empty);
+    return empty;
+  }
 }
 
 export async function writeUserGlossary(data: UserGlossaryFile) {
-    await ensureDir();
-    data.updatedAt = new Date().toISOString();
-    await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2), 'utf8');
+  await ensureDir();
+  data.updatedAt = new Date().toISOString();
+  await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2), 'utf8');
 }
 
 export function arrayToFile(entries: UserGlossaryEntry[]): UserGlossaryFile {
-    const map: UserGlossaryFile['entries'] = {};
-    for (const e of entries) {
-        map[e.path] = { de: e.de ?? '', en: e.en ?? '', showDetail: e.showDetail, showSearch: e.showSearch };
-    }
-    return { entries: map, updatedAt: new Date().toISOString() };
+  const map: UserGlossaryFile['entries'] = {};
+  for (const e of entries) {
+    map[e.path] = { de: e.de ?? '', en: e.en ?? '', showDetail: e.showDetail, showSearch: e.showSearch };
+  }
+  return { entries: map, updatedAt: new Date().toISOString() };
 }
 
 export function fileToArray(file: UserGlossaryFile): UserGlossaryEntry[] {
-    return Object.entries(file.entries)
-        .map(([path, v]) => ({ path, de: v.de ?? '', en: v.en ?? '', showDetail: v.showDetail, showSearch: v.showSearch }))
-        .sort((a, b) => a.path.localeCompare(b.path));
+  return Object.entries(file.entries)
+    .map(([path, v]) => ({ path, de: v.de ?? '', en: v.en ?? '', showDetail: v.showDetail, showSearch: v.showSearch }))
+    .sort((a, b) => a.path.localeCompare(b.path));
 }

@@ -20,7 +20,7 @@
             <ul class="mt-3 flex max-h-40 flex-col gap-1 overflow-y-auto">
                 <li v-for="node in nodeList" :key="node.id">
                     <button type="button" class="btn btn-sm w-full justify-start"
-                        :class="node.id === selectedNode?.id ? 'btn-active' : 'btn-ghost'" @click="emitSelect(node.id)">
+                            :class="node.id === selectedNode?.id ? 'btn-active' : 'btn-ghost'" @click="emitSelect(node.id)">
                         <span class="truncate">{{ node.label }}</span>
                         <span class="badge badge-outline badge-xs ml-2 uppercase">{{ node.type }}</span>
                     </button>

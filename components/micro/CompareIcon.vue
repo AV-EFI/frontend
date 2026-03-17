@@ -7,9 +7,9 @@ defineProps({
 });
 </script>
 <template>
-  <Icon
-    :alt="alt"
-    :_aria-label="alt"
-    name="formkit:add"
-  />
+    <Icon
+        :alt="alt"
+        :_aria-label="alt"
+        name="formkit:add"
+    />
 </template>

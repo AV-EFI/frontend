@@ -1,81 +1,193 @@
 #!/usr/bin/env node
 import sharp from 'sharp';
-import { existsSync, mkdirSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { existsSync, mkdirSync, readdirSync, rmSync } from 'fs';
+import { dirname, join, parse } from 'path';
+import {
+  WEBP_QUALITY,
+  getDeclaredOutputs,
+  getManagedFamilyPrefixes,
+  getManagedKeepSet,
+  imageJobs,
+  isRetiredImagePath,
+  publicDir,
+} from './image-manifest.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const publicDir = join(__dirname, '..', 'public');
+const flags = new Set(process.argv.slice(2));
+const isCheckMode = flags.has('--check');
+const shouldClean = flags.has('--clean');
+const isDryRun = flags.has('--dry-run');
 
-// Image optimization configurations
-const images = [
-  {
-    input: 'img/aktiv_im_dok.jpg',
-    outputs: [
-      { name: 'img/aktiv_im_dok-800.webp', width: 800, format: 'webp', quality: 85 },
-      { name: 'img/aktiv_im_dok-800.jpg', width: 800, format: 'jpeg', quality: 85 },
-    ]
-  },
-  {
-    input: 'img/restaur_kurzfilme.jpg',
-    outputs: [
-      { name: 'img/restaur_kurzfilme-800.webp', width: 800, format: 'webp', quality: 85 },
-      { name: 'img/restaur_kurzfilme-800.jpg', width: 800, format: 'jpeg', quality: 85 },
-    ]
-  },
-  {
-    input: 'img/avefi_vid_poster.webp',
-    outputs: [
-      { name: 'img/avefi_vid_poster-1024.webp', width: 1024, format: 'webp', quality: 85 },
-    ]
+const imgDir = join(publicDir, 'img');
+
+const normalizeRelPath = (relPath) => relPath.replace(/\\/g, '/');
+
+const ensureDirectory = (absolutePath) => {
+  const outputDir = dirname(absolutePath);
+  if (!existsSync(outputDir) && !isDryRun) {
+    mkdirSync(outputDir, { recursive: true });
   }
-];
+};
 
-async function optimizeImages() {
-  console.log('🖼️  Starting image optimization...\n');
+const createResponsiveImage = async (job, outputConfig) => {
+  const inputPath = join(publicDir, job.input);
+  const outputPath = join(publicDir, outputConfig.output);
 
-  for (const imageConfig of images) {
-    const inputPath = join(publicDir, imageConfig.input);
-    
-    if (!existsSync(inputPath)) {
-      console.log(`⚠️  Skipping ${imageConfig.input} (not found)`);
+  if (!existsSync(inputPath)) {
+    throw new Error(`Missing input file: ${job.input}`);
+  }
+
+  ensureDirectory(outputPath);
+
+  if (isDryRun) {
+    console.log(`DRY RUN create ${outputConfig.output} from ${job.input}`);
+    return;
+  }
+
+  await sharp(inputPath)
+    .resize(outputConfig.width, null, {
+      withoutEnlargement: true,
+      fit: 'inside',
+    })
+    .webp({ quality: WEBP_QUALITY })
+    .toFile(outputPath);
+
+  const stats = await sharp(outputPath).metadata();
+  console.log(`Created ${outputConfig.output} (${stats.width}x${stats.height})`);
+};
+
+const createFixedHeightLogo = async (job) => {
+  const inputPath = join(publicDir, job.input);
+  const outputPath = join(publicDir, job.output);
+
+  if (!existsSync(inputPath)) {
+    throw new Error(`Missing input file: ${job.input}`);
+  }
+
+  ensureDirectory(outputPath);
+
+  if (isDryRun) {
+    console.log(`DRY RUN create ${job.output} from ${job.input}`);
+    return;
+  }
+
+  await sharp(inputPath)
+    .resize({ height: job.height, fit: 'contain' })
+    .webp({ quality: WEBP_QUALITY })
+    .toFile(outputPath);
+
+  const stats = await sharp(outputPath).metadata();
+  console.log(`Created ${job.output} (${stats.width}x${stats.height})`);
+};
+
+const runGeneration = async () => {
+  for (const job of imageJobs) {
+    if (job.kind === 'responsive') {
+      for (const output of job.outputs) {
+        await createResponsiveImage(job, output);
+      }
       continue;
     }
 
-    console.log(`📸 Processing: ${imageConfig.input}`);
-    
-    for (const output of imageConfig.outputs) {
-      const outputPath = join(publicDir, output.name);
-      const outputDir = dirname(outputPath);
+    await createFixedHeightLogo(job);
+  }
+};
 
-      // Ensure output directory exists
-      if (!existsSync(outputDir)) {
-        mkdirSync(outputDir, { recursive: true });
+const collectStaleManagedFiles = () => {
+  const keepSet = getManagedKeepSet();
+  const familyPrefixes = getManagedFamilyPrefixes();
+
+  return readdirSync(imgDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => normalizeRelPath(join('img', entry.name)))
+    .filter((relPath) => {
+      if (keepSet.has(relPath)) {
+        return false;
       }
 
-      try {
-        const pipeline = sharp(inputPath).resize(output.width, null, {
-          withoutEnlargement: true,
-          fit: 'inside'
-        });
-
-        if (output.format === 'webp') {
-          await pipeline.webp({ quality: output.quality }).toFile(outputPath);
-        } else if (output.format === 'jpeg') {
-          await pipeline.jpeg({ quality: output.quality, mozjpeg: true }).toFile(outputPath);
-        }
-
-        const stats = await sharp(outputPath).metadata();
-        console.log(`   ✅ Created: ${output.name} (${stats.width}x${stats.height})`);
-      } catch (error) {
-        console.error(`   ❌ Error processing ${output.name}:`, error.message);
+      if (isRetiredImagePath(relPath)) {
+        return true;
       }
-    }
-    console.log('');
+
+      const parsed = parse(relPath);
+      const fileBasePath = normalizeRelPath(join(parsed.dir, parsed.name));
+
+      return familyPrefixes.some((prefix) => fileBasePath === prefix || fileBasePath.startsWith(`${prefix}-`));
+    });
+};
+
+const cleanStaleManagedFiles = () => {
+  const staleFiles = collectStaleManagedFiles();
+
+  if (staleFiles.length === 0) {
+    console.log('No stale managed image files found.');
+    return;
   }
 
-  console.log('✨ Image optimization complete!\n');
-}
+  for (const relPath of staleFiles) {
+    const absolutePath = join(publicDir, relPath);
 
-optimizeImages().catch(console.error);
+    if (isDryRun) {
+      console.log(`DRY RUN remove ${relPath}`);
+      continue;
+    }
+
+    rmSync(absolutePath, { force: true });
+    console.log(`Removed stale file ${relPath}`);
+  }
+};
+
+const runChecks = () => {
+  const missingInputs = imageJobs
+    .map((job) => job.input)
+    .filter((input) => !existsSync(join(publicDir, input)));
+
+  const missingOutputs = getDeclaredOutputs()
+    .filter((output) => !existsSync(join(publicDir, output)));
+
+  if (missingInputs.length > 0) {
+    console.error('Missing input images:');
+    for (const input of missingInputs) {
+      console.error(`- ${input}`);
+    }
+  }
+
+  if (missingOutputs.length > 0) {
+    console.error('Missing generated output images:');
+    for (const output of missingOutputs) {
+      console.error(`- ${output}`);
+    }
+  }
+
+  const staleFiles = collectStaleManagedFiles();
+  if (staleFiles.length > 0) {
+    console.error('Stale managed image files present:');
+    for (const relPath of staleFiles) {
+      console.error(`- ${relPath}`);
+    }
+  }
+
+  if (missingInputs.length > 0 || missingOutputs.length > 0 || staleFiles.length > 0) {
+    process.exitCode = 1;
+    return;
+  }
+
+  console.log('Image check passed.');
+};
+
+const run = async () => {
+  if (isCheckMode) {
+    runChecks();
+    return;
+  }
+
+  await runGeneration();
+
+  if (shouldClean) {
+    cleanStaleManagedFiles();
+  }
+};
+
+run().catch((error) => {
+  console.error(error.message);
+  process.exitCode = 1;
+});

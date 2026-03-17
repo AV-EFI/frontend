@@ -1,42 +1,42 @@
 <template>
-  <div>
-    <input
-      v-model="newObjectName"
-      type="text"
-      :placeholder="$t('enterobjectname')"
-    >
-    <button
-      :title="$t('addtocomparison')"
-      class="btn btn-primary"
-      @click="addObject"
-    >
-      {{ $t('addtocomparison') }}
-    </button>
-    
-    <ul>
-      <li
-        v-for="(object, index) in objectListStore.objects"
-        :key="index"
-      >
-        {{ object.filmTitle }}
-        <button
-          :title="$t('remove').toUpperCase"
-          class="btn btn-warning"
-          @click="removeObject(index)"
+    <div>
+        <input
+            v-model="newObjectName"
+            type="text"
+            :placeholder="$t('enterobjectname')"
         >
-          {{ $t('remove').toUpperCase() }}
+        <button
+            :title="$t('addtocomparison')"
+            class="btn btn-primary"
+            @click="addObject"
+        >
+            {{ $t('addtocomparison') }}
         </button>
-      </li>
-    </ul>
+    
+        <ul>
+            <li
+                v-for="(object, index) in objectListStore.objects"
+                :key="index"
+            >
+                {{ object.filmTitle }}
+                <button
+                    :title="$t('remove').toUpperCase"
+                    class="btn btn-warning"
+                    @click="removeObject(index)"
+                >
+                    {{ $t('remove').toUpperCase() }}
+                </button>
+            </li>
+        </ul>
 
-    <button
-      :title="$t('clearalllist')"
-      class="btn btn-error"
-      @click="removeAllObjects"
-    >
-      {{ $t('clearalllist') }}
-    </button>
-  </div>
+        <button
+            :title="$t('clearalllist')"
+            class="btn btn-error"
+            @click="removeAllObjects"
+        >
+            {{ $t('clearalllist') }}
+        </button>
+    </div>
 </template>
 
 <script setup lang="ts">

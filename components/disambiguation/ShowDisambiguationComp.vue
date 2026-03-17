@@ -1,18 +1,18 @@
 <template>
-  <button
-    class="btn btn-secondary"
-    :class="[btnSize]"
-    :alt="$t('gotodisamiguationparam', { name: filmId_prev })"
-    :title="$t('gotodisamiguationparam', { name: filmId_prev })"
-    :data-id="filmId_prev"
-    :data-title="filmId_prev"
-    :aria-label="$t('gotodisamiguationparam', { name: filmId_prev })"
-    @click="navigateToDisambiguation"
-  >
-    <DisambiguationIcon
-      :alt="$t('gotodisamiguationparam', { name: filmId_prev })"
-    />
-  </button>
+    <button
+        class="btn btn-secondary"
+        :class="[btnSize]"
+        :alt="$t('gotodisamiguationparam', { name: filmId_prev })"
+        :title="$t('gotodisamiguationparam', { name: filmId_prev })"
+        :data-id="filmId_prev"
+        :data-title="filmId_prev"
+        :aria-label="$t('gotodisamiguationparam', { name: filmId_prev })"
+        @click="navigateToDisambiguation"
+    >
+        <DisambiguationIcon
+            :alt="$t('gotodisamiguationparam', { name: filmId_prev })"
+        />
+    </button>
 </template>
 <script setup lang="ts">
 

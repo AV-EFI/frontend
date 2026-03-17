@@ -1,52 +1,52 @@
 <template>
-  <div
-    class="container"
-    role="status"
-    aria-live="polite"
-  >
-    <!-- Three emojis (filmstrip, filmreel, movie video camera) -->
     <div
-      v-if="showEmojis"
-      class="emojis"
-      aria-label="Searching for films"
+        class="container"
+        role="status"
+        aria-live="polite"
     >
-      <span
-        v-for="(emoji, index) in emojis"
-        :key="index"
-        class="emoji text-2xl h-8"
-        role="img"
-        :aria-label="emojiLabels[index]"
-      >{{ emoji }}</span>
-    </div>
+        <!-- Three emojis (filmstrip, filmreel, movie video camera) -->
+        <div
+            v-if="showEmojis"
+            class="emojis"
+            aria-label="Searching for films"
+        >
+            <span
+                v-for="(emoji, index) in emojis"
+                :key="index"
+                class="emoji text-2xl h-8"
+                role="img"
+                :aria-label="emojiLabels[index]"
+            >{{ emoji }}</span>
+        </div>
 
-    <!-- Crying emoji appears after animation is complete -->
-    <div
-      v-if="showNothing"
-      class="nothing text-2xl h-8"
-      role="img"
-      aria-label="No results found"
-    >
-      😢
-    </div>
+        <!-- Crying emoji appears after animation is complete -->
+        <div
+            v-if="showNothing"
+            class="nothing text-2xl h-8"
+            role="img"
+            aria-label="No results found"
+        >
+            😢
+        </div>
 
-    <!-- Magnifying glass animates over the emojis -->
-    <div
-      v-if="showMagnifyingGlass"
-      class="magnifying-glass text-2xl h-8"
-      role="img"
-      aria-label="Searching"
-    >
-      🔍
-    </div>
+        <!-- Magnifying glass animates over the emojis -->
+        <div
+            v-if="showMagnifyingGlass"
+            class="magnifying-glass text-2xl h-8"
+            role="img"
+            aria-label="Searching"
+        >
+            🔍
+        </div>
 
-    <div
-      v-if="showNothing"
-      class="no-results text-xl text-primary-900 dark:text-neutral-200"
-    >
-      <p>{{ $t('noResults') }}</p>
-      <p>{{ $t('tryClearingFiltersOrQuery') }}</p>
+        <div
+            v-if="showNothing"
+            class="no-results text-xl text-primary-900 dark:text-neutral-200"
+        >
+            <p>{{ $t('noResults') }}</p>
+            <p>{{ $t('tryClearingFiltersOrQuery') }}</p>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

@@ -2,16 +2,16 @@ import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElas
 import { useRuntimeConfig, useFetch } from 'nuxt/app';
 
 export async function getDataSet(routeParamsId: string): Promise<ElasticGetByIdResponse | null> {
-    try {
-        const config = useRuntimeConfig();
-        const route = `${config.public.AVEFI_ELASTIC_API}/${config.public.AVEFI_GET_WORK}/${routeParamsId}`;
-        const { data } = await useFetch(route);
-        if (data.value) {
-            return data.value;
-        }
-        return null;
-    } catch (e) {
-        console.error('getDataSet error', e);
-        return null;
+  try {
+    const config = useRuntimeConfig();
+    const route = `${config.public.elasticApiBase}/${config.public.AVEFI_GET_WORK}/${routeParamsId}`;
+    const { data } = await useFetch(route);
+    if (data.value) {
+      return data.value;
     }
+    return null;
+  } catch (e) {
+    console.error('getDataSet error', e);
+    return null;
+  }
 }

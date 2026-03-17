@@ -1,26 +1,39 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-    // ✅ Run middleware only on client
-    if (import.meta.server) return;
+  const runtimeConfig = useRuntimeConfig();
+  const isAdminRoute = to.path.startsWith('/admin');
+  const requiresAuth = to.path.startsWith('/protected') || isAdminRoute;
+  const allowDevBypass = runtimeConfig.public.authGuardBypassInDev && !isAdminRoute;
 
-    if (to.path.startsWith('/protected')) {
-        console.log('Protected route accessed:', to.path);
-        const auth = useAuth();
+  if (!requiresAuth || allowDevBypass) {
+    return;
+  }
 
-        console.log('Auth data:', auth.data.value);
+  if (import.meta.server) {
+    try {
+      const session = await $fetch<{ user?: Record<string, unknown> | null }>(
+        runtimeConfig.public.AUTH_SESSION_ENDPOINT,
+        {
+          headers: useRequestHeaders(['cookie']),
+        },
+      );
 
-        // If data is already available → allow access
-        if (auth.data.value?.user) return;
-
-        // Otherwise fetch it and wait
-        await auth.getSession();
-
-        // Redirect only if still no user
-        if (!auth.data.value?.user) {
-            navigateTo('/');
-        }
-
-        return; // ✅ Explicit return to satisfy ESLint
+      if (session?.user) {
+        return;
+      }
+    } catch {
+      // fall through to redirect
     }
 
-    return; // ✅ All paths return something
+    return navigateTo('/');
+  }
+
+  const auth = useAuth();
+  if (auth.data.value?.user) {
+    return;
+  }
+
+  await auth.getSession();
+  if (!auth.data.value?.user) {
+    return navigateTo('/');
+  }
 });
