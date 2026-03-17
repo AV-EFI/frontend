@@ -90,7 +90,7 @@
                         <MicroLabelComp label-text="in_language" />
                     </span>
                     <SearchHighlightListComp
-                        :items="(exemplar?.has_record?.in_language || []).map(il => `${$t(il?.code)}${il?.usage?.length ? ' (' + il.usage.map(u => $t(u)).join(', ') + ')' : ''}`)"
+                        :items="formatItemLanguages(exemplar?.has_record?.in_language)"
                         :hilite="highlightResult?.manifestations?.items?.has_record?.in_language?.code?.matchedWords"
                         class="text-sm"
                     />
@@ -103,7 +103,7 @@
                         <MicroLabelComp label-text="has_sound_type" />
                     </span>
                     <p class="text-sm font-normal">
-                        {{ exemplar?.has_record?.has_sound_type ? $t(exemplar.has_record.has_sound_type) : '-' }}
+                        {{ exemplar?.has_record?.has_sound_type ? translateKey(exemplar.has_record.has_sound_type) : '-' }}
                     </p>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                         <MicroLabelComp label-text="has_colour_type" />
                     </span>
                     <p class="text-sm font-normal">
-                        {{ exemplar?.has_record?.has_colour_type ? $t(exemplar.has_record.has_colour_type) : '-' }}
+                        {{ exemplar?.has_record?.has_colour_type ? translateKey(exemplar.has_record.has_colour_type) : '-' }}
                     </p>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                     <p class="text-sm font-normal">
                         {{
                             exemplar?.has_record?.has_extent?.has_value
-                                ? `${exemplar.has_record.has_extent.has_value} ${$t(exemplar.has_record.has_extent.has_unit)}`
+                                ? `${exemplar.has_record.has_extent.has_value} ${translateKey(exemplar.has_record.has_extent.has_unit)}`
                                 : '-'
                         }}
                     </p>
@@ -157,7 +157,7 @@
                         <MicroLabelComp label-text="has_frame_rate" />
                     </span>
                     <p class="text-sm font-normal">
-                        {{ $t(exemplar?.has_record?.has_frame_rate || '-') }}
+                        {{ exemplar?.has_record?.has_frame_rate ? translateKey(exemplar.has_record.has_frame_rate) : '-' }}
                     </p>
                 </div>
             </div>
@@ -168,7 +168,7 @@
                         <MicroLabelComp label-text="has_note" />
                     </span>
                     <p class="text-sm font-normal">
-                        {{ $t(exemplar?.has_record?.has_note || '-') }}
+                        {{ exemplar?.has_record?.has_note ? translateKey(exemplar.has_record.has_note) : '-' }}
                     </p>
                 </div>
             </div>
@@ -228,6 +228,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps({
     items: { type: Array, required: true },
     manifestationIndex: { type: Number, required: true },
@@ -236,6 +238,33 @@ defineProps({
     productionDetailsChecked: { type: Boolean, required: false, default: false },
     showAdminStats: { type: Boolean, required: false, default: false },
 });
+
+function translateKey(value: unknown) {
+    if (typeof value !== 'string' || !value) return '';
+    return t(value);
+}
+
+function formatUsageList(usage: unknown) {
+    if (!Array.isArray(usage)) return '';
+
+    const translatedUsage = usage
+        .map((entry) => translateKey(entry))
+        .filter(Boolean);
+
+    return translatedUsage.length ? ` (${translatedUsage.join(', ')})` : '';
+}
+
+function formatItemLanguages(languages: unknown) {
+    if (!Array.isArray(languages)) return [];
+
+    return languages
+        .map((language) => {
+            const code = translateKey(language?.code);
+            if (!code) return '';
+            return `${code}${formatUsageList(language?.usage)}`;
+        })
+        .filter(Boolean);
+}
 
 function getItemAnchorId(exemplar: any, itemIndex: number) {
     return exemplar?.handle || `item-${itemIndex}`;

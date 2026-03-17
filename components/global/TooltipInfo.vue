@@ -34,8 +34,16 @@
 const props = defineProps<{ text: string }>();
 
 const { t } = useI18n();
-const tooltipId = useId();
 const open = ref(false);
 
 const accessibleLabel = computed(() => `${t('info')}: ${props.text}`);
+const tooltipId = computed(() => {
+    const normalized = (props.text || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 48);
+
+    return `tooltip-${normalized || 'info'}`;
+});
 </script>

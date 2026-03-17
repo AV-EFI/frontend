@@ -9,13 +9,16 @@
             :data-manifestation-index="i"
             :aria-labelledby="`manifestation-heading-${i}`"
         >
-            <button
-                type="button"
+            <div
                 class="w-full text-left px-4 py-3 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                role="button"
+                tabindex="0"
                 :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
                 :aria-controls="`manifestation-panel-${i}`"
                 :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
                 @click="toggleManifestation(i)"
+                @keydown.enter.prevent="toggleManifestation(i)"
+                @keydown.space.prevent="toggleManifestation(i)"
             >
                 <div class="flex items-start justify-between gap-3">
                     <DetailManifestationHeaderComp
@@ -29,7 +32,7 @@
                         aria-hidden="true"
                     />
                 </div>
-            </button>
+            </div>
 
             <div
                 v-show="isManifestationOpen(i)"

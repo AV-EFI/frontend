@@ -30,12 +30,14 @@
                     </template>
 
                     <template #right>
-                        <GlobalActionContextComp
-                            class="col-start-11 row-start-1 justify-self-end"
-                            :id="dataJson?.compound_record?._source?.handle"
-                            :item="dataJson?.compound_record?._source"
-                            comp-size="xl"
-                        />
+                        <ClientOnly>
+                            <GlobalActionContextComp
+                                class="col-start-11 row-start-1 justify-self-end"
+                                :id="dataJson?.compound_record?._source?.handle"
+                                :item="dataJson?.compound_record?._source"
+                                comp-size="xl"
+                            />
+                        </ClientOnly>
                     </template>
                 </NuxtLayout>
             </template>
@@ -91,7 +93,6 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentUrlState } from '~/composables/useCurrentUrlState.js';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import { useAsyncData, useRuntimeConfig } from 'nuxt/app';
@@ -99,7 +100,6 @@ import { useAsyncData, useRuntimeConfig } from 'nuxt/app';
 definePageMeta({ auth: false });
 
 const route = useRoute();
-const { currentUrlState } = useCurrentUrlState();
 const config = useRuntimeConfig();
 const { t } = useI18n();
 
@@ -408,7 +408,7 @@ useSchemaOrg(() => {
  * -------------------------- */
 const breadcrumbs = computed(() => [
     ['Home', '/'],
-    [t('filmresearch'), `/${config.public.SEARCH_URL}${currentUrlState.value}`],
+    [t('filmresearch'), `/${config.public.SEARCH_URL}`],
     [t('detailview'), `/res/${prefix.value}/${id.value}`],
 ]);
 </script>

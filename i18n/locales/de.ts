@@ -1029,13 +1029,27 @@ const deBase = {
 };
 
 // IMPORTANT: merge in avefiLocales.de (choose order intentionally)
+const mergedSeo = {
+  ...deBase.seo,
+  ...avefiDe.seo,
+  home: { ...deBase.seo?.home, ...avefiDe.seo?.home },
+  search: { ...deBase.seo?.search, ...avefiDe.seo?.search },
+  contact: { ...deBase.seo?.contact, ...avefiDe.seo?.contact },
+  imprint: { ...deBase.seo?.imprint, ...avefiDe.seo?.imprint },
+  accessibility: { ...deBase.seo?.accessibility, ...avefiDe.seo?.accessibility },
+  resource: { ...deBase.seo?.resource, ...avefiDe.seo?.resource },
+  vocab: { ...deBase.seo?.vocab, ...avefiDe.seo?.vocab },
+  compare: { ...deBase.seo?.compare, ...avefiDe.seo?.compare },
+  glossary: { ...deBase.seo?.glossary, ...avefiDe.seo?.glossary },
+  faq: { ...deBase.seo?.faq, ...avefiDe.seo?.faq },
+  normdata: { ...deBase.seo?.normdata, ...avefiDe.seo?.normdata },
+};
 export default {
   ...deBase, 
   ...avefiDe,
   accessibilityStatement: "Erklärung zur Barrierefreiheit",
   seo: {
-    ...deBase.seo,
-    ...avefiDe.seo,
+    ...mergedSeo,
     resource: {
       title: "{title} – Filmwerk | AVefi",
       description: "Filmwerk mit Metadaten aus Filmarchiven. AVefi zeigt Manifestationen, Exemplare und verknüpfte Filmdaten aus mehreren Institutionen."
