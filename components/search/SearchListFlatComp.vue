@@ -165,8 +165,9 @@
 
                                         <span v-if="isItemEmpty(row.item)" class="badge badge-item mx-auto my-auto"
                                               :title="$t('emptyItemTooltip') || 'This item has no additional metadata'">
-                                            <span>
+                                            <span class="text-black">
                                                 {{ $t('emptyItem') || 'Empty' }}
+
                                             </span>
                                         </span>
                                         <SearchGenericIconList v-else :data="row.item" level="item"

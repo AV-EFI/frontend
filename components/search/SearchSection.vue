@@ -6,9 +6,8 @@
                     <span class="loading loading-spinner text-primary" aria-live="polite" aria-busy="true" />
                 </div>
             </template>
-            <SearchInstantSearchTemplateAVefi 
-                v-if="isInstantSearchReady" :search-client="searchClient"
-                :index-name="indexName" @facetsChanged="(payload) => emit('facetsChanged', payload)" />
+            <SearchInstantSearchTemplateAVefi v-if="isInstantSearchReady" :search-client="searchClient"
+                                              :index-name="indexName" @facetsChanged="(payload) => emit('facetsChanged', payload)" />
             <div v-else class="py-8 flex flex-col items-center gap-2 text-center">
                 <span v-if="!instantSearchError" class="loading loading-spinner text-primary" aria-live="polite" aria-busy="true" />
                 <p v-else class="text-error text-sm">

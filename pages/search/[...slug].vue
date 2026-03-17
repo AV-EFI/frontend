@@ -6,8 +6,8 @@
         ]" />
         <keep-alive>
             <SearchSection v-if="searchClient" :search-client="searchClient" @facetsChanged="onFacetsChanged" />
-            <div v-else class="text-center py-4 rounded-lg border-2 border-base-200">
-                <span class="loading loading-spinner loading-lg text-primary" aria-live="polite" aria-busy="true" />
+            <div v-else class="text-center py-4">
+                <span class="loading loading-spinner loading-lg text-primary" />
             </div>
         </keep-alive>
     </div>

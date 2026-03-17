@@ -64,8 +64,8 @@
                                 <a href="https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
                                    target="_blank"
                                    class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
-                                   :aria-label="$t('home.sections.becomePartner.cta')">
-                                    {{ $t('home.sections.becomePartner.cta') }}
+                                   :aria-label="$t('becomeAPartner.cta')">
+                                    {{ $t('becomeAPartner.cta') }}
                                 </a>
                             </li>
                             <li class="min-h-16">
