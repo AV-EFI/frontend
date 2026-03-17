@@ -71,7 +71,7 @@
 
         <HomeSectionTextBlock
             :title="t('home.sections.build.linked.title')"
-            :paragraphs="[t('home.sections.build.linked.lead')]"
+            :paragraphs="[t('home.sections.build.linked.lead[0]'), t('home.sections.build.linked.lead[1]')]"
             wrapper-class="order-1 lg:order-2 w-full"
         />
     </div>

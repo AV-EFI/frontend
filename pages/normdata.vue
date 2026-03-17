@@ -306,7 +306,6 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { useSeoMeta, useSchemaOrg, defineWebPage } from '#imports';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -352,29 +351,9 @@ const pageDescription = computed(() => {
 
 const canonical = (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/normdata';
 
-// Meta tags
-useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    ogImage: runtimeConfig.public.siteOgImage || ((runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/img/avefi-og-image.png'),
-    ogType: 'website',
-    ogUrl: canonical,
-    twitterCard: 'summary_large_image',
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
-});
+// Meta tags
 
-// Schema.org
-useSchemaOrg([
-    defineWebPage({
-        '@id': canonical,
-        name: pageTitle.value.replace(' | AVefi', '').replace(' – AVefi', ''),
-        description: pageDescription.value,
-        url: canonical,
-    }),
-]);
+// Schema.org
 
 type FieldKey = 'has_subject' | 'has_genre'
 

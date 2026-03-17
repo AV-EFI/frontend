@@ -1,11 +1,7 @@
 // nuxt.config.ts
 const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | schema | release
-const indexSearch = process.env.NUXT_PUBLIC_INDEX_SEARCH === 'true';
 const buildProfile = process.env.NUXT_BUILD_PROFILE ?? 'ci';
 
-const isPre = releaseMode === 'pre';
-const isSchema = releaseMode === 'schema';
-const isRelease = releaseMode === 'release';
 const isFastBuildProfile = buildProfile === 'local';
 const shouldRunBuildQa = !isFastBuildProfile;
 const shouldEnableReleaseModules = !isFastBuildProfile;
@@ -36,12 +32,8 @@ const publicSearchRouteBase =
   process.env.SEARCH_URL ||
   process.env.AVEFI_SEARCH_URL ||
   'search';
-const publicSiteOgImage =
-  process.env.NUXT_PUBLIC_SITE_OG_IMAGE ||
-  `${publicSiteUrl.replace(/\/+$/, '')}/img/avefi-og-image.png`;
 
 import tailwindcss from '@tailwindcss/vite';
-import { defineOrganization } from 'nuxt-schema-org/schema';
 import { defineNuxtConfig } from 'nuxt/config';
 import visualizer from 'rollup-plugin-visualizer';
 
@@ -182,41 +174,6 @@ export default defineNuxtConfig({
       crawlLinks: false,
       routes: shouldRunBuildQa ? ['/faq', '/vocab', '/imprint', '/press'] : [],
     },
-
-    // Response-header policies (X-Robots-Tag etc.)
-    routeRules: {
-      // ✅ immer fetchbar (GSC braucht das)
-      '/sitemap.xml': {
-        headers: {
-          // Sitemap selbst muss nicht indexiert werden – aber darf gecrawlt werden
-          'X-Robots-Tag': 'noindex, follow',
-          'Content-Type': 'application/xml; charset=utf-8',
-        },
-      },
-      '/robots.txt': {
-        headers: {
-          'X-Robots-Tag': 'index, follow',
-          'Content-Type': 'text/plain; charset=utf-8',
-        },
-      },
-      // ✅ Caching unverändert
-      '/img/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
-      '/fonts/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
-
-      // ✅ Search nur indexieren wenn explizit gewünscht UND release/schema
-      ...((isRelease || isSchema) && !indexSearch
-        ? {
-          '/search': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
-          '/search/**': { headers: { 'X-Robots-Tag': 'noindex, follow' } },
-        }
-        : {}),
-
-      ...(isPre
-        ? {
-          '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
-        }
-        : {}),
-    },
   },
 
   modules: [
@@ -229,13 +186,9 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@dargmuesli/nuxt-cookie-control',
     'nuxt-nodemailer',
-    'nuxt-schema-org',
     ...(shouldEnableReleaseModules
       ? [
         'nuxt3-winston-log',
-        '@nuxtjs/seo',
-        '@nuxtjs/robots',
-        '@nuxtjs/sitemap',
       ]
       : []),
   ],
@@ -258,25 +211,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      // release switches
       releaseMode,
-      indexSearch,
-      // bot/rate limit knobs (used by server middleware, e.g. server/middleware/bot-guard.ts)
-      rateLimitEnabled: process.env.NUXT_PUBLIC_RATE_LIMIT_ENABLED === 'true',
-      rateLimitAvg: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_AVG ?? 8),
-      rateLimitBurst: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_BURST ?? 20),
-      schemaTestUaAllowlist: (
-        process.env.NUXT_PUBLIC_SCHEMA_TEST_UA_ALLOWLIST ??
-        'Googlebot,Google-InspectionTool'
-      )
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean),
       ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
       origin: publicSiteUrl,
       frontendUrl: publicSiteUrl,
       siteUrl: publicSiteUrl,
-      siteOgImage: publicSiteOgImage,
       apiUrl: publicApiUrl,
       elasticApiBase: publicElasticApiBase,
       searchApiPath: publicSearchApiPath,
@@ -360,173 +299,6 @@ export default defineNuxtConfig({
       pass: process.env.MAIL_PASSWORD,
     },
   },
-  site: {
-    url: process.env.SITE_URL || 'https://www.av-efi.net',
-    name: 'AVefi – Find films. Link data.',
-    description:
-    'AVefi provides unified access to film metadata from German archives – linked with authority data, persistent identifiers and research tools.',
-    indexable:
-    process.env.NUXT_PUBLIC_INDEXABLE === 'true' ||
-    isSchema,
-    image: '/img/avefi-og-image.png',
-  },
-  schemaOrg: {
-    enabled: true,
-    minify: true,
-    identity: defineOrganization({
-      name: 'AVefi – Infrastruktur für audiovisuelle Forschung',
-      alternateName: 'AVefi',
-      url: process.env.SITE_URL || 'https://www.av-efi.net',
-      logo: `${process.env.SITE_URL || 'https://www.av-efi.net'}/img/avefi-og-image.png`,
-      description:
-        'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
-      foundingDate: '2023-11-01',
-      member: [
-        {
-          '@type': 'Organization',
-          name: 'TIB – Leibniz-Informationszentrum Technik und Naturwissenschaften',
-          url: 'https://www.tib.eu',
-        },
-        {
-          '@type': 'Organization',
-          name: 'Stiftung Deutsche Kinemathek – Museum für Film und Fernsehen',
-          alternateName: 'Deutsche Kinemathek',
-          url: 'https://www.deutsche-kinemathek.de/',
-        },
-        {
-          '@type': 'Organization',
-          name: 'Filmmuseum Düsseldorf',
-          url: 'https://www.duesseldorf.de/filmmuseum',
-        },
-        {
-          '@type': 'Organization',
-          name: 'Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen',
-          alternateName: 'GWDG',
-          url: 'https://www.gwdg.de',
-        },
-      ],
-      sameAs: ['https://github.com/AV-EFI', 'https://www.zotero.org/groups/5125890/avefi'],
-    }),
-
-    // ✅ Add exactly one publisher
-    // defaults must be true in your setup
-    defaults: true,
-  },
-
-  robots: {
-    groups: isSchema
-      ? [
-        {
-          userAgent: 'Googlebot',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-        {
-          userAgent: 'Google-InspectionTool',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-        {
-          userAgent: '*',
-          disallow: ['/'],
-        },
-      ]
-      : [
-        {
-          userAgent: '*',
-          allow: '/',
-          disallow: [
-            '/protected/**',
-            '/admin/**',
-            '/login',
-            '/logout',
-            '/signout',
-            '/normdata',
-            '/explorer-poc',
-            '/_nuxt/**',
-            '/_**',
-          ],
-        },
-      ],
-    sitemap: ['/sitemap.xml'],
-  },
-  // Sitemap
-  sitemap: {
-    zeroRuntime: true,
-    excludeAppSources: true, // Exclude app sources to avoid conflicts with dynamic routes
-    urls: [
-      '/',
-      '/search',
-      '/contact',
-      '/res',
-      '/imprint',
-      '/accessibility',
-      '/press',
-      '/faq',
-      // concrete “testable” URLs
-      { loc: '/search/?has_form=Short&manifestation_event_type=RestorationEvent' },
-      { loc: '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik' },
-      { loc: '/search/?directors_or_editors=Troller%2C%20Georg%20Stefan' },
-      { loc: '/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion' },
-      { loc: '/search/?query=Metropolis' },
-      { loc: '/search/?query=Berlin' },
-      { loc: '/search/?query=Cabinet%20des%20Dr%20Caligari' },
-      { loc: '/search/?query=Berlin%20Alexanderplatz' },
-      { loc: '/search/?query=Solo%20Sunny' },
-      { loc: '/search/?has_form%5B0%5D=HomeMovie' },
-      { loc: '/search/?has_form%5B0%5D=Short' },
-      {
-        loc: '/search/?production%5B0%5D=Schlenker%2C%20Hermann&production%5B1%5D=Hermann%20Schlenker%20Filmproduktion&production%5B2%5D=Hermann%20Schlenker',
-      },
-      { loc: '/search/?subjects=Krieg' },
-      { loc: '/search/?subjects=Berlin' },
-      { loc: '/search/?subjects=Amateurfilm' },
-      { loc: '/search/?subjects=Familie' },
-      { loc: '/search/?subjects=Arbeit' },
-      { loc: '/search/?manifestation_event_type%5B0%5D=RestorationEvent' },
-      { loc: '/search/?manifestation_event_type%5B0%5D=TheatricalDistributionEvent' },
-      { loc: '/search/?directors_or_editors%5B0%5D=Nekes%2C%20Werner' },
-      { loc: '/search/?directors_or_editors%5B0%5D=Wildenhahn%2C%20Klaus' },
-      { loc: '/search/?directors_or_editors%5B0%5D=Nestler%2C%20Peter' },
-      { loc: '/search/?directors_or_editors%5B0%5D=Nickel%2C%20Gitta' },
-      { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
-      { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
-    ],
-    // keep exclude if you want (won’t matter much if app sources are disabled)
-    exclude: [
-      '/protected/**',
-      '/admin/**',
-      '/login',
-      '/logout',
-      '/signout',
-      '/normdata',
-      '/error-500',
-      '/vocab',
-      '/_**',
-      '/_nuxt/**',
-    ],
-  },
-
   nuxt3WinstonLog: {
     maxSize: '2048m',
     maxFiles: '14d',
@@ -692,3 +464,7 @@ export default defineNuxtConfig({
     },
   },
 });
+
+
+
+

@@ -70,41 +70,8 @@ const canonical = computed(() => {
     }
     return `${baseUrl}/compare`;
 });
-
-useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    ogType: 'website',
-    ogUrl: canonical,
-    twitterCard: 'summary',
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
-    keywords: [
-        'Vergleichsansicht',
-        'Datensatzvergleich',
-        'Filmvergleich',
-        'Metadatenvergleich',
-        'Versionen eines Films',
-        'Manifestationsvergleich',
-        'Exemplarvergleich',
-        'Parallelansicht',
-        'Filmmetadaten',
-        'Archivdaten',
-        'Persistent Identifier',
-        'Handle PID',
-    ].join(', '),
-});
-
-useSchemaOrg([
-    defineWebPage({
-        '@id': canonical,
-        name: pageTitle,
-        description: pageDescription,
-        url: canonical
-    })
-]);
+
+
 
 </script>
 <template>
@@ -144,3 +111,5 @@ useSchemaOrg([
         </div>
     </div>
 </template>
+
+
