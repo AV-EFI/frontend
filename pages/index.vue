@@ -483,7 +483,7 @@ useSchemaOrg(() => {
                     target: [
                         {
                             '@type': 'EntryPoint',
-                            urlTemplate: `${baseUrl}/search/?query={search_term_string}`,
+                            urlTemplate: `${baseUrl}/search/?q={search_term_string}`,
                         }
                     ],
                     'query-input': 'required name=search_term_string',
