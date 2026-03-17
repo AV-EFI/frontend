@@ -69,8 +69,10 @@
                                              'dark:bg-neutral/35 dark:border-white/10',
                                          ]">
                                         <div id="home-search-area" class="card-body p-2 md:p-6 my-auto" role="search"
-                                             :aria-labelledby="'home-search-label'" aria-live="polite"
-                                             aria-atomic="false" tabindex="0">
+                                             :aria-labelledby="'home-search-label'">
+                                            <h2 id="home-search-label" class="sr-only">
+                                                {{ $t('searchbox') }}
+                                            </h2>
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
                                                 <div class="md:justify-end" role="group"
@@ -445,6 +447,11 @@ const activeSearchComponent = computed(() => {
 
 onMounted(() => {
     isClientMounted.value = true;
+    nextTick(() => {
+        setTimeout(() => {
+            focusFirstInput();
+        }, 120);
+    });
 });
 
 async function prefetchAdvancedSearch() {

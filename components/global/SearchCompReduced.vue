@@ -1,8 +1,8 @@
 <template>
     <div class="w-full my-auto">
         <div class="flex flex-col md:flex-row gap-0 items-stretch h-16">
-            <SearchQueryAutocomplete v-model="term" name="search" :placeholder="$t('searchplaceholder')"
-                                     :aria-label="ariaLabel" :icon-map="iconMap" :recent-searches="recentSearchesWithUrl" :autofocus="false"
+            <SearchQueryAutocomplete ref="queryAutocompleteRef" v-model="term" name="search" :placeholder="$t('searchplaceholder')"
+                                     :aria-label="ariaLabel" :icon-map="iconMap" :recent-searches="recentSearchesWithUrl" :autofocus="true"
                                      @submit="onSubmit" @clear="term = ''" @recent-search-click="handleRecentSearchClick"
                                      @remove-recent="handleRemoveRecentSearch" @clear-history="handleClearAllHistory" />
             <button type="button" class="btn btn-primary lg:btn-lg h-12 md:!rounded-l-none md:!rounded-r-xl"
@@ -18,19 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
 import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js';
-import { useFormKitLoader } from '~/composables/useFormKitLoader';
-
-const { ensureFormKitReady } = useFormKitLoader();
-
-await ensureFormKitReady();
 
 const props = defineProps<{
     modelValue?: string
     placeholder?: string
     ariaLabel?: string
-    buttonLabel?: string
     hint?: string
 }>();
 
@@ -39,10 +32,8 @@ const emit = defineEmits<{
     (e: 'search', payload: { q: string }): void
 }>();
 
-const router = useRouter();
-const route = useRoute();
-
 const term = ref(props.modelValue ?? '');
+const queryAutocompleteRef = ref<{ focusInput?: () => void } | null>(null);
 
 // Search history
 const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
@@ -52,22 +43,14 @@ const recentSearchesWithUrl = computed(() => {
     return getSearchHistory();
 });
 
-const ariaLabel = computed(() => props.ariaLabel ?? 'Search input');
-const buttonLabel = computed(() => props.buttonLabel ?? 'Search');
-const hint = computed(() => props.hint ?? '');
-
 const { t } = useI18n();
+const ariaLabel = computed(() => props.ariaLabel ?? t('searchbox'));
+const hint = computed(() => props.hint ?? '');
 const buttonText = computed(() => 
     term.value?.trim() ? t('Search') : t('showEntireCollection')
 );
 
 const iconMap = FACET_ICON_MAP;
-
-function pushRoute(q: string) {
-    const query = { ...route.query, q };
-    if (!q) delete query.q;
-    router.push({ path: route.path, query });
-}
 
 function handleRecentSearchClick(item: any) {
     if (item.url) {
@@ -106,4 +89,10 @@ function redirectToSearchScreen(query: string) {
 function submitFromButton() {
     onSubmit(term.value);
 }
+
+function focusInput() {
+    queryAutocompleteRef.value?.focusInput?.();
+}
+
+defineExpose({ focusInput });
 </script>

@@ -1,10 +1,10 @@
 <template>
     <ais-panel role="region" :aria-labelledby="`facet-title-${props.attributeName}`" :class-names="{
-                   'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-base-200 dark:border-gray-600 rounded-lg mb-2 max-md:!w-[90vw]',
-                   'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-gray-900 dark:text-white text-xs ',
-                   'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2 text-left'
-               }"
-               :title="$t('showFacetsFor', { headerText: $t(props.headerText as string), category: $t(props.category as string) })">
+        'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-base-200 dark:border-gray-600 rounded-lg mb-2 max-md:!w-[90vw]',
+        'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-gray-900 dark:text-white text-xs ',
+        'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2 text-left'
+    }"
+    >
         <!-- Header -->
         <template #header="h">
             <div class="flex items-center gap-2">
@@ -30,7 +30,7 @@
                         <Slider :model-value="pendingModel(s?.currentRefinement ?? {}, s?.range ?? {})"
                                 :min="boundMin(s?.range ?? {})" :max="boundMax(s?.range ?? {})" :step="1" thumb-label
                                 class="w-full h-8 slider-primary"
-                                :aria-label="$t('refineBy', { headerText: $t(props.headerText as string) })"
+                                :aria-labelledby="`facet-title-${props.attributeName}`"
                                 @update:model-value="onSliderChangeLocal($event, s?.range ?? {})" />
                     </div>
 
@@ -91,18 +91,18 @@
                         <p>{{ $t('tryAdjustingFacets') }}</p>
                     </div>
 
-                    <ul v-if="(s?.items?.length ?? 0) > 0" class="ais-RefinementList py-2 max-md:max-w-[300px]">
+                    <ul v-if="(s?.items?.length ?? 0) > 0" class="ais-RefinementList py-2 max-md:max-w-[300px]"
+                        :aria-label="refinementGroupScreenreaderText()">
                         <li v-for="item in (s?.items ?? [])" :key="item.value" class="ais-RefinementList-item max-w-[250px]">
-                            <label class="ais-RefinementList-label" :aria-label="$t('refineBy', { label: item.label })" for="checkbox"
-                                   @click="s?.refine?.(item.value)">
-                                <input class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs" type="checkbox"
+                            <label class="ais-RefinementList-label" :for="refinementItemId(item)" @click="s?.refine?.(item.value)">
+                                <input :id="refinementItemId(item)" class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs" type="checkbox"
                                        name="checkbox" :value="item.value" :checked="item.isRefined ?? 'checked'"
-                                       :aria-checked="item.isRefined" :title="$t('refineBy', { label: item.label })"
-                                       :aria-label="$t('refineBy', { label: item.label })">
-                                <span>
+                                       :aria-checked="item.isRefined" :aria-label="refinementItemScreenreaderText(item)"
+                                />
+                                <span aria-hidden="true">
                                     {{ $t(item.label.replace('_', ':')) }}
                                 </span>
-                                <span class="ais-RefinementList-count badge bg-neutral text-xs font-bold text-white">
+                                <span aria-hidden="true" class="ais-RefinementList-count badge bg-neutral text-xs font-bold text-white">
                                     {{ item.count }}
                                 </span>
                             </label>
@@ -232,6 +232,31 @@ function hasUnsaved(cr: any, range: any) {
 // facet icon mapping
 import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIconMapping';
 const facetIcon = computed(() => ICON_MAP[props.attributeName as string] || 'tabler-adjustments-horizontal');
+
+function translatedFacetLabel(raw: string) {
+    return $t(raw.replace('_', ':'));
+}
+
+function refinementItemId(item: { value: string }) {
+    return `facet-option-${props.attributeName}-${String(item.value).replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+}
+
+function refinementGroupScreenreaderText() {
+    return $t('showFacetsFor', {
+        headerText: $t(props.headerText as string),
+        category: props.category ? $t(props.category as string) : $t('category'),
+    });
+}
+
+function refinementItemScreenreaderText(item: { label: string; count?: number; isRefined?: boolean }) {
+    return $t('refinementOption', {
+        facetName: $t(props.headerText as string),
+        category: props.category ? $t(props.category as string) : $t('category'),
+        label: translatedFacetLabel(item.label),
+        count: String(item.count ?? 0),
+        state: item.isRefined ? $t('selected') : $t('notSelected'),
+    });
+}
 </script>
 
 <style lang="scss">
