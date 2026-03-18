@@ -16,9 +16,9 @@ import { getElasticsearchNode } from '../../utils/elasticsearchRuntime';
 
 type Req =
   | { mode: 'query'; query?: string; size?: number }
-  | { mode: 'facet'; facetAttr: string; query?: string; size?: number }
+  | { mode: 'facet'; facetAttr: string; query?: string; size?: number };
 
-type SearchAttr = { field: string; weight?: number }
+type SearchAttr = { field: string; weight?: number };
 
 function toTypeKey(field: string): string {
   if (field.includes('has_record.has_primary_title.has_name')) return 'title';
@@ -26,8 +26,26 @@ function toTypeKey(field: string): string {
   const leaf = field.split('.').pop() || field;
   return leaf;
 }
+
 function keywordField(field: string) {
   return field.endsWith('.keyword') ? field : `${field}.keyword`;
+}
+
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function toCaseInsensitivePrefixRegex(query: string) {
+  const escaped = escapeRegex(query.trim());
+  return `${escaped
+    .split('')
+    .map((ch) => {
+      if (/[a-zA-Z]/.test(ch)) {
+        return `[${ch.toLowerCase()}${ch.toUpperCase()}]`;
+      }
+      return ch;
+    })
+    .join('')}.*`;
 }
 
 const FACETS: Record<
@@ -36,11 +54,11 @@ const FACETS: Record<
 > = {
   // ----- Work-level strings -----
   has_genre_has_name: { field: 'has_record.has_genre.has_name.keyword', type: 'string' },
-  subjects:            { field: 'subjects.keyword', type: 'string' },
-  directors_or_editors:{ field: 'directors_or_editors.keyword', type: 'string' },
-  castmembers:         { field: 'castmembers.keyword', type: 'string' },
-  production:          { field: 'production.keyword', type: 'string' },
-  has_form:            { field: 'has_record.has_form.keyword', type: 'string' },
+  subjects: { field: 'subjects.keyword', type: 'string' },
+  directors_or_editors: { field: 'directors_or_editors.keyword', type: 'string' },
+  castmembers: { field: 'castmembers.keyword', type: 'string' },
+  production: { field: 'production.keyword', type: 'string' },
+  has_form: { field: 'has_record.has_form.keyword', type: 'string' },
 
   // Work-level event locations (nested at root)
   located_in_has_name: {
@@ -50,7 +68,6 @@ const FACETS: Record<
   },
 
   // ----- Manifestation-level (nested 1 deep) -----
-  //manifestations.has_record.has_event.type.keyword
   manifestation_event_type: {
     field: 'manifestations.has_record.has_event.type.keyword',
     type: 'string',
@@ -105,65 +122,78 @@ export default defineEventHandler(async (event) => {
   const cfg = useRuntimeConfig();
   const host = getElasticsearchNode();
   const index = cfg.public.ELASTIC_INDEX;
-  if (!host || !index) return { success: false, suggestions: [] };
+
+  if (!host || !index) {
+    return { success: false, suggestions: [] };
+  }
 
   const size = Number((body as any).size) || 10;
   const q = String((body as any).query || '').trim();
-  const includeRegex = q ? `${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*` : undefined;
+
+  // Keep this reasonably larger than the response size so ES has room
+  // to return enough matching buckets when include is applied.
+  const aggSize = q ? Math.max(size * 10, 100) : size;
+  const include = q ? toCaseInsensitivePrefixRegex(q) : undefined;
 
   // ---------- MODE: query (from search_attributes) ----------
   if (body.mode === 'query') {
     const searchAttrs = (searchkitConfig?.search_settings?.search_attributes || []) as SearchAttr[];
     if (!searchAttrs.length) return { success: true, suggestions: [] };
 
-    // one terms agg per search field
     const aggs: Record<string, any> = {};
+
     for (const attr of searchAttrs) {
       const field = keywordField(attr.field);
+
       aggs[`agg__${attr.field.replace(/\./g, '__')}`] = {
         terms: {
           field,
-          size,
+          size: aggSize,
           order: { _count: 'desc' },
           min_doc_count: 1,
-          ...(includeRegex ? { include: includeRegex } : {})
-        }
+          ...(include ? { include } : {}),
+        },
       };
     }
 
     try {
       const url = `${host}/${encodeURIComponent(index)}/_search`;
-      const res = await $fetch<any>(url, { method: 'POST', body: { size: 0, aggs } });
-      
-      const suggestions: Array<{ text: string; type: string; count?: number }> = [];
+      const res = await $fetch<any>(url, {
+        method: 'POST',
+        body: { size: 0, aggs },
+      });
+
+      const suggestions: Array<{ text: string; type: string; count: number }> = [];
+
       for (const attr of searchAttrs) {
         const name = `agg__${attr.field.replace(/\./g, '__')}`;
         const buckets = res?.aggregations?.[name]?.buckets || [];
         const type = toTypeKey(attr.field);
+
         for (const b of buckets) {
           const key = String(b?.key ?? '');
           if (!key) continue;
-          const count = Number(b?.doc_count ?? 0);
-          suggestions.push({ text: key, type, count });
+
+          suggestions.push({
+            text: key,
+            type,
+            count: Number(b?.doc_count ?? 0),
+          });
         }
       }
 
       // de-dup by text only (ignoring type) and keep the entry with highest count
       const deduped = new Map<string, { text: string; type: string; count: number }>();
+
       for (const s of suggestions) {
-        const count = s.count || 0;
-        if (deduped.has(s.text)) {
-          const existing = deduped.get(s.text)!;
-          // Keep the entry with higher count
-          if (count > existing.count) {
-            deduped.set(s.text, { text: s.text, type: s.type, count });
-          }
-        } else {
-          deduped.set(s.text, { text: s.text, type: s.type, count });
+        const existing = deduped.get(s.text);
+        if (!existing || s.count > existing.count) {
+          deduped.set(s.text, s);
         }
       }
 
-      const result = Array.from(deduped.values()).slice(0, 50);
+      const result = Array.from(deduped.values()).slice(0, size);
+
       return { success: true, suggestions: result };
     } catch (err: any) {
       console.error('[suggestions:query] ERROR', err?.data || err?.message || err);
@@ -175,21 +205,21 @@ export default defineEventHandler(async (event) => {
   if (body.mode === 'facet') {
     const facetAttr = body.facetAttr;
     const def = FACETS[facetAttr];
+
     if (!def) return { success: true, suggestions: [] };
     if (def.type !== 'string') return { success: true, suggestions: [] };
 
     const terms = {
       field: def.field,
-      size,
+      size: aggSize,
       order: { _count: 'desc' },
       min_doc_count: 1,
-      ...(includeRegex ? { include: includeRegex } : {})
+      ...(include ? { include } : {}),
     };
 
     // Build nested chain if needed
     let aggs: any = { facet_suggestions: { terms } };
     if (def.nestedPaths?.length) {
-      // wrap deepest to top: lvlN { nested }, aggs { lvl(N-1) { nested } ... facet_suggestions }
       for (let i = def.nestedPaths.length - 1; i >= 0; i--) {
         const path = def.nestedPaths[i];
         aggs = { [`lvl${i + 1}`]: { nested: { path }, aggs } };
@@ -205,14 +235,19 @@ export default defineEventHandler(async (event) => {
       // descend to buckets
       let node = res?.aggregations;
       if (def.nestedPaths?.length) {
-        for (let i = 1; i <= def.nestedPaths.length; i++) node = node?.[`lvl${i}`];
+        for (let i = 1; i <= def.nestedPaths.length; i++) {
+          node = node?.[`lvl${i}`];
+        }
       }
+
       const buckets = node?.facet_suggestions?.buckets || [];
-      const suggestions = buckets.map((b: any) => ({ 
-        text: b.key, 
-        type: facetAttr,
-        count: b.doc_count || 0
-      }));
+      const suggestions = buckets
+        .map((b: any) => ({
+          text: String(b.key),
+          type: facetAttr,
+          count: Number(b.doc_count || 0),
+        }))
+        .slice(0, size);
 
       return { success: true, suggestions, count: suggestions.length };
     } catch (err: any) {
