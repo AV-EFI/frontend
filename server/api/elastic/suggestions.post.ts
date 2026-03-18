@@ -212,6 +212,7 @@ export default defineEventHandler(async (event) => {
     const terms = {
       field: def.field,
       size: aggSize,
+      size: aggSize,
       order: { _count: 'desc' },
       min_doc_count: 1,
       ...(include ? { include } : {}),
