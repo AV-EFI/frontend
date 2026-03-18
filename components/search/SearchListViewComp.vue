@@ -83,7 +83,7 @@
             </div>
         </Transition>
 
-        <div class="border-t border-base-300 pt-2 bg-base-200 px-3 py-2 flex justify-center rounded-b-xl">
+        <div class="border-t border-base-300 pt-2 bg-base-200 dark:bg-base-100 px-3 py-2 flex justify-center rounded-b-xl">
             <button v-if="work && work.handle"
                     class="btn btn-primary btn-xs my-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                     :aria-label="`${isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"

@@ -44,8 +44,8 @@ onMounted(async () => {
 
 </script>
 <style>
-body,
-h1 {
+body
+{
   margin: 0;
   padding: 0;
 }

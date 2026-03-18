@@ -19,6 +19,12 @@ function keywordField(field: string) {
   return field.endsWith('.keyword') ? field : `${field}.keyword`;
 }
 
+function matchesQueryCaseInsensitive(value: unknown, query: string) {
+  if (!query) return true;
+  if (typeof value !== 'string') return false;
+  return value.toLowerCase().includes(query.toLowerCase());
+}
+
 export default defineEventHandler(async (event) => {
   const body = await readBody<Req>(event);
   const q = String(body.query || '').trim();
@@ -34,7 +40,7 @@ export default defineEventHandler(async (event) => {
 
   // Build multi-aggs — one terms agg per search field
   const aggs: Record<string, any> = {};
-  const includeRegex = q ? `${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*` : undefined;
+  const aggSize = q ? Math.max(size * 10, 100) : size;
 
   for (const attr of searchAttrs) {
     const field = keywordField(attr.field);
@@ -42,10 +48,9 @@ export default defineEventHandler(async (event) => {
     aggs[name] = {
       terms: {
         field,
-        size,
+        size: aggSize,
         order: { _count: 'desc' },
-        min_doc_count: 1,
-        ...(includeRegex ? { include: includeRegex } : {})
+        min_doc_count: 1
       }
     };
   }
@@ -77,7 +82,12 @@ export default defineEventHandler(async (event) => {
       return true;
     });
 
-    return { success: true, suggestions: deduped.slice(0, 50) };
+    return {
+      success: true,
+      suggestions: deduped
+        .filter((entry) => matchesQueryCaseInsensitive(entry.text, q))
+        .slice(0, 50)
+    };
   } catch (err: any) {
     console.error('[query_suggest] ERROR', err?.data || err?.message || err);
     return { success: false, suggestions: [] };

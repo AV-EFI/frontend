@@ -42,7 +42,7 @@
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
                 <!-- 16 Exemplare -->
-                <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 my-4 md:pl-4">
+                <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 mb-4 md:pl-4">
                     {{ safeT('items') }}
                     <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
                 </h4>

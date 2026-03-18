@@ -8,13 +8,24 @@
             :checked="objectListStore.facetDrawerOpen"
         >
         <div class="drawer-side max-md:w-full z-30 lg:z-10 h-full max-md:h-screen">
-            <h2 class="text-lg font-semibold ml-6 2xl:ml-4 mt-6">{{$t('facets')}}</h2>
+            <h2 class="text-lg font-semibold ml-6 2xl:ml-4 mt-6 text-left pl-2">
+                {{$t('facets')}}
+            </h2>
             <label
                 aria-label="close sidebar"
                 class="drawer-overlay z-30"
                 @click="toggleDrawer"
             />
-            <div class="menu w-full md:w-screen lg:w-80 overflow-hidden max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30">
+            <div
+                class="relative menu w-full md:w-screen lg:w-80 overflow-hidden max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30"
+                :aria-busy="isSearchLoading"
+            >
+                <div
+                    v-if="isSearchLoading"
+                    class="absolute inset-0 z-40 flex items-center justify-center bg-base-100/70 dark:bg-gray-900/70 pointer-events-auto"
+                >
+                    <span role="status" aria-live="polite" class="loading loading-spinner loading-md text-primary" />
+                </div>
                 <div class="flex flex-row justify-end">
                     <button 
                         class="btn btn-neutral w-16 lg:hidden"
@@ -220,6 +231,10 @@ const emit = defineEmits(['update:productionYear']);
 defineProps({
     viewTypeChecked: {
         type: String,
+        default: false
+    },
+    isSearchLoading: {
+        type: Boolean,
         default: false
     }
 });

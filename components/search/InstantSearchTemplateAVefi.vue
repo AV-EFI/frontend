@@ -4,13 +4,13 @@
             <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
-                <h1 class="text-lg font-bold xl:text-xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4 max-w-32" tabindex="0">
+                <h1 class="text-lg font-bold xl:text-xl dark:text-white max-w-32 text-left ml-2" tabindex="0">
                     {{ $t('filmresearch') }}
                 </h1>
                 <div class="divider" />
                 <div class="search-panel" role="region" :aria-label="$t('searchpanel')">
                     <ClientOnly>
-                        <GlobalFacetDrawer :view-type-checked="viewTypeChecked" />
+                        <GlobalFacetDrawer :view-type-checked="viewTypeChecked" :is-search-loading="isSearchLoading" />
                     </ClientOnly>
                     <!-- Center -->
                     <div class="drawer-content w-full flex flex-col items-center justify-center max-md:w-screen" role="region"
@@ -215,7 +215,10 @@
                                         </label>
                                     </div>
 
-                                    <LazyDetailPaginationComp class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg" />
+                                    <LazyDetailPaginationComp
+                                        class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg"
+                                        :is-search-loading="isSearchLoading"
+                                    />
                                 </div>
                                 <div class="flex w-full flex-col">
                                     <div class="divider divider-base-300 w-full">
@@ -235,7 +238,7 @@
                                         </template>
                                     </ais-hits>
                                 </div>
-                                <LazyDetailPaginationComp />
+                                <LazyDetailPaginationComp :is-search-loading="isSearchLoading" />
                             </div>
                         </div>
                     </div>
@@ -806,45 +809,37 @@ const expandAllItems = () => {
     }, 300);
 };
 
+const instantSearchInstance = inject<any>('$_ais_instantSearchInstance', null);
 const isSearchLoading = ref(false);
 
-let observer: MutationObserver | null = null;
+let statusPollId: number | null = null;
 
-const updateState = () => {
-    const el = document.getElementById('search-loading');
-    if (!el) {
-        isSearchLoading.value = false; // fallback if not found
-        return;
-    }
-    isSearchLoading.value = !el.classList.contains('hidden');
+const syncSearchLoading = () => {
+    const status = instantSearchInstance?.status;
+    isSearchLoading.value = status === 'loading' || status === 'stalled';
 };
 
 onMounted(() => {
-    const el = document.getElementById('search-loading');
+    syncSearchLoading();
 
-    if (el) {
-        observer = new MutationObserver(updateState);
-        observer.observe(el, {
-            attributes: true,
-            attributeFilter: ['class'],
-        });
-        updateState(); // initial read
-    } else {
-        // fallback polling in case the spinner is created later
-        const poll = setInterval(() => {
-            const el = document.getElementById('search-loading');
-            if (el) {
-                clearInterval(poll);
-                updateState();
-                observer = new MutationObserver(updateState);
-                observer.observe(el, { attributes: true, attributeFilter: ['class'] });
-            }
-        }, 100);
+    if (instantSearchInstance?.addListener) {
+        instantSearchInstance.addListener('render', syncSearchLoading);
+        instantSearchInstance.addListener('error', syncSearchLoading);
     }
+
+    statusPollId = window.setInterval(syncSearchLoading, 120);
 });
 
 onBeforeUnmount(() => {
-    if (observer) observer.disconnect();
+    if (instantSearchInstance?.removeListener) {
+        instantSearchInstance.removeListener('render', syncSearchLoading);
+        instantSearchInstance.removeListener('error', syncSearchLoading);
+    }
+
+    if (statusPollId !== null) {
+        clearInterval(statusPollId);
+        statusPollId = null;
+    }
 });
 
 const routerInstance = process.client
