@@ -30,6 +30,12 @@ function keywordField(field: string) {
   return field.endsWith('.keyword') ? field : `${field}.keyword`;
 }
 
+function matchesQueryCaseInsensitive(value: unknown, query: string) {
+  if (!query) return true;
+  if (typeof value !== 'string') return false;
+  return value.toLowerCase().includes(query.toLowerCase());
+}
+
 const FACETS: Record<
   string,
   { field: string; type: 'string' | 'numeric'; nestedPaths?: string[] }
@@ -109,7 +115,7 @@ export default defineEventHandler(async (event) => {
 
   const size = Number((body as any).size) || 10;
   const q = String((body as any).query || '').trim();
-  const includeRegex = q ? `${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*` : undefined;
+  const aggSize = q ? Math.max(size * 10, 100) : size;
 
   // ---------- MODE: query (from search_attributes) ----------
   if (body.mode === 'query') {
@@ -123,10 +129,9 @@ export default defineEventHandler(async (event) => {
       aggs[`agg__${attr.field.replace(/\./g, '__')}`] = {
         terms: {
           field,
-          size,
+          size: aggSize,
           order: { _count: 'desc' },
-          min_doc_count: 1,
-          ...(includeRegex ? { include: includeRegex } : {})
+          min_doc_count: 1
         }
       };
     }
@@ -163,7 +168,9 @@ export default defineEventHandler(async (event) => {
         }
       }
 
-      const result = Array.from(deduped.values()).slice(0, 50);
+      const result = Array.from(deduped.values())
+        .filter((entry) => matchesQueryCaseInsensitive(entry.text, q))
+        .slice(0, 50);
       return { success: true, suggestions: result };
     } catch (err: any) {
       console.error('[suggestions:query] ERROR', err?.data || err?.message || err);
@@ -180,10 +187,9 @@ export default defineEventHandler(async (event) => {
 
     const terms = {
       field: def.field,
-      size,
+      size: aggSize,
       order: { _count: 'desc' },
-      min_doc_count: 1,
-      ...(includeRegex ? { include: includeRegex } : {})
+      min_doc_count: 1
     };
 
     // Build nested chain if needed
@@ -208,11 +214,14 @@ export default defineEventHandler(async (event) => {
         for (let i = 1; i <= def.nestedPaths.length; i++) node = node?.[`lvl${i}`];
       }
       const buckets = node?.facet_suggestions?.buckets || [];
-      const suggestions = buckets.map((b: any) => ({ 
-        text: b.key, 
-        type: facetAttr,
-        count: b.doc_count || 0
-      }));
+      const suggestions = buckets
+        .map((b: any) => ({
+          text: b.key,
+          type: facetAttr,
+          count: b.doc_count || 0
+        }))
+        .filter((entry: { text: string }) => matchesQueryCaseInsensitive(entry.text, q))
+        .slice(0, size);
 
       return { success: true, suggestions, count: suggestions.length };
     } catch (err: any) {
