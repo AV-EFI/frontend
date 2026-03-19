@@ -121,7 +121,7 @@
         </div>
 
         <!-- Mobile drawer button -->
-        <div class="fixed top-4 left-4 z-50 lg:hidden order-0">
+        <div class="fixed top-4 left-4 z-20 lg:hidden order-0">
             <button class="btn btn-primary btn-circle" @click="drawerOpen = true"
                     :aria-label="`${$t('openMenu')}: ${$t('workNavigation')}`"
                     :aria-controls="'work-navigation-drawer'"

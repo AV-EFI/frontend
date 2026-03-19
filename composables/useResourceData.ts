@@ -20,7 +20,6 @@ export async function useResourceData(id: string, prefix?: string) {
           resourceType.value = "manifestationOrItem";
         } else if(data?.compound_record?._source?.items && data?.compound_record?._source?.items.length > 0) {
           resourceType.value = "manifestationOrItem";
-          console.log('Data compound_record source:', data?.compound_record?._source);
         }
       } else {
         if(data?.compound_record?._source?.parts && data?.compound_record?._source?.has_record.type == "Serial") {
