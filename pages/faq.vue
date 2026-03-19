@@ -76,8 +76,7 @@ const accordionSections: AccordionSection[] = [
     { key: 'faq.sections.reuse' },
     { key: 'faq.sections.watchBorrow' },
     { key: 'faq.sections.viewingCopies' },
-    { key: 'faq.sections.dataProviders' },
-    { key: 'faq.sections.dataQuality' },
+    { key: 'faq.sections.dataProviders' }
 ];
 
 const openSections = reactive<Record<string, boolean>>({});
