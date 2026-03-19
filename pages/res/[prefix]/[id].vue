@@ -127,7 +127,9 @@ const { data: result, error, pending } = await useAsyncData(
         if (resourceData?.compound_record?.resource_type) {
             resourceType = resourceData.compound_record.resource_type;
         } else if (resourceData?.handle !== resourceData?.compound_record?._source?.handle) {
-            if (
+            if(resourceData?.compound_record?._source?.work_variants && resourceData?.compound_record?._source?.work_variants.length > 0) {
+                resourceType = "compilationManifestation";
+            } else if (
                 resourceData?.compound_record?._source?.manifestations?.length > 0 ||
                 resourceData?.compound_record?._source?.items?.length > 0
             ) {
