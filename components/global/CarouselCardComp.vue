@@ -84,8 +84,6 @@
                             <figure class="w-full">
                                 <div
                                     class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-gray-100 dark:bg-base-200 flex items-center justify-center">
-                                    <img v-if="createForm.imgUrl" :src="createForm.imgUrl" :alt="createForm.title || 'Preview'"
-                                         class="absolute inset-0 w-full h-full object-cover opacity-40" loading="lazy" decoding="async" />
                                     <div class="relative z-10 flex items-center justify-center w-full h-full px-3">
                                         <div class="w-full">
                                             <input v-model="createForm.imgUrl" type="text" placeholder="Image URL (optional)"
@@ -112,7 +110,7 @@
 
                     <!-- Contact form overlay (opens after Create) -->
                     <div v-if="contactFormOpen" class="absolute inset-0 z-50 flex items-center justify-center p-4">
-                        <div class="w-full max-w-lg">
+                        <div class="w-full max-w-lg bg-base-100">
                             <MicroContactForm :initialMessage="contactInitialMessage" @close="contactFormOpen = false" />
                         </div>
                     </div>

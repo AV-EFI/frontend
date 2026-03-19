@@ -42,8 +42,15 @@ export function useHash(scroll = true) {
   const highlightAndScroll = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
     const el = findTargetElement(normalized);
+    console.log(el);
     if (!(el instanceof HTMLElement)) return false;
-    const heading = el.querySelector('h5');
+
+    let heading: HTMLElement | null = null;
+    if(el.hasAttribute('data-manifestation-index')) {
+      heading = el.querySelector('h4');
+    } else {
+      heading = el.querySelector('h5');
+    }
 
     const hadTabIndex = el.hasAttribute('tabindex');
     if (!hadTabIndex) {
@@ -90,7 +97,7 @@ export function useHash(scroll = true) {
       if (!hadTabIndex) {
         el.removeAttribute('tabindex');
       }
-    }, 3200);
+    }, 2000);
 
     return true;
   };

@@ -649,7 +649,7 @@ const deBase = {
           "<a class=\"link\" href=\"/doc/AVefi-how-to-1.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
           "<a class=\"link\" href=\"/doc/2026-03_AVefi-Manual_v2.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
           "Kontakt:",
-          "E-Mail: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
+          "E-Mail: <a class=\"link\" href=\"mailto:contact{'@'}av-efi.net\">contact{'@'}av-efi.net</a>"
         ],
       }
     }
@@ -1071,56 +1071,90 @@ const deBase = {
   },
   "accessibilityPage": {
     "title": "Barrierefreiheit",
-    "intro": "AVefi setzt sich dafÃ¼r ein, digitale Angebote fÃ¼r mÃ¶glichst viele Menschen zugÃ¤nglich zu machen. Unsere Website und ProduktoberflÃ¤chen sollen fÃ¼r Menschen mit unterschiedlichen FÃ¤higkeiten und assistiven Technologien nutzbar, verstÃ¤ndlich und robust sein.",
+    "intro": "AVefi setzt sich dafür ein, digitale Angebote für möglichst viele Menschen zugänglich zu machen. Unsere Website und Produktoberflächen sollen für Menschen mit unterschiedlichen Fähigkeiten und assistiven Technologien nutzbar, verständlich und robust sein.",
     "commitment": {
       "title": "Unser Anspruch",
-      "body": "Wir orientieren uns an anerkannten Standards der digitalen Barrierefreiheit, insbesondere an den Web Content Accessibility Guidelines (WCAG) 2.1 auf KonformitÃ¤tsstufe AA. Diese Richtlinien bilden den Rahmen fÃ¼r wahrnehmbare, bedienbare, verstÃ¤ndliche und robuste digitale Erlebnisse.",
+      "body": "Wir orientieren uns an anerkannten Standards der digitalen Barrierefreiheit, insbesondere an den Web Content Accessibility Guidelines (WCAG) 2.1 auf Konformitätsstufe AA. Diese Richtlinien bilden den Rahmen für wahrnehmbare, bedienbare, verständliche und robuste digitale Erlebnisse.",
       "areas": [
         "Website-Inhalte und Navigation",
         "Formulare und interaktive Bedienelemente",
         "Farbkontrast und Typografie",
         "Tastaturbedienung",
-        "Semantisches HTML und Screenreader-KompatibilitÃ¤t",
-        "Responsive Layouts auf unterschiedlichen GerÃ¤ten"
+        "Semantisches HTML und Screenreader-Kompatibilität",
+        "Responsive Layouts auf unterschiedlichen Geräten"
       ]
     },
     "principles": {
       "title": "Leitprinzipien",
       "perceivable": {
         "title": "Wahrnehmbar",
-        "body": "Informationen und OberflÃ¤chenelemente sollen so prÃ¤sentiert werden, dass sie von Nutzenden wahrgenommen werden kÃ¶nnen. Dazu gehÃ¶ren ausreichende Farbkontraste, sinnvolle Textalternativen und eine klare visuelle Hierarchie."
+        "body": "Informationen und Oberflächenelemente sollen so präsentiert werden, dass sie von Nutzenden wahrgenommen werden können. Dazu gehören ausreichende Farbkontraste, sinnvolle Textalternativen und eine klare visuelle Hierarchie."
       },
       "operable": {
         "title": "Bedienbar",
-        "body": "Die OberflÃ¤che soll mit unterschiedlichen Eingabemethoden nutzbar sein, einschlieÃŸlich der Tastaturnavigation. Interaktive Elemente sollen ausreichend groÃŸ, vorhersehbar und leicht auslÃ¶sbar sein."
+        "body": "Die Oberfläche soll mit unterschiedlichen Eingabemethoden nutzbar sein, einschließlich der Tastaturnavigation. Interaktive Elemente sollen ausreichend groß, vorhersehbar und leicht auslösbar sein."
       },
       "understandable": {
-        "title": "VerstÃ¤ndlich",
-        "body": "Inhalte und Aktionen sollen klar und konsistent sein. Beschriftungen, Ãœberschriften und Navigationsmuster sollen dabei helfen zu verstehen, wo man sich befindet und was als NÃ¤chstes geschieht."
+        "title": "Verständlich",
+        "body": "Inhalte und Aktionen sollen klar und konsistent sein. Beschriftungen, Überschriften und Navigationsmuster sollen dabei helfen zu verstehen, wo man sich befindet und was als Nächstes geschieht."
       },
       "robust": {
         "title": "Robust",
-        "body": "Code und Komponenten sollen Ã¼ber Browser, GerÃ¤te und assistive Technologien hinweg zuverlÃ¤ssig funktionieren und auf standardbasierten, zugÃ¤nglichen Implementierungsmustern aufbauen."
+        "body": "Code und Komponenten sollen über Browser, Geräte und assistive Technologien hinweg zuverlässig funktionieren und auf standardbasierten, zugänglichen Implementierungsmustern aufbauen."
       }
     },
     "status": {
-      "title": "Aktueller Stand",
-      "body": "Wir verbessern die Barrierefreiheit von AVefi kontinuierlich. Einige Bereiche der Plattform erfÃ¼llen den Zielstandard mÃ¶glicherweise noch nicht vollstÃ¤ndig, insbesondere dort, wo Drittanbieter-Komponenten oder Ã¤ltere Inhalte eingebunden sind. Barrierefreiheit ist Teil unseres laufenden Design-, Entwicklungs- und QualitÃ¤tssicherungsprozesses."
+      "title": "Aktueller Stand der Barrierefreiheit",
+      "body": "Diese Website ist teilweise mit den Anforderungen der WCAG 2.1 (Konformitätsstufe AA) vereinbar. Einige Inhalte sind derzeit noch nicht vollständig barrierefrei.",
+      "nonAccessible": {
+        "title": "Nicht barrierefreie Inhalte",
+        "items": [
+          "Einzelne Drittanbieter-Komponenten sind nicht vollständig barrierefrei",
+          "Ältere Inhalte entsprechen nicht durchgehend aktuellen Barrierefreiheitsstandards",
+          "Einige interaktive Elemente sind nicht in allen Szenarien optimal per Tastatur bedienbar"
+        ]
+      },
+      "reasons": {
+        "title": "Gründe",
+        "items": [
+          "Technische Einschränkungen durch eingesetzte Drittanbieter-Software",
+          "Historisch gewachsene Inhalte, die schrittweise überarbeitet werden",
+          "Laufende Weiterentwicklung der Plattform"
+        ]
+      },
+      "alternatives": {
+        "title": "Barrierefreie Alternativen",
+        "body": "Sollten Sie auf Barrieren stoßen, kontaktieren Sie uns bitte. Wir stellen Ihnen die gewünschten Informationen nach Möglichkeit in barrierefreier Form zur Verfügung."
+      }
     },
     "feedback": {
       "title": "Feedback und Kontakt",
-      "body": "Wenn Sie bei der Nutzung von AVefi auf Barrieren stoÃŸen oder Probleme mit der Barrierefreiheit bemerken, teilen Sie uns dies bitte mit. Ihr Feedback hilft uns, das Angebot weiter zu verbessern.",
+      "body": "Wenn Sie bei der Nutzung von AVefi auf Barrieren stoßen oder Probleme mit der Barrierefreiheit bemerken, teilen Sie uns dies bitte mit. Ihr Feedback hilft uns, das Angebot weiter zu verbessern.",
       "contactLabel": "Kontakt",
-      "includeLabel": "Bitte geben Sie mÃ¶glichst Folgendes an:",
+      "contactEmail": "contact{'@'}av-efi.net",
+      "includeLabel": "Bitte geben Sie möglichst Folgendes an:",
       "includeItems": [
         "die betroffene Seite oder Funktion",
-        "das verwendete GerÃ¤t und den Browser",
+        "das verwendete Gerät und den Browser",
         "eine kurze Beschreibung des Problems"
       ]
     },
+    "arbitration": {
+      "title": "Schlichtungsverfahren",
+      "body": "Bei nicht zufriedenstellenden Antworten aus oben genannter Kontaktmöglichkeit können Sie bei der Schlichtungsstelle, eingerichtet bei dem Beauftragten der Bundesregierung für die Belange von Menschen mit Behinderungen, einen Antrag auf Einleitung eines Schlichtungsverfahrens nach dem Behindertengleichstellungsgesetz (BGG) stellen. Die Schlichtungsstelle nach Paragraph 16 BGG hat die Aufgabe, Streitigkeiten zwischen Menschen mit Behinderungen und aus öffentlichen Geldern finanzierten Einrichtungen zum Thema Barrierefreiheit in der IT beizulegen. Das Schlichtungsverfahren ist kostenlos. Es muss kein Rechtsbeistand eingeschaltet werden.",
+      "contact": {
+        "name": "Schlichtungsstelle nach dem Behindertengleichstellungsgesetz",
+        "organization": "Beauftragter der Bundesregierung für die Belange von Menschen mit Behinderungen",
+        "address": "Mauerstraße 53, 10117 Berlin",
+        "phone": "+49 (0)30 18 527-2805",
+        "fax": "+49 (0)30 18 527-2901",
+        "email": "info{'@'}schlichtungsstelle-bgg.de",
+        "website": "https://www.schlichtungsstelle-bgg.de/"
+      }
+    },
     "improvement": {
       "title": "Kontinuierliche Verbesserung",
-      "body": "Wir Ã¼berprÃ¼fen unsere digitalen Dienste regelmÃ¤ÃŸig und arbeiten daran, die Barrierefreiheit durch Design-Reviews, Implementierungsstandards und Tests fortlaufend zu verbessern."
+      "body": "Wir überprüfen unsere digitalen Dienste regelmäßig und arbeiten daran, die Barrierefreiheit durch Design-Reviews, Implementierungsstandards und Tests fortlaufend zu verbessern."
     }
   },
   "skipToContent": "Zum Inhalt springen",
@@ -1163,65 +1197,6 @@ export default {
       description: "Diese Seite beschreibt Standards, aktuellen Stand und Kontaktwege zur digitalen Barrierefreiheit bei AVefi.",
       ogTitle: "Erklärung zur Barrierefreiheit - AVefi",
       ogDescription: "Informationen zur digitalen Barrierefreiheit bei AVefi sowie offizielle Referenzen und Kontaktmöglichkeiten."
-    }
-  },
-  accessibilityPage: {
-    title: "Erklärung zur Barrierefreiheit",
-    intro: "Diese Erklärung beschreibt, wie AVefi digitale Barrierefreiheit für Website und angrenzende Oberflächen umsetzt. AVefi versteht sich als offene, wissenschaftlich fundierte Infrastruktur. Entsprechend formulieren wir diese Informationen sachlich, nachvollziehbar und möglichst barrierearm.",
-    commitment: {
-      title: "Unser Anspruch",
-      body: "AVefi orientiert sich an anerkannten Standards der digitalen Barrierefreiheit. Grundlage sind insbesondere die Web Content Accessibility Guidelines (WCAG) 2.1 auf Konformitaetsstufe AA. Barrierefreiheit ist fuer uns Teil von Informationsqualitaet, Zugangsoffenheit und langfristiger Nutzbarkeit.",
-      areas: [
-        "Website-Inhalte und Navigation",
-        "Formulare und interaktive Bedienelemente",
-        "Farbkontrast und Typografie",
-        "Tastaturbedienung",
-        "Semantisches HTML und Screenreader-Kompatibilitaet",
-        "Responsive Layouts auf unterschiedlichen Geraeten"
-      ]
-    },
-    standards: {
-      title: "Standards und offizielle Referenzen",
-      body: "Massgeblich sind dabei insbesondere folgende offiziellen Quellen und Regelwerke:",
-      niedersachsenVersion: "Stand 11.11.2020, Version 1.0"
-    },
-    principles: {
-      title: "Leitprinzipien",
-      perceivable: {
-        title: "Wahrnehmbar",
-        body: "Informationen muessen in wahrnehmbarer Form bereitstehen. Dazu gehoeren ausreichende Kontraste, sinnvolle Textalternativen und eine klare visuelle Hierarchie."
-      },
-      operable: {
-        title: "Bedienbar",
-        body: "Die Oberflaeche muss mit unterschiedlichen Eingabemethoden nutzbar sein, einschliesslich der Tastatur. Interaktive Elemente sollen vorhersehbar, gut erreichbar und leicht ausloesbar sein."
-      },
-      understandable: {
-        title: "Verstaendlich",
-        body: "Inhalte, Bezeichnungen und Aktionen sollen klar und konsistent sein. Nutzende sollen erkennen koennen, wo sie sich befinden und was als Naechstes geschieht."
-      },
-      robust: {
-        title: "Robust",
-        body: "Code und Komponenten sollen ueber Browser, Geraete und assistive Technologien hinweg zuverlaessig funktionieren. Grundlage sind standardbasierte und zugaengliche Implementierungsmuster."
-      }
-    },
-    status: {
-      title: "Aktueller Stand",
-      body: "AVefi wird fortlaufend weiterentwickelt. Dabei pruefen wir Barrieren in Navigation, Inhalt, Interaktion und technischer Umsetzung. Einzelne Bereiche koennen den Zielstandard noch nicht vollstaendig erreichen, insbesondere bei Drittkomponenten oder aelteren Inhalten."
-    },
-    feedback: {
-      title: "Feedback und Kontakt",
-      body: "Wenn Sie auf Barrieren stossen oder Hinweise zur digitalen Zugaenglichkeit haben, freuen wir uns ueber Ihre Rueckmeldung. Bitte beschreiben Sie die betroffene Stelle so konkret wie moeglich.",
-      contactLabel: "Kontakt bei Barrieren",
-      includeLabel: "Bitte geben Sie moeglichst Folgendes an:",
-      includeItems: [
-        "die betroffene Seite oder Funktion",
-        "das verwendete Geraet und den Browser",
-        "eine kurze Beschreibung des Problems"
-      ]
-    },
-    improvement: {
-      title: "Kontinuierliche Verbesserung",
-      body: "Texte, Komponenten und Interaktionsmuster werden regelmaessig ueberprueft und bei Bedarf angepasst. Dabei achten wir auf Verstaendlichkeit, Tastaturbedienbarkeit, Kontrast, semantische Struktur und robuste technische Umsetzung."
     }
   }
 };

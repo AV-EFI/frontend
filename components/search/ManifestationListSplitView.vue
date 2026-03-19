@@ -225,7 +225,7 @@ function prevItemPage() {
 }
 
 const navigateToItem = (item: any) => {
-    const itemPath = `/res/${props.workVariantHandle}#${item?.handle?.replace('21.11155/', '')}`;
+    const itemPath = `/res/${props.workVariantHandle}#${item?.handle}`;
     window.open(itemPath, '_blank');
 };
 
