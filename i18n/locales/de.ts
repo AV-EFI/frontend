@@ -651,12 +651,6 @@ const deBase = {
           "Kontakt:",
           "E-Mail: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
         ],
-      },      
-      "dataQuality": {
-        "heading": "Wie vollständig und aktuell sind die Daten?",
-        "content": [
-          "AVefi führt Metadaten aus verschiedenen Institutionen zusammen. Umfang, Detailtiefe und Aktualität können deshalb je nach Datensatz und datengebender Institution unterschiedlich sein. Maßgeblich für weiterführende Informationen, Nutzungsmöglichkeiten und Bestandsdetails ist jeweils die verlinkte Institution."
-        ]
       }
     }
   },
