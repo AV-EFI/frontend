@@ -114,12 +114,11 @@ const avefiBase = {
       },
       'callToAction': {
         'title': 'Your holdings in AVefi',
-        'text': [
+        'content': [
           'AVefi is open to additional film holdings from archives and collections. Contribute your data and strengthen the sustainable discoverability and citability. Persistent identifiers and structured metadata increase the visibility and long-term research value of your collections.',
           'New cooperation partners are very welcome.'
         ],
-        'cta': 'Visit the project website',
-        'ctaLink': 'https://projects.tib.eu/av-efi'
+        'cta': 'Get in contact'
       },
       'timeline': {
         'title': 'From dataset to knowledge',
@@ -145,9 +144,9 @@ const avefiBase = {
         'content': [
           'AVefi is a platform for interdisciplinary film-related research, film cultural activities, and film archiving. It is continuously being developed and dynamically expanded to include new data sources and cooperation partners. The infrastructure is based on structured metadata, authority data, and persistent identifiers (PID). This allows heterogeneous audiovisual collections to be identified and compared. The data schema is based on established standards. Linked Open Data and FAIR principles are the guiding principles.',
           'More information can be found on our project website.',
-          'https://projects.tib.eu/av-efi',
         ],
-        'cta': 'Get in contact'
+        'cta': 'Get in contact',
+        'ctaLink': 'https://projects.tib.eu/av-efi'
       },
       'video': {
         'aria': 'AVefi video',
@@ -602,7 +601,8 @@ const avefiBase = {
   'prevPage': 'Previous page',
   'searchInFacet': 'Search in {facetName}',
   'refineBy': 'Refine by {label}',
-  'refinementOption': 'Facet {facetName} on level {category}, value {label}, {count} results, {state}',
+  'eventCategory': 'Event category',
+  'refinementOption': '{facetName}, {label}, {count}, {state}',
   'showFacetItems': 'Show facets',
   'selected': 'selected',
   'notSelected': 'not selected',
@@ -653,13 +653,110 @@ const avefiBase = {
     'shareTemplate': 'I want to share this search:\n\nQuery: {query}\nURL: {url}',
     'suggestTemplate': 'I would like to suggest this search/query for AVefi:\n\nQuery: {query}\nURL: {url}'
   },
+  "faq": {
+    "title": "FAQ",
+    "mainContent": "FAQ main content",
+    "articleContent": "FAQ content",
+    "sections": {
+      "about": {
+        "heading": "About AVefi",
+        "content": [
+          "AVefi stands for “Automated Network System for Audiovisual Holdings via standardised Film Identifiers”. Since November 2023, the system has been under development as a cooperative infrastructure project funded by the German Research Foundation. AVefi brings together film-related metadata from various institutions and makes this data searchable and reusable in a film database.",
+          "The network system complements existing resources of film identifiers and (authority) data, for example from Filmportal, EIDR, GND, and NFDI4Culture. To this end, AVefi provides its own search and editorial interface closely linked to the holdings. The platform is designed to document and interlink audiovisual holdings of any origin, category, or genre on a long-term basis. Its guiding principles are Linked Open Data and the FAIR principles.",
+          "Where possible, the films from contributing institutions are identified and matched automatically. If necessary, works are consolidated. Persistent identifiers (PIDs) play a central role in this process. With persistent identifiers, film works and their versions can be automatically and unambiguously linked to one another. Films for which (in)complete copies are held in different archives can thus be located more easily. This supports restoration work and helps answer film-related research questions.",
+          "The AVefi schema developed specifically for this purpose follows the rules of the FIAF Moving Image Cataloguing Manual. The documentation distinguishes three levels: work, manifestation, and item."
+        ]
+      },
+      "availableMetadata": {
+        "heading": "What film metadata can I find here?",
+        "content": [
+          "The platform brings together metadata from participating institutions. It makes films from a wide range of categories and genres searchable. The spectrum ranges from early cinema to documentary and feature films, as well as utility films. At present, a particular focus lies on educational and instructional films, scientific films, as well as ephemeral film materials and amateur films. The data sources with additional information are linked directly.",
+          "The information is organized into different facets, such as genre or year of production, which can be used to filter search results. Depending on the type of information, it may be associated with the level of the work, a manifestation, or a specific item."
+        ]
+      },
+      "definitions": {
+        "heading": "What is the difference between work, manifestation, and item?",
+        "content": [
+          "Following the FIAF Moving Image Cataloguing Manual, AVefi distinguishes between film works, manifestations, and items.",
+          "Work: an abstract entity, from which several manifestations may exist in different collections",
+          "A work is an entity that encompasses the intellectual or artistic content and the process of its realization in a cinematographic medium. This includes core information such as the film’s title, when it was made, or who directed it. These core elements generally remain unchanged across different manifestations.",
+          "Manifestation: a specific version of a film work represented by items in a collection",
+          "A manifestation is the embodiment of a film work. Manifestations include all analog, digital, and online media. Information at the manifestation level may describe what the manifestation ideally contains. For example: the original running time of a film may be 1:30:00, but the copy held in an archive may be shorter because some footage is missing.",
+          "Item: a specific object within a film collection",
+          "An item is the physical product of a manifestation of a work. An item may consist of one or several components, for example a single reel or five spools. If necessary, an item record can contain fields describing each component of the item. An item may be complete, incomplete, or a fragment. For purely digital media, an item is defined as the availability of the file itself, regardless of how many backup copies may exist.",
+          "For technical reasons, and because manifestations are documented differently in practice, information such as language, running time, or format in AVefi is attached not to the manifestation but to the item.",
+          "The AVefi data model is designed to assign collection data uniquely to a specific institution while also representing relationships between the holdings of different institutions. For this purpose, the system generates persistent identifiers (PIDs). The identifiers, called “efi,” are assigned at the levels mentioned above, each according to its specific requirements."
+        ]
+      },
+      "efis": {
+        "heading": "What are efis?",
+        "content": [
+          "Efis are “unique film identifiers.” They are persistent identifiers (PID) with a set of metadata based on standards used by film archives. An efi identifies either:",
+          "an item",
+          "a manifestation",
+          "or a work",
+          "Within AVefi, each efi assigned to an item refers to exactly one efi assigned to a manifestation. At the same time, several items can be associated with the same manifestation (for example, multiple film reels that must be played sequentially).",
+          "Each manifestation in turn refers to at least one efi assigned to a work. Multiple works can also be linked – for example, when a DVD contains several separately described film works."
+        ]
+      },
+      "whyEfis": {
+        "heading": "Why are efis assigned?",
+        "content": [
+          "AVefi assigns efis to every film that is registered in the system. This enables film works to be uniquely identified across institutions, while manifestations and items can be located precisely.",
+          "Efis are persistent identifiers (PIDs) based on the established Handle System. As a specific type of Handle PID, they make it possible to identify and reliably link film metadata over the long term. The centrally maintained, open metadata improves the discoverability of films and facilitates data integration and reuse. In this way, efis support compliance with research data standards and the FAIR principles. They also help establish clear relationships between different sets of metadata. One goal of the project is to enable low-threshold efi registration, particularly for smaller institutions.",
+          "More information about the PID infrastructure can be found on the project website."
+        ]
+      },
+      "keywords": {
+        "heading": "Which keywords are used?",
+        "content": [
+          "All keywords provided by the respective contributing institution are included in the metadata. Keywords may be freely chosen or may be based on controlled vocabularies or authority data, with the relevant source indicated."
+        ]
+      },
+      "normdata": {
+        "heading": "Are authority data used?",
+        "content": [
+          "If the contributing institution uses authority data – such as the Integrated Authority File (GND) or the Thesaurus of Geographic Names (TGN) – these references are adopted and displayed accordingly."
+        ]
+      },
+      "reuse": {
+        "heading": "Which data and content can be freely reused?",
+        "content": [
+          "To support data-driven and open research, teaching, and film cultural efforts as effectively as possible, all data and content provided on AVefi are made available under open licenses, unless explicitly stated otherwise.",
+          "All metadata are in the Public Domain and may be reused without any restrictions: Creative Commons Universal 1.0 (CC0).",
+          "All other content, such as images and editorial texts, may be reused with attribution: Creative Commons Attribution 4.0 International (CC BY 4.0)."
+        ]
+      },
+      "watchBorrow": {
+        "heading": "Can I watch or borrow films through the platform?",
+        "content": [
+          "No. AVefi is a discovery and identifier registry platform for audiovisual holdings. It does not provide films for viewing and does not lend items. Instead, the platform aggregates metadata about film works and shows which institutions hold specific manifestations and items."
+        ]
+      },
+      "viewingCopies": {
+        "heading": "How can I find distribution or viewing copies?",
+        "content": [
+          "Using the “Status” facet, you can filter specifically for “Distribution” or “Viewing.” The platform will then display only the corresponding items that are available as distribution or viewing copies. The respective institution is directly linked, where you can find information about access and use."
+        ]
+      },
+      "dataProviders": {
+        "heading": "Help for data providers",
+        "content": [
+          "Become a data provider for AVefi. Information on the necessary steps can be found in the following resources:",
+          "<a class=\"link\" href=\"/doc/AVefi-how-to-1.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"/doc/2026-03_AVefi-Manual_v2.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",          "Contact",
+          "Email: contact@av-efi.net"
+        ]
+      }
+    }
+  },
   'shareSearch': 'Share search',
   'suggestSearchToAVefi': 'Share search/query with the AVefi team',
   'closeDrawer': 'Close',
   'close': 'Close',
   'openDrawer': 'Open',
   "place": "Place",
-  'showFacetsFor': 'Show facets for {headerText} on level {category}',
+  'showFacetsFor': '{headerText}',
   'location': 'Location',
   'copyEFI': 'Copy efi of {category}',
   'dashboard': 'Dashboard',
@@ -725,7 +822,6 @@ const avefiBase = {
   'duration': 'Duration',
   'hello': 'Hello',
   'help': 'Help',
-  'faq': 'FAQ',
   'helpAndGlossary': 'Help & Glossary',
   'hours': 'hours',
   'info': 'Info',

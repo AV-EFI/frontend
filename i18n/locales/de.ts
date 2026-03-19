@@ -106,12 +106,11 @@ const deBase = {
       },
       'callToAction': {
         'title': 'Ihre Bestände in AVefi',
-        'text': [
+        'content': [
           'AVefi ist offen für weitere Filmbestände aus Archiven und Sammlungen. Bringen Sie Ihre Daten ein und stärken Sie deren nachhaltige Nutzung. Durch persistente Identifikatoren und strukturierte Metadaten werden Ihre Bestände besser sichtbar und langfristig wissenschaftlich nutzbar.',
           'Neue Kooperationspartner sind sehr willkommen.',
         ],
-        'cta': 'Besuchen Sie unsere Projektwebsite',
-        'ctaLink': 'https://projects.tib.eu/av-efi'
+        'cta': 'Kontaktieren Sie uns',
       },
       'timeline': {
         'title': 'Vom Datensatz zum Wissen',
@@ -137,9 +136,9 @@ const deBase = {
         'content': [
           'AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur- und Filmarchivarbeit. Sie wird kontinuierlich weiterentwickelt und erweitert sich dynamisch um neue Datenquellen und Kooperationspartner. Die Infrastruktur basiert auf strukturierten Metadaten, Normdaten und persistenten Identifikatoren (PID). Heterogene audiovisuelle Bestände lassen sich damit identifizieren und vergleichen. Das Datenschema orientiert sich an etablierten Fachstandards. Leitend sind Linked Open Data und FAIR-Prinzipien.',
           'Hintergrundinformationen finden Sie auf der Projektwebsite.',
-          'https://projects.tib.eu/av-efi',
         ],
-        'cta': 'Kontaktieren Sie uns'
+        'cta': 'Kontaktieren Sie uns',
+        'ctaLink': 'https://projects.tib.eu/av-efi'
       },
       'video': {
         'aria': 'AVefi Video',
@@ -556,7 +555,112 @@ const deBase = {
   'prevPage': 'Vorherige Seite',
   'searchInFacet': 'In {facetName} suchen',
   'refineBy': 'Nach {label} verfeinern',
-  'refinementOption': 'Facette {facetName} auf Ebene {category}, Wert {label}, {count} Treffer, {state}',
+  'eventCategory': 'Event-Kategorie',
+  "faq": {
+    "title": "FAQ",
+    "mainContent": "Hauptinhalt FAQ",
+    "articleContent": "FAQ-Inhalt",
+    "sections": {
+      "about": {
+        "heading": "Über AVefi",
+        "content": [
+          "AVefi steht für „Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren“. Seit November 2023 entwickelt ein von der Deutschen Forschungsgemeinschaft gefördertes Kooperations- und Infrastrukturprojekt das System. AVefi führt filmische Metadaten verschiedener Institutionen zusammen und macht diese Daten in einer Filmdatenbank recherchierbar und nachnutzbar.",
+          "Das Verbundsystem ergänzt das bestehende Angebot filmischer Identifikatoren und (Norm-)Daten, zum Beispiel von Filmportal, EIDR, GND, NFDI4Culture. AVefi bietet dafür eine eigene Recherche- und Redaktionsoberfläche mit engem Bezug zu den Beständen. Die Plattform dient dazu, audiovisuelle Bestände jeglicher Herkunft, Gattungen und Genres dauerhaft nachzuweisen und zu verknüpfen. Leitend sind Linked Open Data und FAIR-Prinzipien.",
+          "Die Filme der datengebenden Institutionen werden soweit möglich automatisiert identifiziert und abgeglichen. Wenn erforderlich werden die Werke zusammengeführt. Eine zentrale Rolle spielen dabei persistenten Identifikatoren (PID). Mit persistenten Identifikatoren lassen sich Filmwerke und ihre Versionen automatisch und eindeutig miteinander in Bezug setzen. Filme, von denen (un-)vollständige Kopien in verschiedenen Archiven lagern, können so leichter gefunden werden. Das hilft für Restaurierungszwecke oder um filmbezogene Forschungsfragen zu beantworten.",
+          "Das eigens entwickelte AVefi-Schema folgt dem <a class=\"link\" href=\"https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF-Regelwerk</a>. Der Nachweis unterscheidet dabei drei Ebenen: Werk, Manifestation und Exemplar."
+        ]
+      },
+      "availableMetadata": {
+        "heading": "Welche Film-Metadaten finde ich hier?",
+        "content": [
+          "Die Plattform führt Metadaten der beteiligten Institutionen zusammen. Sie macht Filme aus unterschiedlichen Gattungen und Genres recherchierbar. Das Spektrum reicht vom frühen Film über Dokumentar- und Spielfilme bis zu Gebrauchsfilmen. Ein besonderer Schwerpunkt liegt derzeit auf Unterrichts-, Lehr- und Wissenschaftsfilmen sowie auf ephemerem Filmmaterial und Amateurfilmen. Die Quellen mit ergänzenden Informationen sind direkt verlinkt.",
+          "Die Informationen sind in verschiedene Facetten gegliedert, beispielsweise Genre oder Produktionsjahr. Diese Facetten lassen sich nutzen, um Suchergebnisse zu filtern. Je nach Art der Information ist sie auf der Ebene des Werks, einer Manifestation oder eines konkreten Exemplars angehängt."
+        ]
+      },
+      "definitions": {
+        "heading": "Was ist der Unterschied zwischen Werk, Manifestation und Exemplar?",
+        "content": [
+          "AVefi unterscheidet im Sinne des FIAF-Regelwerks zwischen Filmwerken, Manifestationen und Exemplaren.",
+          "Werk: das Filmwerk als abstrakte Einheit, von dem mehrere Manifestationen in verschiedenen Sammlungen existieren können",
+          "Werk ist eine Entität, die den geistigen oder künstlerischen Inhalt und den Prozess der Realisierung in einem kinematografischen Medium umfasst. Zum Beispiel wie der Film heißt, wann er gedreht wurde oder wer ihn gedreht hat. Diese Kerninformationen ändern sich in der Regel in keiner Manifestation.",
+          "Manifestation: eine bestimmte Fassung eines Filmwerks, die durch Exemplare in einer Sammlung vertreten ist",
+          "Eine Manifestation ist die Verkörperung eines Filmwerks. Manifestationen umfassen alle analogen, digitalen und Online-Medien. Informationen der Ebene Manifestation können eine Beschreibung dessen enthalten, was die jeweilige Manifestation idealerweise enthalten sollte. Ein Beispiel: Die ursprüngliche Originallänge eines Films beträgt 1:30:00, aber in dem im Archiv vorhandenen Exemplar fehlt Filmmaterial, sodass es kürzer ist.",
+          "Exemplar: ein konkretes Objekt in einer Filmsammlung",
+          "Ein Exemplar ist das physische Produkt einer Manifestation eines Werks. Ein Exemplar kann aus einer oder mehreren Komponenten bestehen, beispielsweise aus einer Rolle oder 5 Spulen. Bei Bedarf kann ein Exemplar-Datensatz Felder für jede Komponente des Exemplars enthalten. Das Exemplar kann vollständig, unvollständig oder ein Fragment sein. Bei rein digitalen Medien ist ein Exemplar definiert als die Verfügbarkeit der Datei, unabhängig von der Anzahl der eventuell vorhandenen Sicherungskopien.",
+          "Aus technischen Gründen und weil Manifestationen in der Praxis unterschiedlich erfasst werden, hängen Informationen wie Sprache, Dauer oder Format bei AVefi nicht an der Manifestation, sondern am Exemplar.",
+          "Das AVefi-Datenmodell ist darauf ausgelegt, Bestandsdaten eindeutig einer Institution zuzuordnen und gleichzeitig Beziehungen zwischen den Beständen verschiedener Institutionen darzustellen. Das System erzeugt dazu persistente Identifikatoren (PID). Die Identifikatoren, die „efi“ heißen, werden auf den genannten Ebenen mit ihren jeweils eigenen Anforderungen vergeben."
+        ]
+      },
+      "efis": {
+        "heading": "Was sind efis?",
+        "content": [
+          "Efis stehen für „einheitliche Filmidentifikatoren“. Es handelt sich um persistente Identifikatoren (PIDs) mit einem Set von Metadaten nach vorgegebenem Schema, welches sich an Standards der Filmarchive orientiert. Ein efi identifiziert entweder:",
+          "ein Exemplar",
+          "eine Manifestation",
+          "oder ein Werk",
+          "Bei AVefi verweist jeder efi für ein Exemplar auf genau einen efi für eine Manifestation, wobei mehrere Exemplare derselben Manifestation zugeordnet werden können (z.B. mehrere Filmrollen, die nacheinander abzuspielen sind). Jede Manifestation verweist wiederum auf mindestens einen efi für ein Werk.",
+          "Mehrere Werke können auch verknüpft sein, z.B. wenn eine DVD mehrere gesondert beschriebene Filmwerke enthält."
+        ]
+      },
+      "whyEfis": {
+        "heading": "Warum werden efis vergeben?",
+        "content": [
+          "AVefi vergibt efis für jeden Film, der registriert wird. So lassen sich Filmwerke institutionsübergreifend eindeutig identifizieren. Manifestationen und Exemplare sind gezielt auffindbar.",
+          "Efis sind persistente Identifikatoren (PID), die auf dem etablierten Handle-System basieren. Als spezifische Handle-PIDs ermöglichen sie es, Film-Metadaten langfristig zu identifizieren und eindeutig zu verknüpfen. Die zentral gesicherten, offenen Metadaten machen Filme besser auffindbar und erleichtern die Datenintegration und Nachnutzung. So unterstützen efis die Einhaltung von Forschungsdatenstandards und FAIR-Prinzipien. Außerdem helfen sie, Metadaten untereinander eindeutig in Bezug zu setzen. Ziel ist eine niedrigschwellige efi-Registrierung insbesondere für kleinere Institutionen.",
+          "Mehr Informationen zur PID-Infrastruktur finden sich auf der <a class=\"link\" href=\"https://www.av-efi.net/\" target=\"_blank\" rel=\"noopener noreferrer\">Projektwebsite</a>."
+        ]
+      },
+      "keywords": {
+        "heading": "Welche Schlagworte werden genutzt?",
+        "content": [
+          "Erfasst werden alle Schlagworte, die die jeweilige datengebende Institution bereitgestellt hat. Schlagworte können frei gewählt sein oder auf kontrollierten Vokabularen bzw. Normdaten mit entsprechender Quellenangabe basieren."
+        ]
+      },
+      "normdata": {
+        "heading": "Werden Normdaten verwendet?",
+        "content": [
+          "Wenn die datengebende Institution Normdaten einsetzt, etwa die <a class=\"link\" href=\"https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html\" target=\"_blank\" rel=\"noopener noreferrer\">Gemeinsamen Normdatei (GND)</a> oder der Thesaurus of Geographic Names (TGN), werden diese Angaben übernommen und entsprechend angezeigt."
+        ]
+      },
+      "reuse": {
+        "heading": "Welche Daten und Inhalte sind frei nachnutzbar?",
+        "content": [
+          "Zur bestmöglichen Unterstützung datengetriebener, freier Forschung, Lehre und Filmkulturarbeit sind - soweit nicht anders explizit angegeben - alle auf AVefi angebotenen Daten und Inhalte unter freien Lizenzen gestellt.",
+          "Alle Metadaten sind ohne Urheberrechtsschutz gemeinfrei (Public Domain) ohne jegliche Voraussetzungen nachnutzbar: Creative Commons 1.0 universell",
+          "Alle anderen Inhalte, etwa Bilder und redaktionelle Texte sind unter Quellenangabe frei nachnutzbar: Creative Commons Namensnennung 4.0 International"
+        ]
+      },
+      "watchBorrow": {
+        "heading": "Kann ich über die Plattform Filme anschauen bzw. ausleihen?",
+        "content": [
+          "AVefi ist eine Nachweisplattform. Sie stellt keine Filme bereit und verleiht keine Exemplare. Die Plattform bündelt Metadaten zu Filmwerken und zeigt, in welchen Institutionen sich Manifestationen und Exemplare befinden."
+        ]
+      },
+      "viewingCopies": {
+        "heading": "Wie finde ich Verleih- oder Sichtungskopien?",
+        "content": [
+          "Über die Facette „Status“ lässt sich gezielt nach „Distribution“ oder „Sichtung” filtern. Die Plattform zeigt dann nur die entsprechenden Exemplare an, die Verleih- oder Sichtungskopien sind. Die jeweilige Institution ist direkt verlinkt. Dort erhalten Sie Informationen zu Zugang und Nutzung."
+        ]
+      },
+      "dataProviders": {
+        "heading": "Hilfe für Datengeber",
+        "content": [
+          "Werden Sie als Datengeber Teil von AVefi. Informationen zu den notwendigen Schritten finden Sie im Folgenden:",
+          "<a class=\"link\" href=\"/doc/AVefi-how-to-1.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"/doc/2026-03_AVefi-Manual_v2.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
+          "Kontakt:",
+          "E-Mail: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
+        ],
+      },      
+      "dataQuality": {
+        "heading": "Wie vollständig und aktuell sind die Daten?",
+        "content": [
+          "AVefi führt Metadaten aus verschiedenen Institutionen zusammen. Umfang, Detailtiefe und Aktualität können deshalb je nach Datensatz und datengebender Institution unterschiedlich sein. Maßgeblich für weiterführende Informationen, Nutzungsmöglichkeiten und Bestandsdetails ist jeweils die verlinkte Institution."
+        ]
+      }
+    }
+  },
+  'refinementOption': '{facetName}, {label}, {count}, {state}',
   'copiedToClipboard': 'in die Zwischenablage kopiert',
   'selected': 'ausgewählt',
   'notSelected': 'nicht ausgewählt',
@@ -683,7 +787,6 @@ const deBase = {
   'subject': 'Schlagwort',
   'hello': 'Hallo',
   'help': 'Hilfe',
-  'faq': 'FAQ',
   'helpAndGlossary': 'Hilfe & Glossar',
   'language': 'Sprache',
   'licensing': 'Lizenzierung',
@@ -734,14 +837,15 @@ const deBase = {
   'search': 'Suchen',
   'searchhereactors': 'Suche Schauspieler',
   'noItemsFound': 'Keine Exemplare gefunden.',
-  'searchheredirectors': 'Suche Regie',
+  'searchheredshowFacetsForirectors': 'Suche Regie',
+  'showFacetsFor': '{headerText}',
   'searchplaceholder': 'Suche nach Titel, Regie, Produktion, Schlagwort',
   'seconds': 'Sekunden',
   'showLess': 'Weniger anzeigen',
   'showMore': 'Mehr anzeigen',
   'showchildren': 'Kind-Elemente anzeigen',
   'showfavourites': 'Favoriten zeigen',
-  'showFacetsFor': 'Facetten für {headerText} auf Ebene {category} zeigen',
+  '': 'Facetten für {headerText} auf Ebene {category} zeigen',
   'favouritesalready': 'Das Element befindet sich bereits in der Favoriten',
   'favouritesfull': 'Die Favoriten darf maximal zehn Elemente beinhalten. Um ein neues Element hinzufügen, bitte eines aus der Liste entfernen.',
   'message': 'Nachricht',
@@ -892,10 +996,10 @@ const deBase = {
       "ogDescription": "Rechtliche Informationen zur AVefi-Plattform."
     },
     "accessibility": {
-      "title": "Barrierefreiheit â€“ AVefi Filmdatenbank",
-      "description": "Informationen zur digitalen Barrierefreiheit bei AVefi, zu Standards, aktuellem Status und KontaktmÃ¶glichkeiten bei Barrieren.",
-      "ogTitle": "Barrierefreiheit â€“ AVefi",
-      "ogDescription": "Erfahren Sie, wie AVefi digitale Barrierefreiheit umsetzt und wie Sie Barrieren melden kÃ¶nnen."
+      "title": "Barrierefreiheit – AVefi Filmdatenbank",
+      "description": "Informationen zur digitalen Barrierefreiheit bei AVefi, zu Standards, aktuellem Status und Kontaktmöglichkeiten bei Barrieren.",
+      "ogTitle": "Barrierefreiheit – AVefi",
+      "ogDescription": "Erfahren Sie, wie AVefi digitale Barrierefreiheit umsetzt und wie Sie Barrieren melden können."
     },
     "resource": {
       "title": "{title} – Filmwerk | AVefi",

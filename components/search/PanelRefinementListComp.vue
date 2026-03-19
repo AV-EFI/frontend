@@ -94,10 +94,17 @@
                     <ul v-if="(s?.items?.length ?? 0) > 0" class="ais-RefinementList py-2 max-md:max-w-[300px]"
                         :aria-label="refinementGroupScreenreaderText()">
                         <li v-for="item in (s?.items ?? [])" :key="item.value" class="ais-RefinementList-item max-w-[250px]">
-                            <label class="ais-RefinementList-label" :for="refinementItemId(item)" @click="s?.refine?.(item.value)">
-                                <input :id="refinementItemId(item)" class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs" type="checkbox"
-                                       name="checkbox" :value="item.value" :checked="item.isRefined ?? 'checked'"
-                                       :aria-checked="item.isRefined" :aria-label="refinementItemScreenreaderText(item)"
+                            <label class="ais-RefinementList-label" :for="refinementItemId(item)">
+                                <input
+                                    :id="refinementItemId(item)"
+                                    class="ais-RefinementList-checkbox checkbox-primary checkbox checkbox-xs"
+                                    type="checkbox"
+                                    name="checkbox"
+                                    :value="item.value"
+                                    :checked="item.isRefined ?? 'checked'"
+                                    :aria-checked="item.isRefined"
+                                    :aria-label="refinementItemScreenreaderText(item)"
+                                    @change="s?.refine?.(item.value)"
                                 />
                                 <span aria-hidden="true">
                                     {{ $t(item.label.replace('_', ':')) }}

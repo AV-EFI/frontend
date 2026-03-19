@@ -28,7 +28,7 @@
                                 <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
                             </li>
                             <li class="h-12 flex justify-center">
-                                <a href="/faq">{{ $t("faq") }}</a>
+                                <a href="/faq">{{ $t("faq.title") }}</a>
                             </li>
                             <li class="h-12 flex justify-center">
                                 <a href="/vocab">{{ $t('vocab.title') }}</a>
@@ -126,7 +126,7 @@
                             <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
                         </li>
                         <li class="h-12 flex justify-center">
-                            <a href="/faq">{{ $t("faq") }}</a>
+                            <a href="/faq">{{ $t("faq.title") }}</a>
                         </li>
                         <li class="h-12 flex justify-center">
                             <a href="/vocab">{{ $t('vocab.title') }}</a>

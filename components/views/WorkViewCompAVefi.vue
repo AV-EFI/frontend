@@ -205,43 +205,54 @@
                         <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                     </h3>
 
-                    <!-- Native input + custom dropdown for filter -->
+                    <!-- Native dropdown for filter -->
                     <div class="relative w-72 mb-2">
-                        <input
-                            type="text"
-                            class="input input-bordered w-full"
-                            :placeholder="$t('filterItemsAndManifestations')"
-                            v-model="optionFilterQuery"
-                            :aria-label="$t('filterItemsAndManifestations')"
-                            :aria-expanded="String(autocompleteOpen)"
-                            :aria-controls="autocompleteListId"
-                            :aria-activedescendant="activeSuggestionId"
-                            aria-autocomplete="list"
-                            @focus="autocompleteOpen = true"
-                            @blur="closeAutocomplete()"
-                            @input="onOptionFilterInput"
-                            @keydown="onAutocompleteKeydown"
-                        >
-
-                        <ul
-                            v-if="autocompleteOpen && filteredSuggestions.length > 0"
-                            :id="autocompleteListId"
-                            class="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-base-300 bg-base-100 shadow"
-                            role="listbox"
-                        >
-                            <li
-                                v-for="(suggestion, suggestionIndex) in filteredSuggestions"
-                                :key="suggestion"
-                                :id="`${autocompleteListId}-option-${suggestionIndex}`"
-                                class="px-3 py-2 cursor-pointer text-sm"
-                                :class="activeSuggestionIndex === suggestionIndex ? 'bg-base-200' : ''"
-                                role="option"
-                                :aria-selected="activeSuggestionIndex === suggestionIndex"
-                                @mousedown.prevent="selectSuggestion(suggestion)"
+                        <!-- Compact dropdown for filter -->
+                        <div class="relative w-72 mb-2" ref="filterDropdownRef">
+                            <button
+                                type="button"
+                                class="btn btn-outline w-full justify-between"
+                                :aria-label="$t('filterItemsAndManifestations')"
+                                :aria-expanded="filterDropdownOpen ? 'true' : 'false'"
+                                aria-haspopup="listbox"
+                                @click="filterDropdownOpen = !filterDropdownOpen"
                             >
-                                {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
-                            </li>
-                        </ul>
+                                <span class="truncate">
+                                    {{
+                                        searchQuery.length > 0
+                                            ? `${$t('filterItemsAndManifestations')} (${searchQuery.length})`
+                                            : $t('filterItemsAndManifestations')
+                                    }}
+                                </span>
+                                <Icon
+                                    :name="filterDropdownOpen ? 'tabler-chevron-up' : 'tabler-chevron-down'"
+                                    aria-hidden="true"
+                                />
+                            </button>
+
+                            <div
+                                v-if="filterDropdownOpen"
+                                class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
+                            >
+                                <div class="max-h-72 flex flex-col overflow-auto p-2">
+                                    <label
+                                        v-for="suggestion in suggestionsForManifestations"
+                                        :key="suggestion"
+                                        class="label cursor-pointer justify-start gap-3 py-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            class="checkbox checkbox-sm"
+                                            :checked="searchQuery.includes(suggestion)"
+                                            @change="toggleSuggestion(suggestion)"
+                                        />
+                                        <span class="label-text">
+                                            {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1 mb-2">
@@ -299,10 +310,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
-import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IAVefiWorkVariant";
+import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IefiWorkVariant";
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 
 const { ensureFormKitReady } = useFormKitLoader();
+const { t } = useI18n();
 
 await ensureFormKitReady();
 
@@ -344,47 +356,37 @@ const manifestations = ref<Manifestation[]>(
         : []
 );
 
-// --- Dynamic search state (manifestation filter) ---
+// --- Dynamic search state (manifestation / item filter) ---
 const searchQuery = ref<string[]>([]);
-const optionFilterQuery = ref("");
-const autocompleteOpen = ref(false);
-const activeSuggestionIndex = ref(0);
+const filterDropdownOpen = ref(false);
+const filterDropdownRef = ref<HTMLElement | null>(null);
 const loading = ref(false);
-const autocompleteListId = 'manifestation-filter-suggestions';
+let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
 
-const activeSuggestionId = computed(() => (
-    autocompleteOpen.value && filteredSuggestions.value[activeSuggestionIndex.value]
-        ? `${autocompleteListId}-option-${activeSuggestionIndex.value}`
-        : undefined
-));
-
-function onSearchInput(val: any) {
-    searchQuery.value = Array.isArray(val) ? val : val ? [val] : [];
+function triggerLoading() {
     loading.value = true;
-    setTimeout(() => {
+
+    if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+    }
+
+    loadingTimeout = setTimeout(() => {
         loading.value = false;
+        loadingTimeout = null;
     }, 600);
 }
 
-function onOptionFilterInput() {
-    autocompleteOpen.value = true;
-    activeSuggestionIndex.value = 0;
+function onSearchInput(val: any) {
+    searchQuery.value = Array.isArray(val) ? val : val ? [val] : [];
+    triggerLoading();
 }
 
-function closeAutocomplete() {
-    setTimeout(() => {
-        autocompleteOpen.value = false;
-    }, 120);
-}
+function toggleSuggestion(suggestion: string) {
+    const next = searchQuery.value.includes(suggestion)
+        ? searchQuery.value.filter(value => value !== suggestion)
+        : [...searchQuery.value, suggestion];
 
-function selectSuggestion(suggestion: string) {
-    if (!searchQuery.value.includes(suggestion)) {
-        searchQuery.value.push(suggestion);
-        onSearchInput(searchQuery.value);
-    }
-    optionFilterQuery.value = "";
-    autocompleteOpen.value = false;
-    activeSuggestionIndex.value = 0;
+    onSearchInput(next);
 }
 
 function removeSuggestion(suggestion: string) {
@@ -392,60 +394,34 @@ function removeSuggestion(suggestion: string) {
     onSearchInput(searchQuery.value);
 }
 
-function onAutocompleteKeydown(event: KeyboardEvent) {
-    const suggestions = filteredSuggestions.value;
-    if (!suggestions.length) return;
+function handleClickOutside(event: MouseEvent) {
+    const target = event.target as Node | null;
+    if (!filterDropdownRef.value || !target) return;
 
-    const currentIndex = activeSuggestionIndex.value;
-
-    if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        autocompleteOpen.value = true;
-        activeSuggestionIndex.value = Math.min(currentIndex + 1, suggestions.length - 1);
-    } else if (event.key === 'ArrowUp') {
-        event.preventDefault();
-        autocompleteOpen.value = true;
-        activeSuggestionIndex.value = Math.max(currentIndex - 1, 0);
-    } else if (event.key === 'Enter') {
-        event.preventDefault();
-        const pick = suggestions[currentIndex] ?? suggestions[0];
-        if (pick) {
-            selectSuggestion(pick);
-        }
-    } else if (event.key === 'Escape') {
-        autocompleteOpen.value = false;
+    if (!filterDropdownRef.value.contains(target)) {
+        filterDropdownOpen.value = false;
     }
 }
 
-const filteredSuggestions = computed(() => {
-    const all = suggestionsForManifestations.value;
-    const query = (optionFilterQuery.value ?? '').trim().toLowerCase();
-    if (!query) return all;
-    return all.filter(suggestion => suggestion.toLowerCase().includes(query));
-});
+// --- SEARCH / FACET WHITELIST ---
+// Important: paths are relative to the current object passed in.
+// manifestationLevelValues(mf) receives a manifestation object.
+// itemLevelValues(item) receives an item object.
 
-// --- SEARCH WHITELIST (manifestation/item fields) ---
 const MANIFESTATION_SEARCH_FIELDS = [
-    "has_record.described_by.has_issuer_name",
-    "has_record.in_language.code",
-    "has_record.has_colour_type",
-    "has_record.has_sound_type",
     "has_record.has_event.type",
-    "has_record.has_event.category",
-    "has_record.has_event.has_date",
-    "has_record.has_event.located_in.has_name",
+    "has_event.type",
+    "has_record.described_by.has_issuer_name",
+    "has_record.is_manifestation_of",
 ];
 
 const ITEM_SEARCH_FIELDS = [
-    "has_webresource",
+    "has_record.has_access_status",
     "has_record.has_format.type",
-    "has_record.element_type",
-    "has_record.in_language.code",
     "has_record.has_colour_type",
     "has_record.has_sound_type",
-    "has_record.has_frame_rate",
-    "has_record.has_access_status",
-    "has_record.note",
+    "has_record.in_language.code",
+    "has_record.element_type",
 ];
 
 function get(obj: any, path: string): any {
@@ -542,8 +518,13 @@ function queryScope(q: string) {
     };
 }
 
+function translatedFacetLabel(value: string) {
+    return t(value) !== value ? t(value) : value;
+}
+
 const suggestionsForManifestations = computed(() => {
     const set = new Set<string>();
+
     for (const mf of manifestations.value) {
         for (const v of valuesForManifestation(mf)) {
             const trimmed = v.trim();
@@ -553,11 +534,21 @@ const suggestionsForManifestations = computed(() => {
         }
         if (set.size >= 100) break;
     }
-    return Array.from(set).slice(0, 100);
+
+    return Array.from(set)
+        .sort((a, b) =>
+            translatedFacetLabel(a).localeCompare(
+                translatedFacetLabel(b),
+                undefined,
+                { sensitivity: "base" }
+            )
+        )
+        .slice(0, 100);
 });
 
 const filteredManifestations = computed<any[]>(() => {
     const selected = searchQuery.value;
+
     if (!Array.isArray(selected) || selected.length === 0) {
         return manifestations.value;
     }
@@ -576,7 +567,9 @@ const filteredManifestations = computed<any[]>(() => {
         .map((mf) => {
             const manifestationValues = manifestationLevelValues(mf);
             const items = Array.isArray(mf.items) ? mf.items : [];
-            const hasManifestationMatch = manifestationQueries.every((q) => manifestationValues.includes(q));
+            const hasManifestationMatch = manifestationQueries.every((q) =>
+                manifestationValues.includes(q)
+            );
 
             if (!hasManifestationMatch) {
                 return null;
@@ -614,7 +607,7 @@ function formatTimestamp(ts: any): string {
 const mirExpanded = ref(false);
 const mirPanelId = "mir-panel";
 
-// ✅ Make isMobile reactive (so the collapse and drawer logic doesn't desync)
+// Make isMobile reactive
 const isMobile = ref(false);
 let mediaQuery: MediaQueryList | null = null;
 let mediaListener: ((e: MediaQueryListEvent) => void) | null = null;
@@ -623,27 +616,23 @@ let mediaListener: ((e: MediaQueryListEvent) => void) | null = null;
 const drawerOpen = ref(false);
 const activeSection = ref("");
 
-// ✅ Build the exact list of IDs that actually exist in the DOM (based on FILTERED data)
+// Build the exact list of IDs that actually exist in the DOM (based on FILTERED data)
 const sectionIds = computed<string[]>(() => {
     const ids: string[] = [];
 
-    // Work anchor
     ids.push("work-events");
-
-    // Manifestations anchor
     ids.push("manifestations");
 
-    // Manifestations + items (FILTERED!)
     for (let idx = 0; idx < filteredManifestations.value.length; idx++) {
         const mf = filteredManifestations.value[idx];
         ids.push(getManifestationAnchorId(mf, idx));
+
         const items = Array.isArray(mf?.items) ? mf.items : [];
         for (let iidx = 0; iidx < items.length; iidx++) {
             ids.push(getItemAnchorId(items[iidx], idx, iidx));
         }
     }
 
-    // Events (if your DetailHasEventComp actually renders these ids, this will work)
     const events = Array.isArray(mir?.has_event) ? (mir as any).has_event : [];
     for (let eidx = 0; eidx < events.length; eidx++) {
         ids.push(`event-${eidx}`);
@@ -712,29 +701,32 @@ function syncHashToRequestedHandle() {
     window.dispatchEvent(new Event('hashchange'));
 }
 
-// ✅ Robust active section tracking via IntersectionObserver
+// Robust active section tracking via IntersectionObserver
 let observer: IntersectionObserver | null = null;
-const visibleMap = new Map<string, number>(); // id -> intersectionRatio
+const visibleMap = new Map<string, number>();
 
 function splitActivities(evt: Event) {
-    const activities = Array.isArray(evt?.has_activity) ? evt.has_activity : [];
+    const activities = Array.isArray((evt as any)?.has_activity) ? (evt as any).has_activity : [];
     const crew: Activity[] = [];
     const cast: Activity[] = [];
+
     for (const activity of activities) {
         if (!activity) continue;
-        if (activity.type === "CastMember") {
+        if ((activity as any).type === "CastMember") {
             cast.push(activity);
         } else {
             crew.push(activity);
         }
     }
+
     return { crew, cast };
 }
 
 function normalizeEvent(evt: Event): NormalizedEvent {
     const { crew, cast } = splitActivities(evt);
-    const showType = !crew.length && !cast.length && Boolean(evt?.type);
-    const hasMeta = showType || Boolean(evt?.located_in) || Boolean(evt?.has_date);
+    const showType = !crew.length && !cast.length && Boolean((evt as any)?.type);
+    const hasMeta = showType || Boolean((evt as any)?.located_in) || Boolean((evt as any)?.has_date);
+
     return {
         raw: evt,
         crew,
@@ -746,11 +738,10 @@ function normalizeEvent(evt: Event): NormalizedEvent {
 
 const normalizedEvents = computed<NormalizedEvent[]>(() => {
     const events = Array.isArray(mir?.has_event) ? mir.has_event : [];
-    return events.map((evt) => normalizeEvent(evt));
+    return events.map((evt) => normalizeEvent(evt as any));
 });
 
 function setActiveFromVisibility() {
-    // pick the id with the highest ratio; if tie, pick the last (deepest) in DOM order by sectionIds
     let bestId = "";
     let bestRatio = 0;
 
@@ -760,7 +751,6 @@ function setActiveFromVisibility() {
             bestRatio = ratio;
             bestId = id;
         } else if (ratio === bestRatio && ratio > 0) {
-            // tie-breaker: later in sectionIds wins (more "current" while scrolling down)
             bestId = id;
         }
     }
@@ -769,11 +759,11 @@ function setActiveFromVisibility() {
 }
 
 async function initObserver() {
-    // cleanup
     if (observer) {
         observer.disconnect();
         observer = null;
     }
+
     visibleMap.clear();
 
     await nextTick();
@@ -788,7 +778,6 @@ async function initObserver() {
             setActiveFromVisibility();
         },
         {
-            // tweak: top offset helps with sticky headers / layouts
             root: null,
             rootMargin: "-20% 0px -60% 0px",
             threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
@@ -800,7 +789,6 @@ async function initObserver() {
         if (el) observer.observe(el);
     }
 
-    // set initial active (topmost existing)
     for (const id of sectionIds.value) {
         if (document.getElementById(id)) {
             activeSection.value = id;
@@ -818,9 +806,10 @@ onMounted(() => {
             isMobile.value = e.matches;
         };
 
-        // older Safari fallback not needed in Nuxt modern targets usually, but kept safe
         if (mediaQuery.addEventListener) mediaQuery.addEventListener("change", mediaListener);
         else (mediaQuery as any).addListener(mediaListener);
+
+        document.addEventListener("click", handleClickOutside);
 
         initObserver();
         nextTick(() => {
@@ -829,7 +818,6 @@ onMounted(() => {
     }
 });
 
-// re-init observer when rendered sections change (filtering, data load, etc.)
 watch(
     () => sectionIds.value.join("|"),
     async () => {
@@ -843,9 +831,16 @@ onUnmounted(() => {
     if (observer) observer.disconnect();
     observer = null;
 
+    document.removeEventListener("click", handleClickOutside);
+
     if (mediaQuery && mediaListener) {
         if (mediaQuery.removeEventListener) mediaQuery.removeEventListener("change", mediaListener);
         else (mediaQuery as any).removeListener(mediaListener);
+    }
+
+    if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
     }
 });
 </script>

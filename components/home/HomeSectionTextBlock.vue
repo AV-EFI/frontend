@@ -33,8 +33,14 @@ type ParagraphInput = string | string[] | undefined;
 const props = defineProps<{
     title: string;
     paragraphs?: ParagraphInput;
-    ctaLabel?: string;
-    ctaHref?: string;
+    ctaLabel?: {
+        type: string,
+        default: null
+    },
+    ctaHref?: {
+        type: string,
+        default: null
+    } | string;
     ctaTarget?: string;
     ctaRel?: string;
     wrapperClass?: string;
