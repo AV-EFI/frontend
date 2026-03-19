@@ -565,9 +565,9 @@ const deBase = {
         "heading": "Über AVefi",
         "content": [
           "AVefi steht für „Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren“. Seit November 2023 entwickelt ein von der Deutschen Forschungsgemeinschaft gefördertes Kooperations- und Infrastrukturprojekt das System. AVefi führt filmische Metadaten verschiedener Institutionen zusammen und macht diese Daten in einer Filmdatenbank recherchierbar und nachnutzbar.",
-          "Das Verbundsystem ergänzt das bestehende Angebot filmischer Identifikatoren und (Norm-)Daten, zum Beispiel von Filmportal, EIDR, GND, NFDI4Culture. AVefi bietet dafür eine eigene Recherche- und Redaktionsoberfläche mit engem Bezug zu den Beständen. Die Plattform dient dazu, audiovisuelle Bestände jeglicher Herkunft, Gattungen und Genres dauerhaft nachzuweisen und zu verknüpfen. Leitend sind Linked Open Data und FAIR-Prinzipien.",
-          "Die Filme der datengebenden Institutionen werden soweit möglich automatisiert identifiziert und abgeglichen. Wenn erforderlich werden die Werke zusammengeführt. Eine zentrale Rolle spielen dabei persistenten Identifikatoren (PID). Mit persistenten Identifikatoren lassen sich Filmwerke und ihre Versionen automatisch und eindeutig miteinander in Bezug setzen. Filme, von denen (un-)vollständige Kopien in verschiedenen Archiven lagern, können so leichter gefunden werden. Das hilft für Restaurierungszwecke oder um filmbezogene Forschungsfragen zu beantworten.",
-          "Das eigens entwickelte AVefi-Schema folgt dem <a class=\"link\" href=\"https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF-Regelwerk</a>. Der Nachweis unterscheidet dabei drei Ebenen: Werk, Manifestation und Exemplar."
+          "Das Verbundsystem ergänzt das bestehende Angebot filmischer Identifikatoren und (Norm-)Daten, zum Beispiel von Filmportal, EIDR, GND, NFDI4Culture. AVefi bietet dafür eine eigene Recherche- und Redaktionsoberfläche mit engem Bezug zu den Beständen. Die Plattform dient dazu, audiovisuelle Bestände jeglicher Herkunft, Gattungen und Genres dauerhaft nachzuweisen und zu verknüpfen. Leitend sind <a class=\"link\" href=\"https://www.w3.org/egov/wiki/Linked_Open_Data\" target=\"_blank\" rel=\"noopener noreferrer\">Linked Open Data</a> und <a class=\"link\" href=\"https://www.go-fair.org/fair-principles/\" target=\"_blank\" rel=\"noopener noreferrer\">FAIR-Prinzipien</a>.",
+          "Die Filme der datengebenden Institutionen werden soweit möglich automatisiert identifiziert und abgeglichen. Wenn erforderlich, werden die Werke zusammengeführt. Eine zentrale Rolle spielen dabei persistente Identifikatoren (PID). Mit persistenten Identifikatoren lassen sich Filmwerke und ihre Versionen automatisch und eindeutig miteinander in Bezug setzen. Filme, von denen (un-)vollständige Kopien in verschiedenen Archiven lagern, können so leichter gefunden werden. Das hilft für Restaurierungszwecke oder um filmbezogene Forschungsfragen zu beantworten.",
+          "Das eigens entwickelte AVefi-Schema folgt dem <a class=\"link\" href=\"https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF-Regelwerk</a>. Der Nachweis unterscheidet dabei drei Ebenen: <strong>Werk</strong>, <strong>Manifestation</strong> und <strong>Exemplar</strong>."
         ]
       },
       "availableMetadata": {
@@ -580,13 +580,13 @@ const deBase = {
       "definitions": {
         "heading": "Was ist der Unterschied zwischen Werk, Manifestation und Exemplar?",
         "content": [
-          "AVefi unterscheidet im Sinne des FIAF-Regelwerks zwischen Filmwerken, Manifestationen und Exemplaren.",
-          "Werk: das Filmwerk als abstrakte Einheit, von dem mehrere Manifestationen in verschiedenen Sammlungen existieren können",
-          "Werk ist eine Entität, die den geistigen oder künstlerischen Inhalt und den Prozess der Realisierung in einem kinematografischen Medium umfasst. Zum Beispiel wie der Film heißt, wann er gedreht wurde oder wer ihn gedreht hat. Diese Kerninformationen ändern sich in der Regel in keiner Manifestation.",
-          "Manifestation: eine bestimmte Fassung eines Filmwerks, die durch Exemplare in einer Sammlung vertreten ist",
-          "Eine Manifestation ist die Verkörperung eines Filmwerks. Manifestationen umfassen alle analogen, digitalen und Online-Medien. Informationen der Ebene Manifestation können eine Beschreibung dessen enthalten, was die jeweilige Manifestation idealerweise enthalten sollte. Ein Beispiel: Die ursprüngliche Originallänge eines Films beträgt 1:30:00, aber in dem im Archiv vorhandenen Exemplar fehlt Filmmaterial, sodass es kürzer ist.",
-          "Exemplar: ein konkretes Objekt in einer Filmsammlung",
-          "Ein Exemplar ist das physische Produkt einer Manifestation eines Werks. Ein Exemplar kann aus einer oder mehreren Komponenten bestehen, beispielsweise aus einer Rolle oder 5 Spulen. Bei Bedarf kann ein Exemplar-Datensatz Felder für jede Komponente des Exemplars enthalten. Das Exemplar kann vollständig, unvollständig oder ein Fragment sein. Bei rein digitalen Medien ist ein Exemplar definiert als die Verfügbarkeit der Datei, unabhängig von der Anzahl der eventuell vorhandenen Sicherungskopien.",
+          "AVefi unterscheidet im Sinne des <a class=\"link\" href=\"https://www.fiafnet.org/pages/E-Resources/FIAF-Handbuch-Katalogisierung.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF-Regelwerks</a> zwischen Filmwerken, Manifestationen und Exemplaren.",
+          "<strong>Werk:</strong> das Filmwerk als abstrakte Einheit, von dem mehrere Manifestationen in verschiedenen Sammlungen existieren können.",
+          "Ein Werk ist eine Entität, die den geistigen oder künstlerischen Inhalt und den Prozess der Realisierung in einem kinematografischen Medium umfasst. Dazu gehören zum Beispiel der Titel des Films, das Entstehungsjahr oder die Regie. Diese Kerninformationen ändern sich in der Regel nicht zwischen verschiedenen Manifestationen.",
+          "<strong>Manifestation:</strong> eine bestimmte Fassung eines Filmwerks, die durch Exemplare in einer Sammlung vertreten ist.",
+          "Eine Manifestation ist die Verkörperung eines Filmwerks. Manifestationen umfassen analoge, digitale und Online-Medien. Informationen auf der Ebene der Manifestation können beschreiben, was die jeweilige Manifestation idealerweise enthalten sollte. Ein Beispiel: Die ursprüngliche Originallänge eines Films beträgt 1:30:00, aber in dem im Archiv vorhandenen Exemplar fehlt Filmmaterial, sodass es kürzer ist.",
+          "<strong>Exemplar:</strong> ein konkretes Objekt in einer Filmsammlung.",
+          "Ein Exemplar ist das physische Produkt einer Manifestation eines Werks. Ein Exemplar kann aus einer oder mehreren Komponenten bestehen, beispielsweise aus einer Rolle oder fünf Spulen. Bei Bedarf kann ein Exemplar-Datensatz Felder für jede Komponente des Exemplars enthalten. Das Exemplar kann vollständig, unvollständig oder ein Fragment sein. Bei rein digitalen Medien ist ein Exemplar definiert als die Verfügbarkeit der Datei, unabhängig von der Anzahl der eventuell vorhandenen Sicherungskopien.",
           "Aus technischen Gründen und weil Manifestationen in der Praxis unterschiedlich erfasst werden, hängen Informationen wie Sprache, Dauer oder Format bei AVefi nicht an der Manifestation, sondern am Exemplar.",
           "Das AVefi-Datenmodell ist darauf ausgelegt, Bestandsdaten eindeutig einer Institution zuzuordnen und gleichzeitig Beziehungen zwischen den Beständen verschiedener Institutionen darzustellen. Das System erzeugt dazu persistente Identifikatoren (PID). Die Identifikatoren, die „efi“ heißen, werden auf den genannten Ebenen mit ihren jeweils eigenen Anforderungen vergeben."
         ]
@@ -594,20 +594,18 @@ const deBase = {
       "efis": {
         "heading": "Was sind efis?",
         "content": [
-          "Efis stehen für „einheitliche Filmidentifikatoren“. Es handelt sich um persistente Identifikatoren (PIDs) mit einem Set von Metadaten nach vorgegebenem Schema, welches sich an Standards der Filmarchive orientiert. Ein efi identifiziert entweder:",
-          "ein Exemplar",
-          "eine Manifestation",
-          "oder ein Werk",
-          "Bei AVefi verweist jeder efi für ein Exemplar auf genau einen efi für eine Manifestation, wobei mehrere Exemplare derselben Manifestation zugeordnet werden können (z.B. mehrere Filmrollen, die nacheinander abzuspielen sind). Jede Manifestation verweist wiederum auf mindestens einen efi für ein Werk.",
-          "Mehrere Werke können auch verknüpft sein, z.B. wenn eine DVD mehrere gesondert beschriebene Filmwerke enthält."
+          "Efis stehen für „einheitliche Filmidentifikatoren“. Es handelt sich um <strong>persistente Identifikatoren (PIDs)</strong> mit einem Set von Metadaten nach vorgegebenem Schema, das sich an Standards der Filmarchive orientiert. Ein <strong>efi</strong> identifiziert entweder:",
+          "<ul><li>ein <strong>Exemplar</strong></li><li>eine <strong>Manifestation</strong></li><li>ein <strong>Werk</strong></li></ul>",
+          "Bei AVefi verweist jeder efi für ein Exemplar auf genau einen efi für eine Manifestation, wobei mehrere Exemplare derselben Manifestation zugeordnet werden können, zum Beispiel mehrere Filmrollen, die nacheinander abzuspielen sind. Jede Manifestation verweist wiederum auf mindestens einen efi für ein Werk.",
+          "Mehrere Werke können auch verknüpft sein, zum Beispiel wenn eine DVD mehrere gesondert beschriebene Filmwerke enthält."
         ]
       },
       "whyEfis": {
         "heading": "Warum werden efis vergeben?",
         "content": [
           "AVefi vergibt efis für jeden Film, der registriert wird. So lassen sich Filmwerke institutionsübergreifend eindeutig identifizieren. Manifestationen und Exemplare sind gezielt auffindbar.",
-          "Efis sind persistente Identifikatoren (PID), die auf dem etablierten Handle-System basieren. Als spezifische Handle-PIDs ermöglichen sie es, Film-Metadaten langfristig zu identifizieren und eindeutig zu verknüpfen. Die zentral gesicherten, offenen Metadaten machen Filme besser auffindbar und erleichtern die Datenintegration und Nachnutzung. So unterstützen efis die Einhaltung von Forschungsdatenstandards und FAIR-Prinzipien. Außerdem helfen sie, Metadaten untereinander eindeutig in Bezug zu setzen. Ziel ist eine niedrigschwellige efi-Registrierung insbesondere für kleinere Institutionen.",
-          "Mehr Informationen zur PID-Infrastruktur finden sich auf der <a class=\"link\" href=\"https://www.av-efi.net/\" target=\"_blank\" rel=\"noopener noreferrer\">Projektwebsite</a>."
+          "Efis sind persistente Identifikatoren (PID), die auf dem etablierten Handle-System basieren. Als spezifische Handle-PIDs ermöglichen sie es, Film-Metadaten langfristig zu identifizieren und eindeutig zu verknüpfen. Die zentral gesicherten, offenen Metadaten machen Filme besser auffindbar und erleichtern die Datenintegration und Nachnutzung. So unterstützen efis die Einhaltung von Forschungsdatenstandards und <a class=\"link\" href=\"https://www.go-fair.org/fair-principles/\" target=\"_blank\" rel=\"noopener noreferrer\">FAIR-Prinzipien</a>. Außerdem helfen sie, Metadaten untereinander eindeutig in Bezug zu setzen. Ziel ist eine niedrigschwellige efi-Registrierung insbesondere für kleinere Institutionen.",
+          "Mehr Informationen zur PID-Infrastruktur finden sich auf der <a class=\"link\" href=\"https://projects.tib.eu/av-efi/\" target=\"_blank\" rel=\"noopener noreferrer\">Projektwebsite</a>."
         ]
       },
       "keywords": {
@@ -619,15 +617,15 @@ const deBase = {
       "normdata": {
         "heading": "Werden Normdaten verwendet?",
         "content": [
-          "Wenn die datengebende Institution Normdaten einsetzt, etwa die <a class=\"link\" href=\"https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html\" target=\"_blank\" rel=\"noopener noreferrer\">Gemeinsamen Normdatei (GND)</a> oder der Thesaurus of Geographic Names (TGN), werden diese Angaben übernommen und entsprechend angezeigt."
+          "Wenn die datengebende Institution Normdaten einsetzt, etwa die <a class=\"link\" href=\"https://gnd.network/Webs/gnd/DE/UeberGND/ueberGND_node.html\" target=\"_blank\" rel=\"noopener noreferrer\">Gemeinsame Normdatei (GND)</a> oder den <a class=\"link\" href=\"https://www.getty.edu/research/tools/vocabularies/tgn/\" target=\"_blank\" rel=\"noopener noreferrer\">Thesaurus of Geographic Names (TGN)</a>, werden diese Angaben übernommen und entsprechend angezeigt."
         ]
       },
       "reuse": {
         "heading": "Welche Daten und Inhalte sind frei nachnutzbar?",
         "content": [
-          "Zur bestmöglichen Unterstützung datengetriebener, freier Forschung, Lehre und Filmkulturarbeit sind - soweit nicht anders explizit angegeben - alle auf AVefi angebotenen Daten und Inhalte unter freien Lizenzen gestellt.",
-          "Alle Metadaten sind ohne Urheberrechtsschutz gemeinfrei (Public Domain) ohne jegliche Voraussetzungen nachnutzbar: Creative Commons 1.0 universell",
-          "Alle anderen Inhalte, etwa Bilder und redaktionelle Texte sind unter Quellenangabe frei nachnutzbar: Creative Commons Namensnennung 4.0 International"
+          "Zur bestmöglichen Unterstützung datengetriebener, freier Forschung, Lehre und Filmkulturarbeit sind – soweit nicht anders explizit angegeben – alle auf AVefi angebotenen Daten und Inhalte unter freien Lizenzen gestellt.",
+          "Alle Metadaten sind ohne Urheberrechtsschutz gemeinfrei (Public Domain) und ohne jegliche Voraussetzungen nachnutzbar: <a class=\"link\" href=\"https://creativecommons.org/publicdomain/zero/1.0/deed.de\" target=\"_blank\" rel=\"noopener noreferrer\">Creative Commons 1.0 universell</a>.",
+          "Alle anderen Inhalte, etwa Bilder und redaktionelle Texte, sind unter Quellenangabe frei nachnutzbar: <a class=\"link\" href=\"https://creativecommons.org/licenses/by/4.0/deed.de\" target=\"_blank\" rel=\"noopener noreferrer\">Creative Commons Namensnennung 4.0 International</a>."
         ]
       },
       "watchBorrow": {
@@ -639,18 +637,18 @@ const deBase = {
       "viewingCopies": {
         "heading": "Wie finde ich Verleih- oder Sichtungskopien?",
         "content": [
-          "Über die Facette „Status“ lässt sich gezielt nach „Distribution“ oder „Sichtung” filtern. Die Plattform zeigt dann nur die entsprechenden Exemplare an, die Verleih- oder Sichtungskopien sind. Die jeweilige Institution ist direkt verlinkt. Dort erhalten Sie Informationen zu Zugang und Nutzung."
+          "Über die Facette <strong>„Status“</strong> lässt sich gezielt nach <strong>„Distribution“</strong> oder <strong>„Sichtung“</strong> filtern. Die Plattform zeigt dann nur die entsprechenden Exemplare an, die Verleih- oder Sichtungskopien sind. Die jeweilige Institution ist direkt verlinkt. Dort erhalten Sie Informationen zu Zugang und Nutzung."
         ]
       },
       "dataProviders": {
         "heading": "Hilfe für Datengeber",
         "content": [
           "Werden Sie als Datengeber Teil von AVefi. Informationen zu den notwendigen Schritten finden Sie im Folgenden:",
-          "<a class=\"link\" href=\"/doc/AVefi-how-to-1.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
-          "<a class=\"link\" href=\"/doc/2026-03_AVefi-Manual_v2.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
           "Kontakt:",
-          "E-Mail: <a class=\"link\" href=\"mailto:contact{'@'}av-efi.net\">contact{'@'}av-efi.net</a>"
-        ],
+          "E-Mail: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
+        ]
       }
     }
   },

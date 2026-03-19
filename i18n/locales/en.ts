@@ -655,16 +655,16 @@ const avefiBase = {
   },
   "faq": {
     "title": "FAQ",
-    "mainContent": "FAQ main content",
+    "mainContent": "Main FAQ content",
     "articleContent": "FAQ content",
     "sections": {
       "about": {
         "heading": "About AVefi",
         "content": [
           "AVefi stands for “Automated Network System for Audiovisual Holdings via standardised Film Identifiers”. Since November 2023, the system has been under development as a cooperative infrastructure project funded by the German Research Foundation. AVefi brings together film-related metadata from various institutions and makes this data searchable and reusable in a film database.",
-          "The network system complements existing resources of film identifiers and (authority) data, for example from Filmportal, EIDR, GND, and NFDI4Culture. To this end, AVefi provides its own search and editorial interface closely linked to the holdings. The platform is designed to document and interlink audiovisual holdings of any origin, category, or genre on a long-term basis. Its guiding principles are Linked Open Data and the FAIR principles.",
+          "The network system complements existing resources of film identifiers and (authority) data, for example from Filmportal, EIDR, GND, and NFDI4Culture. To this end, AVefi provides its own search and editorial interface closely linked to the holdings. The platform is designed to document and interlink audiovisual holdings of any origin, category, or genre on a long-term basis. Its guiding principles are <a class=\"link\" href=\"https://www.w3.org/egov/wiki/Linked_Open_Data\" target=\"_blank\" rel=\"noopener noreferrer\">Linked Open Data</a> and the <a class=\"link\" href=\"https://www.go-fair.org/fair-principles/\" target=\"_blank\" rel=\"noopener noreferrer\">FAIR principles</a>.",
           "Where possible, the films from contributing institutions are identified and matched automatically. If necessary, works are consolidated. Persistent identifiers (PIDs) play a central role in this process. With persistent identifiers, film works and their versions can be automatically and unambiguously linked to one another. Films for which (in)complete copies are held in different archives can thus be located more easily. This supports restoration work and helps answer film-related research questions.",
-          "The AVefi schema developed specifically for this purpose follows the rules of the FIAF Moving Image Cataloguing Manual. The documentation distinguishes three levels: work, manifestation, and item."
+          "The AVefi schema developed specifically for this purpose follows the rules of the <a class=\"link\" href=\"https://www.fiafnet.org/pages/e-resources/cataloguing-manual.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF Moving Image Cataloguing Manual</a>. The documentation distinguishes three levels: <strong>work</strong>, <strong>manifestation</strong>, and <strong>item</strong>."
         ]
       },
       "availableMetadata": {
@@ -677,34 +677,32 @@ const avefiBase = {
       "definitions": {
         "heading": "What is the difference between work, manifestation, and item?",
         "content": [
-          "Following the FIAF Moving Image Cataloguing Manual, AVefi distinguishes between film works, manifestations, and items.",
-          "Work: an abstract entity, from which several manifestations may exist in different collections",
+          "Following the <a class=\"link\" href=\"https://www.fiafnet.org/pages/e-resources/cataloguing-manual.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF Moving Image Cataloguing Manual</a>, AVefi distinguishes between <strong>film works</strong>, <strong>manifestations</strong>, and <strong>items</strong>.",
+          "<strong>Work:</strong> an abstract entity from which several manifestations may exist in different collections.",
           "A work is an entity that encompasses the intellectual or artistic content and the process of its realization in a cinematographic medium. This includes core information such as the film’s title, when it was made, or who directed it. These core elements generally remain unchanged across different manifestations.",
-          "Manifestation: a specific version of a film work represented by items in a collection",
-          "A manifestation is the embodiment of a film work. Manifestations include all analog, digital, and online media. Information at the manifestation level may describe what the manifestation ideally contains. For example: the original running time of a film may be 1:30:00, but the copy held in an archive may be shorter because some footage is missing.",
-          "Item: a specific object within a film collection",
+          "<strong>Manifestation:</strong> a specific version of a film work represented by items in a collection.",
+          "A manifestation is the embodiment of a film work. Manifestations include all analog, digital, and online media. Information at the manifestation level may describe what the manifestation ideally contains. For example, the original running time of a film may be 1:30:00, but the copy held in an archive may be shorter because some footage is missing.",
+          "<strong>Item:</strong> a specific object within a film collection.",
           "An item is the physical product of a manifestation of a work. An item may consist of one or several components, for example a single reel or five spools. If necessary, an item record can contain fields describing each component of the item. An item may be complete, incomplete, or a fragment. For purely digital media, an item is defined as the availability of the file itself, regardless of how many backup copies may exist.",
           "For technical reasons, and because manifestations are documented differently in practice, information such as language, running time, or format in AVefi is attached not to the manifestation but to the item.",
-          "The AVefi data model is designed to assign collection data uniquely to a specific institution while also representing relationships between the holdings of different institutions. For this purpose, the system generates persistent identifiers (PIDs). The identifiers, called “efi,” are assigned at the levels mentioned above, each according to its specific requirements."
+          "The AVefi data model is designed to assign collection data uniquely to a specific institution while also representing relationships between the holdings of different institutions. For this purpose, the system generates <strong>persistent identifiers (PIDs)</strong>. The identifiers, called “efi,” are assigned at the levels mentioned above, each according to its specific requirements."
         ]
       },
       "efis": {
         "heading": "What are efis?",
         "content": [
-          "Efis are “unique film identifiers.” They are persistent identifiers (PID) with a set of metadata based on standards used by film archives. An efi identifies either:",
-          "an item",
-          "a manifestation",
-          "or a work",
-          "Within AVefi, each efi assigned to an item refers to exactly one efi assigned to a manifestation. At the same time, several items can be associated with the same manifestation (for example, multiple film reels that must be played sequentially).",
-          "Each manifestation in turn refers to at least one efi assigned to a work. Multiple works can also be linked – for example, when a DVD contains several separately described film works."
+          "Efis are <strong>“unique film identifiers.”</strong> They are persistent identifiers (PID) with a set of metadata based on standards used by film archives. An <strong>efi</strong> identifies either:",
+          "<ul><li>an <strong>item</strong></li><li>a <strong>manifestation</strong></li><li>a <strong>work</strong></li></ul>",
+          "Within AVefi, each efi assigned to an <strong>item</strong> refers to exactly one efi assigned to a <strong>manifestation</strong>. At the same time, several items can be associated with the same manifestation, for example multiple film reels that must be played sequentially.",
+          "Each <strong>manifestation</strong> in turn refers to at least one efi assigned to a <strong>work</strong>. Multiple works can also be linked, for example when a DVD contains several separately described film works."
         ]
       },
       "whyEfis": {
         "heading": "Why are efis assigned?",
         "content": [
           "AVefi assigns efis to every film that is registered in the system. This enables film works to be uniquely identified across institutions, while manifestations and items can be located precisely.",
-          "Efis are persistent identifiers (PIDs) based on the established Handle System. As a specific type of Handle PID, they make it possible to identify and reliably link film metadata over the long term. The centrally maintained, open metadata improves the discoverability of films and facilitates data integration and reuse. In this way, efis support compliance with research data standards and the FAIR principles. They also help establish clear relationships between different sets of metadata. One goal of the project is to enable low-threshold efi registration, particularly for smaller institutions.",
-          "More information about the PID infrastructure can be found on the project website."
+          "Efis are <strong>persistent identifiers (PIDs)</strong> based on the established <strong>Handle System</strong>. As a specific type of Handle PID, they make it possible to identify and reliably link film metadata over the long term. The centrally maintained, open metadata improves the discoverability of films and facilitates data integration and reuse. In this way, efis support compliance with research data standards and the <a class=\"link\" href=\"https://www.go-fair.org/fair-principles/\" target=\"_blank\" rel=\"noopener noreferrer\">FAIR principles</a>. They also help establish clear relationships between different sets of metadata. One goal of the project is to enable low-threshold efi registration, particularly for smaller institutions.",
+          "More information about the PID infrastructure can be found on the <a class=\"link\" href=\"https://projects.tib.eu/av-efi/\" target=\"_blank\" rel=\"noopener noreferrer\">project website</a>."
         ]
       },
       "keywords": {
@@ -716,15 +714,15 @@ const avefiBase = {
       "normdata": {
         "heading": "Are authority data used?",
         "content": [
-          "If the contributing institution uses authority data – such as the Integrated Authority File (GND) or the Thesaurus of Geographic Names (TGN) – these references are adopted and displayed accordingly."
+          "If the contributing institution uses authority data – such as the <a class=\"link\" href=\"https://gnd.network/Webs/gnd/EN/Home/home_node.html\" target=\"_blank\" rel=\"noopener noreferrer\">Integrated Authority File (GND)</a> or the <a class=\"link\" href=\"https://www.getty.edu/research/tools/vocabularies/tgn/\" target=\"_blank\" rel=\"noopener noreferrer\">Thesaurus of Geographic Names (TGN)</a> – these references are adopted and displayed accordingly."
         ]
       },
       "reuse": {
         "heading": "Which data and content can be freely reused?",
         "content": [
           "To support data-driven and open research, teaching, and film cultural efforts as effectively as possible, all data and content provided on AVefi are made available under open licenses, unless explicitly stated otherwise.",
-          "All metadata are in the Public Domain and may be reused without any restrictions: Creative Commons Universal 1.0 (CC0).",
-          "All other content, such as images and editorial texts, may be reused with attribution: Creative Commons Attribution 4.0 International (CC BY 4.0)."
+          "<strong>All metadata</strong> are in the <strong>Public Domain</strong> and may be reused without any restrictions: <a class=\"link\" href=\"https://creativecommons.org/publicdomain/zero/1.0/deed.de\" target=\"_blank\" rel=\"noopener noreferrer\"><em>Creative Commons Universal 1.0 (CC0)</em></a>.",
+          "<strong>All other content</strong>, such as images and editorial texts, may be reused with attribution: <a class=\"link\" href=\"https://creativecommons.org/licenses/by/4.0/deed.de\" target=\"_blank\" rel=\"noopener noreferrer\"><em>Creative Commons Attribution 4.0 International (CC BY 4.0)</em></a>."
         ]
       },
       "watchBorrow": {
@@ -736,16 +734,17 @@ const avefiBase = {
       "viewingCopies": {
         "heading": "How can I find distribution or viewing copies?",
         "content": [
-          "Using the “Status” facet, you can filter specifically for “Distribution” or “Viewing.” The platform will then display only the corresponding items that are available as distribution or viewing copies. The respective institution is directly linked, where you can find information about access and use."
+          "Using the <strong>“Status”</strong> facet, you can filter specifically for <strong>“Distribution”</strong> or <strong>“Viewing”</strong>. The platform will then display only the corresponding items that are available as distribution or viewing copies. The respective institution is directly linked, where you can find information about access and use."
         ]
       },
       "dataProviders": {
         "heading": "Help for data providers",
         "content": [
           "Become a data provider for AVefi. Information on the necessary steps can be found in the following resources:",
-          "<a class=\"link\" href=\"/doc/AVefi-how-to-1.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
-          "<a class=\"link\" href=\"/doc/2026-03_AVefi-Manual_v2.2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",          "Contact",
-          "Email: contact{'@'}av-efi.net"
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to document</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
+          "Contact:",
+          "Email: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
         ]
       }
     }
@@ -1177,7 +1176,6 @@ const avefiBase = {
         "website": "https://www.schlichtungsstelle-bgg.de/"
       }
     },
-
     "improvement": {
       "title": "Continuous Improvement",
       "body": "We regularly review our digital services and continuously work to improve accessibility through design reviews, implementation standards, and testing."
