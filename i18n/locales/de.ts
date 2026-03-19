@@ -644,8 +644,8 @@ const deBase = {
         "heading": "Hilfe für Datengeber",
         "content": [
           "Werden Sie als Datengeber Teil von AVefi. Informationen zu den notwendigen Schritten finden Sie im Folgenden:",
-          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to Dokument</a>",
-          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
+          "<a class=\"link\" href=\"/doc/AVefi-HowTo.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"/doc/AVefi-Manual.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
           "Kontakt:",
           "E-Mail: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
         ]
@@ -783,8 +783,6 @@ const deBase = {
   'language': 'Sprache',
   'licensing': 'Lizenzierung',
   'licensingContent': 'Details zu Lizenzierung und Nachnutzung, etwa zu Creative Commons, werden noch finalisiert.',
-  'howToDoc': 'AVefi How-to Dokument: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf',
-  'manual': 'AVefi Manual: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf',
   'linkscollection': 'Links',
   'list': 'Liste',
   'logList': 'Protokolle',

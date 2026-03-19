@@ -741,8 +741,8 @@ const avefiBase = {
         "heading": "Help for data providers",
         "content": [
           "Become a data provider for AVefi. Information on the necessary steps can be found in the following resources:",
-          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi How-to document</a>",
-          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">AVefi Manual</a>",
+          "<a class=\"link\" href=\"/doc/AVefi-HowTo.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"/doc/AVefi-Manual.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
           "Contact:",
           "Email: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
         ]
@@ -804,8 +804,6 @@ const avefiBase = {
   'filmsViewable': 'Films viewable',
   'filmsViewableContent': 'The AVefi platform provides access to films that are viewable online. The availability of films for viewing is determined by the contributing institution and may be subject to restrictions. The platform does not host films itself, but rather provides links to the respective institutions or platforms where the films can be viewed.',
   'gotofavourites': 'Go to Favourites List',
-  'howToDoc': 'AVefi How-to Document: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf',
-  'manual': 'AVefi Manual: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf',
   'multihelptext': 'Several works have been found that are associated with the entity identified by efi <strong>{name}</strong>. Please note that these are distinct works that may be linked to this entity in various ways. To view more detailed information about a specific work, please select one from the list. Once selected, you will be shown details such as the production information, directors and other relevant metadata.',
   'multiResults': 'Multiple Results',
   'filter': 'filter',
