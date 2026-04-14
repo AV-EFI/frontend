@@ -11,12 +11,12 @@ const {
 
 <template>
     <div>
-        <p>I'm a secret! My protection works via a global middleware. If you turned off the global middleware, then I'll also be visible without authentication :(</p>
-        <p>Status: </p>
+        <p>{{ $t('debugPage.secretMessage') }}</p>
+        <p>{{ $t('debugPage.statusLabel') }}: </p>
         <pre />
-        <p>Data: </p>
+        <p>{{ $t('debugPage.dataLabel') }}: </p>
         <pre />
-        <p>Token: </p>
+        <p>{{ $t('debugPage.tokenLabel') }}: </p>
         <pre />
     </div>  
 </template>

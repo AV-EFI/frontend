@@ -1,13 +1,13 @@
 <template>
     <div class="flex flex-col gap-2">
-        <h2 class="text-sm font-semibold uppercase tracking-wide">Treffer</h2>
+        <h2 class="text-sm font-semibold uppercase tracking-wide">{{ t('pocWorkResultTitle') }}</h2>
         <div v-if="loading" class="flex flex-col gap-2" role="status" aria-live="polite">
             <div class="skeleton h-10 w-full" />
             <div class="skeleton h-10 w-full" />
             <div class="skeleton h-10 w-full" />
         </div>
         <p v-else-if="results.length === 0" class="text-sm text-base-content/70">
-            Keine Treffer. Bitte passen Sie Ihre Suche an.
+            {{ t('pocWorkResultNoResults') }}
         </p>
         <ul v-else class="flex max-h-64 flex-col gap-2 overflow-y-auto pr-1">
             <li v-for="result in enhancedResults" :key="result.handle">
@@ -102,7 +102,7 @@ const LEVEL_STYLES = {
         priority: 2,
     },
     unknown: {
-        defaultLabel: 'Ebene unbekannt',
+        defaultLabel: t('unknownLevel'),
         colorVar: '--neutral',
         textVar: '--neutral-content',
         buttonModifier: 'result-button--unknown',

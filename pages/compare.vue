@@ -27,8 +27,27 @@ const errorMessage = computed(() => {
 });
 
 // Fetch dataset titles
-const prevData = ref<any>(null);
-const nextData = ref<any>(null);
+type CompareDataset = {
+    compound_record?: {
+        _source?: {
+            has_record?: {
+                has_primary_title?: {
+                    has_name?: string;
+                };
+            };
+        };
+    };
+    _source?: {
+        has_record?: {
+            has_primary_title?: {
+                has_name?: string;
+            };
+        };
+    };
+};
+
+const prevData = ref<CompareDataset | null>(null);
+const nextData = ref<CompareDataset | null>(null);
 
 if (hasValidParams.value) {
     try {
@@ -43,7 +62,7 @@ if (hasValidParams.value) {
     }
 }
 
-const getPrimaryTitle = (data: any): string | null => {
+const getPrimaryTitle = (data: CompareDataset | null): string | null => {
     if (!data) return null;
     const source = data?.compound_record?._source || data?._source;
     return source?.has_record?.has_primary_title?.has_name || null;
@@ -110,7 +129,7 @@ useSchemaOrg([
 <template>
     <div class="scroll-auto">
         <GlobalBreadcrumbsComp :breadcrumbs="[
-            ['Home', '/'],
+            [$t('home.breadcrumbs'), '/'],
             [$t('comparison'), ''],
         ]" />
         <div class="container mt-4 snap-y snap-mandatory md:px-4 mx-auto">
@@ -128,14 +147,14 @@ useSchemaOrg([
                        checked="true">
                 <div role="tabpanel"
                      class="tab-content bg-base-100 border-base-300 rounded-box p-2 md:p-6 snap-always snap-start">
-                    <ClientOnly fallback-tag="span" fallback="Loading datasets ...">
+                    <ClientOnly fallback-tag="span" :fallback="$t('loadingDatasets')">
                         <LazyGlobalCompareViewProps :items="items" />
                     </ClientOnly>
                 </div>
                 <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48 hidden" :aria-label="$t('compareRaw')">
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 snap-always snap-start">
                     <div>
-                        <ClientOnly fallback-tag="span" fallback="Loading datasets ...">
+                        <ClientOnly fallback-tag="span" :fallback="$t('loadingDatasets')">
                             <LazyGlobalCompareViewRaw :items="items" />
                         </ClientOnly>
                     </div>

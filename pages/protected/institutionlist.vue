@@ -1,7 +1,7 @@
 <template>
     <div>
         <GlobalBreadcrumbsComp :breadcrumbs="[
-            ['Home', '/'],
+            [$t('home.breadcrumbs'), '/'],
             [$t('myDatasets'), `/protected/institutionlist`],
         ]" />
         <div>

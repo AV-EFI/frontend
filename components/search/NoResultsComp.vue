@@ -8,7 +8,7 @@
         <div
             v-if="showEmojis"
             class="emojis"
-            aria-label="Searching for films"
+            :aria-label="$t('searchingForFilms')"
         >
             <span
                 v-for="(emoji, index) in emojis"
@@ -24,7 +24,7 @@
             v-if="showNothing"
             class="nothing text-2xl h-8"
             role="img"
-            aria-label="No results found"
+            :aria-label="$t('noResultsFound')"
         >
             😢
         </div>
@@ -34,7 +34,7 @@
             v-if="showMagnifyingGlass"
             class="magnifying-glass text-2xl h-8"
             role="img"
-            aria-label="Searching"
+            :aria-label="$t('searching')"
         >
             🔍
         </div>

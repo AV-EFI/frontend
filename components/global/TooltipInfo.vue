@@ -1,5 +1,6 @@
 <template>
     <span
+        ref="anchorEl"
         class="relative inline-flex items-center align-text-middle"
         @mouseenter="open = true"
         @mouseleave="open = false"
@@ -19,14 +20,17 @@
             <Icon name="tabler:info-circle" aria-hidden="true" />
         </button>
 
-        <span
-            v-show="open"
-            :id="tooltipId"
-            role="tooltip"
-            class="absolute left-0 top-full z-30 mt-2 max-w-xs rounded-md bg-neutral px-3 py-2 text-xs text-neutral-content shadow-lg"
-        >
-            {{ text }}
-        </span>
+        <Teleport to="body">
+            <span
+                v-show="open"
+                :id="tooltipId"
+                role="tooltip"
+                :style="tooltipStyle"
+                class="fixed z-[9999] max-w-sm rounded-md bg-neutral/90 px-3 py-2 text-xs text-neutral-content shadow-lg pointer-events-none"
+            >
+                {{ text }}
+            </span>
+        </Teleport>
     </span>
 </template>
 
@@ -35,6 +39,11 @@ const props = defineProps<{ text: string }>();
 
 const { t } = useI18n();
 const open = ref(false);
+const anchorEl = ref<HTMLElement | null>(null);
+const tooltipStyle = ref<Record<string, string>>({
+    top: '0px',
+    left: '0px',
+});
 
 const accessibleLabel = computed(() => `${t('info')}: ${props.text}`);
 const tooltipId = computed(() => {
@@ -45,5 +54,36 @@ const tooltipId = computed(() => {
         .slice(0, 48);
 
     return `tooltip-${normalized || 'info'}`;
+});
+
+const updateTooltipPosition = () => {
+    if (!process.client || !anchorEl.value) return;
+
+    const rect = anchorEl.value.getBoundingClientRect();
+    tooltipStyle.value = {
+        top: `${Math.round(rect.bottom + 8)}px`,
+        left: `${Math.round(Math.max(8, rect.left))}px`,
+    };
+};
+
+watch(open, async (isOpen) => {
+    if (!process.client) return;
+
+    if (isOpen) {
+        await nextTick();
+        updateTooltipPosition();
+        window.addEventListener('scroll', updateTooltipPosition, true);
+        window.addEventListener('resize', updateTooltipPosition);
+    } else {
+        window.removeEventListener('scroll', updateTooltipPosition, true);
+        window.removeEventListener('resize', updateTooltipPosition);
+    }
+});
+
+onBeforeUnmount(() => {
+    if (!process.client) return;
+
+    window.removeEventListener('scroll', updateTooltipPosition, true);
+    window.removeEventListener('resize', updateTooltipPosition);
 });
 </script>

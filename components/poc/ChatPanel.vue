@@ -1,9 +1,9 @@
 <template>
     <section class="rounded-box bg-base-200 p-4">
-        <h3 class="text-sm font-semibold uppercase tracking-wide">Chat</h3>
+        <h3 class="text-sm font-semibold uppercase tracking-wide">{{ $t('pocChatTitle') }}</h3>
         <div class="mt-3 flex flex-col gap-2 max-h-64 overflow-y-auto" aria-live="polite">
             <p v-if="messages.length === 0" class="text-sm text-base-content/70">
-                Noch keine Unterhaltung. Ergänzen Sie den Kontext und stellen Sie eine Frage.
+                {{ $t('pocChatEmpty') }}
             </p>
             <div v-for="message in messages" :key="message.id" class="rounded-box bg-base-100 p-2 text-sm" :class="message.author === 'user' ? 'self-end bg-primary text-primary-content' : 'self-start'
             ">
@@ -16,13 +16,13 @@
             </div>
         </div>
         <form class="mt-4 flex flex-col gap-2" @submit.prevent="submit">
-            <label class="text-xs font-semibold uppercase tracking-wide" for="poc-chat-input">Nachricht</label>
+            <label class="text-xs font-semibold uppercase tracking-wide" for="poc-chat-input">{{ $t('pocChatMessageLabel') }}</label>
             <textarea id="poc-chat-input" v-model="draft" rows="3" class="textarea textarea-bordered"
-                      :disabled="sending" placeholder="Kurze Frage zum ausgewählten Kontext" />
+                      :disabled="sending" :placeholder="$t('pocChatPlaceholder')" />
             <button type="submit" class="btn btn-secondary btn-sm self-end"
                     :disabled="sending || draft.trim().length === 0">
                 <span v-if="sending" class="loading loading-spinner loading-xs" aria-hidden="true" />
-                <span v-else>Senden</span>
+                <span v-else>{{ $t('pocChatSubmit') }}</span>
             </button>
         </form>
     </section>

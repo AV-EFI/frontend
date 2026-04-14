@@ -3,10 +3,10 @@
         <button
             class="btn btn-sm btn-outline mb-2"
             type="button"
-            :aria-label="ariaLabel || 'Toggle Kibana view'"
+            :aria-label="ariaLabel || t('kibanaToggleView')"
             @click="load = !load"
         >
-            {{ load ? 'Hide Kibana view' : 'Show Kibana view' }}
+            {{ load ? t('kibanaHideView') : t('kibanaShowView') }}
         </button>
 
         <div
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+const { t } = useI18n();
 
 type ViewType = 'discover' | 'lens'
 type FilterMode = 'exists' | 'custom'

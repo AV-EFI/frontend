@@ -3,7 +3,7 @@
     <NuxtLayout name="partial-layout-1-center">
         <template #navigation>
             <GlobalBreadcrumbsComp :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('faq.title'), '/faq'],
             ]" />
         </template>

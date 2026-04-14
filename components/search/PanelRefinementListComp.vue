@@ -82,7 +82,7 @@
                 </template>
 
                 <template #showMoreLabel="sm">
-                    {{ !(sm?.isShowingMore) ? 'More' : 'Less' }}
+                    {{ !(sm?.isShowingMore) ? $t('showMore') : $t('showLess') }}
                 </template>
 
                 <template #default="s">

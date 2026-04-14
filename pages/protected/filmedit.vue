@@ -3,7 +3,7 @@
         <div class="container">
             <div class="breadcrumbs text-sm">
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">{{ $t('home.breadcrumbs') }}</a></li>
                     <li>
                         <span class="text-accent">
                             {{ $t('filmidentification') }}
@@ -17,12 +17,12 @@
                 <table class="table table-zebra table-sm">
                     <thead>
                         <tr>
-                            <th>Konflikt-ID</th>
-                            <th>Dataset #1 efi</th>
-                            <th>Dataset #1 Titel</th>
-                            <th>Dataset #2 efi</th>
-                            <th>Dataset #2 Titel</th>
-                            <th>Aktion</th>
+                            <th>{{ $t('filmEdit.conflictId') }}</th>
+                            <th>{{ $t('filmEdit.dataset1Efi') }}</th>
+                            <th>{{ $t('filmEdit.dataset1Title') }}</th>
+                            <th>{{ $t('filmEdit.dataset2Efi') }}</th>
+                            <th>{{ $t('filmEdit.dataset2Title') }}</th>
+                            <th>{{ $t('filmEdit.action') }}</th>
                         </tr>
                     </thead>
                     <tbody>

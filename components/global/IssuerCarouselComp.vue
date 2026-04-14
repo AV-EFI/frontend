@@ -35,7 +35,7 @@
                                 <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
                                           class="btn btn-sm w-full md:w-auto btn-primary">
                                     <span class="text-xs md:text-regular">
-                                        {{ $t('home.carousel.actions.viewDatasets') || 'View Datasets' }}
+                                        {{ $t('home.carousel.actions.viewDatasets') }}
                                     </span>
                                     <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
                                 </NuxtLink>
@@ -63,7 +63,7 @@
             </button>
         </div>
         <div v-else class="text-center text-base-content/60 py-8">
-            {{ $t('home.carousel.actions.noIssuersFound') || 'No issuers found' }}
+            {{ $t('home.carousel.actions.noIssuersFound') }}
         </div>
     </div>
 </template>
@@ -148,7 +148,7 @@ const issuerItems = computed<IssuerItem[]>(() => {
         return {
             ...issuer,
             image: imageInfo?.image || fallback.image,
-            imageAlt: imageInfo?.alt || `${issuer.name} Logo`
+            imageAlt: imageInfo?.alt || `${issuer.name} ${t('press.assetTypes.logo')}`
         };
     });
 });

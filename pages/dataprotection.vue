@@ -9,7 +9,7 @@ definePageMeta({
     <div>
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('dataprotection'), '/dataprotection'],
             ]"
         />

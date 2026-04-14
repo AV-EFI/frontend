@@ -147,10 +147,10 @@
                         <span class="truncate text-sm">
                             {{ $t('detailsFor') }} {{ mir?.has_primary_title?.has_name ?? '' }}
                         </span>
-                        <span v-if="mirExpanded" :title="$t('collapse') || 'Collapse'">
+                        <span v-if="mirExpanded" :title="$t('collapse')">
                             <Icon name="tabler-chevron-up" aria-hidden="true" />
                         </span>
-                        <span v-else :title="$t('expand') || 'Expand'">
+                        <span v-else :title="$t('expand')">
                             <Icon name="tabler-chevron-down" aria-hidden="true" />
                         </span>
                     </button>
@@ -261,7 +261,7 @@
                             <button
                                 type="button"
                                 class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
-                                :aria-label="`${$t('remove') || 'Remove'}: ${selected}`"
+                                :aria-label="`${$t('remove')}: ${selected}`"
                                 @click="removeSuggestion(selected)"
                             >
                                 &times;

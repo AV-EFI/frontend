@@ -64,14 +64,14 @@
                 <div
                     class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-800 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
                     <label class="swap swap-flip w-full h-full cursor-pointer">
-                        <input type="checkbox" v-model="createOpen" aria-label="Toggle create form" />
+                        <input type="checkbox" v-model="createOpen" :aria-label="$t('toggleCreateForm')" />
                         <!-- swap-off: show only slogan -->
                         <div class="swap-off w-full h-full flex items-center justify-center p-6">
                             <div class="flex flex-col items-center">
                                 <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
-                                    {{ t('home.carousel.create.title') || 'Create Your Own' }}
+                                    {{ t('home.carousel.create.title') }}
                                 </h2>
-                                <p class="w-64 mx-auto">{{ t('home.carousel.create.description') || 'Send us your search query as a suggestion for the examples' }}
+                                <p class="w-64 mx-auto">{{ t('home.carousel.create.description') }}
                                 </p>
                                 <div class="btn btn-primary btn-circle mt-2">
                                     <Icon class="" name="tabler:plus" />
@@ -86,7 +86,7 @@
                                     class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-gray-100 dark:bg-base-200 flex items-center justify-center">
                                     <div class="relative z-10 flex items-center justify-center w-full h-full px-3">
                                         <div class="w-full">
-                                            <input v-model="createForm.imgUrl" type="text" placeholder="Image URL (optional)"
+                                            <input v-model="createForm.imgUrl" type="text" :placeholder="t('home.carousel.create.imageUrlPlaceholder')"
                                                    class="input input-bordered input-sm w-full" />
                                         </div>
                                     </div>
@@ -94,12 +94,12 @@
                             </figure>
                             <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
                                 <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">{{
-                                    t('home.carousel.create.yourOwn') || 'Create Your Own' }}</h2>
-                                <input v-model="createForm.title" type="text" placeholder="Title"
+                                    t('home.carousel.create.yourOwn') }}</h2>
+                                <input v-model="createForm.title" type="text" :placeholder="t('home.carousel.create.titlePlaceholder')"
                                        class="input input-bordered input-sm mb-2 w-full" />
-                                <textarea v-model="createForm.description" rows="3" placeholder="Description"
+                                <textarea v-model="createForm.description" rows="3" :placeholder="t('home.carousel.create.descriptionPlaceholder')"
                                           class="textarea textarea-bordered textarea-sm mb-2 w-full"></textarea>
-                                <input v-model="createForm.link" type="text" placeholder="Search Link (Copy URL from search page)"
+                                <input v-model="createForm.link" type="text" :placeholder="t('home.carousel.create.linkPlaceholder')"
                                        class="input input-bordered input-sm mb-2 w-full" />
                                 <div class="mt-auto">
                                     <button @click="handleCreate" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">{{$t('home.carousel.actions.send')}}</button>
@@ -214,7 +214,7 @@ function handleCreate() {
         imgAlt: createForm.value.title,
         description: createForm.value.description || '',
         link: createForm.value.link || '#',
-        linkText: createForm.value.linkText || 'Open',
+        linkText: createForm.value.linkText || t('open'),
         imgSourceLink: '',
         imgSourceText: '',
         imgAuthor: '',

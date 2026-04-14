@@ -223,7 +223,7 @@
                                 <div class="flex w-full flex-col">
                                     <div class="divider divider-base-300 w-full">
                                         <span class="text-xs" v-if="searchQuery">
-                                            Suchergebnisse für '{{ searchQuery }}'
+                                            {{ $t('searchResultsFor', { query: searchQuery }) }}
                                         </span>
                                     </div>
                                 </div>

@@ -2,8 +2,8 @@
     <div class="container mx-auto p-4">
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
-                [$t('Dashboard'), `/protected/dashboard`],
+                [$t('home.breadcrumbs'), '/'],
+                [$t('dashboard'), `/protected/dashboard`],
             ]"
         />
         <div class="mt-4">

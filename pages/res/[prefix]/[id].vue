@@ -84,7 +84,7 @@
         </NuxtLayout>
 
         <details class="collapse">
-            <summary class="collapse-title cursor-pointer font-medium">Raw data</summary>
+            <summary class="collapse-title cursor-pointer font-medium">{{ $t('rawData') }}</summary>
             <div class="collapse-content">
                 <pre>{{ dataJson }}</pre>
             </div>
@@ -409,7 +409,7 @@ useSchemaOrg(() => {
  * Breadcrumbs for template
  * -------------------------- */
 const breadcrumbs = computed(() => [
-    ['Home', '/'],
+    [t('home.breadcrumbs'), '/'],
     [t('filmresearch'), `/${config.public.SEARCH_URL}`],
     [t('detailview'), `/res/${prefix.value}/${id.value}`],
 ]);

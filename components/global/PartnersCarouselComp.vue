@@ -52,7 +52,7 @@
                                 rel="noopener"
                                 class="link w-full md:w-auto"
                             >
-                                {{ item.linkText || $t('home.carousel.actions.viewHomepage') || 'View Homepage' }}
+                                {{ item.linkText || $t('home.carousel.actions.viewHomepage') }}
                             </NuxtLink>
                         </div>
                     </div>

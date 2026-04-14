@@ -7,11 +7,11 @@
                     <div class="lg:col-span-4">
                         <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                             <div class="mb-4 flex items-center justify-between gap-3">
-                                <h2 class="text-base font-semibold text-gray-900">Diamond Film Pattern</h2>
+                                <h2 class="text-base font-semibold text-gray-900">{{ t('diamondPattern.title') }}</h2>
                                 <button
                                     class="rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-800 hover:bg-gray-50"
                                     type="button" @click="randomizeSeed">
-                                    Randomize
+                                    {{ t('diamondPattern.randomize') }}
                                 </button>
                             </div>
                             <!-- ...existing controls and inputs... -->
@@ -28,7 +28,7 @@
                             </div>
                             <details class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
                                 <summary class="cursor-pointer select-none text-sm font-medium text-gray-900">
-                                    Show SVG source
+                                    {{ t('diamondPattern.showSvgSource') }}
                                 </summary>
                                 <pre
                                     class="mt-3 max-h-72 overflow-auto rounded-lg bg-white p-3 text-xs text-gray-800"><code>{{ svg }}</code></pre>
@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
+const { t } = useI18n();
 // Only import icons as needed
 const { defaultOptions, buildSvg, downloadSvg, exportPng, exportPdfViaPrint } = useDiamondFilmPatternTabler();
 const opts = reactive(structuredClone(defaultOptions));

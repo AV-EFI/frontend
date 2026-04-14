@@ -1,8 +1,8 @@
 <template>
     <div>
-        <GlobalBreadcrumbsComp 
+        <GlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}/`],
                 [$t('disambiguation'), '/protected/disambiguation']
             ]"
@@ -10,7 +10,7 @@
         <div class="container mb-4">
             <ClientOnly
                 fallback-tag="span"
-                fallback="Loading datasets ..."
+                :fallback="$t('loadingDatasets')"
             >
                 <LazyGlobalCompareViewEditor :items="items" />
             </ClientOnly>
