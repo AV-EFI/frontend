@@ -793,8 +793,8 @@ const avefiBase = {
         "heading": "Help for data providers",
         "content": [
           "Become a data provider for AVefi. Information on the necessary steps can be found in the following resources:",
-          "<a class=\"link\" href=\"/doc/AVefi-HowTo.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
-          "<a class=\"link\" href=\"/doc/AVefi-Manual.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_how-to_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_Manual_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
           "Contact:",
           "Email: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
         ]
@@ -856,7 +856,10 @@ const avefiBase = {
   'filmsViewable': 'Films viewable',
   'filmsViewableContent': 'The AVefi platform provides access to films that are viewable online. The availability of films for viewing is determined by the contributing institution and may be subject to restrictions. The platform does not host films itself, but rather provides links to the respective institutions or platforms where the films can be viewed.',
   'gotofavourites': 'Go to Favourites List',
+  "multihelptextManifestation": "The entity with the efi <strong>{name}</strong> is a manifestation that is associated with multiple works. Please select a work from the list to view details such as production, directors, and other metadata.",
+  "multihelptextItem": "The entity with the efi <strong>{name}</strong> is an item and belongs to a manifestation with the efi <strong>{manifestation}</strong> that is associated with multiple works. Please select a work from the list to view details such as production, directors, and other metadata.",
   'multihelptext': 'Several works have been found that are associated with the entity identified by efi <strong>{name}</strong>. Please note that these are distinct works that may be linked to this entity in various ways. To view more detailed information about a specific work, please select one from the list. Once selected, you will be shown details such as the production information, directors and other relevant metadata.',
+  "itemRemovedWarning": "The item has the status 'Removed' and is only directly referenceable. It will not appear in search results and cannot be found through the manifestation.",
   'multiResults': 'Multiple Results',
   'filter': 'filter',
   'gotodisamiguationparam': 'Go to disambiguation',
@@ -1202,18 +1205,18 @@ const avefiBase = {
   },
   "imprintPage": {
     "title": "Imprint",
-    "introText": "The following information contains the legally required notice details, privacy-related information duties, and important legal notes for the AVefi web presence of Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen (GWDG), which is accessible via",
+    "introText": "The following information contains the legally required notice details, privacy-related information duties, and important legal notes for the AVefi web presence of Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG), which is accessible via",
     "introLinkText": "www.av-efi.net",
     "provider": {
       "title": "Provider",
-      "body": "The legal provider of this web presence is Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen, abbreviated GWDG."
+      "body": "The legal provider of this web presence is Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen, abbreviated GWDG."
     },
     "contact": {
       "title": "Contact",
       "addressLabel": "Address",
-      "addressLine1": "Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen",
+      "addressLine1": "Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen",
       "addressLine2": "Burckhardtweg 4",
-      "addressLine3": "37077 Goettingen",
+      "addressLine3": "37077 Göttingen",
       "phoneLabel": "Phone",
       "hotlineLabel": "Hotline / Advice",
       "emailLabel": "Email",
@@ -1225,11 +1228,11 @@ const avefiBase = {
     },
     "commercialRegister": {
       "title": "Commercial Register",
-      "body": "GWDG is registered with the Local Court of Goettingen in the commercial register under no. B 598. The company seat is Goettingen."
+      "body": "GWDG is registered with the Local Court of Göttingen in the commercial register under no. B 598. The company seat is Göttingen."
     },
     "representatives": {
       "title": "Representatives",
-      "body": "GWDG is legally represented by its managing director Prof. Dr. Ramin Yahyapour. The chair of the supervisory board is Dr. Valerie Schueller."
+      "body": "GWDG is legally represented by its managing director Prof. Dr. Ramin Yahyapour. The chair of the supervisory board is Dr. Valerie Schüller."
     },
     "vat": {
       "title": "VAT identification number",
@@ -1237,7 +1240,7 @@ const avefiBase = {
     },
     "editorial": {
       "title": "Editorial responsibility",
-      "body": "The editorial responsibility for the AVefi web presence lies with Dr. Sven Bingert, GWDG, Burckhardtweg 4, 37077 Goettingen."
+      "body": "The editorial responsibility for the AVefi web presence lies with Dr. Sven Bingert, GWDG, Burckhardtweg 4, 37077 Göttingen."
     },
     "orgForm": {
       "title": "Legal notes on the organisational form",
@@ -1375,7 +1378,7 @@ const avefiBase = {
       "contact": {
         "name": "Arbitration Board under the German Equal Opportunities for Persons with Disabilities Act",
         "organization": "Federal Government Commissioner for Matters relating to Persons with Disabilities",
-        "address": "Mauerstrasse 53, 10117 Berlin, Germany",
+        "address": "Mauerstraße 53, 10117 Berlin, Germany",
         "phone": "+49 (0)30 18 527-2805",
         "fax": "+49 (0)30 18 527-2901",
         "email": "info{'@'}schlichtungsstelle-bgg.de",

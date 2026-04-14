@@ -411,7 +411,10 @@ const deBase = {
   "openExternalReferences": "Externe Referenz öffnen",
   'bannerSection': 'Ausgewählte Sammlungen und Highlights aus der Welt der Film-Metadaten',
   'lookWhatWeFound' : 'Gefunden in Ihrer Suche',
-  'multihelptext': 'Es wurden mehrere Werke gefunden, die der Entität mit dem efi <strong>{name}</strong> zugeordnet sind. Bitte beachten Sie, dass es sich hierbei um unterschiedliche Werke handelt, die auf verschiedene Weise mit dieser Entität verknüpft sein können. Um detailliertere Informationen zu einem bestimmten Werk anzuzeigen, wählen Sie bitte eines aus der Liste aus. Nach der Auswahl werden Ihnen unter anderem Produktionsangaben, Regie sowie weitere relevante Metadaten angezeigt.',
+  "multihelptextManifestation": "Die Entität mit dem efi <strong>{name}</strong> ist als Manifestation mehreren Werken zugeordnet. Wählen Sie ein Werk aus der Liste, um Details wie Produktion, Regie und weitere Metadaten anzuzeigen.",
+  "multihelptextItem": "Die Entität mit dem efi <strong>{name}</strong> ist ein Exemplar und gehört zu einer Manifestation mit dem efi <strong>{manifestation}</strong>, die mehreren Werken zugeordnet ist. Wählen Sie ein Werk aus der Liste, um Details wie Produktion, Regie und weitere Metadaten anzuzeigen.",
+  'multihelptext': 'Mehrere Werke wurden gefunden, die mit der durch efi <strong>{name}</strong> identifizierten Entität verknüpft sind. Bitte beachten Sie, dass es sich um unterschiedliche Werke handelt, die auf verschiedene Weise mit dieser Entität verknüpft sein können. Um detailliertere Informationen zu einem bestimmten Werk anzuzeigen, wählen Sie bitte eines aus der Liste aus. Nach der Auswahl werden Ihnen Details wie Produktionsinformationen, Regisseure und andere relevante Metadaten angezeigt.',
+  "itemRemovedWarning": "Das Exemplar besitzt den Status 'Entfernt' und ist nur direkt referenzierbar. Es wird nicht in Suchergebnissen angezeigt und kann nicht über die Manifestation gefunden werden.",
   'metaDescription': 'AVefi ist eine Plattform für die Recherche und den Vergleich von Filmdaten. Sie bietet umfassende Metadaten zu Filmwerken, Manifestationen und Exemplaren aus verschiedenen Institutionen. Die Plattform ermöglicht eine effiziente Suche, den Vergleich von Datensätzen und die Nutzung von Persistent Identifiers (PIDs) für eine langfristige Identifikation von Filmen.',
   'searchForm': 'Suchformular',
   'searchInputAria': 'Suche nach Titel, Regisseur, Produktion, Schlagwort',
@@ -665,8 +668,8 @@ const deBase = {
         "heading": "Hilfe für Datengeber",
         "content": [
           "Werden Sie als Datengeber Teil von AVefi. Informationen zu den notwendigen Schritten finden Sie im Folgenden:",
-          "<a class=\"link\" href=\"/doc/AVefi-HowTo.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
-          "<a class=\"link\" href=\"/doc/AVefi-Manual.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_how-to_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_Manual_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
           "Kontakt:",
           "E-Mail: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
         ]
@@ -704,7 +707,7 @@ const deBase = {
   "footerPreferences": "Einstellungen",
   "footerInfo": "Informationen",
   "footerSponsoring": "Sponsoring",
-  "footerFundingAria": "DFG-ProjektfÃ¶rderung",
+  "footerFundingAria": "DFG-Projektförderung",
   "license": "Lizenz",
   "footerLicenseData": "Daten lizenziert unter Creative Commons Public Domain Dedication (CC0 1.0).",
   "footerLicenseContent": "Inhalte lizenziert unter Creative Commons Attribution 4.0 International (CC BY 4.0).",
@@ -1178,18 +1181,18 @@ const deBase = {
   },
   "imprintPage": {
     "title": "Impressum",
-    "introText": "Die nachstehenden Informationen enthalten die gesetzlich vorgesehenen Pflichtangaben zur Anbieterkennzeichnung, zu den datenschutzrechtlichen Informationspflichten sowie wichtige rechtliche Hinweise zur Internet-PrÃ¤senz der Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen (GWDG), die sich aus den Seiten",
+    "introText": "Die nachstehenden Informationen enthalten die gesetzlich vorgesehenen Pflichtangaben zur Anbieterkennzeichnung, zu den datenschutzrechtlichen Informationspflichten sowie wichtige rechtliche Hinweise zur Internet-Präsenz der Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG), die sich aus den Seiten",
     "introLinkText": "www.av-efi.net",
     "provider": {
       "title": "Anbieter",
-      "body": "Anbieter dieser Internet-Präsenz ist im Rechtssinne die Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen, abgekuerzt GWDG."
+      "body": "Anbieter dieser Internet-Präsenz ist im Rechtssinne die Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen, abgekürzt GWDG."
     },
     "contact": {
       "title": "Kontakt",
       "addressLabel": "Adresse",
-      "addressLine1": "Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen",
+      "addressLine1": "Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen",
       "addressLine2": "Burckhardtweg 4",
-      "addressLine3": "37077 Goettingen",
+      "addressLine3": "37077 Göttingen",
       "phoneLabel": "Telefon",
       "hotlineLabel": "Hotline / Beratung",
       "emailLabel": "E-Mail",
@@ -1201,11 +1204,11 @@ const deBase = {
     },
     "commercialRegister": {
       "title": "Handelsregister",
-      "body": "Die GWDG ist beim Amtsgericht Goettingen in das Handelsregister unter der Nr. B 598 eingetragen. Sitz der Gesellschaft ist Goettingen."
+      "body": "Die GWDG ist beim Amtsgericht Göttingen in das Handelsregister unter der Nr. B 598 eingetragen. Sitz der Gesellschaft ist Göttingen."
     },
     "representatives": {
       "title": "Vertreter",
-      "body": "Die GWDG wird gesetzlich vertreten durch ihren Geschaeftsfuehrer Prof. Dr. Ramin Yahyapour. Vorsitzende des Aufsichtsrats ist Dr. Valerie Schueller."
+      "body": "Die GWDG wird gesetzlich vertreten durch ihren Geschäftsführer Prof. Dr. Ramin Yahyapour. Vorsitzende des Aufsichtsrats ist Dr. Valerie Schüller."
     },
     "vat": {
       "title": "Umsatzsteueridentifikationsnummer",
@@ -1213,7 +1216,7 @@ const deBase = {
     },
     "editorial": {
       "title": "Redaktionsverantwortlicher",
-      "body": "Redaktionsverantwortlicher fuer die Internet-Präsenz des AVefi Projekts ist: Dr. Sven Bingert, GWDG, Burckhardtweg 4, 37077 Goettingen."
+      "body": "Redaktionsverantwortlicher für die Internet-Präsenz des AVefi Projekts ist: Dr. Sven Bingert, GWDG, Burckhardtweg 4, 37077 Göttingen."
     },
     "orgForm": {
       "title": "Rechtliche Hinweise zur Organisationsform",
@@ -1221,17 +1224,17 @@ const deBase = {
     },
     "foreignLanguages": {
       "title": "Fremdsprachige Seiten",
-      "body": "Soweit Teile des Internet-Auftritts auch in anderen Sprachen als deutsch angeboten werden, ist dies ausschliesslich ein Service fuer Nutzer, die der deutschen Sprache nicht maechtig sind."
+      "body": "Soweit Teile des Internet-Auftritts auch in anderen Sprachen als deutsch angeboten werden, ist dies ausschließlich ein Service für Nutzer, die der deutschen Sprache nicht mächtig sind."
     },
     "liabilityOwnContent": {
-      "title": "Rechtliche Hinweise zur Haftung fuer eigene Inhalte",
-      "body1": "Die GWDG ist als Inhaltsanbieterin nach Paragraph 7 Abs. 1 Digitale-Dienste-Gesetz fuer die eigenen Inhalte, die sie zur Nutzung bereithaelt, nach den allgemeinen Gesetzen verantwortlich. Die GWDG ist um Richtigkeit und Aktualitaet der auf dieser Internet-Präsenz bereit gestellten Informationen bemueht. Trotzdem koennen Fehler und Unklarheiten nicht vollstaendig ausgeschlossen werden. Die GWDG uebernimmt deshalb keine Gewaehr fuer die Aktualitaet, Richtigkeit, Vollstaendigkeit oder Qualitaet der bereit gestellten Informationen. Fuer Schaeden materieller oder immaterieller Art, die durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollstaendiger Informationen unmittelbar oder mittelbar verursacht werden, haftet die GWDG nicht, sofern ihr nicht nachweislich vorsaetzliches oder grob fahrlaessiges Verschulden zur Last faellt. Gleiches gilt fuer kostenlos zum Download bereit gehaltene Software.",
-      "body2": "Die GWDG behaelt sich vor, Teile des Internet-Angebots oder das gesamte Angebot ohne gesonderte Ankuendigung zu veraendern, zu ergaenzen, zu loeschen oder die Veroeffentlichung zeitweise oder endgueltig einzustellen."
+      "title": "Rechtliche Hinweise zur Haftung für eigene Inhalte",
+      "body1": "Die GWDG ist als Inhaltsanbieterin nach Paragraph 7 Abs. 1 Digitale-Dienste-Gesetz für die eigenen Inhalte, die sie zur Nutzung bereithält, nach den allgemeinen Gesetzen verantwortlich. Die GWDG ist um Richtigkeit und Aktualität der auf dieser Internet-Präsenz bereit gestellten Informationen bemüht. Trotzdem können Fehler und Unklarheiten nicht vollständig ausgeschlossen werden. Die GWDG übernimmt deshalb keine Gewähr für die Aktualität, Richtigkeit, Vollständigkeit oder Qualität der bereit gestellten Informationen. Für Schäden materieller oder immaterieller Art, die durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollständiger Informationen unmittelbar oder mittelbar verursacht werden, haftet die GWDG nicht, sofern ihr nicht nachweislich vorsätzliches oder grob fahrlässiges Verschulden zur Last fällt. Gleiches gilt für kostenlos zum Download bereit gehaltene Software.",
+      "body2": "Die GWDG behält sich vor, Teile des Internet-Angebots oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen."
     },
     "externalLinks": {
-      "title": "Rechtliche Hinweise zu Verknuepfungen auf externe Seiten",
-      "body1": "Auf dieser Internet-Präsenz befinden sich Verknuepfungen zu externen Seiten.",
-      "body2": "Fuer die Inhalte der verlinkten externen Seiten ist stets der jeweilige Anbieter verantwortlich. Die GWDG hat bei der erstmaligen Verknuepfung den fremden Inhalt daraufhin ueberprueft, ob durch ihn eine moegliche zivilrechtliche oder strafrechtliche Verantwortlichkeit ausgelost wird. Eine permanente inhaltliche Kontrolle der verknuepften externen Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Wenn die GWDG feststellt oder von anderen darauf hingewiesen wird, dass ein externes Angebot, auf das sie per Link verknuepft hat, eine zivil- oder strafrechtliche Verantwortlichkeit ausloest, wird sie den Link auf dieses Angebot unverzueglich aufheben. Die GWDG distanziert sich ausdruecklich von derartigen Inhalten.",
+      "title": "Rechtliche Hinweise zu Verknüpfungen auf externe Seiten",
+      "body1": "Auf dieser Internet-Präsenz befinden sich Verknüpfungen zu externen Seiten.",
+      "body2": "Für die Inhalte der verlinkten externen Seiten ist stets der jeweilige Anbieter verantwortlich. Die GWDG hat bei der erstmaligen Verknüpfung den fremden Inhalt daraufhin überprüft, ob durch ihn eine mögliche zivilrechtliche oder strafrechtliche Verantwortlichkeit ausgelöst wird. Eine permanente inhaltliche Kontrolle der verknüpften externen Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Wenn die GWDG feststellt oder von anderen darauf hingewiesen wird, dass ein externes Angebot, auf das sie per Link verknüpft hat, eine zivil- oder strafrechtliche Verantwortlichkeit auslöst, wird sie den Link auf dieses Angebot unverzüglich aufheben. Die GWDG distanziert sich ausdrücklich von derartigen Inhalten.",
       "body3": "© GWDG. Alle Rechte vorbehalten."
     }
   },

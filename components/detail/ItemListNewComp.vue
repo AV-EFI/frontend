@@ -20,6 +20,9 @@
                 >
                     {{ `${$t('item')} ${itemIndex + 1}` }}
                 </h5>
+                <div v-if="exemplar?.has_record?.has_access_status == 'Removed'" class="alert">
+                    {{ $t('itemRemovedWarning') }}
+                </div>
             </div>
 
             <div class="col-span-full md:col-span-12">

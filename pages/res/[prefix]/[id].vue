@@ -7,8 +7,8 @@
 
             <template #title>
                 <NuxtLayout name="partial-grid-2-1" left-class="dark:bg-primary-600 rounded-t-xl py-4">
-                    <template #left>
-                        <div class="col-span-full px-4">
+                    <template #left>                        
+                        <div v-if="resourceType != 'compilationItem'" class="col-span-full px-4">
                             <GlobalClipboardComp
                                 :display-text="dataJson?.compound_record?._source?.handle"
                                 :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
@@ -22,6 +22,25 @@
                                 </h1>
                                 <MicroBadgeCategoryComp
                                     :category="dataJson?.compound_record?._source?.has_record?.category"
+                                    :dense="false"
+                                    class="ml-4 my-auto"
+                                />
+                            </div>
+                        </div>
+                        <div v-else class="col-span-full px-4">
+                            <GlobalClipboardComp
+                                :display-text="dataJson?.handle"
+                                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.handle}`"
+                                class="mb-2 text-xs lg:text-sm text-base-content/90"
+                            />
+                            <div class="flex flex-row">
+                                <h1
+                                    class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
+                                >
+                                    {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
+                                </h1>
+                                <MicroBadgeCategoryComp
+                                    category="avefi:Item"
                                     :dense="false"
                                     class="ml-4 my-auto"
                                 />
@@ -59,7 +78,6 @@
                     <div v-else-if="error" class="text-center text-red-500 py-8">
                         {{ $t('errorLoadingData') }}: {{ error }}
                     </div>
-
                     <div v-else>
                         <ViewsWorkViewCompAVefi
                             v-if="dataJson && (resourceType === 'workVariant' || resourceType === 'compilation' || resourceType === 'manifestationOrItem')"
@@ -68,7 +86,8 @@
                             :requested-handle="requestedHandle"
                         />
                         <ViewsCompilationViewCompAVefi
-                            v-else-if="dataJson && resourceType === 'compilationManifestation'"
+                            v-else-if="dataJson && (resourceType === 'compilationManifestation' || resourceType === 'compilationItem')"
+                            :resource-type="resourceType"
                             v-model="dataJson"
                             :handle="dataJson.handle"
                         />
@@ -128,7 +147,11 @@ const { data: result, error, pending } = await useAsyncData(
             resourceType = resourceData.compound_record.resource_type;
         } else if (resourceData?.handle !== resourceData?.compound_record?._source?.handle) {
             if(resourceData?.compound_record?._source?.work_variants && resourceData?.compound_record?._source?.work_variants.length > 0) {
-                resourceType = "compilationManifestation";
+                if(resourceData?.compound_record?._source?.has_record?.category === 'avefi:Manifestation') {
+                    resourceType = 'compilationItem';
+                } else {
+                    resourceType = "compilationManifestation";
+                }
             } else if (
                 resourceData?.compound_record?._source?.manifestations?.length > 0 ||
                 resourceData?.compound_record?._source?.items?.length > 0
