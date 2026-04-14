@@ -10,9 +10,11 @@
         <div v-if="mir?.is_manifestation_of.length > 0 && dataObject?.compound_record?._source?.work_variants?.length > 0"
              class="mt-4">
             <div class="alert">
-                <p v-html="$t('multihelptext', {'name': dataObject?.compound_record?._source?.handle})"></p>
+                <p v-if="resourceType == 'compilationManifestation'" v-html="$t('multihelptextManifestation', {'name': dataObject?.handle})"></p>
+                <p v-else-if="resourceType == 'compilationItem'" v-html="$t('multihelptextItem', {'name': dataObject?.handle, 'manifestation': dataObject.compound_record._source?.handle ?? ''})"></p>
+                <p v-else v-html="$t('multihelptext', {'name': dataObject?.handle})"></p>
             </div>
-            <ViewsWorkViewCompParts type="compilationManifestation"
+            <ViewsWorkViewCompParts :type="resourceType"
                                     :parts="dataObject?.compound_record?._source?.work_variants"
                                     :handle="dataObject?.handle ?? dataObject?.compound_record?._source?.handle" />
         </div>
@@ -32,6 +34,10 @@ import type { Manifestation } from "~/models/interfaces/schema/avefi_schema_type
 
 // Enable hash navigation for manifestations and items
 useHash();
+
+const props = defineProps<{
+    resourceType: string;
+}>();
 
 const dataJson = defineModel({ type: Object, required: true });
 // Defensive parse
@@ -55,86 +61,8 @@ const manifestations = ref<Manifestation[]>(
         : []
 );
 
-// --- Derived lists for 08–10 (all safely guarded) ---
-const creditAgents = computed<string[]>(() => {
-    const out: string[] = [];
-    const seen = new Set<string>();
-    const events = Array.isArray(mir?.has_event) ? mir!.has_event : [];
-    for (const e of events) {
-        const acts = Array.isArray(e?.has_activity) ? e.has_activity : [];
-        for (const a of acts) {
-            const n = a?.has_agent?.has_name;
-            if (!n) continue;
-            if (Array.isArray(n)) {
-                for (const x of n) {
-                    const s = String(x);
-                    if (s && !seen.has(s)) { seen.add(s); out.push(s); }
-                }
-            } else {
-                const s = String(n);
-                if (s && !seen.has(s)) { seen.add(s); out.push(s); }
-            }
-        }
-    }
-    return out;
-});
-
-const productionPlaces = computed<string[]>(() => {
-    const out: string[] = [];
-    const seen = new Set<string>();
-    const events = Array.isArray(mir?.has_event) ? mir!.has_event : [];
-    for (const e of events) {
-        const p = e?.located_in?.has_name;
-        if (!p) continue;
-        if (Array.isArray(p)) {
-            for (const x of p) {
-                const s = String(x);
-                if (s && !seen.has(s)) { seen.add(s); out.push(s); }
-            }
-        } else {
-            const s = String(p);
-            if (s && !seen.has(s)) { seen.add(s); out.push(s); }
-        }
-    }
-    return out;
-});
-
-const productionYears = computed<string[]>(() => {
-    const out: string[] = [];
-    const seen = new Set<string>();
-    // `production_in_year` (single or array) + `years` (array)
-    const add = (v: any) => {
-        if (v == null) return;
-        if (Array.isArray(v)) {
-            for (const x of v) {
-                const s = String(x);
-                if (s && !seen.has(s)) { seen.add(s); out.push(s); }
-            }
-        } else {
-            const s = String(v);
-            if (s && !seen.has(s)) { seen.add(s); out.push(s); }
-        }
-    };
-    if (mir) {
-        // many datasets store these at work-level root
-        // (mir.production_in_year / mir.years); if nested in has_record, mir already *is* has_record
-        // so both forms collapse to mir.*
-        add((mir as any).production_in_year);
-        add((mir as any).years);
-    }
-    return out;
-});
-
 // --- Dynamic search state (manifestation filter) ---
 const searchQuery = ref<string[]>([]);
-const loading = ref(false);
-function onSearchInput(val: any) {
-    searchQuery.value = Array.isArray(val) ? val : val ? [val] : [];
-    loading.value = true;
-    setTimeout(() => {
-        loading.value = false;
-    }, 600);
-}
 
 // --- SEARCH WHITELIST (manifestation/item fields) ---
 const SEARCH_WHITELIST = [
