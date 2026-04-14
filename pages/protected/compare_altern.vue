@@ -13,7 +13,7 @@ items[1] = route.query.next;
         <div class="container">
             <div class="breadcrumbs text-sm">
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">{{ $t('home.breadcrumbs') }}</a></li>
                     <li>
                         <span class="text-accent">
                             {{ $t('filmidentification') }}
@@ -40,7 +40,7 @@ items[1] = route.query.next;
                 >
                     <ClientOnly
                         fallback-tag="span"
-                        fallback="Loading datasets ..."
+                        :fallback="$t('loadingDatasets')"
                     >
                         <LazyGlobalCompareViewProps :items="items" />
                     </ClientOnly>
@@ -60,7 +60,7 @@ items[1] = route.query.next;
                     <div>
                         <ClientOnly
                             fallback-tag="span"
-                            fallback="Loading datasets ..."
+                            :fallback="$t('loadingDatasets')"
                         >
                             <GlobalCompareViewRaw :items="items" />
                         </ClientOnly>

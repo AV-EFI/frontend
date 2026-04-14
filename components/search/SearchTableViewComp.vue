@@ -65,7 +65,7 @@
 
                         <td>
                             <div v-for="loc in work.has_record.has_event?.[0]?.located_in || []" :key="loc.has_name">
-                                {{ loc.has_name }}
+                                {{ getLocalizedPlaceLabel(loc) }}
                             </div>
                         </td>
 
@@ -206,6 +206,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { IAVefiWorkVariant } from '@/models/interfaces/generated/IAVefiWorkVariant';
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
 defineProps<{ datasets: IAVefiWorkVariant[] }>();
 

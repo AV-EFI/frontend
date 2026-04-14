@@ -120,6 +120,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
 const props = defineProps<{ data: any, level: 'work' | 'manifestation' | 'item', iconColor: string }>();
 
@@ -247,7 +248,7 @@ function buildIconEntries() {
         const workEvents = asArray(d?.has_record?.has_event);
         const locs = workEvents.flatMap((ev: any) => asArray(ev?.located_in));
         const locTexts = locs.map((loc: any) => {
-            const label = loc?.has_name || loc?.same_as?.id || (loc?.same_as?.category ? t(loc.same_as.category) : (loc?.category ? t(loc.category) : ''));
+            const label = getLocalizedPlaceLabel(loc) || loc?.same_as?.id || (loc?.same_as?.category ? t(loc.same_as.category) : (loc?.category ? t(loc.category) : ''));
             return { text: label || '', hilite: false };
         }).filter(l => l.text);
         if (locTexts.length) {

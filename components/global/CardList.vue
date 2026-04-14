@@ -24,7 +24,7 @@
                     <div class="card-actions mt-auto">
                         <NuxtLink v-if="item.link" :to="item.link" target="_blank" rel="noopener"
                                   class="btn btn-primary btn-sm">
-                            {{ item.linkText || item.ctaText || $t('viewHomepage') || 'View Homepage' }}
+                            {{ item.linkText || item.ctaText || $t('viewHomepage') }}
                             <Icon name="tabler:arrow-right" class="ml-1" />
                         </NuxtLink>
                     </div>

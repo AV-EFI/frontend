@@ -3,7 +3,7 @@
         <!-- Skip link -->
         <a href="#main"
            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
-            {{ $t('home.accessibility.skipToContent') || 'Skip to main content' }}
+            {{ $t('home.accessibility.skipToContent') }}
         </a>
 
         <!-- ======= HERO / SEARCH-FIRST ======= -->
@@ -76,7 +76,7 @@
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
                                                 <div class="md:justify-end" role="group"
-                                                     :aria-label="$t('home.search.modeSwitcher') || 'Search mode switcher'">
+                                                     :aria-label="$t('home.search.modeSwitcher')">
                                                     <div class="join w-full">
                                                         <button class="join-item btn md:btn-sm"
                                                                 :aria-label="$t('home.search.simple')"
@@ -122,13 +122,13 @@
                                                         </template>
                                                         <template #fallback>
                                                             <div class="h-24 flex items-center justify-center text-sm opacity-70">
-                                                                {{ $t('home.search.loading') || 'Loading search…' }}
+                                                                {{ $t('home.search.loading') }}
                                                             </div>
                                                         </template>
                                                     </Suspense>
                                                 </div>
                                                 <div v-else class="h-24 flex items-center justify-center text-sm opacity-70">
-                                                    {{ $t('home.search.loading') || 'Loading search…' }}
+                                                    {{ $t('home.search.loading') }}
                                                 </div>
                                             </div>
                                         </div>

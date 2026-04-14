@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto p-2">
         <GlobalBreadcrumbsComp :breadcrumbs="[
-            ['Home', '/'],
+            [$t('home.breadcrumbs'), '/'],
             [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],
         ]" />
         <keep-alive>

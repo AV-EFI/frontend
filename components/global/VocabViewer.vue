@@ -3,15 +3,15 @@
         <!-- Search -->
         <div class="mb-4">
             <input v-model="rawQuery" type="text" class="input input-bordered w-full"
-                   :placeholder="$t('vocab.search') || 'Search vocabulary…'"
-                   :aria-label="$t('vocab.search') || 'Search vocabulary…'">
+                   :placeholder="$t('vocab.search')"
+                   :aria-label="$t('vocab.search')">
         </div>
 
         <!-- A–Z -->
         <div class="flex flex-wrap gap-1 mb-4 text-sm">
             <div class="w-full mb-2">
                 <button class="btn btn-xs" :class="{ 'btn-active': !activeLetter }" @click="activeLetter=null">
-                    {{ $t('vocab.all') || 'All' }}
+                    {{ $t('vocab.all') }}
                 </button>
             </div>
             <button v-for="char in alphabet" :key="char" class="btn btn-xs"
@@ -24,10 +24,10 @@
 
         <!-- Loading / empty -->
         <div v-if="loading" class="text-neutral-500">
-            Loading…
+            {{ $t('vocab.loading') }}
         </div>
         <div v-else-if="filteredGroups.length===0" class="text-neutral-500">
-            {{ $t('vocab.noResults') || 'No results.' }}
+            {{ $t('vocab.noResults') }}
         </div>
 
         <!-- Groups -->
@@ -46,21 +46,21 @@
                                 <code>{{ displayTerm(entry.term) }}</code>
                             </span>
                             <button class="btn btn-ghost btn-xs ml-auto" @click="togglePreview(entry)">
-                                {{ $t('vocab.preview') || 'Preview' }}
+                                {{ $t('vocab.preview') }}
                             </button>
                         </div>
 
                         <div class="font-medium flex items-center gap-2 flex-wrap">
                             <!-- DE + EN always shown (when present), with stable layout -->
                             <span class="text-base">
-                                <span class="text-xs text-neutral-500">DE: </span>
+                                <span class="text-xs text-neutral-500">{{ $t('vocab.languageDe') }}: </span>
                                 <span v-html="highlight(labelDe(entry))" />
                                 <span class="text-neutral-400 mx-2">|</span>
-                                <span class="text-xs text-neutral-500">EN: </span>
+                                <span class="text-xs text-neutral-500">{{ $t('vocab.languageEn') }}: </span>
                                 <span v-html="highlight(labelEn(entry))" />
                             </span>
 
-                            <button class="btn btn-ghost btn-xs" :title="$t('vocab.copyLink') || 'Copy link to term'"
+                            <button class="btn btn-ghost btn-xs" :title="$t('vocab.copyLink')"
                                     @click="copyTermLink(rowId(entry))">
                                 <Icon name="tabler:link" />
                             </button>
@@ -70,7 +70,7 @@
                              v-html="highlight(entry.description)" />
                         <details v-if="entry.definition" class="mt-1 text-xs text-neutral-500">
                             <summary class="cursor-pointer underline underline-offset-2">
-                                {{ $t('vocab.moreInfo') || 'learn more' }}
+                                {{ $t('vocab.moreInfo') }}
                             </summary>
                             <p class="mt-1 pl-2" v-html="highlight(entry.definition)" />
                         </details>
@@ -78,7 +78,7 @@
                         <div class="text-xs text-neutral-400 mt-2 flex items-center gap-2">
                             <span>( {{ entry.enumSource }} )</span>
                             <a v-if="docUrl(entry)" :href="docUrl(entry)" target="_blank" rel="noopener" class="link link-primary">
-                                {{ $t('vocab.viewDocs') || 'Documentation' }}
+                                {{ $t('vocab.viewDocs') }}
                             </a>
                         </div>
                     </div>
@@ -88,11 +88,11 @@
                         <div v-if="isOpen(entry)" class="border-l border-base-200 bg-base-100 min-h-[16rem]">
                             <!-- Header -->
                             <div class="flex items-center gap-2 px-3 py-2 border-b border-base-200">
-                                <strong class="truncate">{{ $t('vocab.preview') || 'Preview' }}</strong>
+                                <strong class="truncate">{{ $t('vocab.preview') }}</strong>
                                 <span class="opacity-60 text-sm truncate">· {{ entry.term }}</span>
                                 <div class="ml-auto flex items-center gap-2">
                                     <a v-if="previewUrl" :href="previewUrl" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">
-                                        {{ $t('vocab.openInNewTab') || 'Open in new tab' }}
+                                        {{ $t('vocab.openInNewTab') }}
                                     </a>
                                     <button class="btn btn-ghost btn-xs" @click="closePreview">
                                         <Icon name="tabler:x" />
@@ -106,7 +106,7 @@
                                         class="w-full h-[60vh] border-0" @load="onIframeLoad" />
                                 <div v-else-if="inlineHtml" class="p-4 prose prose-sm max-w-none" v-html="inlineHtml" />
                                 <div v-else class="p-4 text-sm opacity-70">
-                                    {{ $t('vocab.loading') || 'Loading…' }}
+                                    {{ $t('vocab.loading') }}
                                 </div>
                             </div>
                         </div>
@@ -193,54 +193,11 @@ watch(activeLetter, (val) => {
     emit('update-query', rawQuery.value, val || undefined);
 });
 
-const { locale } = useI18n();
-
-/**
- * Normalize locale to 'de' | 'en' for vocab labels.
- * Anything else falls back to 'en' behavior.
- */
-const uiLang = computed<'de' | 'en'>(() => {
-    const l = String(locale.value || '').toLowerCase();
-    if (l.startsWith('de')) return 'de';
-    return 'en';
-});
-const secondaryLang = computed<'de' | 'en'>(() => (uiLang.value === 'de' ? 'en' : 'de'));
-const secondaryLangTag = computed(() => secondaryLang.value.toUpperCase());
-
 const { data: entriesRaw, pending: loading } = await useFetch<VocabEntry[]>('/api/cms/vocab', {
     lazy: false,
     server: true,
 });
 const entries = computed(() => Array.isArray(entriesRaw.value) ? entriesRaw.value : []);
-
-/* ---------- label resolution (new structure) ---------- */
-function labelForLang(entry: VocabEntry, lang: 'de' | 'en'): string {
-    const fromLabels = entry.labels?.[lang];
-    if (typeof fromLabels === 'string' && fromLabels.trim()) return fromLabels.trim();
-
-    // Back-compat: existing single label (often de in your current file)
-    if (typeof entry.label === 'string' && entry.label.trim()) return entry.label.trim();
-
-    return entry.term;
-}
-
-
-function secondaryLabel(entry: VocabEntry): string | null {
-    const other = entry.labels?.[secondaryLang.value];
-    const cur = entry.labels?.[uiLang.value];
-
-    // Only show if it truly adds information (not identical to current)
-    if (!other || !String(other).trim()) return null;
-    if (cur && String(cur).trim() && String(cur).trim() === String(other).trim()) return null;
-
-    return String(other).trim();
-}
-
-function secondaryLabelAria(entry: VocabEntry): string {
-    const other = secondaryLabel(entry);
-    if (!other) return '';
-    return `${secondaryLangTag.value}: ${other}`;
-}
 
 /* ---------- search ---------- */
 watch(rawQuery, (val) => {
@@ -357,7 +314,7 @@ const previewUrl = ref<string>('');            // url for iframe / inline
 const inlineHtml = ref<string>('');            // sanitized html fallback
 const forceInline = ref(false);
 const previewScrollEl = ref<HTMLElement | null>(null);
-let iframeTimer: any = null;
+let iframeTimer: ReturnType<typeof setTimeout> | null = null;
 
 const rowMap = new Map<string, HTMLElement>();
 const rowId = (e: VocabEntry) => `glrow-${e.term.replace(/[^a-z0-9_-]/gi,'_')}-${(e.enumSource||'').replace(/[^a-z0-9_-]/gi,'_')}`;

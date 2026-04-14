@@ -87,7 +87,7 @@
                     :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
-                        {{ country?.has_name }}
+                        {{ getLocalizedPlaceLabel(country) }}
                     </span>
                     <div class="col-span-3">
                         <ul>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="col-span-1 flex flex-row justify-center my-auto">
                         <GlobalSendValueComp
-                            :target-property-value="country?.has_name"
+                            :target-property-value="getLocalizedPlaceLabel(country)"
                             target-property-name="location"
                             :same-as-id="country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
                             @update-target-model="onUpdateTargetModel"
@@ -352,6 +352,8 @@
 <script setup lang="ts">
 /* @TODO: refactor when backend done */
 import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
+
 defineProps({
     title: {
         type: String,
@@ -381,7 +383,7 @@ function updateAllProperties() {
     const properties = [
         { value: data?.compound_record?._source?.has_record?.has_primary_title?.has_name, name: 'title' },
         { value: data?.handle, name: 'efi' },
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: item?.has_name, name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: getLocalizedPlaceLabel(item), name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),

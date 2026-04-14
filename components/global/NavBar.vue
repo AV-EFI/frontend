@@ -75,7 +75,7 @@
                                 <a href="/protected/me">{{ $t('profile') }}</a>
                             </li>
                             <li v-if="data?.user" class="h-12 flex justify-center">
-                                <button title="logout" :aria-label="ariaLabelLogout" @click="signOut()">
+                                <button :title="ariaLabelLogout" :aria-label="ariaLabelLogout" @click="signOut()">
                                     {{ $t('logout') }}
                                 </button>
                             </li>

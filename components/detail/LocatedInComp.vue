@@ -13,7 +13,7 @@
             :key="located_in_index"
             class="w-2/3 flex flex-col"
         >
-            <h4>{{ located_in_item.has_name }}</h4>
+            <h4>{{ getLocalizedPlaceLabel(located_in_item) }}</h4>
             <div v-if="located_in_item.same_as">
                 <DetailSameAsComp :same-as-data="located_in_item.same_as" />
             </div>      
@@ -31,6 +31,8 @@
     </div>
 </template>
 <script setup lang="ts">
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
+
 defineProps ( {
     'locatedInData': {
         type: Object,

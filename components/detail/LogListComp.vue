@@ -13,30 +13,29 @@
                     {{ log.message }}
                 </div>
                 <div :class="log.status === 'Success' ? 'text-green-500' : 'text-red-500'">
-                    {{ log.status }}
+                    {{ log.status === 'Success' ? $t('logList.successStatus') : $t('logList.failureStatus') }}
                 </div>
                 <div class="text-sm text-gray-700">
-                    Successful Dataset Imports: {{ log.successfulImports }}
+                    {{ $t('logList.successfulDatasetImports') }}: {{ log.successfulImports }}
                 </div>
                 <div class="text-sm text-gray-700">
-                    Created EFIs: {{ log.createdEfis }}
+                    {{ $t('logList.createdEfis') }}: {{ log.createdEfis }}
                 </div>
                 <div class="text-sm text-gray-700">
-                    Merged Datasets: {{ log.mergedDatasets }}
+                    {{ $t('logList.mergedDatasets') }}: {{ log.mergedDatasets }}
                 </div>
                 <button
                     class="mt-2 text-blue-500 hover:underline"
                     @click="toggleDetails(log.id)"
                 >
-                    {{ log.showDetails ? 'Hide Details' : 'Show Details' }}
+                    {{ log.showDetails ? $t('hideDetails') : $t('showDetails') }}
                 </button>
                 <div
                     v-if="log.showDetails"
                     class="mt-2 text-sm text-gray-700"
                 >
                     <!-- Add more detailed information here if needed -->
-                    Detailed information about log entry {{ log.id }},
-                    Optional Download Link, ...
+                    {{ $t('logList.detailsText', { id: log.id }) }}
                 </div>
             </li>
         </ul>
@@ -45,7 +44,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const logs = ref(generateFakeLogs(20));
 
 function generateFakeLogs(count) {
@@ -54,7 +55,7 @@ function generateFakeLogs(count) {
         logs.push({
             id: i,
             date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleString(),
-            message: `Import Log ${i}`,
+            message: t('logList.importLog', { id: i }),
             status: i % 2 === 0 ? 'Success' : 'Failure',
             successfulImports: Math.floor(Math.random() * 100),
             createdEfis: Math.floor(Math.random() * 50),

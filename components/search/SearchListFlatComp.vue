@@ -61,9 +61,9 @@
             <!-- Badge for all items empty -->
             <div v-if="allItemsEmpty(work)" class="mt-2 text-left">
                 <span class="badge badge-manifestation badge-sm dark:text-black"
-                      :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
+                      :title="$t('allItemsEmptyTooltip')">
                     <Icon name="tabler:alert-circle" class="w-3 h-3 mr-1" />
-                    {{ $t('allItemsEmpty') || 'All Items Empty' }}
+                    {{ $t('allItemsEmpty') }}
                 </span>
             </div>
         </header>
@@ -121,7 +121,7 @@
                     <button
                         type="button"
                         class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
-                        :aria-label="`${$t('remove') || 'Remove'}: ${selected}`"
+                        :aria-label="`${$t('remove')}: ${selected}`"
                         @click="removeSuggestion(work?.handle ?? '', selected)"
                     >
                         ×
@@ -130,14 +130,14 @@
             </div>
         </div>
         <!-- Items carousel -->
-        <section class="px-5 py-2" role="region" :aria-label="$t('items') || 'Items'">
+            <section class="px-5 py-2" role="region" :aria-label="$t('items')">
             <div v-if="loading[work?.handle ?? '']" class="flex justify-center items-center min-h-30">
                 <span class="loading loading-spinner loading-lg text-primary" />
             </div>
             <template v-else>
                 <div class="flex items-center gap-2  bg-base-200/50">
                     <button class="btn btn-sm btn-outline btn-circle focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                            :aria-label="`${$t('previous') || 'Previous'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+                            :aria-label="`${$t('previous')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
                             :aria-controls="`carousel-${work?.handle ?? ''}`"
                             :disabled="carouselIndex[work?.handle ?? ''] === 0 || filteredRows(work).length <= pageSize()"
                             @click="prev(work?.handle ?? '')">
@@ -145,12 +145,12 @@
                     </button>
 
                     <div :id="`carousel-${work?.handle ?? ''}`" class="carousel-viewport" role="listbox"
-                         :aria-roledescription="$t('carousel') || 'carousel'">
+                         :aria-roledescription="$t('carousel')">
                         <div class="carousel-track" :style="trackStyle(work)">
                             <article v-for="(row, rowIndex) in filteredRows(work)"
                                      :key="row.item?.handle ?? row.item?.id ?? row.mf?.id ?? `row-${work?.handle ?? workIndex}-${rowIndex}`"
                                      class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl" role="option"
-                                     :aria-label="row.item?.handle || 'item'">
+                                     :aria-label="row.item?.handle || $t('item')">
                                 <div class="card-body p-2 flex flex-col gap-2">
                                     <!-- Primary (item-level) info -->
                                     <div class="flex flex-col items-start gap-1 md:min-h-48">
@@ -164,9 +164,9 @@
                                         <div class="divider my-0" />
 
                                         <span v-if="isItemEmpty(row.item)" class="badge badge-item mx-auto my-auto"
-                                              :title="$t('emptyItemTooltip') || 'This item has no additional metadata'">
+                                              :title="$t('emptyItemTooltip')">
                                             <span>
-                                                {{ $t('emptyItem') || 'Empty' }}
+                                                {{ $t('emptyItem') }}
                                             </span>
                                         </span>
                                         <SearchGenericIconList v-else :data="row.item" level="item"
@@ -176,7 +176,7 @@
                                         <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
                                         <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource"
                                            class="text-sm link link-primary">
-                                            <Icon name="tabler:external-link" /> {{ $t('webresource') || 'View Web Resource' }}
+                                            <Icon name="tabler:external-link" /> {{ $t('webresource') }}
                                         </a>
                                     </div>
 
@@ -184,16 +184,15 @@
                                     <div v-if="row.mf"
                                          class="border border-base-200 rounded-lg bg-base-100 flex flex-col gap-1 mt-4 mb-2">
                                         <div class="text-xs font-semibold text-base-content/70 flex flex-col items-center gap-1">
-                                            <span class="text-base-content/90 text-left w-full">{{ $t('fromManifestation') || 'Manifestation'
-                                            }}</span>
+                                            <span class="text-base-content/90 text-left w-full">{{ $t('fromManifestation') }}</span>
                                             <span v-if="row.mf?.has_record?.described_by?.has_issuer_name"
                                                   class="text-base-content font-normal text-left w-full">
                                                 <Icon class="mr-1" name="tabler:building"></Icon>
                                                 {{ row.mf?.has_record?.described_by?.has_issuer_name }}
                                             </span>
                                             <span v-if="isManifestationEmpty(row.mf)" class="badge badge-warning badge-xs ml-1"
-                                                  :title="$t('emptyManifestationTooltip') || 'This manifestation has no additional metadata'">
-                                                {{ $t('emptyManifestation') || 'Empty' }}
+                                                  :title="$t('emptyManifestationTooltip')">
+                                                {{ $t('emptyManifestation') }}
                                             </span>
                                         </div>
                                         <SearchGenericIconList :data="row.mf" level="manifestation"
@@ -214,7 +213,7 @@
                     </div>
 
                     <button class="btn btn-sm btn-outline btn-circle focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                            :aria-label="`${$t('next') || 'Next'}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
+                            :aria-label="`${$t('next')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
                             :aria-controls="`carousel-${work?.handle ?? ''}`"
                             :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
                             @click="next(work?.handle ?? '')">
@@ -229,7 +228,7 @@
 
                 <!-- Empty state -->
                 <p v-if="filteredRows(work).length === 0" class="mt-4 text-sm opacity-70">
-                    {{ $t('noItemsFound') || 'No items found.' }}
+                    {{ $t('noItemsFound') }}
                 </p>
             </template>
         </section>
@@ -242,6 +241,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import type { PropType } from 'vue';
 import type { MovingImageRecordContainer } from '@/models/interfaces/schema/avefi_schema_type_utils';
 import fieldsSpec from '../../models/interfaces/avefi_search_fields';
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 defineProps({
     datasets: {
         type: Array as PropType<Array<MovingImageRecordContainer>>,
@@ -388,7 +388,7 @@ function parsedEvents(mf: any): Array<{ placeName?: string; sameAsId?: string; s
         const loc = ev?.located_in || {};
         const same = loc?.same_as || {};
         out.push({
-            placeName: loc?.has_name,
+            placeName: getLocalizedPlaceLabel(loc),
             sameAsId: same?.id,
             sameAsCategory: same?.category,
             placeCategory: loc?.category

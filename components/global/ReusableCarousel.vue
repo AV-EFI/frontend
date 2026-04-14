@@ -70,7 +70,7 @@
                                                         :to="`${(item as any).link}`"
                                                         class="btn btn-primary btn-sm"
                                                     >
-                                                        {{ t('viewHomepage') || 'View Homepage' }}
+                                                        {{ t('viewHomepage') }}
                                                         <Icon name="tabler:arrow-right" class="ml-1" />
                                                     </NuxtLink>
                                                 </div>
@@ -159,7 +159,7 @@
                                         target="_blank"
                                         rel="noopener"
                                     >
-                                        {{ t('viewHomepage') || 'View Homepage' }}
+                                        {{ t('viewHomepage') }}
                                         <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
                                     </NuxtLink>
                                 </div>
@@ -190,7 +190,7 @@
         </div>
 
         <div v-else class="text-center text-base-content/60 py-8">
-            {{ emptyText || t('noResults') || 'No items found' }}
+            {{ emptyText || t('noResults') }}
         </div>
     </div>
 </template>

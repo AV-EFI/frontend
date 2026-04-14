@@ -4,7 +4,7 @@
          role="region" :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`">
         <div v-if="showAdminStats"
              class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-800 dark:text-white text-sm">
-            <span>Status: <span class="badge badge-success text-white">Public</span></span>
+            <span>{{ $t('statusLabel') }}: <span class="badge badge-success text-white">{{ $t('publicStatus') }}</span></span>
             <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
             <span>{{ work?.has_record?.described_by?.has_issuer_name }}</span>
             <button class="btn btn-xs btn-primary">
@@ -24,10 +24,10 @@
                                                 class="ml-2 hidden lg:inline-block" />
                         <!-- Badge for all items empty -->
                         <span v-if="allItemsEmpty(work)" class="badge badge-userinfo badge-sm lg:ml-2 dark:text-black"
-                              :title="$t('allItemsEmptyTooltip') || 'All items in this work have no additional metadata'">
+                              :title="$t('allItemsEmptyTooltip')">
                             <Icon name="tabler:alert-circle" class="w-3 h-3 2xl:mr-1" />
                             <span class="hidden 2xl:inline-block text-xs">
-                                {{ $t('allItemsEmpty') || 'All Items Empty' }}
+                                {{ $t('allItemsEmpty') }}
                             </span>
                         </span>
 

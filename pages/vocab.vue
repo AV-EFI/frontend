@@ -2,7 +2,7 @@
     <NuxtLayout name="partial-layout-1-center">
         <template #navigation>
             <GlobalBreadcrumbsComp :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('vocab.title'), '/vocab'],
             ]" />
         </template>
@@ -17,7 +17,7 @@
                                    @update-query="(q, letter) => router.replace({ query: { ...route.query, q, letter } })" />
             </div>
         </template>
-    </NuxtLayout>x
+    </NuxtLayout>
 </template>
 
 <script setup lang="ts">
@@ -38,7 +38,7 @@ useSeoMeta({
         'Filmfachbegriffe',
         'Metadatenbegriffe',
         'Thesaurus',
-        'Controlled Vocabulary',
+        t('vocab.title'),
         'Definitionen',
         'Filmwissenschaft',
         'Archivwesen',

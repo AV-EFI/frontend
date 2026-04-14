@@ -2,11 +2,11 @@
     <Transition name="fade">
         <div v-if="isLoading"
              :class="['splash-screen fixed inset-0 z-[9999] flex h-screen w-screen items-center justify-center overflow-hidden transition-opacity duration-500', splashThemeClass]"
-             aria-label="Please wait" role="status" aria-live="polite" inert>
+             :aria-label="$t('pleaseWait')" role="status" aria-live="polite" inert>
             <div class="flex flex-col items-center gap-8">
                 <img :src="logoSrc" alt="AVefi Logo" class="h-auto w-52 animate-pulse drop-shadow-lg" aria-hidden="true">
                 <div class="loading loading-spinner loading-lg text-primary" aria-hidden="true"></div>
-                <span class="sr-only">Loading application...</span>
+                <span class="sr-only">{{ $t('loadingApplication') }}</span>
             </div>
         </div>
     </Transition>

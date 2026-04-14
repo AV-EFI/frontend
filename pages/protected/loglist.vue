@@ -2,15 +2,15 @@
     <div>
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('logList'), `/protected/loglist`],
             ]"
         />
         <div>
             <NuxtLayout name="partial-layout-1-center">
                 <template #title>
-                    <h2>Institution {{ authData?.user?.institution }}</h2>
-                    <h2>User {{ authData?.user?.name }}</h2>
+                    <h2>{{ $t('institutionLabel') }} {{ authData?.user?.institution }}</h2>
+                    <h2>{{ $t('userLabel') }} {{ authData?.user?.name }}</h2>
                 </template>
                 <template #cardBody>
                     <LazyDetailLogListComp />

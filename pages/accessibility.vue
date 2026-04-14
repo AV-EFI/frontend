@@ -2,7 +2,7 @@
     <div>
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('accessibilityStatement'), '/accessibility'],
             ]"
         />
@@ -121,15 +121,15 @@
                                 <p>{{ $t('accessibilityPage.arbitration.contact.organization') }}</p>
                                 <p>{{ $t('accessibilityPage.arbitration.contact.address') }}</p>
                                 <p>
-                                    <span class="font-medium">Phone:</span>
+                                    <span class="font-medium">{{ $t('phoneLabel') }}:</span>
                                     {{ $t('accessibilityPage.arbitration.contact.phone') }}
                                 </p>
                                 <p>
-                                    <span class="font-medium">Fax:</span>
+                                    <span class="font-medium">{{ $t('faxLabel') }}:</span>
                                     {{ $t('accessibilityPage.arbitration.contact.fax') }}
                                 </p>
                                 <p>
-                                    <span class="font-medium">Email:</span>
+                                    <span class="font-medium">{{ $t('emailLabel') }}:</span>
                                     <a
                                         class="link link-primary"
                                         :href="`mailto:${t('accessibilityPage.arbitration.contact.email')}`"
@@ -138,7 +138,7 @@
                                     </a>
                                 </p>
                                 <p>
-                                    <span class="font-medium">Website:</span>
+                                    <span class="font-medium">{{ $t('websiteLabel') }}:</span>
                                     <a
                                         class="link link-primary"
                                         :href="t('accessibilityPage.arbitration.contact.website')"

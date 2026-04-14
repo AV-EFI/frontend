@@ -3,14 +3,14 @@
         <table class="table table-xs table-zebra w-full">
             <thead>
                 <tr>
-                    <th>ID 1</th>
-                    <th>Title 1</th>
-                    <th>ID 2</th>
-                    <th>Title 2</th>
-                    <th>Status</th>
-                    <th>Similarity</th>
+                    <th>{{ $t('mergeTool.id1') }}</th>
+                    <th>{{ $t('mergeTool.title1') }}</th>
+                    <th>{{ $t('mergeTool.id2') }}</th>
+                    <th>{{ $t('mergeTool.title2') }}</th>
+                    <th>{{ $t('mergeTool.status') }}</th>
+                    <th>{{ $t('mergeTool.similarity') }}</th>
                     <th class="min-w-[112px]">
-                        Actions
+                        {{ $t('mergeTool.actions') }}
                     </th>
                 </tr>
             </thead>
@@ -27,7 +27,7 @@
                         TUNGUSKA - DIE KISTEN SIND DA
                     </td>
                     <td :class="{'text-orange-500 dark:text-orange-300': true}">
-                        Open
+                        {{ $t('mergeTool.openStatus') }}
                     </td>
                     <td :class="getColor(75)">
                         75%
@@ -50,7 +50,7 @@
                     <td>{{ pair.items[1]?.id || 'N/A' }}</td>
                     <td>{{ pair.items[1]?.title || 'N/A' }}</td>
                     <td :class="{'text-green-500 dark:text-green-300': true}">
-                        Resolved
+                        {{ $t('mergeTool.resolvedStatus') }}
                     </td>
                     <td :class="getColor(pair.similarity)">
                         {{ pair.similarity }}%
@@ -60,7 +60,7 @@
                             class="btn btn-primary btn-disabled btn-xs"
                             @click="showDetails(pair.items)"
                         >
-                            Show Details
+                            {{ $t('showDetails') }}
                         </button>
                     </td>
                 </tr>
