@@ -2,11 +2,11 @@
     <div class="w-full min-h-75 flex flex-col items-start justify-between">
         <HomeSectionTextBlock
             :title="t('home.sections.openAndExtendable.title')"
-            :paragraphs="[t('home.sections.openAndExtendable.content[0]'), t('home.sections.openAndExtendable.content[1]')]"
+            :paragraphs="t('home.sections.openAndExtendable.content[0]')"
             cta-target="_blank"
             wrapper-class="w-full"
             inner-class="max-w-none"
-            :cta-label="t('home.sections.openAndExtendable.cta')"
+            :cta-label="t('home.sections.openAndExtendable.content[1]')"
             :cta-href="t('home.sections.openAndExtendable.ctaLink')"
             cta-type="link"
         />
