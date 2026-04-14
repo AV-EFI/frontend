@@ -425,6 +425,7 @@ const compareSource = computed(() => {
 
 // Helper to translate values (tries to find translation key, falls back to original value)
 const { t, te } = useI18n();
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 const translateValue = (value: string | null | undefined): string => {
     if (!value) return '—';
     // Check if translation key exists, if yes translate it, otherwise return original
@@ -538,7 +539,8 @@ const productionCountry = computed(() => {
     events.forEach(event => {
         if (event?.category === 'avefi:ProductionEvent' && event?.located_in) {
             event.located_in.forEach(location => {
-                if (location?.has_name) countries.push(location.has_name);
+                const label = getLocalizedPlaceLabel(location);
+                if (label) countries.push(label);
             });
         }
     });
@@ -729,7 +731,8 @@ const compareProductionCountry = computed(() => {
     events.forEach(event => {
         if (event?.category === 'avefi:ProductionEvent' && event?.located_in) {
             event.located_in.forEach(location => {
-                if (location?.has_name) countries.push(location.has_name);
+                const label = getLocalizedPlaceLabel(location);
+                if (label) countries.push(label);
             });
         }
     });

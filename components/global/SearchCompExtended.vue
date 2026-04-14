@@ -25,7 +25,7 @@
                         role="group"
                         :aria-labelledby="'search-input-label'"
                     >
-                        <div class="flex-grow relative">
+                        <div class="grow relative">
                             <SearchQueryAutocomplete
                                 ref="qaRef"
                                 v-model="searchTerm"
@@ -51,7 +51,7 @@
                         <div class="ml-0">
                             <button
                                 type="submit"
-                                class="h-full !rounded-l-none !rounded-r-xl flex btn btn-primary lg:btn-lg h-8"
+                                class="rounded-l-none! rounded-r-xl flex btn btn-primary lg:btn-lg h-full"
                                 :class="{ 'btn-disabled opacity-50 cursor-not-allowed': !canSubmit }"
                                 :aria-label="$t('submitSearch')"
                                 @click="handleClick"
@@ -64,7 +64,7 @@
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
                         <div class="mb-4">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                {{ $t('advancedSearch') || 'Advanced Search' }}
+                                {{ $t('advancedSearch') }}
                             </h3>
                         </div>
 
@@ -96,7 +96,7 @@
                                 <FormKit
                                     v-model="filter.facet"
                                     type="select"
-                                    :placeholder="$t('selectFacet') || 'Select Facet'"
+                                    :placeholder="$t('selectFacet')"
                                     :options="availableFacetsFiltered"
                                     outer-class="flex-1 w-full lg:w-auto"
                                     inner-class="dark:bg-neutral dark:text-accent"
@@ -109,9 +109,9 @@
                                         <FormKit
                                             :model-value="filter.valueDisplay"
                                             type="text"
-                                            :placeholder="$t('enterValue') || 'Enter Value'"
+                                            :placeholder="$t('enterValue')"
                                             outer-class="w-full"
-                                            inner-class="!h-8 dark:!bg-gray-950 dark:!text-white"
+                                            inner-class="!h-8 bg-white dark:!bg-gray-950 dark:!text-white"
                                             input-class="!h-8 !w-full p-2"
                                             :disabled="!filter.facet"
                                             autocomplete="off"
@@ -170,7 +170,7 @@
                                     <button
                                         type="button"
                                         class="btn btn-outline btn-error p-2"
-                                        :aria-label="$t('remove') || 'Remove'"
+                                        :aria-label="$t('remove')"
                                         @click="removeFacetFilter(index)"
                                     >
                                         <Icon name="tabler:x" size="20" />
@@ -184,7 +184,7 @@
                                 @click="addFacetFilter"
                             >
                                 <Icon name="tabler:plus" size="16" />
-                                {{ $t('addFacet') || 'Add Facet' }}
+                                {{ $t('addFacet') }}
                             </button>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
 
             <template v-else>
                 <div class="text-center text-gray-500 dark:text-gray-400 p-4">
-                    {{ $t('loadingSearch') || 'Loading search...' }}
+                    {{ $t('loadingSearch') }}
                 </div>
             </template>
         </ClientOnly>

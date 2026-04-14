@@ -14,7 +14,7 @@
             </div>
             <ViewsWorkViewCompParts type="compilationManifestation"
                                     :parts="dataObject?.compound_record?._source?.work_variants"
-                                    :handle="dataObject?.compound_record?._source?.handle" />
+                                    :handle="dataObject?.handle ?? dataObject?.compound_record?._source?.handle" />
         </div>
 
         <!-- 12 Letzte Bearbeitung -->

@@ -28,7 +28,7 @@
                                 <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
                             </li>
                             <li class="h-12 flex justify-center">
-                                <a href="/faq">{{ $t("faq") }}</a>
+                                <a href="/faq">{{ $t("faq.title") }}</a>
                             </li>
                             <li class="h-12 flex justify-center">
                                 <a href="/vocab">{{ $t('vocab.title') }}</a>
@@ -75,7 +75,7 @@
                                 <a href="/protected/me">{{ $t('profile') }}</a>
                             </li>
                             <li v-if="data?.user" class="h-12 flex justify-center">
-                                <button title="logout" :aria-label="ariaLabelLogout" @click="signOut()">
+                                <button :title="ariaLabelLogout" :aria-label="ariaLabelLogout" @click="signOut()">
                                     {{ $t('logout') }}
                                 </button>
                             </li>
@@ -126,7 +126,7 @@
                             <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
                         </li>
                         <li class="h-12 flex justify-center">
-                            <a href="/faq">{{ $t("faq") }}</a>
+                            <a href="/faq">{{ $t("faq.title") }}</a>
                         </li>
                         <li class="h-12 flex justify-center">
                             <a href="/vocab">{{ $t('vocab.title') }}</a>

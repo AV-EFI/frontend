@@ -9,7 +9,7 @@
         >
             <ul class="flex flex-wrap gap-2">
                 <li
-                    v-for="(el, index) in breadcrumbs"
+                    v-for="(el, index) in resolvedBreadcrumbs"
                     :key="el[1]"
                     class="dark:hover:text-slate2300"
                 >
@@ -27,11 +27,15 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-    "breadcrumbs": {
-        type: Array as PropType<Array<[string, string]>>,
-        required: false,
-        default: () => [['Home', '/']]
-    }
+const { t } = useI18n();
+
+const props = withDefaults(defineProps<{
+    breadcrumbs?: Array<[string, string]>;
+}>(), {
+    breadcrumbs: () => [],
 });
+
+const resolvedBreadcrumbs = computed(() => props.breadcrumbs.length
+    ? props.breadcrumbs
+    : [[t('home.breadcrumbs'), '/']]);
 </script>

@@ -4,7 +4,7 @@
     >
         <div class="col-span-full row-span-1 row-start-1 !h-12" />
         <div class="col-span-full row-span-1 row-start-2">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Title:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('title') }}:</label>
             <p
                 class="text-lg font-normal dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
                 :alt="data._source.title"
@@ -38,7 +38,7 @@
             </p>
         </div>
         <div class="col-span-full row-span-1 row-start-5">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Countries:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('countries') }}:</label>
             <ul>
                 <li
                     v-for="(countries_item, countries_index) in data._source.countries"
@@ -54,7 +54,7 @@
             </ul>
         </div>
         <div class="col-span-full row-span-1 row-start-6">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Directors:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('directors') }}:</label>
             <ul>
                 <li
                     v-for="(directors_item, directors_index) in data._source.directors"
@@ -70,7 +70,7 @@
             </ul>
         </div>
         <div class="col-span-full row-span-1 row-start-7">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Year:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('year') }}:</label>
             <p
                 class="text-lg dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
                 :alt="data._source.year"
@@ -83,7 +83,7 @@
             </p>
         </div>
         <div class="col-span-full row-span-1 row-start-8">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Produktionsfirma:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('productioncompany') }}:</label>
             <p
                 class="text-lg dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
             >
@@ -91,7 +91,7 @@
             </p>
         </div>
         <div class="col-span-full row-span-1 row-start-9">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Actors:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('actors') }}:</label>
             <ul>
                 <li
                     v-for="(actors_item, actors_index) in data._source.actors"
@@ -107,7 +107,7 @@
             </ul>
         </div>
         <div class="col-span-full row-span-1 row-start-10">
-            <label class="text-md font-bold text-primary-900 dark:text-primary-100">Schlagwörter:</label>
+            <label class="text-md font-bold text-primary-900 dark:text-primary-100">{{ $t('subjects') }}:</label>
             <p
                 class="text-lg dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
             >

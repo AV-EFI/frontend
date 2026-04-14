@@ -10,19 +10,23 @@
         <div class="drawer-side max-md:w-full z-30 lg:z-10 h-full max-md:h-screen">
             <h2 class="text-lg font-semibold ml-6 2xl:ml-4 mt-6 text-left pl-2">
                 {{$t('facets')}}
+                <GlobalTooltipInfo
+                    :text="$t('facetLanguageNote')"
+                    :aria-label="$t('facetLanguageNote')"
+                />
             </h2>
             <label
-                aria-label="close sidebar"
+                :aria-label="$t('closeDrawer')"
                 class="drawer-overlay z-30"
                 @click="toggleDrawer"
             />
             <div
-                class="relative menu w-full md:w-screen lg:w-80 overflow-hidden max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30"
+                class="relative menu w-full md:w-screen lg:w-80 overflow-y-auto overflow-x-visible max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30"
                 :aria-busy="isSearchLoading"
             >
                 <div
                     v-if="isSearchLoading"
-                    class="absolute inset-0 z-40 flex items-center justify-center bg-base-100/70 dark:bg-gray-900/70 pointer-events-auto"
+                    class="absolute inset-0 z-30 flex items-center justify-center bg-base-100/70 dark:bg-gray-900/70 pointer-events-auto"
                 >
                     <span role="status" aria-live="polite" class="loading loading-spinner loading-md text-primary" />
                 </div>
@@ -40,6 +44,7 @@
                 </div>
                 <div class="w-full flex flex-row p-2">
                     <div class="search-panel__filters lg:mr-1 max-w-full">
+
                         <SearchPanelRefinementListComp
                             header-text="Genre"
                             attribute-name="has_genre_has_name"

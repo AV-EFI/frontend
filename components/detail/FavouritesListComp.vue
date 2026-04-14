@@ -17,10 +17,10 @@
                     </div>
                     <div class="collapse-content">
                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                            Date: {{ group.date }}
+                            {{ $t('date') }}: {{ group.date }}
                         </div>
                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                            Number of Items: {{ group.numberOfItems }}
+                            {{ $t('numberOfItems') }}: {{ group.numberOfItems }}
                         </div>
                         <ul class="mt-2 space-y-2">
                             <li
@@ -39,28 +39,28 @@
                                     </div>
                                     <div class="collapse-content grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Title: {{ log.title }}
+                                            {{ $t('title') }}: {{ log.title }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Described By: {{ log.described_by?.description || 'N/A' }}
+                                            {{ $t('describedBy') }}: {{ log.described_by?.description || 'N/A' }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Has Event: {{ log.has_event?.map(event => event.name).join(', ') || 'N/A' }}
+                                            {{ $t('hasEvent') }}: {{ log.has_event?.map(event => event.name).join(', ') || 'N/A' }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Has Identifier: {{ log.has_identifier?.map(identifier => identifier.id).join(', ') || 'N/A' }}
+                                            {{ $t('hasIdentifier') }}: {{ log.has_identifier?.map(identifier => identifier.id).join(', ') || 'N/A' }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Has Source Key: {{ log.has_source_key?.join(', ') || 'N/A' }}
+                                            {{ $t('hasSourceKey') }}: {{ log.has_source_key?.join(', ') || 'N/A' }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            In Language: {{ log.in_language?.map(language => language.name).join(', ') || 'N/A' }}
+                                            {{ $t('inLanguage') }}: {{ log.in_language?.map(language => language.name).join(', ') || 'N/A' }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Has Alternative Title: {{ log.has_alternative_title?.map(title => title.title).join(', ') || 'N/A' }}
+                                            {{ $t('hasAlternativeTitle') }}: {{ log.has_alternative_title?.map(title => title.title).join(', ') || 'N/A' }}
                                         </div>
                                         <div class="text-sm text-gray-700 dark:text-gray-400">
-                                            Has Primary Title: {{ log.has_primary_title.title }}
+                                            {{ $t('hasPrimaryTitle') }}: {{ log.has_primary_title.title }}
                                         </div>
                                     </div>
                                 </div>

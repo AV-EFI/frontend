@@ -1,15 +1,15 @@
 <template>
     <form class="flex flex-col gap-2" @submit.prevent="onSubmit">
         <label class="text-sm font-semibold" for="poc-explorer-search">
-            Werk suchen
+            {{ $t('pocExplorerSearchLabel') }}
         </label>
         <div class="flex gap-2">
             <input id="poc-explorer-search" v-model="localValue" type="search" :disabled="loading"
-                   placeholder="Titel, Person, Thema" class="input input-bordered input-sm md:input-md w-full"
+                   :placeholder="$t('pocExplorerSearchPlaceholder')" class="input input-bordered input-sm md:input-md w-full"
                    @keyup.enter.prevent="onSubmit" />
             <button type="submit" class="btn btn-primary btn-sm md:btn-md" :disabled="loading || !localValue">
                 <span v-if="loading" class="loading loading-spinner loading-xs" aria-hidden="true" />
-                <span v-else>Suchen</span>
+                <span v-else>{{ $t('pocExplorerSearchButton') }}</span>
             </button>
         </div>
     </form>

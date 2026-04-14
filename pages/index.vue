@@ -3,7 +3,7 @@
         <!-- Skip link -->
         <a href="#main"
            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
-            {{ $t('home.accessibility.skipToContent') || 'Skip to main content' }}
+            {{ $t('home.accessibility.skipToContent') }}
         </a>
 
         <!-- ======= HERO / SEARCH-FIRST ======= -->
@@ -76,7 +76,7 @@
                                             <div
                                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-1 lg:gap-3 bg-base-200 rounded-xl">
                                                 <div class="md:justify-end" role="group"
-                                                     :aria-label="$t('home.search.modeSwitcher') || 'Search mode switcher'">
+                                                     :aria-label="$t('home.search.modeSwitcher')">
                                                     <div class="join w-full">
                                                         <button class="join-item btn md:btn-sm"
                                                                 :aria-label="$t('home.search.simple')"
@@ -122,13 +122,13 @@
                                                         </template>
                                                         <template #fallback>
                                                             <div class="h-24 flex items-center justify-center text-sm opacity-70">
-                                                                {{ $t('home.search.loading') || 'Loading search…' }}
+                                                                {{ $t('home.search.loading') }}
                                                             </div>
                                                         </template>
                                                     </Suspense>
                                                 </div>
                                                 <div v-else class="h-24 flex items-center justify-center text-sm opacity-70">
-                                                    {{ $t('home.search.loading') || 'Loading search…' }}
+                                                    {{ $t('home.search.loading') }}
                                                 </div>
                                             </div>
                                         </div>
@@ -199,14 +199,10 @@
             <HomeLazySectionLoader root-margin="320px 0px">
                 <template #content>
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                        <HomeSectionTextBlock
-                            :title="$t('home.sections.callToAction.title')"
-                            :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
-                            :cta-label="$t('home.sections.callToAction.cta')"
-                            :cta-href="$t('home.sections.callToAction.ctaLink')"
-                            cta-type="link"
-                            wrapper-class="w-full lg:col-span-6"
-                        />
+                        <div class="w-full lg:col-span-6">
+                            <HomeCallToActionSection 
+                            />
+                        </div>
                         <div class="w-full lg:col-span-6 flex justify-center">
                             <div class="relative w-full min-h-100 md:min-h-128">
                                 <HomeIssuerSection />
@@ -217,8 +213,8 @@
                 <template #fallback>
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                         <HomeSectionTextBlock
-                            :title="t('home.sections.callToAction.title')"
-                            :paragraphs="[$t('home.sections.callToAction.text[0]'), $t('home.sections.callToAction.text[1]')]"
+                            :title="$t('home.sections.callToAction.title')"
+                            :paragraphs="[$t('home.sections.callToAction.content[0]'), $t('home.sections.callToAction.content[1]')]"
                             wrapper-class="w-full col-span-4"
                         />
                         <div class="w-full lg:col-span-8 flex justify-center">
@@ -244,7 +240,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
                 <HomeLazySectionLoader root-margin="420px 0px" anchor-class="lazy-section-anchor w-full">
                     <template #content>
-                        <HomeCoreFunctionsSection />
+                        <HomeOpenAndExtendableSection />
                     </template>
                     <template #fallback>
                         <div class="w-full min-h-100 flex items-center justify-between">
@@ -374,7 +370,7 @@ useHead({
 const HomeTimelineSection = defineAsyncComponent(() => import('~/components/home/HomeTimelineSection.vue'));
 const HomeVideoSection = defineAsyncComponent(() => import('~/components/home/HomeVideoSection.vue'));
 const HomeIssuerSection = defineAsyncComponent(() => import('~/components/home/HomeIssuerSection.vue'));
-const HomeCoreFunctionsSection = defineAsyncComponent(() => import('~/components/home/HomeCoreFunctionsSection.vue'));
+const HomeOpenAndExtendableSection = defineAsyncComponent(() => import('~/components/home/HomeOpenAndExtendableSection.vue'));
 const loadAdvancedSearchComponent = () => import('~/components/global/SearchCompExtended.vue');
 const SearchCompExtended = defineAsyncComponent({
     loader: loadAdvancedSearchComponent,

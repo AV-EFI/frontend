@@ -34,7 +34,7 @@
             :current-refinements="currentRefinements"
         />
         <div v-else>
-            <pre>error</pre>
+            <pre>{{ $t('error') }}</pre>
         </div>
     </div>
 </template>

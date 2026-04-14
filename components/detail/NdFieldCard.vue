@@ -44,7 +44,7 @@
                 filter-mode="exists"
                 :time-from="kibana.timeFrom || 'now-10y'"
                 :time-to="kibana.timeTo || 'now'"
-                :aria-label="`Open Kibana view for ${label}`"
+                :aria-label="$t('openKibanaViewFor', { label })"
             />
         </div>
     </div>

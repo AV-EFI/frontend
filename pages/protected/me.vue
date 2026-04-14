@@ -2,7 +2,7 @@
     <ClientOnly>
         <LazyGlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('profile'), '/protected/me']
             ]"
             class="mb-4"
@@ -21,10 +21,10 @@
                 </template>
                 <template #cardBody>
                     <div class="p-4 space-y-4">
-                        <p><strong>Name:</strong> {{ profile.user.name }}</p>
-                        <p><strong>Email:</strong> {{ profile.user.email }}</p>
-                        <p><strong>Institution:</strong> {{ profile.user.institution }}</p>
-                        <p><strong>Expires:</strong> {{ profile.expires }}</p>
+                        <p><strong>{{ $t('profileName') }}:</strong> {{ profile.user.name }}</p>
+                        <p><strong>{{ $t('profileEmail') }}:</strong> {{ profile.user.email }}</p>
+                        <p><strong>{{ $t('profileInstitution') }}:</strong> {{ profile.user.institution }}</p>
+                        <p><strong>{{ $t('profileExpires') }}:</strong> {{ profile.expires }}</p>
                     </div>
                 </template>
             </NuxtLayout>
@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 
+const { t } = useI18n();
 const log = (...args: unknown[]) => {
     console.log(`[ProfilePage ${new Date().toISOString()}]`, ...args);
 };
@@ -66,7 +67,7 @@ onMounted(async () => {
                 log('Session fetched successfully:', auth.data.value);
             } catch (err) {
                 log('❌ Error fetching session:', err);
-                fatalError.value = (err as Error)?.message || 'Session fetch failed';
+                fatalError.value = (err as Error)?.message || t('sessionFetchFailed');
                 return;
             }
         }
@@ -88,14 +89,14 @@ onMounted(async () => {
                 log('Profile mapped successfully:', JSON.stringify(profile));
             } catch (error) {
                 log('❌ Error mapping user data:', error);
-                fatalError.value = (error as Error)?.message || 'Mapping error';
+                fatalError.value = (error as Error)?.message || t('mappingError');
             }
         } else {
             log('No user object found in auth data');
         }
     } catch (outerErr) {
         log('🔥 Fatal error during onMounted execution:', outerErr);
-        fatalError.value = (outerErr as Error)?.message || 'Unexpected error';
+        fatalError.value = (outerErr as Error)?.message || t('unexpectedError');
     }
 });
 </script>

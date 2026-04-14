@@ -1,6 +1,6 @@
 <template>
 
-    <GlobalBreadcrumbsComp :breadcrumbs="[['Home','/'],[$t('userGlossary'),'admin/user_tooltips']]" />
+    <GlobalBreadcrumbsComp :breadcrumbs="[[$t('home.breadcrumbs'),'/'],[$t('userGlossary'),'admin/user_tooltips']]" />
     <NuxtLayout name="partial-layout-1-center" padding-class="p-0">
         <template #title>
             <h2 class="text-2xl font-bold pl-2">{{ $t('ut.pageTitle') }}</h2>
@@ -9,7 +9,7 @@
         <template #cardBody>
             <div class="mx-auto p-2 space-y-4">
                 <button v-if="!showGenerator" class="btn btn-primary" type="button" @click="loadGenerator">
-                    {{ $t('loadGenerator') || 'Open pattern generator' }}
+                    {{ $t('loadGenerator') }}
                 </button>
                 <ClientOnly v-if="showGenerator">
                     <Suspense>

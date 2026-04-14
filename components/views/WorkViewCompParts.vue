@@ -3,7 +3,7 @@
         v-if="Array.isArray(parts) && parts.length"
         class="w-full"
         role="region"
-        :aria-label="$t('parts') || 'Parts'"
+        :aria-label="$t('parts')"
     >
         <div class="my-2">
             <h2 class="font-bold text-xl">
@@ -15,7 +15,7 @@
             :key="part?.handle || part?.url || Math.random()"
             class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
             role="region"
-            :aria-label="`${$t('title')}: ${get(part,'has_record.has_primary_title.has_name') || part?.handle || '(Untitled Part)'}`"
+            :aria-label="`${$t('title')}: ${get(part,'has_record.has_primary_title.has_name') || part?.handle || $t('untitledPart')}`"
         >
             <!-- Header -->
             <header class="card-body p-4 pb-2">

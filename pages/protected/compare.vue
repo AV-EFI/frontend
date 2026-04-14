@@ -14,7 +14,7 @@ items[1] = route.query.next;
         <div class="container">
             <div class="breadcrumbs text-sm">
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">{{ $t('home.breadcrumbs') }}</a></li>
                     <li>
                         <span class="text-accent">
                             {{ $t('filmidentification') }}
@@ -28,7 +28,7 @@ items[1] = route.query.next;
                 <GlobalCompareViewRaw :items="items" />
             </div>
             <div v-else>
-                no data to compare
+                {{ $t('noDataToCompare') }}
             </div>
         </div>
     </div>

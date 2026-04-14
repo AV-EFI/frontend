@@ -185,7 +185,7 @@
                             v-if="mir.described_by"
                             class="col-span-full md:col-span-2"
                         >
-                            <span class="text-md font-bold text-primary-900  dark:text-primary-100 md:float-right">Described by:</span>
+                            <span class="text-md font-bold text-primary-900  dark:text-primary-100 md:float-right">{{ $t('describedBy') }}:</span>
                             <div class="col-span-full md:col-span-8">
                                 <p>{{ mir.described_by?.has_issuer_name }}</p>
                                 <a 

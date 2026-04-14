@@ -165,7 +165,7 @@
                                             v-for="(located_in_item, located_in_index) in has_event_item.located_in"
                                             :key="located_in_index"
                                         >
-                                            {{ located_in_item.has_name }}
+                                            {{ getLocalizedPlaceLabel(located_in_item) }}
                                         </li>
                                     </ul>
                                 </div>
@@ -305,7 +305,7 @@
                             v-if="mir.described_by"
                             class="col-span-full md:col-span-2"
                         >
-                            <span class="text-md font-bold text-primary-900  dark:text-primary-100 md:float-right">Described by:</span>
+                            <span class="text-md font-bold text-primary-900  dark:text-primary-100 md:float-right">{{ $t('describedBy') }}:</span>
                         </div>
                         <div class="col-span-full md:col-span-8">
                             <p>{{ mir.described_by?.has_issuer_name }}</p>
@@ -337,8 +337,8 @@
                         <tr>
                             <th>ID</th>
                             <th>{{ $t('category') }}</th>
-                            <th>Filmhaltende Institution</th>
-                            <th>Detailansicht</th>            
+                            <th>{{ $t('filmholdingInstitution') }}</th>
+                            <th>{{ $t('detailview') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -374,6 +374,7 @@
 //models\interfaces\av_efi_schema.ts
  
 import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
+const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);
 const mir:Manifestation = data?._source?.has_record; 

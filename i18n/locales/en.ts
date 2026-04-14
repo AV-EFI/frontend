@@ -69,9 +69,17 @@ const avefiBase = {
 
   "viewDatasets": "View datasets",
   "viewHomepage": "Visit homepage",
+  "carousel": "carousel",
+  "previous": "Previous",
+  "next": "Next",
 
   "switchToLightMode": "Switch to light mode",
   "switchToDarkMode": "Switch to dark mode",
+  "kibanaToggleView": "Toggle Kibana view",
+  "kibanaHideView": "Hide Kibana view",
+  "kibanaShowView": "Show Kibana view",
+  "switchToGermanLanguage": "Switch to German language",
+  "switchToEnglishLanguage": "Switch to English language",
   'home': {
     'breadcrumbs': 'Home',
     'welcome': 'Film metadata across all genres and formats is available, with a particular focus on educational, instructional, and research films as well as amateur and regional film collections.',
@@ -114,12 +122,11 @@ const avefiBase = {
       },
       'callToAction': {
         'title': 'Your holdings in AVefi',
-        'text': [
+        'content': [
           'AVefi is open to additional film holdings from archives and collections. Contribute your data and strengthen the sustainable discoverability and citability. Persistent identifiers and structured metadata increase the visibility and long-term research value of your collections.',
           'New cooperation partners are very welcome.'
         ],
-        'cta': 'Visit the project website',
-        'ctaLink': 'https://projects.tib.eu/av-efi'
+        'cta': 'Get in contact'
       },
       'timeline': {
         'title': 'From dataset to knowledge',
@@ -145,9 +152,9 @@ const avefiBase = {
         'content': [
           'AVefi is a platform for interdisciplinary film-related research, film cultural activities, and film archiving. It is continuously being developed and dynamically expanded to include new data sources and cooperation partners. The infrastructure is based on structured metadata, authority data, and persistent identifiers (PID). This allows heterogeneous audiovisual collections to be identified and compared. The data schema is based on established standards. Linked Open Data and FAIR principles are the guiding principles.',
           'More information can be found on our project website.',
-          'https://projects.tib.eu/av-efi',
         ],
-        'cta': 'Get in contact'
+        'cta': 'Get in contact',
+        'ctaLink': 'https://projects.tib.eu/av-efi'
       },
       'video': {
         'aria': 'AVefi video',
@@ -191,6 +198,9 @@ const avefiBase = {
         'send': 'Send',
         'viewDatasets': 'View datasets',
         'viewHomepage': 'Visit homepage',
+        'kibanaToggleView': 'Toggle Kibana view',
+        'kibanaHideView': 'Hide Kibana view',
+        'kibanaShowView': 'Show Kibana view',
         'noIssuersFound': 'No archives found'
       },
 
@@ -270,6 +280,8 @@ const avefiBase = {
   'addFacet': 'Add facet',
   'selectFacet': 'Select facet',
   'enterValue': 'Enter value',
+  'loadingSearch': 'Loading search...',
+  'loadGenerator': 'Open pattern generator',
   'item': 'Item',
   "exactSearchTip": "Use \"quotes\" to search for exact phrases – works for title, direction, production, and subjects (e.g. \"Bitte steigen Sie ein!\")",
   "detailviewlink": "Open detailed view",
@@ -300,6 +312,8 @@ const avefiBase = {
   "vocab.search": "Search vocabulary",
   "vocab.noResults": "No vocabulary entries found",
   "vocab.untranslated": "Untranslated",
+  "vocab.languageDe": "German",
+  "vocab.languageEn": "English",
   'vocab.all': "All Vocabulary Entries",
   "vocab.filterByLetter": 'Filter vocabulary by {letter}',
   "userGlossary": "User Glossary",
@@ -404,6 +418,10 @@ const avefiBase = {
   "comp": "Comparison",
   "export": "Export",
   "email": "E-Mail",
+  "phoneLabel": "Phone",
+  "faxLabel": "Fax",
+  "emailLabel": "Email",
+  "websiteLabel": "Website",
   "enterYourEmail": "Enter your e-mail",
   "enterYourMessage": "Enter your message",
   'closeForm': 'Close form',
@@ -438,7 +456,7 @@ const avefiBase = {
   'togglePreviousSlide': 'Toggle previous slide',
   'createYourOwn': {
     'title': 'Wonach suchen Sie?',
-    'description': 'Senden Sie uns gerne Ihre Suchanfrage als Vorschlag für die Beispiele'
+    'description': 'Send us your search query as a suggestion for the gallery'
   },
   "press": {
     "badgeLastUpdated": "Last updated {date}",
@@ -528,6 +546,11 @@ const avefiBase = {
   'create.linkTextPlaceholder': 'Link text (optional)',
   'create.createButton': 'Create',
   'create.contactFormPrefill': 'I created a carousel card:\n\nTitle: {title}\nDescription: {description}\nSearch URL: {url}',
+  'diamondPattern': {
+    'title': 'Diamond Film Pattern',
+    'randomize': 'Randomize',
+    'showSvgSource': 'Show SVG source'
+  },
   'toggleComparisonDrawer': 'Toggle comparison drawer',
   'toggleFacetDrawer': 'Facetten umschalten',
   'addNewLocation': 'Add new location',
@@ -579,6 +602,7 @@ const avefiBase = {
   "license": "License",
   "footerLicenseContent": "Content licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).",
   "footerLicenseData": "Data licensed under Creative Commons Public Domain Dedication (CC0 1.0).",
+  "footerFundingAria": "DFG project funding",
   "userMenu": "User Menu",
   'submitQuery': 'Submit query',
   'clearQuery': 'Clear query',
@@ -602,7 +626,8 @@ const avefiBase = {
   'prevPage': 'Previous page',
   'searchInFacet': 'Search in {facetName}',
   'refineBy': 'Refine by {label}',
-  'refinementOption': 'Facet {facetName} on level {category}, value {label}, {count} results, {state}',
+  'eventCategory': 'Event category',
+  'refinementOption': '{facetName}, {label}, {count}, {state}',
   'showFacetItems': 'Show facets',
   'selected': 'selected',
   'notSelected': 'not selected',
@@ -619,6 +644,33 @@ const avefiBase = {
   'comparison': 'Comparison',
   'comparisonComponent': 'The comparison component allows users to select and compare up to two datasets in the comparison view. It is ideal for side-by-side analysis of key data points. Users can add or remove datasets from the comparison and export the results in CSV, XML, or JSON formats.',
   'favouritesComponent': 'The favourites list lets users save more than two datasets for long-term access. After registering, users can manage their list by adding or deleting entries. The saved datasets can also be exported in CSV, XML, or JSON formats for further use.',
+  'favouritesListOf': 'Favourites list of {name}',
+  'noComparisonItems': 'No comparison items available.',
+  'nofavouritesItems': 'No favourite items available.',
+  'describedBy': 'Described by',
+  'filmholdingInstitution': 'Film holding institution',
+  'graphLoading': 'Graph is loading...',
+  'selectedLevel': 'Current level',
+  'noWorkSelected': 'Select a work to show its relations.',
+  'searchFailed': 'Search failed.',
+  'workCouldNotBeLoaded': 'The work could not be loaded.',
+  'answerCouldNotBeLoaded': 'The answer could not be loaded.',
+  'unknownLevel': 'Unknown level',
+  'pleaseWait': 'Please wait',
+  'loadingApplication': 'Loading application...',
+  'workExplorerAria': 'Work explorer with {count} nodes. Currently selected: {selectedLabel}',
+  'noSelection': 'no selection',
+  'searchingForFilms': 'Searching for films',
+  'noResultsFound': 'No results found',
+  'searching': 'Searching',
+  'date': 'Date',
+  'numberOfItems': 'Number of items',
+  'hasEvent': 'Event',
+  'hasIdentifier': 'Identifier',
+  'hasSourceKey': 'Source key',
+  'inLanguage': 'Language',
+  'hasAlternativeTitle': 'Alternative title',
+  'hasPrimaryTitle': 'Primary title',
   'contact.availableMetadata': 'What Film Metadata Can I Find Here?',
   'contact.availableMetadataContent': 'Film metadata of all genres and types are available, with a particular focus on educational, instructional, and scientific films, as well as ephemeral and amateur footage',
   'contact.definitions': 'What Is the Difference Between Work, Manifestation, and Item?',
@@ -653,13 +705,109 @@ const avefiBase = {
     'shareTemplate': 'I want to share this search:\n\nQuery: {query}\nURL: {url}',
     'suggestTemplate': 'I would like to suggest this search/query for AVefi:\n\nQuery: {query}\nURL: {url}'
   },
+  "faq": {
+    "title": "FAQ",
+    "mainContent": "Main FAQ content",
+    "articleContent": "FAQ content",
+    "sections": {
+      "about": {
+        "heading": "About AVefi",
+        "content": [
+          "AVefi stands for “Automated Network System for Audiovisual Holdings via standardised Film Identifiers”. Since November 2023, the system has been under development as a cooperative infrastructure project funded by the German Research Foundation. AVefi brings together film-related metadata from various institutions and makes this data searchable and reusable in a film database.",
+          "The network system complements existing resources of film identifiers and (authority) data, for example from Filmportal, EIDR, GND, and NFDI4Culture. To this end, AVefi provides its own search and editorial interface closely linked to the holdings. The platform is designed to document and interlink audiovisual holdings of any origin, category, or genre on a long-term basis. Its guiding principles are <a class=\"link\" href=\"https://www.w3.org/egov/wiki/Linked_Open_Data\" target=\"_blank\" rel=\"noopener noreferrer\">Linked Open Data</a> and the <a class=\"link\" href=\"https://www.go-fair.org/fair-principles/\" target=\"_blank\" rel=\"noopener noreferrer\">FAIR principles</a>.",
+          "Where possible, the films from contributing institutions are identified and matched automatically. If necessary, works are consolidated. Persistent identifiers (PIDs) play a central role in this process. With persistent identifiers, film works and their versions can be automatically and unambiguously linked to one another. Films for which (in)complete copies are held in different archives can thus be located more easily. This supports restoration work and helps answer film-related research questions.",
+          "The AVefi schema developed specifically for this purpose follows the rules of the <a class=\"link\" href=\"https://www.fiafnet.org/pages/e-resources/cataloguing-manual.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF Moving Image Cataloguing Manual</a>. The documentation distinguishes three levels: <strong>work</strong>, <strong>manifestation</strong>, and <strong>item</strong>."
+        ]
+      },
+      "availableMetadata": {
+        "heading": "What film metadata can I find here?",
+        "content": [
+          "The platform brings together metadata from participating institutions. It makes films from a wide range of categories and genres searchable. The spectrum ranges from early cinema to documentary and feature films, as well as utility films. At present, a particular focus lies on educational and instructional films, scientific films, as well as ephemeral film materials and amateur films. The data sources with additional information are linked directly.",
+          "The information is organized into different facets, such as genre or year of production, which can be used to filter search results. Depending on the type of information, it may be associated with the level of the work, a manifestation, or a specific item."
+        ]
+      },
+      "definitions": {
+        "heading": "What is the difference between work, manifestation, and item?",
+        "content": [
+          "Following the <a class=\"link\" href=\"https://www.fiafnet.org/pages/e-resources/cataloguing-manual.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF Moving Image Cataloguing Manual</a>, AVefi distinguishes between <strong>film works</strong>, <strong>manifestations</strong>, and <strong>items</strong>.",
+          "<strong>Work:</strong> an abstract entity from which several manifestations may exist in different collections.",
+          "A work is an entity that encompasses the intellectual or artistic content and the process of its realization in a cinematographic medium. This includes core information such as the film’s title, when it was made, or who directed it. These core elements generally remain unchanged across different manifestations.",
+          "<strong>Manifestation:</strong> a specific version of a film work represented by items in a collection.",
+          "A manifestation is the embodiment of a film work. Manifestations include all analog, digital, and online media. Information at the manifestation level may describe what the manifestation ideally contains. For example, the original running time of a film may be 1:30:00, but the copy held in an archive may be shorter because some footage is missing.",
+          "<strong>Item:</strong> a specific object within a film collection.",
+          "An item is the physical product of a manifestation of a work. An item may consist of one or several components, for example a single reel or five spools. If necessary, an item record can contain fields describing each component of the item. An item may be complete, incomplete, or a fragment. For purely digital media, an item is defined as the availability of the file itself, regardless of how many backup copies may exist.",
+          "For technical reasons, and because manifestations are documented differently in practice, information such as language, running time, or format in AVefi is attached not to the manifestation but to the item.",
+          "The AVefi data model is designed to assign collection data uniquely to a specific institution while also representing relationships between the holdings of different institutions. For this purpose, the system generates <strong>persistent identifiers (PIDs)</strong>. The identifiers, called “efi,” are assigned at the levels mentioned above, each according to its specific requirements."
+        ]
+      },
+      "efis": {
+        "heading": "What are efis?",
+        "content": [
+          "Efis are <strong>“unique film identifiers.”</strong> They are persistent identifiers (PID) with a set of metadata based on standards used by film archives. An <strong>efi</strong> identifies either:",
+          "<ul><li>an <strong>item</strong></li><li>a <strong>manifestation</strong></li><li>a <strong>work</strong></li></ul>",
+          "Within AVefi, each efi assigned to an <strong>item</strong> refers to exactly one efi assigned to a <strong>manifestation</strong>. At the same time, several items can be associated with the same manifestation, for example multiple film reels that must be played sequentially.",
+          "Each <strong>manifestation</strong> in turn refers to at least one efi assigned to a <strong>work</strong>. Multiple works can also be linked, for example when a DVD contains several separately described film works."
+        ]
+      },
+      "whyEfis": {
+        "heading": "Why are efis assigned?",
+        "content": [
+          "AVefi assigns efis to every film that is registered in the system. This enables film works to be uniquely identified across institutions, while manifestations and items can be located precisely.",
+          "Efis are <strong>persistent identifiers (PIDs)</strong> based on the established <strong>Handle System</strong>. As a specific type of Handle PID, they make it possible to identify and reliably link film metadata over the long term. The centrally maintained, open metadata improves the discoverability of films and facilitates data integration and reuse. In this way, efis support compliance with research data standards and the <a class=\"link\" href=\"https://www.go-fair.org/fair-principles/\" target=\"_blank\" rel=\"noopener noreferrer\">FAIR principles</a>. They also help establish clear relationships between different sets of metadata. One goal of the project is to enable low-threshold efi registration, particularly for smaller institutions.",
+          "More information about the PID infrastructure can be found on the <a class=\"link\" href=\"https://projects.tib.eu/av-efi/\" target=\"_blank\" rel=\"noopener noreferrer\">project website</a>."
+        ]
+      },
+      "keywords": {
+        "heading": "Which keywords are used?",
+        "content": [
+          "All keywords provided by the respective contributing institution are included in the metadata. Keywords may be freely chosen or may be based on controlled vocabularies or authority data, with the relevant source indicated."
+        ]
+      },
+      "normdata": {
+        "heading": "Are authority data used?",
+        "content": [
+          "If the contributing institution uses authority data – such as the <a class=\"link\" href=\"https://gnd.network/Webs/gnd/EN/Home/home_node.html\" target=\"_blank\" rel=\"noopener noreferrer\">Integrated Authority File (GND)</a> or the <a class=\"link\" href=\"https://www.getty.edu/research/tools/vocabularies/tgn/\" target=\"_blank\" rel=\"noopener noreferrer\">Thesaurus of Geographic Names (TGN)</a> – these references are adopted and displayed accordingly."
+        ]
+      },
+      "reuse": {
+        "heading": "Which data and content can be freely reused?",
+        "content": [
+          "To support data-driven and open research, teaching, and film cultural efforts as effectively as possible, all data and content provided on AVefi are made available under open licenses, unless explicitly stated otherwise.",
+          "<strong>All metadata</strong> are in the <strong>Public Domain</strong> and may be reused without any restrictions: <a class=\"link\" href=\"https://creativecommons.org/publicdomain/zero/1.0/deed.de\" target=\"_blank\" rel=\"noopener noreferrer\"><em>Creative Commons Universal 1.0 (CC0)</em></a>.",
+          "<strong>All other content</strong>, such as images and editorial texts, may be reused with attribution: <a class=\"link\" href=\"https://creativecommons.org/licenses/by/4.0/deed.de\" target=\"_blank\" rel=\"noopener noreferrer\"><em>Creative Commons Attribution 4.0 International (CC BY 4.0)</em></a>."
+        ]
+      },
+      "watchBorrow": {
+        "heading": "Can I watch or borrow films through the platform?",
+        "content": [
+          "No. AVefi is a discovery and identifier registry platform for audiovisual holdings. It does not provide films for viewing and does not lend items. Instead, the platform aggregates metadata about film works and shows which institutions hold specific manifestations and items."
+        ]
+      },
+      "viewingCopies": {
+        "heading": "How can I find distribution or viewing copies?",
+        "content": [
+          "Using the <strong>“Status”</strong> facet, you can filter specifically for <strong>“Distribution”</strong> or <strong>“Viewing”</strong>. The platform will then display only the corresponding items that are available as distribution or viewing copies. The respective institution is directly linked, where you can find information about access and use."
+        ]
+      },
+      "dataProviders": {
+        "heading": "Help for data providers",
+        "content": [
+          "Become a data provider for AVefi. Information on the necessary steps can be found in the following resources:",
+          "<a class=\"link\" href=\"/doc/AVefi-HowTo.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"/doc/AVefi-Manual.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
+          "Contact:",
+          "Email: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"
+        ]
+      }
+    }
+  },
   'shareSearch': 'Share search',
   'suggestSearchToAVefi': 'Share search/query with the AVefi team',
   'closeDrawer': 'Close',
   'close': 'Close',
   'openDrawer': 'Open',
   "place": "Place",
-  'showFacetsFor': 'Show facets for {headerText} on level {category}',
+  'showFacetsFor': '{headerText}',
   'location': 'Location',
   'copyEFI': 'Copy efi of {category}',
   'dashboard': 'Dashboard',
@@ -708,8 +856,6 @@ const avefiBase = {
   'filmsViewable': 'Films viewable',
   'filmsViewableContent': 'The AVefi platform provides access to films that are viewable online. The availability of films for viewing is determined by the contributing institution and may be subject to restrictions. The platform does not host films itself, but rather provides links to the respective institutions or platforms where the films can be viewed.',
   'gotofavourites': 'Go to Favourites List',
-  'howToDoc': 'AVefi How-to Document: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-02_AVefi-how-to-vv1.pdf',
-  'manual': 'AVefi Manual: https://projects.tib.eu/fileadmin/data/av-efi/docs/2025-01_AVefi-Manual_vv2.pdf',
   'multihelptext': 'Several works have been found that are associated with the entity identified by efi <strong>{name}</strong>. Please note that these are distinct works that may be linked to this entity in various ways. To view more detailed information about a specific work, please select one from the list. Once selected, you will be shown details such as the production information, directors and other relevant metadata.',
   'multiResults': 'Multiple Results',
   'filter': 'filter',
@@ -725,7 +871,6 @@ const avefiBase = {
   'duration': 'Duration',
   'hello': 'Hello',
   'help': 'Help',
-  'faq': 'FAQ',
   'helpAndGlossary': 'Help & Glossary',
   'hours': 'hours',
   'info': 'Info',
@@ -758,6 +903,17 @@ const avefiBase = {
   'productionDetailsOnShort': 'Production Details Off',
   'productionDetailsOffShort': 'Production Details On',
   'profile': 'Profile',
+  'profileName': 'Name',
+  'profileEmail': 'Email',
+  'profileInstitution': 'Institution',
+  'profileExpires': 'Expires',
+  'collapse': 'Collapse',
+  'workEvents': 'Work events',
+  'untitledPart': 'Untitled part',
+  'errorOccurred': 'An error occurred',
+  'sessionFetchFailed': 'Session fetch failed',
+  'mappingError': 'Mapping error',
+  'unexpectedError': 'Unexpected error',
   'remove': 'remove',
   'results': 'results',
   'resultsUsage': 'How Can Search Results Be Used?',
@@ -781,6 +937,7 @@ const avefiBase = {
   "searchcontent": "Search content",
   "searchpanel": "Search panel",
   "searchresults": "Search results",
+  "searchResultsFor": "Search results for \"{query}\"",
   "searchbox": "Searchbox",
   "mainSearch": "Main search",
   "Search": "Search",
@@ -863,15 +1020,17 @@ const avefiBase = {
   'has_issuer_name': 'Dataholder',
   'has_language': 'Language',
   'has_duration_has_value': 'Duration',
-  'has_format_type': 'Materialformat',
+  'has_format_type': 'Material format',
   'tryAdjustingFacets': 'Try adjusting the facets',
+  'facetLanguageNote': 'Imported subject terms do not always have direct equivalents in other languages.',
+  'actors': 'Actors',
   'workVariantIsPartOf': 'Works that are part of the efi <strong>{name}</strong>',
   "loading": "Loading...",
   "divider": "Divider",
   "avefi:PreservationEvent": "Preservation Event",
   "avefi:WorkVariantPart": "Work Variant Part",
   'unknownLanguage': 'Unknown language',
-  "filterItemsAndManifestations": "Exemplare und Manifestationen filtern",
+  "filterItemsAndManifestations": "Filter items and manifestations",
   "facetsInsideSearchResults": "Facets for Item and Manifestation are located within the search results in this mode",
   "accordionView": "Hierarchical",
   "flatView": "Flat",
@@ -880,6 +1039,89 @@ const avefiBase = {
   "manifestationLevel": "Manifestation details",
   "fromManifestation": "From manifestation",
   "searchItems": "Search items",
+  "toggleCreateForm": "Toggle create form",
+  "openKibanaViewFor": "Open Kibana view for {label}",
+  "home.carousel.create.title": "Create your own entry",
+  "home.carousel.create.yourOwn": "Create your own entry",
+  "home.carousel.create.description": "Send us your search query as a suggestion for the examples",
+  "home.carousel.create.imageUrlPlaceholder": "Image URL (optional)",
+  "home.carousel.create.titlePlaceholder": "Title",
+  "home.carousel.create.descriptionPlaceholder": "Description",
+  "home.carousel.create.linkPlaceholder": "Search link (paste the URL from the search page)",
+  "home.carousel.create.contactFormPrefill": "I would like to suggest this entry:\n\nTitle: {title}\nDescription: {description}\nURL: {url}",
+  "home.carousel.actions.send": "Send",
+  "pocExplorerSearchLabel": "Search works",
+  "pocExplorerSearchPlaceholder": "Title, person, subject",
+  "pocExplorerSearchButton": "Search",
+  "pocWorkResultTitle": "Results",
+  "pocWorkResultNoResults": "No results. Please adjust your search.",
+  "pocSidebarSelectedNode": "Selected node",
+  "pocSidebarTakeIntoContext": "Add to context",
+  "pocSidebarNodeList": "Node list",
+  "pocSidebarKeyboardAccessible": "Selectable via keyboard.",
+  "pocSidebarExplore": "Explore",
+  "pocSidebarNodes": "Nodes",
+  "pocSidebarEdges": "Edges",
+  "pocSidebarAgents": "Agents",
+  "pocSidebarSubjects": "Subjects",
+  "pocSidebarManifestations": "Manifestations",
+  "pocSidebarItems": "Items",
+  "pocSidebarRoles": "Roles",
+  "pocSidebarChooseWork": "Select a node in the graph or list.",
+  "pocSidebarNoStats": "Select a work to see metrics.",
+  "pocSidebarTopAgentsSearch": "Top agents (search)",
+  "pocSidebarNoAgents": "No aggregated agents yet.",
+  "pocChatTitle": "Chat",
+  "pocChatEmpty": "No conversation yet. Add context and ask a question.",
+  "pocChatMessageLabel": "Message",
+  "pocChatPlaceholder": "A short question about the selected context",
+  "pocChatSubmit": "Send",
+  "pocContextTrayTitle": "Context tray",
+  "pocContextTrayClear": "Clear",
+  "pocContextTrayDescription": "Select useful nodes to send them to chat.",
+  "pocContextTrayEmpty": "No items in context yet.",
+  "pocContextTrayRemove": "Remove {label}",
+  "institutionList.sortStandard": "Standard",
+  "institutionList.sortTitleAsc": "Title ascending",
+  "institutionList.sortTitleDesc": "Title descending",
+  "mergeTool.id1": "ID 1",
+  "mergeTool.title1": "Title 1",
+  "mergeTool.id2": "ID 2",
+  "mergeTool.title2": "Title 2",
+  "mergeTool.status": "Status",
+  "mergeTool.similarity": "Similarity",
+  "mergeTool.actions": "Actions",
+  "mergeTool.openStatus": "Open",
+  "mergeTool.resolvedStatus": "Resolved",
+  "logList.successfulDatasetImports": "Successful dataset imports",
+  "logList.createdEfis": "Created EFIs",
+  "logList.mergedDatasets": "Merged datasets",
+  "logList.detailsText": "Detailed information about log entry {id}, optional download link, ...",
+  "logList.importLog": "Import log {id}",
+  "logList.successStatus": "Success",
+  "logList.failureStatus": "Failure",
+  "statusLabel": "Status",
+  "publicStatus": "Public",
+  "error": "Error",
+  "loadingDatasets": "Loading datasets...",
+  "noDataToCompare": "No data to compare.",
+  "rawData": "Raw data",
+  "institutionLabel": "Institution",
+  "userLabel": "User",
+  "debugPage": {
+    "secretMessage": "I am a secret! My protection works via a global middleware. If you turned off the global middleware, then I would also be visible without authentication.",
+    "statusLabel": "Status",
+    "dataLabel": "Data",
+    "tokenLabel": "Token"
+  },
+  "filmEdit": {
+    "conflictId": "Conflict ID",
+    "dataset1Efi": "Dataset #1 EFI",
+    "dataset1Title": "Dataset #1 title",
+    "dataset2Efi": "Dataset #2 EFI",
+    "dataset2Title": "Dataset #2 title",
+    "action": "Action"
+  },
   "contact.about.2.beforeLink": "The specially developed AVefi schema follows the ",
   "contact.about.2.afterLink": ". Evidence is provided at the three levels Work/Variant, Manifestation, and Item",
   "contact.normdataContent.beforeLink": "Authority data used by the contributing institution, such as the ",
@@ -958,6 +1200,65 @@ const avefiBase = {
       "descriptionWithFieldAndFilter": "Authority data for \"{field}\" with entries matching \"{filter}\" across the AVefi partner archives."
     }
   },
+  "imprintPage": {
+    "title": "Imprint",
+    "introText": "The following information contains the legally required notice details, privacy-related information duties, and important legal notes for the AVefi web presence of Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen (GWDG), which is accessible via",
+    "introLinkText": "www.av-efi.net",
+    "provider": {
+      "title": "Provider",
+      "body": "The legal provider of this web presence is Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen, abbreviated GWDG."
+    },
+    "contact": {
+      "title": "Contact",
+      "addressLabel": "Address",
+      "addressLine1": "Gesellschaft fuer wissenschaftliche Datenverarbeitung mbH Goettingen",
+      "addressLine2": "Burckhardtweg 4",
+      "addressLine3": "37077 Goettingen",
+      "phoneLabel": "Phone",
+      "hotlineLabel": "Hotline / Advice",
+      "emailLabel": "Email",
+      "phone": "+49 551 39-30001",
+      "hotline": "+49 551 39-30000",
+      "supportEmail": "support{'@'}gwdg.de",
+      "websiteLabel": "Website",
+      "generalEmail": "gwdg{'@'}gwdg.de"
+    },
+    "commercialRegister": {
+      "title": "Commercial Register",
+      "body": "GWDG is registered with the Local Court of Goettingen in the commercial register under no. B 598. The company seat is Goettingen."
+    },
+    "representatives": {
+      "title": "Representatives",
+      "body": "GWDG is legally represented by its managing director Prof. Dr. Ramin Yahyapour. The chair of the supervisory board is Dr. Valerie Schueller."
+    },
+    "vat": {
+      "title": "VAT identification number",
+      "body": "GWDG VAT identification number: DE 115312930"
+    },
+    "editorial": {
+      "title": "Editorial responsibility",
+      "body": "The editorial responsibility for the AVefi web presence lies with Dr. Sven Bingert, GWDG, Burckhardtweg 4, 37077 Goettingen."
+    },
+    "orgForm": {
+      "title": "Legal notes on the organisational form",
+      "body": "GWDG is a non-profit limited liability company."
+    },
+    "foreignLanguages": {
+      "title": "Foreign-language pages",
+      "body": "Where parts of the site are also offered in languages other than German, this is solely a service for users who do not speak German."
+    },
+    "liabilityOwnContent": {
+      "title": "Legal notes on liability for own content",
+      "body1": "As a content provider, GWDG is responsible under the general laws for the content it makes available for use. GWDG strives for accuracy and currency in the information provided on this web presence. Nevertheless, errors and ambiguities cannot be fully excluded. GWDG therefore assumes no liability for the currency, accuracy, completeness, or quality of the information provided. GWDG is not liable for material or immaterial damages caused directly or indirectly by the use or non-use of the information provided, or by the use of incorrect or incomplete information, unless intentional or grossly negligent fault can be proven. The same applies to software made available for free download.",
+      "body2": "GWDG reserves the right to change, supplement, delete, or temporarily or permanently discontinue parts of the website or the entire offering without separate notice."
+    },
+    "externalLinks": {
+      "title": "Legal notes on links to external pages",
+      "body1": "This web presence contains links to external pages.",
+      "body2": "The respective provider is always responsible for the content of linked external pages. At the time of first linking, GWDG checked the external content to determine whether it might trigger civil or criminal liability. Continuous content monitoring of linked external pages is not reasonable without concrete evidence of a legal violation. If GWDG becomes aware, or is informed by others, that an external offer linked by it triggers civil or criminal liability, GWDG will remove the link immediately. GWDG expressly distances itself from such content.",
+      "body3": "© GWDG. All rights reserved."
+    }
+  },
   "normdata": {
     "pageTitle": "Normdata",
     "pageDescription": "Browse controlled vocabulary entries and their normdata references.",
@@ -995,58 +1296,97 @@ const avefiBase = {
   },
   "accessibilityPage": {
     "title": "Accessibility",
-    "intro": "AVefi is committed to making its digital services accessible to as many people as possible. We aim to design and maintain our website and product interfaces so they are usable, understandable, and robust for people with different abilities and assistive technologies.",
+    "intro": "AVefi is committed to making its digital services accessible to as many people as possible. Our website and product interfaces are designed to be usable, understandable, and robust for people with diverse abilities and assistive technologies.",
+
     "commitment": {
-      "title": "Our commitment",
-      "body": "We strive to follow recognized accessibility standards, in particular the Web Content Accessibility Guidelines (WCAG) 2.1, Level AA. These guidelines provide the foundation for perceivable, operable, understandable, and robust digital experiences.",
+      "title": "Our Commitment",
+      "body": "We follow established accessibility standards, in particular the Web Content Accessibility Guidelines (WCAG) 2.1 at conformance level AA. These guidelines define requirements for creating perceivable, operable, understandable, and robust digital experiences.",
       "areas": [
-        "website content and navigation",
-        "forms and interactive controls",
-        "color contrast and typography",
-        "keyboard navigation",
-        "semantic HTML and screen reader compatibility",
-        "responsive layouts across devices"
+        "Website content and navigation",
+        "Forms and interactive elements",
+        "Color contrast and typography",
+        "Keyboard accessibility",
+        "Semantic HTML and screen reader compatibility",
+        "Responsive layouts across devices"
       ]
     },
+
     "principles": {
-      "title": "Accessibility principles",
+      "title": "Guiding Principles",
       "perceivable": {
         "title": "Perceivable",
-        "body": "Information and interface components should be presented in ways users can perceive. This includes sufficient color contrast, meaningful text alternatives, and a clear visual hierarchy."
+        "body": "Information and user interface components must be presented in ways that users can perceive. This includes sufficient color contrast, meaningful text alternatives, and clear visual hierarchy."
       },
       "operable": {
         "title": "Operable",
-        "body": "The interface should be usable with different input methods, including keyboard navigation. Interactive elements should be large enough, predictable, and easy to activate."
+        "body": "The interface must be usable through different input methods, including keyboard navigation. Interactive elements should be sufficiently large, predictable, and easy to activate."
       },
       "understandable": {
         "title": "Understandable",
-        "body": "Content and actions should be clear and consistent. Labels, headings, and navigation patterns should help users understand where they are and what will happen next."
+        "body": "Content and interactions should be clear and consistent. Labels, headings, and navigation patterns should help users understand where they are and what happens next."
       },
       "robust": {
         "title": "Robust",
-        "body": "Our code and components should work reliably across browsers, devices, and assistive technologies, using standards-based HTML and accessible implementation patterns."
+        "body": "Code and components should work reliably across browsers, devices, and assistive technologies, using standards-based accessible implementation patterns."
       }
     },
+
     "status": {
-      "title": "Current status",
-      "body": "We are continuously improving accessibility across AVefi. Some areas of the platform may not yet fully meet our target standard, especially where third-party components or legacy content are involved. Accessibility improvements are part of our ongoing design, development, and QA process."
+      "title": "Current Accessibility Status",
+      "body": "This website is partially compliant with the requirements of WCAG 2.1 (conformance level AA). Some content is not yet fully accessible.",
+      "nonAccessible": {
+        "title": "Non-accessible Content",
+        "items": [
+          "Certain third-party components are not fully accessible",
+          "Some older content does not fully meet current accessibility standards",
+          "Some interactive elements may not be fully operable via keyboard in all scenarios"
+        ]
+      },
+      "reasons": {
+        "title": "Reasons",
+        "items": [
+          "Technical limitations of third-party software",
+          "Legacy content that is being progressively improved",
+          "Ongoing development and platform updates"
+        ]
+      },
+      "alternatives": {
+        "title": "Accessible Alternatives",
+        "body": "If you encounter accessibility barriers, please contact us. We will provide the requested information in an accessible format wherever possible."
+      }
     },
+
     "feedback": {
-      "title": "Feedback and contact",
-      "body": "If you experience barriers while using AVefi, or if you notice accessibility issues, please let us know. Your feedback helps us improve.",
+      "title": "Feedback and Contact",
+      "body": "If you encounter any accessibility barriers or issues while using AVefi, please let us know. Your feedback helps us improve our services.",
       "contactLabel": "Contact",
-      "includeLabel": "Please include:",
+      "contactEmail": "contact{'@'}av-efi.net",
+      "includeLabel": "Please include, if possible:",
       "includeItems": [
-        "the page or feature where the issue occurred",
-        "the device and browser you used",
-        "a short description of the problem"
+        "the affected page or feature",
+        "the device and browser you are using",
+        "a brief description of the issue"
       ]
     },
+
+    "arbitration": {
+      "title": "Dispute Resolution Procedure",
+      "body": "If you are not satisfied with the response received via the contact option above, you may apply to the arbitration board established by the Federal Government Commissioner for Matters relating to Persons with Disabilities to initiate dispute resolution proceedings under the German Equal Opportunities for Persons with Disabilities Act (BGG). The arbitration board according to Section 16 BGG aims to resolve disputes between persons with disabilities and publicly funded institutions regarding accessibility in IT. The procedure is free of charge and does not require legal representation.",
+      "contact": {
+        "name": "Arbitration Board under the German Equal Opportunities for Persons with Disabilities Act",
+        "organization": "Federal Government Commissioner for Matters relating to Persons with Disabilities",
+        "address": "Mauerstrasse 53, 10117 Berlin, Germany",
+        "phone": "+49 (0)30 18 527-2805",
+        "fax": "+49 (0)30 18 527-2901",
+        "email": "info{'@'}schlichtungsstelle-bgg.de",
+        "website": "https://www.schlichtungsstelle-bgg.de/"
+      }
+    },
     "improvement": {
-      "title": "Ongoing improvement",
-      "body": "We regularly review our digital services and aim to improve accessibility over time through design reviews, implementation standards, and testing."
+      "title": "Continuous Improvement",
+      "body": "We regularly review our digital services and continuously work to improve accessibility through design reviews, implementation standards, and testing."
     }
-  },
+  }
 };
 
 const mergedSeo = {
@@ -1086,65 +1426,6 @@ export default {
       description: "This page outlines standards, current status, and contact routes for digital accessibility at AVefi.",
       ogTitle: "Accessibility Statement - AVefi",
       ogDescription: "Information about digital accessibility at AVefi, including official references and contact options."
-    }
-  },
-  accessibilityPage: {
-    title: "Accessibility Statement",
-    intro: "This statement explains how AVefi addresses digital accessibility across the website and related interfaces. AVefi is designed as an open, research-oriented infrastructure. The information on this page is therefore intended to be factual, clear, and easy to follow.",
-    commitment: {
-      title: "Our commitment",
-      body: "AVefi follows recognized accessibility standards. The main reference point is the Web Content Accessibility Guidelines (WCAG) 2.1, Level AA. For us, accessibility is part of information quality, open access, and long-term usability.",
-      areas: [
-        "website content and navigation",
-        "forms and interactive controls",
-        "color contrast and typography",
-        "keyboard navigation",
-        "semantic HTML and screen reader compatibility",
-        "responsive layouts across devices"
-      ]
-    },
-    standards: {
-      title: "Standards and official references",
-      body: "The following official sources and standards are particularly relevant to our accessibility work:",
-      niedersachsenVersion: "as of 2020-11-11, version 1.0"
-    },
-    principles: {
-      title: "Accessibility principles",
-      perceivable: {
-        title: "Perceivable",
-        body: "Information must be provided in forms people can perceive. This includes sufficient contrast, meaningful text alternatives, and a clear visual hierarchy."
-      },
-      operable: {
-        title: "Operable",
-        body: "The interface must work with different input methods, including keyboard navigation. Interactive elements should be predictable, reachable, and easy to activate."
-      },
-      understandable: {
-        title: "Understandable",
-        body: "Content, labels, and actions should be clear and consistent. People should be able to understand where they are and what will happen next."
-      },
-      robust: {
-        title: "Robust",
-        body: "Code and components should work reliably across browsers, devices, and assistive technologies. This depends on standards-based and accessible implementation patterns."
-      }
-    },
-    status: {
-      title: "Current status",
-      body: "AVefi is developed continuously. As part of that work, we review barriers in navigation, content, interaction, and technical implementation. Some areas may not yet fully meet the target standard, especially where third-party components or legacy content are involved."
-    },
-    feedback: {
-      title: "Feedback and contact",
-      body: "If you encounter barriers or notice accessibility issues, please let us know. Concrete feedback helps us review and improve the affected area.",
-      contactLabel: "Accessibility contact",
-      includeLabel: "Please include:",
-      includeItems: [
-        "the page or feature where the issue occurred",
-        "the device and browser you used",
-        "a short description of the problem"
-      ]
-    },
-    improvement: {
-      title: "Ongoing improvement",
-      body: "We review texts, components, and interaction patterns on a regular basis and adjust them where needed. This includes clarity, keyboard access, contrast, semantic structure, and robust technical implementation."
     }
   }
 };

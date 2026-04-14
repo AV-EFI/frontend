@@ -2,7 +2,7 @@
     <div class="container mx-auto p-4">
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
-                ['Home', '/'],
+                [$t('home.breadcrumbs'), '/'],
                 [$t('mergeTool'), `/protected/mergetool`],
             ]"
         />
@@ -13,7 +13,7 @@
             >
                 <template #title>
                     <h2 class="font-semibold">
-                        Merges {{ authData?.user?.name }} | {{ authData?.user?.institution }}
+                        {{ $t('mergeTool') }} {{ authData?.user?.name }} | {{ authData?.user?.institution }}
                     </h2>
                 </template>
                 <template #cardBody>

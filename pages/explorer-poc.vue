@@ -6,7 +6,7 @@
             <WorkResultList :results="searchResultsRef" :selected-handle="selectedWorkHandleRef"
                             :loading="isSearching || isLoadingWork" @select="handleSelectWork" />
             <div v-if="selectedWorkLevelLabel" class="selected-level-callout" role="status">
-                <span class="selected-level-heading">Aktuelle Ebene</span>
+                <span class="selected-level-heading">{{ t('selectedLevel') }}</span>
                 <span class="selected-level-value">
                     <span class="selected-level-indicator" :style="{ backgroundColor: selectedWorkLevelColor }"
                           aria-hidden="true" />
@@ -23,12 +23,12 @@
                            @node-selected="onNodeSelected" />
                 <template #fallback>
                     <div class="flex h-96 items-center justify-center rounded-box bg-base-200">
-                        <p class="text-sm text-base-content/70">Graph wird geladen...</p>
+                        <p class="text-sm text-base-content/70">{{ t('graphLoading') }}</p>
                     </div>
                 </template>
             </ClientOnly>
             <p v-if="!graphNodes.length" class="mt-4 text-sm text-base-content/70">
-                Wählen Sie ein Werk, um die Beziehungen anzuzeigen.
+                {{ t('noWorkSelected') }}
             </p>
         </section>
 
@@ -114,7 +114,7 @@ const selectedWorkLevelLabel = computed(() => {
         case 'workvariant':
             return t('avefi_WorkVariant');
         case 'unknown':
-            return 'Ebene unbekannt';
+            return t('unknownLevel');
         default:
             return null;
     }
@@ -136,8 +136,8 @@ const selectedWorkLevelColor = computed(() => {
 });
 
 const graphAriaLabel = computed(() => {
-    const selectedLabel = selectedNodeRef.value?.label ?? 'keine Auswahl';
-    return `Werk-Explorer mit ${graphNodes.value.length} Knoten. Aktuell ausgewählt: ${selectedLabel}`;
+    const selectedLabel = selectedNodeRef.value?.label ?? t('noSelection');
+    return t('workExplorerAria', { count: graphNodes.value.length, selectedLabel });
 });
 
 const handleSearch = async (query: string) => {
@@ -156,7 +156,7 @@ const handleSearch = async (query: string) => {
         explorerStore.setAgentFacets(facets.buckets ?? []);
     } catch (error) {
         console.error('[explorer-poc] search failed', error);
-        searchError.value = 'Die Suche ist fehlgeschlagen.';
+        searchError.value = t('searchFailed');
     } finally {
         explorerStore.finishSearch();
     }
@@ -179,11 +179,11 @@ const handleSelectWork = async (handle: string) => {
                 graphSlice: response.graphSlice,
             });
         } else {
-            workError.value = response?.error ?? 'Das Werk konnte nicht geladen werden.';
+            workError.value = response?.error ?? t('workCouldNotBeLoaded');
         }
     } catch (error) {
         console.error('[explorer-poc] load work failed', error);
-        workError.value = 'Das Werk konnte nicht geladen werden.';
+        workError.value = t('workCouldNotBeLoaded');
     } finally {
         explorerStore.finishLoadWork();
     }
@@ -240,7 +240,7 @@ const handleChatMessage = async (message: string) => {
         explorerStore.pushChatMessage({
             id: crypto.randomUUID(),
             author: 'assistant',
-            text: 'Die Antwort konnte nicht geladen werden.',
+            text: t('answerCouldNotBeLoaded'),
             timestamp: Date.now(),
         });
     } finally {
