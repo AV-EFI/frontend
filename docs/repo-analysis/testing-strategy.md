@@ -2,21 +2,34 @@
 
 ## Current state
 
-The repository has almost no dependable automated safety net.
+The repository now has a first working regression safety net.
 
-What exists today:
+What exists now:
 
-- `vitest.config.ts`, but no real Vitest suite
-- one Cypress-style component spec: `components/global/ThemeSwitch.cy.ts`
-- node-based script tests under `scripts/tests/`
-- one package script: `npm run test:normdata`
+- Unit tests (`Vitest`) for:
+  - component interaction contracts
+  - middleware contracts
+  - API handler contracts split into:
+    - internal Nuxt handlers
+    - outbound wrapper handlers (external backend/ES calls mocked)
+- E2E smoke and SEO tests (`Playwright`) for:
+  - home/search/detail route reachability
+  - search canonical + robots behavior
+  - public routes (`faq`, `press`, `vocab`)
+  - auth redirect behavior (`/admin/*`)
+  - compare URL-state basics
+  - press asset endpoint availability
+- source-guard contract tests to protect high-risk behaviors during refactors
+- node-based script tests under `scripts/tests/` remain available
 
-What is missing:
+Current scripts:
 
-- unit tests for utilities, composables, stores, and server helpers
-- integration tests for Nitro handlers
-- e2e tests for core user journeys
-- CI stages that run those tests consistently
+- `yarn test`
+- `yarn test:unit`
+- `yarn test:unit:watch`
+- `yarn test:e2e`
+- `yarn test:e2e:list`
+- `npm run test:normdata`
 
 ## Recommended scheme
 
@@ -126,8 +139,8 @@ These should not block fast unit-test feedback unless they are run against stabl
 
 ## Rollout order
 
-1. Add `typecheck` and a real `vitest` baseline.
-2. Cover the pure server utilities and stores first.
-3. Add mocked Nitro handler tests.
-4. Add a tiny Playwright smoke suite for public routes.
-5. Only after that, start deleting or refactoring legacy code.
+1. Keep contract mapping (`behavior-baseline.md` + `component-behavior-contracts.md` + `test-contract-mapping.md`) in sync with code changes.
+2. Expand API contracts for remaining server routes (`cms`, `mail`, `log`, `poc`) with explicit internal-vs-outbound classification.
+3. Add targeted fixture-based tests for domain discoverability rules (direct-ID/API lookup vs generic discoverability).
+4. Add CI job split for unit/api/e2e smoke lanes to keep feedback fast.
+5. Continue refactors only behind this safety net, extending tests before risky rewrites.

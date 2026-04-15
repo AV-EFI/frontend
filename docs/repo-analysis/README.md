@@ -30,6 +30,9 @@ The repository already contains `docs/components/` and `docs/composables/`, but 
 - `generation-and-schema.md`: schema sources, generation scripts, and generated outputs
 - `issues-and-risks.md`: prioritized technical and architectural concerns
 - `testing-strategy.md`: recommended test pyramid and rollout plan
+- `behavior-baseline.md`: app-level behavior contract before refactoring
+- `component-behavior-contracts.md`: high-risk component contracts and regression checks
+- `test-contract-mapping.md`: mapping from behavior contracts to the initial automated test skeleton
 
 ## Reading order
 
@@ -39,3 +42,6 @@ The repository already contains `docs/components/` and `docs/composables/`, but 
 4. Read `inventory.md` for the repo map and likely dead-code candidates.
 5. Read `issues-and-risks.md` before making larger refactors.
 6. Use `testing-strategy.md` to turn the findings into a safer migration plan.
+7. Use `behavior-baseline.md` as functional contract during refactors.
+8. Use `component-behavior-contracts.md` to derive regression tests.
+9. Use `test-contract-mapping.md` to locate implemented test coverage and open gaps.
