@@ -3187,7 +3187,7 @@
     "description": "Associate activity (and subsequently agents) with event",
     "explorerPath": "MovingImageRecord.WorkVariant.Event.ManufactureEvent.has_activity",
     "owner": "ManufactureEvent",
-    "range": "LaboratoryActivity",
+    "range": "Activity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
   },
   {
@@ -3556,7 +3556,7 @@
     "description": "Associate activity (and subsequently agents) with event",
     "explorerPath": "MovingImageRecord.WorkVariant.Event.PublicationEvent.has_activity",
     "owner": "PublicationEvent",
-    "range": "ManifestationActivity",
+    "range": "Activity",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/has_activity/"
   },
   {
@@ -5673,16 +5673,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.bod",
-    "kind": "enumMember",
-    "name": "bod",
-    "label": "bod",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/bod",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.bos",
     "kind": "enumMember",
     "name": "bos",
@@ -5838,16 +5828,6 @@
     "name": "cel",
     "label": "cel",
     "description": "http://id.loc.gov/vocabulary/iso639-2/cel",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.ces",
-    "kind": "enumMember",
-    "name": "ces",
-    "label": "ces",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/ces",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -6123,16 +6103,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.cym",
-    "kind": "enumMember",
-    "name": "cym",
-    "label": "cym",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/cym",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.cze",
     "kind": "enumMember",
     "name": "cze",
@@ -6198,16 +6168,6 @@
     "name": "den",
     "label": "den",
     "description": "http://id.loc.gov/vocabulary/iso639-2/den",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.deu",
-    "kind": "enumMember",
-    "name": "deu",
-    "label": "deu",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/deu",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -6353,16 +6313,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.ell",
-    "kind": "enumMember",
-    "name": "ell",
-    "label": "ell",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/ell",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.elx",
     "kind": "enumMember",
     "name": "elx",
@@ -6413,16 +6363,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.eus",
-    "kind": "enumMember",
-    "name": "eus",
-    "label": "eus",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/eus",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.ewe",
     "kind": "enumMember",
     "name": "ewe",
@@ -6458,16 +6398,6 @@
     "name": "fao",
     "label": "fao",
     "description": "http://id.loc.gov/vocabulary/iso639-2/fao",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.fas",
-    "kind": "enumMember",
-    "name": "fas",
-    "label": "fas",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/fas",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -6528,16 +6458,6 @@
     "name": "fon",
     "label": "fon",
     "description": "http://id.loc.gov/vocabulary/iso639-2/fon",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.fra",
-    "kind": "enumMember",
-    "name": "fra",
-    "label": "fra",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/fra",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -7023,16 +6943,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.hye",
-    "kind": "enumMember",
-    "name": "hye",
-    "label": "hye",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/hye",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.iba",
     "kind": "enumMember",
     "name": "iba",
@@ -7203,16 +7113,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.isl",
-    "kind": "enumMember",
-    "name": "isl",
-    "label": "isl",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/isl",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.ita",
     "kind": "enumMember",
     "name": "ita",
@@ -7348,16 +7248,6 @@
     "name": "kas",
     "label": "kas",
     "description": "http://id.loc.gov/vocabulary/iso639-2/kas",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.kat",
-    "kind": "enumMember",
-    "name": "kat",
-    "label": "kat",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/kat",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -8023,16 +7913,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.mkd",
-    "kind": "enumMember",
-    "name": "mkd",
-    "label": "mkd",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/mkd",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.mkh",
     "kind": "enumMember",
     "name": "mkh",
@@ -8123,26 +8003,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.mri",
-    "kind": "enumMember",
-    "name": "mri",
-    "label": "mri",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/mri",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.msa",
-    "kind": "enumMember",
-    "name": "msa",
-    "label": "msa",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/msa",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.mul",
     "kind": "enumMember",
     "name": "mul",
@@ -8188,16 +8048,6 @@
     "name": "mwr",
     "label": "mwr",
     "description": "http://id.loc.gov/vocabulary/iso639-2/mwr",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.mya",
-    "kind": "enumMember",
-    "name": "mya",
-    "label": "mya",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/mya",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -8358,16 +8208,6 @@
     "name": "niu",
     "label": "niu",
     "description": "http://id.loc.gov/vocabulary/iso639-2/niu",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.nld",
-    "kind": "enumMember",
-    "name": "nld",
-    "label": "nld",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/nld",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -8843,16 +8683,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.ron",
-    "kind": "enumMember",
-    "name": "ron",
-    "label": "ron",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/ron",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.rum",
     "kind": "enumMember",
     "name": "rum",
@@ -9103,16 +8933,6 @@
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
   },
   {
-    "id": "enumMember:LanguageCodeEnum.slk",
-    "kind": "enumMember",
-    "name": "slk",
-    "label": "slk",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/slk",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
     "id": "enumMember:LanguageCodeEnum.slo",
     "kind": "enumMember",
     "name": "slo",
@@ -9278,16 +9098,6 @@
     "name": "spa",
     "label": "spa",
     "description": "http://id.loc.gov/vocabulary/iso639-2/spa",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.sqi",
-    "kind": "enumMember",
-    "name": "sqi",
-    "label": "sqi",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/sqi",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
@@ -10088,16 +9898,6 @@
     "name": "zha",
     "label": "zha",
     "description": "http://id.loc.gov/vocabulary/iso639-2/zha",
-    "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
-    "owner": "LanguageCodeEnum",
-    "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"
-  },
-  {
-    "id": "enumMember:LanguageCodeEnum.zho",
-    "kind": "enumMember",
-    "name": "zho",
-    "label": "zho",
-    "description": "http://id.loc.gov/vocabulary/iso639-2/zho",
     "explorerPath": "MovingImageRecord.WorkVariant.LanguageCodeEnum",
     "owner": "LanguageCodeEnum",
     "docsUrl": "https://av-efi.github.io/av-efi-schema/LanguageCodeEnum/#permissible-values"

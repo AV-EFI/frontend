@@ -4498,19 +4498,6 @@
     "isTranslated": true
   },
   {
-    "term": "bod",
-    "label": "Tibetisch",
-    "labels": {
-      "de": "Tibetisch",
-      "en": "Tibetan"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "bos",
     "label": "Bosnisch",
     "labels": {
@@ -4711,19 +4698,6 @@
     "labels": {
       "de": "Keltische Sprachen (Andere)",
       "en": "Celtic languages"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "ces",
-    "label": "Tschechisch",
-    "labels": {
-      "de": "Tschechisch",
-      "en": "Czech"
     },
     "description": "",
     "definition": "",
@@ -5083,19 +5057,6 @@
     "isTranslated": true
   },
   {
-    "term": "cym",
-    "label": "Kymrisch",
-    "labels": {
-      "de": "Kymrisch",
-      "en": "Welsh"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "cze",
     "label": "Tschechisch",
     "labels": {
@@ -5179,19 +5140,6 @@
     "labels": {
       "de": "Slave-Sprache",
       "en": "Slave (Athapascan)"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "deu",
-    "label": "Deutsch",
-    "labels": {
-      "de": "Deutsch",
-      "en": "German"
     },
     "description": "",
     "definition": "",
@@ -5382,19 +5330,6 @@
     "isTranslated": true
   },
   {
-    "term": "ell",
-    "label": "Neugriechisch",
-    "labels": {
-      "de": "Neugriechisch",
-      "en": "Greek, Modern (1453-)"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "elx",
     "label": "Elamisch",
     "labels": {
@@ -5460,19 +5395,6 @@
     "isTranslated": true
   },
   {
-    "term": "eus",
-    "label": "Baskisch",
-    "labels": {
-      "de": "Baskisch",
-      "en": "Basque"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "ewe",
     "label": "Ewe-Sprache",
     "labels": {
@@ -5517,19 +5439,6 @@
     "labels": {
       "de": "Färöisch",
       "en": "Faroese"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "fas",
-    "label": "Persisch",
-    "labels": {
-      "de": "Persisch",
-      "en": "Persian"
     },
     "description": "",
     "definition": "",
@@ -5608,19 +5517,6 @@
     "labels": {
       "de": "Fon-Sprache",
       "en": "Fon"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "fra",
-    "label": "Französisch",
-    "labels": {
-      "de": "Französisch",
-      "en": "French"
     },
     "description": "",
     "definition": "",
@@ -6253,19 +6149,6 @@
     "isTranslated": true
   },
   {
-    "term": "hye",
-    "label": "Armenisch",
-    "labels": {
-      "de": "Armenisch",
-      "en": "Armenian"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "iba",
     "label": "Iban-Sprache",
     "labels": {
@@ -6487,19 +6370,6 @@
     "isTranslated": true
   },
   {
-    "term": "isl",
-    "label": "Isländisch",
-    "labels": {
-      "de": "Isländisch",
-      "en": "Icelandic"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "ita",
     "label": "Italienisch",
     "labels": {
@@ -6674,19 +6544,6 @@
     "labels": {
       "de": "Kaschmiri",
       "en": "Kashmiri"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "kat",
-    "label": "Georgisch",
-    "labels": {
-      "de": "Georgisch",
-      "en": "Georgian"
     },
     "description": "",
     "definition": "",
@@ -7553,19 +7410,6 @@
     "isTranslated": true
   },
   {
-    "term": "mkd",
-    "label": "Makedonisch",
-    "labels": {
-      "de": "Makedonisch",
-      "en": "Macedonian"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "mkh",
     "label": "Mon-Khmer-Sprachen (Andere)",
     "labels": {
@@ -7683,32 +7527,6 @@
     "isTranslated": true
   },
   {
-    "term": "mri",
-    "label": "Maori-Sprache",
-    "labels": {
-      "de": "Maori-Sprache",
-      "en": "Maori"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "msa",
-    "label": "Malaiisch",
-    "labels": {
-      "de": "Malaiisch",
-      "en": "Malay"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "mul",
     "label": "Mehrere Sprachen",
     "labels": {
@@ -7766,19 +7584,6 @@
     "labels": {
       "de": "Marwari",
       "en": "Marwari"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "mya",
-    "label": "Birmanisch",
-    "labels": {
-      "de": "Birmanisch",
-      "en": "Burmese"
     },
     "description": "",
     "definition": "",
@@ -7987,19 +7792,6 @@
     "labels": {
       "de": "Niue-Sprache",
       "en": "Niuean"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "nld",
-    "label": "Niederländisch",
-    "labels": {
-      "de": "Niederländisch",
-      "en": "Dutch |  Flemish"
     },
     "description": "",
     "definition": "",
@@ -8619,19 +8411,6 @@
     "isTranslated": true
   },
   {
-    "term": "ron",
-    "label": "Rumänisch",
-    "labels": {
-      "de": "Rumänisch",
-      "en": "Romanian |  Moldavian |  Moldovan"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "rum",
     "label": "Rumänisch",
     "labels": {
@@ -8957,19 +8736,6 @@
     "isTranslated": true
   },
   {
-    "term": "slk",
-    "label": "Slowakisch",
-    "labels": {
-      "de": "Slowakisch",
-      "en": "Slovak"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "slo",
     "label": "Slowakisch",
     "labels": {
@@ -9183,19 +8949,6 @@
     "labels": {
       "de": "Spanisch",
       "en": "Spanish |  Castilian"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "sqi",
-    "label": "Albanisch",
-    "labels": {
-      "de": "Albanisch",
-      "en": "Albanian"
     },
     "description": "",
     "definition": "",
@@ -10236,19 +9989,6 @@
     "labels": {
       "de": "Zhuang",
       "en": "Zhuang |  Chuang"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "zho",
-    "label": "Chinesisch",
-    "labels": {
-      "de": "Chinesisch",
-      "en": "Chinese"
     },
     "description": "",
     "definition": "",
@@ -15847,19 +15587,6 @@
     "isTranslated": true
   },
   {
-    "term": "bod",
-    "label": "Tibetisch",
-    "labels": {
-      "de": "Tibetisch",
-      "en": "Tibetan"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "bos",
     "label": "Bosnisch",
     "labels": {
@@ -16060,19 +15787,6 @@
     "labels": {
       "de": "Keltische Sprachen (Andere)",
       "en": "Celtic languages"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "ces",
-    "label": "Tschechisch",
-    "labels": {
-      "de": "Tschechisch",
-      "en": "Czech"
     },
     "description": "",
     "definition": "",
@@ -16432,19 +16146,6 @@
     "isTranslated": true
   },
   {
-    "term": "cym",
-    "label": "Kymrisch",
-    "labels": {
-      "de": "Kymrisch",
-      "en": "Welsh"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "cze",
     "label": "Tschechisch",
     "labels": {
@@ -16528,19 +16229,6 @@
     "labels": {
       "de": "Slave-Sprache",
       "en": "Slave (Athapascan)"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "deu",
-    "label": "Deutsch",
-    "labels": {
-      "de": "Deutsch",
-      "en": "German"
     },
     "description": "",
     "definition": "",
@@ -16731,19 +16419,6 @@
     "isTranslated": true
   },
   {
-    "term": "ell",
-    "label": "Neugriechisch",
-    "labels": {
-      "de": "Neugriechisch",
-      "en": "Greek, Modern (1453-)"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "elx",
     "label": "Elamisch",
     "labels": {
@@ -16809,19 +16484,6 @@
     "isTranslated": true
   },
   {
-    "term": "eus",
-    "label": "Baskisch",
-    "labels": {
-      "de": "Baskisch",
-      "en": "Basque"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "ewe",
     "label": "Ewe-Sprache",
     "labels": {
@@ -16866,19 +16528,6 @@
     "labels": {
       "de": "Färöisch",
       "en": "Faroese"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "fas",
-    "label": "Persisch",
-    "labels": {
-      "de": "Persisch",
-      "en": "Persian"
     },
     "description": "",
     "definition": "",
@@ -16957,19 +16606,6 @@
     "labels": {
       "de": "Fon-Sprache",
       "en": "Fon"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "fra",
-    "label": "Französisch",
-    "labels": {
-      "de": "Französisch",
-      "en": "French"
     },
     "description": "",
     "definition": "",
@@ -17602,19 +17238,6 @@
     "isTranslated": true
   },
   {
-    "term": "hye",
-    "label": "Armenisch",
-    "labels": {
-      "de": "Armenisch",
-      "en": "Armenian"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "iba",
     "label": "Iban-Sprache",
     "labels": {
@@ -17836,19 +17459,6 @@
     "isTranslated": true
   },
   {
-    "term": "isl",
-    "label": "Isländisch",
-    "labels": {
-      "de": "Isländisch",
-      "en": "Icelandic"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "ita",
     "label": "Italienisch",
     "labels": {
@@ -18023,19 +17633,6 @@
     "labels": {
       "de": "Kaschmiri",
       "en": "Kashmiri"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "kat",
-    "label": "Georgisch",
-    "labels": {
-      "de": "Georgisch",
-      "en": "Georgian"
     },
     "description": "",
     "definition": "",
@@ -18902,19 +18499,6 @@
     "isTranslated": true
   },
   {
-    "term": "mkd",
-    "label": "Makedonisch",
-    "labels": {
-      "de": "Makedonisch",
-      "en": "Macedonian"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "mkh",
     "label": "Mon-Khmer-Sprachen (Andere)",
     "labels": {
@@ -19032,32 +18616,6 @@
     "isTranslated": true
   },
   {
-    "term": "mri",
-    "label": "Maori-Sprache",
-    "labels": {
-      "de": "Maori-Sprache",
-      "en": "Maori"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "msa",
-    "label": "Malaiisch",
-    "labels": {
-      "de": "Malaiisch",
-      "en": "Malay"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "mul",
     "label": "Mehrere Sprachen",
     "labels": {
@@ -19115,19 +18673,6 @@
     "labels": {
       "de": "Marwari",
       "en": "Marwari"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "mya",
-    "label": "Birmanisch",
-    "labels": {
-      "de": "Birmanisch",
-      "en": "Burmese"
     },
     "description": "",
     "definition": "",
@@ -19336,19 +18881,6 @@
     "labels": {
       "de": "Niue-Sprache",
       "en": "Niuean"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "nld",
-    "label": "Niederländisch",
-    "labels": {
-      "de": "Niederländisch",
-      "en": "Dutch |  Flemish"
     },
     "description": "",
     "definition": "",
@@ -19968,19 +19500,6 @@
     "isTranslated": true
   },
   {
-    "term": "ron",
-    "label": "Rumänisch",
-    "labels": {
-      "de": "Rumänisch",
-      "en": "Romanian |  Moldavian |  Moldovan"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "rum",
     "label": "Rumänisch",
     "labels": {
@@ -20306,19 +19825,6 @@
     "isTranslated": true
   },
   {
-    "term": "slk",
-    "label": "Slowakisch",
-    "labels": {
-      "de": "Slowakisch",
-      "en": "Slovak"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
     "term": "slo",
     "label": "Slowakisch",
     "labels": {
@@ -20532,19 +20038,6 @@
     "labels": {
       "de": "Spanisch",
       "en": "Spanish |  Castilian"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "sqi",
-    "label": "Albanisch",
-    "labels": {
-      "de": "Albanisch",
-      "en": "Albanian"
     },
     "description": "",
     "definition": "",
@@ -21585,19 +21078,6 @@
     "labels": {
       "de": "Zhuang",
       "en": "Zhuang |  Chuang"
-    },
-    "description": "",
-    "definition": "",
-    "enumSource": "LanguageCodeEnum",
-    "category": "LanguageCode",
-    "isTranslated": true
-  },
-  {
-    "term": "zho",
-    "label": "Chinesisch",
-    "labels": {
-      "de": "Chinesisch",
-      "en": "Chinese"
     },
     "description": "",
     "definition": "",
