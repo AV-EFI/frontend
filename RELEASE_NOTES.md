@@ -113,7 +113,6 @@ Environment Variables:
 Added missing variables to `.env.tmpl`:
 - `NUXT_PUBLIC_SITE_URL` - Public site URL
 - `AVEFI_COPY_PID_URL` - PID copy URL base
-- `ELASTIC_INDEX_MAPPING` - Index mapping name
 - `NUXT_PUBLIC_INDEXABLE` - SEO indexing flag
 - `KIBANA_DATA_VIEW_ID` - Kibana data view identifier
 

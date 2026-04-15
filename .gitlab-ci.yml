@@ -69,6 +69,7 @@ build_docker-production:
   script:
     - envsubst < docker-compose.tmpl > docker-compose.yml
     - cat docker-compose.yml
+    - echo "NUXT_PUBLIC_SITE_URL=$NUXT_PUBLIC_SITE_URL"
     - echo "MAIL_USER=$MAIL_USER"
     - echo "MAIL_PASSWORD=$MAIL_PASSWORD"
     - echo "MAIL_TO=$MAIL_TO"

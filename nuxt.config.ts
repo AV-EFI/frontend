@@ -318,7 +318,6 @@ export default defineNuxtConfig({
       authGuardBypassInDev: !isProduction && process.env.AUTH_GUARD_BYPASS_IN_DEV !== 'false',
       ELASTIC_INDEX: process.env.ELASTIC_INDEX,
       ELASTIC_INDEX_DETAIL: process.env.ELASTIC_INDEX_DETAIL,
-      ELASTIC_INDEX_MAPPING: process.env.ELASTIC_INDEX_MAPPING,
       AVEFI_SEARCH_API: process.env.AVEFI_SEARCH_API,
       AVEFI_BACKEND_URL: process.env.AVEFI_BACKEND_URL,
       AVEFI_GET_WORK: process.env.AVEFI_GET_WORK,
