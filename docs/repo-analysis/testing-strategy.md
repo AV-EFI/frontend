@@ -25,7 +25,14 @@ What exists now:
   - compare URL-state basics
   - press asset endpoint availability
 - source-guard contract tests to protect high-risk behaviors during refactors
+- source-guard contract test for stakeholder report generation (`tests/unit/source-guards/stakeholder-report-generator.spec.ts`)
 - node-based script tests under `scripts/tests/` remain available
+- data-quality reporting lane with:
+  - root, manifestation, item completeness and anomaly checks
+  - advanced heuristics (integrity, vocabulary, consistency, placeholder/duplicate patterns)
+  - denormalised index comparison between baseline and testbed
+  - failing identifier sample export for investigation
+  - stakeholder-specific markdown outputs
 
 Current scripts:
 
@@ -46,6 +53,9 @@ Current scripts:
 - `yarn test:ci:fast`
 - `yarn test:ci:lint`
 - `yarn test:ci:api`
+- `yarn test:data-quality`
+- `yarn test:data-quality:report`
+- `yarn test:data-quality:watch`
 - `npm run test:normdata`
 
 ## Recommended scheme
@@ -130,6 +140,21 @@ Keep the current node-based tests, but treat them as a separate class:
 - `scripts/tests/suggest-normdata-matching.test.mjs`
 
 These should not block fast unit-test feedback unless they are run against stable fixtures or a dedicated nightly job.
+
+Current data-quality lane behavior:
+
+- non-blocking/report-first by design (not part of required CI deploy gates)
+- primary report: `logs/data-quality/quality-statistics.md`
+- sampled failing identifiers: `logs/data-quality/quality-failing-identifiers.md`
+- trend baseline: `logs/data-quality/quality-snapshot.json`
+- stakeholder reports: `logs/data-quality/stakeholders/*.md`
+
+Interpretation note for new contributors:
+
+- `[OK]` = within threshold
+- `[WARN]` = elevated risk, review and triage
+- `[FAIL]` = strong regression signal, prioritize investigation
+- heuristic sections are intentionally probabilistic and should be validated using sampled identifiers
 
 ## CI pipeline (implemented)
 

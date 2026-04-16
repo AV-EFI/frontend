@@ -12,10 +12,30 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['tests/unit/**/*.spec.ts'],
-    environment: 'node',
-    globals: true,
-    testTimeout: 15000,
-    setupFiles: ['tests/unit/setup.ts'],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          include: ['tests/unit/**/*.spec.ts'],
+          environment: 'node',
+          globals: true,
+          testTimeout: 15000,
+          setupFiles: ['tests/unit/setup.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'data-quality',
+          include: ['tests/data-quality/**/*.spec.ts'],
+          environment: 'node',
+          globals: true,
+          testTimeout: 120000,
+          maxWorkers: 1,
+          fileParallelism: false,
+        },
+      },
+    ],
   },
 });
