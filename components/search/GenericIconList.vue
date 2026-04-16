@@ -72,7 +72,7 @@
                 <div
                     :class="entryClasses"
                     tabindex="0"
-                     :aria-label="entry.aria" :title="entry.aria">
+                    :aria-label="entry.aria" :title="entry.aria">
                     <Icon
                         :name="entry.icon"
                         :class="iconClasses"

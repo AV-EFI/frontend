@@ -1,6 +1,6 @@
 # Repo Analysis
 
-This directory documents the current state of the AVefi frontend repository as of 2026-03-16.
+This directory documents the current state of the AVefi frontend repository as of 2026-04-16.
 
 The repository already contains `docs/components/` and `docs/composables/`, but those appear to be generated or partially stale API-style docs. The files in `docs/repo-analysis/` are intended to be architecture and maintenance notes for humans.
 
@@ -32,7 +32,7 @@ The repository already contains `docs/components/` and `docs/composables/`, but 
 - `testing-strategy.md`: recommended test pyramid and rollout plan
 - `behavior-baseline.md`: app-level behavior contract before refactoring
 - `component-behavior-contracts.md`: high-risk component contracts and regression checks
-- `test-contract-mapping.md`: mapping from behavior contracts to the initial automated test skeleton
+- `test-contract-mapping.md`: mapping from behavior contracts to implemented unit/e2e/backend contract coverage
 
 ## Reading order
 

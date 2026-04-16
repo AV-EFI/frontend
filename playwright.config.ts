@@ -27,10 +27,10 @@ export default defineConfig({
   ],
   webServer: startWebServer
     ? {
-        command: 'yarn dev:local',
-        url: baseURL,
-        reuseExistingServer: !process.env.CI,
-        timeout: 120_000,
-      }
+      command: 'yarn dev:local',
+      url: baseURL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    }
     : undefined,
 });

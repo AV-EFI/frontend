@@ -130,7 +130,7 @@
             </div>
         </div>
         <!-- Items carousel -->
-            <section class="px-5 py-2" role="region" :aria-label="$t('items')">
+        <section class="px-5 py-2" role="region" :aria-label="$t('items')">
             <div v-if="loading[work?.handle ?? '']" class="flex justify-center items-center min-h-30">
                 <span class="loading loading-spinner loading-lg text-primary" />
             </div>

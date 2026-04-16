@@ -30,6 +30,43 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/e2e/seo/search-canonical-robots.spec.ts`
 - `BB-SEO-SEARCH-002`: unknown search params force base canonical and `noindex,follow`.
   - `tests/e2e/seo/search-canonical-robots.spec.ts`
+- `BB-SEO-SITEMAP-SEARCH-001`: sitemap-listed `/search` URLs are reachable and their related elastic API endpoints respond with non-5xx contract payloads.
+  - `tests/e2e/seo/sitemap-search-routes.spec.ts`
+- `BB-SEO-SITEMAP-DETAIL-001`: sitemap-listed `/res/...` URLs are reachable and `/api/elastic/get_work_by_id/[id]` responds without 5xx.
+  - `tests/e2e/seo/sitemap-search-routes.spec.ts`
+- `API-OUTBOUND-LIVE-DETAIL-001`: live detail API payload validates recursively against local elastic mapping (`mapping_21.11155-denormalised-work.json`) with strict unknown-property checks.
+  - `tests/e2e/seo/sitemap-search-routes.spec.ts`
+  - `tests/e2e/utils/elastic-contracts.ts`
+- `API-OUTBOUND-LIVE-DETAIL-002`: non-existent detail IDs return stable error contract (`{ error: string }`) without 5xx.
+  - `tests/e2e/seo/sitemap-search-routes.spec.ts`
+- `API-OUTBOUND-LIVE-SEARCH-001`: runtime search endpoint payload (`results[].hits[]`) is validated against interface-level contract + strict mapped hit-field checks when browser-side search POST is available in current runtime profile.
+  - `tests/e2e/seo/sitemap-search-routes.spec.ts`
+  - `tests/e2e/utils/elastic-contracts.ts`
+- `API-BACKEND-SWAGGER-001`: backend OpenAPI document (`/rest/v1/openapi.json`) exposes expected frontend paths and schemas.
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+- `API-BACKEND-SWAGGER-002`: backend `/rest/v1/frontend/view/{prefix}/{id_}` responses satisfy documented contract and strict mapped `_source` field validation.
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+  - `tests/e2e/utils/elastic-contracts.ts`
+- `API-BACKEND-SWAGGER-003`: backend `/rest/v1/frontend/search` responses satisfy Swagger required `SearchResult` fields and strict mapped `hits[]` field validation.
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+  - `tests/e2e/utils/elastic-contracts.ts`
+- `API-BACKEND-SWAGGER-004`: backend `/rest/v1/frontend/search` rejects invalid request payloads with 422 validation contract (`detail[]`).
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+- `API-BACKEND-SWAGGER-005`: backend `/rest/v1/frontend/view/{prefix}/{id_}` enforces path validation and returns 422 for invalid prefix/id values.
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+- `API-BACKEND-SWAGGER-006`: backend `/rest/v1/health` is reachable and returns success JSON payload.
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+- `API-BACKEND-SWAGGER-007`: every sitemap-listed `/search` URL is tested as an individual backend `/rest/v1/frontend/search` contract case (query/facet encoding + response-schema + strict mapped hit validation).
+  - `tests/e2e/api/backend-openapi-contract.spec.ts`
+  - `tests/e2e/utils/elastic-contracts.ts`
+- `API-BACKEND-EDGE-001`: `/rest/v1/frontend/search` handles empty/whitespace/special-character query inputs without 5xx and preserves response contract.
+  - `tests/e2e/api/backend-edge-cases.spec.ts`
+- `API-BACKEND-EDGE-002`: `/rest/v1/frontend/search` supports multi-request payload arrays with per-result contract validation.
+  - `tests/e2e/api/backend-edge-cases.spec.ts`
+- `API-BACKEND-EDGE-003`: `/rest/v1/frontend/search` enforces pagination bounds (`page`, `hitsPerPage`) via 422 validation contracts.
+  - `tests/e2e/api/backend-edge-cases.spec.ts`
+- `API-BACKEND-EDGE-004`: `/rest/v1/frontend/search` unknown facet keys are non-crashing (no 5xx).
+  - `tests/e2e/api/backend-edge-cases.spec.ts`
 
 ## Unit contract guards (Vitest)
 
@@ -47,6 +84,12 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/unit/components/search-comp-extended.spec.ts`
 - `CBC-SEARCH-EXT-007`: blacklist facet is not rendered as selectable option.
   - `tests/unit/components/search-comp-extended.spec.ts`
+- `CBC-SEARCH-REDUCED-001`: reduced search button text reflects empty/non-empty query state.
+  - `tests/unit/components/search-comp-reduced.spec.ts`
+- `CBC-SEARCH-REDUCED-002`: reduced search submit encodes query and navigates to `/search`.
+  - `tests/unit/components/search-comp-reduced.spec.ts`
+- `CBC-SEARCH-SECTION-001`: search section loading/error/ready states follow instant-search loader signals.
+  - `tests/unit/components/search-section.spec.ts`
 
 - `CBC-QA-001`: `modelValue` stays source of truth.
   - `tests/unit/source-guards/query-autocomplete-core.contract.spec.ts`
@@ -96,6 +139,13 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/unit/components/work-view-avefi.spec.ts`
 - `BB-DETAIL-UX-003`: parts fallback renders when manifestations are absent.
   - `tests/unit/components/work-view-avefi.spec.ts`
+- `CBC-WORK-LABELS-001`: work top-level properties (`same_as`, alternative titles, `is_part_of`) render with labeled sections.
+  - `tests/unit/components/work-variant-top-level.spec.ts`
+- `CBC-WORK-LABELS-002`: key/value component displays translated property value text when not using clipboard mode.
+  - `tests/unit/components/key-value-comp.spec.ts`
+- `CBC-WORK-LABELS-003`: translated work-property labels and values resolve from real locale dictionaries (`de` + `en`) for detail-rendered labels (`AlternativeTitle`, `isPartOf`, `has_access_status`, `Removed`).
+  - `tests/unit/components/work-variant-top-level.spec.ts`
+  - `tests/unit/components/key-value-comp.spec.ts`
 - `BB-AUTH-MW-001`: `/protected/*` can be bypassed in local dev per runtime flag.
   - `tests/unit/middleware/auth-global.spec.ts`
 - `BB-AUTH-MW-002`: `/admin/*` unauthenticated redirect remains enforced.
@@ -115,6 +165,12 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/unit/api/internal/press-kit.api.spec.ts`
 - `API-INTERNAL-005`: `/api/press-kit.zip` surfaces missing-asset failure contract.
   - `tests/unit/api/internal/press-kit.api.spec.ts`
+- `API-INTERNAL-006`: `/api/mail/contact` enforces zod validation and missing-SMTP failure contract.
+  - `tests/unit/api/internal/contact.api.spec.ts`
+- `API-INTERNAL-007`: `/api/mail/contact` successful path verifies + sends mail and returns `success:true`.
+  - `tests/unit/api/internal/contact.api.spec.ts`
+- `API-INTERNAL-008`: `/api/log/client` validates request shape and logs normalized payload with client IP.
+  - `tests/unit/api/internal/client-log.api.spec.ts`
 
 - `API-OUTBOUND-001`: `/api/elastic/suggestions` query mode normalizes external ES buckets.
   - `tests/unit/api/outbound/elastic-suggestions.api.spec.ts`
@@ -126,9 +182,22 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/unit/api/outbound/elastic-get-work-by-id.api.spec.ts`
 - `API-OUTBOUND-005`: `/api/elastic/get_work_by_id` returns `null` on outbound failure.
   - `tests/unit/api/outbound/elastic-get-work-by-id.api.spec.ts`
+- `API-OUTBOUND-006`: `/api/elastic/query_suggest` returns filtered/deduped suggestions from outbound ES buckets.
+  - `tests/unit/api/outbound/elastic-query-suggest.api.spec.ts`
+- `API-OUTBOUND-007`: `/api/elastic/query_suggest` returns `success:false` when outbound call fails.
+  - `tests/unit/api/outbound/elastic-query-suggest.api.spec.ts`
+- `API-OUTBOUND-008`: `/api/elastic/get_work_by_id/[id]` returns normalized resource shape for fetched document.
+  - `tests/unit/api/outbound/elastic-get-work-by-id-route.api.spec.ts`
+- `API-OUTBOUND-009`: `/api/elastic/get_work_by_id/[id]` returns explicit error contract for missing id and outbound failure.
+  - `tests/unit/api/outbound/elastic-get-work-by-id-route.api.spec.ts`
+- `API-OUTBOUND-010`: `/api/cms/getcmscontent` blocks invalid contenttype/locale and only calls outbound CMS for valid requests.
+  - `tests/unit/api/outbound/cms-getcmscontent.api.spec.ts`
+- `API-OUTBOUND-011`: `/api/cms/getcmscontent` proxies external CMS response shape unchanged for valid requests.
+  - `tests/unit/api/outbound/cms-getcmscontent.api.spec.ts`
 
 ## Gaps intentionally left for next increment
 
 - Detail page interaction tests for anchor navigation and manifestation/item filtering.
 - Domain-specific discoverability rule tests once stable fixtures are introduced:
   - direct ID/API lookup can reveal records not discoverable via generic search/facet paths.
+- Full-page locale snapshot tests for high-risk search/detail blocks remain open (current coverage is targeted component-level locale assertions).

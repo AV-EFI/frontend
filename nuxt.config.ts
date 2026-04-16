@@ -106,7 +106,6 @@ export default defineNuxtConfig({
             --color-neutral-content: #ffffff;
           }
           `,
-          type: 'text/css',
           tagPosition: 'head',
         },
       ],
@@ -439,26 +438,30 @@ export default defineNuxtConfig({
     }),
     defaults: false,
   },
-  robots: {
-    groups: [
-      {
-        userAgent: '*',
-        allow: '/',
-        disallow: [
-          '/protected/**',
-          '/admin/**',
-          '/login',
-          '/logout',
-          '/signout',
-          '/normdata',
-          '/explorer-poc',
-          '/_nuxt/**',
-          '/_**',
+  ...(shouldEnableReleaseModules
+    ? {
+      robots: {
+        groups: [
+          {
+            userAgent: '*',
+            allow: '/',
+            disallow: [
+              '/protected/**',
+              '/admin/**',
+              '/login',
+              '/logout',
+              '/signout',
+              '/normdata',
+              '/explorer-poc',
+              '/_nuxt/**',
+              '/_**',
+            ],
+          },
         ],
+        sitemap: ['/sitemap.xml'],
       },
-    ],
-    sitemap: ['/sitemap.xml'],
-  },
+    }
+    : {}),
   // Sitemap
   sitemap: {
     zeroRuntime: true,
@@ -613,10 +616,10 @@ export default defineNuxtConfig({
     port: 3000,
   },
   vite: {
-    plugins: [
-      tailwindcss,
+    plugins: ([
+      tailwindcss(),
       ...(process.env.BUILD_ANALYZE === 'true' ? [visualizer()] : []),
-    ],
+    ] as unknown as never[]),
     optimizeDeps: {
       include: ['export-to-csv', 'instantsearch.js', 'algoliasearch'],
     },
@@ -680,3 +683,4 @@ export default defineNuxtConfig({
     },
   },
 });
+

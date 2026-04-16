@@ -8,6 +8,9 @@ This folder is the first regression safety-net scaffold mapped to:
 ## Structure
 
 - `tests/e2e/`: Playwright smoke + SEO behavior checks
+- `tests/e2e/api/`: live backend contract suites (OpenAPI/search/detail/negative/edge)
+- `tests/e2e/seo/`: SEO + sitemap runtime route/API checks
+- `tests/e2e/utils/`: strict runtime payload validators used by e2e suites
 - `tests/unit/components/`: component-level interaction tests with Vue Test Utils
 - `tests/unit/api/internal/`: API contract tests for Nuxt-owned handlers
 - `tests/unit/api/outbound/`: API wrapper tests for calls that fan out to external services (Python backend / ES)
@@ -20,6 +23,18 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:unit:watch`: watch-mode unit contract guards
 - `yarn test:e2e:list`: list Playwright tests
 - `yarn test:e2e`: run Playwright tests
+- `yarn test:e2e:smoke`: browser smoke + SEO canonical tests
+- `yarn test:e2e:api`: backend OpenAPI contract suite
+- `yarn test:e2e:api:edge`: backend edge-case contract suite
+- `yarn test:e2e:api:openapi`: OpenAPI document/path/schema checks
+- `yarn test:e2e:api:detail`: detail endpoint contract checks
+- `yarn test:e2e:api:search`: search endpoint contract checks
+- `yarn test:e2e:api:search-matrix`: sitemap-derived search URL matrix checks
+- `yarn test:e2e:api:negative`: invalid request/path negative checks
+- `yarn test:e2e:api:health`: health endpoint checks
+- `yarn test:ci:fast`: required lint + unit lane used in CI
+- `yarn test:ci:lint`: lint-only helper command
+- `yarn test:ci:api`: backend API contract lane used in CI
 
 ## Environment knobs
 

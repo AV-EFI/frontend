@@ -1,5 +1,5 @@
 // Auto-generated Tailwind color config
-  export const lightThemeColors = {
+export const lightThemeColors = {
   "primary": {
     "DEFAULT": "#4d768d",
     "content": "oklch(98% 0.002 247.839)"
@@ -47,7 +47,7 @@
   "userinfo": "#3a4246",
   "userinfo-content": "oklch(89.925% 0.016 262.749)"
 };
-  export const darkThemeColors = {
+export const darkThemeColors = {
   "primary": {
     "DEFAULT": "#4d768d",
     "content": "oklch(98% 0.002 247.839)"

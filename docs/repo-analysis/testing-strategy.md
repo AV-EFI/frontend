@@ -8,13 +8,18 @@ What exists now:
 
 - Unit tests (`Vitest`) for:
   - component interaction contracts
+  - locale-backed label/value rendering contracts (`de` + `en`) for key detail components
   - middleware contracts
   - API handler contracts split into:
     - internal Nuxt handlers
-    - outbound wrapper handlers (external backend/ES calls mocked)
+    - outbound wrapper/proxy handlers (external backend/ES/CMS calls mocked)
 - E2E smoke and SEO tests (`Playwright`) for:
   - home/search/detail route reachability
   - search canonical + robots behavior
+  - sitemap-listed search/detail URL smoke with direct API endpoint verification (`/api/elastic/*`)
+  - strict live detail payload validation against local elastic mapping for property-level schema drift detection
+  - runtime search-endpoint response validation (enabled when search executes via browser POST in active profile)
+  - direct backend Swagger contract smoke (`/rest/v1/openapi.json`, `/frontend/search`, `/frontend/view/{prefix}/{id_}`)
   - public routes (`faq`, `press`, `vocab`)
   - auth redirect behavior (`/admin/*`)
   - compare URL-state basics
@@ -28,7 +33,19 @@ Current scripts:
 - `yarn test:unit`
 - `yarn test:unit:watch`
 - `yarn test:e2e`
+- `yarn test:e2e:smoke`
 - `yarn test:e2e:list`
+- `yarn test:e2e:api`
+- `yarn test:e2e:api:edge`
+- `yarn test:e2e:api:openapi`
+- `yarn test:e2e:api:detail`
+- `yarn test:e2e:api:search`
+- `yarn test:e2e:api:search-matrix`
+- `yarn test:e2e:api:negative`
+- `yarn test:e2e:api:health`
+- `yarn test:ci:fast`
+- `yarn test:ci:lint`
+- `yarn test:ci:api`
 - `npm run test:normdata`
 
 ## Recommended scheme
@@ -114,33 +131,44 @@ Keep the current node-based tests, but treat them as a separate class:
 
 These should not block fast unit-test feedback unless they are run against stable fixtures or a dedicated nightly job.
 
-## Suggested CI pipeline
+## CI pipeline (implemented)
 
-### Pull request / merge request
+Configured in `.gitlab-ci.yml`:
 
-- lint
-- typecheck
-- unit tests
-- Nitro integration tests
+- `test_unit_contracts`:
+  - `yarn lint`
+  - `yarn test:unit`
+- `test_backend_api_contracts`:
+  - `yarn test:e2e:api --workers=1 --reporter=list`
+  - `yarn test:e2e:api:edge --workers=1 --reporter=list`
+- `test_browser_smoke` (scheduled + optional manual on `testbed`):
+  - installs Chromium
+  - runs `yarn test:e2e:smoke --workers=1 --reporter=list`
 
-### Main branch or nightly
+Required gates (`test_unit_contracts`, `test_backend_api_contracts`) run for:
 
-- build preview artifact
-- Playwright smoke suite
-- optional live data-quality tests
+- merge request pipelines
+- `testbed`
+- `production`
+- `deploy-prod` tag pipelines
 
-## Scripts worth adding
+Build and deploy jobs are therefore test-gated by stage order.
 
-- `test`: run all fast Vitest suites
-- `test:unit`
-- `test:integration`
-- `test:e2e`
-- `typecheck`: `nuxt typecheck` or equivalent
+## Local dev and pre-push practice
+
+There are currently no git hooks in this repo (`.husky/` is not present), so enforcement is CI-based.
+
+Recommended local sequence before pushing:
+
+- `yarn test:ci:fast`
+- `yarn test:ci:api`
+- optional standalone lint-only run: `yarn test:ci:lint`
 
 ## Rollout order
 
 1. Keep contract mapping (`behavior-baseline.md` + `component-behavior-contracts.md` + `test-contract-mapping.md`) in sync with code changes.
 2. Expand API contracts for remaining server routes (`cms`, `mail`, `log`, `poc`) with explicit internal-vs-outbound classification.
 3. Add targeted fixture-based tests for domain discoverability rules (direct-ID/API lookup vs generic discoverability).
-4. Add CI job split for unit/api/e2e smoke lanes to keep feedback fast.
-5. Continue refactors only behind this safety net, extending tests before risky rewrites.
+4. Add locale-focused UI tests for translated labels/property rendering (detail/search in `de` + `en`).
+5. Add CI job split for unit/api/e2e smoke lanes to keep feedback fast.
+6. Continue refactors only behind this safety net, extending tests before risky rewrites.

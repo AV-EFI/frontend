@@ -10,6 +10,7 @@ default:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 stages:
+  - test
   - build
   - deploy
 
@@ -21,6 +22,57 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+.test_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "testbed"
+    - if: $CI_COMMIT_BRANCH == "production"
+    - if: $CI_COMMIT_TAG == "deploy-prod"
+
+.node_job:
+  stage: test
+  image: node:20-bookworm
+  services: []
+  tags:
+    - docker
+  before_script:
+    - corepack enable
+    - yarn --version
+    - yarn install --immutable
+  cache:
+    key: "yarn-${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .yarn/cache
+      - .yarn/unplugged
+      - node_modules/.cache
+
+test_unit_contracts:
+  extends:
+    - .node_job
+    - .test_rules
+  script:
+    - yarn lint
+    - yarn test:unit
+
+test_backend_api_contracts:
+  extends:
+    - .node_job
+    - .test_rules
+  script:
+    - yarn test:e2e:api --workers=1 --reporter=list
+    - yarn test:e2e:api:edge --workers=1 --reporter=list
+
+test_browser_smoke:
+  extends: .node_job
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_COMMIT_BRANCH == "testbed"
+      when: manual
+      allow_failure: true
+  script:
+    - npx playwright install --with-deps chromium
+    - yarn test:e2e:smoke --workers=1 --reporter=list
 
 # Build a docker image.
 .build_docker:
