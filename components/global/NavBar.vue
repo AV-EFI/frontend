@@ -9,9 +9,10 @@
             <div class="container w-full flex flex-wrap justify-between mx-auto p-0 relative z-20">
                 <div class="navbar-start w-full sm:w-1/2 md:w-2/5 flex justify-start">
                     <!-- Mobile menu toggle -->
-                    <div class="dropdown xl:hidden">
+                    <div class="dropdown xl:hidden" :class="{ 'dropdown-open': mobileMenuOpen }">
                         <button type="button" class="btn btn-ghost md:hidden h-12" aria-haspopup="true"
-                                :aria-expanded="mobileMenuOpen" :aria-label="ariaLabelOpenMenu" @click="mobileMenuOpen = !mobileMenuOpen">
+                                :aria-expanded="mobileMenuOpen" :aria-label="ariaLabelOpenMenu"
+                                @click="toggleMobileMenu">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
@@ -34,14 +35,15 @@
                                 <a href="/vocab">{{ $t('vocab.title') }}</a>
                             </li>
                             <li class="h-12 overflow-visible">
-                                <div class="dropdown dropdown-end">
-                                    <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
-                                         :aria-label="$t('settingsMenu')" class="btn btn-outline btn-circle">
+                                <div class="dropdown dropdown-end" :class="{ 'dropdown-open': mobileSettingsMenuOpen }">
+                                    <button type="button" aria-haspopup="true" :aria-expanded="mobileSettingsMenuOpen"
+                                            :aria-label="$t('settingsMenu')" class="btn btn-outline btn-circle"
+                                            @click.stop="mobileSettingsMenuOpen = !mobileSettingsMenuOpen">
                                         <Icon name="tabler:dots" />
-                                    </div>
-                                    <ul tabindex="-1"
+                                    </button>
+                                    <ul v-show="mobileSettingsMenuOpen" tabindex="-1"
                                         class="dropdown-content w-32 menu bg-base-100 rounded-box z-10 shadow-sm [li:hover]:bg-transparent"
-                                        role="menu" :aria-label="$t('moreOptions')">
+                                        role="menu" :aria-label="$t('moreOptions')" @click.stop>
                                         <li role="none" class="flex justify-center">
                                             <Suspense>
                                                 <GlobalThemeSwitch />
@@ -232,6 +234,7 @@ const favourites = useFavourites();
 
 const isScrolled = ref(false);
 const mobileMenuOpen = useState('navMobileMenuOpen', () => false);
+const mobileSettingsMenuOpen = ref(false);
 const detailsOpen = ref(false);
 
 const config = useRuntimeConfig();
@@ -239,6 +242,13 @@ const envLabel = config.public.ENV_LABEL;
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;
+};
+
+const toggleMobileMenu = () => {
+    mobileMenuOpen.value = !mobileMenuOpen.value;
+    if (!mobileMenuOpen.value) {
+        mobileSettingsMenuOpen.value = false;
+    }
 };
 
 onMounted(() => {
