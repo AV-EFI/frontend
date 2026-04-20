@@ -70,8 +70,8 @@ test_backend_api_contracts:
     - .test_rules
   script:
     - mkdir -p test-reports
-    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-junit.xml yarn test:e2e:api --workers=1 --reporter=list,junit
-    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-edge-junit.xml yarn test:e2e:api:edge --workers=1 --reporter=list,junit
+    - PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-junit.xml yarn test:e2e:api --workers=1 --reporter=list,junit
+    - PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-edge-junit.xml yarn test:e2e:api:edge --workers=1 --reporter=list,junit
   artifacts:
     when: always
     paths:
