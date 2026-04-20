@@ -135,7 +135,7 @@ build_docker-production:
     AUTH_ORIGIN: https://${DEPLOY_SERVER}
   before_script:
     # Install required packages
-    - apk add --no-cache openssh-client
+    - apk add --no-cache openssh-client gettext-envsubst
     # Setup SSH
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
