@@ -4,6 +4,8 @@ describe('Internal API: CMS tooltip mutations', () => {
   beforeEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
+    vi.stubGlobal('defineEventHandler', <T>(fn: T) => fn);
+    vi.stubGlobal('readBody', vi.fn().mockResolvedValue({}));
   });
 
   test('PUT /api/cms/usertooltips returns 503 when mutation guard blocks', async () => {
