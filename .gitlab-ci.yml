@@ -1,7 +1,7 @@
 default:
-  image: docker.gitlab.gwdg.de/eoltman/docker-ext:${DOCKER_IMAGE_VERSION}
+  image: docker.gitlab.gwdg.de/eoltman/docker-ext:28.3.3
   services:
-    - name: docker.io/library/docker:${DOCKER_IMAGE_VERSION}-dind
+    - name: docker.io/library/docker:28.3.3-dind
       alias: docker
       command: ["--mtu=1450"]
   tags:
@@ -53,15 +53,33 @@ test_unit_contracts:
     - .test_rules
   script:
     - yarn lint
-    - yarn test:unit
+    - mkdir -p test-reports
+    - yarn vitest run tests/unit --reporter=default --reporter=junit --outputFile.junit=test-reports/unit-junit.xml
+  artifacts:
+    when: always
+    paths:
+      - test-reports/unit-junit.xml
+    reports:
+      junit:
+        - test-reports/unit-junit.xml
 
 test_backend_api_contracts:
   extends:
     - .node_job
     - .test_rules
   script:
-    - yarn test:e2e:api --workers=1 --reporter=list
-    - yarn test:e2e:api:edge --workers=1 --reporter=list
+    - mkdir -p test-reports
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-junit.xml yarn test:e2e:api --workers=1 --reporter=list,junit
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-edge-junit.xml yarn test:e2e:api:edge --workers=1 --reporter=list,junit
+  artifacts:
+    when: always
+    paths:
+      - test-reports/e2e-api-junit.xml
+      - test-reports/e2e-api-edge-junit.xml
+    reports:
+      junit:
+        - test-reports/e2e-api-junit.xml
+        - test-reports/e2e-api-edge-junit.xml
 
 test_browser_smoke:
   extends: .node_job
@@ -69,8 +87,16 @@ test_browser_smoke:
     - if: $CI_PIPELINE_SOURCE == "schedule"
     - if: $CI_COMMIT_BRANCH == "testbed"
   script:
+    - mkdir -p test-reports
     - npx playwright install --with-deps chromium
-    - yarn test:e2e:smoke --workers=1 --reporter=list
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-smoke-junit.xml yarn test:e2e:smoke --workers=1 --reporter=list,junit
+  artifacts:
+    when: always
+    paths:
+      - test-reports/e2e-smoke-junit.xml
+    reports:
+      junit:
+        - test-reports/e2e-smoke-junit.xml
 
 # Build a docker image.
 .build_docker:
