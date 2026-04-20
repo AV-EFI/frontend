@@ -355,6 +355,8 @@ export default defineNuxtConfig({
       ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,
       ELASTIC_HOST_PUBLIC: process.env.ELASTIC_HOST_PUBLIC,
       ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
+      CMS_MUTATIONS_ENABLED: process.env.CMS_MUTATIONS_ENABLED || 'false',
+      CMS_MUTATION_ORIGIN_ALLOWLIST: process.env.CMS_MUTATION_ORIGIN_ALLOWLIST || '',
     },
   },
   routeRules: {

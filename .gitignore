@@ -25,6 +25,7 @@ yarn-error.log*
 .DS_Store
 bundle-analysis.html
 tmp_schema
+tailwind.colors.generated.ts
 
 # Local env files
 .env

@@ -65,6 +65,22 @@ Recommended reading order after `yarn test:data-quality:report`:
 - `tests/unit/source-guards/stakeholder-report-generator.spec.ts`: smoke + section-presence contract test for stakeholder markdown generation.
 - this test ensures all stakeholder files are created and include mandatory sections.
 
+## Change Finalization Rule
+
+For every code change:
+
+1. Update/add tests for the changed behavior.
+2. Run the impacted test suite locally.
+3. Update docs and env knob documentation to match the current runtime status.
+
+Security-specific expectation:
+
+- Any auth/guard/mutation change must be covered by unit tests for both deny and allow paths.
+- Current CMS mutation stopgap must remain covered by tests for:
+  - disabled mode (`503`)
+  - invalid origin/referer (`403`)
+  - enabled + unauthenticated (`401`)
+
 ## Environment knobs
 
 - `PLAYWRIGHT_BASE_URL`: override target app URL
@@ -76,6 +92,8 @@ Recommended reading order after `yarn test:data-quality:report`:
 - `ELASTIC_GWDG_HOST` and `ELASTIC_GWDG_INDEX`: legacy/fallback host + index keys also supported by data-quality reports
 - `ES_COMPARE_BASELINE_INDEX`: optional baseline index for denormalised comparison report (default `21.11155-denormalised-work`)
 - `ES_COMPARE_CANDIDATE_INDEX`: optional candidate index for denormalised comparison report (default `21.11155-denormalised-work-testbed`)
+- `CMS_MUTATIONS_ENABLED`: enables CMS write endpoints (`/api/cms/usertooltips` `PUT`, `/api/cms/usertooltips_seed` `POST`), default `false`
+- `CMS_MUTATION_ORIGIN_ALLOWLIST`: optional comma-separated extra origins allowed for CMS mutations (current request origin is always allowed)
 
 Default detail route:
 

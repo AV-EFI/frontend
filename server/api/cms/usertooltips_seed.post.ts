@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { promises as fs } from 'node:fs';
 import { readUserGlossary, writeUserGlossary } from '../../utils/userGlossaryStore';
 import { requireAuthenticatedUser } from '../../utils/requireAuthenticatedUser';
+import { requireCmsMutationsEnabled } from '../../utils/cmsMutationGuard';
 
 type I18nPayload = {
   en?: Record<string, string>;
@@ -73,6 +74,7 @@ function resolveKeyToPaths(key: string, entities: Entity[]): string[] {
 }
 
 export default defineEventHandler(async (event) => {
+  requireCmsMutationsEnabled(event);
   await requireAuthenticatedUser(event);
 
   const body = (await readBody<I18nPayload>(event)) || {};

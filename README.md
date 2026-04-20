@@ -230,6 +230,42 @@ For detailed test structure and environment knobs, see `tests/README.md`.
 
 ---
 
+## Security Note (Temporary CMS Hardening)
+
+CMS mutation endpoints are guarded behind an explicit feature switch as a temporary control:
+
+- `CMS_MUTATIONS_ENABLED=false` by default (recommended until authorization rollout is completed)
+- affected endpoints:
+  - `PUT /api/cms/usertooltips`
+  - `POST /api/cms/usertooltips_seed`
+- mutation requests also require same-origin headers (`Origin`/`Referer`) and optionally accept extra trusted origins via:
+  - `CMS_MUTATION_ORIGIN_ALLOWLIST=https://example-a,https://example-b`
+
+This is intended as a stopgap while full admin authorization is being finalized.
+
+---
+
+## Change Finalization Workflow
+
+When a change is considered "done", this repo expects all three steps below:
+
+1. Update or add tests for the changed behavior.
+2. Run the relevant local test commands (at least the impacted suite).
+3. Update documentation to reflect the new runtime and operational status.
+
+Minimum checklist before merge:
+
+- behavior changes in API/UI/composables must have matching unit/e2e coverage
+- security-relevant changes must update both guards and tests
+- environment variable changes must be reflected in:
+  - `.env.tmpl`
+  - `tests/README.md` environment knobs
+  - this `README.md` when operational workflow changes
+
+For CI lane details and test commands, see `tests/README.md`.
+
+---
+
 ## ✅ Summary
 
 | Environment        | Access URL               | Use Case                    |

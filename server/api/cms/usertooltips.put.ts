@@ -2,6 +2,7 @@
  
 import { readUserGlossary, writeUserGlossary } from '../../utils/userGlossaryStore';
 import { requireAuthenticatedUser } from '../../utils/requireAuthenticatedUser';
+import { requireCmsMutationsEnabled } from '../../utils/cmsMutationGuard';
 
 const toBool = (v) => {
   if (v === undefined || v === null || v === '') return undefined;
@@ -13,6 +14,7 @@ const toBool = (v) => {
 };
 
 export default defineEventHandler(async (event) => {
+  requireCmsMutationsEnabled(event);
   await requireAuthenticatedUser(event);
 
   const payload = await readBody(event);
