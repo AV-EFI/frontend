@@ -15,19 +15,19 @@ export function getElasticsearchNodes(): string[] {
 
   const preferredCandidates = isLocalLike
     ? [
-        runtimeConfig.private?.ELASTIC_HOST_PUBLIC,
-        runtimeConfig.private?.ELASTIC_HOST_INTERNAL,
-        process.env.ELASTIC_HOST_PUBLIC,
-        process.env.ELASTIC_HOST_INTERNAL,
-        process.env.ELASTIC_HOST,
-      ]
+      runtimeConfig.private?.ELASTIC_HOST_PUBLIC,
+      runtimeConfig.private?.ELASTIC_HOST_INTERNAL,
+      process.env.ELASTIC_HOST_PUBLIC,
+      process.env.ELASTIC_HOST_INTERNAL,
+      process.env.ELASTIC_HOST,
+    ]
     : [
-        runtimeConfig.private?.ELASTIC_HOST_INTERNAL,
-        runtimeConfig.private?.ELASTIC_HOST_PUBLIC,
-        process.env.ELASTIC_HOST_INTERNAL,
-        process.env.ELASTIC_HOST_PUBLIC,
-        process.env.ELASTIC_HOST,
-      ];
+      runtimeConfig.private?.ELASTIC_HOST_INTERNAL,
+      runtimeConfig.private?.ELASTIC_HOST_PUBLIC,
+      process.env.ELASTIC_HOST_INTERNAL,
+      process.env.ELASTIC_HOST_PUBLIC,
+      process.env.ELASTIC_HOST,
+    ];
 
   return preferredCandidates
     .map(normalizeElasticNode)

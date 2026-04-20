@@ -197,6 +197,39 @@ http:
 
 ---
 
+## 🧪 Testing and Data-Quality Reports
+
+This repository has two test families:
+
+- product behavior tests (unit + e2e)
+- Elasticsearch data-quality reporting tests (non-blocking)
+
+Quick commands:
+
+```bash
+yarn test:ci:fast
+yarn test:ci:api
+yarn test:data-quality:report
+```
+
+Human-readable explanation of the data-quality suite:
+
+- it is a reporting suite, not a deployment gate
+- it checks for patterns that usually indicate quality risk (missing fields, malformed IDs, placeholder-like titles, duplicate identifiers)
+- heuristic findings are warning signals for triage and sampling, not guaranteed defects
+- output is written as markdown so each stakeholder can read only the view they need
+
+Generated outputs:
+
+- `logs/data-quality/quality-statistics.md`: full technical report
+- `logs/data-quality/quality-failing-identifiers.md`: sampled failing document handles per rule
+- `logs/data-quality/quality-snapshot.json`: trend baseline/deltas
+- `logs/data-quality/stakeholders/*.md`: focused stakeholder views (frontend-ux, backend, data-engineer, project-manager, data-delivering-institutions)
+
+For detailed test structure and environment knobs, see `tests/README.md`.
+
+---
+
 ## ✅ Summary
 
 | Environment        | Access URL               | Use Case                    |

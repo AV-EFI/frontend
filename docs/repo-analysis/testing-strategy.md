@@ -2,21 +2,61 @@
 
 ## Current state
 
-The repository has almost no dependable automated safety net.
+The repository now has a first working regression safety net.
 
-What exists today:
+What exists now:
 
-- `vitest.config.ts`, but no real Vitest suite
-- one Cypress-style component spec: `components/global/ThemeSwitch.cy.ts`
-- node-based script tests under `scripts/tests/`
-- one package script: `npm run test:normdata`
+- Unit tests (`Vitest`) for:
+  - component interaction contracts
+  - locale-backed label/value rendering contracts (`de` + `en`) for key detail components
+  - middleware contracts
+  - API handler contracts split into:
+    - internal Nuxt handlers
+    - outbound wrapper/proxy handlers (external backend/ES/CMS calls mocked)
+- E2E smoke and SEO tests (`Playwright`) for:
+  - home/search/detail route reachability
+  - search canonical + robots behavior
+  - sitemap-listed search/detail URL smoke with direct API endpoint verification (`/api/elastic/*`)
+  - strict live detail payload validation against local elastic mapping for property-level schema drift detection
+  - runtime search-endpoint response validation (enabled when search executes via browser POST in active profile)
+  - direct backend Swagger contract smoke (`/rest/v1/openapi.json`, `/frontend/search`, `/frontend/view/{prefix}/{id_}`)
+  - public routes (`faq`, `press`, `vocab`)
+  - auth redirect behavior (`/admin/*`)
+  - compare URL-state basics
+  - press asset endpoint availability
+- source-guard contract tests to protect high-risk behaviors during refactors
+- source-guard contract test for stakeholder report generation (`tests/unit/source-guards/stakeholder-report-generator.spec.ts`)
+- node-based script tests under `scripts/tests/` remain available
+- data-quality reporting lane with:
+  - root, manifestation, item completeness and anomaly checks
+  - advanced heuristics (integrity, vocabulary, consistency, placeholder/duplicate patterns)
+  - denormalised index comparison between baseline and testbed
+  - failing identifier sample export for investigation
+  - stakeholder-specific markdown outputs
 
-What is missing:
+Current scripts:
 
-- unit tests for utilities, composables, stores, and server helpers
-- integration tests for Nitro handlers
-- e2e tests for core user journeys
-- CI stages that run those tests consistently
+- `yarn test`
+- `yarn test:unit`
+- `yarn test:unit:watch`
+- `yarn test:e2e`
+- `yarn test:e2e:smoke`
+- `yarn test:e2e:list`
+- `yarn test:e2e:api`
+- `yarn test:e2e:api:edge`
+- `yarn test:e2e:api:openapi`
+- `yarn test:e2e:api:detail`
+- `yarn test:e2e:api:search`
+- `yarn test:e2e:api:search-matrix`
+- `yarn test:e2e:api:negative`
+- `yarn test:e2e:api:health`
+- `yarn test:ci:fast`
+- `yarn test:ci:lint`
+- `yarn test:ci:api`
+- `yarn test:data-quality`
+- `yarn test:data-quality:report`
+- `yarn test:data-quality:watch`
+- `npm run test:normdata`
 
 ## Recommended scheme
 
@@ -101,33 +141,59 @@ Keep the current node-based tests, but treat them as a separate class:
 
 These should not block fast unit-test feedback unless they are run against stable fixtures or a dedicated nightly job.
 
-## Suggested CI pipeline
+Current data-quality lane behavior:
 
-### Pull request / merge request
+- non-blocking/report-first by design (not part of required CI deploy gates)
+- primary report: `logs/data-quality/quality-statistics.md`
+- sampled failing identifiers: `logs/data-quality/quality-failing-identifiers.md`
+- trend baseline: `logs/data-quality/quality-snapshot.json`
+- stakeholder reports: `logs/data-quality/stakeholders/*.md`
 
-- lint
-- typecheck
-- unit tests
-- Nitro integration tests
+Interpretation note for new contributors:
 
-### Main branch or nightly
+- `[OK]` = within threshold
+- `[WARN]` = elevated risk, review and triage
+- `[FAIL]` = strong regression signal, prioritize investigation
+- heuristic sections are intentionally probabilistic and should be validated using sampled identifiers
 
-- build preview artifact
-- Playwright smoke suite
-- optional live data-quality tests
+## CI pipeline (implemented)
 
-## Scripts worth adding
+Configured in `.gitlab-ci.yml`:
 
-- `test`: run all fast Vitest suites
-- `test:unit`
-- `test:integration`
-- `test:e2e`
-- `typecheck`: `nuxt typecheck` or equivalent
+- `test_unit_contracts`:
+  - `yarn lint`
+  - `yarn test:unit`
+- `test_backend_api_contracts`:
+  - `yarn test:e2e:api --workers=1 --reporter=list`
+  - `yarn test:e2e:api:edge --workers=1 --reporter=list`
+- `test_browser_smoke` (scheduled + optional manual on `testbed`):
+  - installs Chromium
+  - runs `yarn test:e2e:smoke --workers=1 --reporter=list`
+
+Required gates (`test_unit_contracts`, `test_backend_api_contracts`) run for:
+
+- merge request pipelines
+- `testbed`
+- `production`
+- `deploy-prod` tag pipelines
+
+Build and deploy jobs are therefore test-gated by stage order.
+
+## Local dev and pre-push practice
+
+There are currently no git hooks in this repo (`.husky/` is not present), so enforcement is CI-based.
+
+Recommended local sequence before pushing:
+
+- `yarn test:ci:fast`
+- `yarn test:ci:api`
+- optional standalone lint-only run: `yarn test:ci:lint`
 
 ## Rollout order
 
-1. Add `typecheck` and a real `vitest` baseline.
-2. Cover the pure server utilities and stores first.
-3. Add mocked Nitro handler tests.
-4. Add a tiny Playwright smoke suite for public routes.
-5. Only after that, start deleting or refactoring legacy code.
+1. Keep contract mapping (`behavior-baseline.md` + `component-behavior-contracts.md` + `test-contract-mapping.md`) in sync with code changes.
+2. Expand API contracts for remaining server routes (`cms`, `mail`, `log`, `poc`) with explicit internal-vs-outbound classification.
+3. Add targeted fixture-based tests for domain discoverability rules (direct-ID/API lookup vs generic discoverability).
+4. Add locale-focused UI tests for translated labels/property rendering (detail/search in `de` + `en`).
+5. Add CI job split for unit/api/e2e smoke lanes to keep feedback fast.
+6. Continue refactors only behind this safety net, extending tests before risky rewrites.
