@@ -68,8 +68,6 @@ test_browser_smoke:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
     - if: $CI_COMMIT_BRANCH == "testbed"
-      when: manual
-      allow_failure: true
   script:
     - npx playwright install --with-deps chromium
     - yarn test:e2e:smoke --workers=1 --reporter=list
