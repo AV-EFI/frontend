@@ -89,7 +89,7 @@
                                                 <div v-else class="stats stats-vertical w-full lg:stats-horizontal w-full shadow">
                                                     <div class="stat p-2 px-4">
                                                         <div class="stat-title">{{ $t('works') }}</div>
-                                                        <div class="stat-value">{{ nbHits }}</div>
+                                                        <div class="stat-value">{{ getDisplayedWorksCount(results?._rawResults[0], nbHits) }}</div>
                                                     </div>
 
                                                     <div class="stat p-2 px-4">
@@ -250,6 +250,7 @@
 
 <script setup lang="ts">
 import { useMatomoTracking } from '~/composables/useMatomoTracking';
+import { getDisplayedWorksCount } from '~/utils/searchResultCounts';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();

@@ -17,6 +17,7 @@ const SEARCH_RESULT_REQUIRED_KEYS = [
   'hitsPerPage',
   'processingTimeMS',
   'nbHits',
+  'nbWorks',
   'page',
   'nbPages',
   'query',
@@ -93,6 +94,7 @@ type SearchResultContract = {
   hitsPerPage: number;
   processingTimeMS: number;
   nbHits: number;
+  nbWorks: number;
   page: number;
   nbPages: number;
   query: string;
@@ -153,6 +155,7 @@ function assertSearchResultContract(result: unknown, variantName: string) {
   expect(typeof typedResult.hitsPerPage).toBe('number');
   expect(typeof typedResult.processingTimeMS).toBe('number');
   expect(typeof typedResult.nbHits).toBe('number');
+  expect(typeof typedResult.nbWorks).toBe('number');
   expect(typeof typedResult.page).toBe('number');
   expect(typeof typedResult.nbPages).toBe('number');
   expect(typeof typedResult.query).toBe('string');

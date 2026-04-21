@@ -44,3 +44,6 @@ tailwind.colors.generated.ts
 # Lock files (keep yarn.lock tracked)
 package-lock.json*
 pnpm-lock.yaml
+
+# Test artifacts
+test-results/

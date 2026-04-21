@@ -236,6 +236,7 @@ export const config: SearchkitConfigExtended = {
     // snippet_attributes: ['plot'],
   },
   // Custom properties for AVefi
+  nbWorks: 0,
   nbManifestations: 0,
   nbItems: 0,
 };
