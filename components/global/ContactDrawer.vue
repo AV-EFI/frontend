@@ -26,7 +26,7 @@
                 aria-labelledby="contact-drawer-heading"
             >
                 <button
-                    class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3 z-10"
+                    class="btn btn-sm btn-circle btn-ghost absolute right-5 top-5 sn:right-3 sm:top-3 z-10"
                     :aria-label="$t('closeForm')"
                     @click="closeDrawer"
                 >

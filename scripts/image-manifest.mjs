@@ -43,6 +43,7 @@ const primaryImageJobs = [
   responsiveJob('img/restaur_kurzfilme.jpg', CARD_WIDTHS),
   responsiveJob('img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp', CARD_WIDTHS),
   responsiveJob('img/avefi_vid_poster.webp', VIDEO_POSTER_WIDTHS),
+  responsiveJob('img/schlenker.jpg', CARD_WIDTHS),
   fixedHeightLogoJob('img/logo_mcdci.png', 'img/logo_mcdci.webp'),
 ];
 
