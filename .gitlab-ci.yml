@@ -29,7 +29,6 @@ variables:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == "testbed"
     - if: $CI_COMMIT_BRANCH == "production"
-    - if: $CI_COMMIT_TAG == "deploy-prod"
 
 .node_job:
   stage: test
@@ -125,8 +124,7 @@ build_docker-production:
     action: prepare
     url: https://www.av-efi.net
   rules:
-    - if: $CI_COMMIT_BRANCH == "production"
-    - if: $CI_COMMIT_TAG == "deploy-prod"
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
   extends: .build_docker
 
 .deploy:
@@ -181,6 +179,5 @@ deploy-production:
     name: production
     url: https://www.av-efi.net
   rules:
-    - if: $CI_COMMIT_BRANCH == "production"
-    - if: $CI_COMMIT_TAG == "deploy-prod"
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
   extends: .deploy
