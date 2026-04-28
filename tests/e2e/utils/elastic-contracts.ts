@@ -16,7 +16,7 @@ function getRootProperties(): Record<string, MappingNode> {
     'models',
     'interfaces',
     'elasticsearch',
-    'mapping_21.11155-denormalised-work.json',
+    'mapping_21.11155-denormalised-work-testbed.json',
   );
   const raw = readFileSync(mappingPath, 'utf8');
   const json = JSON.parse(raw) as Record<string, { mappings?: { properties?: Record<string, MappingNode> } }>;

@@ -4,6 +4,7 @@
             <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
+                <ais-clear-refinements ref="clearRefinementsRef" style="display:none" />
                 <h1 class="text-lg font-bold xl:text-xl dark:text-white max-w-32 text-left ml-2" tabindex="0">
                     {{ $t('filmresearch') }}
                 </h1>
@@ -317,6 +318,7 @@ const productionYearLabel = computed(() => {
 });
 
 const isClearingAllRefinements = ref(false);
+const clearRefinementsRef = ref<any>(null);
 
 async function clearProductionYearRefinement() {
     forceHideProductionYearChip.value = true;
@@ -379,7 +381,7 @@ async function handleClearAllRefinements() {
 
         await nextTick();
 
-        const clearBtn = document.querySelector('.ais-ClearRefinements-button');
+        const clearBtn = clearRefinementsRef.value?.$el?.querySelector('button');
         if (clearBtn instanceof HTMLElement) {
             clearBtn.click();
         }

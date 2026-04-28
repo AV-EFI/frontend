@@ -597,6 +597,15 @@
                                                                 }
                                                             }
                                                         },
+                                                        "has_alternate_name": {
+                                                            "type": "text",
+                                                            "fields": {
+                                                                "keyword": {
+                                                                    "type": "keyword",
+                                                                    "ignore_above": 256
+                                                                }
+                                                            }
+                                                        },
                                                         "has_name": {
                                                             "type": "text",
                                                             "fields": {
@@ -1208,6 +1217,15 @@
                     "properties": {
                         "@timestamp": {
                             "type": "long"
+                        },
+                        "creators": {
+                            "type": "text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                }
+                            }
                         },
                         "directors_or_editors": {
                             "type": "text",
