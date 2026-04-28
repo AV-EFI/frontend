@@ -540,7 +540,10 @@ const deBase = {
   'addNewSubject': 'Neues Schlagwort hinzufügen',
   'addNewOtherId': 'Neue weitere ID hinzufügen',
   'avefiClaim': 'Filme finden. Daten verbinden.',
-  'avefiClaimHtml': 'Filme finden. Daten verbinden.',
+  'avefiClaimHtml': 'Filme finden.\nDaten verbinden.',
+  'goToHomepage': 'Zur Startseite',
+  'unknownError': 'Ein unbekannter Fehler ist aufgetreten',
+  'clipboardCopyError': 'In die Zwischenablage kopieren fehlgeschlagen',
   'avefi_Item': 'Exemplar',
   'avefi_Manifestation': 'Manifestation',
   'avefi_WorkVariant': 'Werk',
@@ -719,6 +722,8 @@ const deBase = {
   "place": "Ort",
   'openDrawer': 'Öffnen',
   'cookiesModalDescription': 'Hier können Sie Ihre Cookie-Einstellungen anpassen. Sie haben die Möglichkeit, bestimmte Cookies zu aktivieren oder zu deaktivieren, die für die Funktionalität und Verbesserung unserer Website verwendet werden. Bitte beachten Sie, dass das Deaktivieren einiger Cookies die Nutzung der Website beeinträchtigen kann.',
+  'iframeNotSupported': 'Ihr Browser unterstützt keine eingebetteten Frames.',
+  'openPrivacyPolicy': 'Datenschutzerklärung in neuem Tab öffnen',
   'comparison': 'Vergleich',
   'loadingCookies': 'Cookie-Einstellungen werden geladen…',
   'comparisonalready': 'Das Element befindet sich bereits im Vergleich',
@@ -801,6 +806,7 @@ const deBase = {
   'CastMember': 'Darsteller*in',
   'crewMember': 'Mitwirkende Person',
   'crewMemberType': 'Art der Mitwirkung',
+  'suspiciousValue': 'Dieser Wert könnte ein Datenfehler sein',
   'agentsList': 'Agentenliste',
   'agent': 'Agent',
   'sameAs': 'Gleich wie',
@@ -1402,5 +1408,24 @@ export default {
       ogTitle: "Erklärung zur Barrierefreiheit - AVefi",
       ogDescription: "Informationen zur digitalen Barrierefreiheit bei AVefi sowie offizielle Referenzen und Kontaktmöglichkeiten."
     }
-  }
+  },
+
+  // ── Heuristics audit fixes ─────────────────────────────────────────────
+  'dismissHint': 'Hinweis schließen',
+  'contactUs': 'Kontakt aufnehmen',
+  'formSubmitted': 'Formular abgesendet',
+  'rangeMinMustBeLessOrEqual': 'Der Mindestwert muss kleiner oder gleich dem Maximalwert sein',
+  'exportFailed': 'Export fehlgeschlagen',
+  'exportNoData': 'Keine Daten zum Exportieren',
+  'csvExported': 'CSV exportiert',
+  'jsonExported': 'JSON exportiert',
+  'xmlExported': 'XML exportiert',
+  'initialisingSearch': 'Suche wird initialisiert\u2026',
+  'addItemsToEnableTab': 'Fügen Sie Elemente hinzu, um diese Registerkarte zu aktivieren',
+  // FacetDrawer header-text i18n keys
+  'has_form': 'Formtyp',
+  'place': 'Ort',
+  'avefi:ProductionEvent': 'Produktionsereignis',
+  'has_access_status': 'Zugangsstatus',
+  'has_sound_type': 'Tontyp',
 };

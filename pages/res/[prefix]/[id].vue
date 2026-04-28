@@ -8,7 +8,15 @@
             <template #title>
                 <NuxtLayout name="partial-grid-2-1" left-class="dark:bg-primary-600 rounded-t-xl py-4">
                     <template #left>                        
-                        <div v-if="resourceType != 'compilationItem'" class="col-span-full px-4">
+                        <div v-if="pending" class="col-span-full px-4">
+                            <MicroSkeletonLoader
+                                :count="2"
+                                variant="compact"
+                                :line-pattern="['w-1/3', 'w-3/4']"
+                                :show-chips="false"
+                            />
+                        </div>
+                        <div v-else-if="resourceType != 'compilationItem'" class="col-span-full px-4">
                             <GlobalClipboardComp
                                 :display-text="dataJson?.compound_record?._source?.handle"
                                 :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
@@ -51,6 +59,7 @@
                     <template #right>
                         <ClientOnly>
                             <GlobalActionContextComp
+                                v-if="!pending"
                                 class="col-start-11 row-start-1 justify-self-end"
                                 :id="dataJson?.compound_record?._source?.handle"
                                 :item="dataJson?.compound_record?._source"
@@ -63,6 +72,7 @@
 
             <template #actions>
                 <MicroBadgeCategoryComp
+                    v-if="!pending"
                     class="col-span-3 mt-2 divider-primary"
                     :class="!dataJson?.compound_record?._source?.has_record?.type ? 'hidden' : ''"
                     :category="dataJson?.compound_record?._source?.has_record?.type"
@@ -71,14 +81,22 @@
 
             <template #cardBody>
                 <div class="px-4 pb-4">
-                    <div v-if="pending" class="text-center py-4">
-                        <span class="loading loading-spinner loading-lg text-primary" />
-                    </div>
+                    <MicroDataLoadState
+                        :pending="pending"
+                        :error="error"
+                        :has-data="Boolean(dataJson)"
+                        :min-skeleton-ms="200"
+                        :loading-count="5"
+                        loading-variant="list"
+                        :loading-line-pattern="['w-2/3', 'w-full', 'w-5/6']"
+                        :loading-show-chips="true"
+                    >
+                        <template #error="{ error: loadError }">
+                            <div class="text-center text-red-500 py-8">
+                                {{ $t('errorLoadingData') }}: {{ loadError }}
+                            </div>
+                        </template>
 
-                    <div v-else-if="error" class="text-center text-red-500 py-8">
-                        {{ $t('errorLoadingData') }}: {{ error }}
-                    </div>
-                    <div v-else>
                         <ViewsWorkViewCompAVefi
                             v-if="dataJson && (resourceType === 'workVariant' || resourceType === 'compilation' || resourceType === 'manifestationOrItem')"
                             v-model="dataJson"
@@ -97,7 +115,7 @@
                         <div v-else class="text-center text-gray-500">
                             {{ $t('noDataAvailable') }}
                         </div>
-                    </div>
+                    </MicroDataLoadState>
                 </div>
             </template>
         </NuxtLayout>

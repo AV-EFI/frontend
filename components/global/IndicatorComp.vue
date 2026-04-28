@@ -27,8 +27,8 @@
         >
             <div
                 class="badge bg-favourites-list hover:bg-favourites-list font-bold text-white text-center join-item"
-                :title="$t('elementsincomparison')"
-                :aria-label="`${$t('elementsincomparison')}: ${favourites.objects?.length}`"
+                :title="$t('elementsinfavourites')"
+                :aria-label="`${$t('elementsinfavourites')}: ${favourites.objects?.length}`"
             >
                 <span class="hidden text-xs transition-all ease-in-out delay-150">
                     {{ $t('favourites') }}
@@ -37,8 +37,8 @@
             </div>
             <div
                 class="badge bg-compare-list font-bold text-white text-center join-item"
-                :title="$t('elementsinfavourites')"
-                :aria-label="`${$t('elementsinfavourites')}: ${objectListStore.objects?.length}`"
+                :title="$t('elementsincomparison')"
+                :aria-label="`${$t('elementsincomparison')}: ${objectListStore.objects?.length}`"
             >
                 <span class="hidden text-xs">
                     {{ $t('comparison') }}

@@ -6,6 +6,7 @@
         :aria-label="$t('pagination')"
     >
         <ais-pagination
+            v-show="!showPaginationSkeleton"
             :class-names="{
                 'ais-Pagination': 'flex justify-center my-auto bg-white dark:bg-gray-800',
                 'ais-Pagination-list': 'flex space-x-1 my-1',
@@ -14,8 +15,20 @@
                 'ais-Pagination-item--selected': 'btn btn-sm btn-circle btn-accent !text-white'
             }"
         />
-        <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-gray-800/60 z-50 pointer-events-auto">
-            <span role="status" aria-live="polite" class="loading loading-spinner loading-md text-primary" />
+        <div
+            v-if="showPaginationSkeleton"
+            class="absolute inset-0 flex items-center justify-center bg-white/70 dark:bg-gray-800/70 z-50 pointer-events-auto"
+            role="status"
+            aria-live="polite"
+        >
+            <div class="flex items-center gap-2" aria-hidden="true">
+                <span
+                    v-for="n in 5"
+                    :key="`pager-skel-${n}`"
+                    class="h-8 w-8 rounded-full bg-base-300/80 dark:bg-gray-700/80 animate-pulse"
+                />
+            </div>
+            <span class="sr-only">{{ $t('loading') }}</span>
         </div>
     </div>
 </template>
@@ -36,7 +49,7 @@
 </style>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 const props = defineProps({
     isSearchLoading: {
@@ -47,9 +60,12 @@ const props = defineProps({
 
 const root = ref<HTMLElement | null>(null);
 const loading = ref(false);
+const bootstrapSkeleton = ref(true);
+const showPaginationSkeleton = computed(() => loading.value || bootstrapSkeleton.value);
 
 let observer: MutationObserver | null = null;
 let timeoutId: number | null = null;
+let bootstrapTimer: number | null = null;
 
 function clearLoading() {
     loading.value = false;
@@ -111,9 +127,16 @@ onMounted(() => {
     if (root.value) {
         observer = new MutationObserver(() => {
             if (loading.value) clearLoading();
+            if (bootstrapSkeleton.value) bootstrapSkeleton.value = false;
         });
         observer.observe(root.value, { childList: true, subtree: true });
     }
+
+    // Fail-safe so skeleton cannot stay forever in edge cases with 1 page/no controls.
+    bootstrapTimer = window.setTimeout(() => {
+        bootstrapSkeleton.value = false;
+        bootstrapTimer = null;
+    }, 900);
 });
 
 watch(
@@ -129,6 +152,9 @@ watch(
         }
 
         clearLoading();
+        if (bootstrapSkeleton.value) {
+            bootstrapSkeleton.value = false;
+        }
     },
     { immediate: true }
 );
@@ -142,6 +168,10 @@ onBeforeUnmount(() => {
     if (timeoutId !== null) {
         clearTimeout(timeoutId);
         timeoutId = null;
+    }
+    if (bootstrapTimer !== null) {
+        clearTimeout(bootstrapTimer);
+        bootstrapTimer = null;
     }
 });
 </script>

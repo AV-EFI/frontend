@@ -5,6 +5,7 @@ export function useClipboardUtil() {
   const source = ref('AVefi');
   const { copy, isSupported } = useClipboard({ source });
   const {$toast} = useNuxtApp();
+  const { t } = useI18n();
 
   function copyExtended(copyText: string) {
     try {
@@ -14,7 +15,7 @@ export function useClipboardUtil() {
       copy(copyText);
       $toast?.info?.(`'${copyText}' in Clipboard`);
     } catch (e) {
-      $toast?.error?.('Copy to clipboard error');
+      $toast?.error?.(t('clipboardCopyError'));
       console.error('Copy to clipboard error:', e);
     }
   }

@@ -15,6 +15,10 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        // Nuxt sets import.meta.client = true at build time; replicate that here
+        // so composables using that guard (e.g. useLiveToast.announce) behave as
+        // they would in a real browser during unit tests.
+        define: { 'import.meta.client': true },
         test: {
           name: 'unit',
           include: ['tests/unit/**/*.spec.ts'],

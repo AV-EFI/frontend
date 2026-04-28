@@ -74,6 +74,6 @@ const workVar = defineModel({ type: Object as PropType<WorkVariant>, required: t
 
 const props = defineProps({
     handle: { type: String, required: true },
-    esTimestamp: { type: String, required: true }
+    esTimestamp: { type: Number, required: true }
 });
 </script>

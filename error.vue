@@ -36,19 +36,22 @@ const errorPage = computed(() => {
                                     {{ error?.statusCode || 'Error' }}
                                 </h2>
                                 <h3 class="text-xl md:text-2xl font-semibold text-base-content mb-4">
-                                    {{ error?.message || 'An error occurred' }}
+                                    {{ error?.message || $t('errorOccurred') }}
                                 </h3>
                                 <p class="text-base-content/70 mb-6">
-                                    {{ error?.statusMessage || 'Something went wrong. Please try again.' }}
+                                    {{ error?.statusMessage || $t('unexpectedError') }}
                                 </p>
-                                <div class="card-actions justify-center">
+                                <div class="card-actions justify-center flex-col items-center gap-2">
                                     <NuxtLink 
                                         to="/" 
                                         class="btn btn-primary"
                                         @click="clearError({ redirect: '/' })"
                                     >
                                         <Icon name="tabler:home" class="w-5 h-5" />
-                                        Go to Homepage
+                                        {{ $t('goToHomepage') }}
+                                    </NuxtLink>
+                                    <NuxtLink to="/accessibility" class="link link-primary text-sm">
+                                        {{ $t('contactUs') }}
                                     </NuxtLink>
                                 </div>
                             </div>

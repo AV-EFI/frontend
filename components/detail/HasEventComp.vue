@@ -51,16 +51,19 @@
                                 </header>
 
                                 <ul class="mt-2 space-y-1" :aria-label="$t('agentsList')">
-                                    <li v-for="(agent, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
-                                        :aria-label="$t('agent') + ': ' + (agent?.has_name ?? '')" class="group">
+                                    <li v-for="(entry, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
+                                        :aria-label="$t('agent') + ': ' + (entry.agent?.has_name ?? '')" class="group">
                                         <div class="flex items-start justify-between gap-2 rounded-lg px-2 py-2
                      hover:bg-primary-50 focus-within:bg-primary-50
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
                                             <span class="min-w-0 flex-1 break-words text-sm leading-5 dark:text-gray-300">
-                                                {{ agent?.has_name ?? '' }}
+                                                {{ entry.agent?.has_name ?? '' }}
                                             </span>
+                                            <span v-if="entry.isSuspicious"
+                                                  class="badge badge-xs badge-warning shrink-0 opacity-70"
+                                                  :title="$t('suspiciousValue')">?</span>
 
-                                            <DetailSameAsComp v-if="agent?.same_as" :same-as-data="agent.same_as" type="person"
+                                            <DetailSameAsComp v-if="entry.agent?.same_as" :same-as-data="entry.agent.same_as" type="person"
                                                               :aria-label="$t('sameAs')" text="sm"
                                                               class="flex h-6 items-start opacity-70 group-hover:opacity-100 focus-within:opacity-100" />
                                         </div>
@@ -93,16 +96,19 @@
                                 </header>
 
                                 <ul class="mt-2 space-y-1" :aria-label="$t('agentsList')">
-                                    <li v-for="(agent, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
-                                        :aria-label="$t('agent') + ': ' + (agent?.has_name ?? '')" class="group">
+                                    <li v-for="(entry, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
+                                        :aria-label="$t('agent') + ': ' + (entry.agent?.has_name ?? '')" class="group">
                                         <div class="flex items-start justify-between gap-2 rounded-lg px-2 py-2
                      hover:bg-primary-50 focus-within:bg-primary-50
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
                                             <span class="min-w-0 flex-1 break-words text-sm leading-5 dark:text-gray-300">
-                                                {{ agent?.has_name ?? '' }}
+                                                {{ entry.agent?.has_name ?? '' }}
                                             </span>
+                                            <span v-if="entry.isSuspicious"
+                                                  class="badge badge-xs badge-warning shrink-0 opacity-70"
+                                                  :title="$t('suspiciousValue')">?</span>
 
-                                            <DetailSameAsComp v-if="agent?.same_as" :same-as-data="agent.same_as" type="person"
+                                            <DetailSameAsComp v-if="entry.agent?.same_as" :same-as-data="entry.agent.same_as" type="person"
                                                               :aria-label="$t('sameAs')" text="sm"
                                                               class="flex h-6 items-start opacity-70 group-hover:opacity-100 focus-within:opacity-100" />
                                         </div>
@@ -120,6 +126,7 @@
 <script lang="ts" setup>
 import { computed, type PropType } from "vue";
 import type { Event } from "../../models/interfaces/av_efi_schema";
+import { isSuspiciousName } from "../../utils/agentQuality";
 
 type Activity = NonNullable<Event["has_activity"]>[number];
 type Agent = Activity["has_agent"] extends Array<infer T> ? T : NonNullable<Activity["has_agent"]>;
@@ -167,12 +174,19 @@ function splitActivities(evt: Event) {
     return { crew, cast };
 }
 
-function normalizeAgents(agentData: Activity["has_agent"] | undefined): Agent[] {
+interface AgentEntry {
+    agent: Agent;
+    isSuspicious: boolean;
+}
+
+function normalizeAgents(agentData: Activity["has_agent"] | undefined): AgentEntry[] {
     if (Array.isArray(agentData)) {
-        return agentData.filter(Boolean) as Agent[];
+        return agentData
+            .filter((a): a is Agent => Boolean(a))
+            .map((agent) => ({ agent, isSuspicious: isSuspiciousName(agent) }));
     }
     if (agentData) {
-        return [agentData as Agent];
+        return [{ agent: agentData as Agent, isSuspicious: isSuspiciousName(agentData) }];
     }
     return [];
 }

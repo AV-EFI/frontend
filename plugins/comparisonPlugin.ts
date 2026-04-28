@@ -23,7 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             else if (added == "succ") {
               toast?.success?.(t('addedtofavouritesparam', {'name': filmTitle}));
             } else {
-              toast && toast('Something happened');
+              toast?.error?.(t('unknownError'));
             }
           });
 
@@ -39,7 +39,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             else if (added == "succ") {
               toast?.success?.(t('addedtocomparisonparam', {'name': filmTitle}));
             } else {
-              toast && toast('Something happened');
+              toast?.error?.(t('unknownError'));
             }
           });
       }

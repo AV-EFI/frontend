@@ -4,16 +4,14 @@
         class="tracking-wide text-xs font-bold dark:text-slate-300 text-neutral h-4"
         :class="fontSize"
     >
-        <span class="sr-only">{{ $t($props.labelText) }}</span>
-        <span aria-hidden="true">{{ $t($props.labelText) }}:</span>
+        {{ $t($props.labelText) }}:
     </span>
     <span
         v-else
         class="tracking-wide text-xs font-bold dark:text-slate-300 text-neutral h-4"
         :class="fontSize"
     >
-        <span class="sr-only">{{ labelText }}</span>
-        <span aria-hidden="true">{{ labelText }}:</span>
+        {{ labelText }}:
     </span>
 </template>
 

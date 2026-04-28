@@ -2,7 +2,7 @@
     <button class="btn btn-xs btn-primary" :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
             :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
             @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)">
-        <Icon name="tabler:arrow-right" />
+        <Icon name="tabler:transfer" />
     </button>
     <!--
     <Icon

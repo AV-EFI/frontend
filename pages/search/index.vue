@@ -7,20 +7,28 @@
             ]"
         />
 
-        <div v-if="isClient">
-            <client-only>
-                <SearchSection
-                    v-if="searchClient"
-                    :search-client="searchClient"
-                />
-                <div v-else class="text-center py-4">
-                    <span class="loading loading-spinner loading-lg text-primary" />
+        <ClientOnly>
+            <template #fallback>
+                <div class="text-center py-4">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="loading loading-spinner loading-lg text-primary" aria-hidden="true" />
+                        <span class="sr-only">{{ $t('loading') }}</span>
+                        <p class="text-sm text-base-content/60">{{ $t('initialisingSearch') }}</p>
+                    </div>
                 </div>
-            </client-only>
-        </div>
-        <div v-else class="text-center py-4">
-            <span class="loading loading-spinner loading-lg text-primary" />
-        </div>
+            </template>
+            <SearchSection
+                v-if="searchClient"
+                :search-client="searchClient"
+            />
+            <div v-else class="text-center py-4">
+                <div class="flex flex-col items-center gap-2">
+                    <span class="loading loading-spinner loading-lg text-primary" aria-hidden="true" />
+                    <span class="sr-only">{{ $t('loading') }}</span>
+                    <p class="text-sm text-base-content/60">{{ $t('initialisingSearch') }}</p>
+                </div>
+            </div>
+        </ClientOnly>
     </div>
 </template>
 
@@ -40,9 +48,7 @@ const { currentUrlState } = useCurrentUrlState();
 /**
  * Search client (client-only) — keep SSR stable but avoid running client instantiation on server.
  */
-import { ref } from 'vue';
-const isClient = typeof window !== 'undefined';
-const searchClient = isClient
+const searchClient = process.client
     ? Client({
         config: searchkitConfig as any,
         url: `${runtime.public.elasticApiBase}/${runtime.public.searchApiPath}`,

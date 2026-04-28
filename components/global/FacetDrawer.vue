@@ -24,11 +24,12 @@
                 class="relative menu w-full md:w-screen lg:w-80 overflow-y-auto overflow-x-visible max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30"
                 :aria-busy="isSearchLoading"
             >
-                <div
+                    <div
                     v-if="isSearchLoading"
                     class="absolute inset-0 z-30 flex items-center justify-center bg-base-100/70 dark:bg-gray-900/70 pointer-events-auto"
                 >
-                    <span role="status" aria-live="polite" class="loading loading-spinner loading-md text-primary" />
+                    <span class="loading loading-spinner loading-md text-primary" aria-hidden="true" />
+                    <span class="sr-only" aria-live="polite">{{ $t('loading') }}</span>
                 </div>
                 <div class="flex flex-row justify-end">
                     <button 
@@ -46,7 +47,7 @@
                     <div class="search-panel__filters lg:mr-1 max-w-full">
 
                         <SearchPanelRefinementListComp
-                            header-text="Genre"
+                            header-text="has_genre_has_name"
                             attribute-name="has_genre_has_name"
                             category="avefi:WorkVariant"
                             :tab-index="1"
@@ -94,7 +95,7 @@
                             :aria-label="$t('productionyear')"
                         />
                         <SearchPanelRefinementListComp
-                            header-text="avefi:Subject"
+                            header-text="subject"
                             attribute-name="subjects"
                             category="avefi:WorkVariant"
                             :tab-index="8"
@@ -168,7 +169,7 @@
                         />
                         <SearchPanelRefinementListComp
                             :class="{ hidden: viewTypeChecked == 'flat' }"
-                            header-text="has_format"
+                            header-text="has_format_type"
                             attribute-name="has_format_type"
                             category="avefi:Item"
                             :is-searchable="false"

@@ -3,6 +3,9 @@
 const { locale, t: $t } = useI18n();
 const siteUrl = useSiteUrl();
 
+// Live region for toast / action feedback (consumed by useLiveToast).
+const { liveMessage } = useLiveToast();
+
 const schemaWebSiteId = computed(() => `${siteUrl.value}/#website`);
 const schemaIdentityId = computed(() => `${siteUrl.value}/#organization`);
 const schemaId = (node: 'catalog' | 'dataset' | 'project' | 'logo') => `${siteUrl.value}/#${node}`;
@@ -320,6 +323,18 @@ useHead(() => ({
 
 <template>
     <div id="app" v-cloak class="">
+        <!--
+            Global aria-live region for toast / action feedback.
+            Written to by useLiveToast.announce() so screen-reader users receive
+            transient notifications even if the visual toast is not yet mounted.
+        -->
+        <div
+            id="live-toast-region"
+            class="sr-only"
+            aria-live="assertive"
+            aria-atomic="true"
+        >{{ liveMessage }}</div>
+
         <GlobalLoadingScreen />
         <NuxtLoadingIndicator />
         <NuxtLayout class="layouts">
@@ -338,7 +353,7 @@ useHead(() => ({
                                 <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="dark:text-white link">
                                     {{ $t('dataprotection') }}
                                 </NuxtLink>
-                                |
+                                <span aria-hidden="true" class="opacity-40">·</span>
                                 <NuxtLink to="/imprint" class="dark:text-white link">
                                     {{ $t('imprint') }}
                                 </NuxtLink>
@@ -350,7 +365,7 @@ useHead(() => ({
 
                             <template #cookie="{ cookie }">
                                 <h3 v-text="cookie.name[locale]" />
-                                <span v-html="cookie.description[locale]" />
+                                <span v-text="cookie.description[locale]" />
 
                                 <div v-if="cookie.targetCookieIds">
                                     <b>Cookie ids: </b>

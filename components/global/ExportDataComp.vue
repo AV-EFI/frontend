@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { mkConfig, generateCsv, download as downloadCsv } from 'export-to-csv';
 import { useI18n } from 'vue-i18n';
   
@@ -81,7 +82,7 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
     }
   
     if (!rawData || rawData.length === 0) {
-        $toast?.error?.('No data to export', { timeout: 2000 });
+        $toast?.error?.($t('exportNoData'), { timeout: 2000 });
         return;
     }
   
@@ -96,18 +97,19 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
             const csv = await generateCsv(csvConfig)(flattened);
             if (csv) {
                 downloadCsv(csvConfig)(csv);
-                $toast?.success?.('CSV exported!', { timeout: 2000 });
+                $toast?.success?.($t('csvExported'), { timeout: 2000 });
             }
         } else if (format === 'json') {
             downloadBlob(JSON.stringify(flattened, null, 2), `${filename}.json`, 'application/json');
-            $toast?.success?.('JSON exported!', { timeout: 2000 });
+            $toast?.success?.($t('jsonExported'), { timeout: 2000 });
         } else if (format === 'xml') {
             const xml = jsonToXml(flattened);
             downloadBlob(xml, `${filename}.xml`, 'application/xml');
-            $toast?.success?.('XML exported!', { timeout: 2000 });
+            $toast?.success?.($t('xmlExported'), { timeout: 2000 });
         }
     } catch (err) {
-        $toast?.error?.(`Export failed: ${err}`, { timeout: 3000 });
+        console.error('[ExportDataComp] export failed', err);
+        $toast?.error?.($t('exportFailed'), { timeout: 3000 });
     }
 }
   

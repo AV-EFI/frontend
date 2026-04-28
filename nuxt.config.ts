@@ -567,19 +567,19 @@ export default defineNuxtConfig({
       necessary: [
         {
           id: 'default',
-          name: { en: 'Default Cookies', de: 'Standard Cookies' },
+          name: { en: 'Essential Cookies', de: 'Notwendige Cookies' },
           description: {
-            en: 'Used for Cookies, Search, Favourites and Authentication.',
-            de: 'Wird für Cookies, Suche, Favoriten und Authentifizierung verwendet.',
+            en: 'Required for core site functionality: session management, saved searches, favourites list, and login state. These cookies are stored for the duration of your browser session or until you log out, and are never shared with third parties.',
+            de: 'Erforderlich für grundlegende Website-Funktionen: Sitzungsverwaltung, gespeicherte Suchen, Favoritenliste und Login-Status. Diese Cookies werden für die Dauer Ihrer Browser-Sitzung oder bis zur Abmeldung gespeichert und nicht an Dritte weitergegeben.',
           },
           targetCookieIds: ['cookie_control_consent', 'cookie_control_enabled_cookies'],
         },
         {
           id: 'i18n_redirected',
-          name: { en: 'Language Preference Cookies', de: 'Sprachpräferenz-Cookies' },
+          name: { en: 'Language Preference', de: 'Sprachpräferenz' },
           description: {
-            en: 'Stores the language preference of the user.',
-            de: 'Speichert die Sprachpräferenz des Benutzers.',
+            en: 'Remembers your preferred interface language (German or English) across visits. Stored as a session cookie and cleared when you close your browser.',
+            de: 'Speichert Ihre bevorzugte Oberflächensprache (Deutsch oder Englisch) über Sitzungen hinweg. Wird als Session-Cookie gespeichert und beim Schließen des Browsers gelöscht.',
           },
           targetCookieIds: ['i18n_redirected'],
         },
@@ -589,11 +589,11 @@ export default defineNuxtConfig({
           id: 'matomo',
           name: { en: 'Analytics (Matomo)', de: 'Analyse (Matomo)' },
           description: {
-            en: 'Helps us understand usage to improve the service.',
-            de: 'Hilft, die Nutzung zu verstehen und den Dienst zu verbessern.',
+            en: 'Anonymous usage statistics collected by Matomo, hosted by GWDG on servers within the EU. IP addresses are anonymised before storage. Data is automatically deleted after 13 months and is never sold or shared with third parties. You can opt out at any time by declining this cookie.',
+            de: 'Anonyme Nutzungsstatistiken, erhoben durch Matomo und gehostet von der GWDG auf Servern innerhalb der EU. IP-Adressen werden vor der Speicherung anonymisiert. Daten werden nach 13 Monaten automatisch gelöscht und weder verkauft noch an Dritte weitergegeben. Sie können jederzeit widersprechen, indem Sie diesen Cookie ablehnen.',
           },
-          // purely informational for the banner UI
-          targetCookieIds: ['_pk_id.*', '_pk_ses.*'],
+          // Human-readable labels; actual cookie names follow the _pk_id.* / _pk_ses.* pattern
+          targetCookieIds: ['_pk_id (Matomo visitor ID)', '_pk_ses (Matomo session)'],
         },
       ],
     },

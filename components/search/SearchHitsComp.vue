@@ -1,20 +1,14 @@
 <template>
-    <div v-if="isSearchLoading">
-        <GlobalSkeletonLoaderComp
-            v-for="index in 5"
-            :key="index"
-        />
-    </div>
-    <div v-else>
+    <div>
         <SearchListFlatComp
-            v-if="viewTypeChecked === 'flat' && items"
+            v-if="activeViewType === 'flat' && items"
             :datasets="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
             :current-refinements="currentRefinements"
         />
         <SearchListViewComp
-            v-else-if="viewTypeChecked === 'accordion' && items"
+            v-else-if="activeViewType === 'accordion' && items"
             :items="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
@@ -25,7 +19,7 @@
             :current-refinements="currentRefinements"
         />
         <SearchTableViewComp
-            v-else-if="viewTypeChecked === 'table' && items"
+            v-else-if="activeViewType === 'table' && items"
             :datasets="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
@@ -47,7 +41,7 @@ defineOptions({
     name: 'AisStateResults',
 });
 
-import { ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 const props = defineProps({
     items: {
         type: Array as PropType<ElasticMSearchResponse[]>,
@@ -102,4 +96,6 @@ watch(() => props.viewTypeChecked, (val) => {
         localViewType.value = val;
     }
 });
+
+const activeViewType = computed(() => localViewType.value || props.viewTypeChecked);
 </script>

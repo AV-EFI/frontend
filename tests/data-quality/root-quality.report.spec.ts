@@ -7,6 +7,7 @@ import {
   printTopTerms,
   toTopTerms,
 } from './report-utils';
+import { schemaLevelForField } from './schema-severity';
 import { thresholds } from './thresholds';
 
 describe('Elasticsearch data-quality report: root level', () => {
@@ -45,24 +46,26 @@ describe('Elasticsearch data-quality report: root level', () => {
       const aggs = (completenessResult.aggregations ?? {}) as Record<string, { doc_count: number }>;
 
       printSection('Root completeness overview');
-      printMetric({ label: 'Missing root title', value: aggs.missing_root_title?.doc_count ?? 0, total });
-      printMetric({ label: 'Missing root handle', value: aggs.missing_root_handle?.doc_count ?? 0, total });
-      printMetric({ label: 'Missing root kip', value: aggs.missing_root_kip?.doc_count ?? 0, total });
-      printMetric({ label: 'Missing root url', value: aggs.missing_root_url?.doc_count ?? 0, total });
-      printMetric({ label: 'Missing root issuer', value: aggs.missing_root_issuer?.doc_count ?? 0, total });
+      printMetric({ label: 'Missing root title', value: aggs.missing_root_title?.doc_count ?? 0, total, schemaLevel: schemaLevelForField('has_record.has_primary_title.has_name.keyword') });
+      printMetric({ label: 'Missing root handle', value: aggs.missing_root_handle?.doc_count ?? 0, total, schemaLevel: schemaLevelForField('handle.keyword') });
+      printMetric({ label: 'Missing root kip', value: aggs.missing_root_kip?.doc_count ?? 0, total, schemaLevel: schemaLevelForField('kip.keyword') });
+      printMetric({ label: 'Missing root url', value: aggs.missing_root_url?.doc_count ?? 0, total, schemaLevel: schemaLevelForField('url.keyword') });
+      printMetric({ label: 'Missing root issuer', value: aggs.missing_root_issuer?.doc_count ?? 0, total, schemaLevel: schemaLevelForField('has_record.described_by.has_issuer_name.keyword') });
       printMetric({
         label: 'Missing root source key',
         value: aggs.missing_root_source_key?.doc_count ?? 0,
         total,
         warnThreshold: thresholds.maxMissingRootSourceKeyPctWarn,
+        schemaLevel: schemaLevelForField('has_record.described_by.has_source_key.keyword'),
       });
       printMetric({
         label: 'Missing root same_as.id',
         value: aggs.missing_root_same_as_id?.doc_count ?? 0,
         total,
         warnThreshold: thresholds.maxMissingRootSameAsPctWarn,
+        schemaLevel: schemaLevelForField('has_record.same_as.id.keyword'),
       });
-      printMetric({ label: 'Missing root type', value: aggs.missing_root_type?.doc_count ?? 0, total });
+      printMetric({ label: 'Missing root type', value: aggs.missing_root_type?.doc_count ?? 0, total, schemaLevel: schemaLevelForField('has_record.type.keyword') });
 
       const rootBySourceResult = await esSearch(cfg, {
         size: 0,
@@ -174,18 +177,21 @@ describe('Elasticsearch data-quality report: root level', () => {
         value: duplicateHandles.length,
         warnThreshold: 1,
         failThreshold: thresholds.maxDuplicateRootHandlesHard,
+        schemaLevel: schemaLevelForField('handle.keyword'),
       });
       printMetric({
         label: 'Duplicate kip buckets',
         value: duplicateKip.length,
         warnThreshold: 1,
         failThreshold: thresholds.maxDuplicateRootKipHard,
+        schemaLevel: schemaLevelForField('kip.keyword'),
       });
       printMetric({
         label: 'Duplicate same_as.id buckets',
         value: duplicateSameAs.length,
         warnThreshold: 1,
         failThreshold: thresholds.maxDuplicateRootSameAsIdHard,
+        schemaLevel: schemaLevelForField('has_record.same_as.id.keyword'),
       });
       printTopTerms('Top duplicate handles', duplicateHandles);
       printTopTerms('Top duplicate kip values', duplicateKip);

@@ -67,13 +67,11 @@ const mergedDataset = ref({
 });
 
 function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
-    console.log(targetPropertyValue, targetPropertyName, sameAsId);
     if (["director", "producer", "location", "productionyear", "castmember", "subject", "genre"].includes(targetPropertyName)) {
         mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, same_as_id: sameAsId });
     } else if (["other_id"].includes(targetPropertyName)) {
         mergedDataset.value[targetPropertyName].push({ name: targetPropertyValue, type: sameAsId });
     } else {
-        console.log(targetPropertyName, targetPropertyValue);
         mergedDataset.value[targetPropertyName] = targetPropertyValue;
     }
 }
@@ -85,7 +83,6 @@ async function getCollectionType(routeParamsId: string): Promise<ElasticGetByIdR
         return "";
     }
     const data = await getDataSet(routeParamsId);
-    console.log('Data:', data);
 
     return data as ElasticGetByIdResponse;
     /*

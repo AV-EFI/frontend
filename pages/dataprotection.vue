@@ -4,6 +4,8 @@ definePageMeta({
     auth: false
 });
 
+const iframeError = ref(false);
+
 </script>
 <template>
     <div>
@@ -25,11 +27,26 @@ definePageMeta({
                             <h2 class="card-title font-">
                                 {{ $t('dataprotection') }}
                             </h2>
+                            <!-- Fallback shown if the host blocks framing via X-Frame-Options -->
+                            <p v-if="iframeError">
+                                {{ $t('iframeNotSupported') }}
+                                <a
+                                    href="https://datenschutz.gwdg.de/services/av-efi"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="link"
+                                >
+                                    {{ $t('openPrivacyPolicy') }}
+                                </a>
+                            </p>
                             <iframe
+                                v-else
                                 src="https://datenschutz.gwdg.de/services/av-efi"
+                                :title="$t('dataprotection')"
                                 width="100%"
                                 height="800"
                                 style="border:none;"
+                                @error="iframeError = true"
                             />
                         </div>
                     </div>          

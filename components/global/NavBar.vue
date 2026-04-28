@@ -61,8 +61,7 @@
                                 <a href="/protected/dashboard">{{ $t('dashboard') }}</a>
                             </li>
                             <li v-if="data?.user" class="h-12 flex justify-center">
-                                <a href="/protected/mergetool">{{ $t('mergeTool') }}<span
-                                    class="badge badge-accent text-white">1</span></a>
+                                <a href="/protected/mergetool">{{ $t('mergeTool') }}</a>
                             </li>
                             <li v-if="data?.user" class="h-12 flex justify-center">
                                 <a href="/protected/institutionlist">{{ $t('myDatasets') }}</a>
@@ -95,7 +94,7 @@
                         <img :src="locale === 'en' ? '/img/avefi_claim_en.svg' : '/img/avefi_claim_de.svg'" :alt="t('avefiClaim')"
                              :title="t('avefiClaim')" class="hidden h-12 w-auto ml-2 rounded-lg dark:invert" width="230" height="105">
                         <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
-                            <span class="bree my-auto" v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
+                            <span class="bree my-auto" style="white-space: pre-line">{{ $t('avefiClaimHtml') }}</span>
                         </div>
                         <div v-if="envLabel !== 'Production'" class="badge badge-neutral mr-auto ml-3 my-auto text-left h-6 w-24">
                             {{ envLabel }}

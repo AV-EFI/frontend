@@ -53,6 +53,7 @@ beforeEach(() => {
   navigateToMock.mockReset();
 
   vi.stubGlobal('navigateTo', navigateToMock);
+  vi.stubGlobal('useI18n', () => ({ t: (k: string) => k }));
   vi.stubGlobal('useNuxtApp', () => ({
     $toggleComparisonDrawerState: vi.fn(),
     $toast: { error: vi.fn() },
@@ -73,6 +74,66 @@ function mountComponent() {
     },
   });
 }
+
+describe('ComparisonDrawer tab aria-disabled', () => {
+  test('comparison tab has aria-disabled="true" when comparison store is empty', () => {
+    favouritesStore.objects.push({ filmId: 'fav-1', filmTitle: 'Fav' });
+    const wrapper = mountComponent();
+    const compTab = wrapper.get('#comparison-tab');
+    expect(compTab.attributes('aria-disabled')).toBe('true');
+  });
+
+  test('comparison tab has aria-disabled="false" when comparison store has items', () => {
+    comparisonStore.objects.push({ filmId: 'c1', filmTitle: 'Film 1' });
+    const wrapper = mountComponent();
+    const compTab = wrapper.get('#comparison-tab');
+    expect(compTab.attributes('aria-disabled')).toBe('false');
+  });
+
+  test('favourites tab has aria-disabled="true" when favourites store is empty', () => {
+    comparisonStore.objects.push({ filmId: 'c1', filmTitle: 'Film 1' });
+    const wrapper = mountComponent();
+    const favTab = wrapper.get('#favourites-tab');
+    expect(favTab.attributes('aria-disabled')).toBe('true');
+  });
+
+  test('favourites tab has aria-disabled="false" when favourites store has items', () => {
+    favouritesStore.objects.push({ filmId: 'fav-1', filmTitle: 'Fav' });
+    const wrapper = mountComponent();
+    const favTab = wrapper.get('#favourites-tab');
+    expect(favTab.attributes('aria-disabled')).toBe('false');
+  });
+
+  test('clicking disabled comparison tab does not change activeTab', async () => {
+    // favourites has items but comparison does not
+    favouritesStore.objects.push({ filmId: 'fav-1', filmTitle: 'Fav' });
+    const wrapper = mountComponent();
+    // active tab should be 'favourites' due to watcher
+    const comparisonPanel = wrapper.get('#comparison-panel');
+    const compTab = wrapper.get('#comparison-tab');
+    await compTab.trigger('click');
+    // panel should still be hidden since comparison is disabled
+    expect(comparisonPanel.attributes('aria-hidden')).toBe('true');
+  });
+
+  test('error toast uses unexpectedError key', async () => {
+    const mockToastError = vi.fn();
+    vi.stubGlobal('useNuxtApp', () => ({
+      $toggleComparisonDrawerState: vi.fn(),
+      $toast: { error: mockToastError },
+    }));
+    comparisonStore.objects.push(
+      { filmId: 'id-1', filmTitle: 'First' },
+      { filmId: 'id-2', filmTitle: 'Second' },
+    );
+    vi.stubGlobal('navigateTo', () => { throw new Error('nav error'); });
+
+    const wrapper = mountComponent();
+    const compareButton = wrapper.find('button.btn-compare-list');
+    await compareButton.trigger('click');
+    expect(mockToastError).toHaveBeenCalledWith('unexpectedError');
+  });
+});
 
 describe('ComparisonDrawer interaction contracts', () => {
   test('keeps compare action disabled when not exactly 2 objects', () => {

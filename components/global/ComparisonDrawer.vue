@@ -36,8 +36,9 @@
                             :class="{ 'tab-active': activeTab === 'comparison' }"
                             :aria-selected="activeTab === 'comparison'"
                             aria-controls="comparison-panel"
-                            :disabled="!comparisonHasItems"
-                            @click="activeTab = 'comparison'"
+                            :aria-disabled="(!comparisonHasItems).toString()"
+                            :title="!comparisonHasItems ? $t('addItemsToEnableTab') : undefined"
+                            @click="comparisonHasItems && (activeTab = 'comparison')"
                         >
                             {{ $t('comparison') }}
                         </button>
@@ -50,8 +51,9 @@
                             :class="{ 'tab-active': activeTab === 'favourites' }"
                             :aria-selected="activeTab === 'favourites'"
                             aria-controls="favourites-panel"
-                            :disabled="!favouritesHasItems"
-                            @click="activeTab = 'favourites'"
+                            :aria-disabled="(!favouritesHasItems).toString()"
+                            :title="!favouritesHasItems ? $t('addItemsToEnableTab') : undefined"
+                            @click="favouritesHasItems && (activeTab = 'favourites')"
                         >
                             {{ $t('favourites') }}
                         </button>
@@ -204,6 +206,7 @@ import { useObjectListStore } from '../../stores/compareList';
 import { useFavourites } from '../../stores/favourites';
 
 const { $toggleComparisonDrawerState, $toast }: any = useNuxtApp();
+const { t } = useI18n();
 const favourites = useFavourites();
 const objectListStore = useObjectListStore();
 const showInfo = ref(false);
@@ -252,13 +255,13 @@ const navigateToComparison = () => {
         }
     } catch (e) {
         console.error(e);
-        $toast?.error?.('Error');
+        $toast?.error?.(t('unexpectedError'));
     }
 };
 </script>
 
 <style scoped>
-.tab[disabled] {
+.tab[aria-disabled="true"] {
     pointer-events: none;
     opacity: 0.5;
 }

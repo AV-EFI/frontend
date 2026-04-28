@@ -7,6 +7,7 @@ import {
   printTopTerms,
   toTopTerms,
 } from './report-utils';
+import { schemaLevelForField } from './schema-severity';
 import { thresholds } from './thresholds';
 
 describe('Elasticsearch data-quality report: item level', () => {
@@ -103,26 +104,28 @@ describe('Elasticsearch data-quality report: item level', () => {
 
       printSection('Item completeness overview');
       printLine(`Total items: ${totalItems}`);
-      printMetric({ label: 'Missing item title', value: itemAggs?.missing_item_title?.doc_count ?? 0, total: totalItems });
-      printMetric({ label: 'Missing item handle', value: itemAggs?.missing_item_handle?.doc_count ?? 0, total: totalItems });
-      printMetric({ label: 'Missing item kip', value: itemAggs?.missing_item_kip?.doc_count ?? 0, total: totalItems });
-      printMetric({ label: 'Missing item url', value: itemAggs?.missing_item_url?.doc_count ?? 0, total: totalItems });
-      printMetric({ label: 'Missing item issuer', value: itemAggs?.missing_item_issuer?.doc_count ?? 0, total: totalItems });
-      printMetric({ label: 'Missing item source key', value: itemAggs?.missing_item_source_key?.doc_count ?? 0, total: totalItems });
+      printMetric({ label: 'Missing item title',       value: itemAggs?.missing_item_title?.doc_count ?? 0,   total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.has_record.has_primary_title.has_name.keyword') });
+      printMetric({ label: 'Missing item handle',      value: itemAggs?.missing_item_handle?.doc_count ?? 0,  total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.handle.keyword') });
+      printMetric({ label: 'Missing item kip',         value: itemAggs?.missing_item_kip?.doc_count ?? 0,     total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.kip.keyword') });
+      printMetric({ label: 'Missing item url',         value: itemAggs?.missing_item_url?.doc_count ?? 0,     total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.url.keyword') });
+      printMetric({ label: 'Missing item issuer',      value: itemAggs?.missing_item_issuer?.doc_count ?? 0,  total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.has_record.described_by.has_issuer_name.keyword') });
+      printMetric({ label: 'Missing item source key',  value: itemAggs?.missing_item_source_key?.doc_count ?? 0, total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.has_record.described_by.has_source_key.keyword') });
       printMetric({
         label: 'Missing item access status',
         value: itemAggs?.missing_access_status?.doc_count ?? 0,
         total: totalItems,
         warnThreshold: thresholds.maxMissingItemAccessStatusPctWarn,
+        schemaLevel: schemaLevelForField('manifestations.items.has_record.has_access_status.keyword'),
       });
-      printMetric({ label: 'Missing item element type', value: itemAggs?.missing_element_type?.doc_count ?? 0, total: totalItems });
+      printMetric({ label: 'Missing item element type', value: itemAggs?.missing_element_type?.doc_count ?? 0, total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.has_record.element_type.keyword') });
       printMetric({
         label: 'Missing item language code',
         value: itemAggs?.missing_language_code?.doc_count ?? 0,
         total: totalItems,
         warnThreshold: thresholds.maxMissingItemLanguagePctWarn,
+        schemaLevel: schemaLevelForField('manifestations.items.has_record.in_language.code.keyword'),
       });
-      printMetric({ label: 'Missing item is_item_of.id', value: itemAggs?.missing_is_item_of?.doc_count ?? 0, total: totalItems });
+      printMetric({ label: 'Missing item is_item_of.id', value: itemAggs?.missing_is_item_of?.doc_count ?? 0, total: totalItems, schemaLevel: schemaLevelForField('manifestations.items.has_record.is_item_of.id.keyword') });
 
       const suspiciousItemTitlesResult = await esSearch(cfg, {
         size: 50,

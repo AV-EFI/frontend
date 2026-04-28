@@ -34,8 +34,8 @@ const isLight = computed({
                     v-model="isLight"
                     type="checkbox"
                     class="checkbox theme-controller hidden"
-                    aria-label="Toggle theme"
-                    title="Toggle theme"
+                    :aria-label="isLight ? $t('switchToDarkMode') : $t('switchToLightMode')"
+                    :title="isLight ? $t('switchToDarkMode') : $t('switchToLightMode')"
                 />
                 <div class="swap-off animated" alt="Switch to dark mode" title="Switch to dark mode">
                     <div class="avatar placeholder">

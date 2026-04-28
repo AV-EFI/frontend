@@ -99,6 +99,53 @@ test_browser_smoke:
       junit:
         - test-reports/e2e-smoke-junit.xml
 
+# Runs all Vitest data-quality checks against the testbed index.
+# INFORMATIONAL ONLY — allow_failure: true means this never blocks the build or deployment.
+# ES credentials (ES_BASE_URL / ES_API_KEY) must be set as GitLab CI/CD project variables.
+# ES_INDEX is overridden here to always target the candidate index regardless of .env.local.
+test_data_quality_testbed:
+  extends:
+    - .node_job
+    - .test_rules
+  allow_failure: true
+  variables:
+    ES_INDEX: "21.11155-denormalised-work-testbed"
+  script:
+    - mkdir -p test-reports
+    - yarn generate:schema-severity
+    - yarn vitest run --project data-quality --reporter=default --reporter=junit --outputFile.junit=test-reports/dq-testbed-junit.xml
+  artifacts:
+    when: always
+    paths:
+      - test-reports/dq-testbed-junit.xml
+    reports:
+      junit:
+        - test-reports/dq-testbed-junit.xml
+
+# Data-quality regression tests — DEPLOYMENT GATE.
+# Runs before the build stage on every merge request and on the testbed /
+# production branches.  A failing run blocks the Docker image build and
+# therefore prevents any deployment.
+#
+# The playwright webServer option starts `yarn dev:local` automatically when
+# PLAYWRIGHT_NO_WEBSERVER is not set.  This means the tests run against a
+# freshly started dev server using the same build profile as CI.
+test_e2e_dq:
+  extends:
+    - .node_job
+    - .test_rules
+  script:
+    - mkdir -p test-reports
+    - npx playwright install --with-deps chromium
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-dq-junit.xml yarn test:e2e:dq --workers=1 --reporter=list,junit
+  artifacts:
+    when: always
+    paths:
+      - test-reports/e2e-dq-junit.xml
+    reports:
+      junit:
+        - test-reports/e2e-dq-junit.xml
+
 # Build a docker image.
 .build_docker:
   stage: build

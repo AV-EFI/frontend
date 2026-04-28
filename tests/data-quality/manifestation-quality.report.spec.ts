@@ -7,6 +7,7 @@ import {
   printTopTerms,
   toTopTerms,
 } from './report-utils';
+import { schemaLevelForField } from './schema-severity';
 import { thresholds } from './thresholds';
 
 interface MissingAggregation {
@@ -82,37 +83,44 @@ describe('Elasticsearch data-quality report: manifestation level', () => {
         label: 'Missing manifestation title',
         value: manifestationAggs?.missing_manifestation_title?.doc_count ?? 0,
         total: manifestationTotal,
+        schemaLevel: schemaLevelForField('manifestations.has_record.has_primary_title.has_name.keyword'),
       });
       printMetric({
         label: 'Missing manifestation handle',
         value: manifestationAggs?.missing_manifestation_handle?.doc_count ?? 0,
         total: manifestationTotal,
+        schemaLevel: schemaLevelForField('manifestations.handle.keyword'),
       });
       printMetric({
         label: 'Missing manifestation issuer',
         value: manifestationAggs?.missing_manifestation_issuer?.doc_count ?? 0,
         total: manifestationTotal,
+        schemaLevel: schemaLevelForField('manifestations.has_record.described_by.has_issuer_name.keyword'),
       });
       printMetric({
         label: 'Missing manifestation source key',
         value: manifestationAggs?.missing_manifestation_source_key?.doc_count ?? 0,
         total: manifestationTotal,
         warnThreshold: thresholds.maxMissingManifestationSourceKeyPctWarn,
+        schemaLevel: schemaLevelForField('manifestations.has_record.described_by.has_source_key.keyword'),
       });
       printMetric({
         label: 'Missing manifestation is_manifestation_of.id',
         value: manifestationAggs?.missing_is_manifestation_of?.doc_count ?? 0,
         total: manifestationTotal,
+        schemaLevel: schemaLevelForField('manifestations.has_record.is_manifestation_of.id.keyword'),
       });
       printMetric({
         label: 'Missing manifestation sound type',
         value: manifestationAggs?.missing_manifestation_sound_type?.doc_count ?? 0,
         total: manifestationTotal,
+        schemaLevel: schemaLevelForField('manifestations.has_record.has_sound_type.keyword'),
       });
       printMetric({
         label: 'Missing manifestation colour type',
         value: manifestationAggs?.missing_manifestation_colour_type?.doc_count ?? 0,
         total: manifestationTotal,
+        schemaLevel: schemaLevelForField('manifestations.has_record.has_colour_type.keyword'),
       });
 
       const suspiciousManifestationTitlesResult = await esSearch(cfg, {

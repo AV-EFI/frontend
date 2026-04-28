@@ -562,7 +562,10 @@ const avefiBase = {
   'addNewSubject': 'Add new subject',
   'addNewOtherId': 'Add new other ID',
   'avefiClaim': 'Find films. Link data.',
-  'avefiClaimHtml': 'Find films. Link data.',
+  'avefiClaimHtml': 'Find films.\nLink data.',
+  'goToHomepage': 'Go to Homepage',
+  'unknownError': 'An unknown error occurred',
+  'clipboardCopyError': 'Copy to clipboard failed',
   'avefi_Item': 'Item',
   'avefi_Manifestation': 'Manifestation',
   'avefi_WorkVariant': 'Work',
@@ -850,6 +853,7 @@ const avefiBase = {
   'CastMember': 'Cast member',
   'crewMember': 'Crew member',
   'crewMemberType': 'Crew member type',
+  'suspiciousValue': 'This value might be a data error',
   'agentsList': 'Agents list',
   'agent': 'Agent',
   'sameAs': 'Same as',
@@ -969,6 +973,8 @@ const avefiBase = {
   'updateallproperties': 'Update all properties',
   'resetFormData': 'Reset Form Data',
   'cookiesModalDescription': 'Here you can adjust your cookie settings. You have the option to enable or disable certain cookies used for the functionality and improvement of our website. Please note that disabling some cookies may affect your use of the website.',
+  'iframeNotSupported': 'Your browser does not support embedded frames.',
+  'openPrivacyPolicy': 'Open privacy policy in a new tab',
   'bannerText': 'Selected collections and highlights from the world of film metadata',
   'bannerDescription': 'AVefi presents selected collections and key insights from the field of film metadata. Explore a variety of datasets, from comprehensive filmographies to detailed technical specifications, enabling in-depth analysis and new insights into the cinematic landscape.',
   'message': 'Message',
@@ -1427,8 +1433,27 @@ export default {
     accessibility: {
       title: "Accessibility Statement - AVefi Film Metadata Database",
       description: "This page outlines standards, current status, and contact routes for digital accessibility at AVefi.",
-      ogTitle: "Accessibility Statement - AVefi",
+ogTitle: "Accessibility Statement - AVefi",
       ogDescription: "Information about digital accessibility at AVefi, including official references and contact options."
     }
-  }
+  },
+
+  // ── Heuristics audit fixes ─────────────────────────────────────────────
+  'dismissHint': 'Dismiss hint',
+  'contactUs': 'Contact us',
+  'formSubmitted': 'Form submitted',
+  'rangeMinMustBeLessOrEqual': 'Minimum must be less than or equal to maximum',
+  'exportFailed': 'Export failed',
+  'exportNoData': 'No data to export',
+  'csvExported': 'CSV exported',
+  'jsonExported': 'JSON exported',
+  'xmlExported': 'XML exported',
+  'initialisingSearch': 'Initialising search\u2026',
+  'addItemsToEnableTab': 'Add items to enable this tab',
+  // FacetDrawer header-text i18n keys
+  'has_form': 'Form type',
+  'place': 'Place',
+  'avefi:ProductionEvent': 'Production event',
+  'has_access_status': 'Access status',
+  'has_sound_type': 'Sound type',
 };

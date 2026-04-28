@@ -21,6 +21,13 @@ describe('Route and SEO contract guards', () => {
     expect(searchSource).toContain("{ rel: 'canonical', href: canonicalUrl.value }");
   });
 
+  test('BB-SEARCH-002 keeps /search hydration-safe client rendering', () => {
+    expect(searchSource).toContain('<ClientOnly>');
+    expect(searchSource).toContain('<template #fallback>');
+    expect(searchSource).not.toContain('v-if="isClient"');
+    expect(searchSource).not.toContain("typeof window !== 'undefined'");
+  });
+
   test('BB-DETAIL-001 keeps route-based canonical for /res/:prefix/:id', () => {
     expect(detailSource).toContain('const canonical = computed(() => `${siteUrl.value}/res/${prefix.value}/${id.value}`)');
     expect(detailSource).toContain("useHead({");
@@ -32,5 +39,12 @@ describe('Route and SEO contract guards', () => {
     expect(detailSource).toContain("resourceType = 'manifestationOrItem'");
     expect(detailSource).toContain("resourceType = 'compilationManifestation'");
     expect(detailSource).toContain("resourceType = 'compilationItem'");
+  });
+
+  test('BB-DETAIL-003 keeps reusable loading state wrapper on detail page', () => {
+    expect(detailSource).toContain('<MicroDataLoadState');
+    expect(detailSource).toContain(':pending="pending"');
+    expect(detailSource).toContain(':has-data="Boolean(dataJson)"');
+    expect(detailSource).toContain('<MicroSkeletonLoader');
   });
 });

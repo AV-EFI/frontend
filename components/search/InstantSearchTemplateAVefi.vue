@@ -82,28 +82,64 @@
                                      role="region" :aria-label="$t('filteringsection')">
                                     <div
                                         class="w-full flex flex-row justify-center col-span-2 bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
-                                        <ais-stats class="flex flex-row w-full">
-                                            <template #default="{ nbHits = 0, results }">
-                                                <span v-if="isSearchLoading" id="custom-spinner"
-                                                      class="loading loading-spinner loading-md text-primary" />
-                                                <div v-else class="stats stats-vertical w-full lg:stats-horizontal w-full shadow">
-                                                    <div class="stat p-2 px-4">
-                                                        <div class="stat-title">{{ $t('works') }}</div>
-                                                        <div class="stat-value">{{ getDisplayedWorksCount(results?._rawResults[0], nbHits) }}</div>
-                                                    </div>
-
-                                                    <div class="stat p-2 px-4">
-                                                        <div class="stat-title">{{ $t('manifestations') }}</div>
-                                                        <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
-                                                    </div>
-
-                                                    <div class="stat p-2 px-4">
-                                                        <div class="stat-title">{{ $t('items') }}</div>
-                                                        <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>
-                                                    </div>
+                                        <div
+                                            v-if="showStatsSkeleton"
+                                            class="stats stats-vertical w-full lg:stats-horizontal shadow"
+                                        >
+                                            <div
+                                                v-for="statKey in ['works', 'manifestations', 'items']"
+                                                :key="`prestats-${statKey}`"
+                                                class="stat p-2 px-4 animate-pulse"
+                                                aria-hidden="true"
+                                            >
+                                                <div class="h-3 w-20 rounded bg-base-300/70 dark:bg-gray-700/70 mb-2" />
+                                                <div class="h-6 w-12 rounded bg-base-300 dark:bg-gray-700" />
+                                            </div>
+                                            <span class="sr-only">{{ $t('loading') }}</span>
+                                        </div>
+                                        <div v-else class="stats stats-vertical w-full lg:stats-horizontal shadow">
+                                            <div class="stat p-2 px-4">
+                                                <div class="stat-title">{{ $t('works') }}</div>
+                                                <div class="stat-value">
+                                                    <template v-if="isFiniteNumber(getDisplayedWorksCount(statsRawResult, statsNbHits))">
+                                                        {{ getDisplayedWorksCount(statsRawResult, statsNbHits) }}
+                                                    </template>
+                                                    <span
+                                                        v-else
+                                                        class="inline-block h-6 w-16 rounded bg-base-300/80 dark:bg-gray-700/80 animate-pulse align-middle"
+                                                        aria-hidden="true"
+                                                    />
                                                 </div>
-                                            </template>
-                                        </ais-stats>
+                                            </div>
+
+                                            <div class="stat p-2 px-4">
+                                                <div class="stat-title">{{ $t('manifestations') }}</div>
+                                                <div class="stat-value">
+                                                    <template v-if="isFiniteNumber(statsRawResult?.nbManifestations)">
+                                                        {{ statsRawResult?.nbManifestations }}
+                                                    </template>
+                                                    <span
+                                                        v-else
+                                                        class="inline-block h-6 w-12 rounded bg-base-300/80 dark:bg-gray-700/80 animate-pulse align-middle"
+                                                        aria-hidden="true"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div class="stat p-2 px-4">
+                                                <div class="stat-title">{{ $t('items') }}</div>
+                                                <div class="stat-value">
+                                                    <template v-if="isFiniteNumber(statsRawResult?.nbItems)">
+                                                        {{ statsRawResult?.nbItems }}
+                                                    </template>
+                                                    <span
+                                                        v-else
+                                                        class="inline-block h-6 w-12 rounded bg-base-300/80 dark:bg-gray-700/80 animate-pulse align-middle"
+                                                        aria-hidden="true"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg bg-base-100" role="region"
                                          :aria-label="$t('activeFacets')">
@@ -127,59 +163,69 @@
                                         </div>
                                         <div class="w-full bg-white dark:bg-gray-800 rounded-t-none rounded-b-lg p-2" role="list"
                                              aria-labelledby="active-facets-heading">
-                                            <ais-current-refinements :class-names="{
-                                                'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                                                'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
-                                                'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                                                'ais-ClearRefinements-button': 'btn hover:bg-red-600 text-white',
-                                            }">
-                                                <template v-slot="{ items }">
-                                                    <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-gray-500 text-sm dark">
-                                                        {{ $t('nofacetsselected') }}
-                                                    </div>
-                                                </template>
-                                                <template #item="{ item, refine, createURL }">
-                                                    <div role="listitem" class="flex flex-col gap-1">
-                                                        <span class="text-left w-full">
-                                                            <strong class="font-bold text-sm dark:text-primary-100">
-                                                                {{ $t(item.label.split(".").at(-1)) }}:
-                                                            </strong>
-                                                        </span>
-                                                        <ul class="list-none p-0 m-0" role="list">
-                                                            <li v-for="refinement in item.refinements"
-                                                                :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
-                                                                class="flex items-center" role="listitem">
-                                                                <a :href="createURL(refinement)"
-                                                                   class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
-                                                                   :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
-                                                                   @click.prevent="refine(refinement)">
-                                                                    {{ $t(refinement.label) }}
-                                                                    <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </template>
-                                                <template #noRefinement>
-                                                    <div class="text-gray-500 dark:text-gray-400 text-sm italic p-2">
-                                                        {{ $t('nofacetsselected') }}
-                                                    </div>
-                                                </template>
-                                            </ais-current-refinements>
-                                            <!-- Custom chip for production year slider -->
-                                            <div v-if="hasProductionYearRefinement && productionYearLabel" class="flex flex-row flex-wrap gap-2 mt-2">
-                                                <div class="border flex flex-col items-start border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 rounded-lg p-1 md:w-auto md:max-w-xs">
-                                                    <strong class="font-bold text-sm mb-2 dark:text-primary-100 mr-2">
-                                                        {{ $t('productionyear') }}:
-                                                    </strong>
-                                                    <div class="flex flex-row items-start cursor-pointer" @click="clearProductionYearRefinement" :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`">
-                                                        <span class="text-sm">{{ productionYearLabel }}</span>
-                                                        <div class="ml-2 my-auto">
-                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                          
+                                            <div v-if="!hasHitsSlotReady" class="flex flex-row flex-wrap gap-2 animate-pulse" aria-hidden="true">
+                                                <div v-for="n in 3" :key="`facet-skel-${n}`"
+                                                     class="rounded-lg border border-base-200 dark:border-gray-600 p-1 w-full md:w-auto md:max-w-xs">
+                                                    <div class="h-3 w-16 rounded bg-base-300/70 dark:bg-gray-700/70 mb-2" />
+                                                    <div class="h-5 w-24 rounded bg-base-300 dark:bg-gray-700" />
+                                                </div>
+                                                <span class="sr-only">{{ $t('loading') }}</span>
+                                            </div>
+                                            <template v-else>
+                                                <ais-current-refinements :class-names="{
+                                                    'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
+                                                    'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
+                                                    'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
+                                                    'ais-ClearRefinements-button': 'btn hover:bg-red-600 text-white',
+                                                }">
+                                                    <template v-slot="{ items }">
+                                                        <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-gray-500 text-sm dark">
+                                                            {{ $t('nofacetsselected') }}
+                                                        </div>
+                                                    </template>
+                                                    <template #item="{ item, refine, createURL }">
+                                                        <div role="listitem" class="flex flex-col gap-1">
+                                                            <span class="text-left w-full">
+                                                                <strong class="font-bold text-sm dark:text-primary-100">
+                                                                    {{ $t(item.label.split(".").at(-1)) }}:
+                                                                </strong>
+                                                            </span>
+                                                            <ul class="list-none p-0 m-0" role="list">
+                                                                <li v-for="refinement in item.refinements"
+                                                                    :key="[refinement.attribute, refinement.type, refinement.value, refinement.operator].join(':')"
+                                                                    class="flex items-center" role="listitem">
+                                                                    <a :href="createURL(refinement)"
+                                                                       class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
+                                                                       :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
+                                                                       @click.prevent="refine(refinement)">
+                                                                        {{ $t(refinement.label) }}
+                                                                        <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+                                                    <template #noRefinement>
+                                                        <div class="text-gray-500 dark:text-gray-400 text-sm italic p-2">
+                                                            {{ $t('nofacetsselected') }}
+                                                        </div>
+                                                    </template>
+                                                </ais-current-refinements>
+                                                <!-- Custom chip for production year slider -->
+                                                <div v-if="hasProductionYearRefinement && productionYearLabel" class="flex flex-row flex-wrap gap-2 mt-2">
+                                                    <div class="border flex flex-col items-start border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 rounded-lg p-1 md:w-auto md:max-w-xs">
+                                                        <strong class="font-bold text-sm mb-2 dark:text-primary-100 mr-2">
+                                                            {{ $t('productionyear') }}:
+                                                        </strong>
+                                                        <div class="flex flex-row items-start cursor-pointer" @click="clearProductionYearRefinement" :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`">
+                                                            <span class="text-sm">{{ productionYearLabel }}</span>
+                                                            <div class="ml-2 my-auto">
+                                                                <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                          
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </template>
                                         </div>
                                     </div>
                                     <div
@@ -217,7 +263,7 @@
 
                                     <LazyDetailPaginationComp
                                         class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg"
-                                        :is-search-loading="isSearchLoading"
+                                        :is-search-loading="isSearchLoading || !hasHitsSlotReady"
                                     />
                                 </div>
                                 <div class="flex w-full flex-col">
@@ -227,18 +273,40 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="overflow-x-auto w-full" style="overflow-y:hidden;">
+                                <div
+                                    class="overflow-x-auto w-full relative"
+                                    style="overflow-y:hidden;"
+                                    :aria-busy="!hasHitsSlotReady"
+                                >
+                                    <MicroSkeletonLoader
+                                        v-if="!hasHitsSlotReady"
+                                        :count="6"
+                                        variant="list"
+                                        :line-pattern="['w-2/3', 'w-full', 'w-5/6']"
+                                        :show-chips="true"
+                                    />
                                     <ais-hits class="">
                                         <template #default="{ items }">
-                                            <SearchNoResultsComp v-if="items.length === 0" class="text-center text-gray-500 py-6" />
-                                            <SearchHitsComp v-else :items="items" :view-type-checked="viewTypeChecked"
-                                                            :production-details-checked="productionDetailsChecked" :expanded-handles="expandedHandles"
-                                                            :expand-all-handles-checked="expandAllHandlesChecked" :is-search-loading="isSearchLoading"
-                                                            :current-refinements="currentRefinements" />
+                                            <span v-if="registerHitsSlot(items)" class="hidden" aria-hidden="true" />
+                                            <SearchNoResultsComp
+                                                v-if="hasHitsSlotReady && Array.isArray(items) && items.length === 0"
+                                                class="text-center text-gray-500 py-6"
+                                            />
+                                            <SearchHitsComp
+                                                v-else-if="Array.isArray(items) && items.length > 0"
+                                                :key="buildHitsRenderKey(items)"
+                                                :items="items"
+                                                :view-type-checked="viewTypeChecked"
+                                                :production-details-checked="productionDetailsChecked"
+                                                :expanded-handles="expandedHandles"
+                                                :expand-all-handles-checked="expandAllHandlesChecked"
+                                                :is-search-loading="isSearchLoading"
+                                                :current-refinements="currentRefinements"
+                                            />
                                         </template>
                                     </ais-hits>
                                 </div>
-                                <LazyDetailPaginationComp :is-search-loading="isSearchLoading" />
+                                <LazyDetailPaginationComp :is-search-loading="isSearchLoading || !hasHitsSlotReady" />
                             </div>
                         </div>
                     </div>
@@ -250,6 +318,7 @@
 
 <script setup lang="ts">
 import { useMatomoTracking } from '~/composables/useMatomoTracking';
+import { normalizeInstantSearchResponse } from '~/utils/instantsearchResponse';
 import { getDisplayedWorksCount } from '~/utils/searchResultCounts';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
@@ -705,6 +774,18 @@ const currentRefinements = computed(() => {
     return refinements;
 });
 
+const statsRawResult = ref<any>(null);
+
+const statsNbHits = computed<number>(() => {
+    const value = statsRawResult.value?.nbHits;
+    return typeof value === 'number' && Number.isFinite(value) ? value : 0;
+});
+
+const showStatsSkeleton = computed(() => {
+    if (!statsRawResult.value) return true;
+    return false;
+});
+
 const baseSearchClient = Client({
     config: config,
     url: `${useRuntimeConfig().public.elasticApiBase}/${useRuntimeConfig().public.searchApiPath}`,
@@ -759,7 +840,8 @@ const searchClient = {
     ...baseSearchClient,
 
     async search(requests: any[]) {
-        const rewrittenRequests = requests.map((request) => {
+        const safeRequests = Array.isArray(requests) ? requests : [];
+        const rewrittenRequests = safeRequests.map((request) => {
             const params = { ...(request.params || {}) };
 
             if (params.numericFilters) {
@@ -781,7 +863,18 @@ const searchClient = {
             };
         });
 
-        return baseSearchClient.search(rewrittenRequests);
+        try {
+            const rawResponse = await baseSearchClient.search(rewrittenRequests);
+            const normalized = normalizeInstantSearchResponse(rawResponse, rewrittenRequests);
+            if (Array.isArray(normalized.results) && normalized.results[0]) {
+                statsRawResult.value = normalized.results[0];
+            }
+            return normalized;
+        } catch (error) {
+            console.error('[InstantSearchTemplateAVefi] search failed, returning empty result set', error);
+            statsRawResult.value = null;
+            return normalizeInstantSearchResponse(null, rewrittenRequests);
+        }
     },
 };
 
@@ -812,6 +905,7 @@ const expandAllItems = () => {
 
 const instantSearchInstance = inject<any>('$_ais_instantSearchInstance', null);
 const isSearchLoading = ref(false);
+const hasHitsSlotReady = ref(false);
 
 let statusPollId: number | null = null;
 
@@ -819,6 +913,34 @@ const syncSearchLoading = () => {
     const status = instantSearchInstance?.status;
     isSearchLoading.value = status === 'loading' || status === 'stalled';
 };
+
+function isFiniteNumber(value: unknown): value is number {
+    return typeof value === 'number' && Number.isFinite(value);
+}
+
+function registerHitsSlot(_items: any[]) {
+    if (!Array.isArray(_items)) {
+        return false;
+    }
+
+    if (!hasHitsSlotReady.value) {
+        hasHitsSlotReady.value = true;
+    }
+    return false;
+}
+
+function buildHitsRenderKey(items: any[]) {
+    if (!Array.isArray(items) || items.length === 0) {
+        return 'hits-empty';
+    }
+
+    const previewIds = items
+        .slice(0, 5)
+        .map((item) => item?.id ?? item?.objectID ?? item?.handle ?? 'na')
+        .join('|');
+
+    return `${items.length}:${previewIds}`;
+}
 
 onMounted(() => {
     syncSearchLoading();

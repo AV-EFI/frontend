@@ -104,6 +104,7 @@ const { ensureFormKitReady } = useFormKitLoader();
 await ensureFormKitReady();
 
 const {$toast} = useNuxtApp();
+const { t } = useI18n();
 const initialState = {
     efi: "",
     title: "",
@@ -128,7 +129,7 @@ function customReset () {
 function customSubmitHandler (e) 
 {
     console.log(e);
-    $toast?.success?.("Form submitted");
+    $toast?.success?.(t('formSubmitted'));
 } 
 
 </script>

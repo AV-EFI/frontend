@@ -10,7 +10,7 @@
             :class="[darkBg ? 'text-primary-200 hover:text-primary-300' : '']"
             :aria-label="`${$t('copyToClipboard')}: ${displayText}`"
             :title="`${$t('copyToClipboard')}: ${displayText}`"
-            @click="useClipboardUtil()?.copyExtended(copyValue)"
+            @click="copyExtended(copyValue)"
         >
             <Icon
                 class="min-w-4"
@@ -49,6 +49,7 @@ const props = defineProps ({
 });
 
 const { getNormdataUrl } = useNormdataUrl();
+const { copyExtended } = useClipboardUtil();
 
 const copyValue = computed(() => {
     const rawValue = props.copyText ?? props.displayText;

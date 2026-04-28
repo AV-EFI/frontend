@@ -9,10 +9,10 @@ defineProps({
 
 <template>
     <div class="collapse">
-        <input type="checkbox"> 
-        <div class="collapse-title font-medium">
+        <input id="raw-data-collapse" type="checkbox" :aria-label="$t('rawData')">
+        <label for="raw-data-collapse" class="collapse-title font-medium">
             JSON data
-        </div>
+        </label>
         <div class="collapse-content"> 
             <pre wrap>{{ apiData }}</pre>
         </div>

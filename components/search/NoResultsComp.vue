@@ -4,7 +4,8 @@
         role="status"
         aria-live="polite"
     >
-        <!-- Three emojis (filmstrip, filmreel, movie video camera) -->
+        <!-- Immediate screen-reader announcement (no wait for animation) -->
+        <span class="sr-only">{{ $t('noResults') }}</span>
         <div
             v-if="showEmojis"
             class="emojis"
