@@ -62,7 +62,7 @@
                 <Icon name="tabler:chevron-right" />
             </button>
         </div>
-        <div v-else class="text-center text-base-content/60 py-8">
+        <div v-else class="text-center text-base-content/70 py-8">
             {{ $t('home.carousel.actions.noIssuersFound') }}
         </div>
     </div>

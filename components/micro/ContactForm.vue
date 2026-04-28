@@ -3,36 +3,36 @@
     <form class="space-y-4 text-left relative" novalidate @submit.prevent="handleSubmit">
         <!-- Email -->
         <div>
-            <label for="email" class="block text-left text-sm font-medium mt-2">
+            <label for="email" class="block text-left text-sm font-medium mt-2 text-base-content">
                 {{ $t('email') }}
             </label>
             <input id="email" v-model="email" type="email" class="input input-bordered w-full mt-1" required
                    autocomplete="email" aria-describedby="emailHelp">
-            <p id="emailHelp" class="text-xs text-gray-500">
+            <p id="emailHelp" class="text-xs text-base-content/70">
                 {{ $t('emailHelpText') }}
             </p>
         </div>
 
         <!-- Message -->
         <div>
-            <label for="message" class="block text-left text-sm font-medium">
+            <label for="message" class="block text-left text-sm font-medium text-base-content">
                 {{ $t('enterYourMessage') }}
             </label>
             <textarea id="message" v-model="message" class="textarea textarea-bordered w-full mt-1" required
                       aria-describedby="messageHelpText" rows="5" />
-            <p id="messageHelpText" class="text-xs text-gray-500">
+            <p id="messageHelpText" class="text-xs text-base-content/70">
                 {{ $t('messageHelpText') }}
             </p>
         </div>
 
         <!-- Simple math Captcha -->
         <div>
-            <label for="captcha" class="block text-left text-sm font-medium">
+            <label for="captcha" class="block text-left text-sm font-medium text-base-content">
                 {{ $t('captchaQuestion') }}: <span class="font-bold">{{ captchaQuestion }}</span>
             </label>
             <input id="captcha" v-model="captchaAnswer" type="text" class="input input-bordered w-full mt-1" required
                    inputmode="numeric" aria-describedby="captchaHelpText">
-            <p id="captchaHelpText" class="text-xs text-gray-500">
+            <p id="captchaHelpText" class="text-xs text-base-content/70">
                 {{ $t('captchaHelpText') }}
             </p>
         </div>

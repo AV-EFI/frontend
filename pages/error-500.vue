@@ -9,7 +9,7 @@
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-error mb-2">500</h3>
                             <h4 class="font-semibold text-lg mb-2">{{ $t('error500.serverError') }}</h4>
-                            <p class="text-base-content/70 mb-4">{{ $t('error500.description') }}</p>
+                            <p class="text-base-content/90 mb-4">{{ $t('error500.description') }}</p>
                             <div class="flex flex-wrap gap-3">
                                 <NuxtLink to="/" class="btn btn-primary btn-sm">
                                     <Icon name="tabler:home" class="w-4 h-4" />
@@ -29,7 +29,7 @@
             <div v-if="randomQuote" class="card bg-base-100/50 dark:bg-base-200/50 shadow-lg backdrop-blur-sm">
                 <div class="card-body">
                     <blockquote class="text-base text-base-content/80 mb-3 leading-relaxed" v-html="randomQuote.text" />
-                    <footer class="text-sm text-base-content/60">
+                    <footer class="text-sm text-base-content/70">
                         — <cite>{{ randomQuote.film }}</cite> ({{ randomQuote.year }})
                     </footer>
                     <div class="flex gap-3 mt-1">

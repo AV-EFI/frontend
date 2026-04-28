@@ -18,7 +18,7 @@
         </header>
 
         <!-- Empty -->
-        <p v-if="rows.length === 0" class="mt-2 text-sm text-base-content/60">
+        <p v-if="rows.length === 0" class="mt-2 text-sm text-base-content/70">
             <slot name="empty">—</slot>
         </p>
 
@@ -39,7 +39,7 @@
                             {{ row.text }}
                         </p>
 
-                        <p v-if="row.meta" class="mt-0.5 text-xs text-base-content/60 break-words">
+                        <p v-if="row.meta" class="mt-0.5 text-xs text-base-content/70 break-words">
                             {{ row.meta }}
                         </p>
                     </div>

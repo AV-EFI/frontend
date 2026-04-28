@@ -189,7 +189,7 @@
             </div>
         </div>
 
-        <div v-else class="text-center text-base-content/60 py-8">
+        <div v-else class="text-center text-base-content/70 py-8">
             {{ emptyText || t('noResults') }}
         </div>
     </div>

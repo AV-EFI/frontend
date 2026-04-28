@@ -5,8 +5,7 @@
             <h1 class="text-2xl font-semibold">
                 {{ $t('normdata.pageTitle') }}
             </h1>
-            <p class="text-sm text-base-content/70">
-                {{ $t('normdata.pageDescription') }}
+            <p class="text-sm text-base-content/90">
             </p>
         </header>
 
@@ -228,7 +227,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <span v-else class="text-xs text-base-content/60">—</span>
+                            <span v-else class="text-xs text-base-content/70">—</span>
                         </td>
                         <td class="text-xs break-words">
                             <span v-html="highlightText(row.provider || '—')"></span>
@@ -298,7 +297,7 @@
             </span>
         </div>
 
-        <p class="text-xs text-base-content/60 mt-4">
+        <p class="text-xs text-base-content/70 mt-4">
             {{ $t('normdata.disclaimer') }}
         </p>
     </div>

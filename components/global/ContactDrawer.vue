@@ -20,13 +20,15 @@
             />
 
             <aside
-                class="bg-base-100 min-h-screen h-screen w-screen md:w-[32rem] md:max-w-[32rem] p-4 relative overflow-y-auto"
+                class="bg-base-100 min-h-[100dvh] h-[100dvh] w-screen md:w-[32rem] md:max-w-[32rem] px-4 pb-4 relative overflow-y-auto"
+                style="padding-top: max(1rem, env(safe-area-inset-top)); padding-right: max(1rem, env(safe-area-inset-right));"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="contact-drawer-heading"
             >
                 <button
-                    class="btn btn-sm btn-circle btn-ghost absolute right-5 top-5 sn:right-3 sm:top-3 z-10"
+                    class="btn btn-sm btn-circle btn-ghost absolute z-10 text-base-content"
+                    style="top: max(1.25rem, env(safe-area-inset-top)); right: max(1.25rem, env(safe-area-inset-right));"
                     :aria-label="$t('closeForm')"
                     @click="closeDrawer"
                 >

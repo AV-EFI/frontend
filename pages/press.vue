@@ -38,7 +38,7 @@
                             <div v-for="entry in bilingualEntries(block.textKey)" :key="`${block.key}-${entry.locale}`"
                                  class="flex items-start lg:gap-3 flex-wrap-reverse mt-2">
                                 <div class="grow space-y-1">
-                                    <span class="text-xs uppercase tracking-wide text-base-content/60">{{ entry.label }}</span>
+                                    <span class="text-xs uppercase tracking-wide text-base-content/70">{{ entry.label }}</span>
                                     <p class="text-sm leading-relaxed text-base-content/80">{{ entry.text }}</p>
                                 </div>
                                 <button class="btn btn-xs btn-outline" type="button"
@@ -86,7 +86,7 @@
                         <div class="card-body px-2 lg:px-4 space-y-4">
                             <div>
                                 <h3 class="card-title text-lg">{{ translateKey(item.titleKey) }}</h3>
-                                <p class="text-sm uppercase tracking-wide text-base-content/60">
+                                <p class="text-sm uppercase tracking-wide text-base-content/70">
                                     {{ assetTypeLabel(item.type) }}
                                 </p>
                             </div>

@@ -38,7 +38,7 @@ const errorPage = computed(() => {
                                 <h3 class="text-xl md:text-2xl font-semibold text-base-content mb-4">
                                     {{ error?.message || 'An error occurred' }}
                                 </h3>
-                                <p class="text-base-content/70 mb-6">
+                                <p class="text-base-content/90 mb-6">
                                     {{ error?.statusMessage || 'Something went wrong. Please try again.' }}
                                 </p>
                                 <div class="card-actions justify-center">
