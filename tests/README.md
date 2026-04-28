@@ -91,7 +91,7 @@ Security-specific expectation:
 - `ES_API_KEY` or `ELASTIC_APIKEY`: optional Elasticsearch API key for data-quality reports
 - `ELASTIC_GWDG_HOST` and `ELASTIC_GWDG_INDEX`: legacy/fallback host + index keys also supported by data-quality reports
 - `ES_COMPARE_BASELINE_INDEX`: optional baseline index for denormalised comparison report (default `21.11155-denormalised-work`)
-- `ES_COMPARE_CANDIDATE_INDEX`: optional candidate index for denormalised comparison report (default `21.11155-denormalised-work-testbed`)
+- `ES_COMPARE_CANDIDATE_INDEX`: optional candidate index for denormalised comparison report (default `21.11155-denormalised-work`)
 - `CMS_MUTATIONS_ENABLED`: enables CMS write endpoints (`/api/cms/usertooltips` `PUT`, `/api/cms/usertooltips_seed` `POST`), default `false`
 - `CMS_MUTATION_ORIGIN_ALLOWLIST`: optional comma-separated extra origins allowed for CMS mutations (current request origin is always allowed)
 

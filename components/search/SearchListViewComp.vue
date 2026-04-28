@@ -329,17 +329,137 @@ function getFilteredManifestations(workOrHit: any) {
 
 function getFilteredItems(manifestation: any) {
     if (!manifestation) return [];
-    if (!manifestation.inner_hits) {
-        return Array.isArray(manifestation.items) ? manifestation.items : [];
+
+    const allItems = Array.isArray(manifestation.items) ? manifestation.items : [];
+
+    if (manifestation.inner_hits) {
+        const itemsKey = Object.keys(manifestation.inner_hits).find(k => k.includes('items'));
+        if (itemsKey) {
+            const hits = manifestation.inner_hits[itemsKey]?.hits?.hits || [];
+            if (hits.length > 0) return hits.map(h => h._source);
+        }
     }
 
-    const itemsKey = Object.keys(manifestation.inner_hits).find(k => k.includes('items'));
-    if (!itemsKey) {
-        return Array.isArray(manifestation.items) ? manifestation.items : [];
+    return filterItemsLocally(allItems, manifestation);
+}
+
+function parseItemRefinementsFromUrl(): Record<string, string[]> {
+    const params = new URLSearchParams(window.location.search);
+    const result: Record<string, string[]> = {};
+
+    for (const [key, value] of params.entries()) {
+        const match = key.match(/^([^[]+)\[\d+\]$/);
+        if (match) {
+            const attr = match[1];
+            if (!result[attr]) result[attr] = [];
+            result[attr].push(value);
+        }
     }
 
-    const hits = manifestation.inner_hits[itemsKey]?.hits?.hits || [];
-    return hits.map(h => h._source);
+    return result;
+}
+
+function getItemColourType(item: any): string | null {
+    return item?.has_record?.has_colour_type ?? item?.has_colour_type ?? null;
+}
+
+function itemMatchesRefinements(item: any, ref: Record<string, string[]>): boolean {
+    const r = item?.has_record;
+
+    if (ref.has_colour_type?.length &&
+        !ref.has_colour_type.includes(getItemColourType(item) || '')) return false;
+
+    if (ref.has_access_status?.length &&
+        !ref.has_access_status.includes(r?.has_access_status)) return false;
+
+    if (ref.has_sound_type?.length &&
+        !ref.has_sound_type.includes(r?.has_sound_type)) return false;
+
+    if (ref.item_element_type?.length &&
+        !ref.item_element_type.includes(r?.element_type)) return false;
+
+    if (ref.has_format_type?.length &&
+        !(r?.has_format?.some((f: any) => ref.has_format_type.includes(f?.type)))) return false;
+
+    if (ref.in_language_code?.length &&
+        !(r?.in_language?.some((l: any) => ref.in_language_code.includes(l?.code)))) return false;
+
+    return true;
+}
+
+function reportItemFilterMismatch(
+    manifestation: any,
+    removedItems: any[],
+    refinements: Record<string, string[]>
+) {
+    if (typeof window === 'undefined' || removedItems.length === 0) return;
+
+    const manifestationHandle = manifestation?.handle || 'unknown-manifestation';
+    const dedupeKey = `search-item-filter-mismatch:${window.location.href}:${manifestationHandle}`;
+
+    try {
+        if (window.sessionStorage?.getItem(dedupeKey)) return;
+        window.sessionStorage?.setItem(dedupeKey, '1');
+    } catch {
+        // Logging should never affect search rendering.
+    }
+
+    const removedSample = removedItems.slice(0, 10).map((item: any) => ({
+        handle: item?.handle || null,
+        has_colour_type: getItemColourType(item),
+        has_access_status: item?.has_record?.has_access_status ?? null,
+        has_sound_type: item?.has_record?.has_sound_type ?? null,
+        item_element_type: item?.has_record?.element_type ?? null,
+    }));
+
+    const payload = {
+        type: 'search-item-filter-mismatch',
+        message: 'Search result contained nested items that did not match active item-level refinements',
+        source: 'SearchListViewComp',
+        url: window.location.href,
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+        timestamp: new Date().toISOString(),
+        info: JSON.stringify({
+            manifestationHandle,
+            removedCount: removedItems.length,
+            activeItemRefinements: refinements,
+            removedSample,
+        }),
+    };
+
+    try {
+        const body = JSON.stringify(payload);
+        if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+            navigator.sendBeacon('/api/log/client', new Blob([body], { type: 'application/json' }));
+        } else if (typeof fetch === 'function') {
+            void fetch('/api/log/client', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body,
+                keepalive: true,
+            });
+        }
+    } catch {
+        // Ignore logging failures; the local filtering is the important part.
+    }
+}
+
+function filterItemsLocally(items: any[], manifestation: any): any[] {
+    const ref = parseItemRefinementsFromUrl();
+    if (Object.keys(ref).length === 0) return items;
+
+    const removedItems: any[] = [];
+    const filtered = items.filter((item) => {
+        const matches = itemMatchesRefinements(item, ref);
+        if (!matches) {
+            removedItems.push(item);
+        }
+        return matches;
+    });
+
+    reportItemFilterMismatch(manifestation, removedItems, ref);
+
+    return filtered;
 }
 
           

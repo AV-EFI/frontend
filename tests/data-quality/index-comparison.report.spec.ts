@@ -14,7 +14,7 @@ interface IndexMetrics {
 }
 
 const DEFAULT_BASELINE_INDEX = '21.11155-denormalised-work';
-const DEFAULT_CANDIDATE_INDEX = '21.11155-denormalised-work-testbed';
+const DEFAULT_CANDIDATE_INDEX = '21.11155-denormalised-work';
 
 function createIndexConfig(cfg: EsAuditConfig, index: string): EsAuditConfig {
   return {

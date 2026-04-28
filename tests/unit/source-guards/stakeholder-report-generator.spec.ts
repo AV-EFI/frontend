@@ -44,7 +44,7 @@ describe('stakeholder quality report generator', () => {
         '',
         '## Denormalised index comparison',
         '- Baseline index: 21.11155-denormalised-work',
-        '- Candidate index: 21.11155-denormalised-work-testbed',
+        '- Candidate index: 21.11155-denormalised-work',
         '',
         '## Trend snapshot and deltas',
         '- Delta total root docs: 0.0000',

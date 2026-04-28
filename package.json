@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare:generated": "npm run generate:colours",
-    "prepare:generated:full": "npm run generate:colours && npm run generate:interfaces && npm run generate:suggestions",
+    "prepare:generated": "npm run generate:colours && npm run generate:issuers",
+    "prepare:generated:full": "npm run generate:colours && npm run generate:interfaces && npm run generate:suggestions && npm run generate:issuers",
     "build": "npm run build:local",
     "build:local": "npm run prepare:generated && node scripts/run-with-env.mjs NUXT_BUILD_PROFILE=local -- nuxt build",
     "build:ci": "npm run prepare:generated:full && node scripts/run-with-env.mjs NUXT_BUILD_PROFILE=ci -- nuxt build",

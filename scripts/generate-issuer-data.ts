@@ -9,6 +9,7 @@
 import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
+import { config as loadEnv } from 'dotenv';
 import { $fetch } from 'ofetch';
 
 interface Issuer {
@@ -17,7 +18,20 @@ interface Issuer {
   doc_count: number;
 }
 
+function loadLocalEnv() {
+    const cwd = process.cwd();
+    const envFiles = ['.env.local', '.env'];
+
+    for (const file of envFiles) {
+        const fullPath = path.resolve(cwd, file);
+        if (fs.existsSync(fullPath)) {
+            loadEnv({ path: fullPath, override: false });
+        }
+    }
+}
+
 async function generateIssuerData() {
+    loadLocalEnv();
     console.log('[generate-issuer-data] Starting...');
 
     const esHost = process.env.ELASTIC_HOST_PUBLIC || process.env.ELASTIC_HOST;
