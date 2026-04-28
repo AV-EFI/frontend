@@ -19,9 +19,14 @@ function getRootProperties(): Record<string, MappingNode> {
     'mapping_21.11155-denormalised-work.json',
   );
   const raw = readFileSync(mappingPath, 'utf8');
-  const json = JSON.parse(raw) as Record<string, { mappings?: { properties?: Record<string, MappingNode> } }>;
+  const json = JSON.parse(raw) as
+    | { mappings?: { properties?: Record<string, MappingNode> } }
+    | Record<string, { mappings?: { properties?: Record<string, MappingNode> } }>;
   const firstIndex = Object.keys(json)[0];
-  const properties = json[firstIndex]?.mappings?.properties;
+  const properties =
+    ('mappings' in json && json.mappings?.properties) ||
+    (json as Record<string, { mappings?: { properties?: Record<string, MappingNode> } }>)[firstIndex]?.mappings
+      ?.properties;
   if (!properties) {
     throw new Error('Could not load elastic mapping root properties');
   }
