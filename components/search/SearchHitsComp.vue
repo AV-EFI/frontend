@@ -8,6 +8,7 @@
     <div v-else>
         <SearchListFlatComp
             v-if="viewTypeChecked === 'flat' && items"
+            :key="`flat:${facetStateSignature}`"
             :datasets="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
@@ -15,6 +16,7 @@
         />
         <SearchListViewComp
             v-else-if="viewTypeChecked === 'accordion' && items"
+            :key="`accordion:${facetStateSignature}`"
             :items="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
@@ -26,6 +28,7 @@
         />
         <SearchTableViewComp
             v-else-if="viewTypeChecked === 'table' && items"
+            :key="`table:${facetStateSignature}`"
             :datasets="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
@@ -47,7 +50,9 @@ defineOptions({
     name: 'AisStateResults',
 });
 
-import { ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
+const route = useRoute();
+
 const props = defineProps({
     items: {
         type: Array as PropType<ElasticMSearchResponse[]>,
@@ -71,6 +76,14 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    facetsActive: {
+        type: Boolean,
+        default: false,
+    },
+    nrOfFacetsActive: {
+        type: Number,
+        default: 0,
+    },
     isSearchLoading: {
         type: Boolean,
         required: false,
@@ -81,6 +94,25 @@ const props = defineProps({
         required: false,
         default: () => []
     }
+});
+
+const facetStateSignature = computed(() => {
+    const routeFacetEntries = Object.entries(route.query)
+        .filter(([key]) => key !== 'query' && key !== 'page')
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, value]) => [
+            key,
+            Array.isArray(value)
+                ? value.map(item => String(item ?? '')).sort()
+                : [String(value ?? '')],
+        ]);
+
+    return JSON.stringify({
+        currentRefinements: props.currentRefinements,
+        routeFacets: routeFacetEntries,
+        facetsActive: props.facetsActive,
+        nrOfFacetsActive: props.nrOfFacetsActive,
+    });
 });
 
 // SSR-safe localStorage for viewTypeChecked

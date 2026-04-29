@@ -7,19 +7,86 @@ interface Issuer {
   doc_count: number;
 }
 
+const DEFAULT_TOP_ISSUERS_INDEX = '21.11155-denormalised-work';
+
 interface EsBucket {
   key: string;
   doc_count: number;
-  issuer_id?: {
+  handle_count?: {
+    value?: number;
+  };
+  issuer_ids?: {
     buckets?: Array<{ key: string }>;
   };
 }
 
 interface EsResponse {
   aggregations?: {
-    issuers?: {
-      buckets?: EsBucket[];
+    manifestations?: {
+      issuers_by_name?: {
+        buckets?: EsBucket[];
+      };
     };
+  };
+}
+
+function buildBackendAlignedTopIssuersQuery(size = 10) {
+  return {
+    query: {
+      bool: {
+        should: [
+          {
+            multi_match: {
+              query: '',
+              fields: [
+                'has_record.has_primary_title.has_name^2',
+                'has_record.has_alternative_title.has_name^1',
+                'parents.has_record.has_primary_title.has_name^1.5',
+                'directors_or_editors^2.5',
+                'subjects^1',
+                'years^1',
+                'production^1',
+              ],
+              zero_terms_query: 'all',
+              type: 'phrase',
+            },
+          },
+        ],
+        minimum_should_match: 1,
+      },
+    },
+    size: 0,
+    aggs: {
+      manifestations: {
+        nested: {
+          path: 'manifestations',
+        },
+        aggs: {
+          issuers_by_name: {
+            terms: {
+              field: 'manifestations.has_record.described_by.has_issuer_name.keyword',
+              size,
+              order: {
+                handle_count: 'desc',
+              },
+            },
+            aggs: {
+              handle_count: {
+                cardinality: {
+                  field: 'manifestations.handle.keyword',
+                },
+              },
+              issuer_ids: {
+                terms: {
+                  field: 'manifestations.has_record.described_by.has_issuer_id.keyword',
+                  size: 1,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   };
 }
 
@@ -27,7 +94,11 @@ export default defineCachedEventHandler(async () => {
   const config = useRuntimeConfig();
 
   const host = config.ELASTIC_HOST_INTERNAL || config.ELASTIC_HOST_PUBLIC;
-  const index = config.public.ELASTIC_INDEX;
+  const index =
+    process.env.ELASTIC_TOP_ISSUERS_INDEX ||
+    process.env.ELASTIC_GWDG_INDEX ||
+    config.public.ELASTIC_INDEX ||
+    DEFAULT_TOP_ISSUERS_INDEX;
   const apiKey = config.ELASTIC_APIKEY;
 
   if (!host || !index) {
@@ -46,38 +117,17 @@ export default defineCachedEventHandler(async () => {
     const response = await $fetch<EsResponse>(`${host}/${index}/_search`, {
       method: 'POST',
       headers,
-      body: {
-        size: 0,
-        aggs: {
-          issuers: {
-            terms: {
-              field: 'has_issuer_name.keyword',
-              size: 10,
-              order: {
-                _count: 'desc',
-              },
-            },
-            aggs: {
-              issuer_id: {
-                terms: {
-                  field: 'has_issuer_id.keyword',
-                  size: 1,
-                },
-              },
-            },
-          },
-        },
-      },
+      body: buildBackendAlignedTopIssuersQuery(10),
     });
 
-    const buckets = response.aggregations?.issuers?.buckets || [];
+    const buckets = response.aggregations?.manifestations?.issuers_by_name?.buckets || [];
 
     return {
       generated_at: new Date().toISOString(),
       issuers: buckets.map((bucket) => ({
         name: bucket.key,
-        id: bucket.issuer_id?.buckets?.[0]?.key || null,
-        doc_count: bucket.doc_count,
+        id: bucket.issuer_ids?.buckets?.[0]?.key || null,
+        doc_count: bucket.handle_count?.value ?? bucket.doc_count,
       })),
     };
   } catch (error) {

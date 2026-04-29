@@ -113,7 +113,8 @@
                     <GlobalTooltipInfo :text="$t('tooltip.manifestation')" class="absolute ml-2" />
                 </h3>
                 <SearchManifestationListSplitView :manifestations="getFilteredManifestations(work)"
-                                                  :get-filtered-items="getFilteredItems" :work-variant-handle="work?.handle" />
+                                                  :get-filtered-items="getFilteredItems" :work-variant-handle="work?.handle"
+                                                  :refinement-signature="refinementSignature" />
             </div>
         </div>
     </div>
@@ -269,6 +270,16 @@ const props = defineProps({
         required: false,
         default: false,
     },
+    facetsActive: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    nrOfFacetsActive: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
     currentRefinements: {
         type: Array,
         required: false,
@@ -277,6 +288,7 @@ const props = defineProps({
 });
 
 const showFacetBadge = computed(() => props.nrOfFacetsActive > 0);
+const refinementSignature = computed(() => JSON.stringify(props.currentRefinements ?? []));
 
 const componentInfoReady = ref(false);
 const isExpanded = reactive<Record<string, boolean>>({});

@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-04-29T06:13:41.729Z",
+  "generated_at": "2026-04-29T13:48:47.003Z",
   "issuers": [
     {
       "name": "Haus des Dokumentarfilms",
       "id": "https://w3id.org/isil/DE-2282",
-      "doc_count": 13835
+      "doc_count": 13834
     },
     {
       "name": "Technische Informationsbibliothek (TIB)",
       "id": "https://w3id.org/isil/DE-89",
-      "doc_count": 5602
+      "doc_count": 5588
     },
     {
       "name": "Deutsche Kinemathek - Museum für Film und Fernsehen",
       "id": "https://w3id.org/isil/DE-MUS-407010",
-      "doc_count": 3269
+      "doc_count": 3205
     },
     {
       "name": "Filmmuseum der Landeshauptstadt Düsseldorf",
       "id": "https://w3id.org/isil/DE-MUS-432511",
-      "doc_count": 2942
+      "doc_count": 2936
     }
   ]
 }

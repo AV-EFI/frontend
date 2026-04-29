@@ -763,10 +763,18 @@ function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
 }
 
 function mapFacetAttributeForBackend(attribute: string) {
+    if (attribute === 'creators') {
+        return 'directors_or_editors';
+    }
+
     return attribute;
 }
 
 function mapFacetAttributeForUi(attribute: string) {
+    if (attribute === 'directors_or_editors') {
+        return 'creators';
+    }
+
     return attribute;
 }
 

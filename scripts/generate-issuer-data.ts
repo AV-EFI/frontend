@@ -18,6 +18,68 @@ interface Issuer {
   doc_count: number;
 }
 
+const DEFAULT_TOP_ISSUERS_INDEX = '21.11155-denormalised-work';
+
+function buildBackendAlignedTopIssuersQuery(size = 20) {
+    return {
+        query: {
+            bool: {
+                should: [
+                    {
+                        multi_match: {
+                            query: '',
+                            fields: [
+                                'has_record.has_primary_title.has_name^2',
+                                'has_record.has_alternative_title.has_name^1',
+                                'parents.has_record.has_primary_title.has_name^1.5',
+                                'directors_or_editors^2.5',
+                                'subjects^1',
+                                'years^1',
+                                'production^1',
+                            ],
+                            zero_terms_query: 'all',
+                            type: 'phrase',
+                        },
+                    },
+                ],
+                minimum_should_match: 1,
+            },
+        },
+        size: 0,
+        aggs: {
+            manifestations: {
+                nested: {
+                    path: 'manifestations',
+                },
+                aggs: {
+                    issuers_by_name: {
+                        terms: {
+                            field: 'manifestations.has_record.described_by.has_issuer_name.keyword',
+                            size,
+                            order: {
+                                handle_count: 'desc',
+                            },
+                        },
+                        aggs: {
+                            handle_count: {
+                                cardinality: {
+                                    field: 'manifestations.handle.keyword',
+                                },
+                            },
+                            issuer_ids: {
+                                terms: {
+                                    field: 'manifestations.has_record.described_by.has_issuer_id.keyword',
+                                    size: 1,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    };
+}
+
 function loadLocalEnv() {
     const cwd = process.cwd();
     const envFiles = ['.env.local', '.env'];
@@ -35,44 +97,20 @@ async function generateIssuerData() {
     console.log('[generate-issuer-data] Starting...');
 
     const esHost = process.env.ELASTIC_HOST_PUBLIC || process.env.ELASTIC_HOST;
-    const esIndex = process.env.ELASTIC_INDEX;
+    const esIndex =
+        process.env.ELASTIC_TOP_ISSUERS_INDEX ||
+        process.env.ELASTIC_GWDG_INDEX ||
+        process.env.ELASTIC_INDEX ||
+        DEFAULT_TOP_ISSUERS_INDEX;
 
-    if (!esHost || !esIndex) {
-        console.error('[generate-issuer-data] ERROR: ELASTIC_HOST / ELASTIC_HOST_PUBLIC and ELASTIC_INDEX must be set in env.');
+    if (!esHost) {
+        console.error('[generate-issuer-data] ERROR: ELASTIC_HOST / ELASTIC_HOST_PUBLIC must be set in env.');
         process.exit(1);
     }
 
     console.log(`[generate-issuer-data] Connecting to ${esHost}/${esIndex}`);
 
-    const esBody = {
-        size: 0,
-        aggs: {
-            manifestations_nested: {
-                nested: {
-                    path: 'manifestations'
-                },
-                aggs: {
-                    issuers_by_name: {
-                        terms: {
-                            field: 'manifestations.has_record.described_by.has_issuer_name.keyword',
-                            size: 20,
-                            order: {
-                                _count: 'desc'
-                            }
-                        },
-                        aggs: {
-                            issuer_ids: {
-                                terms: {
-                                    field: 'manifestations.has_record.described_by.has_issuer_id.keyword',
-                                    size: 1
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
+    const esBody = buildBackendAlignedTopIssuersQuery(20);
 
     const url = `${esHost}/${encodeURIComponent(esIndex)}/_search`;
 
@@ -90,7 +128,7 @@ async function generateIssuerData() {
         process.exit(1);
     }
 
-    const nameBuckets = res?.aggregations?.manifestations_nested?.issuers_by_name?.buckets || [];
+    const nameBuckets = res?.aggregations?.manifestations?.issuers_by_name?.buckets || [];
 
     if (!nameBuckets.length) {
         console.warn('[generate-issuer-data] No buckets returned, nothing to write.');
@@ -100,7 +138,7 @@ async function generateIssuerData() {
     const issuers: Issuer[] = nameBuckets.map((bucket: any) => ({
         name: bucket.key,
         id: bucket.issuer_ids?.buckets?.[0]?.key || null,
-        doc_count: bucket.doc_count
+        doc_count: bucket.handle_count?.value ?? bucket.doc_count
     }));
 
     const outDir = path.resolve(process.cwd(), 'data');

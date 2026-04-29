@@ -182,7 +182,8 @@ import { allItemsEmpty, isItemEmpty } from '@/composables/useItemEmpty';
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },
-    workVariantHandle: { type: String, required: false, default: null }
+    workVariantHandle: { type: String, required: false, default: null },
+    refinementSignature: { type: String, required: false, default: '' }
 });
 
 const selectedIndex = ref(0);
@@ -246,6 +247,16 @@ watch(totalItemPages, (newVal) => {
         itemPage.value = Math.max(0, newVal - 1);
     }
 });
+
+watch(
+    () => [props.manifestations, props.refinementSignature],
+    () => {
+        currentPage.value = 0;
+        selectedIndex.value = 0;
+        itemPage.value = 0;
+    },
+    { deep: false }
+);
 
 function triggerScrollToItem() {
     nextTick(() => {
