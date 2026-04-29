@@ -110,15 +110,6 @@ function normalizeFacetKey(key: string): string {
   return key.replace(/\[\d+\]$/, '');
 }
 
-/**
- * Mirror the alias mapping that InstantSearchTemplateAVefi.vue applies before
- * sending to the backend.  The backend only understands "directors_or_editors";
- * "creators" is the frontend-side display alias.
- */
-function mapFacetKeyForBackend(key: string): string {
-  return key === 'creators' ? 'directors_or_editors' : key;
-}
-
 function searchParamsFromLoc(loc: string): Record<string, unknown> {
   const params = new URL(loc, 'https://www.av-efi.net').searchParams;
   const query = params.get('query') ?? '';
@@ -127,8 +118,7 @@ function searchParamsFromLoc(loc: string): Record<string, unknown> {
 
   for (const [rawKey, value] of params.entries()) {
     if (rawKey === 'query') continue;
-    const raw = normalizeFacetKey(rawKey);
-    const key = mapFacetKeyForBackend(raw);
+    const key = normalizeFacetKey(rawKey);
     const arr = grouped.get(key) ?? [];
     arr.push(`${key}:${value}`);
     grouped.set(key, arr);

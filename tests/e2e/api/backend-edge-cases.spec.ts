@@ -6,7 +6,7 @@ const SEARCH_URL = `${BACKEND_BASE}/frontend/search`;
 
 const REGULAR_SEARCH_BACKEND_FACETS = [
   'castmembers',
-  'directors_or_editors',
+  'creators',
   'has_access_status',
   'has_colour_type',
   'has_duration_has_value',

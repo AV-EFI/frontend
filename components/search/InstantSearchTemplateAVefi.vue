@@ -763,11 +763,11 @@ function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
 }
 
 function mapFacetAttributeForBackend(attribute: string) {
-    return attribute === 'creators' ? 'directors_or_editors' : attribute;
+    return attribute;
 }
 
 function mapFacetAttributeForUi(attribute: string) {
-    return attribute === 'directors_or_editors' ? 'creators' : attribute;
+    return attribute;
 }
 
 function mapFacetFilterForBackend(filter: unknown): unknown {
@@ -798,6 +798,50 @@ function mapFacetsForBackend(facets: unknown): unknown {
     }
 
     return facets;
+}
+
+// Workaround for Python backend bug: a `nested(manifestations, inner_hits)` query for
+// has_issuer_name conflicts with any `nested(manifestations.items, inner_hits)` query
+// for item-level facets, causing ES to return 500. Until the backend is fixed, strip
+// has_issuer_name from the request whenever item-level facets are active.
+// See: tests/e2e/api/backend-search-facet-combinations.spec.ts (test.fixme blocks)
+const ITEM_LEVEL_FACETS = new Set([
+    'has_colour_type',
+    'has_sound_type',
+    'has_format_type',
+    'item_element_type',
+    'in_language_code',
+    'has_duration_has_value',
+]);
+
+function extractFilterAttribute(filter: string): string {
+    const i = filter.indexOf(':');
+    return i === -1 ? filter : filter.slice(0, i);
+}
+
+function facetFiltersContainItemLevel(facetFilters: unknown): boolean {
+    if (!Array.isArray(facetFilters)) return false;
+    return facetFilters.some((entry) => {
+        if (Array.isArray(entry)) {
+            return entry.some((s) => typeof s === 'string' && ITEM_LEVEL_FACETS.has(extractFilterAttribute(s)));
+        }
+        return typeof entry === 'string' && ITEM_LEVEL_FACETS.has(extractFilterAttribute(entry));
+    });
+}
+
+function stripFacetFromFilters(facetFilters: unknown, attribute: string): unknown {
+    if (!Array.isArray(facetFilters)) return facetFilters;
+    return facetFilters
+        .map((entry) => {
+            if (Array.isArray(entry)) {
+                return entry.filter((s) => typeof s !== 'string' || extractFilterAttribute(s) !== attribute);
+            }
+            if (typeof entry === 'string' && extractFilterAttribute(entry) === attribute) {
+                return null;
+            }
+            return entry;
+        })
+        .filter((entry) => entry !== null && !(Array.isArray(entry) && entry.length === 0));
 }
 
 function mapRenderingContentForUi(renderingContent: any) {
@@ -871,6 +915,17 @@ const effectiveSearchClient = {
 
             if (params.facets) {
                 params.facets = mapFacetsForBackend(params.facets);
+            }
+
+            // Workaround: strip has_issuer_name when item-level facet filters are active
+            // to prevent ES 500 (nested inner_hits conflict in Python backend).
+            if (facetFiltersContainItemLevel(params.facetFilters)) {
+                if (Array.isArray(params.facets)) {
+                    params.facets = (params.facets as string[]).filter((f) => f !== 'has_issuer_name');
+                }
+                if (params.facetFilters) {
+                    params.facetFilters = stripFacetFromFilters(params.facetFilters, 'has_issuer_name');
+                }
             }
 
             if (params.numericFilters) {
