@@ -4,6 +4,26 @@ import { validateWorkVariantSourceFromSearchHit } from '../utils/elastic-contrac
 const BACKEND_BASE = process.env.E2E_BACKEND_BASE || 'https://www.av-efi.net/rest/v1';
 const SEARCH_URL = `${BACKEND_BASE}/frontend/search`;
 
+const REGULAR_SEARCH_BACKEND_FACETS = [
+  'castmembers',
+  'directors_or_editors',
+  'has_access_status',
+  'has_colour_type',
+  'has_duration_has_value',
+  'has_extent_has_value',
+  'has_form',
+  'has_format_type',
+  'has_genre_has_name',
+  'has_issuer_name',
+  'has_sound_type',
+  'in_language_code',
+  'item_element_type',
+  'located_in_has_name',
+  'manifestation_event_type',
+  'production',
+  'subjects',
+] as const;
+
 const SEARCH_RESULT_REQUIRED_KEYS = [
   'appliedRules',
   'exhaustive',
@@ -199,6 +219,76 @@ test.describe('Backend API Edge Cases', () => {
     if (res.status() === 200) {
       const body = await res.json();
       expect(Array.isArray(body.results)).toBe(true);
+    }
+  });
+
+  test('[edge] frontend/search supported facets never return 5xx when requested or applied', async ({ request }) => {
+    test.setTimeout(120_000);
+
+    const discoveryPayload = [
+      {
+        indexName: '21.11155-denormalised-work',
+        params: {
+          query: '',
+          page: 0,
+          hitsPerPage: 1,
+          facetFilters: [],
+          facets: [...REGULAR_SEARCH_BACKEND_FACETS],
+          maxValuesPerFacet: 20,
+        },
+      },
+    ];
+
+    const discoveryRes = await request.post(SEARCH_URL, { data: discoveryPayload });
+    expect(discoveryRes.status(), 'facet discovery request returned 5xx').toBeLessThan(500);
+    expect(discoveryRes.status(), 'facet discovery request should satisfy the SearchResult contract').toBe(200);
+
+    const discoveryBody = await discoveryRes.json();
+    expect(Array.isArray(discoveryBody.results)).toBe(true);
+    expect(discoveryBody.results.length).toBeGreaterThan(0);
+    const discoveryResult = discoveryBody.results[0];
+    assertSearchResultContract(discoveryResult, 'facet-discovery');
+
+    for (const facet of REGULAR_SEARCH_BACKEND_FACETS) {
+      expect(
+        Object.prototype.hasOwnProperty.call(discoveryResult.facets, facet),
+        `Backend did not return requested facet "${facet}"`,
+      ).toBe(true);
+
+      const buckets = discoveryResult.facets[facet] as Record<string, number> | undefined;
+      const firstValue = Object.entries(buckets ?? {})
+        .filter(([value, count]) => value.length > 0 && count > 0)
+        .sort((a, b) => b[1] - a[1])
+        .at(0)?.[0];
+
+      if (!firstValue) {
+        continue;
+      }
+
+      const appliedPayload = [
+        {
+          indexName: '21.11155-denormalised-work',
+          params: {
+            query: '',
+            page: 0,
+            hitsPerPage: 1,
+            facetFilters: [[`${facet}:${firstValue}`]],
+            facets: [...REGULAR_SEARCH_BACKEND_FACETS],
+            maxValuesPerFacet: 20,
+          },
+        },
+      ];
+
+      const appliedRes = await request.post(SEARCH_URL, { data: appliedPayload });
+      expect(appliedRes.status(), `facet "${facet}" value "${firstValue}" returned 5xx`).toBeLessThan(500);
+      expect(appliedRes.status(), `facet "${facet}" value "${firstValue}" should return SearchResult JSON`).toBe(200);
+
+      const appliedBody = await appliedRes.json();
+      expect(Array.isArray(appliedBody.results), `facet "${facet}" results must be array`).toBe(true);
+      expect(appliedBody.results.length, `facet "${facet}" expected at least one SearchResult`).toBeGreaterThan(0);
+      for (const result of appliedBody.results as unknown[]) {
+        assertSearchResultContract(result, `facet-${facet}`);
+      }
     }
   });
 });

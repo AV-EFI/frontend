@@ -35,6 +35,7 @@ describe('Internal API: /api/log/client', () => {
 
   test('logs validated payload and returns success=true', async () => {
     const loggerErrorMock = vi.fn();
+    const loggerWarnMock = vi.fn();
     const getHeaderMock = vi.fn().mockReturnValue('203.0.113.42');
 
     vi.doMock('h3', () => ({
@@ -47,7 +48,7 @@ describe('Internal API: /api/log/client', () => {
       getRequestHeader: getHeaderMock,
     }));
     vi.doMock('#imports', () => ({
-      useNitroApp: () => ({ logger: { error: loggerErrorMock } }),
+      useNitroApp: () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }),
     }));
 
     const handler = (await import('~/server/api/log/client.post')).default as (event: TestEvent) => Promise<LogClientResponse>;
@@ -61,6 +62,38 @@ describe('Internal API: /api/log/client', () => {
       message: 'Unhandled error',
       type: 'TypeError',
       ip: '203.0.113.42',
+    });
+    expect(loggerWarnMock).not.toHaveBeenCalled();
+  });
+
+  test('logs item filter mismatch reports as diagnostics instead of JS errors', async () => {
+    const loggerErrorMock = vi.fn();
+    const loggerWarnMock = vi.fn();
+
+    vi.doMock('h3', () => ({
+      defineEventHandler: <T>(fn: T) => fn,
+      readBody: vi.fn().mockResolvedValue({
+        message: 'Search result contained nested items that did not match active item-level refinements',
+        type: 'search-item-filter-mismatch',
+        source: 'SearchListViewComp',
+      }),
+      getRequestHeader: vi.fn().mockReturnValue(undefined),
+    }));
+    vi.doMock('#imports', () => ({
+      useNitroApp: () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }),
+    }));
+
+    const handler = (await import('~/server/api/log/client.post')).default as (event: TestEvent) => Promise<LogClientResponse>;
+    const event: TestEvent = { node: { req: { socket: { remoteAddress: '127.0.0.1' } }, res: { statusCode: 200 } } };
+    const result = await handler(event);
+
+    expect(result).toEqual({ success: true });
+    expect(loggerErrorMock).not.toHaveBeenCalled();
+    expect(loggerWarnMock).toHaveBeenCalledTimes(1);
+    expect(loggerWarnMock.mock.calls[0][0]).toMatchObject({
+      type: 'search-item-filter-mismatch',
+      source: 'SearchListViewComp',
+      ip: '127.0.0.1',
     });
   });
 });

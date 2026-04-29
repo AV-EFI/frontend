@@ -109,6 +109,7 @@ const WRAPPERS = [
     name: "IAVefiWorkVariant",
     schemaType: "WorkVariant",
     fields: `
+  creators?: string[];
   directors_or_editors?: string[];
   castmembers?: string[];
   kip?: string;

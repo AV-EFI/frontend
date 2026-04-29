@@ -32,7 +32,7 @@ const SEARCH_RESULT_REQUIRED_KEYS = [
 const SITEMAP_SEARCH_LOCS = [
   '/search/?has_form=Short&manifestation_event_type=RestorationEvent',
   '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik',
-  '/search/?directors_or_editors=Troller%2C%20Georg%20Stefan',
+  '/search/?creators=Troller%2C%20Georg%20Stefan',
   '/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion',
   '/search/?query=Metropolis',
   '/search/?query=Berlin',
@@ -49,10 +49,10 @@ const SITEMAP_SEARCH_LOCS = [
   '/search/?subjects=Arbeit',
   '/search/?manifestation_event_type%5B0%5D=RestorationEvent',
   '/search/?manifestation_event_type%5B0%5D=TheatricalDistributionEvent',
-  '/search/?directors_or_editors%5B0%5D=Nekes%2C%20Werner',
-  '/search/?directors_or_editors%5B0%5D=Wildenhahn%2C%20Klaus',
-  '/search/?directors_or_editors%5B0%5D=Nestler%2C%20Peter',
-  '/search/?directors_or_editors%5B0%5D=Nickel%2C%20Gitta',
+  '/search/?creators%5B0%5D=Nekes%2C%20Werner',
+  '/search/?creators%5B0%5D=Wildenhahn%2C%20Klaus',
+  '/search/?creators%5B0%5D=Nestler%2C%20Peter',
+  '/search/?creators%5B0%5D=Nickel%2C%20Gitta',
 ] as const;
 
 const SEARCH_VARIANTS: Array<{ name: string; params: Record<string, unknown> }> = [
@@ -110,6 +110,15 @@ function normalizeFacetKey(key: string): string {
   return key.replace(/\[\d+\]$/, '');
 }
 
+/**
+ * Mirror the alias mapping that InstantSearchTemplateAVefi.vue applies before
+ * sending to the backend.  The backend only understands "directors_or_editors";
+ * "creators" is the frontend-side display alias.
+ */
+function mapFacetKeyForBackend(key: string): string {
+  return key === 'creators' ? 'directors_or_editors' : key;
+}
+
 function searchParamsFromLoc(loc: string): Record<string, unknown> {
   const params = new URL(loc, 'https://www.av-efi.net').searchParams;
   const query = params.get('query') ?? '';
@@ -118,7 +127,8 @@ function searchParamsFromLoc(loc: string): Record<string, unknown> {
 
   for (const [rawKey, value] of params.entries()) {
     if (rawKey === 'query') continue;
-    const key = normalizeFacetKey(rawKey);
+    const raw = normalizeFacetKey(rawKey);
+    const key = mapFacetKeyForBackend(raw);
     const arr = grouped.get(key) ?? [];
     arr.push(`${key}:${value}`);
     grouped.set(key, arr);

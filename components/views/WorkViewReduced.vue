@@ -448,7 +448,9 @@ const alternativeTitles = computed(() => {
 });
 
 const directors = computed(() => {
-    const directorsList = source.value?.directors_or_editors;
+    const directorsList = Array.isArray(source.value?.creators) && source.value.creators.length
+        ? source.value.creators
+        : source.value?.directors_or_editors;
     if (directorsList && Array.isArray(directorsList) && directorsList.length > 0) {
         return directorsList.join(', ');
     }
@@ -462,7 +464,7 @@ const directors = computed(() => {
         const activities = event?.has_activity;
         if (activities && Array.isArray(activities)) {
             activities.forEach(activity => {
-                if (activity?.category === 'avefi:DirectingActivity' && activity?.has_agent) {
+                if (activity?.category === 'avefi:DirectingActivity' && ['Director', 'Creator'].includes(activity?.type) && activity?.has_agent) {
                     activity.has_agent.forEach(agent => {
                         if (agent?.has_name) directors.push(agent.has_name);
                     });
@@ -644,7 +646,9 @@ const compareAlternativeTitles = computed(() => {
 });
 
 const compareDirectors = computed(() => {
-    const directorsList = compareSource.value?.directors_or_editors;
+    const directorsList = Array.isArray(compareSource.value?.creators) && compareSource.value.creators.length
+        ? compareSource.value.creators
+        : compareSource.value?.directors_or_editors;
     if (directorsList && Array.isArray(directorsList) && directorsList.length > 0) {
         return directorsList.join(', ');
     }
@@ -657,7 +661,7 @@ const compareDirectors = computed(() => {
         const activities = event?.has_activity;
         if (activities && Array.isArray(activities)) {
             activities.forEach(activity => {
-                if (activity?.category === 'avefi:DirectingActivity' && activity?.has_agent) {
+                if (activity?.category === 'avefi:DirectingActivity' && ['Director', 'Creator'].includes(activity?.type) && activity?.has_agent) {
                     activity.has_agent.forEach(agent => {
                         if (agent?.has_name) directors.push(agent.has_name);
                     });

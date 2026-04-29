@@ -125,12 +125,19 @@ Core smoke flows:
 
 - home page loads and search mode switch works
 - search page accepts a query and renders a result list
+- search page browser POSTs go to `/rest/v1/frontend/search`, not `/api/elastic/msearch`
 - detail page loads for a known stable handle
 - compare page handles both invalid and valid query params
 - press page renders and download links exist
 - vocab page renders and search query state is synced
 - unauthenticated access to `/protected/*` redirects away
 - `/admin/*` is denied once auth is added
+
+Search endpoint regression guard:
+
+- Regular search is a backend API integration (`frontend/search`) wrapped by the client-side Searchkit/InstantSearch adapter.
+- `/api/elastic/msearch` is a separate local Nitro endpoint and should not be assumed to explain public `/search` failures.
+- When investigating Algolia/InstantSearch helper crashes, assert both the transport endpoint and the response contract: the browser response must be JSON with a top-level `results: []` array. A backend 4xx/5xx validation envelope can surface in the browser as a misleading `undefined.slice` error.
 
 ## Separate lane: data-quality and network smoke tests
 

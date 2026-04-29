@@ -1,12 +1,12 @@
 <template>
     <ul :class="rootClasses" role="list">
-        <!-- First row: located_in, years, directors_or_editors (WORK ONLY) -->
+        <!-- First row: located_in, years, creators (WORK ONLY) -->
         <li
             v-if="level === 'work' && iconEntries.length > 0"
             :class="primaryRowClasses"
         >
             <template
-                v-for="entry in iconEntries.filter(e => ['located_in', 'years', 'directors_or_editors'].includes(e.key))"
+                v-for="entry in iconEntries.filter(e => ['located_in', 'years', 'creators'].includes(e.key))"
                 :key="entry.key">
                 <div
                     :class="primaryEntryClasses"
@@ -67,7 +67,7 @@
             :class="secondaryRowClasses"
         >
             <template
-                v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'directors_or_editors'].includes(e.key))"
+                v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'creators'].includes(e.key))"
                 :key="entry.key">
                 <div
                     :class="entryClasses"
@@ -119,6 +119,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
 const { t } = useI18n();
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
@@ -202,30 +203,7 @@ function visibleSegments(entry: { key: string; text: any }) {
     return isExpanded(entry.key) ? entry.text : entry.text.slice(0, 5);
 }
 
-/* icons */
-const ICONS = {
-    access: 'tabler-lock-open',
-    lang: 'tabler-language',
-    colour: 'tabler-palette',
-    sound: 'tabler-volume',
-    silent: 'tabler-volume-off',
-    duration: 'tabler-clock-hour-3',
-    extent: 'tabler-ruler',
-    elementType: 'tabler-movie',
-    format: 'tabler-disc',
-    eventType: 'tabler-calendar-event',
-    genre: 'tabler-category',
-    subject: 'tabler-tag',
-    issuer: 'tabler-building',
-    handle: 'tabler-hash',
-    directors: 'tabler-chair-director',
-    year: 'tabler-calendar',
-    map: 'tabler-map-pin',
-    form: 'tabler-forms',
-    episode: 'tabler-hierarchy-3',
-    fps: 'tabler-gauge',
-    default: 'tabler-info-circle',
-};
+const iconFor = (key: string) => getFacetIcon(key, 'tabler-info-circle');
 
 /* helpers */
 function formatDuration(has_value: string): string {
@@ -254,7 +232,7 @@ function buildIconEntries() {
         if (locTexts.length) {
             entries.push({
                 key: 'located_in',
-                icon: ICONS.map,
+                icon: iconFor('located_in'),
                 text: locTexts,
                 aria: t('located_in') + ': ' + locTexts.map(l => l.text).join(', ')
             });
@@ -265,7 +243,7 @@ function buildIconEntries() {
             const years = asArray(d.years);
             entries.push({
                 key: 'years',
-                icon: ICONS.year,
+                icon: iconFor('years'),
                 text: years.map((y: string) => ({ text: y, hilite: false })),
                 aria: t('years') + ': ' + years.join(', ')
             });
@@ -285,21 +263,21 @@ function buildIconEntries() {
             if (label) {
                 entries.push({
                     key: 'years',
-                    icon: ICONS.year,
+                    icon: iconFor('years'),
                     text: [{ text: label, hilite: false }],
                     aria: t('productionyears') + ': ' + label
                 });
             }
         }
 
-        // Regisseure/Editoren
-        if (d?.directors_or_editors) {
-            const directors = asArray(d.directors_or_editors);
+        // Filmschaffende: creators is the current ES field, directors_or_editors is a transition fallback.
+        const creators = asArray(d?.creators?.length ? d.creators : d?.directors_or_editors);
+        if (creators.length) {
             entries.push({
-                key: 'directors_or_editors',
-                icon: ICONS.directors,
-                text: directors.map((dir: string) => ({ text: dir, hilite: false })),
-                aria: t('directors_or_editors') + ': ' + directors.join(', ')
+                key: 'creators',
+                icon: iconFor('creators'),
+                text: creators.map((creator: string) => ({ text: creator, hilite: false })),
+                aria: t('creators') + ': ' + creators.join(', ')
             });
         }
 
@@ -309,7 +287,7 @@ function buildIconEntries() {
         if (formLabels.length) {
             entries.push({
                 key: 'form',
-                icon: ICONS.form,
+                icon: iconFor('form'),
                 text: formLabels.map((s:string) => ({ text: s, hilite: false })),
                 aria: t('has_form') + ': ' + formLabels.join(', ')
             });
@@ -323,7 +301,7 @@ function buildIconEntries() {
             if (label) {
                 entries.push({
                     key: 'episode',
-                    icon: ICONS.episode,
+                    icon: iconFor('episode'),
                     text: [{ text: label, hilite: false }],
                     aria: t('is_part_of') + ': ' + label
                 });
@@ -335,7 +313,7 @@ function buildIconEntries() {
         if (evTypeLabels.length) {
             entries.push({
                 key: 'prod_events',
-                icon: ICONS.eventType,
+                icon: iconFor('prod_events'),
                 text: evTypeLabels.map((tp:string) => ({ text: t(tp), hilite: false })),
                 aria: t('has_event') + ': ' + evTypeLabels.map((tp:string) => t(tp)).join(', ')
             });
@@ -347,7 +325,7 @@ function buildIconEntries() {
         if (gLabels.length) {
             entries.push({
                 key: 'genre',
-                icon: ICONS.genre,
+                icon: iconFor('genre'),
                 text: gLabels.map((x:string) => ({ text: x, hilite: false })),
                 aria: t('has_genre') + ': ' + gLabels.join(', ')
             });
@@ -359,7 +337,7 @@ function buildIconEntries() {
         if (sLabels.length) {
             entries.push({
                 key: 'subject',
-                icon: ICONS.subject,
+                icon: iconFor('subject'),
                 text: sLabels.map((x:string) => ({ text: x, hilite: false })),
                 aria: t('subjects') + ': ' + sLabels.join(', ')
             });
@@ -375,7 +353,7 @@ function buildIconEntries() {
         if (has_issuer_name) {
                 entries.push({
                     key: 'has_issuer_name',
-                    icon: ICONS.issuer,
+                    icon: iconFor('has_issuer_name'),
                     text: [{ text: has_issuer_name, hilite: false }],
                     aria: t('has_issuer_name') + ': ' + has_issuer_name
                 });
@@ -390,7 +368,7 @@ function buildIconEntries() {
         if (evTypes.length) {
             entries.push({
                 key: 'eventType',
-                icon: ICONS.eventType,
+                icon: iconFor('eventType'),
                 text: evTypes.map((tp:string) => ({ text: t(tp), hilite: false })),
                 // aria label in DE to match your spec name:
                 aria: 'Manifestationstyp: ' + evTypes.map((e:string) => t(e)).join(', ')
@@ -402,7 +380,7 @@ function buildIconEntries() {
         if (evYears.length) {
             entries.push({
                 key: 'mfYear',
-                icon: ICONS.year,
+                icon: iconFor('mfYear'),
                 text: evYears.map((y:string) => ({ text: String(y), hilite: false })),
                 aria: 'Jahresangabe (Manifestationstyp): ' + evYears.join(', ')
             });
@@ -417,7 +395,7 @@ function buildIconEntries() {
         if (evPlaces.length) {
             entries.push({
                 key: 'mfPlace',
-                icon: ICONS.map,
+                icon: iconFor('mfPlace'),
                 text: evPlaces.map((p:string) => ({ text: p, hilite: false })),
                 aria: 'Ortsangabe (Manifestationsereignis): ' + evPlaces.join(', ')
             });
@@ -431,7 +409,7 @@ function buildIconEntries() {
         if (hasAccessStatus) {
             entries.push({
                 key: 'accessStatus',
-                icon: ICONS.access,
+                icon: iconFor('accessStatus'),
                 text: [{ text: t(hasAccessStatus), hilite: false }],
                 aria: t('has_access_status') + ': ' + t(hasAccessStatus)
             });
@@ -443,7 +421,7 @@ function buildIconEntries() {
         if (formats.length) {
             entries.push({
                 key: 'format',
-                icon: ICONS.format,
+                icon: iconFor('format'),
                 text: formats.map((f:string) => ({ text: t(f), hilite: false })),
                 aria: t('has_format') + ': ' + formats.map((f:string) => t(f)).join(', ')
             });
@@ -454,7 +432,7 @@ function buildIconEntries() {
         if (elementType) {
             entries.push({
                 key: 'elementType',
-                icon: ICONS.elementType,
+                icon: iconFor('elementType'),
                 text: [{ text: t(elementType), hilite: false }],
                 aria: t('item_element_type') + ': ' + t(elementType)
             });
@@ -472,7 +450,7 @@ function buildIconEntries() {
         if (langsArr.length) {
             entries.push({
                 key: 'lang',
-                icon: ICONS.lang,
+                icon: iconFor('lang'),
                 text: langsArr.map((x:string) => ({ text: x, hilite: false })),
                 aria: t('in_language') + ': ' + langsArr.join(', ')
             });
@@ -484,7 +462,7 @@ function buildIconEntries() {
             const sx = ('' + sound).toLowerCase();
             entries.push({
                 key: 'sound',
-                icon: sx.includes('silent') ? ICONS.silent : ICONS.sound,
+                icon: sx.includes('silent') ? 'tabler-volume-off' : iconFor('sound'),
                 text: [{ text: t(sound), hilite: false }],
                 aria: t('has_sound_type') + ': ' + t(sound)
             });
@@ -495,7 +473,7 @@ function buildIconEntries() {
         if (colour) {
             entries.push({
                 key: 'colour',
-                icon: ICONS.colour,
+                icon: iconFor('colour'),
                 text: [{ text: t(colour), hilite: false }],
                 aria: t('has_colour_type') + ': ' + t(colour)
             });
@@ -505,7 +483,7 @@ function buildIconEntries() {
         const rawDuration = d?.has_record?.has_duration?.has_value || d?.has_duration?.has_value;
         if (rawDuration) {
             const dur = formatDuration(rawDuration);
-            entries.push({ key: 'duration', icon: ICONS.duration, text: [{ text: dur, hilite: false }], aria: t('duration') + ': ' + dur });
+            entries.push({ key: 'duration', icon: iconFor('duration'), text: [{ text: dur, hilite: false }], aria: t('duration') + ': ' + dur });
         }
 
         // Länge/Größe
@@ -513,7 +491,7 @@ function buildIconEntries() {
         const extentUnit = d?.has_record?.has_extent?.has_unit || d?.has_extent?.has_unit;
         if (extentVal) {
             const label = `${extentVal} ${extentUnit ? t(extentUnit) : ''}`.trim();
-            entries.push({ key: 'extent', icon: ICONS.extent, text: [{ text: label, hilite: false }], aria: t('avefi:Extent') + ': ' + label });
+            entries.push({ key: 'extent', icon: iconFor('extent'), text: [{ text: label, hilite: false }], aria: t('avefi:Extent') + ': ' + label });
         }
 
         // BPS (frame rate)
@@ -521,7 +499,7 @@ function buildIconEntries() {
         if (fps) {
             entries.push({
                 key: 'fps',
-                icon: ICONS.fps,
+                icon: iconFor('fps'),
                 text: [{ text: String(fps), hilite: false }],
                 aria: t('has_frame_rate') + ': ' + String(fps)
             });
@@ -534,7 +512,7 @@ function buildIconEntries() {
         orderArr = [
             'located_in',
             'years',
-            'directors_or_editors',
+            'creators',
             'form',
             'episode',
             'prod_events',

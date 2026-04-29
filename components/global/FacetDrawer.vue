@@ -67,11 +67,11 @@
                             :aria-label="$t('place')"
                         />
                         <SearchPanelRefinementListComp
-                            header-text="directors_or_editors"
-                            attribute-name="directors_or_editors"
+                            header-text="creators"
+                            attribute-name="creators"
                             category="avefi:WorkVariant"
                             :tab-index="4"
-                            :aria-label="$t('directors_or_editors')"
+                            :aria-label="$t('creators')"
                         />
                         <SearchPanelRefinementListComp
                             header-text="CastMember"

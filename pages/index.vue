@@ -573,7 +573,7 @@ const cardItems = ref<CardItem[]>([
         title: 'home.cards.people.troller.title',
         imgAlt: 'Georg Stefan Troller',
         description: 'home.cards.people.troller.description',
-        link: `/search/?directors_or_editors=Troller%2C%20Georg%20Stefan`,
+        link: `/search/?creators=Troller%2C%20Georg%20Stefan`,
         linkText: 'home.cards.people.troller.linkText',
         imgSourceLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg/800px-Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.jpg',
         imgSourceText: 'Wikimedia Commons',

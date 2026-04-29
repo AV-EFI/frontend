@@ -117,4 +117,47 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
 
     expect(result).toEqual({ success: true, suggestions: [] });
   });
+
+  test('facet mode maps legacy directors_or_editors requests to creators.keyword', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      aggregations: {
+        facet_suggestions: {
+          buckets: [{ key: 'Troller, Georg Stefan', doc_count: 3 }],
+        },
+      },
+    });
+    const readBodyMock = vi.fn().mockResolvedValue({
+      mode: 'facet',
+      facetAttr: 'directors_or_editors',
+      query: '',
+      size: 10,
+    });
+
+    vi.doMock('h3', () => ({
+      defineEventHandler: (fn: any) => fn,
+      readBody: readBodyMock,
+    }));
+    vi.doMock('ofetch', () => ({
+      $fetch: fetchMock,
+    }));
+    vi.doMock('~/searchConfig_avefi', () => ({
+      config: { search_settings: { search_attributes: [] } },
+    }));
+    vi.doMock('~/server/utils/elasticsearchRuntime', () => ({
+      getElasticsearchNode: () => 'http://elastic.local',
+    }));
+    vi.stubGlobal('useRuntimeConfig', () => ({
+      public: { ELASTIC_INDEX: 'works-index' },
+    }));
+
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const result = await handler({});
+
+    expect(result).toEqual({
+      success: true,
+      suggestions: [{ text: 'Troller, Georg Stefan', type: 'directors_or_editors', count: 3 }],
+      count: 1,
+    });
+    expect(fetchMock.mock.calls[0][1].body.aggs.facet_suggestions.terms.field).toBe('creators.keyword');
+  });
 });

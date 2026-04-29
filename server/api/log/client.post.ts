@@ -34,7 +34,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     const nitro = useNitroApp();
-    nitro.logger.error(entry, `Client JS error: ${payload.message}`);
+    if (payload.type === 'search-item-filter-mismatch') {
+      nitro.logger.warn(entry, `Client diagnostic: ${payload.message}`);
+    } else {
+      nitro.logger.error(entry, `Client JS error: ${payload.message}`);
+    }
   } catch (err) {
     console.error('Client JS error:', entry);
   }

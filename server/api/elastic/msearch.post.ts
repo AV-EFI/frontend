@@ -1,6 +1,11 @@
 import Client from '@searchkit/api';
 import { config } from '../../../searchConfig_avefi';
 
+/**
+ * This file is only a temporary helper for testing requests
+ * It does not implement the full Searchkit API and should not be used as a reference for future API routes
+ * For real search, faceting, detail view requests /api/frontend/search and /api/frontend/view/{prefix}/{id_} are to be used
+ */
 export default defineEventHandler(async (event) => {
   const apiClient = Client(config, { debug: true });
   const body = await readBody(event);
@@ -22,7 +27,7 @@ export default defineEventHandler(async (event) => {
             const isQuoted = userQueryRaw.startsWith('"') && userQueryRaw.endsWith('"');
             const cleanQuery = isQuoted ? userQueryRaw.slice(1, -1).trim() : userQueryRaw.trim();
 
-            // ✅ if query is empty, remove it to match all docs
+            // If query is empty, remove it to match all docs.
             if (!cleanQuery) {
               delete indexParams.query;
             }
@@ -35,14 +40,14 @@ export default defineEventHandler(async (event) => {
                 .filter((v: any) => typeof v === 'string' && v.startsWith(prefix))
                 .map((v: string) => v.split(':')[1]);
 
-            const hasColourTypeValues        = extractValues('has_colour_type:');           // → ITEMS
-            const hasSoundTypeValues         = extractValues('has_sound_type:');            // → ITEMS
-            const hasDurationStringValues    = extractValues('has_duration_has_value:');    // → ITEMS (string facet, optional)
+            const hasColourTypeValues        = extractValues('has_colour_type:');           // ITEMS
+            const hasSoundTypeValues         = extractValues('has_sound_type:');            // ITEMS
+            const hasDurationStringValues    = extractValues('has_duration_has_value:');    // ITEMS (string facet, optional)
             const hasIssuerNameValues        = extractValues('has_issuer_name:');           // manifestations (stay)
-            const inLanguageCodeValues       = extractValues('in_language_code:');          // → ITEMS
+            const inLanguageCodeValues       = extractValues('in_language_code:');          // ITEMS
             const manifestationEventTypeValues = extractValues('manifestation_event_type:');// manifestations.has_record.has_event (stay)
-            const hasFormatTypeValues        = extractValues('has_format_type:');           // → ITEMS
-            const itemElementTypeValues      = extractValues('item_element_type:');         // → ITEMS
+            const hasFormatTypeValues        = extractValues('has_format_type:');           // ITEMS
+            const itemElementTypeValues      = extractValues('item_element_type:');         // ITEMS
 
             const manifestationMust: any[] = [];
 
@@ -96,7 +101,7 @@ export default defineEventHandler(async (event) => {
               });
             }
 
-            // CHANGED: colour → ITEMS
+            // CHANGED: colour -> ITEMS
             if (hasColourTypeValues.length > 0) {
               itemsMust.push({
                 terms: {
@@ -105,7 +110,7 @@ export default defineEventHandler(async (event) => {
               });
             }
 
-            // CHANGED: sound → ITEMS
+            // CHANGED: sound -> ITEMS
             if (hasSoundTypeValues.length > 0) {
               itemsMust.push({
                 terms: {
@@ -114,7 +119,7 @@ export default defineEventHandler(async (event) => {
               });
             }
 
-            // CHANGED: duration (string) → ITEMS (optional facet)
+            // CHANGED: duration (string) -> ITEMS (optional facet)
             if (hasDurationStringValues.length > 0) {
               itemsMust.push({
                 terms: {
@@ -149,6 +154,12 @@ export default defineEventHandler(async (event) => {
               });
             }
 
+            // Do NOT add inner_hits on the outer manifestations nested.
+            // ES hard-limits: a nested query with inner_hits cannot contain
+            // another nested query with inner_hits in its must clauses.
+            // The manifestation data is already returned via _source; only the
+            // items-level inner_hits (added above when itemsMust is non-empty)
+            // is required to identify which items matched.
             const finalNestedFilter =
               manifestationMust.length > 0
                 ? [
@@ -157,11 +168,6 @@ export default defineEventHandler(async (event) => {
                       path: 'manifestations',
                       query: {
                         bool: { must: manifestationMust }
-                      },
-                      inner_hits: {
-                        name: 'manifestations_hits',
-                        size: 10,
-                        _source: true
                       }
                     }
                   }
@@ -213,7 +219,7 @@ export default defineEventHandler(async (event) => {
                       'has_record.has_primary_title.has_name^3',
                       'has_record.has_alternative_title.has_name',
                       'production',
-                      'directors_or_editors',
+                      'creators',
                       'castmembers',
                       'subjects'
                     ]
@@ -228,7 +234,7 @@ export default defineEventHandler(async (event) => {
                       'has_record.has_primary_title.has_name^3',
                       'has_record.has_alternative_title.has_name',
                       'production',
-                      'directors_or_editors',
+                      'creators',
                       'castmembers',
                       'subjects'
                     ]

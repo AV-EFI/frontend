@@ -11,14 +11,14 @@ export const config: SearchkitConfigExtended = {
       { field: "has_record.has_primary_title.has_name", weight: 2 },
       { field: "has_record.has_alternative_title.has_name", weight: 2 },
       { field: "production", weight: 1 },
-      { field: "directors_or_editors", weight: 1 },
+      { field: "creators", weight: 1 },
       { field: "subjects", weight: 1 },
     ],
     highlight_attributes: [
       "has_record.has_primary_title.has_name",
       "has_record.has_alternative_title.has_name",
       "production",
-      "directors_or_editors",
+      "creators",
       "subjects",
     ],
     result_attributes: [
@@ -32,6 +32,7 @@ export const config: SearchkitConfigExtended = {
       "subjects",
       "handle",
       "production",
+      "creators",
       "directors_or_editors",
       "castmembers",
       "has_record.has_genre.has_name",
@@ -88,8 +89,8 @@ export const config: SearchkitConfigExtended = {
         type: "string",
       },
       {
-        attribute: "directors_or_editors",
-        field: "directors_or_editors.keyword",
+        attribute: "creators",
+        field: "creators.keyword",
         type: "string",
       },
       {
@@ -217,11 +218,11 @@ export const config: SearchkitConfigExtended = {
         order: "desc",
       },
       _directors_asc: {
-        field: "directors_or_editors",
+        field: "creators",
         order: "asc",
       },
       _directors_desc: {
-        field: "directors_or_editors",
+        field: "creators",
         order: "desc",
       },
       _production_asc: {

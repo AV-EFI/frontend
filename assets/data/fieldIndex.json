@@ -3,9 +3,9 @@
     "level": "WorkVariant",
     "path": "WorkVariant.handle"
   },
-  "directors_or_editors": {
+  "creators": {
     "level": "WorkVariant",
-    "path": "WorkVariant.directors_or_editors"
+    "path": "WorkVariant.creators"
   },
   "castmembers": {
     "level": "WorkVariant",

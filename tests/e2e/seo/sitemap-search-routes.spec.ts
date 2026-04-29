@@ -4,7 +4,7 @@ import { validateWorkVariantSourceFromSearchHit, validateWorkVariantSourceStrict
 const SITEMAP_SEARCH_LOCS = [
   '/search/?has_form=Short&manifestation_event_type=RestorationEvent',
   '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik',
-  '/search/?directors_or_editors=Troller%2C%20Georg%20Stefan',
+  '/search/?creators=Troller%2C%20Georg%20Stefan',
   '/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion',
   '/search/?query=Metropolis',
   '/search/?query=Berlin',
@@ -21,10 +21,10 @@ const SITEMAP_SEARCH_LOCS = [
   '/search/?subjects=Arbeit',
   '/search/?manifestation_event_type%5B0%5D=RestorationEvent',
   '/search/?manifestation_event_type%5B0%5D=TheatricalDistributionEvent',
-  '/search/?directors_or_editors%5B0%5D=Nekes%2C%20Werner',
-  '/search/?directors_or_editors%5B0%5D=Wildenhahn%2C%20Klaus',
-  '/search/?directors_or_editors%5B0%5D=Nestler%2C%20Peter',
-  '/search/?directors_or_editors%5B0%5D=Nickel%2C%20Gitta',
+  '/search/?creators%5B0%5D=Nekes%2C%20Werner',
+  '/search/?creators%5B0%5D=Wildenhahn%2C%20Klaus',
+  '/search/?creators%5B0%5D=Nestler%2C%20Peter',
+  '/search/?creators%5B0%5D=Nickel%2C%20Gitta',
 ] as const;
 
 const SITEMAP_DETAIL_LOCS = [
@@ -198,6 +198,7 @@ test.describe('Sitemap URL Runtime API Smoke', () => {
     expect(runtimePublic, 'window.__NUXT__.config.public unavailable').toBeTruthy();
     expect(typeof runtimePublic?.searchApiPath).toBe('string');
     const searchPath = runtimePublic?.searchApiPath as string;
+    expect(searchPath, 'regular search must use the backend frontend/search endpoint, not local msearch').toBe('frontend/search');
     const responsePromise = page.waitForResponse(
       (resp) => resp.request().method() === 'POST' && resp.url().includes(searchPath),
       { timeout: 60_000 },

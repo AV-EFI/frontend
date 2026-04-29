@@ -229,9 +229,9 @@ const description = computed(() =>
 const schemaKeywords = computed(() => {
     const subjects = asArray<any>(record.value?.has_record?.has_subject).map((s) => normalizeText(s?.has_name)).filter(Boolean) as string[];
     const genres = asArray<any>(record.value?.has_record?.has_genre).map((g) => normalizeText(g?.has_name)).filter(Boolean) as string[];
-    const directors = asArray<any>(record.value?.directors_or_editors).map((d) => normalizeText(d)).filter(Boolean) as string[];
+    const creators = asArray<any>(record.value?.creators?.length ? record.value.creators : record.value?.directors_or_editors).map((d) => normalizeText(d)).filter(Boolean) as string[];
     const topSubjects = asArray<any>(record.value?.subjects).map((s) => normalizeText(s)).filter(Boolean) as string[];
-    return Array.from(new Set([...genres, ...subjects, ...topSubjects, ...directors])).slice(0, 20);
+    return Array.from(new Set([...genres, ...subjects, ...topSubjects, ...creators])).slice(0, 20);
 });
 
 // sameAs: ONLY real URLs

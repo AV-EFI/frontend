@@ -15,6 +15,7 @@ export interface ElasticsearchBaseRecord<T> {
     _source: {
       handle: string;
       has_record: T;
+      creators?: string[];
       directors_or_editors?: string[];
       production_in_year?: { gte: number; lte: number }[];
       years?: string[];

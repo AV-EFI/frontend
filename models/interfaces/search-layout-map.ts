@@ -61,12 +61,12 @@ export const search_workVariant: FieldMapEntry[] = [
         esPath: ['years', 'production_in_year'], // convenience string + integer_range
     },
     {
-        key: 'directors_or_editors',
-        label_de: 'Regisseure/Editoren',
+        key: 'creators',
+        label_de: 'Filmschaffende',
         level: 'work',
         orderSuggested: 6,
         order_2025_06_08: 6,
-        esPath: 'directors_or_editors',
+        esPath: 'creators',
     },
     {
         key: 'form',

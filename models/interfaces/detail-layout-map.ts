@@ -83,7 +83,7 @@ export const workVariant: FieldMapEntry[] = [
         level: 'work',
         orderSuggested: 7,
         order_2025_06_08: 8,
-        esPath: 'directors_or_editors',
+        esPath: 'creators',
     },
     {
         key: 'production_years',

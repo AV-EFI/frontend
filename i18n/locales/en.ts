@@ -817,6 +817,7 @@ const avefiBase = {
   'dataset2': 'Dataset 2',
   'detailview': 'Detailed View',
   'directors': 'Directors',
+  'creators': 'Filmmakers',
   'directors_or_editors': 'Filmmakers',
   'disambiguation': 'Disambiguation',
   'emptyItem': 'No metadata',

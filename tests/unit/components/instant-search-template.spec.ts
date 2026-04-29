@@ -11,7 +11,7 @@ vi.hoisted(() => {
     (globalThis as any).useRuntimeConfig = () => ({
         public: {
             elasticApiBase: 'http://localhost',
-            searchApiPath: 'search',
+            searchApiPath: 'frontend/search',
             ELASTIC_INDEX: 'test-index',
         },
     });
@@ -92,13 +92,18 @@ const AisClearRefinementsStub = {
 };
 
 const genericStub = { template: '<div><slot /></div>' };
+const AisInstantSearchStub = {
+    name: 'AisInstantSearch',
+    props: ['searchClient'],
+    template: '<div><slot /></div>',
+};
 
-function mountComponent() {
+function mountComponent(searchClient = { search: vi.fn().mockResolvedValue({ results: [] }) }) {
     return mount(InstantSearchTemplateAVefi, {
-        props: { indexName: 'test-index' },
+        props: { indexName: 'test-index', searchClient },
         global: {
             stubs: {
-                AisInstantSearch: genericStub,
+                AisInstantSearch: AisInstantSearchStub,
                 AisConfigure: { template: '<div />' },
                 AisClearRefinements: AisClearRefinementsStub,
                 AisSearchBox: {
@@ -160,5 +165,66 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
         await nextTick();
 
         expect(clickSpy).toHaveBeenCalledTimes(1);
+    });
+
+    test('wraps the provided search client instead of creating a regular-search endpoint internally', async () => {
+        const parentSearchClient = {
+            search: vi.fn().mockResolvedValue({
+                results: [
+                    {
+                        facets: {
+                            directors_or_editors: {
+                                'Muster, Maria': 1,
+                            },
+                        },
+                        renderingContent: {
+                            facetOrdering: {
+                                facets: {
+                                    order: ['directors_or_editors', 'subjects'],
+                                },
+                                values: {
+                                    directors_or_editors: { sortRemainingBy: 'count' },
+                                    subjects: { sortRemainingBy: 'count' },
+                                },
+                            },
+                        },
+                    },
+                ],
+            }),
+        };
+        const wrapper = mountComponent(parentSearchClient);
+        const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+        const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+
+        const response = await wrappedClient.search([
+            {
+                params: {
+                    facetFilters: [['creators:Muster, Maria']],
+                    facets: ['creators', 'subjects'],
+                    numericFilters: ['production_in_year>=1900'],
+                },
+            },
+        ]);
+
+        expect(parentSearchClient.search).toHaveBeenCalledWith([
+            {
+                params: {
+                    facetFilters: [['directors_or_editors:Muster, Maria']],
+                    facets: ['directors_or_editors', 'subjects'],
+                    'numeric-refinements': {
+                        production_in_year: {
+                            '>=': 1900,
+                        },
+                    },
+                },
+            },
+        ]);
+        expect(response.results[0].facets).toEqual({
+            creators: {
+                'Muster, Maria': 1,
+            },
+        });
+        expect(response.results[0].renderingContent.facetOrdering.facets.order).toEqual(['creators', 'subjects']);
+        expect(Object.keys(response.results[0].renderingContent.facetOrdering.values)).toEqual(['creators', 'subjects']);
     });
 });

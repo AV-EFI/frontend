@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
           values: typeof documentIds !== 'string' ? [...documentIds] : documentIds,
         },
       },
-      fields: ['directors_or_editors', 'production', 'located_in', 'productionyears', 'castmembers', 'subjects'],
+      fields: ['creators', 'directors_or_editors', 'production', 'located_in', 'productionyears', 'castmembers', 'subjects'],
     });
     return result.hits.hits;
   } catch (ex) {

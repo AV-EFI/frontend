@@ -1,7 +1,7 @@
 # AVefi Frontend
 
 > **This repository is part of the AVefi project.**  
-> It includes the Nuxt 3 frontend with full Docker support for local development and production deployment.
+> It includes the Nuxt 4 (v4.1+) frontend with full Docker support for local development and production deployment.
 
 ---
 
@@ -199,18 +199,38 @@ http:
 
 ## 🧪 Testing and Data-Quality Reports
 
-This repository has two test families:
+This repository has three test families:
 
-- product behavior tests (unit + e2e)
-- Elasticsearch data-quality reporting tests (non-blocking)
+- **Unit tests** — component and API contract behavior (`tests/unit/`)
+- **E2e / backend contract tests** — live backend API regression + OpenAPI contract + facet combination 500-error guards (`tests/e2e/api/`)
+- **Elasticsearch data-quality reporting** — non-blocking report suite (`tests/data-quality/`)
 
-Quick commands:
+### Quick commands
 
 ```bash
-yarn test:ci:fast
-yarn test:ci:api
+yarn test:ci:fast          # lint + unit — required CI gate
+yarn test:ci:api           # backend API contract + edge-case lanes
 yarn test:data-quality:report
 ```
+
+### E2e / backend contract tests
+
+All API e2e tests run against the live backend (`https://www.av-efi.net/rest/v1` by default).  
+Override with `E2E_BACKEND_BASE` and set `PLAYWRIGHT_NO_WEBSERVER=true` to skip starting a local server:
+
+```bash
+$env:PLAYWRIGHT_NO_WEBSERVER="true"
+$env:E2E_BACKEND_BASE="https://www.av-efi.net/rest/v1"
+npx playwright test tests/e2e/api/ --reporter=list
+```
+
+Expected baseline: **40 passed, 5 skipped** (the 5 skipped are `test.fixme()` — known Python backend bug: `has_issuer_name` combined with item-level facets triggers an Elasticsearch nested `inner_hits` conflict → 500. Will be unfixed once the backend is patched).
+
+#### Facet alias note
+
+`creators` is the frontend display alias. The Python backend `/frontend/search` endpoint currently only accepts `directors_or_editors` in the `facets` aggregation array. The frontend's `InstantSearchTemplateAVefi.vue` (`effectiveSearchClient`) translates `creators → directors_or_editors` transparently at runtime. E2e helpers that POST directly to the backend must apply the same mapping (see `mapFacetKeyForBackend()` in `backend-openapi-contract.spec.ts`).
+
+### Data-quality reports
 
 Human-readable explanation of the data-quality suite:
 

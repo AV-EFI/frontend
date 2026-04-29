@@ -140,6 +140,7 @@ type Part = {
     '@timestamp'?: string;
     category?: string;
     years?: string[]; // label(s) like "1958–1961"
+    creators?: string[];
     directors_or_editors?: string[];
     has_record?: {
         has_primary_title?: NameObj;
@@ -193,7 +194,8 @@ function getForms(p: Part): string[] {
 }
 
 function getDirectors(p: Part): string[] {
-    return Array.isArray(p?.directors_or_editors) ? p!.directors_or_editors!.filter(Boolean) : [];
+    const creators = Array.isArray(p?.creators) && p.creators.length ? p.creators : p?.directors_or_editors;
+    return Array.isArray(creators) ? creators.filter(Boolean) : [];
 }
 
 function getLocations(p: Part): string[] {
@@ -214,6 +216,7 @@ function getHighlightSnippets(item: Part) {
         title: 'has_record.has_primary_title.has_name',
         AlternativeTitle: 'has_record.has_alternative_title.has_name',
         production: 'production',
+        creators: 'creators',
         directors_or_editors: 'directors_or_editors',
         has_form: 'has_record.has_form',
         genre: 'has_record.has_genre.has_name',

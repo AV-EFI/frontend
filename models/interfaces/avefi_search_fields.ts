@@ -60,10 +60,10 @@ export default {
             "facet": true
         },
         {
-            "key": "work.directors_or_editors",
-            "label_de": "Regisseure/Editoren",
-            "path": "directors_or_editors",
-            "keyword_path": "directors_or_editors.keyword",
+            "key": "work.creators",
+            "label_de": "Filmschaffende",
+            "path": "creators",
+            "keyword_path": "creators.keyword",
             "type": "text_keyword",
             "order": 6,
             "show": true,

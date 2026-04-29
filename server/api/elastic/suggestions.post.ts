@@ -55,7 +55,8 @@ const FACETS: Record<
   // ----- Work-level strings -----
   has_genre_has_name: { field: 'has_record.has_genre.has_name.keyword', type: 'string' },
   subjects: { field: 'subjects.keyword', type: 'string' },
-  directors_or_editors: { field: 'directors_or_editors.keyword', type: 'string' },
+  creators: { field: 'creators.keyword', type: 'string' },
+  directors_or_editors: { field: 'creators.keyword', type: 'string' },
   castmembers: { field: 'castmembers.keyword', type: 'string' },
   production: { field: 'production.keyword', type: 'string' },
   has_form: { field: 'has_record.has_form.keyword', type: 'string' },

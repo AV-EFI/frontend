@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container rounded-lg border border-base-200 bg-white dark:bg-base-200 p-2 py-6 lg:px-4">
-            <ais-instant-search :search-client="searchClient" :index-name="indexName" :show-loading-indicator="true"
+            <ais-instant-search :search-client="effectiveSearchClient" :index-name="indexName" :show-loading-indicator="true"
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
                 <ais-clear-refinements ref="clearRefinementsRef" style="display:none" />
@@ -393,11 +393,21 @@ async function handleClearAllRefinements() {
 }
 
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
-import Client from '@searchkit/instantsearch-client';
-import { config } from '../../searchConfig_avefi';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
 const {$toggleFacetDrawerState, $toast}:any = useNuxtApp();
+
+const props = defineProps({
+    searchClient: {
+        type: Object,
+        required: true,
+    },
+    indexName: {
+        type: String,
+        required: true,
+        default: useRuntimeConfig().public.ELASTIC_INDEX,
+    },
+});
 
 // toggle top right 
 const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
@@ -707,11 +717,6 @@ const currentRefinements = computed(() => {
     return refinements;
 });
 
-const baseSearchClient = Client({
-    config: config,
-    url: `${useRuntimeConfig().public.elasticApiBase}/${useRuntimeConfig().public.searchApiPath}`,
-});
-
 watch(
     () => route.query,
     (query) => {
@@ -757,12 +762,116 @@ function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
     return result;
 }
 
-const searchClient = {
-    ...baseSearchClient,
+function mapFacetAttributeForBackend(attribute: string) {
+    return attribute === 'creators' ? 'directors_or_editors' : attribute;
+}
+
+function mapFacetAttributeForUi(attribute: string) {
+    return attribute === 'directors_or_editors' ? 'creators' : attribute;
+}
+
+function mapFacetFilterForBackend(filter: unknown): unknown {
+    if (Array.isArray(filter)) {
+        return filter.map(mapFacetFilterForBackend);
+    }
+
+    if (typeof filter !== 'string') {
+        return filter;
+    }
+
+    const separatorIndex = filter.indexOf(':');
+    if (separatorIndex === -1) {
+        return filter;
+    }
+
+    const attribute = filter.slice(0, separatorIndex);
+    return `${mapFacetAttributeForBackend(attribute)}${filter.slice(separatorIndex)}`;
+}
+
+function mapFacetsForBackend(facets: unknown): unknown {
+    if (Array.isArray(facets)) {
+        return facets.map((facet) => typeof facet === 'string' ? mapFacetAttributeForBackend(facet) : facet);
+    }
+
+    if (typeof facets === 'string') {
+        return mapFacetAttributeForBackend(facets);
+    }
+
+    return facets;
+}
+
+function mapRenderingContentForUi(renderingContent: any) {
+    const facetOrdering = renderingContent?.facetOrdering;
+    if (!facetOrdering) {
+        return renderingContent;
+    }
+
+    const nextFacetOrdering = {
+        ...facetOrdering,
+        facets: facetOrdering.facets
+            ? {
+                ...facetOrdering.facets,
+                order: Array.isArray(facetOrdering.facets.order)
+                    ? facetOrdering.facets.order.map(mapFacetAttributeForUi)
+                    : facetOrdering.facets.order,
+            }
+            : facetOrdering.facets,
+        values: facetOrdering.values
+            ? Object.fromEntries(
+                Object.entries(facetOrdering.values).map(([key, value]) => [mapFacetAttributeForUi(key), value])
+            )
+            : facetOrdering.values,
+    };
+
+    return {
+        ...renderingContent,
+        facetOrdering: nextFacetOrdering,
+    };
+}
+
+function mapSearchResponseForUi(response: any) {
+    if (!response || !Array.isArray(response.results)) {
+        return response;
+    }
+
+    return {
+        ...response,
+        results: response.results.map((result: any) => {
+            const facets = result?.facets && typeof result.facets === 'object'
+                ? { ...result.facets }
+                : result?.facets;
+
+            if (facets?.directors_or_editors && !facets.creators) {
+                facets.creators = facets.directors_or_editors;
+            }
+
+            if (facets?.directors_or_editors) {
+                delete facets.directors_or_editors;
+            }
+
+            return {
+                ...result,
+                facets,
+                renderingContent: mapRenderingContentForUi(result?.renderingContent),
+            };
+        }),
+    };
+}
+
+const effectiveSearchClient = {
+    ...props.searchClient,
 
     async search(requests: any[]) {
         const rewrittenRequests = requests.map((request) => {
             const params = { ...(request.params || {}) };
+
+            if (params.facetFilters) {
+                params.facetFilters = mapFacetFilterForBackend(params.facetFilters);
+            }
+
+            if (params.facets) {
+                params.facets = mapFacetsForBackend(params.facets);
+            }
 
             if (params.numericFilters) {
                 const converted = convertNumericFiltersToNumericRefinements(params.numericFilters);
@@ -783,17 +892,10 @@ const searchClient = {
             };
         });
 
-        return baseSearchClient.search(rewrittenRequests);
+        const response = await (props.searchClient as any).search(rewrittenRequests);
+        return mapSearchResponseForUi(response);
     },
 };
-
-const props = defineProps({
-    indexName: {
-        type: String,
-        required: true,
-        default: useRuntimeConfig().public.ELASTIC_INDEX,
-    },
-});
 
 watch(expandAllChecked, () => {
     expandAllItems();
@@ -949,12 +1051,13 @@ const stateMapping = {
                     !key.startsWith('range_')
 
                 ) {
+                    const refinementKey = key === 'directors_or_editors' ? 'creators' : key;
                     const value = routeState[key];
 
                     if (Array.isArray(value)) {
-                        refinementList[key] = value;
+                        refinementList[refinementKey] = value;
                     } else if (value !== undefined && value !== null) {
-                        refinementList[key] = [value];
+                        refinementList[refinementKey] = [value];
                         console.warn(`[routeToState] Facet "${key}" was not an array. Value was wrapped in array.`);
                     }
                 }

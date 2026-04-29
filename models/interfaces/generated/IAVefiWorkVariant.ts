@@ -5,6 +5,7 @@ import type { IAVefiWorkVariant } from "./IAVefiWorkVariant";
 
 export interface IAVefiWorkVariant {
   handle: string;
+  creators?: string[];
   directors_or_editors?: string[];
   castmembers?: string[];
   kip?: string;

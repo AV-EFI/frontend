@@ -182,6 +182,7 @@ function parseRefinementsFromUrl(href: string) {
         production_year_end: [],
         has_sound_type: [],
         in_language_code: [],
+        creators: [],
         directors_or_editors: [],
         castmembers: [],
         production: [],
@@ -395,7 +396,7 @@ function reportItemFilterMismatch(
     if (typeof window === 'undefined' || removedItems.length === 0) return;
 
     const manifestationHandle = manifestation?.handle || 'unknown-manifestation';
-    const dedupeKey = `search-item-filter-mismatch:${window.location.href}:${manifestationHandle}`;
+    const dedupeKey = `search-item-filter-mismatch:${window.location.href}:${JSON.stringify(refinements)}`;
 
     try {
         if (window.sessionStorage?.getItem(dedupeKey)) return;
@@ -500,7 +501,8 @@ function getHighlightSnippets(item) {
             title: 'has_record.has_primary_title.has_name',
             AlternativeTitle: 'has_record.has_alternative_title.has_name',
             production: 'production',
-            'directors_or_editors': 'directors_or_editors',
+            creators: 'creators',
+            directors_or_editors: 'directors_or_editors',
             'has_form': 'has_record.has_form',
             genre: 'has_record.has_genre.has_name',
             subject: 'subjects',

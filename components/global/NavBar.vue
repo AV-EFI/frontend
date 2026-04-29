@@ -9,7 +9,7 @@
             <div class="container w-full flex flex-wrap justify-between mx-auto p-0 relative z-20">
                 <div class="navbar-start w-full sm:w-1/2 md:w-2/5 flex justify-start">
                     <!-- Mobile menu toggle -->
-                    <div class="dropdown xl:hidden" :class="{ 'dropdown-open': mobileMenuOpen }">
+                    <div ref="mobileMenuRef" class="dropdown xl:hidden" :class="{ 'dropdown-open': mobileMenuOpen }">
                         <button type="button" class="btn btn-ghost md:hidden h-12" aria-haspopup="true"
                                 :aria-expanded="mobileMenuOpen" :aria-label="ariaLabelOpenMenu"
                                 @click="toggleMobileMenu">
@@ -235,6 +235,7 @@ const favourites = useFavourites();
 const isScrolled = ref(false);
 const mobileMenuOpen = useState('navMobileMenuOpen', () => false);
 const mobileSettingsMenuOpen = ref(false);
+const mobileMenuRef = ref<HTMLElement | null>(null);
 const detailsOpen = ref(false);
 
 const config = useRuntimeConfig();
@@ -251,12 +252,28 @@ const toggleMobileMenu = () => {
     }
 };
 
+const closeMobileMenu = () => {
+    mobileMenuOpen.value = false;
+    mobileSettingsMenuOpen.value = false;
+};
+
+const handleDocumentClick = (event: MouseEvent) => {
+    if (!mobileMenuOpen.value) return;
+
+    const target = event.target;
+    if (!(target instanceof Node) || mobileMenuRef.value?.contains(target)) return;
+
+    closeMobileMenu();
+};
+
 onMounted(() => {
     window?.addEventListener('scroll', handleScroll);
+    document.addEventListener('click', handleDocumentClick, { capture: true });
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll);
+    document.removeEventListener('click', handleDocumentClick, { capture: true });
 });
 
 // ARIA labels via i18n

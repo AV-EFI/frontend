@@ -8,7 +8,7 @@
                     <th>{{ $t('AlternativeTitle') }}</th>
                     <th>{{ $t('country') }}</th>
                     <th>{{ $t('year') }}</th>
-                    <th>{{ $t('directors_or_editors') }}</th>
+                    <th>{{ $t('creators') }}</th>
                 </tr>
             </thead>
 
@@ -79,7 +79,7 @@
                         </td>
 
                         <td>
-                            <template v-for="dir in work.directors_or_editors || []" :key="dir">
+                            <template v-for="dir in getCreators(work)" :key="dir">
                                 <span>
                                     {{ dir }}
                                 </span>
@@ -216,6 +216,11 @@ function toggleExpand(handle: string) {
     expanded.value.has(handle)
         ? expanded.value.delete(handle)
         : expanded.value.add(handle);
+}
+
+function getCreators(work: IAVefiWorkVariant): string[] {
+    const creators = Array.isArray(work.creators) && work.creators.length ? work.creators : work.directors_or_editors;
+    return Array.isArray(creators) ? creators : [];
 }
 
 function formatDuration(has_value: any): string {

@@ -143,6 +143,31 @@ describe('SearchListViewComp item filtering', () => {
     });
   });
 
+  test('reports at most one local item-filter mismatch per URL and refinement set', () => {
+    const firstManifestation = {
+      handle: '21.11155/manifestation-1',
+      items: [
+        makeItem('item-bw-1', 'ColourBlackAndWhite'),
+        makeItem('item-colour-1', 'Colour'),
+      ],
+    };
+    const secondManifestation = {
+      handle: '21.11155/manifestation-2',
+      items: [
+        makeItem('item-bw-2', 'ColourBlackAndWhite'),
+        makeItem('item-colour-2', 'Colour'),
+      ],
+    };
+
+    const firstWrapper = mountComponent(firstManifestation);
+    firstWrapper.getComponent(manifestationListStub).props('getFilteredItems')(firstManifestation);
+
+    const secondWrapper = mountComponent(secondManifestation);
+    secondWrapper.getComponent(manifestationListStub).props('getFilteredItems')(secondManifestation);
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
   test('prefers item inner_hits over local fallback filtering', () => {
     const innerHitItem = makeItem('inner-hit-bw', 'ColourBlackAndWhite');
     const manifestation = {

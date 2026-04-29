@@ -82,6 +82,7 @@ export default defineEventHandler(async (event) => {
             'has_record.has_primary_title.has_name',
             'has_record.has_alternative_title.has_name',
             'subjects',
+            'creators',
             'directors_or_editors',
             'castmembers',
             'production',

@@ -766,6 +766,7 @@ const deBase = {
   'dataholding': 'Datenhaltende Institution',
   'detailview': 'Detailansicht',
   'directors': 'Regie',
+  'creators': 'Filmschaffende',
   'directors_or_editors': 'Filmschaffende',
   'disambiguation': 'Disambiguierung',
   'multiResults': 'Mehrere Ergebnisse',

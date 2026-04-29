@@ -143,23 +143,23 @@ function deepFlattenToObjectStructured(entry: any) {
     const workVariant = source.has_record || {};
     const manifestations = source.manifestations || [];
   
-    const directors_or_editors = new Set<string>();
+    const creators = new Set<string>();
     const castmembers = new Set<string>();
     const production = new Set<string>();
     const locations = new Set<string>();
     const agents = new Set<string>();
   
-    if (source.directors_or_editors) {
-        for (const name of source.directors_or_editors) {
-            directors_or_editors.add(sanitizeCsvValue(name));
+    if (source.creators?.length || source.directors_or_editors?.length) {
+        for (const name of source.creators?.length ? source.creators : source.directors_or_editors) {
+            creators.add(sanitizeCsvValue(name));
         }
     } else {
         for (const event of workVariant.has_event || []) {
             for (const activity of event.has_activity || []) {
-                if (activity.category === "avefi:DirectingActivity" || activity.category === "avefi:EditingActivity") {
+                if (activity.category === "avefi:DirectingActivity" && ["Director", "Creator"].includes(activity.type)) {
                     for (const agent of activity.has_agent || []) {
                         if (agent.has_name) {
-                            directors_or_editors.add(sanitizeCsvValue(agent.has_name));
+                            creators.add(sanitizeCsvValue(agent.has_name));
                         }
                     }
                 }
@@ -240,7 +240,7 @@ function deepFlattenToObjectStructured(entry: any) {
         primary_title: sanitizeCsvValue(workVariant.has_primary_title?.has_name || '').replace(/"/g, '""'),
         alternative_title: sanitizeCsvValue(workVariant.has_alternative_title?.[0]?.has_name || '').replace(/"/g, '""'),
         production_year: source.years?.[0] || '',
-        directors_or_editors: Array.from(directors_or_editors).join('; '),
+        creators: Array.from(creators).join('; '),
         castmembers: Array.from(castmembers).join('; '),
         production: Array.from(production).join('; '),
         located_in: Array.from(locations).join('; '),

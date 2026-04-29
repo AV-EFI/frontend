@@ -102,16 +102,22 @@ There are three different data-access styles in the same codebase:
 
 1. Browser -> Nitro endpoint -> Elasticsearch/filesystem/SMTP
 2. Browser -> external AVEFI API directly
-3. Browser -> Searchkit client -> AVEFI search endpoint
+3. Browser -> Searchkit client -> AVEFI backend search endpoint
 
 Examples:
 
-- search UI goes through Searchkit config and AVEFI search endpoints
+- search UI goes through Searchkit config and the AVEFI backend search endpoint `/rest/v1/frontend/search`
 - `/res/[prefix]/[id]` fetches directly from public `elasticApiBase`
 - vocab, normdata, CMS tooltip pages use Nitro endpoints under `/api/*`
 - POC explorer uses Nitro handlers in `/api/poc/*`
 
 This inconsistency is one of the main architectural problems. There is no single server boundary for external systems.
+
+Important search-path boundary:
+
+- Regular public search pages (`/search`) must use the backend `frontend/search` endpoint exposed through `runtimeConfig.public.elasticApiBase` + `runtimeConfig.public.searchApiPath`.
+- Local Nitro endpoints such as `/api/elastic/msearch` and `/api/elastic/msearch_inst` are not the regular public search path. Do not debug or patch normal `/search` failures there unless a captured browser request actually posts to one of those endpoints.
+- If InstantSearch throws client errors like `Cannot read properties of undefined (reading 'slice')`, first capture the real POST URL and response body. In recent regressions this was caused by `/rest/v1/frontend/search` returning a backend validation error shape, not by `/api/elastic/msearch`.
 
 ## Server architecture
 
