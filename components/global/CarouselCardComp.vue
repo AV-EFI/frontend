@@ -10,6 +10,8 @@
              class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div v-for="(item, index) in items" :key="index"
+                     :inert="isReady && !visibleSlideIndexes.has(index)"
+                     :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
                      class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-800 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
                     <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
                         <div v-if="item.imgSrc"
@@ -62,31 +64,33 @@
                 </div>
                 <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
                 <div
+                    :inert="isReady && !visibleSlideIndexes.has(createSlideIndex)"
+                    :aria-hidden="isReady && !visibleSlideIndexes.has(createSlideIndex) ? 'true' : undefined"
                     class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-800 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
-                    <label class="swap swap-flip w-full h-full cursor-pointer">
-                        <input type="checkbox" v-model="createOpen" :aria-label="$t('toggleCreateForm')" />
+                    <div class="w-full h-full">
                         <!-- swap-off: show only slogan -->
-                        <div class="swap-off w-full h-full flex items-center justify-center p-6">
+                        <div v-if="!createOpen" class="w-full h-full flex items-center justify-center p-6">
                             <div class="flex flex-col items-center">
                                 <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
                                     {{ t('home.carousel.create.title') }}
                                 </h2>
                                 <p class="w-64 mx-auto">{{ t('home.carousel.create.description') }}
                                 </p>
-                                <div class="btn btn-primary btn-circle mt-2">
-                                    <Icon class="" name="tabler:plus" />
-                                </div>
+                                <button type="button" class="btn btn-primary btn-circle mt-2" :aria-label="$t('toggleCreateForm')" @click="createOpen = true">
+                                    <Icon class="" name="tabler:plus" aria-hidden="true" />
+                                </button>
                             </div>
                         </div>
 
                         <!-- swap-on: the full form (same fields as before) -->
-                        <div class="swap-on w-full h-full">
+                        <div v-else class="w-full h-full">
                             <figure class="w-full">
                                 <div
                                     class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-gray-100 dark:bg-base-200 flex items-center justify-center">
                                     <div class="relative z-10 flex items-center justify-center w-full h-full px-3">
                                         <div class="w-full">
-                                            <input v-model="createForm.imgUrl" type="text" :placeholder="t('home.carousel.create.imageUrlPlaceholder')"
+                                            <label class="sr-only" for="carousel-create-image-url">{{ t('home.carousel.create.imageUrlPlaceholder') }}</label>
+                                            <input id="carousel-create-image-url" v-model="createForm.imgUrl" type="text" :placeholder="t('home.carousel.create.imageUrlPlaceholder')"
                                                    class="input input-bordered input-sm w-full" />
                                         </div>
                                     </div>
@@ -95,23 +99,26 @@
                             <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
                                 <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">{{
                                     t('home.carousel.create.yourOwn') }}</h2>
-                                <input v-model="createForm.title" type="text" :placeholder="t('home.carousel.create.titlePlaceholder')"
+                                <label class="sr-only" for="carousel-create-title">{{ t('home.carousel.create.titlePlaceholder') }}</label>
+                                <input id="carousel-create-title" v-model="createForm.title" type="text" :placeholder="t('home.carousel.create.titlePlaceholder')"
                                        class="input input-bordered input-sm mb-2 w-full" />
-                                <textarea v-model="createForm.description" rows="3" :placeholder="t('home.carousel.create.descriptionPlaceholder')"
+                                <label class="sr-only" for="carousel-create-description">{{ t('home.carousel.create.descriptionPlaceholder') }}</label>
+                                <textarea id="carousel-create-description" v-model="createForm.description" rows="3" :placeholder="t('home.carousel.create.descriptionPlaceholder')"
                                           class="textarea textarea-bordered textarea-sm mb-2 w-full"></textarea>
-                                <input v-model="createForm.link" type="text" :placeholder="t('home.carousel.create.linkPlaceholder')"
+                                <label class="sr-only" for="carousel-create-link">{{ t('home.carousel.create.linkPlaceholder') }}</label>
+                                <input id="carousel-create-link" v-model="createForm.link" type="text" :placeholder="t('home.carousel.create.linkPlaceholder')"
                                        class="input input-bordered input-sm mb-2 w-full" />
                                 <div class="mt-auto">
-                                    <button @click="handleCreate" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">{{$t('home.carousel.actions.send')}}</button>
+                                    <button type="button" @click="handleCreate" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">{{$t('home.carousel.actions.send')}}</button>
                                 </div>
                             </div>
                         </div>
-                    </label>
+                    </div>
 
                     <!-- Contact form overlay (opens after Create) -->
-                    <div v-if="contactFormOpen" class="absolute inset-0 z-50 flex items-center justify-center p-4">
+                    <div v-if="contactFormOpen" class="absolute inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
                         <div class="w-full max-w-lg bg-base-100">
-                            <MicroContactForm :initialMessage="contactInitialMessage" @close="contactFormOpen = false" />
+                            <MicroContactForm :initialMessage="contactInitialMessage" @ContactFormClose="contactFormOpen = false" />
                         </div>
                     </div>
                 </div>
@@ -173,6 +180,9 @@ const props = defineProps({
 type EmblaApi = {
     scrollPrev: () => void;
     scrollNext: () => void;
+    slidesInView: () => number[];
+    on: (event: 'select' | 'reInit', cb: () => void) => void;
+    off: (event: 'select' | 'reInit', cb: () => void) => void;
     destroy: () => void;
 };
 
@@ -182,7 +192,9 @@ const containerRef = ref<HTMLElement | null>(null);
 const emblaApi = shallowRef<EmblaApi | null>(null);
 const isReady = computed(() => !!emblaApi.value);
 const totalSlides = computed(() => (props.items?.length || 0) + 1);
+const createSlideIndex = computed(() => props.items?.length || 0);
 const canNavigate = computed(() => isReady.value && totalSlides.value > 1);
+const visibleSlideIndexes = ref(new Set<number>());
 let visibilityObserver: IntersectionObserver | null = null;
 
 // Emit created items to parent
@@ -244,6 +256,11 @@ const nextSlide = () => {
     emblaApi.value?.scrollNext();
 };
 
+const updateVisibleSlides = () => {
+    const visible = emblaApi.value?.slidesInView() || [];
+    visibleSlideIndexes.value = new Set(visible);
+};
+
 const initEmbla = async () => {
     if (!viewportRef.value || emblaApi.value) return;
 
@@ -260,6 +277,10 @@ const initEmbla = async () => {
             }
         }
     });
+
+    emblaApi.value.on('select', updateVisibleSlides);
+    emblaApi.value.on('reInit', updateVisibleSlides);
+    updateVisibleSlides();
 };
 
 onMounted(() => {
@@ -286,6 +307,8 @@ onBeforeUnmount(() => {
     visibilityObserver = null;
 
     if (emblaApi.value) {
+        emblaApi.value.off('select', updateVisibleSlides);
+        emblaApi.value.off('reInit', updateVisibleSlides);
         emblaApi.value.destroy();
         emblaApi.value = null;
     }

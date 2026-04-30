@@ -8,6 +8,9 @@
                     <source type="video/mp4" src="/vid/avefi_project_wo.mp4" />
                     {{ t('home.sections.video.notSupported') }}
                 </video>
+                <p id="video-desc" class="sr-only">
+                    {{ t('home.sections.video.aria') }}
+                </p>
             </div>
         </div>
     </div>

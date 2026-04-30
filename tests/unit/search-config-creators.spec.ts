@@ -17,10 +17,10 @@ describe('search config creators field migration', () => {
     expect(settings.highlight_attributes).not.toContain('directors_or_editors');
   });
 
-  test('keeps directors_or_editors only as a result fallback field during migration', () => {
+  test('uses only creators in result_attributes (migration complete, directors_or_editors removed)', () => {
     const settings = config.search_settings;
 
     expect(settings.result_attributes).toContain('creators');
-    expect(settings.result_attributes).toContain('directors_or_editors');
+    expect(settings.result_attributes).not.toContain('directors_or_editors');
   });
 });

@@ -112,9 +112,11 @@
                     <!-- Info icon positioned inside <h3> -->
                     <GlobalTooltipInfo :text="$t('tooltip.manifestation')" class="absolute ml-2" />
                 </h3>
-                <SearchManifestationListSplitView :manifestations="getFilteredManifestations(work)"
+                <SearchManifestationListSplitView :key="`${work?.handle ?? 'work'}:${refinementSignature}:${searchUpdateTick}`"
+                                                  :manifestations="getFilteredManifestations(work)"
                                                   :get-filtered-items="getFilteredItems" :work-variant-handle="work?.handle"
-                                                  :refinement-signature="refinementSignature" />
+                                                  :refinement-signature="refinementSignature"
+                                                  :search-update-tick="searchUpdateTick" />
             </div>
         </div>
     </div>
@@ -159,7 +161,7 @@ function buildRows(work: any): Array<{ item: any, mf: any | null }> {
 }
 
 // --- End helpers ---
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
 
@@ -222,29 +224,13 @@ const updateFromHref = () => {
     refinementsActive.value = Object.values(refinements).some(arr => arr.length > 0);
 };
 
-onMounted(() => {
-    updateFromHref();
-
-    const interval = setInterval(() => {
-        if (window.location.href !== lastHref.value) {
-            lastHref.value = window.location.href;
-            updateFromHref();
-        }
-    }, 200);
-
-    window.addEventListener('popstate', updateFromHref);
-    window.addEventListener('pushstate', updateFromHref);
-    window.addEventListener('replacestate', updateFromHref);
-
-    onBeforeUnmount(() => {
-        clearInterval(interval);
-        window.removeEventListener('popstate', updateFromHref);
-        window.removeEventListener('pushstate', updateFromHref);
-        window.removeEventListener('replacestate', updateFromHref);
-    });
-});
-
-const lastHref = ref(window.location.href);
+// InstantSearch's router.write patch in InstantSearchTemplateAVefi keeps Vue Router in
+// sync after every IS URL change. Watching route.query here replaces the old 200 ms
+// polling loop and the fake pushstate/replacestate listeners (which never fired anyway),
+// giving a single reactive trigger for both IS-driven and browser-navigation changes.
+watch(() => route.query, () => {
+    if (typeof window !== 'undefined') updateFromHref();
+}, { deep: true, immediate: true });
 const { t: $t } = useI18n();
 const props = defineProps({
     items: {
@@ -289,6 +275,7 @@ const props = defineProps({
 
 const showFacetBadge = computed(() => props.nrOfFacetsActive > 0);
 const refinementSignature = computed(() => JSON.stringify(props.currentRefinements ?? []));
+const searchUpdateTick = ref(0);
 
 const componentInfoReady = ref(false);
 const isExpanded = reactive<Record<string, boolean>>({});
@@ -297,10 +284,20 @@ const showHighlight = ref<Record<string, boolean>>({});
 onMounted(() => {
     componentInfoReady.value = true;
 
+    if (typeof window !== 'undefined') {
+        window.addEventListener('avefi:search-updated', onSearchUpdated as EventListener);
+    }
+
     // Initialize showHighlight to true for all items
     props.items.forEach(item => {
         showHighlight.value[item.handle] = true;
     });
+});
+
+onBeforeUnmount(() => {
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('avefi:search-updated', onSearchUpdated as EventListener);
+    }
 });
 
 watch(
@@ -349,23 +346,46 @@ function getFilteredItems(manifestation: any) {
         const itemsKey = Object.keys(manifestation.inner_hits).find(k => k.includes('items'));
         if (itemsKey) {
             const hits = manifestation.inner_hits[itemsKey]?.hits?.hits || [];
-            if (hits.length > 0) return hits.map(h => h._source);
+            if (hits.length > 0) {
+                return hits.map(h => h._source);
+            }
         }
     }
 
-    return filterItemsLocally(allItems, manifestation);
+    // Keep split-view data strictly tied to server payload.
+    // If no item inner_hits exist, use manifestation.items as-is.
+    return allItems;
 }
 
-function parseItemRefinementsFromUrl(): Record<string, string[]> {
-    const params = new URLSearchParams(window.location.search);
-    const result: Record<string, string[]> = {};
+function onSearchUpdated() {
+    searchUpdateTick.value += 1;
+}
 
-    for (const [key, value] of params.entries()) {
-        const match = key.match(/^([^[]+)\[\d+\]$/);
-        if (match) {
-            const attr = match[1];
-            if (!result[attr]) result[attr] = [];
-            result[attr].push(value);
+function parseItemRefinementsFromQuery(): Record<string, string[]> {
+    const result: Record<string, string[]> = {};
+    const itemRefinementKeys = new Set([
+        'has_colour_type',
+        'has_access_status',
+        'has_sound_type',
+        'item_element_type',
+        'has_format_type',
+        'in_language_code',
+    ]);
+
+    for (const [rawKey, rawVal] of Object.entries(route.query)) {
+        const values = Array.isArray(rawVal) ? rawVal : [rawVal];
+
+        const indexedMatch = rawKey.match(/^([^[]+)\[\d+\]$/);
+        const refinementListMatch = rawKey.match(/\[refinementList\]\[([^\]]+)\](?:\[\d+\])?$/);
+        const plainKey = !rawKey.includes('[') ? rawKey : null;
+        const attr = indexedMatch?.[1] || refinementListMatch?.[1] || plainKey;
+        if (!attr) continue;
+        if (!itemRefinementKeys.has(attr)) continue;
+
+        if (!result[attr]) result[attr] = [];
+        for (const value of values) {
+            if (value === undefined || value === null) continue;
+            result[attr].push(String(value));
         }
     }
 
@@ -458,7 +478,7 @@ function reportItemFilterMismatch(
 }
 
 function filterItemsLocally(items: any[], manifestation: any): any[] {
-    const ref = parseItemRefinementsFromUrl();
+    const ref = parseItemRefinementsFromQuery();
     if (Object.keys(ref).length === 0) return items;
 
     const removedItems: any[] = [];

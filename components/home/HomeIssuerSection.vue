@@ -1,7 +1,7 @@
 <template>
     <div class="px-2 text-center">
         <div class="w-full flex flex-col justify-center max-lg:mt-6">
-            <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center" tabindex="0">
+            <h2 class="text-3xl bree md:text-4xl font-extrabold mt-6 mb-4 lg:mb-6 text-center">
                 {{ t('home.sections.issuers.title') }}
             </h2>
             <div class="flex" ref="issuerCarouselRef">

@@ -67,6 +67,12 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/e2e/api/backend-edge-cases.spec.ts`
 - `API-BACKEND-EDGE-004`: `/rest/v1/frontend/search` unknown facet keys are non-crashing (no 5xx).
   - `tests/e2e/api/backend-edge-cases.spec.ts`
+- `SBER-001`: `/search` shows explicit backend warning and remains interactive when `/frontend/search` returns 5xx.
+  - `tests/e2e/smoke/search-backend-error-resilience.spec.ts`
+- `SRR-001`: panel toggle, active-refinement delete, and clear-all dispatch centralized refinement action events without query.
+  - `tests/e2e/smoke/search-refinement-request-flow.spec.ts`
+- `SRR-002`: panel toggle, active-refinement delete, and clear-all dispatch centralized refinement action events with query.
+  - `tests/e2e/smoke/search-refinement-request-flow.spec.ts`
 
 ## Unit contract guards (Vitest)
 
@@ -90,6 +96,16 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/unit/components/search-comp-reduced.spec.ts`
 - `CBC-SEARCH-SECTION-001`: search section loading/error/ready states follow instant-search loader signals.
   - `tests/unit/components/search-section.spec.ts`
+- `CBC-INSTANT-SEARCH-001`: clear-all keeps query param when present and clears route params when no query exists.
+  - `tests/unit/components/instant-search-template.spec.ts`
+- `CBC-INSTANT-SEARCH-002`: current-refinement remove and clear-all dispatch centralized refinement action events.
+  - `tests/unit/components/instant-search-template.spec.ts`
+- `CBC-INSTANT-SEARCH-003`: frontend must not silently strip `has_issuer_name` from outgoing facet filters.
+  - `tests/unit/components/instant-search-template.spec.ts`
+- `CBC-INSTANT-SEARCH-004`: invalid backend search payload shows warning and returns safe fallback result.
+  - `tests/unit/components/instant-search-template.spec.ts`
+- `CBC-INSTANT-SEARCH-005`: backend response facet buckets and facet ordering are preserved as source-of-truth.
+  - `tests/unit/components/instant-search-template.spec.ts`
 
 - `CBC-QA-001`: `modelValue` stays source of truth.
   - `tests/unit/source-guards/query-autocomplete-core.contract.spec.ts`

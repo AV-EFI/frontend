@@ -5,6 +5,7 @@ const avefiBase = {
   'showSuggestions': 'Show suggestions',
   'noSuggestionsFound': 'No suggestions found',
   'errorLoadingDatasets': 'Error loading datasets',
+  'searchBackendError': 'Search is temporarily unavailable. Please try again in a moment.',
   'incompleteData': 'Incomplete data',
   'failedToLoad': 'Failed to load',
   'invalidComparisonUrl': 'Invalid comparison URL',
@@ -184,7 +185,9 @@ const avefiBase = {
     'carousel': {
       'aria': {
         'previous': 'Switch to previous slide',
-        'next': 'Switch to next slide'
+        'next': 'Switch to next slide',
+        'pause': 'Pause carousel autoplay',
+        'play': 'Start carousel autoplay'
       },
 
       'labels': {
@@ -1054,6 +1057,8 @@ const avefiBase = {
   "home.carousel.create.linkPlaceholder": "Search link (paste the URL from the search page)",
   "home.carousel.create.contactFormPrefill": "I would like to suggest this entry:\n\nTitle: {title}\nDescription: {description}\nURL: {url}",
   "home.carousel.actions.send": "Send",
+  "home.carousel.aria.pause": "Pause carousel autoplay",
+  "home.carousel.aria.play": "Start carousel autoplay",
   "pocExplorerSearchLabel": "Search works",
   "pocExplorerSearchPlaceholder": "Title, person, subject",
   "pocExplorerSearchButton": "Search",

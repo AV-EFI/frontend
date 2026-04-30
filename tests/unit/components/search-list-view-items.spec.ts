@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { mount } from '@vue/test-utils';
-import { computed, onBeforeUnmount, reactive, watch } from 'vue';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { computed, nextTick, onBeforeUnmount, reactive, watch } from 'vue';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import SearchListViewComp from '~/components/search/SearchListViewComp.vue';
 
 vi.hoisted(() => {
@@ -193,5 +193,86 @@ describe('SearchListViewComp item filtering', () => {
 
     expect(filtered).toEqual([innerHitItem]);
     expect(fetch).not.toHaveBeenCalled();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Tests for the route.query watch that replaced the old polling / fake-event
+// listeners.  The watch has { immediate: true }, so updateFromHref() is called
+// once on mount; and when route.query changes reactively, it is called again.
+//
+// Note: parseRefinementsFromUrl matches the InstantSearch default URL format
+// "[refinementList][facet][0]=value", so the test URLs below use that format
+// (%5BrefinementList%5D = "[refinementList]") to produce an observable result.
+// ---------------------------------------------------------------------------
+describe('SearchListViewComp route.query watch (replaces polling)', () => {
+  let reactiveRouteQuery: Record<string, any>;
+
+  // IS default format key that parseRefinementsFromUrl can match
+  const IS_FORMAT_URL = '/search/?%5BrefinementList%5D%5Bhas_format_type%5D%5B0%5D=VHS';
+
+  beforeEach(() => {
+    reactiveRouteQuery = reactive({});
+    (globalThis as any).useRoute = () => ({ query: reactiveRouteQuery, path: '/search' });
+
+    vi.stubGlobal('computed', computed);
+    vi.stubGlobal('reactive', reactive);
+    vi.stubGlobal('watch', watch);
+    vi.stubGlobal('onBeforeUnmount', onBeforeUnmount);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }));
+    Object.defineProperty(window.navigator, 'sendBeacon', {
+      value: undefined,
+      configurable: true,
+    });
+    window.sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    // Restore static useRoute mock used by the sibling describe block.
+    (globalThis as any).useRoute = () => ({ query: {}, path: '/search' });
+    window.history.pushState({}, '', '/search/');
+  });
+
+  test('refinementsActive is false on mount when URL has no facet params', () => {
+    window.history.pushState({}, '', '/search/');
+    const wrapper = mountComponent({ handle: 'mf-1', items: [] });
+    expect((wrapper.vm as any).refinementsActive).toBe(false);
+  });
+
+  test('refinementsActive is true immediately on mount when URL already has facet params (immediate: true)', () => {
+    // Uses [refinementList][facet][0] format which parseRefinementsFromUrl matches.
+    window.history.pushState({}, '', IS_FORMAT_URL);
+    reactiveRouteQuery['has_format_type'] = ['VHS'];
+    const wrapper = mountComponent({ handle: 'mf-1', items: [] });
+    expect((wrapper.vm as any).refinementsActive).toBe(true);
+  });
+
+  test('refinementsActive updates when route.query changes reactively', async () => {
+    // Start with no facets.
+    window.history.pushState({}, '', '/search/');
+    const wrapper = mountComponent({ handle: 'mf-1', items: [] });
+    expect((wrapper.vm as any).refinementsActive).toBe(false);
+
+    // Simulate InstantSearch router.write patching both the URL and Vue Router.
+    window.history.pushState({}, '', IS_FORMAT_URL);
+    reactiveRouteQuery['has_format_type'] = ['VHS'];
+    await nextTick();
+
+    expect((wrapper.vm as any).refinementsActive).toBe(true);
+  });
+
+  test('refinementsActive resets to false when route.query is cleared', async () => {
+    // Start with an active facet.
+    window.history.pushState({}, '', IS_FORMAT_URL);
+    reactiveRouteQuery['has_format_type'] = ['VHS'];
+    const wrapper = mountComponent({ handle: 'mf-1', items: [] });
+    expect((wrapper.vm as any).refinementsActive).toBe(true);
+
+    // Simulate "Clear all refinements" — IS router.write calls router.replace('/search/').
+    window.history.pushState({}, '', '/search/');
+    delete reactiveRouteQuery['has_format_type'];
+    await nextTick();
+
+    expect((wrapper.vm as any).refinementsActive).toBe(false);
   });
 });

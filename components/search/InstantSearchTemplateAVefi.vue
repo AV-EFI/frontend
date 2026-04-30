@@ -78,6 +78,15 @@
                                     <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
                                 </button>
                             </div>
+                            <div
+                                v-if="searchBackendError"
+                                class="alert alert-error mb-3 text-left"
+                                role="alert"
+                                aria-live="assertive"
+                            >
+                                <Icon name="tabler:alert-triangle" aria-hidden="true" />
+                                <span>{{ $t('searchBackendError') }}</span>
+                            </div>
                             <div class="w-full">
                                 <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
                                      role="region" :aria-label="$t('filteringsection')">
@@ -153,7 +162,7 @@
                                                                 <a :href="createURL(refinement)"
                                                                    class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
                                                                    :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
-                                                                   @click.prevent="refine(refinement)">
+                                                                   @click.prevent="handleCurrentRefinementRemove(refine, refinement)">
                                                                     {{ $t(refinement.label) }}
                                                                     <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />
                                                                 </a>
@@ -250,6 +259,7 @@
 </template>
 
 <script setup lang="ts">
+import { SEARCH_REFINEMENT_COORDINATOR_KEY, type SearchRefinementAction } from '~/composables/searchRefinementCoordinator';
 import { useMatomoTracking } from '~/composables/useMatomoTracking';
 import { getDisplayedWorksCount } from '~/utils/searchResultCounts';
 import { useRouter, useRoute } from 'vue-router';
@@ -320,6 +330,63 @@ const productionYearLabel = computed(() => {
 const isClearingAllRefinements = ref(false);
 const clearRefinementsRef = ref<any>(null);
 
+function triggerInstantSearchRequest() {
+    const helper = instantSearchInstance?.helper || instantSearchInstance?.mainHelper;
+    if (helper?.search) {
+        helper.search();
+        return;
+    }
+
+    if (instantSearchInstance?.scheduleSearch) {
+        instantSearchInstance.scheduleSearch();
+        return;
+    }
+
+    if (instantSearchInstance?.setUiState && instantSearchInstance?.uiState) {
+        try {
+            instantSearchInstance.setUiState({ ...instantSearchInstance.uiState });
+            return;
+        } catch {
+            // fall through to refresh
+        }
+    }
+
+    if (instantSearchInstance?.refresh) {
+        instantSearchInstance.refresh();
+    }
+}
+
+function notifyRefinementAction(action: SearchRefinementAction, triggerSearch = true) {
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('avefi:search-refinement-action', {
+            detail: {
+                action,
+                timestamp: Date.now(),
+            },
+        }));
+    }
+
+    if (triggerSearch) {
+        triggerInstantSearchRequest();
+    }
+}
+
+function runRefinementAction(action: SearchRefinementAction, operation: () => void) {
+    operation();
+    notifyRefinementAction(action, true);
+}
+
+provide(SEARCH_REFINEMENT_COORDINATOR_KEY, {
+    runRefinementAction,
+    notifyRefinementAction,
+});
+
+function handleCurrentRefinementRemove(refine: (refinement: unknown) => void, refinement: unknown) {
+    runRefinementAction('current-refinement-remove', () => {
+        refine(refinement);
+    });
+}
+
 async function clearProductionYearRefinement() {
     forceHideProductionYearChip.value = true;
 
@@ -367,6 +434,8 @@ async function clearProductionYearRefinement() {
     if (process.client) {
         window.dispatchEvent(new CustomEvent('avefi:clear-production-year'));
     }
+
+    notifyRefinementAction('clear-production-year', true);
 }
 
 async function handleClearAllRefinements() {
@@ -381,18 +450,37 @@ async function handleClearAllRefinements() {
 
         await nextTick();
 
+        const nextQuery: Record<string, unknown> = {};
+        if (route.query?.query !== undefined) {
+            nextQuery.query = route.query.query;
+        }
+
+        await router.replace({
+            path: route.path,
+            query: nextQuery,
+        });
+
         const clearBtn = clearRefinementsRef.value?.$el?.querySelector('button');
         if (clearBtn instanceof HTMLElement) {
             clearBtn.click();
         }
 
+        if (instantSearchInstance?.setUiState) {
+            const rawQuery = Array.isArray(nextQuery.query) ? nextQuery.query[0] : nextQuery.query;
+            const nextIndexState = rawQuery ? { query: String(rawQuery) } : {};
+            instantSearchInstance.setUiState({
+                [props.indexName]: nextIndexState,
+            });
+        }
+
         await nextTick();
+        notifyRefinementAction('clear-all-refinements', true);
     } finally {
         isClearingAllRefinements.value = false;
     }
 }
 
-import { ref, computed, inject, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, inject, watch, onMounted, onBeforeUnmount, provide } from 'vue';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
 const {$toggleFacetDrawerState, $toast}:any = useNuxtApp();
@@ -763,18 +851,10 @@ function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
 }
 
 function mapFacetAttributeForBackend(attribute: string) {
-    if (attribute === 'creators') {
-        return 'directors_or_editors';
-    }
-
     return attribute;
 }
 
 function mapFacetAttributeForUi(attribute: string) {
-    if (attribute === 'directors_or_editors') {
-        return 'creators';
-    }
-
     return attribute;
 }
 
@@ -806,50 +886,6 @@ function mapFacetsForBackend(facets: unknown): unknown {
     }
 
     return facets;
-}
-
-// Workaround for Python backend bug: a `nested(manifestations, inner_hits)` query for
-// has_issuer_name conflicts with any `nested(manifestations.items, inner_hits)` query
-// for item-level facets, causing ES to return 500. Until the backend is fixed, strip
-// has_issuer_name from the request whenever item-level facets are active.
-// See: tests/e2e/api/backend-search-facet-combinations.spec.ts (test.fixme blocks)
-const ITEM_LEVEL_FACETS = new Set([
-    'has_colour_type',
-    'has_sound_type',
-    'has_format_type',
-    'item_element_type',
-    'in_language_code',
-    'has_duration_has_value',
-]);
-
-function extractFilterAttribute(filter: string): string {
-    const i = filter.indexOf(':');
-    return i === -1 ? filter : filter.slice(0, i);
-}
-
-function facetFiltersContainItemLevel(facetFilters: unknown): boolean {
-    if (!Array.isArray(facetFilters)) return false;
-    return facetFilters.some((entry) => {
-        if (Array.isArray(entry)) {
-            return entry.some((s) => typeof s === 'string' && ITEM_LEVEL_FACETS.has(extractFilterAttribute(s)));
-        }
-        return typeof entry === 'string' && ITEM_LEVEL_FACETS.has(extractFilterAttribute(entry));
-    });
-}
-
-function stripFacetFromFilters(facetFilters: unknown, attribute: string): unknown {
-    if (!Array.isArray(facetFilters)) return facetFilters;
-    return facetFilters
-        .map((entry) => {
-            if (Array.isArray(entry)) {
-                return entry.filter((s) => typeof s !== 'string' || extractFilterAttribute(s) !== attribute);
-            }
-            if (typeof entry === 'string' && extractFilterAttribute(entry) === attribute) {
-                return null;
-            }
-            return entry;
-        })
-        .filter((entry) => entry !== null && !(Array.isArray(entry) && entry.length === 0));
 }
 
 function mapRenderingContentForUi(renderingContent: any) {
@@ -893,14 +929,6 @@ function mapSearchResponseForUi(response: any) {
                 ? { ...result.facets }
                 : result?.facets;
 
-            if (facets?.directors_or_editors && !facets.creators) {
-                facets.creators = facets.directors_or_editors;
-            }
-
-            if (facets?.directors_or_editors) {
-                delete facets.directors_or_editors;
-            }
-
             return {
                 ...result,
                 facets,
@@ -910,12 +938,83 @@ function mapSearchResponseForUi(response: any) {
     };
 }
 
+function normalizeEmptySearchQuery(params: Record<string, any>) {
+    if (!Object.prototype.hasOwnProperty.call(params, 'query')) {
+        return params;
+    }
+
+    const rawQuery = params.query;
+    const normalizedQuery = Array.isArray(rawQuery) ? rawQuery[0] : rawQuery;
+
+    if (normalizedQuery === undefined || normalizedQuery === null || String(normalizedQuery).trim() === '') {
+        delete params.query;
+        return params;
+    }
+
+    params.query = String(normalizedQuery);
+    return params;
+}
+
+function createEmptySearchResult(request: any) {
+    const params = request?.params || {};
+    const page = Number(params.page ?? 0);
+    const hitsPerPage = Number(params.hitsPerPage ?? 20);
+
+    return {
+        hits: [],
+        nbHits: 0,
+        nbSortedHits: 0,
+        nbPages: 0,
+        page: Number.isFinite(page) ? page : 0,
+        hitsPerPage: Number.isFinite(hitsPerPage) ? hitsPerPage : 20,
+        processingTimeMS: 0,
+        exhaustiveNbHits: true,
+        exhaustiveFacetsCount: true,
+        query: params.query || '',
+        params: '',
+        facets: {},
+        renderingContent: {
+            facetOrdering: {
+                facets: { order: [] },
+                values: {},
+            },
+        },
+        nbManifestations: 0,
+        nbItems: 0,
+    };
+}
+
+function createFallbackSearchResponse(requests: any[]) {
+    return {
+        results: requests.map(createEmptySearchResult),
+    };
+}
+
+function isValidSearchResponse(response: any) {
+    return response && Array.isArray(response.results);
+}
+
+const searchBackendError = ref(false);
+
+function emitSearchUpdated(ok: boolean, requestCount: number) {
+    if (!process.client) return;
+
+    window.dispatchEvent(new CustomEvent('avefi:search-updated', {
+        detail: {
+            ok,
+            requestCount,
+            timestamp: Date.now(),
+        },
+    }));
+}
+
 const effectiveSearchClient = {
     ...props.searchClient,
 
     async search(requests: any[]) {
         const rewrittenRequests = requests.map((request) => {
             const params = { ...(request.params || {}) };
+            normalizeEmptySearchQuery(params);
 
             if (params.facetFilters) {
                 params.facetFilters = mapFacetFilterForBackend(params.facetFilters);
@@ -923,17 +1022,6 @@ const effectiveSearchClient = {
 
             if (params.facets) {
                 params.facets = mapFacetsForBackend(params.facets);
-            }
-
-            // Workaround: strip has_issuer_name when item-level facet filters are active
-            // to prevent ES 500 (nested inner_hits conflict in Python backend).
-            if (facetFiltersContainItemLevel(params.facetFilters)) {
-                if (Array.isArray(params.facets)) {
-                    params.facets = (params.facets as string[]).filter((f) => f !== 'has_issuer_name');
-                }
-                if (params.facetFilters) {
-                    params.facetFilters = stripFacetFromFilters(params.facetFilters, 'has_issuer_name');
-                }
             }
 
             if (params.numericFilters) {
@@ -955,8 +1043,25 @@ const effectiveSearchClient = {
             };
         });
 
-        const response = await (props.searchClient as any).search(rewrittenRequests);
-        return mapSearchResponseForUi(response);
+        try {
+            const response = await (props.searchClient as any).search(rewrittenRequests);
+
+            if (!isValidSearchResponse(response)) {
+                console.error('[search] Backend returned an invalid search response', response);
+                searchBackendError.value = true;
+                emitSearchUpdated(false, rewrittenRequests.length);
+                return createFallbackSearchResponse(rewrittenRequests);
+            }
+
+            searchBackendError.value = false;
+            emitSearchUpdated(true, rewrittenRequests.length);
+            return mapSearchResponseForUi(response);
+        } catch (error) {
+            console.error('[search] Backend search request failed', error);
+            searchBackendError.value = true;
+            emitSearchUpdated(false, rewrittenRequests.length);
+            return createFallbackSearchResponse(rewrittenRequests);
+        }
     },
 };
 
@@ -1034,6 +1139,19 @@ const routerInstance = process.client
     })
     : null;
 
+// Central sync point: InstantSearch's defaultRouter calls window.history.pushState/
+// replaceState directly, which bypasses Vue Router and leaves route.query stale.
+// Patching write() here ensures every IS-driven URL change (facet click, clear all,
+// pagination, …) automatically keeps Vue Router in sync — no per-callsite workarounds.
+if (routerInstance) {
+    const _origWrite = routerInstance.write.bind(routerInstance);
+    routerInstance.write = (routeState: any) => {
+        _origWrite(routeState);
+        const href = window.location.href.replace(window.location.origin, '');
+        router.replace(href).catch(() => { /* ignore same-location errors */ });
+    };
+}
+
 const stateMapping = {
     stateToRoute(uiState) {
         try {
@@ -1100,9 +1218,14 @@ const stateMapping = {
     routeToState(routeState) {
         try {
             const uiState: any = {};
-            uiState[props.indexName] = {
-                query: routeState?.query || '',
-            };
+            const rawQuery = Array.isArray(routeState?.query) ? routeState.query[0] : routeState?.query;
+            const normalizedQuery = rawQuery === undefined || rawQuery === null ? '' : String(rawQuery).trim();
+
+            uiState[props.indexName] = {};
+
+            if (normalizedQuery) {
+                uiState[props.indexName].query = normalizedQuery;
+            }
 
             const refinementList: any = {};
             Object.keys(routeState || {}).forEach(key => {
@@ -1114,7 +1237,7 @@ const stateMapping = {
                     !key.startsWith('range_')
 
                 ) {
-                    const refinementKey = key === 'directors_or_editors' ? 'creators' : key;
+                    const refinementKey = key;
                     const value = routeState[key];
 
                     if (Array.isArray(value)) {

@@ -3,13 +3,13 @@
         <div
             class="order-2 lg:order-1 w-full p-6 flex flex-col justify-center"
         >
-            <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6" tabindex="0">
+            <h2 class="text-3xl text-left bree md:text-4xl font-extrabold mb-6">
                 {{ t('home.sections.timeline.title') }}
             </h2>
 
             <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical" role="list">
                 <!-- 1) QUERY -->
-                <li role="listitem" tabindex="0" class="group relative">
+                <li role="listitem" class="group relative">
                     <div class="timeline-middle text-primary my-2 relative">
                         <Icon class="text-2xl relative z-10" name="tabler:search" aria-hidden="true" />
                     </div>
@@ -23,7 +23,7 @@
                 </li>
 
                 <!-- 2) REFINE -->
-                <li role="listitem" tabindex="0" class="group relative">
+                <li role="listitem" class="group relative">
                     <hr class="bg-primary/40" />
 
                     <div class="timeline-middle text-primary my-2 relative">
@@ -38,7 +38,7 @@
                 </li>
 
                 <!-- 3) SHARE -->
-                <li role="listitem" tabindex="0" class="group relative">
+                <li role="listitem" class="group relative">
                     <hr class="bg-primary/40" />
 
                     <div class="timeline-middle text-primary my-2 relative">
@@ -54,7 +54,7 @@
                 </li>
 
                 <!-- 4) CITE -->
-                <li role="listitem" tabindex="0" class="group relative">
+                <li role="listitem" class="group relative">
                     <hr class="bg-primary/40" />
 
                     <div class="timeline-middle text-primary my-2 relative">

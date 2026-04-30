@@ -10,7 +10,7 @@
                     :placeholder="placeholder"
                     :autofocus="autofocus ?? false"
                     autocomplete="off"
-                    class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none px-4 pr-10 w-full dark:!text-white h-12 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none px-4 pr-10 w-full dark:!text-white h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                     :aria-label="ariaLabel"
                     aria-autocomplete="list"
                     aria-haspopup="listbox"
@@ -62,13 +62,13 @@
             </div>
 
             <template v-if="visibleSuggestions.length">
-                <button v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
-                        type="button" :class="[
-                            'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
-                            'hover:bg-gray-100 dark:hover:bg-gray-800/80',
-                            i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
-                        ]" role="option" :aria-selected="i === highlighted"
-                        @mousedown.stop.prevent="onSelect(s)">
+                <div v-for="(s, i) in visibleSuggestions" :id="optionId(i)" :key="s.type + '::' + s.text + '::' + i"
+                     :class="[
+                         'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
+                         'hover:bg-gray-100 dark:hover:bg-gray-800/80',
+                         i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
+                     ]" role="option" :aria-selected="i === highlighted"
+                     @mousedown.stop.prevent="onSelect(s)">
                     <Icon v-if="s.type === 'recent'" class="shrink-0 text-base leading-none" name="tabler:history"
                           aria-hidden="true" />
                     <Icon v-else-if="s.type === 'saved'" class="shrink-0 text-base leading-none" name="tabler:star"
@@ -82,12 +82,13 @@
                         ({{ s.count }})
                     </span>
                     <!-- Remove button for recent searches -->
-                    <span v-if="s.type === 'recent'" type="button"
-                          class="ml-auto opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
-                          @mousedown.stop.prevent="emit('remove-recent', s.text)">
-                        <Icon name="tabler:x" class="text-sm" />
-                    </span>
-                </button>
+                    <button v-if="s.type === 'recent'" type="button"
+                            class="ml-auto opacity-0 group-hover:opacity-100 focus:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
+                            :aria-label="$t('remove')"
+                            @mousedown.stop.prevent="emit('remove-recent', s.text)">
+                        <Icon name="tabler:x" class="text-sm" aria-hidden="true" />
+                    </button>
+                </div>
             </template>
 
             <div v-else class="px-3 py-2 text-sm text-gray-500 dark:text-gray-300 select-none">
@@ -387,7 +388,7 @@ function onSelect(s: Suggestion) {
    ========================================================================= */
 
 function onKeydown(e: KeyboardEvent) {
-    if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key)) return;
+    if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key) && e.key !== 'Delete') return;
 
     if (e.key === 'Tab') {
         userInteracting.value = false;
@@ -432,6 +433,13 @@ function onKeydown(e: KeyboardEvent) {
     if (e.key === 'Escape') {
         userInteracting.value = false;
         showDropdown.value = false;
+    }
+
+    if (e.key === 'Delete' && showDropdown.value && highlighted.value >= 0) {
+        const highlightedSuggestion = visibleSuggestions.value[highlighted.value];
+        if (highlightedSuggestion?.type === 'recent') {
+            emit('remove-recent', highlightedSuggestion.text);
+        }
     }
 }
 

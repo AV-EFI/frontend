@@ -2,16 +2,16 @@
     <div :class="wrapperClasses">
         <article :class="innerClasses">
             <header>
-                <p v-if="eyebrow" class="text-sm uppercase tracking-[0.3em] text-base-content/70" tabindex="0">
+                <p v-if="eyebrow" class="text-sm uppercase tracking-[0.3em] text-base-content/70">
                     {{ eyebrow }}
                 </p>
-                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight" tabindex="0">
+                <h2 class="text-3xl bree md:text-4xl font-extrabold leading-tight">
                     {{ title }}
                 </h2>
             </header>
             <div class="space-y-3">
                 <p v-for="(paragraph, idx) in normalizedParagraphs" :key="`paragraph-${idx}`"
-                   class="text-base text-base-content/80" tabindex="0">
+                   class="text-base text-base-content/80">
                     {{ paragraph }}
                 </p>
                 <slot />

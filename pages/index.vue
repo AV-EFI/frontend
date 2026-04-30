@@ -7,7 +7,7 @@
         </a>
 
         <!-- ======= HERO / SEARCH-FIRST ======= -->
-        <section id="hero" role="banner" :aria-label="$t('home.hero.bannerSection')" class="relative z-20">
+        <section id="hero" :aria-label="$t('home.hero.bannerSection')" class="relative z-20">
             <div class="hero max-sm:min-h-[48vh] sm:min-h-[32vh] lg:min-h-[58vh]">
                 <div class="hero-overlay absolute inset-0 w-full h-full overflow-hidden" aria-hidden="true">
                     <div
@@ -46,7 +46,7 @@
                             <div class="text-center">
                                 <h1 class="hero-title mt-2 bree text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
                   [text-shadow:0_1px_0_rgba(255,255,255,0.75)]
-                  dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]" tabindex="0">
+                  dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]">
                                     <span v-for="(line, idx) in heroClaimLines" :key="`hero-claim-${idx}`"
                                           class="hero-title__line">{{ line }}</span>
                                 </h1>
@@ -54,7 +54,7 @@
                     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
                     [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
                     dark:[text-shadow:0_1px_0_rgba(0,0,0,0.45)]
-                  " tabindex="0">
+                  ">
                                     {{ $t('home.hero.tagline') }}
                                 </p>
                             </div>
@@ -141,7 +141,7 @@
             </div>
         </section>
 
-        <section id="main" role="main" :aria-label="$t('home.featured.aria')"
+        <section id="main" :aria-label="$t('home.featured.aria')"
                  class="relative border-t border-base-200 py-10 block transition-opacity duration-300">
             <div class="absolute inset-0 motion-reduce:transition-none motion-reduce:animate-none saturate-[1.05] pointer-events-none"
                  aria-hidden="true"></div>
@@ -250,9 +250,9 @@
                                 wrapper-class="w-full"
                                 inner-class="max-w-none"
                             />
-                            <div class="btn btn-primary" @click="openContactForm()">
+                            <button type="button" class="btn btn-primary" @click="openContactForm()">
                                 {{ $t('home.sections.openAndExtendable.cta') }}
-                            </div>
+                            </button>
                         </div>
                     </template>
                 </HomeLazySectionLoader>

@@ -6,12 +6,22 @@
                 :aria-label="$t('home.carousel.aria.previous')">
             <Icon name="tabler:chevron-left" />
         </button>
+        <button v-if="partnersItems.length > 1 && isReady && props.autoSlideInterval > 0"
+                type="button"
+                class="absolute right-2 top-2 z-20 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow w-10 h-10"
+                :aria-label="$t(isAutoplayPaused ? 'home.carousel.aria.play' : 'home.carousel.aria.pause')"
+                :aria-pressed="isAutoplayPaused"
+                @click="toggleAutoplay">
+            <Icon :name="isAutoplayPaused ? 'tabler:player-play' : 'tabler:player-pause'" aria-hidden="true" />
+        </button>
 
         <div ref="viewportRef" class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 sm:py-4 bg-base-200 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div
                     v-for="(item, index) in partnersItems"
                     :key="index"
+                    :inert="isReady && !visibleSlideIndexes.has(index)"
+                    :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
                     class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-0.5rem)] mr-4 rounded-lg align-top flex flex-col items-center bg-white dark:bg-base-200 lg:p-2"
                 >
                     <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
@@ -88,6 +98,7 @@ type EmblaApi = {
     loop: () => boolean;    
     scrollPrev: () => void;
     scrollNext: () => void;
+    slidesInView: () => number[];
     on: (event: 'select' | 'reInit', cb: () => void) => void;
     off: (event: 'select' | 'reInit', cb: () => void) => void;
     destroy: () => void;
@@ -147,12 +158,20 @@ const containerRef = ref<HTMLElement | null>(null);
 const emblaApi = shallowRef<EmblaApi | null>(null);
 const autoplayPlugin = shallowRef<{ stop?: () => void; play?: () => void } | null>(null);
 const isReady = computed(() => !!emblaApi.value);
+const visibleSlideIndexes = ref(new Set<number>());
+const isAutoplayPaused = ref(false);
 
 let visibilityObserver: IntersectionObserver | null = null;
 
 const updateNavState = () => {
     emblaApi.value?.canScrollPrev();
     emblaApi.value?.canScrollNext();
+    updateVisibleSlides();
+};
+
+const updateVisibleSlides = () => {
+    const visible = emblaApi.value?.slidesInView() || [];
+    visibleSlideIndexes.value = new Set(visible);
 };
 
 const initEmbla = async () => {
@@ -199,6 +218,17 @@ const nextSlide = () => {
     emblaApi.value?.scrollNext();
 };
 
+const toggleAutoplay = () => {
+    if (isAutoplayPaused.value) {
+        autoplayPlugin.value?.play?.();
+        isAutoplayPaused.value = false;
+        return;
+    }
+
+    autoplayPlugin.value?.stop?.();
+    isAutoplayPaused.value = true;
+};
+
 onMounted(() => {
     if (!rootRef.value) return;
 
@@ -231,6 +261,7 @@ onBeforeUnmount(() => {
 
     autoplayPlugin.value?.stop?.();
     autoplayPlugin.value = null;
+    isAutoplayPaused.value = false;
 });
 </script>
 

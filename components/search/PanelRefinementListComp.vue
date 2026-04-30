@@ -104,7 +104,7 @@
                                     :checked="item.isRefined ?? 'checked'"
                                     :aria-checked="item.isRefined"
                                     :aria-label="refinementItemScreenreaderText(item)"
-                                    @change="s?.refine?.(item.value)"
+                                    @change="handleFacetToggle(s?.refine, item.value)"
                                 />
                                 <span aria-hidden="true">
                                     {{ $t(item.label.replace('_', ':')) }}
@@ -128,9 +128,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Slider from '@vueform/slider';
+import { SEARCH_REFINEMENT_COORDINATOR_KEY } from '~/composables/searchRefinementCoordinator';
 
 const props = withDefaults(defineProps<{
     headerText?: string
@@ -165,6 +166,8 @@ const isNumeric = computed(() =>
 // ----- local pending/applied state (so we only refine on submit) -----
 const pending = ref<[number, number] | null>(null);
 const lastApplied = ref<[number, number] | null>(null);
+
+const refinementCoordinator = inject(SEARCH_REFINEMENT_COORDINATOR_KEY, null);
 
 // helpers
 const isFiniteNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
@@ -215,16 +218,43 @@ function onMaxChangeLocal(e: Event, range: any) {
 function resetLocal(range: any) {
     pending.value = [boundMin(range ?? {}), boundMax(range ?? {})];
 }
+
+function handleFacetToggle(refine: ((value: unknown) => void) | undefined, value: unknown) {
+    if (!refine) return;
+
+    if (refinementCoordinator) {
+        refinementCoordinator.runRefinementAction('panel-facet-toggle', () => {
+            refine(value);
+        });
+        return;
+    }
+
+    refine(value);
+}
+
 function applyRefinement(refine: (v: any) => void, range: any) {
     try {
         if (!pending.value) return;
         const [lo, hi] = pending.value;
         if (lo === boundMin(range ?? {}) && hi === boundMax(range ?? {})) {
-            refine?.({ min: undefined, max: undefined });
+            if (refinementCoordinator) {
+                refinementCoordinator.runRefinementAction('panel-range-apply', () => {
+                    refine?.({ min: undefined, max: undefined });
+                });
+            } else {
+                refine?.({ min: undefined, max: undefined });
+            }
             lastApplied.value = [lo, hi];
             return;
         }
-        refine?.({ min: lo, max: hi });
+
+        if (refinementCoordinator) {
+            refinementCoordinator.runRefinementAction('panel-range-apply', () => {
+                refine?.({ min: lo, max: hi });
+            });
+        } else {
+            refine?.({ min: lo, max: hi });
+        }
         lastApplied.value = [lo, hi];
 
     }

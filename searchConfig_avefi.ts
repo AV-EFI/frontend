@@ -33,7 +33,6 @@ export const config: SearchkitConfigExtended = {
       "handle",
       "production",
       "creators",
-      "directors_or_editors",
       "castmembers",
       "has_record.has_genre.has_name",
       "years",

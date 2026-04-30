@@ -6,6 +6,7 @@ const deBase = {
   'noSuggestionsFound': 'Keine Vorschläge gefunden',
   'errorLoadingDatasets': 'Fehler beim Laden der Datensätze',
   'incompleteData': 'Unvollständige Daten',
+  'searchBackendError': 'Die Suche ist voruebergehend nicht verfuegbar. Bitte versuchen Sie es gleich erneut.',
   'failedToLoad': 'Laden fehlgeschlagen',
   'invalidComparisonUrl': 'Ungültige Vergleichs-URL',
   'missingBothDatasets': 'Beide Datensatz-Identifikatoren fehlen. Bitte geben Sie \'prev\' und \'next\' als Query-Parameter an.',
@@ -173,7 +174,9 @@ const deBase = {
     'carousel': {
       'aria': {
         'previous': 'Vorherige Folie umschalten',
-        'next': 'Nächste Folie umschalten'
+        'next': 'Nächste Folie umschalten',
+        'pause': 'Automatischen Karussellwechsel pausieren',
+        'play': 'Automatischen Karussellwechsel starten'
       },
       'labels': {
         'imageSource': 'Bildquelle',
@@ -1028,6 +1031,8 @@ const deBase = {
   "home.carousel.create.linkPlaceholder": "Suchlink (URL von der Suchseite einfügen)",
   "home.carousel.create.contactFormPrefill": "Ich möchte diesen Beitrag vorschlagen:\n\nTitel: {title}\nBeschreibung: {description}\nURL: {url}",
   "home.carousel.actions.send": "Senden",
+  "home.carousel.aria.pause": "Automatischen Karussellwechsel pausieren",
+  "home.carousel.aria.play": "Automatischen Karussellwechsel starten",
   "pocExplorerSearchLabel": "Werk suchen",
   "pocExplorerSearchPlaceholder": "Titel, Person, Thema",
   "pocExplorerSearchButton": "Suchen",

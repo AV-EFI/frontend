@@ -25,6 +25,17 @@ function makeSearchRequest(
   };
 }
 
+function buildFacetCombinations(values: string[][]): string[][][] {
+  const out: string[][][] = [[]];
+
+  for (const value of values) {
+    const withCurrent = out.map((combo) => [...combo, value]);
+    out.push(...withCurrent);
+  }
+
+  return out;
+}
+
 /** Boot the handler, capture the beforeSearch hook, and return it. */
 async function captureBeforeSearch(): Promise<(requests: any[]) => Promise<any[]>> {
   let hook: any;
@@ -92,6 +103,36 @@ describe('Outbound API: /api/elastic/msearch – query construction', () => {
 
     expect(result!).toHaveLength(1);
     expect(result![0].body.query.bool.filter).toBeDefined();
+  });
+
+  test('handles all facet combinations without query and with query', async () => {
+    const beforeSearch = await captureBeforeSearch();
+
+    const facets: string[][] = [
+      ['has_colour_type:ColourBlackAndWhite'],
+      ['has_sound_type:Sound'],
+      ['has_format_type:FormatFilm35mm'],
+      ['item_element_type:ItemElementPositive'],
+      ['in_language_code:de'],
+      ['has_issuer_name:Bundesarchiv'],
+      ['manifestation_event_type:ManifestationEventTypeRelease'],
+      ['has_duration_has_value:90min'],
+    ];
+
+    const combinations = buildFacetCombinations(facets);
+
+    for (const combo of combinations) {
+      const [withoutQuery] = await beforeSearch([makeSearchRequest(combo, {}, '')]);
+      expect(withoutQuery.body.query.bool.filter).toBeDefined();
+      expect(withoutQuery.body.query.bool.must).toEqual([]);
+
+      const [withQuery] = await beforeSearch([makeSearchRequest(combo, {}, 'Berlin')]);
+      expect(withQuery.body.query.bool.filter).toBeDefined();
+      expect(withQuery.body.query.bool.must).toHaveLength(1);
+      const should = withQuery.body.query.bool.must[0]?.bool?.should;
+      expect(Array.isArray(should)).toBe(true);
+      expect(should[0].multi_match.query).toBe('Berlin');
+    }
   });
 
   // --- no-500 guard: no facets active (match-all) -----------------------------

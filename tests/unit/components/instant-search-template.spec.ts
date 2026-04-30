@@ -6,6 +6,11 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 // vi.hoisted runs before any imports – required for globals used at the top
 // level of <script setup> (e.g. useRuntimeConfig, useNuxtApp, useRoute…)
 const routerReplaceMock = vi.hoisted(() => vi.fn().mockResolvedValue(undefined));
+const routeQueryMock = vi.hoisted(() => ({ value: {} as Record<string, unknown> }));
+const currentRefinementsItemsMock = vi.hoisted(() => ({
+    value: [] as Array<{ label: string; refinements: Array<{ attribute: string; type: string; value: string; operator?: string; label: string }> }>,
+}));
+const currentRefinementRefineSpy = vi.hoisted(() => vi.fn());
 
 vi.hoisted(() => {
     (globalThis as any).useRuntimeConfig = () => ({
@@ -24,7 +29,7 @@ vi.hoisted(() => {
         push: vi.fn(),
     });
     (globalThis as any).useRoute = () => ({
-        query: {},
+        query: routeQueryMock.value,
         path: '/search',
     });
     (globalThis as any).useSearchHistory = () => ({
@@ -41,7 +46,7 @@ import InstantSearchTemplateAVefi from '~/components/search/InstantSearchTemplat
 
 vi.mock('vue-router', () => ({
     useRouter: () => ({ replace: routerReplaceMock, push: vi.fn() }),
-    useRoute: () => ({ query: {}, path: '/search' }),
+    useRoute: () => ({ query: routeQueryMock.value, path: '/search' }),
 }));
 
 vi.mock('~/composables/useMatomoTracking', () => ({
@@ -81,6 +86,9 @@ vi.mock('instantsearch.js/es/lib/routers', () => ({
 
 beforeEach(() => {
     routerReplaceMock.mockReset().mockResolvedValue(undefined);
+    routeQueryMock.value = {};
+    currentRefinementsItemsMock.value = [];
+    currentRefinementRefineSpy.mockReset();
 });
 
 // ---------- component stubs ----------
@@ -98,6 +106,27 @@ const AisInstantSearchStub = {
     template: '<div><slot /></div>',
 };
 
+const AisCurrentRefinementsStub = {
+    name: 'AisCurrentRefinements',
+    template: '<div><slot :items="items" /><slot name="item" :item="item" :refine="refine" :createURL="createURL" /><slot name="noRefinement" /></div>',
+    computed: {
+        items() {
+            return currentRefinementsItemsMock.value;
+        },
+        item() {
+            return currentRefinementsItemsMock.value[0] ?? { label: '', refinements: [] };
+        },
+    },
+    methods: {
+        refine(refinement: unknown) {
+            currentRefinementRefineSpy(refinement);
+        },
+        createURL() {
+            return '#';
+        },
+    },
+};
+
 function mountComponent(searchClient = { search: vi.fn().mockResolvedValue({ results: [] }) }) {
     return mount(InstantSearchTemplateAVefi, {
         props: { indexName: 'test-index', searchClient },
@@ -112,9 +141,7 @@ function mountComponent(searchClient = { search: vi.fn().mockResolvedValue({ res
                 AisStats: {
                     template: '<div><slot :nbHits="0" :results="null" /></div>',
                 },
-                AisCurrentRefinements: {
-                    template: '<div><slot :items="[]" /><slot name="item" :item="{label:\'\',refinements:[]}" :refine="() => {}" :createURL="() => \'\'" /><slot name="noRefinement" /></div>',
-                },
+                AisCurrentRefinements: AisCurrentRefinementsStub,
                 AisHits: {
                     template: '<div><slot :items="[]" /></div>',
                 },
@@ -167,23 +194,144 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
         expect(clickSpy).toHaveBeenCalledTimes(1);
     });
 
+    test('clear-all keeps query in route when query exists', async () => {
+        routeQueryMock.value = { query: 'Berlin', subjects: 'Arbeit' };
+        const wrapper = mountComponent();
+
+        const clearAllBtn = wrapper.find('button[aria-label="clearallfilters"]');
+        expect(clearAllBtn.exists()).toBe(true);
+
+        await clearAllBtn.trigger('click');
+        await flushPromises();
+
+        expect(routerReplaceMock).toHaveBeenCalledWith({
+            path: '/search',
+            query: { query: 'Berlin' },
+        });
+    });
+
+    test('clear-all removes all route params when no query exists', async () => {
+        routeQueryMock.value = { subjects: 'Arbeit', creators: 'Muster, Maria' };
+        const wrapper = mountComponent();
+
+        const clearAllBtn = wrapper.find('button[aria-label="clearallfilters"]');
+        expect(clearAllBtn.exists()).toBe(true);
+
+        await clearAllBtn.trigger('click');
+        await flushPromises();
+
+        expect(routerReplaceMock).toHaveBeenCalledWith({
+            path: '/search',
+            query: {},
+        });
+    });
+
+    test('clear-all dispatches a centralized refinement action event', async () => {
+        const actionSpy = vi.fn();
+        const listener = (event: Event) => {
+            actionSpy((event as CustomEvent).detail?.action);
+        };
+        window.addEventListener('avefi:search-refinement-action', listener as EventListener);
+
+        try {
+            const wrapper = mountComponent();
+            const clearAllBtn = wrapper.find('button[aria-label="clearallfilters"]');
+            expect(clearAllBtn.exists()).toBe(true);
+
+            await clearAllBtn.trigger('click');
+            await flushPromises();
+
+            expect(actionSpy).toHaveBeenCalledWith('clear-all-refinements');
+        } finally {
+            window.removeEventListener('avefi:search-refinement-action', listener as EventListener);
+        }
+    });
+
+    test('clicking an active refinement calls refine with that refinement', async () => {
+        currentRefinementsItemsMock.value = [
+            {
+                label: 'subjects',
+                refinements: [
+                    {
+                        attribute: 'subjects',
+                        type: 'disjunctive',
+                        value: 'Arbeit',
+                        label: 'Arbeit',
+                    },
+                ],
+            },
+        ];
+
+        const wrapper = mountComponent();
+        const removeLink = wrapper.find('a[aria-label="remove subjects Arbeit"]');
+        expect(removeLink.exists()).toBe(true);
+
+        await removeLink.trigger('click');
+        await flushPromises();
+
+        expect(currentRefinementRefineSpy).toHaveBeenCalledTimes(1);
+        expect(currentRefinementRefineSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+                attribute: 'subjects',
+                value: 'Arbeit',
+            }),
+        );
+    });
+
+    test('clicking an active refinement dispatches centralized refinement action event', async () => {
+        currentRefinementsItemsMock.value = [
+            {
+                label: 'subjects',
+                refinements: [
+                    {
+                        attribute: 'subjects',
+                        type: 'disjunctive',
+                        value: 'Arbeit',
+                        label: 'Arbeit',
+                    },
+                ],
+            },
+        ];
+
+        const actionSpy = vi.fn();
+        const listener = (event: Event) => {
+            actionSpy((event as CustomEvent).detail?.action);
+        };
+        window.addEventListener('avefi:search-refinement-action', listener as EventListener);
+
+        try {
+            const wrapper = mountComponent();
+            const removeLink = wrapper.find('a[aria-label="remove subjects Arbeit"]');
+            expect(removeLink.exists()).toBe(true);
+
+            await removeLink.trigger('click');
+            await flushPromises();
+
+            expect(actionSpy).toHaveBeenCalledWith('current-refinement-remove');
+        } finally {
+            window.removeEventListener('avefi:search-refinement-action', listener as EventListener);
+        }
+    });
+
     test('wraps the provided search client instead of creating a regular-search endpoint internally', async () => {
+        // The `creators` field is now accepted natively by the backend.
+        // No alias mapping (creators → directors_or_editors) occurs.
         const parentSearchClient = {
             search: vi.fn().mockResolvedValue({
                 results: [
                     {
                         facets: {
-                            directors_or_editors: {
+                            creators: {
                                 'Muster, Maria': 1,
                             },
                         },
                         renderingContent: {
                             facetOrdering: {
                                 facets: {
-                                    order: ['directors_or_editors', 'subjects'],
+                                    order: ['creators', 'subjects'],
                                 },
                                 values: {
-                                    directors_or_editors: { sortRemainingBy: 'count' },
+                                    creators: { sortRemainingBy: 'count' },
                                     subjects: { sortRemainingBy: 'count' },
                                 },
                             },
@@ -209,8 +357,8 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
         expect(parentSearchClient.search).toHaveBeenCalledWith([
             {
                 params: {
-                    facetFilters: [['directors_or_editors:Muster, Maria']],
-                    facets: ['directors_or_editors', 'subjects'],
+                    facetFilters: [['creators:Muster, Maria']],
+                    facets: ['creators', 'subjects'],
                     'numeric-refinements': {
                         production_in_year: {
                             '>=': 1900,
@@ -226,5 +374,200 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
         });
         expect(response.results[0].renderingContent.facetOrdering.facets.order).toEqual(['creators', 'subjects']);
         expect(Object.keys(response.results[0].renderingContent.facetOrdering.values)).toEqual(['creators', 'subjects']);
+    });
+
+    test('strips empty query params before calling the backend search client', async () => {
+        const parentSearchClient = {
+            search: vi.fn().mockResolvedValue({ results: [] }),
+        };
+        const wrapper = mountComponent(parentSearchClient);
+        const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+        const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+
+        await wrappedClient.search([
+            {
+                params: {
+                    query: '',
+                    page: 0,
+                    hitsPerPage: 20,
+                },
+            },
+        ]);
+
+        expect(parentSearchClient.search).toHaveBeenCalledWith([
+            {
+                params: {
+                    page: 0,
+                    hitsPerPage: 20,
+                },
+            },
+        ]);
+    });
+
+    test('does not silently strip has_issuer_name when item-level filters are active', async () => {
+        const parentSearchClient = {
+            search: vi.fn().mockResolvedValue({ results: [] }),
+        };
+        const wrapper = mountComponent(parentSearchClient);
+        const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+        const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+
+        await wrappedClient.search([
+            {
+                params: {
+                    facetFilters: [
+                        ['has_issuer_name:Deutsche Kinemathek'],
+                        ['has_sound_type:Sound'],
+                    ],
+                    facets: ['has_issuer_name', 'has_sound_type'],
+                },
+            },
+        ]);
+
+        expect(parentSearchClient.search).toHaveBeenCalledWith([
+            {
+                params: {
+                    facetFilters: [
+                        ['has_issuer_name:Deutsche Kinemathek'],
+                        ['has_sound_type:Sound'],
+                    ],
+                    facets: ['has_issuer_name', 'has_sound_type'],
+                },
+            },
+        ]);
+    });
+
+    test('shows error and returns fallback result when backend response shape is invalid', async () => {
+        const parentSearchClient = {
+            search: vi.fn().mockResolvedValue({ nope: true }),
+        };
+        const wrapper = mountComponent(parentSearchClient);
+        const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+        const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+
+        const response = await wrappedClient.search([
+            {
+                params: {
+                    query: 'Metropolis',
+                    page: 0,
+                    hitsPerPage: 20,
+                },
+            },
+        ]);
+
+        expect(response.results).toHaveLength(1);
+        expect(response.results[0]).toMatchObject({
+            hits: [],
+            nbHits: 0,
+            query: 'Metropolis',
+            page: 0,
+            hitsPerPage: 20,
+        });
+        expect(wrapper.text()).toContain('searchBackendError');
+    });
+
+    test('shows an error and returns an empty response when backend search fails', async () => {
+        const parentSearchClient = {
+            search: vi.fn().mockRejectedValue(new Error('backend down')),
+        };
+        const wrapper = mountComponent(parentSearchClient);
+        const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+        const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+
+        const response = await wrappedClient.search([
+            {
+                params: {
+                    query: 'kaputt',
+                    page: 1,
+                    hitsPerPage: 10,
+                },
+            },
+        ]);
+
+        await nextTick();
+
+        expect(response.results).toHaveLength(1);
+        expect(response.results[0]).toMatchObject({
+            hits: [],
+            nbHits: 0,
+            page: 1,
+            hitsPerPage: 10,
+            nbManifestations: 0,
+            nbItems: 0,
+        });
+        expect(wrapper.text()).toContain('searchBackendError');
+    });
+
+    test('treats backend response as source-of-truth for facets and facetOrdering', async () => {
+        const backendResponse = {
+            results: [
+                {
+                    facets: {
+                        has_issuer_name: {
+                            'Deutsche Kinemathek': 5,
+                        },
+                        has_sound_type: {
+                            Sound: 3,
+                        },
+                    },
+                    renderingContent: {
+                        facetOrdering: {
+                            facets: {
+                                order: ['has_sound_type', 'has_issuer_name'],
+                            },
+                            values: {
+                                has_sound_type: { sortRemainingBy: 'count' },
+                                has_issuer_name: { sortRemainingBy: 'count' },
+                            },
+                        },
+                    },
+                    hits: [
+                        {
+                            objectID: 'A37FAC2F-2527-4DFE-94FB-5C18D2569406',
+                            directors_or_editors: ['Lang, Fritz'],
+                            creators: ['Lang, Fritz'],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const parentSearchClient = {
+            search: vi.fn().mockResolvedValue(backendResponse),
+        };
+
+        const wrapper = mountComponent(parentSearchClient);
+        const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+        const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+
+        const response = await wrappedClient.search([
+            {
+                params: {
+                    query: 'Metropolis',
+                    facetFilters: [['has_issuer_name:Deutsche Kinemathek']],
+                    facets: ['has_issuer_name', 'has_sound_type'],
+                },
+            },
+        ]);
+
+        expect(parentSearchClient.search).toHaveBeenCalledWith([
+            {
+                params: {
+                    query: 'Metropolis',
+                    facetFilters: [['has_issuer_name:Deutsche Kinemathek']],
+                    facets: ['has_issuer_name', 'has_sound_type'],
+                },
+            },
+        ]);
+
+        expect(response.results[0].facets).toEqual(backendResponse.results[0].facets);
+        expect(response.results[0].renderingContent.facetOrdering.facets.order).toEqual([
+            'has_sound_type',
+            'has_issuer_name',
+        ]);
+        expect(response.results[0].hits[0]).toMatchObject({
+            directors_or_editors: ['Lang, Fritz'],
+            creators: ['Lang, Fritz'],
+        });
     });
 });

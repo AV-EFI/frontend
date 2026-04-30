@@ -3,7 +3,7 @@
         <!-- Manifestation list (left) -->
         <div class="bg-base-200 dark:bg-base-300 md:[width:calc(40%+50px)]">
             <ul class="bg-base-100 w-full divide-y divide-base-300 dark:divide-base-400">
-                <li v-for="(m, i) in paginatedManifestations" :key="i + currentPage" class="px-1 pt-2">
+                <li v-for="(m, i) in paginatedManifestations" :key="m?.handle || i + currentPage * itemsPerPage" class="px-1 pt-2">
                     <button type="button"
                             class="group min-h-20 py-2 px-2 w-full text-left cursor-pointer flex items-center justify-between bg-base-100 dark:bg-base-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                             :class="[
@@ -102,6 +102,7 @@
         <!-- Detail view (right) for md+ -->
         <transition name="fade-slide">
             <div v-if="selectedManifestation"
+                 :key="selectedManifestationRenderKey"
                  class="hidden md:block z-10 md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative" role="region"
                  :aria-label="`manifestation-${selectedManifestation.handle}`">
                 <h5 class="relative text-sm font-bold mb-2 flex items-center gap-1">
@@ -109,9 +110,9 @@
                     {{ $t('items') }}
                     <GlobalTooltipInfo :text="$t('tooltip.item')" />
                 </h5>
-                <div ref="itemsContainer" class="relative">
+                <div :key="itemsContainerKey" ref="itemsContainer" class="relative">
                     <ul class="space-y-2">
-                        <li v-for="(item, j) in paginatedItems" :key="j" class="p-2 bg-base-100 dark:bg-base-200 rounded-md"
+                        <li v-for="(item, j) in paginatedItems" :key="item?.handle || j" class="p-2 bg-base-100 dark:bg-base-200 rounded-md"
                             :aria-labelledby="`item-${item.handle}`" role="group"
                             :aria-label="$t('itemDetails', { handle: item.handle })">
                             <div class="flex items-start gap-2">
@@ -178,12 +179,14 @@
 <script setup lang="ts">
 import { ref, computed, watch, nextTick } from 'vue';
 import { allItemsEmpty, isItemEmpty } from '@/composables/useItemEmpty';
+const route = useRoute();
 
 const props = defineProps({
     manifestations: { type: Array, required: true },
     getFilteredItems: { type: Function, required: true },
     workVariantHandle: { type: String, required: false, default: null },
-    refinementSignature: { type: String, required: false, default: '' }
+    refinementSignature: { type: String, required: false, default: '' },
+    searchUpdateTick: { type: Number, required: false, default: 0 }
 });
 
 const selectedIndex = ref(0);
@@ -202,14 +205,27 @@ const paginatedManifestations = computed(() => {
 
 const paginatedItems = computed(() => {
     if (!selectedManifestation.value) return [];
-    const all = props.getFilteredItems(selectedManifestation.value);
+    const all = props.getFilteredItems(selectedManifestation.value, route.fullPath, props.refinementSignature);
     const start = itemPage.value * itemsPerPage;
     return all.slice(start, start + itemsPerPage);
 });
 
 const totalItemPages = computed(() => {
-    const all = selectedManifestation.value ? props.getFilteredItems(selectedManifestation.value) : [];
+    const all = selectedManifestation.value
+        ? props.getFilteredItems(selectedManifestation.value, route.fullPath, props.refinementSignature)
+        : [];
     return Math.ceil(all.length / itemsPerPage);
+});
+
+const selectedManifestationRenderKey = computed(() => {
+    const handle = selectedManifestation.value?.handle || 'none';
+    return `${handle}:${props.searchUpdateTick}:${props.refinementSignature}:${route.fullPath}`;
+});
+
+const itemsContainerKey = computed(() => {
+    const handle = selectedManifestation.value?.handle || 'none';
+    const itemHandles = paginatedItems.value.map((item) => item?.handle || '').join('|');
+    return `${handle}:${props.searchUpdateTick}:${props.refinementSignature}:${itemPage.value}:${itemHandles}`;
 });
 
 function nextPage() {
@@ -256,6 +272,22 @@ watch(
         itemPage.value = 0;
     },
     { deep: false }
+);
+
+watch(
+    () => props.searchUpdateTick,
+    () => {
+        itemPage.value = 0;
+    }
+);
+
+watch(
+    () => route.fullPath,
+    () => {
+        currentPage.value = 0;
+        selectedIndex.value = 0;
+        itemPage.value = 0;
+    }
 );
 
 function triggerScrollToItem() {
