@@ -353,9 +353,8 @@ function getFilteredItems(manifestation: any) {
     }
 
     // Keep split-view data strictly tied to server payload.
-    // If no item inner_hits exist, apply a local fallback filter so item-level
-    // refinements still hide mismatching nested items.
-    return filterItemsLocally(allItems, manifestation);
+    // If no item inner_hits exist, use manifestation.items as-is.
+    return allItems;
 }
 
 function onSearchUpdated() {
@@ -373,30 +372,20 @@ function parseItemRefinementsFromQuery(): Record<string, string[]> {
         'in_language_code',
     ]);
 
-    const appendValue = (rawKey: string, rawValue: unknown) => {
+    for (const [rawKey, rawVal] of Object.entries(route.query)) {
+        const values = Array.isArray(rawVal) ? rawVal : [rawVal];
+
         const indexedMatch = rawKey.match(/^([^[]+)\[\d+\]$/);
         const refinementListMatch = rawKey.match(/\[refinementList\]\[([^\]]+)\](?:\[\d+\])?$/);
         const plainKey = !rawKey.includes('[') ? rawKey : null;
         const attr = indexedMatch?.[1] || refinementListMatch?.[1] || plainKey;
-        if (!attr || !itemRefinementKeys.has(attr)) return;
+        if (!attr) continue;
+        if (!itemRefinementKeys.has(attr)) continue;
 
-        const values = Array.isArray(rawValue) ? rawValue : [rawValue];
         if (!result[attr]) result[attr] = [];
         for (const value of values) {
             if (value === undefined || value === null) continue;
             result[attr].push(String(value));
-        }
-    };
-
-    for (const [rawKey, rawVal] of Object.entries(route.query)) {
-        appendValue(rawKey, rawVal);
-    }
-
-    // Fallback for environments where router query isn't yet in sync with URL.
-    if (typeof window !== 'undefined') {
-        const params = new URLSearchParams(window.location.search);
-        for (const [rawKey, rawVal] of params.entries()) {
-            appendValue(rawKey, rawVal);
         }
     }
 

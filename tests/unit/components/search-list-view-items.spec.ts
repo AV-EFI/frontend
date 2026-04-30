@@ -92,7 +92,7 @@ function mountComponent(manifestation: any) {
   });
 }
 
-describe('SearchListViewComp item filtering', () => {
+describe('SearchListViewComp server payload usage', () => {
   beforeEach(() => {
     vi.stubGlobal('computed', computed);
     vi.stubGlobal('reactive', reactive);
@@ -107,7 +107,7 @@ describe('SearchListViewComp item filtering', () => {
     window.history.pushState({}, '', '/search/?has_colour_type%5B0%5D=ColourBlackAndWhite');
   });
 
-  test('filters manifestation items locally when item inner_hits are missing', () => {
+  test('uses manifestation.items exactly as provided when item inner_hits are missing', () => {
     const manifestation = {
       handle: '21.11155/manifestation-1',
       items: [
@@ -119,31 +119,20 @@ describe('SearchListViewComp item filtering', () => {
 
     const wrapper = mountComponent(manifestation);
     const splitView = wrapper.getComponent(manifestationListStub);
-    const filtered = splitView.props('getFilteredItems')(manifestation);
+    const getFilteredItems = splitView.props('getFilteredItems');
+    const filtered = getFilteredItems(manifestation);
 
-    expect(filtered.map((item: any) => item.handle)).toEqual(['item-bw']);
+    expect(filtered).toBe(manifestation.items);
+    expect(filtered.map((item: any) => item.handle)).toEqual([
+      'item-bw',
+      'item-colour',
+      'item-empty-colour',
+    ]);
 
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('/api/log/client', expect.objectContaining({
-      method: 'POST',
-      keepalive: true,
-    }));
-    const payload = JSON.parse((fetch as any).mock.calls[0][1].body);
-    expect(payload).toMatchObject({
-      type: 'search-item-filter-mismatch',
-      source: 'SearchListViewComp',
-      message: 'Search result contained nested items that did not match active item-level refinements',
-    });
-    expect(JSON.parse(payload.info)).toMatchObject({
-      manifestationHandle: '21.11155/manifestation-1',
-      removedCount: 2,
-      activeItemRefinements: {
-        has_colour_type: ['ColourBlackAndWhite'],
-      },
-    });
+    expect(fetch).not.toHaveBeenCalled();
   });
 
-  test('reports at most one local item-filter mismatch per URL and refinement set', () => {
+  test('does not run any client-side mismatch logging while using server payload as-is', () => {
     const firstManifestation = {
       handle: '21.11155/manifestation-1',
       items: [
@@ -165,10 +154,10 @@ describe('SearchListViewComp item filtering', () => {
     const secondWrapper = mountComponent(secondManifestation);
     secondWrapper.getComponent(manifestationListStub).props('getFilteredItems')(secondManifestation);
 
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).not.toHaveBeenCalled();
   });
 
-  test('prefers item inner_hits over local fallback filtering', () => {
+  test('prefers item inner_hits over manifestation.items when inner_hits are present', () => {
     const innerHitItem = makeItem('inner-hit-bw', 'ColourBlackAndWhite');
     const manifestation = {
       handle: '21.11155/manifestation-1',
@@ -193,6 +182,31 @@ describe('SearchListViewComp item filtering', () => {
 
     expect(filtered).toEqual([innerHitItem]);
     expect(fetch).not.toHaveBeenCalled();
+  });
+
+  test('falls back to manifestation.items when item inner_hits key exists but has no hits', () => {
+    const manifestation = {
+      handle: '21.11155/manifestation-1',
+      items: [
+        makeItem('fallback-item-1', 'ColourBlackAndWhite'),
+        makeItem('fallback-item-2', 'Colour'),
+      ],
+      inner_hits: {
+        manifestations_items_hits: {
+          hits: {
+            hits: [],
+          },
+        },
+      },
+    };
+
+    const wrapper = mountComponent(manifestation);
+    const splitView = wrapper.getComponent(manifestationListStub);
+    const getFilteredItems = splitView.props('getFilteredItems');
+    const filtered = getFilteredItems(manifestation);
+
+    expect(filtered).toBe(manifestation.items);
+    expect(filtered.map((item: any) => item.handle)).toEqual(['fallback-item-1', 'fallback-item-2']);
   });
 });
 

@@ -331,14 +331,28 @@ const isClearingAllRefinements = ref(false);
 const clearRefinementsRef = ref<any>(null);
 
 function triggerInstantSearchRequest() {
-    const helper = instantSearchInstance?.helper || instantSearchInstance?.mainHelper;
-    if (helper?.search) {
-        helper.search();
+    const runDeferred = (operation: () => void) => {
+        if (typeof window !== 'undefined') {
+            window.setTimeout(operation, 0);
+            return;
+        }
+
+        setTimeout(operation, 0);
+    };
+
+    // Run after the current refinement operation has fully propagated.
+    if (instantSearchInstance?.scheduleSearch) {
+        runDeferred(() => {
+            instantSearchInstance.scheduleSearch();
+        });
         return;
     }
 
-    if (instantSearchInstance?.scheduleSearch) {
-        instantSearchInstance.scheduleSearch();
+    const helper = instantSearchInstance?.helper || instantSearchInstance?.mainHelper;
+    if (helper?.search) {
+        runDeferred(() => {
+            helper.search();
+        });
         return;
     }
 
