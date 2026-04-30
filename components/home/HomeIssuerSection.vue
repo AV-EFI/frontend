@@ -20,6 +20,9 @@
                         <h3 class="text-base font-semibold">{{ issuer.name }}</h3>
                         <p class="text-sm opacity-75">{{ issuer.count.toLocaleString() }} {{ issuer.count === 1 ?
                             t('home.common.dataset') : t('home.common.datasets') }}</p>
+                        <p class="text-xs opacity-70 mt-1">
+                            {{ t('works') }}: {{ issuer.works.toLocaleString() }} · {{ t('manifestations') }}: {{ issuer.manifestations.toLocaleString() }} · {{ t('items') }}: {{ issuer.items.toLocaleString() }}
+                        </p>
                     </article>
                 </div>
             </div>
@@ -49,6 +52,9 @@ const issuerPlaceholderItems = computed(() => {
         return {
             name: issuer.name,
             count: issuer.doc_count,
+            works: issuer.category_counts?.['avefi:WorkVariant'] ?? 0,
+            manifestations: issuer.category_counts?.['avefi:Manifestation'] ?? issuer.doc_count ?? 0,
+            items: issuer.category_counts?.['avefi:Item'] ?? 0,
             image: imageInfo?.image || fallback.image,
             alt: imageInfo?.alt || `${issuer.name} ${t('press.assetTypes.logo')}`
         };

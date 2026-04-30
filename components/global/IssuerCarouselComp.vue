@@ -13,34 +13,42 @@
                     :aria-label="$t('home.carousel.aria.previous')">
                 <Icon name="tabler:chevron-left" />
             </button>
-            <button v-if="issuerItems.length > 1 && isReady && props.autoSlideInterval > 0"
-                    type="button"
-                    class="absolute right-2 top-2 z-20 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow w-10 h-10"
-                    :aria-label="$t(isAutoplayPaused ? 'home.carousel.aria.play' : 'home.carousel.aria.pause')"
-                    :aria-pressed="isAutoplayPaused"
-                    @click="toggleAutoplay">
-                <Icon :name="isAutoplayPaused ? 'tabler:player-play' : 'tabler:player-pause'" aria-hidden="true" />
-            </button>
-
             <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-4 sm:px-4 lg:px-6 py-0 sm:py-4 bg-base-200 overflow-hidden">
-                <div ref="containerRef" class="flex touch-pan-y">
+                <div ref="containerRef" class="flex items-stretch touch-pan-y">
                     <div v-for="(item, index) in issuerItems" :key="index"
                          :inert="isReady && !visibleSlideIndexes.has(index)"
                          :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
-                         class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg align-top flex flex-col items-center lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
+                         class="min-w-0 shrink-0 self-stretch basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg flex flex-col items-stretch lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
                         <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
                             <div class="relative w-full h-20 py-2 overflow-hidden bg-white flex items-center justify-center rounded-lg">
                                 <img :src="item.image" :alt="item.imageAlt" :title="item.name" loading="lazy" decoding="async"
                                      class="h-full w-auto max-w-full object-contain" />
                             </div>
                         </figure>
-                        <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-100 rounded-lg">
-                            <h2 class="card-title text-base font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
+                        <div class="p-4 flex flex-col flex-1 w-full min-h-56 bg-white dark:bg-base-100 rounded-lg">
+                            <h2 class="card-title min-h-[4.75rem] items-start text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
-                            <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none!">
-                                {{ item.doc_count.toLocaleString() }} {{ item.doc_count === 1 ? $t('home.common.dataset') : $t('home.common.datasets') }}
-                            </p>
+                            <div class="stats stats-horizontal w-full min-h-14 shadow-none bg-base-200/60 mb-3">
+                                <div class="stat px-2 py-1 min-w-0">
+                                    <div class="stat-title text-[10px] leading-tight">{{ $t('works') }}</div>
+                                    <div class="stat-value text-sm leading-tight">
+                                        {{ getIssuerCategoryCount(item, 'avefi:WorkVariant').toLocaleString() }}
+                                    </div>
+                                </div>
+                                <div class="stat px-2 py-1 min-w-0">
+                                    <div class="stat-title text-[10px] leading-tight">{{ $t('manifestations') }}</div>
+                                    <div class="stat-value text-sm leading-tight">
+                                        {{ getIssuerCategoryCount(item, 'avefi:Manifestation').toLocaleString() }}
+                                    </div>
+                                </div>
+                                <div class="stat px-2 py-1 min-w-0">
+                                    <div class="stat-title text-[10px] leading-tight">{{ $t('items') }}</div>
+                                    <div class="stat-value text-sm leading-tight">
+                                        {{ getIssuerCategoryCount(item, 'avefi:Item').toLocaleString() }}
+                                    </div>
+                                </div>
+                            </div>
                             <div class="mt-auto">
                                 <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
                                           class="btn btn-sm w-full md:w-auto btn-primary">
@@ -86,6 +94,29 @@ interface Issuer {
     name: string;
     id: string | null;
     doc_count: number;
+    category_counts?: {
+        'avefi:WorkVariant'?: number;
+        'avefi:Manifestation'?: number;
+        'avefi:Item'?: number;
+    };
+}
+
+function getIssuerCategoryCount(
+    issuer: Issuer,
+    category: 'avefi:WorkVariant' | 'avefi:Manifestation' | 'avefi:Item'
+): number {
+    const fromCategoryCounts = issuer.category_counts?.[category];
+    if (typeof fromCategoryCounts === 'number') {
+        return fromCategoryCounts;
+    }
+
+    // Backward-compatible fallback for cached or legacy API responses
+    // that only provide doc_count.
+    if (category === 'avefi:Item') {
+        return 0;
+    }
+
+    return typeof issuer.doc_count === 'number' ? issuer.doc_count : 0;
 }
 
 interface IssuerItem extends Issuer {
@@ -256,8 +287,8 @@ onBeforeUnmount(() => {
         emblaApi.value = null;
     }
 
-    autoplayPlugin.value?.stop?.();
-    autoplayPlugin.value = null;
-    isAutoplayPaused.value = false;
+    //autoplayPlugin.value?.stop?.();
+    //autoplayPlugin.value = null;
+    //isAutoplayPaused.value = false;
 });
 </script>

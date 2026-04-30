@@ -6,15 +6,6 @@
                 :aria-label="$t('home.carousel.aria.previous')">
             <Icon name="tabler:chevron-left" />
         </button>
-        <button v-if="partnersItems.length > 1 && isReady && props.autoSlideInterval > 0"
-                type="button"
-                class="absolute right-2 top-2 z-20 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow w-10 h-10"
-                :aria-label="$t(isAutoplayPaused ? 'home.carousel.aria.play' : 'home.carousel.aria.pause')"
-                :aria-pressed="isAutoplayPaused"
-                @click="toggleAutoplay">
-            <Icon :name="isAutoplayPaused ? 'tabler:player-play' : 'tabler:player-pause'" aria-hidden="true" />
-        </button>
-
         <div ref="viewportRef" class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 sm:py-4 bg-base-200 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div

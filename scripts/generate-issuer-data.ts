@@ -1,145 +1,150 @@
 #!/usr/bin/env ts-node
 /**
  * scripts/generate-issuer-data.ts
- * Fetches top issuers from Elasticsearch and generates a static data file
- * 
+ * Fetches top issuers from the frontend Search backend and generates a static data file.
+ *
  * Usage:
- *   ELASTIC_HOST="https://..." ELASTIC_INDEX="index-name" ts-node scripts/generate-issuer-data.ts
+ *   TOP_ISSUERS_BACKEND_BASE="http://localhost:8080/rest/v1" tsx scripts/generate-issuer-data.ts
  */
-import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { config as loadEnv } from 'dotenv';
 import { $fetch } from 'ofetch';
 
 interface Issuer {
-  name: string;
-  id: string | null;
-  doc_count: number;
-}
-
-const DEFAULT_TOP_ISSUERS_INDEX = '21.11155-denormalised-work';
-
-function buildBackendAlignedTopIssuersQuery(size = 20) {
-    return {
-        query: {
-            bool: {
-                should: [
-                    {
-                        multi_match: {
-                            query: '',
-                            fields: [
-                                'has_record.has_primary_title.has_name^2',
-                                'has_record.has_alternative_title.has_name^1',
-                                'parents.has_record.has_primary_title.has_name^1.5',
-                                'directors_or_editors^2.5',
-                                'subjects^1',
-                                'years^1',
-                                'production^1',
-                            ],
-                            zero_terms_query: 'all',
-                            type: 'phrase',
-                        },
-                    },
-                ],
-                minimum_should_match: 1,
-            },
-        },
-        size: 0,
-        aggs: {
-            manifestations: {
-                nested: {
-                    path: 'manifestations',
-                },
-                aggs: {
-                    issuers_by_name: {
-                        terms: {
-                            field: 'manifestations.has_record.described_by.has_issuer_name.keyword',
-                            size,
-                            order: {
-                                handle_count: 'desc',
-                            },
-                        },
-                        aggs: {
-                            handle_count: {
-                                cardinality: {
-                                    field: 'manifestations.handle.keyword',
-                                },
-                            },
-                            issuer_ids: {
-                                terms: {
-                                    field: 'manifestations.has_record.described_by.has_issuer_id.keyword',
-                                    size: 1,
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
+    name: string;
+    id: string | null;
+    doc_count: number;
+    category_counts: {
+        'avefi:WorkVariant': number;
+        'avefi:Manifestation': number;
+        'avefi:Item': number;
     };
 }
 
+const DEFAULT_BACKEND_BASE = 'http://localhost:8080/rest/v1';
+const DEFAULT_INDEX = '21.11155-denormalised-work';
+const DEFAULT_SEARCH_PATH = 'frontend/search';
+
 function loadLocalEnv() {
     const cwd = process.cwd();
-    const envFiles = ['.env.local', '.env'];
+    const envFiles = ['.env', '.env.local'];
 
     for (const file of envFiles) {
         const fullPath = path.resolve(cwd, file);
         if (fs.existsSync(fullPath)) {
-            loadEnv({ path: fullPath, override: false });
+            loadEnv({ path: fullPath, override: true });
         }
     }
+}
+
+function joinUrl(base: string, pathPart: string) {
+    return `${base.replace(/\/+$/, '')}/${pathPart.replace(/^\/+/, '')}`;
+}
+
+function resolveBackendBase() {
+    const configured =
+        process.env.TOP_ISSUERS_BACKEND_BASE ||
+        process.env.E2E_BACKEND_BASE ||
+        process.env.PUBLIC_AVEFI_ELASTIC_API ||
+        process.env.AVEFI_ELASTIC_API ||
+        DEFAULT_BACKEND_BASE;
+
+    return configured.startsWith('http')
+        ? configured
+        : joinUrl('http://localhost:8080', configured);
+}
+
+function searchPayload(params: Record<string, unknown>) {
+    return [
+        {
+            indexName: process.env.ELASTIC_INDEX || DEFAULT_INDEX,
+            params: {
+                query: '',
+                page: 0,
+                ...params,
+            },
+        },
+    ];
+}
+
+async function searchBackend(searchUrl: string, params: Record<string, unknown>) {
+    const response = await $fetch<any>(searchUrl, {
+        method: 'POST',
+        body: searchPayload(params),
+    });
+
+    return response?.results?.[0];
+}
+
+function extractIssuerId(result: any, issuerName: string): string | null {
+    for (const hit of result?.hits || []) {
+        for (const manifestation of hit?.manifestations || []) {
+            const describedBy = manifestation?.has_record?.described_by;
+            if (describedBy?.has_issuer_name === issuerName && describedBy?.has_issuer_id) {
+                return describedBy.has_issuer_id;
+            }
+        }
+    }
+
+    return null;
 }
 
 async function generateIssuerData() {
     loadLocalEnv();
     console.log('[generate-issuer-data] Starting...');
 
-    const esHost = process.env.ELASTIC_HOST_PUBLIC || process.env.ELASTIC_HOST;
-    const esIndex =
-        process.env.ELASTIC_TOP_ISSUERS_INDEX ||
-        process.env.ELASTIC_GWDG_INDEX ||
-        process.env.ELASTIC_INDEX ||
-        DEFAULT_TOP_ISSUERS_INDEX;
+    const backendBase = resolveBackendBase();
+    const searchPath = process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || process.env.AVEFI_SEARCH || DEFAULT_SEARCH_PATH;
+    const searchUrl = joinUrl(backendBase, searchPath);
+    const issuerLimit = Number(process.env.TOP_ISSUERS_LIMIT || 20);
 
-    if (!esHost) {
-        console.error('[generate-issuer-data] ERROR: ELASTIC_HOST / ELASTIC_HOST_PUBLIC must be set in env.');
-        process.exit(1);
-    }
+    console.log(`[generate-issuer-data] Fetching issuer counts from ${searchUrl}`);
 
-    console.log(`[generate-issuer-data] Connecting to ${esHost}/${esIndex}`);
-
-    const esBody = buildBackendAlignedTopIssuersQuery(20);
-
-    const url = `${esHost}/${encodeURIComponent(esIndex)}/_search`;
-
-    let res: any;
+    let facetResult: any;
     try {
-        res = await $fetch<any>(url, {
-            method: 'POST',
-            body: esBody,
+        facetResult = await searchBackend(searchUrl, {
+            hitsPerPage: 0,
+            facets: ['has_issuer_name'],
         });
     } catch (err: any) {
         console.error(
-            '[generate-issuer-data] ERROR while calling Elasticsearch:',
+            '[generate-issuer-data] ERROR while calling Search backend:',
             err?.data || err?.message || err
         );
         process.exit(1);
     }
 
-    const nameBuckets = res?.aggregations?.manifestations?.issuers_by_name?.buckets || [];
+    const issuerNames = Object.entries(facetResult?.facets?.has_issuer_name || {})
+        .sort(([, left], [, right]) => Number(right) - Number(left))
+        .slice(0, issuerLimit)
+        .map(([name]) => name);
 
-    if (!nameBuckets.length) {
-        console.warn('[generate-issuer-data] No buckets returned, nothing to write.');
+    if (!issuerNames.length) {
+        console.warn('[generate-issuer-data] No issuer facet values returned, nothing to write.');
         process.exit(0);
     }
 
-    const issuers: Issuer[] = nameBuckets.map((bucket: any) => ({
-        name: bucket.key,
-        id: bucket.issuer_ids?.buckets?.[0]?.key || null,
-        doc_count: bucket.handle_count?.value ?? bucket.doc_count
-    }));
+    const issuers: Issuer[] = [];
+
+    for (const issuerName of issuerNames) {
+        const result = await searchBackend(searchUrl, {
+            hitsPerPage: 5,
+            facetFilters: [[`has_issuer_name:${issuerName}`]],
+        });
+        const manifestationCount = result?.nbManifestations ?? 0;
+
+        issuers.push({
+            name: issuerName,
+            id: extractIssuerId(result, issuerName),
+            doc_count: manifestationCount,
+            category_counts: {
+                'avefi:WorkVariant': result?.nbWorks ?? 0,
+                'avefi:Manifestation': manifestationCount,
+                'avefi:Item': result?.nbItems ?? 0,
+            },
+        });
+    }
 
     const outDir = path.resolve(process.cwd(), 'data');
     const outFile = path.join(outDir, 'top-issuers.json');
@@ -150,11 +155,11 @@ async function generateIssuerData() {
 
     const data = {
         generated_at: new Date().toISOString(),
-        issuers
+        issuers,
     };
 
     fs.writeFileSync(outFile, JSON.stringify(data, null, 2), 'utf-8');
-    console.log(`[generate-issuer-data] ✓ Written ${issuers.length} issuers to ${outFile}`);
+    console.log(`[generate-issuer-data] Written ${issuers.length} issuers to ${outFile}`);
     console.log('[generate-issuer-data] Top 5:', issuers.slice(0, 5).map(i => i.name));
 }
 
