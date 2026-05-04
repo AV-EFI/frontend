@@ -55,7 +55,7 @@
         <p v-show="showSearchHelp && searchHelpVisible" :id="searchHelpId" role="note"
            class="absolute left-0 right-0 top-full z-[1200] mt-1 flex items-start gap-2 rounded-md border border-info/30 bg-white px-3 py-2 text-sm text-gray-700 shadow-lg dark:border-info/40 dark:bg-gray-900 dark:text-gray-200">
             <Icon name="tabler:info-circle" class="mt-0.5 shrink-0 text-base text-info" aria-hidden="true" />
-            <span class="max-w-96 text-left">{{ searchHelpText }}</span>
+            <span class="max-w-[420px] lg:max-w-[600px] text-left">{{ searchHelpText }}</span>
         </p>
 
         <!-- Suggestions dropdown -->
