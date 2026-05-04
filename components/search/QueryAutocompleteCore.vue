@@ -10,11 +10,15 @@
                     :placeholder="placeholder"
                     :autofocus="autofocus ?? false"
                     autocomplete="off"
-                    class="!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none px-4 pr-10 w-full dark:!text-white h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                    :class="[
+                        '!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none px-4 w-full dark:!text-white h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary',
+                        searchHelpVisible && displayValue ? 'pr-20' : 'pr-10'
+                    ]"
                     :aria-label="ariaLabel"
                     aria-autocomplete="list"
                     aria-haspopup="listbox"
                     :aria-controls="listboxId"
+                    :aria-describedby="showSearchHelp && searchHelpVisible ? searchHelpId : undefined"
                     :aria-expanded="showDropdown ? 'true' : 'false'"
                     :aria-activedescendant="activeDescId"
                     @input="onNativeInput"
@@ -24,6 +28,22 @@
                 >
             </div>
 
+            <!-- Search help toggle inside input -->
+            <button v-if="searchHelpVisible" type="button"
+                    :class="[
+                        'absolute w-8 h-8 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                        searchHelpButtonOffsetClass
+                    ]"
+                    :title="searchHelpButtonLabel"
+                    :aria-label="searchHelpButtonLabel"
+                    :aria-expanded="showSearchHelp ? 'true' : 'false'"
+                    :aria-controls="searchHelpId"
+                    @mousedown.stop.prevent
+                    @click="showSearchHelp = !showSearchHelp"
+                    @keydown.escape.prevent="showSearchHelp = false">
+                <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:info-circle" aria-hidden="true" />
+            </button>
+
             <!-- Clear button inside input -->
             <button v-if="displayValue" type="button"
                     class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
@@ -31,6 +51,12 @@
                 <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
             </button>
         </div>
+
+        <p v-show="showSearchHelp && searchHelpVisible" :id="searchHelpId" role="note"
+           class="absolute left-0 right-0 top-full z-[1200] mt-1 flex items-start gap-2 rounded-md border border-info/30 bg-white px-3 py-2 text-sm text-gray-700 shadow-lg dark:border-info/40 dark:bg-gray-900 dark:text-gray-200">
+            <Icon name="tabler:info-circle" class="mt-0.5 shrink-0 text-base text-info" aria-hidden="true" />
+            <span class="max-w-96 text-left">{{ searchHelpText }}</span>
+        </p>
 
         <!-- Suggestions dropdown -->
         <div v-show="showDropdown" :id="listboxId"
@@ -118,6 +144,8 @@ const props = defineProps<{
     clearTitle?: string;
     showInfoTooltip?: boolean;
     infoTooltipText?: string;
+    helpText?: string;
+    dropdownAriaLabel?: string;
     noResultsText?: string;
     facetAttr?: string;
     size?: number;
@@ -156,6 +184,7 @@ const ariaLabel = computed(() => props.ariaLabel ?? t('search'));
 
 const suggestions = ref<Suggestion[]>([]);
 const showDropdown = ref(false);
+const showSearchHelp = ref(false);
 const highlighted = ref(-1);
 const fetching = ref(false);
 const lastSelected = ref('');
@@ -180,12 +209,19 @@ const enforced = computed(() =>
 const rawUid = useId();
 const uid = (rawUid || Math.random().toString(36).slice(2)).replace(/[:]/g, '-');
 const listboxId = `qa-listbox-${props.name || uid}`;
+const searchHelpId = `qa-search-help-${props.name || uid}`;
 const optionId = (i: number) => `qa-opt-${uid}-${i}`;
 const activeDescId = computed(() =>
     highlighted.value >= 0 ? optionId(highlighted.value) : undefined
 );
-const listboxAriaLabel = computed(() => t('suggestions'));
+const listboxAriaLabel = computed(() => props.dropdownAriaLabel ?? t('suggestions'));
 const inputRef = ref<HTMLInputElement | null>(null);
+const searchHelpText = computed(() => props.infoTooltipText ?? props.helpText ?? '');
+const searchHelpVisible = computed(() =>
+    Boolean(searchHelpText.value && (props.showInfoTooltip || props.helpText))
+);
+const searchHelpButtonLabel = computed(() => `${t('info')}: ${searchHelpText.value}`);
+const searchHelpButtonOffsetClass = computed(() => displayValue.value ? 'right-10' : 'right-2');
 
 /* ==========================================================================
    Debounce

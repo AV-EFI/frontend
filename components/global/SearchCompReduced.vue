@@ -3,6 +3,7 @@
         <div class="flex flex-col md:flex-row gap-0 items-stretch h-16">
             <SearchQueryAutocomplete ref="queryAutocompleteRef" v-model="term" name="search" :placeholder="$t('searchplaceholder')"
                                      :aria-label="ariaLabel" :icon-map="iconMap" :recent-searches="recentSearchesWithUrl" :autofocus="true"
+                                     :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')"
                                      @submit="onSubmit" @clear="term = ''" @recent-search-click="handleRecentSearchClick"
                                      @remove-recent="handleRemoveRecentSearch" @clear-history="handleClearAllHistory" />
             <button type="button" class="btn btn-primary lg:btn-lg h-12 md:!rounded-l-none md:!rounded-r-xl"
