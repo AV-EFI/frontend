@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-full" @mousedown.stop>
+    <div ref="rootRef" class="relative w-full" @mousedown.stop>
         <div class="relative">
             <div class="flex flex-row !max-w-none w-full">
                 <input
@@ -215,6 +215,7 @@ const activeDescId = computed(() =>
     highlighted.value >= 0 ? optionId(highlighted.value) : undefined
 );
 const listboxAriaLabel = computed(() => props.dropdownAriaLabel ?? t('suggestions'));
+const rootRef = ref<HTMLElement | null>(null);
 const inputRef = ref<HTMLInputElement | null>(null);
 const searchHelpText = computed(() => props.infoTooltipText ?? props.helpText ?? '');
 const searchHelpVisible = computed(() =>
@@ -256,15 +257,31 @@ onBeforeUnmount(() => {
     alive.value = false;
     fetchToken++;
     cancelDebounce();
+    if (process.client) {
+        document.removeEventListener('pointerdown', onDocumentPointerDown);
+    }
 });
 
 onMounted(async () => {
+    if (process.client) {
+        document.addEventListener('pointerdown', onDocumentPointerDown);
+    }
+
     if (!props.autofocus) return;
     await nextTick();
     setTimeout(() => {
         focusInput();
     }, 80);
 });
+
+function onDocumentPointerDown(event: PointerEvent) {
+    if (!showSearchHelp.value) return;
+
+    const target = event.target;
+    if (target instanceof Node && rootRef.value?.contains(target)) return;
+
+    showSearchHelp.value = false;
+}
 
 async function fetchSuggestions(q: string): Promise<number> {
     const myToken = ++fetchToken;
