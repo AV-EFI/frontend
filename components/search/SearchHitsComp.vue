@@ -16,7 +16,7 @@
         />
         <SearchListViewComp
             v-else-if="viewTypeChecked === 'accordion' && items"
-            :key="`accordion:${facetStateSignature}`"
+            :key="'accordion'"
             :items="items"
             :production-details-checked="productionDetailsChecked"
             :show-admin-stats="showAdminStats"
