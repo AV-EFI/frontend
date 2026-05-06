@@ -27,7 +27,7 @@
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test tests/e2e/smoke/home-search-detail.spec.ts tests/e2e/smoke/public-routes-auth.spec.ts tests/e2e/smoke/compare-press-assets-autocomplete.spec.ts tests/e2e/seo/search-canonical-robots.spec.ts",
     "test:e2e:contact": "playwright test -c playwright.contact.config.ts",
-    "test:e2e:contact:mailpit": "cross-env MAIL_DELIVERY_MODE=smtp MAIL_HOST=127.0.0.1 MAIL_PORT=1025 MAIL_SECURE=false MAIL_ASSERT_API_BASE=http://127.0.0.1:8025 playwright test --config=playwright.contact.config.ts",
+    "test:e2e:contact:mailpit": "cross-env MAIL_DELIVERY_MODE=smtp MAIL_HOST=127.0.0.1 MAIL_PORT=1025 MAIL_SECURE=false MAIL_REQUIRE_TLS=false MAIL_ASSERT_API_BASE=http://127.0.0.1:8025 playwright test --config=playwright.contact.config.ts",
     "test:e2e:list": "playwright test --list",
     "test:e2e:api": "playwright test tests/e2e/api/backend-openapi-contract.spec.ts",
     "test:e2e:api:edge": "playwright test tests/e2e/api/backend-edge-cases.spec.ts",
