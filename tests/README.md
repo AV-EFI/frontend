@@ -87,6 +87,8 @@ Security-specific expectation:
 
 - `PLAYWRIGHT_BASE_URL`: override target app URL
 - `PLAYWRIGHT_NO_WEBSERVER=true`: skip auto-starting `yarn dev:local`
+- `GITHUB_TOKEN`: token with repo security-alert read permission for weekly Dependabot prep
+- `GITHUB_DEPENDABOT_REPO`: GitHub mirror repo slug for alert query (default `AV-EFI/frontend`)
 - `MAIL_ASSERT_API_BASE`: optional inbox assertion API base for contact delivery e2e (for Mailpit typically `http://127.0.0.1:8025`)
 - `MAIL_DELIVERY_MODE`: `log` or `smtp`; local/testbed defaults to `log`, so delivery e2e must set `MAIL_DELIVERY_MODE=smtp`
 - `E2E_DETAIL_PATH`: stable detail path used by smoke detail test
@@ -128,3 +130,32 @@ Use this checklist before enabling real contact-mail delivery in production:
 Default detail route:
 
 - `/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406`
+
+## Weekly Dependabot Workflow
+
+Goal: pull open security alerts from GitHub mirror, apply preferred package versions locally, run tests, and stage a commit candidate for review.
+
+1. Fetch alerts + apply package.json version targets:
+  - `yarn security:weekly:prepare`
+2. Re-resolve lockfile + test + audit:
+  - `yarn security:weekly:test`
+3. Prepare commit (staging only, no commit/push):
+  - `yarn security:weekly:stage`
+4. Apply branch + commit convention:
+  - `yarn security:weekly:finalize`
+  - creates/resets branch name pattern: `chore/security-weekly-YYYY-MM-DD`
+  - stages expected files and prints standardized commit/push commands
+5. Optional one-step commit creation:
+  - `yarn security:weekly:finalize:commit`
+  - creates commit message pattern: `chore(security): weekly dependabot prep YYYY-MM-DD`
+
+The prepare step writes:
+
+- `logs/security/dependabot-alerts-open.json` (raw open alert payload)
+- `logs/security/dependabot-weekly-report.md` (preferred targets + applied updates)
+
+GitLab CI scheduled variant:
+
+- Job: `weekly_security_prep`
+- Trigger: scheduled pipeline (or manual pipeline with `RUN_WEEKLY_SECURITY_PREP=true`)
+- Required CI variable: `GITHUB_TOKEN`

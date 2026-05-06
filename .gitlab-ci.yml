@@ -118,6 +118,30 @@ test_contact_submit:
       junit:
         - test-reports/e2e-contact-junit.xml
 
+weekly_security_prep:
+  extends: .node_job
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $RUN_WEEKLY_SECURITY_PREP == "true"
+  variables:
+    GITHUB_DEPENDABOT_REPO: "AV-EFI/frontend"
+  script:
+    - mkdir -p test-reports
+    - yarn security:weekly:prepare
+    - yarn install
+    - yarn test:ci:fast
+    - yarn npm audit --recursive --json > test-reports/npm-audit.json || true
+    - git status --short > test-reports/git-status.txt
+    - git diff -- package.json yarn.lock > test-reports/dependency-updates.diff
+  artifacts:
+    when: always
+    paths:
+      - logs/security/dependabot-weekly-report.md
+      - logs/security/dependabot-alerts-open.json
+      - test-reports/npm-audit.json
+      - test-reports/git-status.txt
+      - test-reports/dependency-updates.diff
+
 # Build a docker image.
 .build_docker:
   stage: build
