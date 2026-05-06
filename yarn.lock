@@ -2042,6 +2042,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nodable/entities@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@nodable/entities@npm:2.1.0"
+  checksum: 10c0/5a4cba2b61a5b6c726328b18b1de6d033cae4a658a118644bf31e0bcbda126ea7b69385043dc556cf1ed859b9ca220e82b81b5e5c48ef1b519fb8ec104575dee
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -4282,6 +4289,22 @@ __metadata:
   version: 10.0.2
   resolution: "@shikijs/vscode-textmate@npm:10.0.2"
   checksum: 10c0/36b682d691088ec244de292dc8f91b808f95c89466af421cf84cbab92230f03c8348649c14b3251991b10ce632b0c715e416e992dd5f28ff3221dc2693fd9462
+  languageName: node
+  linkType: hard
+
+"@simple-git/args-pathspec@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@simple-git/args-pathspec@npm:1.0.3"
+  checksum: 10c0/91bfc99daa956df28e4efd683cd799f60c6d169fce6adf71a9efa80a6b5938fed4b03e55fa929cfd51aed64f3ada5c1e4edad45a3872dbd94d11924b3258b5bc
+  languageName: node
+  linkType: hard
+
+"@simple-git/argv-parser@npm:^1.1.0":
+  version: 1.1.1
+  resolution: "@simple-git/argv-parser@npm:1.1.1"
+  dependencies:
+    "@simple-git/args-pathspec": "npm:^1.0.3"
+  checksum: 10c0/2c21166f1bb7c4373e7b4e52bd0c7f333e58ea0ff5ac0b6c2d305835f4a2bcad1ef4bcce3cff63312ac55655ea7be3aba4c7c0c41e3ebcb8bee343f65bb92f5e
   languageName: node
   linkType: hard
 
@@ -6644,14 +6667,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.15.0":
-  version: 1.15.0
-  resolution: "axios@npm:1.15.0"
+"axios@npm:1.15.2":
+  version: 1.15.2
+  resolution: "axios@npm:1.15.2"
   dependencies:
     follow-redirects: "npm:^1.15.11"
     form-data: "npm:^4.0.5"
     proxy-from-env: "npm:^2.1.0"
-  checksum: 10c0/47e0f860e98d4d7aa145e89ce0cae00e1fb0f1d2485f065c21fce955ddb1dba4103a46bd0e47acd18a27208a7f62c96249e620db575521b92a968619ab133409
+  checksum: 10c0/4eeae0feeaa7fdc1ef24f81f8b378fdadedf4aebdd6bf224484675160f8744cf17b9b0d1c215279979940f7e8ce463beffa2f713099612e428eac238515c81d5
   languageName: node
   linkType: hard
 
@@ -8559,25 +8582,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-builder@npm:^1.1.4":
-  version: 1.1.4
-  resolution: "fast-xml-builder@npm:1.1.4"
+"fast-xml-builder@npm:^1.1.5":
+  version: 1.1.9
+  resolution: "fast-xml-builder@npm:1.1.9"
   dependencies:
     path-expression-matcher: "npm:^1.1.3"
-  checksum: 10c0/d5dfc0660f7f886b9f42747e6aa1d5e16c090c804b322652f65a5d7ffb93aa00153c3e1276cd053629f9f4c4f625131dc6886677394f7048e827e63b97b18927
+  checksum: 10c0/75253ccb2c6cc0fa66f69e1082493af3b15333c5c243f42092e8853649387e37899b148f47233c57af34e6252fe86b388de0e66c61fb4c4c137a417b56b712b0
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:5.5.7":
-  version: 5.5.7
-  resolution: "fast-xml-parser@npm:5.5.7"
+"fast-xml-parser@npm:5.7.0":
+  version: 5.7.0
+  resolution: "fast-xml-parser@npm:5.7.0"
   dependencies:
-    fast-xml-builder: "npm:^1.1.4"
-    path-expression-matcher: "npm:^1.1.3"
-    strnum: "npm:^2.2.0"
+    "@nodable/entities": "npm:^2.1.0"
+    fast-xml-builder: "npm:^1.1.5"
+    path-expression-matcher: "npm:^1.5.0"
+    strnum: "npm:^2.2.3"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10c0/aa8a8555b62c44c9fd3a48febd1a58e058727525c1cc14c1992a2d48c76b80e8c60e1baa9c639ded760a1c4dd951912342ce820fd59edbc88b7864a9ba25c0fe
+  checksum: 10c0/773d83bc6ad2c97e86326324784b2e3fbbcb989bc7e02c08c4284d302251ace6cd2e4f58896cdaed705887b0523c0455af5c811dece720ebe4245c3af427471b
   languageName: node
   linkType: hard
 
@@ -9472,10 +9496,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip-address@npm:^10.0.1":
-  version: 10.1.0
-  resolution: "ip-address@npm:10.1.0"
-  checksum: 10c0/0103516cfa93f6433b3bd7333fa876eb21263912329bfa47010af5e16934eeeff86f3d2ae700a3744a137839ddfad62b900c7a445607884a49b5d1e32a3d7566
+"ip-address@npm:10.1.1":
+  version: 10.1.1
+  resolution: "ip-address@npm:10.1.1"
+  checksum: 10c0/f3b46faa3850e128d08410f98592c219168dbec688b67de89fa1338921e67e46939962fa2cb2393341bab129ffbe350988679229857dd7d32309c2a4b69daca0
   languageName: node
   linkType: hard
 
@@ -11171,7 +11195,7 @@ __metadata:
     "@vueuse/core": "npm:^12.0.0"
     "@vueuse/nuxt": "npm:^10.11.1"
     algoliasearch: "npm:^4"
-    axios: "npm:^1.15.0"
+    axios: "npm:^1.15.2"
     cytoscape: "npm:^3.29.2"
     daisyui: "npm:5.5.18"
     embla-carousel: "npm:^8.6.0"
@@ -11188,7 +11212,7 @@ __metadata:
     nuxt-schema-org: "npm:^5.0.9"
     nuxt3-winston-log: "npm:^0.5.0"
     pinia: "npm:^2.3.0"
-    postcss: "npm:^8.4.49"
+    postcss: "npm:^8.5.10"
     rollup-plugin-visualizer: "npm:^6.0.5"
     sass-embedded: "npm:^1.93.2"
     searchkit: "npm:^4.15.0"
@@ -11197,7 +11221,7 @@ __metadata:
     ts-node: "npm:^10.9.2"
     tsx: "npm:^4.20.6"
     typescript: "npm:^5.9.3"
-    uuid: "npm:^13.0.0"
+    uuid: "npm:^13.0.1"
     vite: "npm:^7.3.2"
     vite-plugin-commonjs: "npm:^0.10.4"
     vitest: "npm:^4.1.4"
@@ -12248,7 +12272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-expression-matcher@npm:^1.1.3":
+"path-expression-matcher@npm:^1.1.3, path-expression-matcher@npm:^1.5.0":
   version: 1.5.0
   resolution: "path-expression-matcher@npm:1.5.0"
   checksum: 10c0/646cb5bc66cd7d809a52288336f3ac1e6223f156fd8e912936e490e590f7f93e8056d4fd25fcbcc7da61bb698fa520112cb050372a3f65e7b79bd4afa0f77610
@@ -12747,25 +12771,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.49, postcss@npm:^8.5.6":
-  version: 8.5.6
-  resolution: "postcss@npm:8.5.6"
+"postcss@npm:8.5.10":
+  version: 8.5.10
+  resolution: "postcss@npm:8.5.10"
   dependencies:
     nanoid: "npm:^3.3.11"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10c0/5127cc7c91ed7a133a1b7318012d8bfa112da9ef092dddf369ae699a1f10ebbd89b1b9f25f3228795b84585c72aabd5ced5fc11f2ba467eedf7b081a66fad024
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.5.8":
-  version: 8.5.9
-  resolution: "postcss@npm:8.5.9"
-  dependencies:
-    nanoid: "npm:^3.3.11"
-    picocolors: "npm:^1.1.1"
-    source-map-js: "npm:^1.2.1"
-  checksum: 10c0/7cb2b32202ea1ead03f15cfbb2756a64a0f98942378e99b3dfce33678fe5eaf93e31d675a46e3a0dfb417d7b49b82d8999d0dd42a33c3b128e71ade0f978719a
+  checksum: 10c0/c592dffa0c4873b401f01955b265538d9942f425040df5e2b8f0ad34c83773a792ea0fa5859ccc99cfb5b955b4ebff118ab7056315388dc83b107b0fa8313576
   languageName: node
   linkType: hard
 
@@ -14056,14 +14069,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:3.32.3":
-  version: 3.32.3
-  resolution: "simple-git@npm:3.32.3"
+"simple-git@npm:3.36.0":
+  version: 3.36.0
+  resolution: "simple-git@npm:3.36.0"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
+    "@simple-git/args-pathspec": "npm:^1.0.3"
+    "@simple-git/argv-parser": "npm:^1.1.0"
     debug: "npm:^4.4.0"
-  checksum: 10c0/b08ad0811b82d69a9b150109cbf29247bc13f8d5fb5380dcb834a5e0467124c3b5a41a2b9a5dd3c16f1edc9af7fae9add5182ac6476ef0d50e2341c7820fa0f0
+  checksum: 10c0/4c22e57107535168f354e5abbbf6e618a7b39d76491ca225c70588520fbe86891f3b9a5c4f8a3fc0137e669aad2f0e11f6c6e677bfec07169cd18f29bf23cb77
   languageName: node
   linkType: hard
 
@@ -14374,7 +14389,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strnum@npm:^2.2.0":
+"strnum@npm:^2.2.3":
   version: 2.2.3
   resolution: "strnum@npm:2.2.3"
   checksum: 10c0/1ee78101f1cd73a5b32f63cfd0be501bd246801a002f5987efef903a49e9297d1b63574e302ab3c06ee5e715c524d6cbdfef010e372ec1ea848e0179836cc208
@@ -15437,12 +15452,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "uuid@npm:13.0.0"
+"uuid@npm:^13.0.1":
+  version: 13.0.2
+  resolution: "uuid@npm:13.0.2"
   bin:
     uuid: dist-node/bin/uuid
-  checksum: 10c0/950e4c18d57fef6c69675344f5700a08af21e26b9eff2bf2180427564297368c538ea11ac9fb2e6528b17fc3966a9fd2c5049361b0b63c7d654f3c550c9b3d67
+  checksum: 10c0/32c7ee84fa7c7966cc09b3a1514a752a8e2f609f15c00033fbaedc0255d577d1877b839f11ee537f37e587bbc620bbb98c3b3a1482931b8ed47d79497cd7a7cd
   languageName: node
   linkType: hard
 
