@@ -16,8 +16,9 @@ test.describe('Contact mail delivery e2e', () => {
       data: payload,
     });
 
-    expect(submitResponse.ok()).toBeTruthy();
-    const submitBody = await submitResponse.json();
+    const submitResponseText = await submitResponse.text();
+    expect(submitResponse.ok(), `contact submit failed: status=${submitResponse.status()} body=${submitResponseText}`).toBeTruthy();
+    const submitBody = JSON.parse(submitResponseText);
     expect(submitBody).toMatchObject({ success: true });
 
     if (!mailAssertBase) {

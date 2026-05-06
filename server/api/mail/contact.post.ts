@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
   const host = process.env.MAIL_HOST || 'mailer.gwdg.de';
   const port = Number(process.env.MAIL_PORT || 25);
   const secure = process.env.MAIL_SECURE === 'true' || port === 465;
+  const requireTLS = process.env.MAIL_REQUIRE_TLS === 'true';
   const user = process.env.MAIL_USER;
   const pass = process.env.MAIL_PASSWORD;
   const from = process.env.MAIL_FROM || user || 'noreply@av-efi.net';
@@ -41,7 +42,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const transportOptions: any = {
-    host, port, secure, requireTLS: !secure,
+    host, port, secure, requireTLS,
   };
 
   if (user && pass) {

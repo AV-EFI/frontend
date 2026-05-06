@@ -108,6 +108,7 @@ Use this checklist before enabling real contact-mail delivery in production:
   - `MAIL_HOST=mailer.gwdg.de`
   - `MAIL_PORT=25`
   - `MAIL_SECURE=false`
+  - `MAIL_REQUIRE_TLS=false` (unless your SMTP infrastructure explicitly requires STARTTLS)
 3. Set sender and recipients:
   - `MAIL_FROM` (recommended, e.g. `noreply@av-efi.net`)
   - `MAIL_TO` (primary inbox)
