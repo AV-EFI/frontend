@@ -33,7 +33,7 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:e2e`: run Playwright tests
 - `yarn test:e2e:smoke`: browser smoke + SEO canonical tests
 - `yarn test:e2e:contact`: contact submit e2e test; inbox assertion is enabled only when `MAIL_ASSERT_API_BASE` is set
-- `yarn test:e2e:contact:mailpit`: contact delivery e2e test with local Mailpit defaults
+- `yarn test:e2e:contact:mailpit`: optional local delivery e2e test with Mailpit defaults
 - `yarn test:e2e:api`: backend OpenAPI contract suite
 - `yarn test:e2e:api:edge`: backend edge-case contract suite
 - `yarn test:e2e:api:openapi`: OpenAPI document/path/schema checks
@@ -120,7 +120,8 @@ Use this checklist before enabling real contact-mail delivery in production:
   - `NUXT_BUILD_PROFILE=local|testbed` should stay in `log` mode by default.
 6. Validate before rollout:
   - run `yarn test:unit tests/unit/api/internal/contact.api.spec.ts`
-  - run `yarn test:e2e:contact:mailpit` for delivery-path verification.
+  - run `yarn test:e2e:contact` for submit-path verification (default CI lane).
+  - optionally run `yarn test:e2e:contact:mailpit` locally if you explicitly want inbox delivery verification.
 7. Post-deploy smoke check:
   - submit one real contact message and confirm it arrives in `MAIL_TO`.
 

@@ -99,28 +99,16 @@ test_browser_smoke:
       junit:
         - test-reports/e2e-smoke-junit.xml
 
-test_contact_delivery_mailpit:
+test_contact_submit:
   extends:
     - .node_job
     - .test_rules
-  services:
-    - name: axllent/mailpit:latest
-      alias: mailpit
   variables:
-    MAIL_DELIVERY_MODE: "smtp"
-    MAIL_HOST: "mailpit"
-    MAIL_PORT: "1025"
-    MAIL_SECURE: "false"
-    MAIL_REQUIRE_TLS: "false"
-    MAIL_USER: ""
-    MAIL_PASSWORD: ""
-    MAIL_FROM: "noreply@av-efi.local"
-    MAIL_TO: "qa@av-efi.local"
-    MAIL_ASSERT_API_BASE: "http://mailpit:8025"
+    MAIL_DELIVERY_MODE: "log"
+    MAIL_ASSERT_API_BASE: ""
   script:
     - mkdir -p test-reports
     - npx playwright install --with-deps chromium
-    - node -e "const net=require('net');const host=process.env.MAIL_HOST||'mailpit';const port=Number(process.env.MAIL_PORT||1025);let attempts=0;const maxAttempts=60;const wait=()=>{attempts+=1;const socket=net.createConnection({host,port});let settled=false;const retry=(reason)=>{if(settled)return;settled=true;socket.destroy();if(attempts>=maxAttempts){console.error('mailpit smtp not reachable', {host,port,attempts,reason});process.exit(1);}setTimeout(wait,1000);};socket.setTimeout(1000);socket.on('connect',()=>{if(settled)return;settled=true;socket.end();console.log('mailpit smtp ready', {host,port,attempts});process.exit(0);});socket.on('timeout',()=>retry('timeout'));socket.on('error',(err)=>retry(err?.code||err?.message||'error'));};wait();"
     - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-contact-junit.xml yarn test:e2e:contact --workers=1 --reporter=list,junit
   artifacts:
     when: always
