@@ -72,6 +72,27 @@
                 </span>
             </div>
 
+            <div
+                v-if="!allItemsEmpty && itemPreviewIconEntries(manifestation).length"
+                class="col-span-full mt-1 flex flex-row flex-wrap items-center gap-2"
+            >
+                <span
+                    class="text-xs text-gray-600 dark:text-gray-300 mr-1"
+                    :title="$t('itemLevelInfoAvailableHelp')"
+                >
+                    {{ $t('itemLevelInfoShort') }}
+                </span>
+                <span
+                    v-for="entry in itemPreviewIconEntries(manifestation)"
+                    :key="entry.key"
+                    class="inline-flex items-center justify-center rounded-md border border-base-300/60 bg-base-100/70 px-1.5 py-1 shadow-sm shadow-base-300/10"
+                    :title="entry.label"
+                    :aria-label="entry.label"
+                >
+                    <Icon :name="entry.icon" class="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+                </span>
+            </div>
+
             <div class="flex flex-row mt-1">
                 <div v-if="allItemsEmpty" class="badge bg-warning-300 dark:text-black z-10" role="note"
                      :aria-label="$t('emptyItemsLong')">
@@ -89,7 +110,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
+
+defineProps({
     manifestation: Object as PropType<any>,
     type: String as PropType<string>,
     compSize: {
@@ -131,5 +154,67 @@ function formatInLanguageAria(langs: any[]): string {
         .map(lang => safeT(lang?.code))
         .filter(Boolean)
         .join(', ');
+}
+
+function hasNonEmptyString(value: unknown): boolean {
+    return typeof value === 'string' && value.trim().length > 0;
+}
+
+function hasNonEmptyArray(value: unknown): boolean {
+    return Array.isArray(value) && value.length > 0;
+}
+
+function itemPreviewIconEntries(manifestation: any) {
+    const items = Array.isArray(manifestation?.items) ? manifestation.items : [];
+    if (!items.length) return [];
+
+    const flags = {
+        has_access_status: false,
+        has_format_type: false,
+        item_element_type: false,
+        in_language_code: false,
+        has_sound_type: false,
+        has_colour_type: false,
+        has_duration_has_value: false,
+        has_extent_has_value: false,
+        has_frame_rate: false,
+        has_webresource: false,
+    };
+
+    for (const item of items) {
+        const record = item?.has_record || {};
+
+        if (hasNonEmptyString(record?.has_access_status)) flags.has_access_status = true;
+        if (Array.isArray(record?.has_format) && record.has_format.some((f: any) => hasNonEmptyString(f?.type))) flags.has_format_type = true;
+        if (hasNonEmptyString(record?.element_type)) flags.item_element_type = true;
+        if (Array.isArray(record?.in_language) && record.in_language.some((lang: any) => hasNonEmptyString(lang?.code))) flags.in_language_code = true;
+        if (hasNonEmptyString(record?.has_sound_type)) flags.has_sound_type = true;
+        if (hasNonEmptyString(record?.has_colour_type)) flags.has_colour_type = true;
+        if (typeof item?.duration_in_minutes === 'number' || hasNonEmptyString(record?.has_duration?.has_value)) flags.has_duration_has_value = true;
+        if (hasNonEmptyString(record?.has_extent?.has_value)) flags.has_extent_has_value = true;
+        if (hasNonEmptyString(record?.has_frame_rate)) flags.has_frame_rate = true;
+        if (hasNonEmptyString(record?.has_webresource) || hasNonEmptyArray(record?.has_webresource)) flags.has_webresource = true;
+    }
+
+    const ordered = [
+        { key: 'has_access_status', iconKey: 'has_access_status', label: $t('tooltip.accessStatus') },
+        { key: 'has_format_type', iconKey: 'has_format_type', label: $t('tooltip.format') },
+        { key: 'item_element_type', iconKey: 'item_element_type', label: $t('tooltip.elementType') },
+        { key: 'in_language_code', iconKey: 'in_language_code', label: $t('in_language') },
+        { key: 'has_sound_type', iconKey: 'has_sound_type', label: $t('has_sound_type') },
+        { key: 'has_colour_type', iconKey: 'has_colour_type', label: $t('has_colour_type') },
+        { key: 'has_duration_has_value', iconKey: 'has_duration_has_value', label: $t('has_duration') },
+        { key: 'has_extent_has_value', iconKey: 'has_extent_has_value', label: $t('avefi:Extent') },
+        { key: 'has_frame_rate', iconKey: 'items.has_record.has_frame_rate', label: $t('has_frame_rate') },
+        { key: 'has_webresource', iconKey: 'items.has_record.has_webresource', label: $t('webresource') },
+    ];
+
+    return ordered
+        .filter((entry) => flags[entry.key as keyof typeof flags])
+        .map((entry) => ({
+            key: entry.key,
+            icon: getFacetIcon(entry.iconKey, 'tabler-info-circle'),
+            label: entry.label,
+        }));
 }
 </script>

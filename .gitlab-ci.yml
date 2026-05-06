@@ -99,6 +99,33 @@ test_browser_smoke:
       junit:
         - test-reports/e2e-smoke-junit.xml
 
+test_contact_delivery_mailpit:
+  extends:
+    - .node_job
+    - .test_rules
+  services:
+    - name: axllent/mailpit:latest
+      alias: mailpit
+  variables:
+    MAIL_DELIVERY_MODE: "smtp"
+    MAIL_HOST: "mailpit"
+    MAIL_PORT: "1025"
+    MAIL_SECURE: "false"
+    MAIL_FROM: "noreply@av-efi.local"
+    MAIL_TO: "qa@av-efi.local"
+    MAIL_ASSERT_API_BASE: "http://mailpit:8025"
+  script:
+    - mkdir -p test-reports
+    - npx playwright install --with-deps chromium
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-contact-junit.xml yarn test:e2e:contact --workers=1 --reporter=list,junit
+  artifacts:
+    when: always
+    paths:
+      - test-reports/e2e-contact-junit.xml
+    reports:
+      junit:
+        - test-reports/e2e-contact-junit.xml
+
 # Build a docker image.
 .build_docker:
   stage: build
@@ -146,8 +173,6 @@ build_docker-production:
     - envsubst < docker-compose.tmpl > docker-compose.yml
     - cat docker-compose.yml
     - echo "NUXT_PUBLIC_SITE_URL=$NUXT_PUBLIC_SITE_URL"
-    - echo "MAIL_USER=$MAIL_USER"
-    - echo "MAIL_PASSWORD=$MAIL_PASSWORD"
     - echo "MAIL_TO=$MAIL_TO"
     - echo "MAIL_TO_2=$MAIL_TO_2"
     - echo "NUXT_PUBLIC_DISABLE_INDEXING=$NUXT_PUBLIC_DISABLE_INDEXING"

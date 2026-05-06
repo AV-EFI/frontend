@@ -32,6 +32,8 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:e2e:list`: list Playwright tests
 - `yarn test:e2e`: run Playwright tests
 - `yarn test:e2e:smoke`: browser smoke + SEO canonical tests
+- `yarn test:e2e:contact`: contact submit e2e test; inbox assertion is enabled only when `MAIL_ASSERT_API_BASE` is set
+- `yarn test:e2e:contact:mailpit`: contact delivery e2e test with local Mailpit defaults
 - `yarn test:e2e:api`: backend OpenAPI contract suite
 - `yarn test:e2e:api:edge`: backend edge-case contract suite
 - `yarn test:e2e:api:openapi`: OpenAPI document/path/schema checks
@@ -85,6 +87,8 @@ Security-specific expectation:
 
 - `PLAYWRIGHT_BASE_URL`: override target app URL
 - `PLAYWRIGHT_NO_WEBSERVER=true`: skip auto-starting `yarn dev:local`
+- `MAIL_ASSERT_API_BASE`: optional inbox assertion API base for contact delivery e2e (for Mailpit typically `http://127.0.0.1:8025`)
+- `MAIL_DELIVERY_MODE`: `log` or `smtp`; local/testbed defaults to `log`, so delivery e2e must set `MAIL_DELIVERY_MODE=smtp`
 - `E2E_DETAIL_PATH`: stable detail path used by smoke detail test
 - `ES_BASE_URL` or `ELASTIC_HOST_INTERNAL`/`ELASTIC_HOST_PUBLIC`/`ELASTIC_HOST`: Elasticsearch host for data-quality reports
 - `ES_INDEX` or `ELASTIC_INDEX`: Elasticsearch index name for data-quality reports
@@ -94,6 +98,29 @@ Security-specific expectation:
 - `ES_COMPARE_CANDIDATE_INDEX`: optional candidate index for denormalised comparison report (default `21.11155-denormalised-work`)
 - `CMS_MUTATIONS_ENABLED`: enables CMS write endpoints (`/api/cms/usertooltips` `PUT`, `/api/cms/usertooltips_seed` `POST`), default `false`
 - `CMS_MUTATION_ORIGIN_ALLOWLIST`: optional comma-separated extra origins allowed for CMS mutations (current request origin is always allowed)
+
+## Contact Mail Production Checklist
+
+Use this checklist before enabling real contact-mail delivery in production:
+
+1. Set `MAIL_DELIVERY_MODE=smtp` in production runtime config.
+2. Set SMTP endpoint to GWDG relay:
+  - `MAIL_HOST=mailer.gwdg.de`
+  - `MAIL_PORT=25`
+  - `MAIL_SECURE=false`
+3. Set sender and recipients:
+  - `MAIL_FROM` (recommended, e.g. `noreply@av-efi.net`)
+  - `MAIL_TO` (primary inbox)
+  - `MAIL_TO_2` (optional copy)
+4. Ensure no auth is configured unless explicitly required by infrastructure:
+  - `MAIL_USER` and `MAIL_PASSWORD` can be unset for no-auth SMTP.
+5. Keep non-production in safe mode:
+  - `NUXT_BUILD_PROFILE=local|testbed` should stay in `log` mode by default.
+6. Validate before rollout:
+  - run `yarn test:unit tests/unit/api/internal/contact.api.spec.ts`
+  - run `yarn test:e2e:contact:mailpit` for delivery-path verification.
+7. Post-deploy smoke check:
+  - submit one real contact message and confirm it arrives in `MAIL_TO`.
 
 Default detail route:
 

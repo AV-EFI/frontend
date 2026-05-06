@@ -205,8 +205,29 @@
                         <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                     </h3>
 
-                    <!-- Native dropdown for filter -->
-                    <div class="relative w-72 mb-2">
+                    <div class="mb-2 flex items-center gap-1">
+                        <button
+                            type="button"
+                            class="btn btn-xs"
+                            :class="filterDropdownViewMode === 'list' ? 'btn-primary' : 'btn-ghost'"
+                            :aria-pressed="filterDropdownViewMode === 'list' ? 'true' : 'false'"
+                            @click="setFilterDropdownViewMode('list')"
+                        >
+                            {{ $t('filterViewList') }}
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-xs"
+                            :class="filterDropdownViewMode === 'badges' ? 'btn-primary' : 'btn-ghost'"
+                            :aria-pressed="filterDropdownViewMode === 'badges' ? 'true' : 'false'"
+                            @click="setFilterDropdownViewMode('badges')"
+                        >
+                            {{ $t('filterViewBadges') }}
+                        </button>
+                    </div>
+
+                    <!-- Dropdown mode -->
+                    <div v-if="filterDropdownViewMode === 'list'" class="relative w-72 mb-2">
                         <!-- Compact dropdown for filter -->
                         <div class="relative w-72 mb-2" ref="filterDropdownRef">
                             <button
@@ -246,6 +267,7 @@
                                             :checked="searchQuery.includes(suggestion)"
                                             @change="toggleSuggestion(suggestion)"
                                         />
+                                        <Icon :name="suggestionIconName(suggestion)" class="w-4 h-4 text-primary" aria-hidden="true" />
                                         <span class="label-text">
                                             {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
                                         </span>
@@ -255,8 +277,36 @@
                         </div>
                     </div>
 
+                    <!-- Badge mode (standalone, not inside dropdown) -->
+                    <div v-else class="mb-2 rounded-md border border-base-300 bg-base-100 p-1.5 relative">
+                        <div class="overflow-x-auto overflow-y-hidden py-2 pr-14">
+                            <div class="flex flex-nowrap items-center gap-1 min-w-max">
+                                <button
+                                    v-for="suggestion in suggestionsForManifestations"
+                                    :key="suggestion"
+                                    type="button"
+                                    class="badge badge-outline h-7 min-h-0 gap-1 px-1.5 text-xs cursor-pointer shrink-0"
+                                    :class="searchQuery.includes(suggestion) ? 'badge-primary' : ''"
+                                    :aria-pressed="searchQuery.includes(suggestion) ? 'true' : 'false'"
+                                    :title="$t(suggestion) !== suggestion ? $t(suggestion) : suggestion"
+                                    @click="toggleSuggestion(suggestion)"
+                                >
+                                    <Icon :name="suggestionIconName(suggestion)" class="w-3 h-3" aria-hidden="true" />
+                                    <span class="truncate max-w-32 leading-tight">
+                                        {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
+                        <div class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-base-content/60">
+                            {{ $t('filterScrollForMore') }}
+                        </div>
+                    </div>
+
                     <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1 mb-2">
                         <span v-for="selected in searchQuery" :key="selected" class="badge badge-outline gap-1">
+                            <Icon :name="suggestionIconName(selected)" class="w-3.5 h-3.5" aria-hidden="true" />
                             {{ $t(selected) !== selected ? $t(selected) : selected }}
                             <button
                                 type="button"
@@ -271,7 +321,7 @@
                 </div>
 
                 <ClientOnly>
-                    <div v-if="loading" class="flex justify-center items-center min-h-[120px]">
+                    <div v-if="loading" class="flex justify-center items-center min-h-30">
                         <span class="loading loading-spinner loading-lg text-primary" />
                     </div>
                     <div
@@ -312,6 +362,7 @@
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IefiWorkVariant";
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 
 const { ensureFormKitReady } = useFormKitLoader();
 const { t } = useI18n();
@@ -360,8 +411,22 @@ const manifestations = ref<Manifestation[]>(
 const searchQuery = ref<string[]>([]);
 const filterDropdownOpen = ref(false);
 const filterDropdownRef = ref<HTMLElement | null>(null);
+const filterDropdownViewMode = ref<'list' | 'badges'>('list');
 const loading = ref(false);
 let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY = 'avefi.work.filterDropdownViewMode';
+
+function setFilterDropdownViewMode(mode: 'list' | 'badges') {
+    filterDropdownViewMode.value = mode;
+    if (mode === 'badges') {
+        filterDropdownOpen.value = false;
+    }
+
+    if (import.meta.client) {
+        window.localStorage.setItem(FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY, mode);
+    }
+}
 
 function triggerLoading() {
     loading.value = true;
@@ -423,6 +488,19 @@ const ITEM_SEARCH_FIELDS = [
     "has_record.in_language.code",
     "has_record.element_type",
 ];
+
+const FIELD_ICON_KEY: Record<string, string> = {
+    'has_record.has_event.type': 'manifestation_event_type',
+    'has_event.type': 'manifestation_event_type',
+    'has_record.described_by.has_issuer_name': 'has_issuer_name',
+    'has_record.is_manifestation_of': 'episode',
+    'has_record.has_access_status': 'has_access_status',
+    'has_record.has_format.type': 'has_format_type',
+    'has_record.has_colour_type': 'has_colour_type',
+    'has_record.has_sound_type': 'has_sound_type',
+    'has_record.in_language.code': 'in_language_code',
+    'has_record.element_type': 'item_element_type',
+};
 
 function get(obj: any, path: string): any {
     if (!obj || !path) return undefined;
@@ -493,6 +571,12 @@ function valuesForManifestation(mf: any): string[] {
     return dedupeValues([...manifestationValues, ...itemValues]);
 }
 
+function valuesForPath(obj: any, path: string): string[] {
+    const vals: string[] = [];
+    pushValue(vals, get(obj, path));
+    return dedupeValues(vals);
+}
+
 function queryScope(q: string) {
     let matchesManifestation = false;
     let matchesItem = false;
@@ -545,6 +629,47 @@ const suggestionsForManifestations = computed(() => {
         )
         .slice(0, 100);
 });
+
+const suggestionIconMap = computed(() => {
+    const sourceMap = new Map<string, Set<string>>();
+
+    for (const mf of manifestations.value) {
+        for (const path of MANIFESTATION_SEARCH_FIELDS) {
+            const iconKey = FIELD_ICON_KEY[path];
+            const values = valuesForPath(mf, path);
+            for (const value of values) {
+                if (!sourceMap.has(value)) sourceMap.set(value, new Set<string>());
+                if (iconKey) sourceMap.get(value)?.add(iconKey);
+            }
+        }
+
+        const items = Array.isArray(mf?.items) ? mf.items : [];
+        for (const item of items) {
+            for (const path of ITEM_SEARCH_FIELDS) {
+                const iconKey = FIELD_ICON_KEY[path];
+                const values = valuesForPath(item, path);
+                for (const value of values) {
+                    if (!sourceMap.has(value)) sourceMap.set(value, new Set<string>());
+                    if (iconKey) sourceMap.get(value)?.add(iconKey);
+                }
+            }
+        }
+    }
+
+    return sourceMap;
+});
+
+function suggestionIconName(suggestion: string) {
+    const iconKeys = suggestionIconMap.value.get(suggestion);
+    if (iconKeys && iconKeys.size > 0) {
+        return getFacetIcon(Array.from(iconKeys)[0], 'tabler-filter');
+    }
+
+    const scope = queryScope(suggestion);
+    if (scope.item && !scope.manifestation) return 'tabler-hierarchy';
+    if (scope.manifestation && !scope.item) return 'tabler-stack-2';
+    return 'tabler-filter';
+}
 
 const filteredManifestations = computed<any[]>(() => {
     const selected = searchQuery.value;
@@ -799,6 +924,11 @@ async function initObserver() {
 
 onMounted(() => {
     if (process.client) {
+        const storedFilterMode = window.localStorage.getItem(FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY);
+        if (storedFilterMode === 'list' || storedFilterMode === 'badges') {
+            filterDropdownViewMode.value = storedFilterMode;
+        }
+
         mediaQuery = window.matchMedia("(max-width: 767px)");
         isMobile.value = mediaQuery.matches;
 

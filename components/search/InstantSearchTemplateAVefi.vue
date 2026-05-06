@@ -205,6 +205,7 @@
                                                 <option value="accordion">{{ $t('accordionView') }}</option>
                                                 <option value="flat">{{ $t('flatView') }}</option>
                                                 <option value="table">{{ $t('tableView') }}</option>
+                                                <option v-if="isNonProduction" value="compact">{{ $t('compactView') }}</option>
                                             </select>
                                         </label>
                                         <label v-if="viewTypeChecked === 'accordion'"
@@ -513,7 +514,8 @@ const props = defineProps({
 
 // toggle top right 
 const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
-const viewTypeChecked = ref<'accordion' | 'flat' | 'table'>('accordion');
+const viewTypeChecked = ref<'accordion' | 'flat' | 'table' | 'compact'>('accordion');
+const isNonProduction = computed(() => process.env.NODE_ENV !== 'production');
 
 const hasInitializedViewType = ref(false);
 
@@ -524,7 +526,12 @@ const isRestoringViewType = ref(true);
 onMounted(async () => {
     if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(VIEW_TYPE_KEY);
-        if (stored === 'accordion' || stored === 'flat' || stored === 'table') {
+        if (
+            stored === 'accordion' ||
+            stored === 'flat' ||
+            stored === 'table' ||
+            (stored === 'compact' && isNonProduction.value)
+        ) {
             viewTypeChecked.value = stored as typeof viewTypeChecked.value;
         }
     }

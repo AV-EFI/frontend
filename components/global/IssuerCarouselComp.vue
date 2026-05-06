@@ -16,7 +16,6 @@
             <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-4 sm:px-4 lg:px-6 py-0 sm:py-4 bg-base-200 overflow-hidden">
                 <div ref="containerRef" class="flex items-stretch touch-pan-y">
                     <div v-for="(item, index) in issuerItems" :key="index"
-                         :inert="isReady && !visibleSlideIndexes.has(index)"
                          :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
                          class="min-w-0 shrink-0 self-stretch basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg flex flex-col items-stretch lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
                         <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
@@ -26,7 +25,7 @@
                             </div>
                         </figure>
                         <div class="p-4 flex flex-col flex-1 w-full min-h-56 bg-white dark:bg-base-100 rounded-lg">
-                            <h2 class="card-title min-h-[4.75rem] items-start text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
+                            <h2 class="card-title min-h-19 items-start text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
                             <div class="stats stats-horizontal w-full min-h-14 shadow-none bg-base-200/60 mb-3">

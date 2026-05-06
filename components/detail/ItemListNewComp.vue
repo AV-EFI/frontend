@@ -2,11 +2,10 @@
     <div role="list" :aria-label="$t('items')">
         <article
             v-for="(exemplar, itemIndex) in items"
-            :id="getItemAnchorId(exemplar, itemIndex)"
             :key="exemplar?.id || exemplar?.handle"
             class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 dark:text-white border-l-2 border-item text-neutral-700"
             role="listitem"
-            :aria-labelledby="`item-heading-${manifestationIndex}-${itemIndex}`"
+            :aria-labelledby="getItemAnchorId(exemplar, itemIndex)"
         >
             <div class="col-span-full md:col-span-12 mb-1">
                 <MicroDividerComp
@@ -14,26 +13,19 @@
                     label-text="avefi:Item"
                     in-class="item"
                 />
-                <h5
-                    :id="`item-heading-${manifestationIndex}-${itemIndex}`"
-                    class="text-sm font-semibold text-primary-700 dark:text-primary-200"
-                >
-                    {{ `${$t('item')} ${itemIndex + 1}` }}
-                </h5>
+                <div :id="getItemAnchorId(exemplar, itemIndex)">
+                    <DetailKeyValueComp
+                        keytxt="efi"
+                        :translate-key="false"
+                        :valtxt="exemplar?.handle"
+                        :clip-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${exemplar?.handle}`"
+                        class="w-full mb-2 text-base"
+                        :clip="true"
+                    />
+                </div>
                 <div v-if="exemplar?.has_record?.has_access_status == 'Removed'" class="alert">
                     {{ $t('itemRemovedWarning') }}
                 </div>
-            </div>
-
-            <div class="col-span-full md:col-span-12">
-                <DetailKeyValueComp
-                    keytxt="efi"
-                    :translate-key="false"
-                    :valtxt="exemplar?.handle"
-                    :clip-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${exemplar?.handle}`"
-                    class="w-full mb-2 text-base"
-                    :clip="true"
-                />
             </div>
 
             <div class="col-span-full md:col-span-6 xl:col-span-4">
@@ -233,7 +225,7 @@
 <script setup lang="ts">
 const { t } = useI18n();
 
-defineProps({
+const props = defineProps({
     items: { type: Array, required: true },
     manifestationIndex: { type: Number, required: true },
     manifestationHandle: { type: String, required: false, default: '' },
@@ -269,7 +261,18 @@ function formatItemLanguages(languages: unknown) {
         .filter(Boolean);
 }
 
-function getItemAnchorId(exemplar: any, itemIndex: number) {
-    return exemplar?.handle || `item-${itemIndex}`;
+type ItemFormat = { type?: string };
+type ItemHeadingExemplar = {
+    handle?: string;
+    id?: string;
+    has_record?: {
+        has_primary_title?: { has_name?: string };
+        element_type?: string;
+        has_format?: ItemFormat[];
+    };
+};
+
+function getItemAnchorId(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {
+    return exemplar?.handle || `item-${props.manifestationIndex}-${itemIndex}`;
 }
 </script>

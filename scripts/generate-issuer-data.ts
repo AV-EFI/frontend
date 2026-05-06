@@ -68,13 +68,54 @@ function searchPayload(params: Record<string, unknown>) {
     ];
 }
 
-async function searchBackend(searchUrl: string, params: Record<string, unknown>) {
-    const response = await $fetch<any>(searchUrl, {
-        method: 'POST',
-        body: searchPayload(params),
-    });
+function parseSearchResult(response: any) {
+    return (
+        response?.results?.[0] ||
+        response?.responses?.[0] ||
+        response?.[0] ||
+        null
+    );
+}
 
-    return response?.results?.[0];
+function errorStatus(err: any): number | null {
+    return (
+        err?.response?.status ||
+        err?.status ||
+        err?.statusCode ||
+        null
+    );
+}
+
+function errorDetails(err: any): string {
+    const status = errorStatus(err);
+    const data = err?.data || err?.response?._data;
+    const message = err?.message || String(err);
+    return `${status ? `[status ${status}] ` : ''}${data ? JSON.stringify(data) : message}`;
+}
+
+async function searchBackend(searchUrl: string, params: Record<string, unknown>) {
+    const payload = searchPayload(params);
+
+    try {
+        const response = await $fetch<any>(searchUrl, {
+            method: 'POST',
+            body: payload,
+        });
+
+        return parseSearchResult(response);
+    } catch (firstErr: any) {
+        if (errorStatus(firstErr) !== 422) {
+            throw firstErr;
+        }
+
+        // Some backend variants expect `{ requests: [...] }` instead of `[...]`.
+        const response = await $fetch<any>(searchUrl, {
+            method: 'POST',
+            body: { requests: payload },
+        });
+
+        return parseSearchResult(response);
+    }
 }
 
 function extractIssuerId(result: any, issuerName: string): string | null {
@@ -98,6 +139,8 @@ async function generateIssuerData() {
     const searchPath = process.env.AVEFI_ELASTIC_API_SEARCH_ENDPOINT || process.env.AVEFI_SEARCH || DEFAULT_SEARCH_PATH;
     const searchUrl = joinUrl(backendBase, searchPath);
     const issuerLimit = Number(process.env.TOP_ISSUERS_LIMIT || 20);
+    const outDir = path.resolve(process.cwd(), 'data');
+    const outFile = path.join(outDir, 'top-issuers.json');
 
     console.log(`[generate-issuer-data] Fetching issuer counts from ${searchUrl}`);
 
@@ -108,10 +151,17 @@ async function generateIssuerData() {
             facets: ['has_issuer_name'],
         });
     } catch (err: any) {
-        console.error(
-            '[generate-issuer-data] ERROR while calling Search backend:',
-            err?.data || err?.message || err
-        );
+        const fallbackAllowed = process.env.TOP_ISSUERS_FALLBACK_TO_EXISTING !== 'false';
+        if (fallbackAllowed && fs.existsSync(outFile)) {
+            console.warn(
+                '[generate-issuer-data] Backend request failed, keeping existing data:',
+                errorDetails(err)
+            );
+            console.warn(`[generate-issuer-data] Using existing file: ${outFile}`);
+            return;
+        }
+
+        console.error('[generate-issuer-data] ERROR while calling Search backend:', errorDetails(err));
         process.exit(1);
     }
 
@@ -145,9 +195,6 @@ async function generateIssuerData() {
             },
         });
     }
-
-    const outDir = path.resolve(process.cwd(), 'data');
-    const outFile = path.join(outDir, 'top-issuers.json');
 
     if (!fs.existsSync(outDir)) {
         fs.mkdirSync(outDir, { recursive: true });

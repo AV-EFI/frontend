@@ -16,24 +16,39 @@ export default defineEventHandler(async (event) => {
   }
   const { email, message } = parsed.data;
 
-  const host = process.env.MAIL_HOST || 'smtp.gmail.com';
-  const port = Number(process.env.MAIL_PORT || 587);
-  const secure = port === 465;
+  const deliveryMode = resolveDeliveryMode();
+  const host = process.env.MAIL_HOST || 'mailer.gwdg.de';
+  const port = Number(process.env.MAIL_PORT || 25);
+  const secure = process.env.MAIL_SECURE === 'true' || port === 465;
   const user = process.env.MAIL_USER;
   const pass = process.env.MAIL_PASSWORD;
-  const from = process.env.MAIL_FROM || user;
+  const from = process.env.MAIL_FROM || user || 'noreply@av-efi.net';
   const to = process.env.MAIL_TO || from;
   const copy = process.env.MAIL_TO_2;
 
-  if (!user || !pass) {
-    event.node.res.statusCode = 500;
-    return { success: false, error: 'SMTP env missing (MAIL_USER/MAIL_PASSWORD)' };
+  if (deliveryMode === 'log') {
+    console.info('contact.mail.log-mode', {
+      from,
+      to,
+      copy: copy || undefined,
+      replyTo: email,
+      host,
+      port,
+      secure,
+      preview: message.slice(0, 200),
+    });
+    return { success: true, mode: 'log' };
   }
 
-  const transporter = nodemailer.createTransport({
+  const transportOptions: any = {
     host, port, secure, requireTLS: !secure,
-    auth: { user, pass },
-  });
+  };
+
+  if (user && pass) {
+    transportOptions.auth = { user, pass };
+  }
+
+  const transporter = nodemailer.createTransport(transportOptions);
 
   try {
     await transporter.verify();
@@ -64,4 +79,19 @@ export default defineEventHandler(async (event) => {
 
 function escapeHtml(s: string) {
   return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+
+function resolveDeliveryMode(): 'smtp' | 'log' {
+  const explicit = (process.env.MAIL_DELIVERY_MODE || '').trim().toLowerCase();
+  if (explicit === 'smtp' || explicit === 'log') {
+    return explicit;
+  }
+
+  const profile = (process.env.NUXT_BUILD_PROFILE || '').trim().toLowerCase();
+  const envLabel = (process.env.NUXT_PUBLIC_ENV_LABEL || '').trim().toLowerCase();
+  if (profile === 'local' || profile === 'testbed' || envLabel === 'local' || envLabel === 'testbed') {
+    return 'log';
+  }
+
+  return 'smtp';
 }

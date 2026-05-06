@@ -43,14 +43,13 @@ export function useHash(scroll = true) {
     const normalized = normalizeHashValue(hashValue);
     const el = findTargetElement(normalized);
     if (!(el instanceof HTMLElement)) return false;
-    const heading = el.querySelector('h5');
 
     const hadTabIndex = el.hasAttribute('tabindex');
     if (!hadTabIndex) {
       el.setAttribute('tabindex', '-1');
     }
 
-    heading?.classList.add(
+    el.classList.add(
       'bg-highlight',
       'text-white',
       'transition-colors',
@@ -81,7 +80,7 @@ export function useHash(scroll = true) {
 
     if (highlightTimer) clearTimeout(highlightTimer);
     highlightTimer = setTimeout(() => {
-      heading?.classList.remove(
+      el.classList.remove(
         'bg-highlight',
         'text-white',
         'transition-colors',

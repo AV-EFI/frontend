@@ -1,0 +1,11 @@
+﻿[
+  {
+    "indexName": "21.11155-denormalised-work",
+    "params": {
+      "query": "",
+      "page": 0,
+      "hitsPerPage": 0,
+      "facets": ["has_issuer_name"]
+    }
+  }
+]

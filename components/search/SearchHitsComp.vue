@@ -36,6 +36,13 @@
             :expand-all-handles-checked="expandAllHandlesChecked"
             :current-refinements="currentRefinements"
         />
+        <SearchListCompactComp
+            v-else-if="viewTypeChecked === 'compact' && items"
+            :key="`compact:${facetStateSignature}`"
+            :datasets="items"
+            :show-admin-stats="showAdminStats"
+            :current-refinements="currentRefinements"
+        />
         <div v-else>
             <pre>{{ $t('error') }}</pre>
         </div>
@@ -61,7 +68,7 @@ const props = defineProps({
     viewTypeChecked: {
         type: String,
         required: true,
-        validator: (v: string) => ['accordion', 'flat', 'table'].includes(v),
+        validator: (v: string) => ['accordion', 'flat', 'table', 'compact'].includes(v),
     },
     productionDetailsChecked: Boolean,
     showAdminStats: {
@@ -120,7 +127,7 @@ const localViewType = ref(props.viewTypeChecked);
 onMounted(() => {
     if (typeof window !== 'undefined') {
         const stored = window.localStorage.getItem('avefi-view-type');
-        if (stored && ['accordion', 'flat', 'table'].includes(stored)) {
+        if (stored && ['accordion', 'flat', 'table', 'compact'].includes(stored)) {
             localViewType.value = stored;
         } else {
             localViewType.value = props.viewTypeChecked;
@@ -129,7 +136,7 @@ onMounted(() => {
 });
 
 watch(() => props.viewTypeChecked, (val) => {
-    if (typeof window !== 'undefined' && ['accordion', 'flat', 'table'].includes(val)) {
+    if (typeof window !== 'undefined' && ['accordion', 'flat', 'table', 'compact'].includes(val)) {
         window.localStorage.setItem('avefi-view-type', val);
         localViewType.value = val;
     }

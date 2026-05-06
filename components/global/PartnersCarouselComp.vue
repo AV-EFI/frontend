@@ -11,7 +11,6 @@
                 <div
                     v-for="(item, index) in partnersItems"
                     :key="index"
-                    :inert="isReady && !visibleSlideIndexes.has(index)"
                     :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
                     class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-0.5rem)] mr-4 rounded-lg align-top flex flex-col items-center bg-white dark:bg-base-200 lg:p-2"
                 >
