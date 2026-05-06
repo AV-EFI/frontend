@@ -115,6 +115,7 @@ Use this checklist before enabling real contact-mail delivery in production:
   - `MAIL_TO_2` (optional copy)
 4. Ensure no auth is configured unless explicitly required by infrastructure:
   - `MAIL_USER` and `MAIL_PASSWORD` can be unset for no-auth SMTP.
+  - For Mailpit-based CI smoke checks, force `MAIL_USER` and `MAIL_PASSWORD` to empty values to avoid inherited CI secret variables.
 5. Keep non-production in safe mode:
   - `NUXT_BUILD_PROFILE=local|testbed` should stay in `log` mode by default.
 6. Validate before rollout:

@@ -112,6 +112,8 @@ test_contact_delivery_mailpit:
     MAIL_PORT: "1025"
     MAIL_SECURE: "false"
     MAIL_REQUIRE_TLS: "false"
+    MAIL_USER: ""
+    MAIL_PASSWORD: ""
     MAIL_FROM: "noreply@av-efi.local"
     MAIL_TO: "qa@av-efi.local"
     MAIL_ASSERT_API_BASE: "http://mailpit:8025"
