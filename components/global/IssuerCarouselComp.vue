@@ -24,32 +24,32 @@
                                      class="h-full w-auto max-w-full object-contain" />
                             </div>
                         </figure>
-                        <div class="p-4 flex flex-col flex-1 w-full min-h-56 bg-white dark:bg-base-100 rounded-lg">
-                            <h2 class="card-title min-h-19 items-start text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
+                        <div class="p-4 flex flex-col flex-1 w-full min-h-72 bg-white dark:bg-base-100 rounded-lg">
+                            <h2 class="card-title min-h-[5.75rem] items-start break-words hyphens-auto text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
-                            <div class="grid grid-cols-3 w-full min-h-14 rounded-box bg-base-200/60 mb-3 overflow-hidden">
-                                <div class="min-w-0 px-2 py-1 flex flex-col justify-center">
-                                    <div class="truncate text-[10px] leading-tight text-base-content/60" :title="$t('works')">
+                            <div class="flex flex-col w-full h-[5.25rem] rounded-box bg-base-200/60 mb-3 overflow-hidden divide-y divide-base-300/60">
+                                <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
+                                    <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
                                         {{ $t('works') }}
                                     </div>
-                                    <div class="truncate text-sm leading-tight font-semibold text-base-content">
+                                    <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
                                         {{ getIssuerCategoryCount(item, 'avefi:WorkVariant').toLocaleString() }}
                                     </div>
                                 </div>
-                                <div class="min-w-0 px-2 py-1 flex flex-col justify-center">
-                                    <div class="truncate text-[10px] leading-tight text-base-content/60" :title="$t('manifestations')">
+                                <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
+                                    <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
                                         {{ $t('manifestations') }}
                                     </div>
-                                    <div class="truncate text-sm leading-tight font-semibold text-base-content">
+                                    <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
                                         {{ getIssuerCategoryCount(item, 'avefi:Manifestation').toLocaleString() }}
                                     </div>
                                 </div>
-                                <div class="min-w-0 px-2 py-1 flex flex-col justify-center">
-                                    <div class="truncate text-[10px] leading-tight text-base-content/60" :title="$t('items')">
+                                <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
+                                    <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
                                         {{ $t('items') }}
                                     </div>
-                                    <div class="truncate text-sm leading-tight font-semibold text-base-content">
+                                    <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
                                         {{ getIssuerCategoryCount(item, 'avefi:Item').toLocaleString() }}
                                     </div>
                                 </div>
