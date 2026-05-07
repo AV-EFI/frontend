@@ -29,7 +29,7 @@
     "test:e2e:contact": "playwright test -c playwright.contact.config.ts",
     "test:e2e:contact:mailpit": "node scripts/run-with-env.mjs MAIL_DELIVERY_MODE=smtp MAIL_HOST=127.0.0.1 MAIL_PORT=1025 MAIL_SECURE=false MAIL_REQUIRE_TLS=false MAIL_USER= MAIL_PASSWORD= MAIL_ASSERT_API_BASE=http://127.0.0.1:8025 -- playwright test --config=playwright.contact.config.ts",
     "test:e2e:list": "playwright test --list",
-    "test:e2e:api": "playwright test tests/e2e/api/backend-openapi-contract.spec.ts",
+    "test:e2e:api": "playwright test tests/e2e/api/backend-openapi-contract.spec.ts tests/e2e/api/backend-search-facet-combinations.spec.ts",
     "test:e2e:api:edge": "playwright test tests/e2e/api/backend-edge-cases.spec.ts",
     "test:e2e:api:openapi": "playwright test tests/e2e/api/backend-openapi-contract.spec.ts --grep \"\\[openapi\\]\"",
     "test:e2e:api:detail": "playwright test tests/e2e/api/backend-openapi-contract.spec.ts --grep \"\\[detail\\]\"",

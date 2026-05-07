@@ -32,6 +32,8 @@ const ITEM_LEVEL_FACETS = [
   'item_element_type',
   'in_language_code',
   'has_duration_has_value',
+  'has_extent_has_value',
+  'has_access_status',
 ] as const;
 
 /** Facets that stay at manifestation level in the BFF. */
@@ -123,16 +125,7 @@ test.describe('Backend /frontend/search – facet combination 500-regression', (
   });
 
   // ------------------------------------------------------------------ all facets (item + manifestation)
-  //
-  // KNOWN BACKEND BUG: ES limitation – a nested query with inner_hits cannot
-  // contain another nested query with inner_hits in its must clauses.
-  // When has_issuer_name (plain terms at manifestations level, outer inner_hits)
-  // is combined with item-level facets (nested at manifestations.items level,
-  // inner inner_hits), the Python backend Searchkit generates a conflicting
-  // query and ES returns 500.  Track this until the backend is patched.
-  // manifestation_event_type is NOT affected (its nested has no inner_hits).
-
-  test.fixme('[combo] all facets (item + manifestation level) simultaneously – must not return 5xx', async ({ request }) => {
+  test('[combo] all facets (item + manifestation level) simultaneously – must not return 5xx', async ({ request }) => {
     const filters = ALL_FACETS
       .filter((f) => realValues[f] !== undefined)
       .map((f) => [`${f}:${realValues[f]}`]);
@@ -217,10 +210,9 @@ test.describe('Backend /frontend/search – facet combination 500-regression', (
     }
   });
 
-  // ------------------------------------------------------------------ item facets × has_issuer_name (known backend bug)
+  // ------------------------------------------------------------------ item facets × has_issuer_name
 
-  test.fixme('[combo] each item-level facet paired with has_issuer_name – none may return 5xx', async ({ request }) => {
-    // KNOWN BACKEND BUG: see comment above "all facets simultaneously".
+  test('[combo] each item-level facet paired with has_issuer_name – none may return 5xx', async ({ request }) => {
     if (!realValues['has_issuer_name']) {
       test.skip();
       return;
@@ -242,8 +234,7 @@ test.describe('Backend /frontend/search – facet combination 500-regression', (
 
   // ------------------------------------------------------------------ triple combos: all item facets + one manifestation facet
 
-  test.fixme('[combo] all item facets + has_issuer_name simultaneously – must not return 5xx', async ({ request }) => {
-    // KNOWN BACKEND BUG: see comment above "all facets simultaneously".
+  test('[combo] all item facets + has_issuer_name simultaneously – must not return 5xx', async ({ request }) => {
     if (!realValues['has_issuer_name']) {
       test.skip();
       return;
@@ -280,10 +271,9 @@ test.describe('Backend /frontend/search – facet combination 500-regression', (
     expect(res.status()).toBe(200);
   });
 
-  // ------------------------------------------------------------------ empty query + all facets (includes has_issuer_name → fixme)
+  // ------------------------------------------------------------------ empty query + all facets
 
-  test.fixme('[combo] empty text query with all facets active – must not return 5xx', async ({ request }) => {
-    // KNOWN BACKEND BUG: see comment above "all facets simultaneously".
+  test('[combo] empty text query with all facets active – must not return 5xx', async ({ request }) => {
     const filters = ALL_FACETS
       .filter((f) => realValues[f] !== undefined)
       .map((f) => [`${f}:${realValues[f]}`]);
@@ -293,10 +283,9 @@ test.describe('Backend /frontend/search – facet combination 500-regression', (
     expect(res.status()).toBe(200);
   });
 
-  // ------------------------------------------------------------------ text query + all facets (includes has_issuer_name → fixme)
+  // ------------------------------------------------------------------ text query + all facets
 
-  test.fixme('[combo] text query "Berlin" with all facets active – must not return 5xx', async ({ request }) => {
-    // KNOWN BACKEND BUG: see comment above "all facets simultaneously".
+  test('[combo] text query "Berlin" with all facets active – must not return 5xx', async ({ request }) => {
     const filters = ALL_FACETS
       .filter((f) => realValues[f] !== undefined)
       .map((f) => [`${f}:${realValues[f]}`]);
