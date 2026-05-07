@@ -26,7 +26,7 @@
                         :heading-id="`manifestation-heading-${i}`"
                     />
                     <Icon
-                        name="tabler:chevron-down"
+                        name="tabler:chevron-down"m
                         class="mt-1 shrink-0 transition-transform duration-200"
                         :class="isManifestationOpen(i) ? 'rotate-180' : ''"
                         aria-hidden="true"

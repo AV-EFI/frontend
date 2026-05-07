@@ -56,14 +56,27 @@
             <div
                 class="col-span-full flex flex-row items-center flex-wrap gap-x-4 gap-y-1 text-[0.8rem] leading-4 text-gray-700 dark:text-neutral-200">
                 <!-- Search icons -->
-                <SearchGenericIconList :data="manifestation" level="manifestation" class="inline-flex items-center" />
+                <SearchGenericIconList
+                    :data="manifestation"
+                    level="manifestation"
+                    class="inline-flex items-center"
+                    icon-color="text-[var(--color-manifestation)]"
+                    :entry-level-class="manifestationInfoLevelClasses"
+                />
 
                 <!-- Item count (icon + text treated as ONE baseline unit) -->
                 <span
                     v-if="manifestation.items?.length > 0"
-                    class="inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4"
+                    :class="[
+                        'inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4',
+                        manifestationInfoLevelClasses,
+                    ]"
                 >
-                    <Icon name="tabler:hierarchy" class="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    <Icon
+                        name="tabler:hierarchy"
+                        class="w-3.5 h-3.5 shrink-0 text-[var(--color-manifestation)]"
+                        aria-hidden="true"
+                    />
                     <span class="inline-flex items-center whitespace-nowrap leading-4">
                         {{ `${manifestation.items.length} ${manifestation.items.length === 1 ?
                             $t('item') :
@@ -85,11 +98,14 @@
                 <span
                     v-for="entry in itemPreviewIconEntries(manifestation)"
                     :key="entry.key"
-                    class="inline-flex items-center justify-center rounded-md border border-base-300/60 bg-base-100/70 px-1.5 py-1 shadow-sm shadow-base-300/10"
+                    :class="[
+                        'inline-flex items-center justify-center rounded-md border border-base-300/60 bg-base-100/70 px-1.5 py-1 shadow-sm shadow-base-300/10',
+                        entry.levelClasses,
+                    ]"
                     :title="entry.label"
                     :aria-label="entry.label"
                 >
-                    <Icon :name="entry.icon" class="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+                    <Icon :name="entry.icon" class="w-3.5 h-3.5 text-[var(--color-item)]" aria-hidden="true" />
                 </span>
             </div>
 
@@ -110,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
+import { getFacetIcon, getFacetLevelClass } from '~/models/interfaces/manual/IFacetIconMapping';
 
 defineProps({
     manifestation: Object as PropType<any>,
@@ -135,6 +151,14 @@ defineProps({
 
 import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
+
+function levelChipClasses(attributeName: string): string {
+    return [
+        getFacetLevelClass(attributeName, 'border'),
+    ].filter(Boolean).join(' ');
+}
+
+const manifestationInfoLevelClasses = levelChipClasses('manifestation_event_type');
 
 function safeT(val: unknown): string {
     return typeof val === 'string' && val.trim()
@@ -215,6 +239,7 @@ function itemPreviewIconEntries(manifestation: any) {
             key: entry.key,
             icon: getFacetIcon(entry.iconKey, 'tabler-info-circle'),
             label: entry.label,
+            levelClasses: levelChipClasses(entry.iconKey),
         }));
 }
 </script>

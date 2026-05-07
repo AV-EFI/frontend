@@ -98,7 +98,6 @@ This list is based on static search for component-name and file-name references 
 - `components/global/ReusableCarousel.vue`
 - `components/global/SwitchGenericComp.vue`
 - `components/micro/ShoppingCartIcon.vue`
-- `components/search/MetaIconListComp.vue`
 - `components/search/SearchResultManifestation.vue`
 - `components/views/ItemViewCompAVefi.vue`
 - `components/views/ManifestationViewCompAVefi.vue`

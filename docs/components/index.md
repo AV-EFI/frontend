@@ -52,7 +52,6 @@
 - [ManifestationListSplitView](ManifestationListSplitView.md)
 - [ManifestationViewCompAVefi](ManifestationViewCompAVefi.md)
 - [MergeToolListComp](MergeToolListComp.md)
-- [MetaIconListComp](MetaIconListComp.md)
 - [NavBar](NavBar.md)
 - [NoResultsComp](NoResultsComp.md)
 - [PaginationComp](PaginationComp.md)

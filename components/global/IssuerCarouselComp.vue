@@ -28,22 +28,28 @@
                             <h2 class="card-title min-h-19 items-start text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
-                            <div class="stats stats-horizontal w-full min-h-14 shadow-none bg-base-200/60 mb-3">
-                                <div class="stat px-2 py-1 min-w-0">
-                                    <div class="stat-title text-[10px] leading-tight">{{ $t('works') }}</div>
-                                    <div class="stat-value text-sm leading-tight">
+                            <div class="grid grid-cols-3 w-full min-h-14 rounded-box bg-base-200/60 mb-3 overflow-hidden">
+                                <div class="min-w-0 px-2 py-1 flex flex-col justify-center">
+                                    <div class="truncate text-[10px] leading-tight text-base-content/60" :title="$t('works')">
+                                        {{ $t('works') }}
+                                    </div>
+                                    <div class="truncate text-sm leading-tight font-semibold text-base-content">
                                         {{ getIssuerCategoryCount(item, 'avefi:WorkVariant').toLocaleString() }}
                                     </div>
                                 </div>
-                                <div class="stat px-2 py-1 min-w-0">
-                                    <div class="stat-title text-[10px] leading-tight">{{ $t('manifestations') }}</div>
-                                    <div class="stat-value text-sm leading-tight">
+                                <div class="min-w-0 px-2 py-1 flex flex-col justify-center">
+                                    <div class="truncate text-[10px] leading-tight text-base-content/60" :title="$t('manifestations')">
+                                        {{ $t('manifestations') }}
+                                    </div>
+                                    <div class="truncate text-sm leading-tight font-semibold text-base-content">
                                         {{ getIssuerCategoryCount(item, 'avefi:Manifestation').toLocaleString() }}
                                     </div>
                                 </div>
-                                <div class="stat px-2 py-1 min-w-0">
-                                    <div class="stat-title text-[10px] leading-tight">{{ $t('items') }}</div>
-                                    <div class="stat-value text-sm leading-tight">
+                                <div class="min-w-0 px-2 py-1 flex flex-col justify-center">
+                                    <div class="truncate text-[10px] leading-tight text-base-content/60" :title="$t('items')">
+                                        {{ $t('items') }}
+                                    </div>
+                                    <div class="truncate text-sm leading-tight font-semibold text-base-content">
                                         {{ getIssuerCategoryCount(item, 'avefi:Item').toLocaleString() }}
                                     </div>
                                 </div>

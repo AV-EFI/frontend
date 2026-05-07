@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'vitest';
-import { FACET_ICON_MAP, getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
+import {
+  FACET_ICON_MAP,
+  getFacetIcon,
+  getFacetLevel,
+  getFacetLevelClass,
+} from '~/models/interfaces/manual/IFacetIconMapping';
 
 describe('shared facet icon map', () => {
   test('uses the same icon for status in facets and film metadata', () => {
@@ -29,5 +34,13 @@ describe('shared facet icon map', () => {
     ].forEach((key) => {
       expect(getFacetIcon(key)).not.toBe('tabler-adjustments-horizontal');
     });
+  });
+
+  test('maps ambiguous search fields to their display level color classes', () => {
+    expect(getFacetLevel('manifestation_event_type')).toBe('manifestation');
+    expect(getFacetLevelClass('manifestation_event_type', 'bg')).toBe('bg-manifestation');
+
+    expect(getFacetLevel('has_access_status')).toBe('item');
+    expect(getFacetLevelClass('has_access_status', 'bg')).toBe('bg-item');
   });
 });

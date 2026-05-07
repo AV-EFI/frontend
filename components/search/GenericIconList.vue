@@ -123,10 +123,19 @@ import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
 const { t } = useI18n();
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
-const props = defineProps<{ data: any, level: 'work' | 'manifestation' | 'item', iconColor: string }>();
+const props = withDefaults(defineProps<{
+    data: any,
+    level: 'work' | 'manifestation' | 'item',
+    iconColor?: string,
+    entryLevelClass?: string,
+}>(), {
+    iconColor: '',
+    entryLevelClass: '',
+});
 
 const isManifestationLevel = computed(() => props.level === 'manifestation');
 const baseEntryClasses = 'max-w-full rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1';
+const levelEntryClasses = computed(() => props.entryLevelClass);
 const rootClasses = computed(() =>
     isManifestationLevel.value
         ? 'flex flex-row flex-wrap items-center gap-2 text-[0.8rem] leading-4 text-base-content'
@@ -141,12 +150,12 @@ const secondaryRowClasses = computed(() =>
         : 'flex flex-row flex-wrap gap-2 items-start text-left justify-start'
 );
 const primaryEntryClasses = computed(() =>
-    `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses}`
+    `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses} ${levelEntryClasses.value}`
 );
 const entryClasses = computed(() =>
     isManifestationLevel.value
-        ? `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 leading-4 ${baseEntryClasses}`
-        : `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses}`
+        ? `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 leading-4 ${baseEntryClasses} ${levelEntryClasses.value}`
+        : `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses} ${levelEntryClasses.value}`
 );
 const iconClasses = computed(() =>
     isManifestationLevel.value

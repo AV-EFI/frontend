@@ -121,7 +121,6 @@ This is only a heuristic. Nuxt auto-imports, dynamic components, and local alias
 - search/InstantSearchTemplateAVefi.vue | single-reference | refs=1 | first=components/search/SearchSection.vue
 - search/LoadingIndicator.vue | single-reference | refs=1 | first=app.vue
 - search/ManifestationListSplitView.vue | single-reference | refs=1 | first=components/search/SearchListViewComp.vue
-- search/MetaIconListComp.vue | candidate-unused | refs=0
 - search/NoResultsComp.vue | referenced | refs=2 | first=components/detail/InstitutionListComp.vue
 - search/PanelRefinementListComp.vue | single-reference | refs=1 | first=components/global/FacetDrawer.vue
 - search/QueryAutocompleteCore.vue | single-reference | refs=1 | first=components/search/SearchQueryAutocomplete.vue
