@@ -129,8 +129,9 @@ export default defineCachedEventHandler(async (event) => {
     return topIssuersData;
   }
 }, {
-  // Keep cache short so issuer counts track backend updates quickly.
+  // Cache for one day by default.
   // Override via TOP_ISSUERS_CACHE_MAX_AGE_SECONDS (e.g. 300, 3600, 86400).
   maxAge: Number(process.env.TOP_ISSUERS_CACHE_MAX_AGE_SECONDS || 86400),
-  swr: true,
+  // When cache expires, block and fetch fresh backend values before responding.
+  swr: false,
 });

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-05-07T09:34:17.598Z",
+  "generated_at": "2026-05-12T06:29:04.257Z",
   "issuers": [
     {
       "name": "Haus des Dokumentarfilms",
       "id": "https://w3id.org/isil/DE-2282",
-      "doc_count": 13834,
+      "doc_count": 12627,
       "category_counts": {
-        "avefi:WorkVariant": 3422,
-        "avefi:Manifestation": 13834,
-        "avefi:Item": 14062
+        "avefi:WorkVariant": 3271,
+        "avefi:Manifestation": 12627,
+        "avefi:Item": 12856
       }
     },
     {
@@ -22,16 +22,6 @@
       }
     },
     {
-      "name": "Deutsche Kinemathek - Museum für Film und Fernsehen",
-      "id": "https://w3id.org/isil/DE-MUS-407010",
-      "doc_count": 3205,
-      "category_counts": {
-        "avefi:WorkVariant": 2154,
-        "avefi:Manifestation": 3205,
-        "avefi:Item": 8120
-      }
-    },
-    {
       "name": "Filmmuseum der Landeshauptstadt Düsseldorf",
       "id": "https://w3id.org/isil/DE-MUS-432511",
       "doc_count": 2936,
@@ -39,6 +29,16 @@
         "avefi:WorkVariant": 2230,
         "avefi:Manifestation": 2936,
         "avefi:Item": 3694
+      }
+    },
+    {
+      "name": "Deutsche Kinemathek - Museum für Film und Fernsehen",
+      "id": "https://w3id.org/isil/DE-MUS-407010",
+      "doc_count": 2652,
+      "category_counts": {
+        "avefi:WorkVariant": 1758,
+        "avefi:Manifestation": 2652,
+        "avefi:Item": 6734
       }
     }
   ]
