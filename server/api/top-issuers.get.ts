@@ -1,4 +1,5 @@
 import { defineCachedEventHandler, getRequestURL } from '#imports';
+import { createError, getRequestHeader } from 'h3';
 import topIssuersData from '~/data/top-issuers.json';
 
 interface Issuer {
@@ -66,8 +67,31 @@ function extractIssuerId(result: any, issuerName: string): string | null {
   return null;
 }
 
+function isRefreshRequested(event: any): boolean {
+  const refresh = getRequestURL(event).searchParams.get('refresh')?.toLowerCase();
+  return refresh === '1' || refresh === 'true' || refresh === 'yes';
+}
+
+function hasValidRefreshToken(event: any): boolean {
+  const configuredToken = process.env.TOP_ISSUERS_REFRESH_TOKEN || '';
+  if (!configuredToken) {
+    return false;
+  }
+
+  const providedToken =
+    getRequestHeader(event, 'x-top-issuers-refresh-token') ||
+    getRequestHeader(event, 'x-refresh-token') ||
+    '';
+
+  return providedToken === configuredToken;
+}
+
 export default defineCachedEventHandler(async (event) => {
   const config = useRuntimeConfig();
+
+  if (isRefreshRequested(event) && !hasValidRefreshToken(event)) {
+    throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
+  }
 
   // In local dev, use live backend data by default.
   // Set TOP_ISSUERS_USE_STATIC=true to force deterministic generated data.
@@ -132,6 +156,14 @@ export default defineCachedEventHandler(async (event) => {
   // Cache for one day by default.
   // Override via TOP_ISSUERS_CACHE_MAX_AGE_SECONDS (e.g. 300, 3600, 86400).
   maxAge: Number(process.env.TOP_ISSUERS_CACHE_MAX_AGE_SECONDS || 86400),
+  // Manual bypass: /api/top-issuers?refresh=1
+  // (or refresh=true / yes) forces a fresh backend fetch only with
+  // header x-top-issuers-refresh-token (or x-refresh-token) matching
+  // TOP_ISSUERS_REFRESH_TOKEN.
+  getKey: (event) => {
+    const shouldRefresh = isRefreshRequested(event) && hasValidRefreshToken(event);
+    return shouldRefresh ? `top-issuers-refresh-${Date.now()}` : 'top-issuers';
+  },
   // When cache expires, block and fetch fresh backend values before responding.
   swr: false,
 });

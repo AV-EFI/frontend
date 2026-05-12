@@ -88,6 +88,7 @@ function isPublicRuntimeOrApiPath(path: string): boolean {
     path === '/api/cms/modeltree' ||
     path === '/api/cms/usertooltips' ||
     path === '/api/cms/vocab' ||
+    path === '/api/top-issuers' ||
     path === '/api/elastic/fallbacks' ||
     path === '/api/elastic/issuers' ||
     path === '/api/elastic/msearch' ||

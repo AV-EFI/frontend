@@ -223,3 +223,41 @@ deploy-production:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
   extends: .deploy
+
+refresh-top-issuers-staging:
+  stage: deploy
+  image: curlimages/curl:8.8.0
+  services: []
+  needs:
+    - job: deploy-staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "testbed"
+  script:
+    - |
+      if [ -z "$TOP_ISSUERS_REFRESH_TOKEN" ]; then
+        echo "TOP_ISSUERS_REFRESH_TOKEN is required";
+        exit 1;
+      fi
+    - >-
+      curl --fail --silent --show-error --retry 3 --retry-delay 2
+      -H "x-top-issuers-refresh-token: $TOP_ISSUERS_REFRESH_TOKEN"
+      "https://testbed.av-efi.net/api/top-issuers?refresh=1"
+
+refresh-top-issuers-production:
+  stage: deploy
+  image: curlimages/curl:8.8.0
+  services: []
+  needs:
+    - job: deploy-production
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
+  script:
+    - |
+      if [ -z "$TOP_ISSUERS_REFRESH_TOKEN" ]; then
+        echo "TOP_ISSUERS_REFRESH_TOKEN is required";
+        exit 1;
+      fi
+    - >-
+      curl --fail --silent --show-error --retry 3 --retry-delay 2
+      -H "x-top-issuers-refresh-token: $TOP_ISSUERS_REFRESH_TOKEN"
+      "https://www.av-efi.net/api/top-issuers?refresh=1"
