@@ -69,9 +69,9 @@ function extractIssuerId(result: any, issuerName: string): string | null {
 export default defineCachedEventHandler(async (event) => {
   const config = useRuntimeConfig();
 
-  // In local dev we prefer deterministic, generated data unless explicitly
-  // asked to exercise the live Search backend.
-  const useStaticInDev = process.env.TOP_ISSUERS_USE_STATIC !== 'false';
+  // In local dev, use live backend data by default.
+  // Set TOP_ISSUERS_USE_STATIC=true to force deterministic generated data.
+  const useStaticInDev = process.env.TOP_ISSUERS_USE_STATIC === 'true';
   if (process.dev && useStaticInDev) {
     return topIssuersData;
   }
@@ -129,6 +129,8 @@ export default defineCachedEventHandler(async (event) => {
     return topIssuersData;
   }
 }, {
-  maxAge: 30 * 60 * 24 * 60,
+  // Keep cache short so issuer counts track backend updates quickly.
+  // Override via TOP_ISSUERS_CACHE_MAX_AGE_SECONDS (e.g. 300, 3600, 86400).
+  maxAge: Number(process.env.TOP_ISSUERS_CACHE_MAX_AGE_SECONDS || 86400),
   swr: true,
 });
