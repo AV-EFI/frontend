@@ -186,7 +186,18 @@ describe('Internal API: /api/mail/test', () => {
     const result = await handler(event);
 
     expect(event.node.res.statusCode).toBe(200);
-    expect(result).toEqual({ success: true, mode: 'simulated', warning: 'Mailer error' });
+    expect(result).toMatchObject({
+      success: true,
+      mode: 'simulated',
+      warning: 'Mailer error',
+      diagnostics: {
+        host: 'mailer.gwdg.de',
+        port: 25,
+      },
+      failure: {
+        message: 'relay unavailable',
+      },
+    });
     expect(verifyMock).toHaveBeenCalledTimes(1);
     expect(sendMailMock).toHaveBeenCalledTimes(1);
     expect(sendMailMock.mock.calls[0]?.[0]).toMatchObject({

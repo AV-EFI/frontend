@@ -73,7 +73,13 @@ export default defineEventHandler(async (event) => {
       marker,
       reason: 'Mailer error',
     });
-    return { success: true, mode: 'simulated', warning: 'Mailer error' };
+    return {
+      success: true,
+      mode: 'simulated',
+      warning: 'Mailer error',
+      diagnostics: getMailRuntimeDiagnostics(mailConfig),
+      failure: diag,
+    };
   }
 });
 
