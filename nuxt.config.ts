@@ -43,7 +43,6 @@ const publicSiteOgImage =
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from 'nuxt-schema-org/schema';
 import { defineNuxtConfig } from 'nuxt/config';
-import { visualizer } from 'rollup-plugin-visualizer';
 // 📝 Explanation:
 // Nuxt dev server must listen on 0.0.0.0 so it's reachable via host.docker.internal inside Docker.
 // Assets and routing must stay aligned for Traefik + Nuxt dev.
@@ -618,10 +617,7 @@ export default defineNuxtConfig({
     port: 3000,
   },
   vite: {
-    plugins: ([
-      tailwindcss(),
-      ...(process.env.BUILD_ANALYZE === 'true' ? [visualizer()] : []),
-    ] as unknown as never[]),
+    plugins: ([tailwindcss()] as unknown as never[]),
     optimizeDeps: {
       include: ['export-to-csv', 'instantsearch.js', 'algoliasearch'],
     },

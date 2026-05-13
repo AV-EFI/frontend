@@ -54,10 +54,9 @@ function relativeToRoot(filePath) {
 
 async function fetchAllAlerts(repository) {
   const all = [];
-  let page = 1;
+  let url = `https://api.github.com/repos/${repository}/dependabot/alerts?state=open&per_page=100`;
 
   while (true) {
-    const url = `https://api.github.com/repos/${repository}/dependabot/alerts?state=open&per_page=100&page=${page}`;
     const res = await fetch(url, { headers });
 
     if (!res.ok) {
@@ -67,19 +66,36 @@ async function fetchAllAlerts(repository) {
     }
 
     const batch = await res.json();
-    if (!Array.isArray(batch) || batch.length === 0) {
+    if (!Array.isArray(batch)) {
       break;
     }
 
     all.push(...batch);
-    if (batch.length < 100) {
+
+    const nextUrl = getNextPageUrl(res.headers.get('link'));
+    if (!nextUrl) {
       break;
     }
 
-    page += 1;
+    url = nextUrl;
   }
 
   return all;
+}
+
+function getNextPageUrl(linkHeader) {
+  if (!linkHeader) {
+    return null;
+  }
+
+  for (const link of linkHeader.split(',')) {
+    const match = link.match(/<([^>]+)>;\s*rel="next"/);
+    if (match) {
+      return match[1];
+    }
+  }
+
+  return null;
 }
 
 function collectPreferredVersions(alertsList) {
