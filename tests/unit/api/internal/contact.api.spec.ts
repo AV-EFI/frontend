@@ -74,6 +74,8 @@ describe('Internal API: /api/mail/contact', () => {
     process.env.MAIL_PORT = '25';
     process.env.MAIL_FROM = 'noreply@example.org';
     process.env.MAIL_TO = 'team@example.org';
+    process.env.MAIL_REQUIRE_TLS = 'false';
+    delete process.env.NUXT_NODEMAILER_REQUIRE_TLS;
     delete process.env.MAIL_USER;
     delete process.env.MAIL_PASSWORD;
 
