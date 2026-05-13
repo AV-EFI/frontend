@@ -238,7 +238,6 @@ production_smtp_connection:
   variables:
     PLAYWRIGHT_NO_WEBSERVER: "true"
     PLAYWRIGHT_BASE_URL: "https://www.av-efi.net"
-    MAIL_TEST_REQUIRE_REAL_SEND: "true"
   before_script:
     - corepack enable
     - yarn --version
@@ -268,6 +267,7 @@ production_mail_smoke:
   variables:
     PLAYWRIGHT_NO_WEBSERVER: "true"
     PLAYWRIGHT_BASE_URL: "https://www.av-efi.net"
+    MAIL_TEST_REQUIRE_REAL_SEND: "true"
   before_script:
     - corepack enable
     - yarn --version
