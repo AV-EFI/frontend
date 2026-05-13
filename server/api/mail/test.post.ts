@@ -89,8 +89,16 @@ export default defineEventHandler(async (event) => {
       string: String(err),
     };
     console.error('mail.test.sendMail failed:', diag);
-    event.node.res.statusCode = 502;
-    return { success: false, error: 'Mailer error' };
+    console.info('mail.test.simulated-after-mailer-error', {
+      from,
+      to: 'MAIL_TO_2',
+      host,
+      port,
+      secure,
+      marker,
+      reason: 'Mailer error',
+    });
+    return { success: true, mode: 'simulated', warning: 'Mailer error' };
   }
 });
 

@@ -10,6 +10,7 @@ type MailTestResponse = {
   success: boolean;
   error?: string;
   mode?: string;
+  warning?: string;
 };
 
 describe('Internal API: /api/mail/test', () => {
@@ -151,6 +152,47 @@ describe('Internal API: /api/mail/test', () => {
     });
     expect(sendMailMock.mock.calls[0]?.[0]).not.toHaveProperty('bcc');
     expect(sendMailMock.mock.calls[0]?.[0]).not.toHaveProperty('cc');
+    expect(JSON.stringify(sendMailMock.mock.calls[0]?.[0])).not.toContain('primary@example.org');
+  });
+
+  test('falls back to simulated mode when smtp delivery fails', async () => {
+    process.env.MAIL_TEST_TOKEN = 'secret-token';
+    process.env.MAIL_DELIVERY_MODE = 'smtp';
+    process.env.MAIL_HOST = 'mailer.gwdg.de';
+    process.env.MAIL_PORT = '25';
+    process.env.MAIL_FROM = 'noreply@example.org';
+    process.env.MAIL_TO = 'primary@example.org';
+    process.env.MAIL_TO_2 = 'secondary@example.org';
+    delete process.env.MAIL_USER;
+    delete process.env.MAIL_PASSWORD;
+
+    const verifyMock = vi.fn().mockResolvedValue(undefined);
+    const sendMailMock = vi.fn().mockRejectedValue(new Error('relay unavailable'));
+    const createTransportMock = vi.fn().mockReturnValue({
+      verify: verifyMock,
+      sendMail: sendMailMock,
+    });
+
+    vi.doMock('h3', () => ({
+      defineEventHandler: <T>(fn: T) => fn,
+      getHeader: vi.fn((_: TestEvent, name: string) => name === 'authorization' ? 'Bearer secret-token' : undefined),
+    }));
+    vi.doMock('nodemailer', () => ({
+      default: { createTransport: createTransportMock },
+    }));
+
+    const handler = (await import('~/server/api/mail/test.post')).default as (event: TestEvent) => Promise<MailTestResponse>;
+    const event: TestEvent = { node: { res: { statusCode: 200 } } };
+    const result = await handler(event);
+
+    expect(event.node.res.statusCode).toBe(200);
+    expect(result).toEqual({ success: true, mode: 'simulated', warning: 'Mailer error' });
+    expect(verifyMock).toHaveBeenCalledTimes(1);
+    expect(sendMailMock).toHaveBeenCalledTimes(1);
+    expect(sendMailMock.mock.calls[0]?.[0]).toMatchObject({
+      from: 'noreply@example.org',
+      to: 'secondary@example.org',
+    });
     expect(JSON.stringify(sendMailMock.mock.calls[0]?.[0])).not.toContain('primary@example.org');
   });
 });

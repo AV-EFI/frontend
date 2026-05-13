@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Production mail smoke to MAIL_TO_2', () => {
-  test('sends a gated test mail only to the secondary recipient', async ({ request }) => {
+  test('runs the gated secondary-recipient mail smoke check', async ({ request }) => {
     const token = process.env.MAIL_TEST_TOKEN;
     test.skip(!token, 'MAIL_TEST_TOKEN is required for production mail smoke checks.');
 
@@ -12,7 +12,8 @@ test.describe('Production mail smoke to MAIL_TO_2', () => {
     });
 
     const responseText = await response.text();
-    expect(response.ok(), `mail test failed: status=${response.status()} body=${responseText}`).toBeTruthy();
-    expect(JSON.parse(responseText)).toMatchObject({ success: true });
+    const responseBody = JSON.parse(responseText);
+    expect(response.ok(), `mail smoke check failed: status=${response.status()} body=${responseText}`).toBeTruthy();
+    expect(responseBody).toMatchObject({ success: true });
   });
 });

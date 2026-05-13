@@ -35,7 +35,7 @@ const CSS_VARIABLE_FALLBACKS: Record<string, string> = {
     '--color-neutral-content': '#f4f7fb',
     '--color-primary': '#4d768d',
     '--color-primary-content': '#f5fbff',
-    '--color-accent': '#ff1d25',
+    '--color-accent': '#d8899c',
     '--color-accent-content': '#ffffff',
     '--color-work': '#8ea1a1',
     '--color-work-content': '#141b1f',

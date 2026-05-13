@@ -51,13 +51,11 @@ textarea::selection {
   --color-error: oklch(60.61% 0.12 15.341);
   --color-error-content: oklch(12.122% 0.024 15.341);
 
-    /*--color-highlight: #A53A42;*/
-    /*#ff748c*/
-  --color-highlight: #ffc0cb;
-  --color-highlight-content: #383838;
-  --color-favourites-list: #B85A5E;            /* muted rose-crimson */
+  --color-highlight: #d8899c;
+  --color-highlight-content: #3a1f26;
+  --color-favourites-list: #b85a5e;            /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
-  --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
+  --color-favourites-list-hover: #9a464a;        /* deeper dusty red for hover */
   --color-favourites-list-hover-content: #ffffff;
 
   --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
@@ -106,11 +104,11 @@ textarea::selection {
   --color-warning-content: oklch(16.648% 0.027 82.95);
   --color-error: oklch(71.785% 0.17 13.118);
   --color-error-content: oklch(14.357% 0.034 13.118);
-  --color-highlight: #ffc0cb;
-  --color-highlight-content: #383838;
-  --color-favourites-list: #B85A5E;              /* muted rose-crimson */
+  --color-highlight: #d8899c;
+  --color-highlight-content: #3a1f26;
+  --color-favourites-list: #b85a5e;              /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
-  --color-favourites-list-hover: #9A464A;        /* deeper dusty red for hover */
+  --color-favourites-list-hover: #9a464a;        /* deeper dusty red for hover */
   --color-favourites-list-hover-content: #ffffff;
   --color-compare-list: #3A434A;                 /* cool slate-grey, softened */
   --color-compare-list-hover: #2B343B;
@@ -827,7 +825,7 @@ mark {
     content: none;
   }
   .hash-highlight-conic {
-    border: 2px dashed #ff1d25;
+    border: 2px dashed #d8899c;
     box-shadow: none;
   }
 }

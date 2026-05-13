@@ -31,25 +31,38 @@ $primary-950: #1d262f;
 $secondary: #e6c373;
 
   // Accent color palette SCSS variables
-  $accent-50: #ffe5e7;
-  $accent-100: #ffccd0;
-  $accent-200: #ff99a1;
-  $accent-300: #ff6671;
-  $accent-400: #ff394e;
-  $accent: #ff1d25;
-  $accent-500: #ff1d25;
-  $accent-600: #e11923;
-  $accent-700: #b2161d;
-  $accent-800: #8e1217;
-  $accent-900: #670d12;
+  $accent-50: #fcf5f7;
+  $accent-100: #f7e3e8;
+  $accent-200: #efc6d0;
+  $accent-300: #e6a9b9;
+  $accent-400: #de96a8;
+  $accent: #d8899c;
+  $accent-500: #d8899c;
+  $accent-600: #c76c82;
+  $accent-700: #a95569;
+  $accent-800: #8a4355;
+  $accent-900: #703746;
+
+// Favourites color palette SCSS variables
+$favourites-50: #fbf4f4;
+$favourites-100: #f4dddd;
+$favourites-200: #e8bbbb;
+$favourites-300: #d89799;
+$favourites-400: #c77679;
+$favourites: #b85a5e;
+$favourites-500: #b85a5e;
+$favourites-600: #9a464a;
+$favourites-700: #7d393d;
+$favourites-800: #663033;
+$favourites-900: #552a2c;
 
 // Other semantic colors
-$highlight: #b2161d;
-$highlight-content: #ffffff;
+$highlight: #d8899c;
+$highlight-content: #3a1f26;
 
-$favourites-list: #364754;
+$favourites-list: #b85a5e;
 $favourites-list-content: #ffffff;
-$favourites-list-hover: #364754;
+$favourites-list-hover: #9a464a;
 
 $compare-list: #436277;
 $compare-list-content: #ffffff;
