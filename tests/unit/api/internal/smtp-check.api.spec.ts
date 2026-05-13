@@ -50,8 +50,8 @@ describe('Internal API: /api/mail/smtp-check', () => {
   test('verifies smtp connection without sending mail', async () => {
     process.env.MAIL_TEST_TOKEN = 'secret-token';
     process.env.MAIL_DELIVERY_MODE = 'smtp';
-    process.env.MAIL_HOST = 'mailer.gwdg.de';
-    process.env.MAIL_PORT = '25';
+    process.env.MAIL_HOST = 'smtp.gmail.com';
+    process.env.MAIL_PORT = '587';
     process.env.MAIL_FROM = 'noreply@example.org';
     process.env.MAIL_TO = 'team@example.org';
 
@@ -83,8 +83,8 @@ describe('Internal API: /api/mail/smtp-check', () => {
   test('returns smtp diagnostics when verify fails', async () => {
     process.env.MAIL_TEST_TOKEN = 'secret-token';
     process.env.MAIL_DELIVERY_MODE = 'smtp';
-    process.env.MAIL_HOST = 'mailer.gwdg.de';
-    process.env.MAIL_PORT = '25';
+    process.env.MAIL_HOST = 'smtp.gmail.com';
+    process.env.MAIL_PORT = '587';
     process.env.MAIL_FROM = 'noreply@example.org';
     process.env.MAIL_TO = 'team@example.org';
 

@@ -14,10 +14,10 @@ export type MailRuntimeConfig = {
 };
 
 export function resolveMailRuntimeConfig(): MailRuntimeConfig {
-  const host = readEnv('MAIL_HOST', 'NUXT_NODEMAILER_HOST') || 'mailer.gwdg.de';
-  const port = Number(readEnv('MAIL_PORT', 'NUXT_NODEMAILER_PORT') || 25);
+  const host = readEnv('MAIL_HOST', 'NUXT_NODEMAILER_HOST') || 'smtp.gmail.com';
+  const port = Number(readEnv('MAIL_PORT', 'NUXT_NODEMAILER_PORT') || 587);
   const secure = readBooleanEnv(['MAIL_SECURE', 'NUXT_NODEMAILER_SECURE'], port === 465);
-  const requireTLS = readBooleanEnv(['MAIL_REQUIRE_TLS', 'NUXT_NODEMAILER_REQUIRE_TLS'], false);
+  const requireTLS = readBooleanEnv(['MAIL_REQUIRE_TLS', 'NUXT_NODEMAILER_REQUIRE_TLS'], true);
   const user = readEnv('MAIL_USER');
   const pass = readEnv('MAIL_PASSWORD');
   const from = readEnv('MAIL_FROM', 'NUXT_NODEMAILER_FROM') || user || 'noreply@av-efi.net';

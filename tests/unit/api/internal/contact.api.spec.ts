@@ -47,8 +47,8 @@ describe('Internal API: /api/mail/contact', () => {
     process.env.NUXT_BUILD_PROFILE = 'local';
     delete process.env.MAIL_USER;
     delete process.env.MAIL_PASSWORD;
-    process.env.MAIL_HOST = 'mailer.gwdg.de';
-    process.env.MAIL_PORT = '25';
+    process.env.MAIL_HOST = 'smtp.gmail.com';
+    process.env.MAIL_PORT = '587';
 
     const createTransportMock = vi.fn();
     vi.doMock('h3', () => ({
@@ -70,8 +70,8 @@ describe('Internal API: /api/mail/contact', () => {
 
   test('uses smtp without auth when credentials are not provided in smtp mode', async () => {
     process.env.MAIL_DELIVERY_MODE = 'smtp';
-    process.env.MAIL_HOST = 'mailer.gwdg.de';
-    process.env.MAIL_PORT = '25';
+    process.env.MAIL_HOST = 'smtp.gmail.com';
+    process.env.MAIL_PORT = '587';
     process.env.MAIL_FROM = 'noreply@example.org';
     process.env.MAIL_TO = 'team@example.org';
     process.env.MAIL_REQUIRE_TLS = 'false';
@@ -101,8 +101,8 @@ describe('Internal API: /api/mail/contact', () => {
     expect(result).toEqual({ success: true });
     expect(createTransportMock).toHaveBeenCalledTimes(1);
     expect(createTransportMock.mock.calls[0]?.[0]).toMatchObject({
-      host: 'mailer.gwdg.de',
-      port: 25,
+      host: 'smtp.gmail.com',
+      port: 587,
       secure: false,
       requireTLS: false,
     });
@@ -161,8 +161,8 @@ describe('Internal API: /api/mail/contact', () => {
 
   test('enables requireTLS when MAIL_REQUIRE_TLS is explicitly set', async () => {
     process.env.MAIL_DELIVERY_MODE = 'smtp';
-    process.env.MAIL_HOST = 'mailer.gwdg.de';
-    process.env.MAIL_PORT = '25';
+    process.env.MAIL_HOST = 'smtp.gmail.com';
+    process.env.MAIL_PORT = '587';
     process.env.MAIL_FROM = 'noreply@example.org';
     process.env.MAIL_TO = 'team@example.org';
     process.env.MAIL_REQUIRE_TLS = 'true';
@@ -191,8 +191,8 @@ describe('Internal API: /api/mail/contact', () => {
     expect(result).toEqual({ success: true });
     expect(createTransportMock).toHaveBeenCalledTimes(1);
     expect(createTransportMock.mock.calls[0]?.[0]).toMatchObject({
-      host: 'mailer.gwdg.de',
-      port: 25,
+      host: 'smtp.gmail.com',
+      port: 587,
       secure: false,
       requireTLS: true,
     });

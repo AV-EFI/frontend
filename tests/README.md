@@ -111,11 +111,11 @@ Security-specific expectation:
 Use this checklist before enabling real contact-mail delivery in production:
 
 1. Set `MAIL_DELIVERY_MODE=smtp` in production runtime config.
-2. Set SMTP endpoint to GWDG relay:
-  - `MAIL_HOST=mailer.gwdg.de`
-  - `MAIL_PORT=25`
+2. Set SMTP endpoint to Gmail relay (temporary production setup):
+  - `MAIL_HOST=smtp.gmail.com`
+  - `MAIL_PORT=587`
   - `MAIL_SECURE=false`
-  - `MAIL_REQUIRE_TLS=false` (unless your SMTP infrastructure explicitly requires STARTTLS)
+  - `MAIL_REQUIRE_TLS=true`
 3. Set sender and recipients:
   - `MAIL_FROM` (recommended, e.g. `noreply@av-efi.net`)
   - `MAIL_TO` (primary inbox)
