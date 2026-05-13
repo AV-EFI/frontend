@@ -34,6 +34,7 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:e2e:smoke`: browser smoke + SEO canonical tests
 - `yarn test:e2e:contact`: contact submit e2e test; inbox assertion is enabled only when `MAIL_ASSERT_API_BASE` is set
 - `yarn test:e2e:contact:mailpit`: optional local delivery e2e test with Mailpit defaults
+- `yarn test:e2e:production-mail`: gated production smoke check that POSTs `/api/mail/test`; sends only to `MAIL_TO_2` when set, otherwise logs a simulated send
 - `yarn test:e2e:api`: backend OpenAPI contract suite
 - `yarn test:e2e:api:edge`: backend edge-case contract suite
 - `yarn test:e2e:api:openapi`: OpenAPI document/path/schema checks
@@ -91,6 +92,7 @@ Security-specific expectation:
 - `GITHUB_DEPENDABOT_REPO`: GitHub mirror repo slug for alert query (default `AV-EFI/frontend`)
 - `MAIL_ASSERT_API_BASE`: optional inbox assertion API base for contact delivery e2e (for Mailpit typically `http://127.0.0.1:8025`)
 - `MAIL_DELIVERY_MODE`: `log` or `smtp`; local/testbed defaults to `log`, so delivery e2e must set `MAIL_DELIVERY_MODE=smtp`
+- `MAIL_TEST_TOKEN`: secret bearer token required by `/api/mail/test`; when unset the route returns `404`
 - `E2E_DETAIL_PATH`: stable detail path used by smoke detail test
 - `ES_BASE_URL` or `ELASTIC_HOST_INTERNAL`/`ELASTIC_HOST_PUBLIC`/`ELASTIC_HOST`: Elasticsearch host for data-quality reports
 - `ES_INDEX` or `ELASTIC_INDEX`: Elasticsearch index name for data-quality reports
@@ -114,18 +116,21 @@ Use this checklist before enabling real contact-mail delivery in production:
 3. Set sender and recipients:
   - `MAIL_FROM` (recommended, e.g. `noreply@av-efi.net`)
   - `MAIL_TO` (primary inbox)
-  - `MAIL_TO_2` (optional copy)
-4. Ensure no auth is configured unless explicitly required by infrastructure:
+  - `MAIL_TO_2` (secondary/test inbox; `/api/mail/test` logs a simulated send when unset)
+4. Set `MAIL_TEST_TOKEN` if automated production mail smoke checks should be enabled.
+5. Ensure no auth is configured unless explicitly required by infrastructure:
   - `MAIL_USER` and `MAIL_PASSWORD` can be unset for no-auth SMTP.
   - For Mailpit-based CI smoke checks, force `MAIL_USER` and `MAIL_PASSWORD` to empty values to avoid inherited CI secret variables.
-5. Keep non-production in safe mode:
+6. Keep non-production in safe mode:
   - `NUXT_BUILD_PROFILE=local|testbed` should stay in `log` mode by default.
-6. Validate before rollout:
+7. Validate before rollout:
   - run `yarn test:unit tests/unit/api/internal/contact.api.spec.ts`
+  - run `yarn test:unit tests/unit/api/internal/mail-test.api.spec.ts`
   - run `yarn test:e2e:contact` for submit-path verification (default CI lane).
   - optionally run `yarn test:e2e:contact:mailpit` locally if you explicitly want inbox delivery verification.
-7. Post-deploy smoke check:
-  - submit one real contact message and confirm it arrives in `MAIL_TO`.
+8. Post-deploy smoke check:
+  - run `PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_BASE_URL=https://www.av-efi.net MAIL_TEST_TOKEN=<secret> yarn test:e2e:production-mail`
+  - confirm the smoke message arrives in `MAIL_TO_2` when configured; when unset, confirm the production log contains `mail.test.simulated-without-secondary-recipient`. The route does not send to `MAIL_TO`.
 
 Default detail route:
 
