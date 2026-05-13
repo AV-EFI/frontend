@@ -1,6 +1,7 @@
 import { defineEventHandler, readBody } from 'h3';
 import nodemailer from 'nodemailer';
 import { z } from 'zod';
+import { createMailTransportOptions, getMailRuntimeDiagnostics, resolveMailRuntimeConfig } from '~/server/utils/mailRuntime';
 
 const BodySchema = z.object({
   email: z.string().trim().email().max(254),
@@ -16,16 +17,8 @@ export default defineEventHandler(async (event) => {
   }
   const { email, message } = parsed.data;
 
-  const deliveryMode = resolveDeliveryMode();
-  const host = process.env.MAIL_HOST || 'mailer.gwdg.de';
-  const port = Number(process.env.MAIL_PORT || 25);
-  const secure = process.env.MAIL_SECURE === 'true' || port === 465;
-  const requireTLS = process.env.MAIL_REQUIRE_TLS === 'true';
-  const user = process.env.MAIL_USER;
-  const pass = process.env.MAIL_PASSWORD;
-  const from = process.env.MAIL_FROM || user || 'noreply@av-efi.net';
-  const to = process.env.MAIL_TO || from;
-  const copy = process.env.MAIL_TO_2;
+  const mailConfig = resolveMailRuntimeConfig();
+  const { deliveryMode, from, to, copy } = mailConfig;
 
   if (deliveryMode === 'log') {
     console.info('contact.mail.log-mode', {
@@ -33,23 +26,13 @@ export default defineEventHandler(async (event) => {
       to,
       copy: copy || undefined,
       replyTo: email,
-      host,
-      port,
-      secure,
+      ...getMailRuntimeDiagnostics(mailConfig),
       preview: message.slice(0, 200),
     });
     return { success: true, mode: 'log' };
   }
 
-  const transportOptions: any = {
-    host, port, secure, requireTLS,
-  };
-
-  if (user && pass) {
-    transportOptions.auth = { user, pass };
-  }
-
-  const transporter = nodemailer.createTransport(transportOptions);
+  const transporter = nodemailer.createTransport(createMailTransportOptions(mailConfig));
 
   try {
     await transporter.verify();
@@ -63,14 +46,22 @@ export default defineEventHandler(async (event) => {
       bcc: copy || undefined,
     });
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const error = err as {
+      message?: string;
+      code?: string;
+      command?: string;
+      responseCode?: number;
+      response?: string;
+    };
     const diag = {
-      message: err?.message,
-      code: err?.code,
-      command: err?.command,
-      responseCode: err?.responseCode,
-      response: err?.response,
+      message: error?.message,
+      code: error?.code,
+      command: error?.command,
+      responseCode: error?.responseCode,
+      response: error?.response,
       string: String(err),
+      mailConfig: getMailRuntimeDiagnostics(mailConfig),
     };
     console.error('contact.sendMail failed:', diag);
     event.node.res.statusCode = 502;
@@ -82,17 +73,3 @@ function escapeHtml(s: string) {
   return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
 
-function resolveDeliveryMode(): 'smtp' | 'log' {
-  const explicit = (process.env.MAIL_DELIVERY_MODE || '').trim().toLowerCase();
-  if (explicit === 'smtp' || explicit === 'log') {
-    return explicit;
-  }
-
-  const profile = (process.env.NUXT_BUILD_PROFILE || '').trim().toLowerCase();
-  const envLabel = (process.env.NUXT_PUBLIC_ENV_LABEL || '').trim().toLowerCase();
-  if (profile === 'local' || profile === 'testbed' || envLabel === 'local' || envLabel === 'testbed') {
-    return 'log';
-  }
-
-  return 'smtp';
-}

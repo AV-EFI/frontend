@@ -225,7 +225,7 @@ deploy-production:
     - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
   extends: .deploy
 
-production_mail_smoke:
+production_smtp_connection:
   stage: post-deploy
   image: node:20-bookworm
   services: []
@@ -233,6 +233,35 @@ production_mail_smoke:
     - docker
   needs:
     - deploy-production
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
+  variables:
+    PLAYWRIGHT_NO_WEBSERVER: "true"
+    PLAYWRIGHT_BASE_URL: "https://www.av-efi.net"
+  before_script:
+    - corepack enable
+    - yarn --version
+    - yarn install --immutable
+  script:
+    - test -n "$MAIL_TEST_TOKEN"
+    - mkdir -p test-reports
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-production-smtp-junit.xml yarn test:e2e:production-smtp --workers=1 --reporter=list,junit
+  artifacts:
+    when: always
+    paths:
+      - test-reports/e2e-production-smtp-junit.xml
+    reports:
+      junit:
+        - test-reports/e2e-production-smtp-junit.xml
+
+production_mail_smoke:
+  stage: post-deploy
+  image: node:20-bookworm
+  services: []
+  tags:
+    - docker
+  needs:
+    - production_smtp_connection
   rules:
     - if: '$CI_COMMIT_TAG =~ /^deploy-prod-v\d+\.\d+\.\d+$/'
   variables:

@@ -143,7 +143,7 @@ describe('Internal API: /api/mail/test', () => {
     const result = await handler(event);
 
     expect(event.node.res.statusCode).toBe(200);
-    expect(result).toEqual({ success: true });
+    expect(result).toEqual({ success: true, mode: 'sent' });
     expect(verifyMock).toHaveBeenCalledTimes(1);
     expect(sendMailMock).toHaveBeenCalledTimes(1);
     expect(sendMailMock.mock.calls[0]?.[0]).toMatchObject({

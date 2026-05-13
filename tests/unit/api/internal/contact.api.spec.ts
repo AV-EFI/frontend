@@ -109,6 +109,54 @@ describe('Internal API: /api/mail/contact', () => {
     expect(sendMailMock).toHaveBeenCalledTimes(1);
   });
 
+  test('uses NUXT_NODEMAILER fallback config when MAIL_* transport keys are unset', async () => {
+    process.env.MAIL_DELIVERY_MODE = 'smtp';
+    delete process.env.MAIL_HOST;
+    delete process.env.MAIL_PORT;
+    delete process.env.MAIL_SECURE;
+    delete process.env.MAIL_REQUIRE_TLS;
+    delete process.env.MAIL_FROM;
+    process.env.NUXT_NODEMAILER_HOST = 'smtp.example.org';
+    process.env.NUXT_NODEMAILER_PORT = '587';
+    process.env.NUXT_NODEMAILER_SECURE = 'false';
+    process.env.NUXT_NODEMAILER_REQUIRE_TLS = 'true';
+    process.env.NUXT_NODEMAILER_FROM = 'AVefi Mailer <noreply@example.org>';
+    process.env.MAIL_TO = 'team@example.org';
+    delete process.env.MAIL_USER;
+    delete process.env.MAIL_PASSWORD;
+
+    const verifyMock = vi.fn().mockResolvedValue(undefined);
+    const sendMailMock = vi.fn().mockResolvedValue(undefined);
+    const createTransportMock = vi.fn().mockReturnValue({
+      verify: verifyMock,
+      sendMail: sendMailMock,
+    });
+
+    vi.doMock('h3', () => ({
+      defineEventHandler: <T>(fn: T) => fn,
+      readBody: vi.fn().mockResolvedValue({ email: 'user@example.org', message: 'hello world message' }),
+    }));
+    vi.doMock('nodemailer', () => ({
+      default: { createTransport: createTransportMock },
+    }));
+
+    const handler = (await import('~/server/api/mail/contact.post')).default as (event: TestEvent) => Promise<ContactResponse>;
+    const event: TestEvent = { node: { res: { statusCode: 200 } } };
+    const result = await handler(event);
+
+    expect(result).toEqual({ success: true });
+    expect(createTransportMock.mock.calls[0]?.[0]).toMatchObject({
+      host: 'smtp.example.org',
+      port: 587,
+      secure: false,
+      requireTLS: true,
+    });
+    expect(sendMailMock.mock.calls[0]?.[0]).toMatchObject({
+      from: 'AVefi Mailer <noreply@example.org>',
+      to: 'team@example.org',
+    });
+  });
+
   test('enables requireTLS when MAIL_REQUIRE_TLS is explicitly set', async () => {
     process.env.MAIL_DELIVERY_MODE = 'smtp';
     process.env.MAIL_HOST = 'mailer.gwdg.de';

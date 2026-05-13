@@ -34,6 +34,8 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:e2e:smoke`: browser smoke + SEO canonical tests
 - `yarn test:e2e:contact`: contact submit e2e test; inbox assertion is enabled only when `MAIL_ASSERT_API_BASE` is set
 - `yarn test:e2e:contact:mailpit`: optional local delivery e2e test with Mailpit defaults
+- `yarn test:smtp:connection`: verifies configured SMTP connection with `nodemailer.verify()` from the current process without sending mail
+- `yarn test:e2e:production-smtp`: gated production SMTP check that POSTs `/api/mail/smtp-check` and verifies SMTP from the deployed app container without sending mail
 - `yarn test:e2e:production-mail`: gated production smoke check that POSTs `/api/mail/test`; sends only to `MAIL_TO_2` when set, otherwise logs a simulated send
 - `yarn test:e2e:api`: backend OpenAPI contract suite
 - `yarn test:e2e:api:edge`: backend edge-case contract suite
@@ -93,6 +95,7 @@ Security-specific expectation:
 - `MAIL_ASSERT_API_BASE`: optional inbox assertion API base for contact delivery e2e (for Mailpit typically `http://127.0.0.1:8025`)
 - `MAIL_DELIVERY_MODE`: `log` or `smtp`; local/testbed defaults to `log`, so delivery e2e must set `MAIL_DELIVERY_MODE=smtp`
 - `MAIL_TEST_TOKEN`: secret bearer token required by `/api/mail/test`; when unset the route returns `404`
+- `MAIL_TEST_REQUIRE_REAL_SEND`: optional `true`/`false` switch for `yarn test:e2e:production-mail`; when `true`, the smoke test fails unless `/api/mail/test` reports `mode: "sent"`
 - `E2E_DETAIL_PATH`: stable detail path used by smoke detail test
 - `ES_BASE_URL` or `ELASTIC_HOST_INTERNAL`/`ELASTIC_HOST_PUBLIC`/`ELASTIC_HOST`: Elasticsearch host for data-quality reports
 - `ES_INDEX` or `ELASTIC_INDEX`: Elasticsearch index name for data-quality reports
@@ -129,8 +132,10 @@ Use this checklist before enabling real contact-mail delivery in production:
   - run `yarn test:e2e:contact` for submit-path verification (default CI lane).
   - optionally run `yarn test:e2e:contact:mailpit` locally if you explicitly want inbox delivery verification.
 8. Post-deploy smoke check:
+  - run `PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_BASE_URL=https://www.av-efi.net MAIL_TEST_TOKEN=<secret> yarn test:e2e:production-smtp`
+  - confirm the job log says `mode:"verified"` before testing actual mail sends.
   - run `PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_BASE_URL=https://www.av-efi.net MAIL_TEST_TOKEN=<secret> yarn test:e2e:production-mail`
-  - confirm the smoke message arrives in `MAIL_TO_2` when configured; when unset, confirm the production log contains `mail.test.simulated-without-secondary-recipient`. The route does not send to `MAIL_TO`.
+  - confirm the job log says `mode:"sent"` and the smoke message arrives in `MAIL_TO_2` when configured. When the job log says `mode:"simulated"`, check production logs for `mail.test.simulated-without-secondary-recipient` or `mail.test.simulated-after-mailer-error`. The route does not send to `MAIL_TO`.
 
 Default detail route:
 

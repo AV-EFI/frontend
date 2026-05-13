@@ -13,41 +13,19 @@ export default defineEventHandler(async (event) => {
   }
 
   const mailConfig = resolveMailRuntimeConfig();
-  const { deliveryMode, from, copy: to } = mailConfig;
+  const diagnostics = getMailRuntimeDiagnostics(mailConfig);
 
-  if (!to) {
-    console.info('mail.test.simulated-without-secondary-recipient', {
-      from,
-      ...getMailRuntimeDiagnostics(mailConfig),
-      reason: 'MAIL_TO_2 is not configured',
-    });
-    return { success: true, mode: 'simulated' };
-  }
-
-  const marker = `av-efi-production-mail-test-${new Date().toISOString()}`;
-
-  if (deliveryMode === 'log') {
-    console.info('mail.test.log-mode', {
-      from,
-      to: 'MAIL_TO_2',
-      ...getMailRuntimeDiagnostics(mailConfig),
-      marker,
-    });
-    return { success: true, mode: 'log' };
+  if (mailConfig.deliveryMode === 'log') {
+    console.info('mail.smtp-check.log-mode', diagnostics);
+    return { success: true, mode: 'log', diagnostics };
   }
 
   const transporter = nodemailer.createTransport(createMailTransportOptions(mailConfig));
 
   try {
     await transporter.verify();
-    await transporter.sendMail({
-      from,
-      to,
-      subject: `[AVefi] Production mail smoke test ${marker}`,
-      text: `This is an automated AVefi production mail smoke test.\n\nMarker: ${marker}`,
-      html: `<p>This is an automated AVefi production mail smoke test.</p><p><strong>Marker:</strong> ${marker}</p>`,
-    });
-    return { success: true, mode: 'sent' };
+    console.info('mail.smtp-check.ok', diagnostics);
+    return { success: true, mode: 'verified', diagnostics };
   } catch (err: unknown) {
     const error = err as {
       message?: string;
@@ -56,24 +34,20 @@ export default defineEventHandler(async (event) => {
       responseCode?: number;
       response?: string;
     };
-    const diag = {
+    const failure = {
       message: error?.message,
       code: error?.code,
       command: error?.command,
       responseCode: error?.responseCode,
       response: error?.response,
       string: String(err),
-      mailConfig: getMailRuntimeDiagnostics(mailConfig),
     };
-    console.error('mail.test.sendMail failed:', diag);
-    console.info('mail.test.simulated-after-mailer-error', {
-      from,
-      to: 'MAIL_TO_2',
-      ...getMailRuntimeDiagnostics(mailConfig),
-      marker,
-      reason: 'Mailer error',
+    console.error('mail.smtp-check.failed', {
+      ...failure,
+      mailConfig: diagnostics,
     });
-    return { success: true, mode: 'simulated', warning: 'Mailer error' };
+    event.node.res.statusCode = 502;
+    return { success: false, mode: 'failed', error: 'SMTP verify failed', diagnostics, failure };
   }
 });
 
@@ -82,4 +56,3 @@ function getBearerToken(event: H3Event): string | undefined {
   const match = authorization?.match(/^Bearer\s+(.+)$/i);
   return match?.[1];
 }
-
