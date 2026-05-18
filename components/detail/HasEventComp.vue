@@ -56,7 +56,7 @@
                                         <div class="flex items-start justify-between gap-2 rounded-lg px-2 py-2
                      hover:bg-primary-50 focus-within:bg-primary-50
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
-                                            <span class="min-w-0 flex-1 break-words text-sm leading-5 dark:text-gray-300">
+                                            <span class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300">
                                                 {{ agent?.has_name ?? '' }}
                                             </span>
 
@@ -98,7 +98,7 @@
                                         <div class="flex items-start justify-between gap-2 rounded-lg px-2 py-2
                      hover:bg-primary-50 focus-within:bg-primary-50
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
-                                            <span class="min-w-0 flex-1 break-words text-sm leading-5 dark:text-gray-300">
+                                            <span class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300">
                                                 {{ agent?.has_name ?? '' }}
                                             </span>
 

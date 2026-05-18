@@ -1,10 +1,11 @@
 // @vitest-environment happy-dom
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import { flushPromises, mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import SearchCompExtended from '~/components/global/SearchCompExtended.vue';
 
 const navigateToMock = vi.fn();
+const localeRef = ref('de');
 
 const storeState: any = reactive({
   formData: {
@@ -16,7 +17,15 @@ const storeState: any = reactive({
 });
 
 vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ t: (key: string) => key }),
+  useI18n: () => ({
+    locale: localeRef,
+    t: (key: string) => {
+      if (key === 'facetValue.in_language_code.ger') return 'Deutsch';
+      if (key === 'facetValue.in_language_code.dan') return 'Dänisch';
+      if (key === 'facetValue.in_language_code.dut') return 'Niederländisch';
+      return key;
+    },
+  }),
 }));
 
 vi.mock('~/stores/searchParams.js', () => ({
@@ -26,7 +35,7 @@ vi.mock('~/stores/searchParams.js', () => ({
 vi.mock('~/searchConfig_avefi.js', () => ({
   config: {
     search_settings: {
-      facet_attributes: [{ attribute: 'subjects' }, { attribute: 'has_access_status' }],
+      facet_attributes: [{ attribute: 'subjects' }, { attribute: 'in_language_code' }, { attribute: 'has_access_status' }],
     },
   },
 }));
@@ -34,6 +43,7 @@ vi.mock('~/searchConfig_avefi.js', () => ({
 vi.mock('~/models/interfaces/manual/IFacetIconMapping.js', () => ({
   FACET_ICON_MAP: {
     subjects: 'tabler:tags',
+    in_language_code: 'tabler:language',
     has_access_status: 'tabler:lock',
   },
 }));
@@ -61,6 +71,7 @@ const FormKitStub = defineComponent({
     >
       <option value=""></option>
       <option value="subjects">subjects</option>
+      <option value="in_language_code">in_language_code</option>
     </select>
     <input
       v-else
@@ -91,6 +102,7 @@ const SuspendedHost = defineComponent({
 });
 
 beforeEach(() => {
+  localeRef.value = 'de';
   navigateToMock.mockReset();
   storeState.formData = {
     regularSearch: {
@@ -112,6 +124,17 @@ beforeEach(() => {
     removeFromHistory: vi.fn(),
     clearSearchHistory: vi.fn(),
   }));
+  vi.stubGlobal(
+    '$fetch',
+    vi.fn().mockResolvedValue({
+      success: true,
+      suggestions: [
+        { text: 'ger', type: 'facet', count: 12 },
+        { text: 'dut', type: 'facet', count: 6 },
+        { text: 'dan', type: 'facet', count: 4 },
+      ],
+    })
+  );
 });
 
 function mountComponent() {
@@ -163,5 +186,36 @@ describe('SearchCompExtended interaction contracts', () => {
 
     expect(wrapper.html()).toContain('<option value="subjects">subjects</option>');
     expect(wrapper.html()).not.toContain('has_access_status');
+  });
+
+  test('submits localized facet input as raw elastic value with [1] index', async () => {
+    vi.useFakeTimers();
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    const selects = wrapper.findAll('select');
+    expect(selects.length).toBeGreaterThan(0);
+    await selects[0].setValue('in_language_code');
+    await selects[0].trigger('input');
+    await flushPromises();
+
+    const allInputs = wrapper.findAll('input');
+    expect(allInputs.length).toBeGreaterThan(1);
+    const facetValueInput = allInputs[allInputs.length - 1];
+    await facetValueInput.setValue('Deutsch');
+    await vi.runAllTimersAsync();
+    await flushPromises();
+
+    await wrapper.get('form').trigger('submit');
+    await flushPromises();
+
+    expect(navigateToMock).toHaveBeenCalledTimes(1);
+    const href = String(navigateToMock.mock.calls[0][0]);
+    expect(href).toContain('%5B1%5D=ger');
+    expect(href).toContain('in_language_code');
+    expect(href).not.toContain('Deutsch');
+
+    vi.useRealTimers();
   });
 });

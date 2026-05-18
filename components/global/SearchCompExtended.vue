@@ -155,7 +155,7 @@
                                             :aria-selected="filter.highlighted === si"
                                             @mousedown.prevent.stop="selectSuggestion(index, s)"
                                         >
-                                            <span class="flex-grow">{{ s.display }}</span>
+                                            <span class="grow">{{ s.display }}</span>
                                             <span
                                                 v-if="s.count && s.count > 1"
                                                 class="text-xs text-gray-500 dark:text-gray-400 shrink-0"
@@ -210,7 +210,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSearchParamsStore } from '~/stores/searchParams.js';
 import { config } from '~/searchConfig_avefi.js';
@@ -221,7 +221,7 @@ const { ensureFormKitReady } = useFormKitLoader();
 await ensureFormKitReady();
 
 const iconMap = FACET_ICON_MAP;
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const ariaLabel = computed(() => t('mainSearch'));
 const showValidationWarning = ref(false);
@@ -309,6 +309,39 @@ interface FacetSuggestion {
     count?: number;
 }
 
+function normalizeForSearch(value: string): string {
+    return (value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+}
+
+function filterLocalizedSuggestions(list: FacetSuggestion[], query: string): FacetSuggestion[] {
+    const normalizedQuery = normalizeForSearch(query);
+    if (!normalizedQuery) return list;
+
+    return list.filter((item) => {
+        const display = normalizeForSearch(item.display);
+        const raw = normalizeForSearch(item.raw);
+        return display.includes(normalizedQuery) || raw.includes(normalizedQuery);
+    });
+}
+
+function resolveRawFacetValue(attr: string, inputValue: string): string {
+    const normalizedInput = normalizeForSearch(inputValue);
+    if (!normalizedInput) return '';
+
+    const options = facetCache[attr] || [];
+    const exact = options.find((item) => {
+        const display = normalizeForSearch(item.display);
+        const raw = normalizeForSearch(item.raw);
+        return display === normalizedInput || raw === normalizedInput;
+    });
+
+    return exact?.raw || '';
+}
+
 interface FacetFilter {
     uid: number;
     facet: string;
@@ -377,9 +410,42 @@ function translateValue(attr: string, raw: string): string {
 
 const facetCache: Record<string, FacetSuggestion[]> = {};
 
+function refreshVisibleFacetSuggestions() {
+    facetFilters.value.forEach((row) => {
+        if (!row?.facet) return;
+        const base = facetCache[row.facet] || [];
+        row.suggestions = filterLocalizedSuggestions(base, row.valueDisplay || '');
+    });
+}
+
+watch(locale, () => {
+    Object.keys(facetCache).forEach((key) => {
+        const values = facetCache[key] || [];
+        facetCache[key] = values.map((s) => ({
+            ...s,
+            display: translateValue(key, s.raw),
+        }));
+    });
+
+    facetFilters.value.forEach((row) => {
+        if (row?.facet && row.valueRaw) {
+            row.valueDisplay = translateValue(row.facet, row.valueRaw);
+        }
+    });
+
+    refreshVisibleFacetSuggestions();
+});
+
 async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '') {
     const row = facetFilters.value[rowIndex];
     if (!row) return;
+
+    const cached = facetCache[attr];
+    if (cached?.length) {
+        row.suggestions = filterLocalizedSuggestions(cached, query);
+        row.showSuggestions = row.suggestions.length > 0;
+        return;
+    }
 
     if (row._abort) row._abort.abort();
     row._abort = new AbortController();
@@ -390,7 +456,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
             suggestions: { text: string; type: string; count?: number }[];
         }>('/api/elastic/suggestions', {
             method: 'POST',
-            body: { mode: 'facet', facetAttr: attr, query, size: 20 },
+            body: { mode: 'facet', facetAttr: attr, query: '', size: 250 },
             signal: row._abort.signal,
         });
 
@@ -408,7 +474,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         const still = facetFilters.value[rowIndex];
         if (!still || still.facet !== attr) return;
 
-        still.suggestions = facetCache[attr] || [];
+        still.suggestions = filterLocalizedSuggestions(facetCache[attr] || [], query);
         still.showSuggestions = still.suggestions.length > 0;
     } catch (e: any) {
         if (e?.name === 'AbortError') return;
@@ -416,7 +482,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         const still = facetFilters.value[rowIndex];
         if (still && still.facet === attr) {
             const cached = facetCache[attr] || [];
-            still.suggestions = cached;
+            still.suggestions = filterLocalizedSuggestions(cached, query);
             still.showSuggestions = still.suggestions.length > 0;
         }
     } finally {
@@ -455,7 +521,7 @@ function onValueInput(index: number, evt: any) {
     const attr = row.facet;
     const value = typeof evt === 'string' ? evt : (evt?.target?.value ?? '');
     row.valueDisplay = value;
-    row.valueRaw = value;
+    row.valueRaw = attr ? resolveRawFacetValue(attr, value) : '';
 
     if (!attr) {
         row.showSuggestions = false;
@@ -628,7 +694,7 @@ function redirectToSearchScreen() {
         if (Array.isArray(facetFilters.value)) {
             facetFilters.value.forEach(f => {
                 if (f?.facet && f?.valueRaw) {
-                    params.append(`[${f.facet}][0]`, f.valueRaw);
+                    params.append(`[${f.facet}][1]`, f.valueRaw);
                 }
             });
         }

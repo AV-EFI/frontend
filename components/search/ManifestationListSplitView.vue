@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col md:flex-row gap-2 border border-base-300 rounded-lg">
         <!-- Manifestation list (left) -->
-        <div class="bg-base-200 dark:bg-base-300 md:[width:calc(40%+50px)]">
+        <div class="bg-base-200 dark:bg-base-300 md:w-[calc(40%+50px)]">
             <ul class="bg-base-100 w-full divide-y divide-base-300 dark:divide-base-400">
                 <li v-for="(m, i) in paginatedManifestations" :key="m?.handle || i + currentPage * itemsPerPage" class="px-1 pt-2">
                     <button type="button"
@@ -103,7 +103,7 @@
         <transition name="fade-slide">
             <div v-if="selectedManifestation"
                  :key="selectedManifestationRenderKey"
-                 class="hidden md:block z-10 md:[width:calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative" role="region"
+                 class="hidden md:block z-10 md:w-[calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative" role="region"
                  :aria-label="`manifestation-${selectedManifestation.handle}`">
                 <h5 class="relative text-sm font-bold mb-2 flex items-center gap-1">
                     <Icon name="tabler:binary-tree" class="text-base" />
@@ -241,7 +241,7 @@ function prevItemPage() {
     if (itemPage.value > 0) itemPage.value--;
 }
 
-const navigateToItem = (item: any) => {
+const navigateToItem = (item: { handle?: string } | null | undefined) => {
     const itemPath = `/res/${props.workVariantHandle}#${item?.handle}`;
     window.open(itemPath, '_blank');
 };

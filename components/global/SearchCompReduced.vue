@@ -6,7 +6,7 @@
                                      :show-info-tooltip="true" :info-tooltip-text="$t('exactSearchTip')"
                                      @submit="onSubmit" @clear="term = ''" @recent-search-click="handleRecentSearchClick"
                                      @remove-recent="handleRemoveRecentSearch" @clear-history="handleClearAllHistory" />
-            <button type="button" class="btn btn-primary lg:btn-lg h-12 md:!rounded-l-none md:!rounded-r-xl"
+            <button type="button" class="btn btn-primary lg:btn-lg h-12 md:rounded-l-none! md:rounded-r-xl!"
                     @click="submitFromButton">
                 {{ buttonText }}
             </button>
@@ -38,11 +38,11 @@ const queryAutocompleteRef = ref<{ focusInput?: () => void } | null>(null);
 
 // Search history
 const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHistory } = useSearchHistory();
-const historyTrigger = ref(0);
-const recentSearchesWithUrl = computed(() => {
-    historyTrigger.value; // Make reactive
-    return getSearchHistory();
-});
+const recentSearchesWithUrl = ref(getSearchHistory());
+
+function refreshRecentSearches() {
+    recentSearchesWithUrl.value = getSearchHistory();
+}
 
 const { t } = useI18n();
 const ariaLabel = computed(() => props.ariaLabel ?? t('searchbox'));
@@ -53,7 +53,7 @@ const buttonText = computed(() =>
 
 const iconMap = FACET_ICON_MAP;
 
-function handleRecentSearchClick(item: any) {
+function handleRecentSearchClick(item: { url?: string } | null | undefined) {
     if (item.url) {
         window.location.href = `/search/${item.url}`;
     }
@@ -61,19 +61,19 @@ function handleRecentSearchClick(item: any) {
 
 function handleRemoveRecentSearch(query: string) {
     removeFromHistory(query);
-    historyTrigger.value++;
+    refreshRecentSearches();
 }
 
 function handleClearAllHistory() {
     clearSearchHistory();
-    historyTrigger.value++;
+    refreshRecentSearches();
 }
 
 function onSubmit(v: string) {
     term.value = v;
     if (v && v.trim() !== '') {
         addToSearchHistory(v);
-        historyTrigger.value++;
+        refreshRecentSearches();
     }
     emit('update:modelValue', term.value);
     emit('search', { q: term.value });

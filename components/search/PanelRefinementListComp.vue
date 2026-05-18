@@ -86,14 +86,14 @@
                 </template>
 
                 <template #default="s">
-                    <div v-if="!(s?.items?.length)" class="max-w-[250px] mx-auto my-2">
+                    <div v-if="!(s?.items?.length)" class="max-w-62.5 mx-auto my-2">
                         <p>{{ $t('noResults') }}</p>
                         <p>{{ $t('tryAdjustingFacets') }}</p>
                     </div>
 
-                    <ul v-if="(s?.items?.length ?? 0) > 0" class="ais-RefinementList py-2 max-md:max-w-[300px]"
+                    <ul v-if="(s?.items?.length ?? 0) > 0" class="ais-RefinementList py-2 max-md:max-w-75"
                         :aria-label="refinementGroupScreenreaderText()">
-                        <li v-for="item in (s?.items ?? [])" :key="item.value" class="ais-RefinementList-item max-w-[250px]">
+                        <li v-for="item in (s?.items ?? [])" :key="item.value" class="ais-RefinementList-item max-w-62.5">
                             <label class="ais-RefinementList-label" :for="refinementItemId(item)">
                                 <input
                                     :id="refinementItemId(item)"
@@ -128,6 +128,8 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { computed, inject, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Slider from '@vueform/slider';

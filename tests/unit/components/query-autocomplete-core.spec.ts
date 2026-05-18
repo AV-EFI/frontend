@@ -1,10 +1,21 @@
 // @vitest-environment happy-dom
+import { ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import QueryAutocompleteCore from '~/components/search/QueryAutocompleteCore.vue';
 
+const localeRef = ref('de');
+
 vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ t: (key: string) => key }),
+  useI18n: () => ({
+    locale: localeRef,
+    t: (key: string) => {
+      if (key === 'facetValue.in_language_code.ger') return 'Deutsch';
+      if (key === 'facetValue.in_language_code.dut') return 'Niederländisch';
+      if (key === 'facetValue.in_language_code.dan') return 'Dänisch';
+      return key;
+    },
+  }),
 }));
 
 function mountComponent() {
@@ -81,5 +92,57 @@ describe('QueryAutocompleteCore interaction contracts', () => {
     expect(clearHistoryButton).toBeTruthy();
     await clearHistoryButton!.trigger('mousedown');
     expect(wrapper.emitted('clear-history')).toBeTruthy();
+  });
+
+  test('filters facet suggestions by localized labels and emits raw value on select', async () => {
+    vi.useFakeTimers();
+    localeRef.value = 'de';
+
+    const fetchMock = vi.fn().mockResolvedValue({
+      success: true,
+      suggestions: [
+        { text: 'ger', type: 'facet', count: 10 },
+        { text: 'dut', type: 'facet', count: 8 },
+        { text: 'dan', type: 'facet', count: 7 },
+      ],
+    });
+    vi.stubGlobal('$fetch', fetchMock);
+
+    const wrapper = mount(QueryAutocompleteCore, {
+      props: {
+        modelValue: '',
+        name: 'query',
+        facetAttr: 'in_language_code',
+      },
+      global: {
+        stubs: {
+          Icon: { template: '<i />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    const input = wrapper.get('input');
+    await input.setValue('deut');
+    await vi.runAllTimersAsync();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0][1]?.body?.query).toBe('');
+
+    const dropdownText = wrapper.text();
+    expect(dropdownText).toContain('Deutsch');
+    expect(dropdownText).not.toContain('Niederländisch');
+    expect(dropdownText).not.toContain('Dänisch');
+
+    await input.trigger('keydown', { key: 'ArrowDown' });
+    await input.trigger('keydown', { key: 'Enter' });
+
+    const emittedSelect = wrapper.emitted('select');
+    expect(emittedSelect).toBeTruthy();
+    expect(emittedSelect?.[0]).toEqual(['ger']);
+
+    vi.useRealTimers();
   });
 });

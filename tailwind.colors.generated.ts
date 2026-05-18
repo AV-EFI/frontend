@@ -1,5 +1,5 @@
 // Auto-generated Tailwind color config
-  export const lightThemeColors = {
+export const lightThemeColors = {
   "primary": {
     "DEFAULT": "#4d768d",
     "content": "oklch(98% 0.002 247.839)"
@@ -9,7 +9,7 @@
     "content": "oklch(98% 0.002 247.839)"
   },
   "accent": {
-    "DEFAULT": "#ff1d25",
+    "DEFAULT": "#d8899c",
     "content": "#fefefe"
   },
   "neutral": {
@@ -32,11 +32,11 @@
     "DEFAULT": "oklch(60.61% 0.12 15.341)",
     "content": "oklch(12.122% 0.024 15.341)"
   },
-  "highlight": "#ffc0cb",
-  "highlight-content": "#383838",
-  "favourites-list": "#B85A5E",
+  "highlight": "#d8899c",
+  "highlight-content": "#3a1f26",
+  "favourites-list": "#b85a5e",
   "favourites-list-content": "#ffffff",
-  "favourites-list-hover": "#9A464A",
+  "favourites-list-hover": "#9a464a",
   "favourites-list-hover-content": "#ffffff",
   "compare-list": "#3A434A",
   "compare-list-hover": "#2B343B",
@@ -47,7 +47,7 @@
   "userinfo": "#3a4246",
   "userinfo-content": "oklch(89.925% 0.016 262.749)"
 };
-  export const darkThemeColors = {
+export const darkThemeColors = {
   "primary": {
     "DEFAULT": "#4d768d",
     "content": "oklch(98% 0.002 247.839)"
@@ -57,7 +57,7 @@
     "content": "oklch(98% 0.002 247.839)"
   },
   "accent": {
-    "DEFAULT": "#ff1d25",
+    "DEFAULT": "#d8899c",
     "content": "#fefefe"
   },
   "neutral": {
@@ -80,11 +80,11 @@
     "DEFAULT": "oklch(71.785% 0.17 13.118)",
     "content": "oklch(14.357% 0.034 13.118)"
   },
-  "highlight": "#ff284d",
-  "highlight-content": "#ffffff",
-  "favourites-list": "#B85A5E",
+  "highlight": "#d8899c",
+  "highlight-content": "#3a1f26",
+  "favourites-list": "#b85a5e",
   "favourites-list-content": "#ffffff",
-  "favourites-list-hover": "#9A464A",
+  "favourites-list-hover": "#9a464a",
   "favourites-list-hover-content": "#ffffff",
   "compare-list": "#3A434A",
   "compare-list-hover": "#2B343B",

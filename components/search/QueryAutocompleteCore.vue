@@ -1,7 +1,7 @@
 <template>
     <div ref="rootRef" class="relative w-full" @mousedown.stop>
         <div class="relative">
-            <div class="flex flex-row !max-w-none w-full">
+            <div class="flex flex-row max-w-none! w-full">
                 <input
                     ref="inputRef"
                     v-model="displayValue"
@@ -11,7 +11,7 @@
                     :autofocus="autofocus ?? false"
                     autocomplete="off"
                     :class="[
-                        '!text-lg bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:!rounded-r-none px-4 w-full dark:!text-white h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary',
+                        'text-lg! bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:rounded-r-none! px-4 w-full dark:text-white! h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary',
                         searchHelpVisible && displayValue ? 'pr-20' : 'pr-10'
                     ]"
                     :aria-label="ariaLabel"
@@ -53,14 +53,14 @@
         </div>
 
         <p v-show="showSearchHelp && searchHelpVisible" :id="searchHelpId" role="note"
-           class="absolute left-0 right-0 top-full z-[1200] mt-1 flex items-start gap-2 rounded-md border border-info/30 bg-white px-3 py-2 text-sm text-gray-700 shadow-lg dark:border-info/40 dark:bg-gray-900 dark:text-gray-200">
+           class="absolute left-0 right-0 top-full z-1200 mt-1 flex items-start gap-2 rounded-md border border-info/30 bg-white px-3 py-2 text-sm text-gray-700 shadow-lg dark:border-info/40 dark:bg-gray-900 dark:text-gray-200">
             <Icon name="tabler:info-circle" class="mt-0.5 shrink-0 text-base text-info" aria-hidden="true" />
-            <span class="max-w-[420px] lg:max-w-[600px] text-left">{{ searchHelpText }}</span>
+            <span class="max-w-105 lg:max-w-150 text-left">{{ searchHelpText }}</span>
         </p>
 
         <!-- Suggestions dropdown -->
         <div v-show="showDropdown" :id="listboxId"
-             class="absolute z-[1100] w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-96 overflow-auto"
+             class="absolute z-1100 w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-96 overflow-auto"
              role="listbox" :aria-label="listboxAriaLabel">
             <!-- Recent searches header (only when input is empty) -->
             <div v-if="props.recentSearches && props.recentSearches.length > 0"
@@ -102,7 +102,7 @@
                     <Icon v-else class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)"
                           aria-hidden="true" />
                     <span class="sr-only">{{ typeLabel(s.type) }}: </span>
-                    <span class="text-base truncate">{{ s.text }}</span>
+                    <span class="text-base truncate">{{ suggestionLabel(s) }}</span>
                     <span v-if="s.count && s.count > 1"
                           class="ml-auto text-xs text-gray-500 dark:text-gray-400 shrink-0">
                         ({{ s.count }})
@@ -131,9 +131,9 @@ import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.jso
 
 const suppressNextInput = ref(false);
 
-const t = useI18n().t;
+const { t, locale } = useI18n();
 
-type Suggestion = { text: string; type: string; count?: number; url?: string };
+type Suggestion = { text: string; type: string; count?: number; url?: string; display?: string };
 type IconMap = Record<string, string>;
 
 const props = defineProps<{
@@ -162,7 +162,7 @@ const emit = defineEmits<{
     (e: 'clear'): void;
     (e: 'focus'): void;
     (e: 'blur'): void;
-    (e: 'recent-search-click', item: any): void;
+    (e: 'recent-search-click', item: { query: string; url: string }): void;
     (e: 'remove-recent', query: string): void;
     (e: 'clear-history'): void;
 }>();
@@ -183,6 +183,7 @@ const ariaLabel = computed(() => props.ariaLabel ?? t('search'));
    ========================================================================= */
 
 const suggestions = ref<Suggestion[]>([]);
+const facetSuggestionCache = ref<Record<string, Suggestion[]>>({});
 const showDropdown = ref(false);
 const showSearchHelp = ref(false);
 const highlighted = ref(-1);
@@ -287,6 +288,48 @@ async function fetchSuggestions(q: string): Promise<number> {
     const myToken = ++fetchToken;
     fetching.value = true;
 
+    if (facetMode.value) {
+        const attr = props.facetAttr || '';
+        const normalizedQuery = normalizeForSearch(q);
+
+        try {
+            if (!facetSuggestionCache.value[attr]?.length) {
+                const res = await $fetch<{ success: boolean; suggestions: Suggestion[] }>(
+                    '/api/elastic/suggestions',
+                    {
+                        method: 'POST',
+                        body: { mode: 'facet', facetAttr: attr, query: '', size: 250 },
+                    }
+                );
+
+                const loaded = res?.success ? res.suggestions ?? [] : [];
+                facetSuggestionCache.value[attr] = loaded.map((s) => ({
+                    ...s,
+                    display: translateFacetSuggestion(attr, s.text),
+                }));
+            }
+
+            if (!alive.value || myToken !== fetchToken) return myToken;
+
+            const base = facetSuggestionCache.value[attr] || [];
+            suggestions.value = normalizedQuery
+                ? base.filter((s) => {
+                    const display = normalizeForSearch(s.display || s.text);
+                    const raw = normalizeForSearch(s.text);
+                    return display.includes(normalizedQuery) || raw.includes(normalizedQuery);
+                })
+                : base;
+
+            return myToken;
+        } catch {
+            if (!alive.value || myToken !== fetchToken) return myToken;
+            suggestions.value = [];
+            return myToken;
+        } finally {
+            if (alive.value && myToken === fetchToken) fetching.value = false;
+        }
+    }
+
     if (q.length < 2) {
         if (alive.value && myToken === fetchToken) {
             suggestions.value = defaultQuerySuggestions;
@@ -333,6 +376,29 @@ const visibleSuggestions = computed(() => {
     return suggestions.value;
 });
 
+function normalizeForSearch(value: string): string {
+    return (value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+}
+
+function translateFacetSuggestion(attr: string, raw: string): string {
+    const keyConvention = `facetValue.${attr}.${raw}`;
+    const translated = t(keyConvention);
+    if (translated !== keyConvention) return translated;
+
+    const direct = t(raw);
+    if (direct !== raw) return direct;
+
+    return raw;
+}
+
+function suggestionLabel(s: Suggestion): string {
+    return s.display || s.text;
+}
+
 /* ==========================================================================
    Messages
    ========================================================================= */
@@ -346,13 +412,15 @@ const noResultsMessage = computed(() =>
    Input handlers
    ========================================================================= */
 
-function onInput(v: any) {
+function onInput(v: string | Event | null | undefined) {
     if (suppressNextInput.value) {
         suppressNextInput.value = false;
         return;
     }
 
-    const val = typeof v === 'string' ? v : String(v ?? '');
+    const val = typeof v === 'string'
+        ? v
+        : String((v && 'target' in v && (v.target as HTMLInputElement | null)?.value) ?? '');
 
     if (selectionLock.value !== null) {
         if (val === selectionLock.value) {
@@ -505,6 +573,11 @@ watch(
         }
     }
 );
+
+watch([() => props.facetAttr, locale], ([facetAttr]) => {
+    if (!facetAttr) return;
+    delete facetSuggestionCache.value[facetAttr];
+});
 
 /* ==========================================================================
    Public API

@@ -60,7 +60,7 @@
                     :data="manifestation"
                     level="manifestation"
                     class="inline-flex items-center"
-                    icon-color="text-[var(--color-manifestation)]"
+                    icon-color="text-(--color-manifestation)"
                     :entry-level-class="manifestationInfoLevelClasses"
                 />
 
@@ -74,7 +74,7 @@
                 >
                     <Icon
                         name="tabler:hierarchy"
-                        class="w-3.5 h-3.5 shrink-0 text-[var(--color-manifestation)]"
+                        class="w-3.5 h-3.5 shrink-0 text-(--color-manifestation)"
                         aria-hidden="true"
                     />
                     <span class="inline-flex items-center whitespace-nowrap leading-4">
@@ -105,7 +105,7 @@
                     :title="entry.label"
                     :aria-label="entry.label"
                 >
-                    <Icon :name="entry.icon" class="w-3.5 h-3.5 text-[var(--color-item)]" aria-hidden="true" />
+                    <Icon :name="entry.icon" class="w-3.5 h-3.5 text-(--color-item)" aria-hidden="true" />
                 </span>
             </div>
 
@@ -126,6 +126,8 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { getFacetIcon, getFacetLevelClass } from '~/models/interfaces/manual/IFacetIconMapping';
 
 defineProps({
@@ -159,26 +161,6 @@ function levelChipClasses(attributeName: string): string {
 }
 
 const manifestationInfoLevelClasses = levelChipClasses('manifestation_event_type');
-
-function safeT(val: unknown): string {
-    return typeof val === 'string' && val.trim()
-        ? $t(val)
-        : '';
-}
-
-function formatInLanguageText(langs: any[]): string {
-    return langs
-        .map(lang => safeT(lang?.code))
-        .filter(Boolean)
-        .join(', ');
-}
-
-function formatInLanguageAria(langs: any[]): string {
-    return safeT('in_language_code') + ': ' + langs
-        .map(lang => safeT(lang?.code))
-        .filter(Boolean)
-        .join(', ');
-}
 
 function hasNonEmptyString(value: unknown): boolean {
     return typeof value === 'string' && value.trim().length > 0;

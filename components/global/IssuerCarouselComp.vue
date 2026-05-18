@@ -13,7 +13,7 @@
                     :aria-label="$t('home.carousel.aria.previous')">
                 <Icon name="tabler:chevron-left" />
             </button>
-            <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-4 sm:px-4 lg:px-6 py-0 sm:py-4 bg-base-200 overflow-hidden">
+            <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-0 sm:px-4 lg:px-6 sm:py-4 bg-base-200 overflow-hidden">
                 <div ref="containerRef" class="flex items-stretch touch-pan-y">
                     <div v-for="(item, index) in issuerItems" :key="index"
                          :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
@@ -25,10 +25,10 @@
                             </div>
                         </figure>
                         <div class="p-4 flex flex-col flex-1 w-full min-h-72 bg-white dark:bg-base-100 rounded-lg">
-                            <h2 class="card-title min-h-[5.75rem] items-start break-words hyphens-auto text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
+                            <h2 class="card-title min-h-23 items-start wrap-break-word hyphens-auto text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
                                 {{ item.name }}
                             </h2>
-                            <div class="flex flex-col w-full h-[5.25rem] rounded-box bg-base-200/60 mb-3 overflow-hidden divide-y divide-base-300/60">
+                            <div class="flex flex-col w-full h-21 rounded-box bg-base-200/60 mb-3 overflow-hidden divide-y divide-base-300/60">
                                 <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
                                     <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
                                         {{ $t('works') }}
@@ -184,7 +184,6 @@ const emblaApi = shallowRef<EmblaApi | null>(null);
 const autoplayPlugin = shallowRef<{ stop?: () => void; play?: () => void } | null>(null);
 const isReady = computed(() => !!emblaApi.value);
 const visibleSlideIndexes = ref(new Set<number>());
-const isAutoplayPaused = ref(false);
 let visibilityObserver: IntersectionObserver | null = null;
 
 const issuerItems = computed<IssuerItem[]>(() => {
@@ -249,17 +248,6 @@ const nextSlide = () => {
 const updateVisibleSlides = () => {
     const visible = emblaApi.value?.slidesInView() || [];
     visibleSlideIndexes.value = new Set(visible);
-};
-
-const toggleAutoplay = () => {
-    if (isAutoplayPaused.value) {
-        autoplayPlugin.value?.play?.();
-        isAutoplayPaused.value = false;
-        return;
-    }
-
-    autoplayPlugin.value?.stop?.();
-    isAutoplayPaused.value = true;
 };
 
 onMounted(() => {

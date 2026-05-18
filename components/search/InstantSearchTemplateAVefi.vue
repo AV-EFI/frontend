@@ -96,7 +96,7 @@
                                             <template #default="{ nbHits = 0, results }">
                                                 <span v-if="isSearchLoading" id="custom-spinner"
                                                       class="loading loading-spinner loading-md text-primary" />
-                                                <div v-else class="stats stats-vertical w-full lg:stats-horizontal w-full shadow">
+                                                <div v-else class="stats stats-vertical w-full lg:stats-horizontal shadow">
                                                     <div class="stat p-2 px-4">
                                                         <div class="stat-title">{{ $t('works') }}</div>
                                                         <div class="stat-value">{{ getDisplayedWorksCount(results?._rawResults[0], nbHits) }}</div>
@@ -211,9 +211,9 @@
                                         <label v-if="viewTypeChecked === 'accordion'"
                                                class="label cursor-pointer text-sm flex justify-between items-center gap-2 my-auto"
                                                :aria-label="$t('toggleExpandAllHandles')">
-                                            <Icon v-if="!expandAllHandlesChecked" class="dark:text-white shrink-0 !w-4"
+                                            <Icon v-if="!expandAllHandlesChecked" class="dark:text-white shrink-0 w-4!"
                                                   name="tabler:layout-navbar-expand" />
-                                            <Icon v-else class="dark:text-white shrink-0 !w-4" name="tabler:layout-navbar-collapse" />
+                                            <Icon v-else class="dark:text-white shrink-0 w-4!" name="tabler:layout-navbar-collapse" />
                                             <span v-if="!expandAllHandlesChecked"
                                                   class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
                                                 {{ $t('expandAll') }}
@@ -260,6 +260,7 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SEARCH_REFINEMENT_COORDINATOR_KEY, type SearchRefinementAction } from '~/composables/searchRefinementCoordinator';
 import { useMatomoTracking } from '~/composables/useMatomoTracking';
 import { getDisplayedWorksCount } from '~/utils/searchResultCounts';
@@ -517,8 +518,6 @@ const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
 const viewTypeChecked = ref<'accordion' | 'flat' | 'table' | 'compact'>('accordion');
 const isNonProduction = computed(() => process.env.NODE_ENV !== 'production');
 
-const hasInitializedViewType = ref(false);
-
 import { nextTick } from 'vue';
 
 const isRestoringViewType = ref(true);
@@ -571,7 +570,6 @@ const queryAutocompleteRef = ref<{ focusInput?: () => void } | null>(null);
 
 // Get full history items with URLs
 const recentSearchesWithUrl = computed(() => {
-    historyTrigger.value; // Make reactive
     const history = getSearchHistory();
     return history;
 });
@@ -807,7 +805,7 @@ const currentRefinements = computed(() => {
     if (!uiState) return [];
     // Try to extract all refinements (facets, numeric, etc.)
     const refinements: any[] = [];
-    Object.entries(uiState).forEach(([key, value]) => {
+    Object.entries(uiState).forEach(([, value]) => {
         if (typeof value === 'object' && value !== null) {
             Object.entries(value).forEach(([facet, facetValue]) => {
                 if (Array.isArray(facetValue) && facetValue.length) {
