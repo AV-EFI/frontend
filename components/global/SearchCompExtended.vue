@@ -694,7 +694,7 @@ function redirectToSearchScreen() {
         if (Array.isArray(facetFilters.value)) {
             facetFilters.value.forEach(f => {
                 if (f?.facet && f?.valueRaw) {
-                    params.append(`[${f.facet}][0]`, f.valueRaw);
+                    params.append(`[${f.facet}][1]`, f.valueRaw);
                 }
             });
         }

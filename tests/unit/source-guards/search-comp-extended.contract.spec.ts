@@ -25,6 +25,6 @@ describe('SearchCompExtended contract guards', () => {
 
   test('CBC-SEARCH-EXT-004 keeps URL builder with query + facet parameters', () => {
     expect(source).toContain("params.append('query', q)");
-    expect(source).toContain("params.append(`[${f.facet}][0]`, f.valueRaw)");
+    expect(source).toContain("params.append(`[${f.facet}][1]`, f.valueRaw)");
   });
 });
