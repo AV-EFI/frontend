@@ -1,8 +1,8 @@
 <template>
-    <button class="btn btn-xs btn-primary" :alt="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
+    <button class="btn btn-xs btn-primary" :aria-label="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
             :title="$t('copyValueToTargetModelPropertyName', {'name': targetPropertyName})"
             @click="copyExtended(targetPropertyValue, targetPropertyName, sameAsId)">
-        <Icon name="tabler:arrow-right" />
+        <Icon name="tabler:transfer" />
     </button>
     <!--
     <Icon
@@ -16,7 +16,12 @@
 </template>
 <script setup lang="ts">
 
-const {$toast} = useNuxtApp();
+const nuxtApp = useNuxtApp();
+const {$toast} = nuxtApp;
+const $t = (key: string) => {
+    const i18n = nuxtApp.$i18n as { t?: (key: string) => string } | undefined;
+    return i18n?.t?.(key) ?? key;
+};
 
 defineProps ({
     'targetPropertyValue': {
@@ -42,16 +47,16 @@ defineProps ({
 
 function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsId:string)  {
     try {
-        console.log(copyValue, copyPropertyName, sameAsId);
         if(typeof (copyValue) == 'number') {
             copyValue = String(copyValue);
         } 
         //copy(copyValue);
         emit("updateTargetModel", copyValue, copyPropertyName, sameAsId);
-        $toast?.info?.(`'${copyValue}', ${sameAsId} transferred`, {autoClose: 1000} );
+        $toast?.info?.($t('valueTransferred'), {autoClose: 1000} );
     }
     catch(e) {
-        $toast?.error?.('Copy error');
+        console.error(e);
+        $toast?.error?.($t('valueTransferError'));
     }
 }
 

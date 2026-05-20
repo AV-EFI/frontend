@@ -49,7 +49,7 @@ textarea::selection {
   --color-warning: oklch(83% 0.128 66.29);
   --color-warning-content: oklch(17.097% 0.017 84.093);
   --color-error: oklch(60.61% 0.12 15.341);
-  --color-error-content: oklch(12.122% 0.024 15.341);
+  --color-error-content: #ffffff;
 
   --color-highlight: #d8899c;
   --color-highlight-content: #3a1f26;
@@ -103,7 +103,7 @@ textarea::selection {
   --color-warning: oklch(83.242% 0.139 82.95);
   --color-warning-content: oklch(16.648% 0.027 82.95);
   --color-error: oklch(71.785% 0.17 13.118);
-  --color-error-content: oklch(14.357% 0.034 13.118);
+  --color-error-content: #ffffff;
   --color-highlight: #d8899c;
   --color-highlight-content: #3a1f26;
   --color-favourites-list: #b85a5e;              /* muted rose-crimson */

@@ -1,121 +1,70 @@
 <template>
-    <div
-        class="container"
+    <section
+        class="no-results-state"
         role="status"
         aria-live="polite"
+        aria-atomic="true"
     >
-        <!-- Three emojis (filmstrip, filmreel, movie video camera) -->
-        <div
-            v-if="showEmojis"
-            class="emojis"
-            :aria-label="$t('searchingForFilms')"
-        >
-            <span
-                v-for="(emoji, index) in emojis"
-                :key="index"
-                class="emoji text-2xl h-8"
-                role="img"
-                :aria-label="emojiLabels[index]"
-            >{{ emoji }}</span>
+        <div class="no-results-mark" aria-hidden="true">
+            <Icon name="tabler:mood-empty" class="h-8 w-8" />
         </div>
 
-        <!-- Crying emoji appears after animation is complete -->
-        <div
-            v-if="showNothing"
-            class="nothing text-2xl h-8"
-            role="img"
-            :aria-label="$t('noResultsFound')"
-        >
-            😢
+        <div class="no-results-copy">
+            <h2 class="text-base font-semibold text-base-content">
+                {{ $t('noResults') }}
+            </h2>
+            <p class="text-sm leading-6 text-base-content/70">
+                {{ $t('tryClearingFiltersOrQuery') }}
+            </p>
         </div>
-
-        <!-- Magnifying glass animates over the emojis -->
-        <div
-            v-if="showMagnifyingGlass"
-            class="magnifying-glass text-2xl h-8"
-            role="img"
-            :aria-label="$t('searching')"
-        >
-            🔍
-        </div>
-
-        <div
-            v-if="showNothing"
-            class="no-results text-xl text-primary-900 dark:text-neutral-200"
-        >
-            <p>{{ $t('noResults') }}</p>
-            <p>{{ $t('tryClearingFiltersOrQuery') }}</p>
-        </div>
-    </div>
+    </section>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-
-const showMagnifyingGlass = ref(false);
-const showEmojis = ref(false);
-const showNothing = ref(false);
-const emojis = ref(['📽️', '🎬', '📹']);
-const emojiLabels = ref([
-    'Film projector emoji',
-    'Clapperboard emoji',
-    'Video camera emoji'
-]);
-
-onMounted(() => {
-    setTimeout(() => showMagnifyingGlass.value = true, 600);
-    setTimeout(() => showEmojis.value = true, 300);
-    setTimeout(() => {
-        setTimeout(() => {
-            showEmojis.value = false;
-            showMagnifyingGlass.value = false;
-            showNothing.value = true;
-        }, 1800);
-    }, 900);
-});
-</script>
-
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
+.no-results-state {
+  width: min(100%, 42rem);
+  margin: 1.5rem auto;
+  padding: 2rem 1.5rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.875rem;
+  border-block: 1px solid color-mix(in oklch, currentColor 12%, transparent);
+  color: inherit;
+  text-align: center;
+  animation: noResultsEnter 180ms ease-out both;
 }
 
-.emojis {
-  display: flex;
-  justify-content: space-evenly;
-  width: 320px;
-  margin-top: 20px;
+.no-results-mark {
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in oklch, currentColor 16%, transparent);
+  border-radius: 999px;
+  color: var(--color-primary, #4d768d);
+  background: color-mix(in oklch, currentColor 4%, transparent);
 }
 
-.magnifying-glass {
-  position: absolute;
-  animation: moveOverEmojis 2s ease-in-out forwards;
-  margin-top: 20px;
+.no-results-copy {
+  display: grid;
+  gap: 0.25rem;
+  max-width: 32rem;
 }
 
-.no-results {
-  margin-top: 20px;
+@keyframes noResultsEnter {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.nothing {
-  margin-top: 20px;
-  opacity: 0;
-  animation: popIn 0.5s ease-in forwards;
-}
-
-@keyframes moveOverEmojis {
-  0% { transform: translateX(-150px); }
-  33% { transform: translateX(-50px); }
-  66% { transform: translateX(50px); }
-  100% { transform: translateX(150px); }
-}
-
-@keyframes popIn {
-  0% { opacity: 0; transform: scale(0.5); }
-  100% { opacity: 1; transform: scale(1); }
+@media (prefers-reduced-motion: reduce) {
+  .no-results-state {
+    animation: none;
+  }
 }
 </style>

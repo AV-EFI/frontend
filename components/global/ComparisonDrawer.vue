@@ -37,6 +37,7 @@
                             :aria-selected="activeTab === 'comparison'"
                             aria-controls="comparison-panel"
                             :disabled="!comparisonHasItems"
+                            :title="comparisonHasItems ? $t('comparison') : $t('comparisonTabDisabled')"
                             @click="activeTab = 'comparison'"
                         >
                             {{ $t('comparison') }}
@@ -51,6 +52,7 @@
                             :aria-selected="activeTab === 'favourites'"
                             aria-controls="favourites-panel"
                             :disabled="!favouritesHasItems"
+                            :title="favouritesHasItems ? $t('favourites') : $t('favouritesTabDisabled')"
                             @click="activeTab = 'favourites'"
                         >
                             {{ $t('favourites') }}
@@ -203,7 +205,12 @@ import { computed, ref, watch } from 'vue';
 import { useObjectListStore } from '../../stores/compareList';
 import { useFavourites } from '../../stores/favourites';
 
-const { $toggleComparisonDrawerState, $toast }: any = useNuxtApp();
+const nuxtApp = useNuxtApp();
+const { $toggleComparisonDrawerState, $toast }: any = nuxtApp;
+const $t = (key: string, params?: Record<string, unknown>) => {
+    const i18n = nuxtApp.$i18n as { t?: (key: string, params?: Record<string, unknown>) => string } | undefined;
+    return i18n?.t?.(key, params) ?? key;
+};
 const favourites = useFavourites();
 const objectListStore = useObjectListStore();
 const showInfo = ref(false);
@@ -230,18 +237,30 @@ const toggleDrawer = () => {
 
 const removeObject = (index: number, type: string) => {
     if (type === 'favourites') {
+        const itemName = favourites.objects[index]?.filmTitle || $t('favourites');
         favourites.removeObject(index);
+        $toast?.info?.($t('favouriteItemRemoved', { name: itemName }));
         return;
     }
+    const itemName = objectListStore.objects[index]?.filmTitle || $t('comparison');
     objectListStore.removeObject(index);
+    $toast?.info?.($t('comparisonItemRemoved', { name: itemName }));
 };
 
 const removeAllObjects = (type: string) => {
     if (type === 'favourites') {
+        const count = favourites.objects.length;
         favourites.removeAllObjects();
+        if (count > 0) {
+            $toast?.info?.($t('favouritesListCleared', { count }));
+        }
         return;
     }
+    const count = objectListStore.objects.length;
     objectListStore.removeAllObjects();
+    if (count > 0) {
+        $toast?.info?.($t('comparisonListCleared', { count }));
+    }
 };
 
 const navigateToComparison = () => {
@@ -252,7 +271,7 @@ const navigateToComparison = () => {
         }
     } catch (e) {
         console.error(e);
-        $toast?.error?.('Error');
+        $toast?.error?.($t('comparisonNavigationError'));
     }
 };
 </script>

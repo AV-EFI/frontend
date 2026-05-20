@@ -158,6 +158,7 @@ module.exports = {
           success: '#6da67c',
           warning: '#caa450',
           error: '#b04b4b',
+          'error-content': '#ffffff',
         },
       },
       {
@@ -171,6 +172,7 @@ module.exports = {
           success: '#78DBAA',
           warning: '#F8A948',
           error: '#b04b4b',
+          'error-content': '#ffffff',
         },
       },
     ],

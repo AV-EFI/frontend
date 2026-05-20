@@ -100,6 +100,7 @@
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 
 const { ensureFormKitReady } = useFormKitLoader();
+const { t: $t } = useI18n();
 
 await ensureFormKitReady();
 
@@ -125,10 +126,9 @@ function customReset () {
     dataJson.value = JSON.parse(JSON.stringify(initialState));
 }
 
-function customSubmitHandler (e) 
+function customSubmitHandler () 
 {
-    console.log(e);
-    $toast?.success?.("Form submitted");
+    $toast?.success?.($t('formSubmitted'));
 } 
 
 </script>

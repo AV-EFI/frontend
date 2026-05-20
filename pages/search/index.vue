@@ -14,12 +14,12 @@
                     :search-client="searchClient"
                 />
                 <div v-else class="text-center py-4">
-                    <span class="loading loading-spinner loading-lg text-primary" />
+                    <MicroLoadingSpinner :label="$t('loadingSearch')" size="lg" :show-label="true" />
                 </div>
             </client-only>
         </div>
         <div v-else class="text-center py-4">
-            <span class="loading loading-spinner loading-lg text-primary" />
+            <MicroLoadingSpinner :label="$t('loadingSearch')" size="lg" :show-label="true" />
         </div>
     </div>
 </template>

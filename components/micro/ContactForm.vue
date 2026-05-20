@@ -62,7 +62,12 @@ function emitClose() {
     emit('ContactFormClose');
 }
 
-const {$toast} = useNuxtApp();
+const nuxtApp = useNuxtApp();
+const {$toast} = nuxtApp;
+const $t = (key: string) => {
+    const i18n = nuxtApp.$i18n as { t?: (key: string) => string } | undefined;
+    return i18n?.t?.(key) ?? key;
+};
 
 const props = defineProps<{ initialMessage?: string; initialEmail?: string }>();
 
@@ -98,11 +103,12 @@ function validateCaptcha() {
 
 async function handleSubmit() {
     if (hp.value) {
-        liveMsg.value = 'Spam detected.';
+        liveMsg.value = $t('spamDetected');
         return;
     }
     if (!validateCaptcha()) {
-        liveMsg.value = 'Captcha answer is incorrect';
+        liveMsg.value = $t('captchaIncorrect');
+        $toast?.error?.($t('captchaIncorrect'));
         generateCaptcha();
         captchaAnswer.value = '';
         return;
@@ -118,19 +124,18 @@ async function handleSubmit() {
         });
 
         if ((res as any)?.success) {
-            liveMsg.value = 'Message sent successfully!';
+            liveMsg.value = $t('messageSentSuccess');
             $toast?.success?.($t('messageSentSuccess'));
             email.value = '';
             message.value = '';
             captchaAnswer.value = '';
             generateCaptcha();
         } else {      
-            $toast?.error?.($t('messageSentError'));
             throw new Error((res as any)?.error || 'Failed to send message');
         }
     } catch (err) {
         console.error(err);
-        liveMsg.value = 'Failed to send message.';
+        liveMsg.value = $t('messageSentError');
         $toast?.error?.($t('messageSentError'));
     } finally {
         sending.value = false;

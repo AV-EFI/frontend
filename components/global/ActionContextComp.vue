@@ -1,8 +1,18 @@
 <template>
-    <div v-if="item?.has_record?.category === 'avefi:WorkVariant'" class="dropdown dropdown-end">
-        <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
+    <div
+        v-if="item?.has_record?.category === 'avefi:WorkVariant'"
+        ref="dropdownRef"
+        class="dropdown dropdown-end"
+        @focusin="menuOpen = true"
+        @focusout="handleFocusOut"
+    >
+        <div tabindex="0" role="button" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
              :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || '')"
-             class="btn btn-outline btn-circle" :class="['btn-' + compSize]">
+             class="btn btn-outline btn-circle" :class="['btn-' + compSize]"
+             @click="menuOpen = true"
+             @keydown.enter.prevent="menuOpen = true"
+             @keydown.space.prevent="menuOpen = true"
+             @keydown.escape.prevent="menuOpen = false">
             <Icon :class="['text-' + compSize]" name="tabler:dots" />
         </div>
 
@@ -33,7 +43,9 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+import { ref } from 'vue';
+
+defineProps({
     item: {
         type: Object,
         required: false,
@@ -49,4 +61,13 @@ const props = defineProps({
     }
 });
 
+const menuOpen = ref(false);
+const dropdownRef = ref<HTMLElement | null>(null);
+
+function handleFocusOut(event: FocusEvent) {
+    const nextTarget = event.relatedTarget as Node | null;
+    if (!nextTarget || !dropdownRef.value?.contains(nextTarget)) {
+        menuOpen.value = false;
+    }
+}
 </script>
