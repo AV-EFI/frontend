@@ -20,25 +20,25 @@
         </button>
 
         <ul tabindex="0"
-            class="p-2 shadow-md menu dropdown-content bg-base-100 rounded-box w-64 z-20 [li:hover]:bg-transparent"
+            class="action-list p-2 shadow-md menu dropdown-content bg-base-100 rounded-box w-64 z-20 [li:hover]:bg-transparent"
             role="menu" :aria-label="$t('moreOptions')">
-            <li role="none">
-                <div class="w-full p-0 my-0 mx-auto justify-center items-center">
+            <li role="none" class="action-list-item">
+                <div class="action-row-wrap w-full p-0 my-0 mx-auto justify-center items-center">
                     <LazyCartAddToFavouritesComp :film-id="id ?? item?.handle"
-                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="w-48 btn-block btn-sm flex item-start"
+                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="w-48 btn-block btn-sm flex items-start action-btn"
                                                  role="menuitem" />
                 </div>
             </li>
-            <li role="none" class="mt-1">
-                <div class="w-full p-0 my-0 mx-auto justify-center items-center z-20">
+            <li role="none" class="action-list-item">
+                <div class="action-row-wrap w-full p-0 my-0 mx-auto justify-center items-center z-20">
                     <LazyCartAddToComparisonComp :film-id="id ?? item?.handle"
-                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="btn-block btn-sm w-48 flex item-start"
+                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="btn-block btn-sm w-48 flex items-start action-btn"
                                                  role="menuitem" />
                 </div>
             </li>
-            <li role="none" class="mt-1 mx-auto">
+            <li role="none" class="action-list-item mx-auto">
                 <GlobalExportDataComp :data-set-id="id ? [id] : [item.handle]" :data-set-json="JSON.stringify(item, null, 2)"
-                                      class="w-full p-0 mx-auto justify-center items-start flex" btn-size="btn-sm !w-48" role="menuitem"
+                                      class="w-full p-0 mx-auto justify-center items-start flex" btn-size="btn-sm !w-48 action-btn" role="menuitem"
                                       :show-label="true" :fixed-with="true" />
             </li>
         </ul>
@@ -76,6 +76,24 @@ function handleFocusOut(event: FocusEvent) {
 </script>
 
 <style scoped>
+.action-list {
+    row-gap: 0.25rem;
+}
+
+.action-list-item {
+    margin-top: 0 !important;
+}
+
+.action-row-wrap {
+    display: flex;
+}
+
+.action-list :deep(.action-btn) {
+    min-height: 2rem;
+    height: 2rem;
+    align-items: center;
+}
+
 .dropdown-content :deep(.icon-action) {
     font-size: 0.9rem;
 }

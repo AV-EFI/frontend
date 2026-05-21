@@ -15,7 +15,7 @@
                     @click="toggleDrawer"
                 />
                 <div
-                    class="menu p-2 md:p-4 w-full md:w-screen lg:w-max lg:max-w-136 min-h-full bg-white z-40 dark:bg-gray-700 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg"
+                    class="menu p-2 md:p-4 w-full md:w-screen lg:w-max lg:max-w-136 min-h-full bg-white z-40 dark:bg-gray-800 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg"
                 >
                     <div class="w-full flex flex-row justify-between p-2 mb-2">
                         <button class="btn btn-neutral w-16" :title="$t('close')" @click="$toggleComparisonDrawerState()">
@@ -61,7 +61,7 @@
                     <section
                         id="comparison-panel"
                         role="tabpanel"
-                        class="bg-base-200 dark:bg-gray-900 dark:text-white"
+                        class="bg-base-200 dark:bg-gray-900 dark:text-white rounded-xl"
                         aria-labelledby="comparison-tab"
                         :aria-hidden="activeTab !== 'comparison'"
                         v-show="activeTab === 'comparison'"

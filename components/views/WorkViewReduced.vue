@@ -23,12 +23,12 @@
         
                 <table class="table table-xs table-zebra w-full">
                     <tbody>
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('handle') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('handle') }">
                             <td class="font-semibold w-1/3">efi</td>
                             <td>{{ data?.handle || data?.compound_record?._source?.handle || '—' }}</td>
                         </tr>
             
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('alternativeTitles') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('alternativeTitles') }">
                             <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
                             <td>
                                 <ul v-if="alternativeTitles.length" class="list-disc list-inside space-y-1">
@@ -38,38 +38,38 @@
                             </td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('directors') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('directors') }">
                             <td class="font-semibold">{{ $t('directors') }}</td>
                             <td>{{ directors || '—' }}</td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionYear') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('productionYear') }">
                             <td class="font-semibold">{{ $t('year') }}</td>
                             <td>{{ productionYear || '—' }}</td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionCountry') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('productionCountry') }">
                             <td class="font-semibold">{{ $t('country') }}</td>
                             <td>{{ productionCountry || '—' }}</td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workType') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('workType') }">
                             <td class="font-semibold">{{ $t('facettype') }}</td>
                             <td>{{ translateValue(workType) }}</td>
                         </tr>
 
                         <template v-if="showDetailed">
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('producers') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('producers') }">
                                 <td class="font-semibold">{{ $t('producers') }}</td>
                                 <td>{{ producers || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('castMembers') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('castMembers') }">
                                 <td class="font-semibold">{{ $t('castmembers') }}</td>
                                 <td>{{ castMembers || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('subjects') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('subjects') }">
                                 <td class="font-semibold">{{ $t('subjects') }}</td>
                                 <td>
                                     <div v-if="subjects.length" class="flex flex-wrap gap-1">
@@ -79,7 +79,7 @@
                                 </td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('genres') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('genres') }">
                                 <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
                                 <td>
                                     <div v-if="genres.length" class="flex flex-wrap gap-1">
@@ -89,32 +89,32 @@
                                 </td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('languages') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('languages') }">
                                 <td class="font-semibold">{{ $t('has_language') }}</td>
                                 <td>{{ languages.length ? translateArray(languages).join(', ') : '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('duration') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('duration') }">
                                 <td class="font-semibold">{{ $t('duration') }}</td>
                                 <td>{{ duration || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workCategory') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('workCategory') }">
                                 <td class="font-semibold">{{ $t('category') }}</td>
                                 <td>{{ translateValue(workCategory) }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('dataProvider') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('dataProvider') }">
                                 <td class="font-semibold">{{ $t('dataprovider') }}</td>
                                 <td>{{ dataProvider || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('manifestationCount') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('manifestationCount') }">
                                 <td class="font-semibold">{{ $t('manifestations') }}</td>
                                 <td>{{ manifestationCount }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('itemCount') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('itemCount') }">
                                 <td class="font-semibold">{{ $t('items') }}</td>
                                 <td>{{ itemCount }}</td>
                             </tr>
@@ -144,12 +144,12 @@
         
                 <table class="table table-xs table-zebra w-full">
                     <tbody>
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('handle') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('handle') }">
                             <td class="font-semibold w-1/3">efi</td>
                             <td>{{ compareWith?.handle || compareWith?.compound_record?._source?.handle || '—' }}</td>
                         </tr>
             
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('alternativeTitles') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('alternativeTitles') }">
                             <td class="font-semibold">{{ $t('AlternativeTitle') }}</td>
                             <td>
                                 <ul v-if="compareAlternativeTitles.length" class="list-disc list-inside space-y-1">
@@ -159,38 +159,38 @@
                             </td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('directors') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('directors') }">
                             <td class="font-semibold">{{ $t('directors') }}</td>
                             <td>{{ compareDirectors || '—' }}</td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionYear') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('productionYear') }">
                             <td class="font-semibold">{{ $t('year') }}</td>
                             <td>{{ compareProductionYear || '—' }}</td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('productionCountry') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('productionCountry') }">
                             <td class="font-semibold">{{ $t('country') }}</td>
                             <td>{{ compareProductionCountry || '—' }}</td>
                         </tr>
 
-                        <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workType') }">
+                        <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('workType') }">
                             <td class="font-semibold">{{ $t('facettype') }}</td>
                             <td>{{ translateValue(compareWorkType) }}</td>
                         </tr>
 
                         <template v-if="showDetailed">
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('producers') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('producers') }">
                                 <td class="font-semibold">{{ $t('producers') }}</td>
                                 <td>{{ compareProducers || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('castMembers') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('castMembers') }">
                                 <td class="font-semibold">{{ $t('castmembers') }}</td>
                                 <td>{{ compareCastMembers || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('subjects') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('subjects') }">
                                 <td class="font-semibold">{{ $t('subjects') }}</td>
                                 <td>
                                     <div v-if="compareSubjects.length" class="flex flex-wrap gap-1">
@@ -200,7 +200,7 @@
                                 </td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('genres') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('genres') }">
                                 <td class="font-semibold">{{ $t('has_genre_has_name') }}</td>
                                 <td>
                                     <div v-if="compareGenres.length" class="flex flex-wrap gap-1">
@@ -210,32 +210,32 @@
                                 </td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('languages') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('languages') }">
                                 <td class="font-semibold">{{ $t('has_language') }}</td>
                                 <td>{{ compareLanguages.length ? translateArray(compareLanguages).join(', ') : '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('duration') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('duration') }">
                                 <td class="font-semibold">{{ $t('duration') }}</td>
                                 <td>{{ compareDuration || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('workCategory') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('workCategory') }">
                                 <td class="font-semibold">{{ $t('category') }}</td>
                                 <td>{{ translateValue(compareWorkCategory) }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('dataProvider') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('dataProvider') }">
                                 <td class="font-semibold">{{ $t('dataprovider') }}</td>
                                 <td>{{ compareDataProvider || '—' }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('manifestationCount') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('manifestationCount') }">
                                 <td class="font-semibold">{{ $t('manifestations') }}</td>
                                 <td>{{ compareManifestationCount }}</td>
                             </tr>
 
-                            <tr :class="{ 'bg-warning/20': highlightDiffs && isDifferent('itemCount') }">
+                            <tr :class="{ 'bg-warning/20 dark:bg-error': highlightDiffs && isDifferent('itemCount') }">
                                 <td class="font-semibold">{{ $t('items') }}</td>
                                 <td>{{ compareItemCount }}</td>
                             </tr>
