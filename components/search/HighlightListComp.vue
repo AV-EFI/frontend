@@ -23,7 +23,7 @@
                 {{ $t(item) }}
                 <span
                     v-if="ishiliteed(item)"
-                    class="badge badge-xs bg-highlight text-white"
+                    class="badge-highlight-xs"
                     :title="$t('matchedField') + ': ' + item"
                 />
             </li>

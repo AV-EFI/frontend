@@ -268,7 +268,7 @@
                     class="btn btn-sm btn-ghost"
                     @click="showDetailed = !showDetailed"
                 >
-                    <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="w-4 h-4" />
+                    <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="icon-inline" />
                     {{ showDetailed ? $t('showLess') : $t('showMore') }}
                 </button>
             </div>
@@ -385,7 +385,7 @@
                 class="btn btn-sm btn-ghost"
                 @click="showDetailed = !showDetailed"
             >
-                <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="w-4 h-4" />
+                <Icon :name="showDetailed ? 'tabler:chevron-up' : 'tabler:chevron-down'" class="icon-inline" />
                 {{ showDetailed ? $t('showLess') : $t('showMore') }}
             </button>
       

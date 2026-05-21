@@ -1,10 +1,10 @@
 <template>
     <div class="relative inline-block">
-        <button class="btn btn-primary w-full h-full" :class="[btnSize]" :alt="$t('exportdata')"
+        <button class="btn btn-primary w-full h-full" :class="[btnSize]"
                 :title="$t('exportdata')" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
                 aria-controls="export-menu" @click="toggleMenu" @keydown.enter.prevent="toggleMenu"
                 @keydown.space.prevent="toggleMenu">
-            <Icon name="tabler:download" class="text-xl w-4 h-4" />
+            <Icon name="tabler:download" class="icon-action" aria-hidden="true" />
             <span v-if="showLabel" class="hidden md:inline-block capitalize ml-1 text-left"
                   :class="[fixedWith? 'w-24' : '']">{{ $t('export') }}</span>
         </button>

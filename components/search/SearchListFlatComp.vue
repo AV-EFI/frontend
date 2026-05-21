@@ -25,7 +25,7 @@
                         </a>
                         <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false" class="ml-2" />
                     </h2>
-                    <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left opacity-95">
+                    <h3 v-if="work?.has_record?.has_alternative_title" class="muted text-left">
                         <ul v-if="work._highlightResult?.has_record?.has_alternative_title?.has_name">
                             <li v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name" :key="idx"
                                 class="block" tabindex="0"
@@ -204,7 +204,7 @@
                                         class="btn btn-sm btn-block btn-outline mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                         :aria-label="`${$t('viewItemDetails')}: ${row.item?.handle || ''}`" :title="$t('viewItemDetails')"
                                         @click="navigateToItem(row.item, work?.handle ?? '')">
-                                        <Icon name="tabler:eye" class="w-4 h-4 mr-1" aria-hidden="true" />
+                                        <Icon name="tabler:eye" class="icon-inline mr-1" aria-hidden="true" />
                                         <span class="sr-only">{{ $t('viewItemDetails') }}</span>
                                     </button>
                                 </div>

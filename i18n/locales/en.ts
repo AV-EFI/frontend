@@ -718,7 +718,7 @@ const avefiBase = {
   'contact.workContent.6': 'An item is the physical product of a manifestation of a work or a variant, i.e. the physical copy of a work or a variant. An item may consist of one or more components, i.e. the entire item may consist of one reel or five spools, two VHS tapes, or one DVD. An item record may include fields or areas for separate barcodes and condition information for each component of the item (e.g. each spool) as needed. The item may be complete, incomplete, or a fragment. For purely digital media, an item is defined as the availability of the file, regardless of the number of backup copies that may exist.',
   'countdownworkshop': 'Countdown till Workshop Anforderungsdokumentation:',
   'countries': 'Production Location',
-  'copiedToClipboard': 'copied to clipboard',
+  'copiedToClipboard': 'Copied to clipboard.',
   'linkCopied': 'Link copied to clipboard',
   'copyLinkPrompt': 'Copy this link',
   'share': {
@@ -1138,6 +1138,9 @@ const avefiBase = {
   "loadingDatasets": "Loading datasets...",
   "noDataToCompare": "No data to compare.",
   "rawData": "Raw data",
+  "copyFailed": "Could not copy to clipboard.",
+  "formattedSource": "Formatted source",
+  "dataQuality.probableImportIssue": "This value is very probably caused by an import issue.",
   "institutionLabel": "Institution",
   "userLabel": "User",
   "debugPage": {

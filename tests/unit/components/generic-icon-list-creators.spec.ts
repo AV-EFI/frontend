@@ -23,6 +23,7 @@ function mountList(data: Record<string, unknown>) {
     global: {
       stubs: {
         Icon: { props: ['name'], template: '<span data-testid="icon">{{ name }}</span>' },
+        MicroDataQualityWarningIcon: { props: ['label'], template: '<span data-testid="dq-warning">{{ label }}</span>' },
       },
       mocks: {
         $t: (key: string) => key,
@@ -64,6 +65,7 @@ describe('GenericIconList creators migration', () => {
       global: {
         stubs: {
           Icon: { props: ['name'], template: '<span data-testid="icon">{{ name }}</span>' },
+          MicroDataQualityWarningIcon: { props: ['label'], template: '<span data-testid="dq-warning">{{ label }}</span>' },
         },
         mocks: {
           $t: (key: string) => key,
@@ -72,5 +74,34 @@ describe('GenericIconList creators migration', () => {
     });
 
     expect(wrapper.find('[data-testid="icon"]').text()).toBe('tabler-lock-open');
+  });
+
+  test('shows data-quality warning for whitespace-comma-only creators', () => {
+    const wrapper = mountList({
+      creators: [', '],
+    });
+
+    expect(wrapper.find('[data-testid="dq-warning"]').exists()).toBe(true);
+    expect(wrapper.find('[data-testid="dq-warning"]').text()).toContain('whitespace-only');
+  });
+
+  test('shows data-quality warning for whitespace-comma-only production values only', () => {
+    const badProduction = mountList({
+      production: [', '],
+    });
+    const normalProduction = mountList({
+      production: ['DEFA'],
+    });
+
+    expect(badProduction.find('[data-testid="dq-warning"]').exists()).toBe(true);
+    expect(normalProduction.find('[data-testid="dq-warning"]').exists()).toBe(false);
+  });
+
+  test('does not warn for volatile subject values', () => {
+    const wrapper = mountList({
+      subjects: [', '],
+    });
+
+    expect(wrapper.find('[data-testid="dq-warning"]').exists()).toBe(false);
   });
 });

@@ -2,7 +2,7 @@
 <template>
     <div ref="rootRef" class="relative w-full">
         <button v-if="partnersItems.length > 1 && isReady" @click="prevSlide"
-                class="absolute -left-10 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
+                class="absolute -left-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
                 :aria-label="$t('home.carousel.aria.previous')">
             <Icon name="tabler:chevron-left" />
         </button>
@@ -61,18 +61,18 @@
         </div>
 
         <button v-if="partnersItems.length > 1 && isReady" @click="nextSlide"
-                class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow hidden sm:flex w-10 h-10"
+                class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
                 :aria-label="$t('home.carousel.aria.next')">
             <Icon name="tabler:chevron-right" />
         </button>
 
         <button v-if="partnersItems.length > 1 && isReady" @click="prevSlide"
-                class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
+                class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
                 :aria-label="$t('home.carousel.aria.previous')">
             <Icon name="tabler:chevron-left" />
         </button>
         <button v-if="partnersItems.length > 1 && isReady" @click="nextSlide"
-                class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-neutral text-white dark:bg-base-200 shadow flex sm:hidden"
+                class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
                 :aria-label="$t('home.carousel.aria.next')">
             <Icon name="tabler:chevron-right" />
         </button>

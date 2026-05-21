@@ -111,7 +111,7 @@
                             <button type="button" :aria-label="ariaLabelFavourites"
                                     @click="$toggleComparisonDrawerState('favourites')">
                                 {{ $t("favourites") }}
-                                <span class="indicator-item badge badge-favourites-list text-white">{{ favourites.objects?.length
+                                <span class="indicator-item badge badge-favourites-list">{{ favourites.objects?.length
                                 }}</span>
                             </button>
                         </li>
@@ -120,7 +120,7 @@
                             <button type="button" :aria-label="ariaLabelComparison"
                                     @click="$toggleComparisonDrawerState('comparison')">
                                 {{ $t("comparison") }}
-                                <span class="indicator-item badge badge-compare-list text-white">{{ objectListStore.objects?.length
+                                <span class="indicator-item badge badge-compare-list">{{ objectListStore.objects?.length
                                 }}</span>
                             </button>
                         </li>

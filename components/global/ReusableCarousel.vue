@@ -6,7 +6,7 @@
         </div>
 
         <div v-else-if="error" class="alert alert-error">
-            <Icon name="tabler:alert-circle" class="w-6 h-6" />
+            <Icon name="tabler:alert-circle" class="icon-status" aria-hidden="true" />
             <span>{{ error }}</span>
         </div>
 
@@ -21,8 +21,7 @@
                     v-if="items.length > 1"
                     :alt="t('togglePreviousSlide')"
                     :aria-label="t('togglePreviousSlide')"
-                    class="md:flex z-10 p-2 bg-primary text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center
-                 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
+                    class="z-10 btn-carousel-control hidden md:flex md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
                     @click="prevSlide"
                 >
                     <Icon name="tabler:chevron-left" />
@@ -93,8 +92,7 @@
                     v-if="items.length > 1"
                     :alt="t('toggleNextSlide')"
                     :aria-label="t('toggleNextSlide')"
-                    class="z-10 md:flex p-2 bg-primary text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center
-                 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
+                    class="z-10 btn-carousel-control hidden md:flex md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
                     @click="nextSlide"
                 >
                     <Icon name="tabler:chevron-right" />
@@ -172,7 +170,7 @@
                 <button
                     v-if="items.length > 1"
                     @click="prevMobileSlide"
-                    class="absolute left-2 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow flex"
+                    class="absolute left-2 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex"
                     :aria-label="t('togglePreviousSlide')"
                 >
                     <Icon name="tabler:chevron-left" />
@@ -181,7 +179,7 @@
                 <button
                     v-if="items.length > 1"
                     @click="nextMobileSlide"
-                    class="absolute right-2 top-1/2 z-20 -translate-y-1/2 btn btn-circle btn-glass bg-primary text-white dark:bg-base-200 shadow flex"
+                    class="absolute right-2 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex"
                     :aria-label="t('toggleNextSlide')"
                 >
                     <Icon name="tabler:chevron-right" />

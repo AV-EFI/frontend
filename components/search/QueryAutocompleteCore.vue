@@ -41,14 +41,14 @@
                     @mousedown.stop.prevent
                     @click="showSearchHelp = !showSearchHelp"
                     @keydown.escape.prevent="showSearchHelp = false">
-                <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:info-circle" aria-hidden="true" />
+                <Icon class="icon-action text-gray-500 dark:text-gray-400" name="tabler:info-circle" aria-hidden="true" />
             </button>
 
             <!-- Clear button inside input -->
             <button v-if="displayValue" type="button"
                     class="absolute w-8 h-8 right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                     :title="clearTitle" :aria-label="clearTitle" @mousedown.stop.prevent="onClear">
-                <Icon class="text-lg text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
+                <Icon class="icon-action text-gray-500 dark:text-gray-400" name="tabler:x" aria-hidden="true" />
             </button>
         </div>
 
@@ -112,7 +112,7 @@
                             class="ml-auto opacity-0 group-hover:opacity-100 focus:opacity-100 text-gray-400 hover:text-red-600 dark:hover:text-red-400 shrink-0"
                             :aria-label="$t('remove')"
                             @mousedown.stop.prevent="emit('remove-recent', s.text)">
-                        <Icon name="tabler:x" class="text-sm" aria-hidden="true" />
+                        <Icon name="tabler:x" class="icon-inline" aria-hidden="true" />
                     </button>
                 </div>
             </template>

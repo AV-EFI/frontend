@@ -21,7 +21,7 @@
                 @click="toggleDrawer"
             />
             <div
-                class="relative menu w-full md:w-screen lg:w-80 overflow-y-auto overflow-x-visible max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30"
+                class="relative menu w-full md:w-screen lg:w-80 overflow-y-auto overflow-x-visible max-md:bg-base-100 max-md:w-90vw text-base-content dark:text-white z-30 bg-base-100"
                 :aria-busy="isSearchLoading"
             >
                 <div
@@ -37,8 +37,8 @@
                         @click="$toggleFacetDrawerState"
                     >
                         <Icon
-                            class="text-xl"
-                            name="formkit:close"
+                            class="icon-action"
+                            name="tabler:x"
                         />
                     </button>
                 </div>

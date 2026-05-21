@@ -26,7 +26,7 @@
             :aria-label="$t('comparisonAndCartCounts')"
         >
             <div
-                class="badge bg-favourites-list hover:bg-favourites-list font-bold text-white text-center join-item"
+                class="badge badge-favourites-list font-bold text-center join-item"
                 :title="$t('elementsinfavourites')"
                 :aria-label="`${$t('elementsinfavourites')}: ${favourites.objects?.length}`"
             >
@@ -36,7 +36,7 @@
                 {{ favourites.objects?.length }}
             </div>
             <div
-                class="badge bg-compare-list font-bold text-white text-center join-item"
+                class="badge badge-compare-list font-bold text-center join-item"
                 :title="$t('elementsincomparison')"
                 :aria-label="`${$t('elementsincomparison')}: ${objectListStore.objects?.length}`"
             >

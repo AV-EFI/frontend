@@ -19,7 +19,7 @@
                 >
                     <div class="w-full flex flex-row justify-between p-2 mb-2">
                         <button class="btn btn-neutral w-16" :title="$t('close')" @click="$toggleComparisonDrawerState()">
-                            <Icon class="text-xl" name="formkit:close" />
+                            <Icon class="icon-action" name="tabler:x" aria-hidden="true" />
                         </button>
                     </div>
 
@@ -32,7 +32,7 @@
                             id="comparison-tab"
                             role="tab"
                             type="button"
-                            class="tab flex-1 lg:!w-64"
+                            class="tab flex-1 lg:w-64!"
                             :class="{ 'tab-active': activeTab === 'comparison' }"
                             :aria-selected="activeTab === 'comparison'"
                             aria-controls="comparison-panel"
@@ -47,7 +47,7 @@
                             id="favourites-tab"
                             role="tab"
                             type="button"
-                            class="tab flex-1 lg:!w-64"
+                            class="tab flex-1 lg:w-64!"
                             :class="{ 'tab-active': activeTab === 'favourites' }"
                             :aria-selected="activeTab === 'favourites'"
                             aria-controls="favourites-panel"
@@ -68,7 +68,7 @@
                     >
                         <div class="p-2 w-full flex flex-row justify-between">
                             <button class="btn btn-ghost btn-sm w-16" :title="$t('info')" @click="showInfo = !showInfo">
-                                <Icon name="tabler:info" class="text-lg" />
+                                <Icon name="tabler:info" class="icon-inline" aria-hidden="true" />
                             </button>
                             <p v-if="showInfo" class="grow">
                                 {{ $t('comparisonComponent') }}
@@ -82,18 +82,18 @@
                                 :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
                                 @click="navigateToComparison"
                             >
-                                <Icon class="text-lg text-white w-4 h-4" name="tabler:arrows-exchange" />
+                                <Icon class="icon-inline" name="tabler:arrows-exchange" aria-hidden="true" />
                                 <span class="hidden md:inline-block">{{ $t('comp') }}</span>
                             </button>
 
                             <button
-                                class="btn btn-error h-12 join-item w-1/3"
+                                class="btn-danger h-12 join-item w-1/3"
                                 :class="objectListStore.objects.length < 1 && 'btn-disabled'"
                                 :title="$t('clearalllist')"
                                 @click="removeAllObjects('objectListStore')"
                             >
-                                <span class="text-white flex">
-                                    <Icon class="text-lg text-white w-4 h-4 mr-2" name="tabler:trash" />
+                                <span class="flex">
+                                    <Icon class="icon-inline mr-2" name="tabler:trash" aria-hidden="true" />
                                     {{ $t('clearalllist') }}
                                 </span>
                             </button>
@@ -114,13 +114,13 @@
                                         {{ object.filmTitle }}
                                     </a>
                                     <div class="w-1/4 flex flex-row">
-                                        <GlobalExportDataComp :data-set-id="[object.filmId]" btn-size="btn-circle btn-sm !w-8 !h-8" />
+                                        <GlobalExportDataComp :data-set-id="[object.filmId]" btn-size="btn-icon-sm" />
                                         <button
                                             :title="$t('remove')"
-                                            class="btn btn-error btn-circle btn-sm text-white ml-1 w-8 h-8"
+                                            class="btn-icon-danger ml-1"
                                             @click="removeObject(index, 'objectListStore')"
                                         >
-                                            <Icon class="text-lg" name="tabler:trash" />
+                                            <Icon class="icon-inline" name="tabler:trash" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                     >
                         <div class="p-2 w-full flex flex-row justify-between">
                             <button class="btn btn-ghost btn-sm w-16" :title="$t('info')" @click="showInfo = !showInfo">
-                                <Icon class="text-lg" name="tabler:info-circle" />
+                                <Icon class="icon-inline" name="tabler:info-circle" aria-hidden="true" />
                             </button>
                             <p v-if="showInfo" class="grow">
                                 {{ $t('favouritesComponent') }}
@@ -150,12 +150,12 @@
 
                         <div class="join w-full mt-2 p-2">
                             <button
-                                class="btn btn-error text-white join-item h-12 w-1/2"
+                                class="btn-danger join-item h-12 w-1/2"
                                 :class="favourites.objects.length < 1 && 'btn-disabled'"
                                 :title="$t('clearalllist')"
                                 @click="removeAllObjects('favourites')"
                             >
-                                <Icon name="tabler:trash" />
+                                <Icon name="tabler:trash" class="icon-inline" aria-hidden="true" />
                                 {{ $t('clearalllist') }}
                             </button>
 
@@ -176,14 +176,14 @@
                                     <div class="w-1/4 flex flex-row">
                                         <GlobalExportDataComp
                                             :data-set-id="[favouritesItem.filmId]"
-                                            btn-size="btn-circle btn-sm !w-8 !h-8"
+                                            btn-size="btn-icon-sm"
                                         />
                                         <button
                                             :title="$t('remove')"
-                                            class="btn btn-error btn-circle btn-sm w-8 h-8 text-white ml-1"
+                                            class="btn-icon-danger ml-1"
                                             @click="removeObject(index, 'favourites')"
                                         >
-                                            <Icon class="text-lg" name="tabler:trash" />
+                                            <Icon class="icon-inline" name="tabler:trash" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </div>

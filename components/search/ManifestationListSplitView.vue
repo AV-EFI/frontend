@@ -24,9 +24,9 @@
                                     </span>
                                     <GlobalTooltipInfo class="text-xs" :text="$t('allItemsEmptyTooltip')" />
                                 </div>
-                                <span class="text-sm ml-auto font-mono" :alt="$t('itemsCount')" :aria-label="$t('itemsCount')"
+                                <span class="text-sm ml-auto font-mono" :aria-label="$t('itemsCount')"
                                       :title="$t('itemsCount')">
-                                    <Icon class="text-xs" name="tabler:hierarchy" /> {{ getFilteredItems(m).length }}
+                                    <Icon class="text-xs" name="tabler:hierarchy" aria-hidden="true" /> {{ getFilteredItems(m).length }}
                                 </span>
                             </div>
                             <GlobalClipboardComp :display-text="m.handle" class="text-xs dark:hover:text-gray-400"
@@ -35,12 +35,12 @@
                                  :aria-label="`${$t('issuer')}: ${m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer')}`">
                                 {{ m.has_record?.described_by?.has_issuer_name || $t('unknownIssuer') }}
                             </div>
-                            <SearchGenericIconList :data="m" level="manifestation" />
+                            <SearchGenericIconList :data="m" level="manifestation" density="compact" />
                             <button type="button"
                                     class="btn btn-primary btn-outline btn-sm mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                     :aria-label="`${$t('viewManifestationDetails')}: ${m.handle}`" :title="$t('viewManifestationDetails')"
                                     @click.stop="navigateToItem(m)">
-                                <Icon name="tabler:eye" class="w-4 h-4 mr-1" aria-hidden="true" />
+                                <Icon name="tabler:eye" class="icon-inline mr-1" aria-hidden="true" />
                                 <span class="sr-only">{{ $t('viewManifestationDetails') }}</span>
                             </button>
                         </div>
@@ -66,10 +66,10 @@
                                     class="bg-base-100 dark:bg-base-300 rounded-md p-2" tabindex="0"
                                     :aria-label="`${$t('item')}: ${item?.handle}`">
                                     <div class="flex gap-2 items-start mb-1">
-                                        <Icon name="tabler:tree" class="text-primary w-4 h-4" aria-hidden="true" />
+                                        <Icon name="tabler:tree" class="icon-inline text-primary" aria-hidden="true" />
                                         <span class="text-sm">{{ item?.handle }}</span>
                                     </div>
-                                    <SearchGenericIconList :data="item" level="item" />
+                                    <SearchGenericIconList :data="item" level="item" density="compact" />
                                 </li>
                             </ul>
                             <button class="btn btn-xs btn-outline mt-2 w-full" :aria-label="$t('viewAllItems')"
@@ -116,7 +116,7 @@
                             :aria-labelledby="`item-${item.handle}`" role="group"
                             :aria-label="$t('itemDetails', { handle: item.handle })">
                             <div class="flex items-start gap-2">
-                                <Icon name="tabler:hierarchy" class="text-primary w-4 h-4 shrink-0" aria-hidden="true" />
+                                <Icon name="tabler:hierarchy" class="icon-inline text-primary" aria-hidden="true" />
                                 <MicroBadgeCategoryComp category="avefi:Item" :dense="false" />
                             </div>
                             <div tabindex="0" class="flex items-start" :aria-label="`${$t('item')}: ${item.handle}`">
@@ -131,7 +131,7 @@
                                 {{ $t('emptyItem') }}
                                 <GlobalTooltipInfo :text="$t('emptyItemTooltip')" />
                             </div>
-                            <SearchGenericIconList :data="item" level="item" />
+                            <SearchGenericIconList :data="item" level="item" density="compact" />
                             <div class="divider divide-neutral-50 my-0"></div>
                             <div class="text-sm text-left flex justify-items-start text-gray-500 dark:text-gray-300 my-2 relative"
                                  v-if="item?.has_record?.has_webresource">
@@ -148,7 +148,7 @@
                                         class="btn btn-primary btn-sm btn-block btn-outline my-auto focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                         :aria-label="`${$t('viewItemDetails')}: ${item.handle}`" :title="$t('viewItemDetails')"
                                         @click="navigateToItem(item)">
-                                    <Icon name="tabler:eye" class="w-4 h-4 mr-1 dark:text-gray-200" aria-hidden="true" />
+                                    <Icon name="tabler:eye" class="icon-inline mr-1 dark:text-gray-200" aria-hidden="true" />
                                 </button>
                             </div>
                         </li>

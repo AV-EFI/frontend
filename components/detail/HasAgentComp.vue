@@ -17,6 +17,11 @@
                 :aria-label="$t('agent_name') + ': ' + has_agent_item.has_name"
             >
                 {{ has_agent_item.has_name }}
+                <MicroDataQualityWarningIcon
+                    v-if="getSuspiciousAgentNamePattern(has_agent_item.has_name)"
+                    class="ml-1"
+                    :label="dataQualityWarningLabel(has_agent_item.has_name)"
+                />
             </h4>
 
             <span
@@ -59,6 +64,11 @@
                     >
                         <span>
                             {{ alternate_name_item }}
+                            <MicroDataQualityWarningIcon
+                                v-if="getSuspiciousAgentNamePattern(alternate_name_item)"
+                                class="ml-1"
+                                :label="dataQualityWarningLabel(alternate_name_item)"
+                            />
                         </span>
                     </li>
                 </ul>
@@ -77,10 +87,19 @@
 </template>
 
 <script setup lang="ts">
+import { getSuspiciousAgentNamePattern } from '~/utils/agentQuality';
+
 defineProps({
     agentData: {
         type: Object,
         default: null
     }
 });
+
+function dataQualityWarningLabel(value: unknown) {
+    const pattern = getSuspiciousAgentNamePattern(value);
+    return pattern
+        ? `${pattern.description}. ${useNuxtApp().$i18n.t('dataQuality.probableImportIssue')}`
+        : '';
+}
 </script>

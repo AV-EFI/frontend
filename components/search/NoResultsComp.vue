@@ -6,7 +6,7 @@
         aria-atomic="true"
     >
         <div class="no-results-mark" aria-hidden="true">
-            <Icon name="tabler:mood-empty" class="h-8 w-8" />
+            <Icon name="tabler:mood-empty" class="icon-empty-state" />
         </div>
 
         <div class="no-results-copy">

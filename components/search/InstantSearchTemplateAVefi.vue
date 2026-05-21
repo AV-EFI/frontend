@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container rounded-lg border border-base-200 bg-white dark:bg-base-200 p-2 py-6 lg:px-4">
+        <div class="container panel-surface rounded-lg p-2 py-6 lg:px-4">
             <ais-instant-search :search-client="effectiveSearchClient" :index-name="indexName" :show-loading-indicator="true"
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
@@ -34,12 +34,12 @@
 
                                             <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
                                                     :title="$t('search')" @click="handleSearchSubmit(localSearchValue, refine)">
-                                                <Icon class="text-lg" name="formkit:search" />
+                                                <Icon class="icon-inline" name="formkit:search" aria-hidden="true" />
                                                 <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                                             </button>
                                             <!-- Context menu button -->
                                             <div class="relative ml-2" ref="searchMenuRef">
-                                                <button type="button" class="btn btn-ghost btn-circle btn-outline lg:btn-lg w-12 h-12"
+                                                <button type="button" class="btn-icon btn-ghost btn-outline lg:btn-lg"
                                                         @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
                                                         :title="$t('searchOptions')">
                                                     <Icon name="tabler:dots" />
@@ -50,12 +50,12 @@
                                                     <ul class="menu menu-compact">
                                                         <li>
                                                             <button @click="shareSearch">
-                                                                <Icon name="tabler:share" class="w-4 h-4" />&nbsp;{{ $t('shareSearch') }}
+                                                                <Icon name="tabler:share" class="icon-inline" aria-hidden="true" />&nbsp;{{ $t('shareSearch') }}
                                                             </button>
                                                         </li>
                                                         <li>
                                                             <button @click="suggestSearch">
-                                                                <Icon name="tabler:message-circle" class="w-4 h-4" />&nbsp;{{ $t('suggestSearchToAVefi') }}
+                                                                <Icon name="tabler:message-circle" class="icon-inline" aria-hidden="true" />&nbsp;{{ $t('suggestSearchToAVefi') }}
                                                             </button>
                                                         </li>
                                                     </ul>
@@ -84,14 +84,14 @@
                                 role="alert"
                                 aria-live="assertive"
                             >
-                                <Icon name="tabler:alert-triangle" aria-hidden="true" />
+                                <Icon name="tabler:alert-triangle" class="icon-status" aria-hidden="true" />
                                 <span>{{ $t('searchBackendError') }}</span>
                             </div>
                             <div class="w-full">
                                 <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
                                      role="region" :aria-label="$t('filteringsection')">
                                     <div
-                                        class="w-full flex flex-row justify-center col-span-2 bg-white dark:bg-gray-800 rounded-lg p-2 border-2 border-base-200">
+                                        class="panel-surface w-full flex flex-row justify-center col-span-2 rounded-lg p-2">
                                         <ais-stats class="flex flex-row w-full">
                                             <template #default="{ nbHits = 0, results }">
                                                 <span v-if="isSearchLoading" id="custom-spinner"
@@ -115,33 +115,33 @@
                                             </template>
                                         </ais-stats>
                                     </div>
-                                    <div class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg bg-base-100" role="region"
+                                    <div class="panel-surface col-span-full md:col-span-3 rounded-lg" role="region"
                                          :aria-label="$t('activeFacets')">
                                         <div
-                                            class="lg:col-span-full card p-2 flex flex-col md:flex-row justify-between w-full dark:bg-gray-800 rounded-t-lg rounded-b-none">
+                                            class="lg:col-span-full p-2 flex flex-col md:flex-row justify-between w-full rounded-t-lg rounded-b-none">
                                             <div class="w-full md:w-1/2 flex flex-row justify-start">
-                                                <h2 id="active-facets-heading" class="font-bold text-gray-800 dark:text-gray-200" tabindex="-1">
+                                                <h2 id="active-facets-heading" class="font-bold text-base-content" tabindex="-1">
                                                     {{ $t('activeFacets') }}
                                                 </h2>
                                             </div>
                                             <div class="w-full md:w-1/2 flex flex-row justify-end">
                                                 <button
                                                     type="button"
-                                                    class="btn btn-outline btn-sm border-neutral text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                                                    class="btn-danger-outline btn-sm"
                                                     @click="handleClearAllRefinements"
                                                     :aria-label="$t('clearallfilters')"
                                                 >
-                                                    <Icon name="formkit:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
+                                                    <Icon name="tabler:trash" class="icon-inline" aria-hidden="true" /> <span>{{ $t('clearallfilters') }}</span>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="w-full bg-white dark:bg-gray-800 rounded-t-none rounded-b-lg p-2" role="list"
+                                        <div class="w-full rounded-t-none rounded-b-lg p-2" role="list"
                                              aria-labelledby="active-facets-heading">
                                             <ais-current-refinements :class-names="{
                                                 'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                                                'ais-CurrentRefinements-item': 'border border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-1 md:w-auto md:max-w-xs',
-                                                'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                                                'ais-ClearRefinements-button': 'btn hover:bg-red-600 text-white',
+                                                'ais-CurrentRefinements-item': 'filter-chip w-full p-1 md:w-auto md:max-w-xs',
+                                                'ais-CurrentRefinements-delete': 'link link-hover text-error',
+                                                'ais-ClearRefinements-button': 'btn-danger',
                                             }">
                                                 <template v-slot="{ items }">
                                                     <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-gray-500 text-sm dark">
@@ -164,7 +164,7 @@
                                                                    :aria-label="`${$t('remove')} ${$t(item.label.split('.').at(-1))} ${$t(refinement.label)}`"
                                                                    @click.prevent="handleCurrentRefinementRemove(refine, refinement)">
                                                                     {{ $t(refinement.label) }}
-                                                                    <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />
+                                                                    <Icon class="icon-inline my-auto" name="tabler:trash" aria-hidden="true" />
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -178,27 +178,29 @@
                                             </ais-current-refinements>
                                             <!-- Custom chip for production year slider -->
                                             <div v-if="hasProductionYearRefinement && productionYearLabel" class="flex flex-row flex-wrap gap-2 mt-2">
-                                                <div class="border flex flex-col items-start border-base-200 text-gray-700 dark:text-gray-200 dark:border-gray-600 rounded-lg p-1 md:w-auto md:max-w-xs">
+                                                <div class="filter-chip flex flex-col items-start p-1 md:w-auto md:max-w-xs">
                                                     <strong class="font-bold text-sm mb-2 dark:text-primary-100 mr-2">
                                                         {{ $t('productionyear') }}:
                                                     </strong>
-                                                    <div class="flex flex-row items-start cursor-pointer" @click="clearProductionYearRefinement" :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`">
+                                                    <button type="button" class="flex flex-row items-start cursor-pointer text-left"
+                                                            :aria-label="`${$t('remove')} ${$t('productionyear')} ${productionYearLabel}`"
+                                                            @click="clearProductionYearRefinement">
                                                         <span class="text-sm">{{ productionYearLabel }}</span>
                                                         <div class="ml-2 my-auto">
-                                                            <Icon class="text-lg my-auto p-2" name="formkit:trash" aria-hidden="true" />                                                          
+                                                            <Icon class="icon-inline my-auto" name="tabler:trash" aria-hidden="true" />
                                                         </div>
-                                                    </div>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div
-                                        class="form-control w-full border-base-200 border-2 col-span-2 flex flex-col justify-end bg-white dark:bg-gray-800 rounded-lg p-2 my-auto gap-y-1 h-full">
+                                        class="panel-surface form-control w-full col-span-2 flex flex-col justify-end rounded-lg p-2 my-auto gap-y-1 h-full">
                                         <label class="label cursor-pointer text-sm flex justify-between items-center gap-2"
                                                :aria-label="$t('toggleViewType')">
-                                            <Icon name="tabler:info-circle" class="text-gray-500 dark:text-gray-300 shrink-0 w-4!"
+                                            <Icon name="tabler:info-circle" class="icon-inline text-base-content/70"
                                                   :title="$t('viewTypeCheckedWarning')" />
-                                            <span class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                                            <span class="label-text text-base-content flex-1 text-left">
                                                 {{ $t('viewType') }}
                                             </span>
                                             <select v-model="viewTypeChecked" class="select select-primary select-sm w-auto my-auto">
@@ -211,14 +213,14 @@
                                         <label v-if="viewTypeChecked === 'accordion'"
                                                class="label cursor-pointer text-sm flex justify-between items-center gap-2 my-auto"
                                                :aria-label="$t('toggleExpandAllHandles')">
-                                            <Icon v-if="!expandAllHandlesChecked" class="dark:text-white shrink-0 w-4!"
+                                            <Icon v-if="!expandAllHandlesChecked" class="icon-inline"
                                                   name="tabler:layout-navbar-expand" />
-                                            <Icon v-else class="dark:text-white shrink-0 w-4!" name="tabler:layout-navbar-collapse" />
+                                            <Icon v-else class="icon-inline" name="tabler:layout-navbar-collapse" />
                                             <span v-if="!expandAllHandlesChecked"
-                                                  class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                                                  class="label-text text-base-content flex-1 text-left">
                                                 {{ $t('expandAll') }}
                                             </span>
-                                            <span v-else class="label-text text-gray-800 dark:text-gray-200 flex-1 text-left">
+                                            <span v-else class="label-text text-base-content flex-1 text-left">
                                                 {{ $t('collapseAll') }}
                                             </span>
 

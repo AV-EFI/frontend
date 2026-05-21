@@ -6,15 +6,18 @@
         @focusin="menuOpen = true"
         @focusout="handleFocusOut"
     >
-        <div tabindex="0" role="button" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
-             :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || '')"
-             class="btn btn-outline btn-circle" :class="['btn-' + compSize]"
-             @click="menuOpen = true"
-             @keydown.enter.prevent="menuOpen = true"
-             @keydown.space.prevent="menuOpen = true"
-             @keydown.escape.prevent="menuOpen = false">
+        <button
+            type="button"
+            aria-haspopup="true"
+            :aria-expanded="menuOpen.toString()"
+            :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || item?.has_record?.has_primary_title?.has_name || '')"
+            class="btn btn-outline btn-circle"
+            :class="['btn-' + compSize]"
+            @click="menuOpen = true"
+            @keydown.escape.prevent="menuOpen = false"
+        >
             <Icon :class="['text-' + compSize]" name="tabler:dots" />
-        </div>
+        </button>
 
         <ul tabindex="0"
             class="p-2 shadow-md menu dropdown-content bg-base-100 rounded-box w-64 z-20 [li:hover]:bg-transparent"

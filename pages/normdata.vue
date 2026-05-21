@@ -59,10 +59,10 @@
             </div>
 
             <div class="relative inline-block ml-auto">
-                <button class="btn btn-sm btn-primary" :alt="'Export Data'" :title="'Export Data'" aria-haspopup="true"
+                <button class="btn btn-sm btn-primary" :title="$t('normdata.export')" :aria-label="$t('normdata.export')" aria-haspopup="true"
                         :aria-expanded="String(menuOpen)" aria-controls="export-menu" :disabled="!sortedRows.length"
                         @click="toggleMenu" @keydown.enter.prevent="toggleMenu" @keydown.space.prevent="toggleMenu">
-                    <Icon name="tabler:download" class="w-4 h-4" />
+                    <Icon name="tabler:download" class="icon-inline" />
                     <span class="ml-1">{{ $t('normdata.export') }}</span>
                 </button>
                 <div v-if="menuOpen" id="export-menu" role="menu"
@@ -74,7 +74,7 @@
                                     @click="exportData('current', 'csv')"
                                     @keydown.enter.prevent="exportData('current', 'csv')"
                                     @keydown.space.prevent="exportData('current', 'csv')">
-                                <Icon name="tabler:table" class="w-4 h-4" />
+                                <Icon name="tabler:table" class="icon-inline" />
                                 {{ $t('normdata.currentPageCSV') }}
                             </button>
                         </li>
@@ -83,7 +83,7 @@
                                     @click="exportData('current', 'json')"
                                     @keydown.enter.prevent="exportData('current', 'json')"
                                     @keydown.space.prevent="exportData('current', 'json')">
-                                <Icon name="tabler:braces" class="w-4 h-4" />
+                                <Icon name="tabler:braces" class="icon-inline" />
                                 {{ $t('normdata.currentPageJSON') }}
                             </button>
                         </li>
@@ -92,7 +92,7 @@
                                     @click="exportData('current', 'xml')"
                                     @keydown.enter.prevent="exportData('current', 'xml')"
                                     @keydown.space.prevent="exportData('current', 'xml')">
-                                <Icon name="tabler:code" class="w-4 h-4" />
+                                <Icon name="tabler:code" class="icon-inline" />
                                 {{ $t('normdata.currentPageXML') }}
                             </button>
                         </li>
@@ -103,8 +103,8 @@
                             <button role="menuitem" tabindex="0" class="w-full text-left" :disabled="exportingAll"
                                     @click="exportAllResults(false)" @keydown.enter.prevent="exportAllResults(false)"
                                     @keydown.space.prevent="exportAllResults(false)">
-                                <Icon v-if="exportingAll" name="tabler:loader" class="w-4 h-4 animate-spin" />
-                                <Icon v-else name="tabler:database-export" class="w-4 h-4" />
+                                <Icon v-if="exportingAll" name="tabler:loader" class="icon-inline animate-spin" />
+                                <Icon v-else name="tabler:database-export" class="icon-inline" />
                                 {{ $t('normdata.allFilteredResults') }}
                             </button>
                         </li>
@@ -113,8 +113,8 @@
                                     :disabled="exportingAllUnfiltered" @click="exportAllResults(true)"
                                     @keydown.enter.prevent="exportAllResults(true)"
                                     @keydown.space.prevent="exportAllResults(true)">
-                                <Icon v-if="exportingAllUnfiltered" name="tabler:loader" class="w-4 h-4 animate-spin" />
-                                <Icon v-else name="tabler:database" class="w-4 h-4" />
+                                <Icon v-if="exportingAllUnfiltered" name="tabler:loader" class="icon-inline animate-spin" />
+                                <Icon v-else name="tabler:database" class="icon-inline" />
                                 {{ $t('normdata.completeDataset') }}
                             </button>
                         </li>
@@ -125,7 +125,7 @@
 
         <!-- Info about limited results -->
         <div v-if="totalResults && totalResults > 100" class="alert alert-info">
-            <Icon name="tabler:info-circle" class="w-5 h-5" />
+            <Icon name="tabler:info-circle" class="icon-status" />
             <span>
                 {{ $t('normdata.limitedResultsInfo', { total: totalResults }) }}
             </span>
@@ -211,7 +211,7 @@
                         <td class="text-right text-xs">
                             {{ (currentPage - 1) * pageSize + idx + 1 }}
                         </td>
-                        <td class="text-xs break-words">
+                        <td class="text-xs wrap-break-word">
                             <span v-html="highlightText(row.value)"></span>
                         </td>
                         <td class="max-w-md">
@@ -229,7 +229,7 @@
                             </div>
                             <span v-else class="text-xs text-base-content/70">—</span>
                         </td>
-                        <td class="text-xs break-words">
+                        <td class="text-xs wrap-break-word">
                             <span v-html="highlightText(row.provider || '—')"></span>
                         </td>
                         <td class="text-right text-xs whitespace-nowrap">
@@ -239,19 +239,19 @@
                             <div class="dropdown dropdown-end relative">
                                 <button tabindex="0" class="btn btn-ghost btn-xs"
                                         :aria-label="'Actions for ' + row.value">
-                                    <Icon name="tabler:dots-vertical" class="w-4 h-4" />
+                                    <Icon name="tabler:dots-vertical" class="icon-inline" />
                                 </button>
                                 <ul tabindex="0"
-                                    class="dropdown-content menu menu-compact p-2 shadow bg-base-100 border border-base-300 rounded-box w-52 absolute right-0 top-full mt-1 z-[100]">
+                                    class="dropdown-content menu menu-compact p-2 shadow bg-base-100 border border-base-300 rounded-box w-52 absolute right-0 top-full mt-1 z-100">
                                     <li>
                                         <a @click.prevent="exportSingleRow(row)">
-                                            <Icon name="tabler:download" class="w-4 h-4" />
+                                            <Icon name="tabler:download" class="icon-inline" />
                                             {{ $t('normdata.exportRow') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a :href="getFacetSearchUrl(row.value)" target="_blank" rel="noopener">
-                                            <Icon name="tabler:search" class="w-4 h-4" />
+                                            <Icon name="tabler:search" class="icon-inline" />
                                             {{ $t('normdata.showInSearch') }}
                                         </a>
                                     </li>
@@ -266,10 +266,10 @@
         <!-- Pagination -->
         <div v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-4">
             <button class="btn btn-sm" :disabled="currentPage === 1" @click="currentPage = 1">
-                <Icon name="tabler:chevrons-left" class="w-4 h-4" />
+                <Icon name="tabler:chevrons-left" class="icon-inline" />
             </button>
             <button class="btn btn-sm" :disabled="currentPage === 1" @click="currentPage--">
-                <Icon name="tabler:chevron-left" class="w-4 h-4" />
+                <Icon name="tabler:chevron-left" class="icon-inline" />
             </button>
 
             <div class="flex items-center gap-1">
@@ -283,10 +283,10 @@
             </div>
 
             <button class="btn btn-sm" :disabled="currentPage === totalPages" @click="currentPage++">
-                <Icon name="tabler:chevron-right" class="w-4 h-4" />
+                <Icon name="tabler:chevron-right" class="icon-inline" />
             </button>
             <button class="btn btn-sm" :disabled="currentPage === totalPages" @click="currentPage = totalPages">
-                <Icon name="tabler:chevrons-right" class="w-4 h-4" />
+                <Icon name="tabler:chevrons-right" class="icon-inline" />
             </button>
 
             <span class="text-sm ml-4">

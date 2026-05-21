@@ -8,7 +8,7 @@
         <!-- Header -->
         <template #header="h">
             <div class="flex items-center gap-2">
-                <Icon :name="facetIcon" class="w-4 h-4"
+                <Icon :name="facetIcon" class="icon-inline"
                       :class="h?.hasRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
                       aria-hidden="true" />
                 <h3 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"

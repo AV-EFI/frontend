@@ -1,11 +1,11 @@
 <template>
     <button
-        class="btn min-h-6 h-auto home-mail-button"
+        class="min-h-6 h-auto"
         :title="$t('openForm')"
         :aria-label="$t('openForm')"
         @click="toggleContactDrawer"
     >
-        <Icon class="w-4 h-4 shrink-0" name="tabler:send" />
+        <Icon class="icon-action" name="tabler:send" />
     </button>
 </template>
 

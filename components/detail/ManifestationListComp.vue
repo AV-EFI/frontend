@@ -26,7 +26,7 @@
                         :heading-id="`manifestation-heading-${i}`"
                     />
                     <Icon
-                        name="tabler:chevron-down"m
+                        name="tabler:chevron-down"
                         class="mt-1 shrink-0 transition-transform duration-200"
                         :class="isManifestationOpen(i) ? 'rotate-180' : ''"
                         aria-hidden="true"
@@ -121,7 +121,15 @@ function handleOpenManifestation(event: Event) {
 }
 
 function getManifestationAnchorId(manifestation: Source, index: number) {
-    return manifestation?.handle || `manifestation-${index}`;
+    const slug = slugAnchorPart(manifestation?.handle);
+    return slug ? `manifestation-${index}-${slug}` : `manifestation-${index}`;
+}
+
+function slugAnchorPart(value: unknown) {
+    return String(value ?? '')
+        .trim()
+        .replace(/[^A-Za-z0-9_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 }
 
 function safeT(input: unknown): string {

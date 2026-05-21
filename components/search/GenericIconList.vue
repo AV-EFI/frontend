@@ -3,13 +3,13 @@
         <!-- First row: located_in, years, creators (WORK ONLY) -->
         <li
             v-if="level === 'work' && iconEntries.length > 0"
-            :class="primaryRowClasses"
+            :class="rowClasses('primary')"
         >
             <template
                 v-for="entry in iconEntries.filter(e => ['located_in', 'years', 'creators'].includes(e.key))"
                 :key="entry.key">
                 <div
-                    :class="primaryEntryClasses"
+                    :class="primaryEntryClasses(entry)"
                     tabindex="0"
                     :aria-label="entry.aria"
                     :title="entry.aria"
@@ -23,20 +23,16 @@
                     <span :class="primaryTextClasses">
                         <span :id="entryContentId(entry)" :class="primaryValueClasses">
                             <template v-if="Array.isArray(entry.text)">
-                                <span v-if="visibleSegments(entry).length > 0">
-                                    <span>{{ visibleSegments(entry)[0]?.text }}</span>
-                                    <span v-if="visibleSegments(entry)[0]?.hilite"
-                                          :title="`${$t('matchedField')}: ${visibleSegments(entry)[0]?.text}`"
-                                          class="badge badge-xs bg-highlight text-white ml-1" />
-                                    <span v-if="visibleSegments(entry).length > 1">, </span>
-                                </span>
-
-                                <template v-for="(segment, i) in visibleSegments(entry).slice(1)" :key="i + 1">
-                                    <br>
+                                <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
                                     <span>{{ segment.text }}</span>
+                                    <MicroDataQualityWarningIcon
+                                        v-if="shouldWarnSegment(entry, segment)"
+                                        class="ml-1"
+                                        :label="dataQualityWarningLabel(entry, segment.text)"
+                                    />
                                     <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
-                                          class="badge badge-xs bg-highlight text-white ml-1" />
-                                    <span v-if="i < visibleSegments(entry).length - 2">, </span>
+                                          class="badge-highlight-xs ml-1" />
+                                    <span v-if="i < visibleSegments(entry).length - 1">; </span>
                                 </template>
                             </template>
 
@@ -61,13 +57,13 @@
             </template>
         </li>
 
-        <!-- Second row: everything else -->
+        <!-- Second row: bounded metadata -->
         <li
-            v-if="iconEntries.length > 0"
-            :class="secondaryRowClasses"
+            v-if="boundedEntries.length > 0"
+            :class="rowClasses('bounded')"
         >
             <template
-                v-for="entry in iconEntries.filter(e => !['located_in', 'years', 'creators'].includes(e.key))"
+                v-for="entry in boundedEntries"
                 :key="entry.key">
                 <div
                     :class="entryClasses"
@@ -85,8 +81,130 @@
                                     <span :class="segmentClasses(entry)">
                                         {{ segment.text }}
                                     </span>
+                                    <MicroDataQualityWarningIcon
+                                        v-if="shouldWarnSegment(entry, segment)"
+                                        class="ml-1"
+                                        :label="dataQualityWarningLabel(entry, segment.text)"
+                                    />
                                     <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
-                                          class="badge badge-xs bg-highlight text-white ml-1" />
+                                          class="badge-highlight-xs ml-1" />
+                                    <span v-if="i < visibleSegments(entry).length - 1">; </span>
+                                </template>
+                            </template>
+
+                            <template v-else>
+                                <span :class="singleValueClasses">
+                                    {{ entry.text }}
+                                </span>
+                            </template>
+                        </span>
+
+                        <button
+                            v-if="hasOverflow(entry)"
+                            type="button"
+                            :class="toggleButtonClasses"
+                            :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                            :aria-label="toggleLabel(entry)"
+                            :aria-controls="entryContentId(entry)"
+                            @click="toggleExpand(entry.key)"
+                        >
+                            {{ toggleText(entry) }}
+                        </button>
+                    </span>
+                </div>
+            </template>
+        </li>
+
+        <!-- Third row: form, production event and genre belong together semantically -->
+        <li
+            v-if="thematicEntries.length > 0"
+            :class="rowClasses('thematic')"
+        >
+            <template
+                v-for="entry in thematicEntries"
+                :key="entry.key">
+                <div
+                    :class="entryClasses"
+                    tabindex="0"
+                    :aria-label="entry.aria" :title="entry.aria">
+                    <Icon
+                        :name="entry.icon"
+                        :class="iconClasses"
+                        aria-hidden="true"
+                    />
+                    <span :class="textClasses">
+                        <span :id="entryContentId(entry)" :class="valueBlockClasses">
+                            <template v-if="Array.isArray(entry.text)">
+                                <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
+                                    <span :class="segmentClasses(entry)">
+                                        {{ segment.text }}
+                                    </span>
+                                    <MicroDataQualityWarningIcon
+                                        v-if="shouldWarnSegment(entry, segment)"
+                                        class="ml-1"
+                                        :label="dataQualityWarningLabel(entry, segment.text)"
+                                    />
+                                    <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
+                                          class="badge-highlight-xs ml-1" />
+                                    <span v-if="i < visibleSegments(entry).length - 1">; </span>
+                                </template>
+                            </template>
+
+                            <template v-else>
+                                <span :class="singleValueClasses">
+                                    {{ entry.text }}
+                                </span>
+                            </template>
+                        </span>
+
+                        <button
+                            v-if="hasOverflow(entry)"
+                            type="button"
+                            :class="toggleButtonClasses"
+                            :aria-expanded="isExpanded(entry.key) ? 'true' : 'false'"
+                            :aria-label="toggleLabel(entry)"
+                            :aria-controls="entryContentId(entry)"
+                            @click="toggleExpand(entry.key)"
+                        >
+                            {{ toggleText(entry) }}
+                        </button>
+                    </span>
+                </div>
+            </template>
+        </li>
+
+        <!-- Fourth row: volatile length metadata, e.g. subjects/keywords -->
+        <li
+            v-if="volatileEntries.length > 0"
+            :class="rowClasses('volatile')"
+        >
+            <template
+                v-for="entry in volatileEntries"
+                :key="entry.key">
+                <div
+                    :class="volatileEntryClasses"
+                    tabindex="0"
+                    :aria-label="entry.aria"
+                    :title="entry.aria">
+                    <Icon
+                        :name="entry.icon"
+                        :class="iconClasses"
+                        aria-hidden="true"
+                    />
+                    <span :class="textClasses">
+                        <span :id="entryContentId(entry)" :class="volatileValueBlockClasses">
+                            <template v-if="Array.isArray(entry.text)">
+                                <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
+                                    <span :class="segmentClasses(entry)">
+                                        {{ segment.text }}
+                                    </span>
+                                    <MicroDataQualityWarningIcon
+                                        v-if="shouldWarnSegment(entry, segment)"
+                                        class="ml-1"
+                                        :label="dataQualityWarningLabel(entry, segment.text)"
+                                    />
+                                    <span v-if="segment.hilite" :title="`${$t('matchedField')}: ${segment.text}`"
+                                          class="badge-highlight-xs ml-1" />
                                     <span v-if="i < visibleSegments(entry).length - 1">; </span>
                                 </template>
                             </template>
@@ -117,9 +235,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
+import { getSuspiciousAgentNamePattern, isWhitespaceCommaOnlyText } from '~/utils/agentQuality';
 const { t } = useI18n();
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
@@ -128,58 +247,95 @@ const props = withDefaults(defineProps<{
     level: 'work' | 'manifestation' | 'item',
     iconColor?: string,
     entryLevelClass?: string,
+    density?: 'normal' | 'compact',
 }>(), {
     iconColor: '',
     entryLevelClass: '',
+    density: 'normal',
 });
 
 const isManifestationLevel = computed(() => props.level === 'manifestation');
-const baseEntryClasses = 'max-w-full rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1';
+const isCompact = computed(() => props.density === 'compact');
+const baseEntryClasses = computed(() =>
+    isCompact.value
+        ? 'max-w-full rounded-md px-1 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1'
+        : 'max-w-full rounded-md px-1.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1'
+);
 const levelEntryClasses = computed(() => props.entryLevelClass);
 const rootClasses = computed(() =>
-    isManifestationLevel.value
-        ? 'flex flex-row flex-wrap items-center gap-2 text-[0.8rem] leading-4 text-base-content'
-        : 'flex flex-col gap-1.5 text-[0.8rem] leading-snug text-base-content'
-);
-const primaryRowClasses = computed(() =>
-    'flex flex-row flex-wrap gap-2 items-start text-left justify-start'
+    isCompact.value
+        ? 'flex flex-col gap-0.5 text-xs leading-[14px] text-base-content'
+        : isManifestationLevel.value
+            ? 'flex flex-row flex-wrap items-center gap-2 xl:gap-4 leading-4 text-base-content'
+            : 'flex flex-col gap-1.5 leading-snug text-base-content'
 );
 const secondaryRowClasses = computed(() =>
-    isManifestationLevel.value
-        ? 'flex flex-row flex-wrap items-center gap-2 text-left justify-start'
-        : 'flex flex-row flex-wrap gap-2 items-start text-left justify-start'
+    isCompact.value
+        ? 'flex flex-row flex-wrap items-start gap-1 text-left justify-start'
+        : isManifestationLevel.value
+            ? 'flex flex-row flex-wrap items-center gap-2 xl:gap-4 text-left justify-start'
+            : 'flex flex-row flex-wrap gap-2 items-start text-left justify-start'
 );
-const primaryEntryClasses = computed(() =>
-    `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses} ${levelEntryClasses.value}`
-);
+function rowClasses(kind: 'primary' | 'bounded' | 'thematic' | 'volatile') {
+    void kind;
+    const base = secondaryRowClasses.value;
+    return props.level === 'work' ? `${base} min-w-0` : base;
+}
+function primaryEntryClasses(entry: { key: string }) {
+    const widthClass = entry.key === 'creators'
+        ? 'flex-1 basis-80'
+        : 'shrink-0';
+    return `inline-grid ${widthClass} max-w-full ${entryGridClasses.value} items-start ${entryGapClasses.value} min-w-0 ${entryLeadingClasses.value} ${baseEntryClasses.value} ${levelEntryClasses.value}`;
+}
 const entryClasses = computed(() =>
-    isManifestationLevel.value
-        ? `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 leading-4 ${baseEntryClasses} ${levelEntryClasses.value}`
-        : `inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-x-1.5 min-w-0 leading-[16px] ${baseEntryClasses} ${levelEntryClasses.value}`
+    `inline-grid ${entryGridClasses.value} items-start ${entryGapClasses.value} min-w-0 ${entryLeadingClasses.value} ${baseEntryClasses.value} ${levelEntryClasses.value}`
+);
+const volatileEntryClasses = computed(() =>
+    `grid w-full max-w-full ${entryGridClasses.value} items-start ${entryGapClasses.value} min-w-0 ${entryLeadingClasses.value} ${baseEntryClasses.value} ${levelEntryClasses.value}`
+);
+const entryGridClasses = computed(() =>
+    isCompact.value ? 'grid-cols-[0.75rem_minmax(0,1fr)]' : 'grid-cols-[0.875rem_minmax(0,1fr)]'
+);
+const entryGapClasses = computed(() =>
+    isCompact.value ? 'gap-x-1' : 'gap-x-1.5'
+);
+const entryLeadingClasses = computed(() =>
+    isCompact.value ? 'leading-[14px]' : (isManifestationLevel.value ? 'leading-4' : 'leading-[16px]')
 );
 const iconClasses = computed(() =>
-    isManifestationLevel.value
-        ? ['w-3.5', 'h-3.5', 'shrink-0', props.iconColor]
-        : ['w-3.5', 'h-3.5', 'shrink-0', 'mt-0.5', props.iconColor]
+    isCompact.value
+        ? ['block', 'h-3', 'w-3', 'shrink-0', 'self-start', 'mt-px', 'leading-none', props.iconColor]
+        : ['block', 'h-3.5', 'w-3.5', 'shrink-0', 'self-start', 'mt-px', 'leading-none', props.iconColor]
 );
 const primaryTextClasses = computed(() =>
-    'min-w-0 inline-flex flex-col items-start gap-1 leading-[16px]'
+    isCompact.value
+        ? 'min-w-0 inline-flex flex-col items-start gap-0.5 leading-[14px]'
+        : 'min-w-0 inline-flex flex-col items-start gap-1 leading-[16px]'
 );
 const textClasses = computed(() =>
-    isManifestationLevel.value
-        ? 'min-w-0 inline-flex flex-col items-start gap-1 leading-4'
-        : 'min-w-0 inline-flex flex-col items-start gap-1 leading-[16px]'
+    isCompact.value
+        ? 'min-w-0 inline-flex flex-col items-start gap-0.5 leading-[14px]'
+        : isManifestationLevel.value
+            ? 'min-w-0 inline-flex flex-col items-start gap-1 leading-4'
+            : 'min-w-0 inline-flex flex-col items-start gap-1 leading-[16px]'
 );
 const primaryValueClasses = computed(() =>
     'min-w-0'
 );
 const valueBlockClasses = computed(() =>
-    isManifestationLevel.value
-        ? 'min-w-0 inline-flex flex-wrap items-center gap-x-0.5 whitespace-nowrap leading-4'
-        : 'min-w-0 inline-flex flex-wrap items-start gap-x-0.5 leading-[16px]'
+    isCompact.value
+        ? 'min-w-0 inline-flex flex-wrap items-center gap-x-0.5 whitespace-nowrap leading-[14px]'
+        : isManifestationLevel.value
+            ? 'min-w-0 inline-flex flex-wrap items-center gap-x-0.5 whitespace-nowrap leading-4'
+            : 'min-w-0 inline-flex flex-wrap items-start gap-x-0.5 leading-[16px]'
+);
+const volatileValueBlockClasses = computed(() =>
+    isCompact.value
+        ? 'min-w-0 max-w-full inline-flex flex-wrap items-start gap-x-0.5 overflow-hidden leading-[14px]'
+        : 'min-w-0 max-w-full inline-flex flex-wrap items-start gap-x-0.5 overflow-hidden leading-[16px]'
 );
 const singleValueClasses = computed(() =>
-    isManifestationLevel.value
+    isManifestationLevel.value || isCompact.value
         ? 'whitespace-nowrap'
         : 'break-words'
 );
@@ -187,8 +343,20 @@ const toggleButtonClasses = 'text-xs text-primary underline underline-offset-2 d
 function segmentClasses(entry: { text: any[] }) {
     return {
         'line-clamp-1': visibleSegments(entry).length < 2,
-        'whitespace-nowrap': isManifestationLevel.value,
+        'whitespace-nowrap': isManifestationLevel.value || isCompact.value,
     };
+}
+function shouldWarnSegment(entry: { key: string }, segment: { text: unknown }) {
+    if (entry.key === 'creators') return Boolean(getSuspiciousAgentNamePattern(segment.text));
+    if (entry.key === 'production') return isWhitespaceCommaOnlyText(segment.text);
+    return false;
+}
+function dataQualityWarningLabel(entry: { key: string }, value: unknown) {
+    if (entry.key === 'production' && isWhitespaceCommaOnlyText(value)) {
+        return `Empty, whitespace-only, or comma-only production value. ${t('dataQuality.probableImportIssue')}`;
+    }
+    const pattern = getSuspiciousAgentNamePattern(value);
+    return pattern ? `${pattern.description}. ${t('dataQuality.probableImportIssue')}` : '';
 }
 function entryContentId(entry: { key: string }) {
     return `generic-icon-list-${props.level}-${entry.key}`;
@@ -202,14 +370,39 @@ function toggleLabel(entry: { key: string; text: any }) {
 
 /* expand/collapse */
 const expandedMap = ref<Record<string, boolean>>({});
+const isLargeScreen = ref(false);
+let largeScreenMediaQuery: MediaQueryList | null = null;
+
+function updateLargeScreenState(event?: MediaQueryListEvent) {
+    isLargeScreen.value = event?.matches ?? largeScreenMediaQuery?.matches ?? false;
+}
+
+onMounted(() => {
+    if (typeof window === 'undefined') return;
+
+    largeScreenMediaQuery = window.matchMedia('(min-width: 1280px)');
+    updateLargeScreenState();
+    largeScreenMediaQuery.addEventListener('change', updateLargeScreenState);
+});
+
+onBeforeUnmount(() => {
+    largeScreenMediaQuery?.removeEventListener('change', updateLargeScreenState);
+    largeScreenMediaQuery = null;
+});
+
 function isExpanded(key: string) { return !!expandedMap.value[key]; }
 function toggleExpand(key: string) { expandedMap.value[key] = !expandedMap.value[key]; }
-function hasOverflow(entry: { key: string; text: any }) { return Array.isArray(entry.text) && entry.text.length > 5; }
-function hiddenCount(entry: { key: string; text: any }) { return Array.isArray(entry.text) ? Math.max(0, entry.text.length - 5) : 0; }
+function visibleLimit(entry: { key: string }) {
+    if (entry.key === 'creators') return 3;
+    if (volatileEntryKeys.includes(entry.key)) return isLargeScreen.value ? 5 : 2;
+    return 5;
+}
+function hasOverflow(entry: { key: string; text: any }) { return Array.isArray(entry.text) && entry.text.length > visibleLimit(entry); }
+function hiddenCount(entry: { key: string; text: any }) { return Array.isArray(entry.text) ? Math.max(0, entry.text.length - visibleLimit(entry)) : 0; }
 function visibleSegments(entry: { key: string; text: any }) {
     if (!Array.isArray(entry.text)) return entry.text;
     if (!hasOverflow(entry)) return entry.text;
-    return isExpanded(entry.key) ? entry.text : entry.text.slice(0, 5);
+    return isExpanded(entry.key) ? entry.text : entry.text.slice(0, visibleLimit(entry));
 }
 
 const iconFor = (key: string) => getFacetIcon(key, 'tabler-info-circle');
@@ -325,6 +518,18 @@ function buildIconEntries() {
                 icon: iconFor('prod_events'),
                 text: evTypeLabels.map((tp:string) => ({ text: t(tp), hilite: false })),
                 aria: t('has_event') + ': ' + evTypeLabels.map((tp:string) => t(tp)).join(', ')
+            });
+        }
+
+        // Production names from the denormalized search facet. Keep these close to
+        // the production event row because their quality issue is tracked separately.
+        const productionNames = asArray(d?.production);
+        if (productionNames.length) {
+            entries.push({
+                key: 'production',
+                icon: iconFor('production'),
+                text: productionNames.map((name: string) => ({ text: name, hilite: false })),
+                aria: t('production') + ': ' + productionNames.join(', ')
             });
         }
 
@@ -525,6 +730,7 @@ function buildIconEntries() {
             'form',
             'episode',
             'prod_events',
+            'production',
             'genre',
             'subject'
         ];
@@ -555,4 +761,24 @@ function buildIconEntries() {
 }
 
 const iconEntries = computed(() => buildIconEntries());
+const thematicEntryKeys = ['form', 'prod_events', 'production', 'genre'];
+const volatileEntryKeys = ['subject'];
+const primaryEntryKeys = ['located_in', 'years', 'creators'];
+const boundedEntries = computed(() =>
+    iconEntries.value.filter(entry =>
+        !primaryEntryKeys.includes(entry.key) &&
+        !thematicEntryKeys.includes(entry.key) &&
+        !volatileEntryKeys.includes(entry.key)
+    )
+);
+const thematicEntries = computed(() =>
+    props.level === 'work'
+        ? iconEntries.value.filter(entry => thematicEntryKeys.includes(entry.key))
+        : []
+);
+const volatileEntries = computed(() =>
+    props.level === 'work'
+        ? iconEntries.value.filter(entry => volatileEntryKeys.includes(entry.key))
+        : []
+);
 </script>

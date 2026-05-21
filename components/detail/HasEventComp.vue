@@ -1,11 +1,11 @@
 <template>
     <div class="grid-container col-span-full">
         <div class="grid grid-cols-12 gap-6">
-            <section v-for="(entry, eventIndex) in normalizedEvents" :key="eventIndex" :id="`event-${eventIndex}`"
+            <section v-for="(entry, eventIndex) in normalizedEvents" :key="eventIndex" :id="eventSectionId(eventIndex)"
                      class="col-span-12 space-y-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
-                     :aria-labelledby="`event-heading-${eventIndex}`">
+                     :aria-labelledby="eventHeadingId(eventIndex)">
                 <header class="flex flex-col gap-1">
-                    <h3 :id="`event-heading-${eventIndex}`" class="text-base font-medium leading-5 dark:text-white">
+                    <h3 :id="eventHeadingId(eventIndex)" class="text-base font-medium leading-5 dark:text-white">
                         {{ entry.raw?.category ? $t(entry.raw.category) : '' }}
                     </h3>
                 </header>
@@ -58,6 +58,11 @@
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
                                             <span class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300">
                                                 {{ agent?.has_name ?? '' }}
+                                                <MicroDataQualityWarningIcon
+                                                    v-if="getSuspiciousAgentNamePattern(agent?.has_name)"
+                                                    class="ml-1"
+                                                    :label="dataQualityWarningLabel(agent?.has_name)"
+                                                />
                                             </span>
 
                                             <DetailSameAsComp v-if="agent?.same_as" :same-as-data="agent.same_as" type="person"
@@ -100,6 +105,11 @@
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
                                             <span class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300">
                                                 {{ agent?.has_name ?? '' }}
+                                                <MicroDataQualityWarningIcon
+                                                    v-if="getSuspiciousAgentNamePattern(agent?.has_name)"
+                                                    class="ml-1"
+                                                    :label="dataQualityWarningLabel(agent?.has_name)"
+                                                />
                                             </span>
 
                                             <DetailSameAsComp v-if="agent?.same_as" :same-as-data="agent.same_as" type="person"
@@ -120,6 +130,7 @@
 <script lang="ts" setup>
 import { computed, type PropType } from "vue";
 import type { Event } from "../../models/interfaces/av_efi_schema";
+import { getSuspiciousAgentNamePattern } from '~/utils/agentQuality';
 
 type Activity = NonNullable<Event["has_activity"]>[number];
 type Agent = Activity["has_agent"] extends Array<infer T> ? T : NonNullable<Activity["has_agent"]>;
@@ -133,6 +144,16 @@ interface NormalizedEvent {
 }
 
 const eventList = defineModel({ type: Array as PropType<Event[]>, required: true });
+const props = defineProps({
+    rootId: {
+        type: String,
+        default: '',
+    },
+    eventIds: {
+        type: Array as PropType<string[]>,
+        default: () => [],
+    },
+});
 
 const normalizedEvents = computed<NormalizedEvent[]>(() => {
     const events = Array.isArray(eventList.value) ? eventList.value : [];
@@ -175,5 +196,20 @@ function normalizeAgents(agentData: Activity["has_agent"] | undefined): Agent[] 
         return [agentData as Agent];
     }
     return [];
+}
+
+function eventSectionId(eventIndex: number) {
+    return props.eventIds[eventIndex] || `event-${eventIndex}`;
+}
+
+function eventHeadingId(eventIndex: number) {
+    return eventIndex === 0 && props.rootId ? props.rootId : `event-heading-${eventIndex}`;
+}
+
+function dataQualityWarningLabel(value: unknown) {
+    const pattern = getSuspiciousAgentNamePattern(value);
+    return pattern
+        ? `${pattern.description}. ${useNuxtApp().$i18n.t('dataQuality.probableImportIssue')}`
+        : '';
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
     <div class="carousel-container flex items-center relative">
-        <button :alt="t('togglePreviousSlide')" :aria-label="t('togglePreviousSlide')"
+        <button :aria-label="t('togglePreviousSlide')"
                 class="md:flex z-10 p-2 bg-white glass dark:bg-gray-400 text-black rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:mr-4 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:left-[-3rem]"
                 @click="prevSlide">
-            <Icon name="tabler:chevron-left" />
+            <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
         <div
             class="carousel rounded-box w-[250px] md:w-[384px] lg:w-128  relative overflow-hidden text-gray-700 dark:text-gray-300">
@@ -63,10 +63,10 @@
                 </div>
             </div>
         </div>
-        <button :alt="t('toggleNextSlide')" :aria-label="t('toggleNextSlide')"
+        <button :aria-label="t('toggleNextSlide')"
                 class="z-10 md:flex p-2 md:bg-gray-800 text-black md:text-white rounded-full bg-opacity-50 w-10 h-10 items-center justify-center md:ml-4 dark:bg-gray-600 dark:text-gray-200 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 md:right-[-3rem]"
                 @click="nextSlide">
-            <Icon name="tabler:chevron-right" />
+            <Icon name="tabler:chevron-right" aria-hidden="true" />
         </button>
     </div>
 </template>

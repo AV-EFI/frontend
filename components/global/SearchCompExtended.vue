@@ -94,6 +94,7 @@
                                 </div>
 
                                 <FormKit
+                                    :key="`facet-select-${filter.uid}-${locale}`"
                                     v-model="filter.facet"
                                     type="select"
                                     :placeholder="$t('selectFacet')"
@@ -216,6 +217,7 @@ import { useSearchParamsStore } from '~/stores/searchParams.js';
 import { config } from '~/searchConfig_avefi.js';
 import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
+import localeMessages from '~/models/interfaces/schema/locale_messages.json';
 
 const { ensureFormKitReady } = useFormKitLoader();
 await ensureFormKitReady();
@@ -309,6 +311,9 @@ interface FacetSuggestion {
     count?: number;
 }
 
+type LocaleMessages = Record<'de' | 'en', Record<string, string>>;
+const languageMessages = localeMessages as LocaleMessages;
+
 function normalizeForSearch(value: string): string {
     return (value || '')
         .normalize('NFD')
@@ -317,14 +322,34 @@ function normalizeForSearch(value: string): string {
         .trim();
 }
 
-function filterLocalizedSuggestions(list: FacetSuggestion[], query: string): FacetSuggestion[] {
+function buildFacetSearchCandidates(attr: string, item: FacetSuggestion): string[] {
+    const candidates = [item.display, item.raw];
+
+    if (attr === 'in_language_code') {
+        const deLabel = languageMessages.de?.[item.raw];
+        const enLabel = languageMessages.en?.[item.raw];
+
+        if (deLabel) candidates.push(...deLabel.split('|'));
+        if (enLabel) candidates.push(...enLabel.split('|'));
+
+        // Common code aliases expected by users in free text search.
+        if (item.raw === 'ger') candidates.push('deu', 'de');
+
+        if (item.raw.length === 3) {
+            candidates.push(item.raw.slice(0, 2));
+        }
+    }
+
+    return Array.from(new Set(candidates.map(v => v?.trim()).filter(Boolean) as string[]));
+}
+
+function filterLocalizedSuggestions(attr: string, list: FacetSuggestion[], query: string): FacetSuggestion[] {
     const normalizedQuery = normalizeForSearch(query);
     if (!normalizedQuery) return list;
 
     return list.filter((item) => {
-        const display = normalizeForSearch(item.display);
-        const raw = normalizeForSearch(item.raw);
-        return display.includes(normalizedQuery) || raw.includes(normalizedQuery);
+        const candidates = buildFacetSearchCandidates(attr, item);
+        return candidates.some(candidate => normalizeForSearch(candidate).includes(normalizedQuery));
     });
 }
 
@@ -414,7 +439,7 @@ function refreshVisibleFacetSuggestions() {
     facetFilters.value.forEach((row) => {
         if (!row?.facet) return;
         const base = facetCache[row.facet] || [];
-        row.suggestions = filterLocalizedSuggestions(base, row.valueDisplay || '');
+        row.suggestions = filterLocalizedSuggestions(row.facet, base, row.valueDisplay || '');
     });
 }
 
@@ -442,7 +467,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
 
     const cached = facetCache[attr];
     if (cached?.length) {
-        row.suggestions = filterLocalizedSuggestions(cached, query);
+        row.suggestions = filterLocalizedSuggestions(attr, cached, query);
         row.showSuggestions = row.suggestions.length > 0;
         return;
     }
@@ -474,7 +499,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         const still = facetFilters.value[rowIndex];
         if (!still || still.facet !== attr) return;
 
-        still.suggestions = filterLocalizedSuggestions(facetCache[attr] || [], query);
+        still.suggestions = filterLocalizedSuggestions(attr, facetCache[attr] || [], query);
         still.showSuggestions = still.suggestions.length > 0;
     } catch (e: any) {
         if (e?.name === 'AbortError') return;
@@ -482,7 +507,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         const still = facetFilters.value[rowIndex];
         if (still && still.facet === attr) {
             const cached = facetCache[attr] || [];
-            still.suggestions = filterLocalizedSuggestions(cached, query);
+            still.suggestions = filterLocalizedSuggestions(attr, cached, query);
             still.showSuggestions = still.suggestions.length > 0;
         }
     } finally {

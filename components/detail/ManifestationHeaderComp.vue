@@ -19,7 +19,7 @@
                     <template v-if="manifestation.has_record?.has_event?.has_date">
                         <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
                     </template>
-                    <Icon name="tabler:paint" class="w-4 h-4 mr-1 inline-block" aria-hidden="true" />
+                    <Icon name="tabler:paint" class="icon-inline mr-1" aria-hidden="true" />
                     {{ $t(manifestation.has_record?.has_colour_type) }}
                 </span>
 
@@ -28,7 +28,7 @@
                     <template v-if="manifestation.has_record?.has_event?.has_date || manifestation.has_record?.has_colour_type">
                         <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
                     </template>
-                    <Icon name="tabler:language" class="w-4 h-4 mr-1 inline-block" aria-hidden="true" />
+                    <Icon name="tabler:language" class="icon-inline mr-1" aria-hidden="true" />
                     {{ manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
                 </span>
             </div>
@@ -68,7 +68,7 @@
                 <span
                     v-if="manifestation.items?.length > 0"
                     :class="[
-                        'inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md border border-base-300/60 bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4',
+                        'inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4',
                         manifestationInfoLevelClasses,
                     ]"
                 >

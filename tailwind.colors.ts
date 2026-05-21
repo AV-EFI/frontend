@@ -32,10 +32,10 @@ export const lightThemeColors = {
   },
   error: {
     DEFAULT: 'oklch(60.61% 0.12 15.341)',
-    content: 'oklch(12.122% 0.024 15.341)',
+    content: '#ffffff',
   },
   custom: {
-    highlight: '#d8899c',
+    highlight: '#e4acba',
     'highlight-content': '#3a1f26',
     'favourites-list': '#b85a5e',
     'favourites-list-content': '#ffffff',
@@ -83,10 +83,10 @@ export const darkThemeColors = {
   },
   error: {
     DEFAULT: 'oklch(71.785% 0.17 13.118)',
-    content: 'oklch(14.357% 0.034 13.118)',
+    content: '#ffffff',
   },
   custom: {
-    highlight: '#d8899c',
+    highlight: '#e4acba',
     'highlight-content': '#3a1f26',
     'favourites-list': '#b85a5e',
     'favourites-list-content': '#ffffff',

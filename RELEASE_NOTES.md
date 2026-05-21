@@ -1,3 +1,23 @@
+Release Log - May 21, 2026
+Release: JsonTreeViewer Theme Isolation
+Branch: current workspace
+Status: Implemented
+Date: May 21, 2026
+
+---
+
+## JsonTreeViewer Theming Update
+
+Changes:
+- Removed component-level usage of global `.dark` selectors from `components/global/JsonTreeViewer.vue`.
+- Switched JsonTreeViewer syntax/meta colors to DaisyUI semantic tokens so light/dark mode is inherited from app theme variables.
+- Kept all theme behavior local to the component style scope to avoid cross-component side effects.
+
+Files Modified:
+- `components/global/JsonTreeViewer.vue`
+
+---
+
 Release Log - December 3, 2025
 Release: Search History, SEO Optimizations & Accessibility Improvements
 Branch: feature/seo-optimizations-01

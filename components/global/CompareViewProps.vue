@@ -1,7 +1,7 @@
 <template>
     <div class="editor mt-8">
         <div v-if="loadingErrorKey" class="alert alert-error mx-auto w-96">
-            <Icon name="tabler:alert-circle" class="w-6 h-6" />
+            <Icon name="tabler:alert-circle" class="icon-status" aria-hidden="true" />
             <div>
                 <h3 class="font-bold">{{ $t('errorLoadingDatasets') }}</h3>
                 <div class="text-sm">{{ $t(loadingErrorKey) }}</div>
@@ -9,7 +9,7 @@
         </div>
     
         <div v-else-if="!prev || !current" class="alert alert-warning">
-            <Icon name="tabler:alert-triangle" class="w-6 h-6" />
+            <Icon name="tabler:alert-triangle" class="icon-status" aria-hidden="true" />
             <div>
                 <h3 class="font-bold">{{ $t('incompleteData') }}</h3>
                 <div class="text-sm">

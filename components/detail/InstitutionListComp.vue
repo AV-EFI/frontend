@@ -42,8 +42,8 @@
                                 </div>
                                 <div class="w-full md:w-1/2 flex flex-row justify-end">
                                     <ais-clear-refinements :class-names="{
-                                        'ais-ClearRefinements-button': 'btn btn-outline btn-sm border-gray-300 text-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700',
-                                        'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                        'ais-ClearRefinements-button': 'btn-danger-outline btn-sm',
+                                        'ais-CurrentRefinements-delete': 'link link-hover text-error'
                                     }">
                                         <template #resetLabel>
                                             <Icon name="tabler:trash" /> <span class="accent">{{ $t('clearallfilters') }}</span>
@@ -54,9 +54,9 @@
                             <div class="w-full">
                                 <ais-current-refinements :class-names="{
                                     'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
-                                    'ais-CurrentRefinements-item': 'border border-gray-300 text-gray-700 dark:text-gray-200 dark:border-gray-600 w-full rounded-lg p-2 md:w-auto md:p-3 md:max-w-xs',
-                                    'ais-CurrentRefinements-delete': 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
-                                    'ais-ClearRefinements-button': 'btn btn-error bg-red-500 hover:bg-red-600 text-white',
+                                    'ais-CurrentRefinements-item': 'filter-chip w-full p-2 md:w-auto md:p-3 md:max-w-xs',
+                                    'ais-CurrentRefinements-delete': 'link link-hover text-error',
+                                    'ais-ClearRefinements-button': 'btn-danger',
                                 }">
                                     <template #item="{ item, refine, createURL }">
                                         <strong class="font-semibold accent">{{ $t(item.label.split(".").at(-1)) }}:</strong>
@@ -68,7 +68,7 @@
                                                    class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 accent"
                                                    @click.prevent="refine(refinement)">
                                                     {{ $t(refinement.label) }}
-                                                    <Icon class="text-lg" name="formkit:trash" />
+                                                    <Icon class="icon-inline" name="tabler:trash" aria-hidden="true" />
                                                 </a>
                                             </li>
                                         </ul>
@@ -144,8 +144,8 @@
                                 <div class="pagination flex justify-center">
                                     <ais-pagination :class-names="{
                                         'ais-Pagination-list': 'join w-full md:w-auto',
-                                        'ais-Pagination-item': 'join-item bg-gray-200 dark:bg-gray-800 w-9 md:max-w-24 p-1 md:p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700',
-                                        'ais-Pagination-link': 'text-gray-800 dark:text-gray-200'
+                                        'ais-Pagination-item': 'join-item panel-surface-muted w-9 md:max-w-24 p-1 md:p-2 rounded-lg',
+                                        'ais-Pagination-link': 'text-base-content'
                                     }" />
                                 </div>
                             </div>

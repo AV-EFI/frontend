@@ -38,7 +38,7 @@
                                 v-if="part?.handle"
                                 :to="`/res/${part.handle}`"
                                 class="link dark:link-white no-underline hover:underline"
-                                :alt="$t('detailviewlink')"
+                                :aria-label="$t('detailviewlink')"
                                 :title="$t('detailviewlink')"
                                 target="_blank"
                             >
@@ -74,7 +74,7 @@
                             :title="$t('detailviewlink')"
                             target="_blank"
                         >
-                            <Icon name="tabler:eye" class="text-2xl" :alt="$t('detailviewlink')" />
+                            <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
                         </NuxtLink>
 
                         <a
@@ -86,7 +86,7 @@
                             :aria-label="$t('open')"
                             :title="$t('open')"
                         >
-                            <Icon name="tabler:external-link" class="text-2xl" :alt="$t('open')" />
+                            <Icon name="tabler:external-link" class="text-2xl" aria-hidden="true" />
                         </a>
 
                         <GlobalActionContextComp v-if="part" :item="part" />

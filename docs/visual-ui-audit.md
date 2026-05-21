@@ -14,7 +14,7 @@ Premise: keep component/page markup mostly semantic and move repeated visual rul
 ## Current Sources Of Truth
 
 - `assets/scss/main.scss` defines the active DaisyUI v5 themes: `avefi_light` and `avefi_dark`.
-- `tailwind.config.ts` defines older DaisyUI theme fallbacks plus a small Tailwind plugin with AVefi classes:
+- `tailwind.config.ts` defines older DaisyUI theme fallbacks plus a small Tailwind plugin with AVefi classes. Because Tailwind v4 is loaded through `assets/scss/main.scss`, shared classes that must render in the current app also need matching definitions in `main.scss`:
   - `.btn-favourites-list`
   - `.btn-compare-list`
   - `.badge-favourites-list`
@@ -234,6 +234,10 @@ Dark-mode approach:
 - If yes, move it toward a shared class or DaisyUI token such as `bg-base-100`, `bg-base-200`, `text-base-content`, `border-base-300`, `.panel-surface`, or `.filter-chip`.
 - If no semantic equivalent exists, keep the local class until a visual contract exists for that context.
 
+Implemented example:
+
+- `components/global/JsonTreeViewer.vue` now avoids `:global(.dark)` overrides and uses local CSS variables mapped to DaisyUI theme tokens (`--color-base-*`, `--color-primary`, `--color-success`, `--color-warning`, `--color-info`) so both light and dark modes are inherited without global selector coupling.
+
 ## Proposed Icon Conventions
 
 Prefer one icon family per shared action within the same context. FormKit icons remain valid for FormKit/forms/schema-driven merge interfaces; Tabler is preferred for general app navigation, search results, drawers, alerts, and global actions.
@@ -289,9 +293,10 @@ Accessibility rule:
    - Keep/align DaisyUI theme tokens in `assets/scss/main.scss` first; treat `tailwind.config.ts` theme fallback as secondary.
    - Add text-relative icon utilities such as `.icon-inline`, `.icon-action`, `.icon-status`, and `.icon-empty-state`.
    - Let DaisyUI default interaction states stand unless a shared class has a documented reason to override them.
+  - Status: shared classes are now active in `assets/scss/main.scss`, with `tailwind.config.ts` kept as fallback/legacy config. This fixes the v4 loading issue where config-only custom classes were not reliably visible in the app.
 
 2. **Low-risk repeated controls**
-   - Carousel controls.
+  - Carousel controls. Status: standardized `btn-carousel-control` usage is in `CarouselCardComp.vue`, `IssuerCarouselComp.vue`, `PartnersCarouselComp.vue`, and `ReusableCarousel.vue` with desktop/mobile visibility classes preserved.
    - Dots/options buttons.
    - Close buttons.
    - Remove/trash buttons.
@@ -300,10 +305,12 @@ Accessibility rule:
    - Move active refinement chip visuals into config classes.
    - Normalize clear/remove filter buttons.
    - Reduce local gray/dark-gray utilities.
+  - Status: destructive/search-clear button replacements are done in `InstantSearchTemplateAVefi.vue` and `InstitutionListComp.vue`; active refinement chips now use `.filter-chip`; icon-size normalization was extended in `ManifestationListSplitView.vue`, `SearchListFlatComp.vue`, `PanelRefinementListComp.vue`, `WorkViewCompAVefi.vue`, and `normdata.vue`. Deeper Algolia layout classes are still deferred.
 
 4. **Badges and domain labels**
    - Add `.badge-highlight` and domain badge classes.
    - Replace forced `text-white` where a content token exists.
+   - Status: highlight badge replacements started in `GenericIconList.vue` and `HighlightListComp.vue`.
 
 5. **Visual review pass**
    - Compare light/dark mode.
@@ -325,6 +332,11 @@ These are small enough to streamline without changing behavior:
 - `formkit:close` vs `tabler:x` in drawers/modals, while keeping FormKit icons for form/merge-specific interfaces.
 - `badge badge-xs bg-highlight text-white` in `GenericIconList` and `HighlightListComp`.
 - `btn-error text-white` and `bg-red-500 hover:bg-red-600` destructive buttons.
+
+Progress update:
+
+- `tabler:trash` vs `formkit:trash`: normalized for non-FormKit destructive actions in search/list flows.
+- `formkit:close` vs `tabler:x`: normalized in `ComparisonDrawer.vue` and `FacetDrawer.vue`.
 
 ## Icon And Button Sizing Follow-Up
 

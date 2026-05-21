@@ -697,7 +697,7 @@ const deBase = {
     }
   },
   'refinementOption': '{facetName}, {label}, {count}, {state}',
-  'copiedToClipboard': 'in die Zwischenablage kopiert',
+  'copiedToClipboard': 'In die Zwischenablage kopiert.',
   'selected': 'ausgewählt',
   'notSelected': 'nicht ausgewählt',
   'linkCopied': 'Link in die Zwischenablage kopiert',
@@ -1112,6 +1112,9 @@ const deBase = {
   "loadingDatasets": "Datensätze werden geladen...",
   "noDataToCompare": "Keine Daten zum Vergleichen vorhanden.",
   "rawData": "Rohdaten",
+  "copyFailed": "Kopieren in die Zwischenablage fehlgeschlagen.",
+  "formattedSource": "Formatierte Quelle",
+  "dataQuality.probableImportIssue": "Dieser Wert stammt sehr wahrscheinlich aus einem Importproblem.",
   "institutionLabel": "Institution",
   "userLabel": "Benutzer",
   "debugPage": {

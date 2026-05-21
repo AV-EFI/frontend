@@ -11,12 +11,12 @@
                 {{ $t('showHistory') }}
             </button>
         </div>
-        <header class="card-body p-4 pb-2 gap-y-0" :aria-labelledby="`flat-work-title-${work?.handle ?? ''}`">
+        <header class="card-body p-4 pb-2 gap-y-0" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
             <div class="flex flex-row justify-between">
                 <div class="w-3/5 lg:w-4/5">
                     <div class="w-full flex flex-row justfiy-start items-center mb-1">
                         <GlobalClipboardComp
-                            class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300 text-left"
+                            class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs! dark:text-gray-300 text-left muted"
                             :display-text="`${work?.handle ?? ''}`"
                             :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
                             role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
@@ -35,7 +35,7 @@
                     <h2 :id="`work-title-${work?.handle ?? ''}`"
                         class="card-title flex-col-reverse lg:flex-row text-lg font-semibold items-start">
                         <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
-                                  class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left leading-5 mb-1"
+                                  class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left leading-5 my-1"
                                   :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
                                   target="_blank">
                             {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
@@ -46,7 +46,7 @@
                     </h2>
                     
                     
-                    <h3 v-if="work?.has_record?.has_alternative_title" class="text-sm text-left">
+                    <h3 v-if="work?.has_record?.has_alternative_title" class="muted text-left">
                         <ul v-if="work?.has_record?.has_alternative_title">
                             <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"
                                 :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`">
@@ -67,21 +67,23 @@
                 </div>
             </div>
 
-            <SearchGenericIconList :data="work" level="work" class="mt-1" />
-        </header>
-        <Transition name="fade" mode="out-in">
-            <div v-if="work && work.handle && showHighlight[work.handle] && getHighlightSnippets(work).length > 0"
-                 class="mb-2 ml-4 text-sm highlight-snippets text-left" tabindex="0" role="region"
-                 :aria-label="$t('lookWhatWeFound')">
-                <span>✨
-                    <strong>{{ $t('lookWhatWeFound') }}</strong>
-                </span>
-                <ul>
-                    <SearchHighlightMatchComp v-for="(entry, i) in getHighlightSnippets(work)" :key="i + entry.value"
-                                              :value="entry.value" :field="entry.key" />
-                </ul>
+            <div class="mt-2 grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.618fr)_minmax(18rem,1fr)] xl:items-stretch">
+                <SearchGenericIconList :data="work" level="work" />
+                <Transition name="fade" mode="out-in">
+                    <div v-if="work && work.handle && showHighlight[work.handle] && getHighlightSnippets(work).length > 0"
+                         class="h-full text-sm highlight-snippets text-left xl:border-l xl:border-base-300 xl:pl-3 bg-base-100 p-2" tabindex="0" role="region"
+                         :aria-label="$t('lookWhatWeFound')">
+                        <span>
+                            {{ $t('lookWhatWeFound') }}
+                        </span>
+                        <ul>
+                            <SearchHighlightMatchComp v-for="(entry, i) in getHighlightSnippets(work)" :key="i + entry.value"
+                                                      :value="entry.value" :field="entry.key" />
+                        </ul>
+                    </div>
+                </Transition>
             </div>
-        </Transition>
+        </header>
 
         <div class="border-t border-base-300 pt-2 bg-base-200 dark:bg-base-100 px-3 py-2 flex justify-center rounded-b-xl">
             <button v-if="work && work.handle"
@@ -106,7 +108,7 @@
             <hr class="my-2">
             <div class="flex flex-col">
                 <h3 class="relative font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
-                    aria-label="$t('tooltip.manifestation')">
+                    :aria-label="$t('tooltip.manifestation')">
                     {{ $t('manifestations') }}
 
                     <!-- Info icon positioned inside <h3> -->

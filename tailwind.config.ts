@@ -73,7 +73,7 @@ module.exports = {
           '800': '#663033',
           '900': '#552a2c',
         },
-        highlight: '#d8899c',
+        highlight: '#e4acba',
         'highlight-content': '#3a1f26',
         'favourites-list': '#b85a5e',
         'favourites-list-content': '#ffffff',
@@ -107,15 +107,88 @@ module.exports = {
     // Utility components
     function ({ addComponents }) {
       addComponents({
+        '.icon-inline': {
+          width: '1em',
+          height: '1em',
+          'flex-shrink': '0',
+        },
+        '.icon-action': {
+          width: '1.25em',
+          height: '1.25em',
+          'flex-shrink': '0',
+        },
+        '.icon-status': {
+          '@apply w-6 h-6 shrink-0': {},
+        },
+        '.icon-empty-state': {
+          '@apply w-8 h-8 shrink-0': {},
+        },
+        '.btn-icon': {
+          '@apply btn btn-circle': {},
+        },
+        '.btn-icon-xs': {
+          '@apply btn btn-circle btn-xs': {},
+        },
+        '.btn-icon-sm': {
+          '@apply btn btn-circle btn-sm': {},
+        },
+        '.btn-danger': {
+          '@apply btn btn-error': {},
+        },
+        '.btn-danger-outline': {
+          '@apply btn btn-outline btn-error': {},
+        },
+        '.btn-carousel-control': {
+          '@apply btn btn-circle text-base-content border border-base-300 shadow w-10 h-10': {},
+          display: 'inline-flex',
+          'align-items': 'center',
+          'justify-content': 'center',
+          'line-height': '1',
+          padding: '0',
+          'aspect-ratio': '1 / 1',
+          '--btn-color': 'var(--color-base-200)',
+          'background-color': 'var(--color-base-200) !important',
+          '& > *': {
+            display: 'inline-flex',
+            'align-items': 'center',
+            'justify-content': 'center',
+          },
+          '& :where(svg)': {
+            width: '1.125rem',
+            height: '1.125rem',
+            display: 'block',
+          },
+          '&:hover': {
+            '--btn-color': 'var(--color-base-300)',
+            'background-color': 'var(--color-base-300) !important',
+          },
+          '&:is([data-theme="avefi_dark"] *)': {
+            'background-color': 'var(--color-base-300) !important',
+          },
+          '&:is([data-theme="avefi_dark"] *):hover': {
+            'background-color': 'var(--color-base-100) !important',
+          },
+        },
         '.btn-favourites-list': {
           '@apply bg-favourites-list text-favourites-list-content hover:bg-favourites-list-hover hover:text-favourites-list-hover-content': {},
         },
         '.btn-compare-list': {
           '@apply bg-compare-list text-compare-list-content hover:bg-compare-list-hover hover:text-compare-list-content': {},
         },
+        '.badge-highlight': { '@apply badge bg-highlight text-highlight-content': {} },
+        '.badge-highlight-xs': { '@apply badge badge-xs bg-highlight text-highlight-content': {} },
         '.badge-favourites-list': { '@apply badge bg-favourites-list text-favourites-list-content': {} },
         '.badge-compare-list': { '@apply badge bg-compare-list text-compare-list-content': {} },
         '.btn-highlight': { '@apply bg-highlight text-highlight-content hover:bg-highlight hover:text-highlight-content': {} },
+        '.panel-surface': {
+          '@apply w-full bg-white text-base-content border-2 border-base-200 rounded-lg dark:bg-gray-800': {},
+        },
+        '.panel-surface-muted': {
+          '@apply bg-base-200 text-base-content border border-base-300 dark:bg-base-300': {},
+        },
+        '.filter-chip': {
+          '@apply border border-base-200 text-base-content rounded-lg': {},
+        },
       });
     },
     // Fancy text utility

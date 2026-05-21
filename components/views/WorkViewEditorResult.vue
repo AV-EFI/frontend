@@ -10,9 +10,9 @@
                 </h2>
             </div>
             <div class="col-span-full">
-                <button class="btn btn-error text-white btn-sm mb-2" @click="customReset()">
+                <button class="btn-danger btn-sm mb-2" @click="customReset()">
                     {{ $t('resetFormData') }}
-                    <Icon class="text-xl" name="formkit:close" />
+                    <Icon class="icon-inline" name="tabler:x" aria-hidden="true" />
                 </button>
             </div>
             <div class="col-span-full">

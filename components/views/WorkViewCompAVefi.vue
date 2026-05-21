@@ -163,7 +163,7 @@
                         <template #left>
                             <div class="w-full col-span-full">
                                 <!-- 01–04 + 06–09: handled inside TopLevelComp -->
-                                <DetailWorkVariantTopLevelComp v-model="mir" id="work-events"
+                                <DetailWorkVariantTopLevelComp v-model="mir"
                                                                :handle="dataObject?.compound_record?._source?.handle"
                                                                :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']"
                                                                :order-key="'08-06-2025'" :hide-second-handle="true"
@@ -172,6 +172,7 @@
                                 <!-- 05 Produktions-Events -->
                                 <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
                                                     v-model="mir.has_event"
+                                                    root-id="work-events"
                                                     :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
                             </div>
                         </template>
@@ -267,7 +268,7 @@
                                             :checked="searchQuery.includes(suggestion)"
                                             @change="toggleSuggestion(suggestion)"
                                         />
-                                        <Icon :name="suggestionIconName(suggestion)" class="w-4 h-4 text-primary" aria-hidden="true" />
+                                        <Icon :name="suggestionIconName(suggestion)" class="icon-inline text-primary" aria-hidden="true" />
                                         <span class="label-text">
                                             {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
                                         </span>
@@ -781,12 +782,21 @@ function scrollToId(id: string) {
     window.dispatchEvent(new Event('hashchange'));
 }
 
+function slugAnchorPart(value: unknown) {
+    return String(value ?? '')
+        .trim()
+        .replace(/[^A-Za-z0-9_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 function getManifestationAnchorId(manifestation: any, index: number) {
-    return manifestation?.handle || `manifestation-${index}`;
+    const slug = slugAnchorPart(manifestation?.handle);
+    return slug ? `manifestation-${index}-${slug}` : `manifestation-${index}`;
 }
 
 function getItemAnchorId(item: any, manifestationIndex: number, itemIndex: number) {
-    return item?.handle || `item-${manifestationIndex}-${itemIndex}`;
+    const slug = slugAnchorPart(item?.handle);
+    return slug ? `item-${manifestationIndex}-${itemIndex}-${slug}` : `item-${manifestationIndex}-${itemIndex}`;
 }
 
 function findTargetIdForRequestedHandle(handle: string) {

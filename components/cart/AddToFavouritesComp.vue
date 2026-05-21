@@ -4,7 +4,7 @@
             :title="$t('addtofavouritesparam', { name: props.filmTitle })" :data-id="filmId" :data-title="filmTitle"
             :aria-label="$t('addtofavouritesparam', { name: props.filmTitle })"
             @click="$addToComparison(props.filmId, props.filmTitle, 'favourites')">
-        <MicroFavouritesIcon :alt="$t('addtofavouritesparam', { name: filmTitle })" class="text-xl w-4 h-4" />
+        <MicroFavouritesIcon :alt="$t('addtofavouritesparam', { name: filmTitle })" class="icon-action" />
         <span class="hidden md:inline-block w-24 ml-1 text-left">{{ $t('favourites') }}</span>
     </button>
 </template>

@@ -31,7 +31,7 @@
 
         <button
             :title="$t('clearalllist')"
-            class="btn btn-error"
+            class="btn-danger"
             @click="removeAllObjects"
         >
             {{ $t('clearalllist') }}
