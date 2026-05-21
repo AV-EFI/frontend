@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <div class="border-t border-base-200 dark:border-gray-700 pt-4">
                         <div class="mb-4">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                                 {{ $t('advancedSearch') }}
@@ -72,7 +72,7 @@
                             <div
                                 v-for="(filter, index) in facetFilters"
                                 :key="filter.uid"
-                                class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                                class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
                             >
                                 <div class="flex flex-row items-center gap-2 mb-2 lg:mb-0">
                                     <span
@@ -101,7 +101,7 @@
                                     :options="availableFacetsFiltered"
                                     outer-class="flex-1 w-full lg:w-auto"
                                     inner-class="dark:bg-neutral dark:text-accent"
-                                    input-class="!h-8 dark:!bg-[#050505] dark:!text-gray-100 dark:!border-gray-700"
+                                    input-class="!h-8 dark:!bg-gray-900 dark:!text-gray-100 border-base-200 dark:!border-gray-700 !border-2 rounded-lg lg:px-2"
                                     @input="onFacetChange(index)"
                                 />
 
@@ -112,8 +112,8 @@
                                             type="text"
                                             :placeholder="$t('enterValue')"
                                             outer-class="w-full"
-                                            inner-class="!h-8 bg-white dark:!bg-gray-950 dark:!text-white"
-                                            input-class="!h-8 !w-full p-2"
+                                            inner-class="!h-8 bg-white dark:!bg-gray-900 dark:!text-white rounded-lg"
+                                            input-class="!h-8 !w-full p-2 !border-2 border-base-200 dark:border-gray-700 rounded-lg lg:px-2"
                                             :disabled="!filter.facet"
                                             autocomplete="off"
                                             :aria-autocomplete="'list'"
@@ -138,7 +138,7 @@
 
                                     <div
                                         v-if="filter.showSuggestions && filter.suggestions.length"
-                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-[#050505] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
+                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
                                         role="listbox"
                                         @mousedown.stop
                                     >

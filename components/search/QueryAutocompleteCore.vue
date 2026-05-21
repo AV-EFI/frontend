@@ -11,7 +11,7 @@
                     :autofocus="autofocus ?? false"
                     autocomplete="off"
                     :class="[
-                        'text-lg! bg-white dark:bg-neutral border-2 border-base-200 rounded-l-xl rounded-r-xl md:rounded-r-none! px-4 w-full dark:text-white! h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary',
+                        'text-lg! bg-white dark:bg-base-200 border-2 border-base-200 dark:border-gray-700 rounded-l-xl rounded-r-xl md:rounded-r-none! px-4 w-full dark:text-white! h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary',
                         searchHelpVisible && displayValue ? 'pr-20' : 'pr-10'
                     ]"
                     :aria-label="ariaLabel"
@@ -64,7 +64,7 @@
              role="listbox" :aria-label="listboxAriaLabel">
             <!-- Recent searches header (only when input is empty) -->
             <div v-if="props.recentSearches && props.recentSearches.length > 0"
-                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 border-base-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
                     {{ $t('recentSearches') }} / {{ $t('suggestions') }}
                 </span>
@@ -75,7 +75,7 @@
                 </button>
             </div>
             <div v-else-if="props.recentSearches && props.recentSearches.length > 0"
-                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                 class="flex justify-between items-center px-3 py-2 border-b border-gray-200 border-base-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <span class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
                     {{ $t('suggestions') }}
                 </span>
