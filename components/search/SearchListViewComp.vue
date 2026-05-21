@@ -1,9 +1,9 @@
 <template>
     <div v-for="work in items" :key="work.handle"
-         class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4"
+         class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-900 w-full hover:shadow-xl mb-4"
          role="region" :aria-label="`${$t('title')}: ${work?.has_record?.has_primary_title?.has_name}`">
         <div v-if="showAdminStats"
-             class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-800 dark:text-white text-sm">
+             class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-900 dark:text-white text-sm">
             <span>{{ $t('statusLabel') }}: <span class="badge badge-success text-white">{{ $t('publicStatus') }}</span></span>
             <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
             <span>{{ work?.has_record?.described_by?.has_issuer_name }}</span>
@@ -85,7 +85,7 @@
             </div>
         </header>
 
-        <div class="border-t border-base-300 pt-2 bg-base-200 dark:bg-base-100 px-3 py-2 flex justify-center rounded-b-xl">
+        <div class="border-t border-base-300 pt-2 bg-base-200 dark:bg-gray-800 px-3 py-2 flex justify-center rounded-b-xl">
             <button v-if="work && work.handle"
                     class="btn btn-primary btn-xs my-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                     :aria-label="`${isExpanded[work.handle] ? $t('hideDetails') : $t('showManifestItems')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"

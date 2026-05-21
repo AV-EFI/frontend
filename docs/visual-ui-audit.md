@@ -208,7 +208,7 @@ Goal: move visual identity to Tailwind/DaisyUI tokens and keep components semant
 
 Current patterns use many local gray utilities:
 
-- `bg-white dark:bg-gray-800`
+- `bg-white dark:bg-gray-900`
 - `text-gray-700 dark:text-gray-200`
 - `border-gray-*`
 - custom hover colors for refinement chips.

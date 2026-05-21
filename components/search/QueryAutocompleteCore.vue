@@ -92,7 +92,7 @@
                      :class="[
                          'w-full text-left px-3 py-2 flex items-center gap-2 group text-gray-800 dark:text-gray-200',
                          'hover:bg-gray-100 dark:hover:bg-gray-800/80',
-                         i === highlighted ? 'bg-gray-100 dark:bg-gray-800/80' : ''
+                         i === highlighted ? 'bg-gray-100 dark:bg-gray-900/80' : ''
                      ]" role="option" :aria-selected="i === highlighted"
                      @mousedown.stop.prevent="onSelect(s)">
                     <Icon v-if="s.type === 'recent'" class="shrink-0 text-base leading-none" name="tabler:history"

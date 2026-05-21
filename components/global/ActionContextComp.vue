@@ -74,3 +74,9 @@ function handleFocusOut(event: FocusEvent) {
     }
 }
 </script>
+
+<style scoped>
+.dropdown-content :deep(.icon-action) {
+    font-size: 0.9rem;
+}
+</style>

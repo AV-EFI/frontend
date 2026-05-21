@@ -91,7 +91,7 @@ export default defineNuxtConfig({
       style: [
         {
           innerHTML: `html[data-theme="avefi_dark"], [data-theme="avefi_dark"] {
-            background: oklch(20.768% 0.039 265.754) !important;
+            background:oklch(13% 0.028 261.692) !important;
             color: oklch(20.768% 0.039 265.754) !important;
             --color-base-100: oklch(20.768% 0.039 265.754);
             --color-base-content: #dfe9ee;

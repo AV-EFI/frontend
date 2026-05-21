@@ -1,6 +1,6 @@
 <template>
     <section v-for="(work, workIndex) in datasets" :key="work?.handle ?? work?.objectID ?? `work-${workIndex}`"
-             class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-800 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
+             class="card bg-white border-base-200 border-2 shadow-md rounded-xl dark:bg-gray-900 w-full hover:shadow-xl mb-4 text-neutral-900 dark:text-white"
              role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
         <!-- Work header -->
         <header class="card-body p-4 pb-2 gap-y-0">

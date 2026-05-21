@@ -1,8 +1,8 @@
 <template>
     <ais-panel role="region" :aria-labelledby="`facet-title-${props.attributeName}`" :class-names="{
         'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-base-200 dark:border-gray-600 rounded-lg mb-2 max-md:!w-[90vw]',
-        'ais-Panel-body': 'collapse-content !pl-0 !pr-0 mx-1 bg-gray-50 dark:bg-gray-900 dark:text-white text-xs ',
-        'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2 text-left'
+        'ais-Panel-body': 'collapse-content !pl-0 !pr-0 bg-gray-50 dark:bg-gray-900 dark:text-white text-xs ',
+        'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-900 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2 text-left'
     }"
     >
         <!-- Header -->
@@ -37,7 +37,7 @@
                     <!-- Numeric inputs (update local only) -->
                     <div class="flex flex-row justify-around mt-2 p-2 gap-3">
                         <input :id="`${inputId}-min`" type="number" inputmode="numeric"
-                               class="input input-bordered input-xs w-24 bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300"
+                               class="input input-bordered input-xs w-24 bg-white dark:bg-gray-900 text-neutral-700 dark:text-neutral-300"
                                :placeholder="String(boundMin(s?.range ?? {}))" :min="boundMin(s?.range ?? {})"
                                :max="boundMax(s?.range ?? {})" :value="(pending?.[0] ?? boundMin(s?.range ?? {}))"
                                :disabled="!(s?.canRefine ?? false)" @change="onMinChangeLocal($event, s?.range ?? {})">
@@ -45,7 +45,7 @@
                             <Icon class="mx-auto dark:text-white" name="formkit:arrowright" />
                         </div>
                         <input :id="`${inputId}-max`" type="number" inputmode="numeric"
-                               class="input input-bordered input-xs w-24 bg-white dark:bg-gray-800 text-neutral-700 dark:text-neutral-300"
+                               class="input input-bordered input-xs w-24 bg-white dark:bg-gray-900 text-neutral-700 dark:text-neutral-300"
                                :placeholder="String(boundMax(s?.range ?? {}))" :min="boundMin(s?.range ?? {})"
                                :max="boundMax(s?.range ?? {})" :value="(pending?.[1] ?? boundMax(s?.range ?? {}))"
                                :disabled="!(s?.canRefine ?? false)" @change="onMaxChangeLocal($event, s?.range ?? {})">

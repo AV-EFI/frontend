@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col min-h-screen">
-        <header class="dark:bg-gray-800">
+        <header class="dark:bg-gray-900">
             <GlobalNavBar />
         </header>
         <div class="filmroll-container">
@@ -20,7 +20,7 @@
                 <div class="sprocket right-sprocket" />
             </div>
         </div>
-        <footer class="dark:bg-gray-800">
+        <footer class="dark:bg-gray-900">
             <LazyGlobalFooter />
         </footer>
     </div>

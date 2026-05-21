@@ -20,7 +20,7 @@
                         </button>
                         <!-- Mobile dropdown -->
                         <ul v-show="mobileMenuOpen" role="menu" :aria-label="ariaLabelMainMenu"
-                            class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52 menu-items md:hidden"
+                            class="menu menu-sm dropdown-content mt-3 z-[1000] p-2 shadow bg-base-100 dark:bg-gray-900 rounded-box w-52 menu-items md:hidden"
                             @mousedown.stop>
                             <li class="h-12 flex justify-center mr-2">
                                 <LazyMicroSendMailButt />
@@ -169,7 +169,7 @@
                                         {{ $t('hello') }} {{ data?.user?.name }}
                                     </div>
                                 </summary>
-                                <ul class="p-2 dark:bg-gray-800 w-64 menu-items right-4" role="menu" :aria-label="ariaLabelUserMenu">
+                                <ul class="p-2 dark:bg-gray-900 w-64 menu-items right-4" role="menu" :aria-label="ariaLabelUserMenu">
                                     <li role="none">
                                         <a role="menuitem" href="/protected/dashboard">{{ $t('dashboard') }}</a>
                                     </li>

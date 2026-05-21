@@ -11,7 +11,7 @@
             <div class="drawer-side z-50">
                 <label
                     :aria-label="$t('close')"
-                    class="hidden md:visible drawer-overlay bg-base-200 dark:bg-gray-800 z-40"
+                    class="hidden md:visible drawer-overlay bg-base-200 dark:bg-gray-900 z-40"
                     @click="toggleDrawer"
                 />
                 <div
@@ -61,7 +61,7 @@
                     <section
                         id="comparison-panel"
                         role="tabpanel"
-                        class="bg-base-200 dark:bg-gray-800 dark:text-white"
+                        class="bg-base-200 dark:bg-gray-900 dark:text-white"
                         aria-labelledby="comparison-tab"
                         :aria-hidden="activeTab !== 'comparison'"
                         v-show="activeTab === 'comparison'"
@@ -134,7 +134,7 @@
                     <section
                         id="favourites-panel"
                         role="tabpanel"
-                        class="bg-base-200 dark:bg-gray-800 dark:text-white"
+                        class="bg-base-200 dark:bg-gray-900 dark:text-white"
                         aria-labelledby="favourites-tab"
                         :aria-hidden="activeTab !== 'favourites'"
                         v-show="activeTab === 'favourites'"

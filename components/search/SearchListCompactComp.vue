@@ -3,7 +3,7 @@
         <article
             v-for="(work, workIndex) in datasets"
             :key="work?.handle ?? work?.objectID ?? `work-${workIndex}`"
-            class="h-full rounded-xl border border-base-300/80 bg-white dark:bg-gray-800 dark:border-gray-700 p-3 shadow-sm hover:shadow-md transition-shadow text-neutral-900 dark:text-white flex flex-col"
+            class="h-full rounded-xl border border-base-300/80 bg-white dark:bg-gray-900 dark:border-gray-700 p-3 shadow-sm hover:shadow-md transition-shadow text-neutral-900 dark:text-white flex flex-col"
             role="region"
             :aria-labelledby="`compact-work-title-${work?.handle ?? workIndex}`"
         >

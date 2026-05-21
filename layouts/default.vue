@@ -11,13 +11,13 @@
 
         <div class="h-[var(--header-height)] flex-shrink-0" aria-hidden="true"></div>
 
-        <main class="main grow bg-base-100 2xl:px-6">
+        <main class="main grow 2xl:px-6">
             <slot />
             <GlobalComparisonDrawer v-if="hydrated" />
             <GlobalContactDrawer v-if="hydrated" />
         </main>
 
-        <footer class="dark:bg-gray-800">
+        <footer class="dark:bg-gray-900">
             <GlobalFooter />
         </footer>
 

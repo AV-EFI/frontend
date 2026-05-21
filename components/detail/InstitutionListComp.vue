@@ -100,7 +100,7 @@
                                         <FormKit type="select" :label="$t('sorting')" :disabled="true" name="sort"
                                                  outer-class="!mb-0 flex items-end" wrapper-class="!mb-0"
                                                  :options="[$t('institutionList.sortStandard'), $t('institutionList.sortTitleAsc'), $t('institutionList.sortTitleDesc')]"
-                                                 input-class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg" />
+                                                 input-class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg" />
                                     </div>
                                     <div class="form-control w-full md:w-1/3 flex flex-col justify-end">
                                         <label class="label cursor-pointer w-48 ml-auto hidden lg:flex">

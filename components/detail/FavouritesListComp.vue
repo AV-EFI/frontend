@@ -4,7 +4,7 @@
             <li
                 v-for="(group, status) in favouritesList"
                 :key="status"
-                class="p-4 border rounded-lg shadow-md bg-base-100 dark:bg-gray-800"
+                class="p-4 border rounded-lg shadow-md bg-base-100 dark:bg-gray-900"
             >
                 <div class="collapse collapse-arrow">
                     <input

@@ -58,7 +58,7 @@
                 <!-- background & padding moved INSIDE to preserve baseline -->
                 <div
                     :class="[
-                        { 'bg-base-100 dark:bg-gray-800 p-2 rounded-lg': bgColor },
+                        { 'bg-base-100 dark:bg-gray-900 p-2 rounded-lg': bgColor },
                         overflowY,
                     ]"
                 >

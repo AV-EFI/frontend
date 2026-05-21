@@ -11,7 +11,7 @@
                 <div v-for="(item, index) in items" :key="index"
                      class="carousel-item !w-[250px] md:!w-[384px] lg:!w-128 flex-shrink-0 justify-center">
                     <div
-                        class="card w-[250px] md:w-[384px] lg:w-128 shadow-xl md:h-full max-w-full bg-white dark:bg-gray-800 dark:shadow-gray-700">
+                        class="card w-[250px] md:w-[384px] lg:w-128 shadow-xl md:h-full max-w-full bg-white dark:bg-gray-900 dark:shadow-gray-700">
                         <figure v-if="item.imgSrc" class="flex flex-col items-center">
                             <div class="relative w-full h-48 lg:h-48 rounded overflow-hidden">
                                 <img :src="item.imgSrc" :alt="item.imgAlt" loading="lazy" decoding="async"

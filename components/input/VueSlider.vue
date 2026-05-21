@@ -7,7 +7,7 @@
     >
         <input type="checkbox" class="collapse-checkbox" :aria-label="$t('togglePanel')">
 
-        <div class="collapse-title dark:bg-gray-800 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
+        <div class="collapse-title dark:bg-gray-900 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
             <div class="flex items-center gap-2">
                 <Icon
                     :name="facetIcon"
@@ -34,7 +34,7 @@
                 class="hidden"
             />
 
-            <div class="p-4 m-4 dark:bg-gray-800 rounded-lg">
+            <div class="p-4 m-4 dark:bg-gray-900 rounded-lg">
                 <Slider
                     v-model="sliderValue"
                     :min="props.min"
@@ -46,7 +46,7 @@
                 />
             </div>
 
-            <div class="flex flex-row justify-around mt-2 p-2 dark:bg-gray-800 rounded-lg">
+            <div class="flex flex-row justify-around mt-2 p-2 dark:bg-gray-900 rounded-lg">
                 <FormKit
                     v-model="sliderValue[0]"
                     type="number"
@@ -73,7 +73,7 @@
             </div>
 
             <div
-                class="text-center mt-2 py-2 px-4 dark:bg-gray-800 rounded-lg"
+                class="text-center mt-2 py-2 px-4 dark:bg-gray-900 rounded-lg"
                 :title="$t('prodYearOnlyProductionYearExtended')"
             >
                 <label class="label cursor-pointer text-xs">
@@ -82,7 +82,7 @@
                 </label>
             </div>
 
-            <div class="text-center flex flex-row mt-4 mx-2 dark:bg-gray-800 rounded-lg">
+            <div class="text-center flex flex-row mt-4 mx-2 dark:bg-gray-900 rounded-lg">
                 <button class="btn btn-block btn-xs w-1/2" @click="resetSlider">
                     {{ $t('reset') }}
                 </button>

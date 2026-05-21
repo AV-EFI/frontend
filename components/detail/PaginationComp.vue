@@ -1,20 +1,20 @@
 <template>
     <div
         ref="root"
-        class="relative pagination px-2 flex justify-center w-full bg-white dark:bg-gray-800"
+        class="panel-surface relative pagination px-2 flex justify-center w-full"
         role="navigation"
         :aria-label="$t('pagination')"
     >
         <ais-pagination
             :class-names="{
-                'ais-Pagination': 'flex justify-center my-auto bg-white dark:bg-gray-800',
+                'ais-Pagination': 'flex justify-center my-auto',
                 'ais-Pagination-list': 'flex space-x-1 my-1',
                 'ais-Pagination-item': 'btn btn-sm btn-circle btn-primary btn-outline hover:text-white text-center',
                 'ais-Pagination-link': 'text-center vertical-align-middle text-[12px] dark:text-gray-200',
                 'ais-Pagination-item--selected': 'btn btn-sm btn-circle btn-accent !text-white'
             }"
         />
-        <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-gray-800/60 z-50 pointer-events-auto">
+        <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-gray-900/60 z-50 pointer-events-auto">
             <span role="status" aria-live="polite" class="loading loading-spinner loading-md text-primary" />
         </div>
     </div>

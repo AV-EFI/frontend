@@ -1,15 +1,16 @@
 <script setup lang="ts">
 defineProps({
-    'alt': {
+    alt: {
         type: String,
-        default: 'Comparison'
-    }
+        default: 'Favourites',
+    },
 });
 </script>
+
 <template>
     <Icon
         :alt="alt"
         :aria-label="alt"
-        name="material-symbols:compare"
+        name="tabler:heart"
     />
 </template>

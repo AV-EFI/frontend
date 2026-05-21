@@ -10,7 +10,7 @@
             :aria-labelledby="`manifestation-heading-${i}`"
         >
             <div
-                class="w-full text-left px-4 py-3 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                class="w-full text-left px-4 py-3 dark:bg-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 role="button"
                 tabindex="0"
                 :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
@@ -37,7 +37,7 @@
             <div
                 v-show="isManifestationOpen(i)"
                 :id="`manifestation-panel-${i}`"
-                class="bg-gray-50 dark:bg-gray-800 dark:text-white px-4 pb-4"
+                class="bg-gray-50 dark:bg-gray-900 dark:text-white px-4 pb-4"
                 role="region"
                 :aria-labelledby="`manifestation-heading-${i}`"
             >

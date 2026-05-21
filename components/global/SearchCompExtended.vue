@@ -72,7 +72,7 @@
                             <div
                                 v-for="(filter, index) in facetFilters"
                                 :key="filter.uid"
-                                class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                                class="flex-col lg:flex-row flex items-start lg:gap-1 p-1 lg:p-2 bg-gray-50 dark:bg-gray-900 rounded-lg"
                             >
                                 <div class="flex flex-row items-center gap-2 mb-2 lg:mb-0">
                                     <span
@@ -194,7 +194,7 @@
                         v-if="showValidationWarning"
                         role="alert"
                         aria-live="assertive"
-                        class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-gray-800 text-xs mt-2 p-2 rounded-lg"
+                        class="slide-down text-center text-error-800 dark:text-error-200 bg-white dark:bg-gray-900 text-xs mt-2 p-2 rounded-lg"
                     >
                         {{ $t('enterSearchTermFirst') }}
                     </p>
