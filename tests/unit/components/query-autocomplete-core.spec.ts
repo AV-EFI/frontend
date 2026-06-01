@@ -145,4 +145,44 @@ describe('QueryAutocompleteCore interaction contracts', () => {
 
     vi.useRealTimers();
   });
+
+  test('closes an open facet dropdown when the facet key changes', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal(
+      '$fetch',
+      vi.fn().mockResolvedValue({
+        success: true,
+        suggestions: [{ text: 'ger', type: 'facet', count: 10 }],
+      })
+    );
+
+    const wrapper = mount(QueryAutocompleteCore, {
+      props: {
+        modelValue: '',
+        name: 'query',
+        facetAttr: 'in_language_code',
+      },
+      global: {
+        stubs: {
+          Icon: { template: '<i />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    const input = wrapper.get('input');
+    await input.setValue('deut');
+    await vi.runAllTimersAsync();
+
+    expect(input.attributes('aria-expanded')).toBe('true');
+
+    await wrapper.setProps({ facetAttr: 'has_sound_type' });
+
+    expect(wrapper.get('input').attributes('aria-expanded')).toBe('false');
+    expect(wrapper.text()).not.toContain('Deutsch');
+
+    vi.useRealTimers();
+  });
 });

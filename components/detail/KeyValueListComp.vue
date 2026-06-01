@@ -1,9 +1,8 @@
 <template>
     <div class="flex flex-col">
         <!-- LABEL (fixed baseline, space always reserved) -->
-        <div class="h-4 flex items-start">
+        <div v-if="keytxt" class="h-4 flex items-start">
             <MicroLabelComp
-                v-if="keytxt"
                 :label-text="keytxt"
             />
         </div>
@@ -64,7 +63,7 @@
                 >
                     <ul
                         v-if="valtxt"
-                        :aria-label="$t(keytxt)"
+                        :aria-label="keytxt ? $t(keytxt) : undefined"
                     >
                         <li
                             v-for="val in valtxt"
@@ -73,7 +72,7 @@
                             :class="fontSize"
                         >
                             <span
-                                class="flex-grow flex items-start leading-5"
+                                class="grow flex items-start leading-5"
                                 :class="[narrow ? 'w-3/4' : '']"
                             >
                                 {{ val?.has_name ?? $t(val) }}
@@ -83,7 +82,7 @@
                                 v-if="sameAs"
                                 :same-as-data="val.same_as"
                                 :type="sameAsType"
-                                class="flex items-start flex-shrink-0 mr-4"
+                                class="flex items-start shrink-0 mr-4"
                                 :class="fontSize"
                             />
                         </li>

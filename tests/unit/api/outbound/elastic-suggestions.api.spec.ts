@@ -160,4 +160,102 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
     expect(fetchMock.mock.calls[0][1].body.aggs.facet_suggestions.terms.field).toBe('creators.keyword');
   });
+
+  test('facet mode applies case-insensitive prefix matching for creator facet values', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      aggregations: {
+        facet_suggestions: {
+          buckets: [{ key: 'Schaller, Dietrich', doc_count: 3 }],
+        },
+      },
+    });
+    const readBodyMock = vi.fn().mockResolvedValue({
+      mode: 'facet',
+      facetAttr: 'creators',
+      query: 'Sch',
+      size: 10,
+    });
+
+    vi.doMock('h3', () => ({
+      defineEventHandler: (fn: any) => fn,
+      readBody: readBodyMock,
+    }));
+    vi.doMock('ofetch', () => ({
+      $fetch: fetchMock,
+    }));
+    vi.doMock('~/searchConfig_avefi', () => ({
+      config: { search_settings: { search_attributes: [] } },
+    }));
+    vi.doMock('~/server/utils/elasticsearchRuntime', () => ({
+      getElasticsearchNode: () => 'http://elastic.local',
+    }));
+    vi.stubGlobal('useRuntimeConfig', () => ({
+      public: { ELASTIC_INDEX: 'works-index' },
+    }));
+
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const result = await handler({});
+
+    expect(fetchMock.mock.calls[0][1].body.aggs.facet_suggestions.terms).toMatchObject({
+      field: 'creators.keyword',
+      include: '[sS][cC][hH].*',
+    });
+    expect(result).toEqual({
+      success: true,
+      suggestions: [{ text: 'Schaller, Dietrich', type: 'creators', count: 3 }],
+      count: 1,
+    });
+  });
+
+  test('facet mode maps has_sound_type to the item-level nested sound type field', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      aggregations: {
+        lvl1: {
+          lvl2: {
+            facet_suggestions: {
+              buckets: [{ key: 'Sound', doc_count: 3 }],
+            },
+          },
+        },
+      },
+    });
+    const readBodyMock = vi.fn().mockResolvedValue({
+      mode: 'facet',
+      facetAttr: 'has_sound_type',
+      query: '',
+      size: 10,
+    });
+
+    vi.doMock('h3', () => ({
+      defineEventHandler: (fn: any) => fn,
+      readBody: readBodyMock,
+    }));
+    vi.doMock('ofetch', () => ({
+      $fetch: fetchMock,
+    }));
+    vi.doMock('~/searchConfig_avefi', () => ({
+      config: { search_settings: { search_attributes: [] } },
+    }));
+    vi.doMock('~/server/utils/elasticsearchRuntime', () => ({
+      getElasticsearchNode: () => 'http://elastic.local',
+    }));
+    vi.stubGlobal('useRuntimeConfig', () => ({
+      public: { ELASTIC_INDEX: 'works-index' },
+    }));
+
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const result = await handler({});
+    const aggs = fetchMock.mock.calls[0][1].body.aggs;
+
+    expect(result).toEqual({
+      success: true,
+      suggestions: [{ text: 'Sound', type: 'has_sound_type', count: 3 }],
+      count: 1,
+    });
+    expect(aggs.lvl1.nested.path).toBe('manifestations');
+    expect(aggs.lvl1.aggs.lvl2.nested.path).toBe('manifestations.items');
+    expect(aggs.lvl1.aggs.lvl2.aggs.facet_suggestions.terms.field).toBe(
+      'manifestations.items.has_record.has_sound_type.keyword'
+    );
+  });
 });

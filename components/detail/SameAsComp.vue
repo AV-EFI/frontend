@@ -26,14 +26,14 @@
             :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
             @keydown="onMenuKeydown"
         >
-            <li v-for="(item, idx) in sameAsData" :key="idx" role="none">
+            <li v-for="(item, idx) in sameAsData" :key="idx" role="none" class="flex flex-row items-center gap-1">
                 <a
                     v-if="item.category === 'avefi:GNDResource'"
                     role="menuitem"
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <img src="https://explore.gnd.network/images/icons/favicon.ico" alt="GND" class="w-4 h-4 inline" />
@@ -46,7 +46,7 @@
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <Icon name="tabler:notebook" size="1em" />
@@ -59,7 +59,7 @@
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <Icon name="carbon:notebook-reference" size="1em" />
@@ -72,7 +72,7 @@
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <img src="https://www.filmportal.de/themes/custom/filmportal/favicon.ico" alt="Filmportal" class="w-4 h-4 inline" />
@@ -85,7 +85,7 @@
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <Icon name="carbon:notebook-reference" size="1em" />
@@ -98,7 +98,7 @@
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <Icon name="tabler:notebook" size="1em" />
@@ -110,16 +110,26 @@
                     tabindex="0"
                     :href="getNormdataUrl(item.category, item.id)"
                     target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent"
+                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
                     @click="close()"
                 >
                     <Icon name="carbon:notebook-reference" size="1em" />
                     <span>&nbsp;{{ $t(item.category) }}</span>
                 </a>
 
-                <span v-else role="menuitem" tabindex="0" class="opacity-70">
+                <span v-else role="menuitem" tabindex="0" class="min-w-0 flex-1 opacity-70">
                     Unbekannte Referenz: {{ $t(item.category) }}
                 </span>
+
+                <button
+                    type="button"
+                    class="btn btn-ghost btn-xs shrink-0"
+                    :aria-label="`${$t('copyToClipboard')}: ${$t(item.category)}`"
+                    :title="`${$t('copyToClipboard')}: ${getNormdataUrl(item.category, item.id)}`"
+                    @click.stop="copySameAsUrl(item)"
+                >
+                    <Icon name="tabler:copy" size="1em" aria-hidden="true" />
+                </button>
             </li>
         </ul>
     </div>
@@ -127,6 +137,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { useClipboardUtil } from '~/utils/clipboard';
 
 const props = defineProps({
     sameAsData: { type: Array as () => Array<any>, default: () => [] },
@@ -135,6 +146,7 @@ const props = defineProps({
 });
 
 const { getNormdataUrl } = useNormdataUrl();
+const clipboard = useClipboardUtil();
 
 const open = ref(false);
 const triggerRef = ref<HTMLElement | null>(null);
@@ -196,6 +208,10 @@ function close() {
     if (!open.value) return;
     open.value = false;
     nextTick(() => triggerRef.value?.focus());
+}
+
+function copySameAsUrl(item: any) {
+    clipboard?.copyExtended(getNormdataUrl(item.category, item.id));
 }
 
 function onTriggerKeydown(e: KeyboardEvent) {

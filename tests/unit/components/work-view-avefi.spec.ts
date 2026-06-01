@@ -45,6 +45,14 @@ function buildModelWithManifestations() {
   };
 }
 
+function buildModelWithTopLevelExtras() {
+  const model = buildModelWithManifestations();
+  model.compound_record._source.has_record.has_alternative_title = [{ has_name: 'Alt title' }];
+  model.compound_record._source.has_record.same_as = [{ id: 'gnd:123', category: 'avefi:GNDResource' }];
+  model.compound_record._source.has_record.is_part_of = [{ id: 'parent-1', category: 'avefi:WorkVariant' }];
+  return model;
+}
+
 function buildModelWithPartsOnly() {
   return {
     compound_record: {
@@ -129,6 +137,24 @@ describe('WorkViewCompAVefi interaction contracts', () => {
 
     expect(wrapper.find('#manifestations').exists()).toBe(true);
     expect(wrapper.get('[data-testid="manifestation-list"]').text()).toBe('2');
+  });
+
+  test('adds top-level extra sections to sidebar navigation only when data exists', async () => {
+    const withoutExtras = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    expect(withoutExtras.text()).not.toContain('AlternativeTitle');
+    expect(withoutExtras.text()).not.toContain('referencesAndWorkRelations');
+
+    const withExtras = mountComponent(buildModelWithTopLevelExtras());
+    await flushPromises();
+
+    expect(withExtras.text()).toContain('AlternativeTitle');
+    expect(withExtras.text()).toContain('referencesAndWorkRelations');
+
+    const buttons = withExtras.findAll('button');
+    expect(buttons.some(button => button.text() === 'AlternativeTitle')).toBe(true);
+    expect(buttons.some(button => button.text() === 'referencesAndWorkRelations')).toBe(true);
   });
 
   test('filters manifestations/items based on selected suggestion', async () => {

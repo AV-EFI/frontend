@@ -86,6 +86,25 @@
                 </template>
 
                 <template #default="s">
+                    <div v-if="props.isSearchable" class="px-2 pt-2">
+                        <div class="relative">
+                            <Icon
+                                name="formkit:search"
+                                class="facet-search-icon pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base-content/50 dark:text-zinc-300/60"
+                                aria-hidden="true"
+                            />
+
+                            <input
+                                type="search"
+                                role="searchbox"
+                                class="facet-search-input input input-bordered input-sm w-full bg-white pl-2 pr-3 text-sm text-neutral-700 placeholder:text-zinc-400 focus:border-primary focus:outline-none dark:bg-gray-900 dark:text-neutral-300 dark:placeholder:text-zinc-300/60"
+                                :placeholder="$t('search')"
+                                :aria-label="$t('searchInFacet', { facetName: $t(props.headerText as string) })"
+                                @input="s?.searchForItems?.(($event.target as HTMLInputElement)?.value ?? '')"
+                            >
+                        </div>
+                    </div>
+
                     <div v-if="!(s?.items?.length)" class="max-w-62.5 mx-auto my-2">
                         <p>{{ $t('noResults') }}</p>
                         <p>{{ $t('tryAdjustingFacets') }}</p>

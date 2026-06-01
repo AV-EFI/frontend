@@ -10,7 +10,6 @@
              class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div v-for="(item, index) in items" :key="index"
-                     :inert="isReady && !visibleSlideIndexes.has(index)"
                      :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
                      class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
                     <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
@@ -64,7 +63,6 @@
                 </div>
                 <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
                 <div
-                    :inert="isReady && !visibleSlideIndexes.has(createSlideIndex)"
                     :aria-hidden="isReady && !visibleSlideIndexes.has(createSlideIndex) ? 'true' : undefined"
                     class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
                     <div class="w-full h-full">

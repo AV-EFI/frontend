@@ -579,6 +579,18 @@ watch([() => props.facetAttr, locale], ([facetAttr]) => {
     delete facetSuggestionCache.value[facetAttr];
 });
 
+watch(
+    () => props.facetAttr,
+    () => {
+        cancelDebounce();
+        fetchToken++;
+        userInteracting.value = false;
+        showDropdown.value = false;
+        highlighted.value = -1;
+        suggestions.value = [];
+    }
+);
+
 /* ==========================================================================
    Public API
    ========================================================================= */

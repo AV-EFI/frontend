@@ -32,8 +32,8 @@ function mountComponent(modelValue: Record<string, unknown>, t: (key: string) =>
       stubs: {
         NuxtLayout: { template: '<div><slot name="center" /></div>' },
         DetailKeyValueComp: {
-          props: ['keytxt', 'valtxt'],
-          template: '<div class="kv">{{ keytxt }}={{ valtxt }}</div>',
+          props: ['keytxt', 'valtxt', 'showSameAsLink'],
+          template: '<div class="kv">{{ keytxt }}={{ valtxt }} link={{ showSameAsLink }}</div>',
         },
         DetailKeyValueListComp: {
           props: ['keytxt', 'valtxt'],
@@ -42,6 +42,10 @@ function mountComponent(modelValue: Record<string, unknown>, t: (key: string) =>
         MicroLabelComp: {
           props: ['labelText'],
           template: '<div class="label">{{ labelText }}</div>',
+        },
+        DetailSameAsComp: {
+          props: ['sameAsData'],
+          template: '<div class="same-as-menu">{{ sameAsData?.[0]?.category }}={{ sameAsData?.[0]?.id }}</div>',
         },
         RouterLink: {
           props: ['to'],
@@ -62,16 +66,19 @@ describe('WorkVariantTopLevelComp labels and work properties', () => {
   ])('renders labeled work properties for locale $locale', ({ messages }) => {
     const t = (key: string) => getByPath(messages, key);
     const model = {
-      'same_as': [{ id: 'gnd:123', category: 'gnd' }],
+      'same_as': [{ id: 'gnd:123', category: 'avefi:GNDResource' }],
       'has_alternative_title': [{ 'has_name': 'Alt 1' }],
       'is_part_of': [{ id: 'parent-1', category: 'gnd' }],
     };
 
     const wrapper = mountComponent(model, t);
 
-    expect(wrapper.text()).toContain('gnd=gnd:123');
-    expect(wrapper.text()).toContain('AlternativeTitle:1');
+    expect(wrapper.text()).toContain('avefi:GNDResource');
+    expect(wrapper.text()).toContain('avefi:GNDResource=gnd:123');
+    expect(wrapper.text()).toContain(`${t('AlternativeTitle')}:1`);
     expect(wrapper.text()).toContain('parent-1');
+    expect(wrapper.get('#alternative-titles').element.tagName).toBe('H3');
+    expect(wrapper.get('#references-work-relations').element.tagName).toBe('H3');
     expect(wrapper.find(`[aria-label="${t('AlternativeTitle')}"]`).exists()).toBe(true);
     expect(wrapper.find(`[aria-label="${t('isPartOf')}"]`).exists()).toBe(true);
   });

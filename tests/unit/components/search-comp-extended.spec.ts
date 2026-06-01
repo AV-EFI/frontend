@@ -35,7 +35,14 @@ vi.mock('~/stores/searchParams.js', () => ({
 vi.mock('~/searchConfig_avefi.js', () => ({
   config: {
     search_settings: {
-      facet_attributes: [{ attribute: 'subjects' }, { attribute: 'in_language_code' }, { attribute: 'has_access_status' }],
+      facet_attributes: [
+        { attribute: 'production_year_start' },
+        { attribute: 'production_year_end' },
+        { attribute: 'subjects' },
+        { attribute: 'in_language_code' },
+        { attribute: 'has_sound_type' },
+        { attribute: 'has_access_status' },
+      ],
     },
   },
 }));
@@ -44,7 +51,10 @@ vi.mock('~/models/interfaces/manual/IFacetIconMapping.js', () => ({
   FACET_ICON_MAP: {
     subjects: 'tabler:tags',
     in_language_code: 'tabler:language',
+    has_sound_type: 'tabler:volume',
     has_access_status: 'tabler:lock',
+    production_year_start: 'tabler:calendar',
+    production_year_end: 'tabler:calendar',
   },
 }));
 
@@ -70,8 +80,7 @@ const FormKitStub = defineComponent({
       @input="$emit('update:modelValue', $event.target.value); $emit('input', $event.target.value)"
     >
       <option value=""></option>
-      <option value="subjects">subjects</option>
-      <option value="in_language_code">in_language_code</option>
+      <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
     </select>
     <input
       v-else
@@ -185,7 +194,9 @@ describe('SearchCompExtended interaction contracts', () => {
     await flushPromises();
 
     expect(wrapper.html()).toContain('<option value="subjects">subjects</option>');
+    expect(wrapper.html()).toContain('<option value="production_year_start">productionyear</option>');
     expect(wrapper.html()).not.toContain('has_access_status');
+    expect(wrapper.html()).not.toContain('production_year_end');
   });
 
   test('submits localized facet input as raw elastic value with [1] index', async () => {
@@ -217,5 +228,120 @@ describe('SearchCompExtended interaction contracts', () => {
     expect(href).not.toContain('Deutsch');
 
     vi.useRealTimers();
+  });
+
+  test('submits production year as numeric refinement without fetching facet suggestions', async () => {
+    const fetchMock = vi.mocked(globalThis.$fetch as any);
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    const selects = wrapper.findAll('select');
+    expect(selects.length).toBeGreaterThan(0);
+    await selects[0].setValue('production_year_start');
+    await selects[0].trigger('input');
+    await flushPromises();
+
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    const allInputs = wrapper.findAll('input');
+    const facetValueInput = allInputs[allInputs.length - 1];
+    await facetValueInput.setValue('1927');
+    await flushPromises();
+
+    expect(wrapper.find('button[aria-label="showSuggestions"]').exists()).toBe(false);
+
+    await wrapper.get('form').trigger('submit');
+    await flushPromises();
+
+    expect(navigateToMock).toHaveBeenCalledTimes(1);
+    const href = String(navigateToMock.mock.calls[0][0]);
+    expect(href).toContain('numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1927');
+    expect(href).toContain('numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=1927');
+    expect(href).not.toContain('production_year_start');
+  });
+
+  test('closes facet value dropdown on facet change and preloads new facet values', async () => {
+    const fetchMock = vi.fn((url: string, options: any) => {
+      const attr = options?.body?.facetAttr;
+      return Promise.resolve({
+        success: true,
+        suggestions: attr === 'subjects'
+          ? [{ text: 'Architecture', type: 'facet', count: 5 }]
+          : [{ text: 'ger', type: 'facet', count: 12 }],
+      });
+    });
+    vi.stubGlobal('$fetch', fetchMock);
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    const select = wrapper.find('select');
+    await select.setValue('in_language_code');
+    await flushPromises();
+
+    const suggestionButton = wrapper.find('button[aria-label="showSuggestions"]');
+    await suggestionButton.trigger('mousedown');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('Deutsch');
+
+    await select.setValue('subjects');
+    await flushPromises();
+
+    expect(wrapper.text()).not.toContain('Deutsch');
+    expect(wrapper.text()).not.toContain('Architecture');
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/elastic/suggestions',
+      expect.objectContaining({
+        body: expect.objectContaining({ facetAttr: 'subjects' }),
+      })
+    );
+
+    const allInputs = wrapper.findAll('input');
+    const facetValueInput = allInputs[allInputs.length - 1];
+    await facetValueInput.trigger('focus');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('Architecture');
+  });
+
+  test('loads sound type facet values through the facet autocomplete flow', async () => {
+    const fetchMock = vi.fn((url: string, options: any) => {
+      const attr = options?.body?.facetAttr;
+      return Promise.resolve({
+        success: true,
+        suggestions: attr === 'has_sound_type'
+          ? [{ text: 'Sound', type: 'facet', count: 3 }]
+          : [],
+      });
+    });
+    vi.stubGlobal('$fetch', fetchMock);
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    const select = wrapper.find('select');
+    await select.setValue('has_sound_type');
+    await flushPromises();
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/elastic/suggestions',
+      expect.objectContaining({
+        body: expect.objectContaining({
+          mode: 'facet',
+          facetAttr: 'has_sound_type',
+          query: '',
+          size: 250,
+        }),
+      })
+    );
+    expect(wrapper.text()).not.toContain('Sound');
+
+    const allInputs = wrapper.findAll('input');
+    const facetValueInput = allInputs[allInputs.length - 1];
+    await facetValueInput.trigger('focus');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('Sound');
   });
 });

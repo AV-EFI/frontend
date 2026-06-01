@@ -109,7 +109,7 @@ test_contact_submit:
     MAIL_ASSERT_API_BASE: ""
   script:
     - mkdir -p test-reports
-    - npx playwright install --with-deps chromium
+    - touch test-reports/e2e-contact-junit.xml
     - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-contact-junit.xml yarn test:e2e:contact --workers=1 --reporter=list,junit
   artifacts:
     when: always

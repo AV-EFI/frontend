@@ -309,6 +309,7 @@ const avefiBase = {
   'viewManifestationDetails': 'View Manifestation on WorkVariant Details Page',
   'itemsCount': 'Items Count',
   'parts': 'Parts',
+  "referencesAndWorkRelations": "References and Work Relations",
   'workVariants': 'Work Variants',
   'clickToSelectManifestation': 'Click on the manifestation to view items',
   'noWorkVariantDetails': 'No more WorkVariant information available',

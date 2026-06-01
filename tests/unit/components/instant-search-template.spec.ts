@@ -38,6 +38,10 @@ vi.hoisted(() => {
     removeFromHistory: vi.fn(),
     clearSearchHistory: vi.fn(),
   });
+  (globalThis as any).$fetch = vi.fn().mockResolvedValue({
+    success: true,
+    suggestions: [],
+  });
 });
 
 import InstantSearchTemplateAVefi from '~/components/search/InstantSearchTemplateAVefi.vue';
@@ -89,6 +93,13 @@ beforeEach(() => {
   routeQueryMock.value = {};
   currentRefinementsItemsMock.value = [];
   currentRefinementRefineSpy.mockReset();
+  vi.stubGlobal(
+    '$fetch',
+    vi.fn().mockResolvedValue({
+      success: true,
+      suggestions: [],
+    })
+  );
 });
 
 // ---------- component stubs ----------
@@ -569,5 +580,152 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
       directors_or_editors: ['Lang, Fritz'],
       creators: ['Lang, Fritz'],
     });
+  });
+
+  test('searches facet panel values through the facet suggestions endpoint', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      success: true,
+      suggestions: [
+        {
+          text: 'Schaller, Dietrich',
+          count: 3,
+        },
+      ],
+    });
+    vi.stubGlobal('$fetch', fetchMock);
+
+    const parentSearchClient = {
+      searchForFacetValues: vi.fn(),
+    };
+
+    const wrapper = mountComponent(parentSearchClient);
+    const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+    const wrappedClient = instantSearch.props('searchClient') as {
+      searchForFacetValues: (requests: any[]) => Promise<any[]>
+    };
+
+    const response = await wrappedClient.searchForFacetValues([
+      {
+        params: {
+          facetName: 'creators',
+          facetQuery: 'Sch',
+          maxFacetHits: 10,
+        },
+      },
+    ]);
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/elastic/suggestions',
+      expect.objectContaining({
+        body: {
+          mode: 'facet',
+          facetAttr: 'creators',
+          query: 'Sch',
+          size: 10,
+        },
+      })
+    );
+    expect(parentSearchClient.searchForFacetValues).not.toHaveBeenCalled();
+    expect(response[0].facetHits).toEqual([
+      {
+        value: 'Schaller, Dietrich',
+        highlighted: 'Schaller, Dietrich',
+        count: 3,
+      },
+    ]);
+  });
+
+  test('derives facetHits from regular facets when backend facet search returns a search result', async () => {
+    const parentSearchClient = {
+      searchForFacetValues: vi.fn().mockResolvedValue([
+        {
+          facets: {
+            creators: {
+              'Muster, Maria': 3,
+              'Lang, Fritz': 2,
+            },
+          },
+        },
+      ]),
+    };
+
+    const wrapper = mountComponent(parentSearchClient);
+    const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+    const wrappedClient = instantSearch.props('searchClient') as {
+      searchForFacetValues: (requests: any[]) => Promise<any[]>
+    };
+
+    const response = await wrappedClient.searchForFacetValues([
+      {
+        params: {
+          facetName: 'creators',
+          maxFacetHits: 10,
+        },
+      },
+    ]);
+
+    expect(response[0].facetHits).toEqual([
+      {
+        value: 'Muster, Maria',
+        highlighted: 'Muster, Maria',
+        count: 3,
+      },
+      {
+        value: 'Lang, Fritz',
+        highlighted: 'Lang, Fritz',
+        count: 2,
+      },
+    ]);
+  });
+
+  test('keeps exact facet-value searches on the suggestions endpoint', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      success: true,
+      suggestions: [
+        {
+          text: 'Schaller, Dietrich',
+          count: 7,
+        },
+      ],
+    });
+    vi.stubGlobal('$fetch', fetchMock);
+
+    const parentSearchClient = {
+      searchForFacetValues: vi.fn(),
+    };
+
+    const wrapper = mountComponent(parentSearchClient);
+    const instantSearch = wrapper.findComponent(AisInstantSearchStub);
+    const wrappedClient = instantSearch.props('searchClient') as {
+      searchForFacetValues: (requests: any[]) => Promise<any[]>
+    };
+
+    const response = await wrappedClient.searchForFacetValues([
+      {
+        params: {
+          facetName: 'creators',
+          facetQuery: 'Schaller, Dietrich',
+          maxFacetHits: 10,
+        },
+      },
+    ]);
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/elastic/suggestions',
+      expect.objectContaining({
+        body: expect.objectContaining({
+          facetAttr: 'creators',
+          query: 'Schaller, Dietrich',
+        }),
+      })
+    );
+    expect(parentSearchClient.searchForFacetValues).not.toHaveBeenCalled();
+    expect(response[0].facetHits).toEqual([
+      {
+        value: 'Schaller, Dietrich',
+        highlighted: 'Schaller, Dietrich',
+        count: 7,
+      },
+    ]);
   });
 });

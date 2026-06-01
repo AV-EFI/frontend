@@ -2,7 +2,7 @@
     <div class="flex flex-row gap-6 relative">
         <!-- Desktop sidebar (left, slide-in/out, relative) -->
         <button class="hidden lg:block absolute -top-4 z-10" @click="desktopDrawerOpen = !desktopDrawerOpen"
-                :class="desktopDrawerOpen ? 'left-0' : 'left-5'" :title="$t('toggleNavigation')"
+                :class="desktopDrawerOpen ? 'left-0' : 'left-6'" :title="$t('toggleNavigation')"
                 :aria-label="$t('toggleNavigation')">
             <div class="btn btn-sm btn-circle">
                 <Icon :name="desktopDrawerOpen ? 'tabler-caret-left' : 'tabler-caret-right'" aria-hidden="true" />
@@ -14,6 +14,20 @@
                 <span class="font-semibold p-2">{{ $t('workNavigation') }}</span>
                 <nav :aria-label="$t('workNavigation')" class="sticky top-8 max-h-[calc(100vh-2rem)] overflow-y-auto">
                     <ul class="menu bg-base-200 rounded-box">
+                        <li v-if="hasAlternativeTitles">
+                            <button type="button" @click="scrollToId('alternative-titles')" class="cursor-pointer text-left"
+                                    :class="{ 'active': activeSection === 'alternative-titles' }"
+                                    :aria-current="activeSection === 'alternative-titles' ? 'location' : undefined">
+                                {{ $t('AlternativeTitle') }}
+                            </button>
+                        </li>
+                        <li v-if="hasReferencesAndWorkRelations">
+                            <button type="button" @click="scrollToId('references-work-relations')" class="cursor-pointer text-left"
+                                    :class="{ 'active': activeSection === 'references-work-relations' }"
+                                    :aria-current="activeSection === 'references-work-relations' ? 'location' : undefined">
+                                {{ $t('referencesAndWorkRelations') }}
+                            </button>
+                        </li>
                         <li>
                             <button type="button" @click="scrollToId('work-events')" class="cursor-pointer text-left"
                                     :class="{ 'active': activeSection === 'work-events' }"
@@ -62,7 +76,6 @@
         <!-- Mobile drawer for tree-view (left) -->
         <div class="drawer fixed inset-0 z-50 lg:hidden order-1" v-if="drawerOpen">
             <div class="drawer-overlay bg-black bg-opacity-40" @click="drawerOpen = false"></div>
-
             <div class="drawer-side fixed left-0 top-0 w-72 h-full bg-base-200 shadow-xl overflow-y-auto">
                 <button type="button" class="btn btn-sm btn-circle absolute top-4 right-4" @click="drawerOpen = false"
                         :aria-label="`${$t('close')} ${$t('workNavigation')}`"
@@ -76,6 +89,20 @@
                                     :class="{ 'active': activeSection === 'work-events' }" class="cursor-pointer text-left"
                                     :aria-current="activeSection === 'work-events' ? 'location' : undefined">
                                 {{ $t('workEvents') }}
+                            </button>
+                        </li>
+                        <li v-if="hasAlternativeTitles">
+                            <button type="button" @click="scrollToId('alternative-titles'); drawerOpen = false"
+                                    :class="{ 'active': activeSection === 'alternative-titles' }" class="cursor-pointer text-left"
+                                    :aria-current="activeSection === 'alternative-titles' ? 'location' : undefined">
+                                {{ $t('AlternativeTitle') }}
+                            </button>
+                        </li>
+                        <li v-if="hasReferencesAndWorkRelations">
+                            <button type="button" @click="scrollToId('references-work-relations'); drawerOpen = false"
+                                    :class="{ 'active': activeSection === 'references-work-relations' }" class="cursor-pointer text-left"
+                                    :aria-current="activeSection === 'references-work-relations' ? 'location' : undefined">
+                                {{ $t('referencesAndWorkRelations') }}
                             </button>
                         </li>
 
@@ -742,11 +769,22 @@ let mediaListener: ((e: MediaQueryListEvent) => void) | null = null;
 const drawerOpen = ref(false);
 const activeSection = ref("");
 
+const hasAlternativeTitles = computed(() =>
+    Array.isArray((mir as any)?.has_alternative_title) && (mir as any).has_alternative_title.length > 0
+);
+
+const hasReferencesAndWorkRelations = computed(() =>
+    (Array.isArray((mir as any)?.same_as) && (mir as any).same_as.length > 0) ||
+    (Array.isArray((mir as any)?.is_part_of) && (mir as any).is_part_of.length > 0)
+);
+
 // Build the exact list of IDs that actually exist in the DOM (based on FILTERED data)
 const sectionIds = computed<string[]>(() => {
     const ids: string[] = [];
 
     ids.push("work-events");
+    if (hasAlternativeTitles.value) ids.push("alternative-titles");
+    if (hasReferencesAndWorkRelations.value) ids.push("references-work-relations");
     ids.push("manifestations");
 
     for (let idx = 0; idx < filteredManifestations.value.length; idx++) {

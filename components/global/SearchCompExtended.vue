@@ -109,23 +109,25 @@
                                     <div class="flex justify-items-start items-start gap-2">
                                         <FormKit
                                             :model-value="filter.valueDisplay"
-                                            type="text"
-                                            :placeholder="$t('enterValue')"
+                                            :type="isYearFacet(filter.facet) ? 'number' : 'text'"
+                                            :placeholder="isYearFacet(filter.facet) ? $t('productionyear') : $t('enterValue')"
                                             outer-class="w-full"
                                             inner-class="!h-8 bg-white dark:!bg-gray-900 dark:!text-white rounded-lg"
                                             input-class="!h-8 !w-full p-2 !border-2 border-base-200 dark:border-gray-700 rounded-lg lg:px-2"
                                             :disabled="!filter.facet"
+                                            :inputmode="isYearFacet(filter.facet) ? 'numeric' : undefined"
                                             autocomplete="off"
-                                            :aria-autocomplete="'list'"
-                                            :aria-haspopup="'listbox'"
-                                            :aria-expanded="filter.showSuggestions ? 'true' : 'false'"
-                                            :aria-activedescendant="filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
+                                            :aria-autocomplete="isYearFacet(filter.facet) ? 'none' : 'list'"
+                                            :aria-haspopup="isYearFacet(filter.facet) ? undefined : 'listbox'"
+                                            :aria-expanded="!isYearFacet(filter.facet) && filter.showSuggestions ? 'true' : 'false'"
+                                            :aria-activedescendant="!isYearFacet(filter.facet) && filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
                                             @input="onValueInput(index, $event)"
                                             @focus="onValueFocus(index)"
                                             @blur="onValueBlur(index)"
                                             @keydown="onFacetKeydown($event, index)"
                                         />
                                         <button
+                                            v-if="!isYearFacet(filter.facet)"
                                             type="button"
                                             class="h-full min-h-8 px-3 py-1 mt-0 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs hover:bg-gray-300 dark:hover:bg-gray-600"
                                             :aria-label="$t('showSuggestions')"
@@ -137,7 +139,7 @@
                                     </div>
 
                                     <div
-                                        v-if="filter.showSuggestions && filter.suggestions.length"
+                                        v-if="!isYearFacet(filter.facet) && filter.showSuggestions && filter.suggestions.length"
                                         class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
                                         role="listbox"
                                         @mousedown.stop
@@ -272,7 +274,6 @@ interface FacetOption {
 }
 
 const FACET_BLACKLIST: string[] = [
-    'production_year_start',
     'has_duration_has_value',
     'production_year_end',
     'has_extent',
@@ -288,7 +289,7 @@ const availableFacets = computed<FacetOption[]>(() => {
         return config.search_settings.facet_attributes.map((f: any) => {
             const attribute = f.attribute || f;
             const facetIcon = FACET_ICON_MAP[attribute] || 'tabler:tag';
-            const label = `${t(attribute)}`;
+            const label = `${t(attribute === 'production_year_start' ? 'productionyear' : attribute)}`;
             return { label, value: attribute, icon: facetIcon };
         });
     } catch {
@@ -303,6 +304,16 @@ const availableFacetsFiltered = computed<FacetOption[]>(() =>
 function facetMeta(value?: string | null) {
     if (!value) return null;
     return availableFacets.value.find(v => v.value === value) || null;
+}
+
+function isYearFacet(value?: string | null): boolean {
+    return value === 'production_year_start';
+}
+
+function normalizeYearInput(value: string): string {
+    const trimmed = String(value || '').trim();
+    if (!/^\d{1,4}$/.test(trimmed)) return '';
+    return trimmed;
 }
 
 interface FacetSuggestion {
@@ -461,19 +472,25 @@ watch(locale, () => {
     refreshVisibleFacetSuggestions();
 });
 
-async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '') {
+async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '', showWhenLoaded = true) {
     const row = facetFilters.value[rowIndex];
     if (!row) return;
+    if (isYearFacet(attr)) {
+        row.suggestions = [];
+        row.showSuggestions = false;
+        return;
+    }
 
     const cached = facetCache[attr];
     if (cached?.length) {
         row.suggestions = filterLocalizedSuggestions(attr, cached, query);
-        row.showSuggestions = row.suggestions.length > 0;
+        row.showSuggestions = showWhenLoaded && row.suggestions.length > 0;
         return;
     }
 
     if (row._abort) row._abort.abort();
-    row._abort = new AbortController();
+    const abortController = new AbortController();
+    row._abort = abortController;
 
     try {
         const res = await $fetch<{
@@ -482,7 +499,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         }>('/api/elastic/suggestions', {
             method: 'POST',
             body: { mode: 'facet', facetAttr: attr, query: '', size: 250 },
-            signal: row._abort.signal,
+            signal: abortController.signal,
         });
 
         const suggestions =
@@ -500,7 +517,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         if (!still || still.facet !== attr) return;
 
         still.suggestions = filterLocalizedSuggestions(attr, facetCache[attr] || [], query);
-        still.showSuggestions = still.suggestions.length > 0;
+        still.showSuggestions = showWhenLoaded && still.suggestions.length > 0;
     } catch (e: any) {
         if (e?.name === 'AbortError') return;
 
@@ -508,11 +525,11 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '')
         if (still && still.facet === attr) {
             const cached = facetCache[attr] || [];
             still.suggestions = filterLocalizedSuggestions(attr, cached, query);
-            still.showSuggestions = still.suggestions.length > 0;
+            still.showSuggestions = showWhenLoaded && still.suggestions.length > 0;
         }
     } finally {
         const still = facetFilters.value[rowIndex];
-        if (still) still._abort = null;
+        if (still?._abort === abortController) still._abort = null;
     }
 }
 
@@ -527,6 +544,15 @@ function onFacetChange(index: number) {
     const row = facetFilters.value[index];
     if (!row) return;
 
+    if (row._debounce) {
+        clearTimeout(row._debounce);
+        row._debounce = null;
+    }
+    if (row._abort) {
+        row._abort.abort();
+        row._abort = null;
+    }
+
     row.valueRaw = '';
     row.valueDisplay = '';
     row.suggestions = [];
@@ -535,7 +561,11 @@ function onFacetChange(index: number) {
 
     const attr = row.facet;
     if (attr) {
-        fetchFacetSuggestions(index, attr, '');
+        if (isYearFacet(attr)) {
+            row.showSuggestions = false;
+        } else {
+            fetchFacetSuggestions(index, attr, '', false);
+        }
     }
 }
 
@@ -546,10 +576,20 @@ function onValueInput(index: number, evt: any) {
     const attr = row.facet;
     const value = typeof evt === 'string' ? evt : (evt?.target?.value ?? '');
     row.valueDisplay = value;
-    row.valueRaw = attr ? resolveRawFacetValue(attr, value) : '';
+    row.valueRaw = attr
+        ? isYearFacet(attr)
+            ? normalizeYearInput(value)
+            : resolveRawFacetValue(attr, value)
+        : '';
 
     if (!attr) {
         row.showSuggestions = false;
+        return;
+    }
+
+    if (isYearFacet(attr)) {
+        row.showSuggestions = false;
+        row.suggestions = [];
         return;
     }
 
@@ -562,6 +602,7 @@ async function onValueFocus(index: number) {
 
     const attr = row.facet;
     if (!attr) return;
+    if (isYearFacet(attr)) return;
 
     if (!facetCache[attr] || !facetCache[attr].length) {
         await fetchFacetSuggestions(index, attr, '');
@@ -582,6 +623,7 @@ function onValueBlur(index: number) {
 function onFacetKeydown(event: KeyboardEvent, index: number) {
     const row = facetFilters.value[index];
     if (!row) return;
+    if (isYearFacet(row.facet)) return;
 
     const key = event.key;
 
@@ -659,6 +701,7 @@ async function onFacetDropdownClick(index: number) {
 
     const attr = row.facet;
     if (!attr) return;
+    if (isYearFacet(attr)) return;
 
     if (!facetCache[attr] || !facetCache[attr].length) {
         await fetchFacetSuggestions(index, attr, '');
@@ -719,7 +762,12 @@ function redirectToSearchScreen() {
         if (Array.isArray(facetFilters.value)) {
             facetFilters.value.forEach(f => {
                 if (f?.facet && f?.valueRaw) {
-                    params.append(`[${f.facet}][1]`, f.valueRaw);
+                    if (isYearFacet(f.facet)) {
+                        params.append('numericRefinement[production_in_year][>=]', f.valueRaw);
+                        params.append('numericRefinement[production_in_year][<=]', f.valueRaw);
+                    } else {
+                        params.append(`[${f.facet}][1]`, f.valueRaw);
+                    }
                 }
             });
         }

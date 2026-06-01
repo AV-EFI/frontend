@@ -80,9 +80,9 @@ const FACETS: Record<
     nestedPaths: ['manifestations', 'manifestations.items'],
   },
   has_sound_type: {
-    field: 'manifestations.has_record.has_sound_type.keyword',
+    field: 'manifestations.items.has_record.has_sound_type.keyword',
     type: 'string',
-    nestedPaths: ['manifestations'],
+    nestedPaths: ['manifestations', 'manifestations.items'],
   },
   has_colour_type_manifestation: {
     field: 'manifestations.has_record.has_colour_type.keyword',
@@ -108,11 +108,6 @@ const FACETS: Record<
   },
   has_colour_type: {
     field: 'manifestations.items.has_record.has_colour_type.keyword',
-    type: 'string',
-    nestedPaths: ['manifestations', 'manifestations.items'],
-  },
-  has_sound_type_item: {
-    field: 'manifestations.items.has_record.has_sound_type.keyword',
     type: 'string',
     nestedPaths: ['manifestations', 'manifestations.items'],
   },

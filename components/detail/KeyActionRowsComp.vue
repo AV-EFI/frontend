@@ -8,7 +8,7 @@
                     {{ keyLabel }}
                 </h3>
 
-                <span v-if="showCount" class="badge badge-sm badge-ghost">
+                <span v-if="showCount" class="badge badge-sm badge-ghost xl:mr-2">
                     {{ rows.length }}
                 </span>
             </div>
@@ -25,9 +25,9 @@
         <!-- Rows -->
         <ul v-else class="mt-2 space-y-1" :aria-label="keyLabel">
             <li v-for="(row, idx) in visibleRows" :key="row.key ?? `${keyLabel}-${idx}`" class="group">
-                <div class="flex items-start justify-between gap-2 rounded-lg px-1 py-1
+                <div class="flex items-center justify-between gap-2 rounded-lg px-1 py-1
                  hover:bg-base-200/60 focus-within:bg-base-200/60
-                 focus-within:outline focus-within:outline-2 focus-within:outline-primary/40">
+                 focus-within:outline-2 focus-within:outline-primary/40">
                     <!-- value -->
                     <div class="min-w-0 flex-1">
                         <a v-if="row.href" :href="row.href" class="link link-hover text-sm break-words"

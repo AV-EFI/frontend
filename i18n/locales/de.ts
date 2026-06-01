@@ -278,6 +278,7 @@ const deBase = {
   'viewManifestationDetails': 'Details zur Manifestation auf Werk-Seite anzeigen',
   'itemsCount': 'Anzahl der Exemplare',
   'parts': 'Teile',
+  "referencesAndWorkRelations": "Referenzen und Werkbeziehungen",
   'workVariants': 'Werke',
   'clickToSelectManifestation': 'Klicken Sie auf die Manifestation, um Exemplare anzuzeigen',
   'noWorkVariantDetails': 'Keine weiteren Informationen zum Werk verfügbar',

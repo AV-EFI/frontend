@@ -8,5 +8,5 @@ defineProps({
 });
 </script>
 <template>
-    <Icon name="material-symbols:compare" />
+    <Icon name="tabler:a-b" />
 </template>

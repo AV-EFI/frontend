@@ -976,6 +976,54 @@ function normalizeEmptySearchQuery(params: Record<string, any>) {
     return params;
 }
 
+function rewriteInstantSearchRequests(requests: any[]) {
+    return requests.map((request) => {
+        const params = { ...(request.params || {}) };
+        normalizeEmptySearchQuery(params);
+
+        if (params.facetFilters) {
+            params.facetFilters = mapFacetFilterForBackend(params.facetFilters);
+        }
+
+        if (params.facets) {
+            params.facets = mapFacetsForBackend(params.facets);
+        }
+
+        if (params.facetName) {
+            params.facetName = mapFacetAttributeForBackend(params.facetName);
+
+            if (!params.facets) {
+                params.facets = [params.facetName];
+            }
+
+            if (
+                params.facetQuery &&
+                (params.query === undefined || params.query === null || String(params.query).trim() === '')
+            ) {
+                params.query = String(params.facetQuery);
+            }
+        }
+
+        if (params.numericFilters) {
+            const converted = convertNumericFiltersToNumericRefinements(params.numericFilters);
+
+            if (Object.keys(converted).length > 0) {
+                params['numeric-refinements'] = {
+                    ...(params['numeric-refinements'] || {}),
+                    ...converted,
+                };
+            }
+
+            delete params.numericFilters;
+        }
+
+        return {
+            ...request,
+            params,
+        };
+    });
+}
+
 function createEmptySearchResult(request: any) {
     const params = request?.params || {};
     const page = Number(params.page ?? 0);
@@ -1003,6 +1051,109 @@ function createEmptySearchResult(request: any) {
         nbManifestations: 0,
         nbItems: 0,
     };
+}
+
+function getFacetSearchAttribute(request: any, result: any) {
+    const facetName = request?.params?.facetName;
+    if (typeof facetName === 'string' && facetName) {
+        return mapFacetAttributeForUi(facetName);
+    }
+
+    const facetKeys = result?.facets && typeof result.facets === 'object'
+        ? Object.keys(result.facets)
+        : [];
+
+    return facetKeys[0] || '';
+}
+
+function createEmptyFacetSearchResult(request: any) {
+    return {
+        facetHits: [],
+        exhaustiveFacetsCount: true,
+        processingTimeMS: 0,
+        params: new URLSearchParams(request?.params || {}).toString(),
+    };
+}
+
+async function fetchFacetValueSuggestionsForRequest(request: any) {
+    const params = request?.params || {};
+    const facetName = typeof params.facetName === 'string' ? params.facetName : '';
+    const facetQuery = String(params.facetQuery || '').trim();
+
+    if (!facetName || !facetQuery) return null;
+
+    const res = await $fetch<{
+        success: boolean;
+        suggestions?: Array<{ text: string; count?: number }>;
+    }>('/api/elastic/suggestions', {
+        method: 'POST',
+        body: {
+            mode: 'facet',
+            facetAttr: facetName,
+            query: facetQuery,
+            size: Number(params.maxFacetHits || 10),
+        },
+    });
+
+    if (!res?.success) return createEmptyFacetSearchResult(request);
+
+    return {
+        ...createEmptyFacetSearchResult(request),
+        facetHits: (res.suggestions || []).map((suggestion) => ({
+            value: suggestion.text,
+            highlighted: suggestion.text,
+            count: Number(suggestion.count || 0),
+        })),
+    };
+}
+
+async function fetchFacetValueSuggestions(requests: any[]) {
+    const results = await Promise.all(
+        requests.map(request => fetchFacetValueSuggestionsForRequest(request))
+    );
+
+    return results.some(Boolean) ? results : null;
+}
+
+function normalizeFacetSearchResult(result: any, request: any) {
+    if (Array.isArray(result?.facetHits)) {
+        return {
+            ...result,
+            facetHits: result.facetHits,
+        };
+    }
+
+    const attribute = getFacetSearchAttribute(request, result);
+    const buckets = attribute && result?.facets?.[attribute] && typeof result.facets[attribute] === 'object'
+        ? result.facets[attribute]
+        : {};
+    const query = String(request?.params?.facetQuery || '').trim().toLowerCase();
+
+    const facetHits = Object.entries(buckets)
+        .map(([value, count]) => ({
+            value,
+            highlighted: value,
+            count: Number(count || 0),
+        }))
+        .filter((hit) => !query || hit.value.toLowerCase().includes(query));
+
+    return {
+        ...createEmptyFacetSearchResult(request),
+        ...result,
+        facetHits,
+    };
+}
+
+function normalizeFacetSearchResponse(response: any, requests: any[]) {
+    const results = Array.isArray(response)
+        ? response
+        : Array.isArray(response?.results)
+            ? response.results
+            : [];
+
+    return requests.map((request, index) =>
+        normalizeFacetSearchResult(results[index] || createEmptyFacetSearchResult(request), request)
+    );
 }
 
 function createFallbackSearchResponse(requests: any[]) {
@@ -1033,36 +1184,7 @@ const effectiveSearchClient = {
     ...props.searchClient,
 
     async search(requests: any[]) {
-        const rewrittenRequests = requests.map((request) => {
-            const params = { ...(request.params || {}) };
-            normalizeEmptySearchQuery(params);
-
-            if (params.facetFilters) {
-                params.facetFilters = mapFacetFilterForBackend(params.facetFilters);
-            }
-
-            if (params.facets) {
-                params.facets = mapFacetsForBackend(params.facets);
-            }
-
-            if (params.numericFilters) {
-                const converted = convertNumericFiltersToNumericRefinements(params.numericFilters);
-
-                if (Object.keys(converted).length > 0) {
-                    params['numeric-refinements'] = {
-                        ...(params['numeric-refinements'] || {}),
-                        ...converted,
-                    };
-                }
-
-                delete params.numericFilters;
-            }
-
-            return {
-                ...request,
-                params,
-            };
-        });
+        const rewrittenRequests = rewriteInstantSearchRequests(requests);
 
         try {
             const response = await (props.searchClient as any).search(rewrittenRequests);
@@ -1082,6 +1204,32 @@ const effectiveSearchClient = {
             searchBackendError.value = true;
             emitSearchUpdated(false, rewrittenRequests.length);
             return createFallbackSearchResponse(rewrittenRequests);
+        }
+    },
+
+    async searchForFacetValues(requests: any[]) {
+        const rewrittenRequests = rewriteInstantSearchRequests(requests);
+
+        try {
+            const suggestionResults = await fetchFacetValueSuggestions(rewrittenRequests);
+            if (suggestionResults) {
+                searchBackendError.value = false;
+                return suggestionResults.map((result, index) =>
+                    result || createEmptyFacetSearchResult(rewrittenRequests[index])
+                );
+            }
+
+            const parentClient = props.searchClient as any;
+            const response = typeof parentClient.searchForFacetValues === 'function'
+                ? await parentClient.searchForFacetValues(rewrittenRequests)
+                : await parentClient.search(rewrittenRequests);
+
+            searchBackendError.value = false;
+            return normalizeFacetSearchResponse(response, rewrittenRequests);
+        } catch (error) {
+            console.error('[search] Backend facet-value search request failed', error);
+            searchBackendError.value = true;
+            return normalizeFacetSearchResponse([], rewrittenRequests);
         }
     },
 };
