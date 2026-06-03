@@ -30,7 +30,11 @@ test.describe('Behavior Baseline Smoke', () => {
 
   test('BB-DETAIL-001 stable detail route is reachable', async ({ page }) => {
     test.setTimeout(90_000);
-    await page.goto(STABLE_DETAIL_PATH);
+    const response = await page.goto(STABLE_DETAIL_PATH, { waitUntil: 'domcontentloaded' });
+    const status = response?.status() ?? 0;
+
+    expect(status, `GET ${STABLE_DETAIL_PATH} should resolve as a Nuxt detail route`).not.toBe(404);
+    expect(status, `GET ${STABLE_DETAIL_PATH} should not return a server error`).toBeLessThan(500);
     await expect(page).toHaveURL(new RegExp(STABLE_DETAIL_PATH.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     await expect(page.locator('head link[rel="canonical"]')).toHaveCount(1);
   });
