@@ -22,9 +22,12 @@ describe('Route and SEO contract guards', () => {
   });
 
   test('BB-DETAIL-001 keeps route-based canonical for /res/:prefix/:id', () => {
-    expect(detailSource).toContain('const canonical = computed(() => `${siteUrl.value}/res/${prefix.value}/${id.value}`)');
+    expect(detailSource).toContain('const routeCanonical = computed(() => `${routeSiteUrl.value}/res/${prefix.value}/${id.value}`)');
     expect(detailSource).toContain("useHead(() => ({");
-    expect(detailSource).toContain("link: [{ key: 'canonical', rel: 'canonical', href: canonical.value }]");
+    expect(detailSource).toContain("link: [{ key: 'canonical', rel: 'canonical', href: routeCanonical.value }]");
+    expect(detailSource.indexOf('href: routeCanonical.value')).toBeLessThan(
+      detailSource.indexOf('await useAsyncData')
+    );
   });
 
   test('BB-DETAIL-002 keeps resource-type branching for detail rendering', () => {

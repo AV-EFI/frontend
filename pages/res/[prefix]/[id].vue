@@ -136,6 +136,16 @@ const { t } = useI18n();
 const prefix = computed(() => String(route.params.prefix ?? ''));
 const id = computed(() => String(route.params.id ?? ''));
 
+// Base site URL (prefer nuxt site/origin if present)
+const routeSiteUrl = useSiteUrl();
+
+// Canonical is route-derived and must be registered before remote data fetching.
+const routeCanonical = computed(() => `${routeSiteUrl.value}/res/${prefix.value}/${id.value}`);
+
+useHead(() => ({
+    link: [{ key: 'canonical', rel: 'canonical', href: routeCanonical.value }],
+}));
+
 /** ---------------------------
  * Fetch resource
  * -------------------------- */
@@ -281,10 +291,6 @@ useSeoMeta({
         ...schemaKeywords.value,
     ]).join(', ')),
 });
-
-useHead(() => ({
-    link: [{ key: 'canonical', rel: 'canonical', href: canonical.value }],
-}));
 
 /** ---------------------------
  * Schema.org graph:
