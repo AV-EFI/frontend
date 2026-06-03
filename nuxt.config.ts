@@ -176,18 +176,22 @@ export default defineNuxtConfig({
     serverAssets: [{ baseName: 'vocab', dir: 'assets/vocab' }],
     debug: !isProduction && process.env.NUXT_DEBUG === 'true',
     externals: {
+      inline: [
+        /^vue(?:\/.*)?$/,
+        /^@vue\/server-renderer(?:\/.*)?$/,
+        ...(process.platform === 'win32'
+          ? [
+            /^readable-stream(?:\/.*)?$/,
+            /^winston(?:\/.*)?$/,
+            /^winston-transport(?:\/.*)?$/,
+            /^winston-daily-rotate-file(?:\/.*)?$/,
+            /^jszip(?:\/.*)?$/,
+          ]
+          : []),
+      ],
       // On Windows, Nitro's traced node_modules output can collide when multiple
       // major versions of readable-stream are externalized. Inline the packages
       // that drag those versions in so Nitro only links one external copy.
-      inline: process.platform === 'win32'
-        ? [
-          /^readable-stream(?:\/.*)?$/,
-          /^winston(?:\/.*)?$/,
-          /^winston-transport(?:\/.*)?$/,
-          /^winston-daily-rotate-file(?:\/.*)?$/,
-          /^jszip(?:\/.*)?$/,
-        ]
-        : [],
     },
     prerender: {
       crawlLinks: false,
