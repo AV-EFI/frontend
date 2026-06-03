@@ -1,8 +1,7 @@
 import {defineStore} from 'pinia';
 const { locale, locales, setLocale } = useI18n();
 
-export const useLocaleStore = defineStore({
-  id: 'localeStore',
+export const useLocaleStore = defineStore('localeStore', {
   state: () => ({
     locale: locale || 'de',
     localesAvail: locales ||['de', 'en']

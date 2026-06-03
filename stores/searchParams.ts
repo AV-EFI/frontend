@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
+import { persistedSessionStorage } from '~/utils/persistedStorage';
 
-export const useSearchParamsStore = defineStore({
-  id: 'searchParamsStore',
+export const useSearchParamsStore = defineStore('searchParamsStore', {
   state: () => {
     return {
       //formData: useStorage('avefi-searchParams', [])            
@@ -53,7 +53,7 @@ export const useSearchParamsStore = defineStore({
   },
   persist: {
     key: 'avefi-searchparams',
-    storage: persistedState.sessionStorage,
+    storage: persistedSessionStorage,
     paths: ['formData']
   }
 }

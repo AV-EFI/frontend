@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { persistedLocalStorage } from '~/utils/persistedStorage';
 
 // Define the structure of each object in the list
 interface ObjectItem {
@@ -15,8 +16,7 @@ interface ObjectListState {
 }
 
 // Define and export the store
-export const useObjectListStore = defineStore({
-  id: 'objectList',
+export const useObjectListStore = defineStore('objectList', {
   state: (): ObjectListState => ({
     objects: [],
     comparisonDrawerOpen: false as boolean,
@@ -91,7 +91,6 @@ export const useObjectListStore = defineStore({
   },
   persist: {
     key: 'avefi-objectList',
-    //storage: persistedState.localStorage,
-    storage: persistedState.localStorage
+    storage: persistedLocalStorage
   }
 });

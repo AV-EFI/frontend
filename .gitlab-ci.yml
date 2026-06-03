@@ -99,11 +99,15 @@ test_browser_smoke:
     - npx playwright install --with-deps chromium
     - test "$PLAYWRIGHT_NO_WEBSERVER" = "true"
     - test -n "$PLAYWRIGHT_BASE_URL"
+    - case "$PLAYWRIGHT_BASE_URL" in *testbed.av-efi.net*) true ;; *) echo "PLAYWRIGHT_BASE_URL must point to testbed for this job"; exit 1 ;; esac
+    - node scripts/check-playwright-base-url.mjs
     - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-smoke-junit.xml yarn test:e2e:smoke --workers=1 --reporter=list,junit
   artifacts:
     when: always
     paths:
       - test-reports/e2e-smoke-junit.xml
+      - test-results/
+      - playwright-report/
     reports:
       junit:
         - test-reports/e2e-smoke-junit.xml
@@ -126,11 +130,15 @@ test_contact_submit:
     - touch test-reports/e2e-contact-junit.xml
     - test "$PLAYWRIGHT_NO_WEBSERVER" = "true"
     - test -n "$PLAYWRIGHT_BASE_URL"
+    - case "$PLAYWRIGHT_BASE_URL" in *testbed.av-efi.net*) true ;; *) echo "PLAYWRIGHT_BASE_URL must point to testbed for this job"; exit 1 ;; esac
+    - node scripts/check-playwright-base-url.mjs
     - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-contact-junit.xml yarn test:e2e:contact --workers=1 --reporter=list,junit
   artifacts:
     when: always
     paths:
       - test-reports/e2e-contact-junit.xml
+      - test-results/
+      - playwright-report/
     reports:
       junit:
         - test-reports/e2e-contact-junit.xml
@@ -213,8 +221,8 @@ build_docker-production:
     - envsubst < .env.tmpl > .env
     # Create the new deployment directory if it doesn't exist
     - ssh $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p $DEPLOY_PATH"
-    # Upload docker-compose.yml to server
-    - scp docker-compose.yml .env $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH/
+    # Upload docker-compose.yml, environment, and deployment verifier to server
+    - scp docker-compose.yml .env scripts/verify-deployed-compose.sh $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH/
     # Login to Docker registry and restart containers
     - ssh $DEPLOY_USER@$DEPLOY_SERVER "cd $DEPLOY_PATH &&
       echo 'Logging into registry $CI_REGISTRY' &&
@@ -223,7 +231,9 @@ build_docker-production:
       echo 'Pulling latest images' &&
       docker compose pull &&
       echo 'Starting containers' &&
-      docker compose up -d"
+      docker compose up -d &&
+      echo 'Waiting for healthy frontend container' &&
+      sh verify-deployed-compose.sh av-efi-frontend 120"
 
 deploy-staging:
   environment:

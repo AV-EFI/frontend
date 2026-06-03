@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { persistedLocalStorage } from '~/utils/persistedStorage';
 
 // Define the structure of each object in the list
 interface ObjectItem {
@@ -15,8 +16,7 @@ interface FavouritesState {
 }
 
 // Define and export the store
-export const useFavourites = defineStore({
-  id: 'favourites',
+export const useFavourites = defineStore('favourites', {
   state: (): FavouritesState => ({
     objects: [],
     comparisonDrawerOpen: false as boolean,
@@ -72,6 +72,6 @@ export const useFavourites = defineStore({
   },
   persist: {
     key: 'avefi-favourites',
-    storage: persistedState.localStorage,
+    storage: persistedLocalStorage,
   },
 });

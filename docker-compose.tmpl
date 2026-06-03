@@ -2,8 +2,18 @@ services:
   av-efi-frontend:
     image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
     restart: unless-stopped
+    env_file:
+      - ./.env
     ports:
       - "127.0.0.1:3000:3000"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "node -e \"const paths=['/','/search','/faq','/press'];(async()=>{for(const path of paths){const response=await fetch('http://127.0.0.1:3000'+path);const body=await response.text();if(!response.ok||response.status>=500||body.includes('This page is temporarily unavailable')){console.error(path+' failed status='+response.status+' body='+body.replace(/\\s+/g,' ').slice(0,300));process.exit(1)}}})().catch(error=>{console.error(error);process.exit(1)})\""
+      interval: 10s
+      timeout: 8s
+      retries: 12
+      start_period: 20s
     volumes:
       - './logs:/app/logs'
       - './.env:/app/.env:ro'
