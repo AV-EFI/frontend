@@ -282,9 +282,9 @@ useSeoMeta({
     ]).join(', ')),
 });
 
-useHead({
-    link: [{ rel: 'canonical', href: canonical.value }],
-});
+useHead(() => ({
+    link: [{ key: 'canonical', rel: 'canonical', href: canonical.value }],
+}));
 
 /** ---------------------------
  * Schema.org graph:

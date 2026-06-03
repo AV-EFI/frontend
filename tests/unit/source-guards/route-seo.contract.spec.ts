@@ -23,8 +23,8 @@ describe('Route and SEO contract guards', () => {
 
   test('BB-DETAIL-001 keeps route-based canonical for /res/:prefix/:id', () => {
     expect(detailSource).toContain('const canonical = computed(() => `${siteUrl.value}/res/${prefix.value}/${id.value}`)');
-    expect(detailSource).toContain("useHead({");
-    expect(detailSource).toContain("link: [{ rel: 'canonical', href: canonical.value }]");
+    expect(detailSource).toContain("useHead(() => ({");
+    expect(detailSource).toContain("link: [{ key: 'canonical', rel: 'canonical', href: canonical.value }]");
   });
 
   test('BB-DETAIL-002 keeps resource-type branching for detail rendering', () => {
