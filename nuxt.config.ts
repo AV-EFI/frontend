@@ -245,7 +245,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
     //'@nuxtjs/tailwindcss',
     //'@nuxtjs/color-mode',
