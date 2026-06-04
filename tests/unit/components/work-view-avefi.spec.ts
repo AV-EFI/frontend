@@ -143,17 +143,17 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const withoutExtras = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    expect(withoutExtras.text()).not.toContain('AlternativeTitle');
+    expect(withoutExtras.text()).not.toContain('AlternativeTitles');
     expect(withoutExtras.text()).not.toContain('referencesAndWorkRelations');
 
     const withExtras = mountComponent(buildModelWithTopLevelExtras());
     await flushPromises();
 
-    expect(withExtras.text()).toContain('AlternativeTitle');
+    expect(withExtras.text()).toContain('AlternativeTitles');
     expect(withExtras.text()).toContain('referencesAndWorkRelations');
 
     const buttons = withExtras.findAll('button');
-    expect(buttons.some(button => button.text() === 'AlternativeTitle')).toBe(true);
+    expect(buttons.some(button => button.text() === 'AlternativeTitles')).toBe(true);
     expect(buttons.some(button => button.text() === 'referencesAndWorkRelations')).toBe(true);
   });
 

@@ -75,7 +75,7 @@ describe('WorkVariantTopLevelComp labels and work properties', () => {
 
     expect(wrapper.text()).toContain('avefi:GNDResource');
     expect(wrapper.text()).toContain('avefi:GNDResource=gnd:123');
-    expect(wrapper.text()).toContain(`${t('AlternativeTitle')}:1`);
+    expect(wrapper.text()).toContain(`${t('AlternativeTitles')}:1`);
     expect(wrapper.text()).toContain('parent-1');
     expect(wrapper.get('#alternative-titles').element.tagName).toBe('H3');
     expect(wrapper.get('#references-work-relations').element.tagName).toBe('H3');
