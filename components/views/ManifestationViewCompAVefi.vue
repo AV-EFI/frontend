@@ -81,7 +81,7 @@
                             </h2>
                             <GlobalClipboardComp 
                                 :display-text="data?._source?.handle"
-                                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${data?._source?.handle}`"
+                                :copy-text="`${copyPidUrl}${data?._source?.handle}`"
                             />
                             <!-- has_alternative_title -->
                             <div
@@ -375,6 +375,8 @@
  
 import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
+const config = useRuntimeConfig();
+const copyPidUrl = String(config.public.AVEFI_COPY_PID_URL ?? '');
 const dataJson = defineModel({type: String, required: true});
 const data = JSON.parse(dataJson.value);
 const mir:Manifestation = data?._source?.has_record; 

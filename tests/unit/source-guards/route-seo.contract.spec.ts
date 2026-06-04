@@ -8,6 +8,14 @@ const detailSource = readFileSync(
   resolve(process.cwd(), 'pages/res/[prefix]/[id].vue'),
   'utf8'
 );
+const manifestationViewSource = readFileSync(
+  resolve(process.cwd(), 'components/views/ManifestationViewCompAVefi.vue'),
+  'utf8'
+);
+const itemListSource = readFileSync(
+  resolve(process.cwd(), 'components/detail/ItemListNewComp.vue'),
+  'utf8'
+);
 
 describe('Route and SEO contract guards', () => {
   test('BB-APP-001 keeps global canonical and schema graph mount points', () => {
@@ -42,5 +50,12 @@ describe('Route and SEO contract guards', () => {
     expect(detailSource).toContain('elasticApiBase: config.public.elasticApiBase');
     expect(detailSource).toContain('getWork: config.public.AVEFI_GET_WORK');
     expect(detailSource).toContain('throw fetchError');
+  });
+
+  test('BB-DETAIL-004 keeps runtime config reads out of the detail route template', () => {
+    expect(detailSource).toContain("const copyPidUrl = computed(() => String(config.public.AVEFI_COPY_PID_URL ?? ''))");
+    expect(detailSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
+    expect(manifestationViewSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
+    expect(itemListSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
   });
 });

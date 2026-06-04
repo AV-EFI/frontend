@@ -18,7 +18,7 @@
                         keytxt="efi"
                         :translate-key="false"
                         :valtxt="exemplar?.handle"
-                        :clip-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${exemplar?.handle}`"
+                        :clip-text="`${copyPidUrl}${exemplar?.handle}`"
                         class="w-full mb-2 text-base"
                         :clip="true"
                     />
@@ -224,6 +224,8 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const config = useRuntimeConfig();
+const copyPidUrl = String(config.public.AVEFI_COPY_PID_URL ?? '');
 
 const props = defineProps({
     items: { type: Array, required: true },

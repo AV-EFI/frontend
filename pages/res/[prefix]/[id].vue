@@ -11,7 +11,7 @@
                         <div v-if="resourceType != 'compilationItem'" class="col-span-full px-4">
                             <GlobalClipboardComp
                                 :display-text="dataJson?.compound_record?._source?.handle"
-                                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.compound_record?._source?.handle}`"
+                                :copy-text="`${copyPidUrl}${dataJson?.compound_record?._source?.handle}`"
                                 class="mb-2 text-xs lg:text-sm text-base-content/90"
                             />
                             <div class="flex flex-row">
@@ -30,7 +30,7 @@
                         <div v-else class="col-span-full px-4">
                             <GlobalClipboardComp
                                 :display-text="dataJson?.handle"
-                                :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${dataJson?.handle}`"
+                                :copy-text="`${copyPidUrl}${dataJson?.handle}`"
                                 class="mb-2 text-xs lg:text-sm text-base-content/90"
                             />
                             <div class="flex flex-row">
@@ -135,6 +135,7 @@ const { t } = useI18n();
 
 const prefix = computed(() => String(route.params.prefix ?? ''));
 const id = computed(() => String(route.params.id ?? ''));
+const copyPidUrl = computed(() => String(config.public.AVEFI_COPY_PID_URL ?? ''));
 
 // Base site URL (prefer nuxt site/origin if present)
 const routeSiteUrl = useSiteUrl();
