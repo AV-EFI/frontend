@@ -85,7 +85,6 @@ test_backend_api_contracts:
 
 test_browser_smoke:
   extends: .node_job
-  image: mcr.microsoft.com/playwright:v1.59.1-noble
   stage: post-deploy
   needs:
     - job: deploy-staging
@@ -99,6 +98,7 @@ test_browser_smoke:
     PLAYWRIGHT_NO_WEBSERVER: "true"
   script:
     - mkdir -p test-reports
+    - npx playwright install --with-deps chromium
     - test "$PLAYWRIGHT_NO_WEBSERVER" = "true"
     - test -n "$PLAYWRIGHT_BASE_URL"
     - case "$PLAYWRIGHT_BASE_URL" in *testbed.av-efi.net*) true ;; *) echo "PLAYWRIGHT_BASE_URL must point to testbed for this job"; exit 1 ;; esac
@@ -116,7 +116,6 @@ test_browser_smoke:
 
 test_contact_submit:
   extends: .node_job
-  image: mcr.microsoft.com/playwright:v1.59.1-noble
   stage: post-deploy
   needs:
     - job: deploy-staging
