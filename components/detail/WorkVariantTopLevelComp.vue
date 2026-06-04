@@ -7,7 +7,7 @@
             >
                 <header class="flex flex-col gap-1">
                     <h3 id="alternative-titles" class="text-base font-medium leading-5 dark:text-white">
-                        {{ $t('AlternativeTitle') }}
+                        {{ $t('AlternativeTitles') }}
                     </h3>
                 </header>
 

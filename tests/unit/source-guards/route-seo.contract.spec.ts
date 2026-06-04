@@ -36,4 +36,11 @@ describe('Route and SEO contract guards', () => {
     expect(detailSource).toContain("resourceType = 'compilationManifestation'");
     expect(detailSource).toContain("resourceType = 'compilationItem'");
   });
+
+  test('BB-DETAIL-003 logs server-side detail fetch failures with resolved URL context', () => {
+    expect(detailSource).toContain("console.error('[detail-fetch:error]'");
+    expect(detailSource).toContain('elasticApiBase: config.public.elasticApiBase');
+    expect(detailSource).toContain('getWork: config.public.AVEFI_GET_WORK');
+    expect(detailSource).toContain('throw fetchError');
+  });
 });

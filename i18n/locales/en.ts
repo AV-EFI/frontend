@@ -310,6 +310,7 @@ const avefiBase = {
   'itemsCount': 'Items Count',
   'parts': 'Parts',
   "referencesAndWorkRelations": "References and Work Relations",
+  "AlternativeTitles": "Alternative Titles",
   'workVariants': 'Work Variants',
   'clickToSelectManifestation': 'Click on the manifestation to view items',
   'noWorkVariantDetails': 'No more WorkVariant information available',

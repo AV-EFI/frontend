@@ -18,7 +18,7 @@
                             <button type="button" @click="scrollToId('alternative-titles')" class="cursor-pointer text-left"
                                     :class="{ 'active': activeSection === 'alternative-titles' }"
                                     :aria-current="activeSection === 'alternative-titles' ? 'location' : undefined">
-                                {{ $t('AlternativeTitle') }}
+                                {{ $t('AlternativeTitles') }}
                             </button>
                         </li>
                         <li v-if="hasReferencesAndWorkRelations">
@@ -95,7 +95,7 @@
                             <button type="button" @click="scrollToId('alternative-titles'); drawerOpen = false"
                                     :class="{ 'active': activeSection === 'alternative-titles' }" class="cursor-pointer text-left"
                                     :aria-current="activeSection === 'alternative-titles' ? 'location' : undefined">
-                                {{ $t('AlternativeTitle') }}
+                                {{ $t('AlternativeTitles') }}
                             </button>
                         </li>
                         <li v-if="hasReferencesAndWorkRelations">

@@ -146,6 +146,42 @@ useHead(() => ({
     link: [{ key: 'canonical', rel: 'canonical', href: routeCanonical.value }],
 }));
 
+type FetchErrorLike = {
+    status?: unknown;
+    statusCode?: unknown;
+    message?: unknown;
+    data?: unknown;
+    response?: {
+        status?: unknown;
+        statusText?: unknown;
+        url?: unknown;
+    };
+};
+
+function fetchErrorStatus(error: unknown): number | undefined {
+    const fetchError = error as FetchErrorLike;
+    const status = fetchError?.statusCode ?? fetchError?.status ?? fetchError?.response?.status;
+    return typeof status === 'number' ? status : undefined;
+}
+
+function logDetailFetchError(error: unknown, context: { fullId: string; url: string }) {
+    if (!import.meta.server) return;
+
+    const fetchError = error as FetchErrorLike;
+    console.error('[detail-fetch:error]', {
+        route: route.fullPath,
+        fullId: context.fullId,
+        url: context.url,
+        elasticApiBase: config.public.elasticApiBase,
+        getWork: config.public.AVEFI_GET_WORK,
+        status: fetchErrorStatus(error),
+        statusText: fetchError?.response?.statusText,
+        responseUrl: fetchError?.response?.url,
+        message: typeof fetchError?.message === 'string' ? fetchError.message : String(error),
+        data: fetchError?.data,
+    });
+}
+
 /** ---------------------------
  * Fetch resource
  * -------------------------- */
@@ -160,7 +196,10 @@ const { data: result, error, pending } = await useAsyncData(
         }
 
         const url = `${config.public.elasticApiBase}/${config.public.AVEFI_GET_WORK}/${fullId}`;
-        const resourceData = await $fetch(url);
+        const resourceData = await $fetch(url).catch((fetchError: unknown) => {
+            logDetailFetchError(fetchError, { fullId, url });
+            throw fetchError;
+        });
 
         // Determine resource type (your existing logic)
         let resourceType = 'workVariant';
