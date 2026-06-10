@@ -49,7 +49,7 @@
                 v-else
                 :class="[
                     'min-h-8',
-                    'max-h-32',
+                    'max-h-40',
                     overflowY,
                     'overflow-x-visible'
                 ]"
@@ -62,12 +62,12 @@
                     ]"
                 >
                     <ul
-                        v-if="valtxt"
+                        v-if="displayValues.length"
                         :aria-label="keytxt ? $t(keytxt) : undefined"
                     >
                         <li
-                            v-for="val in valtxt"
-                            :key="val?.has_name ?? val"
+                            v-for="val in displayValues"
+                            :key="getValueKey(val)"
                             class="flex flex-row items-start justify-between min-h-6 leading-5 hover:bg-gray-100 dark:hover:bg-gray-700"
                             :class="fontSize"
                         >
@@ -101,6 +101,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+
 const props = defineProps({
     keytxt: {
         type: String,
@@ -148,6 +150,39 @@ const props = defineProps({
         type: Boolean,
         default: false
     }
+});
+
+function getValueKey(value: any): string {
+    if (!value || typeof value !== 'object') return String(value);
+
+    const sameAsKey = Array.isArray(value.same_as)
+        ? value.same_as
+            .map((sameAs: any) => `${sameAs?.category || ''}:${sameAs?.id || ''}`)
+            .filter(Boolean)
+            .sort()
+            .join('|')
+        : '';
+
+    return [
+        value.has_name || '',
+        value.category || '',
+        sameAsKey
+    ].join('::');
+}
+
+const displayValues = computed(() => {
+    const values = Array.isArray(props.valtxt) ? props.valtxt : [];
+
+    if (!props.sameAs || !props.ul) return values;
+
+    const seen = new Set<string>();
+    return values.filter((value) => {
+        const key = getValueKey(value);
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+    });
 });
 
 let sameAsData = {};

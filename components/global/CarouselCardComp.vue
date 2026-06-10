@@ -1,16 +1,28 @@
 <template>
-    <div ref="rootRef" class="relative w-full">
+    <div
+        ref="rootRef"
+        class="relative w-full"
+        role="region"
+        aria-roledescription="carousel"
+        :aria-label="t('home.featured.aria')"
+    >
+        <p class="sr-only" aria-live="polite">{{ carouselStatus }}</p>
         <!-- Desktop arrows -->
         <button v-if="canNavigate" @click="prevSlide"
                 class="absolute -left-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
-                :aria-label="t('home.carousel.aria.previous')">
-            <Icon name="tabler:chevron-left" />
+                :aria-label="t('home.carousel.aria.previous')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
-        <div ref="viewportRef"
+        <div :id="carouselViewportId" ref="viewportRef"
              class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div v-for="(item, index) in items" :key="index"
-                     :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
+                     role="group"
+                     aria-roledescription="slide"
+                     :aria-label="getSlideAriaLabel(item, index)"
+                     :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
+                     :inert="isSlideHidden(index)"
                      class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
                     <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
                         <div v-if="item.imgSrc"
@@ -56,14 +68,18 @@
                                 <span class="text-xs md:text-regular">
                                     {{ t(item.linkText) }}
                                 </span>
-                                <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
+                                <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" aria-hidden="true" />
                             </a>
                         </div>
                     </div>
                 </div>
                 <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
                 <div
-                    :aria-hidden="isReady && !visibleSlideIndexes.has(createSlideIndex) ? 'true' : undefined"
+                    role="group"
+                    aria-roledescription="slide"
+                    :aria-label="`${t('home.carousel.create.title')} (${createSlideIndex + 1} / ${totalSlides})`"
+                    :aria-hidden="isSlideHidden(createSlideIndex) ? 'true' : undefined"
+                    :inert="isSlideHidden(createSlideIndex)"
                     class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
                     <div class="w-full h-full">
                         <!-- swap-off: show only slogan -->
@@ -125,19 +141,22 @@
         <!-- Desktop arrows -->
         <button v-if="canNavigate" @click="nextSlide"
                 class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
-                :aria-label="t('home.carousel.aria.next')">
-            <Icon name="tabler:chevron-right" />
+                :aria-label="t('home.carousel.aria.next')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-right" aria-hidden="true" />
         </button>
         <!-- Mobile arrows -->
         <button v-if="canNavigate" @click="prevSlide"
                 class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
-                :aria-label="t('home.carousel.aria.previous')">
-            <Icon name="tabler:chevron-left" />
+                :aria-label="t('home.carousel.aria.previous')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
         <button v-if="canNavigate" @click="nextSlide"
                 class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
-                :aria-label="t('home.carousel.aria.next')">
-            <Icon name="tabler:chevron-right" />
+                :aria-label="t('home.carousel.aria.next')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-right" aria-hidden="true" />
         </button>
     </div>
 </template>
@@ -178,6 +197,7 @@ const props = defineProps({
 type EmblaApi = {
     scrollPrev: () => void;
     scrollNext: () => void;
+    selectedScrollSnap: () => number;
     slidesInView: () => number[];
     on: (event: 'select' | 'reInit', cb: () => void) => void;
     off: (event: 'select' | 'reInit', cb: () => void) => void;
@@ -193,6 +213,8 @@ const totalSlides = computed(() => (props.items?.length || 0) + 1);
 const createSlideIndex = computed(() => props.items?.length || 0);
 const canNavigate = computed(() => isReady.value && totalSlides.value > 1);
 const visibleSlideIndexes = ref(new Set<number>());
+const currentSlideIndex = ref(0);
+const carouselViewportId = 'home-featured-carousel';
 let visibilityObserver: IntersectionObserver | null = null;
 
 // Emit created items to parent
@@ -254,9 +276,26 @@ const nextSlide = () => {
     emblaApi.value?.scrollNext();
 };
 
+const carouselStatus = computed(() => {
+    const total = totalSlides.value;
+    if (!total) return '';
+    const index = Math.min(currentSlideIndex.value, total - 1);
+    const label = index === createSlideIndex.value ? t('home.carousel.create.title') : t(props.items[index]?.title || '');
+    return `${label} (${index + 1} / ${total})`;
+});
+
+function getSlideAriaLabel(item: CarouselItem, index: number): string {
+    return `${t(item.title)} (${index + 1} / ${totalSlides.value})`;
+}
+
+function isSlideHidden(index: number): boolean {
+    return isReady.value && !visibleSlideIndexes.value.has(index);
+}
+
 const updateVisibleSlides = () => {
     const visible = emblaApi.value?.slidesInView() || [];
     visibleSlideIndexes.value = new Set(visible);
+    currentSlideIndex.value = emblaApi.value?.selectedScrollSnap() || 0;
 };
 
 const initEmbla = async () => {

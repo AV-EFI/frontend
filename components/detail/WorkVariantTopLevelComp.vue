@@ -23,6 +23,13 @@
                 />
             </div>
 
+            <!-- Film-Related Materials Section -->
+            <DetailFilmRelatedMaterialsComp
+                v-if="enableFilmrelated"
+                :work-variant-id="props.handle"
+                class="col-span-12 mt-4"
+            />
+
             <!-- 03/04 GND, Filmportal, etc. (Same As) -->
             <div
                 v-if="(Array.isArray(workVar?.same_as) && workVar.same_as.length) || (Array.isArray(workVar?.is_part_of) && workVar.is_part_of.length)"
@@ -103,6 +110,7 @@ const workVar = defineModel({ type: Object as PropType<WorkVariant>, required: t
 
 const props = defineProps({
     handle: { type: String, required: true },
-    esTimestamp: { type: String, required: true }
+    esTimestamp: { type: String, required: true },
+    enableFilmrelated: {type: Boolean, default: false}
 });
 </script>

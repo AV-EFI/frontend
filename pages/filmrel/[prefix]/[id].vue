@@ -84,6 +84,7 @@
                             v-model="dataJson"
                             :handle="dataJson.handle"
                             :requested-handle="requestedHandle"
+                            :enable-filmrelated="true"
                         />
                         <ViewsCompilationViewCompAVefi
                             v-else-if="dataJson && (resourceType === 'compilationManifestation' || resourceType === 'compilationItem')"
@@ -145,6 +146,10 @@ const routeCanonical = computed(() => `${routeSiteUrl.value}/res/${prefix.value}
 
 useHead(() => ({
     link: [{ key: 'canonical', rel: 'canonical', href: routeCanonical.value }],
+    meta: [
+        { key: 'robots', name: 'robots', content: 'noindex, follow, noarchive' },
+        { key: 'googlebot', name: 'googlebot', content: 'noindex, follow, noarchive' },
+    ],
 }));
 
 type FetchErrorLike = {
@@ -344,6 +349,8 @@ useSeoMeta({
  * -------------------------- */
 import { useSchemaOrg, defineBreadcrumb } from '#imports';
 
+const exposeSchemaOrg = false;
+
 // Stable node ids
 const websiteId = computed(() => `${siteUrl.value}/#website`);
 const identityId = computed(() => `${siteUrl.value}/#organization`);
@@ -356,6 +363,8 @@ const datasetName = computed(() => t('home.seo.datasetTitle'));
 const datasetDescription = computed(() => t('home.seo.datasetDescription'));
 
 useSchemaOrg(() => {
+    if (!exposeSchemaOrg) return [];
+
     const graph: any[] = [];
 
     // Shared org reference

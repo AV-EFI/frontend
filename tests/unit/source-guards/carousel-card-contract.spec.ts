@@ -8,7 +8,9 @@ const source = readFileSync(
 );
 
 describe('CarouselCardComp interaction contract', () => {
-  test('does not make slides inert because that blocks visible carousel item buttons', () => {
-    expect(source).not.toContain(':inert=');
+  test('keeps offscreen slides inert while preserving visible carousel item buttons', () => {
+    expect(source).toContain(':inert="isSlideHidden(index)"');
+    expect(source).toContain(':inert="isSlideHidden(createSlideIndex)"');
+    expect(source).toContain('function isSlideHidden(index: number): boolean');
   });
 });

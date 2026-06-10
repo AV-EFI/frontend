@@ -7,16 +7,36 @@
             <Icon name="tabler:alert-circle" class="icon-status" aria-hidden="true" />
             <span>{{ error }}</span>
         </div>
-        <div v-else-if="issuerItems.length > 0">
+        <div
+            v-else-if="issuerItems.length > 0"
+            role="region"
+            aria-roledescription="carousel"
+            :aria-label="$t('topIssuers')"
+        >
+            <p class="sr-only" aria-live="polite">{{ carouselStatus }}</p>
+            <button
+                v-if="canAutoplay"
+                type="button"
+                class="absolute right-2 top-2 z-20 btn btn-circle btn-outline btn-xs"
+                :aria-label="isAutoplayPaused ? $t('home.carousel.aria.play') : $t('home.carousel.aria.pause')"
+                @click="toggleAutoplay"
+            >
+                <Icon :name="isAutoplayPaused ? 'tabler:player-play' : 'tabler:player-pause'" aria-hidden="true" />
+            </button>
             <button v-if="issuerItems.length > 1 && isReady" @click="prevSlide"
                     class="absolute -left-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
-                    :aria-label="$t('home.carousel.aria.previous')">
-                <Icon name="tabler:chevron-left" />
+                    :aria-label="$t('home.carousel.aria.previous')"
+                    :aria-controls="carouselViewportId">
+                <Icon name="tabler:chevron-left" aria-hidden="true" />
             </button>
-            <div ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-0 sm:px-4 lg:px-6 sm:py-4 bg-base-200 overflow-hidden">
+            <div :id="carouselViewportId" ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-0 sm:px-4 lg:px-6 sm:py-4 bg-base-200 overflow-hidden">
                 <div ref="containerRef" class="flex items-stretch touch-pan-y">
                     <div v-for="(item, index) in issuerItems" :key="index"
-                         :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
+                         role="group"
+                         aria-roledescription="slide"
+                         :aria-label="getSlideAriaLabel(item, index)"
+                         :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
+                         :inert="isSlideHidden(index)"
                          class="min-w-0 shrink-0 self-stretch basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg flex flex-col items-stretch lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
                         <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
                             <div class="relative w-full h-20 py-2 overflow-hidden bg-white flex items-center justify-center rounded-lg">
@@ -60,7 +80,7 @@
                                     <span class="text-xs md:text-regular">
                                         {{ $t('home.carousel.actions.viewDatasets') }}
                                     </span>
-                                    <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" />
+                                    <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" aria-hidden="true" />
                                 </NuxtLink>
                             </div>
                         </div>
@@ -70,19 +90,22 @@
 
             <button v-if="issuerItems.length > 1 && isReady" @click="nextSlide"
                     class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
-                    :aria-label="$t('home.carousel.aria.next')">
-                <Icon name="tabler:chevron-right" />
+                    :aria-label="$t('home.carousel.aria.next')"
+                    :aria-controls="carouselViewportId">
+                <Icon name="tabler:chevron-right" aria-hidden="true" />
             </button>
 
             <button v-if="issuerItems.length > 1 && isReady" @click="prevSlide"
                     class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
-                    :aria-label="$t('home.carousel.aria.previous')">
-                <Icon name="tabler:chevron-left" />
+                    :aria-label="$t('home.carousel.aria.previous')"
+                    :aria-controls="carouselViewportId">
+                <Icon name="tabler:chevron-left" aria-hidden="true" />
             </button>
             <button v-if="issuerItems.length > 1 && isReady" @click="nextSlide"
                     class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
-                    :aria-label="$t('home.carousel.aria.next')">
-                <Icon name="tabler:chevron-right" />
+                    :aria-label="$t('home.carousel.aria.next')"
+                    :aria-controls="carouselViewportId">
+                <Icon name="tabler:chevron-right" aria-hidden="true" />
             </button>
         </div>
         <div v-else class="text-center text-base-content/70 py-8">
@@ -132,6 +155,7 @@ interface IssuerItem extends Issuer {
 type EmblaApi = {
     scrollPrev: () => void;
     scrollNext: () => void;
+    selectedScrollSnap: () => number;
     slidesInView: () => number[];
     on: (event: 'select' | 'reInit', cb: () => void) => void;
     off: (event: 'select' | 'reInit', cb: () => void) => void;
@@ -184,6 +208,9 @@ const emblaApi = shallowRef<EmblaApi | null>(null);
 const autoplayPlugin = shallowRef<{ stop?: () => void; play?: () => void } | null>(null);
 const isReady = computed(() => !!emblaApi.value);
 const visibleSlideIndexes = ref(new Set<number>());
+const currentSlideIndex = ref(0);
+const isAutoplayPaused = ref(false);
+const carouselViewportId = 'top-issuers-carousel';
 let visibilityObserver: IntersectionObserver | null = null;
 
 const issuerItems = computed<IssuerItem[]>(() => {
@@ -199,6 +226,13 @@ const issuerItems = computed<IssuerItem[]>(() => {
             imageAlt: imageInfo?.alt || `${issuer.name} ${t('press.assetTypes.logo')}`
         };
     });
+});
+
+const canAutoplay = computed(() => props.autoSlideInterval > 0 && issuerItems.value.length > 1);
+const carouselStatus = computed(() => {
+    if (!issuerItems.value.length) return '';
+    const index = Math.min(currentSlideIndex.value, issuerItems.value.length - 1);
+    return `${issuerItems.value[index].name} (${index + 1} / ${issuerItems.value.length})`;
 });
 
 const initEmbla = async () => {
@@ -248,7 +282,27 @@ const nextSlide = () => {
 const updateVisibleSlides = () => {
     const visible = emblaApi.value?.slidesInView() || [];
     visibleSlideIndexes.value = new Set(visible);
+    currentSlideIndex.value = emblaApi.value?.selectedScrollSnap() || 0;
 };
+
+function getSlideAriaLabel(item: IssuerItem, index: number): string {
+    return `${item.name} (${index + 1} / ${issuerItems.value.length})`;
+}
+
+function isSlideHidden(index: number): boolean {
+    return isReady.value && !visibleSlideIndexes.value.has(index);
+}
+
+function toggleAutoplay() {
+    if (isAutoplayPaused.value) {
+        autoplayPlugin.value?.play?.();
+        isAutoplayPaused.value = false;
+        return;
+    }
+
+    autoplayPlugin.value?.stop?.();
+    isAutoplayPaused.value = true;
+}
 
 onMounted(() => {
     if (!rootRef.value) return;
@@ -280,8 +334,8 @@ onBeforeUnmount(() => {
         emblaApi.value = null;
     }
 
-    //autoplayPlugin.value?.stop?.();
-    //autoplayPlugin.value = null;
-    //isAutoplayPaused.value = false;
+    autoplayPlugin.value?.stop?.();
+    autoplayPlugin.value = null;
+    isAutoplayPaused.value = false;
 });
 </script>

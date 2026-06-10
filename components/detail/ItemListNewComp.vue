@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_access_status" />
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_format" />
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="item_element_type" />
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="in_language" />
@@ -92,7 +92,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_sound_type" />
@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_colour_type" />
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_duration" />
@@ -131,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="avefi:Extent" />
@@ -146,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_frame_rate" />
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_note" />
@@ -168,7 +168,7 @@
                 </div>
             </div>
 
-            <div class="col-span-full md:col-span-6 xl:col-span-4 flex flex-col justify-end">
+            <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3 flex flex-col justify-end">
                 <span class="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-200">
                     <MicroLabelComp label-text="webresource" />
                     <GlobalTooltipInfo

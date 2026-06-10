@@ -1,5 +1,5 @@
 <template>
-    <div v-if="sameAsData?.length" class="inline-block">
+    <div v-if="normalizedSameAsData.length" class="inline-block">
         <!-- Trigger -->
         <button
             ref="triggerRef"
@@ -15,128 +15,140 @@
             <span class="sr-only"> {{$t('openExternalReferences')}}</span>
         </button>
 
-        <!-- Menu (fixed, viewport-positioned) -->
-        <ul
-            v-show="open"
-            id="sameas-dropdown-menu"
-            ref="menuRef"
-            role="menu"
-            tabindex="-1"
-            class="menu menu-sm bg-base-100 rounded-box shadow fixed z-[1000] w-56 p-2"
-            :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
-            @keydown="onMenuKeydown"
-        >
-            <li v-for="(item, idx) in sameAsData" :key="idx" role="none" class="flex flex-row items-center gap-1">
-                <a
-                    v-if="item.category === 'avefi:GNDResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <img src="https://explore.gnd.network/images/icons/favicon.ico" alt="GND" class="w-4 h-4 inline" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
+        <Teleport to="body">
+            <!-- Menu (fixed, viewport-positioned) -->
+            <ul
+                v-show="open"
+                id="sameas-dropdown-menu"
+                ref="menuRef"
+                role="menu"
+                tabindex="-1"
+                class="menu menu-sm bg-base-100 rounded-box shadow fixed z-[1000] w-56 p-2"
+                :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
+                @keydown="onMenuKeydown"
+            >
+                <li v-for="item in normalizedSameAsData" :key="`${item.category}-${item.id}`" role="none" class="flex flex-row items-center gap-1">
+                    <a
+                        v-if="item.category === 'avefi:GNDResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <img :src="gndIconPath" alt="GND" class="w-4 h-4 inline" />
+                        <span>&nbsp;{{ $t(item.category) }}</span>
+                    </a>
 
-                <a
-                    v-else-if="item.category === 'avefi:VIAFResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <Icon name="tabler:notebook" size="1em" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
+                    <a
+                        v-else-if="item.category === 'avefi:VIAFResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <Icon name="tabler:notebook" size="1em" />
+                        <span>&nbsp;{{ $t(item.category) }}</span>
+                    </a>
 
-                <a
-                    v-else-if="item.category === 'avefi:WikidataResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <Icon name="carbon:notebook-reference" size="1em" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
+                    <a
+                        v-else-if="item.category === 'avefi:WikidataResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <Icon name="carbon:notebook-reference" size="1em" />
+                        <span>&nbsp;{{ $t(item.category) }}</span>
+                    </a>
 
-                <a
-                    v-else-if="item.category === 'avefi:FilmportalResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <img src="https://www.filmportal.de/themes/custom/filmportal/favicon.ico" alt="Filmportal" class="w-4 h-4 inline" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
+                    <a
+                        v-else-if="item.category === 'avefi:FilmportalResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <img src="https://www.filmportal.de/themes/custom/filmportal/favicon.ico" alt="Filmportal" class="w-4 h-4 inline" />
+                        <span>&nbsp;{{ $t(item.category) }}</span>
+                    </a>
 
-                <a
-                    v-else-if="item.category === 'avefi:DOIResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <Icon name="carbon:notebook-reference" size="1em" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
+                    <a
+                        v-else-if="item.category === 'avefi:DOIResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <Icon name="carbon:notebook-reference" size="1em" />
+                        <span>&nbsp;{{ $t(item.category) }}</span>
+                    </a>
 
-                <a
-                    v-else-if="item.category === 'avefi:EIDRResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <Icon name="tabler:notebook" size="1em" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
-                <a
-                    v-else-if="item.category === 'avefi:TGNResource'"
-                    role="menuitem"
-                    tabindex="0"
-                    :href="getNormdataUrl(item.category, item.id)"
-                    target="_blank" rel="noopener"
-                    class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                    @click="close()"
-                >
-                    <Icon name="carbon:notebook-reference" size="1em" />
-                    <span>&nbsp;{{ $t(item.category) }}</span>
-                </a>
+                    <a
+                        v-else-if="item.category === 'avefi:EIDRResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <Icon name="tabler:notebook" size="1em" />
+                        <span>&nbsp;{{ $t(item.category) }}</span>
+                    </a>
+                    <a
+                        v-else-if="item.category === 'avefi:TGNResource'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <span>{{ getSameAsLabel(item) }}</span>
+                    </a>
+                    <a
+                        v-else-if="item.category === 'avefi:URL'"
+                        role="menuitem"
+                        tabindex="0"
+                        :href="getNormdataUrl(item.category, item.id)"
+                        target="_blank" rel="noopener"
+                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                        @click="close()"
+                    >
+                        <Icon name="carbon:notebook-reference" size="1em" aria-hidden="true" />
+                        <span>&nbsp;{{ getSameAsLabel(item) }}</span>
+                    </a>
+                    <span v-else role="menuitem" tabindex="0" class="min-w-0 flex-1 opacity-70">
+                        Unbekannte Referenz: {{ $t(item.category) }}                    
+                    </span>
 
-                <span v-else role="menuitem" tabindex="0" class="min-w-0 flex-1 opacity-70">
-                    Unbekannte Referenz: {{ $t(item.category) }}
-                </span>
-
-                <button
-                    type="button"
-                    class="btn btn-ghost btn-xs shrink-0"
-                    :aria-label="`${$t('copyToClipboard')}: ${$t(item.category)}`"
-                    :title="`${$t('copyToClipboard')}: ${getNormdataUrl(item.category, item.id)}`"
-                    @click.stop="copySameAsUrl(item)"
-                >
-                    <Icon name="tabler:copy" size="1em" aria-hidden="true" />
-                </button>
-            </li>
-        </ul>
+                    <button
+                        type="button"
+                        class="btn btn-ghost btn-xs shrink-0"
+                        :aria-label="$t('copyToClipboard')"
+                        :title="$t('copyToClipboard')"
+                        @click.stop="copySameAsUrl(item)"
+                    >
+                        <Icon name="tabler:copy" size="1em" aria-hidden="true" />
+                    </button>
+                </li>
+            </ul>
+        </Teleport>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useClipboardUtil } from '~/utils/clipboard';
 
 const props = defineProps({
@@ -147,6 +159,22 @@ const props = defineProps({
 
 const { getNormdataUrl } = useNormdataUrl();
 const clipboard = useClipboardUtil();
+const gndIconPath = '/img/gnd.ico';
+
+const normalizedSameAsData = computed(() => {
+    const items = Array.isArray(props.sameAsData) ? props.sameAsData : [];
+    const seen = new Set<string>();
+
+    return items.filter((item) => {
+        if (!item?.category || !item?.id) return false;
+
+        const key = `${item.category}-${item.id}`;
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+    });
+});
 
 const open = ref(false);
 const triggerRef = ref<HTMLElement | null>(null);
@@ -212,6 +240,12 @@ function close() {
 
 function copySameAsUrl(item: any) {
     clipboard?.copyExtended(getNormdataUrl(item.category, item.id));
+}
+
+function getSameAsLabel(item: any): string {
+    if (item?.category === 'avefi:TGNResource') return 'TGN';
+    if (item?.category === 'avefi:URL') return 'URL';
+    return String(useNuxtApp().$i18n.t(item?.category || ''));
 }
 
 function onTriggerKeydown(e: KeyboardEvent) {

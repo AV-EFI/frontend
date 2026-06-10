@@ -8,6 +8,11 @@ const detailSource = readFileSync(
   resolve(process.cwd(), 'pages/res/[prefix]/[id].vue'),
   'utf8'
 );
+const filmrelSource = readFileSync(
+  resolve(process.cwd(), 'pages/filmrel/[prefix]/[id].vue'),
+  'utf8'
+);
+const nuxtConfigSource = readFileSync(resolve(process.cwd(), 'nuxt.config.ts'), 'utf8');
 const manifestationViewSource = readFileSync(
   resolve(process.cwd(), 'components/views/ManifestationViewCompAVefi.vue'),
   'utf8'
@@ -57,5 +62,14 @@ describe('Route and SEO contract guards', () => {
     expect(detailSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
     expect(manifestationViewSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
     expect(itemListSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
+  });
+
+  test('BB-FILMREL-SEO-001 keeps /filmrel pages out of indexing and schema output', () => {
+    expect(nuxtConfigSource).toContain("'/filmrel/**': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, follow, noarchive' } }");
+    expect(nuxtConfigSource).toContain("'/filmrel/**'");
+    expect(filmrelSource).toContain("{ key: 'robots', name: 'robots', content: 'noindex, follow, noarchive' }");
+    expect(filmrelSource).toContain("{ key: 'googlebot', name: 'googlebot', content: 'noindex, follow, noarchive' }");
+    expect(filmrelSource).toContain('const exposeSchemaOrg = false');
+    expect(filmrelSource).toContain('if (!exposeSchemaOrg) return []');
   });
 });

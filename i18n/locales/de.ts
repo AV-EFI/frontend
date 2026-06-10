@@ -5,6 +5,7 @@ const deBase = {
   'showSuggestions': 'Vorschläge anzeigen',
   'noSuggestionsFound': 'Keine Vorschläge gefunden',
   'errorLoadingDatasets': 'Fehler beim Laden der Datensätze',
+  'errorLoadingData': 'Fehler beim Laden der Daten',
   'incompleteData': 'Unvollständige Daten',
   'searchBackendError': 'Die Suche ist voruebergehend nicht verfuegbar. Bitte versuchen Sie es gleich erneut.',
   'exportFailed': 'Export fehlgeschlagen. Bitte versuchen Sie es erneut.',
@@ -40,6 +41,15 @@ const deBase = {
     "items": "Items",
     "authorityLinks": "Normdaten-Links"
   },
+  "filmRelatedMaterials": "Filmbegleitmaterialien",
+  "filmRelatedMaterial": "Filmbegleitmaterial",
+  "filmRelatedMaterialsDescription": "Filmbegleitmaterialien wie Kostüme, Plakate, Drehbücher und andere Objekte, die mit Filmwerken verbunden sind.",
+  "issuer": "Herausgeber",
+  "inventoryNumber": "Inventarnummer",
+  "dimensions": "Maße",
+  "material": "Material",
+  "technique": "Technik",
+  "notes": "Hinweise",
   "build": {
     "linked": {
       "title": "efis für alle – Filme eindeutig identifiziert ",
@@ -752,7 +762,7 @@ const deBase = {
   'describedBy': 'Beschrieben von',
   'filmholdingInstitution': 'Filmhaltende Institution',
   'graphLoading': 'Graph wird geladen...',
-  'selectedLevel': 'Aktuelle Ebene',
+  'selectedLevel': 'Ebene',
   'noWorkSelected': 'Wählen Sie ein Werk, um die Beziehungen anzuzeigen.',
   'searchFailed': 'Die Suche ist fehlgeschlagen.',
   'workCouldNotBeLoaded': 'Das Werk konnte nicht geladen werden.',

@@ -1,17 +1,38 @@
 
 <template>
-    <div ref="rootRef" class="relative w-full">
+    <div
+        ref="rootRef"
+        class="relative w-full"
+        role="region"
+        aria-roledescription="carousel"
+        :aria-label="$t('home.partners.title')"
+    >
+        <p class="sr-only" aria-live="polite">{{ carouselStatus }}</p>
+        <button
+            v-if="canAutoplay"
+            type="button"
+            class="absolute right-2 top-2 z-20 btn btn-circle btn-outline btn-xs"
+            :aria-label="isAutoplayPaused ? $t('home.carousel.aria.play') : $t('home.carousel.aria.pause')"
+            @click="toggleAutoplay"
+        >
+            <Icon :name="isAutoplayPaused ? 'tabler:player-play' : 'tabler:player-pause'" aria-hidden="true" />
+        </button>
         <button v-if="partnersItems.length > 1 && isReady" @click="prevSlide"
                 class="absolute -left-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
-                :aria-label="$t('home.carousel.aria.previous')">
-            <Icon name="tabler:chevron-left" />
+                :aria-label="$t('home.carousel.aria.previous')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
-        <div ref="viewportRef" class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 sm:py-4 bg-base-200 overflow-hidden">
+        <div :id="carouselViewportId" ref="viewportRef" class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 sm:py-4 bg-base-200 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div
                     v-for="(item, index) in partnersItems"
                     :key="index"
-                    :aria-hidden="isReady && !visibleSlideIndexes.has(index) ? 'true' : undefined"
+                    role="group"
+                    aria-roledescription="slide"
+                    :aria-label="getSlideAriaLabel(item, index)"
+                    :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
+                    :inert="isSlideHidden(index)"
                     class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-0.5rem)] mr-4 rounded-lg align-top flex flex-col items-center bg-white dark:bg-base-200 lg:p-2"
                 >
                     <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
@@ -62,19 +83,22 @@
 
         <button v-if="partnersItems.length > 1 && isReady" @click="nextSlide"
                 class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 btn-carousel-control hidden sm:flex"
-                :aria-label="$t('home.carousel.aria.next')">
-            <Icon name="tabler:chevron-right" />
+                :aria-label="$t('home.carousel.aria.next')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-right" aria-hidden="true" />
         </button>
 
         <button v-if="partnersItems.length > 1 && isReady" @click="prevSlide"
                 class="absolute left-0 md:-left-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
-                :aria-label="$t('home.carousel.aria.previous')">
-            <Icon name="tabler:chevron-left" />
+                :aria-label="$t('home.carousel.aria.previous')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
         <button v-if="partnersItems.length > 1 && isReady" @click="nextSlide"
                 class="absolute right-0 md:-right-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control flex sm:hidden"
-                :aria-label="$t('home.carousel.aria.next')">
-            <Icon name="tabler:chevron-right" />
+                :aria-label="$t('home.carousel.aria.next')"
+                :aria-controls="carouselViewportId">
+            <Icon name="tabler:chevron-right" aria-hidden="true" />
         </button>
     </div>
 </template>
@@ -88,6 +112,7 @@ type EmblaApi = {
     loop: () => boolean;    
     scrollPrev: () => void;
     scrollNext: () => void;
+    selectedScrollSnap: () => number;
     slidesInView: () => number[];
     on: (event: 'select' | 'reInit', cb: () => void) => void;
     off: (event: 'select' | 'reInit', cb: () => void) => void;
@@ -149,7 +174,9 @@ const emblaApi = shallowRef<EmblaApi | null>(null);
 const autoplayPlugin = shallowRef<{ stop?: () => void; play?: () => void } | null>(null);
 const isReady = computed(() => !!emblaApi.value);
 const visibleSlideIndexes = ref(new Set<number>());
+const currentSlideIndex = ref(0);
 const isAutoplayPaused = ref(false);
+const carouselViewportId = 'partners-carousel';
 
 let visibilityObserver: IntersectionObserver | null = null;
 
@@ -162,7 +189,23 @@ const updateNavState = () => {
 const updateVisibleSlides = () => {
     const visible = emblaApi.value?.slidesInView() || [];
     visibleSlideIndexes.value = new Set(visible);
+    currentSlideIndex.value = emblaApi.value?.selectedScrollSnap() || 0;
 };
+
+const canAutoplay = computed(() => props.autoSlideInterval > 0 && partnersItems.value.length > 1);
+const carouselStatus = computed(() => {
+    if (!partnersItems.value.length) return '';
+    const index = Math.min(currentSlideIndex.value, partnersItems.value.length - 1);
+    return `${partnersItems.value[index].alt || partnersItems.value[index].title || ''} (${index + 1} / ${partnersItems.value.length})`;
+});
+
+function getSlideAriaLabel(item: { alt?: string; title?: string }, index: number): string {
+    return `${item.alt || item.title || ''} (${index + 1} / ${partnersItems.value.length})`;
+}
+
+function isSlideHidden(index: number): boolean {
+    return isReady.value && !visibleSlideIndexes.value.has(index);
+}
 
 const initEmbla = async () => {
     if (!viewportRef.value || emblaApi.value) return;

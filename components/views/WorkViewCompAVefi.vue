@@ -40,6 +40,13 @@
                                 </span>
                             </button>
                         </li>
+                        <li v-if="hasFilmRelatedMaterials">
+                            <button type="button" @click="scrollToId('film-related-materials')" class="cursor-pointer text-left"
+                                    :class="{ 'active': activeSection === 'film-related-materials' }"
+                                    :aria-current="activeSection === 'film-related-materials' ? 'location' : undefined">
+                                {{ $t('filmRelatedMaterials') }}
+                            </button>
+                        </li>
                         <li>
                             <button type="button" @click="scrollToId('manifestations')" class="cursor-pointer text-left"
                                     :class="{ 'active': activeSection === 'manifestations' }"
@@ -96,6 +103,13 @@
                                     :class="{ 'active': activeSection === 'alternative-titles' }" class="cursor-pointer text-left"
                                     :aria-current="activeSection === 'alternative-titles' ? 'location' : undefined">
                                 {{ $t('AlternativeTitles') }}
+                            </button>
+                        </li>
+                        <li v-if="hasFilmRelatedMaterials">
+                            <button type="button" @click="scrollToId('film-related-materials'); drawerOpen = false"
+                                    :class="{ 'active': activeSection === 'film-related-materials' }" class="cursor-pointer text-left"
+                                    :aria-current="activeSection === 'film-related-materials' ? 'location' : undefined">
+                                {{ $t('filmRelatedMaterials') }}
                             </button>
                         </li>
                         <li v-if="hasReferencesAndWorkRelations">
@@ -189,18 +203,19 @@
                     <NuxtLayout name="partial-grid-2-1-no-heading">
                         <template #left>
                             <div class="w-full col-span-full">
-                                <!-- 01–04 + 06–09: handled inside TopLevelComp -->
-                                <DetailWorkVariantTopLevelComp v-model="mir"
-                                                               :handle="dataObject?.compound_record?._source?.handle"
-                                                               :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']"
-                                                               :order-key="'08-06-2025'" :hide-second-handle="true"
-                                                               :swap-years-and-places="true" />
-
                                 <!-- 05 Produktions-Events -->
                                 <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
                                                     v-model="mir.has_event"
                                                     root-id="work-events"
                                                     :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
+                                <!-- 01–04 + 06–09: handled inside TopLevelComp -->
+                                <DetailWorkVariantTopLevelComp v-model="mir"
+                                                               :handle="dataObject?.compound_record?._source?.handle"
+                                                               :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']"
+                                                               :order-key="'08-06-2025'" :hide-second-handle="true"
+                                                               :swap-years-and-places="true"
+                                                               :enable-filmrelated="enableFilmrelated" />
+
                             </div>
                         </template>
 
@@ -412,6 +427,10 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    enableFilmrelated: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 const dataJson = defineModel({ type: Object, required: true });
@@ -772,6 +791,15 @@ const activeSection = ref("");
 const hasAlternativeTitles = computed(() =>
     Array.isArray((mir as any)?.has_alternative_title) && (mir as any).has_alternative_title.length > 0
 );
+
+const hasFilmRelatedMaterials = computed(() => {
+    // Only show for the two specific work variants during visualization phase
+    const workVariantId = dataObject?.compound_record?._source?.handle;
+    return [
+        '21.11155/7E2ABF44-85D2-4704-AF29-0331974A16FF',
+        '21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA'
+    ].includes(workVariantId);
+});
 
 const hasReferencesAndWorkRelations = computed(() =>
     (Array.isArray((mir as any)?.same_as) && (mir as any).same_as.length > 0) ||

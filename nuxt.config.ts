@@ -237,6 +237,9 @@ export default defineNuxtConfig({
             }
             : {}),
 
+          '/filmrel': { headers: { 'X-Robots-Tag': 'noindex, follow, noarchive' } },
+          '/filmrel/**': { headers: { 'X-Robots-Tag': 'noindex, follow, noarchive' } },
+
           ...(isPre
             ? {
               '/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
@@ -369,6 +372,7 @@ export default defineNuxtConfig({
     '/login': { ssr: true },
     '/film/**': { ssr: true },
     '/res/**': { ssr: true, prerender: false },
+    '/filmrel/**': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, follow, noarchive' } },
     '/serial/**': { ssr: true },
     '/protected/institutionlist': { ssr: true },
     '/protected/dashboard': { ssr: true },
@@ -516,6 +520,7 @@ export default defineNuxtConfig({
       '/login',
       '/logout',
       '/signout',
+      '/filmrel/**',
       '/normdata',
       '/error-500',
       '/vocab',

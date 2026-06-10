@@ -19,6 +19,9 @@ export function useNormdataUrl() {
       return `https://isni.org/isni/${id}`;
     } else if (category === 'avefi:AVefiResource') {
       return `https://hdl.handle.net/${id}`;
+    } else if (category === 'avefi:URL') {
+      if (/^https?:\/\//i.test(id)) return id;
+      return `https://www.av-efi.net/res/21.11155/${id}`;
     }
     
     // Fallback: return the ID as-is (might be a full URL already)

@@ -5,6 +5,7 @@ const avefiBase = {
   'showSuggestions': 'Show suggestions',
   'noSuggestionsFound': 'No suggestions found',
   'errorLoadingDatasets': 'Error loading datasets',
+  'errorLoadingData': 'Error loading data',
   'searchBackendError': 'Search is temporarily unavailable. Please try again in a moment.',
   'exportFailed': 'Export failed. Please try again.',
   'exportSuccess': '{format} exported.',
@@ -38,8 +39,17 @@ const avefiBase = {
     "works": "Works",
     "manifestations": "Manifestations",
     "items": "Items",
-    "authorityLinks": "Authority data links"
+    "authorityLinks": "Authority Links"
   },
+  "filmRelatedMaterials": "Film-Related Materials",
+  "filmRelatedMaterial": "Film-Related Material",
+  "filmRelatedMaterialsDescription": "Film-related materials such as costumes, posters, scripts, and other objects associated with film works.",
+  "issuer": "Issuer",
+  "inventoryNumber": "Inventory Number",
+  "dimensions": "Dimensions",
+  "material": "Material",
+  "technique": "Technique",
+  "notes": "Notes",
   "build": {
     "linked": {
       "title": "efis for all – uniquely identifying films",
@@ -672,7 +682,7 @@ const avefiBase = {
   'describedBy': 'Described by',
   'filmholdingInstitution': 'Film holding institution',
   'graphLoading': 'Graph is loading...',
-  'selectedLevel': 'Current level',
+  'selectedLevel': 'Level',
   'noWorkSelected': 'Select a work to show its relations.',
   'searchFailed': 'Search failed.',
   'workCouldNotBeLoaded': 'The work could not be loaded.',
