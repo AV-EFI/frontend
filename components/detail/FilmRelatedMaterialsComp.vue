@@ -25,7 +25,7 @@
             <button
                 v-if="canNavigate"
                 type="button"
-                class="absolute left-0 top-1/2 z-20 -translate-y-1/2 btn-carousel-control sm:-left-4"
+                class="absolute -left-2 sm:-left-4 top-1/2 z-20 -translate-y-1/2 btn-carousel-control w-8 h-8 2xl:w-10 2xl:h-10"
                 :aria-label="t('home.carousel.aria.previous')"
                 :aria-controls="carouselViewportId"
                 @click="prevSlide"
@@ -42,7 +42,7 @@
                     <article
                         v-for="(entry, index) in materialSlides"
                         :key="entry.material.handle"
-                        class="flex min-w-0 w-full shrink-0 basis-full box-border flex-col self-start rounded-md border border-gray-100 bg-white p-4 2xl:p-8 dark:border-gray-800 dark:bg-gray-900"
+                        class="flex min-w-0 w-full shrink-0 basis-full box-border flex-col self-start rounded-md border border-gray-100 bg-white p-6 2xl:p-8 dark:border-gray-800 dark:bg-gray-900"
                         role="group"
                         aria-roledescription="slide"
                         :aria-labelledby="getMaterialDomId(entry.material)"
@@ -220,7 +220,7 @@
             <button
                 v-if="canNavigate"
                 type="button"
-                class="absolute right-0 top-1/2 z-20 -translate-y-1/2 btn-carousel-control sm:-right-4"
+                class="absolute right-2 sm:-right-6 top-1/2 z-20 -translate-y-1/2 btn-carousel-control w-8 h-8 2xl:w-10 2xl:h-10"
                 :aria-label="t('home.carousel.aria.next')"
                 :aria-controls="carouselViewportId"
                 @click="nextSlide"

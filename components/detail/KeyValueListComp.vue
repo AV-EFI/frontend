@@ -29,7 +29,7 @@
                 <!-- TEXT MODE -->
                 <span
                     v-else
-                    class="flex-grow h-8 flex items-start leading-5 text-xs"
+                    class="grow h-8 flex items-start leading-5 text-xs"
                 >
                     {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
                 </span>

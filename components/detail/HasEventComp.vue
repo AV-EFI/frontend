@@ -97,7 +97,7 @@
                                     </span>
                                 </header>
 
-                                <ul class="mt-2 space-y-1" :aria-label="$t('agentsList')">
+                                <ul class="mt-2 space-y-1  max-h-40 overflow-y-auto" :aria-label="$t('agentsList')">
                                     <li v-for="(agent, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
                                         :aria-label="$t('agent') + ': ' + (agent?.has_name ?? '')" class="group">
                                         <div class="flex items-center justify-between gap-2 rounded-lg px-2 py-2

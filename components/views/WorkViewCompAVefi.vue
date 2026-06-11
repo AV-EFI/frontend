@@ -28,6 +28,13 @@
                                 {{ $t('referencesAndWorkRelations') }}
                             </button>
                         </li>
+                        <li v-if="hasFilmRelatedMaterials">
+                            <button type="button" @click="scrollToId('film-related-materials')" class="cursor-pointer text-left"
+                                    :class="{ 'active': activeSection === 'film-related-materials' }"
+                                    :aria-current="activeSection === 'film-related-materials' ? 'location' : undefined">
+                                {{ $t('filmRelatedMaterials') }}
+                            </button>
+                        </li>
                         <li>
                             <button type="button" @click="scrollToId('work-events')" class="cursor-pointer text-left"
                                     :class="{ 'active': activeSection === 'work-events' }"
@@ -40,13 +47,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li v-if="hasFilmRelatedMaterials">
-                            <button type="button" @click="scrollToId('film-related-materials')" class="cursor-pointer text-left"
-                                    :class="{ 'active': activeSection === 'film-related-materials' }"
-                                    :aria-current="activeSection === 'film-related-materials' ? 'location' : undefined">
-                                {{ $t('filmRelatedMaterials') }}
-                            </button>
-                        </li>
+                        
                         <li>
                             <button type="button" @click="scrollToId('manifestations')" class="cursor-pointer text-left"
                                     :class="{ 'active': activeSection === 'manifestations' }"
@@ -91,13 +92,6 @@
                 </button>
                 <nav id="work-navigation-drawer" :aria-label="$t('workNavigation')" class="sticky top-8 max-h-[calc(100vh-2rem)] overflow-y-auto">
                     <ul class="menu bg-base-200 rounded-box p-2">
-                        <li>
-                            <button type="button" @click="scrollToId('work-events'); drawerOpen = false"
-                                    :class="{ 'active': activeSection === 'work-events' }" class="cursor-pointer text-left"
-                                    :aria-current="activeSection === 'work-events' ? 'location' : undefined">
-                                {{ $t('workEvents') }}
-                            </button>
-                        </li>
                         <li v-if="hasAlternativeTitles">
                             <button type="button" @click="scrollToId('alternative-titles'); drawerOpen = false"
                                     :class="{ 'active': activeSection === 'alternative-titles' }" class="cursor-pointer text-left"
@@ -117,6 +111,13 @@
                                     :class="{ 'active': activeSection === 'references-work-relations' }" class="cursor-pointer text-left"
                                     :aria-current="activeSection === 'references-work-relations' ? 'location' : undefined">
                                 {{ $t('referencesAndWorkRelations') }}
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" @click="scrollToId('work-events'); drawerOpen = false"
+                                    :class="{ 'active': activeSection === 'work-events' }" class="cursor-pointer text-left"
+                                    :aria-current="activeSection === 'work-events' ? 'location' : undefined">
+                                {{ $t('workEvents') }}
                             </button>
                         </li>
 
@@ -203,11 +204,6 @@
                     <NuxtLayout name="partial-grid-2-1-no-heading">
                         <template #left>
                             <div class="w-full col-span-full">
-                                <!-- 05 Produktions-Events -->
-                                <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
-                                                    v-model="mir.has_event"
-                                                    root-id="work-events"
-                                                    :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
                                 <!-- 01–04 + 06–09: handled inside TopLevelComp -->
                                 <DetailWorkVariantTopLevelComp v-model="mir"
                                                                :handle="dataObject?.compound_record?._source?.handle"
@@ -215,6 +211,12 @@
                                                                :order-key="'08-06-2025'" :hide-second-handle="true"
                                                                :swap-years-and-places="true"
                                                                :enable-filmrelated="enableFilmrelated" />
+                                <!-- 05 Produktions-Events -->
+                                <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
+                                                    v-model="mir.has_event"
+                                                    root-id="work-events"
+                                                    :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
+                                
 
                             </div>
                         </template>

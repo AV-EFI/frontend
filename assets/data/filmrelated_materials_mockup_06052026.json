@@ -148,6 +148,16 @@
           "handle": "21.11155/F3A8C2D9-4E6B-4A1F-9B72-1C5E8A4D0F91",
           "url": "https://www.av-efi.net/res/21.11155/F3A8C2D9-4E6B-4A1F-9B72-1C5E8A4D0F91",
           "@timestamp": 1776954384689
+        },
+        {
+          "has_record": {
+            "has_primary_title": {
+              "has_name": "Minimal erschlossenes filmbezogenes Material mit Pflichfeldern",
+              "type": "SuppliedDevisedTitle"
+            },
+            "type": "Objects"
+          },
+          "handle": "21.11155/MINIMAL-FILMRELATED-MATERIAL-SAMPLE"
         }
       ],
       "manifestations": []
@@ -408,6 +418,16 @@
           "handle": "21.11155/9B85419E-711C-4B85-9E03-C390A09FF4C7",
           "url": "https://www.av-efi.net/res/21.11155/9B85419E-711C-4B85-9E03-C390A09FF4C7",
           "@timestamp": 1776954384689
+        },
+        {
+          "has_record": {
+            "has_primary_title": {
+              "has_name": "Minimal erschlossenes filmbezogenes Material mit Pflichfeldern",
+              "type": "SuppliedDevisedTitle"
+            },
+            "type": "Objects"
+          },
+          "handle": "21.11155/MINIMAL-FILMRELATED-MATERIAL-SAMPLE"
         }
       ],
       "manifestations": []

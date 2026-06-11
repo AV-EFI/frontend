@@ -23,12 +23,7 @@
                 />
             </div>
 
-            <!-- Film-Related Materials Section -->
-            <DetailFilmRelatedMaterialsComp
-                v-if="enableFilmrelated"
-                :work-variant-id="props.handle"
-                class="col-span-12 mt-4"
-            />
+            
 
             <!-- 03/04 GND, Filmportal, etc. (Same As) -->
             <div
@@ -97,6 +92,13 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Film-Related Materials Section -->
+            <DetailFilmRelatedMaterialsComp
+                v-if="enableFilmrelated"
+                :work-variant-id="props.handle"
+                class="col-span-12 mt-2"
+            />
 
         </template>
     </NuxtLayout>
