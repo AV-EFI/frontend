@@ -49,7 +49,17 @@
                                         class="ml-2 inline-block" />
             </h4>
             <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
-                {{ manifestation?.has_record?.described_by?.has_issuer_name }}
+                <span class="wrap-break-word" v-if="manifestation?.has_record?.has_primary_title?.has_name">
+                    <p>
+                        {{ manifestation?.has_record?.has_primary_title?.has_name }}
+                    </p>
+                    <p class="font-normal">
+                        {{ manifestation?.has_record?.described_by?.has_issuer_name }}
+                    </p>
+                </span>
+                <span v-else>
+                    {{ manifestation?.has_record?.described_by?.has_issuer_name }}
+                </span>
             </h4>
 
             <!-- NORMALIZED ROW: SearchGenericIconList + item count share SAME baseline -->

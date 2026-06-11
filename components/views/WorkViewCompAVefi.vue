@@ -59,16 +59,8 @@
                                     <button type="button" @click="scrollToId(getManifestationAnchorId(mf, idx))" class="cursor-pointer pl-4 text-left w-full"
                                             :class="{ 'active': activeSection === getManifestationAnchorId(mf, idx) }"
                                             :aria-current="activeSection === getManifestationAnchorId(mf, idx) ? 'location' : undefined">
-                                        <span class="text-ellipsis" v-if="mf.has_record.has_event?.[0]">
-                                            {{ $t(mf.has_record?.has_event?.[0]?.type ?? '') !==
-                                                mf.has_record?.has_event?.[0]?.type
-                                                ? $t(mf.has_record?.has_event?.[0]?.type ?? '')
-                                                : (mf.has_record?.has_event?.[0]?.type || `${$t('manifestation')} ${idx +
-                                                    1}`) }}
-                                        </span>
-                                        <span v-else>
-                                            {{ mf.has_record?.has_primary_title?.has_name ?? $t('manifestation') + ' ' +
-                                                (idx + 1) }}
+                                        <span class="text-ellipsis">
+                                            {{ getManifestationMenuLabel(mf, idx) }}
                                         </span>
                                         <span class="badge" :aria-label="`${mf.items?.length || 0} ${$t('items')}`">
                                             {{ mf.items?.length }}
@@ -133,7 +125,7 @@
                                             :class="{ 'active': activeSection === getManifestationAnchorId(mf, idx) }"
                                             :aria-current="activeSection === getManifestationAnchorId(mf, idx) ? 'location' : undefined"
                                             class="cursor-pointer pl-2 text-left w-full">
-                                        {{ mf.has_primary_title?.has_name ?? $t('manifestation') + ' ' + (idx + 1) }}
+                                        {{ getManifestationMenuLabel(mf, idx) }}
                                     </button>
 
                                     <ul v-if="Array.isArray(mf.items)">
@@ -653,6 +645,16 @@ function queryScope(q: string) {
 
 function translatedFacetLabel(value: string) {
     return t(value) !== value ? t(value) : value;
+}
+
+function getManifestationMenuLabel(manifestation: any, index: number) {
+    const title = manifestation?.has_record?.has_primary_title?.has_name;
+    if (title) return title;
+
+    const eventType = manifestation?.has_record?.has_event?.[0]?.type;
+    if (eventType) return translatedFacetLabel(eventType);
+
+    return `${t('manifestation')} ${index + 1}`;
 }
 
 const suggestionsForManifestations = computed(() => {
