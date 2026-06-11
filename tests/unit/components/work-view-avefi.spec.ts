@@ -3,6 +3,8 @@ import { defineComponent } from 'vue';
 import { flushPromises, mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import WorkViewCompAVefi from '~/components/views/WorkViewCompAVefi.vue';
+import ManifestationListComp from '~/components/detail/ManifestationListComp.vue';
+import ItemListNewComp from '~/components/detail/ItemListNewComp.vue';
 
 vi.mock('~/composables/useFormKitLoader', () => ({
   useFormKitLoader: () => ({
@@ -21,23 +23,23 @@ function buildModelWithManifestations() {
         },
         manifestations: [
           {
-            handle: 'mf-1',
+            handle: '21.11155/MF-1',
             has_record: {
               has_event: [{ type: 'PremiereEvent' }],
               described_by: { has_issuer_name: 'Issuer A' },
             },
             items: [
-              { handle: 'it-1', has_record: { has_access_status: 'Public' } },
-              { handle: 'it-2', has_record: { has_access_status: 'Restricted' } },
+              { handle: '21.11155/IT-1', has_name: 'Item 1', has_record: { has_access_status: 'Public' } },
+              { handle: '21.11155/IT-2', has_name: 'Item 2', has_record: { has_access_status: 'Restricted' } },
             ],
           },
           {
-            handle: 'mf-2',
+            handle: '21.11155/MF-2',
             has_record: {
               has_event: [{ type: 'RestorationEvent' }],
               described_by: { has_issuer_name: 'Issuer B' },
             },
-            items: [{ handle: 'it-3', has_record: { has_access_status: 'Public' } }],
+            items: [{ handle: '21.11155/IT-3', has_name: 'Item 3', has_record: { has_access_status: 'Public' } }],
           },
         ],
       },
@@ -168,7 +170,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(vm.searchQuery).toContain('Restricted');
     expect(vm.filteredManifestations.length).toBe(1);
     expect(vm.filteredManifestations[0].items.length).toBe(1);
-    expect(vm.filteredManifestations[0].items[0].handle).toBe('it-2');
+    expect(vm.filteredManifestations[0].items[0].handle).toBe('21.11155/IT-2');
   });
 
   test('switches to parts view when manifestations are absent but parts exist', async () => {
@@ -177,6 +179,81 @@ describe('WorkViewCompAVefi interaction contracts', () => {
 
     expect(wrapper.find('#manifestations').exists()).toBe(false);
     expect(wrapper.find('[data-testid="parts-view"]').exists()).toBe(true);
+  });
+
+  test('uses raw manifestation handles for navigation anchors', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const manifestation = buildModelWithManifestations().compound_record._source.manifestations[0];
+
+    expect(vm.getManifestationAnchorId(manifestation, 0)).toBe('21.11155/MF-1');
+    expect(vm.getManifestationAnchorId(manifestation, 0)).not.toBe('manifestation-0-21-11155-MF-1');
+  });
+
+  test('uses raw item handles for navigation anchors', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const item = buildModelWithManifestations().compound_record._source.manifestations[0].items[0];
+
+    expect(vm.getItemAnchorId(item, 0, 0)).toBe('21.11155/IT-1');
+    expect(vm.getItemAnchorId(item, 0, 0)).not.toBe('item-0-0-21-11155-IT-1');
+  });
+
+  test('renders manifestation anchors from raw handles', () => {
+    const wrapper = mount(ManifestationListComp, {
+      props: {
+        modelValue: buildModelWithManifestations().compound_record._source.manifestations,
+      },
+      global: {
+        stubs: {
+          Icon: { template: '<i />' },
+          GlobalTooltipInfo: { template: '<span />' },
+          DetailManifestationHeaderComp: { template: '<h4 />' },
+          DetailItemListNewComp: { template: '<div />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    const sectionIds = wrapper.findAll('section').map(section => section.attributes('id'));
+    expect(sectionIds).toContain('21.11155/MF-1');
+    expect(sectionIds).not.toContain('manifestation-0-21-11155-MF-1');
+  });
+
+  test('renders item anchors from raw handles', () => {
+    vi.stubGlobal('useRuntimeConfig', () => ({ public: { AVEFI_COPY_PID_URL: 'https://pid.example/' } }));
+
+    const wrapper = mount(ItemListNewComp, {
+      props: {
+        items: buildModelWithManifestations().compound_record._source.manifestations[0].items,
+        manifestationIndex: 0,
+      },
+      global: {
+        stubs: {
+          Icon: { template: '<i />' },
+          MicroDividerComp: { template: '<div />' },
+          DetailKeyValueComp: { template: '<div />' },
+          MicroLabelComp: { template: '<span />' },
+          GlobalTooltipInfo: { template: '<span />' },
+          SearchHighlightSingleComp: { template: '<span />' },
+          SearchHighlightListComp: { template: '<span />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    const itemAnchorIds = wrapper.findAll('article > div:first-child > div:last-child')
+      .map(anchor => anchor.attributes('id'));
+    expect(itemAnchorIds).toContain('21.11155/IT-1');
+    expect(itemAnchorIds).not.toContain('item-0-0-21-11155-IT-1');
   });
 
 });

@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { Item, MovingImageRecord } from '~/models/interfaces/schema/avefi_schema.js';
 const { t } = useI18n();
 
@@ -121,15 +121,7 @@ function handleOpenManifestation(event: Event) {
 }
 
 function getManifestationAnchorId(manifestation: Source, index: number) {
-    const slug = slugAnchorPart(manifestation?.handle);
-    return slug ? `manifestation-${index}-${slug}` : `manifestation-${index}`;
-}
-
-function slugAnchorPart(value: unknown) {
-    return String(value ?? '')
-        .trim()
-        .replace(/[^A-Za-z0-9_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
+    return manifestation?.handle?.trim() || `manifestation-${index}`;
 }
 
 function safeT(input: unknown): string {

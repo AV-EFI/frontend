@@ -275,14 +275,6 @@ type ItemHeadingExemplar = {
 };
 
 function getItemAnchorId(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {
-    const slug = slugAnchorPart(exemplar?.handle);
-    return slug ? `item-${props.manifestationIndex}-${itemIndex}-${slug}` : `item-${props.manifestationIndex}-${itemIndex}`;
-}
-
-function slugAnchorPart(value: unknown) {
-    return String(value ?? '')
-        .trim()
-        .replace(/[^A-Za-z0-9_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
+    return exemplar?.handle?.trim() || `item-${props.manifestationIndex}-${itemIndex}`;
 }
 </script>

@@ -852,21 +852,12 @@ function scrollToId(id: string) {
     window.dispatchEvent(new Event('hashchange'));
 }
 
-function slugAnchorPart(value: unknown) {
-    return String(value ?? '')
-        .trim()
-        .replace(/[^A-Za-z0-9_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-
 function getManifestationAnchorId(manifestation: any, index: number) {
-    const slug = slugAnchorPart(manifestation?.handle);
-    return slug ? `manifestation-${index}-${slug}` : `manifestation-${index}`;
+    return manifestation?.handle?.trim() || `manifestation-${index}`;
 }
 
 function getItemAnchorId(item: any, manifestationIndex: number, itemIndex: number) {
-    const slug = slugAnchorPart(item?.handle);
-    return slug ? `item-${manifestationIndex}-${itemIndex}-${slug}` : `item-${manifestationIndex}-${itemIndex}`;
+    return item?.handle?.trim() || `item-${manifestationIndex}-${itemIndex}`;
 }
 
 function findTargetIdForRequestedHandle(handle: string) {
