@@ -29,84 +29,6 @@
             >
                 <li v-for="item in normalizedSameAsData" :key="`${item.category}-${item.id}`" role="none" class="flex flex-row items-center gap-1">
                     <a
-                        v-if="item.category === 'avefi:GNDResource'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <img :src="gndIconPath" alt="GND" class="w-4 h-4 inline" />
-                        <span>&nbsp;{{ $t(item.category) }}</span>
-                    </a>
-
-                    <a
-                        v-else-if="item.category === 'avefi:VIAFResource'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <Icon name="tabler:notebook" size="1em" />
-                        <span>&nbsp;{{ $t(item.category) }}</span>
-                    </a>
-
-                    <a
-                        v-else-if="item.category === 'avefi:WikidataResource'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <Icon name="carbon:notebook-reference" size="1em" />
-                        <span>&nbsp;{{ $t(item.category) }}</span>
-                    </a>
-
-                    <a
-                        v-else-if="item.category === 'avefi:FilmportalResource'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <img src="https://www.filmportal.de/themes/custom/filmportal/favicon.ico" alt="Filmportal" class="w-4 h-4 inline" />
-                        <span>&nbsp;{{ $t(item.category) }}</span>
-                    </a>
-
-                    <a
-                        v-else-if="item.category === 'avefi:DOIResource'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <Icon name="carbon:notebook-reference" size="1em" />
-                        <span>&nbsp;{{ $t(item.category) }}</span>
-                    </a>
-
-                    <a
-                        v-else-if="item.category === 'avefi:EIDRResource'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <Icon name="tabler:notebook" size="1em" />
-                        <span>&nbsp;{{ $t(item.category) }}</span>
-                    </a>
-                    <a
-                        v-else-if="item.category === 'avefi:TGNResource'"
                         role="menuitem"
                         tabindex="0"
                         :href="getNormdataUrl(item.category, item.id)"
@@ -116,21 +38,6 @@
                     >
                         <span>{{ getSameAsLabel(item) }}</span>
                     </a>
-                    <a
-                        v-else-if="item.category === 'avefi:URL'"
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <Icon name="carbon:notebook-reference" size="1em" aria-hidden="true" />
-                        <span>&nbsp;{{ getSameAsLabel(item) }}</span>
-                    </a>
-                    <span v-else role="menuitem" tabindex="0" class="min-w-0 flex-1 opacity-70">
-                        Unbekannte Referenz: {{ $t(item.category) }}                    
-                    </span>
 
                     <button
                         type="button"
@@ -159,7 +66,7 @@ const props = defineProps({
 
 const { getNormdataUrl } = useNormdataUrl();
 const clipboard = useClipboardUtil();
-const gndIconPath = '/img/gnd.ico';
+const { t, te } = useI18n();
 
 const normalizedSameAsData = computed(() => {
     const items = Array.isArray(props.sameAsData) ? props.sameAsData : [];
@@ -243,9 +150,8 @@ function copySameAsUrl(item: any) {
 }
 
 function getSameAsLabel(item: any): string {
-    if (item?.category === 'avefi:TGNResource') return 'TGN';
-    if (item?.category === 'avefi:URL') return 'URL';
-    return String(useNuxtApp().$i18n.t(item?.category || ''));
+    const category = String(item?.category || '');
+    return category && te(category) ? t(category) : category;
 }
 
 function onTriggerKeydown(e: KeyboardEvent) {

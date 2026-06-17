@@ -35,6 +35,16 @@
                             {{ row.text }}
                         </a>
 
+                        <SearchClickableFacetValue
+                            v-else-if="facetAttribute"
+                            :attribute="facetAttribute"
+                            :value="row.text"
+                            :label="row.text"
+                            class="text-sm"
+                        >
+                            {{ row.text }}
+                        </SearchClickableFacetValue>
+
                         <p v-else class="text-sm text-base-content break-words" :title="row.title ?? row.text">
                             {{ row.text }}
                         </p>
@@ -103,6 +113,7 @@ const props = defineProps<{
     sameAsType: "person" | "place" | "subject" | "genre" | "work" | "manifestation" | "item" | string;
     showCount?: boolean;
     initialVisible?: number;
+    facetAttribute?: string;
 }>();
 
 const expanded = ref(false);

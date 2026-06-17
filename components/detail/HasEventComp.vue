@@ -14,17 +14,19 @@
                     <!-- ===================== META ===================== -->
                     <section v-if="entry.hasMeta" class="w-full space-y-2" :aria-label="$t('eventCategory')">
                         <DetailKeyValueComp v-if="entry.showType && entry.raw?.type" keytxt="manifestation_event_type"
-                                            class="w-full dark:text-white" :valtxt="$t(entry.raw.type)"
+                                            class="w-full dark:text-white" :valtxt="entry.raw.type"
+                                            facet-attribute="manifestation_event_type"
                                             :aria-label="$t('eventCategory') + ': ' + $t(entry.raw.type)" :clip="false" />
 
                         <div class="flex flex-row flex-wrap gap-2">
                             <DetailKeyValueListComp v-if="entry.raw?.located_in" keytxt="place"
                                                     class="w-full lg:w-[calc(50%-0.25rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.located_in"
                                                     :aria-label="$t('place') + ': ' + entry.raw.located_in" :clip="false" :ul="true" :same-as="true"
-                                                    :narrow="true" />
+                                                    :narrow="true" facet-attribute="located_in_has_name" />
 
                             <DetailKeyValueComp v-if="entry.raw?.has_date" keytxt="productionyear"
                                                 class="w-full lg:w-[calc(50%-0.25rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.has_date"
+                                                facet-attribute="productionyear"
                                                 :aria-label="$t('productionyear') + ': ' + entry.raw.has_date" :clip="false" />
                         </div>
                     </section>
@@ -56,14 +58,19 @@
                                         <div class="flex items-center justify-between gap-2 rounded-lg px-2 py-2
                      hover:bg-primary-50 focus-within:bg-primary-50
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
-                                            <span class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300">
+                                            <SearchClickableFacetValue
+                                                class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300"
+                                                attribute="creators"
+                                                :value="agent?.has_name ?? ''"
+                                                :label="agent?.has_name ?? ''"
+                                            >
                                                 {{ agent?.has_name ?? '' }}
                                                 <MicroDataQualityWarningIcon
                                                     v-if="getSuspiciousAgentNamePattern(agent?.has_name)"
                                                     class="ml-1"
                                                     :label="dataQualityWarningLabel(agent?.has_name)"
                                                 />
-                                            </span>
+                                            </SearchClickableFacetValue>
 
                                             <DetailSameAsComp v-if="agent?.same_as" :same-as-data="agent.same_as" type="person"
                                                               :aria-label="$t('sameAs')" text="sm"
@@ -103,14 +110,19 @@
                                         <div class="flex items-center justify-between gap-2 rounded-lg px-2 py-2
                      hover:bg-primary-50 focus-within:bg-primary-50
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
-                                            <span class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300">
+                                            <SearchClickableFacetValue
+                                                class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300"
+                                                attribute="castmembers"
+                                                :value="agent?.has_name ?? ''"
+                                                :label="agent?.has_name ?? ''"
+                                            >
                                                 {{ agent?.has_name ?? '' }}
                                                 <MicroDataQualityWarningIcon
                                                     v-if="getSuspiciousAgentNamePattern(agent?.has_name)"
                                                     class="ml-1"
                                                     :label="dataQualityWarningLabel(agent?.has_name)"
                                                 />
-                                            </span>
+                                            </SearchClickableFacetValue>
 
                                             <DetailSameAsComp v-if="agent?.same_as" :same-as-data="agent.same_as" type="person"
                                                               :aria-label="$t('sameAs')" text="sm"

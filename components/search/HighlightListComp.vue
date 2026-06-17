@@ -20,7 +20,17 @@
                 }"
                 class="w-full overflow-hidden text-ellipsis"
             >
-                {{ $t(item) }}
+                <SearchClickableFacetValue
+                    v-if="facetAttribute"
+                    :attribute="facetAttribute"
+                    :value="facetValueForItem(index, item)"
+                    :label="$t(item)"
+                >
+                    {{ $t(item) }}
+                </SearchClickableFacetValue>
+                <template v-else>
+                    {{ $t(item) }}
+                </template>
                 <span
                     v-if="ishiliteed(item)"
                     class="badge-highlight-xs"
@@ -49,23 +59,19 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    items: {
-        type: Array,
-        required: true,
-        validator: (value) =>
-            Array.isArray(value) && value.every((item) => typeof item === "string"),
-    },
-    hilite: {
-        type: [String, Array],
-        required: false,
-        default: null,
-    },
-    fontSize: {
-        type: String,
-        required: false,
-        default: "text-sm",
-    },
+import { ref } from 'vue';
+
+const props = withDefaults(defineProps<{
+    items: string[];
+    hilite?: string | string[] | null;
+    fontSize?: string;
+    facetAttribute?: string;
+    facetValues?: string[];
+}>(), {
+    hilite: null,
+    fontSize: 'text-sm',
+    facetAttribute: '',
+    facetValues: () => [],
 });
 
 const showAll = ref(false);
@@ -74,7 +80,7 @@ function toggleShowAll() {
     showAll.value = !showAll.value;
 }
 
-function reorderItems(items) {
+function reorderItems(items: string[]) {
     if (!props.hilite) {
         return items;
     }
@@ -83,7 +89,12 @@ function reorderItems(items) {
     return [...hiliteedItems, ...nonHiliteedItems];
 }
 
-function ishiliteed(item) {
+function facetValueForItem(index: number, item: string) {
+    const value = props.facetValues?.[index];
+    return typeof value === 'string' && value.trim() ? value : item;
+}
+
+function ishiliteed(item: string) {
     if (!props.hilite) return false;
     const hilites = Array.isArray(props.hilite) ? props.hilite : [props.hilite];
     return hilites.some((hilite) => item.includes(hilite));

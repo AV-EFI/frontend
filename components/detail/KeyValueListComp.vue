@@ -31,7 +31,18 @@
                     v-else
                     class="grow h-8 flex items-start leading-5 text-xs"
                 >
-                    {{ valtxt.map(v => v?.has_name ?? $t(v)).join(', ') }}
+                    <template v-for="(val, index) in valtxt" :key="getValueKey(val)">
+                        <span v-if="index > 0">, </span>
+                        <SearchClickableFacetValue
+                            v-if="facetAttribute && facetValueFrom(val)"
+                            :attribute="facetAttribute"
+                            :value="facetValueFrom(val)"
+                            :label="displayTextFrom(val)"
+                        >
+                            {{ displayTextFrom(val) }}
+                        </SearchClickableFacetValue>
+                        <span v-else>{{ displayTextFrom(val) }}</span>
+                    </template>
                 </span>
 
                 <!-- SAME AS -->
@@ -71,11 +82,23 @@
                             class="flex flex-row items-start justify-between min-h-6 leading-5 hover:bg-gray-100 dark:hover:bg-gray-700"
                             :class="fontSize"
                         >
-                            <span
+                            <SearchClickableFacetValue
+                                v-if="facetAttribute && facetValueFrom(val)"
+                                :attribute="facetAttribute"
+                                :value="facetValueFrom(val)"
+                                :label="displayTextFrom(val)"
                                 class="grow flex items-start leading-5"
                                 :class="[narrow ? 'w-3/4' : '']"
                             >
-                                {{ val?.has_name ?? $t(val) }}
+                                {{ displayTextFrom(val) }}
+                            </SearchClickableFacetValue>
+
+                            <span
+                                v-else
+                                class="grow flex items-start leading-5"
+                                :class="[narrow ? 'w-3/4' : '']"
+                            >
+                                {{ displayTextFrom(val) }}
                             </span>
 
                             <DetailSameAsComp
@@ -149,25 +172,55 @@ const props = defineProps({
     narrow: {
         type: Boolean,
         default: false
+    },
+    facetAttribute: {
+        type: String,
+        default: ''
     }
 });
 
-function getValueKey(value: any): string {
-    if (!value || typeof value !== 'object') return String(value);
+type SameAsRef = {
+    category?: string;
+    id?: string;
+};
 
-    const sameAsKey = Array.isArray(value.same_as)
-        ? value.same_as
-            .map((sameAs: any) => `${sameAs?.category || ''}:${sameAs?.id || ''}`)
+type DisplayValue = {
+    has_name?: string;
+    category?: string;
+    same_as?: SameAsRef[];
+};
+
+function isDisplayValue(value: unknown): value is DisplayValue {
+    return Boolean(value && typeof value === 'object');
+}
+
+function getValueKey(value: unknown): string {
+    if (!value || typeof value !== 'object') return String(value);
+    const displayValue = value as DisplayValue;
+
+    const sameAsKey = Array.isArray(displayValue.same_as)
+        ? displayValue.same_as
+            .map((sameAs) => `${sameAs?.category || ''}:${sameAs?.id || ''}`)
             .filter(Boolean)
             .sort()
             .join('|')
         : '';
 
     return [
-        value.has_name || '',
-        value.category || '',
+        displayValue.has_name || '',
+        displayValue.category || '',
         sameAsKey
     ].join('::');
+}
+
+function displayTextFrom(value: unknown): string {
+    if (isDisplayValue(value) && typeof value.has_name === 'string') return value.has_name;
+    return String(value ?? '');
+}
+
+function facetValueFrom(value: unknown): string {
+    if (isDisplayValue(value) && typeof value.has_name === 'string') return value.has_name.trim();
+    return (typeof value === 'string' ? value : '').trim();
 }
 
 const displayValues = computed(() => {

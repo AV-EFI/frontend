@@ -1,6 +1,17 @@
 <template>
     <div v-if="item">
+        <SearchClickableFacetValue
+            v-if="facetAttribute"
+            :attribute="facetAttribute"
+            :value="item"
+            :label="$t(item)"
+            :class="{ 'bg-secondary-200 font-bold dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
+        >
+            {{ $t(item) }}
+        </SearchClickableFacetValue>
+
         <p
+            v-else
             :class="{ 'bg-secondary-200 font-bold dark:text-secondary-900': ishiliteed(item), [fontSize]: true }"
             role="text"
             :aria-label="$t(item)"
@@ -14,26 +25,20 @@
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
-    item: {
-        type: String,
-        required: false,
-        default: null,
-    },
-    hilite: {
-        type: [String, Array],
-        required: false,
-        default: null,
-    },
-    fontSize: {
-        type: String,
-        required: false,
-        default: "text-sm",
-    },
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+    item?: string | null;
+    hilite?: string | string[] | null;
+    fontSize?: string;
+    facetAttribute?: string;
+}>(), {
+    item: null,
+    hilite: null,
+    fontSize: 'text-sm',
+    facetAttribute: '',
 });
 
-function ishiliteed(item) {
+function ishiliteed(item: string) {
     if (!props.hilite) return false;
     const hilites = Array.isArray(props.hilite) ? props.hilite : [props.hilite];
     return hilites.includes(item);

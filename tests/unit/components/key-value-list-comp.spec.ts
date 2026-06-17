@@ -22,6 +22,7 @@ describe('KeyValueListComp', () => {
           },
           DetailSameAsComp: { template: '<div />' },
           GlobalClipboardComp: { template: '<span />' },
+          SearchClickableFacetValue: { template: '<button><slot /></button>' },
         },
         mocks: {
           $t: (key: string) => key,
@@ -71,6 +72,7 @@ describe('KeyValueListComp', () => {
             template: '<div data-testid="same-as">{{ sameAsData.map((item) => item.category).join(",") }}</div>',
           },
           GlobalClipboardComp: { template: '<span />' },
+          SearchClickableFacetValue: { template: '<button><slot /></button>' },
         },
         mocks: {
           $t: (key: string) => key,

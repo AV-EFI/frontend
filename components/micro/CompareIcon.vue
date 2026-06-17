@@ -10,6 +10,6 @@ defineProps({
     <Icon
         :alt="alt"
         :aria-label="alt"
-        name="material-symbols:compare"
+        name="tabler:git-compare"
     />
 </template>

@@ -24,7 +24,15 @@
                         <span :id="entryContentId(entry)" :class="primaryValueClasses">
                             <template v-if="Array.isArray(entry.text)">
                                 <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
-                                    <span>{{ segment.text }}</span>
+                                    <SearchClickableFacetValue
+                                        v-if="facetAttributeForEntry(entry)"
+                                        :attribute="facetAttributeForEntry(entry)"
+                                        :value="facetValueForSegment(segment)"
+                                        :label="segment.text"
+                                    >
+                                        {{ segment.text }}
+                                    </SearchClickableFacetValue>
+                                    <span v-else>{{ segment.text }}</span>
                                     <MicroDataQualityWarningIcon
                                         v-if="shouldWarnSegment(entry, segment)"
                                         class="ml-1"
@@ -37,7 +45,16 @@
                             </template>
 
                             <template v-else>
-                                <span :class="singleValueClasses">{{ entry.text }}</span>
+                                <SearchClickableFacetValue
+                                    v-if="facetAttributeForEntry(entry)"
+                                    :attribute="facetAttributeForEntry(entry)"
+                                    :value="entry.text"
+                                    :label="entry.text"
+                                    :class="singleValueClasses"
+                                >
+                                    {{ entry.text }}
+                                </SearchClickableFacetValue>
+                                <span v-else :class="singleValueClasses">{{ entry.text }}</span>
                             </template>
                         </span>
 
@@ -78,7 +95,16 @@
                         <span :id="entryContentId(entry)" :class="valueBlockClasses">
                             <template v-if="Array.isArray(entry.text)">
                                 <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
-                                    <span :class="segmentClasses(entry)">
+                                    <SearchClickableFacetValue
+                                        v-if="facetAttributeForEntry(entry)"
+                                        :attribute="facetAttributeForEntry(entry)"
+                                        :value="facetValueForSegment(segment)"
+                                        :label="segment.text"
+                                        :class="segmentClasses(entry)"
+                                    >
+                                        {{ segment.text }}
+                                    </SearchClickableFacetValue>
+                                    <span v-else :class="segmentClasses(entry)">
                                         {{ segment.text }}
                                     </span>
                                     <MicroDataQualityWarningIcon
@@ -93,7 +119,16 @@
                             </template>
 
                             <template v-else>
-                                <span :class="singleValueClasses">
+                                <SearchClickableFacetValue
+                                    v-if="facetAttributeForEntry(entry)"
+                                    :attribute="facetAttributeForEntry(entry)"
+                                    :value="entry.text"
+                                    :label="entry.text"
+                                    :class="singleValueClasses"
+                                >
+                                    {{ entry.text }}
+                                </SearchClickableFacetValue>
+                                <span v-else :class="singleValueClasses">
                                     {{ entry.text }}
                                 </span>
                             </template>
@@ -136,7 +171,16 @@
                         <span :id="entryContentId(entry)" :class="valueBlockClasses">
                             <template v-if="Array.isArray(entry.text)">
                                 <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
-                                    <span :class="segmentClasses(entry)">
+                                    <SearchClickableFacetValue
+                                        v-if="facetAttributeForEntry(entry)"
+                                        :attribute="facetAttributeForEntry(entry)"
+                                        :value="facetValueForSegment(segment)"
+                                        :label="segment.text"
+                                        :class="segmentClasses(entry)"
+                                    >
+                                        {{ segment.text }}
+                                    </SearchClickableFacetValue>
+                                    <span v-else :class="segmentClasses(entry)">
                                         {{ segment.text }}
                                     </span>
                                     <MicroDataQualityWarningIcon
@@ -151,7 +195,16 @@
                             </template>
 
                             <template v-else>
-                                <span :class="singleValueClasses">
+                                <SearchClickableFacetValue
+                                    v-if="facetAttributeForEntry(entry)"
+                                    :attribute="facetAttributeForEntry(entry)"
+                                    :value="entry.text"
+                                    :label="entry.text"
+                                    :class="singleValueClasses"
+                                >
+                                    {{ entry.text }}
+                                </SearchClickableFacetValue>
+                                <span v-else :class="singleValueClasses">
                                     {{ entry.text }}
                                 </span>
                             </template>
@@ -195,7 +248,16 @@
                         <span :id="entryContentId(entry)" :class="volatileValueBlockClasses">
                             <template v-if="Array.isArray(entry.text)">
                                 <template v-for="(segment, i) in visibleSegments(entry)" :key="i">
-                                    <span :class="segmentClasses(entry)">
+                                    <SearchClickableFacetValue
+                                        v-if="facetAttributeForEntry(entry)"
+                                        :attribute="facetAttributeForEntry(entry)"
+                                        :value="facetValueForSegment(segment)"
+                                        :label="segment.text"
+                                        :class="segmentClasses(entry)"
+                                    >
+                                        {{ segment.text }}
+                                    </SearchClickableFacetValue>
+                                    <span v-else :class="segmentClasses(entry)">
                                         {{ segment.text }}
                                     </span>
                                     <MicroDataQualityWarningIcon
@@ -210,7 +272,16 @@
                             </template>
 
                             <template v-else>
-                                <span :class="singleValueClasses">
+                                <SearchClickableFacetValue
+                                    v-if="facetAttributeForEntry(entry)"
+                                    :attribute="facetAttributeForEntry(entry)"
+                                    :value="entry.text"
+                                    :label="entry.text"
+                                    :class="singleValueClasses"
+                                >
+                                    {{ entry.text }}
+                                </SearchClickableFacetValue>
+                                <span v-else :class="singleValueClasses">
                                     {{ entry.text }}
                                 </span>
                             </template>
@@ -239,6 +310,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
 import { getSuspiciousAgentNamePattern, isWhitespaceCommaOnlyText } from '~/utils/agentQuality';
+import { config as searchkitConfig } from '~/searchConfig_avefi';
 const { t } = useI18n();
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
@@ -407,6 +479,61 @@ function visibleSegments(entry: { key: string; text: any }) {
 
 const iconFor = (key: string) => getFacetIcon(key, 'tabler-info-circle');
 
+type IconSegment = {
+    text: string
+    hilite: boolean
+    facetValue?: string
+};
+
+type IconEntry = {
+    key: string
+    icon: string
+    text: IconSegment[] | string
+    aria: string
+};
+
+const facetAttributeByEntryKey: Record<string, string> = {
+    located_in: 'located_in_has_name',
+    creators: 'creators',
+    form: 'has_form',
+    production: 'production',
+    genre: 'has_genre_has_name',
+    subject: 'subjects',
+    eventType: 'manifestation_event_type',
+    mfPlace: 'located_in_has_name',
+    accessStatus: 'has_access_status',
+    format: 'has_format_type',
+    elementType: 'item_element_type',
+    lang: 'in_language_code',
+    sound: 'has_sound_type',
+    colour: 'has_colour_type',
+    duration: 'has_duration_has_value',
+    extent: 'has_extent_has_value',
+};
+
+const configuredFacetAttributes = new Set(
+    ((searchkitConfig as any)?.search_settings?.facet_attributes || [])
+        .map((facet: any) => facet?.attribute)
+        .filter((attribute: unknown): attribute is string => typeof attribute === 'string' && attribute.length > 0)
+);
+
+function segment(text: unknown, facetValue: unknown = text): IconSegment {
+    return {
+        text: String(text ?? '').trim(),
+        facetValue: String(facetValue ?? '').trim(),
+        hilite: false,
+    };
+}
+
+function facetAttributeForEntry(entry: { key: string }) {
+    const attribute = facetAttributeByEntryKey[entry.key] || '';
+    return configuredFacetAttributes.has(attribute) ? attribute : '';
+}
+
+function facetValueForSegment(segmentValue: { text: unknown; facetValue?: unknown }) {
+    return String(segmentValue.facetValue ?? segmentValue.text ?? '').trim();
+}
+
 /* helpers */
 function formatDuration(has_value: string): string {
     try {
@@ -420,7 +547,7 @@ const asArray = (x:any) => (Array.isArray(x) ? x : (x ? [x] : []));
 function buildIconEntries() {
     const d = props.data;
     const level = props.level;
-    const entries: { key: string; icon: string; text: any; aria: string }[] = [];
+    const entries: IconEntry[] = [];
 
     /* ---------- WORK ---------- */
     if (level === 'work') {
@@ -429,7 +556,7 @@ function buildIconEntries() {
         const locs = workEvents.flatMap((ev: any) => asArray(ev?.located_in));
         const locTexts = locs.map((loc: any) => {
             const label = getLocalizedPlaceLabel(loc) || loc?.same_as?.id || (loc?.same_as?.category ? t(loc.same_as.category) : (loc?.category ? t(loc.category) : ''));
-            return { text: label || '', hilite: false };
+            return segment(label || '');
         }).filter(l => l.text);
         if (locTexts.length) {
             entries.push({
@@ -446,7 +573,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'years',
                 icon: iconFor('years'),
-                text: years.map((y: string) => ({ text: y, hilite: false })),
+                text: years.map((y: string) => segment(y)),
                 aria: t('years') + ': ' + years.join(', ')
             });
         } else if (d?.production_in_year) {
@@ -466,7 +593,7 @@ function buildIconEntries() {
                 entries.push({
                     key: 'years',
                     icon: iconFor('years'),
-                    text: [{ text: label, hilite: false }],
+                    text: [segment(label)],
                     aria: t('productionyears') + ': ' + label
                 });
             }
@@ -478,20 +605,25 @@ function buildIconEntries() {
             entries.push({
                 key: 'creators',
                 icon: iconFor('creators'),
-                text: creators.map((creator: string) => ({ text: creator, hilite: false })),
+                text: creators.map((creator: string) => segment(creator)),
                 aria: t('creators') + ': ' + creators.join(', ')
             });
         }
 
         // Form (Gattung)
         const forms = asArray(d?.has_record?.has_form);
-        const formLabels = forms.map((f:any) => (typeof f === 'string' ? t(f) : (f?.has_name ? t(f.has_name) : ''))).filter(Boolean);
+        const formLabels = forms
+            .map((f:any) => {
+                const raw = typeof f === 'string' ? f : (f?.has_name ?? '');
+                return raw ? segment(t(raw), raw) : null;
+            })
+            .filter(Boolean) as IconSegment[];
         if (formLabels.length) {
             entries.push({
                 key: 'form',
                 icon: iconFor('form'),
-                text: formLabels.map((s:string) => ({ text: s, hilite: false })),
-                aria: t('has_form') + ': ' + formLabels.join(', ')
+                text: formLabels,
+                aria: t('has_form') + ': ' + formLabels.map(item => item.text).join(', ')
             });
         }
 
@@ -504,7 +636,7 @@ function buildIconEntries() {
                 entries.push({
                     key: 'episode',
                     icon: iconFor('episode'),
-                    text: [{ text: label, hilite: false }],
+                    text: [segment(label)],
                     aria: t('is_part_of') + ': ' + label
                 });
             }
@@ -516,7 +648,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'prod_events',
                 icon: iconFor('prod_events'),
-                text: evTypeLabels.map((tp:string) => ({ text: t(tp), hilite: false })),
+                text: evTypeLabels.map((tp:string) => segment(t(tp), tp)),
                 aria: t('has_event') + ': ' + evTypeLabels.map((tp:string) => t(tp)).join(', ')
             });
         }
@@ -528,20 +660,25 @@ function buildIconEntries() {
             entries.push({
                 key: 'production',
                 icon: iconFor('production'),
-                text: productionNames.map((name: string) => ({ text: name, hilite: false })),
+                text: productionNames.map((name: string) => segment(name)),
                 aria: t('production') + ': ' + productionNames.join(', ')
             });
         }
 
         // Genre
         const genres = asArray(d?.has_record?.has_genre);
-        const gLabels = genres.map((g:any) => (g?.has_name ? t(g.has_name) : t(g))).filter(Boolean);
+        const gLabels = genres
+            .map((g:any) => {
+                const raw = g?.has_name ? g.has_name : g;
+                return raw ? segment(t(raw), raw) : null;
+            })
+            .filter(Boolean) as IconSegment[];
         if (gLabels.length) {
             entries.push({
                 key: 'genre',
                 icon: iconFor('genre'),
-                text: gLabels.map((x:string) => ({ text: x, hilite: false })),
-                aria: t('has_genre') + ': ' + gLabels.join(', ')
+                text: gLabels,
+                aria: t('has_genre') + ': ' + gLabels.map(item => item.text).join(', ')
             });
         }
 
@@ -552,7 +689,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'subject',
                 icon: iconFor('subject'),
-                text: sLabels.map((x:string) => ({ text: x, hilite: false })),
+                text: sLabels.map((x:string) => segment(x)),
                 aria: t('subjects') + ': ' + sLabels.join(', ')
             });
         }
@@ -583,7 +720,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'eventType',
                 icon: iconFor('eventType'),
-                text: evTypes.map((tp:string) => ({ text: t(tp), hilite: false })),
+                text: evTypes.map((tp:string) => segment(t(tp), tp)),
                 // aria label in DE to match your spec name:
                 aria: 'Manifestationstyp: ' + evTypes.map((e:string) => t(e)).join(', ')
             });
@@ -595,7 +732,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'mfYear',
                 icon: iconFor('mfYear'),
-                text: evYears.map((y:string) => ({ text: String(y), hilite: false })),
+                text: evYears.map((y:string) => segment(String(y))),
                 aria: 'Jahresangabe (Manifestationstyp): ' + evYears.join(', ')
             });
         }
@@ -610,7 +747,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'mfPlace',
                 icon: iconFor('mfPlace'),
-                text: evPlaces.map((p:string) => ({ text: p, hilite: false })),
+                text: evPlaces.map((p:string) => segment(p)),
                 aria: 'Ortsangabe (Manifestationsereignis): ' + evPlaces.join(', ')
             });
         }
@@ -624,7 +761,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'accessStatus',
                 icon: iconFor('accessStatus'),
-                text: [{ text: t(hasAccessStatus), hilite: false }],
+                text: [segment(t(hasAccessStatus), hasAccessStatus)],
                 aria: t('has_access_status') + ': ' + t(hasAccessStatus)
             });
         }
@@ -636,7 +773,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'format',
                 icon: iconFor('format'),
-                text: formats.map((f:string) => ({ text: t(f), hilite: false })),
+                text: formats.map((f:string) => segment(t(f), f)),
                 aria: t('has_format') + ': ' + formats.map((f:string) => t(f)).join(', ')
             });
         }
@@ -647,7 +784,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'elementType',
                 icon: iconFor('elementType'),
-                text: [{ text: t(elementType), hilite: false }],
+                text: [segment(t(elementType), elementType)],
                 aria: t('item_element_type') + ': ' + t(elementType)
             });
         }
@@ -659,14 +796,14 @@ function buildIconEntries() {
             const usage = l?.usage;
             const codeLabel = code ? t(code) : '';
             const usageLabel = Array.isArray(usage) && usage.length ? ` (${usage.map((u:string) => t(u)).join(', ')})` : (usage ? ` (${t(usage)})` : '');
-            return (codeLabel + usageLabel).trim();
+            return { code, label: (codeLabel + usageLabel).trim() };
         }).filter(Boolean);
         if (langsArr.length) {
             entries.push({
                 key: 'lang',
                 icon: iconFor('lang'),
-                text: langsArr.map((x:string) => ({ text: x, hilite: false })),
-                aria: t('in_language') + ': ' + langsArr.join(', ')
+                text: langsArr.map((lang: { code: string; label: string }) => segment(lang.label, lang.code)),
+                aria: t('in_language') + ': ' + langsArr.map((lang: { label: string }) => lang.label).join(', ')
             });
         }
 
@@ -677,7 +814,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'sound',
                 icon: sx.includes('silent') ? 'tabler-volume-off' : iconFor('sound'),
-                text: [{ text: t(sound), hilite: false }],
+                text: [segment(t(sound), sound)],
                 aria: t('has_sound_type') + ': ' + t(sound)
             });
         }
@@ -688,7 +825,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'colour',
                 icon: iconFor('colour'),
-                text: [{ text: t(colour), hilite: false }],
+                text: [segment(t(colour), colour)],
                 aria: t('has_colour_type') + ': ' + t(colour)
             });
         }
@@ -697,7 +834,7 @@ function buildIconEntries() {
         const rawDuration = d?.has_record?.has_duration?.has_value || d?.has_duration?.has_value;
         if (rawDuration) {
             const dur = formatDuration(rawDuration);
-            entries.push({ key: 'duration', icon: iconFor('duration'), text: [{ text: dur, hilite: false }], aria: t('duration') + ': ' + dur });
+            entries.push({ key: 'duration', icon: iconFor('duration'), text: [segment(dur, rawDuration)], aria: t('duration') + ': ' + dur });
         }
 
         // Länge/Größe
@@ -705,7 +842,7 @@ function buildIconEntries() {
         const extentUnit = d?.has_record?.has_extent?.has_unit || d?.has_extent?.has_unit;
         if (extentVal) {
             const label = `${extentVal} ${extentUnit ? t(extentUnit) : ''}`.trim();
-            entries.push({ key: 'extent', icon: iconFor('extent'), text: [{ text: label, hilite: false }], aria: t('avefi:Extent') + ': ' + label });
+            entries.push({ key: 'extent', icon: iconFor('extent'), text: [segment(label, extentVal)], aria: t('avefi:Extent') + ': ' + label });
         }
 
         // BPS (frame rate)
@@ -714,7 +851,7 @@ function buildIconEntries() {
             entries.push({
                 key: 'fps',
                 icon: iconFor('fps'),
-                text: [{ text: String(fps), hilite: false }],
+                text: [segment(String(fps))],
                 aria: t('has_frame_rate') + ': ' + String(fps)
             });
         }

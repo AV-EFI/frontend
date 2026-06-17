@@ -23,6 +23,17 @@
                 />
 
                 <!-- TEXT MODE -->
+                <SearchClickableFacetValue
+                    v-else-if="facetAttribute"
+                    :attribute="facetAttribute"
+                    :value="facetValue || valtxt"
+                    :label="$t(valtxt)"
+                    class="min-w-0 grow leading-5"
+                    :class="[narrow ? 'break-all w-3/4' : '']"
+                >
+                    {{ $t(valtxt) }}
+                </SearchClickableFacetValue>
+
                 <span
                     v-else
                     class="min-w-0 grow leading-5"
@@ -83,6 +94,14 @@ const props = defineProps({
     translateKey: {
         type: Boolean,
         default: true
+    },
+    facetAttribute: {
+        type: String,
+        default: ''
+    },
+    facetValue: {
+        type: String,
+        default: ''
     }
 });
 

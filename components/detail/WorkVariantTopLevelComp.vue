@@ -44,22 +44,20 @@
                     <div
                         v-for="sas in workVar.same_as"
                         :key="sas?.id"
-                        class="col-span-full flex flex-col"
+                        class="col-span-full"
                         role="group"
                         :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
                     >
-                        <div class="h-4 flex items-center">
-                            <MicroLabelComp :label-text="sas?.category" />
-                        </div>
-                        <div class="mt-1 flex min-h-8 items-start gap-2 leading-5">
-                            <span class="min-w-0 grow leading-5">
-                                {{ sas?.id }}
-                            </span>
-                            <DetailSameAsComp
-                                :same-as-data="[sas]"
-                                class="shrink-0"
-                            />
-                        </div>
+                        <DetailKeyValueComp
+                            :keytxt="sas?.category"
+                            :valtxt="sas?.id"
+                            :same-as="true"
+                            :show-same-as-link="true"
+                            :clip="false"
+                            font-size="text-sm"
+                            :translate-key="true"
+                            :narrow="true"
+                        />
                     </div>
                 </div>
 

@@ -40,6 +40,7 @@
                     <SearchHighlightSingleComp
                         :item="exemplar?.has_record?.has_access_status || null"
                         :hitlite="highlightResult?.manifestations?.items?.has_record?.has_access_status?.matchedWords"
+                        facet-attribute="has_access_status"
                         class="text-sm"
                     />
                 </div>
@@ -57,6 +58,7 @@
                     <SearchHighlightListComp
                         :items="(exemplar?.has_record?.has_format || []).map(f => f?.type).filter(Boolean)"
                         :hilite="highlightResult?.manifestations?.items?.has_record?.has_format?.type?.matchedWords"
+                        facet-attribute="has_format_type"
                         class="text-sm"
                     />
                 </div>
@@ -74,6 +76,7 @@
                     <SearchHighlightSingleComp
                         :item="exemplar?.has_record?.element_type || null"
                         :hitlite="highlightResult?.manifestations?.items?.has_record?.element_type?.matchedWords"
+                        facet-attribute="item_element_type"
                         class="text-sm"
                     />
                 </div>
@@ -86,7 +89,9 @@
                     </span>
                     <SearchHighlightListComp
                         :items="formatItemLanguages(exemplar?.has_record?.in_language)"
+                        :facet-values="formatItemLanguageCodes(exemplar?.has_record?.in_language)"
                         :hilite="highlightResult?.manifestations?.items?.has_record?.in_language?.code?.matchedWords"
+                        facet-attribute="in_language_code"
                         class="text-sm"
                     />
                 </div>
@@ -97,9 +102,16 @@
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_sound_type" />
                     </span>
-                    <p class="text-sm font-normal">
-                        {{ exemplar?.has_record?.has_sound_type ? translateKey(exemplar.has_record.has_sound_type) : '-' }}
-                    </p>
+                    <SearchClickableFacetValue
+                        v-if="exemplar?.has_record?.has_sound_type"
+                        attribute="has_sound_type"
+                        :value="exemplar.has_record.has_sound_type"
+                        :label="translateKey(exemplar.has_record.has_sound_type)"
+                        class="text-sm font-normal"
+                    >
+                        {{ translateKey(exemplar.has_record.has_sound_type) }}
+                    </SearchClickableFacetValue>
+                    <p v-else class="text-sm font-normal">-</p>
                 </div>
             </div>
 
@@ -108,9 +120,16 @@
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
                         <MicroLabelComp label-text="has_colour_type" />
                     </span>
-                    <p class="text-sm font-normal">
-                        {{ exemplar?.has_record?.has_colour_type ? translateKey(exemplar.has_record.has_colour_type) : '-' }}
-                    </p>
+                    <SearchClickableFacetValue
+                        v-if="exemplar?.has_record?.has_colour_type"
+                        attribute="has_colour_type"
+                        :value="exemplar.has_record.has_colour_type"
+                        :label="translateKey(exemplar.has_record.has_colour_type)"
+                        class="text-sm font-normal"
+                    >
+                        {{ translateKey(exemplar.has_record.has_colour_type) }}
+                    </SearchClickableFacetValue>
+                    <p v-else class="text-sm font-normal">-</p>
                 </div>
             </div>
 
@@ -260,6 +279,14 @@ function formatItemLanguages(languages: unknown) {
             if (!code) return '';
             return `${code}${formatUsageList(language?.usage)}`;
         })
+        .filter(Boolean);
+}
+
+function formatItemLanguageCodes(languages: unknown) {
+    if (!Array.isArray(languages)) return [];
+
+    return languages
+        .map((language) => (typeof language?.code === 'string' ? language.code : ''))
         .filter(Boolean);
 }
 

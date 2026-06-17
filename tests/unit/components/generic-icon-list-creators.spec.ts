@@ -24,6 +24,10 @@ function mountList(data: Record<string, unknown>) {
       stubs: {
         Icon: { props: ['name'], template: '<span data-testid="icon">{{ name }}</span>' },
         MicroDataQualityWarningIcon: { props: ['label'], template: '<span data-testid="dq-warning">{{ label }}</span>' },
+        SearchClickableFacetValue: {
+          props: ['attribute', 'value', 'label'],
+          template: '<button data-testid="facet-value" :data-attribute="attribute" :data-value="value"><slot /></button>',
+        },
       },
       mocks: {
         $t: (key: string) => key,
@@ -66,6 +70,10 @@ describe('GenericIconList creators migration', () => {
         stubs: {
           Icon: { props: ['name'], template: '<span data-testid="icon">{{ name }}</span>' },
           MicroDataQualityWarningIcon: { props: ['label'], template: '<span data-testid="dq-warning">{{ label }}</span>' },
+          SearchClickableFacetValue: {
+            props: ['attribute', 'value', 'label'],
+            template: '<button data-testid="facet-value" :data-attribute="attribute" :data-value="value"><slot /></button>',
+          },
         },
         mocks: {
           $t: (key: string) => key,
@@ -103,5 +111,31 @@ describe('GenericIconList creators migration', () => {
     });
 
     expect(wrapper.find('[data-testid="dq-warning"]').exists()).toBe(false);
+  });
+
+  test('renders creators as inline facet values using the creators facet attribute', () => {
+    const wrapper = mountList({
+      creators: ['Reiniger, Lotte'],
+    });
+
+    const facetValue = wrapper.get('[data-testid="facet-value"]');
+    expect(facetValue.text()).toBe('Reiniger, Lotte');
+    expect(facetValue.attributes('data-attribute')).toBe('creators');
+    expect(facetValue.attributes('data-value')).toBe('Reiniger, Lotte');
+  });
+
+  test('renders genre labels as has_genre_has_name facet values', () => {
+    const wrapper = mountList({
+      ['has_record']: {
+        ['has_genre']: [
+          { ['has_name']: 'Animation' },
+        ],
+      },
+    });
+
+    const facetValue = wrapper.get('[data-testid="facet-value"]');
+    expect(facetValue.text()).toBe('Animation');
+    expect(facetValue.attributes('data-attribute')).toBe('has_genre_has_name');
+    expect(facetValue.attributes('data-value')).toBe('Animation');
   });
 });

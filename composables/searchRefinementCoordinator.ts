@@ -4,6 +4,7 @@ export type SearchRefinementAction =
   | 'panel-facet-toggle'
   | 'panel-range-apply'
   | 'current-refinement-remove'
+  | 'result-facet-toggle'
   | 'clear-all-refinements'
   | 'clear-production-year';
 

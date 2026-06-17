@@ -6,10 +6,12 @@ import SameAsComp from '~/components/detail/SameAsComp.vue';
 vi.stubGlobal('useNormdataUrl', () => ({
   getNormdataUrl: (category: string, id: string) => `https://example.test/${category}/${id}`,
 }));
-vi.stubGlobal('useNuxtApp', () => ({
-  $i18n: {
-    t: (key: string) => key,
-  },
+vi.stubGlobal('useI18n', () => ({
+  t: (key: string) => ({
+    'avefi:FilmportalResource': 'Filmportal',
+    'avefi:GNDResource': 'GND',
+  }[key] ?? key),
+  te: (key: string) => ['avefi:FilmportalResource', 'avefi:GNDResource'].includes(key),
 }));
 
 vi.mock('~/utils/clipboard', () => ({
@@ -44,7 +46,7 @@ describe('SameAsComp positioning contract', () => {
     expect(document.body.querySelector('[role="menu"]')?.classList.contains('fixed')).toBe(true);
   });
 
-  test('deduplicates duplicate TGN references and renders a single TGN link label', () => {
+  test('deduplicates duplicate references and renders generic link labels', () => {
     const wrapper = mount(SameAsComp, {
       attachTo: document.body,
       props: {
@@ -68,8 +70,29 @@ describe('SameAsComp positioning contract', () => {
     const tgnLinks = links.filter((link) => link.getAttribute('href') === 'https://example.test/avefi:TGNResource/7005332');
 
     expect(tgnLinks).toHaveLength(1);
-    expect(tgnLinks[0].textContent?.trim()).toBe('TGN');
-    expect(links.map((link) => link.textContent?.trim()).filter((text) => text === 'TGN')).toHaveLength(1);
+    expect(tgnLinks[0].textContent?.trim()).toBe('avefi:TGNResource');
+    expect(links.map((link) => link.textContent?.trim()).filter((text) => text === 'avefi:TGNResource')).toHaveLength(1);
+    wrapper.unmount();
+  });
+
+  test('translates Filmportal resource labels through i18n', () => {
+    const wrapper = mount(SameAsComp, {
+      attachTo: document.body,
+      props: {
+        sameAsData: [{ category: 'avefi:FilmportalResource', id: 'film/test-id' }],
+      },
+      global: {
+        stubs: {
+          Icon: { template: '<span />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    const link = document.body.querySelector('a[role="menuitem"]');
+    expect(link?.textContent?.trim()).toBe('Filmportal');
     wrapper.unmount();
   });
 });

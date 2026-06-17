@@ -217,13 +217,15 @@
                             <!-- 10 Genre -->
                             <DetailKeyActionRowsComp v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0"
                                                      class="col-span-full mb-2" :key-label="$t('avefi:Genre')" :values="mir.has_genre"
-                                                     same-as-type="genre" :show-count="true" :initial-visible="6" />
+                                                     same-as-type="genre" facet-attribute="has_genre_has_name"
+                                                     :show-count="true" :initial-visible="6" />
 
                             <!-- 11 Schlagwort -->
                             <DetailKeyActionRowsComp
                                 v-if="Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
                                 class="col-span-full mt-1" :key-label="$t('avefi:Subject')" :values="mir.has_subject"
-                                same-as-type="subject" :show-count="true" :initial-visible="8" />
+                                same-as-type="subject" facet-attribute="subjects"
+                                :show-count="true" :initial-visible="8" />
                         </template>
                     </NuxtLayout>
                 </div>
