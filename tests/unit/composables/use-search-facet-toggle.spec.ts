@@ -58,15 +58,13 @@ describe('useSearchFacetToggle', () => {
 
     expect(routerPush).toHaveBeenCalledWith({
       path: '/search',
-      query: {
-        creators: ['Reiniger, Lotte'],
-      },
+      query: { 'creators[0]': 'Reiniger, Lotte' },
     });
   });
 
   test('keeps facet toggles on the search route when already searching', async () => {
     routePath = '/search';
-    routeQuery = { creators: ['Reiniger, Lotte'], page: '3' };
+    routeQuery = { 'creators[0]': 'Reiniger, Lotte', page: '3' };
     const wrapper = mount(Host);
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('subjects', 'Animation');
@@ -74,8 +72,8 @@ describe('useSearchFacetToggle', () => {
     expect(routerPush).toHaveBeenCalledWith({
       path: '/search',
       query: {
-        creators: ['Reiniger, Lotte'],
-        subjects: ['Animation'],
+        'creators[0]': 'Reiniger, Lotte',
+        'subjects[0]': 'Animation',
       },
     });
   });
@@ -85,7 +83,7 @@ describe('useSearchFacetToggle', () => {
 
     const href = (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).getFacetToggleHref('creators', 'Reiniger, Lotte');
 
-    expect(href).toBe('/search?creators=Reiniger%2C+Lotte');
+    expect(href).toBe('/search?creators%5B0%5D=Reiniger%2C+Lotte');
   });
 
   test('navigates production year clicks as numeric refinements', async () => {

@@ -9,27 +9,6 @@ function normalizedValue(value: unknown): string {
     return String(value ?? '').trim();
 }
 
-function queryValues(value: RouteQueryValue): string[] {
-    const rawValues = Array.isArray(value) ? value : [value];
-    const seen = new Set<string>();
-    const values: string[] = [];
-
-    for (const raw of rawValues) {
-        const normalized = normalizedValue(raw);
-        if (!normalized || seen.has(normalized)) continue;
-        seen.add(normalized);
-        values.push(normalized);
-    }
-
-    return values;
-}
-
-function toggleQueryValue(current: RouteQueryValue, value: string): string[] {
-    const values = queryValues(current);
-    const exists = values.includes(value);
-    return exists ? values.filter(item => item !== value) : [...values, value];
-}
-
 function normalizeRoutePath(path: unknown): string {
     const raw = String(path || '').trim().replace(/^\/+|\/+$/g, '');
     return `/${raw || 'search'}`;
@@ -47,6 +26,54 @@ function numericRangeFromValue(value: unknown): NumericRange | null {
         min: Math.min(...years),
         max: Math.max(...years),
     };
+}
+
+/** Read facet values from URL query using the indexed format (attribute[0], attribute[1], …).
+ *  Falls back to reading a plain repeated key (attribute=v1&attribute=v2) for compatibility. */
+function readIndexedValues(query: Record<string, unknown>, attribute: string): string[] {
+    const seen = new Set<string>();
+    const result: string[] = [];
+
+    // Indexed format: attribute[0]=v, attribute[1]=v, …
+    let i = 0;
+    while (true) {
+        const key = `${attribute}[${i}]`;
+        if (!(key in query)) break;
+        const v = normalizedValue(query[key]);
+        if (v && !seen.has(v)) { seen.add(v); result.push(v); }
+        i++;
+    }
+
+    // Plain repeated-key fallback: attribute=v
+    if (result.length === 0) {
+        const raw = query[attribute];
+        const rawValues = Array.isArray(raw) ? raw : (raw != null ? [raw] : []);
+        for (const rv of rawValues) {
+            const v = normalizedValue(rv);
+            if (v && !seen.has(v)) { seen.add(v); result.push(v); }
+        }
+    }
+
+    return result;
+}
+
+/** Write facet values into a query object using the indexed format (attribute[0], attribute[1], …).
+ *  Removes any pre-existing plain or indexed keys for the same attribute first. */
+function writeIndexedValues(query: Record<string, unknown>, attribute: string, values: string[]): void {
+    // Remove plain key
+    delete query[attribute];
+    // Remove old indexed keys
+    for (const key of Object.keys(query)) {
+        if (key.startsWith(`${attribute}[`)) delete query[key];
+    }
+    // Write new indexed keys
+    values.forEach((v, idx) => { query[`${attribute}[${idx}]`] = v; });
+}
+
+function toggleValues(current: string[], value: string): string[] {
+    return current.includes(value)
+        ? current.filter(v => v !== value)
+        : [...current, value];
 }
 
 export function useSearchFacetToggle() {
@@ -116,17 +143,14 @@ export function useSearchFacetToggle() {
         const currentIndexState = indexName
             ? { ...(instantSearchInstance?.uiState?.[indexName] || {}) }
             : {};
-        const currentRefinementList = { ...(currentIndexState as any).refinementList };
-        const nextValues = toggleQueryValue(
-            (currentRefinementList?.[attribute] as RouteQueryValue) ?? (route.query?.[attribute] as RouteQueryValue),
-            normalized
-        );
+        const currentRefinementList = (currentIndexState as any).refinementList as Record<string, string[]> | undefined;
 
-        if (nextValues.length) {
-            nextQuery[attribute] = nextValues;
-        } else {
-            delete nextQuery[attribute];
-        }
+        // Prefer InstantSearch's in-memory state; fall back to indexed URL params
+        const existingValues: string[] = currentRefinementList?.[attribute]
+            ?? readIndexedValues(nextQuery as Record<string, unknown>, attribute);
+
+        const nextValues = toggleValues(existingValues, normalized);
+        writeIndexedValues(nextQuery, attribute, nextValues);
 
         return {
             path: currentPath === searchPath ? route.path : searchPath,
@@ -145,7 +169,8 @@ export function useSearchFacetToggle() {
 
         const normalized = normalizedValue(value);
         if (!attribute || !normalized) return false;
-        return queryValues(route.query?.[attribute] as RouteQueryValue).includes(normalized);
+
+        return readIndexedValues(route.query as Record<string, unknown>, attribute).includes(normalized);
     }
 
     async function toggleFacetValue(attribute: string, value: unknown) {
@@ -202,10 +227,9 @@ export function useSearchFacetToggle() {
         }
 
         const currentRefinementList = { ...(currentIndexState as any).refinementList };
-        const nextValues = toggleQueryValue(
-            (currentRefinementList?.[attribute] as RouteQueryValue) ?? (route.query?.[attribute] as RouteQueryValue),
-            normalized
-        );
+        const existingValues: string[] = currentRefinementList?.[attribute]
+            ?? readIndexedValues(route.query as Record<string, unknown>, attribute);
+        const nextValues = toggleValues(existingValues, normalized);
 
         const nextRefinementList = { ...currentRefinementList };
         if (nextValues.length) {
@@ -228,13 +252,9 @@ export function useSearchFacetToggle() {
             return true;
         };
 
-        const updateRoute = async () => {
-            await router.push(facetToggleLocation(attribute, normalized));
-        };
-
         const operation = () => {
             if (updateInstantSearch()) return;
-            void updateRoute();
+            void router.push(facetToggleLocation(attribute, normalized));
         };
 
         if (refinementCoordinator) {
@@ -261,10 +281,9 @@ export function useSearchFacetToggle() {
             };
         }
 
-        return {
-            path: searchPath,
-            query: normalized ? { [attribute]: normalized } : {},
-        };
+        const query: Record<string, string> = {};
+        if (normalized) query[`${attribute}[0]`] = normalized;
+        return { path: searchPath, query };
     }
 
     return {
