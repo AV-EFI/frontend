@@ -274,7 +274,7 @@ export default defineNuxtConfig({
   extends: './pages',
 
   imports: {
-    dirs: ['~/stores', '~/plugins'], // keine Wildcards
+    dirs: ['~/stores'],
   },
 
   icon: {
@@ -283,8 +283,17 @@ export default defineNuxtConfig({
   },
 
   components: {
-    global: true,
-    dirs: ['~/components'],
+    dirs: [
+      {
+        path: '~/components',
+        global: true,
+        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'detail/**'],
+      },
+      {
+        path: '~/components',
+        pattern: ['cart/**', 'input/**', 'disambiguation/**'],
+      },
+    ],
   },
 
   runtimeConfig: {
@@ -628,7 +637,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: ([tailwindcss()] as unknown as never[]),
     optimizeDeps: {
-      include: ['export-to-csv', 'instantsearch.js', 'algoliasearch'],
+      include: ['algoliasearch', 'embla-carousel-autoplay', 'export-to-csv', 'instantsearch.js'],
     },
     server: {
       watch: {
@@ -648,6 +657,7 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 750,
       target: 'esnext',
       sourcemap: shouldRunBuildQa,
+      reportCompressedSize: false,
     },
     logLevel: 'error',
     css: {
@@ -685,7 +695,7 @@ export default defineNuxtConfig({
 
   postcss: {
     plugins: {
-      '@tailwindcss/postcss': {}, // ✅ v4 plugin
+      '@tailwindcss/postcss': {},
       autoprefixer: {},
     },
   },

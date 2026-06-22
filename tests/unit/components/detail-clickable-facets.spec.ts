@@ -1,5 +1,4 @@
 // @vitest-environment happy-dom
-/* eslint-disable camelcase */
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import KeyActionRowsComp from '~/components/detail/KeyActionRowsComp.vue';

@@ -54,13 +54,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-const emit = defineEmits<{
-    (e: 'ContactFormClose'): void
-}>();
-
-function emitClose() {
-    emit('ContactFormClose');
-}
 
 const nuxtApp = useNuxtApp();
 const {$toast} = nuxtApp;

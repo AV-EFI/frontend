@@ -1,8 +1,6 @@
 /**
  * Type definitions for vue-matomo in Nuxt 3
  */
-import type { Router } from 'vue-router';
-
 declare module '#app' {
     interface NuxtApp {
         $matomo: MatomoTracker;

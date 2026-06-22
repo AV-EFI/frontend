@@ -8,8 +8,6 @@ export function useAutocomplete() {
   const facetSuggestions = ref<Record<string, string[]>>({});
   const showMain = ref(false);
 
-  const searchAttrs: Array<{ field: string; weight?: number }> =
-    skConfig?.search_settings?.search_attributes || [];
   const facetAttrs: Array<{ attribute: string; field: string }> =
     (skConfig?.search_settings?.facet_attributes || []).map((f: any) => ({ attribute: f.attribute, field: f.field }));
 

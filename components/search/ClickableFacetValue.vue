@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { clickableFacetLabelKey } from '~/config/clickableFacetConfig';
+import { clickableFacetConfig, clickableFacetLabelKey } from '~/config/clickableFacetConfig';
 
 const props = withDefaults(defineProps<{
     attribute?: string
@@ -51,7 +51,9 @@ const { getFacetToggleHref, isFacetValueActive, toggleFacetValue } = useSearchFa
 
 const normalizedValue = computed(() => String(props.value ?? '').trim());
 const normalizedLabel = computed(() => String(props.label || normalizedValue.value).trim());
-const canToggle = computed(() => Boolean(props.attribute && normalizedValue.value));
+const canToggle = computed(() =>
+    Boolean(props.attribute && normalizedValue.value && props.attribute in clickableFacetConfig),
+);
 const active = computed(() => canToggle.value && isFacetValueActive(props.attribute, normalizedValue.value));
 const opensInNewTab = computed(() => props.openInNewTab || /^\/res(?:\/|$)/.test(String(route.path || '')));
 const href = computed(() => (canToggle.value ? getFacetToggleHref(props.attribute, normalizedValue.value) : ''));

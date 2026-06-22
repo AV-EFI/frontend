@@ -253,7 +253,7 @@ const { addToSearchHistory, getSearchHistory, removeFromHistory, clearSearchHist
 const historyTrigger = ref(0);
 
 const recentSearchesWithUrl = computed(() => {
-    historyTrigger.value;
+    void historyTrigger.value;
     return getSearchHistory();
 });
 
@@ -773,7 +773,7 @@ function redirectToSearchScreen() {
         }
 
         const url = params.toString() ? `${base}?${params.toString()}` : base;
-        return isAbsolute ? navigateTo(url, { external: true }) : navigateTo(url);
+        if (isAbsolute) { navigateTo(url, { external: true }); } else { navigateTo(url); }
     } catch (err) {
         console.error('redirectToSearchScreen failed:', err);
     }

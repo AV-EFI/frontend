@@ -2,6 +2,7 @@
  * Redirect middleware for legacy /search_altern URLs
  * Redirects to /search while preserving query parameters and path
  */
+// eslint-disable-next-line consistent-return
 export default defineNuxtRouteMiddleware((to) => {
   // Check if the path starts with /search_altern
   if (to.path.startsWith('/search_altern')) {

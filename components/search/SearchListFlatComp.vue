@@ -237,10 +237,10 @@
 
 <script setup lang="ts">
 import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { PropType } from 'vue';
 import type { MovingImageRecordContainer } from '@/models/interfaces/schema/avefi_schema_type_utils';
-import fieldsSpec from '../../models/interfaces/avefi_search_fields';
+
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 defineProps({
     datasets: {
@@ -336,15 +336,6 @@ function onAutocompleteKeydown(handle: string, work: MovingImageRecordContainer,
         autocompleteOpen.value[handle] = false;
     }
 }
-
-// ------- Spec fields (ordered) -------
-const workFields = computed(() =>
-    (fieldsSpec?.workvariant ?? []).filter((f: any) => f.show).sort((a: any, b: any) => a.order - b.order)
-);
-
-const itemFields = computed(() =>
-    (fieldsSpec?.item ?? []).filter((f: any) => f.show).sort((a: any, b: any) => a.order - b.order)
-);
 
 // ------- Responsive columns -------
 function updateViewportCols() {

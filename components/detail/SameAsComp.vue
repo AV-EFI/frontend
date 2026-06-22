@@ -15,42 +15,44 @@
             <span class="sr-only"> {{$t('openExternalReferences')}}</span>
         </button>
 
-        <Teleport to="body">
-            <!-- Menu (fixed, viewport-positioned) -->
-            <ul
-                v-show="open"
-                id="sameas-dropdown-menu"
-                ref="menuRef"
-                role="menu"
-                tabindex="-1"
-                class="menu menu-sm bg-base-100 rounded-box shadow fixed z-[1000] w-56 p-2"
-                :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
-                @keydown="onMenuKeydown"
-            >
-                <li v-for="item in normalizedSameAsData" :key="`${item.category}-${item.id}`" role="none" class="flex flex-row items-center gap-1">
-                    <a
-                        role="menuitem"
-                        tabindex="0"
-                        :href="getNormdataUrl(item.category, item.id)"
-                        target="_blank" rel="noopener"
-                        class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
-                        @click="close()"
-                    >
-                        <span>{{ getSameAsLabel(item) }}</span>
-                    </a>
+        <ClientOnly>
+            <Teleport to="body">
+                <!-- Menu (fixed, viewport-positioned) -->
+                <ul
+                    v-show="open"
+                    id="sameas-dropdown-menu"
+                    ref="menuRef"
+                    role="menu"
+                    tabindex="-1"
+                    class="menu menu-sm bg-base-100 rounded-box shadow fixed z-1000 w-56 p-2"
+                    :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
+                    @keydown="onMenuKeydown"
+                >
+                    <li v-for="item in normalizedSameAsData" :key="`${item.category}-${item.id}`" role="none" class="flex flex-row items-center gap-1">
+                        <a
+                            role="menuitem"
+                            tabindex="0"
+                            :href="getNormdataUrl(item.category, item.id)"
+                            target="_blank" rel="noopener"
+                            class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                            @click="close()"
+                        >
+                            <span>{{ getSameAsLabel(item) }}</span><Icon name="tabler:external-link"/>
+                        </a>
 
-                    <button
-                        type="button"
-                        class="btn btn-ghost btn-xs shrink-0"
-                        :aria-label="$t('copyToClipboard')"
-                        :title="$t('copyToClipboard')"
-                        @click.stop="copySameAsUrl(item)"
-                    >
-                        <Icon name="tabler:copy" size="1em" aria-hidden="true" />
-                    </button>
-                </li>
-            </ul>
-        </Teleport>
+                        <button
+                            type="button"
+                            class="btn btn-ghost btn-xs shrink-0"
+                            :aria-label="$t('copyToClipboard')"
+                            :title="$t('copyToClipboard')"
+                            @click.stop="copySameAsUrl(item)"
+                        >
+                            <Icon name="tabler:copy" size="1em" aria-hidden="true" />
+                        </button>
+                    </li>
+                </ul>
+            </Teleport>
+        </ClientOnly>
     </div>
 </template>
 

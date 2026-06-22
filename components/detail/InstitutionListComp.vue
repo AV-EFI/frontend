@@ -173,7 +173,7 @@ watch(viewTypeChecked, () => {
 });
 const expandAllChecked = ref(false);
 
-const props = defineProps({
+defineProps({
     searchClient: {
         type: Object,
         required: true,
@@ -187,7 +187,7 @@ const props = defineProps({
 
 let refineTimeout;
 
-watch(expandAllChecked, (newValue) => {
+watch(expandAllChecked, () => {
     expandAllItems();
 });
 

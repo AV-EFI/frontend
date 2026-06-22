@@ -26,8 +26,6 @@ export const clickableFacetConfig: Record<string, ClickableFacetConfig> = {
     has_colour_type: { type: 'refinementList', labelKey: 'has_colour_type' },
     has_sound_type: { type: 'refinementList', labelKey: 'has_sound_type' },
     in_language_code: { type: 'refinementList', labelKey: 'in_language_code' },
-    has_duration_has_value: { type: 'refinementList', labelKey: 'has_duration_has_value' },
-    has_extent_has_value: { type: 'refinementList', labelKey: 'has_extent_has_value' },
     item_element_type: { type: 'refinementList', labelKey: 'item_element_type' },
     has_form: { type: 'refinementList', labelKey: 'has_form' },
     productionyear: {

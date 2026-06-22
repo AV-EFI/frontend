@@ -24,6 +24,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       // fall through to redirect
     }
 
+    // eslint-disable-next-line consistent-return
     return navigateTo('/');
   }
 
@@ -34,6 +35,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   await auth.getSession();
   if (!auth.data.value?.user) {
+    // eslint-disable-next-line consistent-return
     return navigateTo('/');
   }
 });

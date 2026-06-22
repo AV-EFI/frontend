@@ -123,7 +123,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import GenericIconList from '../search/GenericIconList.vue';
 
 const { t: $t } = useI18n();
 const runtime = useRuntimeConfig();
@@ -153,7 +152,7 @@ type Part = {
     [k: string]: any;
 };
 
-const props = defineProps<{
+defineProps<{
     parts: Part[];
     showAdminStats?: boolean;
     type: {
@@ -162,47 +161,12 @@ const props = defineProps<{
     }
 }>();
 
-const isExpandedLocal = ref(false);
 const showHighlight = ref(true);
 
 // ---- helpers mirroring your WorkViewComp patterns ----
 function get(obj: any, path: string): any {
     if (!obj || !path) return undefined;
     return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
-}
-
-function formatDate(v?: string) {
-    if (!v) return '';
-    try { return new Date(v).toLocaleString('de-DE'); } catch { return ''; }
-}
-
-function yearsDisplay(p: Part): string {
-    const years = p?.years;
-    if (Array.isArray(years) && years.length) return years.join(', ');
-    const range = get(p, 'production_in_year');
-    if (range && typeof range === 'object') {
-        const from = (range.gte ?? range.gt ?? '');
-        const to = (range.lte ?? range.lt ?? '');
-        return [from, to].filter(Boolean).join('–');
-    }
-    return '';
-}
-
-function getForms(p: Part): string[] {
-    const arr = get(p, 'has_record.has_form');
-    return Array.isArray(arr) ? arr.filter(Boolean) : [];
-}
-
-function getDirectors(p: Part): string[] {
-    const creators = Array.isArray(p?.creators) && p.creators.length ? p.creators : p?.directors_or_editors;
-    return Array.isArray(creators) ? creators.filter(Boolean) : [];
-}
-
-function getLocations(p: Part): string[] {
-    const events = get(p, 'has_record.has_event') || [];
-    const set = new Set<string>();
-    (events as Event[]).forEach(ev => (ev?.located_in || []).forEach(l => l?.has_name && set.add(l.has_name)));
-    return Array.from(set);
 }
 
 // optional highlights (same logic style you use)

@@ -19,8 +19,5 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const openContactDrawer = () => {
-    if (typeof window === 'undefined') return;
-    window.dispatchEvent(new Event('open-contact-drawer'));
-};
+
 </script>

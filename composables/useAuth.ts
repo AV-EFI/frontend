@@ -14,7 +14,7 @@ export function useAuth() {
   const SIGNIN_ENDPOINT = config.AUTH_SIGNIN_ENDPOINT;
   const SIGNOUT_ENDPOINT = config.AUTH_SIGNOUT_ENDPOINT;
 
-  function log(...args: unknown[]) {
+  function log() {
     //console.log(`[useAuth ${new Date().toISOString()}]`, ...args);
   }
 

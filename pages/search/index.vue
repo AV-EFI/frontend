@@ -40,7 +40,6 @@ const { currentUrlState } = useCurrentUrlState();
 /**
  * Search client (client-only) — keep SSR stable but avoid running client instantiation on server.
  */
-import { ref } from 'vue';
 const isClient = typeof window !== 'undefined';
 const searchClient = isClient
     ? Client({

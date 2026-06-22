@@ -45,17 +45,9 @@
 import { computed, reactive, ref, watch } from 'vue';
 const { t } = useI18n();
 // Only import icons as needed
-const { defaultOptions, buildSvg, downloadSvg, exportPng, exportPdfViaPrint } = useDiamondFilmPatternTabler();
+const { defaultOptions, buildSvg } = useDiamondFilmPatternTabler();
 const opts = reactive(structuredClone(defaultOptions));
-const iconBgRadiusProxy = computed<number | null>({
-    get() {
-        return typeof opts.iconBgRadius === 'number' ? opts.iconBgRadius : null;
-    },
-    set(v) {
-        if (v === null || Number.isNaN(v)) delete (opts as any).iconBgRadius;
-        else opts.iconBgRadius = v;
-    },
-});
+
 const iconsCsv = ref(opts.tablerIcons.join(', '));
 watch(
     iconsCsv,
@@ -93,23 +85,11 @@ watch(
     { immediate: true }
 );
 const svg = computed(() => buildSvg(opts));
-const pngScale = ref(2);
 function randomizeSeed() {
     opts.seed = Math.floor(Math.random() * 1_000_000_000);
 }
-function fileBase() {
-    const mode = opts.iconSpread.mode;
-    return `diamond-film_${opts.width}x${opts.height}_step${opts.gridStep}_icons${opts.iconRows}x${opts.iconCols}_${mode}_seed${opts.seed}`;
-}
-function onDownloadSvg() {
-    downloadSvg(svg.value, `${fileBase()}.svg`);
-}
-async function onExportPng() {
-    await exportPng(svg.value, `${fileBase()}.png`, pngScale.value, opts.background);
-}
-function onExportPdf() {
-    exportPdfViaPrint(svg.value, fileBase());
-}
+
+
 </script>
 
 <style scoped>

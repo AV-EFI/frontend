@@ -109,7 +109,7 @@ export default {
                     }
                 });
                 const target = document.body || document.documentElement;
-                target && this.resizeObserver.observe(target);
+                if (target) this.resizeObserver.observe(target);
             } else {
                 window.addEventListener('resize', this.updatePageTallEnough, { passive: true });
             }

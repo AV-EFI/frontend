@@ -334,7 +334,7 @@ useHead(() => ({
                             <template #bar>
                                 <h2>Cookies 🍪</h2>
                                 <p>{{ $t('cookiesDescription') }}</p>
-                                <GlobalLanguageSwitch />
+                                <LazyGlobalLanguageSwitch />
                                 <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="dark:text-white link">
                                     {{ $t('dataprotection') }}
                                 </NuxtLink>
@@ -365,7 +365,7 @@ useHead(() => ({
                         </div>
                     </template>
                 </Suspense>
-                <GlobalAuthProvider />
+                <LazyGlobalAuthProvider />
             </ClientOnly>
         </NuxtLayout>
     </div>

@@ -213,9 +213,11 @@ defineProps<{ datasets: IAVefiWorkVariant[] }>();
 const expanded = ref(new Set<string>());
 
 function toggleExpand(handle: string) {
-    expanded.value.has(handle)
-        ? expanded.value.delete(handle)
-        : expanded.value.add(handle);
+    if (expanded.value.has(handle)) {
+        expanded.value.delete(handle);
+    } else {
+        expanded.value.add(handle);
+    }
 }
 
 function getCreators(work: IAVefiWorkVariant): string[] {

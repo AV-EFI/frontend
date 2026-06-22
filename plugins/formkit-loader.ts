@@ -48,6 +48,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         });
     }
 
+    // eslint-disable-next-line consistent-return
     return installPromise;
   };
 

@@ -35,7 +35,7 @@ import type { Manifestation } from "~/models/interfaces/schema/avefi_schema_type
 // Enable hash navigation for manifestations and items
 useHash();
 
-const props = defineProps<{
+defineProps<{
     resourceType: string;
 }>();
 
@@ -50,8 +50,6 @@ try {
 
 // WorkVariant (optional)
 const mir = (dataObject?.compound_record?._source?.has_record ??
-    null) as WorkVariant | null;
-const parts = (dataObject?.compound_record?._source?.parts ??
     null) as WorkVariant | null;
 
 // Manifestations (optional)

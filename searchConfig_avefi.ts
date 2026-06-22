@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { SearchkitConfigExtended } from "./types/searchkit-config-extended";
 
 // move creds to server-side for runtime.private access

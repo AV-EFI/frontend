@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
     } else {
       nitro.logger.error(entry, `Client JS error: ${payload.message}`);
     }
-  } catch (err) {
+  } catch {
     console.error('Client JS error:', entry);
   }
 

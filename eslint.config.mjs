@@ -50,7 +50,7 @@ export default [
       'no-else-return': 'warn',
       'semi': ['warn', 'always'],
       'space-unary-ops': 'error',
-      'camelcase': 'warn',
+      'camelcase': ['warn', { 'properties': 'never' }],
       'no-unused-vars': 'off', // TS übernimmt
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',

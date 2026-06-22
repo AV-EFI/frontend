@@ -56,8 +56,6 @@ import { useNuxtApp } from 'nuxt/app';
 import { setResponseStatus } from 'h3';
 import filmQuotesData from '~/data/film-quotes.json';
 
-const { locale, t } = useI18n();
-const currentLocale = computed(() => locale.value);
 
 // Set 404 status code on server-side
 if (process.server) {

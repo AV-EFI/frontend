@@ -44,7 +44,7 @@
     </section>
 </template>
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
     showExpandToggle: {
         type: Boolean,
         default: false
@@ -56,7 +56,4 @@ const props = defineProps({
 });
 
 const isFullWidth = ref(false);
-const toggleWidth = () => {
-    isFullWidth.value = !isFullWidth.value;
-};
 </script>

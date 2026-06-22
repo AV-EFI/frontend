@@ -97,7 +97,7 @@ function handleDelegatedClick(e: MouseEvent) {
     // programmatically trigger click when the click missed the inner control (Firefox hit-area issue)
     try {
         link.click();
-    } catch (err) {
+    } catch {
         // fallback: dispatch MouseEvent
         const evt = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
         link.dispatchEvent(evt);

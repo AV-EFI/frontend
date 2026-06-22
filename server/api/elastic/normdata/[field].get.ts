@@ -43,17 +43,6 @@ const WHITELIST: Record<WhitelistKey, FieldConfig> = {
   },
 };
 
-function getNested(source: any, path: string[]): any {
-  let cur: any = source;
-  for (const key of path) {
-    if (cur == null) return null;
-    // allow numeric keys as array indices
-    const idx = Number.isInteger(+key) ? +key : key;
-    cur = cur[idx];
-  }
-  return cur;
-}
-
 function extractNormdataRefs(source: any, basePath: string[], targetValue: string): Array<{ id: string; category: string }> {
   const results: Array<{ id: string; category: string }> = [];
   

@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     console.log('Elasticsearch result:', result);
 
     if(result) {
-      const backend_response = {
+      const backendResponse = {
         "handle": result._source.handle,
         "_index": result._index,
         "_id": result._id,
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
           "_source": { ...result?._source }
         }
       };
-      return backend_response;
+      return backendResponse;
     }
     return { error: 'Document not found' };
   } catch (error) {

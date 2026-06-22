@@ -132,35 +132,6 @@ function safeT(input: unknown): string {
     }
 }
 
-function formatExtent(extent?: { has_value?: string | number, has_unit?: string }) {
-    if (!extent?.has_value) return '';
-    return `${extent.has_value} ${safeT(extent.has_unit)}`.trim();
-}
 
-function formatDuration(has_value: any): string {
-    if (has_value) {
-        try {
-            const duration = has_value
-                .replace(/PT/g, '')
-                .replace(/S/g, '')
-                .replace(/M/g, ':')
-                .replace(/H/g, ':')
-                .split(':');
-            duration[0] = String(duration[0]).padStart(2, '0');
-            if (duration.length > 1) duration[1] = String(duration[1]).padStart(2, '0');
-            return duration.join(':');
-        } catch (error) {
-            console.error('Error formatting duration:', error);
-            return String(has_value);
-        }
-    }
-    return has_value;
-}
-
-function webresources(m: any): string[] {
-    const wr = m?.has_record?.has_webresource;
-    if (!wr) return [];
-    return Array.isArray(wr) ? wr.filter(Boolean) : [wr];
-}
 </script>
 

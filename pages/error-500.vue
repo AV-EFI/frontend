@@ -68,8 +68,6 @@ definePageMeta({
     name: 'error-500'
 });
 
-const { locale, t } = useI18n();
-const currentLocale = computed(() => locale.value);
 
 // Set 500 status code on server-side
 if (process.server) {

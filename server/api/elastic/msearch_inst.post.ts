@@ -1,13 +1,5 @@
-import Client, { SearchkitConfig } from '@searchkit/api';
+import Client from '@searchkit/api';
 import {config} from '@/searchConfig_avefi';
-
-
-const crushObj = (obj:any = {}) => Object.keys(obj || {}).reduce((acc:any, cur:any) => {
-  if (typeof obj[cur] === 'object') {
-    acc = { ...acc, ...crushObj(obj[cur])};
-  } else { acc[cur] = obj[cur]; }
-  return acc;
-}, {});
 
 export default defineEventHandler(async (event) => {
 

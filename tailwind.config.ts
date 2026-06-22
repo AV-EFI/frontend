@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {

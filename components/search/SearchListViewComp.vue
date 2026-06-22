@@ -275,7 +275,7 @@ const props = defineProps({
     }
 });
 
-const showFacetBadge = computed(() => props.nrOfFacetsActive > 0);
+
 const refinementSignature = computed(() => JSON.stringify(props.currentRefinements ?? []));
 const searchUpdateTick = ref(0);
 
@@ -363,141 +363,8 @@ function onSearchUpdated() {
     searchUpdateTick.value += 1;
 }
 
-function parseItemRefinementsFromQuery(): Record<string, string[]> {
-    const result: Record<string, string[]> = {};
-    const itemRefinementKeys = new Set([
-        'has_colour_type',
-        'has_access_status',
-        'has_sound_type',
-        'item_element_type',
-        'has_format_type',
-        'in_language_code',
-    ]);
 
-    for (const [rawKey, rawVal] of Object.entries(route.query)) {
-        const values = Array.isArray(rawVal) ? rawVal : [rawVal];
 
-        const indexedMatch = rawKey.match(/^([^[]+)\[\d+\]$/);
-        const refinementListMatch = rawKey.match(/\[refinementList\]\[([^\]]+)\](?:\[\d+\])?$/);
-        const plainKey = !rawKey.includes('[') ? rawKey : null;
-        const attr = indexedMatch?.[1] || refinementListMatch?.[1] || plainKey;
-        if (!attr) continue;
-        if (!itemRefinementKeys.has(attr)) continue;
-
-        if (!result[attr]) result[attr] = [];
-        for (const value of values) {
-            if (value === undefined || value === null) continue;
-            result[attr].push(String(value));
-        }
-    }
-
-    return result;
-}
-
-function getItemColourType(item: any): string | null {
-    return item?.has_record?.has_colour_type ?? item?.has_colour_type ?? null;
-}
-
-function itemMatchesRefinements(item: any, ref: Record<string, string[]>): boolean {
-    const r = item?.has_record;
-
-    if (ref.has_colour_type?.length &&
-        !ref.has_colour_type.includes(getItemColourType(item) || '')) return false;
-
-    if (ref.has_access_status?.length &&
-        !ref.has_access_status.includes(r?.has_access_status)) return false;
-
-    if (ref.has_sound_type?.length &&
-        !ref.has_sound_type.includes(r?.has_sound_type)) return false;
-
-    if (ref.item_element_type?.length &&
-        !ref.item_element_type.includes(r?.element_type)) return false;
-
-    if (ref.has_format_type?.length &&
-        !(r?.has_format?.some((f: any) => ref.has_format_type.includes(f?.type)))) return false;
-
-    if (ref.in_language_code?.length &&
-        !(r?.in_language?.some((l: any) => ref.in_language_code.includes(l?.code)))) return false;
-
-    return true;
-}
-
-function reportItemFilterMismatch(
-    manifestation: any,
-    removedItems: any[],
-    refinements: Record<string, string[]>
-) {
-    if (typeof window === 'undefined' || removedItems.length === 0) return;
-
-    const manifestationHandle = manifestation?.handle || 'unknown-manifestation';
-    const dedupeKey = `search-item-filter-mismatch:${window.location.href}:${JSON.stringify(refinements)}`;
-
-    try {
-        if (window.sessionStorage?.getItem(dedupeKey)) return;
-        window.sessionStorage?.setItem(dedupeKey, '1');
-    } catch {
-        // Logging should never affect search rendering.
-    }
-
-    const removedSample = removedItems.slice(0, 10).map((item: any) => ({
-        handle: item?.handle || null,
-        has_colour_type: getItemColourType(item),
-        has_access_status: item?.has_record?.has_access_status ?? null,
-        has_sound_type: item?.has_record?.has_sound_type ?? null,
-        item_element_type: item?.has_record?.element_type ?? null,
-    }));
-
-    const payload = {
-        type: 'search-item-filter-mismatch',
-        message: 'Search result contained nested items that did not match active item-level refinements',
-        source: 'SearchListViewComp',
-        url: window.location.href,
-        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
-        timestamp: new Date().toISOString(),
-        info: JSON.stringify({
-            manifestationHandle,
-            removedCount: removedItems.length,
-            activeItemRefinements: refinements,
-            removedSample,
-        }),
-    };
-
-    try {
-        const body = JSON.stringify(payload);
-        if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
-            navigator.sendBeacon('/api/log/client', new Blob([body], { type: 'application/json' }));
-        } else if (typeof fetch === 'function') {
-            void fetch('/api/log/client', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body,
-                keepalive: true,
-            });
-        }
-    } catch {
-        // Ignore logging failures; the local filtering is the important part.
-    }
-}
-
-function filterItemsLocally(items: any[], manifestation: any): any[] {
-    const ref = parseItemRefinementsFromQuery();
-    if (Object.keys(ref).length === 0) return items;
-
-    const removedItems: any[] = [];
-    const filtered = items.filter((item) => {
-        const matches = itemMatchesRefinements(item, ref);
-        if (!matches) {
-            removedItems.push(item);
-        }
-        return matches;
-    });
-
-    reportItemFilterMismatch(manifestation, removedItems, ref);
-
-    return filtered;
-}
-
-          
 watch(() => props.expandAllHandlesChecked, (newVal) => {
     props.items.forEach((item, i) => {
         const handle = item.handle;
@@ -571,49 +438,6 @@ function getValueByPath(obj, path) {
 onMounted(() => {
     componentInfoReady.value = true;
 });
-
-function isFacetActive(facetKey: string, value: string): boolean {
-    return Object.entries(route.query).some(([key, raw]) => {
-        const match = key.includes(`[refinementList][${facetKey}]`);
-        if (!match) return false;
-        const decoded = Array.isArray(raw) ? raw.map(decodeURIComponent) : [decodeURIComponent(raw)];
-        return decoded.includes(value);
-    });
-}
-
-function asList(val: any): string {
-    if (Array.isArray(val))  {
-        if (val.length > 0 && typeof val[0] === 'object') {
-            return (val as any[]).map((v: any) => (v?.has_name ? String(v.has_name) : '')).filter((v: string) => v !== '').join(', ');
-        } else if (typeof val[0] === 'string' || typeof val[0] === 'number' || typeof val[0] === 'boolean') {
-            return (val as Array<string | number | boolean>).join(', ');
-        }
-        return (val as any[]).filter(v => v != null && v !== '').join(', ');
-    }
-    return String(val);
-}
-
-function yearsDisplay(work: any): string {
-    const years = get(work, 'years');
-    if (years && Array.isArray(years) && years.length) return years.join(', ');
-    const range = get(work, 'production_in_year');
-    if (range && typeof range === 'object') {
-        const from = (range.gte ?? range.gt ?? '');
-        const to = (range.lte ?? range.lt ?? '');
-        return [from, to].filter(Boolean).join('–');
-    }
-    return '';
-}
-function formatValue(val: any): string {
-    if (val === null || val === undefined) return '';
-    if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return String(val);
-    if (Array.isArray(val)) return val.map(formatValue).join(', ');
-    if (typeof val === 'object') {
-        return '{ ' + Object.entries(val).map(([k, v]) => `${k}: ${formatValue(v)}`).join(', ') + ' }';
-    }
-    return String(val);
-}
-
 
 
 </script>
