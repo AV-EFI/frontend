@@ -918,6 +918,8 @@ const deBase = {
   'mappingError': 'Zuordnungsfehler',
   'unexpectedError': 'Unerwarteter Fehler',
   'addFilter': 'Filtern nach',
+  'facetMenu.addToSearch': 'Zur Suche hinzufügen',
+  'facetMenu.newSearch': 'Neue Suche',
   'remove': 'entfernen',
   'result': 'Ergebnis',
   'results': 'Ergebnisse',

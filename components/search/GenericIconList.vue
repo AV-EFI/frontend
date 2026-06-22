@@ -311,6 +311,7 @@ import { useI18n } from 'vue-i18n';
 import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
 import { getSuspiciousAgentNamePattern, isWhitespaceCommaOnlyText } from '~/utils/agentQuality';
 import { config as searchkitConfig } from '~/searchConfig_avefi';
+import { clickableFacetConfig } from '~/config/clickableFacetConfig';
 const { t } = useI18n();
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
@@ -507,6 +508,7 @@ const facetAttributeByEntryKey: Record<string, string> = {
     lang: 'in_language_code',
     sound: 'has_sound_type',
     colour: 'has_colour_type',
+    years: 'productionyear',
     duration: 'has_duration_has_value',
     extent: 'has_extent_has_value',
 };
@@ -527,7 +529,8 @@ function segment(text: unknown, facetValue: unknown = text): IconSegment {
 
 function facetAttributeForEntry(entry: { key: string }) {
     const attribute = facetAttributeByEntryKey[entry.key] || '';
-    return configuredFacetAttributes.has(attribute) ? attribute : '';
+    if (!attribute) return '';
+    return (configuredFacetAttributes.has(attribute) || attribute in clickableFacetConfig) ? attribute : '';
 }
 
 function facetValueForSegment(segmentValue: { text: unknown; facetValue?: unknown }) {

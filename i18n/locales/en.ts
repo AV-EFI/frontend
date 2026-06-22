@@ -953,6 +953,8 @@ const avefiBase = {
   'mappingError': 'Mapping error',
   'unexpectedError': 'Unexpected error',
   'addFilter': 'add filter',
+  'facetMenu.addToSearch': 'Add to search',
+  'facetMenu.newSearch': 'New search',
   'remove': 'remove',
   'results': 'results',
   'resultsUsage': 'How Can Search Results Be Used?',

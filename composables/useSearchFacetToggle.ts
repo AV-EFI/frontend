@@ -244,9 +244,33 @@ export function useSearchFacetToggle() {
         }
     }
 
+    function getNewSearchLocation(attribute: string, value: unknown) {
+        const normalized = normalizedValue(value);
+        const searchPath = normalizeRoutePath(runtime.public?.SEARCH_URL || 'search');
+        const config = clickableFacetConfig[attribute];
+
+        if (config?.type === 'numericRange') {
+            const range = numericRangeFromValue(normalized);
+            if (!range) return { path: searchPath, query: {} };
+            return {
+                path: searchPath,
+                query: {
+                    [numericQueryKey(config.attribute, config.minOperator)]: String(range.min),
+                    [numericQueryKey(config.attribute, config.maxOperator)]: String(range.max),
+                },
+            };
+        }
+
+        return {
+            path: searchPath,
+            query: normalized ? { [attribute]: normalized } : {},
+        };
+    }
+
     return {
         getFacetToggleHref,
         isFacetValueActive,
         toggleFacetValue,
+        getNewSearchLocation,
     };
 }

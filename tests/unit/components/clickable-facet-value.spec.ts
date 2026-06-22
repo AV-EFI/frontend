@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 const toggleFacetValue = vi.fn();
 const getFacetToggleHref = vi.fn();
+const getNewSearchLocation = vi.fn();
 let active = false;
 let routePath = '/search';
 
@@ -14,12 +15,18 @@ const translations: Record<string, string> = {
   creators: 'Filmschaffende',
   ['has_genre_has_name']: 'Genre',
   ['manifestation_event_type']: 'Manifestationstyp',
+  ['facetMenu.addToSearch']: 'Zur Suche hinzufügen',
+  ['facetMenu.newSearch']: 'Neue Suche',
 };
 
 async function mountClickableFacetValue(props: { attribute: string; value: string; label?: string }) {
   vi.stubGlobal('computed', computed);
   vi.stubGlobal('useRoute', () => ({
     path: routePath,
+  }));
+  vi.stubGlobal('useRouter', () => ({
+    push: vi.fn(),
+    resolve: vi.fn(() => ({ href: '' })),
   }));
   vi.stubGlobal('useI18n', () => ({
     t: (key: string) => translations[key] ?? key,
@@ -29,6 +36,7 @@ async function mountClickableFacetValue(props: { attribute: string; value: strin
     getFacetToggleHref,
     isFacetValueActive: vi.fn(() => active),
     toggleFacetValue,
+    getNewSearchLocation,
   }));
 
   const { default: ClickableFacetValue } = await import('~/components/search/ClickableFacetValue.vue');
@@ -37,6 +45,13 @@ async function mountClickableFacetValue(props: { attribute: string; value: strin
     props,
     slots: {
       default: props.label || props.value,
+    },
+    global: {
+      stubs: {
+        Icon: { template: '<span />' },
+        ClientOnly: { template: '<slot />' },
+        Teleport: { template: '<div />' },
+      },
     },
   });
 }
@@ -47,7 +62,9 @@ describe('ClickableFacetValue', () => {
     vi.unstubAllGlobals();
     toggleFacetValue.mockReset();
     getFacetToggleHref.mockReset();
+    getNewSearchLocation.mockReset();
     getFacetToggleHref.mockReturnValue('/search?creators=Reiniger%2C%20Lotte');
+    getNewSearchLocation.mockReturnValue({ path: '/search', query: {} });
     active = false;
     routePath = '/search';
   });
@@ -58,8 +75,9 @@ describe('ClickableFacetValue', () => {
       value: 'Reiniger, Lotte',
     });
 
-    expect(wrapper.attributes('aria-label')).toBe('Filter hinzufügen: Filmschaffende = Reiniger, Lotte');
-    expect(wrapper.attributes('title')).toBe('Filter hinzufügen: Filmschaffende = Reiniger, Lotte');
+    const btn = wrapper.find('button');
+    expect(btn.attributes('aria-label')).toBe('Filter hinzufügen: Filmschaffende = Reiniger, Lotte');
+    expect(btn.attributes('title')).toBe('Filter hinzufügen: Filmschaffende = Reiniger, Lotte');
   });
 
   test('uses translated facet names in the remove-filter label', async () => {
@@ -71,7 +89,8 @@ describe('ClickableFacetValue', () => {
       label: 'Release',
     });
 
-    expect(wrapper.attributes('aria-label')).toBe('Entfernen: Manifestationstyp = Release');
+    const btn = wrapper.find('button');
+    expect(btn.attributes('aria-label')).toBe('Entfernen: Manifestationstyp = Release');
   });
 
   test('falls back to the technical attribute name when no translation exists', async () => {
@@ -80,7 +99,8 @@ describe('ClickableFacetValue', () => {
       value: 'Wert',
     });
 
-    expect(wrapper.attributes('aria-label')).toBe('Filter hinzufügen: unknown_facet = Wert');
+    // unknown_facet is not in clickableFacetConfig → disabled button renders
+    expect(wrapper.find('button').attributes('aria-label')).toBe('Filter hinzufügen: unknown_facet = Wert');
   });
 
   test('opens detail-page facet links in a new tab', async () => {
