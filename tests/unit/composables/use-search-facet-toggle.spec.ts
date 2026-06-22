@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { useSearchFacetToggle } from '~/composables/useSearchFacetToggle';
 
-const routerPush = vi.fn();
+const locationAssign = vi.fn();
 const routerResolve = vi.fn((location: { path: string; query?: Record<string, unknown> }) => {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(location.query || {})) {
@@ -30,17 +30,23 @@ const Host = defineComponent({
 
 describe('useSearchFacetToggle', () => {
   beforeEach(() => {
-    routerPush.mockReset();
+    locationAssign.mockReset();
     routerResolve.mockClear();
     routePath = '/res/21.11155/work-1';
     routeQuery = {};
+
+    Object.defineProperty(window, 'location', {
+      value: { assign: locationAssign, href: 'http://localhost/' },
+      writable: true,
+      configurable: true,
+    });
 
     vi.stubGlobal('useRoute', () => ({
       path: routePath,
       query: routeQuery,
     }));
     vi.stubGlobal('useRouter', () => ({
-      push: routerPush,
+      push: vi.fn(),
       resolve: routerResolve,
     }));
     vi.stubGlobal('useRuntimeConfig', () => ({
@@ -56,10 +62,7 @@ describe('useSearchFacetToggle', () => {
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('creators', 'Reiniger, Lotte');
 
-    expect(routerPush).toHaveBeenCalledWith({
-      path: '/search',
-      query: { 'creators[0]': 'Reiniger, Lotte' },
-    });
+    expect(locationAssign).toHaveBeenCalledWith('/search?creators%5B0%5D=Reiniger%2C+Lotte');
   });
 
   test('keeps facet toggles on the search route when already searching', async () => {
@@ -69,13 +72,9 @@ describe('useSearchFacetToggle', () => {
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('subjects', 'Animation');
 
-    expect(routerPush).toHaveBeenCalledWith({
-      path: '/search',
-      query: {
-        'creators[0]': 'Reiniger, Lotte',
-        'subjects[0]': 'Animation',
-      },
-    });
+    expect(locationAssign).toHaveBeenCalledWith(
+      '/search?creators%5B0%5D=Reiniger%2C+Lotte&subjects%5B0%5D=Animation',
+    );
   });
 
   test('returns a shareable search href for detail-page facet toggles', () => {
@@ -91,13 +90,9 @@ describe('useSearchFacetToggle', () => {
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('productionyear', '1929');
 
-    expect(routerPush).toHaveBeenCalledWith({
-      path: '/search',
-      query: {
-        'numericRefinement[production_in_year][>=]': '1929',
-        'numericRefinement[production_in_year][<=]': '1929',
-      },
-    });
+    expect(locationAssign).toHaveBeenCalledWith(
+      '/search?numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1929&numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=1929',
+    );
   });
 
   test('uses min and max years for production year range clicks', async () => {
@@ -105,13 +100,9 @@ describe('useSearchFacetToggle', () => {
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('productionyear', '1929-2000');
 
-    expect(routerPush).toHaveBeenCalledWith({
-      path: '/search',
-      query: {
-        'numericRefinement[production_in_year][>=]': '1929',
-        'numericRefinement[production_in_year][<=]': '2000',
-      },
-    });
+    expect(locationAssign).toHaveBeenCalledWith(
+      '/search?numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1929&numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=2000',
+    );
   });
 
   test('treats slash-separated production years as a numeric range', async () => {
@@ -119,13 +110,9 @@ describe('useSearchFacetToggle', () => {
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('productionyear', '1925/1926');
 
-    expect(routerPush).toHaveBeenCalledWith({
-      path: '/search',
-      query: {
-        'numericRefinement[production_in_year][>=]': '1925',
-        'numericRefinement[production_in_year][<=]': '1926',
-      },
-    });
+    expect(locationAssign).toHaveBeenCalledWith(
+      '/search?numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1925&numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=1926',
+    );
   });
 
   test('toggles off an active production year numeric refinement', async () => {
@@ -138,9 +125,6 @@ describe('useSearchFacetToggle', () => {
 
     await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('productionyear', '1929-2000');
 
-    expect(routerPush).toHaveBeenCalledWith({
-      path: '/search',
-      query: {},
-    });
+    expect(locationAssign).toHaveBeenCalledWith('/search');
   });
 });

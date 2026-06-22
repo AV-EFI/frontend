@@ -215,7 +215,7 @@ export function useSearchFacetToggle() {
 
             const operation = () => {
                 if (updateInstantSearch()) return;
-                void router.push(facetToggleLocation(attribute, normalized));
+                window.location.assign(router.resolve(facetToggleLocation(attribute, normalized)).href);
             };
 
             if (refinementCoordinator) {
@@ -254,7 +254,7 @@ export function useSearchFacetToggle() {
 
         const operation = () => {
             if (updateInstantSearch()) return;
-            void router.push(facetToggleLocation(attribute, normalized));
+            window.location.assign(router.resolve(facetToggleLocation(attribute, normalized)).href);
         };
 
         if (refinementCoordinator) {

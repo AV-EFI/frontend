@@ -144,9 +144,9 @@ function onOutsideClick(e: MouseEvent) {
     if (!triggerRef.value?.contains(t) && !menuRef.value?.contains(t)) closeMenu();
 }
 
-async function addToSearch() {
+function addToSearch() {
     closeMenu();
-    await router.push(href.value);
+    void toggleFacetValue(props.attribute, normalizedValue.value);
 }
 
 async function startNewSearch() {
