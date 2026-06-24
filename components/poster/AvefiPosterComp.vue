@@ -323,7 +323,7 @@ defineProps<{
   font-weight: 600;
   letter-spacing: 0.03em;
   color: #fff;
-  background: #4d768d;
+  background: var(--color-primary);
   border: none;
   border-radius: 4px;
   padding: 0.45rem 1.1rem;

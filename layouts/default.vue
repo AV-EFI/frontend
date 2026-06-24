@@ -9,7 +9,7 @@
             <GlobalNavBar />
         </header>
 
-        <div class="h-[var(--header-height)] flex-shrink-0" aria-hidden="true"></div>
+        <div class="h-[var(--header-height)] shrink-0" aria-hidden="true"></div>
 
         <main class="main grow 2xl:px-6">
             <slot />
@@ -23,7 +23,7 @@
 
         <button
             v-if="hydrated && showScrollToTop"
-            class="fixed z-20 bottom-20 right-[20px] p-2 bg-neutral border-2 border-white dark:bg-secondary-600 h-[42px] w-[42px] text-white rounded-full"
+            class="fixed z-20 bottom-20 right-5 p-2 bg-neutral border-2 border-white dark:bg-secondary-600 h-[42px] w-[42px] text-white rounded-full"
             :title="$t('scrollToTop')"
             @click="scrollToTop"
         >

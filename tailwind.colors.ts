@@ -54,7 +54,7 @@ export const lightThemeColors = {
 
 export const darkThemeColors = {
   primary: {
-    DEFAULT: '#4d768d',
+    DEFAULT: '#80a3b5',
     content: 'oklch(98% 0.002 247.839)',
   },
   secondary: {

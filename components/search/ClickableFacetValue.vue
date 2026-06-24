@@ -34,18 +34,24 @@
                     v-if="menuOpen"
                     ref="menuRef"
                     role="menu"
-                    class="menu menu-sm bg-base-100 rounded-box shadow-md fixed z-10000 min-w-40 p-1 border border-base-200"
+                    class="menu menu-sm bg-base-100 rounded-box shadow-md fixed z-10000 min-w-48 p-1 border border-base-200"
                     :style="{ top: `${menuPos.top}px`, left: `${menuPos.left}px` }"
                     @keydown.esc.stop="closeMenu"
                 >
                     <li role="none">
-                        <button type="button" role="menuitem" class="gap-2" @click.stop="addToSearch">
+                        <button type="button" role="menuitem"
+                                class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-base-content hover:bg-base-200"
+                                @click.stop="addToSearch"
+                        >
                             <Icon name="tabler:filter-plus" size="1em" aria-hidden="true" />
                             {{ $t('facetMenu.addToSearch') }}
                         </button>
                     </li>
                     <li role="none">
-                        <button type="button" role="menuitem" class="gap-2" @click.stop="startNewSearch">
+                        <button type="button" role="menuitem"
+                                class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-base-content hover:bg-base-200"
+                                @click.stop="startNewSearch"
+                        >
                             <Icon name="tabler:search" size="1em" aria-hidden="true" />
                             {{ $t('facetMenu.newSearch') }}
                         </button>
@@ -86,7 +92,7 @@ const props = withDefaults(defineProps<{
 const { t, te } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const { getFacetToggleHref, isFacetValueActive, toggleFacetValue, getNewSearchLocation } = useSearchFacetToggle();
+const { getFacetToggleHref, isFacetValueActive, toggleFacetValue, startNewSearchViaIS, getNewSearchLocation } = useSearchFacetToggle();
 
 const normalizedValue = computed(() => String(props.value ?? '').trim());
 const normalizedLabel = computed(() => String(props.label || normalizedValue.value).trim());
@@ -149,9 +155,11 @@ function addToSearch() {
     void toggleFacetValue(props.attribute, normalizedValue.value);
 }
 
-async function startNewSearch() {
+function startNewSearch() {
     closeMenu();
-    await router.push(getNewSearchLocation(props.attribute, normalizedValue.value));
+    if (!startNewSearchViaIS(props.attribute, normalizedValue.value)) {
+        window.location.assign(router.resolve(getNewSearchLocation(props.attribute, normalizedValue.value)).href);
+    }
 }
 
 onMounted(() => document.addEventListener('click', onOutsideClick, { capture: true }));

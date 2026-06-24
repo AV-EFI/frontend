@@ -235,7 +235,7 @@ module.exports = {
       },
       {
         avefi_dark: {
-          primary: '#c3d5de',
+          primary: '#80a3b5',
           secondary: '#997a2e',
           accent: '#d39ea3',
           neutral: '#1d262f',

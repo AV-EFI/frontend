@@ -95,7 +95,7 @@ export default defineNuxtConfig({
             color: oklch(20.768% 0.039 265.754) !important;
             --color-base-100: oklch(20.768% 0.039 265.754);
             --color-base-content: #dfe9ee;
-            --color-primary: #4d768d;
+            --color-primary: #80a3b5;
             --color-primary-content: oklch(98% 0.002 247.839);
             --color-secondary: #000000;
             --color-secondary-content: oklch(98% 0.002 247.839);
@@ -287,11 +287,11 @@ export default defineNuxtConfig({
       {
         path: '~/components',
         global: true,
-        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'detail/**'],
+        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'detail/**', 'input/**'],
       },
       {
         path: '~/components',
-        pattern: ['cart/**', 'input/**', 'disambiguation/**'],
+        pattern: ['cart/**', 'disambiguation/**'],
       },
     ],
   },

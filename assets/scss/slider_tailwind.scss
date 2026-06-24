@@ -180,14 +180,3 @@
 .slider-draggable.is-vertical {
   cursor: ns-resize;
 }
-
-/* Optional state hooks */
-.slider-state-tap {}
-.slider-state-drag {}
-
-/* ===== Optional: add these utility classes globally if you still want to `@apply` them elsewhere =====
-@layer utilities {
-  .tap-highlight-transparent { -webkit-tap-highlight-color: transparent; }
-  .touch-callout-none { -webkit-touch-callout: none; }
-}
-*/

@@ -24,7 +24,7 @@
                     ref="menuRef"
                     role="menu"
                     tabindex="-1"
-                    class="menu menu-sm bg-base-100 rounded-box shadow fixed z-1000 w-56 p-2"
+                    class="menu menu-sm bg-base-100 rounded-box shadow fixed z-1000 w-56 p-2 dark:border-1 dark:border-gray-800"
                     :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
                     @keydown="onMenuKeydown"
                 >
@@ -34,7 +34,7 @@
                             tabindex="0"
                             :href="getNormdataUrl(item.category, item.id)"
                             target="_blank" rel="noopener"
-                            class="link link-primary link-hover dark:link-accent flex min-w-0 flex-1 items-center"
+                            class="link link-primary link-hover flex min-w-0 flex-1 items-center"
                             @click="close()"
                         >
                             <span>{{ getSameAsLabel(item) }}</span><Icon name="tabler:external-link"/>
