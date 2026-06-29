@@ -33,6 +33,7 @@ The repository already contains `docs/components/` and `docs/composables/`, but 
 - `behavior-baseline.md`: app-level behavior contract before refactoring
 - `component-behavior-contracts.md`: high-risk component contracts and regression checks
 - `test-contract-mapping.md`: mapping from behavior contracts to implemented unit/e2e/backend contract coverage
+- `github-issues-consolidation-plan.md`: plan for auditing and consolidating the AV-EFI GitHub issue backlog against project state and code evidence
 
 ## Reading order
 
@@ -45,3 +46,4 @@ The repository already contains `docs/components/` and `docs/composables/`, but 
 7. Use `behavior-baseline.md` as functional contract during refactors.
 8. Use `component-behavior-contracts.md` to derive regression tests.
 9. Use `test-contract-mapping.md` to locate implemented test coverage and open gaps.
+10. Use `github-issues-consolidation-plan.md` before changing GitHub issues, labels, assignees, or project statuses.
