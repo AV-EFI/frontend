@@ -77,6 +77,29 @@ Current inventory snapshot:
 
 No GitHub issues, labels, assignees, milestones, or project fields were changed during this inventory pass.
 
+Step 2 initial classification started on 2026-06-30.
+
+Generated files:
+
+- `docs/repo-analysis/github-issues-inventory/project-1-classified.json`
+- `docs/repo-analysis/github-issues-inventory/project-1-classified.csv`
+- `docs/repo-analysis/github-issues-inventory/project-1-classification-summary.md`
+
+Current classification snapshot:
+
+- Classified items: `139`
+- Items needing human review: `126`
+- `domain_logic_needed`: `53`
+- `implemented_candidate`: `45`
+- `backend_or_data_needed`: `18`
+- `frontend_work`: `11`
+- `qa_or_acceptance_needed`: `6`
+- `duplicate_candidate`: `3`
+- `actionable`: `2`
+- `needs_clarification`: `1`
+
+No GitHub issues, labels, assignees, milestones, or project fields were changed during this classification pass.
+
 ## Non-Goals
 
 - Do not close issues during the inventory pass.
