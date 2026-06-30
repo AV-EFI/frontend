@@ -16,8 +16,7 @@
                     <span class="label-text text-sm font-medium">{{ $t('normdata.field') }}</span>
                 </label>
                 <div class="relative">
-                    <select v-model="selectedField" class="select select-bordered select-sm w-full" :disabled="pending"
-                            @change="reload">
+                    <select v-model="selectedField" class="select select-bordered select-sm w-full" :disabled="pending">
                         <option v-for="opt in fieldOptions" :key="opt.key" :value="opt.key">
                             {{ opt.label }}
                         </option>
@@ -435,9 +434,7 @@ const sortOrder = ref<'asc' | 'desc'>((route.query.sortOrder as 'asc' | 'desc') 
 watch([selectedField, filter, showOnlyWithNormdata, activeLetter, currentPage, pageSize, sortBy, sortOrder], () => {
     const query: Record<string, string> = {};
   
-    if (selectedField.value !== 'has_subject') {
-        query.field = selectedField.value;
-    }
+    query.field = selectedField.value;
     if (filter.value) {
         query.filter = filter.value;
     }
@@ -597,7 +594,7 @@ const visiblePages = computed(() => {
 });
 
 // Reset page when filters change
-watch([filter, showOnlyWithNormdata], () => {
+watch([selectedField, filter, showOnlyWithNormdata], () => {
     currentPage.value = 1;
 });
 

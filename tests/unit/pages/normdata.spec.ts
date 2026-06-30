@@ -107,4 +107,32 @@ describe('normdata page pagination', () => {
       },
     });
   });
+
+  test('keeps has_subject explicit in the URL when switching the field selector to subjects', async () => {
+    routeQueryMock.value = {
+      field: 'has_genre',
+      page: '2',
+    };
+    rowsMock.value = Array.from({ length: 150 }, (_, index) => ({
+      value: `Subject ${index + 1}`,
+      normdataRefs: [],
+      provider: null,
+      docCount: index + 1,
+    }));
+
+    const wrapper = mountPage();
+    await nextTick();
+
+    await wrapper.find('select').setValue('has_subject');
+    await nextTick();
+    await nextTick();
+
+    expect(routerReplaceMock).toHaveBeenLastCalledWith({
+      query: {
+        field: 'has_subject',
+      },
+    });
+    expect(wrapper.text()).toContain('Subject 1');
+    expect(wrapper.text()).not.toContain('Keine Eintraege');
+  });
 });
