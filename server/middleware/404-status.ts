@@ -8,6 +8,10 @@ export default defineEventHandler((event) => {
   
   // Check if this is a catch-all route that should return 404
   // Exclude known valid routes
+  const validExactPaths = [
+    '/normdata',
+  ];
+
   const validPrefixes = [
     '/search',
     '/res/',
@@ -38,7 +42,7 @@ export default defineEventHandler((event) => {
   }
   
   // If path doesn't match any valid prefix and isn't a file, it's a 404
-  const isValidRoute = validPrefixes.some(prefix => path.startsWith(prefix));
+  const isValidRoute = validExactPaths.includes(path) || validPrefixes.some(prefix => path.startsWith(prefix));
   const isFile = path.includes('.');
   
   if (!isValidRoute && !isFile) {

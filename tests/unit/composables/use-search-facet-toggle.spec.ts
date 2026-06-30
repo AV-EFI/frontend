@@ -4,6 +4,14 @@ import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { useSearchFacetToggle } from '~/composables/useSearchFacetToggle';
 
+type IndexState = {
+  query?: string;
+  page?: number;
+  refinementList?: Record<string, string[]>;
+};
+type UiState = Record<string, IndexState>;
+type UiStateUpdater = (prevState: UiState) => UiState;
+
 const locationAssign = vi.fn();
 const routerPush = vi.fn();
 const routerResolve = vi.fn((location: { path: string; query?: Record<string, unknown> }) => {
@@ -77,6 +85,170 @@ describe('useSearchFacetToggle', () => {
     expect(locationAssign).toHaveBeenCalledWith(
       '/search?creators%5B0%5D=Reiniger%2C+Lotte&subjects%5B0%5D=Animation',
     );
+  });
+
+  test('rebuilds InstantSearch refinements from the live URL so deleted facets cannot revive', async () => {
+    routePath = '/search';
+    routeQuery = {
+      query: 'Rosa',
+      subjects: 'Queer Cinema',
+      creators: 'Rosa von Praunheim',
+    };
+    Object.defineProperty(window, 'location', {
+      value: {
+        assign: locationAssign,
+        href: 'http://localhost/search?subjects%5B0%5D=Queer+Cinema',
+        pathname: '/search',
+        search: '?subjects%5B0%5D=Queer+Cinema',
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    let nextState: UiState = {};
+    const instantSearchInstance = {
+      setUiState: vi.fn((updater: UiStateUpdater) => {
+        nextState = updater({
+          'test-index': {
+            query: 'Rosa',
+            page: 4,
+            refinementList: {
+              creators: ['Rosa von Praunheim'],
+              subjects: ['Queer Cinema'],
+            },
+          },
+        });
+      }),
+    };
+
+    const wrapper = mount(Host, {
+      global: {
+        provide: {
+          '$_ais_instantSearchInstance': instantSearchInstance,
+        },
+      },
+    });
+
+    await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('has_form', 'Interview');
+
+    expect(locationAssign).not.toHaveBeenCalled();
+    expect(instantSearchInstance.setUiState).toHaveBeenCalledTimes(1);
+    expect(nextState['test-index']).toMatchObject({
+      query: undefined,
+      page: 1,
+      refinementList: {
+        subjects: ['Queer Cinema'],
+        has_form: ['Interview'],
+      },
+    });
+    expect(nextState['test-index'].refinementList).not.toHaveProperty('creators');
+  });
+
+  test('keeps InstantSearch text query synced to the live URL while toggling facets', async () => {
+    routePath = '/search';
+    routeQuery = {};
+    Object.defineProperty(window, 'location', {
+      value: {
+        assign: locationAssign,
+        href: 'http://localhost/search?query=Rosa&subjects%5B0%5D=Queer+Cinema',
+        pathname: '/search',
+        search: '?query=Rosa&subjects%5B0%5D=Queer+Cinema',
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    let nextState: UiState = {};
+    const instantSearchInstance = {
+      setUiState: vi.fn((updater: UiStateUpdater) => {
+        nextState = updater({
+          'test-index': {
+            query: '',
+            refinementList: {},
+          },
+        });
+      }),
+    };
+
+    const wrapper = mount(Host, {
+      global: {
+        provide: {
+          '$_ais_instantSearchInstance': instantSearchInstance,
+        },
+      },
+    });
+
+    await (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>).toggleFacetValue('has_form', 'Interview');
+
+    expect(nextState['test-index']).toMatchObject({
+      query: 'Rosa',
+      refinementList: {
+        subjects: ['Queer Cinema'],
+        has_form: ['Interview'],
+      },
+    });
+  });
+
+  test('new facetted search clears the previous text query from InstantSearch state', () => {
+    routePath = '/search';
+    routeQuery = {
+      query: 'Rosa',
+      'creators[0]': 'Praunheim, Rosa von',
+    };
+    Object.defineProperty(window, 'location', {
+      value: {
+        assign: locationAssign,
+        href: 'http://localhost/search?query=Rosa&creators%5B0%5D=Praunheim%2C%20Rosa%20von',
+        pathname: '/search',
+        search: '?query=Rosa&creators%5B0%5D=Praunheim%2C%20Rosa%20von',
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    let nextState: UiState = {};
+    const instantSearchInstance = {
+      setUiState: vi.fn((updater: UiStateUpdater) => {
+        nextState = updater({
+          'test-index': {
+            query: 'Rosa',
+            refinementList: {
+              creators: ['Praunheim, Rosa von'],
+            },
+          },
+        });
+      }),
+    };
+    const querySyncSpy = vi.fn();
+    window.addEventListener('avefi:search-query-sync', querySyncSpy);
+
+    try {
+      const wrapper = mount(Host, {
+        global: {
+          provide: {
+            '$_ais_instantSearchInstance': instantSearchInstance,
+          },
+        },
+      });
+
+      const handledByInstantSearch = (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>)
+        .startNewSearchViaIS('creators', 'Praunheim, Rosa von');
+
+      expect(handledByInstantSearch).toBe(true);
+      expect(nextState['test-index']).toEqual({
+        query: undefined,
+        refinementList: {
+          creators: ['Praunheim, Rosa von'],
+        },
+      });
+      expect(querySyncSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          detail: { query: '' },
+        }),
+      );
+    } finally {
+      window.removeEventListener('avefi:search-query-sync', querySyncSpy);
+    }
   });
 
   test('returns a shareable search href for detail-page facet toggles', () => {

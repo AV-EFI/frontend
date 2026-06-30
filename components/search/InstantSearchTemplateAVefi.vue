@@ -576,16 +576,45 @@ const recentSearchesWithUrl = computed(() => {
     return history;
 });
 
-// Sync localSearchValue with URL query parameter
-const syncSearchValueFromUrl = () => {
-    if (typeof window === 'undefined') return;
+function queryObjectFromUrlSearch(): Record<string, unknown> {
+    if (typeof window === 'undefined') return {};
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const queryParam = urlParams.get('query');
+    const query: Record<string, unknown> = {};
+    const params = new URLSearchParams(window.location.search);
 
-    localSearchValue.value = queryParam || '';
-    searchQuery.value = queryParam || '';
+    params.forEach((value, key) => {
+        const current = query[key];
+        if (Array.isArray(current)) {
+            current.push(value);
+        } else if (current !== undefined) {
+            query[key] = [current, value];
+        } else {
+            query[key] = value;
+        }
+    });
+
+    return query;
+}
+
+function queryTextFromRouteQuery(query: Record<string, unknown>): string {
+    const rawQuery = Array.isArray(query.query) ? query.query[0] : query.query;
+    return rawQuery === undefined || rawQuery === null ? '' : String(rawQuery);
+}
+
+function syncSearchValueFromRouteQuery(query: Record<string, unknown>) {
+    applySearchQueryValue(queryTextFromRouteQuery(query));
+}
+
+const applySearchQueryValue = (value: unknown) => {
+    const normalized = value === undefined || value === null ? '' : String(value);
+    localSearchValue.value = normalized;
+    searchQuery.value = normalized;
 };
+
+function syncSearchFromUrlState(query: Record<string, unknown> = queryObjectFromUrlSearch()) {
+    syncSearchValueFromRouteQuery(query);
+    syncInstantSearchStateFromRouteQuery(query);
+}
 
 // Use <ais-state-results> to access the raw search response
 // Example usage in template:
@@ -602,17 +631,23 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const handlePopState = () => {
-    syncSearchValueFromUrl();
+    syncSearchFromUrlState();
+};
+
+const handleSearchQuerySync = (event: Event) => {
+    const query = (event as CustomEvent<{ query?: unknown }>).detail?.query;
+    applySearchQueryValue(query);
 };
 
 const updateFromStorage = () => {
-    syncSearchValueFromUrl();
+    syncSearchFromUrlState();
 };
 
 onMounted(() => {
-    syncSearchValueFromUrl();
+    syncSearchFromUrlState();
     document.addEventListener('click', handleClickOutside);
     window.addEventListener('popstate', handlePopState);
+    window.addEventListener('avefi:search-query-sync', handleSearchQuerySync);
     window.addEventListener('storage', updateFromStorage);
 
     nextTick(() => {
@@ -625,6 +660,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
     document.removeEventListener('click', handleClickOutside);
     window.removeEventListener('popstate', handlePopState);
+    window.removeEventListener('avefi:search-query-sync', handleSearchQuerySync);
     window.removeEventListener('storage', updateFromStorage);
 });
 
@@ -1406,14 +1442,18 @@ const stateMapping = {
                     !key.startsWith('range_')
 
                 ) {
-                    const refinementKey = key;
+                    const indexedFacetMatch = key.match(/^(.+)\[\d+\]$/);
+                    const refinementKey = indexedFacetMatch ? indexedFacetMatch[1] : key;
                     const value = routeState[key];
+                    const currentValues = refinementList[refinementKey] || [];
 
                     if (Array.isArray(value)) {
-                        refinementList[refinementKey] = value;
+                        refinementList[refinementKey] = [...currentValues, ...value];
                     } else if (value !== undefined && value !== null) {
-                        refinementList[refinementKey] = [value];
-                        console.warn(`[routeToState] Facet "${key}" was not an array. Value was wrapped in array.`);
+                        refinementList[refinementKey] = [...currentValues, value];
+                        if (!indexedFacetMatch) {
+                            console.warn(`[routeToState] Facet "${key}" was not an array. Value was wrapped in array.`);
+                        }
                     }
                 }
             });
@@ -1494,10 +1534,82 @@ const stateMapping = {
     }
 };
 
+function normalizedJson(value: unknown): string {
+    return JSON.stringify(value, (_key, item) => {
+        if (!item || typeof item !== 'object' || Array.isArray(item)) return item;
+
+        return Object.keys(item as Record<string, unknown>)
+            .sort()
+            .reduce((acc: Record<string, unknown>, key) => {
+                const child = (item as Record<string, unknown>)[key];
+                if (child !== undefined) acc[key] = child;
+                return acc;
+            }, {});
+    });
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+}
+
+function normalizeIndexUiState(state: Record<string, unknown> = {}) {
+    const normalized: Record<string, unknown> = {};
+
+    if (state.query !== undefined && state.query !== null && String(state.query).trim() !== '') {
+        normalized.query = String(state.query);
+    }
+
+    if (isRecord(state.refinementList) && Object.keys(state.refinementList).length > 0) {
+        normalized.refinementList = state.refinementList;
+    }
+
+    if (isRecord(state.numericRefinements) && Object.keys(state.numericRefinements).length > 0) {
+        normalized.numericRefinements = state.numericRefinements;
+    }
+
+    if (isRecord(state.range) && Object.keys(state.range).length > 0) {
+        normalized.range = state.range;
+    }
+
+    if (state.page !== undefined && Number(state.page) > 1) {
+        normalized.page = Number(state.page);
+    }
+
+    return normalized;
+}
+
+function syncInstantSearchStateFromRouteQuery(query: Record<string, unknown>) {
+    if (!instantSearchInstance?.setUiState) return;
+
+    const nextIndexState = normalizeIndexUiState(
+        stateMapping.routeToState(query)?.[props.indexName] || {}
+    );
+    const liveUiState = instantSearchInstance.uiState || aisState?.uiState;
+    const liveIndexState = normalizeIndexUiState(liveUiState?.[props.indexName] || {});
+
+    if (normalizedJson(liveIndexState) === normalizedJson(nextIndexState)) {
+        return;
+    }
+
+    instantSearchInstance.setUiState((prevState: any) => {
+        const currentIndexState = normalizeIndexUiState(prevState?.[props.indexName] || {});
+
+        if (normalizedJson(currentIndexState) === normalizedJson(nextIndexState)) {
+            return prevState;
+        }
+
+        return {
+            ...(prevState || {}),
+            [props.indexName]: nextIndexState,
+        };
+    });
+}
+
 watch(
     () => route.query,
     (newQuery, oldQuery) => {
         syncPreservedSliderParamsFromRoute();
+        syncSearchFromUrlState(newQuery as Record<string, unknown>);
 
         if (isClearingAllRefinements.value) return;
         if (!oldQuery) return;

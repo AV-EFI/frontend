@@ -12,6 +12,16 @@ const currentRefinementsItemsMock = vi.hoisted(() => ({
 }));
 const currentRefinementRefineSpy = vi.hoisted(() => vi.fn());
 
+type IndexState = {
+  query?: string;
+  page?: number;
+  refinementList?: Record<string, unknown[]>;
+  numericRefinements?: Record<string, Record<string, unknown[]>>;
+  range?: Record<string, unknown>;
+};
+type UiState = Record<string, IndexState>;
+type UiStateUpdater = (prevState: UiState) => UiState;
+
 vi.hoisted(() => {
   (globalThis as any).useRuntimeConfig = () => ({
     public: {
@@ -138,10 +148,14 @@ const AisCurrentRefinementsStub = {
   },
 };
 
-function mountComponent(searchClient = { search: vi.fn().mockResolvedValue({ results: [] }) }) {
+function mountComponent(
+  searchClient = { search: vi.fn().mockResolvedValue({ results: [] }) },
+  provide: Record<string, unknown> = {},
+) {
   return mount(InstantSearchTemplateAVefi, {
     props: { indexName: 'test-index', searchClient },
     global: {
+      provide,
       stubs: {
         AisInstantSearch: AisInstantSearchStub,
         AisConfigure: { template: '<div />' },
@@ -234,6 +248,119 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
     expect(routerReplaceMock).toHaveBeenCalledWith({
       path: '/search',
       query: {},
+    });
+  });
+
+  test('clears the visible search input when the URL query is removed', async () => {
+    routeQueryMock.value = { query: 'Rosa' };
+    window.history.pushState({}, '', '/search?query=Rosa');
+
+    const wrapper = mountComponent();
+    await nextTick();
+
+    const input = wrapper.find('input');
+    expect((input.element as HTMLInputElement).value).toBe('Rosa');
+
+    routeQueryMock.value = {};
+    window.history.pushState({}, '', '/search');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    await nextTick();
+
+    expect((input.element as HTMLInputElement).value).toBe('');
+  });
+
+  test('clears the visible search input immediately for new facetted search sync events', async () => {
+    routeQueryMock.value = {
+      query: 'Rosa',
+      'creators[0]': 'Praunheim, Rosa von',
+    };
+    window.history.pushState(
+      {},
+      '',
+      '/search?query=Rosa&creators%5B0%5D=Praunheim%2C%20Rosa%20von',
+    );
+
+    const wrapper = mountComponent();
+    await nextTick();
+
+    const input = wrapper.find('input');
+    expect((input.element as HTMLInputElement).value).toBe('Rosa');
+
+    window.history.pushState({}, '', '/search?creators%5B0%5D=Praunheim%2C%20Rosa%20von');
+    window.dispatchEvent(new CustomEvent('avefi:search-query-sync', { detail: { query: '' } }));
+    await nextTick();
+
+    expect((input.element as HTMLInputElement).value).toBe('');
+  });
+
+  test('keeps visible input and InstantSearch uiState derived from the current URL across transitions', async () => {
+    routeQueryMock.value = {
+      query: 'Rosa',
+      'creators[0]': 'Praunheim, Rosa von',
+    };
+    window.history.pushState(
+      {},
+      '',
+      '/search?query=Rosa&creators%5B0%5D=Praunheim%2C%20Rosa%20von',
+    );
+
+    let uiState: UiState = {
+      'test-index': {
+        query: 'stale',
+        refinementList: {
+          subjects: ['stale subject'],
+        },
+      },
+    };
+    const instantSearchInstance = {
+      get uiState() {
+        return uiState;
+      },
+      setUiState: vi.fn((updater: UiStateUpdater) => {
+        uiState = updater(uiState);
+      }),
+    };
+
+    const wrapper = mountComponent(
+      { search: vi.fn().mockResolvedValue({ results: [] }) },
+      { '$_ais_instantSearchInstance': instantSearchInstance },
+    );
+    await flushPromises();
+    await nextTick();
+
+    const input = wrapper.find('input');
+    expect((input.element as HTMLInputElement).value).toBe('Rosa');
+    expect(uiState['test-index']).toEqual({
+      query: 'Rosa',
+      refinementList: {
+        creators: ['Praunheim, Rosa von'],
+      },
+    });
+
+    window.history.pushState({}, '', '/search?creators%5B0%5D=Praunheim%2C%20Rosa%20von');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    await flushPromises();
+    await nextTick();
+
+    expect((input.element as HTMLInputElement).value).toBe('');
+    expect(uiState['test-index']).toEqual({
+      refinementList: {
+        creators: ['Praunheim, Rosa von'],
+      },
+    });
+
+    window.history.pushState({}, '', '/search?query=Berlin&subjects%5B0%5D=Arbeit&page=2');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    await flushPromises();
+    await nextTick();
+
+    expect((input.element as HTMLInputElement).value).toBe('Berlin');
+    expect(uiState['test-index']).toEqual({
+      query: 'Berlin',
+      page: 2,
+      refinementList: {
+        subjects: ['Arbeit'],
+      },
     });
   });
 

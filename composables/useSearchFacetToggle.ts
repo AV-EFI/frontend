@@ -47,6 +47,74 @@ function readIndexedValues(query: Record<string, unknown>, attribute: string): s
   return result;
 }
 
+function queryFromSearchParams(params: URLSearchParams): Record<string, unknown> {
+  const query: Record<string, unknown> = {};
+
+  params.forEach((value, key) => {
+    const current = query[key];
+    if (Array.isArray(current)) {
+      current.push(value);
+    } else if (current !== undefined) {
+      query[key] = [current, value];
+    } else {
+      query[key] = value;
+    }
+  });
+
+  return query;
+}
+
+function liveQuery(): Record<string, unknown> {
+  if (typeof window === 'undefined') return {};
+  return queryFromSearchParams(new URLSearchParams(window.location.search));
+}
+
+function isSearchControlParam(key: string): boolean {
+  return (
+    key === 'query' ||
+    key === 'page' ||
+    key === 'numericRefinement' ||
+    key.startsWith('numericRefinement[') ||
+    key.startsWith('range_')
+  );
+}
+
+function addRefinementValue(target: Record<string, string[]>, attribute: string, value: unknown): void {
+  const values = Array.isArray(value) ? value : value !== undefined && value !== null ? [value] : [];
+
+  for (const item of values) {
+    const normalized = normalizedValue(item);
+    if (!normalized) continue;
+    if (!target[attribute]) target[attribute] = [];
+    if (!target[attribute].includes(normalized)) target[attribute].push(normalized);
+  }
+}
+
+function refinementListFromQuery(query: Record<string, unknown>): Record<string, string[]> {
+  const refinementList: Record<string, string[]> = {};
+
+  Object.entries(query).forEach(([key, value]) => {
+    if (isSearchControlParam(key)) return;
+
+    const indexedMatch = key.match(/^(.+)\[\d+\]$/);
+    addRefinementValue(refinementList, indexedMatch ? indexedMatch[1] : key, value);
+  });
+
+  return refinementList;
+}
+
+function searchTextFromQuery(query: Record<string, unknown>): string {
+  const raw = Array.isArray(query.query) ? query.query[0] : query.query;
+  return normalizedValue(raw);
+}
+
+function dispatchSearchQuerySync(query: string): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent('avefi:search-query-sync', {
+    detail: { query },
+  }));
+}
+
 /** Write facet values in IS's indexed format (attr[0]=v, attr[1]=v, …). */
 function writeIndexedValues(query: Record<string, unknown>, attribute: string, values: string[]): void {
   delete query[attribute];
@@ -174,11 +242,11 @@ export function useSearchFacetToggle() {
       instantSearchInstance.setUiState((prevState: any) => {
         const indexName = resolveIndexName(prevState);
         const indexState = prevState[indexName] || {};
-        const refinementList = { ...(indexState.refinementList || {}) };
+        const currentQuery = liveQuery();
+        const refinementList = refinementListFromQuery(currentQuery);
+        const query = searchTextFromQuery(currentQuery);
 
-        // Prefer IS's in-memory list; fall back to URL params
-        const existing: string[] = refinementList[attribute]
-                    ?? readIndexedValues(route.query as Record<string, unknown>, attribute);
+        const existing = readIndexedValues(currentQuery, attribute);
         const next = toggleValues(existing, normalized);
 
         if (next.length) {
@@ -189,7 +257,12 @@ export function useSearchFacetToggle() {
 
         return {
           ...prevState,
-          [indexName]: { ...indexState, page: 1, refinementList },
+          [indexName]: {
+            ...indexState,
+            query: query || undefined,
+            page: 1,
+            refinementList,
+          },
         };
       });
       return true;
@@ -223,11 +296,13 @@ export function useSearchFacetToggle() {
       return {
         ...prevState,
         [indexName]: {
+          query: undefined,
           refinementList: { [attribute]: [normalized] },
         },
       };
     });
 
+    dispatchSearchQuerySync('');
     return true;
   }
 

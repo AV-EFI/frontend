@@ -209,7 +209,7 @@
                     </tr>
                     <tr v-for="(row, idx) in paginatedRows" :key="row.value + '|' + idx">
                         <td class="text-right text-xs">
-                            {{ (currentPage - 1) * pageSize + idx + 1 }}
+                            {{ (boundedCurrentPage - 1) * pageSize + idx + 1 }}
                         </td>
                         <td class="text-xs wrap-break-word">
                             <span v-html="highlightText(row.value)"></span>
@@ -305,7 +305,7 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { useSeoMeta, useSchemaOrg, defineWebPage } from '#imports';
+import { computed, ref, watch } from 'vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -416,9 +416,15 @@ const showOnlyWithNormdata = ref(route.query.normdata === 'true');
 const activeLetter = ref<string | null>((route.query.letter as string) || null);
 const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
 
+function parsePositiveInt(value: unknown, fallback: number): number {
+    const raw = Array.isArray(value) ? value[0] : value;
+    const parsed = parseInt(String(raw ?? ''), 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
 // Pagination
-const currentPage = ref(parseInt((route.query.page as string) || '1', 10));
-const pageSize = ref(parseInt((route.query.size as string) || '50', 10));
+const currentPage = ref(parsePositiveInt(route.query.page, 1));
+const pageSize = ref(parsePositiveInt(route.query.size, 50));
 
 // Sorting
 type SortKey = 'value' | 'provider' | 'docCount'
@@ -475,6 +481,7 @@ const { data, pending, refresh } = useFetch(() => {
 
 const rows = computed<Row[]>(() => (data.value?.rows as Row[]) || []);
 const totalResults = computed(() => data.value?.total || 0);
+const hasFetchedRows = computed(() => data.value !== null && data.value !== undefined);
 
 const filteredRows = computed(() => {
     let filtered = rows.value;
@@ -537,12 +544,17 @@ function toggleSort(key: SortKey) {
 // Pagination computed properties
 const totalPages = computed(() => {
     if (pageSize.value === Infinity) return 1;
-    return Math.ceil(sortedRows.value.length / pageSize.value);
+    return Math.max(1, Math.ceil(sortedRows.value.length / pageSize.value));
+});
+
+const boundedCurrentPage = computed(() => {
+    const page = Number.isFinite(currentPage.value) ? currentPage.value : 1;
+    return Math.min(Math.max(page, 1), totalPages.value);
 });
 
 const paginatedRows = computed(() => {
     if (pageSize.value === Infinity) return sortedRows.value;
-    const start = (currentPage.value - 1) * pageSize.value;
+    const start = (boundedCurrentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
     return sortedRows.value.slice(start, end);
 });
@@ -593,6 +605,22 @@ watch([filter, showOnlyWithNormdata], () => {
 watch(activeLetter, () => {
     currentPage.value = 1;
 });
+
+watch(
+    [hasFetchedRows, totalPages, pageSize],
+    () => {
+        if (!hasFetchedRows.value) {
+            return;
+        }
+
+        if (currentPage.value > totalPages.value) {
+            currentPage.value = totalPages.value;
+        } else if (currentPage.value < 1 || !Number.isFinite(currentPage.value)) {
+            currentPage.value = 1;
+        }
+    },
+    { immediate: true }
+);
 
 const { getNormdataUrl } = useNormdataUrl();
 
