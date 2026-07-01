@@ -100,6 +100,48 @@ Current classification snapshot:
 
 No GitHub issues, labels, assignees, milestones, or project fields were changed during this classification pass.
 
+Step 3 local codebase cross-check started on 2026-06-30.
+
+Generated files:
+
+- `docs/repo-analysis/github-issues-inventory/project-1-code-cross-check.json`
+- `docs/repo-analysis/github-issues-inventory/project-1-code-cross-check.csv`
+- `docs/repo-analysis/github-issues-inventory/project-1-code-cross-check-summary.md`
+
+Current codebase cross-check snapshot:
+
+- Items cross-checked: `139`
+- Items in frontend/implementation review scope: `64`
+- Items with local evidence matches: `62`
+- Items with no local evidence matches: `2`
+- `blocked_external`: `75`
+- `implemented_but_untested`: `42`
+- `partial`: `17`
+- `implemented`: `3`
+- `not_found`: `2`
+
+The cross-check is a local `rg` evidence pass only. It records candidate files, lines, and matched search terms for manual review; it does not prove issue completion and does not change GitHub state.
+
+Step 4 review-batch preparation started on 2026-07-01.
+
+Generated files:
+
+- `docs/repo-analysis/github-issues-inventory/project-1-review-batches.json`
+- `docs/repo-analysis/github-issues-inventory/project-1-review-batches.csv`
+- `docs/repo-analysis/github-issues-inventory/project-1-review-batches.md`
+
+Manual review notes:
+
+- `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-01.md`
+
+The review batch pass ranks local evidence quality and splits issue proposals into small, conservative groups:
+
+- `verification_candidates`: open issues with stronger local runtime/test evidence that need manual acceptance review before any keep/close decision.
+- `frontend_triage`: frontend-scope issues where local evidence suggests missing or partial work.
+- `owner_routing`: open issues outside the frontend evidence scope that need owner-area routing or missing metadata cleanup.
+
+No GitHub issues, labels, assignees, milestones, or project fields are changed by this pass.
+
 ## Non-Goals
 
 - Do not close issues during the inventory pass.
@@ -282,6 +324,18 @@ Heuristic signals:
 
 This step comes after the initial inventory/classification.
 
+Runnable local command:
+
+```bash
+npm run github:issues:cross-check
+```
+
+Recommended output files:
+
+- `docs/repo-analysis/github-issues-inventory/project-1-code-cross-check.json`
+- `docs/repo-analysis/github-issues-inventory/project-1-code-cross-check.csv`
+- `docs/repo-analysis/github-issues-inventory/project-1-code-cross-check-summary.md`
+
 For each actionable or implementation-related issue:
 
 1. Extract search terms from title/body.
@@ -331,6 +385,12 @@ Each batch should contain:
 - Evidence summary
 
 Apply only after review.
+
+Runnable local preparation command:
+
+```bash
+npm run github:issues:review-batches
+```
 
 Recommended batch sizes:
 

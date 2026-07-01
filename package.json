@@ -48,6 +48,8 @@
     "security:weekly:stage": "git add package.json yarn.lock logs/security/dependabot-weekly-report.md logs/security/dependabot-alerts-open.json && git status --short",
     "security:weekly:finalize": "node scripts/weekly-security-finalize.mjs",
     "security:weekly:finalize:commit": "node scripts/weekly-security-finalize.mjs --commit",
+    "github:issues:cross-check": "node scripts/github-project-cross-check.mjs",
+    "github:issues:review-batches": "node scripts/github-project-review-batches.mjs",
     "generate:colours": "tsx scripts/generate-scss-vars.ts",
     "generate:colors": "tsx scripts/generate-scss-vars.ts",
     "generate:interfaces": "node scripts/generate-interfaces.mjs",
