@@ -24,16 +24,16 @@
             role="menu" :aria-label="$t('moreOptions')">
             <li role="none" class="action-list-item">
                 <div class="action-row-wrap w-full p-0 my-0 mx-auto justify-center items-center">
-                    <LazyCartAddToFavouritesComp :film-id="id ?? item?.handle"
-                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="w-48 btn-block btn-sm flex items-start action-btn"
-                                                 role="menuitem" />
+                    <AddToFavouritesComp :film-id="id ?? item?.handle"
+                                         :film-title="item?.has_record?.has_primary_title?.has_name" class="w-48 btn-block btn-sm flex items-start action-btn"
+                                         role="menuitem" />
                 </div>
             </li>
             <li role="none" class="action-list-item">
                 <div class="action-row-wrap w-full p-0 my-0 mx-auto justify-center items-center z-20">
-                    <LazyCartAddToComparisonComp :film-id="id ?? item?.handle"
-                                                 :film-title="item?.has_record?.has_primary_title?.has_name" class="btn-block btn-sm w-48 flex items-start action-btn"
-                                                 role="menuitem" />
+                    <AddToComparisonComp :film-id="id ?? item?.handle"
+                                         :film-title="item?.has_record?.has_primary_title?.has_name" class="btn-block btn-sm w-48 flex items-start action-btn"
+                                         role="menuitem" />
                 </div>
             </li>
             <li role="none" class="action-list-item mx-auto">
@@ -47,6 +47,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import AddToComparisonComp from '~/components/cart/AddToComparisonComp.vue';
+import AddToFavouritesComp from '~/components/cart/AddToFavouritesComp.vue';
 
 defineProps({
     item: {

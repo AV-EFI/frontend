@@ -7,7 +7,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const favouritesStore = useFavourites();
   const $i18n:any = nuxtApp.$i18n || useNuxtApp().$i18n;
   const t = (key: string, params?: Record<string, unknown>) => $i18n.t(key, params);
-  const toast = nuxtApp.$toast;
+  const getToast = () => nuxtApp.$toast;
 
   const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
     if (filmId) {
@@ -15,15 +15,15 @@ export default defineNuxtPlugin((nuxtApp) => {
         favouritesStore.addObject({ filmId, filmTitle })
           .then((added) => {
             if (added == "listfull") {
-              toast?.warn?.(t('favouritesfull'), { autoClose: 4000 });
+              getToast()?.warn?.(t('favouritesfull'), { autoClose: 4000 });
             }
             else if (added == "already") {
-              toast?.warn?.(t('favouritesalready'), { autoClose: 3000 });
+              getToast()?.warn?.(t('favouritesalready'), { autoClose: 3000 });
             }
             else if (added == "succ") {
-              toast?.success?.(t('addedtofavouritesparam', {'name': filmTitle}));
+              getToast()?.success?.(t('addedtofavouritesparam', {'name': filmTitle}));
             } else {
-              toast?.error?.(t('unexpectedError'));
+              getToast()?.error?.(t('unexpectedError'));
             }
           });
 
@@ -31,15 +31,15 @@ export default defineNuxtPlugin((nuxtApp) => {
         useObjectStore.addObject({ filmId, filmTitle })
           .then((added) => {
             if (added == "listfull") {
-              toast?.warn?.(t('comparisonfull'), { autoClose: 4000 });
+              getToast()?.warn?.(t('comparisonfull'), { autoClose: 4000 });
             }
             else if (added == "already") {
-              toast?.warn?.(t('comparisonalready'), { autoClose: 3000 });
+              getToast()?.warn?.(t('comparisonalready'), { autoClose: 3000 });
             }
             else if (added == "succ") {
-              toast?.success?.(t('addedtocomparisonparam', {'name': filmTitle}));
+              getToast()?.success?.(t('addedtocomparisonparam', {'name': filmTitle}));
             } else {
-              toast?.error?.(t('unexpectedError'));
+              getToast()?.error?.(t('unexpectedError'));
             }
           });
       }
