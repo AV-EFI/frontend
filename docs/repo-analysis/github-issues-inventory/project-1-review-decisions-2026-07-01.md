@@ -19,6 +19,9 @@ These notes record the manual review decisions from the first frontend-triage ba
 - Closed `AV-EFI/AVefi-Issues#111` with a short implementation note.
 - `AV-EFI/frontend#2` was closed after linking/routing the open definition work to `AV-EFI/AVefi-Issues#150`. Closed at: `2026-07-01T07:06:05Z`.
 - `AV-EFI/frontend#10` was already closed as deprecated. Closed at: `2026-07-01T06:37:40Z`.
+- Commented and closed `AV-EFI/AVefi-Issues#119` in favor of `AV-EFI/AVefi-Issues#128`: https://github.com/AV-EFI/AVefi-Issues/issues/119#issuecomment-4862864922
+- Commented and closed `AV-EFI/AVefi-Issues#125` in favor of `AV-EFI/AVefi-Issues#128`: https://github.com/AV-EFI/AVefi-Issues/issues/125#issuecomment-4862864936
+- Commented and closed `AV-EFI/AVefi-Issues#157` as an unspecific SEO collector, with concrete SEO follow-up in `AV-EFI/AVefi-Issues#158` and `AV-EFI/AVefi-Issues#159`: https://github.com/AV-EFI/AVefi-Issues/issues/157#issuecomment-4862864909
 
 ## Frontend Triage Decisions
 
@@ -36,6 +39,21 @@ These notes record the manual review decisions from the first frontend-triage ba
 | `AV-EFI/frontend#10` | Closed as deprecated. | Remove from active frontend triage in the next refreshed inventory. |
 
 No `AV-EFI/frontend` issue from this frontend-triage batch remains pending.
+
+## Owner-Routing Batch Decisions
+
+| Issue | Decision | Next action |
+| --- | --- | --- |
+| `AV-EFI/AVefi-Issues#119` | Closed in favor of `AV-EFI/AVefi-Issues#128`. | Keep navigation/search-context discussion centralized in `#128`. |
+| `AV-EFI/AVefi-Issues#125` | Closed in favor of `AV-EFI/AVefi-Issues#128`. | Keep “new tab” vs. connected Same-Tab workflow in `#128`. |
+| `AV-EFI/AVefi-Issues#157` | Closed as unspecific SEO collector. | Keep concrete SEO work in `#158` and `#159`. |
+| `AV-EFI/AVefi-Issues#102` | Keep. Has issuer/origin decision question; not safe to close automatically. | Needs product/domain decision about visibility of source institutions for works. |
+| `AV-EFI/AVefi-Issues#107` | Keep. Multilingual issuer display depends on issuer data/labels. | Route with Herausgeber issues rather than backend bucket. |
+| `AV-EFI/AVefi-Issues#147` | Keep. Marked `UNSCHARF`; recommendation transparency needs domain/product definition. | Needs acceptance criteria for similarity/recommendation explanation. |
+| `AV-EFI/AVefi-Issues#149` | Keep. Public-release license visibility is still a legal/product decision. | Needs decision on global notice vs. machine-readable per-record license metadata. |
+| `AV-EFI/AVefi-Issues#156` | Keep for now. Expert/simple mode is still unspecific but may be post-release scope. | Clarify whether “simple mode” is a later UX epic or should be closed. |
+| `AV-EFI/AVefi-Issues#199` | Keep. Governance/documentation issue has active owner discussion. | Leave with metadata group/domain owners. |
+| `AV-EFI/AVefi-Issues#66` | Keep. Public-release preview/data-completeness issue has test/finalization questions. | Needs verification whether preview fields are final and tested. |
 
 ## Issue `#128` UX Direction
 
