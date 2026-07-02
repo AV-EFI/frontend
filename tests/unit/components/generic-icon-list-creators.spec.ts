@@ -2,6 +2,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import GenericIconList from '~/components/search/GenericIconList.vue';
+import IconEntryItem from '~/components/search/IconEntryItem.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
@@ -22,6 +23,7 @@ function mountList(data: Record<string, unknown>) {
     },
     global: {
       stubs: {
+        IconEntryItem,
         Icon: { props: ['name'], template: '<span data-testid="icon">{{ name }}</span>' },
         MicroDataQualityWarningIcon: { props: ['label'], template: '<span data-testid="dq-warning">{{ label }}</span>' },
         SearchClickableFacetValue: {
