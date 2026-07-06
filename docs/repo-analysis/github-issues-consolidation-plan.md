@@ -2,7 +2,7 @@
 
 This guide documents the planned consolidation work for the AV-EFI GitHub issue backlog and project boards. It is intended to keep the cleanup reproducible, evidence-based, and safe to resume over multiple sessions.
 
-Last checked: 2026-06-29.
+Last checked: 2026-07-06.
 
 ## Scope
 
@@ -13,25 +13,28 @@ Primary project:
 - Project board: `AVefi User Stories Kanban (ALL User Stories)`
 - Project URL: `https://github.com/orgs/AV-EFI/projects/1`
 
-Secondary project for comparison/release planning:
+Secondary project to empty during post-release cleanup:
 
 - Project board: `AVefi: Public Release Board`
 - Project URL: `https://github.com/orgs/AV-EFI/projects/3`
+- Public release was completed in June 2026, so this board should no longer be used for active backlog work.
+- Active issue cleanup and future planning should happen in Project 1 / `AVefi User Stories Kanban (ALL User Stories)`.
 
 The local frontend repository remains GitLab-first:
 
 - `origin` must remain `git@gitlab.gwdg.de:av-efi/frontend.git`
 - GitHub remote `github` is used only for GitHub extension/context integration.
+- GitHub issues are centralized in `AV-EFI/AVefi-Issues`; `AV-EFI/frontend` should not be used as a separate issue tracker.
 
 ## Verified GitHub Facts
 
-The active GitHub token must include `read:project` for Project v2 access.
+The active GitHub token must include `read:project` for Project v2 read access and `project` for Project v2 item add/delete cleanup work.
 
 Verified token scopes after refresh:
 
 - `gist`
 - `read:org`
-- `read:project`
+- `project`
 - `repo`
 - `workflow`
 
@@ -39,8 +42,13 @@ Verified Project v2 mapping:
 
 | Project number | Title | URL | Project items |
 | --- | --- | --- | ---: |
-| `1` | `AVefi User Stories Kanban (ALL User Stories)` | `https://github.com/orgs/AV-EFI/projects/1` | `139` |
-| `3` | `AVefi: Public Release Board` | `https://github.com/orgs/AV-EFI/projects/3` | `59` |
+| `1` | `AVefi User Stories Kanban (ALL User Stories)` | `https://github.com/orgs/AV-EFI/projects/1` | `144` |
+| `3` | `AVefi: Public Release Board` | `https://github.com/orgs/AV-EFI/projects/3` | `51` |
+
+Project 3 cleanup status as of 2026-07-06:
+
+- Open Project 3 issues moved/commented/removed from Project 3: `#152`, `#158`, `#161`, `#182`, `#194`, `#202`, `#203`, `#207`.
+- Project 3 now has `0` open issues. Remaining Project 3 items are closed/historical and were left untouched in this pass.
 
 Important: GitHub issue search counts and Project v2 item counts can differ. Project v2 can include closed issues, draft items, mixed repositories, and field metadata that is not visible through ordinary issue search.
 
@@ -62,20 +70,21 @@ Generated files:
 - `docs/repo-analysis/github-issues-inventory/project-1-items.csv`
 - `docs/repo-analysis/github-issues-inventory/project-1-summary.md`
 
-Current inventory snapshot:
+Current inventory snapshot after the 2026-07-06 cleanup pass:
 
-- Project items reported by GitHub: `139`
-- Project items exported: `139`
-- Issue items exported: `139`
-- Open issues in project snapshot: `94`
-- Closed issues in project snapshot: `45`
-- Missing assignees: `29`
-- Missing labels: `21`
-- Missing milestone: `116`
-- Missing project status: `61`
+- Project items reported by GitHub: `144`
+- Project items exported: `144`
+- Issue items exported: `144`
+- Open issues in project snapshot: `84`
+- Closed issues in project snapshot: `60`
+- Missing assignees: `0`
+- Missing labels: `18`
+- Missing milestone: `120`
+- Missing project status: `62`
 - Duplicate issue references in project snapshot: `0`
+- Repositories in Project 1 snapshot: `AV-EFI/AVefi-Issues` `144`, `AV-EFI/frontend` `0`
 
-No GitHub issues, labels, assignees, milestones, or project fields were changed during this inventory pass.
+The inventory pass itself does not change GitHub state. The 2026-07-06 cleanup pass transferred all remaining `AV-EFI/frontend` issues into `AV-EFI/AVefi-Issues`. A later 2026-07-06 board cleanup moved all open issues from Project 3 / Public Release Board into Project 1 / ALL USER STORIES, added German audit comments, and removed those Project 3 items. The old `sync-by-unito[bot]` imported issues were also assigned to `steffolino` with German audit comments because GitHub does not allow replacing the original issue author.
 
 Step 2 initial classification started on 2026-06-30.
 
@@ -87,15 +96,14 @@ Generated files:
 
 Current classification snapshot:
 
-- Classified items: `139`
-- Items needing human review: `126`
-- `domain_logic_needed`: `53`
-- `implemented_candidate`: `45`
-- `backend_or_data_needed`: `18`
-- `frontend_work`: `11`
-- `qa_or_acceptance_needed`: `6`
+- Classified items: `144`
+- Items needing human review: `136`
+- `implemented_candidate`: `60`
+- `domain_logic_needed`: `57`
+- `backend_or_data_needed`: `12`
+- `frontend_work`: `8`
 - `duplicate_candidate`: `3`
-- `actionable`: `2`
+- `qa_or_acceptance_needed`: `3`
 - `needs_clarification`: `1`
 
 No GitHub issues, labels, assignees, milestones, or project fields were changed during this classification pass.
@@ -110,14 +118,14 @@ Generated files:
 
 Current codebase cross-check snapshot:
 
-- Items cross-checked: `139`
-- Items in frontend/implementation review scope: `64`
-- Items with local evidence matches: `62`
+- Items cross-checked: `144`
+- Items in frontend/implementation review scope: `71`
+- Items with local evidence matches: `69`
 - Items with no local evidence matches: `2`
-- `blocked_external`: `75`
-- `implemented_but_untested`: `42`
-- `partial`: `17`
-- `implemented`: `3`
+- `blocked_external`: `73`
+- `implemented_but_untested`: `57`
+- `partial`: `10`
+- `implemented`: `2`
 - `not_found`: `2`
 
 The cross-check is a local `rg` evidence pass only. It records candidate files, lines, and matched search terms for manual review; it does not prove issue completion and does not change GitHub state.
@@ -133,8 +141,15 @@ Generated files:
 Manual review notes:
 
 - `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-01.md`
+- `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-06.md`
 
-The review batch pass ranks local evidence quality and splits issue proposals into small, conservative groups:
+The review batch pass ranks local evidence quality and splits issue proposals into small, conservative groups. After the 2026-07-06 cleanup pass, the current generated review batch contains:
+
+- `verification_candidates`: `0`
+- `frontend_triage`: `10`
+- `owner_routing`: `10`
+
+Batch meanings:
 
 - `verification_candidates`: open issues with stronger local runtime/test evidence that need manual acceptance review before any keep/close decision.
 - `frontend_triage`: frontend-scope issues where local evidence suggests missing or partial work.
@@ -408,7 +423,7 @@ Initial planned changes, pending inventory:
 4. Add clarifying comments to vague issues.
 5. Mark implemented candidates for verification instead of immediately closing.
 6. Consolidate duplicates only after linking evidence.
-7. Keep Project 1 as the broad user-story backlog and Project 3 as public release planning.
+7. Keep Project 1 as the broad user-story backlog; Project 3 now has no open issues, so any remaining Project 3 work is optional closed/historical board archival cleanup.
 
 ## Working Rules
 
