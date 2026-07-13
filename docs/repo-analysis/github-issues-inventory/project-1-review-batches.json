@@ -3,7 +3,7 @@
     "id": "PVT_kwDOB5z1484Akea5",
     "title": "AVefi User Stories Kanban (ALL User Stories)",
     "url": "https://github.com/orgs/AV-EFI/projects/1",
-    "totalCount": 144
+    "totalCount": 145
   },
   "batches": {
     "verification_candidates": [],
@@ -71,35 +71,6 @@
         "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#155",
-        "title": "SEARCH-07: Fuzzy Search funktioniert wie erwartet",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 155,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/155",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 10,
-        "strongEvidenceFiles": [
-          ".\\app.vue",
-          ".\\components\\detail\\AVefiRefinementListComp.vue",
-          ".\\components\\detail\\GenericKVView.vue",
-          ".\\components\\detail\\HasEventComp.vue",
-          ".\\components\\detail\\InstitutionListComp.vue",
-          ".\\components\\detail\\ItemListNewComp.vue",
-          ".\\components\\detail\\KeyActionRowsComp.vue"
-        ],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [
-          "code",
-          "component"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
         "issue": "AV-EFI/AVefi-Issues#201",
         "title": "Verlinkung von \"Hermann Schlenker bei AVefi\" im Carousel",
         "repository": "AV-EFI/AVefi-Issues",
@@ -124,65 +95,6 @@
         "weakEvidenceFiles": [],
         "evidenceKinds": [
           "supporting",
-          "component"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#203",
-        "title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 203,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/203",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 10,
-        "strongEvidenceFiles": [
-          ".\\app.vue",
-          ".\\components\\detail\\AVefiRefinementListComp.vue",
-          ".\\components\\detail\\GenericKVView.vue",
-          ".\\components\\detail\\HasEventComp.vue",
-          ".\\components\\detail\\InstitutionListComp.vue",
-          ".\\components\\detail\\ItemListNewComp.vue",
-          ".\\components\\detail\\KeyActionRowsComp.vue"
-        ],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [
-          "code",
-          "component"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#166",
-        "title": "INT-EPIC: Improve user interaction (collections, dataset-quality feedback, annotations)",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 166,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/166",
-        "state": "OPEN",
-        "projectStatus": "Backlog",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 9,
-        "strongEvidenceFiles": [
-          ".\\components\\global\\IssuerCarouselComp.vue",
-          ".\\components\\global\\PartnersCarouselComp.vue",
-          ".\\components\\home\\HomeTimelineSection.vue",
-          ".\\components\\micro\\ContactForm.vue",
-          ".\\components\\poster\\AvefiPosterComp.vue",
-          ".\\components\\search\\PanelRefinementListComp.vue"
-        ],
-        "weakEvidenceFiles": [
-          ".\\i18n\\locales\\de.ts",
-          ".\\i18n\\locales\\en.ts"
-        ],
-        "evidenceKinds": [
           "component"
         ],
         "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
@@ -224,39 +136,6 @@
         "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#188",
-        "title": "CODEQUAL-01: Automatisierte Tests im Frontend implementieren",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 188,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/188",
-        "state": "OPEN",
-        "projectStatus": "In Progress",
-        "auditBucket": "qa_or_acceptance_needed",
-        "ownerArea": "Accessibility/QA",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 8,
-        "strongEvidenceFiles": [
-          ".\\composables\\useSearchHistory.ts",
-          ".\\playwright.config.ts",
-          ".\\tests\\README.md"
-        ],
-        "weakEvidenceFiles": [
-          ".\\i18n\\locales\\de.ts",
-          ".\\i18n\\locales\\en.ts",
-          ".\\README.md",
-          ".\\scripts\\github-project-classify.mjs",
-          ".\\scripts\\github-project-cross-check.mjs",
-          ".\\scripts\\github-project-review-batches.mjs"
-        ],
-        "evidenceKinds": [
-          "composable",
-          "code",
-          "test"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
         "issue": "AV-EFI/AVefi-Issues#187",
         "title": "PLATFORM-01: Wartungshinweis bei Service-Unterbrechung anzeigen",
         "repository": "AV-EFI/AVefi-Issues",
@@ -286,64 +165,25 @@
         "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#64",
-        "title": "Facetten finalisieren (Filmrecherche)",
+        "issue": "AV-EFI/AVefi-Issues#171",
+        "title": "CONTENT-02: FAQ (DE / ENG)",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 64,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/64",
+        "issueNumber": 171,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/171",
         "state": "OPEN",
         "projectStatus": "",
         "auditBucket": "frontend_work",
         "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 4,
+        "implementationState": "not_found",
+        "matchCount": 0,
         "evidenceQualityScore": 0,
         "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [
-          ".\\i18n\\locales\\de.ts",
-          ".\\i18n\\locales\\en.ts"
-        ],
+        "weakEvidenceFiles": [],
         "evidenceKinds": [],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
+        "proposedReviewAction": "Manually verify whether the issue is obsolete, external, or still missing in the frontend."
       }
     ],
     "owner_routing": [
-      {
-        "issue": "AV-EFI/AVefi-Issues#102",
-        "title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 102,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/102",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#107",
-        "title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 107,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/107",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
       {
         "issue": "AV-EFI/AVefi-Issues#147",
         "title": "RECS-03: Ähnlichkeitskriterien transparent darstellen",
@@ -363,11 +203,11 @@
         "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#149",
-        "title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen",
+        "issue": "AV-EFI/AVefi-Issues#155",
+        "title": "SEARCH-07: Fuzzy Search funktioniert wie erwartet",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 149,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/149",
+        "issueNumber": 155,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/155",
         "state": "OPEN",
         "projectStatus": "",
         "auditBucket": "backend_or_data_needed",
@@ -399,15 +239,15 @@
         "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#199",
-        "title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation",
+        "issue": "AV-EFI/AVefi-Issues#121",
+        "title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 199,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/199",
+        "issueNumber": 121,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/121",
         "state": "OPEN",
         "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
         "implementationState": "blocked_external",
         "matchCount": 0,
         "evidenceQualityScore": 0,
@@ -417,15 +257,15 @@
         "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#212",
-        "title": "Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32)",
+        "issue": "AV-EFI/AVefi-Issues#122",
+        "title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 212,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/212",
+        "issueNumber": 122,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/122",
         "state": "OPEN",
-        "projectStatus": "Highest Prio",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
+        "projectStatus": "",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
         "implementationState": "blocked_external",
         "matchCount": 0,
         "evidenceQualityScore": 0,
@@ -435,15 +275,15 @@
         "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#66",
-        "title": "Trefferlisten-Preview verbessern",
+        "issue": "AV-EFI/AVefi-Issues#123",
+        "title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 66,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/66",
+        "issueNumber": 123,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/123",
         "state": "OPEN",
         "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
         "implementationState": "blocked_external",
         "matchCount": 0,
         "evidenceQualityScore": 0,
@@ -453,15 +293,15 @@
         "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#98",
-        "title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren",
+        "issue": "AV-EFI/AVefi-Issues#126",
+        "title": "NC-08: Navigation zwischen Manifestationen im Split-View",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 98,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/98",
+        "issueNumber": 126,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/126",
         "state": "OPEN",
         "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
         "implementationState": "blocked_external",
         "matchCount": 0,
         "evidenceQualityScore": 0,
@@ -471,15 +311,51 @@
         "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
       },
       {
-        "issue": "AV-EFI/AVefi-Issues#99",
-        "title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren",
+        "issue": "AV-EFI/AVefi-Issues#127",
+        "title": "NC-09: URL-Struktur für Navigation vereinheitlichen",
         "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 99,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/99",
+        "issueNumber": 127,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/127",
         "state": "OPEN",
         "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
+        "implementationState": "blocked_external",
+        "matchCount": 0,
+        "evidenceQualityScore": 0,
+        "strongEvidenceFiles": [],
+        "weakEvidenceFiles": [],
+        "evidenceKinds": [],
+        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
+      },
+      {
+        "issue": "AV-EFI/AVefi-Issues#129",
+        "title": "RD-01: Rollen- & Rechteverwaltung für redaktionelle Funktionen implementieren",
+        "repository": "AV-EFI/AVefi-Issues",
+        "issueNumber": 129,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/129",
+        "state": "OPEN",
+        "projectStatus": "",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
+        "implementationState": "blocked_external",
+        "matchCount": 0,
+        "evidenceQualityScore": 0,
+        "strongEvidenceFiles": [],
+        "weakEvidenceFiles": [],
+        "evidenceKinds": [],
+        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
+      },
+      {
+        "issue": "AV-EFI/AVefi-Issues#130",
+        "title": "RD-02: Änderungs- und Versionshistorie für alle redaktionellen Eingriffe",
+        "repository": "AV-EFI/AVefi-Issues",
+        "issueNumber": 130,
+        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/130",
+        "state": "OPEN",
+        "projectStatus": "",
+        "auditBucket": "domain_logic_needed",
+        "ownerArea": "Product/domain decision",
         "implementationState": "blocked_external",
         "matchCount": 0,
         "evidenceQualityScore": 0,

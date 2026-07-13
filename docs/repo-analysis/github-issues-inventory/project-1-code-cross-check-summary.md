@@ -1,33 +1,33 @@
 # Project 1 Codebase Cross-Check Summary
 
-Generated: 2026-07-06T17:26:02.257Z
+Generated: 2026-07-13T15:32:43.546Z
 
 Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/AV-EFI/projects/1)
 
 ## Snapshot
 
-- Items cross-checked: 144
-- Items in frontend/implementation review scope: 71
-- Items with local evidence matches: 69
+- Items cross-checked: 145
+- Items in frontend/implementation review scope: 84
+- Items with local evidence matches: 82
 - Items with no local evidence matches: 2
 
 ## Implementation States
 
 | State | Count |
 | --- | --- |
-| blocked_external | 73 |
-| implemented_but_untested | 57 |
-| partial | 10 |
-| implemented | 2 |
+| implemented_but_untested | 74 |
+| blocked_external | 61 |
+| partial | 5 |
+| implemented | 3 |
 | not_found | 2 |
 
 ## Review-Scope Buckets
 
 | Bucket | Count |
 | --- | --- |
-| implemented_candidate | 60 |
-| frontend_work | 8 |
-| qa_or_acceptance_needed | 3 |
+| implemented_candidate | 78 |
+| frontend_work | 4 |
+| qa_or_acceptance_needed | 2 |
 
 ## First Evidence Samples
 
@@ -35,8 +35,9 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 | --- | --- | --- | --- | --- |
 | AV-EFI/AVefi-Issues#185 | implemented_candidate | implemented_but_untested | 20 | .\components\global\Footer.vue<br>.\components\search\QueryAutocompleteCore.vue<br>.\composables\useMatomoTracking.ts |
 | AV-EFI/AVefi-Issues#110 | implemented_candidate | implemented_but_untested | 1 | .\i18n\locales\de.ts |
-| AV-EFI/AVefi-Issues#211 | implemented_candidate | implemented_but_untested | 8 | .\i18n\locales\de.ts<br>.\public\img\avefi_ph_gray.svg |
+| AV-EFI/AVefi-Issues#211 | implemented_candidate | implemented_but_untested | 7 | .\i18n\locales\de.ts |
 | AV-EFI/AVefi-Issues#213 | implemented_candidate | implemented_but_untested | 20 | .\app.vue<br>.\i18n\locales\de.ts<br>.\models\interfaces\schema\locale_messages.json |
+| AV-EFI/AVefi-Issues#212 | implemented_candidate | implemented_but_untested | 20 | .\i18n\locales\de.ts<br>.\MATOMO_SETUP.md<br>.\models\interfaces\schema\locale_messages.json |
 | AV-EFI/AVefi-Issues#33 | implemented_candidate | implemented_but_untested | 20 | .\components\detail\KeyValueComp.vue<br>.\components\detail\KeyValueListComp.vue<br>.\components\detail\SameAsComp.vue |
 | AV-EFI/AVefi-Issues#159 | implemented_candidate | implemented_but_untested | 4 | .\components\global\PartnersCarouselComp.vue<br>.\i18n\locales\de.ts |
 | AV-EFI/AVefi-Issues#222 | implemented_candidate | implemented_but_untested | 4 | .\components\detail\MergeToolListComp.vue<br>.\i18n\locales\de.ts |
@@ -52,7 +53,6 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 | AV-EFI/AVefi-Issues#45 | implemented_candidate | implemented_but_untested | 7 | .\i18n\locales\de.ts<br>.\scripts\github-project-classify.mjs |
 | AV-EFI/AVefi-Issues#210 | implemented_candidate | implemented_but_untested | 14 | .\components\poster\AvefiPosterComp.vue<br>.\i18n\locales\de.ts<br>.\layouts\default.vue |
 | AV-EFI/AVefi-Issues#209 | implemented_candidate | implemented_but_untested | 20 | .\components\detail\MergeToolListComp.vue<br>.\i18n\locales\de.ts<br>.\models\interfaces\schema\locale_messages.json |
-| AV-EFI/AVefi-Issues#221 | implemented_candidate | implemented_but_untested | 20 | .\components\detail\FilmRelatedMaterialsComp.vue<br>.\components\detail\ManifestationListComp.vue<br>.\components\detail\PaginationComp.vue |
 
 ## Notes
 

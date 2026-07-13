@@ -1,26 +1,26 @@
 # Project 1 Initial Classification Summary
 
-Generated: 2026-07-06T17:24:11.666Z
+Generated: 2026-07-13T15:28:21.620Z
 
 Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/AV-EFI/projects/1)
 
 ## Snapshot
 
-- Classified items: 144
-- Items needing human review: 136
+- Classified items: 145
+- Items needing human review: 141
 - Missing assignees: 0
-- Missing project status: 62
+- Missing project status: 49
 
 ## Audit Buckets
 
 | Bucket | Count |
 | --- | --- |
-| implemented_candidate | 60 |
-| domain_logic_needed | 57 |
-| backend_or_data_needed | 12 |
-| frontend_work | 8 |
+| implemented_candidate | 78 |
+| domain_logic_needed | 52 |
+| backend_or_data_needed | 5 |
+| frontend_work | 4 |
 | duplicate_candidate | 3 |
-| qa_or_acceptance_needed | 3 |
+| qa_or_acceptance_needed | 2 |
 | needs_clarification | 1 |
 
 ## Suggested Owner Areas
@@ -28,16 +28,16 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 | Owner area | Count |
 | --- | --- |
 | Product/domain decision | 80 |
-| Backend/API/indexing | 26 |
-| Frontend/UI | 25 |
-| Accessibility/QA | 8 |
+| Backend/API/indexing | 27 |
+| Frontend/UI | 24 |
+| Accessibility/QA | 9 |
 | Unassigned triage | 5 |
 
 ## Confidence
 
 | Confidence | Count |
 | --- | --- |
-| medium | 144 |
+| medium | 145 |
 
 ## First Human-Review Samples
 
@@ -53,7 +53,7 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 | AV-EFI/AVefi-Issues#110 | implemented_candidate | Frontend/UI | LG-03: Sprachabhängige Sortierung und Fuzzy-Suche |
 | AV-EFI/AVefi-Issues#211 | implemented_candidate | Frontend/UI | Allgemein: Als Benutzer*in möchte ich allgemeine und rechtliche Informationen über die Seite und das Projekt einsehen können (User Story ID 45) |
 | AV-EFI/AVefi-Issues#213 | implemented_candidate | Backend/API/indexing | Filmrecherche: Als Benutzer*in möchte ich semantische Verknüpfungen / Beziehungen zwischen den Datensätzen visuell angezeigt bekommen  (User Story ID 42) |
-| AV-EFI/AVefi-Issues#212 | backend_or_data_needed | Backend/API/indexing | Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32) |
+| AV-EFI/AVefi-Issues#212 | implemented_candidate | Backend/API/indexing | Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32) |
 | AV-EFI/AVefi-Issues#33 | implemented_candidate | Product/domain decision | Filmrecherche: Als Benutzer*in möchte ich Medien (Filme) zitieren können  (User Story ID 6) |
 | AV-EFI/AVefi-Issues#159 | implemented_candidate | Product/domain decision | SEO-03: Technische Umsetzung SEO |
 | AV-EFI/AVefi-Issues#222 | implemented_candidate | Frontend/UI | Filmrecherche: Als Benutzer*in möchte ich meine Suchpräferenzen anpassen können (z. B. Sortieroptionen, Standardfilter)  (User Story ID 28) |

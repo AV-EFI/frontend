@@ -2,6 +2,8 @@
 
 Generated: 2026-07-06
 
+Updated: 2026-07-13 after duplicate/orphan cleanup and frontend/owner triage through the Project 1 cleanup pass.
+
 This report consolidates context from the AV-EFI Phase 1 proposal, the AVefi Plus Phase 2 proposal, the Phase 1 project/time-plan attachment, and the current GitHub Project 1 issue inventory. Project 1 means `AVefi User Stories Kanban (ALL User Stories)`, not the Public Release Board. It is intended as a proposal for the next cleanup batch.
 
 ## Sources
@@ -20,20 +22,21 @@ The PDF extraction was text-based via `pypdf`; page references are approximate b
 
 Project 1 / `AVefi User Stories Kanban (ALL User Stories)` snapshot after the latest cleanup refresh:
 
-- Project items: `144`
-- Open issues in Project 1: `84`
-- Closed issues in Project 1: `60`
+- Project items: `145`
+- Open issues in Project 1: `67`
+- Closed issues in Project 1: `78`
 - Repository coverage: all Project 1 items are now in `AV-EFI/AVefi-Issues`
 - Missing assignees: `0`
 - Missing labels: `18`
-- Missing milestone: `120`
-- Missing project status: `62`
+- Missing milestone: `122`
+- Missing project status: `49`
 
 Important board hygiene finding:
 
-- Transferred issues `#217`, `#218`, and `#219` exist in `AV-EFI/AVefi-Issues` but are not currently attached to Project 1.
-- `#217` duplicates the old filter-refinement story that also exists as closed `#220`.
-- `#218` and `#219` appear to be duplicate open copies of `SEARCH-01: Facet result count must always match returned hits`.
+- Transferred issues `#217`, `#218`, and `#219` were reviewed on 2026-07-13.
+- `#218` was selected as the canonical `SEARCH-01` facet-count issue, assigned to `steffolino`, added to Project 1, and later closed on 2026-07-13 because the original bug was fixed.
+- `#219` was closed as an exact duplicate of `#218`.
+- `#217` was closed as a malformed transferred duplicate/orphan: its title duplicated closed `#220`, while its body mapped to export work already represented by open `#150` and historical closed `#221`.
 - Project 3 / `AVefi: Public Release Board` is no longer the working board after the June 2026 public release. On 2026-07-06, open Project 3 issues `#152`, `#158`, `#161`, `#182`, `#194`, `#202`, `#203`, and `#207` were confirmed in/transferred to Project 1, commented in German with the cleanup rationale, and removed from Project 3. Project 3 now has `0` open issues; remaining items are closed/historical and were left untouched in that pass.
 - Old `sync-by-unito[bot]` imported issues were assigned to `steffolino` and received a German audit comment. The original bot author cannot be replaced in GitHub, so this records practical ownership instead.
 
@@ -146,23 +149,23 @@ This is a first-pass mapping. It is meant to guide cleanup; it is not a completi
 
 | Context | Relevant APs | Representative issues | Suggested cleanup action |
 | --- | --- | --- | --- |
-| Search parent | Phase 1 AP4.3; AVefi Plus AP5.2 | `#63`, `#155`, `#156`, `#171`, `#217`, `#218`, `#219` | Keep one search parent. Add transferred `#217`-`#219` to Project 1 if they remain relevant; close duplicates if not. |
-| Facets | Phase 1 AP4.3; AVefi Plus AP5.2 | `#64`, `#169`, `#101`, `#200`, `#218`, `#219` | Keep `#64` as parent; keep `#169` as active child/discussion; resolve duplicate facet-count issues `#218/#219`. |
+| Search parent | Phase 1 AP4.3; AVefi Plus AP5.2 | `#63`, `#155`, `#156`, `#171`, closed `#218` | Keep one search parent. `#218` was the canonical facet-count blocker and is now closed as fixed; `#217/#219` are closed. |
+| Facets | Phase 1 AP4.3; AVefi Plus AP5.2 | closed `#64`, `#169`, `#101`, `#200`, closed `#218` | `#64` and `#218` were closed on 2026-07-13; keep `#169` open for domain feedback/query-search review. |
 | Navigation | Phase 1 AP4.3/AP4.4 | `#120`-`#128`, plus closed `#119`, `#125` | Keep `#128` as current search/detail context issue; review whether `#120`-`#127` remain distinct or should be children of one navigation parent. |
 | Detail display | Phase 1 AP4.1/AP4.3 | `#62`, `#81`-`#88`, closed `#209`, `#210`, `#213` | Mark completed where implemented; remaining open detail issues need precise acceptance criteria. |
 | Metadata/data model | Phase 1 AP2; AVefi Plus AP2 | `#60`, `#62`, `#97`, `#99`, `#152`, `#170` | Route to domain/data owners before UI work. |
 | Film-related materials/LIDO | AVefi Plus AP2.1/AP2.2/AP4.1/AP5.2 | no strong current issue found | Create a parent issue or label proposal before implementation. |
 | Normdata/GND/LOD | Phase 1 EPT3/AP2; AVefi Plus AP2.4 | `#170`, partial `#11`, maybe normdata code/tests | Expand `#170` or create children for GND/BEACON/LOD deliverables. |
 | PID | Phase 1 AP3.1/AP2.5 | `#43`, `#76`, `#79`, PID-related closed issues | Mostly implemented/closed; keep only active PID gaps. |
-| Backend/API/indexing | Phase 1 AP3; AVefi Plus AP4 | `#99`, `#102`, `#107`, `#147`, `#149`, `#212` | Use `Epic:BackendAPI`; avoid putting these in frontend triage. |
+| Backend/API/indexing | Phase 1 AP3; AVefi Plus AP4 | `#99`, closed `#102`, closed `#107`, `#147`, closed `#149`, closed `#212` | Use `Epic:BackendAPI`; avoid putting these in frontend triage. `#102/#107/#212` were closed during 2026-07-13 triage; `#147` remains backend-blocked. |
 | Graph | AVefi Plus AP4.4/AP5.2 | closed `#213`, possibly `#61`, `#147` | Create or identify explicit graph API + graph UI issues; do not reuse closed `#213`. |
 | Editorial/redaction | Phase 1 AP1.2/AP4.1/AP4.3; AVefi Plus AP5.1 | `#58`, `#129`-`#144`, `#214`, `#215`, `#35`, `#50`, `#52` | Consolidate into `Epic:Redaktion` and `Epic:BenutzerRollenRedaktion`; split domain, backend, UI. |
 | Auth/roles | Phase 1 AP4.1/AP4.3; AVefi Plus AP5.1 | `#136`, `#141`, `#144`, `#153`, `#215` | Create/confirm explicit auth/roles parent. |
-| Data quality/completeness | Phase 1 AP2/AP3; AVefi Plus AP2/AP4/AP5.2 | `#94`, `#95`, `#97`, `#98`, `#99`, `#134` | Needs scoring/domain definition before UI color/completeness work. |
+| Data quality/completeness | Phase 1 AP2/AP3; AVefi Plus AP2/AP4/AP5.2 | `#94`, `#95`, `#97`, closed `#98`, `#99`, `#134` | `#98` was closed as partially implemented/future consideration. Remaining scoring/domain questions should be handled in concrete data-quality follow-ups. |
 | SEO/structured data | AVefi Plus AP5.3 | `#158`, `#159`, `#157` | Technical SEO done in `#159`; content/structured data follow-up remains in `#158` or a new AP5.3 issue. |
-| Legal/licenses/static pages | Phase 1 AP4.1/AP4.4; AVefi Plus AP5.3 maybe | `#149`, `#206`, closed `#211` | Keep as legal/product; public-release label is gone. |
-| Interaction/feedback/collections | AVefi Plus AP5.2 | `#166`, old closed feedback issues `#7`, `#18`, `#27`, recommendations `#61/#147` | Keep `#166` as parent; create children for collections, data-quality feedback, notes, dashboard. |
-| Usability/documentation | Phase 1 AP4.2/AP4.5; AVefi Plus AP5.4 | `#128`, `#188`, testing docs | Create explicit usability-testing/documentation parent only if still planned for AVefi Plus. |
+| Legal/licenses/static pages | Phase 1 AP4.1/AP4.4; AVefi Plus AP5.3 maybe | closed `#149`, `#206`, closed `#211` | Keep `#206` as legal/product pending license decision feedback; public-release label is gone. |
+| Interaction/feedback/collections | AVefi Plus AP5.2 | closed `#166`, old closed feedback issues `#7`, `#18`, `#27`, recommendations `#61/#147` | `#166` was closed; create new concrete children only after a broader overview of open work and APs. |
+| Usability/documentation | Phase 1 AP4.2/AP4.5; AVefi Plus AP5.4 | `#128`, closed `#188`, testing docs | `#188` was closed because the initial automated test base exists. Create explicit usability-testing/documentation parent only if still planned for AVefi Plus. |
 | Community/OER | AVefi Plus AP3 | no strong current issue found | Likely project/content work, not frontend backlog unless hosted in platform. |
 
 ## Concrete Duplicate and Consolidation Candidates
@@ -171,11 +174,11 @@ Hard duplicates or already-consolidated duplicates:
 
 | Candidate | Current state | Recommendation |
 | --- | --- | --- |
-| `#49` and `#216` | Both open; same User Story ID 24/title. | Keep one canonical similarity/match issue, close or link the other. `#49` has labels/history; `#216` is transferred and unlabeled. |
+| `#49` and `#216` | `#49` open; `#216` closed on 2026-07-13 as duplicate. | `#49` remains canonical. The useful read-only note from `#216` was copied into `#49`. |
 | `#57` and `#224` | Both closed; same User Story ID 2/title. | Historical duplicate only; no action unless cleaning old transferred issue metadata. |
 | `#25` and `#105` | Both closed; same User Story ID 44/theme: filter by source/issuing institution. | Historical duplicate; no action required. |
-| `#217` and `#220` | `#217` open/not on Project 1; `#220` closed; same old filter-refinement title/User Story ID 3. | Decide whether `#217` should be closed as duplicate of `#220`/current search-facet backlog or added to Project 1 and rewritten. |
-| `#218` and `#219` | Both open/not on Project 1; same `SEARCH-01` title. | Pick one canonical issue if this bug is still real; close the other as duplicate. |
+| `#217` and `#220` | `#217` closed on 2026-07-13; `#220` closed earlier. | No further action unless historical metadata cleanup is desired. |
+| `#218` and `#219` | Both closed; `#219` duplicate of `#218`, `#218` closed as fixed on 2026-07-13. | No further duplicate action needed. |
 
 Consolidation clusters already partly handled:
 
@@ -194,16 +197,15 @@ These are not necessarily missing from code; they are missing as clear, bounded 
 | External graph API | AVefi Plus AP4.4 | `#213` closed; no explicit graph API issue found. | Create `Epic:Graph` issue for backend graph API and separate frontend graph UI issue if needed. |
 | Semantic structured markup beyond technical SEO | AVefi Plus AP5.3 | `#159` closed technical SEO; `#158` content SEO open. | Decide whether AP5.3 needs new structured-data issue for schema.org/JSON-LD at record level. |
 | Auth/roles parent | AVefi Plus AP5.1; Phase 1 AP4.1/AP4.3 | Many BR/RD issues exist, but parent relationship is unclear. | Confirm `Epic:BenutzerRollenRedaktion` as parent and map `#136`, `#141`, `#144`, `#153`, `#215`. |
-| Usability testing / documentation parent | AVefi Plus AP5.4 | `#188` covers automated tests, not usability testing. | Create or identify AP5.4 issue if formal usability/documentation deliverable remains. |
-| Dedupe / match / merge parent | Phase 1 AP2.3; AVefi Plus AP4.2 | `#49`, `#93`, `#147`, `#154`, `#216`, `#79`. | Create/confirm one parent for similarity/match/merge; link child issues and close exact duplicate. |
+| Usability testing / documentation parent | AVefi Plus AP5.4 | closed `#188` covered automated tests, not usability testing. | Create or identify AP5.4 issue if formal usability/documentation deliverable remains. |
+| Dedupe / match / merge parent | Phase 1 AP2.3; AVefi Plus AP4.2 | `#49`, `#93`, `#147`, `#154`, closed `#216`, `#79`. | Create/confirm one parent for similarity/match/merge; exact duplicate `#216` is already closed. |
 
 ## Suggested Cleanup Plan
 
 Do not apply labels or close issues directly from this report. Use it as the proposal for the next reviewed batch.
 
 1. Board hygiene first:
-   - Decide whether `#217`, `#218`, and `#219` should be added to Project 1 or closed as duplicates/out-of-scope.
-   - Resolve `#218/#219` duplicate pair.
+   - Done on 2026-07-13 for `#217`, `#218`, and `#219`: `#217/#219` are closed and `#218` was closed as fixed after being selected as canonical.
    - Project 3 / `AVefi: Public Release Board` no longer has open issues after the 2026-07-06 transfer; only closed/historical Project 3 items remain for optional archival cleanup.
 
 2. Normalize epic labels:
@@ -212,9 +214,7 @@ Do not apply labels or close issues directly from this report. Use it as the pro
    - Map old flat epic labels to new labels in a batch.
 
 3. Close or link hard duplicates:
-   - `#49/#216`
-   - `#217/#220`
-   - `#218/#219`
+   - Done on 2026-07-13 for `#49/#216`, `#217/#220`, and `#218/#219`.
 
 4. Create or rewrite AVefi Plus parent issues:
    - Film-related materials/LIDO

@@ -3,7 +3,7 @@
     "id": "PVT_kwDOB5z1484Akea5",
     "title": "AVefi User Stories Kanban (ALL User Stories)",
     "url": "https://github.com/orgs/AV-EFI/projects/1",
-    "totalCount": 144
+    "totalCount": 145
   },
   "items": [
     {
@@ -355,29 +355,29 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Highest Prio",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Title": "Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32)",
-        "Status": "Highest Prio"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 212,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/212",
       "title": "Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:16Z",
-      "updatedAt": "2026-07-06T17:22:07Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:50:36Z",
+      "closedAt": "2026-07-13T09:50:36Z",
       "bodyHash": "f478f746f91791035b1a06ac5c2748116fc8dd3952930f3b0340edf1aca43fc2",
       "bodyExcerpt": "User Story ID: 32 Epic: Performance Best Practice UX ┆Issue is synchronized with this [Trello card](https://trello.com/c/c7QHZ817) by [Unito](https://www.unito.io)"
     },
@@ -1061,7 +1061,7 @@
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:32Z",
-      "updatedAt": "2026-07-06T17:21:51Z",
+      "updatedAt": "2026-07-13T08:43:17Z",
       "closedAt": "",
       "bodyHash": "f2a715b2dd257e44a185e5c70ff3faa34ff4cc62d59c75cb0b4768103c75bbc8",
       "bodyExcerpt": "User Story ID: 24 Epic: Filmidentifikatorenansicht & Redaktionssystem bedingt andere User Stories? ┆Issue is synchronized with this [Trello card](https://trello.com/c/Z6XOONL7) by [Unito](https://www.unito.io)"
@@ -1219,29 +1219,29 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Highest Prio",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich zwei oder mehrere Datensätze (Werk-Manifestation-Item) auf ihre Ähnlichkeit prüfen  (User Story ID 24)",
-        "Status": "Highest Prio"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 216,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/216",
       "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich zwei oder mehrere Datensätze (Werk-Manifestation-Item) auf ihre Ähnlichkeit prüfen  (User Story ID 24)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:40:48Z",
-      "updatedAt": "2026-07-06T17:22:15Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T08:43:30Z",
+      "closedAt": "2026-07-13T08:43:30Z",
       "bodyHash": "2ca9dc1a730888bf9e407cb4b321705fa0ef0c91f8862659c33eca98cb81ce24",
       "bodyExcerpt": "| bedingt andere User Stories? | |------------------------------| ┆Issue is synchronized with this [Trello card](https://trello.com/c/9wFJs3jv) by [Unito](https://www.unito.io)"
     },
@@ -2187,7 +2187,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -2198,14 +2198,15 @@
           "Filmrecherche"
         ],
         "Milestone": "Public Release",
-        "Title": "Facetten finalisieren (Filmrecherche)"
+        "Title": "Facetten finalisieren (Filmrecherche)",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 64,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/64",
       "title": "Facetten finalisieren (Filmrecherche)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "MUSTHAVE",
         "Filmrecherche"
@@ -2215,8 +2216,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-18T19:03:02Z",
-      "updatedAt": "2026-07-06T08:52:50Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:50:39Z",
+      "closedAt": "2026-07-13T09:50:39Z",
       "bodyHash": "9fe8bd8ed93dc6fad456b5ed0c90703310252f368d271cddbe75838043cc2c3b",
       "bodyExcerpt": "Als Benutzer*in möchte ich klare und zuverlässige Facetten nutzen können, damit ich Suchergebnisse nach meinen Bedürfnissen eingrenzen kann. Confluence: https://wiki.tib.eu/confluence/spaces/avefi/pages/424254806/Facetten+%C3%9Cbersicht+Reihenfolge Status heute: • Facetten vorhanden (Jahr, Farbe, Ton, Format/Material etc.) • Funktioniert technisch • UI weitgehend verständlich Was fehlt: • Finaler Abgleich: Welche Facetten gehören in den Public Release? • Einheitliche Labels (DE/EN) • Konsistente"
     },
@@ -2266,7 +2267,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
@@ -2278,14 +2279,15 @@
           "Filmrecherche"
         ],
         "Milestone": "Public Release",
-        "Title": "Trefferlisten-Preview verbessern"
+        "Title": "Trefferlisten-Preview verbessern",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 66,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/66",
       "title": "Trefferlisten-Preview verbessern",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "MUSTHAVE",
         "Filmrecherche"
@@ -2296,8 +2298,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-18T19:03:38Z",
-      "updatedAt": "2026-07-06T08:52:48Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:51Z",
+      "closedAt": "2026-07-13T15:22:51Z",
       "bodyHash": "546a4af6f80a0781c82fc0d6c72fc22934100f1fd5a40ee856053a5d8101cc16",
       "bodyExcerpt": "User Story Als Benutzer*in möchte ich in der Trefferliste die wichtigsten Informationen klar strukturiert sehen, damit ich schneller entscheiden kann, welchen Datensatz ich öffne. Hintergrund Die bisherige Trefferlisten-Anzeige zeigt nur einen kleinen Ausschnitt der verfügbaren Metadaten. Basierend auf der Confluence-Seite „Feldreihenfolge in Such- und Detailanzeige“ (Stand 30.09.2025) wurde die normative Reihenfolge für die Suchanzeige überprüft: https://wiki.tib.eu/confluence/spaces/avefi/page"
     },
@@ -2306,7 +2308,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "tennismann3000"
@@ -2317,14 +2319,15 @@
           "Frontend",
           "Epic:Lizenzen"
         ],
-        "Title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen"
+        "Title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 149,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/149",
       "title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -2335,8 +2338,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-25T07:05:19Z",
-      "updatedAt": "2026-07-06T08:51:16Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T14:52:15Z",
+      "closedAt": "2026-07-13T14:52:15Z",
       "bodyHash": "70a38cd05bd236a06c4327e02f3b01e2d4553feb3aa6a6e544ffefe0958dc51b",
       "bodyExcerpt": "# User Story Als Nutzer*in der AVefi-Plattform möchte ich klar und eindeutig erkennen können, unter welchen Rechten und Lizenzen die angezeigten Metadaten stehen, damit ich Inhalte korrekt verwenden, zitieren oder weiterverarbeiten kann. # Kontext - Abschluss-Workshop in Berlin: Alle angezeigten Metadaten stehen unter **CC-BY**. - Die Lizenzinformation soll **global** eingebunden werden — nicht pro Datensatz. - Es besteht Klärungsbedarf: Wo und wie wird dies UI-seitig dargestellt? (Footer, About"
     },
@@ -2430,7 +2433,8 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "tennismann3000"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
@@ -2453,11 +2457,12 @@
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "tennismann3000"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:04:56Z",
-      "updatedAt": "2026-07-06T08:51:19Z",
+      "updatedAt": "2026-07-13T09:50:20Z",
       "closedAt": "",
       "bodyHash": "1282e14b513f2338843d662811f40b261c75e1ac1bcd6b2f8247bf875122106a",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich effizient zwischen Suchtrefferliste und Detailansicht hin- und hernavigieren damit ich mehrere Treffer schnell bewerten kann. # Kontext - Pain Point in Usability-Test. # Akzeptanzkriterien - Kein Scrollverlust. - Keine Reset-Effekte."
@@ -3083,8 +3088,10 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
+          "Backend",
           "UNSCHARF",
           "Frontend",
           "Epic:Recommendations"
@@ -3098,8 +3105,10 @@
       "title": "RECS-03: Ähnlichkeitskriterien transparent darstellen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
+        "Backend",
         "UNSCHARF",
         "Frontend",
         "Epic:Recommendations"
@@ -3109,7 +3118,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:21:58Z",
-      "updatedAt": "2025-11-27T14:03:30Z",
+      "updatedAt": "2026-07-13T14:54:59Z",
       "closedAt": "",
       "bodyHash": "667e9ea7736ca0f8a7eab21c79fa37968155f26b743c5ace3a1e3cd8a0f89e59",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich nachvollziehen können, warum ein Film als „ähnlich“ eingestuft wurde, damit die Empfehlung vertrauenswürdig und erklärbar wirkt. # Kontext - AVefi ist ein wissenschaftliches Recherchetool → Transparenz ist wichtig. - UI muss nicht komplex sein, eine kleine Fußnote mit Stichworten reicht. # Akzeptanzkriterien - **Given** ähnliche Filme werden angezeigt **When** ich einen Datensatz in der Ähnlichkeitsliste sehe **Then** wird dort angezeigt, welche Kriterien zu"
@@ -3546,7 +3555,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -3560,14 +3569,15 @@
           "Accessibility",
           "Epic:Datenqualität"
         ],
-        "Title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren"
+        "Title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 98,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/98",
       "title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UserStory",
@@ -3581,8 +3591,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:33:55Z",
-      "updatedAt": "2026-07-06T06:51:04Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:50:42Z",
+      "closedAt": "2026-07-13T09:50:42Z",
       "bodyHash": "ef4c4dbbc9aef73bf40d031e4f3af1d8b13ba8044e6f704afd9442ad7a77df6e",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich durch Farben intuitiv erkennen können, wie vollständig ein Datensatz ist, damit ich schneller entscheiden kann, welche Daten besonders verlässlich sind. # Kontext - Farben müssen mit AVefi-Designsystem kompatibel sein. - Muss barrierefrei sein (Kontrast!). # Akzeptanzkriterien - Farbcodierung: z. B. rot = schlecht, gelb = mittel, grün = gut. - Kontrast AA oder AAA. - Sass/Tailwind-Variablen dokumentiert."
     },
@@ -3591,7 +3601,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "EOltmanns"
@@ -3603,14 +3613,15 @@
           "UNSCHARF",
           "Epic:Datenqualität"
         ],
-        "Title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren"
+        "Title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 99,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/99",
       "title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Backend",
@@ -3622,8 +3633,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:34:06Z",
-      "updatedAt": "2025-11-27T18:02:12Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:19:26Z",
+      "closedAt": "2026-07-13T15:19:26Z",
       "bodyHash": "46a0a464c3e2de621e671e2a0651ef6258c1ecc718679e59bab3a129e5965b05",
       "bodyExcerpt": "# User Story Als Datenmanager*in möchte ich beim Import oder Synchronisieren der Metadaten sehen, welche Pflichtfelder fehlen, damit ich Fehler frühzeitig beheben kann. # Kontext - Backend-Prozess ist nicht vollständig dokumentiert. - Abhängig von GWDG/TIB-Infrastruktur. # Akzeptanzkriterien - UNSCHARF: Bedarf Abstimmung mit Backend-Team."
     },
@@ -3632,7 +3643,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -3643,14 +3654,15 @@
           "UNSCHARF",
           "Search"
         ],
-        "Title": "DQ-08: Datenqualität als Facetten-Filter anbieten"
+        "Title": "DQ-08: Datenqualität als Facetten-Filter anbieten",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 101,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/101",
       "title": "DQ-08: Datenqualität als Facetten-Filter anbieten",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UNSCHARF",
@@ -3661,8 +3673,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:34:29Z",
-      "updatedAt": "2025-11-27T18:01:23Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:55Z",
+      "closedAt": "2026-07-13T15:22:55Z",
       "bodyHash": "709438a3f778bcabe54d6673b0d22fad5967d05aa5b98cd679b8dbf0618e184b",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich nach „hochwertigen“ bzw. „vollständigen“ Datensätzen filtern können, damit ich nur sehr gut erfasste Werke angezeigt bekomme. # Kontext - Nutzeranforderung aus Workflows großer Archive. - Umsetzung hängt von Schema-Definition ab. # Akzeptanzkriterien - UNSCHARF: Muss geklärt werden, ob Score durchsuchbar und aggregierbar ist."
     },
@@ -3671,7 +3683,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -3682,14 +3694,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen"
+        "Title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 102,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/102",
       "title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -3700,8 +3713,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:35:16Z",
-      "updatedAt": "2025-11-27T17:57:49Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T14:54:50Z",
+      "closedAt": "2026-07-13T14:54:50Z",
       "bodyHash": "a238f9cb7e44073c12816182a38d756f6f115e07233f1d5b50dc4459499f4974",
       "bodyExcerpt": "# User Story Als Nutzer*in der AVefi-Plattform möchte ich auf einen Blick erkennen können, von welcher Institution bzw. welchen Institutionen ein Film-Metadatensatz stammt, damit ich die Vertrauenswürdigkeit, Herkunft und Verantwortung für die Daten nachvollziehen kann. # Kontext - Originale User Stories: ID 41 & ID 43, bisher unstrukturiert. - Diese Story ersetzt beide und normalisiert sie. - Die Information ist bereits im JSON vorhanden, aber teils in verschachtelter Form. - REPLACES: Issues #"
     },
@@ -3710,7 +3723,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "tennismann3000"
@@ -3722,14 +3735,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-02: Übersicht aller Datenquellen (Herausgeber) bereitstellen"
+        "Title": "HS-02: Übersicht aller Datenquellen (Herausgeber) bereitstellen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 104,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/104",
       "title": "HS-02: Übersicht aller Datenquellen (Herausgeber) bereitstellen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "UNSCHARF",
@@ -3741,8 +3755,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:35:42Z",
-      "updatedAt": "2025-11-27T17:57:00Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:21:06Z",
+      "closedAt": "2026-07-13T15:21:06Z",
       "bodyHash": "5b61fee213ccff3b4a0f71150c87f8e5467e56e08e2786ac1a12a4118625ab2d",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich eine vollständige Übersicht aller Datenquellen/Herausgeber einsehen können, damit ich verstehe, welche Archive und Institutionen Daten zu AVefi beitragen. # Kontext - Ursprüngliche Story nur vage formuliert. - Es ist unklar, ob diese Übersicht im UI, in einer Dokumentationsseite oder als Facette erscheinen soll. - Deshalb als **UNSCHARF** markiert. # Offene Fragen - Soll diese Übersicht separat (eigene Seite) oder integriert (z. B. in „Über uns“) dargestellt"
     },
@@ -3793,7 +3807,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -3804,14 +3818,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-04: Herausgeber-Badge in Trefferliste anzeigen"
+        "Title": "HS-04: Herausgeber-Badge in Trefferliste anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 106,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/106",
       "title": "HS-04: Herausgeber-Badge in Trefferliste anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -3822,8 +3837,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:36:05Z",
-      "updatedAt": "2025-11-27T17:57:49Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:21:34Z",
+      "closedAt": "2026-07-13T15:21:33Z",
       "bodyHash": "5e2b2a8c8701e9f62130747e76ca826b4dceab580810894af1098010caede924",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich bereits in der Trefferliste visuell erkennen können, aus welcher Institution ein Werk stammt, damit ich schneller einschätzen kann, ob der Datensatz für meine Recherche relevant ist. # Kontext - Die Information existiert bereits in deinem ResultCard-Layout, aber nicht konsistent. - Besonders wichtig, wenn mehrere Institutionen denselben Filmtitel haben. # Akzeptanzkriterien - **Given** ein Suchergebnis wird gerendert **When** das Werk einen Herausgeber hat *"
     },
@@ -3832,7 +3847,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -3843,14 +3858,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden"
+        "Title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 107,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/107",
       "title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -3861,8 +3877,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:36:21Z",
-      "updatedAt": "2025-11-27T17:58:04Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T14:54:55Z",
+      "closedAt": "2026-07-13T14:54:55Z",
       "bodyHash": "f6662322c478784f7b8b346d62d936b49acad576b3dc35f425940b6dc3ac2849",
       "bodyExcerpt": "# User Story Als internationale*r Nutzer*in möchte ich Herausgeber-Informationen in meiner gewählten Sprache sehen können, damit ich die Quelle des Datensatzes korrekt verstehe. # Kontext - AVefi ist mehrsprachig → Herausgeberseiten müssen ebenfalls lokalisiert werden. # Akzeptanzkriterien - **Given** die UI-Sprache ist DE **When** Herausgebernamen Übersetzungen haben **Then** wird die deutsche Bezeichnung ausgegeben. - **Given** die UI-Sprache ist EN **When** ein Herausgeber eine englische Beze"
     },
@@ -4090,7 +4106,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -4102,14 +4118,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-02: Breadcrumb zwischen Werk → Manifestation → Item"
+        "Title": "NC-02: Breadcrumb zwischen Werk → Manifestation → Item",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 120,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/120",
       "title": "NC-02: Breadcrumb zwischen Werk → Manifestation → Item",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -4120,8 +4137,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:26Z",
-      "updatedAt": "2026-07-06T08:51:42Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:02Z",
+      "closedAt": "2026-07-13T15:22:02Z",
       "bodyHash": "6e33f6600f2b65e50102e45a2599f069d0a4ec30ca8eb7de50887c67eb9b455e",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich eine klare Breadcrumb-Navigation zwischen Werk, Manifestation und Item damit ich jederzeit weiß, wo ich mich in der Tektonik befinde. # Kontext - Mehrere Tester*innen fanden den Kontextwechsel „verwirrend“. - Tektonik wird ohne UI-Hilfe schlecht erkannt. # Akzeptanzkriterien - Breadcrumb zeigt Werk → Manifestation → Item. - Alle Teile sind klickbar. - Persistente Hervorhebung des aktuellen Levels."
     },
@@ -4861,7 +4878,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Backlog",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -4871,14 +4888,14 @@
           "UNSCHARF"
         ],
         "Title": "INT-EPIC: Improve user interaction (collections, dataset-quality feedback, annotations)",
-        "Status": "Backlog"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 166,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/166",
       "title": "INT-EPIC: Improve user interaction (collections, dataset-quality feedback, annotations)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UNSCHARF"
       ],
@@ -4887,8 +4904,8 @@
       ],
       "milestone": "",
       "createdAt": "2026-02-03T08:15:03Z",
-      "updatedAt": "2026-07-01T07:03:58Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:27:23Z",
+      "closedAt": "2026-07-13T09:27:23Z",
       "bodyHash": "2e6fad004ae67842861afd116b1c1547ea2c66dc9d8434f774f06fb7ffd9d177",
       "bodyExcerpt": "Summary Create a parent epic that groups all user-participation features that improve long-term research workflows in AVefi—especially personal collections/lists and structured feedback on dataset quality—while keeping scope lightweight and compatible with AVefi’s public-release requirements. Why / Motivation Researchers need repeatable workflows beyond one-off search sessions (curation, lists, exports). Partner institutions benefit from actionable quality signals (structured feedback, traceable"
     },
@@ -4929,7 +4946,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-02-10T08:44:51Z",
-      "updatedAt": "2026-06-30T11:10:38Z",
+      "updatedAt": "2026-07-13T10:30:37Z",
       "closedAt": "",
       "bodyHash": "85b0e1d6dfbc06c2eae3b83e77432ff5cbb9a4da5fa57bee17318debc305657e",
       "bodyExcerpt": "### User Story Als Nutzer*in möchte ich in der Ergebnis- und Detailansicht auf angezeigte Facet-Werte (z. B. Genre, Ort, Sprache, Personen/Organisationen) klicken können, damit diese Werte direkt als Filter übernommen werden oder eine neue Suche in AVefi starten, ohne den Wert manuell kopieren zu müssen. ### Kontext In der aktuellen Result-/Detail-UI werden viele normalisierte Werte (z. B. has_genre.has_name, has_place_has_name, in_language, Personen/Organisationen) angezeigt, sind aber nicht in"
@@ -4979,7 +4996,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "In Progress",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -4991,14 +5008,14 @@
           "Frontend"
         ],
         "Title": "CODEQUAL-01: Automatisierte Tests im Frontend implementieren",
-        "Status": "In Progress"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 188,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/188",
       "title": "CODEQUAL-01: Automatisierte Tests im Frontend implementieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Technical-Blocker",
@@ -5009,8 +5026,8 @@
       ],
       "milestone": "",
       "createdAt": "2026-03-17T11:07:42Z",
-      "updatedAt": "2026-07-06T06:51:04Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:27:19Z",
+      "closedAt": "2026-07-13T09:27:19Z",
       "bodyHash": "59b41df9582eeb4d7eccf515a2495650b4255b855aa8dcc885562d14a33ad1e2",
       "bodyExcerpt": "### User Story Im Frontend fehlt derzeit eine ausreichende automatisierte Testabdeckung. Dies erhöht das Risiko von Regressionen und verringert die Zuverlässigkeit von Releases. Ziel dieses Issues ist es, eine strukturierte Teststrategie für das Frontend einzuführen und umzusetzen. ### Kontext Aktuell existieren keine oder nur sehr wenige automatisierte Tests im Frontend. Änderungen an Komponenten oder Logik können daher unbeabsichtigte Seiteneffekte verursachen, die erst spät erkannt werden. Ei"
     },
@@ -5047,7 +5064,7 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2026-02-17T10:48:31Z",
-      "updatedAt": "2026-04-29T10:26:34Z",
+      "updatedAt": "2026-07-13T09:50:23Z",
       "closedAt": "",
       "bodyHash": "7ad6df4e31fa7ab6cf2489fc5de92275264c63d9c4e2a94923b363ce56380a01",
       "bodyExcerpt": "[Referenz-Seite im Wiki](https://wiki.tib.eu/confluence/spaces/avefi/pages/456003291/AP1+-+Startseite+Content+f%C3%BCr+Public+Release#AP1Startseite%3AContentf%C3%BCrPublicRelease-FAQ) Als Nutzer möchte Antworten auf die meist gestellten Fragen erhalten, um einen schnellen Überblick zu Informationen zur Plattform zu bekommen. Sprachversionen: Deutsch / Englisch"
@@ -5135,6 +5152,7 @@
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
           "MUSTHAVE",
+          "Backend",
           "Search"
         ],
         "Milestone": "Public Release",
@@ -5148,6 +5166,7 @@
       "state": "OPEN",
       "labels": [
         "MUSTHAVE",
+        "Backend",
         "Search"
       ],
       "assignees": [
@@ -5156,7 +5175,7 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-12-01T11:12:53Z",
-      "updatedAt": "2026-06-22T05:32:52Z",
+      "updatedAt": "2026-07-13T14:55:01Z",
       "closedAt": "",
       "bodyHash": "7e7658b0dc2cf01088024886e0853195b785170bafaad60953ac5bc4bcc1d1fb",
       "bodyExcerpt": "# User Story Als Benutzer*in möchte ich auch dann relevante Suchergebnisse finden, wenn ich mich vertippe oder nur ungefähr weiß, wie ein Titel oder Name geschrieben wird, damit ich Suchergebnisse nicht aufgrund kleiner Tippfehler oder unscharfer Eingaben verpasse. # Hintergrund Die aktuelle Suche liefert korrekte Ergebnisse nur bei exakt übereinstimmenden Zeichenfolgen. In der Praxis kommen jedoch häufig folgende Fälle vor: - Tippfehler (\"Sonnenalle\" statt \"Sonnenallee\") - Vertauschte Buchstabe"
@@ -5200,7 +5219,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-03-17T09:58:32Z",
-      "updatedAt": "2026-07-06T06:51:04Z",
+      "updatedAt": "2026-07-13T09:50:31Z",
       "closedAt": "",
       "bodyHash": "efff84783d475d4024b941f2c41f20f0a0978524e8d8f075b4c9609997100fd9",
       "bodyExcerpt": "### User Story Als Nutzer*in der Plattform möchte ich bei geplanten oder laufenden Wartungen/Updates einen klar sichtbaren Hinweis erhalten, damit ich verstehe, warum der Dienst eingeschränkt oder nicht verfügbar ist. ### Kontext Aktuell gibt es keinen standardisierten Hinweis auf der Plattform, wenn der Dienst aufgrund von Updates oder Maintenance unterbrochen ist. Dieser Fall wurde von Sven eingebracht und sollte berücksichtigt werden, um Transparenz gegenüber den Nutzer*innen sicherzustellen."
@@ -5220,7 +5239,6 @@
         "Labels": [
           "SHOULDHAVE"
         ],
-        "Milestone": "Public Release",
         "Title": "EFI-01: EFI-Label im Frontend sichtbarer machen",
         "Status": "Backlog"
       },
@@ -5237,9 +5255,9 @@
         "steffolino",
         "EOltmanns"
       ],
-      "milestone": "Public Release",
+      "milestone": "",
       "createdAt": "2026-02-24T10:42:44Z",
-      "updatedAt": "2026-03-19T07:37:13Z",
+      "updatedAt": "2026-07-07T17:52:07Z",
       "closedAt": "",
       "bodyHash": "cb0bb3ba233e46f5e539ba18e105b570c07ca0da024b1c260782a26fe4e424ea",
       "bodyExcerpt": "EFI als zentrales Identifikationsmerkmal im UI konsequenter und prominenter anzeigen. „EFI“ explizit als Label schreiben (nicht nur ID anzeigen) In Suchergebnissen und Detailansichten prüfen Einheitliche Darstellung auf Werk-, Manifestations- und Item-Ebene ggf. als Badge oder mit Tooltip („Persistenter Filmidentifikator“) Ziel: Sichtbarkeit des PID/EFI-Mehrwerts im Interface stärken."
@@ -5292,21 +5310,22 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
           "JStratil"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
-        "Title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation"
+        "Title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 199,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/199",
       "title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino",
@@ -5314,8 +5333,8 @@
       ],
       "milestone": "",
       "createdAt": "2026-04-21T10:29:59Z",
-      "updatedAt": "2026-04-30T12:49:30Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:48Z",
+      "closedAt": "2026-07-13T15:22:48Z",
       "bodyHash": "734465c693a0d5eff016518f9db95997a4de963460475d701ffb7e0dc0db382e",
       "bodyExcerpt": "## Context Analysis of the Confluence documentation of the Metadatenfachgruppe (2023–2026) shows recurring structural issues in how information is documented and reused across the project. Observed patterns: - Information is primarily stored in meeting protocols (unstructured) - Content is difficult to navigate and not consolidated - Decisions are not consistently separated from discussions - Repeated coordination would be required after meetings (e.g. follow-up via email) At the same time, the "
     },
@@ -5346,7 +5365,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-04-29T10:01:21Z",
-      "updatedAt": "2026-07-01T06:32:25Z",
+      "updatedAt": "2026-07-13T09:50:27Z",
       "closedAt": "",
       "bodyHash": "33e82c4dc4dff25b0238c950bb2efb91687ef10dc96172b07306a796766ef575",
       "bodyExcerpt": "Als Nutzer möchte ich alle Treffer von Hermann Schlenker auf der Plattform angezeigt bekommen, wenn ich auf den Link im Carousel auf Startseite klicke (\"Hermann Schlenker bei AVefi\"). Aktuell sind alle Einträge zu Hermann Schlenker als Produzent/Hermann Schlenker Produktion (152) verlinkt. Mit einer Suche in einfachen Anführungszeichen findet man Hermann Schlenker 275 Mal."
@@ -5420,7 +5439,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-06-08T09:47:56Z",
-      "updatedAt": "2026-06-08T09:47:56Z",
+      "updatedAt": "2026-07-13T09:50:18Z",
       "closedAt": "",
       "bodyHash": "4f5cdf7e2f7d7bb1a5543a149b651642e076a5bfa8cd2d9eda5264fdc01d9073",
       "bodyExcerpt": "### User Story Eher Meta: Ich hab gerade gesehen, dass nicht alle AVefi-Repos eine Lizenz haben (speziell frontend). Die meistvergebene Lizenz ist MIT. Vergeben wir hier einheitliche eine Lizenz für alle? Wenn ja welche? Ist low prio, nur der Vollständigkeit halber mit aufgenommen. ### Kontext Bitte fülle die folgenden Abschnitte aus falls Anpassungen erforderlich sind. ### Akzeptanzkriterien Bitte fülle die folgenden Abschnitte aus falls Anpassungen erforderlich sind. ### Technische Notizen / I"
@@ -5545,7 +5564,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "tennismann3000"
@@ -5554,14 +5573,15 @@
         "Labels": [
           "bug"
         ],
-        "Title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe"
+        "Title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 203,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/203",
       "title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "bug"
       ],
@@ -5570,8 +5590,8 @@
       ],
       "milestone": "",
       "createdAt": "2026-05-12T13:46:47Z",
-      "updatedAt": "2026-07-06T17:16:52Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:27:29Z",
+      "closedAt": "2026-07-13T09:27:29Z",
       "bodyHash": "d2b2a6f4ff72a38696b3289112cd17c78db1b3e2ce95a2614b459dce2c81c225",
       "bodyExcerpt": "Sucht man in der deutschen Version der erweiterten Suche zum Beispiel nach bestimmten Werten, werden im Dropdown-Menü vermutlich Vorschläge der englischen statt der deutschen Begriffe angezeigt. Bsp: - Deutsch wird nur für \"ge\" vorgeschlagen, für \"d\" wiederum Niederländisch und Dänisch - \"s\" in Gattung verweist auf \"Kurzfilm\" (Short) <img width=\"829\" height=\"173\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/5fd3d18e-0894-4f63-9914-13fe71a8900a\" />"
     },
@@ -5609,6 +5629,48 @@
       "closedAt": "",
       "bodyHash": "753b9c199bc4875bdc7b2c5550877037de9659f19ac8bd6ce8514aead3869264",
       "bodyExcerpt": "In einigen Fällen ist die Zuordnung der Normdaten-IDs in der Anzeige fehlerhaft, während sie in den Daten korrekt ist. Meine Vermutung ist, dass sie um eine Stelle verrutscht sind, den Auslöser habe ich aber nicht gefunden. Beispiele: https://www.av-efi.net/res/21.11155/B1DEAF67-6BFA-4B9A-A0C5-A99E7C5A2176 Siehe hier sämtliche Identifier, außer dem TGN für den Ort. Bei Hansen, Joachim wird dann auch zusätzlich das GND-Icon an der Stelle der Filmportal-ID angezeigt, was sich vermutlich daraus erk"
+    },
+    {
+      "projectItemId": "PVTI_lADOB5z1484Akea5zgynvQI",
+      "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
+      "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
+      "projectNumber": 1,
+      "projectStatus": "Done",
+      "projectFields": {
+        "Assignees": [
+          "steffolino"
+        ],
+        "Repository": "AV-EFI/AVefi-Issues",
+        "Labels": [
+          "MUSTHAVE",
+          "UserStory",
+          "Technical-Blocker",
+          "Search"
+        ],
+        "Title": "SEARCH-01: Facet result count must always match returned hits",
+        "Status": "Done"
+      },
+      "contentType": "ISSUE",
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 218,
+      "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/218",
+      "title": "SEARCH-01: Facet result count must always match returned hits",
+      "state": "CLOSED",
+      "labels": [
+        "MUSTHAVE",
+        "UserStory",
+        "Technical-Blocker",
+        "Search"
+      ],
+      "assignees": [
+        "steffolino"
+      ],
+      "milestone": "",
+      "createdAt": "2025-11-19T10:33:37Z",
+      "updatedAt": "2026-07-13T09:27:26Z",
+      "closedAt": "2026-07-13T09:27:26Z",
+      "bodyHash": "7945f8f276d4eee89a3353a5165bd314139943aecaad6fb98412ee009dee9be0",
+      "bodyExcerpt": "# User Story Als Nutzer*in der Plattform möchte ich, dass die Anzahl der Suchtreffer immer mit den tatsächlich angezeigten Ergebnissen übereinstimmt damit ich verstehe, wie Filter und Facetten meine Suche beeinflussen. # Kontext - Dieses Problem wurde mehrfach in Usability-Tests beobachtet. - Count-Mismatch führt zu Vertrauensverlust. - REPLACES: alte Issues zu \"Anzahl Suchergebnisse passt nicht zur Filteranzahl\". # Akzeptanzkriterien - **Given** ich setze einen Filter **When** die Ergebnisse ge"
     }
   ]
 }

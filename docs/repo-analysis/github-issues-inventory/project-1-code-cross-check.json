@@ -3,7 +3,7 @@
     "id": "PVT_kwDOB5z1484Akea5",
     "title": "AVefi User Stories Kanban (ALL User Stories)",
     "url": "https://github.com/orgs/AV-EFI/projects/1",
-    "totalCount": 144
+    "totalCount": 145
   },
   "items": [
     {
@@ -872,23 +872,13 @@
             "allgemeine"
           ],
           "text": "\"body1\": \"Die GWDG ist als Inhaltsanbieterin nach Paragraph 7 Abs. 1 Digitale-Dienste-Gesetz für die eigenen Inhalte, die sie zur Nutzung bereithält, nach den allgemeinen Gesetzen "
-        },
-        {
-          "file": ".\\public\\img\\avefi_ph_gray.svg",
-          "line": 43,
-          "kind": "code",
-          "terms": [
-            "uber"
-          ],
-          "text": "xlink:href=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0AAAAJtCAYAAAAfJhAeAAAABHNCSVQICAgIfAhkiAAAIABJREFU&#10;eJzsvcuW5LiSLbaNpHs8MuOVA41vVa+r//+Nvhr0lSZa60jp0WNppsGVusKdpgFgT"
         }
       ],
       "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#211",
-      "matchCount": 8,
+      "matchCount": 7,
       "matchedFiles": [
-        ".\\i18n\\locales\\de.ts",
-        ".\\public\\img\\avefi_ph_gray.svg"
+        ".\\i18n\\locales\\de.ts"
       ],
       "searchTerms": [
         "allgemein",
@@ -1166,35 +1156,35 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Highest Prio",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Title": "Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32)",
-        "Status": "Highest Prio"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 212,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/212",
       "title": "Performance: Als Benutzer*in erwarte ich, dass die Anwendung schnelle und reaktionsschnelle Suchergebnisse liefert, auch bei großen Datenmengen  (User Story ID 32)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:16Z",
-      "updatedAt": "2026-07-06T17:22:07Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:50:36Z",
+      "closedAt": "2026-07-13T09:50:36Z",
       "bodyHash": "f478f746f91791035b1a06ac5c2748116fc8dd3952930f3b0340edf1aca43fc2",
       "bodyExcerpt": "User Story ID: 32 Epic: Performance Best Practice UX ┆Issue is synchronized with this [Trello card](https://trello.com/c/c7QHZ817) by [Unito](https://www.unito.io)",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing milestone. Missing labels.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone. Missing labels.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "performance",
@@ -1209,8 +1199,8 @@
         "datenmengen"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "performance",
         "erwarte",
@@ -1222,11 +1212,203 @@
         "gro en",
         "datenmengen"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 56,
+          "kind": "code",
+          "terms": [
+            "suchergebnisse"
+          ],
+          "text": "\"lead\": \"AVefi ist ein Verbundsystem, das Filmbestände verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhal"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 396,
+          "kind": "code",
+          "terms": [
+            "suchergebnisse"
+          ],
+          "text": "\"showInSearch\": \"In Suchergebnissen anzeigen\""
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 449,
+          "kind": "code",
+          "terms": [
+            "suchergebnisse"
+          ],
+          "text": "\"itemRemovedWarning\": \"Das Exemplar besitzt den Status 'Entfernt' und ist nur direkt referenzierbar. Es wird nicht in Suchergebnissen angezeigt und kann nicht über die Manifestatio"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 563,
+          "kind": "code",
+          "terms": [
+            "erwarte"
+          ],
+          "text": "'alpha': 'Das System ist noch in der Entwicklungsphase. Bitte haben Sie Verständnis, dass noch nicht alle Funktionen verfügbar sind und einige Funktionen möglicherweise nicht wie e"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 773,
+          "kind": "code",
+          "terms": [
+            "anwendung"
+          ],
+          "text": "'loadingApplication': 'Anwendung wird geladen...',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 919,
+          "kind": "code",
+          "terms": [
+            "erwarte"
+          ],
+          "text": "'unexpectedError': 'Unerwarteter Fehler',"
+        },
+        {
+          "file": ".\\MATOMO_SETUP.md",
+          "line": 120,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "- Set up auto-archiving for better performance"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 329,
+          "kind": "code",
+          "terms": [
+            "liefert"
+          ],
+          "text": "\"SuppliedDevisedTitle\": \"Gelieferter/Entworfener Titel\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 6155,
+          "kind": "code",
+          "terms": [
+            "liefert"
+          ],
+          "text": "- literal_form: Gelieferter/Entworfener Titel"
+        },
+        {
+          "file": ".\\plugins\\deferStyles.client.ts",
+          "line": 1,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "// Defer non-critical CSS to improve initial render performance"
+        },
+        {
+          "file": ".\\RELEASE_NOTES.md",
+          "line": 269,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "- Converts images to WebP format for better performance"
+        },
+        {
+          "file": ".\\server\\api\\poc\\chat.post.ts",
+          "line": 23,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "const startedAt = performance.now();"
+        },
+        {
+          "file": ".\\server\\api\\poc\\chat.post.ts",
+          "line": 50,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "tookMs: Math.round(performance.now() - startedAt),"
+        },
+        {
+          "file": ".\\server\\api\\poc\\facets\\agents.post.ts",
+          "line": 32,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "const startedAt = performance.now();"
+        },
+        {
+          "file": ".\\server\\api\\poc\\facets\\agents.post.ts",
+          "line": 61,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "tookMs: Math.round(performance.now() - startedAt),"
+        },
+        {
+          "file": ".\\server\\api\\poc\\facets\\agents.post.ts",
+          "line": 219,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "tookMs: Math.round(performance.now() - startedAt),"
+        },
+        {
+          "file": ".\\server\\api\\poc\\works\\by-handle.get.ts",
+          "line": 23,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "const startedAt = performance.now();"
+        },
+        {
+          "file": ".\\server\\api\\poc\\works\\by-handle.get.ts",
+          "line": 50,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "let tookMs = Math.round(performance.now() - startedAt);"
+        },
+        {
+          "file": ".\\server\\api\\poc\\works\\search.post.ts",
+          "line": 40,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "const startedAt = performance.now();"
+        },
+        {
+          "file": ".\\server\\api\\poc\\works\\search.post.ts",
+          "line": 59,
+          "kind": "code",
+          "terms": [
+            "performance"
+          ],
+          "text": "tookMs: Math.round(performance.now() - startedAt),"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#212",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\i18n\\locales\\de.ts",
+        ".\\MATOMO_SETUP.md",
+        ".\\models\\interfaces\\schema\\locale_messages.json",
+        ".\\models\\interfaces\\schema\\vocab.yaml",
+        ".\\plugins\\deferStyles.client.ts",
+        ".\\RELEASE_NOTES.md",
+        ".\\server\\api\\poc\\chat.post.ts",
+        ".\\server\\api\\poc\\facets\\agents.post.ts",
+        ".\\server\\api\\poc\\works\\by-handle.get.ts",
+        ".\\server\\api\\poc\\works\\search.post.ts"
+      ],
       "searchTerms": [
         "performance",
         "erwarte",
@@ -4287,7 +4469,7 @@
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:32Z",
-      "updatedAt": "2026-07-06T17:21:51Z",
+      "updatedAt": "2026-07-13T08:43:17Z",
       "closedAt": "",
       "bodyHash": "f2a715b2dd257e44a185e5c70ff3faa34ff4cc62d59c75cb0b4768103c75bbc8",
       "bodyExcerpt": "User Story ID: 24 Epic: Filmidentifikatorenansicht & Redaktionssystem bedingt andere User Stories? ┆Issue is synchronized with this [Trello card](https://trello.com/c/Z6XOONL7) by [Unito](https://www.unito.io)",
@@ -4965,35 +5147,35 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Highest Prio",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich zwei oder mehrere Datensätze (Werk-Manifestation-Item) auf ihre Ähnlichkeit prüfen  (User Story ID 24)",
-        "Status": "Highest Prio"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 216,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/216",
       "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich zwei oder mehrere Datensätze (Werk-Manifestation-Item) auf ihre Ähnlichkeit prüfen  (User Story ID 24)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:40:48Z",
-      "updatedAt": "2026-07-06T17:22:15Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T08:43:30Z",
+      "closedAt": "2026-07-13T08:43:30Z",
       "bodyHash": "2ca9dc1a730888bf9e407cb4b321705fa0ef0c91f8862659c33eca98cb81ce24",
       "bodyExcerpt": "| bedingt andere User Stories? | |------------------------------| ┆Issue is synchronized with this [Trello card](https://trello.com/c/9wFJs3jv) by [Unito](https://www.unito.io)",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing milestone. Missing labels.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone. Missing labels.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "filmidentifikatorenansicht",
@@ -5007,8 +5189,8 @@
         "prüfen"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "filmidentifikatorenansicht",
         "redaktionssystem",
@@ -5021,11 +5203,198 @@
         "zwei",
         "ihre"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 87,
+          "kind": "code",
+          "terms": [
+            "ihre"
+          ],
+          "text": "\"yourOwn\": \"Erstellen Sie Ihren eigenen Beitrag\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 144,
+          "kind": "code",
+          "terms": [
+            "ihre"
+          ],
+          "text": "'title': 'Ihre Bestände in AVefi',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 146,
+          "kind": "code",
+          "terms": [
+            "ihre"
+          ],
+          "text": "'AVefi ist offen für weitere Filmbestände aus Archiven und Sammlungen. Bringen Sie Ihre Daten ein und stärken Sie deren nachhaltige Nutzung. Durch persistente Identifikatoren und s"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 248,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "'description': 'Hermann Schlenkers ethnografische Arbeiten aus der zweiten Hälfte des 20. Jahrhunderts sind ein wertvolles Zeitzeugnis von Kulturen, die sich im Wandel befinden ode"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 257,
+          "kind": "code",
+          "terms": [
+            "mehrere"
+          ],
+          "text": "'description': 'AVefi ermöglicht die Recherche von Filmwerken, Manifestationen und Exemplaren in mehreren Filmarchiven. Normdaten-Verknüpfungen, Persistent Identifiers und struktur"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 264,
+          "kind": "code",
+          "terms": [
+            "mehrere"
+          ],
+          "text": "'datasetDescription': 'AVefi verknüpft Filmmetadaten aus mehreren Institutionen und vergibt persistente Identifikatoren (efis) für Werk, Manifestation und Exemplar.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 266,
+          "kind": "code",
+          "terms": [
+            "mehrere"
+          ],
+          "text": "'catalogDescription': 'Katalog für verknüpfte Filmmetadaten und persistente Identifikatoren (efis) aus mehreren beteiligten Institutionen.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 757,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "'comparisonfull': 'Der Vergleich darf maximal zwei Elemente beinhalten. Um ein neues Element hinzufügen, bitte eines aus der Liste entfernen.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 758,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "'comparisonComponent': 'Die Vergleichskomponente ermöglicht es Nutzern, bis zu zwei Datensätze gleichzeitig auszuwählen und in einer Vergleichsansicht gegenüberzustellen. Datensätz"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 59,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "\"BlackAndWhite\": \"Schwarzweiß\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 60,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "\"BlackAndWhiteCopyOfWorkOriginallyIssuedInColour\": \"Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben wurde\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 61,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "\"BlackAndWhiteTinted\": \"Schwarzweiß (Viragiert)\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 703,
+          "kind": "code",
+          "terms": [
+            "mehrere"
+          ],
+          "text": "\"mul\": \"Mehrere Sprachen\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 374,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "- literal_form: Kameramann des zweiten Drehteams"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 568,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "- literal_form: Regisseur des zweiten Drehteams"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 818,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "- literal_form: Zweiter Aufnahmeleiter"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 4523,
+          "kind": "code",
+          "terms": [
+            "mehrere"
+          ],
+          "text": "- literal_form: Mehrere Sprachen"
+        },
+        {
+          "file": ".\\nuxt.config.ts",
+          "line": 426,
+          "kind": "code",
+          "terms": [
+            "mehrere"
+          ],
+          "text": "'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunkti"
+        },
+        {
+          "file": ".\\nuxt.config.ts",
+          "line": 575,
+          "kind": "code",
+          "terms": [
+            "ihre"
+          ],
+          "text": "'Wir verwenden eigene Cookies und Cookies von Drittanbietern, um Ihre Erfahrung auf unserer Website zu verbessern. Durch Klicken auf \"Akzeptieren\" stimmen Sie der Verwendung ALLER "
+        },
+        {
+          "file": ".\\pages\\index.vue",
+          "line": 556,
+          "kind": "code",
+          "terms": [
+            "zwei"
+          ],
+          "text": "imgAlt: 'Filmprojektor vor einer Leinwand mit einem Schwarzweiß-Film',"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#216",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\i18n\\locales\\de.ts",
+        ".\\models\\interfaces\\schema\\locale_messages.json",
+        ".\\models\\interfaces\\schema\\vocab.yaml",
+        ".\\nuxt.config.ts",
+        ".\\pages\\index.vue"
+      ],
       "searchTerms": [
         "filmidentifikatorenansicht",
         "redaktionssystem",
@@ -7337,24 +7706,14 @@
             "formate"
           ],
           "text": "'bannerDescription': 'AVefi präsentiert ausgewählte Sammlungen und wichtige Erkenntnisse aus dem Bereich der Film-Metadaten. Erkunden Sie eine Vielzahl von Datensätzen, von umfasse"
-        },
-        {
-          "file": ".\\public\\img\\avefi_ph_gray.svg",
-          "line": 43,
-          "kind": "code",
-          "terms": [
-            "uber"
-          ],
-          "text": "xlink:href=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0AAAAJtCAYAAAAfJhAeAAAABHNCSVQICAgIfAhkiAAAIABJREFU&#10;eJzsvcuW5LiSLbaNpHs8MuOVA41vVa+r//+Nvhr0lSZa60jp0WNppsGVusKdpgFgT"
         }
       ],
       "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#17",
-      "matchCount": 9,
+      "matchCount": 8,
       "matchedFiles": [
         ".\\components\\global\\PartnersCarouselComp.vue",
-        ".\\i18n\\locales\\de.ts",
-        ".\\public\\img\\avefi_ph_gray.svg"
+        ".\\i18n\\locales\\de.ts"
       ],
       "searchTerms": [
         "technische",
@@ -8746,24 +9105,6 @@
           "text": "under different titles, in different systems, with local identifiers"
         },
         {
-          "file": ".\\public\\img\\avefi_ph_gray.svg",
-          "line": 43,
-          "kind": "code",
-          "terms": [
-            "wann"
-          ],
-          "text": "xlink:href=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0AAAAJtCAYAAAAfJhAeAAAABHNCSVQICAgIfAhkiAAAIABJREFU&#10;eJzsvcuW5LiSLbaNpHs8MuOVA41vVa+r//+Nvhr0lSZa60jp0WNppsGVusKdpgFgT"
-        },
-        {
-          "file": ".\\public\\img\\placeholder-16x9.svg",
-          "line": 14,
-          "kind": "code",
-          "terms": [
-            "system"
-          ],
-          "text": "<text x=\"400\" y=\"350\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif\" font-size=\"18\" fill=\"#364754\" fill-opacity=\".6\">No image avai"
-        },
-        {
           "file": ".\\RELEASE_NOTES.md",
           "line": 45,
           "kind": "code",
@@ -8821,7 +9162,7 @@
       ],
       "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#23",
-      "matchCount": 20,
+      "matchCount": 18,
       "matchedFiles": [
         ".\\components\\poster\\AvefiPosterComp.vue",
         ".\\i18n\\locales\\de.ts",
@@ -8830,8 +9171,6 @@
         ".\\models\\interfaces\\schema\\avefi_schema.ts",
         ".\\models\\interfaces\\schema\\model.yaml",
         ".\\pages\\poster\\avefi.vue",
-        ".\\public\\img\\avefi_ph_gray.svg",
-        ".\\public\\img\\placeholder-16x9.svg",
         ".\\RELEASE_NOTES.md",
         ".\\scripts\\generate-stakeholder-quality-reports.mjs",
         ".\\scripts\\github-project-classify.mjs",
@@ -10903,7 +11242,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -10914,14 +11253,15 @@
           "Filmrecherche"
         ],
         "Milestone": "Public Release",
-        "Title": "Facetten finalisieren (Filmrecherche)"
+        "Title": "Facetten finalisieren (Filmrecherche)",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 64,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/64",
       "title": "Facetten finalisieren (Filmrecherche)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "MUSTHAVE",
         "Filmrecherche"
@@ -10931,14 +11271,14 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-18T19:03:02Z",
-      "updatedAt": "2026-07-06T08:52:50Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:50:39Z",
+      "closedAt": "2026-07-13T09:50:39Z",
       "bodyHash": "9fe8bd8ed93dc6fad456b5ed0c90703310252f368d271cddbe75838043cc2c3b",
       "bodyExcerpt": "Als Benutzer*in möchte ich klare und zuverlässige Facetten nutzen können, damit ich Suchergebnisse nach meinen Bedürfnissen eingrenzen kann. Confluence: https://wiki.tib.eu/confluence/spaces/avefi/pages/424254806/Facetten+%C3%9Cbersicht+Reihenfolge Status heute: • Facetten vorhanden (Jahr, Farbe, Ton, Format/Material etc.) • Funktioniert technisch • UI weitgehend verständlich Was fehlt: • Finaler Abgleich: Welche Facetten gehören in den Public Release? • Einheitliche Labels (DE/EN) • Konsistente",
-      "auditBucket": "frontend_work",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Frontend/UI terminology or frontend repository detected. Missing project status.",
-      "suggestedAction": "Cross-check frontend implementation and decide whether work remains.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Frontend/UI",
       "codeSearchTerms": [
         "facetten",
@@ -10946,9 +11286,9 @@
         "filmrecherche",
         "musthave"
       ],
-      "needsHumanReview": false,
+      "needsHumanReview": true,
       "reviewScope": true,
-      "implementationState": "partial",
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "facetten",
         "finalisieren"
@@ -10991,7 +11331,7 @@
           "text": "'toggleFacetDrawer': 'Facetten umschalten',"
         }
       ],
-      "suggestedNextStep": "Review matched implementation and define remaining acceptance criteria.",
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#64",
       "matchCount": 4,
       "matchedFiles": [
@@ -11077,7 +11417,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
@@ -11089,14 +11429,15 @@
           "Filmrecherche"
         ],
         "Milestone": "Public Release",
-        "Title": "Trefferlisten-Preview verbessern"
+        "Title": "Trefferlisten-Preview verbessern",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 66,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/66",
       "title": "Trefferlisten-Preview verbessern",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "MUSTHAVE",
         "Filmrecherche"
@@ -11107,14 +11448,14 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-18T19:03:38Z",
-      "updatedAt": "2026-07-06T08:52:48Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:51Z",
+      "closedAt": "2026-07-13T15:22:51Z",
       "bodyHash": "546a4af6f80a0781c82fc0d6c72fc22934100f1fd5a40ee856053a5d8101cc16",
       "bodyExcerpt": "User Story Als Benutzer*in möchte ich in der Trefferliste die wichtigsten Informationen klar strukturiert sehen, damit ich schneller entscheiden kann, welchen Datensatz ich öffne. Hintergrund Die bisherige Trefferlisten-Anzeige zeigt nur einen kleinen Ausschnitt der verfügbaren Metadaten. Basierend auf der Confluence-Seite „Feldreihenfolge in Such- und Detailanzeige“ (Stand 30.09.2025) wurde die normative Reihenfolge für die Suchanzeige überprüft: https://wiki.tib.eu/confluence/spaces/avefi/page",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "trefferlisten-preview",
@@ -11123,17 +11464,66 @@
         "filmrecherche"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "trefferlisten-preview",
         "verbessern"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 279,
+          "kind": "code",
+          "terms": [
+            "verbessern"
+          ],
+          "text": "\"cookiesDescription\": \"Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige Cookies sind notwendig, um die grundlegenden Funktionen der Website zu gew"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1388,
+          "kind": "code",
+          "terms": [
+            "verbessern"
+          ],
+          "text": "\"body\": \"Wenn Sie bei der Nutzung von AVefi auf Barrieren stoßen oder Probleme mit der Barrierefreiheit bemerken, teilen Sie uns dies bitte mit. Ihr Feedback hilft uns, das Angebot"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1413,
+          "kind": "code",
+          "terms": [
+            "verbessern"
+          ],
+          "text": "\"body\": \"Wir überprüfen unsere digitalen Dienste regelmäßig und arbeiten daran, die Barrierefreiheit durch Design-Reviews, Implementierungsstandards und Tests fortlaufend zu verbes"
+        },
+        {
+          "file": ".\\nuxt.config.ts",
+          "line": 575,
+          "kind": "code",
+          "terms": [
+            "verbessern"
+          ],
+          "text": "'Wir verwenden eigene Cookies und Cookies von Drittanbietern, um Ihre Erfahrung auf unserer Website zu verbessern. Durch Klicken auf \"Akzeptieren\" stimmen Sie der Verwendung ALLER "
+        },
+        {
+          "file": ".\\nuxt.config.ts",
+          "line": 610,
+          "kind": "code",
+          "terms": [
+            "verbessern"
+          ],
+          "text": "de: 'Hilft, die Nutzung zu verstehen und den Dienst zu verbessern.',"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#66",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 5,
+      "matchedFiles": [
+        ".\\i18n\\locales\\de.ts",
+        ".\\nuxt.config.ts"
+      ],
       "searchTerms": [
         "trefferlisten-preview",
         "verbessern"
@@ -11144,7 +11534,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "tennismann3000"
@@ -11155,14 +11545,15 @@
           "Frontend",
           "Epic:Lizenzen"
         ],
-        "Title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen"
+        "Title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 149,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/149",
       "title": "LIC-01: Rechte- und Lizenzinformationen global sichtbar machen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -11173,14 +11564,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-25T07:05:19Z",
-      "updatedAt": "2026-07-06T08:51:16Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T14:52:15Z",
+      "closedAt": "2026-07-13T14:52:15Z",
       "bodyHash": "70a38cd05bd236a06c4327e02f3b01e2d4553feb3aa6a6e544ffefe0958dc51b",
       "bodyExcerpt": "# User Story Als Nutzer*in der AVefi-Plattform möchte ich klar und eindeutig erkennen können, unter welchen Rechten und Lizenzen die angezeigten Metadaten stehen, damit ich Inhalte korrekt verwenden, zitieren oder weiterverarbeiten kann. # Kontext - Abschluss-Workshop in Berlin: Alle angezeigten Metadaten stehen unter **CC-BY**. - Die Lizenzinformation soll **global** eingebunden werden — nicht pro Datensatz. - Es besteht Klärungsbedarf: Wo und wie wird dies UI-seitig dargestellt? (Footer, About",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "lic-01",
@@ -11194,8 +11585,8 @@
         "lizenzen"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "lic-01",
         "rechte-",
@@ -11207,11 +11598,206 @@
         "lizenzen",
         "epic lizenzen"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 61,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "// --- WebSite (global) ---"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 108,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "// --- DataCatalog (global) ---"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 124,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "// --- Dataset (global) ---"
+        },
+        {
+          "file": ".\\assets\\scss\\slider_tailwind.scss",
+          "line": 3,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "- No `@use \"tailwindcss\"` here (keep Tailwind directives in your global CSS)."
+        },
+        {
+          "file": ".\\components\\detail\\InstitutionListComp.vue",
+          "line": 8,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalFacetDrawer />"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 35,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalTooltipInfo"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 53,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalTooltipInfo"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 71,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalTooltipInfo"
+        },
+        {
+          "file": ".\\components\\detail\\KeyValueComp.vue",
+          "line": 16,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalClipboardComp"
+        },
+        {
+          "file": ".\\components\\detail\\KeyValueListComp.vue",
+          "line": 19,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalClipboardComp"
+        },
+        {
+          "file": ".\\components\\detail\\ManifestationListComp.vue",
+          "line": 47,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalTooltipInfo :text=\"$t('tooltip.item')\" class=\"ml-2\" />"
+        },
+        {
+          "file": ".\\components\\detail\\WorksMultiView.vue",
+          "line": 145,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalTooltipInfo"
+        },
+        {
+          "file": ".\\components\\global\\ActionContextComp.vue",
+          "line": 40,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalExportDataComp :data-set-id=\"id ? [id] : [item.handle]\" :data-set-json=\"JSON.stringify(item, null, 2)\""
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 101,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalExportDataComp"
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 117,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalExportDataComp :data-set-id=\"[object.filmId]\" btn-size=\"btn-icon-sm\" />"
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 162,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalExportDataComp"
+        },
+        {
+          "file": ".\\components\\global\\ContactDrawer.vue",
+          "line": 4,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "id=\"global-contact-drawer\""
+        },
+        {
+          "file": ".\\components\\global\\ContactDrawer.vue",
+          "line": 16,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "for=\"global-contact-drawer\""
+        },
+        {
+          "file": ".\\components\\global\\FacetDrawer.vue",
+          "line": 13,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalTooltipInfo"
+        },
+        {
+          "file": ".\\components\\global\\GlossaryTextComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "global"
+          ],
+          "text": "<GlobalGlossaryTermComp"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#149",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\assets\\scss\\slider_tailwind.scss",
+        ".\\components\\detail\\InstitutionListComp.vue",
+        ".\\components\\detail\\ItemListNewComp.vue",
+        ".\\components\\detail\\KeyValueComp.vue",
+        ".\\components\\detail\\KeyValueListComp.vue",
+        ".\\components\\detail\\ManifestationListComp.vue",
+        ".\\components\\detail\\WorksMultiView.vue",
+        ".\\components\\global\\ActionContextComp.vue",
+        ".\\components\\global\\ComparisonDrawer.vue",
+        ".\\components\\global\\ContactDrawer.vue",
+        ".\\components\\global\\FacetDrawer.vue",
+        ".\\components\\global\\GlossaryTextComp.vue"
+      ],
       "searchTerms": [
         "lic-01",
         "rechte-",
@@ -11394,7 +11980,8 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "tennismann3000"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
@@ -11417,11 +12004,12 @@
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "tennismann3000"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:04:56Z",
-      "updatedAt": "2026-07-06T08:51:19Z",
+      "updatedAt": "2026-07-13T09:50:20Z",
       "closedAt": "",
       "bodyHash": "1282e14b513f2338843d662811f40b261c75e1ac1bcd6b2f8247bf875122106a",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich effizient zwischen Suchtrefferliste und Detailansicht hin- und hernavigieren damit ich mehrere Treffer schnell bewerten kann. # Kontext - Pain Point in Usability-Test. # Akzeptanzkriterien - Kein Scrollverlust. - Keine Reset-Effekte.",
@@ -13011,8 +13599,10 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
+          "Backend",
           "UNSCHARF",
           "Frontend",
           "Epic:Recommendations"
@@ -13026,8 +13616,10 @@
       "title": "RECS-03: Ähnlichkeitskriterien transparent darstellen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
+        "Backend",
         "UNSCHARF",
         "Frontend",
         "Epic:Recommendations"
@@ -13037,7 +13629,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:21:58Z",
-      "updatedAt": "2025-11-27T14:03:30Z",
+      "updatedAt": "2026-07-13T14:54:59Z",
       "closedAt": "",
       "bodyHash": "667e9ea7736ca0f8a7eab21c79fa37968155f26b743c5ace3a1e3cd8a0f89e59",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich nachvollziehen können, warum ein Film als „ähnlich“ eingestuft wurde, damit die Empfehlung vertrauenswürdig und erklärbar wirkt. # Kontext - AVefi ist ein wissenschaftliches Recherchetool → Transparenz ist wichtig. - UI muss nicht komplex sein, eine kleine Fußnote mit Stichworten reicht. # Akzeptanzkriterien - **Given** ähnliche Filme werden angezeigt **When** ich einen Datensatz in der Ähnlichkeitsliste sehe **Then** wird dort angezeigt, welche Kriterien zu",
@@ -13053,6 +13645,7 @@
         "darstellen",
         "shouldhave",
         "userstory",
+        "backend",
         "unscharf",
         "frontend",
         "recommendations"
@@ -13066,8 +13659,10 @@
         "transparent",
         "darstellen",
         "userstory",
+        "backend",
         "unscharf",
         "recommendations",
+        "b l o c k e d",
         "epic recommendations"
       ],
       "codeMatches": [],
@@ -13081,8 +13676,10 @@
         "transparent",
         "darstellen",
         "userstory",
+        "backend",
         "unscharf",
         "recommendations",
+        "b l o c k e d",
         "epic recommendations"
       ]
     },
@@ -14152,7 +14749,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -14166,14 +14763,15 @@
           "Accessibility",
           "Epic:Datenqualität"
         ],
-        "Title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren"
+        "Title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 98,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/98",
       "title": "DQ-05: Einheitliches Farbsystem für Datenvollständigkeit definieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UserStory",
@@ -14187,14 +14785,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:33:55Z",
-      "updatedAt": "2026-07-06T06:51:04Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:50:42Z",
+      "closedAt": "2026-07-13T09:50:42Z",
       "bodyHash": "ef4c4dbbc9aef73bf40d031e4f3af1d8b13ba8044e6f704afd9442ad7a77df6e",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich durch Farben intuitiv erkennen können, wie vollständig ein Datensatz ist, damit ich schneller entscheiden kann, welche Daten besonders verlässlich sind. # Kontext - Farben müssen mit AVefi-Designsystem kompatibel sein. - Muss barrierefrei sein (Kontrast!). # Akzeptanzkriterien - Farbcodierung: z. B. rot = schlecht, gelb = mittel, grün = gut. - Kontrast AA oder AAA. - Sass/Tailwind-Variablen dokumentiert.",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "dq-05",
@@ -14209,8 +14807,8 @@
         "accessibility"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "dq-05",
         "einheitliches",
@@ -14222,11 +14820,201 @@
         "accessibility",
         "epic datenqualitat"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\components\\global\\Footer.vue",
+          "line": 70,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "to=\"/accessibility\""
+        },
+        {
+          "file": ".\\components\\global\\Footer.vue",
+          "line": 72,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": ":aria-label=\"$t('accessibilityStatement')\""
+        },
+        {
+          "file": ".\\components\\global\\Footer.vue",
+          "line": 74,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "{{ $t('accessibilityStatement') }}"
+        },
+        {
+          "file": ".\\composables\\useMatomoTracking.ts",
+          "line": 52,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "* 7 = accessibility_mode"
+        },
+        {
+          "file": ".\\composables\\useMatomoTracking.ts",
+          "line": 68,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "const accessibilityMode = normalizeBoolean("
+        },
+        {
+          "file": ".\\composables\\useMatomoTracking.ts",
+          "line": 69,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "localStorage.getItem('accessibility_mode')"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 109,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "'accessibility': {"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 282,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "\"accessibilityStatement\": \"Barrierefreiheit\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1189,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "\"accessibility\": {"
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 115,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "'accessibility': {"
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 303,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "\"accessibilityStatement\": \"Accessibility Statement\","
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 1213,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "\"accessibility\": {"
+        },
+        {
+          "file": ".\\nuxt.config.ts",
+          "line": 493,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "'/accessibility',"
+        },
+        {
+          "file": ".\\pages\\accessibility.vue",
+          "line": 6,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "[$t('accessibilityStatement'), '/accessibility'],"
+        },
+        {
+          "file": ".\\pages\\accessibility.vue",
+          "line": 16,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "{{ $t('accessibilityPage.title') }}"
+        },
+        {
+          "file": ".\\pages\\accessibility.vue",
+          "line": 19,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "{{ $t('accessibilityPage.intro') }}"
+        },
+        {
+          "file": ".\\pages\\index.vue",
+          "line": 6,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "{{ $t('home.accessibility.skipToContent') }}"
+        },
+        {
+          "file": ".\\RELEASE_NOTES.md",
+          "line": 22,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "Release: Search History, SEO Optimizations & Accessibility Improvements"
+        },
+        {
+          "file": ".\\RELEASE_NOTES.md",
+          "line": 33,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "3. Accessibility enhancements for screen readers and keyboard navigation"
+        },
+        {
+          "file": ".\\RELEASE_NOTES.md",
+          "line": 232,
+          "kind": "code",
+          "terms": [
+            "accessibility"
+          ],
+          "text": "♿ Accessibility Improvements"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#98",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\components\\global\\Footer.vue",
+        ".\\composables\\useMatomoTracking.ts",
+        ".\\i18n\\locales\\de.ts",
+        ".\\i18n\\locales\\en.ts",
+        ".\\nuxt.config.ts",
+        ".\\pages\\accessibility.vue",
+        ".\\pages\\index.vue",
+        ".\\RELEASE_NOTES.md"
+      ],
       "searchTerms": [
         "dq-05",
         "einheitliches",
@@ -14244,7 +15032,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "EOltmanns"
@@ -14256,14 +15044,15 @@
           "UNSCHARF",
           "Epic:Datenqualität"
         ],
-        "Title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren"
+        "Title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 99,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/99",
       "title": "DQ-06: Fehlende Pflichtfelder beim Import/Sync erkennen und markieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Backend",
@@ -14275,14 +15064,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:34:06Z",
-      "updatedAt": "2025-11-27T18:02:12Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:19:26Z",
+      "closedAt": "2026-07-13T15:19:26Z",
       "bodyHash": "46a0a464c3e2de621e671e2a0651ef6258c1ecc718679e59bab3a129e5965b05",
       "bodyExcerpt": "# User Story Als Datenmanager*in möchte ich beim Import oder Synchronisieren der Metadaten sehen, welche Pflichtfelder fehlen, damit ich Fehler frühzeitig beheben kann. # Kontext - Backend-Prozess ist nicht vollständig dokumentiert. - Abhängig von GWDG/TIB-Infrastruktur. # Akzeptanzkriterien - UNSCHARF: Bedarf Abstimmung mit Backend-Team.",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "dq-06",
@@ -14297,8 +15086,8 @@
         "datenqualität"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "dq-06",
         "fehlende",
@@ -14314,11 +15103,202 @@
         "sync",
         "epic datenqualitat"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 2,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "// All imports below are auto-imported by Nuxt"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 263,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "if (!import.meta.client) return;"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 289,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "if (import.meta.client) {"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 152,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "--toastify-toast-width: 90%!important;"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 155,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "--toastify-toast-width: 500px!important;"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 158,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "--toastify-toast-width: 720px!important;"
+        },
+        {
+          "file": ".\\assets\\scss\\slider_tailwind.scss",
+          "line": 127,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "transition: none !important;"
+        },
+        {
+          "file": ".\\assets\\scss\\tailwind.css",
+          "line": 1,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "@import \"tailwindcss\";"
+        },
+        {
+          "file": ".\\assets\\scss\\vs.css",
+          "line": 70,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "background: var(--color-base-100)!important;"
+        },
+        {
+          "file": ".\\assets\\scss\\vs.css",
+          "line": 71,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "color: red!important;"
+        },
+        {
+          "file": ".\\assets\\scss\\vs.css",
+          "line": 74,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "color:yellow!important;"
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 77,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "import type { MovingImageRecord } from '/models/interfaces/av_efi_schema.ts';"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 235,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 236,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "import { useI18n } from 'vue-i18n';"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 237,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "import filmRelatedMaterialsMockup from '~/assets/data/filmrelated_materials_mockup_06052026.json';"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 420,
+          "kind": "code",
+          "terms": [
+            "sync"
+          ],
+          "text": "async function initEmbla() {"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 34,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "import { computed, defineComponent, h, resolveComponent } from 'vue';"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 48,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "/** payload from backend decorator */"
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 90,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "import { getSuspiciousAgentNamePattern } from '~/utils/agentQuality';"
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 102,
+          "kind": "code",
+          "terms": [
+            "import"
+          ],
+          "text": "? `${pattern.description}. ${useNuxtApp().$i18n.t('dataQuality.probableImportIssue')}`"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#99",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\assets\\scss\\main.scss",
+        ".\\assets\\scss\\slider_tailwind.scss",
+        ".\\assets\\scss\\tailwind.css",
+        ".\\assets\\scss\\vs.css",
+        ".\\components\\detail\\FavouritesListComp.vue",
+        ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+        ".\\components\\detail\\GenericKVView.vue",
+        ".\\components\\detail\\HasAgentComp.vue"
+      ],
       "searchTerms": [
         "dq-06",
         "fehlende",
@@ -14340,7 +15320,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -14351,14 +15331,15 @@
           "UNSCHARF",
           "Search"
         ],
-        "Title": "DQ-08: Datenqualität als Facetten-Filter anbieten"
+        "Title": "DQ-08: Datenqualität als Facetten-Filter anbieten",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 101,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/101",
       "title": "DQ-08: Datenqualität als Facetten-Filter anbieten",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UNSCHARF",
@@ -14369,14 +15350,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:34:29Z",
-      "updatedAt": "2025-11-27T18:01:23Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:55Z",
+      "closedAt": "2026-07-13T15:22:55Z",
       "bodyHash": "709438a3f778bcabe54d6673b0d22fad5967d05aa5b98cd679b8dbf0618e184b",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich nach „hochwertigen“ bzw. „vollständigen“ Datensätzen filtern können, damit ich nur sehr gut erfasste Werke angezeigt bekomme. # Kontext - Nutzeranforderung aus Workflows großer Archive. - Umsetzung hängt von Schema-Definition ab. # Akzeptanzkriterien - UNSCHARF: Muss geklärt werden, ob Score durchsuchbar und aggregierbar ist.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "dq-08",
@@ -14388,8 +15369,8 @@
         "search"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "dq-08",
         "datenqualitat",
@@ -14398,11 +15379,200 @@
         "unscharf",
         "search"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 9,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 29,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for "
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 77,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "'@type': 'SearchAction',"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 4,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": ":searchable=\"true\""
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 10,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "isFromSearch,"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 13,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "searchForItems"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 43,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "showSearch?: boolean;"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 54,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "/** visibility mode (affects showDetail/showSearch) */"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 55,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "mode?: 'detail' | 'search';"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 61,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchClickableFacetValue"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 73,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "</SearchClickableFacetValue>"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 113,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchClickableFacetValue"
+        },
+        {
+          "file": ".\\components\\detail\\InstitutionListComp.vue",
+          "line": 4,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<ais-instant-search :search-client=\"searchClient\" :index-name=\"indexName\" :show-loading-indicator=\"true\""
+        },
+        {
+          "file": ".\\components\\detail\\InstitutionListComp.vue",
+          "line": 7,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<div class=\"search-panel\">"
+        },
+        {
+          "file": ".\\components\\detail\\InstitutionListComp.vue",
+          "line": 11,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<div class=\"search-panel__results w-full py-2\">"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 40,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchHighlightSingleComp"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 58,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchHighlightListComp"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 76,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchHighlightSingleComp"
+        },
+        {
+          "file": ".\\components\\detail\\KeyActionRowsComp.vue",
+          "line": 38,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchClickableFacetValue"
+        },
+        {
+          "file": ".\\components\\detail\\KeyActionRowsComp.vue",
+          "line": 46,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "</SearchClickableFacetValue>"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#101",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\components\\detail\\AVefiRefinementListComp.vue",
+        ".\\components\\detail\\GenericKVView.vue",
+        ".\\components\\detail\\HasEventComp.vue",
+        ".\\components\\detail\\InstitutionListComp.vue",
+        ".\\components\\detail\\ItemListNewComp.vue",
+        ".\\components\\detail\\KeyActionRowsComp.vue"
+      ],
       "searchTerms": [
         "dq-08",
         "datenqualitat",
@@ -14417,7 +15587,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -14428,14 +15598,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen"
+        "Title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 102,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/102",
       "title": "HS-01: Herkunft und Herausgeber eines Film-Metadatensatzes klar anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -14446,14 +15617,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:35:16Z",
-      "updatedAt": "2025-11-27T17:57:49Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T14:54:50Z",
+      "closedAt": "2026-07-13T14:54:50Z",
       "bodyHash": "a238f9cb7e44073c12816182a38d756f6f115e07233f1d5b50dc4459499f4974",
       "bodyExcerpt": "# User Story Als Nutzer*in der AVefi-Plattform möchte ich auf einen Blick erkennen können, von welcher Institution bzw. welchen Institutionen ein Film-Metadatensatz stammt, damit ich die Vertrauenswürdigkeit, Herkunft und Verantwortung für die Daten nachvollziehen kann. # Kontext - Originale User Stories: ID 41 & ID 43, bisher unstrukturiert. - Diese Story ersetzt beide und normalisiert sie. - Die Information ist bereits im JSON vorhanden, aber teils in verschachtelter Form. - REPLACES: Issues #",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "hs-01",
@@ -14465,8 +15636,8 @@
         "frontend"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "hs-01",
         "herkunft",
@@ -14477,11 +15648,201 @@
         "klar",
         "epic herausgeber"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\components\\detail\\MergeToolListComp.vue",
+          "line": 92,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "'Die Mysterien eines Frisiersalons',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 47,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"issuer\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 402,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "\"manifestation\": \"Eine Manifestation ist die physische Verkörperung/Publikation eines audiovisuellen Werkes in der Form eines analogen oder digitalen Mediums.\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 448,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "'multihelptext': 'Mehrere Werke wurden gefunden, die mit der durch efi <strong>{name}</strong> identifizierten Entität verknüpft sind. Bitte beachten Sie, dass es sich um unterschi"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 624,
+          "kind": "code",
+          "terms": [
+            "herkunft"
+          ],
+          "text": "\"Das Verbundsystem ergänzt das bestehende Angebot filmischer Identifikatoren und (Norm-)Daten, zum Beispiel von Filmportal, EIDR, GND, NFDI4Culture. AVefi bietet dafür eine eigene "
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 633,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "\"Die Informationen sind in verschiedene Facetten gegliedert, beispielsweise Genre oder Produktionsjahr. Diese Facetten lassen sich nutzen, um Suchergebnisse zu filtern. Je nach Art"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 787,
+          "kind": "code",
+          "terms": [
+            "herkunft"
+          ],
+          "text": "'contact.about.0': 'AVefi steht für „Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren“. Es wird seit November 2023 im Rahmen eines von"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1283,
+          "kind": "code",
+          "terms": [
+            "klar"
+          ],
+          "text": "\"body1\": \"Die GWDG ist als Inhaltsanbieterin nach Paragraph 7 Abs. 1 Digitale-Dienste-Gesetz für die eigenen Inhalte, die sie zur Nutzung bereithält, nach den allgemeinen Gesetzen "
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1347,
+          "kind": "code",
+          "terms": [
+            "klar"
+          ],
+          "text": "\"body\": \"Informationen und Oberflächenelemente sollen so präsentiert werden, dass sie von Nutzenden wahrgenommen werden können. Dazu gehören ausreichende Farbkontraste, sinnvolle T"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1355,
+          "kind": "code",
+          "terms": [
+            "klar"
+          ],
+          "text": "\"body\": \"Inhalte und Aktionen sollen klar und konsistent sein. Beschriftungen, Überschriften und Navigationsmuster sollen dabei helfen zu verstehen, wo man sich befindet und was al"
+        },
+        {
+          "file": ".\\models\\interfaces\\detail-layout-map.ts",
+          "line": 245,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "label_de: 'Herausgeber (Event)',"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 32,
+          "kind": "code",
+          "terms": [
+            "klar"
+          ],
+          "text": "\"AgentUnclearOrUndetermined\": \"Agent unklar oder unbestimmt\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 60,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "\"BlackAndWhiteCopyOfWorkOriginallyIssuedInColour\": \"Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben wurde\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 265,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"Publisher\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 1508,
+          "kind": "code",
+          "terms": [
+            "klar"
+          ],
+          "text": "- literal_form: Agent unklar oder unbestimmt"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 1548,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "- literal_form: Herausgeber"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 6279,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "- literal_form: Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben"
+        },
+        {
+          "file": ".\\pages\\compare.vue",
+          "line": 108,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "'Versionen eines Films',"
+        },
+        {
+          "file": ".\\scripts\\github-project-classify.mjs",
+          "line": 80,
+          "kind": "code",
+          "terms": [
+            "eines"
+          ],
+          "text": "'eines',"
+        },
+        {
+          "file": ".\\server\\assets\\vocab\\locale_messages.json",
+          "line": 32,
+          "kind": "code",
+          "terms": [
+            "klar"
+          ],
+          "text": "\"AgentUnclearOrUndetermined\": \"Agent unklar oder unbestimmt\","
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#102",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\components\\detail\\MergeToolListComp.vue",
+        ".\\i18n\\locales\\de.ts",
+        ".\\models\\interfaces\\detail-layout-map.ts",
+        ".\\models\\interfaces\\schema\\locale_messages.json",
+        ".\\models\\interfaces\\schema\\vocab.yaml",
+        ".\\pages\\compare.vue",
+        ".\\scripts\\github-project-classify.mjs",
+        ".\\server\\assets\\vocab\\locale_messages.json"
+      ],
       "searchTerms": [
         "hs-01",
         "herkunft",
@@ -14498,7 +15859,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "tennismann3000"
@@ -14510,14 +15871,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-02: Übersicht aller Datenquellen (Herausgeber) bereitstellen"
+        "Title": "HS-02: Übersicht aller Datenquellen (Herausgeber) bereitstellen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 104,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/104",
       "title": "HS-02: Übersicht aller Datenquellen (Herausgeber) bereitstellen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "UNSCHARF",
@@ -14529,14 +15891,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:35:42Z",
-      "updatedAt": "2025-11-27T17:57:00Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:21:06Z",
+      "closedAt": "2026-07-13T15:21:06Z",
       "bodyHash": "5b61fee213ccff3b4a0f71150c87f8e5467e56e08e2786ac1a12a4118625ab2d",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich eine vollständige Übersicht aller Datenquellen/Herausgeber einsehen können, damit ich verstehe, welche Archive und Institutionen Daten zu AVefi beitragen. # Kontext - Ursprüngliche Story nur vage formuliert. - Es ist unklar, ob diese Übersicht im UI, in einer Dokumentationsseite oder als Facette erscheinen soll. - Deshalb als **UNSCHARF** markiert. # Offene Fragen - Soll diese Übersicht separat (eigene Seite) oder integriert (z. B. in „Über uns“) dargestellt",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "hs-02",
@@ -14550,8 +15912,8 @@
         "frontend"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented",
       "codeSearchTermsExpanded": [
         "hs-02",
         "ubersicht",
@@ -14563,11 +15925,203 @@
         "unscharf",
         "epic herausgeber"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\composables\\useSearchFacetToggle.ts",
+          "line": 216,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "// Return false so the caller uses window.location.assign for a clean full-page reload."
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 47,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"issuer\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 108,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "'welcome': 'Filmmetadaten aller Genres und Typen sind verfügbar, mit einem besonderen Fokus auf Bildungs-, Lehr- und Wissenschaftsfilme sowie Amateur- und Heimatfilme.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 173,
+          "kind": "code",
+          "terms": [
+            "datenquellen"
+          ],
+          "text": "'AVefi ist eine Plattform für interdisziplinäre filmbezogene Forschung, Filmkultur- und Filmarchivarbeit. Sie wird kontinuierlich weiterentwickelt und erweitert sich dynamisch um n"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 441,
+          "kind": "code",
+          "terms": [
+            "datenquellen"
+          ],
+          "text": "'featuredContent': 'AVefi präsentiert ausgewählte Sammlungen und wichtige Erkenntnisse aus dem Bereich der Film-Metadaten. Erkunden Sie eine Vielzahl von Datensätzen, von umfassend"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 488,
+          "kind": "code",
+          "terms": [
+            "datenquellen"
+          ],
+          "text": "\"long\": \"Das Projekt AVefi (Automatisiertes Verbundsystem für audiovisuelle Bestände über einheitliche Filmidentifikatoren) entwickelt ein institutionsübergreifendes, webbasiertes "
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 944,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "'slogan': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1026,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "'videoDescription': 'Finden, entdecken und vergleichen Sie umfassende Daten zu Filmbeständen aller Genres. Recherchierbar sind sowohl Filmwerke als auch die Versionen verschiedenst"
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 239,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "'description': 'Send us your search query as a suggestion for the gallery.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 491,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "'description': 'Send us your search query as a suggestion for the gallery'"
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 788,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "\"Efis are <strong>persistent identifiers (PIDs)</strong> based on the established <strong>Handle System</strong>. As a specific type of Handle PID, they make it possible to identif"
+        },
+        {
+          "file": ".\\models\\interfaces\\detail-layout-map.ts",
+          "line": 245,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "label_de: 'Herausgeber (Event)',"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 265,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"Publisher\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 1548,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "- literal_form: Herausgeber"
+        },
+        {
+          "file": ".\\nuxt.config.ts",
+          "line": 575,
+          "kind": "code",
+          "terms": [
+            "aller"
+          ],
+          "text": "'Wir verwenden eigene Cookies und Cookies von Drittanbietern, um Ihre Erfahrung auf unserer Website zu verbessern. Durch Klicken auf \"Akzeptieren\" stimmen Sie der Verwendung ALLER "
+        },
+        {
+          "file": ".\\server\\assets\\vocab\\locale_messages.json",
+          "line": 257,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"Publisher\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\tests\\unit\\api\\outbound\\elastic-suggestions.api.spec.ts",
+          "line": 168,
+          "kind": "test",
+          "terms": [
+            "aller"
+          ],
+          "text": "buckets: [{ key: 'Schaller, Dietrich', doc_count: 3 }],"
+        },
+        {
+          "file": ".\\tests\\unit\\api\\outbound\\elastic-suggestions.api.spec.ts",
+          "line": 205,
+          "kind": "test",
+          "terms": [
+            "aller"
+          ],
+          "text": "suggestions: [{ text: 'Schaller, Dietrich', type: 'creators', count: 3 }],"
+        },
+        {
+          "file": ".\\tests\\unit\\components\\instant-search-template.spec.ts",
+          "line": 590,
+          "kind": "test",
+          "terms": [
+            "aller"
+          ],
+          "text": "text: 'Schaller, Dietrich',"
+        },
+        {
+          "file": ".\\tests\\unit\\components\\instant-search-template.spec.ts",
+          "line": 631,
+          "kind": "test",
+          "terms": [
+            "aller"
+          ],
+          "text": "value: 'Schaller, Dietrich',"
+        }
+      ],
+      "suggestedNextStep": "Review evidence and acceptance criteria; candidate for keep/close decision batch.",
       "issue": "AV-EFI/AVefi-Issues#104",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\composables\\useSearchFacetToggle.ts",
+        ".\\i18n\\locales\\de.ts",
+        ".\\i18n\\locales\\en.ts",
+        ".\\models\\interfaces\\detail-layout-map.ts",
+        ".\\models\\interfaces\\schema\\locale_messages.json",
+        ".\\models\\interfaces\\schema\\vocab.yaml",
+        ".\\nuxt.config.ts",
+        ".\\server\\assets\\vocab\\locale_messages.json",
+        ".\\tests\\unit\\api\\outbound\\elastic-suggestions.api.spec.ts",
+        ".\\tests\\unit\\components\\instant-search-template.spec.ts"
+      ],
       "searchTerms": [
         "hs-02",
         "ubersicht",
@@ -14861,7 +16415,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -14872,14 +16426,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-04: Herausgeber-Badge in Trefferliste anzeigen"
+        "Title": "HS-04: Herausgeber-Badge in Trefferliste anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 106,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/106",
       "title": "HS-04: Herausgeber-Badge in Trefferliste anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -14890,14 +16445,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:36:05Z",
-      "updatedAt": "2025-11-27T17:57:49Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:21:34Z",
+      "closedAt": "2026-07-13T15:21:33Z",
       "bodyHash": "5e2b2a8c8701e9f62130747e76ca826b4dceab580810894af1098010caede924",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich bereits in der Trefferliste visuell erkennen können, aus welcher Institution ein Werk stammt, damit ich schneller einschätzen kann, ob der Datensatz für meine Recherche relevant ist. # Kontext - Die Information existiert bereits in deinem ResultCard-Layout, aber nicht konsistent. - Besonders wichtig, wenn mehrere Institutionen denselben Filmtitel haben. # Akzeptanzkriterien - **Given** ein Suchergebnis wird gerendert **When** das Werk einen Herausgeber hat *",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "hs-04",
@@ -14909,8 +16464,8 @@
         "herausgeber"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "hs-04",
         "herausgeber-badge",
@@ -14919,11 +16474,63 @@
         "herausgeber",
         "epic herausgeber"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 47,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"issuer\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\models\\interfaces\\detail-layout-map.ts",
+          "line": 245,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "label_de: 'Herausgeber (Event)',"
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\locale_messages.json",
+          "line": 265,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"Publisher\": \"Herausgeber\","
+        },
+        {
+          "file": ".\\models\\interfaces\\schema\\vocab.yaml",
+          "line": 1548,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "- literal_form: Herausgeber"
+        },
+        {
+          "file": ".\\server\\assets\\vocab\\locale_messages.json",
+          "line": 257,
+          "kind": "code",
+          "terms": [
+            "herausgeber"
+          ],
+          "text": "\"Publisher\": \"Herausgeber\","
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#106",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 5,
+      "matchedFiles": [
+        ".\\i18n\\locales\\de.ts",
+        ".\\models\\interfaces\\detail-layout-map.ts",
+        ".\\models\\interfaces\\schema\\locale_messages.json",
+        ".\\models\\interfaces\\schema\\vocab.yaml",
+        ".\\server\\assets\\vocab\\locale_messages.json"
+      ],
       "searchTerms": [
         "hs-04",
         "herausgeber-badge",
@@ -14938,7 +16545,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -14949,14 +16556,15 @@
           "Frontend",
           "Epic:Herausgeber"
         ],
-        "Title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden"
+        "Title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 107,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/107",
       "title": "HS-05: Herausgeber-Informationen müssen mehrsprachig dargestellt werden",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -14967,14 +16575,14 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:36:21Z",
-      "updatedAt": "2025-11-27T17:58:04Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T14:54:55Z",
+      "closedAt": "2026-07-13T14:54:55Z",
       "bodyHash": "f6662322c478784f7b8b346d62d936b49acad576b3dc35f425940b6dc3ac2849",
       "bodyExcerpt": "# User Story Als internationale*r Nutzer*in möchte ich Herausgeber-Informationen in meiner gewählten Sprache sehen können, damit ich die Quelle des Datensatzes korrekt verstehe. # Kontext - AVefi ist mehrsprachig → Herausgeberseiten müssen ebenfalls lokalisiert werden. # Akzeptanzkriterien - **Given** die UI-Sprache ist DE **When** Herausgebernamen Übersetzungen haben **Then** wird die deutsche Bezeichnung ausgegeben. - **Given** die UI-Sprache ist EN **When** ein Herausgeber eine englische Beze",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "hs-05",
@@ -14988,8 +16596,8 @@
         "herausgeber"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "hs-05",
         "herausgeber-informationen",
@@ -15004,11 +16612,203 @@
         "herausgeber",
         "epic herausgeber"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 3,
+          "kind": "code",
+          "terms": [
+            "i18n",
+            "locale"
+          ],
+          "text": "const { locale, t: $t } = useI18n();"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 67,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "inLanguage: ['de-DE', 'en-US'],"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 114,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "inLanguage: ['de-DE', 'en-US'],"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 131,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "inLanguage: ['de-DE', 'en-US'],"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 333,
+          "kind": "code",
+          "terms": [
+            "locale"
+          ],
+          "text": "<LazyCookieControl v-if=\"showCookieControl\" :locale=\"locale\">"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 352,
+          "kind": "code",
+          "terms": [
+            "locale"
+          ],
+          "text": "<h3 v-text=\"cookie.name[locale]\" />"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 53,
+          "kind": "code",
+          "terms": [
+            "locale"
+          ],
+          "text": "<div class=\"badge text-white badge-secondary\">{{ item.count.toLocaleString() }}</div>"
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 57,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "{{ $t('inLanguage') }}: {{ log.in_language?.map(language => language.name).join(', ') || 'N/A' }}"
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 88,
+          "kind": "code",
+          "terms": [
+            "locale"
+          ],
+          "text": "date: new Date().toLocaleDateString(), // Example date, you can modify as needed"
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 128,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "in_language: [{ name: i % 2 === 0 ? 'English' : 'Deutsch' }],"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 236,
+          "kind": "code",
+          "terms": [
+            "i18n"
+          ],
+          "text": "import { useI18n } from 'vue-i18n';"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 334,
+          "kind": "code",
+          "terms": [
+            "i18n"
+          ],
+          "text": "const { t } = useI18n();"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 50,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "/** current UI language */"
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 102,
+          "kind": "code",
+          "terms": [
+            "i18n"
+          ],
+          "text": "? `${pattern.description}. ${useNuxtApp().$i18n.t('dataQuality.probableImportIssue')}`"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 224,
+          "kind": "code",
+          "terms": [
+            "i18n"
+          ],
+          "text": "? `${pattern.description}. ${useNuxtApp().$i18n.t('dataQuality.probableImportIssue')}`"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 88,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": "<MicroLabelComp label-text=\"in_language\" />"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 91,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": ":items=\"formatItemLanguages(exemplar?.has_record?.in_language)\""
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 92,
+          "kind": "code",
+          "terms": [
+            "language"
+          ],
+          "text": ":facet-values=\"formatItemLanguageCodes(exemplar?.has_record?.in_language)\""
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 245,
+          "kind": "code",
+          "terms": [
+            "i18n"
+          ],
+          "text": "const { t } = useI18n();"
+        },
+        {
+          "file": ".\\components\\detail\\KeyActionRowsComp.vue",
+          "line": 84,
+          "kind": "code",
+          "terms": [
+            "i18n"
+          ],
+          "text": "const { t: $t } = useI18n();"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#107",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\components\\detail\\AVefiRefinementListComp.vue",
+        ".\\components\\detail\\FavouritesListComp.vue",
+        ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+        ".\\components\\detail\\GenericKVView.vue",
+        ".\\components\\detail\\HasAgentComp.vue",
+        ".\\components\\detail\\HasEventComp.vue",
+        ".\\components\\detail\\ItemListNewComp.vue",
+        ".\\components\\detail\\KeyActionRowsComp.vue"
+      ],
       "searchTerms": [
         "hs-05",
         "herausgeber-informationen",
@@ -16275,7 +18075,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -16287,14 +18087,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-02: Breadcrumb zwischen Werk → Manifestation → Item"
+        "Title": "NC-02: Breadcrumb zwischen Werk → Manifestation → Item",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 120,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/120",
       "title": "NC-02: Breadcrumb zwischen Werk → Manifestation → Item",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -16305,14 +18106,14 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:26Z",
-      "updatedAt": "2026-07-06T08:51:42Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:02Z",
+      "closedAt": "2026-07-13T15:22:02Z",
       "bodyHash": "6e33f6600f2b65e50102e45a2599f069d0a4ec30ca8eb7de50887c67eb9b455e",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich eine klare Breadcrumb-Navigation zwischen Werk, Manifestation und Item damit ich jederzeit weiß, wo ich mich in der Tektonik befinde. # Kontext - Mehrere Tester*innen fanden den Kontextwechsel „verwirrend“. - Tektonik wird ohne UI-Hilfe schlecht erkannt. # Akzeptanzkriterien - Breadcrumb zeigt Werk → Manifestation → Item. - Alle Teile sind klickbar. - Persistente Hervorhebung des aktuellen Levels.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "nc-02",
@@ -16324,8 +18125,8 @@
         "navigation"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "nc-02",
         "breadcrumb",
@@ -16337,11 +18138,200 @@
         "item",
         "epic navigation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 29,
+          "kind": "code",
+          "terms": [
+            "manifestation",
+            "item"
+          ],
+          "text": "'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for "
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 210,
+          "kind": "code",
+          "terms": [
+            "werk"
+          ],
+          "text": "'Filmwerke Datenbank',"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 228,
+          "kind": "code",
+          "terms": [
+            "manifestation",
+            "werk"
+          ],
+          "text": "'Werk Manifestation Exemplar',"
+        },
+        {
+          "file": ".\\assets\\scss\\_colors.generated.scss",
+          "line": 27,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": "$manifestation: #7c949e;"
+        },
+        {
+          "file": ".\\assets\\scss\\_colors.generated.scss",
+          "line": 28,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "$item: #748599;"
+        },
+        {
+          "file": ".\\assets\\scss\\_colors.generated.scss",
+          "line": 59,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": "--manifestation: #7c949e;"
+        },
+        {
+          "file": ".\\assets\\scss\\_colors.generated.scss",
+          "line": 60,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "--item: #748599;"
+        },
+        {
+          "file": ".\\assets\\scss\\_colors.generated.scss",
+          "line": 92,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": "--manifestation: #728a8a;"
+        },
+        {
+          "file": ".\\assets\\scss\\_colors.generated.scss",
+          "line": 93,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "--item: #677c7c;"
+        },
+        {
+          "file": ".\\assets\\scss\\_variables.scss",
+          "line": 72,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": "$manifestation: #E8D39E;"
+        },
+        {
+          "file": ".\\assets\\scss\\_variables.scss",
+          "line": 73,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "$item: #DDC48B;"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 65,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": "--color-manifestation: #7c949e; /* balanced greige with gentle beige depth */"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 66,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "--color-item: #748599; /* richer sand-grey with mild olive warmth */"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 118,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": "--color-manifestation: #728a8a; /* balanced greige with gentle beige depth */"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 119,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "--color-item: #677c7c; /* richer sand-grey with mild olive warmth */"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 256,
+          "kind": "code",
+          "terms": [
+            "manifestation"
+          ],
+          "text": ".badge-manifestation {"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 261,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": ".badge-item {"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 9,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "items,"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 13,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "searchForItems"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 23,
+          "kind": "code",
+          "terms": [
+            "item"
+          ],
+          "text": "@input=\"searchForItems($event?.currentTarget?.value)\""
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#120",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\assets\\scss\\_colors.generated.scss",
+        ".\\assets\\scss\\_variables.scss",
+        ".\\assets\\scss\\main.scss",
+        ".\\components\\detail\\AVefiRefinementListComp.vue"
+      ],
       "searchTerms": [
         "nc-02",
         "breadcrumb",
@@ -18581,7 +20571,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Backlog",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -18591,14 +20581,14 @@
           "UNSCHARF"
         ],
         "Title": "INT-EPIC: Improve user interaction (collections, dataset-quality feedback, annotations)",
-        "Status": "Backlog"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 166,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/166",
       "title": "INT-EPIC: Improve user interaction (collections, dataset-quality feedback, annotations)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UNSCHARF"
       ],
@@ -18607,14 +20597,14 @@
       ],
       "milestone": "",
       "createdAt": "2026-02-03T08:15:03Z",
-      "updatedAt": "2026-07-01T07:03:58Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:27:23Z",
+      "closedAt": "2026-07-13T09:27:23Z",
       "bodyHash": "2e6fad004ae67842861afd116b1c1547ea2c66dc9d8434f774f06fb7ffd9d177",
       "bodyExcerpt": "Summary Create a parent epic that groups all user-participation features that improve long-term research workflows in AVefi—especially personal collections/lists and structured feedback on dataset quality—while keeping scope lightweight and compatible with AVefi’s public-release requirements. Why / Motivation Researchers need repeatable workflows beyond one-off search sessions (curation, lists, exports). Partner institutions benefit from actionable quality signals (structured feedback, traceable",
-      "auditBucket": "frontend_work",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Frontend/UI terminology or frontend repository detected. Missing milestone.",
-      "suggestedAction": "Cross-check frontend implementation and decide whether work remains.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Frontend/UI",
       "codeSearchTerms": [
         "int-epic",
@@ -18626,9 +20616,9 @@
         "annotations",
         "unscharf"
       ],
-      "needsHumanReview": false,
+      "needsHumanReview": true,
       "reviewScope": true,
-      "implementationState": "partial",
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "int-epic",
         "improve",
@@ -18821,7 +20811,7 @@
           "text": "\"feedback\": {"
         }
       ],
-      "suggestedNextStep": "Review matched implementation and define remaining acceptance criteria.",
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#166",
       "matchCount": 20,
       "matchedFiles": [
@@ -18882,7 +20872,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-02-10T08:44:51Z",
-      "updatedAt": "2026-06-30T11:10:38Z",
+      "updatedAt": "2026-07-13T10:30:37Z",
       "closedAt": "",
       "bodyHash": "85b0e1d6dfbc06c2eae3b83e77432ff5cbb9a4da5fa57bee17318debc305657e",
       "bodyExcerpt": "### User Story Als Nutzer*in möchte ich in der Ergebnis- und Detailansicht auf angezeigte Facet-Werte (z. B. Genre, Ort, Sprache, Personen/Organisationen) klicken können, damit diese Werte direkt als Filter übernommen werden oder eine neue Suche in AVefi starten, ohne den Wert manuell kopieren zu müssen. ### Kontext In der aktuellen Result-/Detail-UI werden viele normalisierte Werte (z. B. has_genre.has_name, has_place_has_name, in_language, Personen/Organisationen) angezeigt, sind aber nicht in",
@@ -19198,7 +21188,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "In Progress",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -19210,14 +21200,14 @@
           "Frontend"
         ],
         "Title": "CODEQUAL-01: Automatisierte Tests im Frontend implementieren",
-        "Status": "In Progress"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 188,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/188",
       "title": "CODEQUAL-01: Automatisierte Tests im Frontend implementieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Technical-Blocker",
@@ -19228,14 +21218,14 @@
       ],
       "milestone": "",
       "createdAt": "2026-03-17T11:07:42Z",
-      "updatedAt": "2026-07-06T06:51:04Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:27:19Z",
+      "closedAt": "2026-07-13T09:27:19Z",
       "bodyHash": "59b41df9582eeb4d7eccf515a2495650b4255b855aa8dcc885562d14a33ad1e2",
       "bodyExcerpt": "### User Story Im Frontend fehlt derzeit eine ausreichende automatisierte Testabdeckung. Dies erhöht das Risiko von Regressionen und verringert die Zuverlässigkeit von Releases. Ziel dieses Issues ist es, eine strukturierte Teststrategie für das Frontend einzuführen und umzusetzen. ### Kontext Aktuell existieren keine oder nur sehr wenige automatisierte Tests im Frontend. Änderungen an Komponenten oder Logik können daher unbeabsichtigte Seiteneffekte verursachen, die erst spät erkannt werden. Ei",
-      "auditBucket": "qa_or_acceptance_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "QA/test/accessibility terminology detected. Missing milestone.",
-      "suggestedAction": "Add verification criteria or test coverage expectations.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Accessibility/QA",
       "codeSearchTerms": [
         "codequal-01",
@@ -19248,7 +21238,7 @@
       ],
       "needsHumanReview": true,
       "reviewScope": true,
-      "implementationState": "partial",
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "codequal-01",
         "automatisierte",
@@ -19377,7 +21367,7 @@
         },
         {
           "file": ".\\scripts\\github-project-cross-check.mjs",
-          "line": 161,
+          "line": 163,
           "kind": "code",
           "terms": [
             "tests"
@@ -19439,7 +21429,7 @@
           "text": "- `tests/e2e/seo/`: SEO + sitemap runtime route/API checks"
         }
       ],
-      "suggestedNextStep": "Review matched implementation and define remaining acceptance criteria.",
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#188",
       "matchCount": 20,
       "matchedFiles": [
@@ -19495,7 +21485,7 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2026-02-17T10:48:31Z",
-      "updatedAt": "2026-04-29T10:26:34Z",
+      "updatedAt": "2026-07-13T09:50:23Z",
       "closedAt": "",
       "bodyHash": "7ad6df4e31fa7ab6cf2489fc5de92275264c63d9c4e2a94923b363ce56380a01",
       "bodyExcerpt": "[Referenz-Seite im Wiki](https://wiki.tib.eu/confluence/spaces/avefi/pages/456003291/AP1+-+Startseite+Content+f%C3%BCr+Public+Release#AP1Startseite%3AContentf%C3%BCrPublicRelease-FAQ) Als Nutzer möchte Antworten auf die meist gestellten Fragen erhalten, um einen schnellen Überblick zu Informationen zur Plattform zu bekommen. Sprachversionen: Deutsch / Englisch",
@@ -20062,6 +22052,7 @@
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
           "MUSTHAVE",
+          "Backend",
           "Search"
         ],
         "Milestone": "Public Release",
@@ -20075,6 +22066,7 @@
       "state": "OPEN",
       "labels": [
         "MUSTHAVE",
+        "Backend",
         "Search"
       ],
       "assignees": [
@@ -20083,233 +22075,47 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-12-01T11:12:53Z",
-      "updatedAt": "2026-06-22T05:32:52Z",
+      "updatedAt": "2026-07-13T14:55:01Z",
       "closedAt": "",
       "bodyHash": "7e7658b0dc2cf01088024886e0853195b785170bafaad60953ac5bc4bcc1d1fb",
       "bodyExcerpt": "# User Story Als Benutzer*in möchte ich auch dann relevante Suchergebnisse finden, wenn ich mich vertippe oder nur ungefähr weiß, wie ein Titel oder Name geschrieben wird, damit ich Suchergebnisse nicht aufgrund kleiner Tippfehler oder unscharfer Eingaben verpasse. # Hintergrund Die aktuelle Suche liefert korrekte Ergebnisse nur bei exakt übereinstimmenden Zeichenfolgen. In der Praxis kommen jedoch häufig folgende Fälle vor: - Tippfehler (\"Sonnenalle\" statt \"Sonnenallee\") - Vertauschte Buchstabe",
-      "auditBucket": "frontend_work",
+      "auditBucket": "backend_or_data_needed",
       "auditConfidence": "medium",
-      "auditReason": "Frontend/UI terminology or frontend repository detected. Missing project status.",
-      "suggestedAction": "Cross-check frontend implementation and decide whether work remains.",
-      "suggestedOwnerArea": "Frontend/UI",
+      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status.",
+      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "search-07",
         "fuzzy",
         "search",
         "funktioniert",
         "erwartet",
-        "musthave"
+        "musthave",
+        "backend"
       ],
-      "needsHumanReview": false,
-      "reviewScope": true,
-      "implementationState": "partial",
+      "needsHumanReview": true,
+      "reviewScope": false,
+      "implementationState": "blocked_external",
       "codeSearchTermsExpanded": [
         "search-07",
         "fuzzy",
         "search",
         "funktioniert",
-        "erwartet"
+        "erwartet",
+        "backend"
       ],
-      "codeMatches": [
-        {
-          "file": ".\\app.vue",
-          "line": 9,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);"
-        },
-        {
-          "file": ".\\app.vue",
-          "line": 29,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for "
-        },
-        {
-          "file": ".\\app.vue",
-          "line": 77,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "'@type': 'SearchAction',"
-        },
-        {
-          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
-          "line": 4,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": ":searchable=\"true\""
-        },
-        {
-          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
-          "line": 10,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "isFromSearch,"
-        },
-        {
-          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
-          "line": 13,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "searchForItems"
-        },
-        {
-          "file": ".\\components\\detail\\GenericKVView.vue",
-          "line": 43,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "showSearch?: boolean;"
-        },
-        {
-          "file": ".\\components\\detail\\GenericKVView.vue",
-          "line": 54,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "/** visibility mode (affects showDetail/showSearch) */"
-        },
-        {
-          "file": ".\\components\\detail\\GenericKVView.vue",
-          "line": 55,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "mode?: 'detail' | 'search';"
-        },
-        {
-          "file": ".\\components\\detail\\HasEventComp.vue",
-          "line": 61,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<SearchClickableFacetValue"
-        },
-        {
-          "file": ".\\components\\detail\\HasEventComp.vue",
-          "line": 73,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "</SearchClickableFacetValue>"
-        },
-        {
-          "file": ".\\components\\detail\\HasEventComp.vue",
-          "line": 113,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<SearchClickableFacetValue"
-        },
-        {
-          "file": ".\\components\\detail\\InstitutionListComp.vue",
-          "line": 4,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<ais-instant-search :search-client=\"searchClient\" :index-name=\"indexName\" :show-loading-indicator=\"true\""
-        },
-        {
-          "file": ".\\components\\detail\\InstitutionListComp.vue",
-          "line": 7,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<div class=\"search-panel\">"
-        },
-        {
-          "file": ".\\components\\detail\\InstitutionListComp.vue",
-          "line": 11,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<div class=\"search-panel__results w-full py-2\">"
-        },
-        {
-          "file": ".\\components\\detail\\ItemListNewComp.vue",
-          "line": 40,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<SearchHighlightSingleComp"
-        },
-        {
-          "file": ".\\components\\detail\\ItemListNewComp.vue",
-          "line": 58,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<SearchHighlightListComp"
-        },
-        {
-          "file": ".\\components\\detail\\ItemListNewComp.vue",
-          "line": 76,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<SearchHighlightSingleComp"
-        },
-        {
-          "file": ".\\components\\detail\\KeyActionRowsComp.vue",
-          "line": 38,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "<SearchClickableFacetValue"
-        },
-        {
-          "file": ".\\components\\detail\\KeyActionRowsComp.vue",
-          "line": 46,
-          "kind": "code",
-          "terms": [
-            "search"
-          ],
-          "text": "</SearchClickableFacetValue>"
-        }
-      ],
-      "suggestedNextStep": "Review matched implementation and define remaining acceptance criteria.",
+      "codeMatches": [],
+      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
       "issue": "AV-EFI/AVefi-Issues#155",
-      "matchCount": 20,
-      "matchedFiles": [
-        ".\\app.vue",
-        ".\\components\\detail\\AVefiRefinementListComp.vue",
-        ".\\components\\detail\\GenericKVView.vue",
-        ".\\components\\detail\\HasEventComp.vue",
-        ".\\components\\detail\\InstitutionListComp.vue",
-        ".\\components\\detail\\ItemListNewComp.vue",
-        ".\\components\\detail\\KeyActionRowsComp.vue"
-      ],
+      "matchCount": 0,
+      "matchedFiles": [],
       "searchTerms": [
         "search-07",
         "fuzzy",
         "search",
         "funktioniert",
-        "erwartet"
+        "erwartet",
+        "backend"
       ]
     },
     {
@@ -20351,7 +22157,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-03-17T09:58:32Z",
-      "updatedAt": "2026-07-06T06:51:04Z",
+      "updatedAt": "2026-07-13T09:50:31Z",
       "closedAt": "",
       "bodyHash": "efff84783d475d4024b941f2c41f20f0a0978524e8d8f075b4c9609997100fd9",
       "bodyExcerpt": "### User Story Als Nutzer*in der Plattform möchte ich bei geplanten oder laufenden Wartungen/Updates einen klar sichtbaren Hinweis erhalten, damit ich verstehe, warum der Dienst eingeschränkt oder nicht verfügbar ist. ### Kontext Aktuell gibt es keinen standardisierten Hinweis auf der Plattform, wenn der Dienst aufgrund von Updates oder Maintenance unterbrochen ist. Dieser Fall wurde von Sven eingebracht und sollte berücksichtigt werden, um Transparenz gegenüber den Nutzer*innen sicherzustellen.",
@@ -20568,7 +22374,6 @@
         "Labels": [
           "SHOULDHAVE"
         ],
-        "Milestone": "Public Release",
         "Title": "EFI-01: EFI-Label im Frontend sichtbarer machen",
         "Status": "Backlog"
       },
@@ -20585,15 +22390,15 @@
         "steffolino",
         "EOltmanns"
       ],
-      "milestone": "Public Release",
+      "milestone": "",
       "createdAt": "2026-02-24T10:42:44Z",
-      "updatedAt": "2026-03-19T07:37:13Z",
+      "updatedAt": "2026-07-07T17:52:07Z",
       "closedAt": "",
       "bodyHash": "cb0bb3ba233e46f5e539ba18e105b570c07ca0da024b1c260782a26fe4e424ea",
       "bodyExcerpt": "EFI als zentrales Identifikationsmerkmal im UI konsequenter und prominenter anzeigen. „EFI“ explizit als Label schreiben (nicht nur ID anzeigen) In Suchergebnissen und Detailansichten prüfen Einheitliche Darstellung auf Werk-, Manifestations- und Item-Ebene ggf. als Badge oder mit Tooltip („Persistenter Filmidentifikator“) Ziel: Sichtbarkeit des PID/EFI-Mehrwerts im Interface stärken.",
       "auditBucket": "domain_logic_needed",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected.",
+      "auditReason": "Domain/business terminology detected. Missing milestone.",
       "suggestedAction": "Assign owner area for business/domain decision before implementation.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
@@ -20726,21 +22531,22 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
           "JStratil"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
-        "Title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation"
+        "Title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 199,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/199",
       "title": "GOV-01: Improve Accessibility and Quality of Metadata Group Documentation",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino",
@@ -20748,14 +22554,14 @@
       ],
       "milestone": "",
       "createdAt": "2026-04-21T10:29:59Z",
-      "updatedAt": "2026-04-30T12:49:30Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T15:22:48Z",
+      "closedAt": "2026-07-13T15:22:48Z",
       "bodyHash": "734465c693a0d5eff016518f9db95997a4de963460475d701ffb7e0dc0db382e",
       "bodyExcerpt": "## Context Analysis of the Confluence documentation of the Metadatenfachgruppe (2023–2026) shows recurring structural issues in how information is documented and reused across the project. Observed patterns: - Information is primarily stored in meeting protocols (unstructured) - Content is difficult to navigate and not consolidated - Decisions are not consistently separated from discussions - Repeated coordination would be required after meetings (e.g. follow-up via email) At the same time, the ",
-      "auditBucket": "backend_or_data_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Backend, data, API, indexing, or schema terminology detected. Missing project status. Missing milestone. Missing labels.",
-      "suggestedAction": "Assign backend/data owner or confirm frontend dependency.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone. Missing labels.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Backend/API/indexing",
       "codeSearchTerms": [
         "gov-01",
@@ -20767,8 +22573,8 @@
         "documentation"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "gov-01",
         "improve",
@@ -20778,11 +22584,200 @@
         "group",
         "documentation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 29,
+          "kind": "code",
+          "terms": [
+            "metadata"
+          ],
+          "text": "'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for "
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 33,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "'https://www.zotero.org/groups/5125890/avefi',"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 112,
+          "kind": "code",
+          "terms": [
+            "metadata"
+          ],
+          "text": "name: 'AVefi – Film Metadata Catalog',"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 153,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "'https://www.zotero.org/groups/5125890/avefi',"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 156,
+          "kind": "code",
+          "terms": [
+            "metadata"
+          ],
+          "text": "'film metadata',"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 172,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "[data-theme=\"avefi_dark\"] select optgroup {"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 20,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "class=\"ais-SearchBox-input appearance-none [color-scheme:light] dark:[color-scheme:dark] selection:text-zinc-700 group-data-[has-overlay]:selection:!text-transparent text-sm text-z"
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "v-for=\"(group, status) in favouritesList\""
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 12,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": ":checked=\"!collapsedGroups[status]\""
+        },
+        {
+          "file": ".\\components\\detail\\FavouritesListComp.vue",
+          "line": 13,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "@change=\"toggleGroup(status)\""
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 46,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "role=\"group\""
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 12,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "role=\"group\""
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 20,
+          "kind": "code",
+          "terms": [
+            "quality"
+          ],
+          "text": "<MicroDataQualityWarningIcon"
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 23,
+          "kind": "code",
+          "terms": [
+            "quality"
+          ],
+          "text": ":label=\"dataQualityWarningLabel(has_agent_item.has_name)\""
+        },
+        {
+          "file": ".\\components\\detail\\HasAgentComp.vue",
+          "line": 67,
+          "kind": "code",
+          "terms": [
+            "quality"
+          ],
+          "text": "<MicroDataQualityWarningIcon"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 35,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "<section v-if=\"entry.crew.length\" class=\"w-full space-y-2\" :aria-label=\"$t('crewMember')\" role=\"group\">"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 57,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": ":aria-label=\"$t('agent') + ': ' + (agent?.has_name ?? '')\" class=\"group\">"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 68,
+          "kind": "code",
+          "terms": [
+            "quality"
+          ],
+          "text": "<MicroDataQualityWarningIcon"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 71,
+          "kind": "code",
+          "terms": [
+            "quality"
+          ],
+          "text": ":label=\"dataQualityWarningLabel(agent?.has_name)\""
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 77,
+          "kind": "code",
+          "terms": [
+            "group"
+          ],
+          "text": "class=\"flex h-6 items-start opacity-70 group-hover:opacity-100 focus-within:opacity-100\" />"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#199",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\assets\\scss\\main.scss",
+        ".\\components\\detail\\AVefiRefinementListComp.vue",
+        ".\\components\\detail\\FavouritesListComp.vue",
+        ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+        ".\\components\\detail\\HasAgentComp.vue",
+        ".\\components\\detail\\HasEventComp.vue"
+      ],
       "searchTerms": [
         "gov-01",
         "improve",
@@ -20820,7 +22815,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-04-29T10:01:21Z",
-      "updatedAt": "2026-07-01T06:32:25Z",
+      "updatedAt": "2026-07-13T09:50:27Z",
       "closedAt": "",
       "bodyHash": "33e82c4dc4dff25b0238c950bb2efb91687ef10dc96172b07306a796766ef575",
       "bodyExcerpt": "Als Nutzer möchte ich alle Treffer von Hermann Schlenker auf der Plattform angezeigt bekommen, wenn ich auf den Link im Carousel auf Startseite klicke (\"Hermann Schlenker bei AVefi\"). Aktuell sind alle Einträge zu Hermann Schlenker als Produzent/Hermann Schlenker Produktion (152) verlinkt. Mit einer Suche in einfachen Anführungszeichen findet man Hermann Schlenker 275 Mal.",
@@ -21143,7 +23138,7 @@
       ],
       "milestone": "",
       "createdAt": "2026-06-08T09:47:56Z",
-      "updatedAt": "2026-06-08T09:47:56Z",
+      "updatedAt": "2026-07-13T09:50:18Z",
       "closedAt": "",
       "bodyHash": "4f5cdf7e2f7d7bb1a5543a149b651642e076a5bfa8cd2d9eda5264fdc01d9073",
       "bodyExcerpt": "### User Story Eher Meta: Ich hab gerade gesehen, dass nicht alle AVefi-Repos eine Lizenz haben (speziell frontend). Die meistvergebene Lizenz ist MIT. Vergeben wir hier einheitliche eine Lizenz für alle? Wenn ja welche? Ist low prio, nur der Vollständigkeit halber mit aufgenommen. ### Kontext Bitte fülle die folgenden Abschnitte aus falls Anpassungen erforderlich sind. ### Akzeptanzkriterien Bitte fülle die folgenden Abschnitte aus falls Anpassungen erforderlich sind. ### Technische Notizen / I",
@@ -21804,7 +23799,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "tennismann3000"
@@ -21813,14 +23808,15 @@
         "Labels": [
           "bug"
         ],
-        "Title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe"
+        "Title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 203,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/203",
       "title": "BUG: Suchvorschläge in erweiterter Suche referenzieren englische Begriffe",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "bug"
       ],
@@ -21829,14 +23825,14 @@
       ],
       "milestone": "",
       "createdAt": "2026-05-12T13:46:47Z",
-      "updatedAt": "2026-07-06T17:16:52Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-13T09:27:29Z",
+      "closedAt": "2026-07-13T09:27:29Z",
       "bodyHash": "d2b2a6f4ff72a38696b3289112cd17c78db1b3e2ce95a2614b459dce2c81c225",
       "bodyExcerpt": "Sucht man in der deutschen Version der erweiterten Suche zum Beispiel nach bestimmten Werten, werden im Dropdown-Menü vermutlich Vorschläge der englischen statt der deutschen Begriffe angezeigt. Bsp: - Deutsch wird nur für \"ge\" vorgeschlagen, für \"d\" wiederum Niederländisch und Dänisch - \"s\" in Gattung verweist auf \"Kurzfilm\" (Short) <img width=\"829\" height=\"173\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/5fd3d18e-0894-4f63-9914-13fe71a8900a\" />",
-      "auditBucket": "frontend_work",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Frontend/UI terminology or frontend repository detected. Missing project status. Missing milestone.",
-      "suggestedAction": "Cross-check frontend implementation and decide whether work remains.",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Frontend/UI",
       "codeSearchTerms": [
         "suchvorschläge",
@@ -21846,9 +23842,9 @@
         "englische",
         "begriffe"
       ],
-      "needsHumanReview": false,
+      "needsHumanReview": true,
       "reviewScope": true,
-      "implementationState": "partial",
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "suchvorschlage",
         "erweiterter",
@@ -22040,7 +24036,7 @@
           "text": "</SearchClickableFacetValue>"
         }
       ],
-      "suggestedNextStep": "Review matched implementation and define remaining acceptance criteria.",
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#203",
       "matchCount": 20,
       "matchedFiles": [
@@ -22123,6 +24119,287 @@
         "fehlerhafte",
         "zuordnung",
         "normdaten-ids"
+      ]
+    },
+    {
+      "projectItemId": "PVTI_lADOB5z1484Akea5zgynvQI",
+      "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
+      "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
+      "projectNumber": 1,
+      "projectStatus": "Done",
+      "projectFields": {
+        "Assignees": [
+          "steffolino"
+        ],
+        "Repository": "AV-EFI/AVefi-Issues",
+        "Labels": [
+          "MUSTHAVE",
+          "UserStory",
+          "Technical-Blocker",
+          "Search"
+        ],
+        "Title": "SEARCH-01: Facet result count must always match returned hits",
+        "Status": "Done"
+      },
+      "contentType": "ISSUE",
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 218,
+      "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/218",
+      "title": "SEARCH-01: Facet result count must always match returned hits",
+      "state": "CLOSED",
+      "labels": [
+        "MUSTHAVE",
+        "UserStory",
+        "Technical-Blocker",
+        "Search"
+      ],
+      "assignees": [
+        "steffolino"
+      ],
+      "milestone": "",
+      "createdAt": "2025-11-19T10:33:37Z",
+      "updatedAt": "2026-07-13T09:27:26Z",
+      "closedAt": "2026-07-13T09:27:26Z",
+      "bodyHash": "7945f8f276d4eee89a3353a5165bd314139943aecaad6fb98412ee009dee9be0",
+      "bodyExcerpt": "# User Story Als Nutzer*in der Plattform möchte ich, dass die Anzahl der Suchtreffer immer mit den tatsächlich angezeigten Ergebnissen übereinstimmt damit ich verstehe, wie Filter und Facetten meine Suche beeinflussen. # Kontext - Dieses Problem wurde mehrfach in Usability-Tests beobachtet. - Count-Mismatch führt zu Vertrauensverlust. - REPLACES: alte Issues zu \"Anzahl Suchergebnisse passt nicht zur Filteranzahl\". # Akzeptanzkriterien - **Given** ich setze einen Filter **When** die Ergebnisse ge",
+      "auditBucket": "implemented_candidate",
+      "auditConfidence": "medium",
+      "auditReason": "Issue is closed or project status is Done. Missing milestone.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
+      "suggestedOwnerArea": "Accessibility/QA",
+      "codeSearchTerms": [
+        "search-01",
+        "facet",
+        "result",
+        "count",
+        "always",
+        "match",
+        "returned",
+        "musthave",
+        "userstory",
+        "technical-blocker"
+      ],
+      "needsHumanReview": true,
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
+      "codeSearchTermsExpanded": [
+        "search-01",
+        "facet",
+        "result",
+        "count",
+        "always",
+        "match",
+        "returned",
+        "userstory",
+        "technical-blocker",
+        "must",
+        "hits",
+        "search"
+      ],
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 9,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "const searchActionUrlTemplate = computed(() => `${siteUrl.value}/search?query={search_term_string}`);"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 29,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for "
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 77,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "'@type': 'SearchAction',"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 97,
+          "kind": "code",
+          "terms": [
+            "count"
+          ],
+          "text": "addressCountry: 'DE',"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 4,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": ":searchable=\"true\""
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 10,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "isFromSearch,"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 13,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "searchForItems"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 26,
+          "kind": "code",
+          "terms": [
+            "facet"
+          ],
+          "text": "<!-- Facet list -->"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 37,
+          "kind": "code",
+          "terms": [
+            "result"
+          ],
+          "text": "{{ $t('noResults') }}"
+        },
+        {
+          "file": ".\\components\\detail\\AVefiRefinementListComp.vue",
+          "line": 53,
+          "kind": "code",
+          "terms": [
+            "count"
+          ],
+          "text": "<div class=\"badge text-white badge-secondary\">{{ item.count.toLocaleString() }}</div>"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 43,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "showSearch?: boolean;"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 54,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "/** visibility mode (affects showDetail/showSearch) */"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 55,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "mode?: 'detail' | 'search';"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 89,
+          "kind": "code",
+          "terms": [
+            "always"
+          ],
+          "text": "// Always add MOI variant as a candidate (safe: used only if present in dict)"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 18,
+          "kind": "code",
+          "terms": [
+            "facet"
+          ],
+          "text": "facet-attribute=\"manifestation_event_type\""
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 25,
+          "kind": "code",
+          "terms": [
+            "facet"
+          ],
+          "text": ":narrow=\"true\" facet-attribute=\"located_in_has_name\" />"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 29,
+          "kind": "code",
+          "terms": [
+            "facet"
+          ],
+          "text": "facet-attribute=\"productionyear\""
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 61,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchClickableFacetValue"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 73,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "</SearchClickableFacetValue>"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 113,
+          "kind": "code",
+          "terms": [
+            "search"
+          ],
+          "text": "<SearchClickableFacetValue"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
+      "issue": "AV-EFI/AVefi-Issues#218",
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\components\\detail\\AVefiRefinementListComp.vue",
+        ".\\components\\detail\\GenericKVView.vue",
+        ".\\components\\detail\\HasEventComp.vue"
+      ],
+      "searchTerms": [
+        "search-01",
+        "facet",
+        "result",
+        "count",
+        "always",
+        "match",
+        "returned",
+        "userstory",
+        "technical-blocker",
+        "must",
+        "hits",
+        "search"
       ]
     }
   ]
