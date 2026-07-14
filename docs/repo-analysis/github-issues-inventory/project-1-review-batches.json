@@ -5,365 +5,311 @@
     "url": "https://github.com/orgs/AV-EFI/projects/1",
     "totalCount": 145
   },
+  "skippedByTriageDecisions": [
+    {
+      "issue": "AV-EFI/AVefi-Issues#128",
+      "title": "NC-10: Navigation zwischen Suchtrefferliste und Detailansicht optimieren",
+      "status": "waiting_for_acceptance",
+      "reason": "Usability-test pain points were handled; multi-tab sync is implemented. Waiting for final acceptance by tennismann3000."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#129",
+      "title": "RD-01: Rollen- & Rechteverwaltung für redaktionelle Funktionen implementieren",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#130",
+      "title": "RD-02: Änderungs- und Versionshistorie für alle redaktionellen Eingriffe",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#131",
+      "title": "RD-03: Konflikt-Handling bei paralleler Bearbeitung",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#132",
+      "title": "RD-04: Redaktionsmodus für Werk-, Manifestations- und Item-Metadaten",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#133",
+      "title": "RD-05: Validierungslogik für Pflicht- und Qualitätsfelder",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#134",
+      "title": "RD-06: Redaktions-Dashboard für offene Aufgaben und Qualitätsprobleme",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#136",
+      "title": "BR-01: Benutzerverwaltung – Rollen müssen definierbar und zuweisbar sein",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#138",
+      "title": "BR-03: Redakteure müssen Metadatensätze bearbeiten können (Werk/Manifestation/Item)",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#139",
+      "title": "BR-04: Änderungen an Metadaten müssen revisionssicher gespeichert werden",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#140",
+      "title": "BR-05: Redaktioneller Freigabeprozess (Review → Approve → Publish)",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#141",
+      "title": "BR-06: Nutzerprofil – Basisdaten einsehen & bearbeiten",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#143",
+      "title": "BR-08: Aktivitätslog für redaktionelle Aktionen",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#144",
+      "title": "BR-09: Zugriff auf interne Funktionen muss klar geregelt und geprüft sein",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#145",
+      "title": "RECS-01: Ähnliche Filme algorithmisch bestimmen (Basislogik)",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#146",
+      "title": "RECS-02: Ähnliche Filme in der Werkansicht anzeigen",
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#147",
+      "title": "RECS-03: Ähnlichkeitskriterien transparent darstellen",
+      "status": "backend_blocked",
+      "reason": "Blocked by authentication, editorial UI, and match-and-merge detection; likely needs a future concrete match-and-merge issue."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#148",
+      "title": "RECS-04: API-Endpoint für Recommendations bereitstellen",
+      "status": "backend_api_placeholder",
+      "reason": "Does not make much sense as a concrete frontend task; keep only as possible placeholder for considering disambiguation as an API endpoint."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#150",
+      "title": "EXPORT-01: Exportfunktionen für Werk-, Manifestations- und Item-Daten definieren und vereinheitlichen",
+      "status": "active_hackathon_testing",
+      "reason": "Still active and will probably be tested during hackathons."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#151",
+      "title": "DQ-09: Harmonisierung von Genre „Dokumentation“ / „Documentary“",
+      "status": "waiting_metadatenfachgruppe",
+      "reason": "As stated in the last December comment, this will be discussed in the Metadatenfachgruppe."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#152",
+      "title": "DQ-10: Größe des Datenbestands",
+      "status": "leave_for_other_discussion",
+      "reason": "Leave as-is; the other assigned people should discuss it."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#153",
+      "title": "BR-10: Bereitstellung GWDG Keycloak",
+      "status": "blocking_in_progress",
+      "reason": "Blocking authentication issue; currently being worked on."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#154",
+      "title": "FI-05: Match & Merge um Backend bereitstellen",
+      "status": "blocking_backend_correct_owner",
+      "reason": "Blocks some other issues; assigned to EOltmanns, which is correct."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#155",
+      "title": "SEARCH-07: Fuzzy Search funktioniert wie erwartet",
+      "status": "backend_waiting",
+      "reason": "Keep with EOltmanns / Backend-Search; fuzzy-search history should stay linked, especially #110."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#156",
+      "title": "SEARCH-08: Experten Modus und Einfachen Modus anbieten",
+      "status": "keep_as_is",
+      "reason": "Keep as-is and assigned; do not re-triage unless new information arrives."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#161",
+      "title": "DQ-11: Schema-Anpassungen (TIB, HDF)",
+      "status": "assigned_elsewhere",
+      "reason": "Assigned to other people; not a Stefan-owned triage item."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#169",
+      "title": "SEARCH-11: Clickable facets & entity names",
+      "status": "waiting_for_domain_feedback",
+      "reason": "Keep open for C-Stemmler and tennismann3000; query-search relationship remains important."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#170",
+      "title": "NORM-01: Normdatenaustausch – Übersicht zu Schlagworten & Genres (PoC → Produktivfeature)",
+      "status": "implemented_low_priority",
+      "reason": "Implemented/low priority; show-only scope. Normdaten-Anreicherung is handled separately via Andreas Teekesselchen."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#171",
+      "title": "CONTENT-02: FAQ (DE / ENG)",
+      "status": "content_non_urgent",
+      "reason": "No acute frontend cleanup need; can remain open as content/FAQ topic."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#182",
+      "title": "Highlighting / Scrolldown funktioniert nicht bei Auflösen eines PIDs",
+      "status": "assigned_elsewhere_last_comment_not_owner",
+      "reason": "Not Stefan-owned; last Stefan comment does not make it his problem."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#187",
+      "title": "PLATFORM-01: Wartungshinweis bei Service-Unterbrechung anzeigen",
+      "status": "very_low_priority",
+      "reason": "Maintenance banner stays open as very low priority."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#194",
+      "title": "BUG: Kübelkind Exemplar Auflösung fkt nicht",
+      "status": "low_priority_works_as_is",
+      "reason": "Low priority; it works as-is and the page layout will not be changed."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#201",
+      "title": "Verlinkung von \"Hermann Schlenker bei AVefi\" im Carousel",
+      "status": "very_low_priority",
+      "reason": "Carousel link issue stays open as very low priority."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#202",
+      "title": "BUG: Duplikate Schlagworte in Datensätzen",
+      "status": "assigned_elsewhere_not_owner",
+      "reason": "Not Stefan-owned; leave with current owner."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#206",
+      "title": "LEGAL-01: Lizenzen für Repos in gitlab und github",
+      "status": "legal_waiting",
+      "reason": "Keep open pending EOltmanns license feedback; not frontend implementation triage."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#207",
+      "title": "BUG: Fehlerhafte Zuordnung der Normdaten-IDs",
+      "status": "assigned_to_tennismann",
+      "reason": "Commented and assigned to tennismann3000; no further Stefan-owned triage."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#215",
+      "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich ein editierbares Profil haben  (User Story ID 26)",
+      "status": "blocked_by_153_profile_definition_needed",
+      "reason": "Blocked by #153 / authentication; editable profile still needs definition. Assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#49",
+      "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich zwei oder mehrere Datensätze (Werk-Manifestation-Item) auf ihre Ähnlichkeit prüfen  (User Story ID 24)",
+      "status": "backend_match_merge_blocked",
+      "reason": "Similarity/match-and-merge work is blocked by #154 and stays with EOltmanns; not a Stefan/frontend task until backend and matching logic are deliverable."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#50",
+      "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich bei widersprüchlichen Metadaten zu einem Objekt entscheiden können, welche Metadaten übernommen werden sollen  (User Story ID 40)",
+      "status": "domain_metadata_decision",
+      "reason": "Contradictory metadata takeover requires domain/product decision; routed to C-Stemmler and tennismann3000."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#52",
+      "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich Daten übernehmen können  (User Story ID 7)",
+      "status": "backend_redaction_workflow_blocked",
+      "reason": "Data takeover is backend/redaction workflow and blocked until implementation path is clear; stays with EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#60",
+      "title": "Datenherkunft / Herausgeber anzeigen",
+      "status": "domain_product_decision",
+      "reason": "Origin/issuer display basically exists; remaining naming and data-provider overview question is product/domain decision, routed to C-Stemmler and tennismann3000."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#75",
+      "title": "PID-01: PID für einen Film-Metadatensatz registrieren",
+      "status": "backend_pid_blocker",
+      "reason": "PID registration is a backend/technical-blocker issue and correctly assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#77",
+      "title": "PID-03: PID eines Film-Metadatensatzes auflösen (Resolve aus Handle-System)",
+      "status": "backend_pid_blocker",
+      "reason": "PID resolve is a backend/technical-blocker issue and correctly assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#78",
+      "title": "PID-04: Versionierung für PID-bezogene Metadatensätze definieren",
+      "status": "backend_pid_clarification",
+      "reason": "PID versioning requires backend/fachliche clarification and is correctly assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#79",
+      "title": "PID-05: Dublettenprüfung über PID implementieren",
+      "status": "backend_pid_duplicate_check",
+      "reason": "PID duplicate check requires backend/fachliche clarification and is correctly assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#81",
+      "title": "MI-02: Items müssen gefiltert und konsistent zur Manifestation angezeigt werden",
+      "status": "assigned_to_domain_search",
+      "reason": "Manifestation/item filtering consistency is assigned to tennismann3000 and C-Stemmler; not Stefan-owned."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#86",
+      "title": "MI-06: Tektonische Übersicht von Manifestationen und Items anzeigen",
+      "status": "domain_ui_decision_needed",
+      "reason": "Tektonik overview is still unclear; UI representation, scope, and interaction must be decided by C-Stemmler and tennismann3000 before frontend implementation."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#91",
+      "title": "FI-03: Identifikatoren bearbeiten und verwalten (Redaktionssystem)",
+      "status": "backend_redaction_auth_blocked",
+      "reason": "Identifier editing is backend/redaction workflow blocked by auth/protected workflow; assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#93",
+      "title": "FI-01: Duplikate von Filmen erkennen und anzeigen",
+      "status": "backend_match_rules_blocked",
+      "reason": "Duplicate detection needs matching rules and backend/match-and-merge logic, related to #154; assigned to EOltmanns."
+    },
+    {
+      "issue": "AV-EFI/AVefi-Issues#94",
+      "title": "DQ-01: Vollständigkeitsindikator auf Werk-Ebene anzeigen",
+      "status": "data_quality_definition_needed",
+      "reason": "Completeness score needs defined required/optional fields and calculation logic before implementation; routed to C-Stemmler, tennismann3000, and EOltmanns."
+    }
+  ],
   "batches": {
     "verification_candidates": [],
-    "frontend_triage": [
-      {
-        "issue": "AV-EFI/AVefi-Issues#128",
-        "title": "NC-10: Navigation zwischen Suchtrefferliste und Detailansicht optimieren",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 128,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/128",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "qa_or_acceptance_needed",
-        "ownerArea": "Accessibility/QA",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 12,
-        "strongEvidenceFiles": [
-          ".\\components\\detail\\InstitutionListComp.vue",
-          ".\\components\\detail\\PaginationComp.vue",
-          ".\\components\\global\\BreadcrumbsComp.vue",
-          ".\\components\\global\\ComparisonDrawer.vue",
-          ".\\components\\global\\NavBar.vue",
-          ".\\components\\input\\VueSlider.vue",
-          ".\\components\\search\\SearchListViewComp.vue",
-          ".\\components\\views\\CompilationViewCompAVefi.vue",
-          ".\\components\\views\\WorkViewCompAVefi.vue"
-        ],
-        "weakEvidenceFiles": [
-          ".\\i18n\\locales\\de.ts"
-        ],
-        "evidenceKinds": [
-          "component"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#169",
-        "title": "SEARCH-11: Clickable facets & entity names",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 169,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/169",
-        "state": "OPEN",
-        "projectStatus": "Backlog",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 11,
-        "strongEvidenceFiles": [
-          ".\\app.vue",
-          ".\\components\\detail\\HasAgentComp.vue",
-          ".\\components\\detail\\HasEventComp.vue",
-          ".\\components\\detail\\InstitutionListComp.vue",
-          ".\\components\\detail\\ItemListNewComp.vue",
-          ".\\components\\detail\\KeyActionRowsComp.vue",
-          ".\\components\\detail\\KeyValueComp.vue",
-          ".\\components\\detail\\KeyValueListComp.vue"
-        ],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [
-          "code",
-          "component"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#201",
-        "title": "Verlinkung von \"Hermann Schlenker bei AVefi\" im Carousel",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 201,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/201",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 10,
-        "strongEvidenceFiles": [
-          ".\\assets\\scss\\main.scss",
-          ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
-          ".\\components\\global\\BaseCarousel.vue",
-          ".\\components\\global\\CardList.vue",
-          ".\\components\\global\\CarouselCardComp.vue",
-          ".\\components\\global\\CarouselCardCompBackup.vue",
-          ".\\components\\global\\IssuerCarouselComp.vue"
-        ],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [
-          "supporting",
-          "component"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#206",
-        "title": "LEGAL-01: Lizenzen für Repos in gitlab und github",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 206,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/206",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "qa_or_acceptance_needed",
-        "ownerArea": "Accessibility/QA",
-        "implementationState": "partial",
-        "matchCount": 20,
-        "evidenceQualityScore": 9,
-        "strongEvidenceFiles": [
-          ".\\app.vue",
-          ".\\components\\global\\VocabViewer.vue",
-          ".\\MATOMO_SETUP.md",
-          ".\\nuxt.config.ts",
-          ".\\pages\\filmrel\\[prefix]\\[id].vue",
-          ".\\pages\\res\\[prefix]\\[id].vue"
-        ],
-        "weakEvidenceFiles": [
-          ".\\i18n\\locales\\de.ts",
-          ".\\models\\interfaces\\schema\\model.yaml",
-          ".\\README.md",
-          ".\\scripts\\fetch-schema.mjs",
-          ".\\scripts\\generate-interfaces.mjs"
-        ],
-        "evidenceKinds": [
-          "code",
-          "component",
-          "supporting",
-          "route"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#187",
-        "title": "PLATFORM-01: Wartungshinweis bei Service-Unterbrechung anzeigen",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 187,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/187",
-        "state": "OPEN",
-        "projectStatus": "Backlog",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "partial",
-        "matchCount": 16,
-        "evidenceQualityScore": 7,
-        "strongEvidenceFiles": [
-          ".\\components\\micro\\ContactForm.vue",
-          ".\\pages\\accessibility.vue",
-          ".\\pages\\faq.vue",
-          ".\\pages\\vocab.vue"
-        ],
-        "weakEvidenceFiles": [
-          ".\\i18n\\locales\\de.ts",
-          ".\\i18n\\locales\\en.ts"
-        ],
-        "evidenceKinds": [
-          "component",
-          "route"
-        ],
-        "proposedReviewAction": "Define remaining acceptance criteria and split backend/domain dependencies from frontend work."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#171",
-        "title": "CONTENT-02: FAQ (DE / ENG)",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 171,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/171",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "frontend_work",
-        "ownerArea": "Frontend/UI",
-        "implementationState": "not_found",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Manually verify whether the issue is obsolete, external, or still missing in the frontend."
-      }
-    ],
-    "owner_routing": [
-      {
-        "issue": "AV-EFI/AVefi-Issues#147",
-        "title": "RECS-03: Ähnlichkeitskriterien transparent darstellen",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 147,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/147",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#155",
-        "title": "SEARCH-07: Fuzzy Search funktioniert wie erwartet",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 155,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/155",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#156",
-        "title": "SEARCH-08: Experten Modus und Einfachen Modus anbieten",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 156,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/156",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "backend_or_data_needed",
-        "ownerArea": "Backend/API/indexing",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#121",
-        "title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 121,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/121",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#122",
-        "title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 122,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/122",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#123",
-        "title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 123,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/123",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#126",
-        "title": "NC-08: Navigation zwischen Manifestationen im Split-View",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 126,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/126",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#127",
-        "title": "NC-09: URL-Struktur für Navigation vereinheitlichen",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 127,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/127",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#129",
-        "title": "RD-01: Rollen- & Rechteverwaltung für redaktionelle Funktionen implementieren",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 129,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/129",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      },
-      {
-        "issue": "AV-EFI/AVefi-Issues#130",
-        "title": "RD-02: Änderungs- und Versionshistorie für alle redaktionellen Eingriffe",
-        "repository": "AV-EFI/AVefi-Issues",
-        "issueNumber": 130,
-        "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/130",
-        "state": "OPEN",
-        "projectStatus": "",
-        "auditBucket": "domain_logic_needed",
-        "ownerArea": "Product/domain decision",
-        "implementationState": "blocked_external",
-        "matchCount": 0,
-        "evidenceQualityScore": 0,
-        "strongEvidenceFiles": [],
-        "weakEvidenceFiles": [],
-        "evidenceKinds": [],
-        "proposedReviewAction": "Assign owner area and ask for decision or acceptance criteria before implementation cleanup."
-      }
-    ]
+    "frontend_triage": [],
+    "owner_routing": []
   }
 }

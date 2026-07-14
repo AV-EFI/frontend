@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const CROSS_CHECK_PATH = path.resolve('docs/repo-analysis/github-issues-inventory/project-1-code-cross-check.json');
+const INVENTORY_PATH = path.resolve('docs/repo-analysis/github-issues-inventory/project-1-items.json');
+const TRIAGE_DECISIONS_PATH = path.resolve('docs/repo-analysis/github-issues-inventory/project-1-triage-decisions.json');
 const OUT_DIR = path.resolve('docs/repo-analysis/github-issues-inventory');
 
 const BATCH_LIMIT = 10;
@@ -20,6 +22,62 @@ const WEAK_EVIDENCE_PATTERNS = [
 
 function issueRef(row) {
   return row.issue || (row.repository && row.issueNumber ? `${row.repository}#${row.issueNumber}` : row.projectItemId);
+}
+
+function issueKey(repository, issueNumber) {
+  return repository && issueNumber ? `${repository}#${issueNumber}` : '';
+}
+
+function loadTriageDecisions() {
+  if (!fs.existsSync(TRIAGE_DECISIONS_PATH)) {
+    return new Map();
+  }
+
+  const source = JSON.parse(fs.readFileSync(TRIAGE_DECISIONS_PATH, 'utf8'));
+  const decisions = new Map();
+  for (const decision of source.decisions || []) {
+    const key = issueKey(decision.repository, decision.issueNumber);
+    if (key) decisions.set(key, decision);
+  }
+  return decisions;
+}
+
+function loadInventoryByIssue() {
+  if (!fs.existsSync(INVENTORY_PATH)) {
+    return new Map();
+  }
+
+  const source = JSON.parse(fs.readFileSync(INVENTORY_PATH, 'utf8'));
+  const items = new Map();
+  for (const row of source.items || []) {
+    const key = issueKey(row.repository, row.issueNumber);
+    if (key) items.set(key, row);
+  }
+  return items;
+}
+
+function mergeFreshInventory(rows, inventoryByIssue) {
+  return rows.map((row) => {
+    const inventoryRow = inventoryByIssue.get(issueKey(row.repository, row.issueNumber));
+    if (!inventoryRow) return row;
+
+    return {
+      ...row,
+      projectStatus: inventoryRow.projectStatus,
+      projectFields: inventoryRow.projectFields,
+      state: inventoryRow.state,
+      labels: inventoryRow.labels,
+      assignees: inventoryRow.assignees,
+      milestone: inventoryRow.milestone,
+      updatedAt: inventoryRow.updatedAt,
+      closedAt: inventoryRow.closedAt,
+    };
+  });
+}
+
+function triageDecisionFor(row, decisions) {
+  const key = issueKey(row.repository, row.issueNumber);
+  return decisions.get(key) || decisions.get(issueRef(row));
 }
 
 function normalizePath(filePath) {
@@ -103,10 +161,11 @@ function sortByEvidenceThenIssue(a, b) {
     || String(a.issue).localeCompare(String(b.issue));
 }
 
-function buildBatches(rows) {
+function buildBatches(rows, decisions) {
   const openRows = rows.filter((row) => row.state !== 'CLOSED');
+  const reviewableOpenRows = openRows.filter((row) => !triageDecisionFor(row, decisions));
 
-  const verificationCandidates = openRows
+  const verificationCandidates = reviewableOpenRows
     .filter((row) => row.reviewScope)
     .filter((row) => ['implemented', 'implemented_but_untested'].includes(row.implementationState))
     .map((row) => makeBatchRow(row, 'verification_candidates'))
@@ -114,14 +173,14 @@ function buildBatches(rows) {
     .sort(sortByEvidenceThenIssue)
     .slice(0, BATCH_LIMIT);
 
-  const frontendTriage = openRows
+  const frontendTriage = reviewableOpenRows
     .filter((row) => row.reviewScope)
     .filter((row) => ['not_found', 'partial'].includes(row.implementationState))
     .map((row) => makeBatchRow(row, 'frontend_triage'))
     .sort(sortByEvidenceThenIssue)
     .slice(0, BATCH_LIMIT);
 
-  const ownerRouting = openRows
+  const ownerRouting = reviewableOpenRows
     .filter((row) => !row.reviewScope && row.implementationState === 'blocked_external')
     .filter((row) => !row.assignees?.length || !row.projectStatus || !row.labels?.length || !row.milestone)
     .map((row) => makeBatchRow(row, 'owner_routing'))
@@ -202,7 +261,29 @@ function renderBatchTable(rows) {
   );
 }
 
-function buildSummary(project, batches, allRows) {
+function skippedDecisionRows(rows, decisions) {
+  return rows
+    .filter((row) => row.state !== 'CLOSED')
+    .map((row) => ({ row, decision: triageDecisionFor(row, decisions) }))
+    .filter((entry) => entry.decision)
+    .map(({ row, decision }) => ({
+      issue: issueRef(row),
+      title: row.title,
+      status: decision.status,
+      reason: decision.reason,
+    }))
+    .sort((a, b) => String(a.issue).localeCompare(String(b.issue)));
+}
+
+function renderSkippedDecisionTable(rows) {
+  if (!rows.length) return 'No open issues were skipped by documented triage decisions.';
+  return markdownTable(
+    rows.map((row) => [row.issue, row.status, row.reason]),
+    ['Issue', 'Decision status', 'Reason'],
+  );
+}
+
+function buildSummary(project, batches, allRows, skippedRows) {
   const flatRows = flattenBatches(batches);
   const batchCounts = Object.entries(batches).map(([key, rows]) => [batchTitle(key), rows.length]);
 
@@ -217,6 +298,7 @@ Project: [${project.title}](${project.url})
 - Source items: ${allRows.length}
 - Proposed review items: ${flatRows.length}
 - Batch size limit: ${BATCH_LIMIT}
+- Open issues skipped by documented triage decisions: ${skippedRows.length}
 - GitHub changes made: none
 
 ## Batch Counts
@@ -241,9 +323,16 @@ These are open issues outside the frontend evidence scope that are missing routi
 
 ${renderBatchTable(batches.owner_routing)}
 
+## Skipped By Triage Decisions
+
+These open issues are intentionally omitted from generated review batches because they were already triaged and should not be revisited without new information.
+
+${renderSkippedDecisionTable(skippedRows)}
+
 ## Notes
 
 - This is a review proposal only. No GitHub issues, labels, assignees, milestones, or project fields were changed.
+- Documented triage decisions are read from \`docs/repo-analysis/github-issues-inventory/project-1-triage-decisions.json\`.
 - Evidence quality is a ranking aid, not proof of completion.
 - Suggested next step: review one batch at a time, then prepare an explicit GitHub update batch with comments/status/labels.
 `;
@@ -251,16 +340,20 @@ ${renderBatchTable(batches.owner_routing)}
 
 function main() {
   const source = JSON.parse(fs.readFileSync(CROSS_CHECK_PATH, 'utf8'));
-  const batches = buildBatches(source.items);
+  const inventoryByIssue = loadInventoryByIssue();
+  const rows = mergeFreshInventory(source.items, inventoryByIssue);
+  const triageDecisions = loadTriageDecisions();
+  const skippedRows = skippedDecisionRows(rows, triageDecisions);
+  const batches = buildBatches(rows, triageDecisions);
   const flatRows = flattenBatches(batches);
 
   const jsonPath = path.join(OUT_DIR, 'project-1-review-batches.json');
   const csvPath = path.join(OUT_DIR, 'project-1-review-batches.csv');
   const summaryPath = path.join(OUT_DIR, 'project-1-review-batches.md');
 
-  fs.writeFileSync(jsonPath, `${JSON.stringify({ project: source.project, batches }, null, 2)}\n`);
+  fs.writeFileSync(jsonPath, `${JSON.stringify({ project: source.project, skippedByTriageDecisions: skippedRows, batches }, null, 2)}\n`);
   fs.writeFileSync(csvPath, toCsv(flatRows));
-  fs.writeFileSync(summaryPath, buildSummary(source.project, batches, source.items));
+  fs.writeFileSync(summaryPath, buildSummary(source.project, batches, rows, skippedRows));
 
   console.log(`Wrote ${path.relative(process.cwd(), jsonPath)}`);
   console.log(`Wrote ${path.relative(process.cwd(), csvPath)}`);

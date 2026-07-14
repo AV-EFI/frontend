@@ -11,29 +11,29 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Temporary TODO List",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich Seiten zur Projektvorstellung und die Landing Page redaktionell bearbeiten können  (User Story ID 10)",
-        "Status": "Temporary TODO List"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 214,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/214",
       "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich Seiten zur Projektvorstellung und die Landing Page redaktionell bearbeiten können  (User Story ID 10)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [],
       "assignees": [
         "steffolino"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:15Z",
-      "updatedAt": "2026-07-06T17:22:11Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T11:11:01Z",
+      "closedAt": "2026-07-14T11:11:01Z",
       "bodyHash": "5debb997d7dfea884d276ad8414342240dc06ddd10e226ec29ac2f92ada2f3f1",
       "bodyExcerpt": "User Story ID: 10 Epic: Filmidentifikatorenansicht & Redaktionssystem Pflicht laut Antrag? Minimaler Aufwand (vgl. AV-Portal Nuxt Content) ┆Issue is synchronized with this [Trello card](https://trello.com/c/MmyIrPO7) by [Unito](https://www.unito.io)"
     },
@@ -82,7 +82,8 @@
       "projectStatus": "Temporary TODO List",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "tennismann3000",
+          "C-Stemmler"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Milestone": "Public Release",
@@ -97,11 +98,12 @@
       "state": "OPEN",
       "labels": [],
       "assignees": [
-        "steffolino"
+        "tennismann3000",
+        "C-Stemmler"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-18T19:04:20Z",
-      "updatedAt": "2025-11-18T19:23:13Z",
+      "updatedAt": "2026-07-14T13:45:42Z",
       "closedAt": "",
       "bodyHash": "1dd46d46f388df5af5ed99718ca346fa3f154feea76da94571de226f7634b74c",
       "bodyExcerpt": "Als Benutzer*in möchte ich klar erkennen, welche Institution Daten geliefert hat, um Vertrauen und Herkunft besser beurteilen zu können. Status: • Herausgeber wird angezeigt (Manifestation + Item) • Darstellung konsistent Was fehlt: • Einheitliche Benennung (DE/EN) • Optional: Seite „Datenlieferanten“ Team-Entscheidung: • Soll eine Übersicht aller Lieferanten erstellt werden?"
@@ -914,7 +916,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Highest Prio",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
@@ -927,14 +929,14 @@
           "PID Verwaltung"
         ],
         "Title": "PID-Verwaltung: Als MA einer filmhaltenden Institution möchte ich eine PID für einen Film-Metadatensatz erstellen (registrieren)  (User Story ID 12)",
-        "Status": "Highest Prio"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 46,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/46",
       "title": "PID-Verwaltung: Als MA einer filmhaltenden Institution möchte ich eine PID für einen Film-Metadatensatz erstellen (registrieren)  (User Story ID 12)",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "PID Verwaltung"
@@ -946,8 +948,8 @@
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:29Z",
-      "updatedAt": "2026-07-06T17:21:49Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T13:45:09Z",
+      "closedAt": "2026-07-14T13:45:09Z",
       "bodyHash": "241970ff41678b1244a2b074ea007f87c5a7883171314559caf3637caf8774c1",
       "bodyExcerpt": "User Story ID: 12 Epic: PID-Verwaltung Eventuell für False positive matching; nicht relevant für Frontend WONT (?) ┆Issue is synchronized with this [Trello card](https://trello.com/c/WDfPUEJX) by [Unito](https://www.unito.io)"
     },
@@ -1030,8 +1032,6 @@
       "projectStatus": "Highest Prio",
       "projectFields": {
         "Assignees": [
-          "steffolino",
-          "bingert",
           "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
@@ -1055,13 +1055,11 @@
         "Filmidentifikatorenansicht & Redaktionssystem"
       ],
       "assignees": [
-        "steffolino",
-        "bingert",
         "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:32Z",
-      "updatedAt": "2026-07-13T08:43:17Z",
+      "updatedAt": "2026-07-14T13:45:21Z",
       "closedAt": "",
       "bodyHash": "f2a715b2dd257e44a185e5c70ff3faa34ff4cc62d59c75cb0b4768103c75bbc8",
       "bodyExcerpt": "User Story ID: 24 Epic: Filmidentifikatorenansicht & Redaktionssystem bedingt andere User Stories? ┆Issue is synchronized with this [Trello card](https://trello.com/c/Z6XOONL7) by [Unito](https://www.unito.io)"
@@ -1074,9 +1072,8 @@
       "projectStatus": "Highest Prio",
       "projectFields": {
         "Assignees": [
-          "steffolino",
-          "bingert",
-          "EOltmanns"
+          "tennismann3000",
+          "C-Stemmler"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
@@ -1097,13 +1094,12 @@
         "Filmidentifikatorenansicht & Redaktionssystem"
       ],
       "assignees": [
-        "steffolino",
-        "bingert",
-        "EOltmanns"
+        "tennismann3000",
+        "C-Stemmler"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:32Z",
-      "updatedAt": "2026-07-06T17:21:54Z",
+      "updatedAt": "2026-07-14T13:45:38Z",
       "closedAt": "",
       "bodyHash": "1c55c9829e0929dccb1f78263fe446b0c8284e4b97d615fa359da884ec490a58",
       "bodyExcerpt": "User Story ID: 40 Epic: Filmidentifikatorenansicht & Redaktionssystem bedingt andere User Stories? ┆Issue is synchronized with this [Trello card](https://trello.com/c/XmbvXFwu) by [Unito](https://www.unito.io)"
@@ -1147,8 +1143,6 @@
       "projectStatus": "Highest Prio",
       "projectFields": {
         "Assignees": [
-          "steffolino",
-          "bingert",
           "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
@@ -1172,13 +1166,11 @@
         "Filmidentifikatorenansicht & Redaktionssystem"
       ],
       "assignees": [
-        "steffolino",
-        "bingert",
         "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:41:35Z",
-      "updatedAt": "2026-07-06T17:21:56Z",
+      "updatedAt": "2026-07-14T13:45:25Z",
       "closedAt": "",
       "bodyHash": "a23364abfb4211c18cdb3ab7291856d60429d9b63233a77849ff714f82cc338e",
       "bodyExcerpt": "User Story ID: 7 Epic: Filmidentifikatorenansicht & Redaktionssystem \"Automatisierung\" ┆Issue is synchronized with this [Trello card](https://trello.com/c/7w89yYoe) by [Unito](https://www.unito.io)"
@@ -1291,9 +1283,13 @@
       "projectStatus": "Highest Prio",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
+        "Labels": [
+          "B L O C K E D"
+        ],
         "Title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich ein editierbares Profil haben  (User Story ID 26)",
         "Status": "Highest Prio"
       },
@@ -1303,13 +1299,16 @@
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/215",
       "title": "Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich ein editierbares Profil haben  (User Story ID 26)",
       "state": "OPEN",
-      "labels": [],
+      "labels": [
+        "B L O C K E D"
+      ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2024-06-20T09:40:57Z",
-      "updatedAt": "2026-07-06T17:22:13Z",
+      "updatedAt": "2026-07-14T11:13:08Z",
       "closedAt": "",
       "bodyHash": "bf7e86ca895ea5d556eb2ffc67c6f4834becc87555448a3fc78a89706c1ff7e4",
       "bodyExcerpt": "User Story ID: 26 Epic: Filmidentifikatorenansicht & Redaktionssystem Anforderungen aus Schema, zusätzliche Infos \"nice to have\"; referenz ORCID, ISIL etc. ┆Issue is synchronized with this [Trello card](https://trello.com/c/GZbQ65rZ) by [Unito](https://www.unito.io)"
@@ -2348,7 +2347,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -2360,14 +2359,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-08: Navigation zwischen Manifestationen im Split-View"
+        "Title": "NC-08: Navigation zwischen Manifestationen im Split-View",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 126,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/126",
       "title": "NC-08: Navigation zwischen Manifestationen im Split-View",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -2378,8 +2378,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:04:33Z",
-      "updatedAt": "2026-07-06T08:51:25Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T09:10:05Z",
+      "closedAt": "2026-07-14T07:03:19Z",
       "bodyHash": "8cf26e7ac4ce63dbff8865a7c573a98d07b43f4aa0e013af0a9f25970928afb6",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich im Manifestation-Split-View bequem zwischen Manifestationen wechseln können damit Vergleich und Analyse schneller laufen. # Kontext - Aktuell unklar, wie Navigation zwischen Manifestationen funktionieren soll. # Akzeptanzkriterien - Vor/Zurück-Navigation in Split-View. - Keyboard Support."
     },
@@ -2388,7 +2388,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -2401,14 +2401,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-09: URL-Struktur für Navigation vereinheitlichen"
+        "Title": "NC-09: URL-Struktur für Navigation vereinheitlichen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 127,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/127",
       "title": "NC-09: URL-Struktur für Navigation vereinheitlichen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Backend",
@@ -2420,8 +2421,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:04:45Z",
-      "updatedAt": "2026-07-06T08:51:22Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T09:10:09Z",
+      "closedAt": "2026-07-14T08:09:21Z",
       "bodyHash": "bb5800e4b3f869fafd0d0bf1021d43d0c56fdd48fc324e2f38680ec71fc25993",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich konsistente URLs für Werk, Manifestation und Item damit Links stabil funktionieren. # Kontext - Aktuell inkonsistent (z. B. /work/, /manifestation/, /detail?id=). # Akzeptanzkriterien - Einheitliche URL-Segmentstruktur. - Deep-Link kompatibel."
     },
@@ -2475,10 +2476,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -2493,17 +2496,19 @@
       "title": "RD-01: Rollen- & Rechteverwaltung für redaktionelle Funktionen implementieren",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:06:50Z",
-      "updatedAt": "2025-11-27T17:54:46Z",
+      "updatedAt": "2026-07-14T08:16:49Z",
       "closedAt": "",
       "bodyHash": "b8057d1eaac9b9f7bc4e290e18a2689a5de68362547b8e69a8b4777dda24aed8",
       "bodyExcerpt": "# User Story Als MA einer filmhaltenden Institution möchte ich klar definierte Rollen und Berechtigungen für redaktionelle Funktionen haben, damit nur autorisierte Personen Daten bearbeiten oder freigeben können. # Kontext - Grundvoraussetzung für jedes Redaktionstool. - Muss systemweit einheitlich funktionieren. - Ohne Rollenmodell: keine sichere Bearbeitung möglich. - Dieses Feature beeinflusst weitere Epics (Identifikatoren, Werkpflege, Datenqualität). # Akzeptanzkriterien - Rollenmodell defi"
@@ -2516,10 +2521,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -2534,17 +2541,19 @@
       "title": "RD-02: Änderungs- und Versionshistorie für alle redaktionellen Eingriffe",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:06:59Z",
-      "updatedAt": "2025-11-27T17:54:47Z",
+      "updatedAt": "2026-07-14T08:16:53Z",
       "closedAt": "",
       "bodyHash": "b7d1a6d922163aca33cd74d322f3d578869248ffb2280c6cd156b9b556112dd9",
       "bodyExcerpt": "# User Story Als Editor oder Admin möchte ich nachvollziehen können, wer welche Änderungen an Metadaten vorgenommen hat, damit Fehler, Konflikte oder Missbrauch schnell erkennbar sind. # Kontext - Notwendig für Qualitätssicherung. - Teil von Versionskontrolle und späterer PID-Konformität. - Ermöglicht Undo-/Rollback-Prozesse. # Akzeptanzkriterien - Jede Änderung erzeugt einen Revisionseintrag. - Einträge speichern: Zeitpunkt, Nutzer*in, Änderung, betroffene Felder. - Darstellung auf Werk-, Manif"
@@ -2557,10 +2566,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -2575,17 +2586,19 @@
       "title": "RD-03: Konflikt-Handling bei paralleler Bearbeitung",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:08Z",
-      "updatedAt": "2025-11-27T17:54:47Z",
+      "updatedAt": "2026-07-14T08:16:58Z",
       "closedAt": "",
       "bodyHash": "042c886c31c36fbd51c77de730ad069a2a6179e085d1dc4ebf1f336c66293892",
       "bodyExcerpt": "# User Story Als Editor möchte ich klar darauf hingewiesen werden, wenn ein Datensatz gleichzeitig von jemand anderem bearbeitet wird, damit ich keine Änderungen überschreibe. # Kontext - Noch unklar, ob pessimistic locking oder conflict resolution. - Muss später mit PID-/Versionierung zusammenspielen. # Akzeptanzkriterien - System erkennt parallele Bearbeitungen. - Nutzer*in erhält Hinweis. - Konfiguration, wie Konflikte gehandhabt werden (blockieren, mergen, überschreiben)."
@@ -2598,10 +2611,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Redaktion"
@@ -2615,16 +2630,18 @@
       "title": "RD-04: Redaktionsmodus für Werk-, Manifestations- und Item-Metadaten",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:17Z",
-      "updatedAt": "2025-11-27T17:54:48Z",
+      "updatedAt": "2026-07-14T08:17:02Z",
       "closedAt": "",
       "bodyHash": "69589e18858ed89d370abd7378b39367730b4b2ac64c29513696fbd7b8084429",
       "bodyExcerpt": "# User Story Als Editor möchte ich Metadaten direkt im Frontend bearbeiten können, damit ich Fehler oder Lücken schnell korrigieren kann. # Kontext - Teil des späteren Redaktionstools. - Muss klar vom öffentlichen Modus getrennt sein. # Akzeptanzkriterien - Umschaltbarer Redaktionsmodus. - Inline-Editing oder Formularansicht. - Änderungen werden validiert. - Änderungen werden versioniert (siehe RD-02)."
@@ -2637,10 +2654,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Epic:Redaktion",
@@ -2655,17 +2674,19 @@
       "title": "RD-05: Validierungslogik für Pflicht- und Qualitätsfelder",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Epic:Redaktion",
         "Datenqualität"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:29Z",
-      "updatedAt": "2025-11-27T17:54:48Z",
+      "updatedAt": "2026-07-14T08:17:07Z",
       "closedAt": "",
       "bodyHash": "421d5bd0b359190279ebbab12bc93c2c84834434a978b3550d35f2c20e5d4b61",
       "bodyExcerpt": "# User Story Als Editor/Readkeur:in/MA filmhaltende Institution möchte ich beim Bearbeiten sofort erkennen, wenn Pflichtfelder fehlen oder fehlerhaft sind, damit fehlerhafte Datensätze vermieden werden. # Kontext - Direkt verknüpft mit dem Datenqualitäts-Epic. - Validierungsregeln müssen eindeutig definiert werden. # Akzeptanzkriterien - Pflichtfelder werden serverseitig & clientseitig geprüft. - Fehler werden klar markiert. - Validierungsregeln sind dokumentiert."
@@ -2682,6 +2703,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -2696,6 +2718,7 @@
       "title": "BR-01: Benutzerverwaltung – Rollen müssen definierbar und zuweisbar sein",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
@@ -2706,7 +2729,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:16:01Z",
-      "updatedAt": "2025-11-27T14:13:09Z",
+      "updatedAt": "2026-07-14T08:57:34Z",
       "closedAt": "",
       "bodyHash": "bf68ff00f3935a384a2f66d2d644ca3067b359fc84745703d3c77a0786113244",
       "bodyExcerpt": "# User Story Als Admin einer filmhaltenden Institution möchte ich Benutzerrollen definieren und Nutzern zuweisen können, damit die Rechtevergabe transparent und kontrollierbar bleibt. # Kontext - Essentiell für spätere Redaktions- und Freigabeprozesse. - Grundlage für alle weiteren Berechtigungsfunktionen. # Akzeptanzkriterien - Rollen können erstellt, bearbeitet und gelöscht werden. - Jede Rolle besitzt spezifische Berechtigungen. - Rollen können Benutzer*innen zugewiesen und entzogen werden."
@@ -2723,6 +2746,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -2738,6 +2762,7 @@
       "title": "BR-03: Redakteure müssen Metadatensätze bearbeiten können (Werk/Manifestation/Item)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
@@ -2749,7 +2774,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:16:34Z",
-      "updatedAt": "2025-11-27T14:13:10Z",
+      "updatedAt": "2026-07-14T08:57:39Z",
       "closedAt": "",
       "bodyHash": "89c86fa2c4b030309da72330a56101bfca10996a6608d9e79028ca8f5af74302",
       "bodyExcerpt": "# User Story Als Redakteur*in möchte ich Metadaten auf Werk-, Manifestations- und Itemebene bearbeiten können, damit Daten aktualisiert, ergänzt oder korrigiert werden können. # Kontext - Unklar: vollständiges Redaktionssystem vs. minimale Korrekturansicht? - Muss mit Datenqualität und Identifikatoren abgestimmt werden. # Akzeptanzkriterien - TBD (abhängig von finalem Redaktionsumfang)"
@@ -2766,6 +2791,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Epic:BenutzerRollenRedaktion"
@@ -2779,6 +2805,7 @@
       "title": "BR-04: Änderungen an Metadaten müssen revisionssicher gespeichert werden",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Epic:BenutzerRollenRedaktion"
@@ -2788,7 +2815,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:16:48Z",
-      "updatedAt": "2025-11-27T14:13:10Z",
+      "updatedAt": "2026-07-14T08:57:42Z",
       "closedAt": "",
       "bodyHash": "727f337f07f18386973b4ff3b216c2cb083370cba13f80654ec4e28e60ac676a",
       "bodyExcerpt": "# User Story Als Admin möchte ich, dass jede Änderung an Metadaten (Werke, Manifestationen, Items) versioniert gespeichert wird, damit Fehler rückgängig gemacht und Änderungen nachvollzogen werden können. # Kontext - Grundlage für rechtssichere Datenführung. - In Verbindung mit PID/Epic PID-Verwaltung. # Akzeptanzkriterien - Jede Änderung erzeugt eine neue Version. - Alte Versionen bleiben abrufbar. - UI zeigt Metadatenhistorie."
@@ -2805,6 +2832,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -2820,6 +2848,7 @@
       "title": "BR-05: Redaktioneller Freigabeprozess (Review → Approve → Publish)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
@@ -2831,7 +2860,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:03Z",
-      "updatedAt": "2025-11-27T14:10:43Z",
+      "updatedAt": "2026-07-14T08:57:48Z",
       "closedAt": "",
       "bodyHash": "9533d3dea25e4bc8085359a294aa6174ed6a838a6f82cddbc8f70f2d0b5c4ef7",
       "bodyExcerpt": "# User Story Als Herausgeber-Redakteur*in möchte ich neue oder geänderte Datensätze prüfen und freigeben können, damit nur geprüfte Inhalte öffentlich sichtbar sind. # Kontext - Freigabeprozesse im Projekt noch nicht final spezifiziert. - Kann mehrstufig (2-Augen, 4-Augen) sein. # Akzeptanzkriterien - TBD"
@@ -2848,6 +2877,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:BenutzerRollenRedaktion"
@@ -2861,6 +2891,7 @@
       "title": "BR-06: Nutzerprofil – Basisdaten einsehen & bearbeiten",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:BenutzerRollenRedaktion"
@@ -2870,7 +2901,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:12Z",
-      "updatedAt": "2025-11-27T14:13:11Z",
+      "updatedAt": "2026-07-14T08:57:53Z",
       "closedAt": "",
       "bodyHash": "d7a59d7c6f18bee46a359b0dde1e01099132928250b215309d09c2287d048d57",
       "bodyExcerpt": "# User Story Als angemeldete*r Benutzer*in möchte ich meine grundlegenden Profildaten einsehen und bearbeiten können, damit ich meine Identität und Kontaktdaten aktuell halten kann. # Akzeptanzkriterien - Profilseite mit Name, Institution, E-Mail. - Änderbarkeit eigener Profilfelder (sofern erlaubt)."
@@ -2887,6 +2918,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Epic:BenutzerRollenRedaktion"
@@ -2900,6 +2932,7 @@
       "title": "BR-08: Aktivitätslog für redaktionelle Aktionen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Epic:BenutzerRollenRedaktion"
@@ -2909,7 +2942,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:44Z",
-      "updatedAt": "2025-11-27T14:07:12Z",
+      "updatedAt": "2026-07-14T08:57:57Z",
       "closedAt": "",
       "bodyHash": "10ec17fc4a943b410c146a1d274581f0d01d653a7873593062e81ccbc5979ffe",
       "bodyExcerpt": "# User Story Als Systemadministrator möchte ich nachvollziehen können, welche Benutzer*innen welche redaktionellen Aktionen ausgeführt haben, damit Verantwortlichkeiten und Fehlerquellen identifizierbar bleiben. # Akzeptanzkriterien - Änderungslog pro Datensatz. - Filter: Zeitspanne, Benutzer*in, Datentyp."
@@ -2926,6 +2959,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -2941,6 +2975,7 @@
       "title": "BR-09: Zugriff auf interne Funktionen muss klar geregelt und geprüft sein",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
@@ -2952,7 +2987,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:53Z",
-      "updatedAt": "2025-11-27T14:06:29Z",
+      "updatedAt": "2026-07-14T08:58:02Z",
       "closedAt": "",
       "bodyHash": "fba1306515cfcec169ddd2dc461dd6efba303dcd1796b5bb74840a52bc1cbbbc",
       "bodyExcerpt": "# User Story Als Betreiber der Plattform möchte ich sicherstellen, dass interne Funktionen nur korrekt authentifizierten und autorisierten Rollen zur Verfügung stehen, damit Sicherheitsrisiken ausgeschlossen werden. # Akzeptanzkriterien - Jede interne API prüft Auth & Roles. - Fehlerhafte Rollen → sauberer 403."
@@ -2965,10 +3000,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Redaktion"
@@ -2982,16 +3019,18 @@
       "title": "RD-06: Redaktions-Dashboard für offene Aufgaben und Qualitätsprobleme",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:38Z",
-      "updatedAt": "2026-06-09T11:25:24Z",
+      "updatedAt": "2026-07-14T08:57:28Z",
       "closedAt": "",
       "bodyHash": "f6dff3c204e835ed65325eb9234c34685389dfdbff955d1ee6917839221ce964",
       "bodyExcerpt": "# User Story Als Admin oder Editor möchte ich eine Übersicht über offene redaktionelle Aufgaben und Qualitätsprobleme haben, damit ich gezielt priorisieren und Teams koordinieren kann. # Kontext - Muss Daten aus Datenqualität, Identifikatoren, Import-Checks zusammenführen. - Noch unklar, welche Felder im MVP benötigt werden (UNSCHARF). # Akzeptanzkriterien - Dashboard listet: fehlende Felder, Konflikte, Dubletten, Import-Fehler. - Sortier- und Filterfunktionen vorhanden. - Links springen direkt "
@@ -3008,6 +3047,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -3022,6 +3062,7 @@
       "title": "RECS-01: Ähnliche Filme algorithmisch bestimmen (Basislogik)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
@@ -3032,7 +3073,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:21:40Z",
-      "updatedAt": "2025-11-27T14:05:06Z",
+      "updatedAt": "2026-07-14T08:58:05Z",
       "closedAt": "",
       "bodyHash": "230c336d8e3011ac3f4a16e1a43df5330285efc16408273f5d2f21dde6ef6bd4",
       "bodyExcerpt": "# User Story Als Nutzer*in der Plattform möchte ich, dass AVefi automatisch ähnliche Filme identifiziert, damit ich verwandte Werke finden und meine Recherche vertiefen kann. # Kontext - Das ursprüngliche Konzept war als WONTHAVE markiert - Workshop in Dresden hat \"Ähnliche Filme\" diskturiert - Unklar ist aktuell, ob Ähnlichkeit primär über Inhalte, Metadaten oder „People in Common“ entschieden wird. - Diese Story klärt NUR die algorithmische Basislogik. # Akzeptanzkriterien - **Given** ein Werk"
@@ -3049,6 +3090,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Recommendations"
@@ -3062,6 +3104,7 @@
       "title": "RECS-02: Ähnliche Filme in der Werkansicht anzeigen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Recommendations"
@@ -3071,7 +3114,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:21:50Z",
-      "updatedAt": "2025-11-27T14:05:28Z",
+      "updatedAt": "2026-07-14T08:58:09Z",
       "closedAt": "",
       "bodyHash": "13f114819de79ccab9a16a7fd27c3ce88552150f3e9e17f2e7d994f45fa59a8c",
       "bodyExcerpt": "# User Story Als Benutzer*in möchte ich in der Werkansicht eine kompakte Liste ähnlicher Filme sehen, damit ich schnell zu thematisch oder produktionstechnisch verwandten Werken navigieren kann. # Kontext - Die Anzeige erfolgt in der rechten Spalte oder unterhalb der Manifestationsliste. - Es soll maximal eine Kurzvorschau angezeigt werden (Titel + Jahr + Herausgeber). # Akzeptanzkriterien - **Given** ein Werk hat ähnliche Filme **When** ich die Werkseite öffne **Then** werden bis zu 5 ähnliche "
@@ -3346,6 +3389,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -3361,6 +3405,7 @@
       "title": "FI-01: Duplikate von Filmen erkennen und anzeigen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
@@ -3372,7 +3417,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:28:58Z",
-      "updatedAt": "2025-11-27T17:51:33Z",
+      "updatedAt": "2026-07-14T13:47:36Z",
       "closedAt": "",
       "bodyHash": "2e7bb3579da3a90f0288ab17448ef94575c2eec5dae68bc5d1120d241e292a40",
       "bodyExcerpt": "# User Story Als Mitarbeiter*in einer filmhaltenden Institution möchte ich erkennen können, ob mehrere Film-Metadatensätze eigentlich dasselbe Werk beschreiben, damit Dubletten identifiziert und bereinigt werden können. # Kontext - Ursprüngliche Story war extrem unpräzise formuliert (nur „Dubletten finden“). - API- und Matching-Logik noch ungeklärt. - Unklar: Soll dies automatisch geschehen? Oder manuell angestoßen? - → Daher als **UNSCHARF** markiert. # Akzeptanzkriterien - **Given** es existie"
@@ -3385,8 +3430,9 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino",
-          "EOltmanns"
+          "EOltmanns",
+          "tennismann3000",
+          "C-Stemmler"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
@@ -3410,12 +3456,13 @@
         "Epic:Datenqualität"
       ],
       "assignees": [
-        "steffolino",
-        "EOltmanns"
+        "EOltmanns",
+        "tennismann3000",
+        "C-Stemmler"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:33:03Z",
-      "updatedAt": "2026-07-06T08:52:13Z",
+      "updatedAt": "2026-07-14T13:47:55Z",
       "closedAt": "",
       "bodyHash": "281f8eeeddf32f8b3f75bbed85e03f6cd4e2f185917ef6d71af3e5538449980b",
       "bodyExcerpt": "# User Story Als Nutzer*in der AVefi-Plattform möchte ich auf Werk-Ebene einen klaren Hinweis sehen, wie vollständig die vorhandenen Metadaten sind, damit ich sofort einschätzen kann, wie gut der Datensatz für Recherchezwecke geeignet ist. # Kontext - Bereits mehrfach von Archiven angefragt. - Unterstützt schnelle Beurteilung eines Datensatzes. - Muss konsistent sein mit Manifestations- und Item-Level. # Akzeptanzkriterien - Anzeige eines einheitlichen Vollständigkeitsscores (z. B. 0–100 % oder "
@@ -3425,7 +3472,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
@@ -3438,14 +3485,15 @@
           "Frontend",
           "Epic:Datenqualität"
         ],
-        "Title": "DQ-02: Vollständigkeitsindikator auf Manifestationsebene anzeigen"
+        "Title": "DQ-02: Vollständigkeitsindikator auf Manifestationsebene anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 95,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/95",
       "title": "DQ-02: Vollständigkeitsindikator auf Manifestationsebene anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UserStory",
@@ -3458,8 +3506,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:33:15Z",
-      "updatedAt": "2026-07-06T08:52:10Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T13:35:50Z",
+      "closedAt": "2026-07-14T13:35:50Z",
       "bodyHash": "2a94c8241aad57d073ae731c70503bd8de95bf9a1d77a536a29a8cd83246bdaa",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich zu jeder Manifestation sehen können, wie vollständig deren Felder gefüllt sind, damit ich zwischen gut und schlecht erfassten Manifestationen unterscheiden kann. # Kontext - Manifestationen enthalten viele optionale Felder. - Archivierende möchten Lücken erkennen. # Akzeptanzkriterien - Score pro Manifestation sichtbar. - Tooltip zeigt: „X von Y Feldern vorhanden“. - Lücken (fehlende Felder) müssen klar erkennbar sein."
     },
@@ -3468,7 +3516,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
@@ -3481,14 +3529,15 @@
           "Frontend",
           "Epic:Datenqualität"
         ],
-        "Title": "DQ-03: Vollständigkeitsindikator auf Item-Ebene anzeigen"
+        "Title": "DQ-03: Vollständigkeitsindikator auf Item-Ebene anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 96,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/96",
       "title": "DQ-03: Vollständigkeitsindikator auf Item-Ebene anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UserStory",
@@ -3501,8 +3550,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:33:32Z",
-      "updatedAt": "2025-11-27T17:59:31Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T13:36:20Z",
+      "closedAt": "2026-07-14T13:36:20Z",
       "bodyHash": "8e226ba374979617c1566f5925fea4ae9328add32377ce336a45083a6e8197e9",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich auf Item-Ebene erkennen, welche Informationen fehlen, damit ich einschätzen kann, wie gut ein physisches oder digitales Exemplar erfasst ist. # Kontext - Items sind oft unvollständig (z. B. fehlende Dauer, Extent, Farben). - Archivierende benötigen Klarheit für Digitalisierungsentscheidungen. # Akzeptanzkriterien - Score am Item sichtbar. - Tooltip zeigt fehlende Pflichtfelder an. - Einheitliches UI gegenüber Werk & Manifestation."
     },
@@ -4147,7 +4196,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -4159,14 +4208,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren"
+        "Title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 121,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/121",
       "title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -4177,8 +4227,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:38Z",
-      "updatedAt": "2026-07-06T08:51:39Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T09:09:53Z",
+      "closedAt": "2026-07-14T06:09:58Z",
       "bodyHash": "b5f2b40b877ff287452abcdc874b13e8ccccc38420b962b414ebb3c00ba4b923",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich bei Navigation zwischen Detailseiten meine zuvor gesetzten Filter, Scrollposition und den geöffneten Manifestations-/Item-Abschnitt behalten damit ich effizient vergleichen kann. # Kontext - Aktuell verliert die UI Scrollposition nach Seitenwechsel. - Nutzer*innen müssen neu scrollen oder Facetten wieder öffnen. # Akzeptanzkriterien - Scrollposition im Split-View wird gespeichert. - Geöffnete Panels bleiben geöffnet. - Facetten bleiben aktiv."
     },
@@ -4187,7 +4237,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -4200,14 +4250,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren"
+        "Title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 122,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/122",
       "title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "UNSCHARF",
@@ -4219,8 +4270,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:47Z",
-      "updatedAt": "2026-07-06T08:51:36Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T09:09:57Z",
+      "closedAt": "2026-07-14T06:10:45Z",
       "bodyHash": "70c5ea1254e21c2de55b24d3dcc5b4b2605dbf12b67a6412d584aa07084377af",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich zuverlässig zwischen Werk → Manifestation → Item navigieren können damit ich alle Informationen ohne Kontextverlust einsehen kann. # Kontext - Mehrere Stellen unklar (WorkView / ManifestationSplit / ItemList). - Wird durch komplexe Komponenten-Struktur erschwert. # Akzeptanzkriterien - Genaue Definition erforderlich (UNSCHARF). - Kontext: Stabilität und Erwartbarkeit."
     },
@@ -4229,7 +4280,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino"
@@ -4241,14 +4292,15 @@
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene"
+        "Title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 123,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/123",
       "title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "UserStory",
         "Frontend",
@@ -4259,8 +4311,8 @@
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:58Z",
-      "updatedAt": "2026-07-06T08:51:33Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T09:10:01Z",
+      "closedAt": "2026-07-14T07:02:36Z",
       "bodyHash": "d3f086f41ba21f80da8402a0d2d03f2c5e1e3a0806c32a175e6255666255c268",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich, dass Tabs (z. B. „Metadaten“, „Manifestationen“, „Items“) ihren Zustand behalten damit ich beim Zurück-Navigieren nicht erneut auswählen muss. # Kontext - Teile des Interfaces resetten Tab-Auswahl. - Nutzer*innen verlieren Orientierung. # Akzeptanzkriterien - Tab-State per Route oder localStorage. - Kein Reset beim Zurückblatteln."
     },
@@ -4520,7 +4572,8 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "tennismann3000",
+          "C-Stemmler"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
@@ -4542,11 +4595,12 @@
         "Epic:ManifestationItem"
       ],
       "assignees": [
-        "steffolino"
+        "tennismann3000",
+        "C-Stemmler"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:20:46Z",
-      "updatedAt": "2025-11-27T18:15:51Z",
+      "updatedAt": "2026-07-14T13:47:51Z",
       "closedAt": "",
       "bodyHash": "8211dbec06e8395c90644e3c21ccc943d26eac179a241f37ec17a47dac12d24b",
       "bodyExcerpt": "# User Story Als Benutzer*in möchte ich eine klare Übersicht der Werk-Tektonik erhalten damit ich die Beziehungen zwischen Werk, Manifestationen und Items verstehe. # Unklarheiten (UNSCHARF) - Welche UI-Darstellung wird gewünscht? Baumansicht? Liste? Mix? - Soll dies global gelten oder nur auf Detailseiten? - Wie interaktiv soll die Ansicht sein? # Akzeptanzkriterien (vorläufig) - Manifestationen werden gruppiert unterhalb des Werks angezeigt. - Items werden gruppiert unterhalb ihrer Manifestati"
@@ -4556,7 +4610,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "EOltmanns"
@@ -4569,14 +4623,15 @@
           "Frontend",
           "Epic:Filmidentifikatoren"
         ],
-        "Title": "FI-04: Konflikte oder unklare Identifikatoren anzeigen"
+        "Title": "FI-04: Konflikte oder unklare Identifikatoren anzeigen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 90,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/90",
       "title": "FI-04: Konflikte oder unklare Identifikatoren anzeigen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE",
         "UserStory",
@@ -4589,8 +4644,8 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:28:20Z",
-      "updatedAt": "2025-11-27T17:51:32Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T13:34:52Z",
+      "closedAt": "2026-07-14T13:34:52Z",
       "bodyHash": "963edba98e846d6d4ca579ab34e18d96f34da9f53bbbaed05f277b0e62c880d6",
       "bodyExcerpt": "# User Story Als Benutzer*in möchte ich erkennen, wenn Identifikatoren eines Werkes widersprüchlich oder unvollständig sind, damit ich verstehe, dass der Datensatz potenziell fehlerhaft ist. # Kontext - Original-Story nur angedeutet („Zitation nur PID-Handle?“ → völlig unklar). - Fehlerdefinitionen müssen noch festgelegt werden. # Akzeptanzkriterien - **Given** Identifikatoren stimmen nicht überein **Then** wird ein klarer Hinweis angezeigt. - **Given** ein Identifier kann nicht validiert werden"
     },
@@ -4606,6 +4661,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -4620,6 +4676,7 @@
       "title": "FI-03: Identifikatoren bearbeiten und verwalten (Redaktionssystem)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
@@ -4630,7 +4687,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T18:28:33Z",
-      "updatedAt": "2025-11-27T17:51:32Z",
+      "updatedAt": "2026-07-14T13:47:31Z",
       "closedAt": "",
       "bodyHash": "f78e6fb3fe5cea35dad584f840408c8dc1434237844cc50cbf9ab5933d3c04c2",
       "bodyExcerpt": "# User Story Als Redakteur*in möchte ich Identifikatoren eines Film-Metadatensatzes bearbeiten, hinzufügen oder entfernen können, damit die Datenqualität verbessert und gepflegt werden kann. # Kontext - Nur für berechtigte Nutzer*innen. - Muss PID- und FDO-konform sein (keine ungültigen Mutationen). # Akzeptanzkriterien - **Given** ich bin berechtigt **When** ich einen Identifier bearbeite **Then** wird die Änderung gespeichert und in der Ansicht sichtbar. - **Given** ich entferne einen Identifi"
@@ -5229,7 +5286,7 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "Backlog",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
           "steffolino",
@@ -5240,14 +5297,14 @@
           "SHOULDHAVE"
         ],
         "Title": "EFI-01: EFI-Label im Frontend sichtbarer machen",
-        "Status": "Backlog"
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 174,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/174",
       "title": "EFI-01: EFI-Label im Frontend sichtbarer machen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
         "SHOULDHAVE"
       ],
@@ -5257,8 +5314,8 @@
       ],
       "milestone": "",
       "createdAt": "2026-02-24T10:42:44Z",
-      "updatedAt": "2026-07-07T17:52:07Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T09:59:19Z",
+      "closedAt": "2026-07-14T09:59:19Z",
       "bodyHash": "cb0bb3ba233e46f5e539ba18e105b570c07ca0da024b1c260782a26fe4e424ea",
       "bodyExcerpt": "EFI als zentrales Identifikationsmerkmal im UI konsequenter und prominenter anzeigen. „EFI“ explizit als Label schreiben (nicht nur ID anzeigen) In Suchergebnissen und Detailansichten prüfen Einheitliche Darstellung auf Werk-, Manifestations- und Item-Ebene ggf. als Badge oder mit Tooltip („Persistenter Filmidentifikator“) Ziel: Sichtbarkeit des PID/EFI-Mehrwerts im Interface stärken."
     },
@@ -5603,7 +5660,7 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "tennismann3000"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
@@ -5621,11 +5678,11 @@
         "bug"
       ],
       "assignees": [
-        "steffolino"
+        "tennismann3000"
       ],
       "milestone": "",
       "createdAt": "2026-06-23T08:53:20Z",
-      "updatedAt": "2026-07-06T17:16:55Z",
+      "updatedAt": "2026-07-14T11:09:43Z",
       "closedAt": "",
       "bodyHash": "753b9c199bc4875bdc7b2c5550877037de9659f19ac8bd6ce8514aead3869264",
       "bodyExcerpt": "In einigen Fällen ist die Zuordnung der Normdaten-IDs in der Anzeige fehlerhaft, während sie in den Daten korrekt ist. Meine Vermutung ist, dass sie um eine Stelle verrutscht sind, den Auslöser habe ich aber nicht gefunden. Beispiele: https://www.av-efi.net/res/21.11155/B1DEAF67-6BFA-4B9A-A0C5-A99E7C5A2176 Siehe hier sämtliche Identifier, außer dem TGN für den Ort. Bei Hansen, Joachim wird dann auch zusätzlich das GND-Icon an der Stelle der Filmportal-ID angezeigt, was sich vermutlich daraus erk"

@@ -1,6 +1,6 @@
 # Project 1 Initial Classification Summary
 
-Generated: 2026-07-13T15:28:21.620Z
+Generated: 2026-07-14T13:48:35.239Z
 
 Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/AV-EFI/projects/1)
 
@@ -9,14 +9,14 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 - Classified items: 145
 - Items needing human review: 141
 - Missing assignees: 0
-- Missing project status: 49
+- Missing project status: 41
 
 ## Audit Buckets
 
 | Bucket | Count |
 | --- | --- |
-| implemented_candidate | 78 |
-| domain_logic_needed | 52 |
+| implemented_candidate | 89 |
+| domain_logic_needed | 41 |
 | backend_or_data_needed | 5 |
 | frontend_work | 4 |
 | duplicate_candidate | 3 |
@@ -43,7 +43,7 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 
 | Issue | Bucket | Owner area | Title |
 | --- | --- | --- | --- |
-| AV-EFI/AVefi-Issues#214 | domain_logic_needed | Product/domain decision | Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich Seiten zur Projektvorstellung und die Landing Page redaktionell bearbeiten können  (User Story ID 10) |
+| AV-EFI/AVefi-Issues#214 | implemented_candidate | Product/domain decision | Filmidentifikatorenansicht & Redaktionssystem:: Als MA einer filmhaltenden Institution möchte ich Seiten zur Projektvorstellung und die Landing Page redaktionell bearbeiten können  (User Story ID 10) |
 | AV-EFI/AVefi-Issues#58 | domain_logic_needed | Product/domain decision | Redaktionelle Bearbeitung von Datensätzen |
 | AV-EFI/AVefi-Issues#60 | domain_logic_needed | Product/domain decision | Datenherkunft / Herausgeber anzeigen |
 | AV-EFI/AVefi-Issues#61 | domain_logic_needed | Product/domain decision | Ähnliche Datensätze / Empfehlungssystem |

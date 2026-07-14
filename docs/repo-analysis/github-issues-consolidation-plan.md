@@ -2,7 +2,7 @@
 
 This guide documents the planned consolidation work for the AV-EFI GitHub issue backlog and project boards. It is intended to keep the cleanup reproducible, evidence-based, and safe to resume over multiple sessions.
 
-Last checked: 2026-07-13.
+Last checked: 2026-07-14.
 
 ## Scope
 
@@ -75,16 +75,16 @@ Current inventory snapshot after the 2026-07-13 cleanup pass:
 - Project items reported by GitHub: `145`
 - Project items exported: `145`
 - Issue items exported: `145`
-- Open issues in project snapshot: `67`
-- Closed issues in project snapshot: `78`
+- Open issues in project snapshot: `56`
+- Closed issues in project snapshot: `89`
 - Missing assignees: `0`
-- Missing labels: `18`
+- Missing labels: `17`
 - Missing milestone: `122`
-- Missing project status: `49`
+- Missing project status: `41`
 - Duplicate issue references in project snapshot: `0`
 - Repositories in Project 1 snapshot: `AV-EFI/AVefi-Issues` `145`, `AV-EFI/frontend` `0`
 
-The inventory pass itself does not change GitHub state. The 2026-07-06 cleanup pass transferred all remaining `AV-EFI/frontend` issues into `AV-EFI/AVefi-Issues`. A later 2026-07-06 board cleanup moved all open issues from Project 3 / Public Release Board into Project 1 / ALL USER STORIES, added German audit comments, and removed those Project 3 items. The old `sync-by-unito[bot]` imported issues were also assigned to `steffolino` with German audit comments because GitHub does not allow replacing the original issue author. The 2026-07-13 cleanup pass added canonical `#218` to Project 1, closed duplicate `#219`, closed malformed transfer `#217`, closed duplicate `#216` in favor of canonical `#49`, and later closed triaged issues `#64`, `#66`, `#98`, `#101`, `#102`, `#107`, `#166`, `#188`, `#199`, `#203`, `#212`, and `#218`; user also closed `#99`, `#104`, `#106`, `#120`, and `#149`.
+The inventory pass itself does not change GitHub state. The 2026-07-06 cleanup pass transferred all remaining `AV-EFI/frontend` issues into `AV-EFI/AVefi-Issues`. A later 2026-07-06 board cleanup moved all open issues from Project 3 / Public Release Board into Project 1 / ALL USER STORIES, added German audit comments, and removed those Project 3 items. The old `sync-by-unito[bot]` imported issues were also assigned to `steffolino` with German audit comments because GitHub does not allow replacing the original issue author. The 2026-07-13 cleanup pass added canonical `#218` to Project 1, closed duplicate `#219`, closed malformed transfer `#217`, closed duplicate `#216` in favor of canonical `#49`, and later closed triaged issues `#64`, `#66`, `#98`, `#101`, `#102`, `#107`, `#166`, `#188`, `#199`, `#203`, `#212`, and `#218`; user also closed `#99`, `#104`, `#106`, `#120`, and `#149`. On 2026-07-14, open issues `#129`-`#134`, `#136`, `#138`-`#141`, and `#143`-`#146` were marked/commented as blocked by `#153` and assigned to `EOltmanns`. A mistaken same treatment of already-closed `#121`, `#122`, `#123`, `#126`, and `#127` was undone the same day: `EOltmanns`, `B L O C K E D`, and the misleading triage comments were removed again.
 
 Step 2 initial classification started on 2026-06-30.
 
@@ -98,8 +98,8 @@ Current classification snapshot:
 
 - Classified items: `145`
 - Items needing human review: `141`
-- `implemented_candidate`: `78`
-- `domain_logic_needed`: `52`
+- `implemented_candidate`: `83`
+- `domain_logic_needed`: `47`
 - `backend_or_data_needed`: `5`
 - `frontend_work`: `4`
 - `duplicate_candidate`: `3`
@@ -119,11 +119,11 @@ Generated files:
 Current codebase cross-check snapshot:
 
 - Items cross-checked: `145`
-- Items in frontend/implementation review scope: `84`
-- Items with local evidence matches: `82`
+- Items in frontend/implementation review scope: `89`
+- Items with local evidence matches: `87`
 - Items with no local evidence matches: `2`
-- `blocked_external`: `61`
-- `implemented_but_untested`: `74`
+- `blocked_external`: `56`
+- `implemented_but_untested`: `79`
 - `partial`: `5`
 - `implemented`: `3`
 - `not_found`: `2`
@@ -137,18 +137,29 @@ Generated files:
 - `docs/repo-analysis/github-issues-inventory/project-1-review-batches.json`
 - `docs/repo-analysis/github-issues-inventory/project-1-review-batches.csv`
 - `docs/repo-analysis/github-issues-inventory/project-1-review-batches.md`
+- `docs/repo-analysis/github-issues-inventory/project-1-triage-decisions.json`
 
 Manual review notes:
 
 - `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-01.md`
 - `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-06.md`
 - `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-13.md`
+- `docs/repo-analysis/github-issues-inventory/project-1-review-decisions-2026-07-14.md`
 
-The review batch pass ranks local evidence quality and splits issue proposals into small, conservative groups. After the 2026-07-13 cleanup pass, the current generated review batch contains:
+The review batch pass ranks local evidence quality and splits issue proposals into small, conservative groups. As of 2026-07-14, it also skips open issues recorded in `project-1-triage-decisions.json` so already-decided, waiting, parked, low-priority, or correctly routed issues do not keep reappearing in generated triage batches. The batch generator overlays fresh state/assignee/label metadata from `project-1-items.json` onto the cross-check evidence snapshot, so recently closed issues do not reappear only because the code cross-check file is older.
+
+After the 2026-07-14 triage-decision skip update, the current generated review batch contains:
 
 - `verification_candidates`: `0`
-- `frontend_triage`: `6`
-- `owner_routing`: `10`
+- `frontend_triage`: `0`
+- `owner_routing`: `0`
+- Open issues skipped by documented triage decisions: `50`
+
+Next manual follow-up for 2026-07-15:
+
+- Review content-to-assignee mismatches that are not covered by the generated batch: `#58`, `#61`, `#62`, `#63`, `#129`, `#130`, `#131`, `#133`, and `#215`.
+- `#58` is also blocked by Keycloak/Auth integration.
+- Check whether Stefan should remain co-assigned on backend/auth-heavy issues once they are clearly blocked or routed.
 
 Batch meanings:
 
@@ -431,6 +442,7 @@ Initial planned changes, pending inventory:
 - Every issue update should have a reason.
 - Every close action should have a linked replacement, implementation reference, or explicit decision.
 - Every assignment should be tied to an owner area.
+- If an issue is not assigned to `steffolino`, a last comment by `steffolino` is not enough to treat it as Stefan-owned follow-up work.
 - Avoid changing board status and issue labels in the same batch unless the relationship is obvious.
 - Preserve history: comment before closing when the reason is not trivial.
 

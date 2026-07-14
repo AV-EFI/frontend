@@ -2,7 +2,7 @@
 
 Generated: 2026-07-06
 
-Updated: 2026-07-13 after duplicate/orphan cleanup and frontend/owner triage through the Project 1 cleanup pass.
+Updated: 2026-07-14 after duplicate/orphan cleanup, frontend/owner triage, and the `#153` blocked-assignment pass.
 
 This report consolidates context from the AV-EFI Phase 1 proposal, the AVefi Plus Phase 2 proposal, the Phase 1 project/time-plan attachment, and the current GitHub Project 1 issue inventory. Project 1 means `AVefi User Stories Kanban (ALL User Stories)`, not the Public Release Board. It is intended as a proposal for the next cleanup batch.
 
@@ -23,13 +23,13 @@ The PDF extraction was text-based via `pypdf`; page references are approximate b
 Project 1 / `AVefi User Stories Kanban (ALL User Stories)` snapshot after the latest cleanup refresh:
 
 - Project items: `145`
-- Open issues in Project 1: `67`
-- Closed issues in Project 1: `78`
+- Open issues in Project 1: `56`
+- Closed issues in Project 1: `89`
 - Repository coverage: all Project 1 items are now in `AV-EFI/AVefi-Issues`
 - Missing assignees: `0`
-- Missing labels: `18`
+- Missing labels: `17`
 - Missing milestone: `122`
-- Missing project status: `49`
+- Missing project status: `41`
 
 Important board hygiene finding:
 
@@ -39,6 +39,11 @@ Important board hygiene finding:
 - `#217` was closed as a malformed transferred duplicate/orphan: its title duplicated closed `#220`, while its body mapped to export work already represented by open `#150` and historical closed `#221`.
 - Project 3 / `AVefi: Public Release Board` is no longer the working board after the June 2026 public release. On 2026-07-06, open Project 3 issues `#152`, `#158`, `#161`, `#182`, `#194`, `#202`, `#203`, and `#207` were confirmed in/transferred to Project 1, commented in German with the cleanup rationale, and removed from Project 3. Project 3 now has `0` open issues; remaining items are closed/historical and were left untouched in that pass.
 - Old `sync-by-unito[bot]` imported issues were assigned to `steffolino` and received a German audit comment. The original bot author cannot be replaced in GitHub, so this records practical ownership instead.
+- On 2026-07-14, open redaction/auth-dependent issues `#129`-`#134`, `#136`, `#138`-`#141`, and `#143`-`#146` were documented as blocked by `#153` and assigned to `EOltmanns`. A mistaken same treatment of already-closed `#121`, `#122`, `#123`, `#126`, and `#127` was undone the same day.
+- Also on 2026-07-14, `#148`, `#150`, `#151`, `#152`, `#153`, `#154`, `#161`, `#170`, and `#182` were documented as already routed, active, waiting for other groups, implemented/low-priority, or not Stefan-owned. `#174` was verified as already closed. A last comment by `steffolino` is not treated as ownership when an issue is assigned elsewhere.
+- Later on 2026-07-14, `#194`, `#202`, and `#207` were documented as low-priority/as-is, not Stefan-owned, or already assigned to `tennismann3000`; `#214` was verified closed; `#215` was commented as blocked by `#153`, assigned to `EOltmanns`, and labeled `B L O C K E D`.
+- A final strict routing pass on 2026-07-14 closed obsolete `#46`, routed backend/blocker work (`#49`, `#52`, `#75`, `#77`, `#78`, `#79`, `#91`, `#93`) to `EOltmanns`, and routed domain/product-decision work (`#50`, `#60`, `#81`, `#86`, `#94`) to `C-Stemmler`/`tennismann3000` as appropriate. The generated owner-routing batch is now empty.
+- A read-only content-to-assignee check on 2026-07-14 identified follow-up candidates for 2026-07-15: `#58` is also blocked by Keycloak/Auth integration; `#61`, `#62`, and `#63` need ownership/scope review; Stefan co-assignment on backend/auth-heavy `#129`, `#130`, `#131`, `#133`, and `#215` should be reviewed.
 
 ## Phase 1 AP Extraction
 

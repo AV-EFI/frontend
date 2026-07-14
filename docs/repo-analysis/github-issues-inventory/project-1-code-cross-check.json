@@ -11815,44 +11815,49 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-08: Navigation zwischen Manifestationen im Split-View"
+        "Title": "NC-08: Navigation zwischen Manifestationen im Split-View",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 126,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/126",
       "title": "NC-08: Navigation zwischen Manifestationen im Split-View",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:04:33Z",
-      "updatedAt": "2026-07-06T08:51:25Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T08:16:40Z",
+      "closedAt": "2026-07-14T07:03:19Z",
       "bodyHash": "8cf26e7ac4ce63dbff8865a7c573a98d07b43f4aa0e013af0a9f25970928afb6",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich im Manifestation-Split-View bequem zwischen Manifestationen wechseln können damit Vergleich und Analyse schneller laufen. # Kontext - Aktuell unklar, wie Navigation zwischen Manifestationen funktionieren soll. # Akzeptanzkriterien - Vor/Zurück-Navigation in Split-View. - Keyboard Support.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "nc-08",
@@ -11864,8 +11869,8 @@
         "frontend"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "nc-08",
         "navigation",
@@ -11873,13 +11878,206 @@
         "manifestationen",
         "split-view",
         "userstory",
+        "b l o c k e d",
         "epic navigation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\components\\detail\\PaginationComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\BreadcrumbsComp.vue",
+          "line": 7,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 274,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "$toast?.error?.($t('comparisonNavigationError'));"
+        },
+        {
+          "file": ".\\components\\global\\NavBar.vue",
+          "line": 280,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "const ariaLabelMainNav = computed(() => t('mainNavigation'));"
+        },
+        {
+          "file": ".\\components\\input\\VueSlider.vue",
+          "line": 230,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Keep local and applied state in sync with route changes coming from browser navigation"
+        },
+        {
+          "file": ".\\components\\search\\SearchListViewComp.vue",
+          "line": 232,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// giving a single reactive trigger for both IS-driven and browser-navigation changes."
+        },
+        {
+          "file": ".\\components\\search\\SearchListViewComp.vue",
+          "line": 357,
+          "kind": "code",
+          "terms": [
+            "split-view"
+          ],
+          "text": "// Keep split-view data strictly tied to server payload."
+        },
+        {
+          "file": ".\\components\\views\\CompilationViewCompAVefi.vue",
+          "line": 35,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Enable hash navigation for manifestations and items"
+        },
+        {
+          "file": ".\\components\\views\\NormDataSearchOverview.vue",
+          "line": 275,
+          "kind": "code",
+          "terms": [
+            "manifestationen"
+          ],
+          "text": "const manifestationEntries = computed(() => collectManifestations(props.doc));"
+        },
+        {
+          "file": ".\\components\\views\\NormDataSearchOverview.vue",
+          "line": 280,
+          "kind": "code",
+          "terms": [
+            "manifestationen"
+          ],
+          "text": "manifestations: { entries: manifestationEntries.value },"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":class=\"desktopDrawerOpen ? 'left-0' : 'left-6'\" :title=\"$t('toggleNavigation')\""
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 6,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":aria-label=\"$t('toggleNavigation')\">"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 14,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "<span class=\"font-semibold p-2\">{{ $t('workNavigation') }}</span>"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 21,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "'comparisonNavigationError': 'Der Vergleich konnte nicht geoeffnet werden. Bitte pruefen Sie die ausgewaehlten Eintraege.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 22,
+          "kind": "code",
+          "terms": [
+            "zwischen"
+          ],
+          "text": "'clipboardCopySuccess': 'In die Zwischenablage kopiert.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 23,
+          "kind": "code",
+          "terms": [
+            "zwischen"
+          ],
+          "text": "'clipboardCopyError': 'Kopieren in die Zwischenablage fehlgeschlagen.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 40,
+          "kind": "code",
+          "terms": [
+            "manifestationen"
+          ],
+          "text": "\"manifestations\": \"Manifestationen\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 56,
+          "kind": "code",
+          "terms": [
+            "manifestationen"
+          ],
+          "text": "\"lead\": \"AVefi ist ein Verbundsystem, das Filmbestände verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhal"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 131,
+          "kind": "code",
+          "terms": [
+            "zwischen"
+          ],
+          "text": "\"Die Plattform bündelt filmbezogene Metadaten und unterscheidet dabei zwischen Filmwerk, Manifestation und Exemplar. Dadurch lassen sich Archivbestände präzise zuordnen und verglei"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 138,
+          "kind": "code",
+          "terms": [
+            "manifestationen"
+          ],
+          "text": "'AVefi ist ein Verbundsystem für Filmbestände aus unterschiedlichen Institutionen. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen un"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#126",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\components\\detail\\PaginationComp.vue",
+        ".\\components\\global\\BreadcrumbsComp.vue",
+        ".\\components\\global\\ComparisonDrawer.vue",
+        ".\\components\\global\\NavBar.vue",
+        ".\\components\\input\\VueSlider.vue",
+        ".\\components\\search\\SearchListViewComp.vue",
+        ".\\components\\views\\CompilationViewCompAVefi.vue",
+        ".\\components\\views\\NormDataSearchOverview.vue",
+        ".\\components\\views\\WorkViewCompAVefi.vue",
+        ".\\i18n\\locales\\de.ts"
+      ],
       "searchTerms": [
         "nc-08",
         "navigation",
@@ -11887,6 +12085,7 @@
         "manifestationen",
         "split-view",
         "userstory",
+        "b l o c k e d",
         "epic navigation"
       ]
     },
@@ -11895,46 +12094,51 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Frontend",
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-09: URL-Struktur für Navigation vereinheitlichen"
+        "Title": "NC-09: URL-Struktur für Navigation vereinheitlichen",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 127,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/127",
       "title": "NC-09: URL-Struktur für Navigation vereinheitlichen",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Frontend",
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:04:45Z",
-      "updatedAt": "2026-07-06T08:51:22Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T08:16:45Z",
+      "closedAt": "2026-07-14T08:09:21Z",
       "bodyHash": "bb5800e4b3f869fafd0d0bf1021d43d0c56fdd48fc324e2f38680ec71fc25993",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich konsistente URLs für Werk, Manifestation und Item damit Links stabil funktionieren. # Kontext - Aktuell inkonsistent (z. B. /work/, /manifestation/, /detail?id=). # Akzeptanzkriterien - Einheitliche URL-Segmentstruktur. - Deep-Link kompatibel.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "nc-09",
@@ -11946,8 +12150,8 @@
         "frontend"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "nc-09",
         "url-struktur",
@@ -11955,13 +12159,208 @@
         "vereinheitlichen",
         "userstory",
         "backend",
+        "b l o c k e d",
         "epic navigation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 48,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "/** payload from backend decorator */"
+        },
+        {
+          "file": ".\\components\\detail\\PaginationComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\BreadcrumbsComp.vue",
+          "line": 7,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 274,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "$toast?.error?.($t('comparisonNavigationError'));"
+        },
+        {
+          "file": ".\\components\\global\\NavBar.vue",
+          "line": 280,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "const ariaLabelMainNav = computed(() => t('mainNavigation'));"
+        },
+        {
+          "file": ".\\components\\input\\VueSlider.vue",
+          "line": 230,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Keep local and applied state in sync with route changes coming from browser navigation"
+        },
+        {
+          "file": ".\\components\\search\\InstantSearchTemplateAVefi.vue",
+          "line": 82,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "v-if=\"searchBackendError\""
+        },
+        {
+          "file": ".\\components\\search\\InstantSearchTemplateAVefi.vue",
+          "line": 88,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "<span>{{ $t('searchBackendError') }}</span>"
+        },
+        {
+          "file": ".\\components\\search\\InstantSearchTemplateAVefi.vue",
+          "line": 874,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "function mapFacetAttributeForBackend(attribute: string) {"
+        },
+        {
+          "file": ".\\components\\search\\SearchListViewComp.vue",
+          "line": 232,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// giving a single reactive trigger for both IS-driven and browser-navigation changes."
+        },
+        {
+          "file": ".\\components\\views\\CompilationViewCompAVefi.vue",
+          "line": 35,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Enable hash navigation for manifestations and items"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":class=\"desktopDrawerOpen ? 'left-0' : 'left-6'\" :title=\"$t('toggleNavigation')\""
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 6,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":aria-label=\"$t('toggleNavigation')\">"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 14,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "<span class=\"font-semibold p-2\">{{ $t('workNavigation') }}</span>"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewEditor.vue",
+          "line": 2,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "<!-- disable until backend done -->"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewEditor.vue",
+          "line": 353,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "/* @TODO: refactor when backend done */"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 10,
+          "kind": "code",
+          "terms": [
+            "backend"
+          ],
+          "text": "'searchBackendError': 'Die Suche ist voruebergehend nicht verfuegbar. Bitte versuchen Sie es gleich erneut.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 21,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "'comparisonNavigationError': 'Der Vergleich konnte nicht geoeffnet werden. Bitte pruefen Sie die ausgewaehlten Eintraege.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 278,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "\"mainNavigation\": \"Hauptnavigation\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 581,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "'workNavigation': 'Werk-Navigation',"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#127",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\components\\detail\\GenericKVView.vue",
+        ".\\components\\detail\\PaginationComp.vue",
+        ".\\components\\global\\BreadcrumbsComp.vue",
+        ".\\components\\global\\ComparisonDrawer.vue",
+        ".\\components\\global\\NavBar.vue",
+        ".\\components\\input\\VueSlider.vue",
+        ".\\components\\search\\InstantSearchTemplateAVefi.vue",
+        ".\\components\\search\\SearchListViewComp.vue",
+        ".\\components\\views\\CompilationViewCompAVefi.vue",
+        ".\\components\\views\\WorkViewCompAVefi.vue",
+        ".\\components\\views\\WorkViewEditor.vue",
+        ".\\i18n\\locales\\de.ts"
+      ],
       "searchTerms": [
         "nc-09",
         "url-struktur",
@@ -11969,6 +12368,7 @@
         "vereinheitlichen",
         "userstory",
         "backend",
+        "b l o c k e d",
         "epic navigation"
       ]
     },
@@ -12257,10 +12657,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -12275,17 +12677,19 @@
       "title": "RD-01: Rollen- & Rechteverwaltung für redaktionelle Funktionen implementieren",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:06:50Z",
-      "updatedAt": "2025-11-27T17:54:46Z",
+      "updatedAt": "2026-07-14T08:16:49Z",
       "closedAt": "",
       "bodyHash": "b8057d1eaac9b9f7bc4e290e18a2689a5de68362547b8e69a8b4777dda24aed8",
       "bodyExcerpt": "# User Story Als MA einer filmhaltenden Institution möchte ich klar definierte Rollen und Berechtigungen für redaktionelle Funktionen haben, damit nur autorisierte Personen Daten bearbeiten oder freigeben können. # Kontext - Grundvoraussetzung für jedes Redaktionstool. - Muss systemweit einheitlich funktionieren. - Ohne Rollenmodell: keine sichere Bearbeitung möglich. - Dieses Feature beeinflusst weitere Epics (Identifikatoren, Werkpflege, Datenqualität). # Akzeptanzkriterien - Rollenmodell defi",
@@ -12321,6 +12725,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ],
       "codeMatches": [],
@@ -12340,6 +12745,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ]
     },
@@ -12351,10 +12757,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -12369,17 +12777,19 @@
       "title": "RD-02: Änderungs- und Versionshistorie für alle redaktionellen Eingriffe",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:06:59Z",
-      "updatedAt": "2025-11-27T17:54:47Z",
+      "updatedAt": "2026-07-14T08:16:53Z",
       "closedAt": "",
       "bodyHash": "b7d1a6d922163aca33cd74d322f3d578869248ffb2280c6cd156b9b556112dd9",
       "bodyExcerpt": "# User Story Als Editor oder Admin möchte ich nachvollziehen können, wer welche Änderungen an Metadaten vorgenommen hat, damit Fehler, Konflikte oder Missbrauch schnell erkennbar sind. # Kontext - Notwendig für Qualitätssicherung. - Teil von Versionskontrolle und späterer PID-Konformität. - Ermöglicht Undo-/Rollback-Prozesse. # Akzeptanzkriterien - Jede Änderung erzeugt einen Revisionseintrag. - Einträge speichern: Zeitpunkt, Nutzer*in, Änderung, betroffene Felder. - Darstellung auf Werk-, Manif",
@@ -12414,6 +12824,7 @@
         "edit",
         "editor",
         "alle",
+        "b l o c k e d",
         "epic redaktion"
       ],
       "codeMatches": [],
@@ -12433,6 +12844,7 @@
         "edit",
         "editor",
         "alle",
+        "b l o c k e d",
         "epic redaktion"
       ]
     },
@@ -12444,10 +12856,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -12462,17 +12876,19 @@
       "title": "RD-03: Konflikt-Handling bei paralleler Bearbeitung",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:08Z",
-      "updatedAt": "2025-11-27T17:54:47Z",
+      "updatedAt": "2026-07-14T08:16:58Z",
       "closedAt": "",
       "bodyHash": "042c886c31c36fbd51c77de730ad069a2a6179e085d1dc4ebf1f336c66293892",
       "bodyExcerpt": "# User Story Als Editor möchte ich klar darauf hingewiesen werden, wenn ein Datensatz gleichzeitig von jemand anderem bearbeitet wird, damit ich keine Änderungen überschreibe. # Kontext - Noch unklar, ob pessimistic locking oder conflict resolution. - Muss später mit PID-/Versionierung zusammenspielen. # Akzeptanzkriterien - System erkennt parallele Bearbeitungen. - Nutzer*in erhält Hinweis. - Konfiguration, wie Konflikte gehandhabt werden (blockieren, mergen, überschreiben).",
@@ -12505,6 +12921,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ],
       "codeMatches": [],
@@ -12523,6 +12940,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ]
     },
@@ -12534,10 +12952,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Redaktion"
@@ -12551,16 +12971,18 @@
       "title": "RD-04: Redaktionsmodus für Werk-, Manifestations- und Item-Metadaten",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:17Z",
-      "updatedAt": "2025-11-27T17:54:48Z",
+      "updatedAt": "2026-07-14T08:17:02Z",
       "closedAt": "",
       "bodyHash": "69589e18858ed89d370abd7378b39367730b4b2ac64c29513696fbd7b8084429",
       "bodyExcerpt": "# User Story Als Editor möchte ich Metadaten direkt im Frontend bearbeiten können, damit ich Fehler oder Lücken schnell korrigieren kann. # Kontext - Teil des späteren Redaktionstools. - Muss klar vom öffentlichen Modus getrennt sein. # Akzeptanzkriterien - Umschaltbarer Redaktionsmodus. - Inline-Editing oder Formularansicht. - Änderungen werden validiert. - Änderungen werden versioniert (siehe RD-02).",
@@ -12592,6 +13014,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ],
       "codeMatches": [],
@@ -12609,6 +13032,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ]
     },
@@ -12620,10 +13044,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Epic:Redaktion",
@@ -12638,17 +13064,19 @@
       "title": "RD-05: Validierungslogik für Pflicht- und Qualitätsfelder",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Epic:Redaktion",
         "Datenqualität"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:29Z",
-      "updatedAt": "2025-11-27T17:54:48Z",
+      "updatedAt": "2026-07-14T08:17:07Z",
       "closedAt": "",
       "bodyHash": "421d5bd0b359190279ebbab12bc93c2c84834434a978b3550d35f2c20e5d4b61",
       "bodyExcerpt": "# User Story Als Editor/Readkeur:in/MA filmhaltende Institution möchte ich beim Bearbeiten sofort erkennen, wenn Pflichtfelder fehlen oder fehlerhaft sind, damit fehlerhafte Datensätze vermieden werden. # Kontext - Direkt verknüpft mit dem Datenqualitäts-Epic. - Validierungsregeln müssen eindeutig definiert werden. # Akzeptanzkriterien - Pflichtfelder werden serverseitig & clientseitig geprüft. - Fehler werden klar markiert. - Validierungsregeln sind dokumentiert.",
@@ -12681,6 +13109,7 @@
         "edit",
         "editor",
         "datenqualitat",
+        "b l o c k e d",
         "epic redaktion"
       ],
       "codeMatches": [],
@@ -12699,6 +13128,7 @@
         "edit",
         "editor",
         "datenqualitat",
+        "b l o c k e d",
         "epic redaktion"
       ]
     },
@@ -12714,6 +13144,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -12728,6 +13159,7 @@
       "title": "BR-01: Benutzerverwaltung – Rollen müssen definierbar und zuweisbar sein",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
@@ -12738,7 +13170,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:16:01Z",
-      "updatedAt": "2025-11-27T14:13:09Z",
+      "updatedAt": "2026-07-14T08:57:34Z",
       "closedAt": "",
       "bodyHash": "bf68ff00f3935a384a2f66d2d644ca3067b359fc84745703d3c77a0786113244",
       "bodyExcerpt": "# User Story Als Admin einer filmhaltenden Institution möchte ich Benutzerrollen definieren und Nutzern zuweisen können, damit die Rechtevergabe transparent und kontrollierbar bleibt. # Kontext - Essentiell für spätere Redaktions- und Freigabeprozesse. - Grundlage für alle weiteren Berechtigungsfunktionen. # Akzeptanzkriterien - Rollen können erstellt, bearbeitet und gelöscht werden. - Jede Rolle besitzt spezifische Berechtigungen. - Rollen können Benutzer*innen zugewiesen und entzogen werden.",
@@ -12773,6 +13205,7 @@
         "backend",
         "benutzerrollenredaktion",
         "sein",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -12791,6 +13224,7 @@
         "backend",
         "benutzerrollenredaktion",
         "sein",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -12806,6 +13240,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -12821,6 +13256,7 @@
       "title": "BR-03: Redakteure müssen Metadatensätze bearbeiten können (Werk/Manifestation/Item)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
@@ -12832,7 +13268,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:16:34Z",
-      "updatedAt": "2025-11-27T14:13:10Z",
+      "updatedAt": "2026-07-14T08:57:39Z",
       "closedAt": "",
       "bodyHash": "89c86fa2c4b030309da72330a56101bfca10996a6608d9e79028ca8f5af74302",
       "bodyExcerpt": "# User Story Als Redakteur*in möchte ich Metadaten auf Werk-, Manifestations- und Itemebene bearbeiten können, damit Daten aktualisiert, ergänzt oder korrigiert werden können. # Kontext - Unklar: vollständiges Redaktionssystem vs. minimale Korrekturansicht? - Muss mit Datenqualität und Identifikatoren abgestimmt werden. # Akzeptanzkriterien - TBD (abhängig von finalem Redaktionsumfang)",
@@ -12868,6 +13304,7 @@
         "unscharf",
         "werk",
         "item",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -12887,6 +13324,7 @@
         "unscharf",
         "werk",
         "item",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -12902,6 +13340,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Epic:BenutzerRollenRedaktion"
@@ -12915,6 +13354,7 @@
       "title": "BR-04: Änderungen an Metadaten müssen revisionssicher gespeichert werden",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Epic:BenutzerRollenRedaktion"
@@ -12924,7 +13364,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:16:48Z",
-      "updatedAt": "2025-11-27T14:13:10Z",
+      "updatedAt": "2026-07-14T08:57:42Z",
       "closedAt": "",
       "bodyHash": "727f337f07f18386973b4ff3b216c2cb083370cba13f80654ec4e28e60ac676a",
       "bodyExcerpt": "# User Story Als Admin möchte ich, dass jede Änderung an Metadaten (Werke, Manifestationen, Items) versioniert gespeichert wird, damit Fehler rückgängig gemacht und Änderungen nachvollzogen werden können. # Kontext - Grundlage für rechtssichere Datenführung. - In Verbindung mit PID/Epic PID-Verwaltung. # Akzeptanzkriterien - Jede Änderung erzeugt eine neue Version. - Alte Versionen bleiben abrufbar. - UI zeigt Metadatenhistorie.",
@@ -12959,6 +13399,7 @@
         "userstory",
         "backend",
         "benutzerrollenredaktion",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -12977,6 +13418,7 @@
         "userstory",
         "backend",
         "benutzerrollenredaktion",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -12992,6 +13434,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -13007,6 +13450,7 @@
       "title": "BR-05: Redaktioneller Freigabeprozess (Review → Approve → Publish)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
@@ -13018,7 +13462,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:03Z",
-      "updatedAt": "2025-11-27T14:10:43Z",
+      "updatedAt": "2026-07-14T08:57:48Z",
       "closedAt": "",
       "bodyHash": "9533d3dea25e4bc8085359a294aa6174ed6a838a6f82cddbc8f70f2d0b5c4ef7",
       "bodyExcerpt": "# User Story Als Herausgeber-Redakteur*in möchte ich neue oder geänderte Datensätze prüfen und freigeben können, damit nur geprüfte Inhalte öffentlich sichtbar sind. # Kontext - Freigabeprozesse im Projekt noch nicht final spezifiziert. - Kann mehrstufig (2-Augen, 4-Augen) sein. # Akzeptanzkriterien - TBD",
@@ -13052,6 +13496,7 @@
         "userstory",
         "backend",
         "unscharf",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -13069,6 +13514,7 @@
         "userstory",
         "backend",
         "unscharf",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -13084,6 +13530,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:BenutzerRollenRedaktion"
@@ -13097,6 +13544,7 @@
       "title": "BR-06: Nutzerprofil – Basisdaten einsehen & bearbeiten",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:BenutzerRollenRedaktion"
@@ -13106,7 +13554,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:12Z",
-      "updatedAt": "2025-11-27T14:13:11Z",
+      "updatedAt": "2026-07-14T08:57:53Z",
       "closedAt": "",
       "bodyHash": "d7a59d7c6f18bee46a359b0dde1e01099132928250b215309d09c2287d048d57",
       "bodyExcerpt": "# User Story Als angemeldete*r Benutzer*in möchte ich meine grundlegenden Profildaten einsehen und bearbeiten können, damit ich meine Identität und Kontaktdaten aktuell halten kann. # Akzeptanzkriterien - Profilseite mit Name, Institution, E-Mail. - Änderbarkeit eigener Profilfelder (sofern erlaubt).",
@@ -13136,6 +13584,7 @@
         "bearbeiten",
         "userstory",
         "benutzerrollenredaktion",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -13151,6 +13600,7 @@
         "bearbeiten",
         "userstory",
         "benutzerrollenredaktion",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -13166,6 +13616,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "Epic:BenutzerRollenRedaktion"
@@ -13179,6 +13630,7 @@
       "title": "BR-08: Aktivitätslog für redaktionelle Aktionen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "Epic:BenutzerRollenRedaktion"
@@ -13188,7 +13640,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:44Z",
-      "updatedAt": "2025-11-27T14:07:12Z",
+      "updatedAt": "2026-07-14T08:57:57Z",
       "closedAt": "",
       "bodyHash": "10ec17fc4a943b410c146a1d274581f0d01d653a7873593062e81ccbc5979ffe",
       "bodyExcerpt": "# User Story Als Systemadministrator möchte ich nachvollziehen können, welche Benutzer*innen welche redaktionellen Aktionen ausgeführt haben, damit Verantwortlichkeiten und Fehlerquellen identifizierbar bleiben. # Akzeptanzkriterien - Änderungslog pro Datensatz. - Filter: Zeitspanne, Benutzer*in, Datentyp.",
@@ -13217,6 +13669,7 @@
         "userstory",
         "backend",
         "benutzerrollenredaktion",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -13232,6 +13685,7 @@
         "userstory",
         "backend",
         "benutzerrollenredaktion",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -13247,6 +13701,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "SHOULDHAVE",
           "UserStory",
           "Backend",
@@ -13262,6 +13717,7 @@
       "title": "BR-09: Zugriff auf interne Funktionen muss klar geregelt und geprüft sein",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "SHOULDHAVE",
         "UserStory",
         "Backend",
@@ -13273,7 +13729,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:17:53Z",
-      "updatedAt": "2025-11-27T14:06:29Z",
+      "updatedAt": "2026-07-14T08:58:02Z",
       "closedAt": "",
       "bodyHash": "fba1306515cfcec169ddd2dc461dd6efba303dcd1796b5bb74840a52bc1cbbbc",
       "bodyExcerpt": "# User Story Als Betreiber der Plattform möchte ich sicherstellen, dass interne Funktionen nur korrekt authentifizierten und autorisierten Rollen zur Verfügung stehen, damit Sicherheitsrisiken ausgeschlossen werden. # Akzeptanzkriterien - Jede interne API prüft Auth & Roles. - Fehlerhafte Rollen → sauberer 403.",
@@ -13310,6 +13766,7 @@
         "muss",
         "klar",
         "sein",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ],
       "codeMatches": [],
@@ -13330,6 +13787,7 @@
         "muss",
         "klar",
         "sein",
+        "b l o c k e d",
         "epic benutzerrollenredaktion"
       ]
     },
@@ -13341,10 +13799,12 @@
       "projectStatus": "",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Redaktion"
@@ -13358,16 +13818,18 @@
       "title": "RD-06: Redaktions-Dashboard für offene Aufgaben und Qualitätsprobleme",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Redaktion"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:07:38Z",
-      "updatedAt": "2026-06-09T11:25:24Z",
+      "updatedAt": "2026-07-14T08:57:28Z",
       "closedAt": "",
       "bodyHash": "f6dff3c204e835ed65325eb9234c34685389dfdbff955d1ee6917839221ce964",
       "bodyExcerpt": "# User Story Als Admin oder Editor möchte ich eine Übersicht über offene redaktionelle Aufgaben und Qualitätsprobleme haben, damit ich gezielt priorisieren und Teams koordinieren kann. # Kontext - Muss Daten aus Datenqualität, Identifikatoren, Import-Checks zusammenführen. - Noch unklar, welche Felder im MVP benötigt werden (UNSCHARF). # Akzeptanzkriterien - Dashboard listet: fehlende Felder, Konflikte, Dubletten, Import-Fehler. - Sortier- und Filterfunktionen vorhanden. - Links springen direkt ",
@@ -13399,6 +13861,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ],
       "codeMatches": [],
@@ -13416,6 +13879,7 @@
         "redaktion",
         "edit",
         "editor",
+        "b l o c k e d",
         "epic redaktion"
       ]
     },
@@ -13431,6 +13895,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Backend",
           "UNSCHARF",
@@ -13445,6 +13910,7 @@
       "title": "RECS-01: Ähnliche Filme algorithmisch bestimmen (Basislogik)",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Backend",
         "UNSCHARF",
@@ -13455,7 +13921,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:21:40Z",
-      "updatedAt": "2025-11-27T14:05:06Z",
+      "updatedAt": "2026-07-14T08:58:05Z",
       "closedAt": "",
       "bodyHash": "230c336d8e3011ac3f4a16e1a43df5330285efc16408273f5d2f21dde6ef6bd4",
       "bodyExcerpt": "# User Story Als Nutzer*in der Plattform möchte ich, dass AVefi automatisch ähnliche Filme identifiziert, damit ich verwandte Werke finden und meine Recherche vertiefen kann. # Kontext - Das ursprüngliche Konzept war als WONTHAVE markiert - Workshop in Dresden hat \"Ähnliche Filme\" diskturiert - Unklar ist aktuell, ob Ähnlichkeit primär über Inhalte, Metadaten oder „People in Common“ entschieden wird. - Diese Story klärt NUR die algorithmische Basislogik. # Akzeptanzkriterien - **Given** ein Werk",
@@ -13489,6 +13955,7 @@
         "backend",
         "unscharf",
         "recommendations",
+        "b l o c k e d",
         "epic recommendations"
       ],
       "codeMatches": [],
@@ -13506,6 +13973,7 @@
         "backend",
         "unscharf",
         "recommendations",
+        "b l o c k e d",
         "epic recommendations"
       ]
     },
@@ -13521,6 +13989,7 @@
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Recommendations"
@@ -13534,6 +14003,7 @@
       "title": "RECS-02: Ähnliche Filme in der Werkansicht anzeigen",
       "state": "OPEN",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Recommendations"
@@ -13543,7 +14013,7 @@
       ],
       "milestone": "",
       "createdAt": "2025-11-19T19:21:50Z",
-      "updatedAt": "2025-11-27T14:05:28Z",
+      "updatedAt": "2026-07-14T08:58:09Z",
       "closedAt": "",
       "bodyHash": "13f114819de79ccab9a16a7fd27c3ce88552150f3e9e17f2e7d994f45fa59a8c",
       "bodyExcerpt": "# User Story Als Benutzer*in möchte ich in der Werkansicht eine kompakte Liste ähnlicher Filme sehen, damit ich schnell zu thematisch oder produktionstechnisch verwandten Werken navigieren kann. # Kontext - Die Anzeige erfolgt in der rechten Spalte oder unterhalb der Manifestationsliste. - Es soll maximal eine Kurzvorschau angezeigt werden (Titel + Jahr + Herausgeber). # Akzeptanzkriterien - **Given** ein Werk hat ähnliche Filme **When** ich die Werkseite öffne **Then** werden bis zu 5 ähnliche ",
@@ -13571,6 +14041,7 @@
         "werkansicht",
         "userstory",
         "recommendations",
+        "b l o c k e d",
         "epic recommendations"
       ],
       "codeMatches": [],
@@ -13584,6 +14055,7 @@
         "werkansicht",
         "userstory",
         "recommendations",
+        "b l o c k e d",
         "epic recommendations"
       ]
     },
@@ -18349,44 +18821,49 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren"
+        "Title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 121,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/121",
       "title": "NC-03: Seitenwechsel darf Filter & Scrollposition nicht verlieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:38Z",
-      "updatedAt": "2026-07-06T08:51:39Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T08:16:26Z",
+      "closedAt": "2026-07-14T06:09:58Z",
       "bodyHash": "b5f2b40b877ff287452abcdc874b13e8ccccc38420b962b414ebb3c00ba4b923",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich bei Navigation zwischen Detailseiten meine zuvor gesetzten Filter, Scrollposition und den geöffneten Manifestations-/Item-Abschnitt behalten damit ich effizient vergleichen kann. # Kontext - Aktuell verliert die UI Scrollposition nach Seitenwechsel. - Nutzer*innen müssen neu scrollen oder Facetten wieder öffnen. # Akzeptanzkriterien - Scrollposition im Split-View wird gespeichert. - Geöffnete Panels bleiben geöffnet. - Facetten bleiben aktiv.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "nc-03",
@@ -18400,8 +18877,8 @@
         "navigation"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "nc-03",
         "seitenwechsel",
@@ -18412,13 +18889,207 @@
         "userstory",
         "navigation",
         "darf",
+        "b l o c k e d",
         "epic navigation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 313,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter-chip {"
+        },
+        {
+          "file": ".\\assets\\scss\\main.scss",
+          "line": 319,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "[data-theme=\"avefi_dark\"] .filter-chip {"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 455,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "return values.filter((value): value is string => Boolean(value)).join(', ');"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 466,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "].filter((row) => row.value);"
+        },
+        {
+          "file": ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+          "line": 473,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "].filter((row) => row.value);"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 166,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter(Boolean);"
+        },
+        {
+          "file": ".\\components\\detail\\GenericKVView.vue",
+          "line": 204,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter(Boolean)"
+        },
+        {
+          "file": ".\\components\\detail\\HasEventComp.vue",
+          "line": 205,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "return agentData.filter(Boolean) as Agent[];"
+        },
+        {
+          "file": ".\\components\\detail\\InstitutionListComp.vue",
+          "line": 49,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "<Icon name=\"tabler:trash\" /> <span class=\"accent\">{{ $t('clearallfilters') }}</span>"
+        },
+        {
+          "file": ".\\components\\detail\\InstitutionListComp.vue",
+          "line": 57,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "'ais-CurrentRefinements-item': 'filter-chip w-full p-2 md:w-auto md:p-3 md:max-w-xs',"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 59,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ":items=\"(exemplar?.has_record?.has_format || []).map(f => f?.type).filter(Boolean)\""
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 268,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter(Boolean);"
+        },
+        {
+          "file": ".\\components\\detail\\ItemListNewComp.vue",
+          "line": 282,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter(Boolean);"
+        },
+        {
+          "file": ".\\components\\detail\\KeyActionRowsComp.vue",
+          "line": 155,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "return out.filter((r) => {"
+        },
+        {
+          "file": ".\\components\\detail\\KeyValueListComp.vue",
+          "line": 204,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter(Boolean)"
+        },
+        {
+          "file": ".\\components\\detail\\KeyValueListComp.vue",
+          "line": 232,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "return values.filter((value) => {"
+        },
+        {
+          "file": ".\\components\\detail\\ManifestationHeaderComp.vue",
+          "line": 170,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "].filter(Boolean).join(' ');"
+        },
+        {
+          "file": ".\\components\\detail\\ManifestationHeaderComp.vue",
+          "line": 229,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": ".filter((entry) => flags[entry.key as keyof typeof flags])"
+        },
+        {
+          "file": ".\\components\\detail\\NdFieldCard.vue",
+          "line": 44,
+          "kind": "code",
+          "terms": [
+            "filter"
+          ],
+          "text": "filter-mode=\"exists\""
+        },
+        {
+          "file": ".\\components\\detail\\PaginationComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#121",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\assets\\scss\\main.scss",
+        ".\\components\\detail\\FilmRelatedMaterialsComp.vue",
+        ".\\components\\detail\\GenericKVView.vue",
+        ".\\components\\detail\\HasEventComp.vue",
+        ".\\components\\detail\\InstitutionListComp.vue",
+        ".\\components\\detail\\ItemListNewComp.vue",
+        ".\\components\\detail\\KeyActionRowsComp.vue",
+        ".\\components\\detail\\KeyValueListComp.vue",
+        ".\\components\\detail\\ManifestationHeaderComp.vue",
+        ".\\components\\detail\\NdFieldCard.vue",
+        ".\\components\\detail\\PaginationComp.vue"
+      ],
       "searchTerms": [
         "nc-03",
         "seitenwechsel",
@@ -18429,6 +19100,7 @@
         "userstory",
         "navigation",
         "darf",
+        "b l o c k e d",
         "epic navigation"
       ]
     },
@@ -18437,46 +19109,51 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "UNSCHARF",
           "Frontend",
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren"
+        "Title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 122,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/122",
       "title": "NC-04: Tektonik-Navigation muss stabil und konsistent funktionieren",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "UNSCHARF",
         "Frontend",
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:47Z",
-      "updatedAt": "2026-07-06T08:51:36Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T08:16:31Z",
+      "closedAt": "2026-07-14T06:10:45Z",
       "bodyHash": "70c5ea1254e21c2de55b24d3dcc5b4b2605dbf12b67a6412d584aa07084377af",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich zuverlässig zwischen Werk → Manifestation → Item navigieren können damit ich alle Informationen ohne Kontextverlust einsehen kann. # Kontext - Mehrere Stellen unklar (WorkView / ManifestationSplit / ItemList). - Wird durch komplexe Komponenten-Struktur erschwert. # Akzeptanzkriterien - Genaue Definition erforderlich (UNSCHARF). - Kontext: Stabilität und Erwartbarkeit.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "nc-04",
@@ -18490,8 +19167,8 @@
         "navigation"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "nc-04",
         "tektonik-navigation",
@@ -18502,13 +19179,206 @@
         "unscharf",
         "navigation",
         "muss",
+        "b l o c k e d",
         "epic navigation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\components\\detail\\PaginationComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\BreadcrumbsComp.vue",
+          "line": 7,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 274,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "$toast?.error?.($t('comparisonNavigationError'));"
+        },
+        {
+          "file": ".\\components\\global\\NavBar.vue",
+          "line": 280,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "const ariaLabelMainNav = computed(() => t('mainNavigation'));"
+        },
+        {
+          "file": ".\\components\\input\\VueSlider.vue",
+          "line": 230,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Keep local and applied state in sync with route changes coming from browser navigation"
+        },
+        {
+          "file": ".\\components\\search\\SearchListViewComp.vue",
+          "line": 232,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// giving a single reactive trigger for both IS-driven and browser-navigation changes."
+        },
+        {
+          "file": ".\\components\\views\\CompilationViewCompAVefi.vue",
+          "line": 35,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Enable hash navigation for manifestations and items"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":class=\"desktopDrawerOpen ? 'left-0' : 'left-6'\" :title=\"$t('toggleNavigation')\""
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 6,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":aria-label=\"$t('toggleNavigation')\">"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 14,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "<span class=\"font-semibold p-2\">{{ $t('workNavigation') }}</span>"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 21,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "'comparisonNavigationError': 'Der Vergleich konnte nicht geoeffnet werden. Bitte pruefen Sie die ausgewaehlten Eintraege.',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 56,
+          "kind": "code",
+          "terms": [
+            "konsistent"
+          ],
+          "text": "\"lead\": \"AVefi ist ein Verbundsystem, das Filmbestände verknüpft. Für jeden Film vergibt AVefi „Einheitliche Filmidentifikatoren“ (efis). Werke, Manifestationen und Exemplare erhal"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 139,
+          "kind": "code",
+          "terms": [
+            "konsistent"
+          ],
+          "text": "'So lassen sich Filmwerke institutionsübergreifend eindeutig identifizieren. Manifestationen und Exemplare sind unterscheidbar und gezielt auffindbar. Das ermöglicht konsistentes R"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 278,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "\"mainNavigation\": \"Hauptnavigation\","
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 563,
+          "kind": "code",
+          "terms": [
+            "funktionieren"
+          ],
+          "text": "'alpha': 'Das System ist noch in der Entwicklungsphase. Bitte haben Sie Verständnis, dass noch nicht alle Funktionen verfügbar sind und einige Funktionen möglicherweise nicht wie e"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 581,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "'workNavigation': 'Werk-Navigation',"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1355,
+          "kind": "code",
+          "terms": [
+            "konsistent"
+          ],
+          "text": "\"body\": \"Inhalte und Aktionen sollen klar und konsistent sein. Beschriftungen, Überschriften und Navigationsmuster sollen dabei helfen zu verstehen, wo man sich befindet und was al"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1359,
+          "kind": "code",
+          "terms": [
+            "funktionieren"
+          ],
+          "text": "\"body\": \"Code und Komponenten sollen über Browser, Geräte und assistive Technologien hinweg zuverlässig funktionieren und auf standardbasierten, zugänglichen Implementierungsmuster"
+        },
+        {
+          "file": ".\\i18n\\locales\\de.ts",
+          "line": 1400,
+          "kind": "code",
+          "terms": [
+            "muss"
+          ],
+          "text": "\"body\": \"Bei nicht zufriedenstellenden Antworten aus oben genannter Kontaktmöglichkeit können Sie bei der Schlichtungsstelle, eingerichtet bei dem Beauftragten der Bundesregierung "
+        },
+        {
+          "file": ".\\i18n\\locales\\en.ts",
+          "line": 21,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "'comparisonNavigationError': 'Comparison could not be opened. Please check the selected items.',"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#122",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\components\\detail\\PaginationComp.vue",
+        ".\\components\\global\\BreadcrumbsComp.vue",
+        ".\\components\\global\\ComparisonDrawer.vue",
+        ".\\components\\global\\NavBar.vue",
+        ".\\components\\input\\VueSlider.vue",
+        ".\\components\\search\\SearchListViewComp.vue",
+        ".\\components\\views\\CompilationViewCompAVefi.vue",
+        ".\\components\\views\\WorkViewCompAVefi.vue",
+        ".\\i18n\\locales\\de.ts",
+        ".\\i18n\\locales\\en.ts"
+      ],
       "searchTerms": [
         "nc-04",
         "tektonik-navigation",
@@ -18519,6 +19389,7 @@
         "unscharf",
         "navigation",
         "muss",
+        "b l o c k e d",
         "epic navigation"
       ]
     },
@@ -18527,44 +19398,49 @@
       "projectTitle": "AVefi User Stories Kanban (ALL User Stories)",
       "projectUrl": "https://github.com/orgs/AV-EFI/projects/1",
       "projectNumber": 1,
-      "projectStatus": "",
+      "projectStatus": "Done",
       "projectFields": {
         "Assignees": [
-          "steffolino"
+          "steffolino",
+          "EOltmanns"
         ],
         "Repository": "AV-EFI/AVefi-Issues",
         "Labels": [
+          "B L O C K E D",
           "UserStory",
           "Frontend",
           "Epic:Navigation"
         ],
         "Milestone": "Public Release",
-        "Title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene"
+        "Title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene",
+        "Status": "Done"
       },
       "contentType": "ISSUE",
       "repository": "AV-EFI/AVefi-Issues",
       "issueNumber": 123,
       "issueUrl": "https://github.com/AV-EFI/AVefi-Issues/issues/123",
       "title": "NC-05: Persistent Tabs auf Werk- und Manifestationsebene",
-      "state": "OPEN",
+      "state": "CLOSED",
       "labels": [
+        "B L O C K E D",
         "UserStory",
         "Frontend",
         "Epic:Navigation"
       ],
       "assignees": [
-        "steffolino"
+        "steffolino",
+        "EOltmanns"
       ],
       "milestone": "Public Release",
       "createdAt": "2025-11-19T19:03:58Z",
-      "updatedAt": "2026-07-06T08:51:33Z",
-      "closedAt": "",
+      "updatedAt": "2026-07-14T08:16:36Z",
+      "closedAt": "2026-07-14T07:02:36Z",
       "bodyHash": "d3f086f41ba21f80da8402a0d2d03f2c5e1e3a0806c32a175e6255666255c268",
       "bodyExcerpt": "# User Story Als Nutzer*in möchte ich, dass Tabs (z. B. „Metadaten“, „Manifestationen“, „Items“) ihren Zustand behalten damit ich beim Zurück-Navigieren nicht erneut auswählen muss. # Kontext - Teile des Interfaces resetten Tab-Auswahl. - Nutzer*innen verlieren Orientierung. # Akzeptanzkriterien - Tab-State per Route oder localStorage. - Kein Reset beim Zurückblatteln.",
-      "auditBucket": "domain_logic_needed",
+      "auditBucket": "implemented_candidate",
       "auditConfidence": "medium",
-      "auditReason": "Domain/business terminology detected. Missing project status.",
-      "suggestedAction": "Assign owner area for business/domain decision before implementation.",
+      "auditReason": "Issue is closed or project status is Done.",
+      "suggestedAction": "Verify whether the current codebase and tests reflect this closed/done issue.",
       "suggestedOwnerArea": "Product/domain decision",
       "codeSearchTerms": [
         "nc-05",
@@ -18576,8 +19452,8 @@
         "navigation"
       ],
       "needsHumanReview": true,
-      "reviewScope": false,
-      "implementationState": "blocked_external",
+      "reviewScope": true,
+      "implementationState": "implemented_but_untested",
       "codeSearchTermsExpanded": [
         "nc-05",
         "persistent",
@@ -18586,13 +19462,208 @@
         "userstory",
         "navigation",
         "tabs",
+        "b l o c k e d",
         "epic navigation"
       ],
-      "codeMatches": [],
-      "suggestedNextStep": "Keep in owner-area review before frontend code verification.",
+      "codeMatches": [
+        {
+          "file": ".\\app.vue",
+          "line": 29,
+          "kind": "code",
+          "terms": [
+            "persistent"
+          ],
+          "text": "'AVefi enables the discovery of film works, manifestations, and items across multiple film archives with linked authority data, persistent identifiers, and structured metadata for "
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 158,
+          "kind": "code",
+          "terms": [
+            "persistent"
+          ],
+          "text": "'persistent identifiers',"
+        },
+        {
+          "file": ".\\app.vue",
+          "line": 233,
+          "kind": "code",
+          "terms": [
+            "persistent"
+          ],
+          "text": "'Persistent Identifier',"
+        },
+        {
+          "file": ".\\components\\detail\\PaginationComp.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\BreadcrumbsComp.vue",
+          "line": 7,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "role=\"navigation\""
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 27,
+          "kind": "code",
+          "terms": [
+            "tabs"
+          ],
+          "text": "class=\"tabs tabs-bordered justify-stretch w-full\""
+        },
+        {
+          "file": ".\\components\\global\\ComparisonDrawer.vue",
+          "line": 274,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "$toast?.error?.($t('comparisonNavigationError'));"
+        },
+        {
+          "file": ".\\components\\global\\NavBar.vue",
+          "line": 280,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "const ariaLabelMainNav = computed(() => t('mainNavigation'));"
+        },
+        {
+          "file": ".\\components\\input\\VueSlider.vue",
+          "line": 230,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Keep local and applied state in sync with route changes coming from browser navigation"
+        },
+        {
+          "file": ".\\components\\poster\\AvefiPosterComp.vue",
+          "line": 77,
+          "kind": "code",
+          "terms": [
+            "persistent"
+          ],
+          "text": "AVefi assigns persistent identifiers to works, manifestations and"
+        },
+        {
+          "file": ".\\components\\poster\\AvefiPosterComp.vue",
+          "line": 87,
+          "kind": "code",
+          "terms": [
+            "persistent"
+          ],
+          "text": "node carries a persistent Handle-based efi identifier"
+        },
+        {
+          "file": ".\\components\\poster\\AvefiPosterComp.vue",
+          "line": 191,
+          "kind": "code",
+          "terms": [
+            "persistent"
+          ],
+          "text": "Structured data and persistent identifiers support cross-archive"
+        },
+        {
+          "file": ".\\components\\search\\SearchListViewComp.vue",
+          "line": 232,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// giving a single reactive trigger for both IS-driven and browser-navigation changes."
+        },
+        {
+          "file": ".\\components\\views\\CompilationViewCompAVefi.vue",
+          "line": 35,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "// Enable hash navigation for manifestations and items"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 5,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":class=\"desktopDrawerOpen ? 'left-0' : 'left-6'\" :title=\"$t('toggleNavigation')\""
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 6,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": ":aria-label=\"$t('toggleNavigation')\">"
+        },
+        {
+          "file": ".\\components\\views\\WorkViewCompAVefi.vue",
+          "line": 14,
+          "kind": "code",
+          "terms": [
+            "navigation"
+          ],
+          "text": "<span class=\"font-semibold p-2\">{{ $t('workNavigation') }}</span>"
+        },
+        {
+          "file": ".\\composables\\useSearchHistory.ts",
+          "line": 4,
+          "kind": "code",
+          "terms": [
+            "tabs"
+          ],
+          "text": "* Syncs across multiple browser tabs automatically"
+        },
+        {
+          "file": ".\\composables\\useSearchHistory.ts",
+          "line": 38,
+          "kind": "code",
+          "terms": [
+            "tabs"
+          ],
+          "text": "console.error('Failed to sync search history across tabs:', error);"
+        },
+        {
+          "file": ".\\formkit.theme.ts",
+          "line": 3145,
+          "kind": "code",
+          "terms": [
+            "tabs"
+          ],
+          "text": "\"multi-step__tabs\": {"
+        }
+      ],
+      "suggestedNextStep": "Review code evidence and add or confirm regression coverage before closing.",
       "issue": "AV-EFI/AVefi-Issues#123",
-      "matchCount": 0,
-      "matchedFiles": [],
+      "matchCount": 20,
+      "matchedFiles": [
+        ".\\app.vue",
+        ".\\components\\detail\\PaginationComp.vue",
+        ".\\components\\global\\BreadcrumbsComp.vue",
+        ".\\components\\global\\ComparisonDrawer.vue",
+        ".\\components\\global\\NavBar.vue",
+        ".\\components\\input\\VueSlider.vue",
+        ".\\components\\poster\\AvefiPosterComp.vue",
+        ".\\components\\search\\SearchListViewComp.vue",
+        ".\\components\\views\\CompilationViewCompAVefi.vue",
+        ".\\components\\views\\WorkViewCompAVefi.vue",
+        ".\\composables\\useSearchHistory.ts",
+        ".\\formkit.theme.ts"
+      ],
       "searchTerms": [
         "nc-05",
         "persistent",
@@ -18601,6 +19672,7 @@
         "userstory",
         "navigation",
         "tabs",
+        "b l o c k e d",
         "epic navigation"
       ]
     },
@@ -21376,7 +22448,7 @@
         },
         {
           "file": ".\\scripts\\github-project-review-batches.mjs",
-          "line": 36,
+          "line": 60,
           "kind": "code",
           "terms": [
             "tests"
@@ -21385,7 +22457,7 @@
         },
         {
           "file": ".\\scripts\\github-project-review-batches.mjs",
-          "line": 51,
+          "line": 75,
           "kind": "code",
           "terms": [
             "tests"
@@ -21394,7 +22466,7 @@
         },
         {
           "file": ".\\scripts\\github-project-review-batches.mjs",
-          "line": 52,
+          "line": 76,
           "kind": "code",
           "terms": [
             "tests"

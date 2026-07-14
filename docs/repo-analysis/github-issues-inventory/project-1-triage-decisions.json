@@ -1,0 +1,306 @@
+{
+  "updatedAt": "2026-07-14",
+  "purpose": "Open Project 1 issues listed here have already been triaged and should not be proposed again by the review-batch generator unless new information arrives.",
+  "decisions": [
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 49,
+      "status": "backend_match_merge_blocked",
+      "reason": "Similarity/match-and-merge work is blocked by #154 and stays with EOltmanns; not a Stefan/frontend task until backend and matching logic are deliverable."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 50,
+      "status": "domain_metadata_decision",
+      "reason": "Contradictory metadata takeover requires domain/product decision; routed to C-Stemmler and tennismann3000."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 52,
+      "status": "backend_redaction_workflow_blocked",
+      "reason": "Data takeover is backend/redaction workflow and blocked until implementation path is clear; stays with EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 60,
+      "status": "domain_product_decision",
+      "reason": "Origin/issuer display basically exists; remaining naming and data-provider overview question is product/domain decision, routed to C-Stemmler and tennismann3000."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 75,
+      "status": "backend_pid_blocker",
+      "reason": "PID registration is a backend/technical-blocker issue and correctly assigned to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 77,
+      "status": "backend_pid_blocker",
+      "reason": "PID resolve is a backend/technical-blocker issue and correctly assigned to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 78,
+      "status": "backend_pid_clarification",
+      "reason": "PID versioning requires backend/fachliche clarification and is correctly assigned to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 79,
+      "status": "backend_pid_duplicate_check",
+      "reason": "PID duplicate check requires backend/fachliche clarification and is correctly assigned to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 81,
+      "status": "assigned_to_domain_search",
+      "reason": "Manifestation/item filtering consistency is assigned to tennismann3000 and C-Stemmler; not Stefan-owned."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 86,
+      "status": "domain_ui_decision_needed",
+      "reason": "Tektonik overview is still unclear; UI representation, scope, and interaction must be decided by C-Stemmler and tennismann3000 before frontend implementation."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 91,
+      "status": "backend_redaction_auth_blocked",
+      "reason": "Identifier editing is backend/redaction workflow blocked by auth/protected workflow; assigned to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 93,
+      "status": "backend_match_rules_blocked",
+      "reason": "Duplicate detection needs matching rules and backend/match-and-merge logic, related to #154; assigned to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 94,
+      "status": "data_quality_definition_needed",
+      "reason": "Completeness score needs defined required/optional fields and calculation logic before implementation; routed to C-Stemmler, tennismann3000, and EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 128,
+      "status": "waiting_for_acceptance",
+      "reason": "Usability-test pain points were handled; multi-tab sync is implemented. Waiting for final acceptance by tennismann3000."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 147,
+      "status": "backend_blocked",
+      "reason": "Blocked by authentication, editorial UI, and match-and-merge detection; likely needs a future concrete match-and-merge issue."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 148,
+      "status": "backend_api_placeholder",
+      "reason": "Does not make much sense as a concrete frontend task; keep only as possible placeholder for considering disambiguation as an API endpoint."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 150,
+      "status": "active_hackathon_testing",
+      "reason": "Still active and will probably be tested during hackathons."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 151,
+      "status": "waiting_metadatenfachgruppe",
+      "reason": "As stated in the last December comment, this will be discussed in the Metadatenfachgruppe."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 152,
+      "status": "leave_for_other_discussion",
+      "reason": "Leave as-is; the other assigned people should discuss it."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 153,
+      "status": "blocking_in_progress",
+      "reason": "Blocking authentication issue; currently being worked on."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 154,
+      "status": "blocking_backend_correct_owner",
+      "reason": "Blocks some other issues; assigned to EOltmanns, which is correct."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 155,
+      "status": "backend_waiting",
+      "reason": "Keep with EOltmanns / Backend-Search; fuzzy-search history should stay linked, especially #110."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 156,
+      "status": "keep_as_is",
+      "reason": "Keep as-is and assigned; do not re-triage unless new information arrives."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 161,
+      "status": "assigned_elsewhere",
+      "reason": "Assigned to other people; not a Stefan-owned triage item."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 169,
+      "status": "waiting_for_domain_feedback",
+      "reason": "Keep open for C-Stemmler and tennismann3000; query-search relationship remains important."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 170,
+      "status": "implemented_low_priority",
+      "reason": "Implemented/low priority; show-only scope. Normdaten-Anreicherung is handled separately via Andreas Teekesselchen."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 129,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 130,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 131,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 132,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 133,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 134,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 136,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 138,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 139,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 140,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 141,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 143,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 144,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 145,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 146,
+      "status": "blocked_by_153",
+      "reason": "Blocked by #153 / authentication; assigned directly to EOltmanns."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 171,
+      "status": "content_non_urgent",
+      "reason": "No acute frontend cleanup need; can remain open as content/FAQ topic."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 182,
+      "status": "assigned_elsewhere_last_comment_not_owner",
+      "reason": "Not Stefan-owned; last Stefan comment does not make it his problem."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 187,
+      "status": "very_low_priority",
+      "reason": "Maintenance banner stays open as very low priority."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 194,
+      "status": "low_priority_works_as_is",
+      "reason": "Low priority; it works as-is and the page layout will not be changed."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 201,
+      "status": "very_low_priority",
+      "reason": "Carousel link issue stays open as very low priority."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 202,
+      "status": "assigned_elsewhere_not_owner",
+      "reason": "Not Stefan-owned; leave with current owner."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 206,
+      "status": "legal_waiting",
+      "reason": "Keep open pending EOltmanns license feedback; not frontend implementation triage."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 207,
+      "status": "assigned_to_tennismann",
+      "reason": "Commented and assigned to tennismann3000; no further Stefan-owned triage."
+    },
+    {
+      "repository": "AV-EFI/AVefi-Issues",
+      "issueNumber": 215,
+      "status": "blocked_by_153_profile_definition_needed",
+      "reason": "Blocked by #153 / authentication; editable profile still needs definition. Assigned to EOltmanns."
+    }
+  ]
+}

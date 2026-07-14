@@ -1,22 +1,22 @@
 # Project 1 Codebase Cross-Check Summary
 
-Generated: 2026-07-13T15:32:43.546Z
+Generated: 2026-07-14T09:04:38.107Z
 
 Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/AV-EFI/projects/1)
 
 ## Snapshot
 
 - Items cross-checked: 145
-- Items in frontend/implementation review scope: 84
-- Items with local evidence matches: 82
+- Items in frontend/implementation review scope: 89
+- Items with local evidence matches: 87
 - Items with no local evidence matches: 2
 
 ## Implementation States
 
 | State | Count |
 | --- | --- |
-| implemented_but_untested | 74 |
-| blocked_external | 61 |
+| implemented_but_untested | 79 |
+| blocked_external | 56 |
 | partial | 5 |
 | implemented | 3 |
 | not_found | 2 |
@@ -25,7 +25,7 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 
 | Bucket | Count |
 | --- | --- |
-| implemented_candidate | 78 |
+| implemented_candidate | 83 |
 | frontend_work | 4 |
 | qa_or_acceptance_needed | 2 |
 

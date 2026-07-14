@@ -1,6 +1,6 @@
 # Project 1 Inventory Summary
 
-Generated: 2026-07-13T15:23:13.770Z
+Generated: 2026-07-14T13:48:34.888Z
 
 Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/AV-EFI/projects/1)
 
@@ -10,9 +10,9 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 - Project items exported: 145
 - Issue items exported: 145
 - Missing assignees: 0
-- Missing labels: 18
+- Missing labels: 17
 - Missing milestone: 122
-- Missing project status: 49
+- Missing project status: 41
 - Missing issue body: 1
 - Duplicate issue references in project snapshot: 0
 
@@ -26,18 +26,18 @@ Project: [AVefi User Stories Kanban (ALL User Stories)](https://github.com/orgs/
 
 | State | Count |
 | --- | --- |
-| CLOSED | 78 |
-| OPEN | 67 |
+| CLOSED | 89 |
+| OPEN | 56 |
 
 ## Project Statuses
 
 | Status | Count |
 | --- | --- |
-| Done | 78 |
-| (missing) | 49 |
-| Backlog | 6 |
-| Temporary TODO List | 6 |
-| Highest Prio | 5 |
+| Done | 89 |
+| (missing) | 41 |
+| Backlog | 5 |
+| Temporary TODO List | 5 |
+| Highest Prio | 4 |
 | In Progress | 1 |
 
 ## Repositories
