@@ -2,15 +2,15 @@
 
 Source batch: `project-1-review-batches.md`
 
-This note records the follow-up cleanup after the 2026-07-13 consolidation pass.
+This note records the follow-up consolidation after the 2026-07-13 consolidation pass.
 
 ## Refreshed GitHub Snapshot
 
 - Project 1 items exported: `145`
-- Open issues in project snapshot after cleanup: `56`
-- Closed issues in project snapshot after cleanup: `89`
-- Missing labels after cleanup: `17`
-- Missing project status after cleanup: `41`
+- Open issues in project snapshot after consolidation: `56`
+- Closed issues in project snapshot after consolidation: `89`
+- Missing labels after consolidation: `17`
+- Missing project status after consolidation: `41`
 
 No repository product code was changed.
 
@@ -44,7 +44,7 @@ No repository product code was changed.
   - Routed `#50` and `#60` to `C-Stemmler` and `tennismann3000` because the remaining work is fachliche/product decision, not Stefan implementation.
   - Recorded `#75`, `#77`, `#78`, and `#79` as correctly assigned PID/backend issues.
   - Recorded `#81` as already assigned to `C-Stemmler` and `tennismann3000`, not Stefan-owned.
-- Final routing cleanup for the remaining generated owner-routing items:
+- Final routing consolidation for the remaining generated owner-routing items:
   - Routed `#86` to `C-Stemmler` and `tennismann3000`; the UI shape/scope/interaction is still undefined.
   - Marked `#91` and `#93` as backend/redaction/match-and-merge blockers, kept with `EOltmanns`, and added `B L O C K E D`.
   - Removed `steffolino` from `#94`; the completeness score needs data-quality definition first, so it is routed to `C-Stemmler`, `tennismann3000`, and `EOltmanns`.
@@ -76,4 +76,4 @@ Lower-risk/context notes for tomorrow:
 
 - `#65`: Sorting in search remains mixed UI/backend/UX decision; do not let it fall back to Stefan-only.
 - `#141`, `#146`, `#182`: frontend-looking, but currently blocked or assigned elsewhere; revisit only if the blocker is resolved or ownership changes.
-- `#169`, `#170`, `#202`, `#206`: not urgent frontend cleanup; keep as routed/waiting unless new information arrives.
+- `#169`, `#170`, `#202`, `#206`: not urgent frontend consolidation; keep as routed/waiting unless new information arrives.

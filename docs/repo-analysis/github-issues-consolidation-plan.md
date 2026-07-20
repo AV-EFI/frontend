@@ -1,6 +1,6 @@
 # GitHub Issues Consolidation Plan
 
-This guide documents the planned consolidation work for the AV-EFI GitHub issue backlog and project boards. It is intended to keep the cleanup reproducible, evidence-based, and safe to resume over multiple sessions.
+This guide documents the planned consolidation work for the AV-EFI GitHub issue backlog and project boards. It is intended to keep the consolidation reproducible, evidence-based, and safe to resume over multiple sessions.
 
 Last checked: 2026-07-14.
 
@@ -13,12 +13,12 @@ Primary project:
 - Project board: `AVefi User Stories Kanban (ALL User Stories)`
 - Project URL: `https://github.com/orgs/AV-EFI/projects/1`
 
-Secondary project to empty during post-release cleanup:
+Secondary project to empty during post-release consolidation:
 
 - Project board: `AVefi: Public Release Board`
 - Project URL: `https://github.com/orgs/AV-EFI/projects/3`
 - Public release was completed in June 2026, so this board should no longer be used for active backlog work.
-- Active issue cleanup and future planning should happen in Project 1 / `AVefi User Stories Kanban (ALL User Stories)`.
+- Active issue consolidation and future planning should happen in Project 1 / `AVefi User Stories Kanban (ALL User Stories)`.
 
 The local frontend repository remains GitLab-first:
 
@@ -28,7 +28,7 @@ The local frontend repository remains GitLab-first:
 
 ## Verified GitHub Facts
 
-The active GitHub token must include `read:project` for Project v2 read access and `project` for Project v2 item add/delete cleanup work.
+The active GitHub token must include `read:project` for Project v2 read access and `project` for Project v2 item add/delete consolidation work.
 
 Verified token scopes after refresh:
 
@@ -45,7 +45,7 @@ Verified Project v2 mapping:
 | `1` | `AVefi User Stories Kanban (ALL User Stories)` | `https://github.com/orgs/AV-EFI/projects/1` | `144` |
 | `3` | `AVefi: Public Release Board` | `https://github.com/orgs/AV-EFI/projects/3` | `51` |
 
-Project 3 cleanup status as of 2026-07-06:
+Project 3 consolidation status as of 2026-07-06:
 
 - Open Project 3 issues moved/commented/removed from Project 3: `#152`, `#158`, `#161`, `#182`, `#194`, `#202`, `#203`, `#207`.
 - Project 3 now has `0` open issues. Remaining Project 3 items are closed/historical and were left untouched in this pass.
@@ -70,7 +70,7 @@ Generated files:
 - `docs/repo-analysis/github-issues-inventory/project-1-items.csv`
 - `docs/repo-analysis/github-issues-inventory/project-1-summary.md`
 
-Current inventory snapshot after the 2026-07-13 cleanup pass:
+Current inventory snapshot after the 2026-07-13 consolidation pass:
 
 - Project items reported by GitHub: `145`
 - Project items exported: `145`
@@ -84,7 +84,7 @@ Current inventory snapshot after the 2026-07-13 cleanup pass:
 - Duplicate issue references in project snapshot: `0`
 - Repositories in Project 1 snapshot: `AV-EFI/AVefi-Issues` `145`, `AV-EFI/frontend` `0`
 
-The inventory pass itself does not change GitHub state. The 2026-07-06 cleanup pass transferred all remaining `AV-EFI/frontend` issues into `AV-EFI/AVefi-Issues`. A later 2026-07-06 board cleanup moved all open issues from Project 3 / Public Release Board into Project 1 / ALL USER STORIES, added German audit comments, and removed those Project 3 items. The old `sync-by-unito[bot]` imported issues were also assigned to `steffolino` with German audit comments because GitHub does not allow replacing the original issue author. The 2026-07-13 cleanup pass added canonical `#218` to Project 1, closed duplicate `#219`, closed malformed transfer `#217`, closed duplicate `#216` in favor of canonical `#49`, and later closed triaged issues `#64`, `#66`, `#98`, `#101`, `#102`, `#107`, `#166`, `#188`, `#199`, `#203`, `#212`, and `#218`; user also closed `#99`, `#104`, `#106`, `#120`, and `#149`. On 2026-07-14, open issues `#129`-`#134`, `#136`, `#138`-`#141`, and `#143`-`#146` were marked/commented as blocked by `#153` and assigned to `EOltmanns`. A mistaken same treatment of already-closed `#121`, `#122`, `#123`, `#126`, and `#127` was undone the same day: `EOltmanns`, `B L O C K E D`, and the misleading triage comments were removed again.
+The inventory pass itself does not change GitHub state. The 2026-07-06 consolidation pass transferred all remaining `AV-EFI/frontend` issues into `AV-EFI/AVefi-Issues`. A later 2026-07-06 board consolidation moved all open issues from Project 3 / Public Release Board into Project 1 / ALL USER STORIES, added German audit comments, and removed those Project 3 items. The old `sync-by-unito[bot]` imported issues were also assigned to `steffolino` with German audit comments because GitHub does not allow replacing the original issue author. The 2026-07-13 consolidation pass added canonical `#218` to Project 1, closed duplicate `#219`, closed malformed transfer `#217`, closed duplicate `#216` in favor of canonical `#49`, and later closed triaged issues `#64`, `#66`, `#98`, `#101`, `#102`, `#107`, `#166`, `#188`, `#199`, `#203`, `#212`, and `#218`; user also closed `#99`, `#104`, `#106`, `#120`, and `#149`. On 2026-07-14, open issues `#129`-`#134`, `#136`, `#138`-`#141`, and `#143`-`#146` were marked/commented as blocked by `#153` and assigned to `EOltmanns`. A mistaken same treatment of already-closed `#121`, `#122`, `#123`, `#126`, and `#127` was undone the same day: `EOltmanns`, `B L O C K E D`, and the misleading triage comments were removed again.
 
 Step 2 initial classification started on 2026-06-30.
 
@@ -165,7 +165,7 @@ Batch meanings:
 
 - `verification_candidates`: open issues with stronger local runtime/test evidence that need manual acceptance review before any keep/close decision.
 - `frontend_triage`: frontend-scope issues where local evidence suggests missing or partial work.
-- `owner_routing`: open issues outside the frontend evidence scope that need owner-area routing or missing metadata cleanup.
+- `owner_routing`: open issues outside the frontend evidence scope that need owner-area routing or missing metadata normalization.
 
 No GitHub issues, labels, assignees, milestones, or project fields are changed by this pass.
 
@@ -388,7 +388,6 @@ Suggested owner areas:
 - Search and filters
 - Detail pages
 - Normdata and identifiers
-- Film-related materials
 - Editorial workflow
 - Backend/API/indexing
 - Data import/modeling
@@ -421,7 +420,7 @@ npm run github:issues:review-batches
 
 Recommended batch sizes:
 
-- 10 to 20 issues for label/status cleanup.
+- 10 to 20 issues for label/status normalization.
 - 5 to 10 issues for assignee/domain-decision updates.
 - 1 to 5 issues for closing or duplicate consolidation.
 
@@ -435,7 +434,7 @@ Initial planned changes, pending inventory:
 4. Add clarifying comments to vague issues.
 5. Mark implemented candidates for verification instead of immediately closing.
 6. Consolidate duplicates only after linking evidence.
-7. Keep Project 1 as the broad user-story backlog; Project 3 now has no open issues, so any remaining Project 3 work is optional closed/historical board archival cleanup.
+7. Keep Project 1 as the broad user-story backlog; Project 3 now has no open issues, so any remaining Project 3 work is optional closed/historical board archival review.
 
 ## Working Rules
 

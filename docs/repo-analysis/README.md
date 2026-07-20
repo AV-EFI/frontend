@@ -24,7 +24,7 @@ The repository already contains `docs/components/` and `docs/composables/`, but 
 
 - `architecture.md`: runtime architecture and data flow
 - `build-modes.md`: local-vs-CI build behavior and generation cost
-- `images.md`: image usage audit, stale asset candidates, and generator cleanup plan
+- `images.md`: image usage audit, stale asset candidates, and generator consolidation plan
 - `inventory.md`: route, component, generated-file, and stale-file inventory
 - `component-inventory.md`: full component list with static usage signals
 - `generation-and-schema.md`: schema sources, generation scripts, and generated outputs

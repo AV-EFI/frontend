@@ -2,15 +2,15 @@
 
 Source batch: `project-1-review-batches.md`
 
-This note records live GitHub updates made during the third cleanup pass. Generated inventory, classification, cross-check, and review-batch files were refreshed after the updates.
+This note records live GitHub updates made during the third consolidation pass. Generated inventory, classification, cross-check, and review-batch files were refreshed after the updates.
 
 ## Refreshed GitHub Snapshot
 
 - Project 1 items exported: `145`
-- Open issues in project snapshot after cleanup: `67`
-- Closed issues in project snapshot after cleanup: `78`
-- Missing labels after cleanup: `18`
-- Missing project status after cleanup: `49`
+- Open issues in project snapshot after consolidation: `67`
+- Closed issues in project snapshot after consolidation: `78`
+- Missing labels after consolidation: `18`
+- Missing project status after consolidation: `49`
 
 No repository product code was changed.
 
@@ -21,11 +21,11 @@ No repository product code was changed.
 
 ## GitHub Updates Applied
 
-Duplicate/orphan cleanup:
+Duplicate/orphan consolidation:
 
 - Initially kept `AV-EFI/AVefi-Issues#218` as the canonical `SEARCH-01: Facet result count must always match returned hits` issue.
 - Assigned `#218` to `steffolino`, added it to Project 1, and set Project status to `Backlog`; it was later closed in the same triage pass because the original bug was confirmed fixed.
-- Commented on `#218` with the cleanup rationale.
+- Commented on `#218` with the consolidation rationale.
 - Commented on and closed `AV-EFI/AVefi-Issues#219` as an exact duplicate of `#218`.
 - Commented on and closed `AV-EFI/AVefi-Issues#217` as a malformed transferred duplicate/orphan:
   - its title duplicates closed `#220`;
@@ -51,7 +51,7 @@ Frontend triage after user review:
 Follow-up triage from user review:
 
 - Commented on and closed `AV-EFI/AVefi-Issues#64`: concrete related issue `#218` was confirmed fixed; create specific new facet issues if needed.
-- Commented on `AV-EFI/AVefi-Issues#171`: no acute frontend cleanup need; can remain open as content/FAQ topic.
+- Commented on `AV-EFI/AVefi-Issues#171`: no acute frontend review need; can remain open as content/FAQ topic.
 - Commented on `AV-EFI/AVefi-Issues#206`: keep open pending `EOltmanns` license feedback; assignee was already set.
 - Commented on `AV-EFI/AVefi-Issues#128` and added `tennismann3000` as assignee for final acceptance of the navigation/multi-tab-sync behavior.
 - Commented on `AV-EFI/AVefi-Issues#169`: keep open for `C-Stemmler` and `tennismann3000`, especially query-search review.
@@ -69,7 +69,7 @@ Owner-routing partial pass:
 - Commented on `AV-EFI/AVefi-Issues#147`, added `Backend` and `B L O C K E D`: blocked by authentication, editorial UI, and match-and-merge detection; likely needs a future concrete match-and-merge issue.
 - Commented on `AV-EFI/AVefi-Issues#155`: remains open with `EOltmanns` / Backend-Search; fuzzy-search history should stay linked, especially `#110`.
 
-Final owner-routing notes from the same cleanup session:
+Final owner-routing notes from the same consolidation session:
 
 - Commented on and closed `AV-EFI/AVefi-Issues#199`: not continued as actionable backlog item.
 - Commented on and closed `AV-EFI/AVefi-Issues#66`: obsolete; relevant pieces continue under expert-mode work.
@@ -83,9 +83,9 @@ Final owner-routing notes from the same cleanup session:
 The refreshed frontend triage now starts with:
 
 - `AV-EFI/AVefi-Issues#128` - still needs acceptance criteria and navigation/search-detail UX decision.
-- `AV-EFI/AVefi-Issues#169` - active search/facet work; avoid cleanup edits unless owner asks.
+- `AV-EFI/AVefi-Issues#169` - active search/facet work; avoid review edits unless owner asks.
 - `AV-EFI/AVefi-Issues#201` - linked active carousel issue; keep as context.
-- `AV-EFI/AVefi-Issues#206` - legal/meta license cleanup; route out of frontend implementation triage.
+- `AV-EFI/AVefi-Issues#206` - legal/meta license consolidation; route out of frontend implementation triage.
 - `AV-EFI/AVefi-Issues#187` - maintenance-banner issue; already routed/commented on 2026-07-06.
 - `AV-EFI/AVefi-Issues#171` - FAQ/content issue; needs manual check because code evidence search is weak.
 

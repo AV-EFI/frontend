@@ -4,12 +4,12 @@ Source: fresh read-only checks against `AV-EFI/AVefi-Issues` on 2026-07-15.
 
 Scope: open GitHub issues were reviewed for likely wrong assignees, missing backend/auth prerequisites, duplicate backlog entries, and issues that need product or domain clarification before implementation.
 
-Important process note: after the first cleanup pass, further GitHub issue changes are decision-gated. This document records analysis and decisions only.
+Important process note: after the first consolidation pass, further GitHub issue changes are decision-gated. This document records analysis and decisions only.
 
 ## Current Snapshot
 
-- Open issues after cleanup: 52.
-- Closed as superseded/generic during cleanup:
+- Open issues after consolidation: 52.
+- Closed as superseded/generic during consolidation:
   - `#58` Redaktionelle Bearbeitung von Datensaetzen, covered by `#138`, `#132`, and the RD issues.
   - `#61` Aehnliche Datensaetze / Empfehlungssystem, covered by `#145` to `#148`.
 - `steffolino` assignments are now limited to a small set of frontend, review, low-priority, or consciously retained issues.
@@ -202,7 +202,7 @@ Current assignees: `JStratil`, `tennismann3000`.
 
 Status:
 
-Last visible state is backlog cleanup; earlier discussion contains substantive design questions.
+Last visible state is backlog consolidation; earlier discussion contains substantive design questions.
 
 Recommendation:
 
@@ -252,6 +252,6 @@ Closed as generic/obsolete. Continued by:
 - `#161` schema/data-delivery adjustments.
 - `#170` normdata follow-up, pending Andreas clarification.
 - `#182` PID resolve/highlighting, mixed domain/technical.
-- `#202` ingest/data cleanup for duplicate subjects.
+- `#202` ingest/data consolidation for duplicate subjects.
 - `#206` license decision.
 - `#215` auth-system profile capabilities.

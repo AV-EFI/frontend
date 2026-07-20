@@ -2,15 +2,15 @@
 
 Source batch: `project-1-review-batches.md`
 
-This note records live GitHub updates made during the second cleanup pass. Generated inventory/batch files were refreshed after the updates so this pass can be resumed safely.
+This note records live GitHub updates made during the second consolidation pass. Generated inventory/batch files were refreshed after the updates so this pass can be resumed safely.
 
 ## Refreshed GitHub Snapshot
 
 - Project 1 items exported: `140`
-- Open issues in project snapshot after cleanup: `80`
-- Closed issues in project snapshot after cleanup: `60`
-- Missing labels after cleanup: `18`
-- Missing project status after cleanup: `58`
+- Open issues in project snapshot after consolidation: `80`
+- Closed issues in project snapshot after consolidation: `60`
+- Missing labels after consolidation: `18`
+- Missing project status after consolidation: `58`
 
 No repository code was changed.
 
@@ -66,11 +66,11 @@ Closed historical transfers:
 The refreshed frontend triage now starts with:
 
 - `AV-EFI/AVefi-Issues#128` - keep; search/detail navigation context still needs UX proposal/implementation.
-- `AV-EFI/AVefi-Issues#169` - active search/facet work; avoid cleanup edits unless owner asks.
+- `AV-EFI/AVefi-Issues#169` - active search/facet work; avoid review edits unless owner asks.
 - `AV-EFI/AVefi-Issues#155` - active fuzzy-search behavior; likely needs acceptance criteria/test evidence.
 - `AV-EFI/AVefi-Issues#201` - linked active carousel issue; keep as context.
 - `AV-EFI/AVefi-Issues#166` - already rewritten as interaction epic; remains open for child-issue linking.
-- `AV-EFI/AVefi-Issues#206` - legal/meta license cleanup; keep routed out of frontend triage.
+- `AV-EFI/AVefi-Issues#206` - legal/meta license consolidation; keep routed out of frontend triage.
 - `AV-EFI/AVefi-Issues#188` and `#187` - commented/routed today; no close action yet.
 - `AV-EFI/AVefi-Issues#64` - keep as parent for facet finalization, especially linked discussion in `#169`.
 - `AV-EFI/AVefi-Issues#211` and `AV-EFI/AVefi-Issues#171` - next likely frontend-triage review targets.

@@ -2,7 +2,7 @@
 
 This note documents the current image generation setup, the image files that are actually used by the app, and the image families that looked safe to remove.
 
-As of this cleanup pass:
+As of this consolidation pass:
 
 - the responsive image pipeline now uses [scripts/image-manifest.mjs](/c:/Users/StretzS/projects/avefi-frontend-dev-gitlab/frontend/scripts/image-manifest.mjs) as the source of truth
 - [scripts/optimize-images.mjs](/c:/Users/StretzS/projects/avefi-frontend-dev-gitlab/frontend/scripts/optimize-images.mjs) now supports `--check`, `--clean`, and `--dry-run`
@@ -227,7 +227,7 @@ These do not have active in-repo consumers, but they are single-source assets ra
 
 They should be checked against off-repo usage before deletion, but they currently look unused inside this repository.
 
-## Rough cleanup impact
+## Rough maintenance impact
 
 Some obvious dead groups alone already account for several megabytes in `public/img`:
 
@@ -273,7 +273,7 @@ That removes special-case logic like `if (imageConfig.input === 'img/logo_mcdci.
 
 Current runtime references are overwhelmingly WebP, SVG, or original PNG assets for branding/press. The generator now emits only the WebP derivatives that active consumers need.
 
-### 4. Cleanup-aware modes now exist
+### 4. Consolidation-aware modes now exist
 
 The generator now supports:
 

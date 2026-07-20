@@ -178,7 +178,7 @@
       "issue": "AV-EFI/AVefi-Issues#171",
       "title": "CONTENT-02: FAQ (DE / ENG)",
       "status": "content_non_urgent",
-      "reason": "No acute frontend cleanup need; can remain open as content/FAQ topic."
+      "reason": "No acute frontend review need; can remain open as content/FAQ topic."
     },
     {
       "issue": "AV-EFI/AVefi-Issues#182",

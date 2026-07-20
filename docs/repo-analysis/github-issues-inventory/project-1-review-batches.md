@@ -34,7 +34,7 @@ No issues selected for this batch.
 
 ## Owner Routing
 
-These are open issues outside the frontend evidence scope that are missing routing metadata or need a product/domain/backend decision before implementation cleanup.
+These are open issues outside the frontend evidence scope that are missing routing metadata or need a product/domain/backend decision before implementation consolidation.
 
 No issues selected for this batch.
 
@@ -72,7 +72,7 @@ These open issues are intentionally omitted from generated review batches becaus
 | AV-EFI/AVefi-Issues#161 | assigned_elsewhere | Assigned to other people; not a Stefan-owned triage item. |
 | AV-EFI/AVefi-Issues#169 | waiting_for_domain_feedback | Keep open for C-Stemmler and tennismann3000; query-search relationship remains important. |
 | AV-EFI/AVefi-Issues#170 | implemented_low_priority | Implemented/low priority; show-only scope. Normdaten-Anreicherung is handled separately via Andreas Teekesselchen. |
-| AV-EFI/AVefi-Issues#171 | content_non_urgent | No acute frontend cleanup need; can remain open as content/FAQ topic. |
+| AV-EFI/AVefi-Issues#171 | content_non_urgent | No acute frontend review need; can remain open as content/FAQ topic. |
 | AV-EFI/AVefi-Issues#182 | assigned_elsewhere_last_comment_not_owner | Not Stefan-owned; last Stefan comment does not make it his problem. |
 | AV-EFI/AVefi-Issues#187 | very_low_priority | Maintenance banner stays open as very low priority. |
 | AV-EFI/AVefi-Issues#194 | low_priority_works_as_is | Low priority; it works as-is and the page layout will not be changed. |

@@ -131,7 +131,7 @@ This makes diffs noisy and encourages accidental manual edits in generated areas
 
 Several scripts require live Elasticsearch or GitHub access. That means fresh setup, CI reproducibility, and local regeneration are all more fragile than they need to be.
 
-## Suggested cleanup direction
+## Suggested consolidation direction
 
 - define one documented generation entrypoint per artifact family
 - mark generated directories clearly in README and file headers

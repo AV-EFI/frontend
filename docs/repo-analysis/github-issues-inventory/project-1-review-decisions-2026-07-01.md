@@ -29,11 +29,11 @@ These notes record the manual review decisions from the first frontend-triage ba
 | --- | --- | --- |
 | `AV-EFI/AVefi-Issues#124` | Done and closed. | Remove from active frontend triage in the next refreshed inventory. |
 | `AV-EFI/AVefi-Issues#128` | Keep. Interesting UX problem: preserve context between search results and detail view. | Draft product/UX proposal before implementation. |
-| `AV-EFI/AVefi-Issues#169` | Active work. | Leave open; avoid cleanup edits unless requested by owner. |
-| `AV-EFI/AVefi-Issues#155` | Active discussion. | Leave open; avoid cleanup edits unless requested by owner. |
-| `AV-EFI/AVefi-Issues#201` | Edited and referenced from an actively discussed issue. | Keep as linked context; no standalone cleanup action for now. |
+| `AV-EFI/AVefi-Issues#169` | Active work. | Leave open; avoid review edits unless requested by owner. |
+| `AV-EFI/AVefi-Issues#155` | Active discussion. | Leave open; avoid review edits unless requested by owner. |
+| `AV-EFI/AVefi-Issues#201` | Edited and referenced from an actively discussed issue. | Keep as linked context; no standalone review action for now. |
 | `AV-EFI/AVefi-Issues#166` | Keep, but restructure. It should become a container/epic for AVefi user-interaction features. | Rewrite into a clean parent issue; split pasted ideas into child issues or checklist sections. |
-| `AV-EFI/AVefi-Issues#206` | Low priority; postponed by colleague. | Keep open, route out of frontend triage; mark as low-priority legal/meta cleanup. |
+| `AV-EFI/AVefi-Issues#206` | Low priority; postponed by colleague. | Keep open, route out of frontend triage; mark as low-priority legal/meta consolidation. |
 | `AV-EFI/AVefi-Issues#111` | Close. Vocabulary feature is implemented in app. | Close with implementation note; no separate glossary issue found in current GitHub search. |
 | `AV-EFI/frontend#2` | Closed. Export-field definition remains tracked in `AV-EFI/AVefi-Issues#150`. | Remove from active frontend triage in the next refreshed inventory. |
 | `AV-EFI/frontend#10` | Closed as deprecated. | Remove from active frontend triage in the next refreshed inventory. |
@@ -74,7 +74,7 @@ Recommended concept:
 Suggested comment for `#128`:
 
 ```md
-Review note from backlog cleanup:
+Review note from backlog consolidation:
 
 This should stay open. The current UI mostly opens detail pages in a new tab, which avoids losing the search result list but breaks the perceived connection between search context and detail context.
 
@@ -104,7 +104,7 @@ GitHub search finding:
 Suggested closing comment for `#111`:
 
 ```md
-Closing during backlog cleanup: the vocabulary/glossary feature is implemented in the app.
+Closing during backlog consolidation: the vocabulary/glossary feature is implemented in the app.
 
 Implementation evidence:
 - `/vocab` page with searchable vocabulary view
@@ -131,7 +131,7 @@ Successor/definition issue:
 Suggested comment for `AV-EFI/frontend#2`:
 
 ```md
-Backlog cleanup note:
+Backlog review note:
 
 This older frontend issue appears to be superseded by / dependent on `AV-EFI/AVefi-Issues#150`.
 
@@ -156,7 +156,7 @@ Suggested direction:
 Suggested comment for `#166`:
 
 ```md
-Backlog cleanup note:
+Backlog review note:
 
 This should probably stay open, but as a container/epic rather than a single implementable issue. The current body reads like collected ideas for user interaction features.
 

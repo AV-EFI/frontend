@@ -1,6 +1,6 @@
 # Issues And Risks
 
-This list is prioritized for later cleanup. It is intentionally biased toward architecture, security, and maintenance risk rather than style issues.
+This list is prioritized for later consolidation. It is intentionally biased toward architecture, security, and maintenance risk rather than style issues.
 
 ## Recently addressed on this branch
 
@@ -155,11 +155,11 @@ Impact:
 - there is a mix of Options API and Composition API without a clear rule
 - `docs/` was already populated before this analysis, but without a clear docs ownership model
 
-## Good candidates for first cleanup passes
+## Good candidates for first consolidation passes
 
 1. Remove legacy public runtime-config aliases once all consumers are migrated.
 2. Standardize on Nitro as the only external-data boundary.
 3. Split active app code from legacy/protected/internal tooling.
 4. Replace the interim frontend auth guard with the final backend/Keycloak-backed authorization model.
-5. Replace the hardcoded image generator with a shared image manifest plus a cleanup mode.
+5. Replace the hardcoded image generator with a shared image manifest plus a maintenance mode.
 6. Add real tests before large structural refactors.
