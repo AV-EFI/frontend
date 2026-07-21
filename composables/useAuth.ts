@@ -6,6 +6,20 @@ const loading = ref(false);
 const error = ref<unknown>(null);
 let sessionInterval: ReturnType<typeof setInterval> | null = null;
 
+function normalizeSession(session: any) {
+  if (!session?.user) {
+    return session || null;
+  }
+
+  return {
+    ...session,
+    user: {
+      ...session.user,
+      institution: session.user.institution || session.user.orgid || '',
+    },
+  };
+}
+
 export function useAuth() {
   const config = useRuntimeConfig().public;
   const { $router } = useNuxtApp();
@@ -25,7 +39,7 @@ export function useAuth() {
     try {
       const res = await $fetch(SESSION_ENDPOINT, { credentials: 'include' });
       log('Session fetch successful', res);
-      data.value = res || null;
+      data.value = normalizeSession(res);
 
       if (import.meta.client) {
         localStorage.setItem('auth_session', JSON.stringify(data.value));
@@ -122,7 +136,7 @@ export function useAuth() {
         log('Storage event detected', event.key);
         try {
           if (event.key === 'auth_session' && event.newValue) {
-            data.value = JSON.parse(event.newValue);
+            data.value = normalizeSession(JSON.parse(event.newValue));
             //log('Session updated from storage', data.value);
           }
         } catch (e) {
@@ -141,7 +155,7 @@ export function useAuth() {
       const saved = localStorage.getItem('auth_session');
       if (saved) {
         try {
-          data.value = JSON.parse(saved);
+          data.value = normalizeSession(JSON.parse(saved));
           log('Restored session from localStorage', data.value);
         } catch (e) {
           log('❌ Error parsing saved session', e);
