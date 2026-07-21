@@ -199,7 +199,7 @@
                                 </ul>
                             </details>
                         </li>
-                        <li v-else class="h-12 justify-center hidden">
+                        <li v-else-if="loginEnabled" class="h-12 justify-center">
                             <div role="button" class="btn btn-circle btn-sm btn-outline flex items-center justify-center"
                                  :aria-label="ariaLabelLogin" :title="$t('login')" @click="signIn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -238,8 +238,8 @@ const mobileSettingsMenuOpen = ref(false);
 const mobileMenuRef = ref<HTMLElement | null>(null);
 const detailsOpen = ref(false);
 
-const config = useRuntimeConfig();
-const envLabel = config.public.ENV_LABEL;
+const envLabel = runtime.public.ENV_LABEL;
+const loginEnabled = computed(() => runtime.public.loginEnabled === true);
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;
