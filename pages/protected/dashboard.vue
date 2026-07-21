@@ -13,84 +13,21 @@
                         {{ authData?.user?.name }} | {{ authData?.user?.institution }}
                     </h2>
                     <div class="stats shadow mt-4">
-                        <div class="stat">
-                            <div class="stat-figure text-secondary">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    class="inline-block h-8 w-8 stroke-current"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                            </div>
+                        <div v-for="stat in dashboardStatsItems" :key="stat.key" class="stat">
                             <div class="stat-title">
-                                {{ $t('workvariants') }}
+                                {{ stat.label }}
                             </div>
                             <div class="stat-value">
-                                <MicroESCountComp
-                                    :category="'avefi:WorkVariant'"
-                                    :query_term="`${authData?.user?.institution}`"
-                                />
+                                <span v-if="dashboardStatsPending" class="loading loading-spinner text-primary" />
+                                <span v-else-if="dashboardStatsError" class="text-error text-base">
+                                    {{ $t('error') }}
+                                </span>
+                                <span v-else>
+                                    {{ formatCount(stat.value) }}
+                                </span>
                             </div>
-                        </div>
-
-                        <div class="stat">
-                            <div class="stat-figure text-secondary">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    class="inline-block h-8 w-8 stroke-current"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                                    />
-                                </svg>
-                            </div>
-                            <div class="stat-title">
-                                {{ $t('manifestations') }}
-                            </div>
-                            <div class="stat-value">
-                                <MicroESCountComp
-                                    :category="'avefi:Manifestation'"
-                                    :query_term="`${authData?.user?.institution}`"
-                                />
-                            </div>            
-                        </div>
-
-                        <div class="stat">
-                            <div class="stat-figure text-secondary">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    class="inline-block h-8 w-8 stroke-current"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                                    />
-                                </svg>
-                            </div>
-                            <div class="stat-title">
-                                {{ $t('items') }}
-                            </div>
-                            <div class="stat-value">
-                                <MicroESCountComp
-                                    :category="'avefi:Item'"
-                                    :query_term="`${authData?.user?.institution}`"
-                                />
+                            <div v-if="dashboardStats?.updatedAt && !dashboardStatsPending && !dashboardStatsError" class="stat-desc">
+                                {{ formattedStatsUpdatedAt }}
                             </div>
                         </div>
                     </div>
@@ -105,12 +42,6 @@
                         </li>
                         <li>
                             <a
-                                href="/protected/institutionlist"
-                                class="hover:bg-base-200 link link-primary"
-                            >{{ $t('myDatasets') }}</a>
-                        </li>
-                        <li>
-                            <a
                                 href="/protected/favouriteslist"
                                 class="hover:bg-base-200 link link-primary"
                             >{{ $t('favourites') }}</a>
@@ -121,3 +52,59 @@
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+type DashboardStatsResponse = {
+    success: boolean;
+    counts: {
+        works: number;
+        manifestations: number;
+        items: number;
+    };
+    updatedAt: string;
+};
+
+const { data: authData } = useAuth();
+const { locale, t } = useI18n();
+
+const {
+    data: dashboardStats,
+    pending: dashboardStatsPending,
+    error: dashboardStatsError,
+} = await useFetch<DashboardStatsResponse>('/api/elastic/dashboard-stats', {
+    method: 'POST',
+});
+
+const dashboardStatsItems = computed(() => [
+    {
+        key: 'works',
+        label: t('workvariants'),
+        value: dashboardStats.value?.counts?.works ?? 0,
+    },
+    {
+        key: 'manifestations',
+        label: t('manifestations'),
+        value: dashboardStats.value?.counts?.manifestations ?? 0,
+    },
+    {
+        key: 'items',
+        label: t('items'),
+        value: dashboardStats.value?.counts?.items ?? 0,
+    },
+]);
+
+const formattedStatsUpdatedAt = computed(() => {
+    if (!dashboardStats.value?.updatedAt) {
+        return '';
+    }
+
+    return new Intl.DateTimeFormat(locale.value, {
+        dateStyle: 'short',
+        timeStyle: 'short',
+    }).format(new Date(dashboardStats.value.updatedAt));
+});
+
+function formatCount(value: number): string {
+    return new Intl.NumberFormat(locale.value).format(value);
+}
+</script>

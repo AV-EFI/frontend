@@ -384,7 +384,6 @@ export default defineNuxtConfig({
     '/res/**': { ssr: true, prerender: false },
     '/filmrel/**': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, follow, noarchive' } },
     '/serial/**': { ssr: true },
-    '/protected/institutionlist': { ssr: true },
     '/protected/dashboard': { ssr: true },
     '/protected/mergetool': { ssr: true },
     '/normdata': { ssr: true },

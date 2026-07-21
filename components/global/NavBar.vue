@@ -65,9 +65,6 @@
                                     class="badge badge-accent text-white">1</span></a>
                             </li>
                             <li v-if="data?.user" class="h-12 flex justify-center">
-                                <a href="/protected/institutionlist">{{ $t('myDatasets') }}</a>
-                            </li>
-                            <li v-if="data?.user" class="h-12 flex justify-center">
                                 <a href="/protected/favouriteslist">{{ $t('favourites') }}</a>
                             </li>
                             <li v-if="data?.user" class="h-12 flex justify-center">
@@ -136,28 +133,6 @@
                         <li class="h-12 flex justify-center mr-2">
                             <LazyMicroSendMailButt />
                         </li>
-                        <li class="h-12 overflow-visible">
-                            <div class="dropdown dropdown-end">
-                                <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
-                                     :aria-label="$t('settingsMenu')" class="btn btn-outline btn-circle">
-                                    <Icon name="tabler:dots" />
-                                </div>
-                                <ul tabindex="-1"
-                                    class="dropdown-content w-32 menu bg-base-100 rounded-box z-10 shadow-sm [li:hover]:bg-transparent"
-                                    role="menu" :aria-label="$t('moreOptions')">
-                                    <li role="none" class="flex justify-center">
-                                        <Suspense>
-                                            <GlobalThemeSwitch />
-                                        </Suspense>
-                                    </li>
-                                    <li role="none" class="flex justify-center">
-                                        <Suspense>
-                                            <GlobalLanguageSwitch />
-                                        </Suspense>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
                         <li v-if="data?.user" class="h-12 flex justify-center">
                             <details @toggle="detailsOpen = ($event.target as HTMLDetailsElement)?.open">
                                 <summary aria-haspopup="menu" :aria-expanded="detailsOpen" :aria-label="ariaLabelUserMenu">
@@ -176,9 +151,6 @@
                                     <li role="none">
                                         <a role="menuitem" href="/protected/mergetool">{{ $t('mergeTool') }}<span
                                             class="badge badge-accent text-white">1</span></a>
-                                    </li>
-                                    <li role="none">
-                                        <a role="menuitem" href="/protected/institutionlist">{{ $t('myDatasets') }}</a>
                                     </li>
                                     <li role="none">
                                         <a role="menuitem" href="/protected/favouriteslist">{{ $t('favourites') }}</a>
@@ -200,14 +172,31 @@
                             </details>
                         </li>
                         <li v-else-if="loginEnabled" class="h-12 justify-center">
-                            <div role="button" class="btn btn-circle btn-sm btn-outline flex items-center justify-center"
-                                 :aria-label="ariaLabelLogin" :title="$t('login')" @click="signIn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                     stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-                                     style="display: block;" class="dark:stroke-white">
-                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                </svg>
+                            <button type="button" class="btn btn-outline btn-circle"
+                                    :aria-label="ariaLabelLogin" :title="$t('login')" @click="signIn">
+                                <Icon name="tabler:user-circle" />
+                            </button>
+                        </li>
+                        <li class="h-12 overflow-visible">
+                            <div class="dropdown dropdown-end">
+                                <div tabindex="0" role="button" aria-haspopup="true" aria-expanded="false"
+                                     :aria-label="$t('settingsMenu')" class="btn btn-outline btn-circle">
+                                    <Icon name="tabler:dots" />
+                                </div>
+                                <ul tabindex="-1"
+                                    class="dropdown-content w-32 menu bg-base-100 rounded-box z-10 shadow-sm [li:hover]:bg-transparent"
+                                    role="menu" :aria-label="$t('moreOptions')">
+                                    <li role="none" class="flex justify-center">
+                                        <Suspense>
+                                            <GlobalThemeSwitch />
+                                        </Suspense>
+                                    </li>
+                                    <li role="none" class="flex justify-center">
+                                        <Suspense>
+                                            <GlobalLanguageSwitch />
+                                        </Suspense>
+                                    </li>
+                                </ul>
                             </div>
                         </li>
                     </ul>
