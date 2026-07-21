@@ -1,102 +1,110 @@
 <template>
-    <ClientOnly>
-        <LazyGlobalBreadcrumbsComp
+    <div class="container mx-auto p-4">
+        <GlobalBreadcrumbsComp
             :breadcrumbs="[
                 [$t('home.breadcrumbs'), '/'],
-                [$t('profile'), '/protected/me']
+                [$t('profile'), '/protected/me'],
             ]"
             class="mb-4"
         />
-        <div v-if="fatalError" class="p-6 text-center text-error">
-            <p>{{ $t('errorOccurred') }}: {{ fatalError }}</p>
-        </div>
-        <div v-else-if="auth.data.value?.user">
-            <NuxtLayout name="partial-layout-1-center">
-                <template #title>
-                    <div class="flex px-4">
-                        <h2 class="text-2xl">
-                            {{ $t('profile') }}
-                        </h2>
+
+        <NuxtLayout name="partial-layout-1-center">
+            <template #title>
+                <h2 class="font-semibold">
+                    {{ $t('profile') }}
+                </h2>
+            </template>
+
+            <template #cardBody>
+                <ClientOnly>
+                    <template #fallback>
+                        <div class="py-8 flex justify-center">
+                            <span class="loading loading-spinner loading-lg text-primary" />
+                        </div>
+                    </template>
+
+                    <div v-if="fatalError" class="p-6 text-center text-error">
+                        <p>{{ $t('errorOccurred') }}: {{ fatalError }}</p>
                     </div>
-                </template>
-                <template #cardBody>
-                    <div class="p-4 space-y-4">
-                        <p><strong>{{ $t('profileName') }}:</strong> {{ profile.user.name }}</p>
-                        <p><strong>{{ $t('profileEmail') }}:</strong> {{ profile.user.email }}</p>
-                        <p><strong>{{ $t('profileInstitution') }}:</strong> {{ profile.user.institution }}</p>
-                        <p><strong>{{ $t('profileExpires') }}:</strong> {{ profile.expires }}</p>
+
+                    <div v-else-if="profile.user" class="space-y-4">
+                        <dl class="grid gap-3 text-sm sm:grid-cols-[max-content_1fr]">
+                            <dt class="font-semibold">
+                                {{ $t('profileName') }}
+                            </dt>
+                            <dd>{{ profile.user.name }}</dd>
+
+                            <dt class="font-semibold">
+                                {{ $t('profileEmail') }}
+                            </dt>
+                            <dd>{{ profile.user.email }}</dd>
+
+                            <dt class="font-semibold">
+                                {{ $t('profileInstitution') }}
+                            </dt>
+                            <dd>{{ profile.user.institution }}</dd>
+
+                            <dt class="font-semibold">
+                                {{ $t('profileExpires') }}
+                            </dt>
+                            <dd>{{ profile.expires }}</dd>
+                        </dl>
+
+                        <div class="pt-2">
+                            <GlobalRawDataCollapse :api-data="rawProfileTokenData" />
+                        </div>
                     </div>
-                </template>
-            </NuxtLayout>
-        </div>
-        <div v-else class="p-6 text-center">
-            <p>{{ $t('notLoggedIn') }}</p>
-        </div>
-    </ClientOnly>
+
+                    <div v-else class="p-6 text-center">
+                        <p>{{ $t('notLoggedIn') }}</p>
+                    </div>
+                </ClientOnly>
+            </template>
+        </NuxtLayout>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 
 const { t } = useI18n();
-const log = (...args: unknown[]) => {
-    console.log(`[ProfilePage ${new Date().toISOString()}]`, ...args);
-};
-
 const auth = useAuth();
 const fatalError = ref<string | null>(null);
 
-const profile = reactive({
-    user: {
-        name: '',
-        email: '',
-        institution: ''
-    },
-    expires: '',
-    role: null,
-    blocked: false
+const profile = computed(() => {
+    const session = auth.data.value;
+    const user = session?.user;
+
+    if (!user) {
+        return {
+            user: null,
+            expires: '',
+        };
+    }
+
+    const expiresAt = session.timestamp && session.timeout
+        ? new Date((session.timestamp + session.timeout) * 1000).toLocaleString()
+        : '';
+
+    return {
+        user: {
+            name: user.name || '',
+            email: user.email || '',
+            institution: user.orgid || user.institution || '',
+        },
+        expires: expiresAt,
+    };
 });
+
+const rawProfileTokenData = computed(() => JSON.stringify(auth.data.value || {}, null, 2));
 
 onMounted(async () => {
     try {
-        log('Mounted: Starting session check');
         if (!auth.data.value?.user) {
-            log('No user in session, fetching...');
-            try {
-                await auth.getSession();
-                log('Session fetched successfully:', auth.data.value);
-            } catch (err) {
-                log('❌ Error fetching session:', err);
-                fatalError.value = (err as Error)?.message || t('sessionFetchFailed');
-                return;
-            }
+            await auth.getSession();
         }
-
-        const user = auth.data.value?.user;
-        if (user) {
-            try {
-                log('Mapping user data to profile');
-                profile.user.name = user.name || '';
-                profile.user.email = user.email || '';
-                profile.user.institution = user.orgid || '';
-
-                if (auth.data.value.timestamp && auth.data.value.timeout) {
-                    const expiresAt = new Date(
-                        (auth.data.value.timestamp + auth.data.value.timeout) * 1000
-                    );
-                    profile.expires = expiresAt.toLocaleString();
-                }
-                log('Profile mapped successfully:', JSON.stringify(profile));
-            } catch (error) {
-                log('❌ Error mapping user data:', error);
-                fatalError.value = (error as Error)?.message || t('mappingError');
-            }
-        } else {
-            log('No user object found in auth data');
-        }
-    } catch (outerErr) {
-        log('🔥 Fatal error during onMounted execution:', outerErr);
-        fatalError.value = (outerErr as Error)?.message || t('unexpectedError');
+    } catch (error) {
+        fatalError.value = (error as Error)?.message || t('sessionFetchFailed');
     }
 });
 </script>

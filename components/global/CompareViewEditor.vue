@@ -23,12 +23,12 @@
                 <div class="w-full lg:w-2/3 overflow-auto min-h-screen flex flex-col lg:grid gap-1 lg:grid-cols-8 lg:grid-rows-[48px__48px_minmax(64px,max-content)_minmax(64px,max-content)_64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr lg:pr-1">
                     <ViewsWorkViewEditor
                         v-model="prev"
-                        :title="$t('Dataset1')"
+                        :title="$t('dataset1')"
                         @update-target-model-g-p="onUpdateTargetModelGP"
                     />
                     <ViewsWorkViewEditor
                         v-model="current"
-                        :title="$t('Dataset2')" 
+                        :title="$t('dataset2')" 
                         @update-target-model-g-p="onUpdateTargetModelGP"
                     />
                 </div>

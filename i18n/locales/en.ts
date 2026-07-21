@@ -10,6 +10,7 @@ const avefiBase = {
   'exportFailed': 'Export failed. Please try again.',
   'exportSuccess': '{format} exported.',
   'formSubmitted': 'Form submitted.',
+  'noData': 'No data',
   'incompleteData': 'Incomplete data',
   'noDataToExport': 'No data to export.',
   'comparisonTabDisabled': 'Add items to enable comparison.',

@@ -11,6 +11,7 @@ const deBase = {
   'exportFailed': 'Export fehlgeschlagen. Bitte versuchen Sie es erneut.',
   'exportSuccess': '{format} wurde exportiert.',
   'formSubmitted': 'Formular gesendet.',
+  'noData': 'Keine Daten',
   'noDataToExport': 'Keine Daten zum Exportieren vorhanden.',
   'comparisonTabDisabled': 'Fuegen Sie Eintraege hinzu, um den Vergleich zu aktivieren.',
   'favouritesTabDisabled': 'Fuegen Sie Favoriten hinzu, um diesen Tab zu aktivieren.',
