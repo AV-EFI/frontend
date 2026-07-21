@@ -9,7 +9,27 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (import.meta.server) {
-    return;
+    try {
+      const sessionEndpoint = runtimeConfig.public.AUTH_SESSION_ENDPOINT;
+      const sessionUrl = sessionEndpoint.startsWith('http')
+        ? sessionEndpoint
+        : new URL(sessionEndpoint, useRequestURL().origin).toString();
+      const session = await $fetch<{ user?: Record<string, unknown> | null }>(
+        sessionUrl,
+        {
+          headers: useRequestHeaders(['cookie']),
+        },
+      );
+
+      if (session?.user) {
+        return;
+      }
+    } catch {
+      return;
+    }
+
+    // eslint-disable-next-line consistent-return
+    return navigateTo('/');
   }
 
   const auth = useAuth();
