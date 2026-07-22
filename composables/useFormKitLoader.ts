@@ -19,7 +19,8 @@ const fallbackInstallFormKit = async (nuxtApp: ReturnType<typeof useNuxtApp>) =>
         import('~/formkit.config'),
       ]);
 
-      const resolvedConfig = configModule.default ?? configModule;
+      const configExport = configModule.default ?? configModule;
+      const resolvedConfig = typeof configExport === 'function' ? configExport() : configExport;
       nuxtApp.vueApp.use(plugin, defaultConfig(resolvedConfig));
     })().catch((error) => {
       fallbackInstallPromise = null;

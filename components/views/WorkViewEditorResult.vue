@@ -1,9 +1,12 @@
 <template>
     <div>
-        <form
+        <FormKit
             id="work-view-editor-result"
-            class="merge-editor-result bg-base-100 dark:bg-gray-900 border-base-300 border-2 p-2 rounded-xl"
-            @submit.prevent="customSubmitHandler"
+            v-model="dataJson"
+            :classes="{ form: 'merge-editor-result bg-base-100 dark:bg-gray-900 border-base-300 border-2 p-2 rounded-xl' }"
+            type="form"
+            :actions="false"
+            @submit="customSubmitHandler"
         >
             <div class="col-span-full flex flex-row justify-between items-center">
                 <h2 class="merge-editor-title">
@@ -18,196 +21,156 @@
                 </button>
             </div>
 
-            <label class="form-control col-span-full mb-3">
-                <span class="label-text">efi:</span>
-                <input v-model="dataJson.efi" class="input input-bordered input-sm w-full" required>
-            </label>
+            <FormKit type="text" name="handle" label="efi:" validation="required" />
 
-            <label class="form-control col-span-full mb-3">
-                <span class="label-text">{{ $t('title') }}</span>
-                <input v-model="dataJson.title" class="input input-bordered input-sm w-full" required>
-            </label>
+            <FormKit type="group" name="has_record">
+                <FormKit type="hidden" name="category" />
+                <FormKit type="text" name="type" label="type:" validation="required" />
 
-            <label class="form-control col-span-full mb-3">
-                <span class="label-text">{{ $t('AlternativeTitle') }}</span>
-                <input v-model="dataJson.alternative_title" class="input input-bordered input-sm w-full">
-            </label>
+                <FormKit type="group" name="has_primary_title">
+                    <FormKit type="hidden" name="type" />
+                    <FormKit type="text" name="has_name" :label="$t('title')" validation="required" />
+                </FormKit>
 
-            <section
-                v-for="section in repeatableSections"
-                :key="section.key"
-                class="col-span-full mb-4 rounded border border-base-200 p-2"
-            >
-                <div class="mb-2 flex items-center justify-between gap-2">
-                    <h3 class="merge-section-label">
-                        {{ section.label }}
-                    </h3>
-                    <button type="button" class="btn btn-outline btn-xs" @click="addItem(section.key, section.extraKey)">
-                        <Icon name="tabler:plus" aria-hidden="true" />
-                        {{ section.addLabel }}
-                    </button>
-                </div>
+                <label class="merge-section-label">{{ $t('AlternativeTitle') }}:</label>
+                <FormKit type="repeater" name="has_alternative_title" :add-label="$t('AlternativeTitle')" min="0">
+                    <FormKit type="hidden" name="type" value="AlternativeTitle" />
+                    <FormKit type="text" name="has_name" :label="$t('AlternativeTitle')" />
+                </FormKit>
 
-                <div v-if="getItems(section.key).length" class="space-y-2">
-                    <div
-                        v-for="(item, index) in getItems(section.key)"
-                        :key="index"
-                        class="grid gap-2 rounded bg-base-200/50 p-2"
-                    >
-                        <label class="form-control">
-                            <span class="label-text">{{ section.primaryLabel }}</span>
-                            <input v-model="item.name" class="input input-bordered input-sm w-full">
-                        </label>
+                <label class="merge-section-label">{{ $t('production') }}:</label>
+                <FormKit type="repeater" name="has_event" :add-label="$t('addNewProductionYear')" min="0">
+                    <FormKit type="hidden" name="category" value="avefi:ProductionEvent" />
+                    <FormKit type="hidden" name="type" value="Production" />
+                    <FormKit type="text" name="has_date" :label="$t('productionyear')" />
 
-                        <label v-if="section.extraKey" class="form-control">
-                            <span class="label-text">{{ section.extraLabel }}</span>
-                            <input v-model="item[section.extraKey]" class="input input-bordered input-sm w-full">
-                        </label>
+                    <label class="merge-section-label">{{ $t('location') }}:</label>
+                    <FormKit type="repeater" name="located_in" :add-label="$t('addNewLocation')" min="0">
+                        <FormKit type="hidden" name="category" value="avefi:GeographicName" />
+                        <FormKit type="text" name="has_name" :label="$t('location')" />
 
-                        <button type="button" class="btn btn-ghost btn-xs justify-self-end" @click="removeItem(section.key, index)">
-                            <Icon name="tabler:trash" aria-hidden="true" />
-                            {{ $t('remove') }}
-                        </button>
-                    </div>
-                </div>
-                <p v-else class="text-sm text-base-content/60">
-                    {{ $t('noData') }}
-                </p>
-            </section>
+                        <label class="merge-section-label">same_as:</label>
+                        <FormKit type="repeater" name="same_as" :add-label="$t('addNewOtherId')" min="0">
+                            <FormKit type="text" name="id" label="id:" />
+                            <FormKit type="text" name="category" label="category:" />
+                        </FormKit>
+                    </FormKit>
 
-            <label class="form-control col-span-full mb-3">
-                <span class="label-text">{{ $t('lastedit') }}</span>
-                <input v-model="dataJson.last_edit" class="input input-bordered input-sm w-full" readonly>
-            </label>
+                    <label class="merge-section-label">has_activity:</label>
+                    <FormKit type="repeater" name="has_activity" :add-label="$t('addNewCastMember')" min="0">
+                        <FormKit type="hidden" name="category" value="avefi:Activity" />
+                        <FormKit type="text" name="type" label="type:" />
+
+                        <label class="merge-section-label">has_agent:</label>
+                        <FormKit type="repeater" name="has_agent" :add-label="$t('addNewCastMember')" min="0">
+                            <FormKit type="hidden" name="category" value="avefi:Agent" />
+                            <FormKit type="text" name="has_name" :label="$t('castmembers')" />
+                            <FormKit type="text" name="type" label="type:" />
+
+                            <label class="merge-section-label">same_as:</label>
+                            <FormKit type="repeater" name="same_as" :add-label="$t('addNewOtherId')" min="0">
+                                <FormKit type="text" name="id" label="id:" />
+                                <FormKit type="text" name="category" label="category:" />
+                            </FormKit>
+                        </FormKit>
+                    </FormKit>
+                </FormKit>
+
+                <label class="merge-section-label">{{ $t('has_genre_has_name') }}:</label>
+                <FormKit type="repeater" name="has_genre" :add-label="$t('addNewGenre')" min="0">
+                    <FormKit type="text" name="has_name" :label="$t('has_genre_has_name')" />
+
+                    <label class="merge-section-label">same_as:</label>
+                    <FormKit type="repeater" name="same_as" :add-label="$t('addNewOtherId')" min="0">
+                        <FormKit type="text" name="id" label="id:" />
+                        <FormKit type="text" name="category" label="category:" />
+                    </FormKit>
+                </FormKit>
+
+                <label class="merge-section-label">{{ $t('subject') }}:</label>
+                <FormKit type="repeater" name="has_subject" :add-label="$t('addNewSubject')" min="0">
+                    <FormKit type="hidden" name="category" value="avefi:Subject" />
+                    <FormKit type="text" name="has_name" :label="$t('subject')" />
+
+                    <label class="merge-section-label">same_as:</label>
+                    <FormKit type="repeater" name="same_as" :add-label="$t('addNewOtherId')" min="0">
+                        <FormKit type="text" name="id" label="id:" />
+                        <FormKit type="text" name="category" label="category:" />
+                    </FormKit>
+                </FormKit>
+
+                <label class="merge-section-label">{{ $t('other_ids') }}:</label>
+                <FormKit type="repeater" name="same_as" :add-label="$t('addNewOtherId')" min="0">
+                    <FormKit type="text" name="id" label="id:" validation="required" />
+                    <FormKit type="text" name="category" label="category:" validation="required" />
+                </FormKit>
+
+                <FormKit type="group" name="described_by">
+                    <FormKit type="text" name="has_issuer_id" label="has_issuer_id:" />
+                    <FormKit type="text" name="has_issuer_name" :readonly="true" :label="$t('lastedit')" validation="required" />
+                </FormKit>
+            </FormKit>
 
             <div class="col-span-full">
-                <button type="submit" class="btn btn-primary w-full max-w-[600px]">
-                    Merge
-                    <Icon name="tabler:git-merge" aria-hidden="true" />
-                </button>
+                <FormKit type="submit" label="Merge" :disabled="false" suffix-icon="group" :classes="{
+                    outer: '!w-full max-w-[600px]',
+                    input: 'w-full text-center justify-center'
+                }" />
             </div>
-
             <div class="hidden">
                 <pre>{{ dataJson }}</pre>
             </div>
-        </form>
+        </FormKit>
     </div>
 </template>
 
 <script setup lang="ts">
-type MergeItem = {
-    name?: string;
-    same_as_id?: string;
-    type?: string;
-};
+import type { IAVefiWorkVariant } from '~/models/interfaces/generated';
+import { useFormKitLoader } from '~/composables/useFormKitLoader';
 
-type MergedDataset = Record<string, MergeItem[] | string>;
-
+const { ensureFormKitReady } = useFormKitLoader();
 const { $toast } = useNuxtApp();
 const { t: $t } = useI18n();
 
-const initialState: MergedDataset = {
-    efi: '',
-    title: '',
-    alternative_title: '',
-    location: [],
-    productionyear: [],
-    director: [],
-    castmember: [],
-    producer: [],
-    genre: [],
-    subject: [],
-    other_id: [],
-    last_edit: 'Deutsche Kinemathek - Museum fur Film und Fernsehen'
+await ensureFormKitReady();
+
+const initialState: IAVefiWorkVariant = {
+    handle: '',
+    has_record: {
+        category: 'avefi:WorkVariant',
+        type: 'Monographic',
+        has_primary_title: {
+            has_name: '',
+            type: 'PreferredTitle',
+        },
+        has_alternative_title: [],
+        has_event: [
+            {
+                category: 'avefi:ProductionEvent',
+                type: 'Production',
+                has_date: '',
+                located_in: [],
+                has_activity: [],
+            },
+        ],
+        has_genre: [],
+        has_subject: [],
+        same_as: [],
+        described_by: {
+            has_issuer_id: '',
+            has_issuer_name: 'Deutsche Kinemathek - Museum fuer Film und Fernsehen',
+        },
+    },
 };
 
-const dataJson = defineModel<MergedDataset>({ required: true });
+const dataJson = defineModel<IAVefiWorkVariant>({ required: true });
 
-const repeatableSections = computed(() => [
-    {
-        key: 'location',
-        label: $t('location'),
-        addLabel: $t('addNewLocation'),
-        primaryLabel: $t('location'),
-        extraKey: 'same_as_id',
-        extraLabel: `${$t('location')} ID Extern`,
-    },
-    {
-        key: 'productionyear',
-        label: $t('productionyears'),
-        addLabel: $t('addNewProductionYear'),
-        primaryLabel: $t('productionyear'),
-    },
-    {
-        key: 'director',
-        label: $t('directors'),
-        addLabel: $t('addNewDirector'),
-        primaryLabel: `${$t('Director')} Name`,
-        extraKey: 'same_as_id',
-        extraLabel: `${$t('Director')} ID Extern`,
-    },
-    {
-        key: 'producer',
-        label: $t('producers'),
-        addLabel: $t('addNewProducer'),
-        primaryLabel: `${$t('production')} Name`,
-        extraKey: 'same_as_id',
-        extraLabel: `${$t('production')} ID Extern`,
-    },
-    {
-        key: 'castmember',
-        label: $t('castmembers'),
-        addLabel: $t('addNewCastMember'),
-        primaryLabel: `${$t('castmembers')} Name`,
-        extraKey: 'same_as_id',
-        extraLabel: `${$t('castmembers')} ID Extern`,
-    },
-    {
-        key: 'genre',
-        label: $t('has_genre_has_name'),
-        addLabel: $t('addNewGenre'),
-        primaryLabel: `${$t('has_genre_has_name')} Name`,
-        extraKey: 'same_as_id',
-        extraLabel: `${$t('has_genre_has_name')} ID Extern`,
-    },
-    {
-        key: 'subject',
-        label: $t('subject'),
-        addLabel: $t('addNewSubject'),
-        primaryLabel: `${$t('subject')} Name`,
-        extraKey: 'same_as_id',
-        extraLabel: `${$t('subject')} ID Extern`,
-    },
-    {
-        key: 'other_id',
-        label: $t('other_ids'),
-        addLabel: $t('addNewOtherId'),
-        primaryLabel: `${$t('other_ids')} ID`,
-        extraKey: 'type',
-        extraLabel: `${$t('other_ids')} Type`,
-    },
-] as const);
-
-function getItems(key: string): MergeItem[] {
-    const value = dataJson.value[key];
-    if (Array.isArray(value)) {
-        return value as MergeItem[];
-    }
-
-    dataJson.value[key] = [];
-    return dataJson.value[key] as MergeItem[];
-}
-
-function addItem(key: string, extraKey?: 'same_as_id' | 'type') {
-    getItems(key).push(extraKey ? { name: '', [extraKey]: '' } : { name: '' });
-}
-
-function removeItem(key: string, index: number) {
-    getItems(key).splice(index, 1);
+function cloneInitialState() {
+    return JSON.parse(JSON.stringify(initialState)) as IAVefiWorkVariant;
 }
 
 function customReset() {
-    dataJson.value = JSON.parse(JSON.stringify(initialState));
+    dataJson.value = cloneInitialState();
 }
 
 function customSubmitHandler() {
@@ -227,14 +190,16 @@ function customSubmitHandler() {
     line-height: 1.75rem;
 }
 
-.merge-editor-result .label-text,
+.merge-editor-result :deep(.formkit-label),
 .merge-section-label {
+    display: block;
+    margin-bottom: 0.25rem;
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.25rem;
 }
 
-.merge-editor-result input {
+.merge-editor-result :deep(.formkit-input) {
     font-size: 0.875rem;
 }
 </style>
