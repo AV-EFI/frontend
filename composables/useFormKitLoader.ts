@@ -8,26 +8,32 @@ interface FormKitLoaderState {
 }
 
 const stateKey = 'formkit-loader-state';
-let fallbackInstallPromise: Promise<void> | null = null;
-let ensureReadyPromise: Promise<void> | null = null;
+
+// Scoped per-nuxtApp (see plugins/formkit-loader.ts for why a module-level
+// `let` is unsafe here: it would leak across concurrent SSR requests).
+const fallbackInstallPromises = new WeakMap<object, Promise<void>>();
+const ensureReadyPromises = new WeakMap<object, Promise<void>>();
 
 const fallbackInstallFormKit = async (nuxtApp: ReturnType<typeof useNuxtApp>) => {
-  if (!fallbackInstallPromise) {
-    fallbackInstallPromise = (async () => {
+  let promise = fallbackInstallPromises.get(nuxtApp);
+  if (!promise) {
+    promise = (async () => {
       const [{ plugin, defaultConfig }, configModule] = await Promise.all([
         import('@formkit/vue'),
         import('~/formkit.config'),
       ]);
 
-      const resolvedConfig = configModule.default ?? configModule;
+      const configExport = configModule.default ?? configModule;
+      const resolvedConfig = typeof configExport === 'function' ? configExport() : configExport;
       nuxtApp.vueApp.use(plugin, defaultConfig(resolvedConfig));
     })().catch((error) => {
-      fallbackInstallPromise = null;
+      fallbackInstallPromises.delete(nuxtApp);
       throw error;
     });
+    fallbackInstallPromises.set(nuxtApp, promise);
   }
 
-  return fallbackInstallPromise;
+  return promise;
 };
 
 export const useFormKitLoader = () => {
@@ -43,12 +49,13 @@ export const useFormKitLoader = () => {
       return;
     }
 
-    if (ensureReadyPromise) {
-      await ensureReadyPromise;
+    const existing = ensureReadyPromises.get(nuxtApp);
+    if (existing) {
+      await existing;
       return;
     }
 
-    ensureReadyPromise = (async () => {
+    const promise = (async () => {
       state.value.loading = true;
       state.value.error = null;
 
@@ -65,11 +72,12 @@ export const useFormKitLoader = () => {
         throw error;
       } finally {
         state.value.loading = false;
-        ensureReadyPromise = null;
+        ensureReadyPromises.delete(nuxtApp);
       }
     })();
+    ensureReadyPromises.set(nuxtApp, promise);
 
-    await ensureReadyPromise;
+    await promise;
   };
 
   return {

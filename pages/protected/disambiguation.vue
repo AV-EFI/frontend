@@ -19,8 +19,10 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const items = [];
-items[0] = route.query.prev;
-items[1] = route.query.next;
+const getQueryValue = (value: unknown) => Array.isArray(value) ? value[0] : value;
+const items = [
+    getQueryValue(route.query.prev),
+    getQueryValue(route.query.next),
+].filter((value): value is string => typeof value === 'string' && value.length > 0);
 
 </script>

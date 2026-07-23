@@ -63,11 +63,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     pushErrorToServer('vue-error', error, { info });
 
-    showError({
-      statusCode: 500,
-      statusMessage: 'Internal Server Error',
-      message: error instanceof Error ? error.message : String(error),
-    });
+    // Vue component/render/lifecycle errors are usually scoped to a single
+    // widget (e.g. a lazily-loaded search form failing to fetch a chunk).
+    // Don't take down the whole app for those - just log and report. Pages
+    // that hit a genuinely fatal error should call showError() themselves.
   };
 
   if (process.client) {
@@ -76,11 +75,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       pushErrorToServer('unhandledrejection', event.reason);
 
-      showError({
-        statusCode: 500,
-        statusMessage: 'Internal Server Error',
-        message: event.reason instanceof Error ? event.reason.message : String(event.reason),
-      });
+      // Unhandled rejections can come from anywhere on the page (third-party
+      // scripts, unrelated widgets), so treating every one as fatal enough
+      // to replace the whole app with the error page is too aggressive.
+      // Just log and report.
     });
 
     window.addEventListener('error', (event) => {

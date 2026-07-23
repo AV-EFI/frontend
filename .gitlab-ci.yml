@@ -176,6 +176,7 @@ weekly_security_prep:
   variables:
     AUTH_ORIGIN: https://${DEPLOY_SERVER}
   script:
+    - if [ "$CI_ENVIRONMENT_NAME" = "testbed" ]; then export NUXT_PUBLIC_LOGIN_ENABLED=true; else export NUXT_PUBLIC_LOGIN_ENABLED=false; fi
     - grep -vi secret .env.tmpl | envsubst > .env
     - export NODE_OPTIONS="--max-old-space-size=4096"   # 🟢 Increase Node heap size
     - docker build --pull --tag $CONTAINER_TEST_IMAGE .
@@ -214,6 +215,7 @@ build_docker-production:
     - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
     - chmod 600 ~/.ssh/known_hosts
   script:
+    - if [ "$CI_ENVIRONMENT_NAME" = "testbed" ]; then export NUXT_PUBLIC_LOGIN_ENABLED=true; else export NUXT_PUBLIC_LOGIN_ENABLED=false; fi
     - envsubst < docker-compose.tmpl > docker-compose.yml
     - cat docker-compose.yml
     - echo "NUXT_PUBLIC_SITE_URL=$NUXT_PUBLIC_SITE_URL"

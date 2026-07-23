@@ -68,7 +68,7 @@
                     >
                         <div class="p-2 w-full flex flex-row justify-between">
                             <button class="btn btn-ghost btn-sm w-16" :title="$t('info')" @click="showInfo = !showInfo">
-                                <Icon name="tabler:info" class="icon-inline" aria-hidden="true" />
+                                <Icon name="tabler:info-circle" class="icon-inline" aria-hidden="true" />
                             </button>
                             <p v-if="showInfo" class="grow">
                                 {{ $t('comparisonComponent') }}

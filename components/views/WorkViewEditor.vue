@@ -1,9 +1,9 @@
 <!-- eslint-disable -->
 <!-- disable until backend done -->
 <template>
-    <div class="grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto border-base-300 p-1 border-2 rounded-xl">
+    <div class="merge-editor-column grid gap-1 row-span-full grid-rows-subgrid grid-cols-4 col-span-4 my-auto border-base-300 p-1 border-2 rounded-xl">
         <div class="col-span-full">
-            <h2 class="text-lg font-normal mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full">
+            <h2 class="merge-editor-title">
                 {{ title }}
             </h2>
         </div>
@@ -82,7 +82,7 @@
             <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('location') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
-                    v-for="(country, index) in data?.compound_record?._source?.has_record?.has_event[0]?.located_in"
+                    v-for="(country, index) in data?.compound_record?._source?.has_record?.has_event?.[0]?.located_in"
                     :key="index"
                     :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
@@ -96,7 +96,7 @@
                                 :key="sameAsIndex"
                                 class="list-disc"
                             >
-                                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+                                {{ sameAs.id }} ({{ sameAs.category?.replace('avefi:','') }})
                             </li>
                         </ul>
                     </div>
@@ -104,7 +104,7 @@
                         <GlobalSendValueComp
                             :target-property-value="getLocalizedPlaceLabel(country)"
                             target-property-name="location"
-                            :same-as-id="country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+                            :same-as-id="country?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ')"
                             @update-target-model="onUpdateTargetModel"
                         />
                     </div>
@@ -117,15 +117,13 @@
                 v-if="data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
                 class="grid grid-cols-7 subgrid gap-1 col-span-full"
             >
-                <li
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
-                >
+                <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-900">
                     <span class="col-span-6">
                         {{ data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date }}
                     </span>
                     <div class="col-span-1 flex flex-row justify-center my-auto">
                         <GlobalSendValueComp
-                            :target-property-value="data?.compound_record?._source?.has_record?.has_event.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
+                            :target-property-value="data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
                             target-property-name="productionyear"
                             @update-target-model="onUpdateTargetModel"
                         />
@@ -154,7 +152,7 @@
                                 :key="sameAsIndex"
                                 class="list-disc"
                             >
-                                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+                                {{ sameAs.id }} ({{ sameAs.category?.replace('avefi:','') }})
                             </li>
                         </ul>
                     </div>
@@ -162,7 +160,7 @@
                         <GlobalSendValueComp
                             :target-property-value="director.has_name"
                             target-property-name="director"
-                            :same-as-id="director?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+                            :same-as-id="director?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ')"
                             @update-target-model="onUpdateTargetModel"
                         />
                     </div>
@@ -190,7 +188,7 @@
                                 :key="sameAsIndex"
                                 class="list-disc"
                             >
-                                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+                                {{ sameAs.id }} ({{ sameAs.category?.replace('avefi:','') }})
                             </li>
                         </ul>
                     </div>
@@ -198,7 +196,7 @@
                         <GlobalSendValueComp
                             :target-property-value="producer.has_name"
                             target-property-name="producer"
-                            :same-as-id="producer?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+                            :same-as-id="producer?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ')"
                             @update-target-model="onUpdateTargetModel"
                         />
                     </div>
@@ -229,7 +227,7 @@
                                 :key="sameAsIndex"
                                 class="list-disc"
                             >
-                                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+                                {{ sameAs.id }} ({{ sameAs.category?.replace('avefi:','') }})
                             </li>
                         </ul>
                     </div>
@@ -237,7 +235,7 @@
                         <GlobalSendValueComp
                             :target-property-value="castMember.has_name"
                             target-property-name="castmember"
-                            :same-as-id="castMember?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+                            :same-as-id="castMember?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ')"
                             @update-target-model="onUpdateTargetModel"
                         />
                     </div>
@@ -245,7 +243,7 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold">{{ $t('Genre') }}:</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('has_genre_has_name') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(genre, index) in data?.compound_record?._source?.has_record?.has_genre"
@@ -262,7 +260,7 @@
                                 :key="sameAsIndex"
                                 class="list-disc"
                             >
-                                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+                                {{ sameAs.id }} ({{ sameAs.category?.replace('avefi:','') }})
                             </li>
                         </ul>
                     </div>
@@ -295,7 +293,7 @@
                                 :key="sameAsIndex"
                                 class="list-disc"
                             >
-                                {{ sameAs.id }} ({{ sameAs.category.replace('avefi:','') }})
+                                {{ sameAs.id }} ({{ sameAs.category?.replace('avefi:','') }})
                             </li>
                         </ul>
                     </div>
@@ -303,7 +301,7 @@
                         <GlobalSendValueComp
                             :target-property-value="subject.has_name"
                             target-property-name="subject"
-                            :same-as-id="subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ')"
+                            :same-as-id="subject?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ')"
                             @update-target-model="onUpdateTargetModel"
                         />
                     </div>
@@ -369,13 +367,8 @@ const dataJson = defineModel
         }
     );
 const data = dataJson.value as ElasticGetByIdResponse;
-console.log("WorkViewEditor data", data);
 
 function onUpdateTargetModel(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
-    console.log("onUpdateTargetModel");
-    console.log(targetPropertyValue);
-    console.log(targetPropertyName);
-    console.log(sameAsId);
     emit("updateTargetModelGP", targetPropertyValue, targetPropertyName, sameAsId);
 }
 
@@ -383,15 +376,15 @@ function updateAllProperties() {
     const properties = [
         { value: data?.compound_record?._source?.has_record?.has_primary_title?.has_name, name: 'title' },
         { value: data?.handle, name: 'efi' },
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.located_in || []).map((item) => ({ value: getLocalizedPlaceLabel(item), name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.located_in || []).map((item) => ({ value: getLocalizedPlaceLabel(item), name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title' })),
         ...(data?.compound_record?._source?.has_record?.has_genre || []).map((item) => ({ value: item?.has_name, name: 'genre', sameAsId: item?.same_as?.flatMap((sameAs) => sameAs.id).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_event[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category.replace('avefi:','')})`).join(', ') })),
+        ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
         { value: data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date, name: 'productionyear' },
-        ...(data?.compound_record?._source?.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category.replace('avefi:','') })),
+        ...(data?.compound_record?._source?.has_record?.same_as || []).map((item) => ({ value: item.id, name: 'other_id', sameAsId: item.category?.replace('avefi:','') })),
         { value: data?.compound_record?._source?.has_record?.described_by?.has_issuer_name, name: 'last_edit' },
     ];
 
@@ -404,3 +397,22 @@ const emit = defineEmits<{
     (e: 'updateTargetModelGP', targetPropertyValue: string, targetPropertyName: string, sameAsId: string): void;
 }>();
 </script>
+
+<style scoped>
+.merge-editor-title {
+    margin-bottom: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+}
+
+.merge-editor-column label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+}
+</style>
