@@ -53,10 +53,19 @@
                         <div class="pt-2">
                             <GlobalRawDataCollapse :api-data="rawProfileTokenData" />
                         </div>
+
+                        <div class="pt-2">
+                            <button type="button" class="btn btn-outline" :aria-label="$t('logout')" @click="auth.signOut()">
+                                {{ $t('logout') }}
+                            </button>
+                        </div>
                     </div>
 
-                    <div v-else class="p-6 text-center">
+                    <div v-else class="p-6 text-center space-y-4">
                         <p>{{ $t('notLoggedIn') }}</p>
+                        <button type="button" class="btn btn-primary" :aria-label="$t('login')" @click="auth.signIn()">
+                            {{ $t('login') }}
+                        </button>
                     </div>
                 </ClientOnly>
             </template>

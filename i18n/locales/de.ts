@@ -912,7 +912,7 @@ const deBase = {
   'profileName': 'Name',
   'profileEmail': 'E-Mail',
   'profileInstitution': 'Institution',
-  'profileExpires': 'Ablauf',
+  'profileExpires': 'Angemeldet bis',
   'collapse': 'Einklappen',
   'workEvents': 'Ereignisse',
   'untitledPart': 'Unbenannter Teil',

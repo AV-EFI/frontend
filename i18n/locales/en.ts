@@ -947,7 +947,7 @@ const avefiBase = {
   'profileName': 'Name',
   'profileEmail': 'Email',
   'profileInstitution': 'Institution',
-  'profileExpires': 'Expires',
+  'profileExpires': 'Logged in until',
   'collapse': 'Collapse',
   'workEvents': 'Work events',
   'untitledPart': 'Untitled part',
