@@ -1,7 +1,7 @@
 <template>
     <div class="mt-4 snap-y px-2">
         <section>
-            <div class="p-2 flex w-128 mx-auto flex-row justify-between transition-all relative">
+            <div class="p-2 flex w-lg mx-auto flex-row justify-between transition-all relative">
                 <button
                     class="btn btn-info btn-outline btn-sm w-16"
                     :title="$t('info')"
@@ -14,7 +14,7 @@
                 </button>
                 <p
                     v-if="showInfo"
-                    class="flex-grow absolute top-4 left-16 right-16 bg-base-100 dark:bg-gray-900 rounded-lg p-2 text-md shadow-md alert alert-info text-primary-900 dark:text-primary-100 z-20"
+                    class="grow absolute top-4 left-16 right-16 bg-base-100 dark:bg-gray-900 rounded-lg p-2 text-md shadow-md alert alert-info text-primary-900 dark:text-primary-100 z-20"
                 >
                     {{ $t('mergeResultHelpText') }}
                 </p>
