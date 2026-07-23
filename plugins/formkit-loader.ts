@@ -6,8 +6,14 @@ interface FormKitLoaderState {
   error: Error | null;
 }
 
+// A Nuxt server process handles many concurrent requests on the same
+// module instance, so a plain module-level `let` here would leak one
+// request's install promise (and the `nuxtApp` closed over inside it)
+// into another concurrent request. Keying the promise off the per-request
+// `nuxtApp` instance keeps it scoped correctly for both SSR and client.
+const installPromises = new WeakMap<object, Promise<void>>();
+
 const stateKey = 'formkit-loader-state';
-let installPromise: Promise<void> | null = null;
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const formKitState = useState<FormKitLoaderState>(stateKey, () => ({
@@ -27,6 +33,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       return;
     }
 
+    let installPromise = installPromises.get(nuxtApp);
     if (!installPromise) {
       formKitState.value.loading = true;
       installPromise = (async () => {
@@ -42,11 +49,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       })()
         .catch((error) => {
           formKitState.value.error = error as Error;
+          installPromises.delete(nuxtApp);
           throw error;
         })
         .finally(() => {
           formKitState.value.loading = false;
         });
+      installPromises.set(nuxtApp, installPromise);
     }
 
     // eslint-disable-next-line consistent-return

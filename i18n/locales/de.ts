@@ -275,6 +275,8 @@ const deBase = {
   'selectFacet': 'Facette auswählen',
   'enterValue': 'Wert eingeben',
   'loadingSearch': 'Suche wird geladen...',
+  'advancedSearchLoadError': 'Die erweiterte Suche konnte nicht geladen werden. Bitte erneut versuchen.',
+  'retry': 'Erneut versuchen',
   'loadGenerator': 'Muster-Generator öffnen',
   "mainNavigation": "Hauptnavigation",
   "cookiesDescription": "Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige Cookies sind notwendig, um die grundlegenden Funktionen der Website zu gewährleisten, während andere uns helfen, die Website zu verbessern und Ihnen personalisierte Inhalte anzubieten. Sie können Ihre Cookie-Einstellungen jederzeit ändern.",

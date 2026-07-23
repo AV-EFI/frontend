@@ -312,6 +312,8 @@ const avefiBase = {
   'selectFacet': 'Select facet',
   'enterValue': 'Enter value',
   'loadingSearch': 'Loading search...',
+  'advancedSearchLoadError': 'Advanced search failed to load. Please try again.',
+  'retry': 'Retry',
   'loadGenerator': 'Open pattern generator',
   'item': 'Item',
   "exactSearchTip": "Use \"quotes\" to search for exact phrases – works for title, direction, production, and subjects (e.g. \"Bitte steigen Sie ein!\")",

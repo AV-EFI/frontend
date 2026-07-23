@@ -5,7 +5,20 @@
         :aria-label="$t('mainSearch')"
     >
         <ClientOnly>
-            <template v-if="searchDataStore?.formData">
+            <template v-if="formKitLoadError">
+                <div class="text-center text-error p-4" role="alert" aria-live="assertive">
+                    <p class="mb-2">{{ $t('advancedSearchLoadError') }}</p>
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline"
+                        :disabled="formKitRetrying"
+                        @click="retryLoadFormKit"
+                    >
+                        {{ $t('retry') }}
+                    </button>
+                </div>
+            </template>
+            <template v-else-if="searchDataStore?.formData">
                 <span id="search-input-label" class="sr-only">
                     {{ $t('mainSearch') }}
                 </span>
@@ -222,7 +235,32 @@ import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import localeMessages from '~/models/interfaces/schema/locale_messages.json';
 
 const { ensureFormKitReady } = useFormKitLoader();
-await ensureFormKitReady();
+const formKitLoadError = ref<Error | null>(null);
+const formKitRetrying = ref(false);
+
+async function loadFormKit() {
+    formKitLoadError.value = null;
+    try {
+        await ensureFormKitReady();
+    } catch (error) {
+        formKitLoadError.value = error as Error;
+    }
+}
+
+async function retryLoadFormKit() {
+    if (formKitRetrying.value) return;
+    formKitRetrying.value = true;
+    try {
+        await loadFormKit();
+    } finally {
+        formKitRetrying.value = false;
+    }
+}
+
+// Keep this async so the parent's Suspense waits for the attempt, but never
+// let a rejection propagate out of setup() - a failed/slow FormKit chunk
+// load should surface as a retryable state in this widget, not crash Suspense.
+await loadFormKit();
 
 const iconMap = FACET_ICON_MAP;
 const { t, locale } = useI18n();
