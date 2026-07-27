@@ -1,29 +1,54 @@
 # `CompareViewEditor.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/global/CompareViewEditor.vue`
+- Matching tests:
+  - _None found by static scan._
+
 ## Props
 
-_None_
+- `items`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-- `showInfo`: false
+- `showInfo (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `activityFor`
+- `getCollectionType`
+- `onUpdateTargetModelGP`
+- `parseAuthorityReferences`
+- `productionEvent`
 
 ## Lifecycle Hooks
 
 - `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/models/interfaces/generated`
+- `~/models/interfaces/generated/IElasticResponses`
+
+## Template Component Tags
+
+- `Icon`
+- `ViewsWorkViewEditor`
+- `ViewsWorkViewEditorResult`
+
+## Shared Classes Used
+
+_None found by static scan._

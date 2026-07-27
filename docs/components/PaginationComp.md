@@ -1,29 +1,50 @@
 # `PaginationComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/detail/PaginationComp.vue`
+- Matching tests:
+  - `tests/unit/components/instant-search-template.spec.ts`
+
 ## Props
 
-_None_
+- `isSearchLoading`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+- `loading (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+- 1 watcher call(s): watch
 
 ## Functions
 
-_None_
+- `clearLoading`
+- `handleDelegatedClick`
+- `setLoadingWithFallback`
 
 ## Lifecycle Hooks
 
-_None_
+- `onBeforeUnmount`
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+_None found by static scan._
+
+## Shared Classes Used
+
+- `panel-surface`

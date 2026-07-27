@@ -1,29 +1,94 @@
 # `WorkViewCompAVefi.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/views/WorkViewCompAVefi.vue`
+- Matching tests:
+  - `tests/unit/components/work-view-avefi.spec.ts`
+
 ## Props
 
-_None_
+- `enableFilmrelated`
+- `handle`
+- `requestedHandle`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-- `manifestations`: [] as Manifestation[]
+- `activeSection (ref)`
+- `desktopDrawerOpen (ref)`
+- `drawerOpen (ref)`
+- `filterDropdownOpen (ref)`
+- `hasAlternativeTitles (computed)`
+- `hasFilmRelatedMaterials (computed)`
+- `hasReferencesAndWorkRelations (computed)`
+- `isMobile (ref)`
+- `loading (ref)`
+- `mirExpanded (ref)`
+- `suggestionIconMap (computed)`
+- `suggestionsForManifestations (computed)`
 
-## Watched Refs
+## Watchers
 
-_None_
+- 1 watcher call(s): watch
 
 ## Functions
 
-_None_
+- `dedupeValues`
+- `findTargetIdForRequestedHandle`
+- `formatTimestamp`
+- `get`
+- `getItemAnchorId`
+- `getManifestationAnchorId`
+- `getManifestationMenuLabel`
+- `handleClickOutside`
+- `initObserver`
+- `itemLevelValues`
+- `itemValues`
+- `manifestationLevelValues`
+- `normalizeEvent`
+- `onSearchInput`
+- `pushValue`
+- `queryScope`
+- `removeSuggestion`
+- `scrollToId`
+- `setActiveFromVisibility`
+- `setFilterDropdownViewMode`
+- `splitActivities`
+- `suggestionIconName`
+- `syncHashToRequestedHandle`
+- `toggleSuggestion`
+- `translatedFacetLabel`
+- `triggerLoading`
+- `valuesForManifestation`
+- `valuesForPath`
 
 ## Lifecycle Hooks
 
-_None_
+- `onMounted`
+- `onUnmounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/composables/useFormKitLoader`
+- `~/models/interfaces/generated/IefiWorkVariant`
+- `~/models/interfaces/manual/IFacetIconMapping`
+
+## Template Component Tags
+
+- `DetailHasEventComp`
+- `DetailWorkVariantTopLevelComp`
+- `Icon`
+- `NuxtLayout`
+
+## Shared Classes Used
+
+- `icon-inline`
+- `border-work`

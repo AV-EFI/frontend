@@ -1,9 +1,136 @@
 # `InstantSearchTemplateAVefi.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/search/InstantSearchTemplateAVefi.vue`
+- Matching tests:
+  - `tests/unit/components/instant-search-template.spec.ts`
+  - `tests/unit/components/search-section.spec.ts`
+  - `tests/unit/source-guards/creators-routing.contract.spec.ts`
+
 ## Props
 
-- `searchClient`: Object
-- `indexName`: String
+- `indexName`
+- `searchClient`
+
+## Emits
+
+_None found by static scan._
+
+## Reactive State
+
+- `currentRefinements (computed)`
+- `expandAllChecked (ref)`
+- `expandAllHandlesChecked (ref)`
+- `forceHideProductionYearChip (ref)`
+- `hasProductionYearRefinement (computed)`
+- `historyTrigger (ref)`
+- `isClearingAllRefinements (ref)`
+- `isNonProduction (computed)`
+- `isRestoringViewType (ref)`
+- `isSearchLoading (ref)`
+- `localSearchValue (ref)`
+- `productionDetailsChecked (ref)`
+- `productionYearLabel (computed)`
+- `recentSearchesWithUrl (computed)`
+- `searchBackendError (ref)`
+- `searchMenuOpen (ref)`
+- `searchQuery (ref)`
+- `showRecentSearches (ref)`
+
+## Watchers
+
+- 4 watcher call(s): watch
+
+## Functions
+
+- `applySearchQueryValue`
+- `clearProductionYearRefinement`
+- `convertNumericFiltersToNumericRefinements`
+- `createEmptyFacetSearchResult`
+- `createEmptySearchResult`
+- `createFallbackSearchResponse`
+- `emitSearchUpdated`
+- `expandAllItems`
+- `fetchFacetValueSuggestions`
+- `fetchFacetValueSuggestionsForRequest`
+- `getFacetSearchAttribute`
+- `getProductionYearRefinement`
+- `handleClearAllHistory`
+- `handleClearAllRefinements`
+- `handleClickOutside`
+- `handleCurrentRefinementRemove`
+- `handlePopState`
+- `handleRecentSearchClick`
+- `handleRemoveRecentSearch`
+- `handleSearchClear`
+- `handleSearchQuerySync`
+- `handleSearchSubmit`
+- `isRecord`
+- `isValidSearchResponse`
+- `mapFacetAttributeForBackend`
+- `mapFacetAttributeForUi`
+- `mapFacetFilterForBackend`
+- `mapFacetsForBackend`
+- `mapRenderingContentForUi`
+- `mapSearchResponseForUi`
+- `normalizeEmptySearchQuery`
+- `normalizeFacetSearchResponse`
+- `normalizeFacetSearchResult`
+- `normalizeIndexUiState`
+- `normalizedJson`
+- `notifyRefinementAction`
+- `onDocClickForMenu`
+- `queryObjectFromUrlSearch`
+- `queryTextFromRouteQuery`
+- `rewriteInstantSearchRequests`
+- `runDeferred`
+- `runRefinementAction`
+- `shareSearch`
+- `suggestSearch`
+- `syncInstantSearchStateFromRouteQuery`
+- `syncPreservedSliderParamsFromRoute`
+- `syncSearchFromUrlState`
+- `syncSearchLoading`
+- `syncSearchValueFromRouteQuery`
+- `toggleSearchMenu`
+- `triggerInstantSearchRequest`
+- `updateFromStorage`
+
+## Lifecycle Hooks
+
+- `onBeforeUnmount`
+- `onMounted`
+
+## Exposed Methods
+
+_None found by static scan._
+
+## Local Imports
+
+- `~/composables/searchRefinementCoordinator`
+- `~/composables/useMatomoTracking`
+- `~/utils/searchResultCounts`
+
+## Template Component Tags
+
+- `ClientOnly`
+- `GlobalFacetDrawer`
+- `Icon`
+- `MicroContactForm`
+- `SearchQueryAutocomplete`
+
+## Shared Classes Used
+
+- `icon-inline`
+- `icon-status`
+- `btn-icon`
+- `btn-danger`
+- `btn-danger-outline`
+- `panel-surface`
+- `filter-chip`
+
+## Preserved Notes From Previous Documentation
 
 ## Search Transport
 
@@ -54,37 +181,3 @@ Behavior contract test:
 
 - `tests/e2e/smoke/search-refinement-request-flow.spec.ts`
 	- panel toggle, active-refinement delete, and clear-all all dispatch centralized refinement actions
-
-## Emits
-
-_None_
-
-## Refs
-
-- `viewTypeChecked`: false
-- `expandAllChecked`: false
-- `expandAllHandlesChecked`: false
-- `productionDetailsChecked`: true
-- `searchQuery`: ''
-- `isSearchLoading`: false
-- `showAlgoliaTooltip`: false
-
-## Watched Refs
-
-- `expandAllChecked`
-- `viewTypeChecked`
-
-## Functions
-
-- `saveSearchQuery`
-- `expandAllItems`
-- `updateState`
-
-## Lifecycle Hooks
-
-- `onMounted`
-- `onBeforeUnmount`
-
-## Imported Composables
-
-_None_

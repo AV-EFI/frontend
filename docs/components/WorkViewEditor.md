@@ -1,29 +1,50 @@
 # `WorkViewEditor.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/views/WorkViewEditor.vue`
+- Matching tests:
+  - _None found by static scan._
+
 ## Props
 
-- `title`: String
+- `title`
 
 ## Emits
 
-_None_
+- `updateTargetModelGP`
 
-## Refs
+## Reactive State
 
-_None_
+_None found by static scan._
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `onUpdateTargetModel`
+- `updateAllProperties`
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/models/interfaces/generated/IElasticResponses`
+
+## Template Component Tags
+
+- `GlobalRawDataCollapse`
+- `GlobalSendValueComp`
+- `Icon`
+
+## Shared Classes Used
+
+_None found by static scan._

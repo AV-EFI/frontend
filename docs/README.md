@@ -10,7 +10,8 @@ This directory contains implementation, architecture, UX, design, and generated 
 - `ux/`: focused UX notes for accessibility, interaction patterns, research evidence, handbook alignment, and decision records.
 - `repo-analysis/`: architecture, behavior contracts, testing strategy, schema/generation notes, and implementation risks.
 - `visual-ui-audit.md`: current visual UI audit and implementation notes.
-- `components/` and `composables/`: generated or semi-generated API-style documentation; start with `components/handover-audit.md` and verify against source before relying on freshness.
+- `components/`: refreshed static source summaries for current Vue components; start with `components/handover-audit.md` and verify behavior against source and tests.
+- `composables/`: generated or semi-generated API-style documentation; verify against source before relying on freshness.
 
 ## UX And Design Docs
 
@@ -29,7 +30,7 @@ Recommended first pass for new developers:
 3. `../DESIGN.md` for implemented theme, shared visual classes, and handbook conflicts.
 4. `repo-analysis/architecture.md` for runtime architecture and data flow.
 5. `repo-analysis/behavior-baseline.md` for current app behavior before refactoring.
-6. `components/handover-audit.md` for handover-critical components, shared classes, stale docs, and test anchors.
+6. `components/handover-audit.md` for handover-critical components, shared classes, generated docs, and test anchors.
 7. `repo-analysis/test-contract-mapping.md` and `../tests/README.md` for coverage and test lanes.
 
 ## Source Discipline

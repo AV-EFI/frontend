@@ -1,29 +1,65 @@
 # `ItemListNewComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/detail/ItemListNewComp.vue`
+- Matching tests:
+  - `tests/unit/components/detail-clickable-facets.spec.ts`
+  - `tests/unit/components/work-view-avefi.spec.ts`
+  - `tests/unit/source-guards/route-seo.contract.spec.ts`
+
 ## Props
 
-- `items`: Array
+- `highlightResult`
+- `items`
+- `manifestationHandle`
+- `manifestationIndex`
+- `productionDetailsChecked`
+- `showAdminStats`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+_None found by static scan._
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `formatItemLanguageCodes`
+- `formatItemLanguages`
+- `formatUsageList`
+- `getItemAnchorId`
+- `translateKey`
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+- `DetailKeyValueComp`
+- `GlobalTooltipInfo`
+- `Icon`
+- `MicroDividerComp`
+- `MicroLabelComp`
+- `SearchClickableFacetValue`
+- `SearchHighlightListComp`
+- `SearchHighlightSingleComp`
+
+## Shared Classes Used
+
+_None found by static scan._

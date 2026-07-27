@@ -1,31 +1,54 @@
 # `BadgeCategoryComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/micro/BadgeCategoryComp.vue`
+- Matching tests:
+  - `tests/unit/components/search-list-compact.spec.ts`
+  - `tests/unit/components/search-list-view-items.spec.ts`
+
 ## Props
 
-- `category`: String
-- `dense`: Boolean
-- `icon`: Boolean
+- `category`
+- `dense`
+- `icon`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+_None found by static scan._
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+_None found by static scan._
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+- `Icon`
+
+## Shared Classes Used
+
+- `icon-inline`
+- `badge-work`
+- `badge-manifestation`
+- `badge-item`
+- `badge-work-part`

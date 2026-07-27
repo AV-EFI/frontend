@@ -2,9 +2,9 @@
 
 This directory documents the current state of the AVefi frontend repository as of 2026-04-16.
 
-The repository already contains `docs/components/` and `docs/composables/`, but those appear to be generated or partially stale API-style docs. The files in `docs/repo-analysis/` are intended to be architecture and maintenance notes for humans.
+The repository contains refreshed static component summaries in `docs/components/` and generated or semi-generated composable docs in `docs/composables/`. The files in `docs/repo-analysis/` are intended to be architecture and maintenance notes for humans.
 
-Update 2026-07-27: for current UX/design handover, start with `../README.md`, `../../UX.md`, `../../DESIGN.md`, and `../components/handover-audit.md`. Some inventories below are older snapshots and should be checked against current source before deletion or refactoring decisions.
+Update 2026-07-27: for current UX/design handover, start with `../README.md`, `../../UX.md`, `../../DESIGN.md`, and `../components/handover-audit.md`. Some usage inventories below are older snapshots and should be checked against current source before deletion or refactoring decisions.
 
 ## Quick facts
 
@@ -19,7 +19,7 @@ Update 2026-07-27: for current UX/design handover, start with `../README.md`, `.
   - `server/api/`: 30 files
   - `scripts/`: 14 files
 - Existing docs snapshot:
-  - `docs/components/`: 82 files
+  - `docs/components/`: 101 markdown files after the 2026-07-27 refresh, including `index.md` and `handover-audit.md`
   - `docs/composables/`: 36 files
 
 ## Files in this folder
@@ -29,7 +29,7 @@ Update 2026-07-27: for current UX/design handover, start with `../README.md`, `.
 - `images.md`: image usage audit, stale asset candidates, and generator cleanup plan
 - `inventory.md`: route, component, generated-file, and stale-file inventory
 - `component-inventory.md`: full component list with static usage signals
-- `../components/handover-audit.md`: current handover map for high-value components, shared classes, stale generated docs, and test anchors
+- `../components/handover-audit.md`: current handover map for high-value components, shared classes, generated component docs, and test anchors
 - `generation-and-schema.md`: schema sources, generation scripts, and generated outputs
 - `issues-and-risks.md`: prioritized technical and architectural concerns
 - `testing-strategy.md`: recommended test pyramid and rollout plan

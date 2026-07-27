@@ -1,34 +1,70 @@
 # `VueSlider.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/input/VueSlider.vue`
+- Matching tests:
+  - _None found by static scan._
+
 ## Props
 
-- `headerText`: String
-- `category`: String
-- `min`: Number
-- `max`: Number
+- `attributeName`
+- `category`
+- `headerText`
+- `max`
+- `min`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-- `prodYearOnly`: false
-- `appliedProdYearOnly`: false
+- `appliedProdYearOnly (ref)`
+- `configureKey (computed)`
+- `configureNumericRefinements (computed)`
+- `facetIcon (computed)`
+- `hasActiveRefinements (computed)`
+- `hasUnsavedChanges (computed)`
+- `prodYearOnly (ref)`
+- `sliderReady (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+- 1 watcher call(s): watch
 
 ## Functions
 
-- `resetSlider`
 - `applySlider`
+- `clampRange`
+- `clearFromExternalEvent`
+- `getSingleQueryValue`
+- `getStateFromRoute`
+- `parseBooleanOne`
+- `parseIntOrUndefined`
+- `resetSlider`
 
 ## Lifecycle Hooks
 
+- `onBeforeUnmount`
 - `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `@/models/interfaces/manual/IFacetIconMapping`
+- `~/composables/useFormKitLoader`
+
+## Template Component Tags
+
+- `FormKit`
+- `Icon`
+- `MicroBadgeCategoryComp`
+- `Slider`
+
+## Shared Classes Used
+
+_None found by static scan._

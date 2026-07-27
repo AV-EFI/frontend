@@ -94,7 +94,7 @@ Shared component sources:
 - `components/detail/**`
 - `components/views/**`
 
-Generated component docs exist under `docs/components/`; use them only as supporting references because they are incomplete and partly stale. Start with `docs/components/handover-audit.md` for the current component/class handover map.
+Generated component docs exist under `docs/components/`; use them as static source summaries and verify behavior against source and tests. Start with `docs/components/handover-audit.md` for the current component/class handover map.
 
 ## Icons
 
