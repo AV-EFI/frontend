@@ -7,6 +7,20 @@ const avefiBase = {
   'errorLoadingDatasets': 'Error loading datasets',
   'errorLoadingData': 'Error loading data',
   'searchBackendError': 'Search is temporarily unavailable. Please try again in a moment.',
+  'maintenanceBanner': {
+    'planned': {
+      'title': 'Planned maintenance',
+      'message': 'AVefi may be available only with limitations during the listed period.'
+    },
+    'active': {
+      'title': 'Ongoing maintenance or service disruption',
+      'message': 'AVefi may currently be available only with limitations or not at all.'
+    },
+    'previewLabel': 'Preview',
+    'window': 'Maintenance window: {start} to {end}',
+    'startsAt': 'Starts: {start}',
+    'endsAt': 'Expected until: {end}'
+  },
   'exportFailed': 'Export failed. Please try again.',
   'exportSuccess': '{format} exported.',
   'formSubmitted': 'Form submitted.',

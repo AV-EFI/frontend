@@ -6,10 +6,11 @@
             @mouseenter="removeScrolledClass"
             @mouseleave="addScrolledClass"
         >
+            <GlobalMaintenanceBanner />
             <GlobalNavBar />
         </header>
 
-        <div class="h-(--header-height) shrink-0" aria-hidden="true"></div>
+        <div class="shrink-0" :style="headerSpacerStyle" aria-hidden="true"></div>
 
         <main class="main grow 2xl:px-6">
             <slot />
@@ -33,13 +34,30 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import GlobalFooter from '~/components/global/Footer.vue';
 import GlobalContactDrawer from '~/components/global/ContactDrawer.vue';
+import GlobalMaintenanceBanner from '~/components/global/MaintenanceBanner.vue';
+import { useMaintenanceBanner } from '~/composables/useMaintenanceBanner';
 
 export default {
     components: {
         GlobalFooter,
         GlobalContactDrawer,
+        GlobalMaintenanceBanner,
+    },
+    setup() {
+        const { visible: maintenanceBannerVisible } = useMaintenanceBanner();
+
+        const headerSpacerStyle = computed(() => ({
+            height: maintenanceBannerVisible.value
+                ? 'calc(var(--header-height) + var(--maintenance-banner-height))'
+                : 'var(--header-height)',
+        }));
+
+        return {
+            headerSpacerStyle,
+        };
     },
     data() {
         return {

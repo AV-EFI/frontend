@@ -319,6 +319,20 @@ export default defineNuxtConfig({
       frontendUrl: publicSiteUrl,
       siteUrl: publicSiteUrl,
       siteOgImage: publicSiteOgImage,
+      maintenanceBanner: {
+        enabled: process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_ENABLED === 'true',
+        previewEnabled:
+          process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_PREVIEW_ENABLED === 'true' ||
+          (!isProduction && process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_PREVIEW_ENABLED !== 'false'),
+        state:
+          process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_STATE ||
+          process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_STATUS ||
+          '',
+        startsAt: process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_STARTS_AT || '',
+        endsAt: process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_ENDS_AT || '',
+        messageDe: process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_MESSAGE_DE || '',
+        messageEn: process.env.NUXT_PUBLIC_MAINTENANCE_BANNER_MESSAGE_EN || '',
+      },
       apiUrl: publicApiUrl,
       elasticApiBase: publicElasticApiBase,
       searchApiPath: publicSearchApiPath,
