@@ -5,6 +5,17 @@
 
 ---
 
+## Documentation And Handover
+
+- [UX context](UX.md): product purpose, domain model, terminology, interaction rules, accessibility, and open UX questions.
+- [Design context](DESIGN.md): implemented visual tokens, theme files, shared components, handbook alignment, and unresolved design conflicts.
+- [Agent guide](AGENTS.md): repository context and source-of-truth rules for AI coding agents and contributors.
+- [Documentation index](docs/README.md): map of architecture, UX, design, component, composable, and testing documentation.
+
+For developer handover, start with `docs/README.md`, then read `UX.md`, `DESIGN.md`, and `docs/repo-analysis/architecture.md`.
+
+---
+
 ## 📦 Production Setup
 
 In production, all containers run in a shared Docker network. Traefik acts as the reverse proxy.  

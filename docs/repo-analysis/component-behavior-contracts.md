@@ -2,6 +2,12 @@
 
 This file defines high-value component contracts to verify after refactors.
 
+## Status Update 2026-07-27
+
+These contracts are still useful as high-value behavior notes, but they are not a full component inventory. For handover-critical components, current docs freshness, shared classes, and direct test anchors, read `../components/handover-audit.md`.
+
+When a contract here conflicts with a current component source file or test, verify against source and tests first, then update this document.
+
 ## Global Shell Components
 
 ## `components/global/NavBar.vue`

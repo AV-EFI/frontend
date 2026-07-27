@@ -2,6 +2,12 @@
 
 This file lists every file under `components/` together with a static usage signal.
 
+## Status Update 2026-07-27
+
+This file is an older static snapshot and is not fully current. For the current component handover map, doc-freshness counts, missing current component docs, orphaned docs, and shared class reference, use `../components/handover-audit.md`.
+
+The current handover audit found 99 Vue components under `components/`, 79 markdown component docs under `docs/components/`, 38 current components without matching docs, and 18 component docs without a matching current Vue component. Treat the inventory below as historical context unless it has been regenerated for the current branch.
+
 ## Legend
 
 - `referenced`: found in more than one source file outside itself

@@ -1,5 +1,7 @@
 # Component Documentation Index
 
+These pages are generated or semi-generated and are not complete. For handover and freshness notes, start with [Component And Class Handover Audit](handover-audit.md), then verify behavior against source components and tests.
+
 - [AVefiRefinementListComp](AVefiRefinementListComp.md)
 - [AccordionComp](AccordionComp.md)
 - [ActionContextComp](ActionContextComp.md)
