@@ -153,10 +153,17 @@
                                           wrapper-class="lg:col-span-4" />
                     <div class="lg:col-span-8 flex justify-center w-full">
                         <div class="relative w-full min-h-100">
-                            <LazyGlobalCarouselCardComp
-                                :items="cardItems"
-                                class="h-full min-h-100 transition-opacity duration-300"
-                            />
+                            <div v-if="isClientMounted" class="h-full min-h-100">
+                                <LazyGlobalCarouselCardComp
+                                    :items="cardItems"
+                                    class="h-full transition-opacity duration-300"
+                                />
+                            </div>
+                            <div
+                                v-else
+                                class="h-full min-h-100 rounded-xl border border-dashed border-base-300 bg-base-100"
+                                aria-hidden="true">
+                            </div>
                         </div>
                     </div>
                 </div>
