@@ -12,5 +12,14 @@ describe('CarouselCardComp interaction contract', () => {
     expect(source).toContain(':inert="isSlideHidden(index)"');
     expect(source).toContain(':inert="isSlideHidden(createSlideIndex)"');
     expect(source).toContain('function isSlideHidden(index: number): boolean');
+    expect(source).toContain("visibleSlideIndexes.value.size > 0");
+    expect(source).toContain("'pointer-events-none'");
+    expect(source).toContain("'pointer-events-auto relative z-10'");
+  });
+
+  test('uses geometry as a fallback for visible slide detection', () => {
+    expect(source).toContain("querySelectorAll<HTMLElement>('[data-carousel-slide-index]')");
+    expect(source).toContain('visibleArea / slideArea > 0.05');
+    expect(source).toContain('visible.add(selectedIndex)');
   });
 });

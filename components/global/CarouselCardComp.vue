@@ -18,12 +18,14 @@
              class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
             <div ref="containerRef" class="flex touch-pan-y">
                 <div v-for="(item, index) in items" :key="index"
+                     :data-carousel-slide-index="index"
                      role="group"
                      aria-roledescription="slide"
                      :aria-label="getSlideAriaLabel(item, index)"
                      :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
                      :inert="isSlideHidden(index)"
-                     class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
+                     class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2"
+                     :class="isSlideHidden(index) ? 'pointer-events-none' : 'pointer-events-auto relative z-10'">
                     <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
                         <div v-if="item.imgSrc"
                              class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
@@ -75,12 +77,14 @@
                 </div>
                 <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
                 <div
+                    :data-carousel-slide-index="createSlideIndex"
                     role="group"
                     aria-roledescription="slide"
                     :aria-label="`${t('home.carousel.create.title')} (${createSlideIndex + 1} / ${totalSlides})`"
                     :aria-hidden="isSlideHidden(createSlideIndex) ? 'true' : undefined"
                     :inert="isSlideHidden(createSlideIndex)"
-                    class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2">
+                    class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2"
+                    :class="isSlideHidden(createSlideIndex) ? 'pointer-events-none' : 'pointer-events-auto z-10'">
                     <div class="w-full h-full">
                         <!-- swap-off: show only slogan -->
                         <div v-if="!createOpen" class="w-full h-full flex items-center justify-center p-6">
@@ -289,13 +293,39 @@ function getSlideAriaLabel(item: CarouselItem, index: number): string {
 }
 
 function isSlideHidden(index: number): boolean {
-    return isReady.value && !visibleSlideIndexes.value.has(index);
+    return isReady.value && visibleSlideIndexes.value.size > 0 && !visibleSlideIndexes.value.has(index);
 }
 
 const updateVisibleSlides = () => {
-    const visible = emblaApi.value?.slidesInView() || [];
-    visibleSlideIndexes.value = new Set(visible);
-    currentSlideIndex.value = emblaApi.value?.selectedScrollSnap() || 0;
+    const visible = new Set(emblaApi.value?.slidesInView() || []);
+    const selectedIndex = emblaApi.value?.selectedScrollSnap() || 0;
+
+    currentSlideIndex.value = selectedIndex;
+
+    if (viewportRef.value) {
+        const viewportRect = viewportRef.value.getBoundingClientRect();
+        const slides = viewportRef.value.querySelectorAll<HTMLElement>('[data-carousel-slide-index]');
+
+        slides.forEach((slide) => {
+            const index = Number(slide.dataset.carouselSlideIndex);
+            if (!Number.isFinite(index)) return;
+
+            const rect = slide.getBoundingClientRect();
+            const horizontalOverlap = Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
+            const verticalOverlap = Math.min(rect.bottom, viewportRect.bottom) - Math.max(rect.top, viewportRect.top);
+            const visibleArea = Math.max(0, horizontalOverlap) * Math.max(0, verticalOverlap);
+            const slideArea = Math.max(1, rect.width * rect.height);
+
+            if (visibleArea / slideArea > 0.05) {
+                visible.add(index);
+            }
+        });
+    }
+
+    visible.add(selectedIndex);
+    visible.add((selectedIndex + 1) % totalSlides.value);
+
+    visibleSlideIndexes.value = visible;
 };
 
 const initEmbla = async () => {
@@ -317,11 +347,15 @@ const initEmbla = async () => {
 
     emblaApi.value.on('select', updateVisibleSlides);
     emblaApi.value.on('reInit', updateVisibleSlides);
-    updateVisibleSlides();
+    requestAnimationFrame(updateVisibleSlides);
 };
 
 onMounted(() => {
     if (!rootRef.value) return;
+
+    if (typeof window !== 'undefined') {
+        window.addEventListener('resize', updateVisibleSlides, { passive: true });
+    }
 
     if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
         visibilityObserver = new IntersectionObserver((entries) => {
@@ -342,6 +376,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
     visibilityObserver?.disconnect();
     visibilityObserver = null;
+
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', updateVisibleSlides);
+    }
 
     if (emblaApi.value) {
         emblaApi.value.off('select', updateVisibleSlides);
