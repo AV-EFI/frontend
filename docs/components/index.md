@@ -1,83 +1,107 @@
 # Component Documentation Index
 
-- [AVefiRefinementListComp](AVefiRefinementListComp.md)
-- [AccordionComp](AccordionComp.md)
-- [ActionContextComp](ActionContextComp.md)
-- [AddToComparisonComp](AddToComparisonComp.md)
- - [AddToFavouritesComp](AddToFavouritesComp.md)
-- [AuthComponent](AuthComponent.md)
-- [BadgeCategoryComp](BadgeCategoryComp.md)
-- [BenefitCardComp](BenefitCardComp.md)
-- [BreadcrumbsComp](BreadcrumbsComp.md)
-- [CarouselCardComp](CarouselCardComp.md)
-- [CarouselComp](CarouselComp.md)
-- [ClipboardComp](ClipboardComp.md)
-- [CompareIcon](CompareIcon.md)
-- [CompareViewEditor](CompareViewEditor.md)
-- [CompareViewEditorStretched](CompareViewEditorStretched.md)
-- [CompareViewProps](CompareViewProps.md)
-- [CompareViewRaw](CompareViewRaw.md)
-- [ComparisonComp](ComparisonComp.md)
-- [ComparisonDrawer](ComparisonDrawer.md)
-- [ContactForm](ContactForm.md)
-- [DisambiguationIcon](DisambiguationIcon.md)
-- [DividerComp](DividerComp.md)
-- [ESCountComp](ESCountComp.md)
-- [EfiCopyComp](EfiCopyComp.md)
-- [ExportDataComp](ExportDataComp.md)
-- [FacetDrawer](FacetDrawer.md)
-- [FavouritesListComp](FavouritesListComp.md)
-- [Footer](Footer.md)
-- [HasAgentComp](HasAgentComp.md)
-- [HasEventComp](HasEventComp.md)
-- [HighlightListComp](HighlightListComp.md)
-- [HighlightMatchComp](HighlightMatchComp.md)
-- [HighlightSingleComp](HighlightSingleComp.md)
-- [IconTextComp](IconTextComp.md)
-- [IndicatorComp](IndicatorComp.md)
-- [InstantSearchTemplateAVefi](InstantSearchTemplateAVefi.md)
-- [InstitutionListComp](InstitutionListComp.md)
-- [ItemListComp](ItemListComp.md)
-- [ItemListNewComp](ItemListNewComp.md)
-- [ItemViewCompAVefi](ItemViewCompAVefi.md)
-- [KeyValueComp](KeyValueComp.md)
-- [KeyValueListComp](KeyValueListComp.md)
-- [LabelComp](LabelComp.md)
-- [LanguageSwitch](LanguageSwitch.md)
-- [LoadingIndicator](LoadingIndicator.md)
-- [LocatedInComp](LocatedInComp.md)
-- [LogListComp](LogListComp.md)
-- [ManifestationHeaderComp](ManifestationHeaderComp.md)
-- [ManifestationListComp](ManifestationListComp.md)
-- [ManifestationListSplitView](ManifestationListSplitView.md)
-- [ManifestationViewCompAVefi](ManifestationViewCompAVefi.md)
-- [MergeToolListComp](MergeToolListComp.md)
-- [NavBar](NavBar.md)
-- [NoResultsComp](NoResultsComp.md)
-- [PaginationComp](PaginationComp.md)
-- [PanelRefinementListComp](PanelRefinementListComp.md)
-- [RainbowStripeText](RainbowStripeText.md)
-- [RawDataCollapse](RawDataCollapse.md)
-- [SameAsComp](SameAsComp.md)
-- [SearchCompReduced](SearchCompReduced.md)
-- [SearchHitsComp](SearchHitsComp.md)
-- [SearchListViewComp](SearchListViewComp.md)
-- [SearchResultManifestation](SearchResultManifestation.md)
-- [SearchSection](SearchSection.md)
-- [SearchTableViewComp](SearchTableViewComp.md)
-- [SendMailButt](SendMailButt.md)
-- [SendValueComp](SendValueComp.md)
- - [FavouritesIcon](FavouritesIcon.md)
-- [ShowDisambiguationComp](ShowDisambiguationComp.md)
-- [SkeletonLoaderComp](SkeletonLoaderComp.md)
-- [SwitchGenericComp](SwitchGenericComp.md)
-- [ThemeSwitch](ThemeSwitch.md)
-- [VueSlider](VueSlider.md)
-- [WorkVariantTopLevelComp](WorkVariantTopLevelComp.md)
-- [WorkViewCompAVefi](WorkViewCompAVefi.md)
-- [WorkViewEditor](WorkViewEditor.md)
-- [WorkViewEditorResult](WorkViewEditorResult.md)
-- [WorkViewEditorStretched](WorkViewEditorStretched.md)
-- [WorkViewReduced](WorkViewReduced.md)
-- [WorkViewReduced_backup](WorkViewReduced_backup.md)
-- [WorksMultiView](WorksMultiView.md)
+Generated from current Vue component files on 2026-07-27. Each component page is a static source summary for handover; verify behavior against source and tests before changing implementation.
+
+- [Component And Class Handover Audit](handover-audit.md)
+
+## Current Components
+
+- [AddToComparisonComp](AddToComparisonComp.md) - `components/cart/AddToComparisonComp.vue`
+- [AddToFavouritesComp](AddToFavouritesComp.md) - `components/cart/AddToFavouritesComp.vue`
+- [FavouritesListComp](FavouritesListComp.md) - `components/detail/FavouritesListComp.vue`
+- [FilmRelatedMaterialsComp](FilmRelatedMaterialsComp.md) - `components/detail/FilmRelatedMaterialsComp.vue`
+- [HasEventComp](HasEventComp.md) - `components/detail/HasEventComp.vue`
+- [ItemListNewComp](ItemListNewComp.md) - `components/detail/ItemListNewComp.vue`
+- [KeyActionRowsComp](KeyActionRowsComp.md) - `components/detail/KeyActionRowsComp.vue`
+- [KeyValueComp](KeyValueComp.md) - `components/detail/KeyValueComp.vue`
+- [KeyValueListComp](KeyValueListComp.md) - `components/detail/KeyValueListComp.vue`
+- [LogListComp](LogListComp.md) - `components/detail/LogListComp.vue`
+- [ManifestationHeaderComp](ManifestationHeaderComp.md) - `components/detail/ManifestationHeaderComp.vue`
+- [ManifestationListComp](ManifestationListComp.md) - `components/detail/ManifestationListComp.vue`
+- [MergeToolListComp](MergeToolListComp.md) - `components/detail/MergeToolListComp.vue`
+- [PaginationComp](PaginationComp.md) - `components/detail/PaginationComp.vue`
+- [SameAsComp](SameAsComp.md) - `components/detail/SameAsComp.vue`
+- [WorkVariantTopLevelComp](WorkVariantTopLevelComp.md) - `components/detail/WorkVariantTopLevelComp.vue`
+- [DisambiguationIcon](DisambiguationIcon.md) - `components/disambiguation/DisambiguationIcon.vue`
+- [ShowDisambiguationComp](ShowDisambiguationComp.md) - `components/disambiguation/ShowDisambiguationComp.vue`
+- [ActionContextComp](ActionContextComp.md) - `components/global/ActionContextComp.vue`
+- [AuthProvider](AuthProvider.md) - `components/global/AuthProvider.vue`
+- [BreadcrumbsComp](BreadcrumbsComp.md) - `components/global/BreadcrumbsComp.vue`
+- [CarouselCardComp](CarouselCardComp.md) - `components/global/CarouselCardComp.vue`
+- [ClipboardComp](ClipboardComp.md) - `components/global/ClipboardComp.vue`
+- [CompareViewEditor](CompareViewEditor.md) - `components/global/CompareViewEditor.vue`
+- [CompareViewProps](CompareViewProps.md) - `components/global/CompareViewProps.vue`
+- [CompareViewRaw](CompareViewRaw.md) - `components/global/CompareViewRaw.vue`
+- [ComparisonDrawer](ComparisonDrawer.md) - `components/global/ComparisonDrawer.vue`
+- [ContactDrawer](ContactDrawer.md) - `components/global/ContactDrawer.vue`
+- [ExportDataComp](ExportDataComp.md) - `components/global/ExportDataComp.vue`
+- [FacetDrawer](FacetDrawer.md) - `components/global/FacetDrawer.vue`
+- [Footer](Footer.md) - `components/global/Footer.vue`
+- [IndicatorComp](IndicatorComp.md) - `components/global/IndicatorComp.vue`
+- [IssuerCarouselComp](IssuerCarouselComp.md) - `components/global/IssuerCarouselComp.vue`
+- [JsonTreeNode](JsonTreeNode.md) - `components/global/JsonTreeNode.vue`
+- [JsonTreeViewer](JsonTreeViewer.md) - `components/global/JsonTreeViewer.vue`
+- [LanguageSwitch](LanguageSwitch.md) - `components/global/LanguageSwitch.vue`
+- [LoadingScreen](LoadingScreen.md) - `components/global/LoadingScreen.vue`
+- [NavBar](NavBar.md) - `components/global/NavBar.vue`
+- [PartnersCarouselComp](PartnersCarouselComp.md) - `components/global/PartnersCarouselComp.vue`
+- [RawDataCollapse](RawDataCollapse.md) - `components/global/RawDataCollapse.vue`
+- [SearchCompExtended](SearchCompExtended.md) - `components/global/SearchCompExtended.vue`
+- [SearchCompReduced](SearchCompReduced.md) - `components/global/SearchCompReduced.vue`
+- [SendValueComp](SendValueComp.md) - `components/global/SendValueComp.vue`
+- [SkeletonLoaderComp](SkeletonLoaderComp.md) - `components/global/SkeletonLoaderComp.vue`
+- [ThemeSwitch](ThemeSwitch.md) - `components/global/ThemeSwitch.vue`
+- [TooltipInfo](TooltipInfo.md) - `components/global/TooltipInfo.vue`
+- [VocabViewer](VocabViewer.md) - `components/global/VocabViewer.vue`
+- [HomeCallToActionSection](HomeCallToActionSection.md) - `components/home/HomeCallToActionSection.vue`
+- [HomeIssuerSection](HomeIssuerSection.md) - `components/home/HomeIssuerSection.vue`
+- [HomeLazySectionLoader](HomeLazySectionLoader.md) - `components/home/HomeLazySectionLoader.vue`
+- [HomeOpenAndExtendableSection](HomeOpenAndExtendableSection.md) - `components/home/HomeOpenAndExtendableSection.vue`
+- [HomeSectionShell](HomeSectionShell.md) - `components/home/HomeSectionShell.vue`
+- [HomeSectionTextBlock](HomeSectionTextBlock.md) - `components/home/HomeSectionTextBlock.vue`
+- [HomeTimelineSection](HomeTimelineSection.md) - `components/home/HomeTimelineSection.vue`
+- [HomeVideoSection](HomeVideoSection.md) - `components/home/HomeVideoSection.vue`
+- [VueSlider](VueSlider.md) - `components/input/VueSlider.vue`
+- [BadgeCategoryComp](BadgeCategoryComp.md) - `components/micro/BadgeCategoryComp.vue`
+- [CompareIcon](CompareIcon.md) - `components/micro/CompareIcon.vue`
+- [ContactForm](ContactForm.md) - `components/micro/ContactForm.vue`
+- [DataQualityWarningIcon](DataQualityWarningIcon.md) - `components/micro/DataQualityWarningIcon.vue`
+- [DividerComp](DividerComp.md) - `components/micro/DividerComp.vue`
+- [EfiCopyComp](EfiCopyComp.md) - `components/micro/EfiCopyComp.vue`
+- [FavouritesIcon](FavouritesIcon.md) - `components/micro/FavouritesIcon.vue`
+- [IconTextComp](IconTextComp.md) - `components/micro/IconTextComp.vue`
+- [LabelComp](LabelComp.md) - `components/micro/LabelComp.vue`
+- [LoadingSpinner](LoadingSpinner.md) - `components/micro/LoadingSpinner.vue`
+- [SendMailButt](SendMailButt.md) - `components/micro/SendMailButt.vue`
+- [ChatPanel](ChatPanel.md) - `components/poc/ChatPanel.vue`
+- [ContextTray](ContextTray.md) - `components/poc/ContextTray.vue`
+- [ExplorerSearchBox](ExplorerSearchBox.md) - `components/poc/ExplorerSearchBox.vue`
+- [GraphView](GraphView.md) - `components/poc/GraphView.vue`
+- [SidebarPanel](SidebarPanel.md) - `components/poc/SidebarPanel.vue`
+- [WorkResultList](WorkResultList.md) - `components/poc/WorkResultList.vue`
+- [AvefiPosterComp](AvefiPosterComp.md) - `components/poster/AvefiPosterComp.vue`
+- [ClickableFacetValue](ClickableFacetValue.md) - `components/search/ClickableFacetValue.vue`
+- [GenericIconList](GenericIconList.md) - `components/search/GenericIconList.vue`
+- [HighlightListComp](HighlightListComp.md) - `components/search/HighlightListComp.vue`
+- [HighlightMatchComp](HighlightMatchComp.md) - `components/search/HighlightMatchComp.vue`
+- [HighlightSingleComp](HighlightSingleComp.md) - `components/search/HighlightSingleComp.vue`
+- [IconEntryItem](IconEntryItem.md) - `components/search/IconEntryItem.vue`
+- [InstantSearchTemplateAVefi](InstantSearchTemplateAVefi.md) - `components/search/InstantSearchTemplateAVefi.vue`
+- [ManifestationListSplitView](ManifestationListSplitView.md) - `components/search/ManifestationListSplitView.vue`
+- [NoResultsComp](NoResultsComp.md) - `components/search/NoResultsComp.vue`
+- [PanelRefinementListComp](PanelRefinementListComp.md) - `components/search/PanelRefinementListComp.vue`
+- [QueryAutocompleteCore](QueryAutocompleteCore.md) - `components/search/QueryAutocompleteCore.vue`
+- [SearchHitsComp](SearchHitsComp.md) - `components/search/SearchHitsComp.vue`
+- [SearchListCompactComp](SearchListCompactComp.md) - `components/search/SearchListCompactComp.vue`
+- [SearchListFlatComp](SearchListFlatComp.md) - `components/search/SearchListFlatComp.vue`
+- [SearchListViewComp](SearchListViewComp.md) - `components/search/SearchListViewComp.vue`
+- [SearchQueryAutocomplete](SearchQueryAutocomplete.md) - `components/search/SearchQueryAutocomplete.vue`
+- [SearchSection](SearchSection.md) - `components/search/SearchSection.vue`
+- [SearchTableViewComp](SearchTableViewComp.md) - `components/search/SearchTableViewComp.vue`
+- [CompilationViewCompAVefi](CompilationViewCompAVefi.md) - `components/views/CompilationViewCompAVefi.vue`
+- [ManifestationViewCompAVefi](ManifestationViewCompAVefi.md) - `components/views/ManifestationViewCompAVefi.vue`
+- [WorkViewCompAVefi](WorkViewCompAVefi.md) - `components/views/WorkViewCompAVefi.vue`
+- [WorkViewCompParts](WorkViewCompParts.md) - `components/views/WorkViewCompParts.vue`
+- [WorkViewEditor](WorkViewEditor.md) - `components/views/WorkViewEditor.vue`
+- [WorkViewEditorResult](WorkViewEditorResult.md) - `components/views/WorkViewEditorResult.vue`
+- [WorkViewReduced](WorkViewReduced.md) - `components/views/WorkViewReduced.vue`

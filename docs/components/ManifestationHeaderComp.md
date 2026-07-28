@@ -1,31 +1,54 @@
 # `ManifestationHeaderComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/detail/ManifestationHeaderComp.vue`
+- Matching tests:
+  - `tests/unit/components/work-view-avefi.spec.ts`
+
 ## Props
 
-- `compSize`: String
-- `isTwin`: Boolean
-- `allItemsEmpty`: Boolean
+- `allItemsEmpty`
+- `compSize`
+- `headingId`
+- `isTwin`
+- `manifestation`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+_None found by static scan._
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `hasNonEmptyArray`
+- `hasNonEmptyString`
+- `itemPreviewIconEntries`
+- `levelChipClasses`
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/models/interfaces/manual/IFacetIconMapping`
+
+## Template Component Tags
+
+_None found by static scan._
+
+## Shared Classes Used
+
+- `icon-inline`

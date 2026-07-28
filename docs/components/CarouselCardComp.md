@@ -1,32 +1,66 @@
 # `CarouselCardComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/global/CarouselCardComp.vue`
+- Matching tests:
+  - `tests/unit/source-guards/carousel-card-contract.spec.ts`
+  - `tests/unit/source-guards/home-carousels-a11y.contract.spec.ts`
+
 ## Props
 
-- `items`: Array
+- `items`
 
 ## Emits
 
-_None_
+- `create-item`
 
-## Refs
+## Reactive State
 
-- `showFullText`: false
-- `currentIndex`: 0
+- `canNavigate (computed)`
+- `carouselStatus (computed)`
+- `contactFormOpen (ref)`
+- `contactInitialMessage (ref)`
+- `createForm (ref)`
+- `createOpen (ref)`
+- `createSlideIndex (computed)`
+- `currentSlideIndex (ref)`
+- `isReady (computed)`
+- `totalSlides (computed)`
+- `visibleSlideIndexes (ref)`
 
-## Watched Refs
+## Watchers
 
-- `currentIndex`
+_None found by static scan._
 
 ## Functions
 
-- `toggleText`
-- `prevSlide`
+- `getSlideAriaLabel`
+- `handleCreate`
+- `initEmbla`
+- `isSlideHidden`
 - `nextSlide`
+- `prevSlide`
+- `updateVisibleSlides`
 
 ## Lifecycle Hooks
 
-_None_
+- `onBeforeUnmount`
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+- `Icon`
+- `MicroContactForm`
+
+## Shared Classes Used
+
+- `btn-carousel-control`

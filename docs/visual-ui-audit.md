@@ -3,6 +3,12 @@
 Scope: static inventory of Vue templates in `components/`, `pages/`, and `layouts/`.
 Premise: keep component/page markup mostly semantic and move repeated visual rules into DaisyUI theme tokens or Tailwind component classes.
 
+## Status Update 2026-07-27
+
+This audit remains useful for class and visual-pattern context, but it predates the current UX/design handover docs. For current handover guidance, read `DESIGN.md` first, then `docs/components/handover-audit.md`.
+
+Current rendered shared classes should be verified in `assets/scss/main.scss`. Older supporting files such as `assets/scss/_colors.scss`, `assets/scss/_variables.scss`, `tailwind.config.ts`, `tailwind.colors.ts`, and `tailwind.colors.generated.ts` may explain history or fallback values, but they are not a substitute for checking the active DaisyUI/Tailwind v4 CSS path.
+
 ## Working Decisions
 
 - Prefer default DaisyUI/Tailwind interaction behavior first. Only customize hover, focus-visible, active, disabled, loading, or selected states when the default is inaccessible, visually unclear, or inconsistent with an AVefi semantic token.

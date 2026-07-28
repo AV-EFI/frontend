@@ -1,38 +1,85 @@
 # `SearchListViewComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/search/SearchListViewComp.vue`
+- Matching tests:
+  - `tests/unit/api/internal/client-log.api.spec.ts`
+  - `tests/unit/components/search-hits-compact-refinements.spec.ts`
+  - `tests/unit/components/search-list-view-items.spec.ts`
+
 ## Props
 
-- `items`: Array
-- `productionDetailsChecked`: Boolean
-- `showAdminStats`: Boolean
-- `expandedHandles`: Array
-- `expandAllHandlesChecked`: Boolean
+- `currentRefinements`
+- `expandAllHandlesChecked`
+- `expandedHandles`
+- `facetsActive`
+- `items`
+- `nrOfFacetsActive`
+- `productionDetailsChecked`
+- `showAdminStats`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-- `lastHref`: window.location.href
-- `componentInfoReady`: false
+- `componentInfoReady (ref)`
+- `refinementSignature (computed)`
+- `refinementsActive (ref)`
+- `searchUpdateTick (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+- 3 watcher call(s): watch
 
 ## Functions
 
+- `allItemsEmpty`
+- `buildRows`
+- `get`
+- `getFilteredItems`
+- `getFilteredManifestations`
+- `getHighlightSnippets`
+- `getValueByPath`
+- `isItemEmpty`
+- `onSearchUpdated`
+- `parseRefinementsFromUrl`
 - `updateFromHref`
 
 ## Lifecycle Hooks
 
-- `onMounted`
 - `onBeforeUnmount`
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `@/composables/useItemEmpty`
+- `@/models/interfaces/generated/IElasticResponses`
+
+## Template Component Tags
+
+- `GlobalActionContextComp`
+- `GlobalClipboardComp`
+- `GlobalTooltipInfo`
+- `Icon`
+- `MicroBadgeCategoryComp`
+- `NuxtLink`
+- `SearchGenericIconList`
+- `SearchHighlightMatchComp`
+- `SearchManifestationListSplitView`
+- `Transition`
+
+## Shared Classes Used
+
+- `badge-userinfo`
+
+## Preserved Notes From Previous Documentation
 
 ## Was die Tests abfangen (einfach erklaert)
 

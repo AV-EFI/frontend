@@ -29,6 +29,7 @@
                             >
                                 <input
                                     type="checkbox"
+                                    :aria-label="$t(`${section.key}.heading`)"
                                     :checked="openSections[section.key]"
                                     @change="(event) => handleToggle(section.key, event)"
                                 >

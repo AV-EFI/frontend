@@ -125,7 +125,7 @@ This makes diffs noisy and encourages accidental manual edits in generated areas
 
 ### Existing docs are mixed with generated docs
 
-`docs/components/` and `docs/composables/` already exist, but their generation path is not obvious from the normal package scripts. That makes doc drift likely.
+`docs/components/` was refreshed on 2026-07-27 as static source summaries for current Vue components, and `docs/composables/` already exists. Their generation path is still not obvious from the normal package scripts. That makes future doc drift likely unless a maintained generation entrypoint is added.
 
 ### Search and schema generation depend on live external systems
 

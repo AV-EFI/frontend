@@ -133,17 +133,20 @@ textarea::selection {
 
 :root {
   --header-height: 5rem;
+  --maintenance-banner-height: 5rem;
 }
 
 @media (min-width: 768px) {
   :root {
     --header-height: 5rem;
+    --maintenance-banner-height: 4rem;
   }
 }
 
 @media (min-width: 1280px) {
   :root {
     --header-height: 5rem;
+    --maintenance-banner-height: 4rem;
   }
 }
 

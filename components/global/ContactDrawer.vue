@@ -5,6 +5,7 @@
             ref="drawerToggle"
             type="checkbox"
             class="drawer-toggle"
+            :aria-label="$t('openForm')"
             :checked="isOpen"
             @change="onInputChange"
         >

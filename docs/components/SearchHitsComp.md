@@ -1,34 +1,62 @@
 # `SearchHitsComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/search/SearchHitsComp.vue`
+- Matching tests:
+  - `tests/unit/components/instant-search-template.spec.ts`
+  - `tests/unit/components/search-hits-compact-refinements.spec.ts`
+
 ## Props
 
-- `items`: Array
-- `viewTypeChecked`: 'accordion' | 'flat' | 'table' (string enum)
-- `productionDetailsChecked`: Boolean
-- `showAdminStats`: Boolean
-- `expandedHandles`: Object
-- `expandAllHandlesChecked`: Boolean
+- `currentRefinements`
+- `expandAllHandlesChecked`
+- `expandedHandles`
+- `facetsActive`
+- `isSearchLoading`
+- `items`
+- `nrOfFacetsActive`
+- `productionDetailsChecked`
+- `showAdminStats`
+- `viewTypeChecked`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+- `facetStateSignature (computed)`
+- `localViewType (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+- 1 watcher call(s): watch
 
 ## Functions
 
-- `connectSearchMetaData`
+_None found by static scan._
 
 ## Lifecycle Hooks
 
-_None_
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `@/models/interfaces/generated/IElasticResponses`
+
+## Template Component Tags
+
+- `GlobalSkeletonLoaderComp`
+- `SearchListCompactComp`
+- `SearchListFlatComp`
+- `SearchListViewComp`
+- `SearchTableViewComp`
+
+## Shared Classes Used
+
+_None found by static scan._

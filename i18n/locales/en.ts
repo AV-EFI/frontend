@@ -7,6 +7,20 @@ const avefiBase = {
   'errorLoadingDatasets': 'Error loading datasets',
   'errorLoadingData': 'Error loading data',
   'searchBackendError': 'Search is temporarily unavailable. Please try again in a moment.',
+  'maintenanceBanner': {
+    'planned': {
+      'title': 'Planned maintenance',
+      'message': 'AVefi may be available only with limitations during the listed period.'
+    },
+    'active': {
+      'title': 'Ongoing maintenance or service disruption',
+      'message': 'AVefi may currently be available only with limitations or not at all.'
+    },
+    'previewLabel': 'Preview',
+    'window': 'Maintenance window: {start} to {end}',
+    'startsAt': 'Starts: {start}',
+    'endsAt': 'Expected until: {end}'
+  },
   'exportFailed': 'Export failed. Please try again.',
   'exportSuccess': '{format} exported.',
   'formSubmitted': 'Form submitted.',
@@ -298,6 +312,9 @@ const avefiBase = {
   },
   "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
   "mainNavigation": "Main navigation",
+  "cookieBanner": {
+    "shortDescription": "We use necessary cookies for core functions. You can manage optional cookies here."
+  },
   "cookiesDescription": "We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.",
   "dataprotection": "Data Protection",
   "imprint": "Imprint",

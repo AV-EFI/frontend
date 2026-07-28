@@ -1,37 +1,64 @@
 # `KeyValueListComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/detail/KeyValueListComp.vue`
+- Matching tests:
+  - `tests/unit/components/detail-clickable-facets.spec.ts`
+  - `tests/unit/components/key-value-list-comp.spec.ts`
+  - `tests/unit/components/work-variant-top-level.spec.ts`
+
 ## Props
 
-- `keytxt`: String
-- `valtxt`: Array
-- `sameAs`: Boolean
-- `ul`: Boolean
-- `bgColor`: Boolean
-- `fontSize`: String
-- `overflowY`: String
-- `clip`: Boolean
-- `sameAsType`: String
+- `bgColor`
+- `clip`
+- `clipText`
+- `facetAttribute`
+- `fontSize`
+- `keytxt`
+- `narrow`
+- `overflowY`
+- `sameAs`
+- `sameAsType`
+- `ul`
+- `valtxt`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+- `displayValues (computed)`
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `displayTextFrom`
+- `facetValueFrom`
+- `getValueKey`
+- `isDisplayValue`
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+- `GlobalClipboardComp`
+- `MicroLabelComp`
+
+## Shared Classes Used
+
+_None found by static scan._

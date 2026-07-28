@@ -1,29 +1,47 @@
 # `SearchSection.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/search/SearchSection.vue`
+- Matching tests:
+  - `tests/unit/components/search-section.spec.ts`
+
 ## Props
 
-_None_
+- `searchClient`
 
 ## Emits
 
-_None_
+- `facetsChanged`
 
-## Refs
+## Reactive State
 
-_None_
+_None found by static scan._
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+_None found by static scan._
 
 ## Lifecycle Hooks
 
-_None_
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+- `ClientOnly`
+
+## Shared Classes Used
+
+_None found by static scan._

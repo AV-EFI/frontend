@@ -28,6 +28,11 @@ describe('Route and SEO contract guards', () => {
     expect(appSource).toContain("{ rel: 'canonical', href: siteUrl.value }");
   });
 
+  test('BB-APP-002 keeps the document language synchronized with i18n locale', () => {
+    expect(appSource).toContain('htmlAttrs:');
+    expect(appSource).toContain("lang: locale.value === 'en' ? 'en' : 'de'");
+  });
+
   test('BB-SEARCH-001 keeps search canonical and robots directives logic', () => {
     expect(searchSource).toContain('normalizeQueryToParams');
     expect(searchSource).toContain("return hasIndexableParams.value ? 'index,follow' : 'noindex,follow'");

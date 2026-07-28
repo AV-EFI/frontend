@@ -1,30 +1,56 @@
 # `ManifestationListComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/detail/ManifestationListComp.vue`
+- Matching tests:
+  - `tests/unit/components/work-view-avefi.spec.ts`
+
 ## Props
 
-_None_
+_None found by static scan._
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+_None found by static scan._
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `getManifestationAnchorId`
+- `handleEscKey`
+- `handleOpenManifestation`
+- `isManifestationOpen`
+- `safeT`
+- `toggleManifestation`
 
 ## Lifecycle Hooks
 
-- `onMounted`
 - `onBeforeUnmount`
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/models/interfaces/schema/avefi_schema.js`
+
+## Template Component Tags
+
+- `DetailItemListNewComp`
+- `DetailManifestationHeaderComp`
+- `GlobalTooltipInfo`
+- `Icon`
+
+## Shared Classes Used
+
+_None found by static scan._

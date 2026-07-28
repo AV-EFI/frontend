@@ -66,12 +66,12 @@
 
 These appear to duplicate schema-derived content in two runtime locations.
 
-### Existing docs that look generated or stale
+### Existing generated-style docs
 
-- `docs/components/` with 82 files
+- `docs/components/` was refreshed on 2026-07-27 and now has one static markdown summary per current Vue component. See `../components/handover-audit.md`.
 - `docs/composables/` with 36 files
 
-These should not be treated as architecture source-of-truth without regeneration rules.
+These should not be treated as architecture source-of-truth without checking current source and tests. The component docs now have a current file map, but the regeneration path is still not exposed as a package script.
 
 ## Empty or placeholder files
 

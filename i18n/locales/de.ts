@@ -8,6 +8,20 @@ const deBase = {
   'errorLoadingData': 'Fehler beim Laden der Daten',
   'incompleteData': 'Unvollständige Daten',
   'searchBackendError': 'Die Suche ist voruebergehend nicht verfuegbar. Bitte versuchen Sie es gleich erneut.',
+  'maintenanceBanner': {
+    'planned': {
+      'title': 'Geplante Wartung',
+      'message': 'AVefi ist im genannten Zeitraum moeglicherweise nur eingeschraenkt verfuegbar.'
+    },
+    'active': {
+      'title': 'Laufende Wartung oder Stoerung',
+      'message': 'AVefi ist derzeit moeglicherweise nur eingeschraenkt oder nicht verfuegbar.'
+    },
+    'previewLabel': 'Vorschau',
+    'window': 'Wartungsfenster: {start} bis {end}',
+    'startsAt': 'Beginn: {start}',
+    'endsAt': 'Voraussichtlich bis: {end}'
+  },
   'exportFailed': 'Export fehlgeschlagen. Bitte versuchen Sie es erneut.',
   'exportSuccess': '{format} wurde exportiert.',
   'formSubmitted': 'Formular gesendet.',
@@ -279,6 +293,9 @@ const deBase = {
   'retry': 'Erneut versuchen',
   'loadGenerator': 'Muster-Generator öffnen',
   "mainNavigation": "Hauptnavigation",
+  "cookieBanner": {
+    "shortDescription": "Wir verwenden notwendige Cookies fuer Grundfunktionen. Optionale Cookies koennen Sie hier verwalten."
+  },
   "cookiesDescription": "Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige Cookies sind notwendig, um die grundlegenden Funktionen der Website zu gewährleisten, während andere uns helfen, die Website zu verbessern und Ihnen personalisierte Inhalte anzubieten. Sie können Ihre Cookie-Einstellungen jederzeit ändern.",
   "dataprotection": "Datenschutzerklärung",
   "imprint": "Impressum",

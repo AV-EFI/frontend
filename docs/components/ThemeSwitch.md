@@ -1,29 +1,48 @@
 # `ThemeSwitch.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/global/ThemeSwitch.vue`
+- Matching tests:
+  - _None found by static scan._
+
 ## Props
 
-_None_
+_None found by static scan._
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+- `isLight (computed)`
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+_None found by static scan._
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+_None found by static scan._
+
+## Template Component Tags
+
+- `ClientOnly`
+- `Icon`
+
+## Shared Classes Used
+
+_None found by static scan._

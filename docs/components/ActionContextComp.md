@@ -1,31 +1,54 @@
 # `ActionContextComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/global/ActionContextComp.vue`
+- Matching tests:
+  - `tests/unit/components/action-context.spec.ts`
+  - `tests/unit/components/search-list-view-items.spec.ts`
+
 ## Props
 
-- `item`: Object
-- `compSize`: String
-- `id`: String
+- `compSize`
+- `id`
+- `item`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-_None_
+- `menuOpen (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-_None_
+- `handleFocusOut`
 
 ## Lifecycle Hooks
 
-_None_
+_None found by static scan._
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/components/cart/AddToComparisonComp.vue`
+- `~/components/cart/AddToFavouritesComp.vue`
+
+## Template Component Tags
+
+- `AddToComparisonComp`
+- `AddToFavouritesComp`
+- `GlobalExportDataComp`
+- `Icon`
+
+## Shared Classes Used
+
+- `icon-action`

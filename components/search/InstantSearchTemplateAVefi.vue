@@ -33,7 +33,8 @@
                                             </div>
 
                                             <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
-                                                    :title="$t('search')" @click="handleSearchSubmit(localSearchValue, refine)">
+                                                    :title="$t('search')" :aria-label="$t('submitSearch')"
+                                                    @click="handleSearchSubmit(localSearchValue, refine)">
                                                 <Icon class="icon-inline" name="formkit:search" aria-hidden="true" />
                                                 <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                                             </button>
@@ -41,6 +42,7 @@
                                             <div class="relative ml-2" ref="searchMenuRef">
                                                 <button type="button" class="btn-icon btn-ghost btn-outline lg:btn-lg"
                                                         @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
+                                                        :aria-label="$t('searchOptions')"
                                                         :title="$t('searchOptions')">
                                                     <Icon name="tabler:dots" />
                                                 </button>
@@ -203,7 +205,8 @@
                                             <span class="label-text text-base-content flex-1 text-left">
                                                 {{ $t('viewType') }}
                                             </span>
-                                            <select v-model="viewTypeChecked" class="select select-primary select-sm w-auto my-auto">
+                                            <select v-model="viewTypeChecked" class="select select-primary select-sm w-auto my-auto"
+                                                    :aria-label="$t('viewType')">
                                                 <option value="accordion">{{ $t('accordionView') }}</option>
                                                 <option value="flat">{{ $t('flatView') }}</option>
                                                 <option value="table">{{ $t('tableView') }}</option>
@@ -224,7 +227,8 @@
                                                 {{ $t('collapseAll') }}
                                             </span>
 
-                                            <input v-model="expandAllHandlesChecked" type="checkbox" class="toggle toggle-primary shrink-0">
+                                            <input v-model="expandAllHandlesChecked" type="checkbox" class="toggle toggle-primary shrink-0"
+                                                   :aria-label="expandAllHandlesChecked ? $t('collapseAll') : $t('expandAll')">
                                         </label>
                                     </div>
 

@@ -1,29 +1,47 @@
 # `CompareViewRaw.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/global/CompareViewRaw.vue`
+- Matching tests:
+  - _None found by static scan._
+
 ## Props
 
-_None_
+_None found by static scan._
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-- `colorModeCookie`: getCookie('avefi-color-mode'
+- `colorModeCookie (ref)`
 
-## Watched Refs
+## Watchers
 
-- `colorModeCookie`
+- 1 watcher call(s): watch
 
 ## Functions
 
-_None_
+- `getCookie`
 
 ## Lifecycle Hooks
 
 - `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `../../models/interfaces/IAVefiWork`
+
+## Template Component Tags
+
+- `Diff`
+
+## Shared Classes Used
+
+_None found by static scan._

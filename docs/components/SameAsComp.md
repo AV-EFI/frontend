@@ -1,39 +1,65 @@
 # `SameAsComp.vue`
 
+Generated from current source on 2026-07-27 for handover. Verify behavior against the source component and matching tests before changing implementation.
+
+- Source: `components/detail/SameAsComp.vue`
+- Matching tests:
+  - `tests/unit/components/detail-clickable-facets.spec.ts`
+  - `tests/unit/components/key-value-comp.spec.ts`
+  - `tests/unit/components/key-value-list-comp.spec.ts`
+  - `tests/unit/components/same-as-comp.spec.ts`
+  - `tests/unit/components/work-variant-top-level.spec.ts`
+
 ## Props
 
-- `sameAsData`: Object
-- `fontSize`: String
-- `type`: String
+- `fontSize`
+- `sameAsData`
 
 ## Emits
 
-_None_
+_None found by static scan._
 
-## Refs
+## Reactive State
 
-- `toggle`: false
-- `position`: { top: 0, left: 0 }
+- `normalizedSameAsData (computed)`
+- `open (ref)`
+- `pos (ref)`
 
-## Watched Refs
+## Watchers
 
-_None_
+_None found by static scan._
 
 ## Functions
 
-- `calculatePosition`
-- `focusFirstItem`
-- `handleTriggerKeydown`
-- `handleMenuKeydown`
-- `handleOutsideClick`
-- `handleVisibilityChange`
-- `markDropdownWasOpen`
+- `close`
+- `computePosition`
+- `copySameAsUrl`
+- `getSameAsLabel`
+- `onDocumentClick`
+- `onMenuKeydown`
+- `onResizeOrScroll`
+- `onTriggerKeydown`
+- `toggle`
 
 ## Lifecycle Hooks
 
-- `onMounted`
 - `onBeforeUnmount`
+- `onMounted`
 
-## Imported Composables
+## Exposed Methods
 
-_None_
+_None found by static scan._
+
+## Local Imports
+
+- `~/utils/clipboard`
+
+## Template Component Tags
+
+- `ClientOnly`
+- `Icon`
+- `Teleport`
+
+## Shared Classes Used
+
+_None found by static scan._
