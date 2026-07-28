@@ -16,7 +16,8 @@
                     <span class="label-text text-sm font-medium">{{ $t('normdata.field') }}</span>
                 </label>
                 <div class="relative">
-                    <select v-model="selectedField" class="select select-bordered select-sm w-full" :disabled="pending">
+                    <select v-model="selectedField" class="select select-bordered select-sm w-full" :disabled="pending"
+                            :aria-label="$t('normdata.field')">
                         <option v-for="opt in fieldOptions" :key="opt.key" :value="opt.key">
                             {{ opt.label }}
                         </option>
@@ -32,7 +33,8 @@
                 </label>
                 <div class="relative">
                     <input v-model="filter" type="text" class="input input-bordered input-sm w-full"
-                           :class="{ 'pr-8': pending }" :placeholder="$t('normdata.filterPlaceholder')">
+                           :class="{ 'pr-8': pending }" :placeholder="$t('normdata.filterPlaceholder')"
+                           :aria-label="$t('normdata.filter')">
                     <span v-if="pending"
                           class="loading loading-spinner loading-xs absolute right-3 top-1/2 -translate-y-1/2"></span>
                 </div>
@@ -41,7 +43,7 @@
             <div class="form-control">
                 <label class="label cursor-pointer gap-2">
                     <input v-model="showOnlyWithNormdata" type="checkbox" class="checkbox checkbox-sm"
-                           :disabled="pending">
+                           :disabled="pending" :aria-label="$t('normdata.onlyWithNormdata')">
                     <span class="label-text text-sm">{{ $t('normdata.onlyWithNormdata') }}</span>
                 </label>
             </div>
@@ -50,7 +52,7 @@
                 <label class="label">
                     <span class="label-text text-sm font-medium">{{ $t('normdata.perPage') }}</span>
                 </label>
-                <select v-model="pageSize" class="select select-bordered select-sm">
+                <select v-model="pageSize" class="select select-bordered select-sm" :aria-label="$t('normdata.perPage')">
                     <option :value="25">25</option>
                     <option :value="50">50</option>
                     <option :value="100">100</option>
@@ -461,7 +463,7 @@ watch([selectedField, filter, showOnlyWithNormdata, activeLetter, currentPage, p
     router.replace({ query });
 }, { deep: true });
 
-const { data, pending, refresh } = useFetch(() => {
+const { data, pending } = useFetch(() => {
     const url = `/api/elastic/normdata/${selectedField.value}`;
     const params = new URLSearchParams();
     if (activeLetter.value) {
@@ -623,10 +625,6 @@ const { getNormdataUrl } = useNormdataUrl();
 
 function getExternalUrl(ref: NormdataRef): string {
     return getNormdataUrl(ref.category, ref.id);
-}
-
-function reload() {
-    refresh();
 }
 
 // Export menu

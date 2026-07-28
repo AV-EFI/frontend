@@ -311,6 +311,7 @@ const normalizedTheme = computed(() =>
 
 useHead(() => ({
     htmlAttrs: {
+        lang: locale.value === 'en' ? 'en' : 'de',
         'data-theme': normalizedTheme.value,
         class: normalizedTheme.value === 'avefi_dark' ? 'dark' : '',
     },
@@ -332,8 +333,8 @@ useHead(() => ({
                     <template #default>
                         <LazyCookieControl v-if="showCookieControl" :locale="locale">
                             <template #bar>
-                                <h2>Cookies 🍪</h2>
-                                <p>{{ $t('cookiesDescription') }}</p>
+                                <h2 class="text-base font-semibold">Cookies</h2>
+                                <p class="text-sm leading-snug">{{ $t('cookieBanner.shortDescription') }}</p>
                                 <LazyGlobalLanguageSwitch />
                                 <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="dark:text-white link">
                                     {{ $t('dataprotection') }}

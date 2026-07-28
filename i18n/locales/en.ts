@@ -312,6 +312,9 @@ const avefiBase = {
   },
   "metaDescription": "AVefi is a platform for researching and comparing film data. It provides comprehensive metadata on film works, manifestations, and items from various institutions. The platform enables efficient searching, dataset comparison, and the use of Persistent Identifiers (PIDs) for long-term identification of films.",
   "mainNavigation": "Main navigation",
+  "cookieBanner": {
+    "shortDescription": "We use necessary cookies for core functions. You can manage optional cookies here."
+  },
   "cookiesDescription": "We use cookies to improve your experience on our website. Some cookies are necessary to ensure the basic functions of the website, while others help us improve the website and offer you personalized content. You can change your cookie settings at any time.",
   "dataprotection": "Data Protection",
   "imprint": "Imprint",

@@ -1,10 +1,11 @@
 <template>
     <div class="lg:mx-auto">
-        <label class="swap swap-flip" :aria-label="currentLocale === 'de' ? t('switchToEnglishLanguage') : t('switchToGermanLanguage')">
+        <label class="swap swap-flip">
             <!-- this hidden checkbox controls the state -->
             <input v-model="$i18n.locale" type="checkbox" true-value="de" false-value="en" :value="$i18n.locale"
+                   :aria-label="currentLocale === 'de' ? t('switchToEnglishLanguage') : t('switchToGermanLanguage')"
                    class="checkbox theme-controller hidden">
-            <div class="swap-off animated" :aria-label="t('switchToGermanLanguage')" :title="t('switchToGermanLanguage')">
+            <div class="swap-off animated" :title="t('switchToGermanLanguage')">
                 <div class="avatar placeholder">
                     <div
                         class="bg-base-100 dark:bg-gray-600 dark:text-white text-neutral w-8 h-8 rounded-full flex items-center justify-center">
@@ -14,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class="swap-on animated circle" :aria-label="t('switchToEnglishLanguage')" :title="t('switchToEnglishLanguage')">
+            <div class="swap-on animated circle" :title="t('switchToEnglishLanguage')">
                 <div class="avatar placeholder">
                     <div
                         class="bg-base-100 dark:bg-gray-600 dark:text-white text-neutral w-8 h-8 rounded-full flex items-center justify-center">
