@@ -27,4 +27,10 @@ describe('SearchCompExtended contract guards', () => {
     expect(source).toContain("params.append('query', q)");
     expect(source).toContain("params.append(`[${f.facet}][1]`, f.valueRaw)");
   });
+
+  test('CBC-SEARCH-EXT-005 keeps facet suggestion inputs as comboboxes', () => {
+    expect(source).toContain(":role=\"isYearFacet(filter.facet) ? undefined : 'combobox'\"");
+    expect(source).toContain(":aria-controls=\"isYearFacet(filter.facet) ? undefined : `facet-listbox-${filter.uid}`\"");
+    expect(source).toContain(':id="`facet-listbox-${filter.uid}`"');
+  });
 });

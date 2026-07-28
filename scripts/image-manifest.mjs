@@ -7,12 +7,13 @@ const __dirname = dirname(__filename);
 
 export const publicDir = join(__dirname, '..', 'public');
 export const WEBP_QUALITY = 90;
+export const CARD_WEBP_QUALITY = 82;
 
 const CARD_WIDTHS = [240, 320, 360, 480, 720];
 const HERO_WIDTHS = [480, 720, 1024, 2040];
 const VIDEO_POSTER_WIDTHS = [360, 540, 720, 1024, 1280];
 
-const responsiveJob = (input, widths) => {
+const responsiveJob = (input, widths, options = {}) => {
   const { dir, name, ext } = parse(input);
   const baseOutput = join(dir, name).replace(/\\/g, '/');
 
@@ -21,6 +22,7 @@ const responsiveJob = (input, widths) => {
     input,
     baseOutput,
     sourceExt: ext,
+    quality: options.quality,
     outputs: widths.map((width) => ({
       output: `${baseOutput}-${width}.webp`,
       width,
@@ -39,11 +41,11 @@ const fixedHeightLogoJob = (input, output, height = 80) => ({
 
 const primaryImageJobs = [
   responsiveJob('img/avefi_nodes-hero.png', HERO_WIDTHS),
-  responsiveJob('img/aktiv_im_dok.jpg', CARD_WIDTHS),
-  responsiveJob('img/restaur_kurzfilme.jpg', CARD_WIDTHS),
-  responsiveJob('img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp', CARD_WIDTHS),
+  responsiveJob('img/aktiv_im_dok.jpg', CARD_WIDTHS, { quality: CARD_WEBP_QUALITY }),
+  responsiveJob('img/restaur_kurzfilme.jpg', CARD_WIDTHS, { quality: CARD_WEBP_QUALITY }),
+  responsiveJob('img/Georg-Stefan-Troller-2011-im-ZDF-bei-Vor-30-Jahren.webp', CARD_WIDTHS, { quality: CARD_WEBP_QUALITY }),
   responsiveJob('img/avefi_vid_poster.webp', VIDEO_POSTER_WIDTHS),
-  responsiveJob('img/schlenker.jpg', CARD_WIDTHS),
+  responsiveJob('img/schlenker.jpg', CARD_WIDTHS, { quality: CARD_WEBP_QUALITY }),
   fixedHeightLogoJob('img/logo_mcdci.png', 'img/logo_mcdci.webp'),
 ];
 

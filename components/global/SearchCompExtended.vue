@@ -130,8 +130,10 @@
                                             :disabled="!filter.facet"
                                             :inputmode="isYearFacet(filter.facet) ? 'numeric' : undefined"
                                             autocomplete="off"
-                                            :aria-autocomplete="isYearFacet(filter.facet) ? 'none' : 'list'"
+                                            :role="isYearFacet(filter.facet) ? undefined : 'combobox'"
+                                            :aria-autocomplete="isYearFacet(filter.facet) ? undefined : 'list'"
                                             :aria-haspopup="isYearFacet(filter.facet) ? undefined : 'listbox'"
+                                            :aria-controls="isYearFacet(filter.facet) ? undefined : `facet-listbox-${filter.uid}`"
                                             :aria-expanded="!isYearFacet(filter.facet) && filter.showSuggestions ? 'true' : 'false'"
                                             :aria-activedescendant="!isYearFacet(filter.facet) && filter.highlighted >= 0 ? `facet-sugg-${filter.uid}-${filter.highlighted}` : undefined"
                                             @input="onValueInput(index, $event)"
@@ -153,6 +155,7 @@
 
                                     <div
                                         v-if="!isYearFacet(filter.facet) && filter.showSuggestions && filter.suggestions.length"
+                                        :id="`facet-listbox-${filter.uid}`"
                                         class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-40 overflow-y-auto"
                                         role="listbox"
                                         @mousedown.stop

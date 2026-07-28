@@ -29,4 +29,10 @@ describe('QueryAutocompleteCore contract guards', () => {
     expect(source).toContain('cancelDebounce');
     expect(source).toContain('onBeforeUnmount');
   });
+
+  test('CBC-QA-005 keeps combobox semantics on the autocomplete input', () => {
+    expect(source).toContain('role="combobox"');
+    expect(source).toContain('aria-autocomplete="list"');
+    expect(source).toContain(':aria-controls="listboxId"');
+  });
 });

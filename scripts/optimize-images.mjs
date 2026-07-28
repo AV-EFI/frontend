@@ -31,6 +31,7 @@ const ensureDirectory = (absolutePath) => {
 const createResponsiveImage = async (job, outputConfig) => {
   const inputPath = join(publicDir, job.input);
   const outputPath = join(publicDir, outputConfig.output);
+  const quality = outputConfig.quality ?? job.quality ?? WEBP_QUALITY;
 
   if (!existsSync(inputPath)) {
     throw new Error(`Missing input file: ${job.input}`);
@@ -48,16 +49,17 @@ const createResponsiveImage = async (job, outputConfig) => {
       withoutEnlargement: true,
       fit: 'inside',
     })
-    .webp({ quality: WEBP_QUALITY })
+    .webp({ quality })
     .toFile(outputPath);
 
   const stats = await sharp(outputPath).metadata();
-  console.log(`Created ${outputConfig.output} (${stats.width}x${stats.height})`);
+  console.log(`Created ${outputConfig.output} (${stats.width}x${stats.height}, q${quality})`);
 };
 
 const createFixedHeightLogo = async (job) => {
   const inputPath = join(publicDir, job.input);
   const outputPath = join(publicDir, job.output);
+  const quality = job.quality ?? WEBP_QUALITY;
 
   if (!existsSync(inputPath)) {
     throw new Error(`Missing input file: ${job.input}`);
@@ -72,11 +74,11 @@ const createFixedHeightLogo = async (job) => {
 
   await sharp(inputPath)
     .resize({ height: job.height, fit: 'contain' })
-    .webp({ quality: WEBP_QUALITY })
+    .webp({ quality })
     .toFile(outputPath);
 
   const stats = await sharp(outputPath).metadata();
-  console.log(`Created ${job.output} (${stats.width}x${stats.height})`);
+  console.log(`Created ${job.output} (${stats.width}x${stats.height}, q${quality})`);
 };
 
 const runGeneration = async () => {

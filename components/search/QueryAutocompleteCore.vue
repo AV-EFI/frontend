@@ -14,6 +14,7 @@
                         'text-lg! bg-white dark:bg-base-200 border-2 border-base-200 dark:border-gray-700 rounded-l-xl rounded-r-xl md:rounded-r-none! px-4 w-full dark:text-white! h-12 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary',
                         searchHelpVisible && displayValue ? 'pr-20' : 'pr-10'
                     ]"
+                    role="combobox"
                     :aria-label="ariaLabel"
                     aria-autocomplete="list"
                     aria-haspopup="listbox"

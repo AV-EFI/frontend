@@ -153,17 +153,10 @@
                                           wrapper-class="lg:col-span-4" />
                     <div class="lg:col-span-8 flex justify-center w-full">
                         <div class="relative w-full min-h-100">
-                            <div v-if="isClientMounted" class="h-full min-h-100">
-                                <LazyGlobalCarouselCardComp
-                                    :items="cardItems"
-                                    class="h-full transition-opacity duration-300"
-                                />
-                            </div>
-                            <div
-                                v-else
-                                class="h-full min-h-100 rounded-xl border border-dashed border-base-300 bg-base-100"
-                                aria-hidden="true">
-                            </div>
+                            <LazyGlobalCarouselCardComp
+                                :items="cardItems"
+                                class="h-full min-h-100 transition-opacity duration-300"
+                            />
                         </div>
                     </div>
                 </div>
@@ -328,13 +321,18 @@ const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = useSiteUrl();
 
+const CARD_IMAGE_WIDTHS = [240, 320, 360, 480, 720] as const;
+const CARD_IMAGE_SIZES = '(max-width: 639px) 240px, (max-width: 1023px) 288px, 384px';
 
 const criticalLinks: Array<Record<string, string>> = [
     {
         rel: 'preload',
-        href: '/img/avefi_diamonds_prim_mobile.webp',
         as: 'image',
-        media: '(max-width: 640px)',
+        href: '/img/restaur_kurzfilme-480.webp',
+        imagesrcset:
+            '/img/restaur_kurzfilme-240.webp 240w, /img/restaur_kurzfilme-320.webp 320w, /img/restaur_kurzfilme-360.webp 360w, /img/restaur_kurzfilme-480.webp 480w',
+        imagesizes: CARD_IMAGE_SIZES,
+        media: '(max-width: 639px)',
         fetchpriority: 'high',
     },
 ];
@@ -353,6 +351,7 @@ criticalLinks.push({
     imagesrcset:
         '/img/avefi_nodes-hero-480.webp 480w, /img/avefi_nodes-hero-720.webp 720w, /img/avefi_nodes-hero-1024.webp 1024w, /img/avefi_nodes-hero-2040.webp 2040w',
     imagesizes: '100vw',
+    media: '(min-width: 640px)',
     fetchpriority: 'high',
 });
 
@@ -384,9 +383,6 @@ const heroClaimLines = computed(() => {
     const segments = claim.split(/(?<=\.)\s+/).filter(Boolean);
     return segments.length ? segments : [claim];
 });
-
-const CARD_IMAGE_WIDTHS = [240, 320, 360, 480, 720] as const;
-const CARD_IMAGE_SIZES = '(max-width: 639px) 240px, (max-width: 1023px) 288px, 384px';
 
 type CardItem = {
     description: string;

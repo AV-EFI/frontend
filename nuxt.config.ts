@@ -77,16 +77,6 @@ export default defineNuxtConfig({
           href: '/fonts/Inter.ttf',
           crossorigin: 'anonymous',
         },
-        // Preload LCP hero image for mobile
-        {
-          rel: 'preload',
-          as: 'image',
-          href: '/img/avefi_diamonds_prim_white.webp',
-          imagesrcset:
-            '/img/avefi_diamonds_prim_mobile.webp 274w, /img/avefi_diamonds_prim_tablet.webp 400w, /img/avefi_diamonds_prim_desktop.webp 1300w, /img/avefi_diamonds_prim_white.webp 2040w',
-          imagesizes: '(max-width: 640px) 274px, (max-width: 1023px) 400px, 100vw',
-          fetchpriority: 'high',
-        },
       ],
       style: [
         {
