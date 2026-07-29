@@ -153,69 +153,7 @@
                                           wrapper-class="lg:col-span-4" />
                     <div class="lg:col-span-8 flex justify-center w-full">
                         <div class="relative w-full min-h-100">
-                            <div class="md:hidden space-y-4" role="list">
-                                <article
-                                    v-for="(item, index) in cardItems"
-                                    :key="`mobile-featured-${item.title}`"
-                                    class="mobile-featured-card bg-white dark:bg-gray-900"
-                                    role="listitem"
-                                >
-                                    <figure class="w-full bg-base-200 rounded-lg overflow-hidden">
-                                        <div v-if="item.imgSrc" class="relative w-full h-48 bg-white dark:bg-base-200">
-                                            <img
-                                                :src="item.imgSrc"
-                                                :srcset="item.imgSrcSet || undefined"
-                                                :sizes="item.imgSizes || undefined"
-                                                :alt="item.imgAlt"
-                                                :width="item.imgWidth || undefined"
-                                                :height="item.imgHeight || undefined"
-                                                :loading="index === 0 ? 'eager' : 'lazy'"
-                                                :fetchpriority="index === 0 ? 'high' : 'auto'"
-                                                decoding="async"
-                                                class="w-full h-full object-cover"
-                                                :class="item.imgCoverType || undefined"
-                                            />
-                                        </div>
-                                        <div
-                                            v-else
-                                            class="w-full h-48 flex items-center justify-center bg-gray-100 dark:bg-base-200"
-                                        >
-                                            <img
-                                                src="/img/avefi_placeholder.webp"
-                                                alt="AVefi"
-                                                class="object-cover w-full h-full"
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
-                                        </div>
-                                        <figcaption
-                                            v-if="item.imgSourceText"
-                                            class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 pb-3 dark:text-gray-400"
-                                        >
-                                            {{ $t('home.carousel.labels.imageSource') }}:
-                                            <a :href="item.imgSourceLink" target="_blank" rel="noopener" class="underline">
-                                                {{ item.imgSourceText }}
-                                            </a>,
-                                            {{ $t('home.carousel.labels.author') }}: {{ item.imgAuthor }} /
-                                            {{ item.imgLicense }} ({{ item.imgLicenseLink }})
-                                        </figcaption>
-                                    </figure>
-                                    <div class="p-4 flex flex-col bg-white dark:bg-base-200">
-                                        <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
-                                            {{ $t(item.title) }}
-                                        </h2>
-                                        <p class="text-gray-700 text-sm mb-4 dark:text-gray-300">
-                                            {{ $t(item.description) }}
-                                        </p>
-                                        <a :href="item.link" class="btn btn-md w-full btn-primary">
-                                            <span class="text-xs">
-                                                {{ $t(item.linkText) }}
-                                            </span>
-                                        </a>
-                                    </div>
-                                </article>
-                            </div>
-                            <div v-if="isClientMounted && featuredCarouselEnabled" class="hidden md:block h-full min-h-100">
+                            <div v-if="isClientMounted" class="h-full min-h-100">
                                 <LazyGlobalCarouselCardComp
                                     :items="cardItems"
                                     class="h-full transition-opacity duration-300"
@@ -223,7 +161,7 @@
                             </div>
                             <div
                                 v-else
-                                class="hidden md:block h-full min-h-100 rounded-xl border border-dashed border-base-300 bg-base-100"
+                                class="h-full min-h-100 rounded-xl border border-dashed border-base-300 bg-base-100"
                                 aria-hidden="true">
                             </div>
                         </div>
@@ -376,7 +314,7 @@
 
 <script lang="ts" setup>
 import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
-import { ref, onMounted, onBeforeUnmount, nextTick, watch, defineAsyncComponent, computed } from 'vue';
+import { ref, onMounted, nextTick, watch, defineAsyncComponent, computed } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -385,12 +323,10 @@ import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
 import HomeSectionTextBlock from '~/components/home/HomeSectionTextBlock.vue';
 
 const isClientMounted = ref(false);
-const featuredCarouselEnabled = ref(false);
 const route = useRoute();
 const { t } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = useSiteUrl();
-let featuredCarouselMediaQuery: MediaQueryList | null = null;
 
 const CARD_IMAGE_WIDTHS = [240, 320, 360, 480, 720] as const;
 const CARD_IMAGE_SIZES = '(max-width: 639px) 240px, (max-width: 1023px) 288px, 384px';
@@ -563,26 +499,13 @@ const activeSearchComponent = computed(() => {
     return SearchCompReduced;
 });
 
-function updateFeaturedCarouselMedia() {
-    featuredCarouselEnabled.value = Boolean(featuredCarouselMediaQuery?.matches);
-}
-
 onMounted(() => {
-    featuredCarouselMediaQuery = window.matchMedia('(min-width: 768px)');
-    updateFeaturedCarouselMedia();
-    featuredCarouselMediaQuery.addEventListener('change', updateFeaturedCarouselMedia);
-
     isClientMounted.value = true;
     nextTick(() => {
         setTimeout(() => {
             focusFirstInput();
         }, 120);
     });
-});
-
-onBeforeUnmount(() => {
-    featuredCarouselMediaQuery?.removeEventListener('change', updateFeaturedCarouselMedia);
-    featuredCarouselMediaQuery = null;
 });
 
 async function prefetchAdvancedSearch() {
