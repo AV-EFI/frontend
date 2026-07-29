@@ -449,6 +449,7 @@ export default defineNuxtConfig({
   ...(shouldEnableReleaseModules
     ? {
       robots: {
+        sitemap: [`${publicSiteUrl.replace(/\/+$/, '')}/sitemap.xml`],
         groups: [
           {
             userAgent: '*',
@@ -461,12 +462,10 @@ export default defineNuxtConfig({
               '/signout',
               '/normdata',
               '/explorer-poc',
-              '/_nuxt/**',
               '/_**',
             ],
           },
         ],
-        sitemap: ['/sitemap.xml'],
       },
     }
     : {}),
