@@ -86,4 +86,14 @@ describe('Route and SEO contract guards', () => {
     }
     expect(botGuardSource).toContain('bingpreview|bingvideopreview|microsoftpreview');
   });
+
+  test('BB-BOT-SEO-002 keeps link previews allowed without defaulting to training crawlers', () => {
+    for (const crawler of ['Twitterbot', 'facebookexternalhit', 'LinkedInBot', 'Slackbot', 'TeamsBot']) {
+      expect(nuxtConfigSource).toContain(crawler);
+      expect(botGuardSource).toContain(crawler);
+    }
+    expect(botGuardSource).toContain('facebookexternalhit|linkedinbot|slackbot|teamsbot|twitterbot');
+    expect(nuxtConfigSource).not.toContain('GPTBot');
+    expect(botGuardSource).not.toContain("'GPTBot'");
+  });
 });

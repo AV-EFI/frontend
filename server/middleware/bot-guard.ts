@@ -41,7 +41,7 @@ function uaMatchesAllowlist(ua: string, allow: string[]): boolean {
 }
 
 function isBotUa(ua: string): boolean {
-  return /bot|crawler|spider|slurp|bingpreview|bingvideopreview|microsoftpreview|facebookexternalhit|linkedinbot|twitterbot|applebot|duckduckbot|yandex|baiduspider|semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|seznambot|sogou/i.test(ua);
+  return /bot|crawler|spider|slurp|bingpreview|bingvideopreview|microsoftpreview|facebookexternalhit|linkedinbot|slackbot|teamsbot|twitterbot|applebot|duckduckbot|yandex|baiduspider|semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|seznambot|sogou/i.test(ua);
 }
 
 function isAlwaysPublicPath(path: string): boolean {
@@ -142,8 +142,11 @@ export default defineEventHandler((event) => {
       'DuckDuckBot',
       'DuckAssistBot',
       'Twitterbot',
+      'facebookexternalhit',
+      'LinkedInBot',
+      'Slackbot',
+      'TeamsBot',
       'OAI-SearchBot',
-      'GPTBot',
       'Claude-SearchBot',
       'PerplexityBot',
     ];
