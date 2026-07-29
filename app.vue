@@ -258,6 +258,7 @@ const {
 } = useCookieControl();
 
 const showCookieControl = ref(false);
+const COOKIE_CONTROL_MOUNT_DELAY_MS = 5000;
 
 const scheduleCookieControlMount = () => {
     if (!import.meta.client) return;
@@ -265,15 +266,16 @@ const scheduleCookieControlMount = () => {
         requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
     }).requestIdleCallback;
 
-    if (typeof idle === 'function') {
-        idle(() => {
-            showCookieControl.value = true;
-        }, { timeout: 1200 });
-    } else {
-        window.setTimeout(() => {
-            showCookieControl.value = true;
-        }, 400);
-    }
+    window.setTimeout(() => {
+        if (typeof idle === 'function') {
+            idle(() => {
+                showCookieControl.value = true;
+            }, { timeout: 2000 });
+            return;
+        }
+
+        showCookieControl.value = true;
+    }, COOKIE_CONTROL_MOUNT_DELAY_MS);
 };
 
 // example: react to a cookie being accepted
@@ -366,7 +368,6 @@ useHead(() => ({
                         </div>
                     </template>
                 </Suspense>
-                <LazyGlobalAuthProvider />
             </ClientOnly>
         </NuxtLayout>
     </div>

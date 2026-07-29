@@ -14,8 +14,8 @@
 
         <main class="main grow 2xl:px-6">
             <slot />
-            <GlobalComparisonDrawer v-if="hydrated" />
-            <GlobalContactDrawer v-if="hydrated" />
+            <component :is="GlobalComparisonDrawerAsync" v-if="hydrated && comparisonDrawerReady" />
+            <component :is="GlobalContactDrawerAsync" v-if="hydrated && contactDrawerReady" />
         </main>
 
         <footer class="dark:bg-gray-900">
@@ -34,20 +34,23 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
 import GlobalFooter from '~/components/global/Footer.vue';
-import GlobalContactDrawer from '~/components/global/ContactDrawer.vue';
 import GlobalMaintenanceBanner from '~/components/global/MaintenanceBanner.vue';
 import { useMaintenanceBanner } from '~/composables/useMaintenanceBanner';
+import { useObjectListStore } from '~/stores/compareList';
+
+const GlobalComparisonDrawerAsync = defineAsyncComponent(() => import('~/components/global/ComparisonDrawer.vue'));
+const GlobalContactDrawerAsync = defineAsyncComponent(() => import('~/components/global/ContactDrawer.vue'));
 
 export default {
     components: {
         GlobalFooter,
-        GlobalContactDrawer,
         GlobalMaintenanceBanner,
     },
     setup() {
         const { visible: maintenanceBannerVisible } = useMaintenanceBanner();
+        const objectListStore = useObjectListStore();
 
         const headerSpacerStyle = computed(() => ({
             height: maintenanceBannerVisible.value
@@ -56,12 +59,17 @@ export default {
         }));
 
         return {
+            GlobalComparisonDrawerAsync,
+            GlobalContactDrawerAsync,
             headerSpacerStyle,
+            objectListStore,
         };
     },
     data() {
         return {
             hydrated: false,
+            comparisonDrawerReady: false,
+            contactDrawerReady: false,
             isScrolled: false,
             showScrollToTop: false,
             pageTallEnough: false,
@@ -71,8 +79,12 @@ export default {
     },
     mounted() {
         this.hydrated = true;
+        this.comparisonDrawerReady = this.objectListStore.comparisonDrawerOpen;
         if (typeof window === 'undefined') return;
         window.addEventListener('scroll', this.scheduleScrollUpdate, { passive: true });
+        window.addEventListener('toggle-contact-drawer', this.prepareContactDrawer, true);
+        window.addEventListener('open-contact-drawer', this.prepareContactDrawer, true);
+        window.addEventListener('open-contact-form', this.prepareContactDrawer, true);
         this.observePageSize();
         this.updatePageTallEnough();
         this.applyScrollState();
@@ -90,8 +102,33 @@ export default {
         } else {
             window.removeEventListener('resize', this.updatePageTallEnough);
         }
+        window.removeEventListener('toggle-contact-drawer', this.prepareContactDrawer, true);
+        window.removeEventListener('open-contact-drawer', this.prepareContactDrawer, true);
+        window.removeEventListener('open-contact-form', this.prepareContactDrawer, true);
+    },
+    watch: {
+        'objectListStore.comparisonDrawerOpen'(isOpen) {
+            if (isOpen) {
+                this.comparisonDrawerReady = true;
+            }
+        }
     },
     methods: {
+        prepareContactDrawer(event) {
+            if (this.contactDrawerReady || event.__avefiReplayedContactEvent) return;
+
+            event.stopImmediatePropagation();
+            this.contactDrawerReady = true;
+
+            const replayedEvent = event instanceof CustomEvent
+                ? new CustomEvent(event.type, { detail: event.detail })
+                : new Event(event.type);
+
+            Object.defineProperty(replayedEvent, '__avefiReplayedContactEvent', { value: true });
+            this.$nextTick(() => {
+                window.dispatchEvent(replayedEvent);
+            });
+        },
         scheduleScrollUpdate() {
             if (this.scrollRafId !== null) return;
             this.scrollRafId = requestAnimationFrame(() => {
