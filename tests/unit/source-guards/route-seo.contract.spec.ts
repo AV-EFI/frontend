@@ -13,6 +13,7 @@ const filmrelSource = readFileSync(
   'utf8'
 );
 const nuxtConfigSource = readFileSync(resolve(process.cwd(), 'nuxt.config.ts'), 'utf8');
+const botGuardSource = readFileSync(resolve(process.cwd(), 'server/middleware/bot-guard.ts'), 'utf8');
 const manifestationViewSource = readFileSync(
   resolve(process.cwd(), 'components/views/ManifestationViewCompAVefi.vue'),
   'utf8'
@@ -76,5 +77,13 @@ describe('Route and SEO contract guards', () => {
     expect(filmrelSource).toContain("{ key: 'googlebot', name: 'googlebot', content: 'noindex, follow, noarchive' }");
     expect(filmrelSource).toContain('const exposeSchemaOrg = false');
     expect(filmrelSource).toContain('if (!exposeSchemaOrg) return []');
+  });
+
+  test('BB-BOT-SEO-001 keeps Microsoft search crawlers allowlisted', () => {
+    for (const crawler of ['Bingbot', 'msnbot', 'BingPreview', 'BingVideoPreview', 'MicrosoftPreview', 'AdIdxBot']) {
+      expect(nuxtConfigSource).toContain(crawler);
+      expect(botGuardSource).toContain(crawler);
+    }
+    expect(botGuardSource).toContain('bingpreview|bingvideopreview|microsoftpreview');
   });
 });

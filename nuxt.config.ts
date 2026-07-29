@@ -284,7 +284,7 @@ export default defineNuxtConfig({
       rateLimitBurst: Number(process.env.NUXT_PUBLIC_RATE_LIMIT_BURST ?? 20),
       botUaAllowlist: (
         process.env.NUXT_PUBLIC_BOT_UA_ALLOWLIST ??
-        'Googlebot,Google-InspectionTool,Bingbot,msnbot,Applebot,DuckDuckBot,DuckAssistBot,Twitterbot,OAI-SearchBot,GPTBot,Claude-SearchBot,PerplexityBot'
+        'Googlebot,Google-InspectionTool,Bingbot,msnbot,BingPreview,BingVideoPreview,MicrosoftPreview,AdIdxBot,Applebot,DuckDuckBot,DuckAssistBot,Twitterbot,OAI-SearchBot,GPTBot,Claude-SearchBot,PerplexityBot'
       )
         .split(',')
         .map((s) => s.trim())
