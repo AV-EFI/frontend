@@ -63,20 +63,6 @@ export default defineNuxtConfig({
         { rel: 'shortcut icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
         { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low' },
-        {
-          rel: 'preload',
-          as: 'font',
-          type: 'font/ttf',
-          href: '/fonts/BreeSerif-Regular.ttf',
-          crossorigin: 'anonymous',
-        },
-        {
-          rel: 'preload',
-          as: 'font',
-          type: 'font/ttf',
-          href: '/fonts/Inter.ttf',
-          crossorigin: 'anonymous',
-        },
       ],
       style: [
         {

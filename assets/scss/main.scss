@@ -380,24 +380,34 @@ textarea::selection {
   }  
 }
 
-@font-face {
-  font-family: 'BreeSerif';
-  src: url('/fonts/BreeSerif-Regular.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter.ttf') format('truetype');
-  font-display: swap;
-}
-
 html, body {
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .bree {
-  font-family: 'BreeSerif', serif;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+@media (min-width: 768px) {
+  @font-face {
+    font-family: 'BreeSerif';
+    src: url('/fonts/BreeSerif-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter.ttf') format('truetype');
+    font-display: swap;
+  }
+
+  html, body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .bree {
+    font-family: 'BreeSerif', Georgia, "Times New Roman", serif;
+  }
 }
 
 @layer utilities {
@@ -472,7 +482,13 @@ header {
 }
 
 .bree {
-  font-family: 'BreeSerif', serif;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+@media (min-width: 768px) {
+  .bree {
+    font-family: 'BreeSerif', Georgia, "Times New Roman", serif;
+  }
 }
 
 /* collapse-plus */

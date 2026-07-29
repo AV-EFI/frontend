@@ -241,8 +241,6 @@ useSeoMeta({
 useHead({
     link: [
         { rel: 'canonical', href: siteUrl.value },
-        { rel: 'preload', href: '/fonts/Inter.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
-        { rel: 'preload', href: '/fonts/BreeSerif-Regular.ttf', as: 'font', type: 'font/ttf', crossorigin: 'anonymous' },
     ],
     style: [],
 });
