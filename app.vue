@@ -13,8 +13,8 @@ useSchemaOrg([
     {
         '@id': schemaId('logo'),
         '@type': 'ImageObject',
-        url: `${siteUrl.value}/img/avefi-og-image.png`,
-        contentUrl: `${siteUrl.value}/img/avefi-og-image.png`,
+        url: `${siteUrl.value}/img/web-app-manifest-512x512.png`,
+        contentUrl: `${siteUrl.value}/img/web-app-manifest-512x512.png`,
     },
 
     // --- Organization (explicit, because defaults: false) ---

@@ -39,6 +39,9 @@ const publicSearchRouteBase =
 const publicSiteOgImage =
   process.env.NUXT_PUBLIC_SITE_OG_IMAGE ||
   `${publicSiteUrl.replace(/\/+$/, '')}/img/avefi-og-image.png`;
+const publicSiteLogoImage =
+  process.env.NUXT_PUBLIC_SITE_LOGO_IMAGE ||
+  `${publicSiteUrl.replace(/\/+$/, '')}/img/web-app-manifest-512x512.png`;
 
 import tailwindcss from '@tailwindcss/vite';
 import { defineOrganization } from 'nuxt-schema-org/schema';
@@ -411,7 +414,7 @@ export default defineNuxtConfig({
       name: 'AVefi',
       alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
       url: 'https://www.av-efi.net',
-      logo: publicSiteOgImage,
+      logo: publicSiteLogoImage,
       description:
       'AVefi ermöglicht die Recherche von Werken, Manifestationen und Exemplaren in mehreren deutschen Filmarchiven – mit Normdaten-Verknüpfungen, Persistent Identifiers und Exportfunktionen für Forschung und Praxis.',
       foundingDate: '2023-11-01',
