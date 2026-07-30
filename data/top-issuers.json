@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-23T08:57:26.695Z",
+  "generated_at": "2026-07-30T06:13:49.749Z",
   "issuers": [
     {
       "name": "Haus des Dokumentarfilms",
@@ -14,11 +14,11 @@
     {
       "name": "Technische Informationsbibliothek (TIB)",
       "id": "https://w3id.org/isil/DE-89",
-      "doc_count": 5588,
+      "doc_count": 5462,
       "category_counts": {
-        "avefi:WorkVariant": 5602,
-        "avefi:Manifestation": 5588,
-        "avefi:Item": 5593
+        "avefi:WorkVariant": 5483,
+        "avefi:Manifestation": 5462,
+        "avefi:Item": 5469
       }
     },
     {

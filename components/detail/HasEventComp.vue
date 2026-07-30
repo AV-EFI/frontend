@@ -1,11 +1,11 @@
 <template>
-    <div class="grid-container col-span-full mt-2">
+    <div class="grid-container col-span-full">
         <div class="grid grid-cols-12 gap-6">
             <section v-for="(entry, eventIndex) in normalizedEvents" :key="eventIndex" :id="eventSectionId(eventIndex)"
                      class="col-span-12 space-y-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
                      :aria-labelledby="eventHeadingId(eventIndex)">
                 <header class="flex flex-col gap-1">
-                    <h3 :id="eventHeadingId(eventIndex)" class="text-base font-medium leading-5 dark:text-white">
+                    <h3 :id="eventHeadingId(eventIndex)" class="text-base font-semibold leading-6 dark:text-white">
                         {{ entry.raw?.category ? $t(entry.raw.category) : '' }}
                     </h3>
                 </header>

@@ -22,6 +22,32 @@ export function useHash(scroll = true) {
 
   const findTargetElement = (hashValue: string) => document.getElementById(normalizeHashValue(hashValue));
 
+  const isVisibleElement = (el: Element) => {
+    if (!(el instanceof HTMLElement)) return false;
+    if (el.hidden || el.classList.contains('sr-only')) return false;
+    return el.offsetParent !== null || el.getClientRects().length > 0;
+  };
+
+  const findHighlightElement = (el: HTMLElement) => {
+    if (/^H[1-6]$/i.test(el.tagName) && isVisibleElement(el)) return el;
+
+    const innerHeading = Array.from(el.querySelectorAll('h1, h2, h3, h4, h5, h6'))
+      .find(isVisibleElement);
+    if (innerHeading instanceof HTMLElement) return innerHeading;
+
+    const previousHeading = el.previousElementSibling?.matches('h1, h2, h3, h4, h5, h6')
+      ? el.previousElementSibling
+      : null;
+    if (previousHeading instanceof HTMLElement && isVisibleElement(previousHeading)) return previousHeading;
+
+    const nextHeading = el.nextElementSibling?.matches('h1, h2, h3, h4, h5, h6')
+      ? el.nextElementSibling
+      : null;
+    if (nextHeading instanceof HTMLElement && isVisibleElement(nextHeading)) return nextHeading;
+
+    return el;
+  };
+
   const openTargetManifestation = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
     const manifestationMatch = normalized.match(/^manifestation-(\d+)$/);
@@ -44,19 +70,19 @@ export function useHash(scroll = true) {
     const el = findTargetElement(normalized);
     if (!(el instanceof HTMLElement)) return false;
 
-    const hadTabIndex = el.hasAttribute('tabindex');
+    const highlightEl = findHighlightElement(el);
+    const hadTabIndex = highlightEl.hasAttribute('tabindex');
     if (!hadTabIndex) {
-      el.setAttribute('tabindex', '-1');
+      highlightEl.setAttribute('tabindex', '-1');
     }
 
-    el.classList.add(
+    highlightEl.classList.add(
       'bg-highlight',
-      'text-white',
       'transition-colors',
-      'duration-500'
+      'duration-300'
     );
 
-    el.focus({ preventScroll: true });
+    highlightEl.focus({ preventScroll: true });
 
     if (scrollTimer) clearTimeout(scrollTimer);
 
@@ -80,23 +106,25 @@ export function useHash(scroll = true) {
 
     if (highlightTimer) clearTimeout(highlightTimer);
     highlightTimer = setTimeout(() => {
-      el.classList.remove(
+      highlightEl.classList.remove(
         'bg-highlight',
-        'text-white',
         'transition-colors',
-        'duration-500'
+        'duration-300'
       );
       if (!hadTabIndex) {
-        el.removeAttribute('tabindex');
+        highlightEl.removeAttribute('tabindex');
       }
-    }, 3200);
+    }, 1400);
 
     return true;
   };
 
   const applyHash = () => {
     hash.value = normalizeHashValue(window.location.hash);
-    if (!scroll || !hash.value) return;
+    if (!scroll || !hash.value) {
+      isInitialLoad = false;
+      return;
+    }
 
     if (retryTimer) clearTimeout(retryTimer);
     retryTimer = window.setTimeout(() => {

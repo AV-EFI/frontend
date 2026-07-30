@@ -1,3 +1,5 @@
+import { computed } from 'vue';
+
 type NamedValue = {
     has_name?: string;
     label?: string;
@@ -17,7 +19,10 @@ const extractLabel = (value: string | NamedValue | null | undefined): string => 
 export const useLocalizedPlaceLabel = () => {
   const { locale } = useI18n();
 
-  const isEnglish = computed(() => String(locale.value || '').toLowerCase().startsWith('en'));
+  const isEnglish = computed(() => {
+    const localeValue = typeof locale === 'string' ? locale : locale?.value;
+    return String(localeValue || '').toLowerCase().startsWith('en');
+  });
 
   const getLocalizedPlaceLabel = (place?: PlaceValue | null): string => {
     if (!place) return '';

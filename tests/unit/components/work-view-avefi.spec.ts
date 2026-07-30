@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import WorkViewCompAVefi from '~/components/views/WorkViewCompAVefi.vue';
 import ManifestationListComp from '~/components/detail/ManifestationListComp.vue';
 import ItemListNewComp from '~/components/detail/ItemListNewComp.vue';
+import { getFilmRelatedMaterialCountForWork } from '~/composables/useFilmRelatedMaterials';
 
 vi.mock('~/composables/useFormKitLoader', () => ({
   useFormKitLoader: () => ({
@@ -17,9 +18,20 @@ function buildModelWithManifestations() {
     compound_record: {
       _source: {
         handle: 'work-1',
+        creators: ['Director A'],
         has_record: {
           has_primary_title: { has_name: 'Work title' },
-          has_event: [{ type: 'ProductionEvent' }],
+          has_event: [{
+            category: 'avefi:ProductionEvent',
+            type: 'ProductionEvent',
+            has_date: '1934',
+            located_in: [{ has_name: 'USA' }],
+            has_activity: [{
+              category: 'avefi:DirectingActivity',
+              type: 'Director',
+              has_agent: [{ has_name: 'Director A' }],
+            }],
+          }],
         },
         manifestations: [
           {
@@ -73,9 +85,10 @@ const Host = defineComponent({
   props: {
     modelValue: { type: Object, required: true },
     requestedHandle: { type: String, default: '' },
+    enableFilmrelated: { type: Boolean, default: false },
   },
   template:
-    '<Suspense><WorkViewCompAVefi v-model="modelValue" handle="work-1" :requested-handle="requestedHandle" /></Suspense>',
+    '<Suspense><WorkViewCompAVefi v-model="modelValue" handle="work-1" :requested-handle="requestedHandle" :enable-filmrelated="enableFilmrelated" /></Suspense>',
 });
 
 beforeEach(() => {
@@ -102,11 +115,12 @@ beforeEach(() => {
   );
 });
 
-function mountComponent(modelValue: any, requestedHandle = '') {
+function mountComponent(modelValue: any, requestedHandle = '', enableFilmrelated = false) {
   return mount(Host, {
     props: {
       modelValue,
       requestedHandle,
+      enableFilmrelated,
     },
     global: {
       stubs: {
@@ -116,11 +130,16 @@ function mountComponent(modelValue: any, requestedHandle = '') {
         GlobalTooltipInfo: { template: '<span />' },
         DetailWorkVariantTopLevelComp: { template: '<section id="work-events"></section>' },
         DetailHasEventComp: { template: '<section id="event-0"></section>' },
-        DetailKeyActionRowsComp: { template: '<div />' },
+        DetailKeyActionRowsComp: {
+          props: ['keyLabel', 'values'],
+          template: '<section v-bind="$attrs" data-testid="key-action-rows"><h3>{{ keyLabel }}</h3><ul><li v-for="value in values" :key="value?.has_name || value">{{ value?.has_name || value }}</li></ul></section>',
+        },
         DetailManifestationListComp: {
           props: ['modelValue'],
           template: '<div data-testid="manifestation-list">{{ modelValue?.length || 0 }}</div>',
         },
+        DetailKeyValueListComp: { template: '<div data-testid="alternative-title-list"><slot />Alt title</div>' },
+        DetailFilmRelatedMaterialsComp: { template: '<section id="film-related-materials"></section>' },
         ViewsWorkViewCompParts: { template: '<div data-testid="parts-view"></div>' },
         MicroIconTextComp: { template: '<div />' },
         DetailKeyValueComp: { template: '<div />' },
@@ -141,7 +160,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(wrapper.get('[data-testid="manifestation-list"]').text()).toBe('2');
   });
 
-  test('adds top-level extra sections to sidebar navigation only when data exists', async () => {
+  test('adds top-level navigation entries in page order and excludes alternative titles', async () => {
     const withoutExtras = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
@@ -151,12 +170,66 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const withExtras = mountComponent(buildModelWithTopLevelExtras());
     await flushPromises();
 
-    expect(withExtras.text()).toContain('AlternativeTitles');
     expect(withExtras.text()).toContain('referencesAndWorkRelations');
+    expect(withExtras.get('#alternative-titles').text()).toContain('AlternativeTitles');
+    expect(withExtras.get('#alternative-titles').text()).toContain('Alt title');
+    expect(withExtras.findAll('aside .work-section-menu-item').some(button => button.text().includes('AlternativeTitles'))).toBe(false);
 
-    const buttons = withExtras.findAll('button');
-    expect(buttons.some(button => button.text() === 'AlternativeTitles')).toBe(true);
-    expect(buttons.some(button => button.text() === 'referencesAndWorkRelations')).toBe(true);
+    const vm = withExtras.getComponent(WorkViewCompAVefi).vm as any;
+    expect(vm.workNavigationItems.map((item: any) => item.id)).toEqual([
+      'references-work-relations',
+      'work-events',
+      'manifestations',
+    ]);
+  });
+
+  test('keeps the PID out of the Work Navigation heading block', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    const sidebarHeader = wrapper.get('aside .border-b');
+    expect(sidebarHeader.text()).toContain('Work title');
+    expect(sidebarHeader.text()).not.toContain('work-1');
+  });
+
+  test('attaches compact production context below the navbar after production', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+
+    vm.activeSection = 'work-events';
+    await flushPromises();
+    expect(wrapper.find('.work-production-summary').exists()).toBe(false);
+
+    vm.activeSection = 'manifestations';
+    await flushPromises();
+
+    const summary = wrapper.get('.work-production-summary');
+    expect(summary.classes()).toContain('fixed');
+    expect(summary.classes()).toContain('inset-x-0');
+    expect(summary.text()).toContain('Work title');
+    expect(summary.text()).not.toContain('ProductionEvent');
+    expect(summary.text()).toContain('USA');
+    expect(summary.text()).toContain('1934');
+    expect(summary.text()).toContain('Director A');
+    expect(wrapper.find('aside.hidden .work-production-summary').exists()).toBe(false);
+    expect(wrapper.find('.drawer-side .work-production-summary').exists()).toBe(false);
+    expect(wrapper.find('#manifestations > div > aside').exists()).toBe(false);
+  });
+
+  test('renders DaisyUI tabs including film-related materials for the legacy mock work variant', async () => {
+    const model = buildModelWithManifestations();
+    model.compound_record._source.handle = '21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA';
+
+    const wrapper = mountComponent(model, '', true);
+    await flushPromises();
+
+    expect(wrapper.find('.tabs.tabs-lift').exists()).toBe(true);
+    expect(wrapper.get('#manifestations-tab').attributes('type')).toBe('radio');
+    expect(wrapper.get('#film-related-materials-tab').attributes('type')).toBe('radio');
+    expect(wrapper.get('#film-related-materials-tab').attributes('aria-label')).toBe('filmRelatedMaterials (4)');
+    expect(getFilmRelatedMaterialCountForWork('21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA')).toBe(4);
   });
 
   test('filters manifestations/items based on selected suggestion', async () => {
@@ -171,6 +244,42 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(vm.filteredManifestations.length).toBe(1);
     expect(vm.filteredManifestations[0].items.length).toBe(1);
     expect(vm.filteredManifestations[0].items[0].handle).toBe('21.11155/IT-2');
+  });
+
+  test('exposes manifestation events as filter suggestions', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    expect(vm.suggestionsForManifestations).toContain('Issuer A');
+    expect(vm.suggestionsForManifestations).toContain('Restricted');
+    expect(vm.suggestionsForManifestations).toContain('PremiereEvent');
+    expect(vm.suggestionsForManifestations).toContain('RestorationEvent');
+
+    vm.toggleSuggestion('PremiereEvent');
+    await flushPromises();
+
+    expect(vm.filteredManifestations.length).toBe(1);
+    expect(vm.filteredManifestations[0].handle).toBe('21.11155/MF-1');
+  });
+
+  test('keeps sidebar active state tied to the active section only', async () => {
+    const model = buildModelWithManifestations();
+    model.compound_record._source.handle = '21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA';
+
+    const wrapper = mountComponent(model, '', true);
+    await flushPromises();
+
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    vm.activeDetailTab = 'filmRelatedMaterials';
+    vm.activeSection = 'work-events';
+    await flushPromises();
+
+    const workEventsItem = vm.workNavigationItems.find((item: any) => item.id === 'work-events');
+    const filmRelatedItem = vm.workNavigationItems.find((item: any) => item.id === 'film-related-materials');
+
+    expect(vm.isNavigationItemActive(workEventsItem)).toBe(true);
+    expect(vm.isNavigationItemActive(filmRelatedItem)).toBe(false);
   });
 
   test('switches to parts view when manifestations are absent but parts exist', async () => {

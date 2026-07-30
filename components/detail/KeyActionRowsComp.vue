@@ -3,8 +3,7 @@
         <!-- Header -->
         <header class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-2 min-w-0">
-                <h3
-                    class="font-bold text-xs text-base-content/90 truncate tracking-wide dark:text-slate-300 text-neutral">
+                <h3 class="text-base font-semibold leading-6 truncate dark:text-white">
                     {{ keyLabel }}
                 </h3>
 
