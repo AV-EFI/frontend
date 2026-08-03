@@ -7,15 +7,15 @@ const deBase = {
   'errorLoadingDatasets': 'Fehler beim Laden der Datensätze',
   'errorLoadingData': 'Fehler beim Laden der Daten',
   'incompleteData': 'Unvollständige Daten',
-  'searchBackendError': 'Die Suche ist voruebergehend nicht verfuegbar. Bitte versuchen Sie es gleich erneut.',
+  'searchBackendError': 'Die Suche ist vorübergehend nicht verfügbar. Bitte versuchen Sie es gleich erneut.',
   'maintenanceBanner': {
     'planned': {
       'title': 'Geplante Wartung',
-      'message': 'AVefi ist im genannten Zeitraum moeglicherweise nur eingeschraenkt verfuegbar.'
+      'message': 'AVefi ist im genannten Zeitraum möglicherweise nur eingeschränkt verfügbar.'
     },
     'active': {
-      'title': 'Laufende Wartung oder Stoerung',
-      'message': 'AVefi ist derzeit moeglicherweise nur eingeschraenkt oder nicht verfuegbar.'
+      'title': 'Laufende Wartung oder Störung',
+      'message': 'AVefi ist derzeit möglicherweise nur eingeschränkt oder nicht verfügbar.'
     },
     'previewLabel': 'Vorschau',
     'window': 'Wartungsfenster: {start} bis {end}',
@@ -27,17 +27,17 @@ const deBase = {
   'formSubmitted': 'Formular gesendet.',
   'noData': 'Keine Daten',
   'noDataToExport': 'Keine Daten zum Exportieren vorhanden.',
-  'comparisonTabDisabled': 'Fuegen Sie Eintraege hinzu, um den Vergleich zu aktivieren.',
-  'favouritesTabDisabled': 'Fuegen Sie Favoriten hinzu, um diesen Tab zu aktivieren.',
+  'comparisonTabDisabled': 'Fügen Sie Einträge hinzu, um den Vergleich zu aktivieren.',
+  'favouritesTabDisabled': 'Fügen Sie Favoriten hinzu, um diesen Tab zu aktivieren.',
   'comparisonItemRemoved': '{name} aus dem Vergleich entfernt.',
   'favouriteItemRemoved': '{name} aus den Favoriten entfernt.',
-  'comparisonListCleared': 'Vergleichsliste geleert ({count} Eintraege).',
-  'favouritesListCleared': 'Favoritenliste geleert ({count} Eintraege).',
-  'comparisonNavigationError': 'Der Vergleich konnte nicht geoeffnet werden. Bitte pruefen Sie die ausgewaehlten Eintraege.',
+  'comparisonListCleared': 'Vergleichsliste geleert ({count} Einträge).',
+  'favouritesListCleared': 'Favoritenliste geleert ({count} Einträge).',
+  'comparisonNavigationError': 'Der Vergleich konnte nicht geöffnet werden. Bitte prüfen Sie die ausgewählten Einträge.',
   'clipboardCopySuccess': 'In die Zwischenablage kopiert.',
   'clipboardCopyError': 'Kopieren in die Zwischenablage fehlgeschlagen.',
-  'valueTransferred': 'Wert in das Ergebnis uebertragen.',
-  'valueTransferError': 'Wert konnte nicht uebertragen werden.',
+  'valueTransferred': 'Wert in das Ergebnis übertragen.',
+  'valueTransferError': 'Wert konnte nicht übertragen werden.',
   'captchaIncorrect': 'Captcha-Antwort ist nicht korrekt.',
   'spamDetected': 'Spam erkannt.',
   'failedToLoad': 'Laden fehlgeschlagen',
@@ -313,7 +313,7 @@ const deBase = {
   'loadGenerator': 'Muster-Generator öffnen',
   "mainNavigation": "Hauptnavigation",
   "cookieBanner": {
-    "shortDescription": "Wir verwenden notwendige Cookies fuer Grundfunktionen. Optionale Cookies koennen Sie hier verwalten."
+    "shortDescription": "Wir verwenden notwendige Cookies für Grundfunktionen. Optionale Cookies können Sie hier verwalten."
   },
   "cookiesDescription": "Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige Cookies sind notwendig, um die grundlegenden Funktionen der Website zu gewährleisten, während andere uns helfen, die Website zu verbessern und Ihnen personalisierte Inhalte anzubieten. Sie können Ihre Cookie-Einstellungen jederzeit ändern.",
   "dataprotection": "Datenschutzerklärung",

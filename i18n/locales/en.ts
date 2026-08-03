@@ -1250,9 +1250,9 @@ const avefiBase = {
       "ogDescription": "Legal information about the AVefi platform."
     },
     "accessibility": {
-      "title": "Accessibility â€“ AVefi Film Metadata Database",
+      "title": "Accessibility – AVefi Film Metadata Database",
       "description": "Information about accessibility at AVefi, including standards, current status, and how to report barriers.",
-      "ogTitle": "Accessibility â€“ AVefi",
+      "ogTitle": "Accessibility – AVefi",
       "ogDescription": "Learn how AVefi approaches accessibility and how to report accessibility issues."
     },
     "resource": {
