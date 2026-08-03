@@ -1,70 +1,42 @@
 # AVefi Agent Guide
 
-This repository is a Nuxt/Vue frontend plus Nitro server for AVefi. Before making UX, design, domain, or search changes, read:
+Nuxt/Vue frontend plus Nitro server for AVefi. Preserve user worktree changes and keep context loading task-scoped.
 
-1. `UX.md`
-2. `DESIGN.md`
-3. `docs/ux/interaction-patterns.md`
-4. `docs/ux/accessibility.md`
-5. `docs/components/handover-audit.md`
-6. `docs/repo-analysis/architecture.md`
-7. `docs/repo-analysis/behavior-baseline.md`
-8. `docs/repo-analysis/component-behavior-contracts.md`
+## Context Budget
 
-## Boundaries
+Start with the files directly touched by the task, nearby tests, and the narrow source references below. Expand only when behavior, wording, or ownership is unclear.
+
+For UX, design, domain, or search work, read the relevant subset:
+
+- Product/UX: `UX.md`, `docs/ux/interaction-patterns.md`, `docs/ux/accessibility.md`
+- Visual UI: `DESIGN.md`, `assets/scss/main.scss`, `tailwind.config.ts`, `tailwind.colors.ts`, current shared components
+- Architecture/behavior: `docs/repo-analysis/architecture.md`, `docs/repo-analysis/behavior-baseline.md`, `docs/repo-analysis/component-behavior-contracts.md`
+- Component handover/audit: `docs/components/handover-audit.md`, then the specific `docs/components/*.md`
+- Domain/schema: `models/interfaces/schema/*`, current API implementation and tests, then `docs/repo-analysis/**`
+- Copy/terms: Gestaltungshandbuch export when available, then `i18n/**`, `data/glossary.ts`, `assets/data/vocab.json`, `server/assets/vocab/*`
+
+## Guardrails
 
 - Do not invent product, domain, UX, brand, language, or visual-design decisions.
 - Do not treat screenshots, mockups, or handbook examples as implemented behavior.
-- Do not edit generated schema or generated docs manually unless the task explicitly asks for generated artifacts and the generation path is understood.
+- Do not manually edit generated schema/docs unless explicitly requested and the generation path is known.
 - Do not add dependencies for documentation-only work.
-- Preserve user changes in the worktree.
+- Mark conflicts and unresolved handbook gaps explicitly.
 
-## Source Order
+## Handbook
 
-For technical/domain facts, prefer:
+Live Gestaltungshandbuch was checked on 2026-07-27 and returned `403 Forbidden`. Newest inspected export: `C:\Users\StretzS\e\AVefi Gestaltungshandbuch_91cad766ce0542d3af60cf39cce1163a-270726-1208-20.pdf`, dated 2026-05-13, marked "Work in Progress"; do not assume it is current.
 
-1. `models/interfaces/schema/*`
-2. Current API implementation and tests
-3. `docs/repo-analysis/**`
-4. `data/glossary.ts`, `assets/data/vocab.json`, `server/assets/vocab/*`
-5. AVefi Gestaltungshandbuch when available
+AVefi is open scientific infrastructure, not a marketing platform. Platform rules bind `av-efi.net`, search, detail pages, FAQ, glossary, UI/help/error text, export, and comparison. Keep product copy factual, friendly, precise, understandable, inclusive, low-barrier, and free of emojis, advertising language, unclear abbreviations, or unexplained technical terms.
 
-For visual implementation, prefer:
+## Search/Detail Invariants
 
-1. `assets/scss/main.scss`, `tailwind.config.ts`, `tailwind.colors.ts`
-2. Current shared components
-3. `docs/visual-ui-audit.md`
-4. AVefi Gestaltungshandbuch when available
-
-For brand/language, prefer the Gestaltungshandbuch export when the live page is unavailable, then current i18n/glossary files. Mark conflicts and unresolved handbook gaps explicitly.
-
-## Handbook Status
-
-The live Gestaltungshandbuch page was checked on 2026-07-27 and returned `403 Forbidden`. The newest available export inspected is `C:\Users\StretzS\e\AVefi Gestaltungshandbuch_91cad766ce0542d3af60cf39cce1163a-270726-1208-20.pdf`, dated 2026-05-13 and marked "Work in Progress". Do not assume that export is current.
-
-## Handbook Basics
-
-- AVefi is an open scientific infrastructure, not a marketing platform.
-- Platform rules are binding for `av-efi.net`, search, detail pages, FAQ, glossary, UI text, help text, errors, export, and comparison.
-- Accompanying websites follow the handbook as adaptable guidelines.
-- Communication formats are flexible inside central guidelines.
-- Keep language factual, friendly, precise, understandable, inclusive, and low-barrier.
-- Do not use emojis, exaggerated advertising language, unclear abbreviations, or unexplained technical terms in AVefi product copy.
-
-## Search And Detail Invariants
-
-- Public search is configured by `searchConfig_avefi.ts` and rendered through `components/search/InstantSearchTemplateAVefi.vue`.
-- `/search` canonical and robots behavior lives in `pages/search/index.vue`.
-- Detail records route through `/res/:prefix/:id` and render by detected resource type in `pages/res/[prefix]/[id].vue`.
-- `has_access_status` is intentionally blacklisted from advanced-search facet selection but may appear in detail/list rendering when backend data includes it.
+- Public search: `searchConfig_avefi.ts` plus `components/search/InstantSearchTemplateAVefi.vue`.
+- `/search` canonical/robots: `pages/search/index.vue`.
+- Detail route: `/res/:prefix/:id` in `pages/res/[prefix]/[id].vue`.
+- `has_access_status` stays blacklisted from advanced-search facet selection but may render when backend data includes it.
 - Comparison navigation requires exactly two records.
 
 ## Testing
 
-Use targeted tests for code changes:
-
-- `yarn test:unit`
-- `yarn test:e2e:smoke`
-- `yarn test:e2e:api`
-
-For documentation-only changes, inspect the changed markdown and run no production build unless specifically requested.
+Use targeted tests for code changes: `yarn test:unit`, `yarn test:e2e:smoke`, `yarn test:e2e:api`. For documentation-only changes, inspect changed markdown; skip production builds unless requested.
