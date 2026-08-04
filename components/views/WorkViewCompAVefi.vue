@@ -7,11 +7,11 @@
                 :style="navbarSummaryStyle"
                 :aria-label="$t('workEvents')"
             >
-                <div class="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 text-sm 2xl:px-6">
+                <div class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2 text-sm 2xl:px-6">
                     <p class="min-w-0 max-w-[28rem] truncate text-sm font-semibold text-base-content">
                         {{ workSummaryTitle }}
                     </p>
-                    <dl class="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+                    <dl class="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-1">
                         <div
                             v-for="row in workContextRows"
                             :key="row.key"
@@ -54,7 +54,7 @@
                                 <button
                                     type="button"
                                     class="work-section-menu-item"
-                                    :class="{ 'is-active': isNavigationItemActive(item) }"
+                                    :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
                                     :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
                                     @click="scrollToId(item.id)"
                                 >
@@ -98,7 +98,7 @@
                             <button
                                 type="button"
                                 class="work-section-menu-item"
-                                :class="{ 'is-active': isNavigationItemActive(item) }"
+                                :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
                                 :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
                                 @click="scrollToId(item.id); drawerOpen = false"
                             >
@@ -255,8 +255,11 @@
 
                             <!-- 10/11 Genre & Schlagwort -->
                             <div
-                                v-if="(Array.isArray(mir?.has_genre) && mir.has_genre.length > 0) || (Array.isArray(mir?.has_subject) && mir.has_subject.length > 0)"
+                                v-if="hasGenreOrSubjects"
+                                id="genre-subjects"
                                 class="col-span-full grid grid-cols-1 gap-4 rounded-lg border border-base-300 p-4"
+                                role="region"
+                                :aria-label="$t('genreAndSubjects')"
                             >
                                 <DetailKeyActionRowsComp v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0"
                                                          :key-label="$t('avefi:Genre')" :values="mir.has_genre"
@@ -549,6 +552,7 @@ type WorkNavigationItem = {
     icon: string;
     count?: number;
     description?: string;
+    kind: 'work' | 'collection';
 };
 type WorkContextRow = {
     key: string;
@@ -964,12 +968,18 @@ const hasReferencesAndWorkRelations = computed(() =>
     workSameAs.value.length > 0 || workIsPartOf.value.length > 0
 );
 
+const hasGenreOrSubjects = computed(() =>
+    (Array.isArray(mir?.has_genre) && mir.has_genre.length > 0) ||
+    (Array.isArray(mir?.has_subject) && mir.has_subject.length > 0)
+);
+
 // Build the exact list of IDs that actually exist in the DOM (based on FILTERED data)
 const sectionIds = computed<string[]>(() => {
     const ids: string[] = [];
 
     if (hasReferencesAndWorkRelations.value) ids.push("references-work-relations");
     if (hasWorkEvents.value) ids.push("work-events");
+    if (hasGenreOrSubjects.value) ids.push("genre-subjects");
     if (manifestations.value.length > 0) ids.push("manifestations");
     if (hasFilmRelatedMaterials.value) ids.push("film-related-materials");
 
@@ -1199,6 +1209,7 @@ const showNavbarProductionSummary = computed(() => {
     if (!workContextRows.value.length) return false;
     if (!activeSection.value) return false;
     if (activeSection.value === 'references-work-relations') return false;
+    if (activeSection.value === 'genre-subjects') return false;
     if (activeSection.value === 'work-events' || activeSection.value.startsWith('event-')) return false;
     return true;
 });
@@ -1221,6 +1232,7 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
             id: 'references-work-relations',
             label: t('referencesAndWorkRelations'),
             icon: 'tabler:link',
+            kind: 'work',
         });
     }
 
@@ -1230,6 +1242,16 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
             label: productionNavigationLabel.value,
             icon: 'tabler:building-factory',
             count: normalizedEvents.value.length || undefined,
+            kind: 'work',
+        });
+    }
+
+    if (hasGenreOrSubjects.value) {
+        items.push({
+            id: 'genre-subjects',
+            label: t('genreAndSubjects'),
+            icon: 'tabler:tags',
+            kind: 'work',
         });
     }
 
@@ -1240,6 +1262,7 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
             icon: 'tabler:stack-2',
             count: manifestations.value.length,
             description: totalItemCount.value ? `${totalItemCount.value} ${t('items')}` : undefined,
+            kind: 'collection',
         });
     }
 
@@ -1249,6 +1272,7 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
             label: t('filmRelatedMaterials'),
             icon: 'tabler:archive',
             count: filmRelatedMaterialCount.value,
+            kind: 'collection',
         });
     }
 
@@ -1503,6 +1527,10 @@ onUnmounted(() => {
     background: color-mix(in oklab, var(--color-primary) 14%, transparent);
     color: var(--color-primary);
     font-weight: 600;
+}
+
+.work-section-menu-item--work {
+    margin-left: 0.75rem;
 }
 
 .work-section-menu-marker {

@@ -359,6 +359,7 @@ const avefiBase = {
   'itemsCount': 'Items Count',
   'parts': 'Parts',
   "referencesAndWorkRelations": "References and Work Relations",
+  "genreAndSubjects": "Genre and Subjects",
   "AlternativeTitles": "Alternative Titles",
   'workVariants': 'Work Variants',
   'clickToSelectManifestation': 'Click on the manifestation to view items',
