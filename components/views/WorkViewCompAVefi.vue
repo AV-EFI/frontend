@@ -213,7 +213,7 @@
                                             :clip="false"
                                             font-size="text-sm"
                                             :translate-key="true"
-                                            :narrow="true"
+                                            :truncate="true"
                                         />
                                     </div>
                                 </div>
@@ -226,12 +226,13 @@
                                 >
                                     <MicroLabelComp label-text="isPartOf" />
                                     <ul>
-                                        <li v-for="ipo in workIsPartOf" :key="ipo?.id">
+                                        <li v-for="ipo in workIsPartOf" :key="ipo?.id" class="min-w-0">
                                             <router-link
                                                 target="_blank"
                                                 rel="noopener"
                                                 :to="`/res/${(ipo?.id || '')}`"
-                                                class="link link-primary"
+                                                class="link link-primary block truncate"
+                                                :title="`${ipo?.id} (${ $t(ipo?.category) })`"
                                                 :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
                                             >
                                                 {{ ipo?.id }}&nbsp;({{ $t(ipo?.category) }})
@@ -253,26 +254,29 @@
                                 :initial-visible="6"
                             />
 
-                            <!-- 10/11 Genre & Schlagwort -->
+                            <!-- 10 Genre -->
                             <div
-                                v-if="hasGenreOrSubjects"
-                                id="genre-subjects"
-                                class="col-span-full grid grid-cols-1 gap-4 rounded-lg border border-base-300 p-4"
+                                v-if="hasGenre"
+                                id="genre"
+                                class="col-span-full mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
                                 role="region"
-                                :aria-label="$t('genreAndSubjects')"
+                                :aria-label="$t('avefi:Genre')"
                             >
-                                <DetailKeyActionRowsComp v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0"
-                                                         :key-label="$t('avefi:Genre')" :values="mir.has_genre"
-                                                         same-as-type="genre" facet-attribute="has_genre_has_name"
-                                                         :show-count="true" :initial-visible="6" />
-
-                                <hr
-                                    v-if="Array.isArray(mir?.has_genre) && mir.has_genre.length > 0 && Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
-                                    class="border-base-200"
-                                />
-
                                 <DetailKeyActionRowsComp
-                                    v-if="Array.isArray(mir?.has_subject) && mir.has_subject.length > 0"
+                                    :key-label="$t('avefi:Genre')" :values="mir.has_genre"
+                                    same-as-type="genre" facet-attribute="has_genre_has_name"
+                                    :show-count="true" :initial-visible="6" />
+                            </div>
+
+                            <!-- 11 Schlagwort -->
+                            <div
+                                v-if="hasSubjects"
+                                id="subjects"
+                                class="col-span-full mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                role="region"
+                                :aria-label="$t('avefi:Subject')"
+                            >
+                                <DetailKeyActionRowsComp
                                     :key-label="$t('avefi:Subject')" :values="mir.has_subject"
                                     same-as-type="subject" facet-attribute="subjects"
                                     :show-count="true" :initial-visible="8" />
@@ -968,10 +972,8 @@ const hasReferencesAndWorkRelations = computed(() =>
     workSameAs.value.length > 0 || workIsPartOf.value.length > 0
 );
 
-const hasGenreOrSubjects = computed(() =>
-    (Array.isArray(mir?.has_genre) && mir.has_genre.length > 0) ||
-    (Array.isArray(mir?.has_subject) && mir.has_subject.length > 0)
-);
+const hasGenre = computed(() => Array.isArray(mir?.has_genre) && mir.has_genre.length > 0);
+const hasSubjects = computed(() => Array.isArray(mir?.has_subject) && mir.has_subject.length > 0);
 
 // Build the exact list of IDs that actually exist in the DOM (based on FILTERED data)
 const sectionIds = computed<string[]>(() => {
@@ -979,7 +981,8 @@ const sectionIds = computed<string[]>(() => {
 
     if (hasReferencesAndWorkRelations.value) ids.push("references-work-relations");
     if (hasWorkEvents.value) ids.push("work-events");
-    if (hasGenreOrSubjects.value) ids.push("genre-subjects");
+    if (hasGenre.value) ids.push("genre");
+    if (hasSubjects.value) ids.push("subjects");
     if (manifestations.value.length > 0) ids.push("manifestations");
     if (hasFilmRelatedMaterials.value) ids.push("film-related-materials");
 
@@ -1209,7 +1212,7 @@ const showNavbarProductionSummary = computed(() => {
     if (!workContextRows.value.length) return false;
     if (!activeSection.value) return false;
     if (activeSection.value === 'references-work-relations') return false;
-    if (activeSection.value === 'genre-subjects') return false;
+    if (activeSection.value === 'genre' || activeSection.value === 'subjects') return false;
     if (activeSection.value === 'work-events' || activeSection.value.startsWith('event-')) return false;
     return true;
 });
@@ -1246,10 +1249,19 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
         });
     }
 
-    if (hasGenreOrSubjects.value) {
+    if (hasGenre.value) {
         items.push({
-            id: 'genre-subjects',
-            label: t('genreAndSubjects'),
+            id: 'genre',
+            label: t('avefi:Genre'),
+            icon: 'tabler:tags',
+            kind: 'work',
+        });
+    }
+
+    if (hasSubjects.value) {
+        items.push({
+            id: 'subjects',
+            label: t('avefi:Subject'),
             icon: 'tabler:tags',
             kind: 'work',
         });

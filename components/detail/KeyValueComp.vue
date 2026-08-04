@@ -29,7 +29,8 @@
                     :value="facetValue || valtxt"
                     :label="$t(valtxt)"
                     class="min-w-0 grow leading-5"
-                    :class="[narrow ? 'break-all w-3/4' : '']"
+                    :class="[truncate ? 'truncate' : (narrow ? 'break-all w-3/4' : '')]"
+                    :title="truncate ? $t(valtxt) : undefined"
                 >
                     {{ $t(valtxt) }}
                 </SearchClickableFacetValue>
@@ -37,7 +38,8 @@
                 <span
                     v-else
                     class="min-w-0 grow leading-5"
-                    :class="[narrow ? 'break-all w-3/4' : '']"
+                    :class="[truncate ? 'truncate' : (narrow ? 'break-all w-3/4' : '')]"
+                    :title="truncate ? $t(valtxt) : undefined"
                 >
                     {{ $t(valtxt) }}
                 </span>
@@ -88,6 +90,10 @@ const props = defineProps({
         default: 'text-base'
     },
     narrow: {
+        type: Boolean,
+        default: false
+    },
+    truncate: {
         type: Boolean,
         default: false
     },

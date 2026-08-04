@@ -328,7 +328,6 @@ const deBase = {
   'itemsCount': 'Anzahl der Exemplare',
   'parts': 'Teile',
   "referencesAndWorkRelations": "Referenzen und Werkbeziehungen",
-  "genreAndSubjects": "Genre und Schlagwörter",
   "AlternativeTitles": "Alternativtitel",
   'workVariants': 'Werke',
   'clickToSelectManifestation': 'Klicken Sie auf die Manifestation, um Exemplare anzuzeigen',
