@@ -65,6 +65,14 @@ test_unit_contracts:
       junit:
         - test-reports/unit-junit.xml
 
+test_typecheck:
+  extends:
+    - .node_job
+    - .test_rules
+  allow_failure: true
+  script:
+    - yarn typecheck
+
 test_backend_api_contracts:
   extends:
     - .node_job

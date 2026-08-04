@@ -20,6 +20,11 @@ type Req =
 
 type SearchAttr = { field: string; weight?: number };
 
+interface EsAggBucket { key?: unknown; doc_count?: unknown }
+interface EsAggResponse {
+  aggregations?: Record<string, unknown>;
+}
+
 function toTypeKey(field: string): string {
   if (field.includes('has_record.has_primary_title.has_name')) return 'title';
   if (field.includes('has_record.has_alternative_title.has_name')) return 'alt_title';
@@ -123,8 +128,8 @@ export default defineEventHandler(async (event) => {
     return { success: false, suggestions: [] };
   }
 
-  const size = Number((body as any).size) || 10;
-  const q = String((body as any).query || '').trim();
+  const size = Number(body.size) || 10;
+  const q = String(body.query || '').trim();
 
   // Keep this reasonably larger than the response size so ES has room
   // to return enough matching buckets when include is applied.
@@ -136,7 +141,7 @@ export default defineEventHandler(async (event) => {
     const searchAttrs = (searchkitConfig?.search_settings?.search_attributes || []) as SearchAttr[];
     if (!searchAttrs.length) return { success: true, suggestions: [] };
 
-    const aggs: Record<string, any> = {};
+    const aggs: Record<string, unknown> = {};
 
     for (const attr of searchAttrs) {
       const field = keywordField(attr.field);
@@ -154,7 +159,7 @@ export default defineEventHandler(async (event) => {
 
     try {
       const url = `${host}/${encodeURIComponent(index)}/_search`;
-      const res = await $fetch<any>(url, {
+      const res = await $fetch<EsAggResponse>(url, {
         method: 'POST',
         body: { size: 0, aggs },
       });
@@ -163,7 +168,8 @@ export default defineEventHandler(async (event) => {
 
       for (const attr of searchAttrs) {
         const name = `agg__${attr.field.replace(/\./g, '__')}`;
-        const buckets = res?.aggregations?.[name]?.buckets || [];
+        const agg = res?.aggregations?.[name] as { buckets?: EsAggBucket[] } | undefined;
+        const buckets = agg?.buckets || [];
         const type = toTypeKey(attr.field);
 
         for (const b of buckets) {
@@ -191,8 +197,9 @@ export default defineEventHandler(async (event) => {
       const result = Array.from(deduped.values()).slice(0, size);
 
       return { success: true, suggestions: result };
-    } catch (err: any) {
-      console.error('[suggestions:query] ERROR', err?.data || err?.message || err);
+    } catch (err) {
+      const details = err && typeof err === 'object' && 'data' in err ? err.data : undefined;
+      console.error('[suggestions:query] ERROR', details || (err instanceof Error ? err.message : err));
       return { success: false, suggestions: [] };
     }
   }
@@ -214,7 +221,7 @@ export default defineEventHandler(async (event) => {
     };
 
     // Build nested chain if needed
-    let aggs: any = { facet_suggestions: { terms } };
+    let aggs: Record<string, unknown> = { facet_suggestions: { terms } };
     if (def.nestedPaths?.length) {
       for (let i = def.nestedPaths.length - 1; i >= 0; i--) {
         const path = def.nestedPaths[i];
@@ -226,19 +233,20 @@ export default defineEventHandler(async (event) => {
 
     try {
       const url = `${host}/${encodeURIComponent(index)}/_search`;
-      const res = await $fetch<any>(url, { method: 'POST', body: esBody });
+      const res = await $fetch<EsAggResponse>(url, { method: 'POST', body: esBody });
 
       // descend to buckets
-      let node = res?.aggregations;
+      let node: Record<string, unknown> | undefined = res?.aggregations;
       if (def.nestedPaths?.length) {
         for (let i = 1; i <= def.nestedPaths.length; i++) {
-          node = node?.[`lvl${i}`];
+          node = node?.[`lvl${i}`] as Record<string, unknown> | undefined;
         }
       }
 
-      const buckets = node?.facet_suggestions?.buckets || [];
+      const facetSuggestions = node?.facet_suggestions as { buckets?: EsAggBucket[] } | undefined;
+      const buckets = facetSuggestions?.buckets || [];
       const suggestions = buckets
-        .map((b: any) => ({
+        .map((b) => ({
           text: String(b.key),
           type: facetAttr,
           count: Number(b.doc_count || 0),
@@ -246,8 +254,9 @@ export default defineEventHandler(async (event) => {
         .slice(0, size);
 
       return { success: true, suggestions, count: suggestions.length };
-    } catch (err: any) {
-      console.error('[suggestions:facet] ERROR', err?.status, err?.message || err);
+    } catch (err) {
+      const status = err && typeof err === 'object' && 'status' in err ? err.status : undefined;
+      console.error('[suggestions:facet] ERROR', status, err instanceof Error ? err.message : err);
       return { success: false, suggestions: [], count: 0 };
     }
   }

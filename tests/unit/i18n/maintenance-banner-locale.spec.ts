@@ -3,7 +3,7 @@ import de from '~/i18n/locales/de';
 
 describe('German maintenance banner locale', () => {
   test('uses German umlauts in fallback copy', () => {
-    const maintenanceBanner = (de as any).maintenanceBanner;
+    const maintenanceBanner = de.maintenanceBanner;
 
     expect(maintenanceBanner.planned.message).toContain('möglicherweise');
     expect(maintenanceBanner.planned.message).toContain('eingeschränkt');

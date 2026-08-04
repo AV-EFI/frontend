@@ -225,7 +225,7 @@ function getCreators(work: IAVefiWorkVariant): string[] {
     return Array.isArray(creators) ? creators : [];
 }
 
-function formatDuration(has_value: any): string {
+function formatDuration(has_value: string | undefined): string {
     if (has_value) {
         try {
             const duration = has_value
@@ -242,6 +242,6 @@ function formatDuration(has_value: any): string {
             return String(has_value);
         }
     }
-    return has_value;
+    return has_value ?? '';
 }
 </script>

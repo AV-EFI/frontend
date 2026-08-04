@@ -1,3 +1,9 @@
+export interface SearchHistoryItem {
+  query: string;
+  url: string;
+  timestamp: number;
+}
+
 /**
  * Composable for managing search history in localStorage
  * Stores the latest 3 searches with timestamps and full URL
@@ -6,12 +12,6 @@
 export const useSearchHistory = () => {
   const STORAGE_KEY = 'avefi-search-history';
   const MAX_HISTORY_SIZE = 3;
-
-  interface SearchHistoryItem {
-    query: string;
-    url: string;
-    timestamp: number;
-  }
 
   // Simple reactive ref for history
   const history = ref<SearchHistoryItem[]>([]);

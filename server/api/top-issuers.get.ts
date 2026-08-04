@@ -12,6 +12,25 @@ interface Issuer {
   };
 }
 
+interface SearchResult {
+  hits?: Array<{
+    manifestations?: Array<{
+      has_record?: {
+        described_by?: {
+          has_issuer_name?: string;
+          has_issuer_id?: string;
+        };
+      };
+    }>;
+  }>;
+  facets?: {
+    has_issuer_name?: Record<string, number>;
+  };
+  nbWorks?: number;
+  nbManifestations?: number;
+  nbItems?: number;
+}
+
 const DEFAULT_INDEX = '21.11155-denormalised-work';
 const DEFAULT_SEARCH_PATH = 'frontend/search';
 
@@ -19,7 +38,7 @@ function joinUrl(base: string, pathPart: string) {
   return `${base.replace(/\/+$/, '')}/${pathPart.replace(/^\/+/, '')}`;
 }
 
-function resolveBackendBase(config: any, origin: string) {
+function resolveBackendBase(config: ReturnType<typeof useRuntimeConfig>, origin: string) {
   const configured =
     process.env.TOP_ISSUERS_BACKEND_BASE ||
     config.public?.PUBLIC_AVEFI_ELASTIC_API ||
@@ -45,7 +64,7 @@ function searchPayload(indexName: string, params: Record<string, unknown>) {
 }
 
 async function searchBackend(searchUrl: string, indexName: string, params: Record<string, unknown>) {
-  const response = await $fetch<any>(searchUrl, {
+  const response = await $fetch<{ results?: SearchResult[] }>(searchUrl, {
     method: 'POST',
     body: searchPayload(indexName, params),
   });
@@ -53,7 +72,7 @@ async function searchBackend(searchUrl: string, indexName: string, params: Recor
   return response?.results?.[0];
 }
 
-function extractIssuerId(result: any, issuerName: string): string | null {
+function extractIssuerId(result: SearchResult | undefined, issuerName: string): string | null {
   for (const hit of result?.hits || []) {
     for (const manifestation of hit?.manifestations || []) {
       const describedBy = manifestation?.has_record?.described_by;

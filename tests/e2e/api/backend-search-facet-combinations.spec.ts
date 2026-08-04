@@ -17,6 +17,7 @@
  * No mocks.
  */
 import { expect, test } from '@playwright/test';
+import type { APIRequestContext } from '@playwright/test';
 
 const BACKEND_BASE = process.env.E2E_BACKEND_BASE || 'https://www.av-efi.net/rest/v1';
 const SEARCH_URL = `${BACKEND_BASE}/frontend/search`;
@@ -64,7 +65,7 @@ function searchPayload(facetFilters: string[][], extra: Record<string, unknown> 
   ];
 }
 
-async function post(request: any, payload: unknown) {
+async function post(request: APIRequestContext, payload: unknown) {
   const res = await request.post(SEARCH_URL, { data: payload });
   return res;
 }

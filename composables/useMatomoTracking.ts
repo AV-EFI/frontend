@@ -1,8 +1,10 @@
 // composables/useMatomoTracking.ts
+type MatomoArg = string | number | boolean | undefined;
+
 export function useMatomoTracking() {
-  const push = (...args: any[]) => {
+  const push = (...args: MatomoArg[]) => {
     if (!import.meta.client) return;
-    const w = window as any;
+    const w = window as Window & { _paq?: MatomoArg[][] };
     w._paq = w._paq || [];
     w._paq.push(args);
   };

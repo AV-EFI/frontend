@@ -3,10 +3,17 @@ import { promises as fs } from 'node:fs';
 
 const ENTITIES_FILE = join(process.cwd(), 'assets', 'data', 'entities.json');
 
+interface Entity {
+  explorerPath?: string;
+  label?: string;
+  description?: string;
+  docsUrl?: string;
+}
+
 export default defineEventHandler(async () => {
   try {
     const raw = await fs.readFile(ENTITIES_FILE, 'utf8');
-    const arr = JSON.parse(raw) as Array<any>;
+    const arr = JSON.parse(raw) as Entity[];
     // reduce to path → { label?, description?, docsUrl? }
     const map: Record<string, { label?: string; description?: string; docsUrl?: string }> = {};
     for (const e of arr) {

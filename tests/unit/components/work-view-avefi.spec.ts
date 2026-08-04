@@ -13,6 +13,31 @@ vi.mock('~/composables/useFormKitLoader', () => ({
   }),
 }));
 
+// Mirrors WorkViewCompAVefi's own local `WorkNavigationItem` type (not
+// exported from the component) and the subset of its script-setup state
+// these tests reach into via wrapper.vm — script-setup bindings aren't part
+// of the public ComponentPublicInstance type, hence the cast through unknown.
+type WorkNavigationItem = {
+  id: string;
+  label: string;
+  icon: string;
+  count?: number;
+  description?: string;
+  kind: 'work' | 'collection';
+};
+type WorkViewVm = {
+  workNavigationItems: WorkNavigationItem[];
+  activeSection: string;
+  activeDetailTab: string;
+  searchQuery: string;
+  filteredManifestations: Array<{ handle: string; items: Array<{ handle: string }> }>;
+  suggestionsForManifestations: string[];
+  toggleSuggestion: (value: string) => void;
+  isNavigationItemActive: (item: WorkNavigationItem | undefined) => boolean;
+  getManifestationAnchorId: (manifestation: unknown, index: number) => string;
+  getItemAnchorId: (item: unknown, manifestationIndex: number, itemIndex: number) => string;
+};
+
 function buildModelWithManifestations() {
   return {
     compound_record: {
@@ -115,7 +140,12 @@ beforeEach(() => {
   );
 });
 
-function mountComponent(modelValue: any, requestedHandle = '', enableFilmrelated = false) {
+// The `modelValue` passed to WorkViewCompAVefi is the opaque ES compound-record
+// JSON blob the component parses defensively itself (see its own DataObject/
+// WorkVariantSource local types); mountComponent never inspects its fields,
+// so a generic object bag is the honest type here rather than reusing (and
+// forcing every fixture below to satisfy) the full generated AVefi schema.
+function mountComponent(modelValue: Record<string, unknown>, requestedHandle = '', enableFilmrelated = false) {
   return mount(Host, {
     props: {
       modelValue,
@@ -175,8 +205,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(withExtras.get('#alternative-titles').text()).toContain('Alt title');
     expect(withExtras.findAll('aside .work-section-menu-item').some(button => button.text().includes('AlternativeTitles'))).toBe(false);
 
-    const vm = withExtras.getComponent(WorkViewCompAVefi).vm as any;
-    expect(vm.workNavigationItems.map((item: any) => item.id)).toEqual([
+    const vm = withExtras.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
+    expect(vm.workNavigationItems.map((item) => item.id)).toEqual([
       'references-work-relations',
       'work-events',
       'manifestations',
@@ -196,7 +226,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
 
     vm.activeSection = 'work-events';
     await flushPromises();
@@ -236,21 +266,21 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
     vm.toggleSuggestion('Restricted');
     await flushPromises();
 
     expect(vm.searchQuery).toContain('Restricted');
     expect(vm.filteredManifestations.length).toBe(1);
-    expect(vm.filteredManifestations[0].items.length).toBe(1);
-    expect(vm.filteredManifestations[0].items[0].handle).toBe('21.11155/IT-2');
+    expect(vm.filteredManifestations[0]!.items.length).toBe(1);
+    expect(vm.filteredManifestations[0]!.items[0]!.handle).toBe('21.11155/IT-2');
   });
 
   test('exposes manifestation events as filter suggestions', async () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
     expect(vm.suggestionsForManifestations).toContain('Issuer A');
     expect(vm.suggestionsForManifestations).toContain('Restricted');
     expect(vm.suggestionsForManifestations).toContain('PremiereEvent');
@@ -260,7 +290,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     await flushPromises();
 
     expect(vm.filteredManifestations.length).toBe(1);
-    expect(vm.filteredManifestations[0].handle).toBe('21.11155/MF-1');
+    expect(vm.filteredManifestations[0]!.handle).toBe('21.11155/MF-1');
   });
 
   test('keeps sidebar active state tied to the active section only', async () => {
@@ -270,13 +300,13 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(model, '', true);
     await flushPromises();
 
-    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
     vm.activeDetailTab = 'filmRelatedMaterials';
     vm.activeSection = 'work-events';
     await flushPromises();
 
-    const workEventsItem = vm.workNavigationItems.find((item: any) => item.id === 'work-events');
-    const filmRelatedItem = vm.workNavigationItems.find((item: any) => item.id === 'film-related-materials');
+    const workEventsItem = vm.workNavigationItems.find((item) => item.id === 'work-events');
+    const filmRelatedItem = vm.workNavigationItems.find((item) => item.id === 'film-related-materials');
 
     expect(vm.isNavigationItemActive(workEventsItem)).toBe(true);
     expect(vm.isNavigationItemActive(filmRelatedItem)).toBe(false);
@@ -294,7 +324,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
     const manifestation = buildModelWithManifestations().compound_record._source.manifestations[0];
 
     expect(vm.getManifestationAnchorId(manifestation, 0)).toBe('21.11155/MF-1');
@@ -305,7 +335,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as any;
+    const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
     const item = buildModelWithManifestations().compound_record._source.manifestations[0].items[0];
 
     expect(vm.getItemAnchorId(item, 0, 0)).toBe('21.11155/IT-1');

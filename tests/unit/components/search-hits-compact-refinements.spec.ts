@@ -4,7 +4,7 @@ import { describe, expect, test, vi } from 'vitest';
 import SearchHitsComp from '~/components/search/SearchHitsComp.vue';
 
 vi.hoisted(() => {
-  (globalThis as any).useRoute = () => ({
+  (globalThis as Record<string, unknown>).useRoute = () => ({
     query: {},
     path: '/search',
   });

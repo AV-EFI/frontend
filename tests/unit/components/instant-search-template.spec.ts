@@ -22,33 +22,73 @@ type IndexState = {
 type UiState = Record<string, IndexState>;
 type UiStateUpdater = (prevState: UiState) => UiState;
 
+// Shape of the backend-search-client wrapper produced by
+// InstantSearchTemplateAVefi (`instantSearch.props('searchClient')`) —
+// scoped to just the request/response fields these tests set or read; the
+// component itself intentionally stays loosely typed around the raw
+// Algolia/instantsearch.js request shape (see its own eslint-disable).
+type SearchRequestParams = {
+  query?: string;
+  page?: number;
+  hitsPerPage?: number;
+  facetFilters?: string[][];
+  facets?: string[];
+  numericFilters?: string[];
+};
+type SearchRequest = { params: SearchRequestParams };
+type FacetOrdering = {
+  facets: { order: string[] };
+  values: Record<string, { sortRemainingBy: string }>;
+};
+type SearchResultItem = {
+  facets?: Record<string, Record<string, number>>;
+  renderingContent?: { facetOrdering: FacetOrdering };
+  hits?: Array<Record<string, unknown>>;
+  nbHits?: number;
+  query?: string;
+  page?: number;
+  hitsPerPage?: number;
+  nbManifestations?: number;
+  nbItems?: number;
+};
+type SearchClientResponse = { results: SearchResultItem[] };
+type WrappedSearchClient = { search: (requests: SearchRequest[]) => Promise<SearchClientResponse> };
+
+type FacetValueRequestParams = { facetName?: string; facetQuery?: string; maxFacetHits?: number };
+type FacetValueRequest = { params: FacetValueRequestParams };
+type FacetHit = { value: string; highlighted: string; count: number };
+type FacetValuesResult = { facetHits: FacetHit[] };
+type WrappedFacetValuesClient = {
+  searchForFacetValues: (requests: FacetValueRequest[]) => Promise<FacetValuesResult[]>;
+};
+
 vi.hoisted(() => {
-  (globalThis as any).useRuntimeConfig = () => ({
+  (globalThis as Record<string, unknown>).useRuntimeConfig = () => ({
     public: {
       elasticApiBase: 'http://localhost',
       searchApiPath: 'frontend/search',
       ELASTIC_INDEX: 'test-index',
     },
   });
-  (globalThis as any).useNuxtApp = () => ({
+  (globalThis as Record<string, unknown>).useNuxtApp = () => ({
     $toggleFacetDrawerState: () => {},
     $toast: { success: () => {}, error: () => {} },
   });
-  (globalThis as any).useRouter = () => ({
+  (globalThis as Record<string, unknown>).useRouter = () => ({
     replace: routerReplaceMock,
     push: vi.fn(),
   });
-  (globalThis as any).useRoute = () => ({
+  (globalThis as Record<string, unknown>).useRoute = () => ({
     query: routeQueryMock.value,
     path: '/search',
   });
-  (globalThis as any).useSearchHistory = () => ({
+  (globalThis as Record<string, unknown>).useSearchHistory = () => ({
     addToSearchHistory: vi.fn(),
     getSearchHistory: vi.fn(() => []),
     removeFromHistory: vi.fn(),
     clearSearchHistory: vi.fn(),
   });
-  (globalThis as any).$fetch = vi.fn().mockResolvedValue({
+  (globalThis as Record<string, unknown>).$fetch = vi.fn().mockResolvedValue({
     success: true,
     suggestions: [],
   });
@@ -480,7 +520,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
     };
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedSearchClient;
 
     const response = await wrappedClient.search([
       {
@@ -505,13 +545,13 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
         },
       },
     ]);
-    expect(response.results[0].facets).toEqual({
+    expect(response.results[0]!.facets).toEqual({
       creators: {
         'Muster, Maria': 1,
       },
     });
-    expect(response.results[0].renderingContent.facetOrdering.facets.order).toEqual(['creators', 'subjects']);
-    expect(Object.keys(response.results[0].renderingContent.facetOrdering.values)).toEqual(['creators', 'subjects']);
+    expect(response.results[0]!.renderingContent!.facetOrdering.facets.order).toEqual(['creators', 'subjects']);
+    expect(Object.keys(response.results[0]!.renderingContent!.facetOrdering.values)).toEqual(['creators', 'subjects']);
   });
 
   test('strips empty query params before calling the backend search client', async () => {
@@ -520,7 +560,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
     };
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedSearchClient;
 
     await wrappedClient.search([
       {
@@ -548,7 +588,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
     };
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedSearchClient;
 
     await wrappedClient.search([
       {
@@ -581,7 +621,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
     };
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedSearchClient;
 
     const response = await wrappedClient.search([
       {
@@ -610,7 +650,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
     };
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedSearchClient;
 
     const response = await wrappedClient.search([
       {
@@ -676,7 +716,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
 
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as { search: (requests: any[]) => Promise<any> };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedSearchClient;
 
     const response = await wrappedClient.search([
       {
@@ -698,12 +738,12 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
       },
     ]);
 
-    expect(response.results[0].facets).toEqual(backendResponse.results[0].facets);
-    expect(response.results[0].renderingContent.facetOrdering.facets.order).toEqual([
+    expect(response.results[0]!.facets).toEqual(backendResponse.results[0]!.facets);
+    expect(response.results[0]!.renderingContent!.facetOrdering.facets.order).toEqual([
       'has_sound_type',
       'has_issuer_name',
     ]);
-    expect(response.results[0].hits[0]).toMatchObject({
+    expect(response.results[0]!.hits![0]).toMatchObject({
       directors_or_editors: ['Lang, Fritz'],
       creators: ['Lang, Fritz'],
     });
@@ -727,9 +767,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
 
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as {
-      searchForFacetValues: (requests: any[]) => Promise<any[]>
-    };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedFacetValuesClient;
 
     const response = await wrappedClient.searchForFacetValues([
       {
@@ -753,7 +791,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
       })
     );
     expect(parentSearchClient.searchForFacetValues).not.toHaveBeenCalled();
-    expect(response[0].facetHits).toEqual([
+    expect(response[0]!.facetHits).toEqual([
       {
         value: 'Schaller, Dietrich',
         highlighted: 'Schaller, Dietrich',
@@ -778,9 +816,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
 
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as {
-      searchForFacetValues: (requests: any[]) => Promise<any[]>
-    };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedFacetValuesClient;
 
     const response = await wrappedClient.searchForFacetValues([
       {
@@ -791,7 +827,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
       },
     ]);
 
-    expect(response[0].facetHits).toEqual([
+    expect(response[0]!.facetHits).toEqual([
       {
         value: 'Muster, Maria',
         highlighted: 'Muster, Maria',
@@ -823,9 +859,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
 
     const wrapper = mountComponent(parentSearchClient);
     const instantSearch = wrapper.findComponent(AisInstantSearchStub);
-    const wrappedClient = instantSearch.props('searchClient') as {
-      searchForFacetValues: (requests: any[]) => Promise<any[]>
-    };
+    const wrappedClient = instantSearch.props('searchClient') as WrappedFacetValuesClient;
 
     const response = await wrappedClient.searchForFacetValues([
       {
@@ -847,7 +881,7 @@ describe('InstantSearchTemplateAVefi – clear all refinements button', () => {
       })
     );
     expect(parentSearchClient.searchForFacetValues).not.toHaveBeenCalled();
-    expect(response[0].facetHits).toEqual([
+    expect(response[0]!.facetHits).toEqual([
       {
         value: 'Schaller, Dietrich',
         highlighted: 'Schaller, Dietrich',

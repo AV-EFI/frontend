@@ -111,14 +111,15 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
+import type { SearchWorkHit, SearchItem } from '~/models/interfaces/manual/ISearchWorkHit';
 
 const props = defineProps({
     datasets: {
-        type: Array as PropType<Array<any>>,
+        type: Array as PropType<Array<SearchWorkHit>>,
         required: true,
     },
     currentRefinements: {
-        type: Array,
+        type: Array as PropType<Array<{ label?: string; values?: unknown[] }>>,
         required: false,
         default: () => [],
     },
@@ -131,11 +132,11 @@ const props = defineProps({
 
 const { t: $t } = useI18n();
 
-function titleFor(work: any): string {
+function titleFor(work: SearchWorkHit): string {
     return work?.has_record?.has_primary_title?.has_name || '';
 }
 
-function yearsFor(work: any): string {
+function yearsFor(work: SearchWorkHit): string {
     const years = work?.years;
     if (Array.isArray(years) && years.length) {
         return years.join(', ');
@@ -143,25 +144,25 @@ function yearsFor(work: any): string {
 
     const range = work?.production_in_year;
     if (range && typeof range === 'object') {
-        const from = range.gte ?? range.gt ?? '';
-        const to = range.lte ?? range.lt ?? '';
+        const from = range.gte ?? '';
+        const to = range.lte ?? '';
         return [from, to].filter(Boolean).join(' - ');
     }
 
     return '';
 }
 
-function creatorsFor(work: any): string {
+function creatorsFor(work: SearchWorkHit): string {
     const creators = Array.isArray(work?.creators) ? work.creators : [];
     if (creators.length) {
-        return creators.map((c: any) => String(c)).filter(Boolean).join(', ');
+        return creators.map((c) => String(c)).filter(Boolean).join(', ');
     }
 
     const directors = Array.isArray(work?.directors_or_editors) ? work.directors_or_editors : [];
-    return directors.length ? directors.map((d: any) => String(d)).filter(Boolean).join(', ') : '';
+    return directors.length ? directors.map((d) => String(d)).filter(Boolean).join(', ') : '';
 }
 
-function placesFor(work: any): string {
+function placesFor(work: SearchWorkHit): string {
     const places = new Set<string>();
 
     const events = Array.isArray(work?.has_record?.has_event)
@@ -212,8 +213,7 @@ const activeFacetKeys = computed(() => {
     const refinements = Array.isArray(props.currentRefinements) ? props.currentRefinements : [];
 
     for (const refinement of refinements) {
-        const rawLabel = (refinement as any)?.label;
-        const normalized = normalizeFacetKey(rawLabel);
+        const normalized = normalizeFacetKey(refinement?.label);
         if (!normalized) continue;
 
         keys.add(normalized);
@@ -232,8 +232,8 @@ function isFacetActive(entry: { facetKeys?: string[] }): boolean {
     return entry.facetKeys.some((key) => activeFacetKeys.value.has(normalizeFacetKey(key)));
 }
 
-function allWorkItems(work: any): any[] {
-    const rows: any[] = [];
+function allWorkItems(work: SearchWorkHit): SearchItem[] {
+    const rows: SearchItem[] = [];
 
     const manifestations = Array.isArray(work?.manifestations) ? work.manifestations : [];
     for (const manifestation of manifestations) {
@@ -251,7 +251,7 @@ function allWorkItems(work: any): any[] {
     return rows;
 }
 
-function itemPreviewIconEntries(work: any) {
+function itemPreviewIconEntries(work: SearchWorkHit) {
     const items = allWorkItems(work);
     if (!items.length) return [];
 
@@ -272,9 +272,9 @@ function itemPreviewIconEntries(work: any) {
         const record = item?.has_record || {};
 
         if (hasNonEmptyString(record?.has_access_status)) flags.has_access_status = true;
-        if (Array.isArray(record?.has_format) && record.has_format.some((f: any) => hasNonEmptyString(f?.type))) flags.has_format_type = true;
+        if (Array.isArray(record?.has_format) && record.has_format.some((f) => hasNonEmptyString(f?.type))) flags.has_format_type = true;
         if (hasNonEmptyString(record?.element_type)) flags.item_element_type = true;
-        if (Array.isArray(record?.in_language) && record.in_language.some((lang: any) => hasNonEmptyString(lang?.code))) flags.in_language_code = true;
+        if (Array.isArray(record?.in_language) && record.in_language.some((lang) => hasNonEmptyString(lang?.code))) flags.in_language_code = true;
         if (hasNonEmptyString(record?.has_sound_type)) flags.has_sound_type = true;
         if (hasNonEmptyString(record?.has_colour_type)) flags.has_colour_type = true;
         if (typeof item?.duration_in_minutes === 'number' || hasNonEmptyString(record?.has_duration?.has_value)) flags.has_duration_has_value = true;

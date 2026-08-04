@@ -3,30 +3,42 @@ import { mount } from '@vue/test-utils';
 import { computed, nextTick, onBeforeUnmount, reactive, watch } from 'vue';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import SearchListViewComp from '~/components/search/SearchListViewComp.vue';
+import type { SearchWorkHit } from '~/models/interfaces/manual/ISearchWorkHit';
 
 vi.hoisted(() => {
-  (globalThis as any).useRuntimeConfig = () => ({
+  (globalThis as Record<string, unknown>).useRuntimeConfig = () => ({
     public: {
       AVEFI_COPY_PID_URL: 'https://hdl.handle.net/',
     },
   });
-  (globalThis as any).useRoute = () => ({
+  (globalThis as Record<string, unknown>).useRoute = () => ({
     query: {},
     path: '/search',
   });
 });
 
+// Path-walking helpers below mirror the real composable's signature but only
+// ever traverse plain mock fixtures in this file, so a shallow indexable
+// record is precise enough without pulling in the real (unrelated) types.
+type PathRecord = Record<string, unknown>;
+
 vi.mock('@/composables/useItemEmpty', () => ({
   allItemsEmpty: () => false,
   isItemEmpty: () => false,
-  has: (obj: any, path: string) => path.split('.').every((part) => {
-    obj = obj?.[part];
+  has: (obj: unknown, path: string) => path.split('.').every((part) => {
+    obj = (obj as PathRecord | null | undefined)?.[part];
     return obj !== undefined && obj !== null;
   }),
-  get: (obj: any, path: string) => path.split('.').reduce((value, part) => value?.[part], obj),
-  buildRows: (work: any) => (work?.manifestations || []).flatMap((mf: any) =>
-    (mf?.items || []).map((item: any) => ({ item, mf }))
+  get: (obj: unknown, path: string) => path.split('.').reduce(
+    (value: unknown, part) => (value as PathRecord | null | undefined)?.[part],
+    obj
   ),
+  buildRows: (work: unknown) => {
+    const typedWork = work as { manifestations?: Array<{ items?: unknown[] }> } | null | undefined;
+    return (typedWork?.manifestations || []).flatMap((mf) =>
+      (mf?.items || []).map((item) => ({ item, mf }))
+    );
+  },
 }));
 
 vi.mock('vue-i18n', () => ({
@@ -55,16 +67,32 @@ function makeItem(handle: string, colour: string | null) {
   };
 }
 
-function mountComponent(manifestation: any) {
+// Shape of the manifestation fixtures built/mutated across the tests below —
+// only the fields SearchListViewComp's getFilteredItems() actually reads.
+type MockManifestation = {
+  handle: string;
+  items?: Array<{ handle: string; has_record?: Record<string, unknown> }>;
+  inner_hits?: {
+    manifestations_items_hits?: {
+      hits?: { hits?: Array<{ _source: unknown }> };
+    };
+  };
+};
+type GetFilteredItems = (manifestation: MockManifestation) => Array<{ handle: string }>;
+
+function mountComponent(manifestation: MockManifestation) {
   return mount(SearchListViewComp, {
     props: {
+      // Fixtures intentionally only set the fields SearchListViewComp reads,
+      // not the full generated AVefi schema (e.g. WorkVariant.category/type),
+      // so they're built as plain objects and cast via `unknown`.
       items: [{
         handle: '21.11155/work-1',
         has_record: {
           has_primary_title: { has_name: 'Work 1' },
         },
         manifestations: [manifestation],
-      }],
+      }] as unknown as SearchWorkHit[],
       productionDetailsChecked: true,
     },
     global: {
@@ -119,11 +147,11 @@ describe('SearchListViewComp server payload usage', () => {
 
     const wrapper = mountComponent(manifestation);
     const splitView = wrapper.getComponent(manifestationListStub);
-    const getFilteredItems = splitView.props('getFilteredItems');
+    const getFilteredItems = splitView.props('getFilteredItems') as GetFilteredItems;
     const filtered = getFilteredItems(manifestation);
 
     expect(filtered).toBe(manifestation.items);
-    expect(filtered.map((item: any) => item.handle)).toEqual([
+    expect(filtered.map((item) => item.handle)).toEqual([
       'item-bw',
       'item-colour',
       'item-empty-colour',
@@ -202,11 +230,11 @@ describe('SearchListViewComp server payload usage', () => {
 
     const wrapper = mountComponent(manifestation);
     const splitView = wrapper.getComponent(manifestationListStub);
-    const getFilteredItems = splitView.props('getFilteredItems');
+    const getFilteredItems = splitView.props('getFilteredItems') as GetFilteredItems;
     const filtered = getFilteredItems(manifestation);
 
     expect(filtered).toBe(manifestation.items);
-    expect(filtered.map((item: any) => item.handle)).toEqual(['fallback-item-1', 'fallback-item-2']);
+    expect(filtered.map((item) => item.handle)).toEqual(['fallback-item-1', 'fallback-item-2']);
   });
 });
 
@@ -219,15 +247,20 @@ describe('SearchListViewComp server payload usage', () => {
 // "[refinementList][facet][0]=value", so the test URLs below use that format
 // (%5BrefinementList%5D = "[refinementList]") to produce an observable result.
 // ---------------------------------------------------------------------------
+// Component instance surface accessed via wrapper.vm below — script-setup
+// bindings aren't exposed on the public ComponentPublicInstance type, so a
+// narrow local shape stands in for the internal reactive state under test.
+type VmWithRefinementsActive = { refinementsActive: boolean };
+
 describe('SearchListViewComp route.query watch (replaces polling)', () => {
-  let reactiveRouteQuery: Record<string, any>;
+  let reactiveRouteQuery: Record<string, unknown>;
 
   // IS default format key that parseRefinementsFromUrl can match
   const IS_FORMAT_URL = '/search/?%5BrefinementList%5D%5Bhas_format_type%5D%5B0%5D=VHS';
 
   beforeEach(() => {
     reactiveRouteQuery = reactive({});
-    (globalThis as any).useRoute = () => ({ query: reactiveRouteQuery, path: '/search' });
+    (globalThis as Record<string, unknown>).useRoute = () => ({ query: reactiveRouteQuery, path: '/search' });
 
     vi.stubGlobal('computed', computed);
     vi.stubGlobal('reactive', reactive);
@@ -243,14 +276,14 @@ describe('SearchListViewComp route.query watch (replaces polling)', () => {
 
   afterEach(() => {
     // Restore static useRoute mock used by the sibling describe block.
-    (globalThis as any).useRoute = () => ({ query: {}, path: '/search' });
+    (globalThis as Record<string, unknown>).useRoute = () => ({ query: {}, path: '/search' });
     window.history.pushState({}, '', '/search/');
   });
 
   test('refinementsActive is false on mount when URL has no facet params', () => {
     window.history.pushState({}, '', '/search/');
     const wrapper = mountComponent({ handle: 'mf-1', items: [] });
-    expect((wrapper.vm as any).refinementsActive).toBe(false);
+    expect((wrapper.vm as unknown as VmWithRefinementsActive).refinementsActive).toBe(false);
   });
 
   test('refinementsActive is true immediately on mount when URL already has facet params (immediate: true)', () => {
@@ -258,21 +291,21 @@ describe('SearchListViewComp route.query watch (replaces polling)', () => {
     window.history.pushState({}, '', IS_FORMAT_URL);
     reactiveRouteQuery['has_format_type'] = ['VHS'];
     const wrapper = mountComponent({ handle: 'mf-1', items: [] });
-    expect((wrapper.vm as any).refinementsActive).toBe(true);
+    expect((wrapper.vm as unknown as VmWithRefinementsActive).refinementsActive).toBe(true);
   });
 
   test('refinementsActive updates when route.query changes reactively', async () => {
     // Start with no facets.
     window.history.pushState({}, '', '/search/');
     const wrapper = mountComponent({ handle: 'mf-1', items: [] });
-    expect((wrapper.vm as any).refinementsActive).toBe(false);
+    expect((wrapper.vm as unknown as VmWithRefinementsActive).refinementsActive).toBe(false);
 
     // Simulate InstantSearch router.write patching both the URL and Vue Router.
     window.history.pushState({}, '', IS_FORMAT_URL);
     reactiveRouteQuery['has_format_type'] = ['VHS'];
     await nextTick();
 
-    expect((wrapper.vm as any).refinementsActive).toBe(true);
+    expect((wrapper.vm as unknown as VmWithRefinementsActive).refinementsActive).toBe(true);
   });
 
   test('refinementsActive resets to false when route.query is cleared', async () => {
@@ -280,13 +313,13 @@ describe('SearchListViewComp route.query watch (replaces polling)', () => {
     window.history.pushState({}, '', IS_FORMAT_URL);
     reactiveRouteQuery['has_format_type'] = ['VHS'];
     const wrapper = mountComponent({ handle: 'mf-1', items: [] });
-    expect((wrapper.vm as any).refinementsActive).toBe(true);
+    expect((wrapper.vm as unknown as VmWithRefinementsActive).refinementsActive).toBe(true);
 
     // Simulate "Clear all refinements" — IS router.write calls router.replace('/search/').
     window.history.pushState({}, '', '/search/');
     delete reactiveRouteQuery['has_format_type'];
     await nextTick();
 
-    expect((wrapper.vm as any).refinementsActive).toBe(false);
+    expect((wrapper.vm as unknown as VmWithRefinementsActive).refinementsActive).toBe(false);
   });
 });

@@ -1,4 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import type { H3Event } from 'h3';
+
+type MutationHandler = (event: H3Event) => Promise<unknown>;
 
 describe('Internal API: CMS tooltip mutations', () => {
   beforeEach(() => {
@@ -29,8 +32,8 @@ describe('Internal API: CMS tooltip mutations', () => {
       writeUserGlossary: vi.fn(),
     }));
 
-    const handler = (await import('~/server/api/cms/usertooltips.put')).default as (event: any) => Promise<any>;
-    await expect(handler({})).rejects.toMatchObject({ statusCode: 503 });
+    const handler = (await import('~/server/api/cms/usertooltips.put')).default as MutationHandler;
+    await expect(handler({} as unknown as H3Event)).rejects.toMatchObject({ statusCode: 503 });
     expect(guardMock).toHaveBeenCalledTimes(1);
     expect(authMock).not.toHaveBeenCalled();
   });
@@ -56,8 +59,8 @@ describe('Internal API: CMS tooltip mutations', () => {
       writeUserGlossary: vi.fn(),
     }));
 
-    const handler = (await import('~/server/api/cms/usertooltips.put')).default as (event: any) => Promise<any>;
-    await expect(handler({})).rejects.toMatchObject({ statusCode: 401 });
+    const handler = (await import('~/server/api/cms/usertooltips.put')).default as MutationHandler;
+    await expect(handler({} as unknown as H3Event)).rejects.toMatchObject({ statusCode: 401 });
     expect(guardMock).toHaveBeenCalledTimes(1);
     expect(authMock).toHaveBeenCalledTimes(1);
   });
@@ -88,8 +91,8 @@ describe('Internal API: CMS tooltip mutations', () => {
       },
     }));
 
-    const handler = (await import('~/server/api/cms/usertooltips_seed.post')).default as (event: any) => Promise<any>;
-    await expect(handler({})).rejects.toMatchObject({ statusCode: 503 });
+    const handler = (await import('~/server/api/cms/usertooltips_seed.post')).default as MutationHandler;
+    await expect(handler({} as unknown as H3Event)).rejects.toMatchObject({ statusCode: 503 });
     expect(guardMock).toHaveBeenCalledTimes(1);
     expect(authMock).not.toHaveBeenCalled();
   });
@@ -120,8 +123,8 @@ describe('Internal API: CMS tooltip mutations', () => {
       },
     }));
 
-    const handler = (await import('~/server/api/cms/usertooltips_seed.post')).default as (event: any) => Promise<any>;
-    await expect(handler({})).rejects.toMatchObject({ statusCode: 401 });
+    const handler = (await import('~/server/api/cms/usertooltips_seed.post')).default as MutationHandler;
+    await expect(handler({} as unknown as H3Event)).rejects.toMatchObject({ statusCode: 401 });
     expect(guardMock).toHaveBeenCalledTimes(1);
     expect(authMock).toHaveBeenCalledTimes(1);
   });

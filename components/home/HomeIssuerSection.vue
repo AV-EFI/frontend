@@ -42,12 +42,26 @@ const { t } = useI18n();
 const issuerCarouselRef = ref<HTMLElement | null>(null);
 const issuerCarouselReady = ref(false);
 
-const issuerPlaceholderItems = computed(() => {
-    const issuers = Array.isArray((topIssuersData as any)?.issuers) ? (topIssuersData as any).issuers : [];
-    const mappings = (issuerImagesData as any)?.mappings || {};
-    const fallback = (issuerImagesData as any)?.fallback || {};
+interface TopIssuer {
+    name: string;
+    id: string | null;
+    doc_count: number;
+    category_counts?: Record<string, number>;
+}
+interface IssuerImageInfo {
+    name?: string;
+    image?: string;
+    alt?: string;
+}
 
-    return issuers.slice(0, 4).map((issuer: any) => {
+const issuerPlaceholderItems = computed(() => {
+    const issuersData = topIssuersData as { issuers?: TopIssuer[] };
+    const imagesData = issuerImagesData as { mappings?: Record<string, IssuerImageInfo>; fallback?: IssuerImageInfo };
+    const issuers = Array.isArray(issuersData?.issuers) ? issuersData.issuers : [];
+    const mappings = imagesData?.mappings || {};
+    const fallback = imagesData?.fallback || {};
+
+    return issuers.slice(0, 4).map((issuer) => {
         const imageInfo = issuer.id && mappings[issuer.id] ? mappings[issuer.id] : null;
         return {
             name: issuer.name,

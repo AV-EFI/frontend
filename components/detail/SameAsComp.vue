@@ -24,7 +24,7 @@
                     ref="menuRef"
                     role="menu"
                     tabindex="-1"
-                    class="menu menu-sm bg-base-100 rounded-box shadow fixed z-1000 w-56 p-2 dark:border-1 dark:border-gray-800"
+                    class="menu menu-sm bg-base-100 rounded-box shadow fixed z-1000 w-56 p-2 dark:border dark:border-gray-800"
                     :style="{ top: `${pos.top}px`, left: `${pos.left}px` }"
                     @keydown="onMenuKeydown"
                 >
@@ -60,8 +60,11 @@
 import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useClipboardUtil } from '~/utils/clipboard';
 
+type SameAsEntry = { id?: string; category?: string };
+type ResolvedSameAsEntry = { id: string; category: string };
+
 const props = defineProps({
-    sameAsData: { type: Array as () => Array<any>, default: () => [] },
+    sameAsData: { type: Array as () => Array<SameAsEntry>, default: () => [] },
     fontSize: { type: String, default: 'xs' },
     type: { type: String, default: 'film' },
 });
@@ -74,7 +77,7 @@ const normalizedSameAsData = computed(() => {
     const items = Array.isArray(props.sameAsData) ? props.sameAsData : [];
     const seen = new Set<string>();
 
-    return items.filter((item) => {
+    return items.filter((item): item is ResolvedSameAsEntry => {
         if (!item?.category || !item?.id) return false;
 
         const key = `${item.category}-${item.id}`;
@@ -147,11 +150,11 @@ function close() {
     nextTick(() => triggerRef.value?.focus());
 }
 
-function copySameAsUrl(item: any) {
+function copySameAsUrl(item: ResolvedSameAsEntry) {
     clipboard?.copyExtended(getNormdataUrl(item.category, item.id));
 }
 
-function getSameAsLabel(item: any): string {
+function getSameAsLabel(item: ResolvedSameAsEntry): string {
     const category = String(item?.category || '');
     return category && te(category) ? t(category) : category;
 }
@@ -191,8 +194,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    document.removeEventListener('click', onDocumentClick, { capture: true } as any);
-    window.removeEventListener('resize', onResizeOrScroll as any);
-    window.removeEventListener('scroll', onResizeOrScroll as any);
+    document.removeEventListener('click', onDocumentClick, { capture: true });
+    window.removeEventListener('resize', onResizeOrScroll);
+    window.removeEventListener('scroll', onResizeOrScroll);
 });
 </script>

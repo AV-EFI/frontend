@@ -3,7 +3,7 @@
         <section
             v-for="(manifestation, i) in manifestationList"
             :id="getManifestationAnchorId(manifestation, i)"
-            :key="manifestation._id || i"
+            :key="manifestation.handle || i"
             class="mt-2 border-base-200 border-2 rounded-lg overflow-hidden bg-base-100"
             role="listitem"
             :data-manifestation-index="i"
@@ -15,7 +15,7 @@
                 tabindex="0"
                 :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
                 :aria-controls="`manifestation-panel-${i}`"
-                :title="$t('toggleManifestation', { manifestationId: manifestation.handle || manifestation._id })"
+                :title="$t('toggleManifestation', { manifestationId: manifestation.handle })"
                 @click="toggleManifestation(i)"
                 @keydown.enter.prevent="toggleManifestation(i)"
                 @keydown.space.prevent="toggleManifestation(i)"
@@ -48,8 +48,8 @@
                 </h4>
                 <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
                     <DetailItemListNewComp
-                        v-if="manifestation?.items?.length > 0"
-                        :items="manifestation?.items"
+                        v-if="(manifestation?.items?.length ?? 0) > 0"
+                        :items="manifestation?.items ?? []"
                         :manifestation-index="i"
                         :manifestation-handle="manifestation?.handle || ''"
                     />
@@ -61,25 +61,20 @@
 
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import type { Item, MovingImageRecord } from '~/models/interfaces/schema/avefi_schema.js';
+import type { MovingImageRecord } from '~/models/interfaces/schema/avefi_schema.js';
+import type { IAVefiItem } from '~/models/interfaces/generated/IAVefiItem';
 const { t } = useI18n();
 
 const manifestationList = defineModel({
-    type: Array as PropType<AVefiFEManifestation[]>,
+    type: Array as PropType<ManifestationListItem[]>,
     required: true
 });
 
-interface AVefiFEManifestation {
-    _source: Source;
-    _id: string;
-    index: string;
-    _score: number;
-}
-interface Source {
+interface ManifestationListItem {
     handle: string;
-    kip: string;
+    kip?: string;
     has_record: MovingImageRecord;
-    items: Item[];
+    items?: IAVefiItem[];
 }
 
 onMounted(() => {
@@ -120,7 +115,7 @@ function handleOpenManifestation(event: Event) {
     };
 }
 
-function getManifestationAnchorId(manifestation: Source, index: number) {
+function getManifestationAnchorId(manifestation: ManifestationListItem, index: number) {
     return manifestation?.handle?.trim() || `manifestation-${index}`;
 }
 

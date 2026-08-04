@@ -231,6 +231,8 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { FacetAttribute } from 'searchkit';
+import type { SearchHistoryItem } from '~/composables/useSearchHistory';
 import { useSearchParamsStore } from '~/stores/searchParams.js';
 import { config } from '~/searchConfig_avefi.js';
 import { FACET_ICON_MAP } from '~/models/interfaces/manual/IFacetIconMapping.js';
@@ -272,14 +274,17 @@ const ariaLabel = computed(() => t('mainSearch'));
 const showValidationWarning = ref(false);
 const searchDataStore = useSearchParamsStore();
 
-// Ensure shape exists deterministically
+// Ensure shape exists deterministically (formData is persisted to sessionStorage,
+// so a stale/older shape can slip past the store's own type at runtime)
 if (!searchDataStore.formData) {
     searchDataStore.formData = {
+        searchToggle: false,
         regularSearch: {
             searchTerm: '',
             optionsList: [],
         },
-    } as any;
+        extendedSearch: null,
+    };
 }
 
 if (!searchDataStore.formData.regularSearch) {
@@ -327,8 +332,8 @@ const FACET_BLACKLIST: string[] = [
 const availableFacets = computed<FacetOption[]>(() => {
     try {
         if (!config?.search_settings?.facet_attributes) return [];
-        return config.search_settings.facet_attributes.map((f: any) => {
-            const attribute = f.attribute || f;
+        return config.search_settings.facet_attributes.map((f: FacetAttribute) => {
+            const attribute = typeof f === 'string' ? f : f.attribute;
             const facetIcon = FACET_ICON_MAP[attribute] || 'tabler:tag';
             const label = `${t(attribute === 'production_year_start' ? 'productionyear' : attribute)}`;
             return { label, value: attribute, icon: facetIcon };
@@ -559,8 +564,8 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '',
 
         still.suggestions = filterLocalizedSuggestions(attr, facetCache[attr] || [], query);
         still.showSuggestions = showWhenLoaded && still.suggestions.length > 0;
-    } catch (e: any) {
-        if (e?.name === 'AbortError') return;
+    } catch (e) {
+        if (e instanceof Error && e.name === 'AbortError') return;
 
         const still = facetFilters.value[rowIndex];
         if (still && still.facet === attr) {
@@ -610,12 +615,12 @@ function onFacetChange(index: number) {
     }
 }
 
-function onValueInput(index: number, evt: any) {
+function onValueInput(index: number, evt: string | { target?: { value?: unknown } } | undefined) {
     const row = facetFilters.value[index];
     if (!row) return;
 
     const attr = row.facet;
-    const value = typeof evt === 'string' ? evt : (evt?.target?.value ?? '');
+    const value = typeof evt === 'string' ? evt : String(evt?.target?.value ?? '');
     row.valueDisplay = value;
     row.valueRaw = attr
         ? isYearFacet(attr)
@@ -753,7 +758,7 @@ async function onFacetDropdownClick(index: number) {
     row.showSuggestions = row.suggestions.length > 0;
 }
 
-function handleRecentSearchClick(item: any) {
+function handleRecentSearchClick(item: SearchHistoryItem) {
     if (item.url) {
         window.location.href = `/search/${item.url}`;
     }

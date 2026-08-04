@@ -114,17 +114,17 @@ async function handleSubmit() {
         const res = await $fetch('/api/mail/contact', {
             method: 'POST',
             body: { email: email.value, message: message.value }
-        });
+        }) as { success?: boolean; error?: string };
 
-        if ((res as any)?.success) {
+        if (res?.success) {
             liveMsg.value = $t('messageSentSuccess');
             $toast?.success?.($t('messageSentSuccess'));
             email.value = '';
             message.value = '';
             captchaAnswer.value = '';
             generateCaptcha();
-        } else {      
-            throw new Error((res as any)?.error || 'Failed to send message');
+        } else {
+            throw new Error(res?.error || 'Failed to send message');
         }
     } catch (err) {
         console.error(err);

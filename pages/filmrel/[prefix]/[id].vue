@@ -287,16 +287,16 @@ const title = computed(() =>
 
 const description = computed(() =>
     normalizeText(record.value?.has_record?.abstract) ||
-    normalizeText(asArray<any>(record.value?.has_record?.has_note)?.[0]) ||
+    normalizeText(asArray<unknown>(record.value?.has_record?.has_note)?.[0]) ||
     t('seo.resource.description')
 );
 
 // Keywords (keep short)
 const schemaKeywords = computed(() => {
-    const subjects = asArray<any>(record.value?.has_record?.has_subject).map((s) => normalizeText(s?.has_name)).filter(Boolean) as string[];
-    const genres = asArray<any>(record.value?.has_record?.has_genre).map((g) => normalizeText(g?.has_name)).filter(Boolean) as string[];
-    const creators = asArray<any>(record.value?.creators?.length ? record.value.creators : record.value?.directors_or_editors).map((d) => normalizeText(d)).filter(Boolean) as string[];
-    const topSubjects = asArray<any>(record.value?.subjects).map((s) => normalizeText(s)).filter(Boolean) as string[];
+    const subjects = asArray<{ has_name?: string }>(record.value?.has_record?.has_subject).map((s) => normalizeText(s?.has_name)).filter(Boolean) as string[];
+    const genres = asArray<{ has_name?: string }>(record.value?.has_record?.has_genre).map((g) => normalizeText(g?.has_name)).filter(Boolean) as string[];
+    const creators = asArray<unknown>(record.value?.creators?.length ? record.value.creators : record.value?.directors_or_editors).map((d) => normalizeText(d)).filter(Boolean) as string[];
+    const topSubjects = asArray<unknown>(record.value?.subjects).map((s) => normalizeText(s)).filter(Boolean) as string[];
     return Array.from(new Set([...genres, ...subjects, ...topSubjects, ...creators])).slice(0, 20);
 });
 
@@ -307,7 +307,7 @@ const schemaSameAs = computed(() => {
     if (isHttpUrl(url)) out.push(url);
 
     // record.has_record.same_as is typically {id, category} -> include only if id is URL
-    const sameAsObjs = asArray<any>(record.value?.has_record?.same_as);
+    const sameAsObjs = asArray<{ id?: string; category?: string }>(record.value?.has_record?.same_as);
     for (const s of sameAsObjs) {
         const sid = s?.id;
         if (isHttpUrl(sid)) out.push(sid);
@@ -365,7 +365,7 @@ const datasetDescription = computed(() => t('home.seo.datasetDescription'));
 useSchemaOrg(() => {
     if (!exposeSchemaOrg) return [];
 
-    const graph: any[] = [];
+    const graph: Record<string, unknown>[] = [];
 
     // Shared org reference
     const orgRef = {

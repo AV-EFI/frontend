@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import type { FacetAttribute } from 'searchkit';
 import { config as skConfig } from '~/searchConfig_avefi';
 
 type Suggestion = { text: string; type: string }
@@ -9,7 +10,9 @@ export function useAutocomplete() {
   const showMain = ref(false);
 
   const facetAttrs: Array<{ attribute: string; field: string }> =
-    (skConfig?.search_settings?.facet_attributes || []).map((f: any) => ({ attribute: f.attribute, field: f.field }));
+    (skConfig?.search_settings?.facet_attributes || [])
+      .filter((f): f is Exclude<FacetAttribute, string> => typeof f === 'object')
+      .map((f) => ({ attribute: f.attribute, field: f.field }));
 
   /** MAIN (query) suggestions across search_attributes */
   async function suggestMain(query: string) {

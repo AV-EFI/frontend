@@ -76,7 +76,7 @@ async function countForField(field: string, cfg: Cfg): Promise<number> {
     return 0;
   }
 
-  const json: any = await res.json();
+  const json = await res.json() as { hits?: { total?: number | { value: number } } };
   const total = typeof json.hits?.total === 'number' ? json.hits.total : json.hits?.total?.value;
   return typeof total === 'number' ? total : 0;
 }

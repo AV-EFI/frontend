@@ -1,4 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import type { H3Event } from 'h3';
+
+type MockCreateErrorPayload = { statusCode: number; statusMessage: string };
+type PressKitHandler = (event: H3Event) => Promise<unknown>;
 
 describe('Internal API: /api/press-kit.zip', () => {
   beforeEach(() => {
@@ -17,10 +21,10 @@ describe('Internal API: /api/press-kit.zip', () => {
     const accessMock = vi.fn().mockResolvedValue(undefined);
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       setHeader: setHeaderMock,
       setResponseStatus: setResponseStatusMock,
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
     }));
     vi.doMock('node:fs', () => ({
       promises: {
@@ -37,8 +41,8 @@ describe('Internal API: /api/press-kit.zip', () => {
       },
     }));
 
-    const handler = (await import('~/server/api/press-kit.zip.get')).default as (event: any) => Promise<any>;
-    const result = await handler({ method: 'HEAD' });
+    const handler = (await import('~/server/api/press-kit.zip.get')).default as PressKitHandler;
+    const result = await handler({ method: 'HEAD' } as unknown as H3Event);
 
     expect(result).toBe('');
     expect(setResponseStatusMock).toHaveBeenCalledWith({ method: 'HEAD' }, 200);
@@ -70,10 +74,10 @@ describe('Internal API: /api/press-kit.zip', () => {
     const generateAsyncMock = vi.fn().mockResolvedValue(zippedBuffer);
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       setHeader: vi.fn(),
       setResponseStatus: vi.fn(),
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
     }));
     vi.doMock('node:fs', () => ({
       promises: {
@@ -88,8 +92,8 @@ describe('Internal API: /api/press-kit.zip', () => {
       },
     }));
 
-    const handler = (await import('~/server/api/press-kit.zip.get')).default as (event: any) => Promise<any>;
-    const result = await handler({ method: 'GET' });
+    const handler = (await import('~/server/api/press-kit.zip.get')).default as PressKitHandler;
+    const result = await handler({ method: 'GET' } as unknown as H3Event);
 
     expect(accessMock).toHaveBeenCalled();
     expect(fileMock).toHaveBeenCalledTimes(2);
@@ -106,10 +110,10 @@ describe('Internal API: /api/press-kit.zip', () => {
     const accessMock = vi.fn().mockRejectedValue(new Error('missing'));
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       setHeader: vi.fn(),
       setResponseStatus: vi.fn(),
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
     }));
     vi.doMock('node:fs', () => ({
       promises: {
@@ -126,8 +130,8 @@ describe('Internal API: /api/press-kit.zip', () => {
       },
     }));
 
-    const handler = (await import('~/server/api/press-kit.zip.get')).default as (event: any) => Promise<any>;
-    await expect(handler({ method: 'GET' })).rejects.toMatchObject({
+    const handler = (await import('~/server/api/press-kit.zip.get')).default as PressKitHandler;
+    await expect(handler({ method: 'GET' } as unknown as H3Event)).rejects.toMatchObject({
       statusCode: 500,
     });
   });

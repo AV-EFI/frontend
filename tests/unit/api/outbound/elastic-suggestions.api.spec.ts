@@ -1,5 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+type SuggestionsHandler = (event: unknown) => Promise<{
+  success: boolean;
+  suggestions: Array<{ text: string; type: string; count: number }>;
+  count?: number;
+}>;
+
 describe('Outbound API wrapper: /api/elastic/suggestions', () => {
   beforeEach(() => {
     vi.resetModules();
@@ -24,7 +30,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       readBody: readBodyMock,
     }));
     vi.doMock('ofetch', () => ({
@@ -44,7 +50,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       public: { ELASTIC_INDEX: 'works-index' },
     }));
 
-    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
 
     expect(result.success).toBe(true);
@@ -61,7 +67,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       readBody: readBodyMock,
     }));
     vi.doMock('ofetch', () => ({
@@ -81,7 +87,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       public: { ELASTIC_INDEX: '' },
     }));
 
-    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
 
     expect(result).toEqual({ success: false, suggestions: [] });
@@ -96,7 +102,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       readBody: readBodyMock,
     }));
     vi.doMock('ofetch', () => ({
@@ -112,7 +118,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       public: { ELASTIC_INDEX: 'works-index' },
     }));
 
-    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
 
     expect(result).toEqual({ success: true, suggestions: [] });
@@ -134,7 +140,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       readBody: readBodyMock,
     }));
     vi.doMock('ofetch', () => ({
@@ -150,7 +156,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       public: { ELASTIC_INDEX: 'works-index' },
     }));
 
-    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
 
     expect(result).toEqual({
@@ -177,7 +183,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       readBody: readBodyMock,
     }));
     vi.doMock('ofetch', () => ({
@@ -193,7 +199,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       public: { ELASTIC_INDEX: 'works-index' },
     }));
 
-    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
 
     expect(fetchMock.mock.calls[0][1].body.aggs.facet_suggestions.terms).toMatchObject({
@@ -227,7 +233,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     });
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       readBody: readBodyMock,
     }));
     vi.doMock('ofetch', () => ({
@@ -243,7 +249,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       public: { ELASTIC_INDEX: 'works-index' },
     }));
 
-    const handler = (await import('~/server/api/elastic/suggestions.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
     const aggs = fetchMock.mock.calls[0][1].body.aggs;
 

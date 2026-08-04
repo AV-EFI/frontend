@@ -13,8 +13,11 @@ async function readAssetText(key: string): Promise<string> {
   throw new Error(`Unsupported asset type for ${key}: ${typeof raw}`);
 }
 
+type LocaleValue = string | { de?: string; en?: string; description?: string; definition?: string };
+type LocaleData = Record<string, LocaleValue> & { de?: Record<string, string>; en?: Record<string, string> };
+
 /** Safe load of locale JSON (handles string/object). */
-async function loadLocale(): Promise<any> {
+async function loadLocale(): Promise<LocaleData> {
   try {
     const txt = await readAssetText('vocab:locale_messages.json');
     return JSON.parse(txt);
@@ -53,7 +56,7 @@ export async function useServerVocab(): Promise<vocabEntry[]> {
       return Array.from(new Set(cands));
     };
 
-    const pickLocaleString = (obj: any, k: string): string | undefined => {
+    const pickLocaleString = (obj: Record<string, string> | undefined, k: string): string | undefined => {
       return (obj && typeof obj === 'object' && typeof obj[k] === 'string') ? obj[k] : undefined;
     };
 

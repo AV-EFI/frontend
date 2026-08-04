@@ -37,25 +37,27 @@ const WHITELIST: Record<WhitelistKey, FieldConfig> = {
   },
 };
 
-function extractNormdataRefs(source: any, basePath: string[], targetValue: string): Array<{ id: string; category: string }> {
+function extractNormdataRefs(source: unknown, basePath: string[], targetValue: string): Array<{ id: string; category: string }> {
   const results: Array<{ id: string; category: string }> = [];
-  
+
   // Navigate to the base (e.g., has_record.has_subject)
-  let cur: any = source;
+  let cur: unknown = source;
   for (const key of basePath) {
     if (cur == null) return results;
-    cur = cur[key];
+    cur = (cur as Record<string, unknown>)[key];
   }
-  
+
   // cur should now be an array of objects with has_name and same_as
   if (!Array.isArray(cur)) return results;
-  
-  for (const item of cur) {
+
+  for (const rawItem of cur) {
+    const item = rawItem as { has_name?: unknown; same_as?: unknown } | null | undefined;
     // Only extract normdata from items that match the target value
     if (item?.has_name === targetValue) {
       const sameAsArray = item?.same_as;
       if (Array.isArray(sameAsArray)) {
-        for (const ref of sameAsArray) {
+        for (const rawRef of sameAsArray) {
+          const ref = rawRef as { id?: unknown; category?: unknown } | null | undefined;
           if (ref?.id) {
             results.push({
               id: String(ref.id),
@@ -66,7 +68,7 @@ function extractNormdataRefs(source: any, basePath: string[], targetValue: strin
       }
     }
   }
-  
+
   return results;
 }
 
@@ -95,7 +97,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // Build the aggregation with optional regex filter for letter
-  const termsAgg: any = {
+  const termsAgg: { field: string; size: number; order: { _key: string }; include?: string } = {
     field: cfg.valueField,
     size: isExport ? 100000 : 10000, // Much higher limit for exports
     order: { _key: 'asc' },
@@ -130,35 +132,44 @@ export default defineEventHandler(async (event) => {
     headers.Authorization = `ApiKey ${esApiKey}`;
   }
 
-  let res: any;
+  interface VocabBucket {
+    key: string;
+    doc_count: number;
+    all_docs?: { hits?: { hits?: Array<{ _source?: unknown }> } };
+  }
+  interface VocabSearchResponse {
+    aggregations?: { values?: { buckets?: VocabBucket[] } };
+  }
+
+  let res: VocabSearchResponse | undefined;
   try {
     res = await $fetch(`${esHost}/${esIndex}/_search`, {
       method: 'POST',
       headers,
       body,
       timeout: 30000, // 30 second timeout
-    });
-  } catch (error: any) {
+    }) as VocabSearchResponse;
+  } catch (error) {
     console.error('Elasticsearch query failed:', error);
     throw createError({
       statusCode: 502,
-      statusMessage: `Elasticsearch connection failed: ${error.message}`,
+      statusMessage: `Elasticsearch connection failed: ${error instanceof Error ? error.message : String(error)}`,
     });
   }
 
   const buckets = res?.aggregations?.values?.buckets || [];
 
-  const rows = buckets.map((b: any) => {
+  const rows = buckets.map((b) => {
     const hits = b.all_docs?.hits?.hits || [];
-    
+
     // Collect all unique normdata refs from ALL documents with this value
     const allNormdataRefs: Array<{ id: string; category: string }> = [];
     const seenRefs = new Set<string>();
     const providers = new Set<string>();
 
     for (const hit of hits) {
-      const source = hit._source ?? {};
-      
+      const source = (hit._source ?? {}) as { has_record?: { described_by?: unknown } };
+
       // Extract normdata from this document, filtering by the exact value
       if (cfg.normdataPath.length > 0) {
         const refs = extractNormdataRefs(source, cfg.normdataPath, b.key);
@@ -174,15 +185,15 @@ export default defineEventHandler(async (event) => {
       // Collect all providers - described_by is an array
       const describedBy = source?.has_record?.described_by;
       if (Array.isArray(describedBy)) {
-        for (const desc of describedBy) {
-          const issuerName = desc?.has_issuer_name;
+        for (const desc of describedBy as unknown[]) {
+          const issuerName = (desc as { has_issuer_name?: unknown } | null | undefined)?.has_issuer_name;
           if (issuerName && typeof issuerName === 'string') {
             providers.add(issuerName);
           }
         }
       } else if (describedBy && typeof describedBy === 'object') {
         // Handle single object case (if not an array)
-        const issuerName = describedBy.has_issuer_name;
+        const issuerName = (describedBy as { has_issuer_name?: unknown }).has_issuer_name;
         if (issuerName && typeof issuerName === 'string') {
           providers.add(issuerName);
         }

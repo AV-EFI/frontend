@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
             const extractValues = (prefix: string) =>
               facetFiltersRaw
                 .flat()
-                .filter((v: any) => typeof v === 'string' && v.startsWith(prefix))
+                .filter((v: unknown): v is string => typeof v === 'string' && v.startsWith(prefix))
                 .map((v: string) => v.split(':')[1]);
 
             const hasColourTypeValues        = extractValues('has_colour_type:');           // ITEMS
@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
             const hasFormatTypeValues        = extractValues('has_format_type:');           // ITEMS
             const itemElementTypeValues      = extractValues('item_element_type:');         // ITEMS
 
-            const manifestationMust: any[] = [];
+            const manifestationMust: Record<string, unknown>[] = [];
 
             // --- keep issuer name on manifestation level
             if (hasIssuerNameValues.length > 0) {
@@ -75,7 +75,7 @@ export default defineEventHandler(async (event) => {
             }
 
             // --- ITEMS: ALL exemplar facets live here
-            const itemsMust: any[] = [];
+            const itemsMust: Record<string, unknown>[] = [];
 
             if (inLanguageCodeValues.length > 0) {
               itemsMust.push({
@@ -132,7 +132,7 @@ export default defineEventHandler(async (event) => {
             const numericRefinements = indexParams['numeric-refinements'] || {};
             const itemDur = numericRefinements['item_duration_in_minutes'] || {};
             if (itemDur['>='] !== undefined || itemDur['<='] !== undefined) {
-              const rq: any = {};
+              const rq: Record<string, unknown> = {};
               if (itemDur['>='] !== undefined) rq.gte = itemDur['>='];
               if (itemDur['<='] !== undefined) rq.lte = itemDur['<='];
               itemsMust.push({ range: { 'manifestations.items.duration_in_minutes': rq } });
@@ -178,7 +178,7 @@ export default defineEventHandler(async (event) => {
             const rangeFilters = [];
 
             if (range['>='] !== undefined || range['<='] !== undefined) {
-              const rangeQuery: any = {};
+              const rangeQuery: Record<string, unknown> = {};
               if (range['>='] !== undefined) rangeQuery.gte = range['>='];
               if (range['<='] !== undefined) rangeQuery.lte = range['<='];
               rangeFilters.push({ range: { production_in_year: rangeQuery } });

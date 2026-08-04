@@ -8,7 +8,7 @@
                 :aria-label="$t('workEvents')"
             >
                 <div class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2 text-sm 2xl:px-6">
-                    <p class="min-w-0 max-w-[28rem] truncate text-sm font-semibold text-base-content">
+                    <p class="min-w-0 max-w-md truncate text-sm font-semibold text-base-content">
                         {{ workSummaryTitle }}
                     </p>
                     <dl class="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-1">
@@ -165,8 +165,8 @@
                             <div class="w-full col-span-full">
                                 <!-- 01–04 + 06–09: handled inside TopLevelComp -->
                                 <DetailWorkVariantTopLevelComp v-model="mir"
-                                                               :handle="dataObject?.compound_record?._source?.handle"
-                                                               :es-timestamp="dataObject?.compound_record?._source?.['@timestamp']"
+                                                               :handle="dataObject?.compound_record?._source?.handle ?? ''"
+                                                               :es-timestamp="String(dataObject?.compound_record?._source?.['@timestamp'] ?? '')"
                                                                :order-key="'08-06-2025'" :hide-second-handle="true"
                                                                :swap-years-and-places="true" />
                                 <!-- 05 Produktions-Events -->
@@ -277,7 +277,7 @@
                                 :aria-label="$t('avefi:Subject')"
                             >
                                 <DetailKeyActionRowsComp
-                                    :key-label="$t('avefi:Subject')" :values="mir.has_subject"
+                                    :key-label="$t('avefi:Subject')" :values="workSubjects"
                                     same-as-type="subject" facet-attribute="subjects"
                                     :show-count="true" :initial-visible="8" />
                             </div>
@@ -523,9 +523,9 @@
             </div>
 
             <!-- 12 Letzte Bearbeitung -->
-            <div v-if="dataObject?._source?.['@timestamp']" id="last-edit" class="w-full mt-4 justify-center items-center">
+            <div v-if="dataObject?.compound_record?._source?.['@timestamp']" id="last-edit" class="w-full mt-4 justify-center items-center">
                 <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
-                                    :valtxt="formatTimestamp(dataObject._source['@timestamp'])" />
+                                    :valtxt="formatTimestamp(dataObject.compound_record._source['@timestamp'])" />
             </div>
         </div>
     </div>
@@ -533,7 +533,18 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
-import type { IAVefiWorkVariant as WorkVariant } from "~/models/interfaces/generated/IefiWorkVariant";
+import type { IAVefiManifestation } from "~/models/interfaces/generated/IAVefiManifestation";
+import type { IAVefiItem } from "~/models/interfaces/generated/IAVefiItem";
+import type {
+    WorkVariant,
+    Event as AVefiEvent,
+    Activity,
+    AuthorityResource,
+    MovingImageResource,
+    GeographicName,
+    Subject,
+} from "~/models/interfaces/schema/avefi_schema_type_utils";
+import type { Part } from './WorkViewCompParts.vue';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import { useLocalizedPlaceLabel } from '~/composables/useLocalizedPlaceLabel';
 import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
@@ -548,7 +559,13 @@ await ensureFormKitReady();
 // Enable hash navigation for manifestations and items
 useHash();
 
-type Manifestation = any; // keep as-is if you already have a real type elsewhere
+// Generated interfaces are missing the nested collection field the ES response
+// actually returns, so it's added back on here rather than hand-modelling the wrapper.
+type Item = IAVefiItem;
+type Manifestation = IAVefiManifestation & { items?: Item[] };
+// Base Event doesn't carry `type` — only its subclasses (ProductionEvent etc.) do —
+// but has_event is stored as plain Event[], so widen it rather than importing every subtype.
+type Event = AVefiEvent & { type?: string };
 type DetailTab = 'manifestations' | 'filmRelatedMaterials';
 type WorkNavigationItem = {
     id: string;
@@ -564,6 +581,13 @@ type WorkContextRow = {
     value: string;
     icon: string;
 };
+interface NormalizedEvent {
+    raw: Event;
+    crew: Activity[];
+    cast: Activity[];
+    hasMeta: boolean;
+    showType: boolean;
+}
 
 const desktopDrawerOpen = ref(true);
 const props = defineProps({
@@ -583,17 +607,37 @@ const props = defineProps({
 
 const dataJson = defineModel({ type: Object, required: true });
 
+// Shape of the ES compound-record wrapper this component actually reads; the
+// generated IAVefiWorkVariant is missing `manifestations`, so this is hand-modelled
+// against real usage instead.
+interface WorkVariantSource {
+    handle?: string;
+    creators?: string[];
+    directors_or_editors?: string[];
+    '@timestamp'?: number;
+    has_record?: WorkVariant;
+    parts?: Part[];
+    manifestations?: Manifestation[];
+}
+interface DataObject {
+    handle?: string;
+    compound_record?: {
+        _source?: WorkVariantSource;
+    };
+}
+
 // Defensive parse
-let dataObject: any = {};
+let dataObject: DataObject = {};
 try {
-    dataObject = dataJson.value ?? {};
+    dataObject = (dataJson.value ?? {}) as DataObject;
 } catch {
     dataObject = {};
 }
 
 // WorkVariant (optional)
 const mir = (dataObject?.compound_record?._source?.has_record ?? null) as WorkVariant | null;
-const parts = (dataObject?.compound_record?._source?.parts ?? null) as WorkVariant | null;
+// Array of sibling work-variant parts (e.g. episodes of a serial)
+const parts = dataObject?.compound_record?._source?.parts ?? null;
 
 // Manifestations (optional)
 const manifestations = ref<Manifestation[]>(
@@ -663,7 +707,7 @@ function triggerLoading() {
     }, 600);
 }
 
-function onSearchInput(val: any) {
+function onSearchInput(val: string | string[]) {
     searchQuery.value = Array.isArray(val) ? val : val ? [val] : [];
     triggerLoading();
 }
@@ -724,25 +768,34 @@ const FIELD_ICON_KEY: Record<string, string> = {
     'has_record.element_type': 'item_element_type',
 };
 
-function get(obj: any, path: string): any {
+// Recursive shape for values pulled out of the dotted-path walk below.
+type PathValue = string | number | boolean | null | undefined | PathValue[] | { [key: string]: PathValue };
+
+// obj takes `unknown` (not PathValue) because our schema types (Manifestation, Item, ...)
+// are nominal interfaces: TS won't assign them to an index-signature type like PathValue
+// even though they're structurally JSON-like data, so this stays intentionally untyped
+// at the boundary and narrows internally instead.
+function get(obj: unknown, path: string): PathValue {
     if (!obj || !path) return undefined;
     const parts = path.split(".");
-    let current = obj;
+    let current: unknown = obj;
 
     for (let i = 0; i < parts.length; i++) {
         if (current == null) return undefined;
         const part = parts[i];
+        if (part === undefined) return undefined;
 
         if (Array.isArray(current)) {
             const rest = parts.slice(i).join(".");
             return current.flatMap((el) => get(el, rest));
         }
-        current = current[part];
+        if (typeof current !== "object") return undefined;
+        current = (current as Record<string, unknown>)[part];
     }
-    return current;
+    return current as PathValue;
 }
 
-function pushValue(arr: string[], v: any) {
+function pushValue(arr: string[], v: PathValue) {
     if (v === null || v === undefined) return;
 
     if (Array.isArray(v)) {
@@ -771,7 +824,7 @@ function dedupeValues(values: string[]) {
     return out;
 }
 
-function manifestationLevelValues(mf: any): string[] {
+function manifestationLevelValues(mf: Manifestation): string[] {
     const vals: string[] = [];
     for (const p of MANIFESTATION_SEARCH_FIELDS) {
         pushValue(vals, get(mf, p));
@@ -779,7 +832,7 @@ function manifestationLevelValues(mf: any): string[] {
     return dedupeValues(vals);
 }
 
-function itemLevelValues(item: any): string[] {
+function itemLevelValues(item: Item): string[] {
     const vals: string[] = [];
     for (const p of ITEM_SEARCH_FIELDS) {
         pushValue(vals, get(item, p));
@@ -787,13 +840,13 @@ function itemLevelValues(item: any): string[] {
     return dedupeValues(vals);
 }
 
-function valuesForManifestation(mf: any): string[] {
+function valuesForManifestation(mf: Manifestation): string[] {
     const manifestationValues = manifestationLevelValues(mf);
-    const itemValues = (Array.isArray(mf?.items) ? mf.items : []).flatMap((item: any) => itemLevelValues(item));
+    const itemValues = (Array.isArray(mf?.items) ? mf.items : []).flatMap((item: Item) => itemLevelValues(item));
     return dedupeValues([...manifestationValues, ...itemValues]);
 }
 
-function valuesForPath(obj: any, path: string): string[] {
+function valuesForPath(obj: unknown, path: string): string[] {
     const vals: string[] = [];
     pushValue(vals, get(obj, path));
     return dedupeValues(vals);
@@ -810,7 +863,7 @@ function queryScope(q: string) {
 
         if (!matchesItem) {
             const items = Array.isArray(mf?.items) ? mf.items : [];
-            if (items.some((item: any) => itemLevelValues(item).includes(q))) {
+            if (items.some((item: Item) => itemLevelValues(item).includes(q))) {
                 matchesItem = true;
             }
         }
@@ -883,8 +936,9 @@ const suggestionIconMap = computed(() => {
 
 function suggestionIconName(suggestion: string) {
     const iconKeys = suggestionIconMap.value.get(suggestion);
-    if (iconKeys && iconKeys.size > 0) {
-        return getFacetIcon(Array.from(iconKeys)[0], 'tabler-filter');
+    const firstIconKey = iconKeys ? Array.from(iconKeys)[0] : undefined;
+    if (firstIconKey) {
+        return getFacetIcon(firstIconKey, 'tabler-filter');
     }
 
     const scope = queryScope(suggestion);
@@ -893,7 +947,7 @@ function suggestionIconName(suggestion: string) {
     return 'tabler-filter';
 }
 
-const filteredManifestations = computed<any[]>(() => {
+const filteredManifestations = computed<Manifestation[]>(() => {
     const selected = searchQuery.value;
 
     if (!Array.isArray(selected) || selected.length === 0) {
@@ -911,7 +965,7 @@ const filteredManifestations = computed<any[]>(() => {
     });
 
     return manifestations.value
-        .map((mf) => {
+        .map((mf): Manifestation | null => {
             const manifestationValues = manifestationLevelValues(mf);
             const items = Array.isArray(mf.items) ? mf.items : [];
             const hasManifestationMatch = manifestationQueries.every((q) =>
@@ -926,7 +980,7 @@ const filteredManifestations = computed<any[]>(() => {
                 return { ...mf, items };
             }
 
-            const filteredItems = items.filter((item: any) => {
+            const filteredItems = items.filter((item: Item) => {
                 const itemValues = itemLevelValues(item);
                 return itemQueries.every((q) => itemValues.includes(q));
             });
@@ -937,11 +991,11 @@ const filteredManifestations = computed<any[]>(() => {
 
             return null;
         })
-        .filter((mf) => mf !== null) as any[];
+        .filter((mf): mf is Manifestation => mf !== null);
 });
 
 // helpers
-function formatTimestamp(ts: any): string {
+function formatTimestamp(ts: string | number): string {
     try {
         const d = new Date(ts);
         return isNaN(d.getTime()) ? "" : d.toLocaleString("de-DE");
@@ -965,8 +1019,8 @@ let navbarResizeObserver: ResizeObserver | null = null;
 const drawerOpen = ref(false);
 const activeSection = ref("");
 
-const workSameAs = computed<any[]>(() => Array.isArray((mir as any)?.same_as) ? (mir as any).same_as : []);
-const workIsPartOf = computed<any[]>(() => Array.isArray((mir as any)?.is_part_of) ? (mir as any).is_part_of : []);
+const workSameAs = computed<AuthorityResource[]>(() => Array.isArray(mir?.same_as) ? mir.same_as : []);
+const workIsPartOf = computed<MovingImageResource[]>(() => Array.isArray(mir?.is_part_of) ? mir.is_part_of : []);
 
 const hasReferencesAndWorkRelations = computed(() =>
     workSameAs.value.length > 0 || workIsPartOf.value.length > 0
@@ -974,6 +1028,9 @@ const hasReferencesAndWorkRelations = computed(() =>
 
 const hasGenre = computed(() => Array.isArray(mir?.has_genre) && mir.has_genre.length > 0);
 const hasSubjects = computed(() => Array.isArray(mir?.has_subject) && mir.has_subject.length > 0);
+// WorkVariant.has_subject is generated as CategorizedThing[] (just { category }), but real
+// records carry the fuller Subject shape (has_name, same_as, ...) that DetailKeyActionRowsComp needs.
+const workSubjects = computed<Subject[]>(() => (mir?.has_subject ?? []) as Subject[]);
 
 // Build the exact list of IDs that actually exist in the DOM (based on FILTERED data)
 const sectionIds = computed<string[]>(() => {
@@ -988,15 +1045,18 @@ const sectionIds = computed<string[]>(() => {
 
     for (let idx = 0; idx < filteredManifestations.value.length; idx++) {
         const mf = filteredManifestations.value[idx];
+        if (!mf) continue;
         ids.push(getManifestationAnchorId(mf, idx));
 
         const items = Array.isArray(mf?.items) ? mf.items : [];
         for (let iidx = 0; iidx < items.length; iidx++) {
-            ids.push(getItemAnchorId(items[iidx], idx, iidx));
+            const item = items[iidx];
+            if (!item) continue;
+            ids.push(getItemAnchorId(item, idx, iidx));
         }
     }
 
-    const events = Array.isArray(mir?.has_event) ? (mir as any).has_event : [];
+    const events = Array.isArray(mir?.has_event) ? mir.has_event : [];
     for (let eidx = 0; eidx < events.length; eidx++) {
         ids.push(`event-${eidx}`);
     }
@@ -1037,11 +1097,11 @@ async function scrollToId(id: string) {
     window.dispatchEvent(new Event('hashchange'));
 }
 
-function getManifestationAnchorId(manifestation: any, index: number) {
+function getManifestationAnchorId(manifestation: Manifestation, index: number) {
     return manifestation?.handle?.trim() || `manifestation-${index}`;
 }
 
-function getItemAnchorId(item: any, manifestationIndex: number, itemIndex: number) {
+function getItemAnchorId(item: Item, manifestationIndex: number, itemIndex: number) {
     return item?.handle?.trim() || `item-${manifestationIndex}-${itemIndex}`;
 }
 
@@ -1051,14 +1111,16 @@ function findTargetIdForRequestedHandle(handle: string) {
 
     for (let idx = 0; idx < manifestations.value.length; idx++) {
         const manifestation = manifestations.value[idx];
-        if (manifestation?.handle === normalizedHandle) {
+        if (!manifestation) continue;
+        if (manifestation.handle === normalizedHandle) {
             return getManifestationAnchorId(manifestation, idx);
         }
 
-        const items = Array.isArray(manifestation?.items) ? manifestation.items : [];
+        const items = Array.isArray(manifestation.items) ? manifestation.items : [];
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-            if (items[itemIndex]?.handle === normalizedHandle) {
-                return getItemAnchorId(items[itemIndex], idx, itemIndex);
+            const item = items[itemIndex];
+            if (item && item.handle === normalizedHandle) {
+                return getItemAnchorId(item, idx, itemIndex);
             }
         }
     }
@@ -1102,13 +1164,13 @@ function updateNavbarSummaryTop() {
 }
 
 function splitActivities(evt: Event) {
-    const activities = Array.isArray((evt as any)?.has_activity) ? (evt as any).has_activity : [];
+    const activities = Array.isArray(evt?.has_activity) ? evt.has_activity : [];
     const crew: Activity[] = [];
     const cast: Activity[] = [];
 
     for (const activity of activities) {
         if (!activity) continue;
-        if ((activity as any).type === "CastMember") {
+        if (activity.type === "CastMember") {
             cast.push(activity);
         } else {
             crew.push(activity);
@@ -1120,8 +1182,8 @@ function splitActivities(evt: Event) {
 
 function normalizeEvent(evt: Event): NormalizedEvent {
     const { crew, cast } = splitActivities(evt);
-    const showType = !crew.length && !cast.length && Boolean((evt as any)?.type);
-    const hasMeta = showType || Boolean((evt as any)?.located_in) || Boolean((evt as any)?.has_date);
+    const showType = !crew.length && !cast.length && Boolean(evt?.type);
+    const hasMeta = showType || Boolean(evt?.located_in) || Boolean(evt?.has_date);
 
     return {
         raw: evt,
@@ -1134,18 +1196,18 @@ function normalizeEvent(evt: Event): NormalizedEvent {
 
 const normalizedEvents = computed<NormalizedEvent[]>(() => {
     const events = Array.isArray(mir?.has_event) ? mir.has_event : [];
-    return events.map((evt) => normalizeEvent(evt as any));
+    return events.map((evt) => normalizeEvent(evt));
 });
 
 const hasWorkEvents = computed(() => normalizedEvents.value.length > 0);
 const productionEvent = computed(() => {
-    const events = Array.isArray(mir?.has_event) ? (mir as any).has_event : [];
-    return events.find((event: any) => event?.category === 'avefi:ProductionEvent') || events[0] || null;
+    const events = Array.isArray(mir?.has_event) ? mir.has_event : [];
+    return events.find((event) => event?.category === 'avefi:ProductionEvent') || events[0] || null;
 });
 
 const workProductionPlaces = computed(() => {
     const places = Array.isArray(productionEvent.value?.located_in) ? productionEvent.value.located_in : [];
-    return dedupeValues(places.map((place: any) => getLocalizedPlaceLabel(place)).filter(Boolean));
+    return dedupeValues(places.map((place: GeographicName) => getLocalizedPlaceLabel(place)).filter(Boolean));
 });
 
 const workProductionYear = computed(() => {
@@ -1160,11 +1222,11 @@ const workDirectors = computed(() => {
         : source.directors_or_editors;
 
     if (Array.isArray(topLevelDirectors) && topLevelDirectors.length > 0) {
-        return dedupeValues(topLevelDirectors.map((director: any) => String(director || '').trim()).filter(Boolean));
+        return dedupeValues(topLevelDirectors.map((director) => String(director || '').trim()).filter(Boolean));
     }
 
     const directors: string[] = [];
-    const events = Array.isArray(mir?.has_event) ? (mir as any).has_event : [];
+    const events = Array.isArray(mir?.has_event) ? mir.has_event : [];
     for (const event of events) {
         const activities = Array.isArray(event?.has_activity) ? event.has_activity : [];
         for (const activity of activities) {
@@ -1296,11 +1358,13 @@ function isManifestationAnchor(id: string): boolean {
 
     for (let idx = 0; idx < filteredManifestations.value.length; idx++) {
         const manifestation = filteredManifestations.value[idx];
+        if (!manifestation) continue;
         if (getManifestationAnchorId(manifestation, idx) === id) return true;
 
-        const items = Array.isArray(manifestation?.items) ? manifestation.items : [];
+        const items = Array.isArray(manifestation.items) ? manifestation.items : [];
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-            if (getItemAnchorId(items[itemIndex], idx, itemIndex) === id) return true;
+            const item = items[itemIndex];
+            if (item && getItemAnchorId(item, idx, itemIndex) === id) return true;
         }
     }
 
@@ -1421,7 +1485,7 @@ onMounted(() => {
         };
 
         if (mediaQuery.addEventListener) mediaQuery.addEventListener("change", mediaListener);
-        else (mediaQuery as any).addListener(mediaListener);
+        else mediaQuery.addListener(mediaListener);
 
         updateNavbarSummaryTop();
         const header = document.querySelector('header.fixed.top-0') as HTMLElement | null;
@@ -1482,7 +1546,7 @@ onUnmounted(() => {
 
     if (mediaQuery && mediaListener) {
         if (mediaQuery.removeEventListener) mediaQuery.removeEventListener("change", mediaListener);
-        else (mediaQuery as any).removeListener(mediaListener);
+        else mediaQuery.removeListener(mediaListener);
     }
 
     if (navbarResizeObserver) {

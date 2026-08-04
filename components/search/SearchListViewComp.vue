@@ -48,7 +48,7 @@
                     
                     <h3 v-if="work?.has_record?.has_alternative_title" class="muted text-left">
                         <ul v-if="work?.has_record?.has_alternative_title">
-                            <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"
+                            <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.has_name" tabindex="0"
                                 :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`">
                                 {{ alt.has_name }} ({{ $t(alt.type) }})
                             </li>
@@ -125,47 +125,15 @@
 </template>
 
 <script lang="ts" setup>
-import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
-// --- Helper functions for template ---
-function allItemsEmpty(work: any): boolean {
-    const rows = buildRows(work);
-    if (rows.length === 0) return false; // No items at all, don't show badge
-    return rows.every(row => isItemEmpty(row.item));
-}
-function isItemEmpty(item: any): boolean {
-    if (!item) return true;
-    // Get all item fields from spec that should be shown (excluding handle)
-    const itemFieldsFromSpec = [
-        'has_record.has_format',
-        'in_language.code',
-        'element_type',
-        'has_webresource',
-    ];
-    // Check if any field has data
-    return !itemFieldsFromSpec.some(path => has(item, path));
-}
-function get(obj: any, path: string): any {
-    if (!obj || !path) return undefined;
-    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
-}
-function buildRows(work: any): Array<{ item: any, mf: any | null }> {
-    const rows: Array<{ item: any, mf: any | null }> = [];
-    const mfs: any[] = Array.isArray(work?.manifestations) ? work.manifestations : [];
-    for (const mf of mfs) {
-        const items: any[] = Array.isArray(mf?.items) ? mf.items : [];
-        for (const it of items) rows.push({ item: it, mf });
-    }
-    const tlItems: any[] = Array.isArray(work?.items) ? work.items : [];
-    for (const it of tlItems) {
-        rows.push({ item: it, mf: null });
-    }
-    return rows;
-}
-
-// --- End helpers ---
+import { allItemsEmpty, get } from '@/composables/useItemEmpty';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
+import type { SearchWorkHit, SearchManifestation, SearchItem } from '@/models/interfaces/manual/ISearchWorkHit';
+
+type InnerHits<T> = Record<string, { hits?: { hits?: Array<{ _source: T; inner_hits?: unknown }> } }>;
+type WorkHit = SearchWorkHit & { inner_hits?: InnerHits<SearchManifestation> };
+type ManifestationHit = SearchManifestation & { inner_hits?: InnerHits<SearchItem> };
+type HighlightValue = { value?: string; matchLevel?: string; matchedWords?: string[] };
 
 const route = useRoute();
 
@@ -206,8 +174,8 @@ function parseRefinementsFromUrl(href: string) {
         const match = key.match(/\[refinementList]\[([^\]]+)](?:\[\d+])?$/);
         if (match) {
             const facet = match[1];
-            if (facet in result) {
-                result[facet].push(value);
+            if (facet && facet in result) {
+                result[facet]?.push(value);
             }
         }
     }
@@ -236,7 +204,7 @@ watch(() => route.query, () => {
 const { t: $t } = useI18n();
 const props = defineProps({
     items: {
-        type: Array as PropType<Array<ElasticMSearchResponse>>,
+        type: Array as PropType<Array<SearchWorkHit>>,
         required: true
     },
     productionDetailsChecked: {
@@ -249,9 +217,9 @@ const props = defineProps({
         default: false,
     },
     expandedHandles: {
-        type: Array as PropType<Array<string>>,
+        type: Set as PropType<Set<string>>,
         required: false,
-        default: () => [],
+        default: () => new Set<string>(),
     },
     expandAllHandlesChecked: {
         type: Boolean,
@@ -269,7 +237,7 @@ const props = defineProps({
         default: 0,
     },
     currentRefinements: {
-        type: Array,
+        type: Array as PropType<Array<{ label?: string; values?: unknown[] }>>,
         required: false,
         default: () => []
     }
@@ -314,7 +282,7 @@ watch(
     { immediate: true }
 );
 
-function getFilteredManifestations(workOrHit: any) {
+function getFilteredManifestations(workOrHit: WorkHit | null | undefined): SearchManifestation[] {
     if (!workOrHit) return [];
 
     // If there are no inner_hits at all, just return the attached manifestations.
@@ -331,7 +299,7 @@ function getFilteredManifestations(workOrHit: any) {
         const hits = workOrHit.inner_hits[mKey]?.hits?.hits || [];
         if (hits.length > 0) {
             // Keep any nested inner_hits on each manifestation hit
-            return hits.map(h => ({ ...h._source, inner_hits: h.inner_hits }));
+            return hits.map(h => ({ ...h._source, inner_hits: h.inner_hits } as ManifestationHit));
         }
     }
 
@@ -339,7 +307,7 @@ function getFilteredManifestations(workOrHit: any) {
     return Array.isArray(workOrHit.manifestations) ? workOrHit.manifestations : [];
 }
 
-function getFilteredItems(manifestation: any) {
+function getFilteredItems(manifestation: ManifestationHit | null | undefined): SearchItem[] {
     if (!manifestation) return [];
 
     const allItems = Array.isArray(manifestation.items) ? manifestation.items : [];
@@ -392,9 +360,9 @@ watch(() => props.expandAllHandlesChecked, (newVal) => {
     });
 });
 
-function getHighlightSnippets(item) {
-    if(item) {
-        const result = [];
+function getHighlightSnippets(item: SearchWorkHit | null | undefined): Array<{ key: string; value: string }> {
+    if (item) {
+        const result: Array<{ key: string; value: string }> = [];
         const highlights = item._highlightResult || {};
 
         // Define the fields to extract (labelKey: dot.path.in.highlightResult)
@@ -412,7 +380,8 @@ function getHighlightSnippets(item) {
         for (const [labelKey, path] of Object.entries(fieldsToInclude)) {
             const entry = getValueByPath(highlights, path);
             const entries = Array.isArray(entry) ? entry : [entry];
-            for (const e of entries) {
+            for (const raw of entries) {
+                const e = raw as HighlightValue | null | undefined;
                 if (
                     e?.matchLevel !== 'none' &&
                     Array.isArray(e?.matchedWords) &&
@@ -423,15 +392,18 @@ function getHighlightSnippets(item) {
                 }
             }
         }
-  
+
         return result;
     }
     return [];
 }
 
 // Helper to safely walk nested highlight paths like 'has_record.has_primary_title.has_name'
-function getValueByPath(obj, path) {
-    return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
+function getValueByPath(obj: unknown, path: string): unknown {
+    return path.split('.').reduce((o: unknown, p: string) => {
+        const rec = o as Record<string, unknown> | null | undefined;
+        return rec && rec[p] ? rec[p] : null;
+    }, obj);
 }
 
 

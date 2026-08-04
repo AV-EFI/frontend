@@ -1,4 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import type { H3Event } from 'h3';
+
+type MockCreateErrorPayload = { statusCode: number; statusMessage: string };
+type ManifestHandler = (event: H3Event) => Promise<unknown>;
 
 describe('Internal API: /press/manifest.json', () => {
   beforeEach(() => {
@@ -11,19 +15,19 @@ describe('Internal API: /press/manifest.json', () => {
     const readFileMock = vi.fn().mockResolvedValue('{"lastUpdated":"2026-01-01"}');
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       setHeader: setHeaderMock,
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
     }));
     vi.doMock('node:fs', () => ({
       promises: {
         readFile: readFileMock,
       },
     }));
-    vi.stubGlobal('defineEventHandler', (fn: any) => fn);
+    vi.stubGlobal('defineEventHandler', <T>(fn: T) => fn);
 
-    const handler = (await import('~/server/routes/press/manifest.json')).default as (event: any) => Promise<any>;
-    const result = await handler({});
+    const handler = (await import('~/server/routes/press/manifest.json')).default as ManifestHandler;
+    const result = await handler({} as unknown as H3Event);
 
     expect(result).toEqual({ lastUpdated: '2026-01-01' });
     expect(setHeaderMock).toHaveBeenCalledWith({}, 'Content-Type', 'application/json');
@@ -34,19 +38,19 @@ describe('Internal API: /press/manifest.json', () => {
     const readFileMock = vi.fn().mockRejectedValue(new Error('read failed'));
 
     vi.doMock('h3', () => ({
-      defineEventHandler: (fn: any) => fn,
+      defineEventHandler: <T>(fn: T) => fn,
       setHeader: vi.fn(),
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
     }));
     vi.doMock('node:fs', () => ({
       promises: {
         readFile: readFileMock,
       },
     }));
-    vi.stubGlobal('defineEventHandler', (fn: any) => fn);
+    vi.stubGlobal('defineEventHandler', <T>(fn: T) => fn);
 
-    const handler = (await import('~/server/routes/press/manifest.json')).default as (event: any) => Promise<any>;
-    await expect(handler({})).rejects.toMatchObject({
+    const handler = (await import('~/server/routes/press/manifest.json')).default as ManifestHandler;
+    await expect(handler({} as unknown as H3Event)).rejects.toMatchObject({
       statusCode: 500,
       statusMessage: 'Unable to read press manifest.',
     });

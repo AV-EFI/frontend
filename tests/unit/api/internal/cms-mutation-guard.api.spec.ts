@@ -1,4 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import type { H3Event } from 'h3';
+
+type MockCreateErrorPayload = { statusCode: number; statusMessage: string };
 
 describe('CMS mutation guard', () => {
   beforeEach(() => {
@@ -8,7 +11,7 @@ describe('CMS mutation guard', () => {
 
   test('throws 503 when CMS mutations are disabled', async () => {
     vi.doMock('h3', () => ({
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
       getRequestHeader: vi.fn(),
       getRequestURL: vi.fn().mockReturnValue(new URL('https://testbed.av-efi.net/admin/user_tooltips')),
     }));
@@ -21,7 +24,7 @@ describe('CMS mutation guard', () => {
 
     const { requireCmsMutationsEnabled } = await import('~/server/utils/cmsMutationGuard');
 
-    expect(() => requireCmsMutationsEnabled({} as any)).toThrowError(
+    expect(() => requireCmsMutationsEnabled({} as unknown as H3Event)).toThrowError(
       expect.objectContaining({ statusCode: 503 }),
     );
   });
@@ -33,7 +36,7 @@ describe('CMS mutation guard', () => {
     });
 
     vi.doMock('h3', () => ({
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
       getRequestHeader: getHeaderMock,
       getRequestURL: vi.fn().mockReturnValue(new URL('https://testbed.av-efi.net/admin/user_tooltips')),
     }));
@@ -45,7 +48,7 @@ describe('CMS mutation guard', () => {
     }));
 
     const { requireCmsMutationsEnabled } = await import('~/server/utils/cmsMutationGuard');
-    expect(() => requireCmsMutationsEnabled({} as any)).not.toThrow();
+    expect(() => requireCmsMutationsEnabled({} as unknown as H3Event)).not.toThrow();
   });
 
   test('throws 403 for invalid origin when enabled', async () => {
@@ -55,7 +58,7 @@ describe('CMS mutation guard', () => {
     });
 
     vi.doMock('h3', () => ({
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
       getRequestHeader: getHeaderMock,
       getRequestURL: vi.fn().mockReturnValue(new URL('https://testbed.av-efi.net/admin/user_tooltips')),
     }));
@@ -68,7 +71,7 @@ describe('CMS mutation guard', () => {
 
     const { requireCmsMutationsEnabled } = await import('~/server/utils/cmsMutationGuard');
 
-    expect(() => requireCmsMutationsEnabled({} as any)).toThrowError(
+    expect(() => requireCmsMutationsEnabled({} as unknown as H3Event)).toThrowError(
       expect.objectContaining({ statusCode: 403, statusMessage: 'Invalid request origin' }),
     );
   });
@@ -80,7 +83,7 @@ describe('CMS mutation guard', () => {
     });
 
     vi.doMock('h3', () => ({
-      createError: (payload: any) => payload,
+      createError: (payload: MockCreateErrorPayload) => payload,
       getRequestHeader: getHeaderMock,
       getRequestURL: vi.fn().mockReturnValue(new URL('https://testbed.av-efi.net/admin/user_tooltips')),
     }));
@@ -92,7 +95,7 @@ describe('CMS mutation guard', () => {
     }));
 
     const { requireCmsMutationsEnabled } = await import('~/server/utils/cmsMutationGuard');
-    expect(() => requireCmsMutationsEnabled({} as any)).not.toThrow();
+    expect(() => requireCmsMutationsEnabled({} as unknown as H3Event)).not.toThrow();
   });
 });
 

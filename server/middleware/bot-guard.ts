@@ -121,7 +121,7 @@ function isNeverIndexButFetchablePath(path: string): boolean {
 }
 
 export default defineEventHandler((event) => {
-  const cfg = useRuntimeConfig().public as any;
+  const cfg = useRuntimeConfig().public;
 
   const releaseMode = String(cfg.releaseMode ?? 'pre'); // pre | release
   const rateLimitEnabled = Boolean(cfg.rateLimitEnabled);
@@ -241,7 +241,7 @@ export default defineEventHandler((event) => {
 
     const ok = consumeToken(key, localAvg, localBurst);
     if (!ok) {
-      setResponseHeader(event, 'Retry-After', '2');
+      setResponseHeader(event, 'Retry-After', 2);
       throw createError({ statusCode: 429, statusMessage: 'Too Many Requests' });
     }
   }

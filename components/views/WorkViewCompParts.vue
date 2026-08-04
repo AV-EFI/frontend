@@ -52,10 +52,10 @@
                         </h2>
 
                         <!-- Alternative titles (if any) -->
-                        <h3 v-if="Array.isArray(get(part,'has_record.has_alternative_title'))">
+                        <h3 v-if="Array.isArray(part.has_record?.has_alternative_title)">
                             <ul>
                                 <li
-                                    v-for="alt in (get(part,'has_record.has_alternative_title') || [])"
+                                    v-for="alt in (part.has_record?.has_alternative_title || [])"
                                     :key="alt?.id || alt?.has_name"
                                 >
                                     {{ alt?.has_name }} <span v-if="alt?.type">({{ $t(alt.type) }})</span>
@@ -133,7 +133,7 @@ type LocatedIn = { has_name?: string };
 type Event = { located_in?: LocatedIn[] };
 type DescribedBy = { has_issuer_name?: string };
 
-type Part = {
+export type Part = {
     handle?: string;
     url?: string;
     '@timestamp'?: string;
@@ -142,36 +142,42 @@ type Part = {
     creators?: string[];
     directors_or_editors?: string[];
     has_record?: {
+        category?: string;
         has_primary_title?: NameObj;
         has_alternative_title?: AltTitle[];
         has_event?: Event[];
         has_form?: string[];
         described_by?: DescribedBy[];
     };
-    _highlightResult?: any;
-    [k: string]: any;
+    _highlightResult?: unknown;
+    [k: string]: unknown;
 };
 
-defineProps<{
+withDefaults(defineProps<{
     parts: Part[];
     showAdminStats?: boolean;
-    type: {
-        type: string;
-        default: 'parts';
-    }
-}>();
+    type?: string;
+}>(), {
+    type: 'parts',
+});
 
 const showHighlight = ref(true);
 
 // ---- helpers mirroring your WorkViewComp patterns ----
-function get(obj: any, path: string): any {
+function get(obj: unknown, path: string): unknown {
     if (!obj || !path) return undefined;
-    return path.split('.').reduce((o, p) => (o && o[p] != null ? o[p] : undefined), obj);
+    return path.split('.').reduce<unknown>((o, p) => {
+        const rec = o as Record<string, unknown> | null | undefined;
+        return rec && rec[p] != null ? rec[p] : undefined;
+    }, obj);
 }
 
 // optional highlights (same logic style you use)
-function getValueByPath(obj: any, path: string) {
-    return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : null), obj);
+function getValueByPath(obj: unknown, path: string): unknown {
+    return path.split('.').reduce<unknown>((o, p) => {
+        const rec = o as Record<string, unknown> | null | undefined;
+        return rec && rec[p] ? rec[p] : null;
+    }, obj);
 }
 function getHighlightSnippets(item: Part) {
     const result: Array<{key: string; value: string}> = [];

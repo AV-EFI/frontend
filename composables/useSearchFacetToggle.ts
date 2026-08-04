@@ -1,8 +1,11 @@
 import { inject } from 'vue';
+import type { UiState } from 'instantsearch.js';
 import { SEARCH_REFINEMENT_COORDINATOR_KEY } from '~/composables/searchRefinementCoordinator';
 import { clickableFacetConfig } from '~/config/clickableFacetConfig';
 
 type NumericRange = { min: number; max: number };
+// Only the slice of InstantSearch's instance this composable actually calls.
+type InstantSearchInstance = { setUiState?: (fn: (prevState: UiState) => UiState) => void };
 
 function normalizedValue(value: unknown): string {
   return String(value ?? '').trim();
@@ -132,7 +135,7 @@ export function useSearchFacetToggle() {
   const route = useRoute();
   const router = useRouter();
   const runtime = useRuntimeConfig();
-  const instantSearchInstance = inject<any>('$_ais_instantSearchInstance', null);
+  const instantSearchInstance = inject<InstantSearchInstance | null>('$_ais_instantSearchInstance', null);
   const refinementCoordinator = inject(SEARCH_REFINEMENT_COORDINATOR_KEY, null);
 
   function numericQueryKey(attribute: string, operator: string): string {
@@ -239,7 +242,7 @@ export function useSearchFacetToggle() {
     const updateInstantSearch = () => {
       if (!instantSearchInstance?.setUiState) return false;
 
-      instantSearchInstance.setUiState((prevState: any) => {
+      instantSearchInstance.setUiState((prevState: UiState) => {
         const indexName = resolveIndexName(prevState);
         const indexState = prevState[indexName] || {};
         const currentQuery = liveQuery();
@@ -291,7 +294,7 @@ export function useSearchFacetToggle() {
 
     if (!instantSearchInstance?.setUiState) return false;
 
-    instantSearchInstance.setUiState((prevState: any) => {
+    instantSearchInstance.setUiState((prevState: UiState) => {
       const indexName = resolveIndexName(prevState);
       return {
         ...prevState,

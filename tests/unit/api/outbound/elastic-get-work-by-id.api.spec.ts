@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+type GetWorkByIdHandler = (event: unknown) => Promise<Array<{ _id: string }> | null>;
+
 describe('Outbound API wrapper: /api/elastic/get_work_by_id (python backend via ES client)', () => {
   beforeEach(() => {
     vi.resetModules();
@@ -22,7 +24,7 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id (python backend via 
       }),
     }));
 
-    vi.stubGlobal('defineEventHandler', (fn: any) => fn);
+    vi.stubGlobal('defineEventHandler', <T>(fn: T) => fn);
     vi.stubGlobal('readBody', readBodyMock);
     vi.stubGlobal('useRuntimeConfig', () => ({
       public: {
@@ -30,7 +32,7 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id (python backend via 
       },
     }));
 
-    const handler = (await import('~/server/api/elastic/get_work_by_id.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/get_work_by_id.post')).default as GetWorkByIdHandler;
     const result = await handler({});
 
     expect(searchMock).toHaveBeenCalledTimes(1);
@@ -54,7 +56,7 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id (python backend via 
       }),
     }));
 
-    vi.stubGlobal('defineEventHandler', (fn: any) => fn);
+    vi.stubGlobal('defineEventHandler', <T>(fn: T) => fn);
     vi.stubGlobal('readBody', readBodyMock);
     vi.stubGlobal('useRuntimeConfig', () => ({
       public: {
@@ -62,7 +64,7 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id (python backend via 
       },
     }));
 
-    const handler = (await import('~/server/api/elastic/get_work_by_id.post')).default as (event: any) => Promise<any>;
+    const handler = (await import('~/server/api/elastic/get_work_by_id.post')).default as GetWorkByIdHandler;
     const result = await handler({});
 
     expect(result).toBeNull();

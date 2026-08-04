@@ -229,24 +229,33 @@ const staleSelectAll = computed<boolean>({
     }
 });
 
+function getErrorMessage(e: unknown): string {
+    if (e && typeof e === 'object') {
+        const err = e as { statusMessage?: unknown; message?: unknown };
+        if (typeof err.statusMessage === 'string') return err.statusMessage;
+        if (typeof err.message === 'string') return err.message;
+    }
+    return String(e);
+}
+
 async function loadTree(): Promise<void> {
     loadingTree.value = true;
     try {
-        const data = await $fetch<TreeNodeT>('/api/cms/modeltree', { cache: 'no-cache' as any });
+        const data = await $fetch<TreeNodeT>('/api/cms/modeltree', { cache: 'no-cache' });
         tree.value = data;
         collectValidPaths(tree.value);
-    } catch (e: any) {
-        errors.value.push('Failed to load model tree: ' + (e?.statusMessage || e?.message || String(e)));
+    } catch (e) {
+        errors.value.push('Failed to load model tree: ' + getErrorMessage(e));
         tree.value = null;
     } finally {
         loadingTree.value = false;
     }
 }
 async function loadHints(): Promise<void> {
-    hints.value = await $fetch<HintMap>('/api/cms/modelhints', { cache: 'no-cache' as any });
+    hints.value = await $fetch<HintMap>('/api/cms/modelhints', { cache: 'no-cache' });
 }
 async function loadTooltips(): Promise<void> {
-    const data = await $fetch<{ entries: Row[]; updatedAt: string }>('/api/cms/usertooltips', { cache: 'no-cache' as any });
+    const data = await $fetch<{ entries: Row[]; updatedAt: string }>('/api/cms/usertooltips', { cache: 'no-cache' });
     rows.value = data.entries;
     updatedAt.value = data.updatedAt;
 }
@@ -302,8 +311,8 @@ async function save(): Promise<void> {
         updatedAt.value = res.updatedAt;
         savedFlash.value = true;
         setTimeout(() => { savedFlash.value = false; }, 1200);
-    } catch (e: any) {
-        errors.value = ['Save failed: ' + (e?.statusMessage || e?.message || String(e))];
+    } catch (e) {
+        errors.value = ['Save failed: ' + getErrorMessage(e)];
     } finally {
         saving.value = false;
     }
@@ -334,8 +343,8 @@ async function saveAll(): Promise<void> {
         updatedAt.value = res.updatedAt;
         savedFlash.value = true;
         setTimeout(() => { savedFlash.value = false; }, 1200);
-    } catch (e: any) {
-        errors.value = ['Save failed: ' + (e?.statusMessage || e?.message || String(e))];
+    } catch (e) {
+        errors.value = ['Save failed: ' + getErrorMessage(e)];
     } finally {
         saving.value = false;
     }
@@ -386,7 +395,7 @@ onMounted(async () => {
 const TreeNode = defineComponent({
     name: 'TreeNode',
     props: {
-        node: { type: Object as () => ({ name: string; path: string; kind: 'object'|'array'|'group'|'string'; description?: string; children?: any[] }), required: true },
+        node: { type: Object as () => TreeNodeT, required: true },
         filter: { type: String, default: '' },
         activePath: { type: String, default: '' },
         root: { type: Boolean, default: false }
@@ -397,13 +406,13 @@ const TreeNode = defineComponent({
     },
     computed: {
         term(): string { return (this.filter || '').toLowerCase(); },
-        isActive(): boolean { return this.activePath === (this.node as any).path; },
-        childrenAll(): any[] { return ((this.node as any).children || []) as any[]; },
-        childrenFiltered(): any[] {
+        isActive(): boolean { return this.activePath === this.node.path; },
+        childrenAll(): TreeNodeT[] { return this.node.children || []; },
+        childrenFiltered(): TreeNodeT[] {
             const kids = this.childrenAll;
             if (!this.term) return kids;
             const t = this.term;
-            const matches = (n: any): boolean =>
+            const matches = (n: TreeNodeT): boolean =>
                 (n.name?.toLowerCase().includes(t) ||
                     n.path?.toLowerCase().includes(t)) ||
                 (n.children || []).some(matches);
@@ -413,21 +422,21 @@ const TreeNode = defineComponent({
     methods: {
         toggle(e?: Event): void {
             if (e) e.stopPropagation();
-            if ((this.node as any).kind === 'string') return; // leafs don't toggle
+            if (this.node.kind === 'string') return; // leafs don't toggle
             this.open = !this.open;
         },
         rowClick(): void {
-            const n = this.node as any;
+            const n = this.node;
             if (n.kind === 'string') this.$emit('select', n); // leaf: select
             else this.toggle(); // non-leaf: toggle on row click
         }
     },
     render() {
-        const node = this.node as any;
+        const node = this.node;
         const kids = this.childrenFiltered;
         const isLeaf = node.kind === 'string';
         const hasChildren = !isLeaf && kids.length > 0;
-        const Self = resolveComponent('TreeNode') as any;
+        const Self = resolveComponent('TreeNode') as typeof TreeNode;
 
         return h('div', { class: 'pl-2' }, [
             h(
@@ -454,12 +463,12 @@ const TreeNode = defineComponent({
             !isLeaf && this.open
                 ? h('div', { class: 'pl-4' },
                     hasChildren
-                        ? kids.map((child: any) =>
+                        ? kids.map((child: TreeNodeT) =>
                             h(Self, {
                                 node: child,
                                 filter: this.filter,
                                 activePath: this.activePath,
-                                onSelect: (n: any) => this.$emit('select', n)
+                                onSelect: (n: TreeNodeT) => this.$emit('select', n)
                             })
                         )
                         : [h('div', { class: 'text-xs opacity-60 pl-6 py-1' }, this.$t('ut.noChildren') as string)]

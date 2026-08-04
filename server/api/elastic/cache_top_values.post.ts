@@ -8,6 +8,11 @@ import { getElasticsearchNode } from '../../utils/elasticsearchRuntime';
 
 type FacetCfg = { attribute: string; field: string; type: 'string'|'numeric'; nestedPath?: string }
 type SearchAttr = { field: string; weight?: number }
+interface EsAggBucket { key: string | number }
+interface EsTermsAgg { buckets?: EsAggBucket[] }
+interface EsSearchAggResponse {
+  aggregations?: Record<string, EsTermsAgg & { vals?: EsTermsAgg }>;
+}
 
 function keywordField(field: string) {
   return field.endsWith('.keyword') ? field : `${field}.keyword`;
@@ -48,31 +53,31 @@ export default defineEventHandler(async () => {
       : { facet_suggestions: { terms: { field, size: 50, order: { _count: 'desc' }, min_doc_count: 1 } } };
 
     try {
-      const res = await $fetch<any>(`${host}/${encodeURIComponent(index)}/_search`, {
+      const res = await $fetch<EsSearchAggResponse>(`${host}/${encodeURIComponent(index)}/_search`, {
         method: 'POST',
         body: { size: 0, aggs }
       });
       const buckets = f.nestedPath
         ? res?.aggregations?.facet_suggestions?.vals?.buckets || []
         : res?.aggregations?.facet_suggestions?.buckets || [];
-      const vals = buckets.map((b: any) => String(b.key || '')).filter(Boolean);
+      const vals = buckets.map((b) => String(b.key || '')).filter(Boolean);
       out.facets[f.attribute] = vals.map((text: string) => ({ text, type: f.attribute }));
       console.log('[cache_top_values] facet:', f.attribute, 'count:', vals.length);
-    } catch (e: any) {
-      console.error('[cache_top_values] facet error:', f.attribute, e?.message || e);
+    } catch (e) {
+      console.error('[cache_top_values] facet error:', f.attribute, e instanceof Error ? e.message : e);
       out.facets[f.attribute] = [];
     }
   }
 
   // ----- Search attributes (multi-agg)
   const searchAttrs = (searchkitConfig?.search_settings?.search_attributes || []) as SearchAttr[];
-  const aggs: Record<string, any> = {};
+  const aggs: Record<string, unknown> = {};
   for (const s of searchAttrs) {
     const name = `agg__${s.field.replace(/\./g, '__')}`;
     aggs[name] = { terms: { field: keywordField(s.field), size: 50, order: { _count: 'desc' }, min_doc_count: 1 } };
   }
   try {
-    const res = await $fetch<any>(`${host}/${encodeURIComponent(index)}/_search`, {
+    const res = await $fetch<EsSearchAggResponse>(`${host}/${encodeURIComponent(index)}/_search`, {
       method: 'POST',
       body: { size: 0, aggs }
     });
@@ -80,12 +85,12 @@ export default defineEventHandler(async () => {
       const name = `agg__${s.field.replace(/\./g, '__')}`;
       const buckets = res?.aggregations?.[name]?.buckets || [];
       const key = toTypeKey(s.field);
-      const vals = buckets.map((b: any) => String(b.key || '')).filter(Boolean);
+      const vals = buckets.map((b) => String(b.key || '')).filter(Boolean);
       out.searchAttributes[key] = vals.map((text: string) => ({ text, type: key }));
       console.log('[cache_top_values] searchAttr:', key, 'count:', vals.length);
     }
-  } catch (e: any) {
-    console.error('[cache_top_values] search_attributes error:', e?.message || e);
+  } catch (e) {
+    console.error('[cache_top_values] search_attributes error:', e instanceof Error ? e.message : e);
   }
 
   const file = resolve(process.cwd(), 'server', 'data', 'autocomplete_fallbacks.json');

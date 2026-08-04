@@ -9,7 +9,7 @@
 import type { PropType } from 'vue';
 import type { WorkVariant } from '~/models/interfaces/schema/avefi_schema.js';
 
-const workVar = defineModel({ type: Object as PropType<WorkVariant>, required: true });
+defineModel({ type: Object as PropType<WorkVariant>, required: true });
 
 defineProps({
     handle: { type: String, required: true },

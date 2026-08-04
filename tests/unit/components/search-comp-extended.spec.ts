@@ -1,13 +1,28 @@
 // @vitest-environment happy-dom
 import { defineComponent, reactive, ref } from 'vue';
 import { flushPromises, mount } from '@vue/test-utils';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi, type Mock } from 'vitest';
 import SearchCompExtended from '~/components/global/SearchCompExtended.vue';
 
 const navigateToMock = vi.fn();
 const localeRef = ref('de');
 
-const storeState: any = reactive({
+// Mirrors ~/stores/searchParams.ts's IRegularSearch/IOptions (not exported
+// from that store module), scoped to the fields this mock actually sets.
+interface RegularSearchOption {
+  label: string;
+  value: string;
+}
+interface SearchParamsStoreState {
+  formData: {
+    regularSearch: {
+      searchTerm: string;
+      optionsList: RegularSearchOption[];
+    };
+  };
+}
+
+const storeState: SearchParamsStoreState = reactive({
   formData: {
     regularSearch: {
       searchTerm: '',
@@ -231,7 +246,7 @@ describe('SearchCompExtended interaction contracts', () => {
   });
 
   test('submits production year as numeric refinement without fetching facet suggestions', async () => {
-    const fetchMock = vi.mocked(globalThis.$fetch as any);
+    const fetchMock = vi.mocked(globalThis.$fetch as unknown as Mock);
     const wrapper = mountComponent();
     await flushPromises();
 
@@ -261,7 +276,7 @@ describe('SearchCompExtended interaction contracts', () => {
   });
 
   test('closes facet value dropdown on facet change and preloads new facet values', async () => {
-    const fetchMock = vi.fn((url: string, options: any) => {
+    const fetchMock = vi.fn((url: string, options: { body?: { facetAttr?: string } }) => {
       const attr = options?.body?.facetAttr;
       return Promise.resolve({
         success: true,
@@ -306,7 +321,7 @@ describe('SearchCompExtended interaction contracts', () => {
   });
 
   test('loads sound type facet values through the facet autocomplete flow', async () => {
-    const fetchMock = vi.fn((url: string, options: any) => {
+    const fetchMock = vi.fn((url: string, options: { body?: { facetAttr?: string } }) => {
       const attr = options?.body?.facetAttr;
       return Promise.resolve({
         success: true,

@@ -29,7 +29,7 @@
                  focus-within:outline-2 focus-within:outline-primary/40">
                     <!-- value -->
                     <div class="min-w-0 flex-1">
-                        <a v-if="row.href" :href="row.href" class="link link-hover text-sm break-words"
+                        <a v-if="row.href" :href="row.href" class="link link-hover text-sm wrap-break-word"
                            :title="row.title ?? row.text">
                             {{ row.text }}
                         </a>
@@ -44,11 +44,11 @@
                             {{ row.text }}
                         </SearchClickableFacetValue>
 
-                        <p v-else class="text-sm text-base-content break-words" :title="row.title ?? row.text">
+                        <p v-else class="text-sm text-base-content wrap-break-word" :title="row.title ?? row.text">
                             {{ row.text }}
                         </p>
 
-                        <p v-if="row.meta" class="mt-0.5 text-xs text-base-content/70 break-words">
+                        <p v-if="row.meta" class="mt-0.5 text-xs text-base-content/70 wrap-break-word">
                             {{ row.meta }}
                         </p>
                     </div>
@@ -82,7 +82,8 @@
 import { computed, ref } from "vue";
 const { t: $t } = useI18n();
 
-type SameAsPayload = any;
+type SameAsEntry = { id?: string; category?: string };
+type SameAsPayload = SameAsEntry[];
 
 type InputValue =
     | string

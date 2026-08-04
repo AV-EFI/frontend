@@ -21,7 +21,7 @@ async function readJSONSafe<T>(filePath: string, fallback: T): Promise<T> {
   }
 }
 
-async function writeJSONAtomic(filePath: string, data: any) {
+async function writeJSONAtomic(filePath: string, data: unknown) {
   const tmp = `${filePath}.tmp`;
   await ensureDirExists(filePath);
   await fs.writeFile(tmp, JSON.stringify(data, null, 2), 'utf8');

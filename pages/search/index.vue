@@ -43,9 +43,9 @@ const { currentUrlState } = useCurrentUrlState();
 const isClient = typeof window !== 'undefined';
 const searchClient = isClient
     ? Client({
-        config: searchkitConfig as any,
+        config: searchkitConfig,
         url: `${runtime.public.elasticApiBase}/${runtime.public.searchApiPath}`,
-    })
+    } as Parameters<typeof Client>[0])
     : null;
 
 /**
@@ -66,9 +66,9 @@ const allowedParams = computed(() => {
     const set = new Set<string>();
     set.add('query');
 
-    const facets = (searchkitConfig as any)?.search_settings?.facet_attributes ?? [];
+    const facets = searchkitConfig?.search_settings?.facet_attributes ?? [];
     for (const f of facets) {
-        if (f?.attribute && typeof f.attribute === 'string') set.add(f.attribute);
+        if (typeof f === 'object' && f?.attribute && typeof f.attribute === 'string') set.add(f.attribute);
     }
 
     // Optional: allow these if you later add them (kept safe)

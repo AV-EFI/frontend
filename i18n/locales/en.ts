@@ -1,5 +1,13 @@
 import avefiLocalesRaw from '~/models/interfaces/schema/locale_messages.json';
-const avefiEn = (avefiLocalesRaw as any).en ?? (avefiLocalesRaw as any).default?.en ?? {};
+// Recursive tree (not just Record<string, unknown>) so nested branches like
+// avefiEn.seo.home remain spreadable objects rather than `unknown`. Leaves are
+// translated strings, so string is allowed alongside nested branches.
+type LocaleTree = { [key: string]: LocaleTree | string };
+type LocaleMessagesModule = {
+  en?: LocaleTree;
+  default?: { en?: LocaleTree };
+};
+const avefiEn: LocaleTree = (avefiLocalesRaw as LocaleMessagesModule).en ?? (avefiLocalesRaw as LocaleMessagesModule).default?.en ?? {};
 
 const avefiBase = {
   'showSuggestions': 'Show suggestions',
@@ -1483,20 +1491,24 @@ const avefiBase = {
   }
 };
 
+// Branches (not leaf strings) are known to be objects at every nesting level;
+// this narrows the recursive LocaleTree type at each spread site accordingly.
+const branch = (v: LocaleTree | string | undefined): LocaleTree => (v && typeof v === 'object' ? v : {});
+const avefiEnSeo = branch(avefiEn.seo);
 const mergedSeo = {
   ...avefiBase.seo,
-  ...avefiEn.seo,
-  home: { ...avefiBase.seo?.home, ...avefiEn.seo?.home },
-  search: { ...avefiBase.seo?.search, ...avefiEn.seo?.search },
-  contact: { ...avefiBase.seo?.contact, ...avefiEn.seo?.contact },
-  imprint: { ...avefiBase.seo?.imprint, ...avefiEn.seo?.imprint },
-  accessibility: { ...avefiBase.seo?.accessibility, ...avefiEn.seo?.accessibility },
-  resource: { ...avefiBase.seo?.resource, ...avefiEn.seo?.resource },
-  vocab: { ...avefiBase.seo?.vocab, ...avefiEn.seo?.vocab },
-  compare: { ...avefiBase.seo?.compare, ...avefiEn.seo?.compare },
-  glossary: { ...avefiBase.seo?.glossary, ...avefiEn.seo?.glossary },
-  faq: { ...avefiBase.seo?.faq, ...avefiEn.seo?.faq },
-  normdata: { ...avefiBase.seo?.normdata, ...avefiEn.seo?.normdata },
+  ...avefiEnSeo,
+  home: { ...avefiBase.seo?.home, ...branch(avefiEnSeo.home) },
+  search: { ...avefiBase.seo?.search, ...branch(avefiEnSeo.search) },
+  contact: { ...avefiBase.seo?.contact, ...branch(avefiEnSeo.contact) },
+  imprint: { ...avefiBase.seo?.imprint, ...branch(avefiEnSeo.imprint) },
+  accessibility: { ...avefiBase.seo?.accessibility, ...branch(avefiEnSeo.accessibility) },
+  resource: { ...avefiBase.seo?.resource, ...branch(avefiEnSeo.resource) },
+  vocab: { ...avefiBase.seo?.vocab, ...branch(avefiEnSeo.vocab) },
+  compare: { ...avefiBase.seo?.compare, ...branch(avefiEnSeo.compare) },
+  glossary: { ...avefiBase.seo?.glossary, ...branch(avefiEnSeo.glossary) },
+  faq: { ...avefiBase.seo?.faq, ...branch(avefiEnSeo.faq) },
+  normdata: { ...avefiBase.seo?.normdata, ...branch(avefiEnSeo.normdata) },
 };
 
 export default {

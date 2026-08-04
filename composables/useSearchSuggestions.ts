@@ -1,5 +1,5 @@
 // composables/useSearchSuggestions.ts
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 /**
  * Unified search suggestions composable
@@ -106,7 +106,7 @@ export function useSearchSuggestions() {
   }
 
   // Simple helper for components to call when user types in main query input
-  async function handleSearchInputForQuery(queryRef: any, size = 10) {
+  async function handleSearchInputForQuery(queryRef: Ref<string> | undefined, size = 10) {
     const q = (queryRef?.value || '').toString();
     if (!q) {
       // show top suggestions if empty (click-down behavior)
@@ -117,7 +117,7 @@ export function useSearchSuggestions() {
   }
 
   // Simple helper for components to call when user types in facet value input
-  async function handleFacetInputForAttr(attr: string, queryRefOrString: any, size = 10) {
+  async function handleFacetInputForAttr(attr: string, queryRefOrString: Ref<string> | string | undefined, size = 10) {
     const q = typeof queryRefOrString === 'string' ? queryRefOrString : (queryRefOrString?.value || '');
     return loadFacetSuggestions(attr, q, size);
   }

@@ -3,6 +3,10 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 const navigateToMock = vi.fn((path: string) => path);
 const getSessionMock = vi.fn();
 
+// Mirrors Nuxt's `RouteMiddleware` signature, narrowed to the `{ path }` shape
+// this test suite actually supplies when invoking the middleware.
+type MockRouteMiddleware = (to: { path: string }) => unknown;
+
 function setupGlobals(options?: {
   authGuardBypassInDev?: boolean;
   user?: Record<string, unknown> | null;
@@ -23,7 +27,7 @@ function setupGlobals(options?: {
   }));
   vi.stubGlobal('navigateTo', navigateToMock);
   vi.stubGlobal('useAuth', () => authState);
-  vi.stubGlobal('defineNuxtRouteMiddleware', (fn: any) => fn);
+  vi.stubGlobal('defineNuxtRouteMiddleware', (fn: MockRouteMiddleware) => fn);
 }
 
 async function importMiddleware() {

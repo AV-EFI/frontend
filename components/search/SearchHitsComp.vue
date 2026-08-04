@@ -49,7 +49,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { ElasticMSearchResponse } from '@/models/interfaces/generated/IElasticResponses';
+import type { SearchWorkHit } from '@/models/interfaces/manual/ISearchWorkHit';
 import type { PropType } from 'vue';
 
 // ✅ Component name without export default
@@ -62,7 +62,7 @@ const route = useRoute();
 
 const props = defineProps({
     items: {
-        type: Array as PropType<ElasticMSearchResponse[]>,
+        type: Array as PropType<SearchWorkHit[]>,
         required: true,
     },
     viewTypeChecked: {
@@ -76,7 +76,7 @@ const props = defineProps({
         default: false,
     },
     expandedHandles: {
-        type: Object,
+        type: Set as PropType<Set<string>>,
         required: true,
     },
     expandAllHandlesChecked: {
@@ -97,7 +97,7 @@ const props = defineProps({
         default: false,
     },
     currentRefinements: {
-        type: Array,
+        type: Array as PropType<Array<{ label?: string; values?: unknown[] }>>,
         required: false,
         default: () => []
     }

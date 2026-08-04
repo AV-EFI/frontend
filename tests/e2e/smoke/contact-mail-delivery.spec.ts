@@ -41,7 +41,7 @@ test.describe('Contact mail delivery e2e', () => {
         ? listBody
         : (Array.isArray(listBody?.messages) ? listBody.messages : []);
 
-      const found = messages.find((m: any) => {
+      const found = messages.find((m: { Subject?: string; subject?: string }) => {
         const subject = String(m?.Subject ?? m?.subject ?? '');
         return subject.includes(token);
       });

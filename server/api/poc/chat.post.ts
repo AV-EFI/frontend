@@ -1,12 +1,6 @@
 import { defineEventHandler, readBody, setResponseStatus } from 'h3';
 import { z } from 'zod';
 
-interface ChatChip {
-    id: string;
-    type: string;
-    label: string;
-}
-
 const bodySchema = z.object({
   message: z.string().trim().min(1, 'Message cannot be empty'),
   context: z.object({

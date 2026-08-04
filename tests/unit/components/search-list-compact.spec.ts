@@ -2,15 +2,16 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import SearchListCompactComp from '~/components/search/SearchListCompactComp.vue';
+import type { SearchWorkHit } from '~/models/interfaces/manual/ISearchWorkHit';
 
 vi.hoisted(() => {
-  (globalThis as any).useRuntimeConfig = () => ({
+  (globalThis as Record<string, unknown>).useRuntimeConfig = () => ({
     public: {
       AVEFI_COPY_PID_URL: 'https://hdl.handle.net/',
     },
   });
 
-  (globalThis as any).useI18n = () => ({
+  (globalThis as Record<string, unknown>).useI18n = () => ({
     t: (key: string) => key,
   });
 });
@@ -19,7 +20,13 @@ vi.mock('~/models/interfaces/manual/IFacetIconMapping', () => ({
   getFacetIcon: () => 'tabler:test-icon',
 }));
 
-function mountComponent(datasets: any[], currentRefinements: any[] = []) {
+// Fixtures below only populate the fields SearchListCompactComp actually
+// reads; they intentionally don't satisfy every required field of the full
+// generated AVefi schema (e.g. WorkVariant.category/type), so they're built
+// as plain objects and cast to the real search-hit type via `unknown`.
+type CurrentRefinement = { label?: string; refinements?: Array<{ value: string }> };
+
+function mountComponent(datasets: SearchWorkHit[], currentRefinements: CurrentRefinement[] = []) {
   return mount(SearchListCompactComp, {
     props: {
       datasets,
@@ -66,7 +73,7 @@ describe('SearchListCompactComp', () => {
           ],
         },
       },
-    ];
+    ] as unknown as SearchWorkHit[];
 
     const wrapper = mountComponent(datasets);
     const text = wrapper.text();
@@ -96,7 +103,7 @@ describe('SearchListCompactComp', () => {
           },
         ],
       },
-    ];
+    ] as unknown as SearchWorkHit[];
 
     const wrapper = mountComponent(datasets, [{ label: 'has_format_type', refinements: [{ value: '16mm' }] }]);
 
@@ -126,7 +133,7 @@ describe('SearchListCompactComp', () => {
           },
         ],
       },
-    ];
+    ] as unknown as SearchWorkHit[];
 
     const wrapper = mountComponent(datasets);
     expect(wrapper.text()).toContain('allItemsEmpty');

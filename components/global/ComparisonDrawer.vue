@@ -18,7 +18,7 @@
                     class="menu p-2 md:p-4 w-full md:w-screen lg:w-max lg:max-w-136 min-h-full bg-white z-40 dark:bg-gray-800 dark:border-left-white dark:border-l-2 border-neutral-400 text-base-content dark:text-white border-l-gray-800 shadow-lg"
                 >
                     <div class="w-full flex flex-row justify-between p-2 mb-2">
-                        <button class="btn btn-neutral w-16" :title="$t('close')" @click="$toggleComparisonDrawerState()">
+                        <button class="btn btn-neutral w-16" :title="$t('close')" @click="$toggleComparisonDrawerState?.()">
                             <Icon class="icon-action" name="tabler:x" aria-hidden="true" />
                         </button>
                     </div>
@@ -205,11 +205,22 @@ import { computed, ref, watch } from 'vue';
 import { useObjectListStore } from '../../stores/compareList';
 import { useFavourites } from '../../stores/favourites';
 
-const nuxtApp = useNuxtApp();
-const { $toggleComparisonDrawerState, $toast }: any = nuxtApp;
+// Nuxt's template-context typing doesn't pick up plugin-provided $-properties
+// reliably in this project's Volar setup (same gap as $t), so these are typed
+// locally against just the methods this component actually calls.
+interface ComparisonNuxtApp {
+    $toggleComparisonDrawerState?: (type?: string) => void;
+    $toast?: {
+        info?: (message: string) => unknown;
+        error?: (message: string) => unknown;
+    };
+    $i18n?: { t?: (key: string, params?: Record<string, unknown>) => string };
+}
+
+const nuxtApp = useNuxtApp() as unknown as ComparisonNuxtApp;
+const { $toggleComparisonDrawerState, $toast } = nuxtApp;
 const $t = (key: string, params?: Record<string, unknown>) => {
-    const i18n = nuxtApp.$i18n as { t?: (key: string, params?: Record<string, unknown>) => string } | undefined;
-    return i18n?.t?.(key, params) ?? key;
+    return nuxtApp.$i18n?.t?.(key, params) ?? key;
 };
 const favourites = useFavourites();
 const objectListStore = useObjectListStore();

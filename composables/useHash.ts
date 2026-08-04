@@ -2,9 +2,13 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export function useHash(scroll = true) {
   const hash = ref('');
-  let highlightTimer: ReturnType<typeof setTimeout> | null = null;
-  let retryTimer: ReturnType<typeof setTimeout> | null = null;
-  let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+  // Typed as `number` (not ReturnType<typeof setTimeout>) because @types/node's global
+  // augmentation turns window.setTimeout into an overloaded/intersected callable, and
+  // TS's ReturnType<> picks the *last* call signature (NodeJS.Timeout) rather than the
+  // one window.setTimeout actually returns at runtime — this composable is browser-only.
+  let highlightTimer: number | null = null;
+  let retryTimer: number | null = null;
+  let scrollTimer: number | null = null;
   let isInitialLoad = true;
   const actionDelayMs = 900;
   const postOpenDelayMs = 900;
@@ -105,7 +109,7 @@ export function useHash(scroll = true) {
     }, postOpenDelayMs);
 
     if (highlightTimer) clearTimeout(highlightTimer);
-    highlightTimer = setTimeout(() => {
+    highlightTimer = window.setTimeout(() => {
       highlightEl.classList.remove(
         'bg-highlight',
         'transition-colors',

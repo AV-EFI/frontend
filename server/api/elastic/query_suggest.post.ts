@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
   if (!searchAttrs.length) return { success: true, suggestions: [] };
 
   // Build multi-aggs — one terms agg per search field
-  const aggs: Record<string, any> = {};
+  const aggs: Record<string, unknown> = {};
   const aggSize = q ? Math.max(size * 10, 100) : size;
 
   for (const attr of searchAttrs) {
@@ -57,9 +57,13 @@ export default defineEventHandler(async (event) => {
 
   const esBody = { size: 0, aggs };
 
+  interface QuerySuggestResponse {
+    aggregations?: Record<string, { buckets?: Array<{ key?: unknown }> }>;
+  }
+
   try {
     const url = `${host}/${encodeURIComponent(index)}/_search`;
-    const res = await $fetch<any>(url, { method: 'POST', body: esBody });
+    const res = await $fetch<QuerySuggestResponse>(url, { method: 'POST', body: esBody });
 
     const suggestions: Array<{ text: string; type: string }> = [];
     for (const attr of searchAttrs) {
@@ -88,8 +92,9 @@ export default defineEventHandler(async (event) => {
         .filter((entry) => matchesQueryCaseInsensitive(entry.text, q))
         .slice(0, 50)
     };
-  } catch (err: any) {
-    console.error('[query_suggest] ERROR', err?.data || err?.message || err);
+  } catch (err) {
+    const details = err && typeof err === 'object' && 'data' in err ? err.data : undefined;
+    console.error('[query_suggest] ERROR', details || (err instanceof Error ? err.message : err));
     return { success: false, suggestions: [] };
   }
 });

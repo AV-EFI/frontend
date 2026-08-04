@@ -37,7 +37,7 @@
                             </li>
                         </ul>
                         <ul v-else-if="work?.has_record?.has_alternative_title">
-                            <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.id" tabindex="0"
+                            <li v-for="alt in work?.has_record?.has_alternative_title" :key="alt.has_name" tabindex="0"
                                 :aria-label="`${$t('alternativeTitle')}: ${alt.has_name} (${$t(alt.type)})`">
                                 {{ alt.has_name }} ({{ $t(alt.type) }})
                             </li>
@@ -81,7 +81,7 @@
                     :placeholder="$t('searchItems')"
                     :value="optionFilterQuery[work?.handle ?? ''] || ''"
                     :aria-label="`${$t('searchItems')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-                    :aria-expanded="String(isAutocompleteOpen(work?.handle ?? ''))"
+                    :aria-expanded="isAutocompleteOpen(work?.handle ?? '')"
                     aria-autocomplete="list"
                     @focus="openAutocomplete(work?.handle ?? '')"
                     @blur="closeAutocomplete(work?.handle ?? '')"
@@ -148,7 +148,7 @@
                          :aria-roledescription="$t('carousel')">
                         <div class="carousel-track" :style="trackStyle(work)">
                             <article v-for="(row, rowIndex) in filteredRows(work)"
-                                     :key="row.item?.handle ?? row.item?.id ?? row.mf?.id ?? `row-${work?.handle ?? workIndex}-${rowIndex}`"
+                                     :key="row.item?.handle ?? `row-${work?.handle ?? workIndex}-${rowIndex}`"
                                      class="item-card card border border-base-200 bg-white/90 dark:bg-base-200 rounded-xl" role="option"
                                      :aria-label="row.item?.handle || $t('item')">
                                 <div class="card-body p-2 flex flex-col gap-2">
@@ -174,7 +174,7 @@
                                     </div>
                                     <div v-if="row.item?.has_record?.has_webresource" class="flex items-start">
                                         <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
-                                        <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource"
+                                        <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource?.[0]"
                                            class="text-sm link link-primary">
                                             <Icon name="tabler:external-link" /> {{ $t('webresource') }}
                                         </a>
@@ -215,7 +215,7 @@
                     <button class="btn btn-sm btn-outline btn-circle focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                             :aria-label="`${$t('next')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
                             :aria-controls="`carousel-${work?.handle ?? ''}`"
-                            :disabled="carouselIndex[work?.handle ?? ''] >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
+                            :disabled="(carouselIndex[work?.handle ?? ''] ?? 0) >= pagesCount(work) - 1 || filteredRows(work).length <= pageSize()"
                             @click="next(work?.handle ?? '')">
                         ›
                     </button>
@@ -239,12 +239,14 @@
 import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { PropType } from 'vue';
-import type { MovingImageRecordContainer } from '@/models/interfaces/schema/avefi_schema_type_utils';
+import type { SearchWorkHit, SearchManifestation, SearchItem } from '@/models/interfaces/manual/ISearchWorkHit';
+
+type Row = { item: SearchItem; mf: SearchManifestation | null };
 
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 defineProps({
     datasets: {
-        type: Array as PropType<Array<MovingImageRecordContainer>>,
+        type: Array as PropType<Array<SearchWorkHit>>,
         required: true
     }
 });
@@ -312,7 +314,7 @@ function removeSuggestion(handle: string, suggestion: string) {
     onSearchInput(handle, selected.filter(value => value !== suggestion));
 }
 
-function onAutocompleteKeydown(handle: string, work: MovingImageRecordContainer, event: KeyboardEvent) {
+function onAutocompleteKeydown(handle: string, work: SearchWorkHit, event: KeyboardEvent) {
     const suggestions = filteredSuggestionsForWork(work);
     if (!suggestions.length) return;
 
@@ -352,7 +354,7 @@ onBeforeUnmount(() => {
 
 
 // Check if manifestation has any meaningful data beyond handle
-function isManifestationEmpty(mf: any): boolean {
+function isManifestationEmpty(mf: SearchManifestation | null | undefined): boolean {
     if (!mf) return true;
     // Get manifestation fields spec (we need to define this or use the fields that are shown)
     const manifestationFieldPaths = [
@@ -370,20 +372,20 @@ function isManifestationEmpty(mf: any): boolean {
 
 
 // ------- Produktions-Events parsing (display; search will only use placeName) -------
-function parsedEvents(mf: any): Array<{ placeName?: string; sameAsId?: string; sameAsCategory?: string; placeCategory?: string; }> {
+function parsedEvents(mf: SearchManifestation | null | undefined): Array<{ placeName?: string; sameAsId?: string; sameAsCategory?: string; placeCategory?: string; }> {
     const out: Array<{ placeName?: string; sameAsId?: string; sameAsCategory?: string; placeCategory?: string; }> = [];
-    const events = get(mf, 'has_record.has_event');
-    if (!events) return out;
-    const list = Array.isArray(events) ? events : [events];
-    for (const ev of list) {
-        const loc = ev?.located_in || {};
-        const same = loc?.same_as || {};
-        out.push({
-            placeName: getLocalizedPlaceLabel(loc),
-            sameAsId: same?.id,
-            sameAsCategory: same?.category,
-            placeCategory: loc?.category
-        });
+    const events = mf?.has_record?.has_event ?? [];
+    for (const ev of events) {
+        const locations = ev?.located_in ?? [];
+        for (const loc of locations) {
+            const same = loc?.same_as?.[0];
+            out.push({
+                placeName: getLocalizedPlaceLabel(loc),
+                sameAsId: same?.id,
+                sameAsCategory: same?.category,
+                placeCategory: loc?.category
+            });
+        }
     }
     return out.filter(e => e.placeName || e.sameAsId || e.sameAsCategory || e.placeCategory);
 }
@@ -408,7 +410,7 @@ const SEARCH_WHITELIST = [
 ];
 
 // Collect search values from whitelist; DO NOT split strings
-function valuesForSearch(row: { item: any, mf: any | null }): string[] {
+function valuesForSearch(row: Row): string[] {
     const vals: string[] = [];
 
     for (const p of SEARCH_WHITELIST) {
@@ -441,15 +443,16 @@ function valuesForSearch(row: { item: any, mf: any | null }): string[] {
     return out;
 }
 
-function pushValue(arr: string[], v: any) {
+function pushValue(arr: string[], v: unknown) {
     if (v === null || v === undefined) return;
     if (Array.isArray(v)) {
         for (const x of v) {
             pushValue(arr, x); // recursively flatten
         }
     } else if (typeof v === 'object') {
-        if (typeof v.type === 'string' && v.type) arr.push(v.type);
-        if (typeof v.code === 'string' && v.code) arr.push(v.code);
+        const obj = v as Record<string, unknown>;
+        if (typeof obj.type === 'string' && obj.type) arr.push(obj.type);
+        if (typeof obj.code === 'string' && obj.code) arr.push(obj.code);
     // Optionally, add more fields here if needed
     } else {
         const s = String(v);
@@ -458,15 +461,15 @@ function pushValue(arr: string[], v: any) {
 }
 
 // ------- Search matching across item + mf with whitelist; no tokenization -------
-function rowMatchesQuery(row: { item: any, mf: any | null }, q: string): boolean {
+function rowMatchesQuery(row: Row, q: string): boolean {
     if (!q) return true;
     // Exact, case-sensitive match for dropdown values
     return valuesForSearch(row).some(v => v === q);
 }
 
 // ------- Suggestions (autocomplete) from the same whitelist; no splitting -------
-function suggestionsForWork(work: any): string[] {
-    const rows = buildRows(work);
+function suggestionsForWork(work: SearchWorkHit): string[] {
+    const rows = buildRows(work) as Row[];
     const set = new Set<string>();
     for (const row of rows) {
         for (const v of valuesForSearch(row)) {
@@ -478,7 +481,7 @@ function suggestionsForWork(work: any): string[] {
     return Array.from(set).slice(0, 100);
 }
 
-function filteredSuggestionsForWork(work: any): string[] {
+function filteredSuggestionsForWork(work: SearchWorkHit): string[] {
     const all = suggestionsForWork(work);
     const handle = work?.handle ?? '';
     const query = (optionFilterQuery.value[handle] ?? '').trim().toLowerCase();
@@ -487,14 +490,12 @@ function filteredSuggestionsForWork(work: any): string[] {
 }
 
 // ------- Filtered rows per work -------
-function filteredRows(work: any): Array<{ item: any, mf: any | null }> {
-    const rows = buildRows(work);
+function filteredRows(work: SearchWorkHit): Row[] {
+    const rows = buildRows(work) as Row[];
     const selected = searchQuery.value[work?.handle ?? ''] || [];
     let filtered = rows;
-    if (Array.isArray(selected) && selected.length > 0) {
+    if (selected.length > 0) {
         filtered = rows.filter(r => selected.every(q => rowMatchesQuery(r, q)));
-    } else if (typeof selected === 'string' && selected.trim()) {
-        filtered = rows.filter(r => rowMatchesQuery(r, selected));
     }
     // Stable order by item.handle
     return filtered.sort((a, b) => String(a.item?.handle || '').localeCompare(String(b.item?.handle || '')));
@@ -504,11 +505,11 @@ function filteredRows(work: any): Array<{ item: any, mf: any | null }> {
 function pageSize(): number {
     return viewportCols.value;
 }
-function pagesCount(work: any): number {
+function pagesCount(work: SearchWorkHit): number {
     const count = Math.ceil(filteredRows(work).length / pageSize());
     return Math.max(count, 1);
 }
-function pageInfo(work: any): { index: number; total: number; label: string } {
+function pageInfo(work: SearchWorkHit): { index: number; total: number; label: string } {
     const h = work?.handle ?? '';
     const idx = Math.min(carouselIndex.value[h] || 0, pagesCount(work) - 1);
     return { index: idx, total: pagesCount(work), label: `${idx + 1} / ${pagesCount(work)}` };
@@ -521,7 +522,7 @@ function next(handle: string) {
     const idx = carouselIndex.value[handle] || 0;
     carouselIndex.value[handle] = Math.min(idx + 1, Number.MAX_SAFE_INTEGER); // clamped in trackStyle
 }
-function trackStyle(work: any) {
+function trackStyle(work: SearchWorkHit) {
     const rows = filteredRows(work);
     const per = pageSize();
     const totalPages = Math.max(Math.ceil(rows.length / per), 1);
@@ -534,7 +535,7 @@ function trackStyle(work: any) {
     return { transform: `translateX(${pct}%)` };
 }
 
-const navigateToItem = (item: any, workHandle: string) => {
+const navigateToItem = (item: SearchItem | undefined, workHandle: string) => {
     const itemPath = `/film/${workHandle}#${item?.handle}`;
     window.open(itemPath, '_blank');
 };

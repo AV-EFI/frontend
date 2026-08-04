@@ -51,7 +51,8 @@ describe('useFavourites', () => {
     test('converts legacy string[] format to ObjectItem[]', () => {
       const store = useFavourites();
       // Simulate legacy persisted state where objects were stored as string IDs
-      store.objects = ['film-1', 'film-2'] as any;
+      // rather than the current ObjectItem[] shape.
+      store.objects = ['film-1', 'film-2'] as unknown as typeof store.objects;
       store.hydrateObjects();
       expect(store.objects).toEqual([
         { filmId: 'film-1', filmTitle: '' },
