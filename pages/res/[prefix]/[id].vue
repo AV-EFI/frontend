@@ -125,7 +125,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
-import { useAsyncData, useRuntimeConfig } from 'nuxt/app';
+import { useAsyncData, useRuntimeConfig, navigateTo } from 'nuxt/app';
 
 definePageMeta({ auth: false });
 
@@ -241,6 +241,29 @@ const { data: result, error, pending } = await useAsyncData(
 const dataJson = computed(() => result.value?.data);
 const resourceType = computed(() => result.value?.resourceType ?? 'workVariant');
 const requestedHandle = computed(() => result.value?.requestedHandle ?? '');
+
+/** ---------------------------
+ * Canonicalize manifestation/item deep links.
+ * A manifestation or item requested directly by its own handle (e.g. shared/indexed
+ * as /res/<prefix>/<manifestationId>) is not itself a standalone page — it's a section
+ * of its parent work. Redirect to the parent work's own /res/ URL with the requested
+ * handle as a hash, matching the deep-link format used everywhere else in the app
+ * (e.g. ManifestationListSplitView), instead of leaving the manifestation handle in
+ * the path and only appending a self-referencing hash on the client.
+ * -------------------------- */
+if (resourceType.value === 'manifestationOrItem') {
+    const workHandle = String(dataJson.value?.compound_record?._source?.handle ?? '').trim();
+    const requested = requestedHandle.value.trim();
+    if (workHandle && requested && workHandle !== requested) {
+        const separatorIndex = workHandle.indexOf('/');
+        const workPrefix = separatorIndex >= 0 ? workHandle.slice(0, separatorIndex) : workHandle;
+        const workId = separatorIndex >= 0 ? workHandle.slice(separatorIndex + 1) : '';
+        await navigateTo(`/res/${workPrefix}/${workId}#${requested}`, {
+            redirectCode: 301,
+            external: false,
+        });
+    }
+}
 
 // Work record (compound_record._source)
 const record = computed(() => dataJson.value?.compound_record?._source);
