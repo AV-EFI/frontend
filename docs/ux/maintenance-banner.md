@@ -30,6 +30,14 @@ The banner is hidden when `ENABLED` is false, when the state is unsupported, or 
 
 Because the fallback copy and activation config are shipped with the Nuxt app, the notice does not depend on Elasticsearch, CMS, or other runtime API availability.
 
+## Operational Updates
+
+The maintenance window and override messages are changed through GitLab CI/CD variables for the frontend project:
+
+- `https://gitlab.gwdg.de/av-efi/frontend/-/settings/ci_cd#js-cicd-variables-settings`
+
+Access to this settings page requires the necessary GitLab project permissions. After changing CI/CD variables, redeploy the affected environment so the public Nuxt runtime config receives the new values.
+
 ## Preview Testing
 
 Colleagues can test the banner without enabling real maintenance mode by setting:
