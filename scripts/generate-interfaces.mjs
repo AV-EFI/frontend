@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 /* eslint-disable */
 import fs from "fs";
 import path from "path";
@@ -24,9 +24,13 @@ const ENTITIES_JSON = path.join(OUT_DATA_DIR, "entities.json");
 const DOCS_BASE = "https://av-efi.github.io/av-efi-schema/";
 
 /** utils */
+/** @param {string} cmd */
 function run(cmd) { execSync(cmd, { stdio: "inherit" }); }
+/** @type {(p: string) => boolean} */
 const exists = (p) => { try { fs.accessSync(p); return true; } catch { return false; } };
+/** @type {(p: string) => string} */
 const read = (p) => fs.readFileSync(p, "utf-8");
+/** @param {string} p @param {unknown} o */
 function writeJson(p, o) { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, JSON.stringify(o, null, 2), "utf-8"); console.log("📝 Wrote", path.relative(process.cwd(), p)); }
 
 
@@ -183,13 +187,16 @@ const enumMemberRe = /(?:\/\*\*([\s\S]*?)\*\/\s*)?(\w+)\s*(?:=\s*["']?([^"'\s,}]
 const interfaceBlockRe = /export\s+interface\s+(\w+)[^{]*{([\s\S]*?)}/gm;
 const interfacePropRe = /(?:\/\*\*([\s\S]*?)\*\/\s*)?([a-zA-Z_]\w*)\??\s*:\s*([^;]+);/g;
 
+/** @param {string | undefined} raw */
 const cleanJsDoc = (raw) => {
   if (!raw) return { desc: "", def: "" };
   const lines = raw.replace(/\r?\n/g, "\n").split("\n").map(l => l.replace(/^\s*\*\s?/, "").trim()).filter(Boolean);
   return { desc: lines[0] ?? "", def: lines.length > 1 ? lines.slice(1).join(" ") : "" };
 };
+/** @param {string} e */
 const enumCategory = (e) =>
   e.replace(/ActivityTypeEnum$/, "Activity Type").replace(/TypeEnum$/, " Type").replace(/Enum$/, "");
+/** @param {string} n */
 const bucketFromIface = (n) =>
   /^(I)?AVefi?WorkVariant$/i.test(n) || /^Work(Variant)?$/i.test(n) ? "WorkVariant"
     : /^(I)?AVefi?Manifestation$/i.test(n) || /^Manifestation$/i.test(n) ? "Manifestation"
@@ -201,8 +208,10 @@ function buildGlossaryAndIndexFromTS() {
   const generatedDir = GENERATED_DIR;
   const localePath = path.join(schemaDir, "locale_messages.json");
   const localeJson = exists(localePath) ? JSON.parse(read(localePath)) : {};
-  const trLang = (lang, k) => (localeJson?.[lang]?.[k] ?? null);
+  /** @param {string} lang @param {string} [k] */
+  const trLang = (lang, k) => (localeJson?.[lang]?.[/** @type {string} */ (k)] ?? null);
 
+  /** @param {string} term */
   const toTranslationKeyCandidates = (term) => {
     const out = [term];
 
@@ -220,6 +229,7 @@ function buildGlossaryAndIndexFromTS() {
     return [...new Set(out)];
   };
 
+  /** @param {string} term */
   const resolveLabels = (term) => {
     const candidates = toTranslationKeyCandidates(term);
 
@@ -238,13 +248,14 @@ function buildGlossaryAndIndexFromTS() {
     return { label, labels: { de, en }, isTranslated: !!(de || en), translationKeysTried: candidates };
   };
 
-  /** @type {Array<{term:string,label:string,description:string,definition:string,enumSource:string,category:string,isTranslated:boolean}>} */
+  /** @type {Array<{term:string,label:string,labels?:{de:string|null,en:string|null},description:string,definition:string,enumSource:string,category:string,isTranslated:boolean}>} */
   const entries = [];
   const seen = new Set();
 
   /** @type {Record<string,{level:'WorkVariant'|'Manifestation'|'Item',path:string}>} */
   const fieldIndex = {};
 
+  /** @param {{term:string,label:string,description:string,definition:string,enumSource:string,category:string,isTranslated:boolean}} e */
   const addEntry = (e) => {
     const k = `${e.term}|${e.enumSource}`;
     if (seen.has(k)) return; seen.add(k); entries.push(e);
@@ -261,7 +272,7 @@ function buildGlossaryAndIndexFromTS() {
 
     // enums
     let em; while ((em = enumBlockRe.exec(content))) {
-      const enumName = em[1], body = em[2], category = enumCategory(enumName);
+      const enumName = /** @type {string} */ (em[1]), body = /** @type {string} */ (em[2]), category = enumCategory(enumName);
       let mm; while ((mm = enumMemberRe.exec(body))) {
         const raw = mm[1], key = mm[2]; if (!key) continue;
         const { desc, def } = cleanJsDoc(raw);
@@ -281,10 +292,10 @@ function buildGlossaryAndIndexFromTS() {
 
     // interfaces
     let im; while ((im = interfaceBlockRe.exec(content))) {
-      const ifaceName = im[1], body = im[2];
+      const ifaceName = /** @type {string} */ (im[1]), body = /** @type {string} */ (im[2]);
       const bucket = bucketFromIface(ifaceName);
       let pm; while ((pm = interfacePropRe.exec(body))) {
-        const raw = pm[1], prop = pm[2]; const { desc, def } = cleanJsDoc(raw); const t = trLang(prop);
+        const raw = pm[1], prop = /** @type {string} */ (pm[2]); const { desc, def } = cleanJsDoc(raw); const t = trLang(prop);
         if (bucket === "WorkVariant" || bucket === "Manifestation" || bucket === "Item") {
           const dotted = `${bucket}.${prop}`;
           addEntry({ term: prop, label: t || prop, description: desc, definition: def, enumSource: dotted, category: bucket, isTranslated: !!t });
@@ -300,10 +311,10 @@ function buildGlossaryAndIndexFromTS() {
     if (!exists(fp)) continue;
     const content = read(fp);
     let im; while ((im = interfaceBlockRe.exec(content))) {
-      const ifaceName = im[1], body = im[2];
+      const ifaceName = /** @type {string} */ (im[1]), body = /** @type {string} */ (im[2]);
       const bucket = bucketFromIface(ifaceName);
       let pm; while ((pm = interfacePropRe.exec(body))) {
-        const raw = pm[1], prop = pm[2]; const { desc, def } = cleanJsDoc(raw);
+        const raw = pm[1], prop = /** @type {string} */ (pm[2]); const { desc, def } = cleanJsDoc(raw);
         if (bucket === "WorkVariant" || bucket === "Manifestation" || bucket === "Item") {
           const dotted = `${bucket}.${prop}`;
           addEntry({ term: prop, label: prop, description: desc, definition: def, enumSource: dotted, category: bucket, isTranslated: false });
@@ -337,8 +348,10 @@ if (!exists(modelPath)) {
   const enums = vocab?.enums || model?.enums || {};
   const localePath = path.join(TARGET_DIR, "locale_messages.json");
   const localeJson = exists(localePath) ? JSON.parse(read(localePath)) : {};
-  const trLang = (lang, k) => (localeJson?.[lang]?.[k] ?? null);
+  /** @param {string} lang @param {string} [k] */
+  const trLang = (lang, k) => (localeJson?.[lang]?.[/** @type {string} */ (k)] ?? null);
 
+  /** @param {string} term */
   const toTranslationKeyCandidates = (term) => {
     const out = [term];
 
@@ -356,6 +369,7 @@ if (!exists(modelPath)) {
     return [...new Set(out)];
   };
 
+  /** @param {string} term */
   const resolveLabels = (term) => {
     const candidates = toTranslationKeyCandidates(term);
 
@@ -374,21 +388,28 @@ if (!exists(modelPath)) {
     return { label, labels: { de, en }, isTranslated: !!(de || en), translationKeysTried: candidates };
   };
 
+  /** @param {unknown} x */
   const safeDesc = (x) => (typeof x === "string" ? x.trim() : "");
+  /** @param {string} r */
   const isEnum = (r) => !!enums[r];
 
   // ---------- inheritance helpers ----------
+  /** @type {Record<string, string>} */
   const PARENT = {};
   for (const [cname, cdef] of Object.entries(classes)) {
     if (cdef && typeof cdef === "object" && cdef.is_a) PARENT[cname] = cdef.is_a;
   }
+  /** @param {string} clsName */
   function lineage(clsName) {
     const arr = [];
+    /** @type {string | undefined} */
     let cur = clsName;
     while (cur) { arr.unshift(cur); cur = PARENT[cur]; }
     return arr;
   }
+  /** @param {string} clsName */
   function getClassSlotsDeep(clsName) {
+    /** @type {Record<string, any>} */
     const byName = {};
     for (const c of lineage(clsName)) {
       const cls = classes[c] || {};
@@ -401,9 +422,12 @@ if (!exists(modelPath)) {
   }
 
   // ---------- node helper ----------
+  /** @typedef {{name: string, full: string, label: string, terms: string[], children: SchemaTreeNode[]}} SchemaTreeNode */
+  /** @param {string} name @param {string} full @param {string} label @param {string[]} [terms] @param {SchemaTreeNode[]} [children] @returns {SchemaTreeNode} */
   const node = (name, full, label, terms = [], children = []) => ({ name, full, label, terms, children });
 
   // ---------- collect slot names ----------
+  /** @param {string} n */
   const hasClass = (n) => !!classes[n];
   const WV = hasClass("WorkVariant") ? "WorkVariant" : (hasClass("Work") ? "Work" : null);
   const hasM = hasClass("Manifestation");
@@ -508,6 +532,7 @@ if (!exists(modelPath)) {
   }
 
   // Map term -> explorerPath by walking tree leaves with terms (skip *Enums; first hit wins)
+  /** @type {Record<string, string>} */
   const explorerMap = {};
   (function walk(list) {
     for (const n of list) {
@@ -521,6 +546,7 @@ if (!exists(modelPath)) {
     }
   })([root]);
 
+  /** @param {string} p */
   function inferLevelFromExplorerPath(p) {
     if (p.includes(".items[]")) return "Item";
     if (p.includes(".manifestations[]")) return "Manifestation";
@@ -553,6 +579,7 @@ if (!exists(modelPath)) {
      ----------------------------------------------------------------------- */
   const entities = [];
 
+  /** @param {string} name */
   const classToExplorerPath = (name) => {
     if (name === "WorkVariant" || name === "Work") return "MovingImageRecord.WorkVariant";
     if (name === "Manifestation") return "MovingImageRecord.WorkVariant.manifestations[]";

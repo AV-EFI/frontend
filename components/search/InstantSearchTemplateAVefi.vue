@@ -510,6 +510,7 @@ async function handleClearAllRefinements() {
 
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount, provide } from 'vue';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
+import type { UiState } from 'instantsearch.js/es/types/ui-state';
 
 type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
 const globalFetch = (globalThis as typeof globalThis & { $fetch?: SuggestionFetch }).$fetch;
@@ -1362,7 +1363,10 @@ const routerInstance = process.client
             return `${location.pathname}${queryString}${location.hash}`;
         },
         parseURL({ qsModule, location }) {
-            return qsModule.parse(location.search.slice(1)) as any;
+            // qsModule.parse() returns querystring's generic ParsedQs shape; the URL's
+            // query params are only ever produced by our own createURL() above (via
+            // qsModule.stringify(routeState)), so this is safe to treat as UiState.
+            return qsModule.parse(location.search.slice(1)) as unknown as UiState;
         },
     })
     : null;
