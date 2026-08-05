@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */ 
-import type { Activity, Event, MovingImageRecordContainer, ProductionEvent } from "../models/interfaces/av_efi_schema";
+import type { Activity, Agent, Event, MovingImageRecordContainer, ProductionEvent } from "../models/interfaces/schema/avefi_schema";
 /**
  * mainly used by search
  */
@@ -84,18 +84,18 @@ export function getAgentNameFromWorkVariation(item:MovingImageRecordContainer, a
   try {
     const productionEvent:Event[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent";});
     if(productionEvent) {
-      const activities:Activity[]|undefined = [];
-            
+      const activities: Activity[][] = [];
+
       productionEvent?.forEach((pe:ProductionEvent) => {
         if(pe?.has_activity) {
           activities.push(pe?.has_activity?.filter((i) => i.category == activityName));
         }
       });
-            
+
       if(activities) {
         const agentList: string[] = [];
         activities.forEach((i) => {
-          i[0]?.has_agent?.forEach((ag) => {
+          i[0]?.has_agent?.forEach((ag: Agent) => {
             agentList.push(ag?.has_name);}
           );
         });
@@ -117,20 +117,18 @@ export function disamGetCastMembers(item:MovingImageRecordContainer, activityNam
   try {
     const productionEvent:Event[]|undefined = item.has_record?.has_event?.filter((i:Event) => {return i?.category == "avefi:ProductionEvent";});
     if(productionEvent) {
-      const activities:Activity[]|undefined = [];
-            
+      const activities: Activity[][] = [];
+
       productionEvent?.forEach((pe:ProductionEvent) => {
         if(pe?.has_activity) {
           activities.push(pe?.has_activity?.filter((i) => i.category == activityName));
         }
       });
-            
-      console.log(activities);
 
       if(activities) {
-        const agentList: string[] = [];
+        const agentList: Agent[] = [];
         activities.forEach((i) => {
-          i[0]?.has_agent?.forEach((ag) => {
+          i[0]?.has_agent?.forEach((ag: Agent) => {
             agentList.push(ag);}
           );
         });

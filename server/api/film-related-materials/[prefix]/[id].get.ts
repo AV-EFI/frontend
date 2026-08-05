@@ -1,5 +1,4 @@
 import { defineEventHandler } from 'h3';
-import { HARD_CODED_DATA } from '~/server/data/film-related-materials';
 
 export default defineEventHandler((event) => {
   const prefix = event.context.params?.prefix;
@@ -42,7 +41,7 @@ export default defineEventHandler((event) => {
 });
 
 // Hard-coded data for the two specific work variants
-export const HARD_CODED_DATA = {
+export const HARD_CODED_DATA: Record<string, { title: string; handle: string; url: string; materials: Record<string, unknown>[] }> = {
   "21.11155/7E2ABF44-85D2-4704-AF29-0331974A16FF": {
     title: "Marlene Dietrich Home Movies",
     handle: "21.11155/7E2ABF44-85D2-4704-AF29-0331974A16FF",

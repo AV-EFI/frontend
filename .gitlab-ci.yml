@@ -73,6 +73,13 @@ test_typecheck:
   script:
     - yarn typecheck
 
+test_unresolved_imports:
+  extends:
+    - .node_job
+    - .test_rules
+  script:
+    - yarn knip:unresolved
+
 test_backend_api_contracts:
   extends:
     - .node_job

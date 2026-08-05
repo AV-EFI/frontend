@@ -13,10 +13,10 @@
                 <div class="flex flex-row flex-wrap gap-2 lg:gap-4">
                     <!-- ===================== META ===================== -->
                     <section v-if="entry.hasMeta" class="w-full space-y-2" :aria-label="$t('eventCategory')">
-                        <DetailKeyValueComp v-if="entry.showType && entry.raw?.type" keytxt="manifestation_event_type"
-                                            class="w-full dark:text-white" :valtxt="entry.raw.type"
+                        <DetailKeyValueComp v-if="entry.showType && entry.raw?.category" keytxt="manifestation_event_type"
+                                            class="w-full dark:text-white" :valtxt="entry.raw.category"
                                             facet-attribute="manifestation_event_type"
-                                            :aria-label="$t('eventCategory') + ': ' + $t(entry.raw.type)" :clip="false" />
+                                            :aria-label="$t('eventCategory') + ': ' + $t(entry.raw.category)" :clip="false" />
 
                         <div class="flex flex-row flex-wrap gap-2">
                             <DetailKeyValueListComp v-if="entry.raw?.located_in" keytxt="place"
@@ -141,7 +141,7 @@
 
 <script lang="ts" setup>
 import { computed, type PropType } from "vue";
-import type { Event } from "../../models/interfaces/av_efi_schema";
+import type { Event } from "../../models/interfaces/schema/avefi_schema";
 import { getSuspiciousAgentNamePattern } from '~/utils/agentQuality';
 
 type Activity = NonNullable<Event["has_activity"]>[number];
@@ -174,7 +174,7 @@ const normalizedEvents = computed<NormalizedEvent[]>(() => {
 
 function normalizeEvent(evt: Event): NormalizedEvent {
     const { crew, cast } = splitActivities(evt);
-    const showType = !crew.length && !cast.length && Boolean(evt?.type);
+    const showType = !crew.length && !cast.length && Boolean(evt?.category);
     const hasMeta = showType || Boolean(evt?.located_in) || Boolean(evt?.has_date);
     return {
         raw: evt,

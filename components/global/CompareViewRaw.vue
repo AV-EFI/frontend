@@ -50,10 +50,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IAVefiListResponse } from '../../models/interfaces/IAVefiWork';
+import type { LocationQueryValue } from 'vue-router';
 const props = defineProps({
     'items': {
-        type: Array as PropType<IAVefiListResponse[]>,
+        type: Array as PropType<Array<LocationQueryValue | LocationQueryValue[]>>,
         required:true,
         default: () => []
     }
@@ -76,8 +76,8 @@ watch(colorModeCookie, (newValue) => {
 });
 
 
-const prev = await getDataSet(props.items[0]);
-const current = await getDataSet(props.items[1]);
+const prev = await getDataSet(String(props.items[0] ?? ''));
+const current = await getDataSet(String(props.items[1] ?? ''));
 
 onMounted(() => {
     if(objectListStore.comparisonDrawerOpen) {

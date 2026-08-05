@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MovingImageRecord } from '/models/interfaces/av_efi_schema.ts';
+import type { MovingImageRecord } from '~/models/interfaces/schema/avefi_schema';
 
 const logs = ref<MovingImageRecord[]>([]);
 const collapsedGroups = ref<Record<string, boolean>>({});

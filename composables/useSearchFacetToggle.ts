@@ -276,9 +276,11 @@ export function useSearchFacetToggle() {
       window.location.assign(router.resolve(facetToggleLocation(attribute, normalized)).href);
     };
 
-    refinementCoordinator
-      ? refinementCoordinator.runRefinementAction('result-facet-toggle', operation)
-      : operation();
+    if (refinementCoordinator) {
+      refinementCoordinator.runRefinementAction('result-facet-toggle', operation);
+    } else {
+      operation();
+    }
   }
 
   /** Start a completely fresh search with only this single facet — clears all existing filters. */

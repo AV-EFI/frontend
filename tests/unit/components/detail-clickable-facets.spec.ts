@@ -64,10 +64,10 @@ describe('detail clickable facets', () => {
       props: {
         modelValue: [
           {
-            type: 'ProductionEvent',
+            category: 'ProductionEvent',
           },
           {
-            type: 'PremiereEvent',
+            category: 'PremiereEvent',
             has_date: '1929-2000',
             located_in: [{ has_name: 'Berlin' }],
             has_activity: [
