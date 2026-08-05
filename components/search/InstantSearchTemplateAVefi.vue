@@ -511,9 +511,11 @@ async function handleClearAllRefinements() {
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount, provide } from 'vue';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
-const {$toggleFacetDrawerState, $toast}:any = useNuxtApp();
 type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
-const nuxtFetch = useNuxtApp().$fetch as SuggestionFetch;
+const globalFetch = (globalThis as typeof globalThis & { $fetch?: SuggestionFetch }).$fetch;
+const nuxtApp = typeof useNuxtApp === 'function' ? useNuxtApp() : {};
+const { $toggleFacetDrawerState, $toast }: any = nuxtApp;
+const nuxtFetch = ((nuxtApp as { $fetch?: SuggestionFetch }).$fetch ?? globalFetch) as SuggestionFetch;
 
 const props = defineProps({
     searchClient: {

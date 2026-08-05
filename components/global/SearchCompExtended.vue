@@ -270,7 +270,11 @@ await loadFormKit();
 const iconMap = FACET_ICON_MAP;
 const { t, locale } = useI18n();
 type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
-const nuxtFetch = useNuxtApp().$fetch as SuggestionFetch;
+const globalFetch = (globalThis as typeof globalThis & { $fetch?: SuggestionFetch }).$fetch;
+const nuxtApp = typeof useNuxtApp === 'function' ? useNuxtApp() : null;
+const nuxtFetch = (
+    (nuxtApp?.$fetch as SuggestionFetch | undefined) ?? globalFetch
+) as SuggestionFetch;
 
 const ariaLabel = computed(() => t('mainSearch'));
 const showValidationWarning = ref(false);

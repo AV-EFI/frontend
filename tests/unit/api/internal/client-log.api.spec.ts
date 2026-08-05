@@ -24,6 +24,7 @@ describe('Internal API: /api/log/client', () => {
     vi.doMock('#imports', () => ({
       useNitroApp: () => ({ logger: { error: vi.fn() } }),
     }));
+    vi.stubGlobal('useNitroApp', () => ({ logger: { error: vi.fn() } }));
 
     const handler = (await import('~/server/api/log/client.post')).default as (event: TestEvent) => Promise<LogClientResponse>;
     const event: TestEvent = { node: { req: { socket: { remoteAddress: '127.0.0.1' } }, res: { statusCode: 200 } } };
@@ -50,6 +51,7 @@ describe('Internal API: /api/log/client', () => {
     vi.doMock('#imports', () => ({
       useNitroApp: () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }),
     }));
+    vi.stubGlobal('useNitroApp', () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }));
 
     const handler = (await import('~/server/api/log/client.post')).default as (event: TestEvent) => Promise<LogClientResponse>;
     const event: TestEvent = { node: { req: { socket: { remoteAddress: '127.0.0.1' } }, res: { statusCode: 200 } } };
@@ -82,6 +84,7 @@ describe('Internal API: /api/log/client', () => {
     vi.doMock('#imports', () => ({
       useNitroApp: () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }),
     }));
+    vi.stubGlobal('useNitroApp', () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }));
 
     const handler = (await import('~/server/api/log/client.post')).default as (event: TestEvent) => Promise<LogClientResponse>;
     const event: TestEvent = { node: { req: { socket: { remoteAddress: '127.0.0.1' } }, res: { statusCode: 200 } } };
