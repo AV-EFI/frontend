@@ -61,7 +61,7 @@
 
             <div class="relative inline-block ml-auto">
                 <button class="btn btn-sm btn-primary" :title="$t('normdata.export')" :aria-label="$t('normdata.export')" aria-haspopup="true"
-                        :aria-expanded="String(menuOpen)" aria-controls="export-menu" :disabled="!sortedRows.length"
+                        :aria-expanded="menuOpen" aria-controls="export-menu" :disabled="!sortedRows.length"
                         @click="toggleMenu" @keydown.enter.prevent="toggleMenu" @keydown.space.prevent="toggleMenu">
                     <Icon name="tabler:download" class="icon-inline" />
                     <span class="ml-1">{{ $t('normdata.export') }}</span>
@@ -463,7 +463,7 @@ watch([selectedField, filter, showOnlyWithNormdata, activeLetter, currentPage, p
     router.replace({ query });
 }, { deep: true });
 
-const { data, pending } = useFetch(() => {
+const { data, pending } = useFetch<{ rows: Row[]; total: number }>(() => {
     const url = `/api/elastic/normdata/${selectedField.value}`;
     const params = new URLSearchParams();
     if (activeLetter.value) {
@@ -478,7 +478,7 @@ const { data, pending } = useFetch(() => {
     watch: [activeLetter, selectedField, filter],
 });
 
-const rows = computed<Row[]>(() => (data.value?.rows as Row[]) || []);
+const rows = computed<Row[]>(() => data.value?.rows || []);
 const totalResults = computed(() => data.value?.total || 0);
 const hasFetchedRows = computed(() => data.value !== null && data.value !== undefined);
 

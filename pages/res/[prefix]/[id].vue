@@ -511,7 +511,7 @@ useSchemaOrg(() => {
 /** ---------------------------
  * Breadcrumbs for template
  * -------------------------- */
-const breadcrumbs = computed(() => [
+const breadcrumbs = computed<Array<[string, string]>>(() => [
     [t('home.breadcrumbs'), '/'],
     [t('filmresearch'), `/${config.public.SEARCH_URL}`],
     [t('detailview'), `/res/${prefix.value}/${id.value}`],

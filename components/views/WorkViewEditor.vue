@@ -352,6 +352,21 @@
 import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
+type SameAsRef = { id?: string; category?: string };
+type NamedLinkedValue = { has_name?: string; same_as?: SameAsRef[] };
+type EditorRecord = Omit<ElasticGetByIdResponse['compound_record']['_source']['has_record'], 'has_genre' | 'has_subject'> & {
+    has_genre?: NamedLinkedValue[];
+    has_subject?: NamedLinkedValue[];
+};
+type EditorData = ElasticGetByIdResponse & {
+    compound_record: ElasticGetByIdResponse['compound_record'] & {
+        _source: ElasticGetByIdResponse['compound_record']['_source'] & {
+            has_record: EditorRecord;
+        };
+    };
+};
+type UpdateProperty = { value?: string; name: string; sameAsId?: string };
+
 defineProps({
     title: {
         type: String,
@@ -366,20 +381,25 @@ const dataJson = defineModel
             required: true
         }
     );
-const data = dataJson.value as ElasticGetByIdResponse;
+const data = dataJson.value as EditorData;
+
+type SubjectWithAuthority = {
+    has_name?: string;
+    same_as?: Array<{ id?: string; category?: string } | null> | null;
+};
 
 function onUpdateTargetModel(targetPropertyValue: string, targetPropertyName: string, sameAsId: string) {
     emit("updateTargetModelGP", targetPropertyValue, targetPropertyName, sameAsId);
 }
 
 function updateAllProperties() {
-    const properties = [
+    const properties: UpdateProperty[] = [
         { value: data?.compound_record?._source?.has_record?.has_primary_title?.has_name, name: 'title' },
         { value: data?.handle, name: 'efi' },
         ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.located_in || []).map((item) => ({ value: getLocalizedPlaceLabel(item), name: 'location', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'Director')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'director', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'CastMember')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'castmember', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
-        ...(data?.compound_record?._source?.has_record?.has_subject || []).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
+        ...((data?.compound_record?._source?.has_record?.has_subject || []) as SubjectWithAuthority[]).map((item) => ({ value: item?.has_name, name: 'subject', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_alternative_title || []).map((item) => ({ value: item?.has_name, name: 'alternative_title' })),
         ...(data?.compound_record?._source?.has_record?.has_genre || []).map((item) => ({ value: item?.has_name, name: 'genre', sameAsId: item?.same_as?.flatMap((sameAs) => sameAs.id).join(', ') })),
         ...(data?.compound_record?._source?.has_record?.has_event?.[0]?.has_activity?.find(activity => activity?.type === 'Producer')?.has_agent || []).map((item) => ({ value: item?.has_name, name: 'producer', sameAsId: item?.same_as?.flatMap((sameAs) => `${sameAs?.id} (${sameAs?.category?.replace('avefi:','')})`).join(', ') })),
@@ -389,7 +409,7 @@ function updateAllProperties() {
     ];
 
     properties.forEach((property) => {
-        emit('updateTargetModelGP', property.value, property.name, property.sameAsId);
+        emit('updateTargetModelGP', property.value ?? '', property.name, property.sameAsId ?? '');
     });
 }
 

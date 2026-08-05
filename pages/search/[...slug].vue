@@ -32,10 +32,17 @@ const { t } = useI18n();
 const route = useRoute();
 const { $matomo } = useNuxtApp();
 
+interface FacetChangeEntry {
+    label: string;
+    values: string[];
+}
+
+type MatomoWindow = Window & { _paq?: unknown[][] };
+
 // Extract the value from query parameter (SSR-compatible)
 const searchValue = ref<string | null>(route.query.query as string || null);
 let pollInterval: ReturnType<typeof setInterval> | null = null;
-const lastTrackedFacets = ref(null);
+const lastTrackedFacets = ref<FacetChangeEntry[] | null>(null);
 
 // Track search with all parameters (debounced until results/facets are present)
 const trackSearchWithParams = (retryCount = 0) => {
@@ -49,8 +56,8 @@ const trackSearchWithParams = (retryCount = 0) => {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('query') || '';
     // Extract all facets and parameters
-    const facets = {};
-    const allParams = {};
+    const facets: Record<string, string[]> = {};
+    const allParams: Record<string, string> = {};
     urlParams.forEach((value, key) => {
         allParams[key] = value;
         if (key !== 'query' && key !== 'page' && key !== 'sortBy' && key !== 'hitsPerPage') {
@@ -96,10 +103,11 @@ const updateSearchValue = () => {
     trackSearchWithParams();
 };
 
-function sendFacetCustomDimensions(facets) {
-    if (typeof window === 'undefined' || !window._paq) return;
+function sendFacetCustomDimensions(facets: FacetChangeEntry[]) {
+    const matomoWindow = window as MatomoWindow;
+    if (typeof window === 'undefined' || !matomoWindow._paq) return;
     // Map facet keys to Matomo custom dimension IDs
-    const facetDimensionMap = {
+    const facetDimensionMap: Record<string, number> = {
         has_form: 1, // Dimension 1
         has_issuer: 2, // Dimension 2
     // Add more mappings as needed
@@ -109,14 +117,14 @@ function sendFacetCustomDimensions(facets) {
         if (dimId) {
             // Send each value (if array)
             facet.values.forEach(val => {
-                window._paq.push(['setCustomDimension', dimId, val]);
+                matomoWindow._paq?.push(['setCustomDimension', dimId, val]);
                 console.log(`[Matomo] Custom Dimension ${dimId}:`, facet.label, val);
             });
         }
     });
 }
 
-function onFacetsChanged(facets) {
+function onFacetsChanged(facets: FacetChangeEntry[]) {
     console.log('[Matomo] facetsChanged event received:', facets);
     sendFacetCustomDimensions(facets);
     // Always send a test event for debugging
@@ -140,7 +148,7 @@ function sendFacetEventsFromUrl() {
     urlParams.forEach((value, key) => {
         // Only send for facet/filter params (not query, page, etc.)
         if (key !== 'query' && key !== 'page' && key !== 'sortBy' && key !== 'hitsPerPage') {
-            $matomo?.trackEvent('Search', 'Facet', key, value);
+            $matomo?.trackEvent('Search', 'Facet', `${key}: ${value}`);
             console.log('[Matomo] Facet event:', key, value);
         }
     });
@@ -155,10 +163,11 @@ onMounted(() => {
     // Also send custom dimensions from URL on initial load
     if (typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);
+        const matomoWindow = window as MatomoWindow;
         Object.entries({ has_form: 1, has_issuer: 2 }).forEach(([key, dimId]) => {
             const value = urlParams.get(key);
             if (value) {
-                window._paq.push(['setCustomDimension', dimId, value]);
+                matomoWindow._paq?.push(['setCustomDimension', dimId, value]);
                 console.log(`[Matomo] Custom Dimension ${dimId} (from URL):`, key, value);
             }
         });

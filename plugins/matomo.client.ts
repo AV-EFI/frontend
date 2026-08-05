@@ -1,6 +1,7 @@
 // plugins/matomo.client.ts
 import { defineNuxtPlugin, useRuntimeConfig, useRouter } from '#app';
 import { watch } from 'vue';
+import type { Plugin } from 'vue';
 import { useMatomoTracking } from '~/composables/useMatomoTracking';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -19,7 +20,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     const { default: VueMatomo } = await import('vue-matomo');
 
-    nuxtApp.vueApp.use(VueMatomo, {
+    nuxtApp.vueApp.use(VueMatomo as Plugin, {
       host: matomoUrl,
       siteId,
       router,

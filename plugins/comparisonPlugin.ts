@@ -2,12 +2,19 @@
 import { useObjectListStore } from '../stores/compareList';
 import { useFavourites } from "../stores/favourites";
 
+type ToastMethod = (message: unknown, options?: Record<string, unknown>) => unknown;
+type ToastLike = {
+  warn?: ToastMethod;
+  success?: ToastMethod;
+  error?: ToastMethod;
+};
+
 export default defineNuxtPlugin((nuxtApp) => {
   const useObjectStore = useObjectListStore();
   const favouritesStore = useFavourites();
   const $i18n:any = nuxtApp.$i18n || useNuxtApp().$i18n;
   const t = (key: string, params?: Record<string, unknown>) => $i18n.t(key, params);
-  const getToast = () => nuxtApp.$toast;
+  const getToast = () => nuxtApp.$toast as ToastLike | undefined;
 
   const addToComparison = ((filmId: string, filmTitle?: string, listType: string = 'compare'): void => {
     if (filmId) {

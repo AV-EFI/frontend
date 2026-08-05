@@ -257,6 +257,11 @@ const {
 
 const showCookieControl = ref(false);
 const COOKIE_CONTROL_MOUNT_DELAY_MS = 5000;
+type CookieLabel = Partial<Record<'de' | 'en', string>>;
+const cookieText = (value: unknown, fallback = '') => {
+    const labels = value as CookieLabel | undefined;
+    return labels?.[locale.value] ?? fallback;
+};
 
 const scheduleCookieControlMount = () => {
     if (!import.meta.client) return;
@@ -350,8 +355,8 @@ useHead(() => ({
                             </template>
 
                             <template #cookie="{ cookie }">
-                                <h3 v-text="cookie.name[locale]" />
-                                <span v-html="cookie.description[locale]" />
+                                <h3 v-text="cookieText(cookie.name)" />
+                                <span v-html="cookieText(cookie.description)" />
 
                                 <div v-if="cookie.targetCookieIds">
                                     <b>Cookie ids: </b>

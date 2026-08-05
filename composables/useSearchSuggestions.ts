@@ -36,7 +36,7 @@ export function useSearchSuggestions() {
     }
 
     try {
-      const res = await $fetch<{ success: boolean; suggestions: Suggestion[]; count?: number }>(
+      const res = await $fetch(
         '/api/elastic/suggestions',
         {
           method: 'POST',
@@ -47,7 +47,7 @@ export function useSearchSuggestions() {
             size
           }
         }
-      );
+      ) as { success: boolean; suggestions: Suggestion[]; count?: number };
 
       if (res?.success && Array.isArray(res.suggestions)) {
         searchSuggestions.value = res.suggestions;
@@ -78,7 +78,7 @@ export function useSearchSuggestions() {
   // For main query autocompletion (search_attributes)
   async function loadQuerySuggestions(query = '', size = 10) {
     try {
-      const res = await $fetch<{ success: boolean; suggestions: Suggestion[] }>(
+      const res = await $fetch(
         '/api/elastic/suggestions',
         {
           method: 'POST',
@@ -88,7 +88,7 @@ export function useSearchSuggestions() {
             size
           }
         }
-      );
+      ) as { success: boolean; suggestions: Suggestion[] };
       if (res?.success && Array.isArray(res.suggestions)) {
         searchSuggestions.value = res.suggestions;
         showSearchSuggestions.value = true;
@@ -126,10 +126,10 @@ export function useSearchSuggestions() {
   async function fetchAndCacheTopFacets(attrs: string[], size = 50) {
     for (const a of attrs) {
       try {
-        const res = await $fetch<{ success: boolean; suggestions: Suggestion[] }>(
+        const res = await $fetch(
           '/api/elastic/suggestions',
           { method: 'POST', body: { mode: 'facet', facetAttr: a, size } }
-        );
+        ) as { success: boolean; suggestions: Suggestion[] };
         if (res?.success && Array.isArray(res.suggestions)) {
           facetCache.value[a] = res.suggestions;
         }

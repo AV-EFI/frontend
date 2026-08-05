@@ -49,8 +49,19 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const logs = ref(generateFakeLogs(20));
 
-function generateFakeLogs(count) {
-    const logs = [];
+type LogEntry = {
+    id: number;
+    date: string;
+    message: string;
+    status: 'Success' | 'Failure';
+    successfulImports: number;
+    createdEfis: number;
+    mergedDatasets: number;
+    showDetails: boolean;
+};
+
+function generateFakeLogs(count: number): LogEntry[] {
+    const logs: LogEntry[] = [];
     for (let i = 1; i <= count; i++) {
         logs.push({
             id: i,
@@ -66,7 +77,7 @@ function generateFakeLogs(count) {
     return logs;
 }
 
-function toggleDetails(id) {
+function toggleDetails(id: number) {
     const log = logs.value.find(log => log.id === id);
     if (log) {
         log.showDetails = !log.showDetails;

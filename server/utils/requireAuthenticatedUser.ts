@@ -1,5 +1,6 @@
 import { createError, getRequestHeader, getRequestURL } from 'h3';
 import type { H3Event } from 'h3';
+import { $fetch } from 'ofetch';
 
 type AuthSession = {
   user?: Record<string, unknown> | null;

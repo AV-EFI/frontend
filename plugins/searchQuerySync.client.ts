@@ -31,7 +31,7 @@ export default defineNuxtPlugin(() => {
       }
 
       window.history[method] = function (...args: Parameters<HistoryMethod>) {
-        const result = original.apply(this, args);
+        const result = original.apply(window.history, args);
         queueMicrotask(writeToStorage);
         return result;
       } as HistoryMethod;

@@ -17,7 +17,7 @@ export function isSuspiciousAgentNameText(value: unknown): boolean {
 
 export function isWhitespaceCommaOnlyText(value: unknown): boolean {
   if (typeof value !== 'string') return false;
-  return SUSPICIOUS_NAME_PATTERNS[0].test(value.trim());
+  return SUSPICIOUS_NAME_PATTERNS[0]?.test(value.trim()) ?? false;
 }
 
 export function isSuspiciousName(agent: unknown): boolean {

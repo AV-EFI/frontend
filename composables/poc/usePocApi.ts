@@ -61,11 +61,11 @@ export function usePocApi() {
     }
 
     try {
-      return await $fetch<WorkSearchResponse>(buildUrl('/works/search'), {
+      return await $fetch(buildUrl('/works/search'), {
         method: 'POST',
         body: { q: query, size },
         headers: requestHeaders,
-      });
+      }) as WorkSearchResponse;
     } catch (error) {
       console.error('[usePocApi.searchWorks] error', error);
       return { hits: [], error: 'Search failed' };
@@ -78,11 +78,11 @@ export function usePocApi() {
     }
 
     try {
-      return await $fetch<WorkDetailResponse>(buildUrl('/works/by-handle'), {
+      return await $fetch(buildUrl('/works/by-handle'), {
         method: 'GET',
         query: { handle },
         headers: requestHeaders,
-      });
+      }) as WorkDetailResponse;
     } catch (error) {
       console.error('[usePocApi.fetchWorkByHandle] error', error);
       return null;
@@ -95,11 +95,11 @@ export function usePocApi() {
     }
 
     try {
-      return await $fetch<ChatResponse>(buildUrl('/chat'), {
+      return await $fetch(buildUrl('/chat'), {
         method: 'POST',
         body: { message, context: { chips } },
         headers: requestHeaders,
-      });
+      }) as ChatResponse;
     } catch (error) {
       console.error('[usePocApi.sendChatMessage] error', error);
       return {
@@ -115,11 +115,11 @@ export function usePocApi() {
     }
 
     try {
-      return await $fetch<AgentFacetResponse>(buildUrl('/facets/agents'), {
+      return await $fetch(buildUrl('/facets/agents'), {
         method: 'POST',
         body: { q: query },
         headers: requestHeaders,
-      });
+      }) as AgentFacetResponse;
     } catch (error) {
       console.error('[usePocApi.fetchAgentFacets] error', error);
       return { buckets: [], error: 'Facet fetch failed' };

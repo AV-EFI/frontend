@@ -22,14 +22,16 @@ function normalizeSession(session: any) {
 
 export function useAuth() {
   const config = useRuntimeConfig().public;
-  const { $router } = useNuxtApp();
+  const router = useRouter();
 
   const SESSION_ENDPOINT = config.AUTH_SESSION_ENDPOINT;
   const SIGNIN_ENDPOINT = config.AUTH_SIGNIN_ENDPOINT;
   const SIGNOUT_ENDPOINT = config.AUTH_SIGNOUT_ENDPOINT;
 
-  function log() {
-    //console.log(`[useAuth ${new Date().toISOString()}]`, ...args);
+  function log(...args: unknown[]) {
+    if (import.meta.dev) {
+      console.log(`[useAuth ${new Date().toISOString()}]`, ...args);
+    }
   }
 
   async function getSession() {
@@ -121,7 +123,7 @@ export function useAuth() {
 
       stopSessionPolling();
       try {
-        $router.push('/');
+        router.push('/');
       } catch (e) {
         log('❌ Error navigating after sign-out', e);
       }
@@ -147,7 +149,7 @@ export function useAuth() {
         if (event.key === 'auth_logout') {
           data.value = null;
           stopSessionPolling();
-          $router.push('/');
+          router.push('/');
           log('User logged out via storage event');
         }
       });

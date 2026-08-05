@@ -36,7 +36,7 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id (python backend via 
     const result = await handler({});
 
     expect(searchMock).toHaveBeenCalledTimes(1);
-    expect(searchMock.mock.calls[0][0]).toMatchObject({
+    expect(searchMock.mock.calls[0]?.[0]).toMatchObject({
       index: 'works-index',
       size: 50,
       query: { ids: { values: ['a', 'b'] } },

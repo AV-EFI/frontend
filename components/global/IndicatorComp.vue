@@ -9,7 +9,7 @@
             class="btn btn-primary rounded-l-xl rounded-r-none md:w-10 h-full"
             :title="$t('showcomparison')"
             :aria-label="$t('showcomparison')"
-            @click="$toggleComparisonDrawerState"
+            @click="toggleComparisonDrawerState('comparison')"
         >
             <span class="text-white text-center md:hidden">
                 {{ $t('showcomparison') }}
@@ -55,6 +55,7 @@ import { useFavourites } from '../../stores/favourites';
 
 const objectListStore = useObjectListStore();
 const favourites = useFavourites();
+const { $toggleComparisonDrawerState: toggleComparisonDrawerState } = useNuxtApp();
 </script>
 
 <style scoped>

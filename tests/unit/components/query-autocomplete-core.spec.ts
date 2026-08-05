@@ -129,7 +129,7 @@ describe('QueryAutocompleteCore interaction contracts', () => {
     await vi.runAllTimersAsync();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0][1]?.body?.query).toBe('');
+    expect(fetchMock.mock.calls[0]?.[1]?.body?.query).toBe('');
 
     const dropdownText = wrapper.text();
     expect(dropdownText).toContain('Deutsch');

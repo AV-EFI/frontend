@@ -11,8 +11,9 @@ export function getLuminance(color: string): number {
   const rgb = [tc.r, tc.g, tc.b].map((v) => {
     v /= 255;
     return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+  }) as [number, number, number];
+  const [r, g, b] = rgb;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
 export function contrastRatio(fg: string, bg: string): number {

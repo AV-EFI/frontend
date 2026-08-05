@@ -2,7 +2,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useIntersectionObserver } from '@vueuse/core';
 import type { Ref } from 'vue';
 
-type DeferredVisibilityOptions = IntersectionObserverInit;
+type DeferredVisibilityOptions = NonNullable<Parameters<typeof useIntersectionObserver>[2]>;
 
 export function useDeferredVisibility(
   options: DeferredVisibilityOptions = { rootMargin: '200px 0px' }

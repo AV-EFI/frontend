@@ -41,7 +41,7 @@
                                             <!-- Context menu button -->
                                             <div class="relative ml-2" ref="searchMenuRef">
                                                 <button type="button" class="btn-icon btn-ghost btn-outline lg:btn-lg"
-                                                        @click="toggleSearchMenu" :aria-expanded="String(searchMenuOpen)"
+                                                        @click="toggleSearchMenu" :aria-expanded="searchMenuOpen"
                                                         :aria-label="$t('searchOptions')"
                                                         :title="$t('searchOptions')">
                                                     <Icon name="tabler:dots" />
@@ -472,9 +472,15 @@ async function handleClearAllRefinements() {
 
         await nextTick();
 
-        const nextQuery: Record<string, unknown> = {};
-        if (route.query?.query !== undefined) {
-            nextQuery.query = route.query.query;
+        const nextQuery: Record<string, string | string[]> = {};
+        const currentQuery = route.query?.query;
+        if (Array.isArray(currentQuery)) {
+            const queryValues = currentQuery.filter((value): value is string => typeof value === 'string');
+            if (queryValues.length) {
+                nextQuery.query = queryValues;
+            }
+        } else if (typeof currentQuery === 'string') {
+            nextQuery.query = currentQuery;
         }
 
         await router.replace({
@@ -506,6 +512,8 @@ import { ref, computed, inject, watch, onMounted, onBeforeUnmount, provide } fro
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 
 const {$toggleFacetDrawerState, $toast}:any = useNuxtApp();
+type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
+const nuxtFetch = useNuxtApp().$fetch as SuggestionFetch;
 
 const props = defineProps({
     searchClient: {
@@ -724,10 +732,15 @@ const handleClearAllHistory = () => {
 // Context menu + contact form state
 const searchMenuOpen = ref(false);
 const searchMenuRef = ref<HTMLElement | null>(null);
+const contactFormOpen = ref(false);
+const contactInitialMessage = ref('');
 
 const toggleForm = (e?: Event, initialMessage = '') => {
     if (e) e.stopPropagation();
     if (typeof window === 'undefined') return;
+
+    contactInitialMessage.value = initialMessage;
+    contactFormOpen.value = !contactFormOpen.value;
 
     window.dispatchEvent(
         new CustomEvent('open-contact-drawer', {
@@ -797,7 +810,10 @@ function syncPreservedSliderParamsFromRoute() {
         const value = route.query[key];
 
         if (Array.isArray(value)) {
-            next[key] = value;
+            const values = value.filter((entry): entry is string => typeof entry === 'string');
+            if (values.length) {
+                next[key] = values;
+            }
         } else if (typeof value === 'string') {
             next[key] = value;
         }
@@ -895,17 +911,18 @@ function convertNumericFiltersToNumericRefinements(numericFilters: unknown) {
         const match = rawFilter.match(/^(.+?)(<=|>=|=|<|>)(-?\d+(?:\.\d+)?)$/);
         if (!match) continue;
 
-        const [, rawField, operator, rawValue] = match;
+        const rawField = match[1];
+        const operator = match[2];
+        const rawValue = match[3];
+        if (!rawField || !operator || !rawValue) continue;
+
         const field = rawField.trim();
         const value = Number(rawValue);
 
         if (!field || !Number.isFinite(value)) continue;
 
-        if (!result[field]) {
-            result[field] = {};
-        }
-
-        result[field][operator] = value;
+        const fieldResult = result[field] ?? (result[field] = {});
+        fieldResult[operator] = value;
     }
 
     return result;
@@ -1122,7 +1139,7 @@ async function fetchFacetValueSuggestionsForRequest(request: any) {
 
     if (!facetName || !facetQuery) return null;
 
-    const res = await $fetch<{
+    const res = await nuxtFetch<{
         success: boolean;
         suggestions?: Array<{ text: string; count?: number }>;
     }>('/api/elastic/suggestions', {
@@ -1279,12 +1296,12 @@ watch(expandAllChecked, () => {
 });
 
 const expandAllItems = () => {
-    const expandIcons = document.querySelectorAll('.expand-icon');
+    const expandIcons = document.querySelectorAll<HTMLElement>('.expand-icon');
     expandIcons.forEach(icon => {
         icon.click();
     });
     setTimeout(() => {
-        const checkboxes = document.querySelectorAll('.manifestation-checkbox');
+        const checkboxes = document.querySelectorAll<HTMLInputElement>('.manifestation-checkbox');
         checkboxes.forEach(checkbox => {
             checkbox.checked = !checkbox.checked;
         });
@@ -1343,7 +1360,7 @@ const routerInstance = process.client
             return `${location.pathname}${queryString}${location.hash}`;
         },
         parseURL({ qsModule, location }) {
-            return qsModule.parse(location.search.slice(1));
+            return qsModule.parse(location.search.slice(1)) as any;
         },
     })
     : null;
@@ -1362,7 +1379,7 @@ if (routerInstance) {
 }
 
 const stateMapping = {
-    stateToRoute(uiState) {
+    stateToRoute(uiState: any) {
         try {
             const indexUiState = uiState[props.indexName] || {};
             const route: any = {};
@@ -1424,7 +1441,7 @@ const stateMapping = {
         }
     },
 
-    routeToState(routeState) {
+    routeToState(routeState: Record<string, any> = {}) {
         try {
             const uiState: any = {};
             const rawQuery = Array.isArray(routeState?.query) ? routeState.query[0] : routeState?.query;
@@ -1447,7 +1464,7 @@ const stateMapping = {
 
                 ) {
                     const indexedFacetMatch = key.match(/^(.+)\[\d+\]$/);
-                    const refinementKey = indexedFacetMatch ? indexedFacetMatch[1] : key;
+                    const refinementKey = indexedFacetMatch?.[1] ?? key;
                     const value = routeState[key];
                     const currentValues = refinementList[refinementKey] || [];
 
@@ -1487,6 +1504,8 @@ const stateMapping = {
                 if (flatMatch) {
                     const attr = flatMatch[1];
                     const op = flatMatch[2];
+                    if (!attr || !op) return;
+
                     const value = routeState[key];
 
                     if (!numericRefinements[attr]) numericRefinements[attr] = {};
@@ -1503,6 +1522,8 @@ const stateMapping = {
                 if (indexPrefixMatch) {
                     const attr = indexPrefixMatch[1];
                     const op = indexPrefixMatch[2];
+                    if (!attr || !op) return;
+
                     const value = routeState[key];
 
                     if (!numericRefinements[attr]) numericRefinements[attr] = {};

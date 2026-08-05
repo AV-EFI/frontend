@@ -18,9 +18,9 @@
                 <template v-if="clip">
                     <GlobalClipboardComp
                         v-for="val in valtxt"
-                        :key="val?.has_name ?? val"
-                        :display-text="val?.has_name ?? val"
-                        :copy-text="clipText ? clipText : (val?.has_name ?? val)"
+                        :key="getValueKey(val)"
+                        :display-text="displayTextFrom(val)"
+                        :copy-text="clipText ? clipText : displayTextFrom(val)"
                         class="flex items-start h-8 leading-5 mr-2 min-w-6"
                         :class="fontSize"
                     />
@@ -103,7 +103,7 @@
 
                             <DetailSameAsComp
                                 v-if="sameAs"
-                                :same-as-data="val.same_as"
+                                :same-as-data="sameAsRefsFrom(val)"
                                 :type="sameAsType"
                                 class="flex items-start shrink-0 mr-4"
                                 :class="fontSize"
@@ -125,6 +125,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import type { PropType } from 'vue';
 
 const props = defineProps({
     keytxt: {
@@ -133,7 +134,7 @@ const props = defineProps({
         default: null
     },
     valtxt: {
-        type: Array<object>,
+        type: Array as PropType<RawValue[]>,
         required: true
     },
     sameAs: {
@@ -189,6 +190,7 @@ type DisplayValue = {
     category?: string;
     same_as?: SameAsRef[];
 };
+type RawValue = string | number | DisplayValue;
 
 function isDisplayValue(value: unknown): value is DisplayValue {
     return Boolean(value && typeof value === 'object');
@@ -223,6 +225,10 @@ function facetValueFrom(value: unknown): string {
     return (typeof value === 'string' ? value : '').trim();
 }
 
+function sameAsRefsFrom(value: unknown): SameAsRef[] {
+    return isDisplayValue(value) && Array.isArray(value.same_as) ? value.same_as : [];
+}
+
 const displayValues = computed(() => {
     const values = Array.isArray(props.valtxt) ? props.valtxt : [];
 
@@ -238,20 +244,13 @@ const displayValues = computed(() => {
     });
 });
 
-let sameAsData = {};
-if (props.keytxt !== 'avefi:Subject') {
-    sameAsData = {
-        item: {
-            id: props.valtxt?.same_as?.id,
-            category: props.valtxt?.same_as?.category
-        }
-    };
-} else {
-    sameAsData = {
-        item: {
-            id: props.valtxt,
-            category: props.keytxt
-        }
-    };
-}
+const sameAsData = computed<SameAsRef[]>(() => {
+    if (props.keytxt === 'avefi:Subject') {
+        return props.valtxt
+            .map((value) => ({ id: displayTextFrom(value), category: props.keytxt || undefined }))
+            .filter((entry) => entry.id);
+    }
+
+    return props.valtxt.flatMap(sameAsRefsFrom);
+});
 </script>

@@ -1,7 +1,7 @@
  
 import { readUserGlossary } from '../../utils/userGlossaryStore';
 
-type Row = { path: string; de: string; en: string };
+type Row = { path: string; de: string; en: string; showDetail: boolean; showSearch: boolean };
 
 export default defineEventHandler(async () => {
   const store = await readUserGlossary();

@@ -54,7 +54,7 @@ const buttonText = computed(() =>
 const iconMap = FACET_ICON_MAP;
 
 function handleRecentSearchClick(item: { url?: string } | null | undefined) {
-    if (item.url) {
+    if (item?.url) {
         window.location.href = `/search/${item.url}`;
     }
 }

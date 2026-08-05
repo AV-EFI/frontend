@@ -7,9 +7,9 @@
                 <h2
                     :id="mir.handle"
                     class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
-                    :alt="mir.has_primary_title.has_name"
+                    :alt="mir.has_primary_title?.has_name"
                 >
-                    {{ mir.has_primary_title.has_name }}
+                    {{ mir.has_primary_title?.has_name ?? '' }}
                 </h2>
                 <!-- top -->
                 <div class="grid-container">
@@ -196,7 +196,7 @@
                                                 :key="agent_index"
                                                 class="text-sm"
                                             >
-                                                <strong>{{ $t(has_agent_item.type) }}:</strong><br>
+                                                <strong>{{ $t(has_agent_item.type ?? '') }}:</strong><br>
                                                 {{ has_agent_item.has_name }}
                                                 <span v-if="has_agent_item.same_as">
                                                     &nbsp;|&nbsp;
@@ -256,7 +256,7 @@
                                             :key="in_language_index"
                                             class="col-span-4 col-start-4 in_language"
                                         >              
-                                            {{ $t(in_language_item?.code) }} ({{ in_language_item?.usage }})
+                                            {{ $t(in_language_item?.code ?? '') }} ({{ in_language_item?.usage }})
                                         </div>
                                     </div>
                                 </div>
@@ -318,7 +318,7 @@
                             >
                                 {{ mir.described_by?.has_issuer_id }}
                             </a>
-                            <p>{{ new Date(data?._source['@timestamp']??'').toLocaleString('de-DE') }}</p>
+                            <p>{{ new Date(data?._source?.['@timestamp']??'').toLocaleString('de-DE') }}</p>
                         </div>
                     </div>
                 </div>
@@ -347,7 +347,7 @@
                             :key="item.id"
                         >
                             <td>{{ item?.handle }}</td>
-                            <td>{{ $t(item.category) }}</td>
+                            <td>{{ $t(item.category ?? '') }}</td>
                             <td>-</td>
                             <td class="flex justify-center">
                                 <a
@@ -371,13 +371,37 @@
 </template>
 
 <script setup lang="ts">
-//models\interfaces\av_efi_schema.ts
- 
-import type {Manifestation} from '../../models/interfaces/av_efi_schema.ts';
+import type { Duration, Language, Manifestation } from '~/models/interfaces/schema/avefi_schema';
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 const config = useRuntimeConfig();
 const copyPidUrl = String(config.public.AVEFI_COPY_PID_URL ?? '');
 const dataJson = defineModel({type: String, required: true});
-const data = JSON.parse(dataJson.value);
-const mir:Manifestation = data?._source?.has_record; 
+type DetailManifestationItem = {
+    id?: string;
+    handle?: string;
+    category?: string;
+};
+type DetailManifestation = Manifestation & {
+    handle?: string;
+    has_duration?: Duration;
+    in_language?: Language[];
+    has_colour_type?: string;
+    has_sound_type?: string;
+    items?: DetailManifestationItem[];
+};
+type DetailManifestationSource = {
+    handle?: string;
+    has_record?: Manifestation;
+    items?: DetailManifestationItem[];
+    '@timestamp'?: string | number;
+};
+const data = JSON.parse(dataJson.value) as { _source?: DetailManifestationSource };
+const source = data?._source;
+const mir: DetailManifestation | null = source?.has_record
+    ? {
+        ...source.has_record,
+        handle: source.handle,
+        items: source.items ?? [],
+    } as DetailManifestation
+    : null;
 </script>

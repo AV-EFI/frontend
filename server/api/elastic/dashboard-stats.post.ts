@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineEventHandler, getRequestURL } from 'h3';
+import { $fetch } from 'ofetch';
 
 const DEFAULT_INDEX = '21.11155-denormalised-work';
 const DEFAULT_SEARCH_PATH = 'frontend/search';

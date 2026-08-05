@@ -163,6 +163,7 @@ definePageMeta({
 });
 
 const { ensureFormKitReady } = useFormKitLoader();
+const cmsFetch = $fetch as <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
 
 await ensureFormKitReady();
 
@@ -241,7 +242,7 @@ function getErrorMessage(e: unknown): string {
 async function loadTree(): Promise<void> {
     loadingTree.value = true;
     try {
-        const data = await $fetch<TreeNodeT>('/api/cms/modeltree', { cache: 'no-cache' });
+        const data = await cmsFetch<TreeNodeT>('/api/cms/modeltree', { cache: 'no-cache' });
         tree.value = data;
         collectValidPaths(tree.value);
     } catch (e) {
@@ -252,10 +253,10 @@ async function loadTree(): Promise<void> {
     }
 }
 async function loadHints(): Promise<void> {
-    hints.value = await $fetch<HintMap>('/api/cms/modelhints', { cache: 'no-cache' });
+    hints.value = await cmsFetch<HintMap>('/api/cms/modelhints', { cache: 'no-cache' });
 }
 async function loadTooltips(): Promise<void> {
-    const data = await $fetch<{ entries: Row[]; updatedAt: string }>('/api/cms/usertooltips', { cache: 'no-cache' });
+    const data = await cmsFetch<{ entries: Row[]; updatedAt: string }>('/api/cms/usertooltips', { cache: 'no-cache' });
     rows.value = data.entries;
     updatedAt.value = data.updatedAt;
 }
@@ -307,7 +308,7 @@ async function save(): Promise<void> {
                 showSearch: r.showSearch
             }))
         };
-        const res = await $fetch<{ ok: boolean; updatedAt: string }>('/api/cms/usertooltips', { method: 'PUT', body: payload });
+        const res = await cmsFetch<{ ok: boolean; updatedAt: string }>('/api/cms/usertooltips', { method: 'PUT', body: payload });
         updatedAt.value = res.updatedAt;
         savedFlash.value = true;
         setTimeout(() => { savedFlash.value = false; }, 1200);
@@ -339,7 +340,7 @@ async function saveAll(): Promise<void> {
     saving.value = true;
     try {
         const payload = { entries: rows.value.map(r => ({ path: r.path, de: r.de ?? '', en: r.en ?? '' })) };
-        const res = await $fetch<{ ok: boolean; updatedAt: string }>('/api/cms/usertooltips', { method: 'PUT', body: payload });
+        const res = await cmsFetch<{ ok: boolean; updatedAt: string }>('/api/cms/usertooltips', { method: 'PUT', body: payload });
         updatedAt.value = res.updatedAt;
         savedFlash.value = true;
         setTimeout(() => { savedFlash.value = false; }, 1200);

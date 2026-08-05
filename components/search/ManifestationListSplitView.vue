@@ -135,9 +135,9 @@
                             <div class="divider divide-neutral-50 my-0"></div>
                             <div class="text-sm text-left flex justify-items-start text-gray-500 dark:text-gray-300 my-2 relative"
                                  v-if="item?.has_record?.has_webresource">
-                                <a :href="item.has_record.has_webresource" target="_blank"
+                                <a :href="item.has_record.has_webresource[0]" target="_blank"
                                    class="link link-primary dark:link-accent inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
-                                   :aria-label="`${$t('webresource')}: ${item.has_record.has_webresource}`">
+                                   :aria-label="`${$t('webresource')}: ${item.has_record.has_webresource[0]}`">
                                     <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
                                     <Icon name="tabler:external-link" aria-hidden="true" />
                                     {{ $t('webresource') }}
@@ -166,7 +166,7 @@
                     </span>
                     <button type="button"
                             class="btn btn-xs btn-outline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                            :disabled="itemPage >= totalItemPages.value - 1" :aria-label="`${$t('nextPage')}: ${$t('items')}`"
+                            :disabled="itemPage >= totalItemPages - 1" :aria-label="`${$t('nextPage')}: ${$t('items')}`"
                             @click="nextItemPage">
                         {{ $t('nextPage') }}
                     </button>
@@ -177,13 +177,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch, nextTick, type PropType } from 'vue';
 import { allItemsEmpty, isItemEmpty } from '@/composables/useItemEmpty';
+import type { SearchManifestation, SearchItem } from '@/models/interfaces/manual/ISearchWorkHit';
 const route = useRoute();
 
 const props = defineProps({
-    manifestations: { type: Array, required: true },
-    getFilteredItems: { type: Function, required: true },
+    manifestations: { type: Array as PropType<SearchManifestation[]>, required: true },
+    getFilteredItems: {
+        type: Function as PropType<(manifestation: SearchManifestation | null | undefined, ...rest: unknown[]) => SearchItem[]>,
+        required: true,
+    },
     workVariantHandle: { type: String, required: false, default: null },
     refinementSignature: { type: String, required: false, default: '' },
     searchUpdateTick: { type: Number, required: false, default: 0 }

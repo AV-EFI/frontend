@@ -353,7 +353,8 @@ export function extractGraphSliceFromWorkDoc(workDoc: PocWorkDocument): GraphSli
 
   const removeEdgesByNodeId = (id: string) => {
     for (let i = edges.length - 1; i >= 0; i -= 1) {
-      if (edges[i].source === id || edges[i].target === id) {
+      const edge = edges[i];
+      if (edge && (edge.source === id || edge.target === id)) {
         edges.splice(i, 1);
       }
     }

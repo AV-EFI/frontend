@@ -17,10 +17,10 @@ export function useAutocomplete() {
   /** MAIN (query) suggestions across search_attributes */
   async function suggestMain(query: string) {
     try {
-      const res = await $fetch<{ success: boolean; suggestions: Suggestion[] }>(
+      const res = await $fetch(
         '/api/elastic/suggestions',
         { method: 'POST', body: { mode: 'query', query, size: 10 } }
-      );
+      ) as { success: boolean; suggestions: Suggestion[] };
       mainSuggestions.value = (res?.success && res?.suggestions) ? res.suggestions : [];
     } catch {
       mainSuggestions.value = [];
@@ -33,11 +33,11 @@ export function useAutocomplete() {
     const found = facetAttrs.find(f => f.attribute === attr);
     const field = found?.field || `${attr}.keyword`;
     try {
-      const res = await $fetch<{ success: boolean; suggestions: { text: string; type: string }[] }>(
+      const res = await $fetch(
         '/api/elastic/suggestions',
         { method: 'POST', body: { mode: 'facet', facetAttr: attr, field, query, size } }
-      );
-      const arr = (res?.success && res?.suggestions) ? res.suggestions.map(s => s.text) : [];
+      ) as { success: boolean; suggestions: Suggestion[] };
+      const arr = (res?.success && res?.suggestions) ? res.suggestions.map((s: Suggestion) => s.text) : [];
       facetSuggestions.value[attr] = arr;
     } catch {
       facetSuggestions.value[attr] = [];

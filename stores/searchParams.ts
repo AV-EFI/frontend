@@ -54,7 +54,7 @@ export const useSearchParamsStore = defineStore('searchParamsStore', {
   persist: {
     key: 'avefi-searchparams',
     storage: persistedSessionStorage,
-    paths: ['formData']
+    pick: ['formData']
   }
 }
 );

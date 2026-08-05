@@ -1,3 +1,5 @@
+import type { Plugin } from 'vue';
+
 let installPromise: Promise<void> | null = null;
 let isInstalled = false;
 
@@ -14,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     if (!installPromise) {
       installPromise = import('vue-instantsearch/vue3/es')
         .then(({default: InstantSearch}) => {
-          nuxtApp.vueApp.use(InstantSearch);
+          nuxtApp.vueApp.use(InstantSearch as Plugin);
           isInstalled = true;
         })
         .catch((error) => {

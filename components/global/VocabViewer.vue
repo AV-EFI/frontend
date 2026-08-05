@@ -338,7 +338,7 @@ async function togglePreview(entry: VocabEntry) {
     row?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     // fallback to inline if iframe blocked
-    clearTimeout(iframeTimer);
+    if (iframeTimer) clearTimeout(iframeTimer);
     iframeTimer = setTimeout(async () => {
         if (!forceInline.value && previewUrl.value) {
             await loadInlineHtml(previewUrl.value!);
@@ -352,11 +352,11 @@ function closePreview() {
     previewUrl.value = '';
     inlineHtml.value = '';
     forceInline.value = false;
-    clearTimeout(iframeTimer);
+    if (iframeTimer) clearTimeout(iframeTimer);
 }
 
 function onIframeLoad() {
-    clearTimeout(iframeTimer);
+    if (iframeTimer) clearTimeout(iframeTimer);
 }
 
 /* fetch + sanitize docs (inline fallback) */
@@ -369,7 +369,7 @@ async function loadInlineHtml(url: string) {
         const main = doc.querySelector('main') || doc.querySelector('#main-content') || doc.querySelector('article') || doc.body;
 
         // absolutize links, open new tab
-        main.querySelectorAll('a[href]').forEach((a: HTMLAnchorElement) => {
+        main.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
             const href = a.getAttribute('href') || '';
             if (href.startsWith('#')) return;
             try {
@@ -379,7 +379,7 @@ async function loadInlineHtml(url: string) {
             } catch {}
         });
 
-        main.querySelectorAll('img[src]').forEach((img: HTMLImageElement) => {
+        main.querySelectorAll<HTMLImageElement>('img[src]').forEach((img) => {
             const src = img.getAttribute('src') || '';
             try { img.setAttribute('src', new URL(src, url).toString()); } catch {}
             img.style.maxWidth = '100%'; img.style.height = 'auto';

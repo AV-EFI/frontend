@@ -1,7 +1,7 @@
 <template>
     <div class="relative inline-block">
         <button class="btn btn-primary w-full h-full" :class="[btnSize]"
-                :title="$t('exportdata')" aria-haspopup="true" :aria-expanded="menuOpen.toString()"
+                :title="$t('exportdata')" aria-haspopup="true" :aria-expanded="menuOpen"
                 aria-controls="export-menu" @click="toggleMenu" @keydown.enter.prevent="toggleMenu"
                 @keydown.space.prevent="toggleMenu">
             <Icon name="tabler:download" class="icon-action" aria-hidden="true" />
@@ -27,12 +27,24 @@
 <script lang="ts" setup>
 import { mkConfig, generateCsv, download as downloadCsv } from 'export-to-csv';
 import { useI18n } from 'vue-i18n';
-  
+import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
+
+// Nuxt's template-context typing doesn't pick up plugin-provided $-properties
+// reliably in this project's Volar setup (same gap as $t), so this is typed
+// locally against just the methods this component actually calls.
+interface ExportNuxtApp {
+    $toast?: {
+        info?: (message: string, opts?: Record<string, unknown>) => unknown;
+        error?: (message: string, opts?: Record<string, unknown>) => unknown;
+        success?: (message: string, opts?: Record<string, unknown>) => unknown;
+    };
+}
+
 const { t: $t } = useI18n();
 const menuOpen = ref(false);
 const toggleMenu = () => (menuOpen.value = !menuOpen.value);
-const {$toast} = useNuxtApp();
-  
+const { $toast } = useNuxtApp() as unknown as ExportNuxtApp;
+
 const props = defineProps({
     dataSetId: {
         type: Array as () => string[],
@@ -61,7 +73,7 @@ const props = defineProps({
     }
 });
   
-const exportOptions = [
+const exportOptions: { format: 'csv' | 'json' | 'xml'; label: string }[] = [
     { format: 'csv', label: $t('exportAsCSV') },
     { format: 'json', label: $t('exportAsJSON') },
     { format: 'xml', label: $t('exportAsXML') }
@@ -74,8 +86,14 @@ const csvConfig = mkConfig({
   
 async function exportData(format: 'csv' | 'json' | 'xml') {
     menuOpen.value = false;
-    let rawData = props.dataSetJson?.length ? props.dataSetJson : await getDataSet(props.dataSetId);
-  
+    let rawData: string | ElasticGetByIdResponse[] | null;
+    if (props.dataSetJson?.length) {
+        rawData = props.dataSetJson;
+    } else {
+        const fetched = await Promise.all(props.dataSetId.map((id) => getDataSet(id)));
+        rawData = fetched.filter((entry): entry is ElasticGetByIdResponse => entry !== null);
+    }
+
     if (typeof rawData === 'string') {
         rawData = JSON.parse(rawData);
     }

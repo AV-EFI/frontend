@@ -19,7 +19,7 @@ describe('creators routing migration contract', () => {
     // The body must be just `return attribute;` with no conditional branching.
     const fnMatch = source.match(/function mapFacetAttributeForBackend\(attribute: string\)\s*\{([^}]*)\}/s);
     expect(fnMatch).not.toBeNull();
-    const body = fnMatch![1].trim();
+    const body = fnMatch![1]!.trim();
     expect(body).toBe('return attribute;');
   });
 

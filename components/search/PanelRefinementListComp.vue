@@ -59,7 +59,7 @@
                         </button>
                         <button class="btn btn-block btn-sm w-1/2 btn-primary"
                                 :disabled="!(s?.canRefine ?? false) || !hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})"
-                                :aria-disabled="(!(s?.canRefine ?? false) || !hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})).toString()"
+                                :aria-disabled="!(s?.canRefine ?? false) || !hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})"
                                 @click="s?.refine && applyRefinement(s.refine, s?.range ?? {})">
                             {{ $t('apply') }}
                             <span v-if="hasUnsaved(s?.currentRefinement ?? {}, s?.range ?? {})"

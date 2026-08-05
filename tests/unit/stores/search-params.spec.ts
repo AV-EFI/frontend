@@ -27,9 +27,9 @@ describe('useSearchParamsStore', () => {
       const store = useSearchParamsStore();
       const ops = store.formData.extendedSearch?.operators;
       expect(ops).toHaveLength(1);
-      expect(ops?.[0].searchTerm).toBe('');
-      expect(ops?.[0].booleanOperator).toBe('and');
-      expect(ops?.[0].fieldOperator).toBe('Title');
+      expect(ops?.[0]!.searchTerm).toBe('');
+      expect(ops?.[0]!.booleanOperator).toBe('and');
+      expect(ops?.[0]!.fieldOperator).toBe('Title');
     });
   });
 

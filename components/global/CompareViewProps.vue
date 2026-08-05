@@ -50,9 +50,10 @@ try {
         throw new Error('missingBothDatasets');
     }
     
+    const [firstItem, secondItem] = props.items;
     const [prevData, currentData] = await Promise.all([
-        getDataSet(props.items[0]),
-        getDataSet(props.items[1])
+        typeof firstItem === 'string' ? getDataSet(firstItem) : Promise.resolve(firstItem),
+        typeof secondItem === 'string' ? getDataSet(secondItem) : Promise.resolve(secondItem)
     ]);
     
     prev.value = prevData;

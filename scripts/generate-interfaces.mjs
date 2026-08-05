@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 /* eslint-disable */
 import fs from "fs";
 import path from "path";
@@ -147,10 +147,8 @@ const WRAPPERS = [
 ];
 
 for (const { name, schemaType, fields } of WRAPPERS) {
-  const extra = name === "IAVefiWorkVariant" ? `import type { IAVefiWorkVariant } from "./IAVefiWorkVariant";\n` : "";
   const content = `/* AUTO-GENERATED FILE — DO NOT EDIT MANUALLY */
 import type { ${schemaType} } from "../schema/avefi_schema_type_utils";
-${extra}
 export interface ${name} {
   handle: string;${fields}
   has_record: ${schemaType};

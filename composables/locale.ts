@@ -22,16 +22,18 @@ export const useDefaultLocale = (fallback = 'de') => {
 
 export const useLocales = () => {
   const locale = useLocale();
-  const locales = ref<LocaleInstance & RtlInstance>([
+  const locales = ref<string[]>([
     'en',
     'de'
   ]);
 
-  if (!locales.value.includes(locale)) {
-    locales.value.unshift(locale);
+  if (!locales.value.includes(locale.value)) {
+    locales.value.unshift(locale.value);
   }
   return locales;
 };
+
+export const useLocale = () => useDefaultLocale();
 
 export const useLocaleDate = (date: Ref<Date> | Date, locale = useLocale()) => {
   return computed(() => new Intl.DateTimeFormat(locale.value, { dateStyle: 'full' }).format(unref(date)));

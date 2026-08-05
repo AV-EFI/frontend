@@ -58,7 +58,7 @@ describe('Internal API: /api/log/client', () => {
     expect(result).toEqual({ success: true });
     expect(getHeaderMock).toHaveBeenCalledWith(event, 'x-forwarded-for');
     expect(loggerErrorMock).toHaveBeenCalledTimes(1);
-    expect(loggerErrorMock.mock.calls[0][0]).toMatchObject({
+    expect(loggerErrorMock.mock.calls[0]?.[0]).toMatchObject({
       message: 'Unhandled error',
       type: 'TypeError',
       ip: '203.0.113.42',
@@ -90,7 +90,7 @@ describe('Internal API: /api/log/client', () => {
     expect(result).toEqual({ success: true });
     expect(loggerErrorMock).not.toHaveBeenCalled();
     expect(loggerWarnMock).toHaveBeenCalledTimes(1);
-    expect(loggerWarnMock.mock.calls[0][0]).toMatchObject({
+    expect(loggerWarnMock.mock.calls[0]?.[0]).toMatchObject({
       type: 'search-item-filter-mismatch',
       source: 'SearchListViewComp',
       ip: '127.0.0.1',

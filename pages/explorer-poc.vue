@@ -19,7 +19,7 @@
         <section class="w-full md:w-1/2">
             <ClientOnly>
                 <GraphView v-if="graphNodes.length" :nodes="graphNodes" :edges="graphEdges"
-                           :selected-node-id="selectedNodeIdRef" :aria-label="graphAriaLabel"
+                           :selected-node-id="selectedNodeIdRef" :ariaLabel="graphAriaLabel"
                            @node-selected="onNodeSelected" />
                 <template #fallback>
                     <div class="flex h-96 items-center justify-center rounded-box bg-base-200">
@@ -84,7 +84,8 @@ const graphEdges = computed(() => graphSlice.value?.edges ?? []);
 const graphStats = computed(() => graphSlice.value?.stats ?? null);
 
 const determineLevelKey = computed(() => {
-    const level = selectedWorkDocRef.value?.has_record?.category
+    const selectedRecord = selectedWorkDocRef.value?.has_record as { category?: string | null } | undefined;
+    const level = selectedRecord?.category
         ?? (selectedWorkDocRef.value as { category?: string | null } | null)?.category
         ?? null;
 

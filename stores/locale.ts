@@ -1,15 +1,17 @@
 import {defineStore} from 'pinia';
 const { locale, locales, setLocale } = useI18n();
+type LocaleCode = 'de' | 'en';
+const localeCodes = () => locales.value.map((entry) => typeof entry === 'string' ? entry : entry.code) as LocaleCode[];
 
 export const useLocaleStore = defineStore('localeStore', {
   state: () => ({
-    locale: locale || 'de',
-    localesAvail: locales ||['de', 'en']
+    locale: (locale.value || 'de') as LocaleCode,
+    localesAvail: localeCodes()
   }),
   actions: {
-    setLocale(locale:string) {
-      this.locale = locale;
-      setLocale(locale);
+    setLocale(nextLocale: LocaleCode) {
+      this.locale = nextLocale;
+      setLocale(nextLocale);
       //locales.value = locale;
     }
   },
@@ -18,7 +20,7 @@ export const useLocaleStore = defineStore('localeStore', {
       return state.locale;
     },
     getAllLocalesAvail: () => {
-      return (locales.value).filter(i => i !== locale.value);
+      return localeCodes().filter(i => i !== locale.value);
     }
   }
 });

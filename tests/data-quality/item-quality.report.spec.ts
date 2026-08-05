@@ -95,7 +95,19 @@ describe('Elasticsearch data-quality report: item level', () => {
 
       const itemAggs = ((itemCompletenessResult.aggregations ?? {}) as {
       manifestations?: {
-        items?: Record<string, { doc_count: number }>;
+        items?: {
+          doc_count?: number;
+          missing_item_title?: { doc_count: number };
+          missing_item_handle?: { doc_count: number };
+          missing_item_kip?: { doc_count: number };
+          missing_item_url?: { doc_count: number };
+          missing_item_issuer?: { doc_count: number };
+          missing_item_source_key?: { doc_count: number };
+          missing_access_status?: { doc_count: number };
+          missing_element_type?: { doc_count: number };
+          missing_language_code?: { doc_count: number };
+          missing_is_item_of?: { doc_count: number };
+        };
       };
     }).manifestations?.items;
 

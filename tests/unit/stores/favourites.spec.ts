@@ -81,7 +81,7 @@ describe('useFavourites', () => {
       await store.addObject({ filmId: 'film-2' });
       store.removeObject(0);
       expect(store.objects).toHaveLength(1);
-      expect(store.objects[0].filmId).toBe('film-2');
+      expect(store.objects[0]?.filmId).toBe('film-2');
     });
   });
 
@@ -102,7 +102,7 @@ describe('useFavourites', () => {
       await store.addObject({ filmId: 'film-2' });
       store.removeObjectById('film-1');
       expect(store.objects).toHaveLength(1);
-      expect(store.objects[0].filmId).toBe('film-2');
+      expect(store.objects[0]?.filmId).toBe('film-2');
     });
 
     test('does nothing when filmId is not in the list', async () => {

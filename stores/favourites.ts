@@ -30,8 +30,9 @@ export const useFavourites = defineStore('favourites', {
   actions: {
     // Ensure objects are always ObjectItem[] after hydration
     hydrateObjects() {
-      if (Array.isArray(this.objects) && this.objects.length > 0 && typeof this.objects[0] === 'string') {
-        this.objects = this.objects.map((id: string) => ({ filmId: id, filmTitle: '' }));
+      const objects = this.objects as Array<ObjectItem | string>;
+      if (objects.length > 0 && typeof objects[0] === 'string') {
+        this.objects = objects.map((id) => typeof id === 'string' ? { filmId: id, filmTitle: '' } : id);
       }
     },
     async addObject(object: ObjectItem): Promise<string> {

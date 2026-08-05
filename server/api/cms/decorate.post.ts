@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { loadEntities, loadLocale, loadUserTooltips, collectLeafObjectPaths, labelForPath, tooltipForPath } from '../../utils/fieldMeta';
-import { toExplorerPath, isKnownExplorerPath } from '../../utils/pathMapping.ts';
+import { toExplorerPath, isKnownExplorerPath } from '../../utils/pathMapping';
 
 type Lang = 'de'|'en';
 

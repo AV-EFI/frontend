@@ -23,8 +23,12 @@ function getRootProperties(): Record<string, MappingNode> {
     | { mappings?: { properties?: Record<string, MappingNode> } }
     | Record<string, { mappings?: { properties?: Record<string, MappingNode> } }>;
   const firstIndex = Object.keys(json)[0];
+  if (!firstIndex) {
+    throw new Error('Could not load elastic mapping root properties');
+  }
+  const rootMapping = json as { mappings?: { properties?: Record<string, MappingNode> } };
   const properties =
-    ('mappings' in json && json.mappings?.properties) ||
+    rootMapping.mappings?.properties ||
     (json as Record<string, { mappings?: { properties?: Record<string, MappingNode> } }>)[firstIndex]?.mappings
       ?.properties;
   if (!properties) {

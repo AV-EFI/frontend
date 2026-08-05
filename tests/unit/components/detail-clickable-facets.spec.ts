@@ -69,10 +69,10 @@ describe('detail clickable facets', () => {
           {
             category: 'PremiereEvent',
             has_date: '1929-2000',
-            located_in: [{ has_name: 'Berlin' }],
+            located_in: [{ category: 'avefi:GeographicName', has_name: 'Berlin' }],
             has_activity: [
-              { type: 'Director', has_agent: [{ has_name: 'Reiniger, Lotte' }] },
-              { type: 'CastMember', has_agent: [{ has_name: 'Actor Name' }] },
+              { category: 'avefi:Activity', type: 'Director', has_agent: [{ category: 'avefi:Agent', has_name: 'Reiniger, Lotte' }] },
+              { category: 'avefi:Activity', type: 'CastMember', has_agent: [{ category: 'avefi:Agent', has_name: 'Actor Name' }] },
             ],
           },
         ],
@@ -109,10 +109,12 @@ describe('detail clickable facets', () => {
           {
             handle: '21.11155/ITEM-1',
             has_record: {
+              category: 'avefi:Item',
+              is_item_of: { category: 'avefi:MovingImageResource', id: '21.11155/MANIFESTATION-1' },
               has_access_status: 'Public',
-              has_format: [{ type: '16mm' }],
+              has_format: [{ category: 'avefi:Format', type: '16mm' }],
               element_type: 'Print',
-              in_language: [{ code: 'ger' }],
+              in_language: [{ code: 'ger', usage: 'Original' }],
               has_sound_type: 'Sound',
               has_colour_type: 'Colour',
             },

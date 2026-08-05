@@ -104,7 +104,7 @@ module.exports = {
     require('@vueform/slider/tailwind'),
     require('daisyui'),
     // Utility components
-    function ({ addComponents }) {
+    function ({ addComponents }: { addComponents: (components: Record<string, unknown>) => void }) {
       addComponents({
         '.icon-inline': {
           width: '1em',
@@ -191,7 +191,7 @@ module.exports = {
       });
     },
     // Fancy text utility
-    function ({ addUtilities }) {
+    function ({ addUtilities }: { addUtilities: (utilities: Record<string, unknown>) => void }) {
       addUtilities({
         '.text-nuggets-5280': {
           position: 'relative',

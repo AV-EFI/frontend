@@ -22,7 +22,7 @@
             :aria-label="ariaLabel"
             :title="ariaLabel"
             :aria-haspopup="'menu'"
-            :aria-expanded="String(menuOpen)"
+            :aria-expanded="menuOpen"
             @click.stop="toggleMenu"
         >
             <span class="min-w-0 wrap-break-word"><slot>{{ label }}</slot></span>

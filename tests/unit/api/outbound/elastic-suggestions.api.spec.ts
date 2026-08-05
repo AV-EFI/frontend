@@ -56,8 +56,8 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     expect(result.success).toBe(true);
     expect(result.suggestions).toEqual([{ text: 'Berlin', type: 'title', count: 10 }]);
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0][0]).toContain('/works-index/_search');
-    expect(fetchMock.mock.calls[0][1].method).toBe('POST');
+    expect(fetchMock.mock.calls[0]![0]).toContain('/works-index/_search');
+    expect(fetchMock.mock.calls[0]![1].method).toBe('POST');
   });
 
   test('returns success=false empty suggestions when external endpoint config is missing', async () => {
@@ -164,7 +164,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
       suggestions: [{ text: 'Troller, Georg Stefan', type: 'directors_or_editors', count: 3 }],
       count: 1,
     });
-    expect(fetchMock.mock.calls[0][1].body.aggs.facet_suggestions.terms.field).toBe('creators.keyword');
+    expect(fetchMock.mock.calls[0]![1].body.aggs.facet_suggestions.terms.field).toBe('creators.keyword');
   });
 
   test('facet mode applies case-insensitive prefix matching for creator facet values', async () => {
@@ -202,7 +202,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
     const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
 
-    expect(fetchMock.mock.calls[0][1].body.aggs.facet_suggestions.terms).toMatchObject({
+    expect(fetchMock.mock.calls[0]![1].body.aggs.facet_suggestions.terms).toMatchObject({
       field: 'creators.keyword',
       include: '[sS][cC][hH].*',
     });
@@ -251,7 +251,7 @@ describe('Outbound API wrapper: /api/elastic/suggestions', () => {
 
     const handler = (await import('~/server/api/elastic/suggestions.post')).default as SuggestionsHandler;
     const result = await handler({});
-    const aggs = fetchMock.mock.calls[0][1].body.aggs;
+    const aggs = fetchMock.mock.calls[0]![1].body.aggs;
 
     expect(result).toEqual({
       success: true,

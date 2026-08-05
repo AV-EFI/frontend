@@ -2,6 +2,19 @@ import type { ElasticGetByIdResponse } from '@/models/interfaces/generated/IElas
 import { ref } from 'vue';
 import { getDataSet } from '@/utils/getDataSet.js';
 
+type ResourceResponse = ElasticGetByIdResponse & {
+  compound_record: ElasticGetByIdResponse['compound_record'] & {
+    resource_type?: string;
+    _source: ElasticGetByIdResponse['compound_record']['_source'] & {
+      manifestations?: unknown[];
+      items?: unknown[];
+      has_record: ElasticGetByIdResponse['compound_record']['_source']['has_record'] & {
+        is_manifestation_of?: unknown[];
+      };
+    };
+  };
+};
+
 export async function useResourceData(id: string, prefix?: string) {
   try {
     const resourceType = ref<string>('workVariant'); // Default resource type
@@ -10,7 +23,7 @@ export async function useResourceData(id: string, prefix?: string) {
     if (prefix && id.indexOf('.') < 0) {
       fullId = `${prefix}/${id}`;
     }
-    const data: ElasticGetByIdResponse | null = await getDataSet(fullId);
+    const data = await getDataSet(fullId) as ResourceResponse | null;
     // Extract resource_type from the response if available
     if (data?.compound_record?.resource_type) {
       resourceType.value = data.compound_record.resource_type;
@@ -24,7 +37,7 @@ export async function useResourceData(id: string, prefix?: string) {
       } else {
         if(data?.compound_record?._source?.parts && data?.compound_record?._source?.has_record.type == "Serial") {
           resourceType.value = "compilation";
-        } else if(data?.compound_record?._source?.has_record?.is_manifestation_of?.length > 1) {
+        } else if((data?.compound_record?._source?.has_record?.is_manifestation_of?.length ?? 0) > 1) {
           resourceType.value = "compilationManifestation";
         }
       }

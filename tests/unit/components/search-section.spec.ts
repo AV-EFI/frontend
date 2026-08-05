@@ -64,6 +64,6 @@ describe('SearchSection', () => {
   test('renders instant search template when ready', () => {
     isReadyRef.value = true;
     const wrapper = mountComponent();
-    expect(wrapper.get('[data-testid="is-ready"]').exists()).toBe(true);
+    expect(wrapper.find('[data-testid="is-ready"]').exists()).toBe(true);
   });
 });

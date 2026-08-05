@@ -42,6 +42,8 @@ export function rootClasses (sectionName: string, node: FormKitNode): Record<str
   return classes[memoKey] ?? { [semanticKey]: true };
 }
 
+const globals: Record<string, Record<string, boolean>> = {};
+
 /**
  * These classes have already been merged with globals using tailwind-merge
  * and are ready to be used directly in the theme.

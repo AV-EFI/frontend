@@ -141,7 +141,7 @@ describe('useSearchFacetToggle', () => {
         has_form: ['Interview'],
       },
     });
-    expect(nextState['test-index'].refinementList).not.toHaveProperty('creators');
+    expect(nextState['test-index']?.refinementList).not.toHaveProperty('creators');
   });
 
   test('keeps InstantSearch text query synced to the live URL while toggling facets', async () => {

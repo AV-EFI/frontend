@@ -134,7 +134,9 @@ const { t: $t } = useI18n();
 
 await ensureFormKitReady();
 
-const initialState: IAVefiWorkVariant = {
+type WorkVariantFormValue = IAVefiWorkVariant & Record<string, unknown>;
+
+const initialState = {
     handle: '',
     has_record: {
         category: 'avefi:WorkVariant',
@@ -161,12 +163,12 @@ const initialState: IAVefiWorkVariant = {
             has_issuer_name: 'Deutsche Kinemathek - Museum fuer Film und Fernsehen',
         },
     },
-};
+} as unknown as WorkVariantFormValue;
 
-const dataJson = defineModel<IAVefiWorkVariant>({ required: true });
+const dataJson = defineModel<WorkVariantFormValue>({ required: true });
 
 function cloneInitialState() {
-    return JSON.parse(JSON.stringify(initialState)) as IAVefiWorkVariant;
+    return JSON.parse(JSON.stringify(initialState)) as WorkVariantFormValue;
 }
 
 function customReset() {

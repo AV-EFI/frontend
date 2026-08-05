@@ -60,6 +60,7 @@ import { onBeforeUnmount, onMounted, reactive } from 'vue';
 definePageMeta({ auth: false });
 
 const { t, tm } = useI18n();
+const translateMessages = tm as (key: string) => unknown;
 
 type AccordionSection = {
     key: string;
@@ -87,7 +88,7 @@ accordionSections.forEach((section) => {
 });
 
 const getContent = (sectionKey: string): string[] => {
-    const value = tm(`${sectionKey}.content`);
+    const value = translateMessages(`${sectionKey}.content`);
     return Array.isArray(value)
         ? value.filter((item): item is string => typeof item === 'string')
         : [];

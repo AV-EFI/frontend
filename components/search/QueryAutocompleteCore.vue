@@ -100,7 +100,7 @@
                           aria-hidden="true" />
                     <Icon v-else-if="s.type === 'saved'" class="shrink-0 text-base leading-none" name="tabler:star"
                           aria-hidden="true" />
-                    <Icon v-else class="shrink-0 text-base leading-none" :name="iconClassFor(s.type, s.text)"
+                    <Icon v-else class="shrink-0 text-base leading-none" :name="iconClassFor(s.type)"
                           aria-hidden="true" />
                     <span class="sr-only">{{ typeLabel(s.type) }}: </span>
                     <span class="text-base truncate">{{ suggestionLabel(s) }}</span>
@@ -136,6 +136,9 @@ const { t, locale } = useI18n();
 
 type Suggestion = { text: string; type: string; count?: number; url?: string; display?: string };
 type IconMap = Record<string, string>;
+type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
+const nuxtFetch = useNuxtApp().$fetch as SuggestionFetch;
+const fallbackQuerySuggestions = defaultQuerySuggestions as Suggestion[];
 
 const props = defineProps<{
     modelValue?: string;
@@ -295,7 +298,7 @@ async function fetchSuggestions(q: string): Promise<number> {
 
         try {
             if (!facetSuggestionCache.value[attr]?.length) {
-                const res = await $fetch<{ success: boolean; suggestions: Suggestion[] }>(
+                const res = await nuxtFetch<{ success: boolean; suggestions: Suggestion[] }>(
                     '/api/elastic/suggestions',
                     {
                         method: 'POST',
@@ -333,7 +336,7 @@ async function fetchSuggestions(q: string): Promise<number> {
 
     if (q.length < 2) {
         if (alive.value && myToken === fetchToken) {
-            suggestions.value = defaultQuerySuggestions;
+            suggestions.value = fallbackQuerySuggestions;
             fetching.value = false;
         }
         return myToken;
@@ -344,7 +347,7 @@ async function fetchSuggestions(q: string): Promise<number> {
             ? { mode: 'facet', facetAttr: props.facetAttr, query: q.trim(), size: size.value }
             : { mode: 'query', query: q.trim(), size: size.value };
 
-        const res = await $fetch<{ success: boolean; suggestions: Suggestion[] }>(
+        const res = await nuxtFetch<{ success: boolean; suggestions: Suggestion[] }>(
             '/api/elastic/suggestions',
             { method: 'POST', body }
         );
@@ -365,9 +368,9 @@ async function fetchSuggestions(q: string): Promise<number> {
    Derived suggestions
    ========================================================================= */
 
-const visibleSuggestions = computed(() => {
+const visibleSuggestions = computed<Suggestion[]>(() => {
     if (props.recentSearches?.length) {
-        const recent = props.recentSearches.map(r => ({
+        const recent: Suggestion[] = props.recentSearches.map(r => ({
             text: r.query,
             type: 'recent',
             url: r.url,
@@ -544,7 +547,10 @@ function onKeydown(e: KeyboardEvent) {
 
     if (e.key === 'Enter') {
         if (showDropdown.value && highlighted.value >= 0) {
-            onSelect(visibleSuggestions.value[highlighted.value]);
+            const selected = visibleSuggestions.value[highlighted.value];
+            if (selected) {
+                onSelect(selected);
+            }
             return;
         }
         emit('submit', displayValue.value);

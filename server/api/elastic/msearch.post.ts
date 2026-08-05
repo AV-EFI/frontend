@@ -17,13 +17,17 @@ export default defineEventHandler(async (event) => {
         beforeSearch: async (searchRequests) => {
           return searchRequests.map((sr) => {
             const indexName = sr.indexName;
-            const allParams = sr.request?.params || {};
-            const indexParams =
-              allParams[indexName] && typeof allParams[indexName] === 'object'
-                ? allParams[indexName]
+            // sr.request.params (Algolia SearchOptions) has no index signature, but this
+            // handler is written to tolerate params nested one level under the index name
+            // as well as the normal flat shape — treat it as a generic dynamic bag.
+            const allParams = (sr.request?.params ?? {}) as Record<string, unknown>;
+            const nestedParams = allParams[indexName];
+            const indexParams: Record<string, unknown> =
+              nestedParams && typeof nestedParams === 'object'
+                ? (nestedParams as Record<string, unknown>)
                 : allParams;
 
-            const userQueryRaw = indexParams.query || '';
+            const userQueryRaw = typeof indexParams.query === 'string' ? indexParams.query : '';
             const isQuoted = userQueryRaw.startsWith('"') && userQueryRaw.endsWith('"');
             const cleanQuery = isQuoted ? userQueryRaw.slice(1, -1).trim() : userQueryRaw.trim();
 
@@ -32,7 +36,7 @@ export default defineEventHandler(async (event) => {
               delete indexParams.query;
             }
 
-            const facetFiltersRaw = indexParams['facetFilters'] || [];
+            const facetFiltersRaw = (indexParams['facetFilters'] as unknown[]) || [];
 
             const extractValues = (prefix: string) =>
               facetFiltersRaw
@@ -129,7 +133,8 @@ export default defineEventHandler(async (event) => {
             }
 
             // CHANGED: duration (numeric) comes from numeric-refinements, not facetFilters
-            const numericRefinements = indexParams['numeric-refinements'] || {};
+            const numericRefinements =
+              (indexParams['numeric-refinements'] as Record<string, Record<string, unknown>>) || {};
             const itemDur = numericRefinements['item_duration_in_minutes'] || {};
             if (itemDur['>='] !== undefined || itemDur['<='] !== undefined) {
               const rq: Record<string, unknown> = {};

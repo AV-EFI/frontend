@@ -70,8 +70,8 @@ describe('orderEntries', () => {
   test('appends unknown keys after the ordered ones', () => {
     const entries = [make('unknownKey'), make('creators')];
     const ordered = orderEntries(entries, 'work');
-    expect(ordered[0].key).toBe('creators');
-    expect(ordered[ordered.length - 1].key).toBe('unknownKey');
+    expect(ordered[0]?.key).toBe('creators');
+    expect(ordered[ordered.length - 1]?.key).toBe('unknownKey');
   });
 
   test('handles empty entries array', () => {

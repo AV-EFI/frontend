@@ -116,6 +116,13 @@ function localeCode(locale: unknown): string {
   return 'de';
 }
 
+function queryPreviewState(value: unknown): string | string[] | null {
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) return value.filter((entry): entry is string => typeof entry === 'string');
+
+  return null;
+}
+
 export function useMaintenanceBanner(): {
   resolved: ComputedRef<ResolvedMaintenanceBanner>;
   visible: ComputedRef<boolean>;
@@ -144,7 +151,7 @@ export function useMaintenanceBanner(): {
     config: runtimeConfig.public?.maintenanceBanner as MaintenanceBannerConfig | undefined,
     locale: localeCode(locale),
     now: now.value,
-    previewState: route?.query?.maintenanceBannerPreview,
+    previewState: queryPreviewState(route?.query?.maintenanceBannerPreview),
   }));
 
   return {

@@ -170,7 +170,7 @@ test.describe('Backend /frontend/search – facet combination 500-regression', (
     const pairs: [FacetName, FacetName][] = [];
     for (let i = 0; i < available.length; i++) {
       for (let j = i + 1; j < available.length; j++) {
-        pairs.push([available[i], available[j]]);
+        pairs.push([available[i]!, available[j]!]);
       }
     }
 

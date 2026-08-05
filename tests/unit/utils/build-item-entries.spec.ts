@@ -15,7 +15,7 @@ describe('buildItemEntries', () => {
     const entries = buildItemEntries({ has_record: { has_access_status: 'Public' } }, deps);
     const e = entries.find(e => e.key === 'accessStatus');
     expect(e).toBeDefined();
-    expect((e!.text as { text: string }[])[0].text).toBe('Public');
+    expect((e!.text as { text: string }[])[0]!.text).toBe('Public');
   });
 
   test('builds format entry from has_record.has_format', () => {
@@ -33,7 +33,7 @@ describe('buildItemEntries', () => {
     );
     const e = entries.find(e => e.key === 'lang');
     expect(e).toBeDefined();
-    const seg = (e!.text as { text: string; facetValue: string }[])[0];
+    const seg = (e!.text as { text: string; facetValue: string }[])[0]!;
     expect(seg.text).toContain('ger');
     expect(seg.text).toContain('dubbed');
     expect(seg.facetValue).toBe('ger');
@@ -58,7 +58,7 @@ describe('buildItemEntries', () => {
     );
     const e = entries.find(e => e.key === 'duration');
     expect(e).toBeDefined();
-    expect((e!.text as { text: string }[])[0].text).toBe('01:23:45');
+    expect((e!.text as { text: string }[])[0]!.text).toBe('01:23:45');
   });
 
   test('builds extent entry with unit', () => {
@@ -68,6 +68,6 @@ describe('buildItemEntries', () => {
     );
     const e = entries.find(e => e.key === 'extent');
     expect(e).toBeDefined();
-    expect((e!.text as { text: string }[])[0].text).toBe('120 meters');
+    expect((e!.text as { text: string }[])[0]!.text).toBe('120 meters');
   });
 });

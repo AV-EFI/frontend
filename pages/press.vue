@@ -189,7 +189,7 @@ if (error.value) {
 const { t } = useI18n();
 
 const translateKey = (key?: string | null, params?: Record<string, unknown>) =>
-    (key ? t(key, params) : '');
+    (key ? (params ? t(key, params) : t(key)) : '');
 const assetTypeLabel = (type: AssetType) => t(`press.assetTypes.${type}`);
 const formatBadge = (badgeKey?: string, fallback = '') => translateKey(badgeKey) || fallback;
 

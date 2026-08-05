@@ -59,8 +59,13 @@ type AuthorityReference = {
     category: string;
 };
 
+type MergeProductionEvent = NonNullable<IAVefiWorkVariant['has_record']['has_event']>[number] & {
+    type?: string;
+};
+
 type MergeRecord = IAVefiWorkVariant & {
-    has_record: IAVefiWorkVariant['has_record'] & {
+    has_record: Omit<IAVefiWorkVariant['has_record'], 'has_event' | 'has_subject'> & {
+        has_event?: MergeProductionEvent[];
         has_subject?: Array<{ category: string; has_name?: string; same_as?: AuthorityReference[] }>;
     };
 };
@@ -196,7 +201,11 @@ function onUpdateTargetModelGP(targetPropertyValue: string, targetPropertyName: 
             producer: 'Producer',
             castmember: 'CastMember',
         };
-        const activity = activityFor(activityTypeMap[targetPropertyName]);
+        const activityType = activityTypeMap[targetPropertyName];
+        if (!activityType) {
+            return;
+        }
+        const activity = activityFor(activityType);
         activity.has_agent.push({
             category: 'avefi:Agent',
             has_name: targetPropertyValue,
@@ -253,11 +262,11 @@ async function getCollectionType(routeParamsId: string): Promise<ElasticGetByIdR
 }
 
 const { data: prev } = await useAsyncData('prev', () =>
-    getCollectionType(props.items[0])
+    getCollectionType(props.items[0] ?? '')
 );
 
 const { data: current } = await useAsyncData('current', () =>
-    getCollectionType(props.items[1])
+    getCollectionType(props.items[1] ?? '')
 );
 
 const showInfo = ref(false);

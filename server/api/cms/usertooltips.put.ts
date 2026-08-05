@@ -1,10 +1,22 @@
 // server/api/cms/usertooltips.put.ts
  
-import { readUserGlossary, writeUserGlossary } from '../../utils/userGlossaryStore';
+import { readUserGlossary, writeUserGlossary, type UserGlossaryFile } from '../../utils/userGlossaryStore';
 import { requireAuthenticatedUser } from '../../utils/requireAuthenticatedUser';
 import { requireCmsMutationsEnabled } from '../../utils/cmsMutationGuard';
 
-const toBool = (v) => {
+interface TooltipEntryInput {
+  path?: unknown;
+  de?: unknown;
+  en?: unknown;
+  showDetail?: unknown;
+  showSearch?: unknown;
+}
+
+interface TooltipPutBody {
+  entries?: TooltipEntryInput[];
+}
+
+const toBool = (v: unknown): boolean | undefined => {
   if (v === undefined || v === null || v === '') return undefined;
   if (typeof v === 'boolean') return v;
   const s = String(v).trim().toLowerCase();
@@ -17,10 +29,10 @@ export default defineEventHandler(async (event) => {
   requireCmsMutationsEnabled(event);
   await requireAuthenticatedUser(event);
 
-  const payload = await readBody(event);
+  const payload = await readBody<TooltipPutBody>(event);
   const rows = Array.isArray(payload?.entries) ? payload.entries : [];
 
-  const clean = {};
+  const clean: UserGlossaryFile['entries'] = {};
   for (const r of rows) {
     const path = String(r?.path ?? '').trim();
     if (!path) continue;
@@ -34,7 +46,7 @@ export default defineEventHandler(async (event) => {
     const hasAny = de || en || showDetail !== undefined || showSearch !== undefined;
     if (!hasAny) continue;
 
-    const entry = {};
+    const entry: UserGlossaryFile['entries'][string] = {};
     if (de) entry.de = de;
     if (en) entry.en = en;
     if (showDetail !== undefined) entry.showDetail = showDetail;

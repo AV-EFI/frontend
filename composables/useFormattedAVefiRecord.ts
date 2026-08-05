@@ -6,7 +6,7 @@ export const useFormattedAVefiRecord = async (
 ): Promise<string> => {
   try {
     const normalizedId = id.includes('.') ? id : `21.11155/${id}`;
-    const result = await getDataSet([normalizedId]);
+    const result = await getDataSet(normalizedId);
 
     if (!result) {
       if (options?.logErrors) console.warn(`No data found for ID: ${normalizedId}`);

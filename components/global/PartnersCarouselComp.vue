@@ -105,21 +105,21 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
+import type { EmblaCarouselType, EmblaPluginType } from 'embla-carousel';
+import type { AutoplayType } from 'embla-carousel-autoplay';
 
-type EmblaApi = {
-    canScrollPrev: () => boolean;
-    canScrollNext: () => boolean;
-    loop: () => boolean;    
-    scrollPrev: () => void;
-    scrollNext: () => void;
-    selectedScrollSnap: () => number;
-    slidesInView: () => number[];
-    on: (event: 'select' | 'reInit', cb: () => void) => void;
-    off: (event: 'select' | 'reInit', cb: () => void) => void;
-    destroy: () => void;
+type PartnerItem = {
+    src: string;
+    width: number;
+    height: number;
+    alt: string;
+    link: string;
+    title?: string;
+    description?: string;
+    linkText?: string;
 };
 
-const partnersItems = ref([
+const partnersItems = ref<PartnerItem[]>([
     {
         src: '/img/logo_tib.webp',
         width: 85,
@@ -170,8 +170,8 @@ const DEFAULT_LOGO_HEIGHT = 80;
 const rootRef = ref<HTMLElement | null>(null);
 const viewportRef = ref<HTMLElement | null>(null);
 const containerRef = ref<HTMLElement | null>(null);
-const emblaApi = shallowRef<EmblaApi | null>(null);
-const autoplayPlugin = shallowRef<{ stop?: () => void; play?: () => void } | null>(null);
+const emblaApi = shallowRef<EmblaCarouselType | null>(null);
+const autoplayPlugin = shallowRef<AutoplayType | null>(null);
 const isReady = computed(() => !!emblaApi.value);
 const visibleSlideIndexes = ref(new Set<number>());
 const currentSlideIndex = ref(0);
@@ -196,10 +196,12 @@ const canAutoplay = computed(() => props.autoSlideInterval > 0 && partnersItems.
 const carouselStatus = computed(() => {
     if (!partnersItems.value.length) return '';
     const index = Math.min(currentSlideIndex.value, partnersItems.value.length - 1);
-    return `${partnersItems.value[index].alt || partnersItems.value[index].title || ''} (${index + 1} / ${partnersItems.value.length})`;
+    const item = partnersItems.value[index];
+    if (!item) return '';
+    return `${item.alt || item.title || ''} (${index + 1} / ${partnersItems.value.length})`;
 });
 
-function getSlideAriaLabel(item: { alt?: string; title?: string }, index: number): string {
+function getSlideAriaLabel(item: PartnerItem, index: number): string {
     return `${item.alt || item.title || ''} (${index + 1} / ${partnersItems.value.length})`;
 }
 
@@ -215,7 +217,7 @@ const initEmbla = async () => {
         import('embla-carousel-autoplay')
     ]);
 
-    const plugins: unknown[] = [];
+    const plugins: EmblaPluginType[] = [];
     if (props.autoSlideInterval > 0) {
         const autoplay = Autoplay({
             delay: props.autoSlideInterval,

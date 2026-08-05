@@ -6,7 +6,7 @@
             type="button"
             class="btn btn-circle btn-outline btn-xs"
             aria-haspopup="true"
-            :aria-expanded="String(open)"
+            :aria-expanded="open"
             aria-controls="sameas-dropdown-menu"
             @click.stop="toggle()"
             @keydown="onTriggerKeydown"

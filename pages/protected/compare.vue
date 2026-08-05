@@ -3,9 +3,10 @@ definePageMeta({
     //middleware: 'auth'
 });
 const route = useRoute();
-const items = [];
-items[0] = route.query.prev;
-items[1] = route.query.next;
+const items: string[] = [
+    String(route.query.prev ?? ''),
+    String(route.query.next ?? ''),
+];
 
 
 </script>

@@ -11,7 +11,7 @@
         :title="$t('copyEFI', { category: categoryText })"
         :alt="$t('copyEFI', { category: categoryText })"
         :aria-label="$t('copyEFI', { category: categoryText })"
-        :aria-pressed="isClicked.toString()"
+        :aria-pressed="isClicked"
         role="button"
         @click="handleClick"
     >
@@ -70,7 +70,7 @@ const hoverBgClass = computed(() => {
 });
 
 const handleClick = () => {
-    useClipboardUtil()?.copyExtended(props.handle);
+    useClipboardUtil()?.copyExtended(props.handle ?? '');
     isClicked.value = true;
     setTimeout(() => {
         isClicked.value = false;

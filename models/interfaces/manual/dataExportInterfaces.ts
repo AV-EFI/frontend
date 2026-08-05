@@ -4,7 +4,8 @@ export interface ExportTarget {
 }
 
 export interface ExportOptions {
-    useHeadersAsKeys: boolean;
+    filename?: string;
+    useHeadersAsKeys?: boolean;
 }
 
 export interface ExportSource {

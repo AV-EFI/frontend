@@ -18,9 +18,9 @@
 
 const nuxtApp = useNuxtApp();
 const {$toast} = nuxtApp;
-const $t = (key: string) => {
-    const i18n = nuxtApp.$i18n as { t?: (key: string) => string } | undefined;
-    return i18n?.t?.(key) ?? key;
+const $t = (key: string, params?: Record<string, unknown>) => {
+    const i18n = nuxtApp.$i18n as { t?: (key: string, params?: Record<string, unknown>) => string } | undefined;
+    return i18n?.t?.(key, params) ?? key;
 };
 
 defineProps ({
@@ -41,7 +41,7 @@ defineProps ({
     'sameAsId': {
         type: String,
         required: false,
-        default: null
+        default: ''
     }
 });
 
@@ -62,7 +62,7 @@ function copyExtended (copyValue:string|number, copyPropertyName:string, sameAsI
 
 //const emit= defineEmits(["updateTargetModel"]);
 const emit = defineEmits<{
-    (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string)
+    (e: 'updateTargetModel', targetPropertyValue:string, targetPropertyName:string, sameAsId:string): void
 }>();
 
 </script>

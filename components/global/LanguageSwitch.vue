@@ -2,7 +2,7 @@
     <div class="lg:mx-auto">
         <label class="swap swap-flip">
             <!-- this hidden checkbox controls the state -->
-            <input v-model="$i18n.locale" type="checkbox" true-value="de" false-value="en" :value="$i18n.locale"
+            <input v-model="localeModel" type="checkbox" true-value="de" false-value="en" :value="currentLocale"
                    :aria-label="currentLocale === 'de' ? t('switchToEnglishLanguage') : t('switchToGermanLanguage')"
                    class="checkbox theme-controller hidden">
             <div class="swap-off animated" :title="t('switchToGermanLanguage')">
@@ -40,4 +40,10 @@ watch(() => i18n.locale.value, (newLocale) => {
     i18n.setLocaleCookie(newLocale);
 });
 const currentLocale = computed(() => i18n.locale.value);
+const localeModel = computed({
+    get: () => currentLocale.value,
+    set: (value: string) => {
+        i18n.locale.value = value;
+    },
+});
 </script>

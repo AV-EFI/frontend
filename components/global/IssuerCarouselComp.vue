@@ -185,6 +185,7 @@ const props = defineProps({
         default: 7000
     }
 });
+const { t } = useI18n();
 
 const {
     data,
@@ -232,7 +233,7 @@ const canAutoplay = computed(() => props.autoSlideInterval > 0 && issuerItems.va
 const carouselStatus = computed(() => {
     if (!issuerItems.value.length) return '';
     const index = Math.min(currentSlideIndex.value, issuerItems.value.length - 1);
-    return `${issuerItems.value[index].name} (${index + 1} / ${issuerItems.value.length})`;
+    return `${issuerItems.value[index]?.name ?? ''} (${index + 1} / ${issuerItems.value.length})`;
 });
 
 const initEmbla = async () => {
@@ -243,7 +244,7 @@ const initEmbla = async () => {
         import('embla-carousel-autoplay')
     ]);
 
-    const plugins: unknown[] = [];
+    const plugins: NonNullable<Parameters<typeof EmblaCarousel>[2]> = [];
     if (props.autoSlideInterval > 0 && issuerItems.value.length > 1) {
         const autoplay = Autoplay({
             delay: props.autoSlideInterval,

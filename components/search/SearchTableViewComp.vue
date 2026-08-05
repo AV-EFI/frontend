@@ -136,7 +136,7 @@
                                                 <td>
                                                     {{
                                                         (Array.isArray(item.has_record?.has_format)
-                                                            ? item.has_record.has_format.map(f => $t(f.type)).join(', ')
+                                                            ? item.has_record.has_format.map(f => $t(f.type ?? '')).join(', ')
                                                             : '')
                                                             || '—'
                                                     }}
@@ -147,7 +147,7 @@
                                                 <td>
                                                     {{
                                                         (Array.isArray(item.has_record?.in_language)
-                                                            ? item.has_record.in_language.map(l => $t(l.code || l)).join(', ')
+                                                            ? item.has_record.in_language.map(l => $t(l.code || '')).join(', ')
                                                             : '')
                                                             || '—'
                                                     }}
@@ -206,9 +206,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { IAVefiWorkVariant } from '@/models/interfaces/generated/IAVefiWorkVariant';
+import type { SearchWorkHit } from '@/models/interfaces/manual/ISearchWorkHit';
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 
-defineProps<{ datasets: IAVefiWorkVariant[] }>();
+defineProps<{ datasets: SearchWorkHit[] }>();
 
 const expanded = ref(new Set<string>());
 

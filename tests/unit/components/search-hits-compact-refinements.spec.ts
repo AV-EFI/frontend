@@ -22,7 +22,14 @@ describe('SearchHitsComp compact refinement forwarding', () => {
 
     const wrapper = mount(SearchHitsComp, {
       props: {
-        items: [{ handle: '21.11155/work-1' }],
+        items: [{
+          handle: '21.11155/work-1',
+          has_record: {
+            category: 'avefi:WorkVariant',
+            type: 'Monographic',
+            has_primary_title: { has_name: 'Work 1', type: 'PreferredTitle' },
+          },
+        }],
         viewTypeChecked: 'compact',
         isSearchLoading: false,
         currentRefinements,

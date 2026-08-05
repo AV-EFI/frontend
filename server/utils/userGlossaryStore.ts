@@ -14,7 +14,7 @@ export interface UserGlossaryEntry {
 }
 
 export interface UserGlossaryFile {
-  entries: Record<string, { de: string; en: string }>
+  entries: Record<string, { de?: string; en?: string; showDetail?: boolean; showSearch?: boolean }>
   updatedAt: string
 }
 

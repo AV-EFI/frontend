@@ -19,3 +19,7 @@
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+const { data: authData } = useAuth();
+</script>

@@ -402,10 +402,28 @@
 </template>
 
 <script setup lang="ts">
-const data = defineModel({ type: Object as PropType<ElasticGetByIdResponse>, required: true });
+import type { PropType } from 'vue';
+import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
+
+type ReducedSource = ElasticGetByIdResponse['compound_record']['_source'] & {
+    has_record: ElasticGetByIdResponse['compound_record']['_source']['has_record'] & {
+        has_duration?: Array<{ has_value?: string; has_unit?: string }>;
+        in_language?: Array<{ code?: string; has_name?: string }>;
+    };
+    manifestations?: Array<{ items?: Array<{ has_record?: { in_language?: Array<{ code?: string; has_name?: string }> } }> }>;
+};
+type ReducedResponse = ElasticGetByIdResponse & {
+    _source?: ReducedSource;
+    compound_record: ElasticGetByIdResponse['compound_record'] & {
+        _source: ReducedSource;
+    };
+};
+type NamedAgent = { has_name?: string };
+
+const data = defineModel({ type: Object as PropType<ReducedResponse>, required: true });
 const props = defineProps<{
     title: string;
-    compareWith?: ElasticGetByIdResponse;
+    compareWith?: ReducedResponse;
     compareTitle?: string;
 }>();
 
@@ -465,7 +483,7 @@ const directors = computed(() => {
         if (activities && Array.isArray(activities)) {
             activities.forEach(activity => {
                 if (activity?.category === 'avefi:DirectingActivity' && ['Director', 'Creator'].includes(activity?.type) && activity?.has_agent) {
-                    activity.has_agent.forEach(agent => {
+                    activity.has_agent.forEach((agent: NamedAgent) => {
                         if (agent?.has_name) directors.push(agent.has_name);
                     });
                 }
@@ -492,7 +510,7 @@ const producers = computed(() => {
         if (activities && Array.isArray(activities)) {
             activities.forEach(activity => {
                 if (activity?.category === 'avefi:ProductionActivity' && activity?.has_agent) {
-                    activity.has_agent.forEach(agent => {
+                    activity.has_agent.forEach((agent: NamedAgent) => {
                         if (agent?.has_name) producers.push(agent.has_name);
                     });
                 }
@@ -540,7 +558,7 @@ const productionCountry = computed(() => {
     const countries: string[] = [];
     events.forEach(event => {
         if (event?.category === 'avefi:ProductionEvent' && event?.located_in) {
-            event.located_in.forEach(location => {
+            event.located_in.forEach((location: Parameters<typeof getLocalizedPlaceLabel>[0]) => {
                 const label = getLocalizedPlaceLabel(location);
                 if (label) countries.push(label);
             });
@@ -586,7 +604,7 @@ const languages = computed(() => {
     // Fallback to work level
     const langList = source.value?.has_record?.in_language;
     if (!langList || !Array.isArray(langList)) return [];
-    return langList.map(l => l?.code || l?.has_name).filter(Boolean);
+    return langList.map(l => l?.code || l?.has_name).filter((value): value is string => Boolean(value));
 });
 
 const duration = computed(() => {
@@ -662,7 +680,7 @@ const compareDirectors = computed(() => {
         if (activities && Array.isArray(activities)) {
             activities.forEach(activity => {
                 if (activity?.category === 'avefi:DirectingActivity' && ['Director', 'Creator'].includes(activity?.type) && activity?.has_agent) {
-                    activity.has_agent.forEach(agent => {
+                    activity.has_agent.forEach((agent: NamedAgent) => {
                         if (agent?.has_name) directors.push(agent.has_name);
                     });
                 }
@@ -688,7 +706,7 @@ const compareProducers = computed(() => {
         if (activities && Array.isArray(activities)) {
             activities.forEach(activity => {
                 if (activity?.category === 'avefi:ProductionActivity' && activity?.has_agent) {
-                    activity.has_agent.forEach(agent => {
+                    activity.has_agent.forEach((agent: NamedAgent) => {
                         if (agent?.has_name) producers.push(agent.has_name);
                     });
                 }
@@ -734,7 +752,7 @@ const compareProductionCountry = computed(() => {
     const countries: string[] = [];
     events.forEach(event => {
         if (event?.category === 'avefi:ProductionEvent' && event?.located_in) {
-            event.located_in.forEach(location => {
+            event.located_in.forEach((location: Parameters<typeof getLocalizedPlaceLabel>[0]) => {
                 const label = getLocalizedPlaceLabel(location);
                 if (label) countries.push(label);
             });
@@ -778,7 +796,7 @@ const compareLanguages = computed(() => {
   
     const langList = compareSource.value?.has_record?.in_language;
     if (!langList || !Array.isArray(langList)) return [];
-    return langList.map(l => l?.code || l?.has_name).filter(Boolean);
+    return langList.map(l => l?.code || l?.has_name).filter((value): value is string => Boolean(value));
 });
 
 const compareDuration = computed(() => {

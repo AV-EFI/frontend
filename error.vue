@@ -4,6 +4,7 @@ import type { NuxtError } from 'nuxt/app';
 const props = defineProps({
     error: Object as () => NuxtError
 });
+const handleClearError = () => clearError({ redirect: '/' });
 
 // Route to specific error page based on status code
 const errorPage = computed(() => {
@@ -45,7 +46,7 @@ const errorPage = computed(() => {
                                     <NuxtLink 
                                         to="/" 
                                         class="btn btn-primary"
-                                        @click="clearError({ redirect: '/' })"
+                                        @click="handleClearError"
                                     >
                                         <Icon name="tabler:home" class="w-5 h-5" />
                                         Go to Homepage

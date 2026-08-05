@@ -10,7 +10,7 @@ vi.mock('h3', () => ({
 
 async function importMiddleware() {
   vi.resetModules();
-  return (await import('~/server/middleware/404-status')).default as (event: { url: string }) => void;
+  return (await import('~/server/middleware/404-status')).default as unknown as (event: { url: string }) => void;
 }
 
 describe('404 status middleware', () => {

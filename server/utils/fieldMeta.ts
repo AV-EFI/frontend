@@ -84,7 +84,7 @@ export function tooltipForPath(user: UserTooltipStore, i18n: Record<string, stri
     const segs = path.split('.');
     for (let i = segs.length - 1; i >= 0; i--) {
       const s = segs[i];
-      if (s.endsWith('[]')) return s.slice(0, -2).toLowerCase(); // manifestation | item
+      if (s && s.endsWith('[]')) return s.slice(0, -2).toLowerCase(); // manifestation | item
     }
     return null;
   })();

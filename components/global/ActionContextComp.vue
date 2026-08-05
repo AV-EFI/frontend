@@ -9,7 +9,7 @@
         <button
             type="button"
             aria-haspopup="true"
-            :aria-expanded="menuOpen.toString()"
+            :aria-expanded="menuOpen"
             :aria-label="$t('moreOptionsFor') + ' ' + (item?.compound_record?._source?.has_record?.has_primary_title?.has_name || item?.has_record?.has_primary_title?.has_name || '')"
             class="btn btn-outline btn-circle"
             :class="['btn-' + compSize]"

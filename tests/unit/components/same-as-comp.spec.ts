@@ -70,7 +70,7 @@ describe('SameAsComp positioning contract', () => {
     const tgnLinks = links.filter((link) => link.getAttribute('href') === 'https://example.test/avefi:TGNResource/7005332');
 
     expect(tgnLinks).toHaveLength(1);
-    expect(tgnLinks[0].textContent?.trim()).toBe('avefi:TGNResource');
+    expect(tgnLinks[0]?.textContent?.trim()).toBe('avefi:TGNResource');
     expect(links.map((link) => link.textContent?.trim()).filter((text) => text === 'avefi:TGNResource')).toHaveLength(1);
     wrapper.unmount();
   });

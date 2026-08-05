@@ -46,7 +46,7 @@
         <button
             v-if="items && items?.length > 5"
             class="mt-2 btn btn-outline btn-primary btn-sm md:w-48"
-            :aria-expanded="showAll.toString()"
+            :aria-expanded="showAll"
             :aria-controls="`highlighted-list`"
             @click="toggleShowAll"
         >

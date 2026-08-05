@@ -7,7 +7,7 @@ describe('KeyValueListComp', () => {
   test('renders a value-only list when keytxt is null', () => {
     const wrapper = mount(KeyValueListComp, {
       props: {
-        keytxt: null,
+        keytxt: null as unknown as string,
         valtxt: [
           { has_name: 'Alternative title one' },
           { has_name: 'Alternative title two' },

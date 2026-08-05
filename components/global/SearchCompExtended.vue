@@ -94,7 +94,7 @@
                                         :title="facetMeta(filter.facet)?.label || filter.facet"
                                         aria-hidden="true"
                                     >
-                                        <Icon :name="facetMeta(filter.facet)?.icon" size="18" />
+                                        <Icon :name="facetMeta(filter.facet)?.icon || 'tabler:tag'" size="18" />
                                     </span>
                                     <span
                                         v-else
@@ -269,6 +269,8 @@ await loadFormKit();
 
 const iconMap = FACET_ICON_MAP;
 const { t, locale } = useI18n();
+type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
+const nuxtFetch = useNuxtApp().$fetch as SuggestionFetch;
 
 const ariaLabel = computed(() => t('mainSearch'));
 const showValidationWarning = ref(false);
@@ -539,7 +541,7 @@ async function fetchFacetSuggestions(rowIndex: number, attr: string, query = '',
     row._abort = abortController;
 
     try {
-        const res = await $fetch<{
+        const res = await nuxtFetch<{
             success: boolean;
             suggestions: { text: string; type: string; count?: number }[];
         }>('/api/elastic/suggestions', {
@@ -721,7 +723,9 @@ function onFacetKeydown(event: KeyboardEvent, index: number) {
         if (row.showSuggestions && row.highlighted >= 0 && row.highlighted < row.suggestions.length) {
             event.preventDefault();
             const suggestion = row.suggestions[row.highlighted];
-            selectSuggestion(index, suggestion);
+            if (suggestion) {
+                selectSuggestion(index, suggestion);
+            }
         }
     }
 }

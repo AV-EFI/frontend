@@ -201,7 +201,7 @@ describe('SearchCompExtended interaction contracts', () => {
     await flushPromises();
 
     expect(navigateToMock).toHaveBeenCalledTimes(1);
-    expect(navigateToMock.mock.calls[0][0]).toContain('/search/?query=Berlin');
+    expect(navigateToMock.mock.calls[0]![0]).toContain('/search/?query=Berlin');
   });
 
   test('does not show blacklisted has_access_status as selectable facet option', async () => {
@@ -222,13 +222,13 @@ describe('SearchCompExtended interaction contracts', () => {
 
     const selects = wrapper.findAll('select');
     expect(selects.length).toBeGreaterThan(0);
-    await selects[0].setValue('in_language_code');
-    await selects[0].trigger('input');
+    await selects[0]!.setValue('in_language_code');
+    await selects[0]!.trigger('input');
     await flushPromises();
 
     const allInputs = wrapper.findAll('input');
     expect(allInputs.length).toBeGreaterThan(1);
-    const facetValueInput = allInputs[allInputs.length - 1];
+    const facetValueInput = allInputs[allInputs.length - 1]!;
     await facetValueInput.setValue('Deutsch');
     await vi.runAllTimersAsync();
     await flushPromises();
@@ -237,7 +237,7 @@ describe('SearchCompExtended interaction contracts', () => {
     await flushPromises();
 
     expect(navigateToMock).toHaveBeenCalledTimes(1);
-    const href = String(navigateToMock.mock.calls[0][0]);
+    const href = String(navigateToMock.mock.calls[0]![0]);
     expect(href).toContain('%5B1%5D=ger');
     expect(href).toContain('in_language_code');
     expect(href).not.toContain('Deutsch');
@@ -252,14 +252,14 @@ describe('SearchCompExtended interaction contracts', () => {
 
     const selects = wrapper.findAll('select');
     expect(selects.length).toBeGreaterThan(0);
-    await selects[0].setValue('production_year_start');
-    await selects[0].trigger('input');
+    await selects[0]!.setValue('production_year_start');
+    await selects[0]!.trigger('input');
     await flushPromises();
 
     expect(fetchMock).not.toHaveBeenCalled();
 
     const allInputs = wrapper.findAll('input');
-    const facetValueInput = allInputs[allInputs.length - 1];
+    const facetValueInput = allInputs[allInputs.length - 1]!;
     await facetValueInput.setValue('1927');
     await flushPromises();
 
@@ -269,7 +269,7 @@ describe('SearchCompExtended interaction contracts', () => {
     await flushPromises();
 
     expect(navigateToMock).toHaveBeenCalledTimes(1);
-    const href = String(navigateToMock.mock.calls[0][0]);
+    const href = String(navigateToMock.mock.calls[0]![0]);
     expect(href).toContain('numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1927');
     expect(href).toContain('numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=1927');
     expect(href).not.toContain('production_year_start');
@@ -313,7 +313,7 @@ describe('SearchCompExtended interaction contracts', () => {
     );
 
     const allInputs = wrapper.findAll('input');
-    const facetValueInput = allInputs[allInputs.length - 1];
+    const facetValueInput = allInputs[allInputs.length - 1]!;
     await facetValueInput.trigger('focus');
     await flushPromises();
 
@@ -353,7 +353,7 @@ describe('SearchCompExtended interaction contracts', () => {
     expect(wrapper.text()).not.toContain('Sound');
 
     const allInputs = wrapper.findAll('input');
-    const facetValueInput = allInputs[allInputs.length - 1];
+    const facetValueInput = allInputs[allInputs.length - 1]!;
     await facetValueInput.trigger('focus');
     await flushPromises();
 

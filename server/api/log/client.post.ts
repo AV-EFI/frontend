@@ -1,6 +1,9 @@
 import { defineEventHandler, readBody, getRequestHeader } from 'h3';
 import { z } from 'zod';
-import { useNitroApp } from '#imports';
+
+// `useNitroApp` is a Nitro auto-import (see .nuxt/types/nitro-imports.d.ts); it is
+// not exported by '#imports' under this project's app-level tsconfig, so it's used
+// here as the ambient global Nitro provides at runtime instead of being imported.
 
 const PayloadSchema = z.object({
   type: z.string().optional(),

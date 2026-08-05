@@ -46,6 +46,9 @@ function buildModelWithManifestations() {
         creators: ['Director A'],
         has_record: {
           has_primary_title: { has_name: 'Work title' },
+          has_alternative_title: undefined as { has_name: string }[] | undefined,
+          same_as: undefined as { id: string; category: string }[] | undefined,
+          is_part_of: undefined as { id: string; category: string }[] | undefined,
           has_event: [{
             category: 'avefi:ProductionEvent',
             type: 'ProductionEvent',
@@ -62,6 +65,7 @@ function buildModelWithManifestations() {
           {
             handle: '21.11155/MF-1',
             has_record: {
+              category: 'avefi:Manifestation',
               has_event: [{ type: 'PremiereEvent' }],
               described_by: { has_issuer_name: 'Issuer A' },
             },
@@ -73,6 +77,7 @@ function buildModelWithManifestations() {
           {
             handle: '21.11155/MF-2',
             has_record: {
+              category: 'avefi:Manifestation',
               has_event: [{ type: 'RestorationEvent' }],
               described_by: { has_issuer_name: 'Issuer B' },
             },
@@ -336,7 +341,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     await flushPromises();
 
     const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
-    const item = buildModelWithManifestations().compound_record._source.manifestations[0].items[0];
+    const item = buildModelWithManifestations().compound_record._source.manifestations[0]!.items[0];
 
     expect(vm.getItemAnchorId(item, 0, 0)).toBe('21.11155/IT-1');
     expect(vm.getItemAnchorId(item, 0, 0)).not.toBe('item-0-0-21-11155-IT-1');
@@ -345,7 +350,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
   test('renders manifestation anchors from raw handles', () => {
     const wrapper = mount(ManifestationListComp, {
       props: {
-        modelValue: buildModelWithManifestations().compound_record._source.manifestations,
+        modelValue: buildModelWithManifestations().compound_record._source.manifestations as unknown as
+          InstanceType<typeof ManifestationListComp>['$props']['modelValue'],
       },
       global: {
         stubs: {
@@ -370,7 +376,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
 
     const wrapper = mount(ItemListNewComp, {
       props: {
-        items: buildModelWithManifestations().compound_record._source.manifestations[0].items,
+        items: buildModelWithManifestations().compound_record._source.manifestations[0]!.items as unknown as
+          InstanceType<typeof ItemListNewComp>['$props']['items'],
         manifestationIndex: 0,
       },
       global: {

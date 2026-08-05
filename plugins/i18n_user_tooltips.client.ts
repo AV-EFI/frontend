@@ -3,7 +3,10 @@ import { defineNuxtPlugin } from '#app';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   try {
-    const store = await $fetch<{ updatedAt: string; entries: Record<string, { de?: string; en?: string }> }>('/api/cms/usertooltips');
+    const store = await $fetch('/api/cms/usertooltips') as {
+      updatedAt: string;
+      entries: Record<string, { de?: string; en?: string }>;
+    };
 
     // build small message bags
     const de: Record<string, string> = {};

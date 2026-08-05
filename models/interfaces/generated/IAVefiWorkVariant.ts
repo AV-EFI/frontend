@@ -1,7 +1,6 @@
 /* eslint-disable */
 /* AUTO-GENERATED FILE — DO NOT EDIT MANUALLY */
 import type { WorkVariant } from "../schema/avefi_schema_type_utils";
-import type { IAVefiWorkVariant } from "./IAVefiWorkVariant";
 
 export interface IAVefiWorkVariant {
   handle: string;

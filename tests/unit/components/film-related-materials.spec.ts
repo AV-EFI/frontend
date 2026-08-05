@@ -36,8 +36,8 @@ describe('FilmRelatedMaterialsComp', () => {
 
     const articles = wrapper.findAll('article');
     expect(articles).toHaveLength(1);
-    expect(articles[0].text()).toContain('Leopardenpelz');
-    expect(articles[0].text()).not.toContain('Leopardentop');
+    expect(articles[0]?.text()).toContain('Leopardenpelz');
+    expect(articles[0]?.text()).not.toContain('Leopardentop');
   });
 
   test('renders one placeholder thumbnail image for every representation', async () => {

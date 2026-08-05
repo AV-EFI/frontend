@@ -7,7 +7,7 @@
         <button
             class="p-toolbar__btn"
             aria-label="Print this poster or save as PDF"
-            @click="() => window.print()"
+            @click="printPoster"
         >
             ⎙ Print / Save PDF
         </button>
@@ -247,6 +247,12 @@ defineProps<{
     /** Optional tag shown in the toolbar, e.g. "GreyNet International 2025" */
     conferenceTag?: string
 }>();
+
+function printPoster() {
+    if (import.meta.client) {
+        window.print();
+    }
+}
 </script>
 
 <style scoped>

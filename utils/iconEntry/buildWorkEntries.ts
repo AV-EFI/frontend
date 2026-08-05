@@ -1,9 +1,10 @@
 import type { IconEntry, IconSegment } from '~/types/iconEntry';
+import type { PlaceValue } from '~/composables/useLocalizedPlaceLabel';
 import { asArray, segment } from './entryHelpers';
 
 interface WorkBuilderDeps {
     t: (key: string, ...args: unknown[]) => string;
-    getLocalizedPlaceLabel: (loc: unknown) => string;
+    getLocalizedPlaceLabel: (loc?: PlaceValue | null) => string;
     iconFor: (key: string) => string;
 }
 
@@ -18,7 +19,7 @@ export function buildWorkEntries(data: unknown, deps: WorkBuilderDeps): IconEntr
   const locTexts = locs.map((loc) => {
     const l = loc as Record<string, unknown> | null;
     const sameAs = l?.same_as as Record<string, unknown> | null;
-    const label = getLocalizedPlaceLabel(loc) ||
+    const label = getLocalizedPlaceLabel(loc as PlaceValue | null) ||
             sameAs?.id as string ||
             (sameAs?.category ? t(sameAs.category as string) : (l?.category ? t(l.category as string) : ''));
     return segment(label || '');

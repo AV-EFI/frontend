@@ -48,6 +48,6 @@ useSeoMeta({
     ].join(', '),
 });
 // Pass query and hash to GlossaryViewer
-const glossaryQuery = computed(() => route.query.q || '');
+const glossaryQuery = computed(() => typeof route.query.q === 'string' ? route.query.q : '');
 const glossaryHash = computed(() => route.hash ? route.hash.replace('#','') : '');
 </script>

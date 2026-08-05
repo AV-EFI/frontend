@@ -6,9 +6,9 @@
                     <span class="loading loading-spinner text-primary" aria-live="polite" aria-busy="true" />
                 </div>
             </template>
-            <SearchInstantSearchTemplateAVefi 
+            <SearchInstantSearchTemplateAVefi
                 v-if="isInstantSearchReady" :search-client="searchClient"
-                :index-name="indexName" @facetsChanged="(payload) => emit('facetsChanged', payload)" />
+                :index-name="indexName" @facetsChanged="(payload: FacetChangeEntry[]) => emit('facetsChanged', payload)" />
             <div v-else class="py-8 flex flex-col items-center gap-2 text-center">
                 <span v-if="!instantSearchError" class="loading loading-spinner text-primary" aria-live="polite" aria-busy="true" />
                 <p v-else class="text-error text-sm">
@@ -21,6 +21,11 @@
 <script setup lang="ts">
 import {onMounted} from 'vue';
 
+interface FacetChangeEntry {
+    label: string;
+    values: string[];
+}
+
 const indexName = useRuntimeConfig().public.ELASTIC_INDEX;
 defineProps({
     searchClient: {
@@ -28,7 +33,9 @@ defineProps({
         default: () => ({}),
     },
 });
-const emit = defineEmits(['facetsChanged']);
+const emit = defineEmits<{
+    facetsChanged: [facets: FacetChangeEntry[]];
+}>();
 
 const {isInstantSearchReady, instantSearchError, ensureInstantSearchReady} = useInstantSearchLoader();
 

@@ -5,7 +5,7 @@ type NamedValue = {
     label?: string;
 };
 
-type PlaceValue = {
+export type PlaceValue = {
     has_name?: string;
     has_alternate_name?: Array<string | NamedValue> | string | NamedValue;
 };

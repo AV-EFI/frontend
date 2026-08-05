@@ -1,5 +1,7 @@
 // server/utils/useServerVocab.ts
-import { useStorage } from '#imports';
+// `useStorage` is a Nitro auto-import (see .nuxt/types/nitro-imports.d.ts); it is
+// not exported by '#imports' under this project's app-level tsconfig, so it's used
+// here as the ambient global Nitro provides at runtime instead of being imported.
 import type { IVocabEntry as vocabEntry } from '@/models/interfaces/manual/IVocabEntry';
 
 /** Read a text file from Nitro server assets (works in dev & prod/prerender). */
@@ -92,7 +94,9 @@ export async function useServerVocab(): Promise<vocabEntry[]> {
     for (const content of files) {
       let enumMatch: RegExpExecArray | null;
       while ((enumMatch = enumRegex.exec(content))) {
-        const [, enumName, body] = enumMatch;
+        const [, enumNameRaw, bodyRaw] = enumMatch;
+        const enumName = enumNameRaw ?? '';
+        const body = bodyRaw ?? '';
 
         const category = enumName
           .replace(/ActivityTypeEnum$/, ' Role')
@@ -101,7 +105,10 @@ export async function useServerVocab(): Promise<vocabEntry[]> {
 
         let memberMatch: RegExpExecArray | null;
         while ((memberMatch = memberRegex.exec(body))) {
-          const [, rawComment, keyName, valueStr] = memberMatch;
+          const [, rawCommentRaw, keyNameRaw, valueStrRaw] = memberMatch;
+          const rawComment = rawCommentRaw ?? '';
+          const keyName = keyNameRaw ?? '';
+          const valueStr = valueStrRaw ?? '';
 
           // comment → description/definition
           const lines = rawComment

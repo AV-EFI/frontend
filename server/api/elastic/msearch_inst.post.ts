@@ -3,13 +3,14 @@ import {config} from '@/searchConfig_avefi';
 
 export default defineEventHandler(async (event) => {
 
-  //    const session = await getServerSession(event);
   //    if (!session) {
   //        return { status: 'unauthenticated!' };
   //    }
+  const session = await getAuthSession(event);
   const apiClient = Client(config, {debug: true});
   const body = await readBody(event);
-  const institutionid:string = `https://w3id.org/isil/${session?.user?.institution}`;
+  const institution = typeof session?.user?.institution === 'string' ? session.user.institution : '';
+  const institutionid:string = `https://w3id.org/isil/${institution}`;
   try {
     const response = await apiClient.searchkit.handleInstantSearchRequests(body, {            
       hooks: {

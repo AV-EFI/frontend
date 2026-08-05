@@ -5,7 +5,7 @@ export async function getDataSet(routeParamsId: string): Promise<ElasticGetByIdR
   try {
     const config = useRuntimeConfig();
     const route = `${config.public.elasticApiBase}/${config.public.AVEFI_GET_WORK}/${routeParamsId}`;
-    const { data } = await useFetch(route);
+    const { data } = await useFetch<ElasticGetByIdResponse>(route);
     if (data.value) {
       return data.value;
     }

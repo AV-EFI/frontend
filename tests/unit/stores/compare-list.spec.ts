@@ -28,7 +28,7 @@ describe('useObjectListStore', () => {
       const result = await store.addObject({ filmId: 'film-1', filmTitle: 'Film One' });
       expect(result).toBe('succ');
       expect(store.objects).toHaveLength(1);
-      expect(store.objects[0].filmId).toBe('film-1');
+      expect(store.objects[0]!.filmId).toBe('film-1');
     });
 
     test('returns "already" when the same filmId is added twice', async () => {
@@ -56,7 +56,7 @@ describe('useObjectListStore', () => {
       await store.addObject({ filmId: 'film-2' });
       store.removeObject(0);
       expect(store.objects).toHaveLength(1);
-      expect(store.objects[0].filmId).toBe('film-2');
+      expect(store.objects[0]!.filmId).toBe('film-2');
     });
   });
 
@@ -77,7 +77,7 @@ describe('useObjectListStore', () => {
       await store.addObject({ filmId: 'film-2' });
       store.removeObjectById('film-1');
       expect(store.objects).toHaveLength(1);
-      expect(store.objects[0].filmId).toBe('film-2');
+      expect(store.objects[0]!.filmId).toBe('film-2');
     });
 
     test('does nothing when filmId is not in the list', async () => {

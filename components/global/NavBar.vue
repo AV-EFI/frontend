@@ -106,7 +106,7 @@
                         class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items overflow-visible">
                         <li v-if="favourites.objects?.length > 0" class="h-12 flex justify-center">
                             <button type="button" :aria-label="ariaLabelFavourites"
-                                    @click="$toggleComparisonDrawerState('favourites')">
+                                    @click="toggleComparisonDrawerState('favourites')">
                                 {{ $t("favourites") }}
                                 <span class="indicator-item badge badge-favourites-list">{{ favourites.objects?.length
                                 }}</span>
@@ -115,7 +115,7 @@
 
                         <li v-if="objectListStore.objects?.length > 0" class="h-12 flex justify-center">
                             <button type="button" :aria-label="ariaLabelComparison"
-                                    @click="$toggleComparisonDrawerState('comparison')">
+                                    @click="toggleComparisonDrawerState('comparison')">
                                 {{ $t("comparison") }}
                                 <span class="indicator-item badge badge-compare-list">{{ objectListStore.objects?.length
                                 }}</span>
@@ -220,6 +220,7 @@ const { locale, t } = useI18n();
 
 const objectListStore = useObjectListStore();
 const favourites = useFavourites();
+const { $toggleComparisonDrawerState: toggleComparisonDrawerState } = useNuxtApp();
 
 const isScrolled = ref(false);
 const mobileMenuOpen = useState('navMobileMenuOpen', () => false);

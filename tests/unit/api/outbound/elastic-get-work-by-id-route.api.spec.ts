@@ -1,6 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 type ElasticRouteHandler = (event: unknown) => Promise<Record<string, unknown>>;
+type ElasticRouteResult = {
+  handle?: string;
+  _id?: string;
+  compound_record?: { _source?: { handle?: string } };
+};
 
 describe('Outbound API wrapper: /api/elastic/get_work_by_id/[id]', () => {
   beforeEach(() => {
@@ -29,11 +34,11 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id/[id]', () => {
     }));
 
     const handler = (await import('~/server/api/elastic/get_work_by_id/[id].get')).default as ElasticRouteHandler;
-    const result = await handler({});
+    const result = await handler({}) as ElasticRouteResult;
 
     expect(result.handle).toBe('h-1');
     expect(result._id).toBe('doc-1');
-    expect(result.compound_record._source.handle).toBe('h-1');
+    expect(result.compound_record?._source?.handle).toBe('h-1');
   });
 
   test('returns error object when id parameter is missing', async () => {

@@ -7,9 +7,10 @@ const route = useRoute();
 const { t } = useI18n();
 const siteUrl = useSiteUrl();
 
-const items = [];
-items[0] = route.query.prev;
-items[1] = route.query.next;
+const items: string[] = [
+    String(route.query.prev ?? ''),
+    String(route.query.next ?? ''),
+];
 
 const hasValidParams = computed(() => {
     return items[0] && items[1];
@@ -52,8 +53,8 @@ const nextData = ref<CompareDataset | null>(null);
 if (hasValidParams.value) {
     try {
         const [prev, next] = await Promise.all([
-            getDataSet(items[0]),
-            getDataSet(items[1])
+            getDataSet(items[0] ?? ''),
+            getDataSet(items[1] ?? '')
         ]);
         prevData.value = prev;
         nextData.value = next;
@@ -71,8 +72,8 @@ const getPrimaryTitle = (data: CompareDataset | null): string | null => {
 // SEO metadata
 const pageTitle = computed(() => {
     if (hasValidParams.value) {
-        const prevTitle = getPrimaryTitle(prevData.value) || (items[0] as string).split('/').pop();
-        const nextTitle = getPrimaryTitle(nextData.value) || (items[1] as string).split('/').pop();
+        const prevTitle = getPrimaryTitle(prevData.value) || (items[0] ?? '').split('/').pop();
+        const nextTitle = getPrimaryTitle(nextData.value) || (items[1] ?? '').split('/').pop();
         return t('seo.compare.titleWithItems', { prev: prevTitle, next: nextTitle });
     }
     return t('seo.compare.title');

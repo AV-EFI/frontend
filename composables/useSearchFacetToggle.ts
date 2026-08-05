@@ -1,5 +1,6 @@
 import { inject } from 'vue';
 import type { UiState } from 'instantsearch.js';
+import type { LocationQueryRaw } from 'vue-router';
 import { SEARCH_REFINEMENT_COORDINATOR_KEY } from '~/composables/searchRefinementCoordinator';
 import { clickableFacetConfig } from '~/config/clickableFacetConfig';
 
@@ -100,7 +101,7 @@ function refinementListFromQuery(query: Record<string, unknown>): Record<string,
     if (isSearchControlParam(key)) return;
 
     const indexedMatch = key.match(/^(.+)\[\d+\]$/);
-    addRefinementValue(refinementList, indexedMatch ? indexedMatch[1] : key, value);
+    addRefinementValue(refinementList, indexedMatch?.[1] ?? key, value);
   });
 
   return refinementList;
@@ -155,7 +156,7 @@ export function useSearchFacetToggle() {
   /** Resolve the real IS index name from the live prevState passed by IS's setUiState callback. */
   function resolveIndexName(prevState: Record<string, unknown>): string {
     const keys = Object.keys(prevState);
-    if (keys.length > 0) return keys[0];
+    if (keys.length > 0) return keys[0] ?? '';
     return String(runtime.public?.ELASTIC_INDEX || '');
   }
 
@@ -163,7 +164,7 @@ export function useSearchFacetToggle() {
     const normalized = normalizedValue(value);
     const searchPath = normalizeRoutePath(runtime.public?.SEARCH_URL || 'search');
     const currentPath = normalizeRoutePath(route.path);
-    const nextQuery: Record<string, unknown> = { ...route.query };
+    const nextQuery: LocationQueryRaw = { ...route.query };
     delete nextQuery.page;
 
     if (!attribute || !normalized) {
@@ -186,7 +187,7 @@ export function useSearchFacetToggle() {
     }
 
     const existingValues = readIndexedValues(nextQuery as Record<string, unknown>, attribute);
-    writeIndexedValues(nextQuery, attribute, toggleValues(existingValues, normalized));
+    writeIndexedValues(nextQuery as Record<string, unknown>, attribute, toggleValues(existingValues, normalized));
     return { path: currentPath === searchPath ? route.path : searchPath, query: nextQuery };
   }
 

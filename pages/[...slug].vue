@@ -15,7 +15,7 @@
                                     <Icon name="tabler:home" class="icon-inline" aria-hidden="true" />
                                     {{ $t('error404.goHome') }}
                                 </NuxtLink>
-                                <button @click="$router.back()" class="btn btn-outline btn-sm">
+                                <button @click="goBack" class="btn btn-outline btn-sm">
                                     <Icon name="tabler:arrow-left" class="icon-inline" aria-hidden="true" />
                                     {{ $t('error404.goBack') }}
                                 </button>
@@ -56,6 +56,8 @@ import { useNuxtApp } from 'nuxt/app';
 import { setResponseStatus } from 'h3';
 import filmQuotesData from '~/data/film-quotes.json';
 
+const router = useRouter();
+const goBack = () => router.back();
 
 // Set 404 status code on server-side
 if (process.server) {

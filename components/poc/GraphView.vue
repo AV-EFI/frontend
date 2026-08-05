@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import type { Core, CoreOptions, LayoutOptions, Stylesheet } from 'cytoscape';
+import type { Core, CytoscapeOptions, LayoutOptions, StylesheetJson } from 'cytoscape';
 import type { GraphEdge, GraphNode } from '~/utils/poc/graphSlice';
 
 interface ColorVarReference {
@@ -89,6 +89,7 @@ const parseColorToRgb = (color: string): [number, number, number] | null => {
     const hexMatch = trimmed.match(/^#([a-f0-9]{3}|[a-f0-9]{6})$/i);
     if (hexMatch) {
         const hex = hexMatch[1];
+        if (!hex) return null;
         const expanded = hex.length === 3 ? hex.split('').map((char) => char + char).join('') : hex;
         const intValue = parseInt(expanded, 16);
         return [
@@ -220,7 +221,7 @@ const captureThemeColors = (): ThemeColors => ({
     accentContent: resolveColorReference(colorRef('--color-accent-content')),
 });
 
-const buildGraphStyles = (theme: ThemeColors): Stylesheet[] => ([
+const buildGraphStyles = (theme: ThemeColors): StylesheetJson => ([
     {
         selector: 'node',
         style: {
@@ -289,7 +290,7 @@ const buildGraphStyles = (theme: ThemeColors): Stylesheet[] => ([
             'width': 3,
         },
     },
-]);
+] as unknown as StylesheetJson);
 
 const props = defineProps<{
     nodes: GraphNode[];
@@ -455,7 +456,7 @@ const initGraph = async () => {
     resetColorCache();
     const theme = captureThemeColors();
 
-    const options: CoreOptions = {
+    const options: CytoscapeOptions = {
         container: graphContainer.value,
         wheelSensitivity: 0.2,
         style: buildGraphStyles(theme),

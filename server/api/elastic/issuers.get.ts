@@ -1,8 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineEventHandler } from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { createElasticsearchClient } from '../../utils/elasticsearchRuntime';
 
 const DEFAULT_TOP_ISSUERS_INDEX = '21.11155-denormalised-work';
+
+interface IssuersAggBucket {
+  key: string;
+  doc_count: number;
+  handle_count?: { value: number };
+  issuer_ids?: { buckets?: Array<{ key: string }> };
+}
+
+interface IssuersAggregationsResponse {
+  manifestations?: {
+    issuers_by_name?: {
+      buckets?: IssuersAggBucket[];
+    };
+  };
+}
 
 function buildBackendAlignedTopIssuersQuery(size = 20) {
   return {
@@ -76,11 +90,12 @@ export default defineEventHandler(async () => {
   try {
     const response = await client.search({
       index,
-      body: buildBackendAlignedTopIssuersQuery(20),
+      ...buildBackendAlignedTopIssuersQuery(20),
     });
 
-    const nameBuckets = response.aggregations?.manifestations?.issuers_by_name?.buckets || [];
-    const issuers = nameBuckets.map((bucket: any) => ({
+    const aggregations = response.aggregations as IssuersAggregationsResponse | undefined;
+    const nameBuckets = aggregations?.manifestations?.issuers_by_name?.buckets || [];
+    const issuers = nameBuckets.map((bucket) => ({
       name: bucket.key,
       id: bucket.issuer_ids?.buckets?.[0]?.key || null,
       doc_count: bucket.handle_count?.value ?? bucket.doc_count,
@@ -90,11 +105,11 @@ export default defineEventHandler(async () => {
       success: true,
       issuers,
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching issuer aggregations:', error);
     throw createError({
       statusCode: 500,
-      statusMessage: error.message || 'Failed to fetch issuer data',
+      statusMessage: error instanceof Error ? error.message : 'Failed to fetch issuer data',
     });
   }
 });

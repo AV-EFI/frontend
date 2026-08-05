@@ -8,55 +8,68 @@ import { lightThemeColors, darkThemeColors } from '../tailwind.colors';
 
 // Node.js provides __filename and __dirname automatically in CommonJS
 
-const scssVars = [];
-const cssLight = [];
-const cssDark = [];
+type ThemeColorLeaf = string;
+type ThemeColorScale = Record<string, ThemeColorLeaf>;
+type ThemeColorValue = ThemeColorLeaf | ThemeColorScale;
+type ThemeColors = Record<string, ThemeColorValue> & {
+  custom?: Record<string, ThemeColorLeaf>;
+};
+type GeneratedColors = Record<string, ThemeColorLeaf | ThemeColorScale>;
 
-const nestedLightColors = {};
-const nestedDarkColors = {};
-const writtenVars = new Set();
+const scssVars: string[] = [];
+const cssLight: string[] = [];
+const cssDark: string[] = [];
 
-function isNumericKey(key) {
+const nestedLightColors: GeneratedColors = {};
+const nestedDarkColors: GeneratedColors = {};
+const writtenVars = new Set<string>();
+const lightColors = lightThemeColors as ThemeColors;
+const darkColors = darkThemeColors as ThemeColors;
+
+function isNumericKey(key: string) {
   return /^[0-9]+$/.test(key);
 }
 
-function addVar(name, value, targetCss) {
+function addVar(name: string, value: unknown, targetCss: string[]) {
+  const cssValue = String(value);
+
   if (!writtenVars.has(name)) {
-    scssVars.push(`$${name}: ${value};`);
+    scssVars.push(`$${name}: ${cssValue};`);
     writtenVars.add(name);
   }
-  targetCss.push(`  --${name}: ${value};`);
+  targetCss.push(`  --${name}: ${cssValue};`);
 }
 
-function processTheme(themeColors, nestedTarget, cssTarget) {
+function processTheme(themeColors: ThemeColors, nestedTarget: GeneratedColors, cssTarget: string[]) {
   for (const [group, value] of Object.entries(themeColors)) {
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       const isScale = Object.keys(value).some(k => isNumericKey(k) || k === 'DEFAULT');
       if (isScale) {
-        nestedTarget[group] = {};
+        const nestedGroup: ThemeColorScale = {};
+        nestedTarget[group] = nestedGroup;
         for (const [key, val] of Object.entries(value)) {
           const name = key === 'DEFAULT' ? group : `${group}-${key}`;
           addVar(name, val, cssTarget);
-          nestedTarget[group][key === 'DEFAULT' ? 'DEFAULT' : key] = val;
+          nestedGroup[key === 'DEFAULT' ? 'DEFAULT' : key] = String(val);
         }
       } else {
         for (const [key, val] of Object.entries(value)) {
           const flatKey = group === 'custom' ? key : `${group}-${key}`;
           addVar(flatKey, val, cssTarget);
-          nestedTarget[flatKey] = val;
+          nestedTarget[flatKey] = String(val);
         }
       }
     } else {
       const flatKey = group;
       addVar(flatKey, value, cssTarget);
-      nestedTarget[flatKey] = value;
+      nestedTarget[flatKey] = String(value);
     }
   }
 }
 
 // Process themes
-processTheme(lightThemeColors, nestedLightColors, cssLight);
-processTheme(darkThemeColors, nestedDarkColors, cssDark);
+processTheme(lightColors, nestedLightColors, cssLight);
+processTheme(darkColors, nestedDarkColors, cssDark);
 
 // Force inclusion of required custom tokens
 const requiredTokens = [
@@ -66,11 +79,11 @@ const requiredTokens = [
 ];
 
 requiredTokens.forEach(token => {
-  if (!nestedLightColors[token] && lightThemeColors.custom?.[token]) {
-    nestedLightColors[token] = lightThemeColors.custom[token];
+  if (!nestedLightColors[token] && lightColors.custom?.[token]) {
+    nestedLightColors[token] = lightColors.custom[token];
   }
-  if (!nestedDarkColors[token] && darkThemeColors.custom?.[token]) {
-    nestedDarkColors[token] = darkThemeColors.custom[token];
+  if (!nestedDarkColors[token] && darkColors.custom?.[token]) {
+    nestedDarkColors[token] = darkColors.custom[token];
   }
 });
 

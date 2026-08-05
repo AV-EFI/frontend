@@ -56,7 +56,7 @@
                         />
                     </span>
                     <SearchHighlightListComp
-                        :items="(exemplar?.has_record?.has_format || []).map(f => f?.type).filter(Boolean)"
+                        :items="formatItemFormatTypes(exemplar?.has_record?.has_format)"
                         :hilite="highlightResult?.manifestations?.items?.has_record?.has_format?.type?.matchedWords"
                         facet-attribute="has_format_type"
                         class="text-sm"
@@ -242,18 +242,36 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
+import type { IAVefiItem } from '~/models/interfaces/generated/IAVefiItem';
+import type { Format } from '~/models/interfaces/schema/avefi_schema_type_utils';
+
 const { t } = useI18n();
 const config = useRuntimeConfig();
 const copyPidUrl = String(config.public.AVEFI_COPY_PID_URL ?? '');
 
+// Detail views feed this component real IAVefiItem records. `id` and
+// duration_in_minutes are optional add-ons because search-hit-shaped data
+// (SearchItem, see ISearchWorkHit.ts) is structurally close but carries an
+// ES-index-only duration_in_minutes field; keeping both optional here lets
+// either shape flow through without lying about what's actually populated.
+type ItemHeadingExemplar = IAVefiItem & {
+    id?: string;
+    duration_in_minutes?: number;
+};
+
 const props = defineProps({
-    items: { type: Array, required: true },
+    items: { type: Array as PropType<ItemHeadingExemplar[]>, required: true },
     manifestationIndex: { type: Number, required: true },
     manifestationHandle: { type: String, required: false, default: '' },
     highlightResult: { type: Object, required: false, default: () => ({}) },
     productionDetailsChecked: { type: Boolean, required: false, default: false },
     showAdminStats: { type: Boolean, required: false, default: false },
 });
+
+function formatItemFormatTypes(formats: Format[] | undefined) {
+    return (formats || []).map((f) => f?.type).filter((type): type is string => Boolean(type));
+}
 
 function translateKey(value: unknown) {
     if (typeof value !== 'string' || !value) return '';
@@ -289,17 +307,6 @@ function formatItemLanguageCodes(languages: unknown) {
         .map((language) => (typeof language?.code === 'string' ? language.code : ''))
         .filter(Boolean);
 }
-
-type ItemFormat = { type?: string };
-type ItemHeadingExemplar = {
-    handle?: string;
-    id?: string;
-    has_record?: {
-        has_primary_title?: { has_name?: string };
-        element_type?: string;
-        has_format?: ItemFormat[];
-    };
-};
 
 function getItemAnchorId(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {
     return exemplar?.handle?.trim() || `item-${props.manifestationIndex}-${itemIndex}`;

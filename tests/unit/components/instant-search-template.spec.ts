@@ -189,7 +189,7 @@ const AisCurrentRefinementsStub = {
 };
 
 function mountComponent(
-  searchClient = { search: vi.fn().mockResolvedValue({ results: [] }) },
+  searchClient: Record<string, ReturnType<typeof vi.fn>> = { search: vi.fn().mockResolvedValue({ results: [] }) },
   provide: Record<string, unknown> = {},
 ) {
   return mount(InstantSearchTemplateAVefi, {

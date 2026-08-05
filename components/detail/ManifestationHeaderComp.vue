@@ -10,8 +10,8 @@
 
             <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row">
                 <span v-if="manifestation?.has_record?.has_event?.has_date" class="flex flex-row justify-start items-center"
-                      :aria-label="$t('productionyear') + ': ' + manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ')">
-                    {{ manifestation.has_record?.has_event?.map(event => `${event?.has_date} (${$t(event?.type)})`).join(', ') }}
+                      :aria-label="$t('productionyear') + ': ' + manifestation.has_record?.has_event?.map((event: { has_date?: string; type?: string }) => `${event?.has_date} (${$t(event?.type ?? '')})`).join(', ')">
+                    {{ manifestation.has_record?.has_event?.map((event: { has_date?: string; type?: string }) => `${event?.has_date} (${$t(event?.type ?? '')})`).join(', ') }}
                 </span>
 
                 <span v-if="manifestation?.has_record?.has_colour_type" class="flex flex-row items-center"
@@ -24,12 +24,12 @@
                 </span>
 
                 <span v-if="manifestation?.has_record?.in_language" class="flex flex-row items-center"
-                      :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map(language => `${$t(language?.code || '')}`).join(', ')">
+                      :aria-label="$t('in_language_code') + ': ' + manifestation.has_record?.in_language?.map((language: { code?: string }) => `${$t(language?.code || '')}`).join(', ')">
                     <template v-if="manifestation.has_record?.has_event?.has_date || manifestation.has_record?.has_colour_type">
                         <span class="flex flex-row items-center">&nbsp;&nbsp;</span>
                     </template>
                     <Icon name="tabler:language" class="icon-inline mr-1" aria-hidden="true" />
-                    {{ manifestation.has_record?.in_language?.map(language => `${$t(language.code)}`).join(', ') }}
+                    {{ manifestation.has_record?.in_language?.map((language: { code?: string }) => `${$t(language.code ?? '')}`).join(', ') }}
                 </span>
             </div>
 

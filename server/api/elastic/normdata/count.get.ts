@@ -95,6 +95,7 @@ export default defineEventHandler(async (event) => {
 
   results.forEach((r, i) => {
     const key = fields[i];
+    if (key === undefined) return;
     counts[key] = r.status === 'fulfilled' ? r.value : 0;
   });
 

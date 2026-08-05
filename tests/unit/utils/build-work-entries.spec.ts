@@ -56,7 +56,7 @@ describe('buildWorkEntries', () => {
     );
     const years = entries.find(e => e.key === 'years');
     expect(years).toBeDefined();
-    expect((years!.text as { text: string }[])[0].text).toBe('1977–1978');
+    expect((years!.text as { text: string }[])[0]?.text).toBe('1977–1978');
   });
 
   test('builds a genre entry from has_record.has_genre', () => {
@@ -85,6 +85,6 @@ describe('buildWorkEntries', () => {
     );
     const genre = entries.find(e => e.key === 'genre');
     const segs = genre!.text as { text: string; facetValue: string }[];
-    expect(segs[0].facetValue).toBe('Animation');
+    expect(segs[0]?.facetValue).toBe('Animation');
   });
 });

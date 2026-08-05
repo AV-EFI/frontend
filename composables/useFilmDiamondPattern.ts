@@ -71,7 +71,17 @@ function inParity(n: number, parity: Parity) {
   return parity === 'even' ? n % 2 === 0 : Math.abs(n % 2) === 1;
 }
 
-function resolveSpread(cfg: IconSpreadConfig) {
+interface ResolvedSpread {
+  rowParity: Parity
+  colParity: Parity
+  rowStep: number
+  colStep: number
+  rowOffset: number
+  colOffset: number
+  jitterIndex: number
+}
+
+function resolveSpread(cfg: IconSpreadConfig): ResolvedSpread {
   const base = {
     rowParity: 'even' as Parity,
     colParity: 'even' as Parity,
@@ -118,7 +128,10 @@ function resolveSpread(cfg: IconSpreadConfig) {
 function applyStepAndOffset(arr: number[], step: number, offset: number) {
   const start = Math.min(arr.length, Math.max(0, offset));
   const out: number[] = [];
-  for (let k = start; k < arr.length; k += step) out.push(arr[k]);
+  for (let k = start; k < arr.length; k += step) {
+    const v = arr[k];
+    if (v !== undefined) out.push(v);
+  }
   return out;
 }
 
@@ -132,7 +145,8 @@ function pickEvenlyFromIndices(arr: number[], count: number, rand: () => number,
     const base = t * (arr.length - 1);
     const jitter = (rand() - 0.5) * (jitterIndex * 2);
     const idx = clampInt(base + jitter, 0, arr.length - 1);
-    picked.push(arr[idx]);
+    const picked0 = arr[idx];
+    if (picked0 !== undefined) picked.push(picked0);
   }
 
   const uniq = Array.from(new Set(picked)).sort((a, b) => a - b);
@@ -141,6 +155,7 @@ function pickEvenlyFromIndices(arr: number[], count: number, rand: () => number,
     const t = (uniq.length + 0.5) / count;
     const idx = clampInt(t * (arr.length - 1), 0, arr.length - 1);
     const v = arr[idx];
+    if (v === undefined) break;
     if (!uniq.includes(v)) uniq.push(v);
     else break;
   }
@@ -206,11 +221,15 @@ function svgDiamondGrid(opts: DiamondFilmPatternOptions) {
 
     let best: { a: [number, number]; b: [number, number]; d: number } | null = null;
     for (let i = 0; i < inb.length; i++) {
+      const pi = inb[i];
+      if (!pi) continue;
       for (let j = i + 1; j < inb.length; j++) {
-        const dx = inb[i][0] - inb[j][0];
-        const dy = inb[i][1] - inb[j][1];
+        const pj = inb[j];
+        if (!pj) continue;
+        const dx = pi[0] - pj[0];
+        const dy = pi[1] - pj[1];
         const d = dx * dx + dy * dy;
-        if (!best || d > best.d) best = { a: inb[i], b: inb[j], d };
+        if (!best || d > best.d) best = { a: pi, b: pj, d };
       }
     }
     return best;
@@ -228,11 +247,15 @@ function svgDiamondGrid(opts: DiamondFilmPatternOptions) {
 
     let best: { a: [number, number]; b: [number, number]; d: number } | null = null;
     for (let i = 0; i < inb.length; i++) {
+      const pi = inb[i];
+      if (!pi) continue;
       for (let j = i + 1; j < inb.length; j++) {
-        const dx = inb[i][0] - inb[j][0];
-        const dy = inb[i][1] - inb[j][1];
+        const pj = inb[j];
+        if (!pj) continue;
+        const dx = pi[0] - pj[0];
+        const dy = pi[1] - pj[1];
         const d = dx * dx + dy * dy;
-        if (!best || d > best.d) best = { a: inb[i], b: inb[j], d };
+        if (!best || d > best.d) best = { a: pi, b: pj, d };
       }
     }
     return best;
@@ -345,6 +368,7 @@ function svgIconsOnLattice(opts: DiamondFilmPatternOptions) {
       }
 
       const iconName = pick(iconNames, rand);
+      if (iconName === undefined) continue;
       const { body, w, h } = getTablerIconBodyAndDims(iconName);
       const s = iconSize / w;
 

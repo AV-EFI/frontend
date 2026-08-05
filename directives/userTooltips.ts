@@ -42,6 +42,7 @@ function classSegment(path: string): string | null {
   const segs = path.split('.');
   for (let i = segs.length - 1; i >= 0; i--) {
     const s = segs[i];
+    if (!s) continue;
     if (s.endsWith('[]')) return s.replace('[]', '').toLowerCase();
   }
   return null;

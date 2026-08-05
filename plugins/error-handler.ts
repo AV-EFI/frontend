@@ -24,7 +24,7 @@ const serializeError = (err: unknown): { message: string; stack?: string } => {
 
 export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig();
-  const endpoint = runtimeConfig.public?.CLIENT_ERROR_ENDPOINT || '/api/log/client';
+  const endpoint = String(runtimeConfig.public?.CLIENT_ERROR_ENDPOINT || '/api/log/client');
 
   const reportClientError = (payload: ClientErrorPayload) => {
     if (!process.client) return;

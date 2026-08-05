@@ -14,12 +14,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
       const sessionUrl = sessionEndpoint.startsWith('http')
         ? sessionEndpoint
         : new URL(sessionEndpoint, useRequestURL().origin).toString();
-      const session = await $fetch<{ user?: Record<string, unknown> | null }>(
+      const session = await $fetch(
         sessionUrl,
         {
           headers: useRequestHeaders(['cookie']),
         },
-      );
+      ) as { user?: Record<string, unknown> | null };
 
       if (session?.user) {
         return;
