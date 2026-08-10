@@ -1,4 +1,6 @@
 // composables/useMatomoTracking.ts
+import { readUserPreferences } from '~/utils/userPreferences';
+
 type MatomoArg = string | number | boolean | undefined;
 
 export function useMatomoTracking() {
@@ -54,10 +56,11 @@ export function useMatomoTracking() {
    * 7 = accessibility_mode
    */
   const setPreferenceDimensions = () => {
-    const theme = safeGet('theme');
+    const preferences = readUserPreferences();
+    const theme = preferences.appearance.theme;
     const locale = safeGet('locale');
     const searchMode = safeGet('search_mode', 'simple');
-    const resultViewType = safeGet('result_view_type', 'default');
+    const resultViewType = preferences.search.resultViewType;
 
     const comparisonListBucket = bucketCount(
       safeJsonArrayLength('comparison_list')

@@ -51,6 +51,8 @@
 <script setup lang="ts">
 import type { SearchWorkHit } from '@/models/interfaces/manual/ISearchWorkHit';
 import type { PropType } from 'vue';
+import { patchUserPreferences, readUserPreferences } from '~/utils/userPreferences';
+import type { SearchResultViewType } from '~/utils/userPreferences';
 
 // ✅ Component name without export default
 defineOptions({
@@ -126,18 +128,13 @@ const facetStateSignature = computed(() => {
 const localViewType = ref(props.viewTypeChecked);
 onMounted(() => {
     if (typeof window !== 'undefined') {
-        const stored = window.localStorage.getItem('avefi-view-type');
-        if (stored && ['accordion', 'flat', 'table', 'compact'].includes(stored)) {
-            localViewType.value = stored;
-        } else {
-            localViewType.value = props.viewTypeChecked;
-        }
+        localViewType.value = readUserPreferences().search.resultViewType;
     }
 });
 
 watch(() => props.viewTypeChecked, (val) => {
     if (typeof window !== 'undefined' && ['accordion', 'flat', 'table', 'compact'].includes(val)) {
-        window.localStorage.setItem('avefi-view-type', val);
+        patchUserPreferences({ search: { resultViewType: val as SearchResultViewType } });
         localViewType.value = val;
     }
 });

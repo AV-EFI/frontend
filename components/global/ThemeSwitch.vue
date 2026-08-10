@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { patchUserPreferences } from '~/utils/userPreferences';
 
 type ThemeMode = 'avefi_light' | 'avefi_dark';
 
@@ -19,6 +20,7 @@ const isLight = computed({
             const root = document.documentElement;
             root.setAttribute('data-theme', nextTheme);
             root.classList.toggle('dark', nextTheme === 'avefi_dark');
+            patchUserPreferences({ appearance: { theme: nextTheme } });
             localStorage.setItem('avefi-color-mode', nextTheme);
             document.cookie = `avefi-color-mode=${nextTheme}; path=/; max-age=31536000; SameSite=Lax`;
         }

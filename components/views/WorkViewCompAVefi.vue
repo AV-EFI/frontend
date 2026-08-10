@@ -623,6 +623,7 @@ import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import { useLocalizedPlaceLabel } from '~/composables/useLocalizedPlaceLabel';
 import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 import { getFilmRelatedMaterialCountForWork } from '~/composables/useFilmRelatedMaterials';
+import { patchUserPreferences, readUserPreferences } from '~/utils/userPreferences';
 
 const { ensureFormKitReady } = useFormKitLoader();
 const { t } = useI18n();
@@ -755,15 +756,9 @@ const filterDropdownViewMode = ref<'list' | 'badges'>('list');
 const loading = ref(false);
 let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
 
-const FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY = 'avefi.work.filterDropdownViewMode';
-const WORK_NAVIGATION_VISIBLE_STORAGE_KEY = 'avefi.work.navigationVisible';
-
 function setWorkNavigationVisible(visible: boolean) {
     desktopDrawerOpen.value = visible;
-
-    if (typeof window !== 'undefined') {
-        window.localStorage.setItem(WORK_NAVIGATION_VISIBLE_STORAGE_KEY, String(visible));
-    }
+    patchUserPreferences({ workDetail: { navigationVisible: visible } });
 }
 
 function setFilterDropdownViewMode(mode: 'list' | 'badges') {
@@ -772,9 +767,7 @@ function setFilterDropdownViewMode(mode: 'list' | 'badges') {
         filterDropdownOpen.value = false;
     }
 
-    if (import.meta.client) {
-        window.localStorage.setItem(FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY, mode);
-    }
+    patchUserPreferences({ workDetail: { filterDropdownViewMode: mode } });
 }
 
 function triggerLoading() {
@@ -1577,15 +1570,9 @@ async function initObserver() {
 
 onMounted(() => {
     if (typeof window !== 'undefined') {
-        const storedWorkNavigationVisible = window.localStorage.getItem(WORK_NAVIGATION_VISIBLE_STORAGE_KEY);
-        if (storedWorkNavigationVisible === 'true' || storedWorkNavigationVisible === 'false') {
-            desktopDrawerOpen.value = storedWorkNavigationVisible === 'true';
-        }
-
-        const storedFilterMode = window.localStorage.getItem(FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY);
-        if (storedFilterMode === 'list' || storedFilterMode === 'badges') {
-            filterDropdownViewMode.value = storedFilterMode;
-        }
+        const userPreferences = readUserPreferences();
+        desktopDrawerOpen.value = userPreferences.workDetail.navigationVisible;
+        filterDropdownViewMode.value = userPreferences.workDetail.filterDropdownViewMode;
 
         mediaQuery = window.matchMedia("(max-width: 767px)");
         isMobile.value = mediaQuery.matches;
@@ -1619,8 +1606,7 @@ onMounted(() => {
 watch(
     desktopDrawerOpen,
     (visible) => {
-        if (typeof window === 'undefined') return;
-        window.localStorage.setItem(WORK_NAVIGATION_VISIBLE_STORAGE_KEY, String(visible));
+        patchUserPreferences({ workDetail: { navigationVisible: visible } });
     }
 );
 

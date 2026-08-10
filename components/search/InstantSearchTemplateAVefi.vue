@@ -511,6 +511,8 @@ async function handleClearAllRefinements() {
 import { ref, computed, inject, watch, onMounted, onBeforeUnmount, provide } from 'vue';
 import { history as defaultRouter } from 'instantsearch.js/es/lib/routers';
 import type { UiState } from 'instantsearch.js/es/types/ui-state';
+import { patchUserPreferences, readUserPreferences } from '~/utils/userPreferences';
+import type { SearchResultViewType } from '~/utils/userPreferences';
 
 type SuggestionFetch = <T>(request: string, options?: Record<string, unknown>) => Promise<T>;
 const globalFetch = (globalThis as typeof globalThis & { $fetch?: SuggestionFetch }).$fetch;
@@ -530,9 +532,8 @@ const props = defineProps({
     },
 });
 
-// toggle top right 
-const VIEW_TYPE_KEY = 'avefi-search-viewTypeChecked';
-const viewTypeChecked = ref<'accordion' | 'flat' | 'table' | 'compact'>('accordion');
+// toggle top right
+const viewTypeChecked = ref<SearchResultViewType>('accordion');
 const isNonProduction = computed(() => process.env.NODE_ENV !== 'production');
 
 import { nextTick } from 'vue';
@@ -541,14 +542,9 @@ const isRestoringViewType = ref(true);
 
 onMounted(async () => {
     if (typeof window !== 'undefined') {
-        const stored = localStorage.getItem(VIEW_TYPE_KEY);
-        if (
-            stored === 'accordion' ||
-            stored === 'flat' ||
-            stored === 'table' ||
-            (stored === 'compact' && isNonProduction.value)
-        ) {
-            viewTypeChecked.value = stored as typeof viewTypeChecked.value;
+        const stored = readUserPreferences().search.resultViewType;
+        if (stored !== 'compact' || isNonProduction.value) {
+            viewTypeChecked.value = stored;
         }
     }
 
@@ -557,9 +553,7 @@ onMounted(async () => {
 });
 
 watch(viewTypeChecked, (newValue) => {
-    if (typeof window !== 'undefined') {
-        localStorage.setItem(VIEW_TYPE_KEY, newValue);
-    }
+    patchUserPreferences({ search: { resultViewType: newValue } });
 
     if (isRestoringViewType.value) return;
 

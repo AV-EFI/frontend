@@ -96,7 +96,16 @@ export default defineNuxtConfig({
 
                 const cookieMatch = document.cookie.match(/(?:^|; )avefi-color-mode=([^;]+)/);
                 const cookieValue = cookieMatch ? decodeURIComponent(cookieMatch[1]) : null;
-                const stored = localStorage.getItem(key);
+                let stored = localStorage.getItem(key);
+                if (!stored) {
+                  try {
+                    const userPreferences = JSON.parse(localStorage.getItem('avefi.userPreferences.v1') || '{}');
+                    const preferenceTheme = userPreferences && userPreferences.appearance && userPreferences.appearance.theme;
+                    if (preferenceTheme === 'avefi_light' || preferenceTheme === 'avefi_dark' || preferenceTheme === 'dark') {
+                      stored = preferenceTheme === 'dark' ? 'avefi_dark' : preferenceTheme;
+                    }
+                  } catch (e) {}
+                }
 
                 const mode =
                   stored ||
@@ -109,6 +118,27 @@ export default defineNuxtConfig({
                 root.classList.toggle('dark', mode === 'avefi_dark');
 
                 localStorage.setItem(key, mode);
+                try {
+                  const rawUserPreferences = localStorage.getItem('avefi.userPreferences.v1');
+                  const userPreferences = rawUserPreferences ? JSON.parse(rawUserPreferences) : {};
+                  const nextUserPreferences = {
+                    version: 1,
+                    appearance: {
+                      ...(userPreferences.appearance || {}),
+                      theme: mode,
+                    },
+                    search: {
+                      resultViewType: 'accordion',
+                      ...(userPreferences.search || {}),
+                    },
+                    workDetail: {
+                      navigationVisible: true,
+                      filterDropdownViewMode: 'list',
+                      ...(userPreferences.workDetail || {}),
+                    },
+                  };
+                  localStorage.setItem('avefi.userPreferences.v1', JSON.stringify(nextUserPreferences));
+                } catch (e) {}
                 document.cookie = 'avefi-color-mode=' + mode + '; path=/; max-age=31536000; SameSite=Lax';
               } catch (e) {}
             })();`,
