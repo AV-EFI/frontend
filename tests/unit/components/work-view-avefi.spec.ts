@@ -33,7 +33,6 @@ type WorkViewVm = {
   filteredManifestations: Array<{ handle: string; items: Array<{ handle: string }> }>;
   suggestionsForManifestations: string[];
   toggleSuggestion: (value: string) => void;
-  isNavigationItemActive: (item: WorkNavigationItem | undefined) => boolean;
   getManifestationAnchorId: (manifestation: unknown, index: number) => string;
   getItemAnchorId: (item: unknown, manifestationIndex: number, itemIndex: number) => string;
 };
@@ -92,7 +91,7 @@ function buildModelWithManifestations() {
 function buildModelWithTopLevelExtras() {
   const model = buildModelWithManifestations();
   model.compound_record._source.has_record.has_alternative_title = [{ has_name: 'Alt title' }];
-  model.compound_record._source.has_record.same_as = [{ id: 'gnd:123', category: 'avefi:GNDResource' }];
+  model.compound_record._source.has_record.same_as = [{ id: 'film/test-id', category: 'avefi:FilmportalResource' }];
   model.compound_record._source.has_record.is_part_of = [{ id: 'parent-1', category: 'avefi:WorkVariant' }];
   return model;
 }
@@ -122,7 +121,14 @@ const Host = defineComponent({
 });
 
 beforeEach(() => {
-  vi.stubGlobal('useI18n', () => ({ t: (key: string) => key }));
+  vi.stubGlobal('useI18n', () => ({
+    t: (key: string, params?: Record<string, string>) => {
+      if (key === 'avefi:FilmportalResource') return 'Filmportal';
+      if (key === 'workReferenceAtAuthority') return `${params?.title} on ${params?.authority}`;
+      if (key === 'referencesAndWorkRelations') return 'References';
+      return key;
+    },
+  }));
   vi.stubGlobal('useHash', vi.fn());
   window.history.replaceState(window.history.state, '', '/');
   window.localStorage.clear();
@@ -178,6 +184,8 @@ function mountComponent(modelValue: Record<string, unknown>, requestedHandle = '
         DetailFilmRelatedMaterialsComp: { template: '<section id="film-related-materials"></section>' },
         ViewsWorkViewCompParts: { template: '<div data-testid="parts-view"></div>' },
         MicroIconTextComp: { template: '<div />' },
+        MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText }}</span>' },
+        DetailSameAsComp: { template: '<button data-testid="same-as-menu" />' },
         DetailKeyValueComp: { template: '<div />' },
       },
       mocks: {
@@ -192,6 +200,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
+    expect(wrapper.get('.work-level-area').classes()).toContain('border-work');
     expect(wrapper.find('#manifestations').exists()).toBe(true);
     expect(wrapper.get('[data-testid="manifestation-list"]').text()).toBe('2');
   });
@@ -206,7 +215,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const withExtras = mountComponent(buildModelWithTopLevelExtras());
     await flushPromises();
 
-    expect(withExtras.text()).toContain('referencesAndWorkRelations');
+    expect(withExtras.text()).toContain('References');
+    expect(withExtras.text()).toContain('Work title on Filmportal');
+    expect(withExtras.text()).not.toContain('film/test-id');
+    expect(withExtras.get('[data-testid="work-reference-label"]').classes()).toContain('text-base-content');
+    expect(withExtras.get('[data-testid="work-reference-label"]').classes()).not.toContain('text-primary');
     const alternativeTitles = withExtras.get('#alternative-titles');
     expect(alternativeTitles.classes()).toContain('rounded-lg');
     expect(alternativeTitles.classes()).toContain('border');
@@ -214,7 +227,9 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(alternativeTitles.text()).toContain('Alt title');
 
     const sidebar = withExtras.get('#work-navigation-desktop-menu');
-    expect(sidebar.get('.work-section-menu-group-label').text()).toContain('avefi_WorkVariant');
+    expect(sidebar.find('.work-section-menu-group-label').exists()).toBe(false);
+    expect(sidebar.findAll('.work-section-menu-item')[0]?.text()).toContain('References');
+    expect(sidebar.findAll('.work-section-menu-item')[0]?.text()).not.toContain('References and Work Relations');
     expect(sidebar.findAll('.work-section-menu-item').some(button => button.text().includes('AlternativeTitles'))).toBe(true);
 
     const vm = withExtras.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
@@ -289,6 +304,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
 
     expect(wrapper.find('.tabs.tabs-lift').exists()).toBe(true);
     expect(wrapper.get('#manifestations-tab').attributes('type')).toBe('radio');
+    expect(wrapper.get('#manifestations-panel').classes()).toContain('border-manifestation');
     expect(wrapper.get('#film-related-materials-tab').attributes('type')).toBe('radio');
     expect(wrapper.get('#film-related-materials-tab').attributes('aria-label')).toBe('filmRelatedMaterials (4)');
     expect(getFilmRelatedMaterialCountForWork('21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA')).toBe(4);
@@ -325,7 +341,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(vm.filteredManifestations[0]!.handle).toBe('21.11155/MF-1');
   });
 
-  test('keeps sidebar active state tied to the active section only', async () => {
+  test('does not render scroll-driven active state in the work navigation menu', async () => {
     const model = buildModelWithManifestations();
     model.compound_record._source.handle = '21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA';
 
@@ -337,11 +353,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     vm.activeSection = 'work-events';
     await flushPromises();
 
-    const workEventsItem = vm.workNavigationItems.find((item) => item.id === 'work-events');
-    const filmRelatedItem = vm.workNavigationItems.find((item) => item.id === 'film-related-materials');
+    const menuItems = wrapper.findAll('#work-navigation-desktop-menu .work-section-menu-item');
 
-    expect(vm.isNavigationItemActive(workEventsItem)).toBe(true);
-    expect(vm.isNavigationItemActive(filmRelatedItem)).toBe(false);
+    expect(menuItems.length).toBeGreaterThan(0);
+    expect(menuItems.some((item) => item.classes().includes('is-active'))).toBe(false);
+    expect(menuItems.some((item) => item.attributes('aria-current'))).toBe(false);
   });
 
   test('switches to parts view when manifestations are absent but parts exist', async () => {
@@ -374,7 +390,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(vm.getItemAnchorId(item, 0, 0)).not.toBe('item-0-0-21-11155-IT-1');
   });
 
-  test('renders manifestation anchors from raw handles', () => {
+  test('renders manifestation anchors from raw handles', async () => {
     const wrapper = mount(ManifestationListComp, {
       props: {
         modelValue: buildModelWithManifestations().compound_record._source.manifestations as unknown as
@@ -396,6 +412,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const sectionIds = wrapper.findAll('section').map(section => section.attributes('id'));
     expect(sectionIds).toContain('21.11155/MF-1');
     expect(sectionIds).not.toContain('manifestation-0-21-11155-MF-1');
+    expect(wrapper.get('section').classes()).not.toContain('manifestation-card');
+
+    await wrapper.get('section > div[role="button"]').trigger('click');
+    expect(wrapper.get('.item-area').classes()).toContain('border-l-2');
+    expect(wrapper.get('.item-area').classes()).toContain('border-item');
   });
 
   test('renders item anchors from raw handles', () => {
@@ -427,6 +448,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       .map(anchor => anchor.attributes('id'));
     expect(itemAnchorIds).toContain('21.11155/IT-1');
     expect(itemAnchorIds).not.toContain('item-0-0-21-11155-IT-1');
+    expect(wrapper.get('article').classes()).not.toContain('border-l-4');
+    expect(wrapper.get('article').classes()).not.toContain('border-item');
   });
 
 });

@@ -11,7 +11,7 @@
             <template #title>
                 <NuxtLayout name="partial-grid-2-1" left-class="dark:bg-primary-600 rounded-t-xl py-4">
                     <template #left>                        
-                        <div v-if="resourceType != 'compilationItem'" class="col-span-full px-4">
+                        <div v-if="resourceType != 'compilationItem'" class="detail-record-title col-span-full px-4">
                             <GlobalClipboardComp
                                 :display-text="dataJson?.compound_record?._source?.handle"
                                 :copy-text="`${copyPidUrl}${dataJson?.compound_record?._source?.handle}`"
@@ -30,7 +30,7 @@
                                 />
                             </div>
                         </div>
-                        <div v-else class="col-span-full px-4">
+                        <div v-else class="detail-record-title col-span-full px-4">
                             <GlobalClipboardComp
                                 :display-text="dataJson?.handle"
                                 :copy-text="`${copyPidUrl}${dataJson?.handle}`"
@@ -569,4 +569,11 @@ a.external-link:before {
 .dark a.external-link:before {
   color: var(--primary-200) !important;
 }
+
+@media (min-width: 1024px) {
+  .detail-record-title {
+    margin-left: 1.125rem;
+  }
+}
+
 </style>

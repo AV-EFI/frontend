@@ -60,7 +60,7 @@
                 v-else
                 :class="[
                     'min-h-8',
-                    'max-h-40',
+                    'max-h-48',
                     overflowY,
                     'overflow-x-visible'
                 ]"

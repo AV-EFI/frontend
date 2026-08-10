@@ -20,12 +20,12 @@
 
                         <div class="flex flex-row flex-wrap gap-2">
                             <DetailKeyValueListComp v-if="entry.raw?.located_in" keytxt="place"
-                                                    class="w-full lg:w-[calc(50%-0.25rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.located_in"
+                                                    class="w-full md:w-[calc(50%-0.25rem)] lg:w-[calc(33.333%-0.34rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.located_in"
                                                     :aria-label="$t('place') + ': ' + entry.raw.located_in" :clip="false" :ul="true" :same-as="true"
                                                     :narrow="true" facet-attribute="located_in_has_name" />
 
                             <DetailKeyValueComp v-if="entry.raw?.has_date" keytxt="productionyear"
-                                                class="w-full lg:w-[calc(50%-0.25rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.has_date"
+                                                class="w-full md:w-[calc(50%-0.25rem)] lg:w-[calc(33.333%-0.34rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.has_date"
                                                 facet-attribute="productionyear"
                                                 :aria-label="$t('productionyear') + ': ' + entry.raw.has_date" :clip="false" />
                         </div>
@@ -38,7 +38,7 @@
                         </h4>
                         <div class="flex flex-row flex-wrap gap-2">
                             <div v-for="(activity, activityIndex) in entry.crew" :key="activityIndex"
-                                 class="w-full lg:w-[calc(50%-0.25rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800"
+                                 class="w-full md:w-[calc(50%-0.25rem)] lg:w-[calc(33.333%-0.34rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800"
                                  :aria-label="$t('crewMember') + ': ' + (activity?.type ?? '')">
                                 <header class="flex items-center justify-between gap-3">
                                     <div class="min-w-0">
@@ -104,7 +104,7 @@
                                     </span>
                                 </header>
 
-                                <ul class="mt-2 space-y-1  max-h-40 overflow-y-auto" :aria-label="$t('agentsList')">
+                                <ul class="mt-2 space-y-1  max-h-48 overflow-y-auto" :aria-label="$t('agentsList')">
                                     <li v-for="(agent, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
                                         :aria-label="$t('agent') + ': ' + (agent?.has_name ?? '')" class="group">
                                         <div class="flex items-center justify-between gap-2 rounded-lg px-2 py-2

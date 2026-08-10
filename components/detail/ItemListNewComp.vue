@@ -3,7 +3,7 @@
         <article
             v-for="(exemplar, itemIndex) in items"
             :key="exemplar?.id || exemplar?.handle"
-            class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 dark:text-white border-l-2 border-item text-neutral-700"
+            class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 dark:text-white text-neutral-700"
             role="listitem"
             :aria-labelledby="getItemAnchorId(exemplar, itemIndex)"
         >

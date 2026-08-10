@@ -47,15 +47,11 @@
                 </div>
                 <nav id="work-navigation-drawer" :aria-label="$t('workNavigation')" class="max-h-[calc(100vh-8rem)] overflow-y-auto p-2">
                     <ol class="menu work-section-menu w-full p-0">
-                        <li v-if="workVariantNavigationItems.length" class="work-section-menu-group-label">
-                            <span>{{ $t('avefi_WorkVariant') }}</span>
-                        </li>
                         <li v-for="item in workVariantNavigationItems" :key="item.id">
                             <button
                                 type="button"
                                 class="work-section-menu-item"
-                                :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
-                                :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
+                                :class="{ 'work-section-menu-item--work': item.kind === 'work' }"
                                 @click="scrollToId(item.id); drawerOpen = false"
                             >
                                 <span class="work-section-menu-marker" aria-hidden="true">
@@ -77,8 +73,6 @@
                             <button
                                 type="button"
                                 class="work-section-menu-item"
-                                :class="{ 'is-active': isNavigationItemActive(item) }"
-                                :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
                                 @click="scrollToId(item.id); drawerOpen = false"
                             >
                                 <span class="work-section-menu-marker" aria-hidden="true">
@@ -134,15 +128,11 @@
                         </div>
                         <nav id="work-navigation-desktop-menu" :aria-label="$t('workNavigation')" class="min-h-0 flex-1 overflow-y-auto p-2">
                             <ol class="menu work-section-menu w-full p-0">
-                                <li v-if="workVariantNavigationItems.length" class="work-section-menu-group-label">
-                                    <span>{{ $t('avefi_WorkVariant') }}</span>
-                                </li>
                                 <li v-for="item in workVariantNavigationItems" :key="item.id">
                                     <button
                                         type="button"
                                         class="work-section-menu-item"
-                                        :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
-                                        :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
+                                        :class="{ 'work-section-menu-item--work': item.kind === 'work' }"
                                         @click="scrollToId(item.id)"
                                     >
                                         <span class="work-section-menu-marker" aria-hidden="true">
@@ -164,8 +154,6 @@
                                     <button
                                         type="button"
                                         class="work-section-menu-item"
-                                        :class="{ 'is-active': isNavigationItemActive(item) }"
-                                        :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
                                         @click="scrollToId(item.id)"
                                     >
                                         <span class="work-section-menu-marker" aria-hidden="true">
@@ -189,10 +177,9 @@
             </transition>
 
             <!-- Main content (right) -->
-            <div class="min-w-0 flex-1">
+            <div class="work-level-area min-w-0 flex-1 border-l-2 border-work pl-3 pr-1 lg:pl-4">
                 <section v-if="mir"
                          :id="dataObject?.compound_record?._source?.handle || undefined"
-                         class="border-l-2 border-work pl-3 pr-1 lg:pl-4"
                          :aria-labelledby="'work-details-heading'">
                     <h2 id="work-details-heading" class="sr-only">
                         {{ `${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}` }}
@@ -263,7 +250,7 @@
 
                                     <div
                                         v-if="workSameAs.length"
-                                        class="rounded-md p-2"
+                                        class="rounded-md"
                                         role="region"
                                         :aria-label="`${$t('same_as')}`"
                                     >
@@ -272,16 +259,25 @@
                                             :key="sas?.id"
                                             role="group"
                                             :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
+                                            class="flex min-h-8 items-start gap-2"
                                         >
-                                            <DetailKeyValueComp
-                                                :keytxt="sas?.category"
-                                                :valtxt="sas?.id"
-                                                :same-as="true"
-                                                :show-same-as-link="true"
-                                                :clip="false"
-                                                font-size="text-sm"
-                                                :translate-key="true"
-                                                :truncate="true"
+                                            <div class="min-w-0 grow">
+                                                <MicroLabelComp
+                                                    :label-text="sas?.category"
+                                                    :translate-key="true"
+                                                />
+                                                <p
+                                                    data-testid="work-reference-label"
+                                                    class="mt-1 truncate text-sm leading-5 text-base-content"
+                                                    :title="sameAsDisplayLabel(sas)"
+                                                >
+                                                    {{ sameAsDisplayLabel(sas) }}
+                                                </p>
+                                            </div>
+                                            <DetailSameAsComp
+                                                :same-as-data="[sas]"
+                                                type="work"
+                                                class="shrink-0 text-sm"
                                             />
                                         </div>
                                     </div>
@@ -394,7 +390,7 @@
                             <div
                                 v-if="manifestations.length > 0"
                                 id="manifestations-panel"
-                                class="tab-content border-base-300 bg-base-100 p-4"
+                                class="tab-content border-base-300 border-l-2 border-manifestation bg-base-100 p-4"
                                 role="tabpanel"
                                 aria-labelledby="manifestations-tab"
                             >
@@ -410,14 +406,14 @@
                                 </header>
 
                                 <div class="mt-4 flex flex-col gap-3">
-                                    <div class="form-control min-w-0">
-                                        <span class="label pb-1">
+                                    <div class="form-control flex flex-col items-start min-w-0 md:w-80">
+                                        <span class="label w-full pb-1">
                                             <span class="label-text text-xs">{{ $t('viewType') }}</span>
                                         </span>
-                                        <div class="join w-full">
+                                        <div class="join w-full md:w-auto">
                                             <button
                                                 type="button"
-                                                class="btn btn-sm join-item flex-1"
+                                                class="btn btn-sm join-item flex-1 md:flex-none md:min-w-32"
                                                 :class="filterDropdownViewMode === 'list' ? 'btn-primary' : 'btn-outline'"
                                                 :aria-pressed="filterDropdownViewMode === 'list' ? 'true' : 'false'"
                                                 @click="setFilterDropdownViewMode('list')"
@@ -426,7 +422,7 @@
                                             </button>
                                             <button
                                                 type="button"
-                                                class="btn btn-sm join-item flex-1"
+                                                class="btn btn-sm join-item flex-1 md:flex-none md:min-w-32"
                                                 :class="filterDropdownViewMode === 'badges' ? 'btn-primary' : 'btn-outline'"
                                                 :aria-pressed="filterDropdownViewMode === 'badges' ? 'true' : 'false'"
                                                 @click="setFilterDropdownViewMode('badges')"
@@ -436,8 +432,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-control min-w-0">
-                                        <span class="label pb-1">
+                                    <div class="form-control flex flex-col items-start min-w-0 md:w-96">
+                                        <span class="label w-full pb-1">
                                             <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
                                         </span>
 
@@ -596,7 +592,7 @@
                 </div>
 
                 <!-- 12 Letzte Bearbeitung -->
-                <div v-if="dataObject?.compound_record?._source?.['@timestamp']" id="last-edit" class="w-full mt-4 justify-center items-center">
+                <div v-if="dataObject?.compound_record?._source?.['@timestamp']" id="last-edit" class="w-full m-4 justify-center items-center">
                     <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
                                         :valtxt="formatTimestamp(dataObject.compound_record._source['@timestamp'])" />
                 </div>
@@ -1350,6 +1346,14 @@ const workSummaryTitle = computed(() =>
     String(mir?.has_primary_title?.has_name || dataObject?.compound_record?._source?.handle || '').trim()
 );
 
+function sameAsDisplayLabel(sameAs: AuthorityResource | null | undefined): string {
+    const authority = t(sameAs?.category || '');
+    const title = workSummaryTitle.value;
+
+    if (!title) return authority;
+    return t('workReferenceAtAuthority', { title, authority });
+}
+
 const showNavbarProductionSummary = computed(() => {
     if (!workContextRows.value.length) return false;
     if (!activeSection.value) return false;
@@ -1487,22 +1491,6 @@ function syncDetailTabToHash() {
     if (!hashId) return;
 
     syncDetailTabToId(hashId);
-}
-
-function isNavigationItemActive(item: WorkNavigationItem): boolean {
-    if (item.id === 'film-related-materials') {
-        return activeSection.value === 'film-related-materials';
-    }
-
-    if (item.id === 'manifestations') {
-        return isManifestationAnchor(activeSection.value);
-    }
-
-    if (item.id === 'work-events') {
-        return activeSection.value === 'work-events' || activeSection.value.startsWith('event-');
-    }
-
-    return activeSection.value === item.id;
 }
 
 function setActiveFromVisibility() {
@@ -1697,30 +1685,18 @@ onUnmounted(() => {
 
 .work-section-menu::before {
     position: absolute;
-    bottom: 0.75rem;
-    left: 1.25rem;
-    top: 0.75rem;
+    bottom: 0.625rem;
+    left: 1.225rem;
+    top: 0.625rem;
     width: 1px;
     background: color-mix(in oklab, var(--color-base-content) 18%, transparent);
     content: "";
 }
 
-.work-section-menu-group-label {
-    position: relative;
-    z-index: 1;
-    margin: 0 0 0.25rem 0.25rem;
-    padding: 0.25rem 0.5rem 0.25rem 2.75rem;
-    color: color-mix(in oklab, var(--color-work) 82%, var(--color-base-content));
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-transform: uppercase;
-}
-
 .work-section-menu-separator {
     position: relative;
     z-index: 1;
-    margin: 0.25rem 0 0.25rem 2.75rem;
+    margin: 0.125rem 0 0.125rem 2.45rem;
     height: 1px;
     background: color-mix(in oklab, var(--color-base-content) 14%, transparent);
 }
@@ -1729,26 +1705,17 @@ onUnmounted(() => {
     position: relative;
     z-index: 1;
     display: flex;
-    min-height: 3rem;
+    min-height: 2.5rem;
     width: 100%;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     border-radius: 0.5rem;
-    padding: 0.4rem 0.5rem;
+    padding: 0.3rem 0.35rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     text-align: left;
     text-decoration: none;
     transition: background-color 120ms ease, color 120ms ease;
-}
-
-.work-section-menu-item.is-active::before {
-    position: absolute;
-    bottom: 0.45rem;
-    left: 0.15rem;
-    top: 0.45rem;
-    width: 3px;
-    border-radius: 999px;
-    background: var(--color-primary);
-    content: "";
 }
 
 .work-section-menu-item:hover,
@@ -1756,32 +1723,20 @@ onUnmounted(() => {
     background: color-mix(in oklab, var(--color-primary) 10%, transparent);
 }
 
-.work-section-menu-item.is-active {
-    background: color-mix(in oklab, var(--color-primary) 14%, transparent);
-    color: var(--color-primary);
-    font-weight: 600;
-}
-
 .work-section-menu-item--work {
-    margin-left: 0.75rem;
+    margin-left: 0;
 }
 
 .work-section-menu-marker {
     display: grid;
-    height: 2rem;
-    width: 2rem;
+    height: 1.75rem;
+    width: 1.75rem;
     flex: 0 0 auto;
     place-items: center;
     border-radius: 999px;
     border: 1px solid color-mix(in oklab, var(--color-base-content) 18%, transparent);
     background: var(--color-base-100);
     color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
-}
-
-.work-section-menu-item.is-active .work-section-menu-marker {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: var(--color-primary-content);
 }
 
 .work-summary-bar-enter-active,

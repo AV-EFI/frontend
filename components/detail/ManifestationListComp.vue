@@ -42,17 +42,19 @@
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
                 <!-- 16 Exemplare -->
-                <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 mb-4 md:pl-4">
-                    {{ safeT('items') }}
-                    <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
-                </h4>
-                <div class="bg-white dark:bg-gray-900 rounded-xl md:ml-4">
-                    <DetailItemListNewComp
-                        v-if="(manifestation?.items?.length ?? 0) > 0"
-                        :items="manifestation?.items ?? []"
-                        :manifestation-index="i"
-                        :manifestation-handle="manifestation?.handle || ''"
-                    />
+                <div class="item-area border-l-2 border-item pl-3 md:pl-4">
+                    <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 mb-4">
+                        {{ safeT('items') }}
+                        <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
+                    </h4>
+                    <div class="bg-white dark:bg-gray-900 rounded-xl">
+                        <DetailItemListNewComp
+                            v-if="(manifestation?.items?.length ?? 0) > 0"
+                            :items="manifestation?.items ?? []"
+                            :manifestation-index="i"
+                            :manifestation-handle="manifestation?.handle || ''"
+                        />
+                    </div>
                 </div>
             </div>
         </section>
@@ -129,4 +131,3 @@ function safeT(input: unknown): string {
 
 
 </script>
-

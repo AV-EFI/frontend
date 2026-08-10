@@ -99,6 +99,13 @@ describe('detail clickable facets', () => {
     expect(facetValues).toContainEqual({ attribute: 'located_in_has_name', value: 'Berlin' });
     expect(facetValues).toContainEqual({ attribute: 'creators', value: 'Reiniger, Lotte' });
     expect(facetValues).toContainEqual({ attribute: 'castmembers', value: 'Actor Name' });
+
+    const placeCard = wrapper.getComponent(KeyValueListComp).classes();
+    const crewCard = wrapper.get('[aria-label="crewMember: Director"]').classes();
+    expect(placeCard).toContain('md:w-[calc(50%-0.25rem)]');
+    expect(placeCard).toContain('lg:w-[calc(33.333%-0.34rem)]');
+    expect(crewCard).toContain('md:w-[calc(50%-0.25rem)]');
+    expect(crewCard).toContain('lg:w-[calc(33.333%-0.34rem)]');
   });
 
   test('renders item metadata as facet values', () => {
