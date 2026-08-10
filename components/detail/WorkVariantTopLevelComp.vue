@@ -1,8 +1,5 @@
 <template>
-    <NuxtLayout name="partial-grid-1">
-        <template #center>
-        </template>
-    </NuxtLayout>
+    <span v-if="false" />
 </template>
 
 <script lang="ts" setup>

@@ -1,6 +1,9 @@
 <template>
     <div>
-        <NuxtLayout name="partial-layout-1-center" padding-class="p-0">
+        <NuxtLayout
+            name="partial-layout-detail-wide"
+            padding-class="p-0"
+        >
             <template #navigation>
                 <GlobalBreadcrumbsComp :breadcrumbs="breadcrumbs" />
             </template>

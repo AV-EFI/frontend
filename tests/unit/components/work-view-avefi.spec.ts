@@ -125,6 +125,7 @@ beforeEach(() => {
   vi.stubGlobal('useI18n', () => ({ t: (key: string) => key }));
   vi.stubGlobal('useHash', vi.fn());
   window.history.replaceState(window.history.state, '', '/');
+  window.localStorage.clear();
 
   vi.stubGlobal('matchMedia', () => ({
     matches: false,
@@ -195,7 +196,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(wrapper.get('[data-testid="manifestation-list"]').text()).toBe('2');
   });
 
-  test('adds top-level navigation entries in page order and excludes alternative titles', async () => {
+  test('adds work-variant navigation entries in menu order and groups them before collections', async () => {
     const withoutExtras = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
@@ -206,13 +207,20 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     await flushPromises();
 
     expect(withExtras.text()).toContain('referencesAndWorkRelations');
-    expect(withExtras.get('#alternative-titles').text()).toContain('AlternativeTitles');
-    expect(withExtras.get('#alternative-titles').text()).toContain('Alt title');
-    expect(withExtras.findAll('aside .work-section-menu-item').some(button => button.text().includes('AlternativeTitles'))).toBe(false);
+    const alternativeTitles = withExtras.get('#alternative-titles');
+    expect(alternativeTitles.classes()).toContain('rounded-lg');
+    expect(alternativeTitles.classes()).toContain('border');
+    expect(alternativeTitles.text()).toContain('AlternativeTitles');
+    expect(alternativeTitles.text()).toContain('Alt title');
+
+    const sidebar = withExtras.get('#work-navigation-desktop-menu');
+    expect(sidebar.get('.work-section-menu-group-label').text()).toContain('avefi_WorkVariant');
+    expect(sidebar.findAll('.work-section-menu-item').some(button => button.text().includes('AlternativeTitles'))).toBe(true);
 
     const vm = withExtras.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
     expect(vm.workNavigationItems.map((item) => item.id)).toEqual([
       'references-work-relations',
+      'alternative-titles',
       'work-events',
       'manifestations',
     ]);
@@ -222,9 +230,28 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    const sidebarHeader = wrapper.get('aside .border-b');
-    expect(sidebarHeader.text()).toContain('Work title');
-    expect(sidebarHeader.text()).not.toContain('work-1');
+    const sidebar = wrapper.get('.work-navigation-sidebar');
+    expect(sidebar.text()).toContain('Work title');
+    expect(sidebar.text()).not.toContain('work-1');
+  });
+
+  test('shows work navigation by default and persists visibility changes', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    expect(wrapper.find('.work-navigation-sidebar').exists()).toBe(true);
+
+    await wrapper.get('.work-navigation-toggle').trigger('click');
+    await flushPromises();
+
+    expect(window.localStorage.getItem('avefi.work.navigationVisible')).toBe('false');
+    expect(wrapper.find('.work-navigation-sidebar').exists()).toBe(false);
+
+    window.localStorage.setItem('avefi.work.navigationVisible', 'false');
+    const hiddenByPreference = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    expect(hiddenByPreference.find('.work-navigation-sidebar').exists()).toBe(false);
   });
 
   test('attaches compact production context below the navbar after production', async () => {
@@ -248,7 +275,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(summary.text()).toContain('USA');
     expect(summary.text()).toContain('1934');
     expect(summary.text()).toContain('Director A');
-    expect(wrapper.find('aside.hidden .work-production-summary').exists()).toBe(false);
+    expect(wrapper.find('.work-navigation-sidebar .work-production-summary').exists()).toBe(false);
     expect(wrapper.find('.drawer-side .work-production-summary').exists()).toBe(false);
     expect(wrapper.find('#manifestations > div > aside').exists()).toBe(false);
   });

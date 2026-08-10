@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row gap-6 relative">
+    <div class="work-detail-shell relative">
         <transition name="work-summary-bar">
             <aside
                 v-if="showNavbarProductionSummary"
@@ -30,53 +30,6 @@
             </aside>
         </transition>
 
-        <!-- Desktop sidebar (left, slide-in/out, relative) -->
-        <button class="hidden lg:block absolute -top-4 z-10" @click="desktopDrawerOpen = !desktopDrawerOpen"
-                :class="desktopDrawerOpen ? 'left-0' : 'left-6'" :title="$t('toggleNavigation')"
-                :aria-label="$t('toggleNavigation')">
-            <div class="btn btn-sm btn-circle">
-                <Icon :name="desktopDrawerOpen ? 'tabler-caret-left' : 'tabler-caret-right'" aria-hidden="true" />
-            </div>
-        </button>
-        <transition name="slide-sidebar">
-            <aside v-if="desktopDrawerOpen"
-                   class="hidden lg:block w-80 shrink-0 order-1 self-start z-0 mt-4">
-                <div class="sticky top-8 flex max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-lg border border-base-300 bg-base-100">
-                    <div class="border-b border-base-300 p-3">
-                        <p class="text-xs font-medium uppercase text-base-content/60">{{ $t('workNavigation') }}</p>
-                        <p class="mt-2 line-clamp-2 text-sm font-semibold">
-                            {{ mir?.has_primary_title?.has_name ?? dataObject?.compound_record?._source?.handle }}
-                        </p>
-                    </div>
-                    <nav :aria-label="$t('workNavigation')" class="min-h-0 flex-1 overflow-y-auto p-3">
-                        <ol class="work-section-menu">
-                            <li v-for="item in workNavigationItems" :key="item.id">
-                                <button
-                                    type="button"
-                                    class="work-section-menu-item"
-                                    :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
-                                    :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
-                                    @click="scrollToId(item.id)"
-                                >
-                                    <span class="work-section-menu-marker" aria-hidden="true">
-                                        <Icon :name="item.icon" class="h-4 w-4" aria-hidden="true" />
-                                    </span>
-                                    <span class="min-w-0 flex-1">
-                                        <span class="block truncate">{{ item.label }}</span>
-                                        <span v-if="item.description" class="block truncate text-xs text-base-content/60">
-                                            {{ item.description }}
-                                        </span>
-                                    </span>
-                                    <span v-if="typeof item.count === 'number'" class="badge badge-sm badge-outline">
-                                        {{ item.count }}
-                                    </span>
-                                </button>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </aside>
-        </transition>
         <!-- Mobile drawer for tree-view (left) -->
         <div class="drawer fixed inset-0 z-50 lg:hidden order-1" v-if="drawerOpen">
             <div class="drawer-overlay bg-black bg-opacity-40" @click="drawerOpen = false"></div>
@@ -92,13 +45,39 @@
                         {{ mir?.has_primary_title?.has_name ?? dataObject?.compound_record?._source?.handle }}
                     </p>
                 </div>
-                <nav id="work-navigation-drawer" :aria-label="$t('workNavigation')" class="max-h-[calc(100vh-8rem)] overflow-y-auto p-3">
-                    <ol class="work-section-menu">
-                        <li v-for="item in workNavigationItems" :key="item.id">
+                <nav id="work-navigation-drawer" :aria-label="$t('workNavigation')" class="max-h-[calc(100vh-8rem)] overflow-y-auto p-2">
+                    <ol class="menu work-section-menu w-full p-0">
+                        <li v-if="workVariantNavigationItems.length" class="work-section-menu-group-label">
+                            <span>{{ $t('avefi_WorkVariant') }}</span>
+                        </li>
+                        <li v-for="item in workVariantNavigationItems" :key="item.id">
                             <button
                                 type="button"
                                 class="work-section-menu-item"
                                 :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
+                                :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
+                                @click="scrollToId(item.id); drawerOpen = false"
+                            >
+                                <span class="work-section-menu-marker" aria-hidden="true">
+                                    <Icon :name="item.icon" class="h-4 w-4" aria-hidden="true" />
+                                </span>
+                                <span class="min-w-0 flex-1">
+                                    <span class="block truncate">{{ item.label }}</span>
+                                    <span v-if="item.description" class="block truncate text-xs text-base-content/60">
+                                        {{ item.description }}
+                                    </span>
+                                </span>
+                                <span v-if="typeof item.count === 'number'" class="badge badge-sm badge-outline">
+                                    {{ item.count }}
+                                </span>
+                            </button>
+                        </li>
+                        <li v-if="collectionNavigationItems.length" class="work-section-menu-separator" aria-hidden="true"></li>
+                        <li v-for="item in collectionNavigationItems" :key="item.id">
+                            <button
+                                type="button"
+                                class="work-section-menu-item"
+                                :class="{ 'is-active': isNavigationItemActive(item) }"
                                 :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
                                 @click="scrollToId(item.id); drawerOpen = false"
                             >
@@ -131,38 +110,129 @@
             </button>
         </div>
 
-        <!-- Main content (right) -->
-        <div class="flex-1 min-w-0 order-2">
-            <section v-if="mir"
-                     :id="dataObject?.compound_record?._source?.handle || undefined"
-                     class="border-l-2 border-work px-2"
-                     :aria-labelledby="'work-details-heading'">
-                <h2 id="work-details-heading" class="sr-only">
-                    {{ `${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}` }}
-                </h2>
-                <!-- MOBILE-ONLY TOGGLE (does not affect desktop) -->
-                <div class="md:hidden mb-2">
-                    <button type="button" class="btn btn-lg btn-outline w-full justify-between"
-                            :aria-expanded="mirExpanded ? 'true' : 'false'" :aria-controls="mirPanelId"
-                            @click="mirExpanded = !mirExpanded">
-                        <span class="truncate text-sm">
-                            {{ $t('detailsFor') }} {{ mir?.has_primary_title?.has_name ?? '' }}
-                        </span>
-                        <span v-if="mirExpanded" :title="$t('collapse')">
-                            <Icon name="tabler-chevron-up" aria-hidden="true" />
-                        </span>
-                        <span v-else :title="$t('expand')">
-                            <Icon name="tabler-chevron-down" aria-hidden="true" />
-                        </span>
-                    </button>
-                </div>
+        <div class="work-detail-layout lg:flex lg:items-start lg:gap-4">
+            <transition name="slide-sidebar">
+                <aside
+                    v-if="desktopDrawerOpen"
+                    class="work-navigation-sidebar hidden lg:block w-72 shrink-0"
+                >
+                    <div class="sticky top-[calc(var(--header-height,4rem)+1rem)] flex max-h-[calc(100vh-var(--header-height,4rem)-2rem)] flex-col overflow-hidden rounded-lg border border-base-300 bg-base-100 shadow-sm">
+                        <div class="border-b border-base-300 p-4 pr-12">
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-circle absolute right-3 top-3"
+                                :aria-label="`${$t('close')} ${$t('workNavigation')}`"
+                                :title="`${$t('close')} ${$t('workNavigation')}`"
+                                @click="setWorkNavigationVisible(false)"
+                            >
+                                <Icon name="tabler:x" aria-hidden="true" />
+                            </button>
+                            <p class="text-xs font-medium uppercase text-base-content/60">{{ $t('workNavigation') }}</p>
+                            <p class="mt-2 line-clamp-2 text-sm font-semibold">
+                                {{ mir?.has_primary_title?.has_name ?? dataObject?.compound_record?._source?.handle }}
+                            </p>
+                        </div>
+                        <nav id="work-navigation-desktop-menu" :aria-label="$t('workNavigation')" class="min-h-0 flex-1 overflow-y-auto p-2">
+                            <ol class="menu work-section-menu w-full p-0">
+                                <li v-if="workVariantNavigationItems.length" class="work-section-menu-group-label">
+                                    <span>{{ $t('avefi_WorkVariant') }}</span>
+                                </li>
+                                <li v-for="item in workVariantNavigationItems" :key="item.id">
+                                    <button
+                                        type="button"
+                                        class="work-section-menu-item"
+                                        :class="{ 'is-active': isNavigationItemActive(item), 'work-section-menu-item--work': item.kind === 'work' }"
+                                        :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
+                                        @click="scrollToId(item.id)"
+                                    >
+                                        <span class="work-section-menu-marker" aria-hidden="true">
+                                            <Icon :name="item.icon" class="h-4 w-4" aria-hidden="true" />
+                                        </span>
+                                        <span class="min-w-0 flex-1">
+                                            <span class="block truncate">{{ item.label }}</span>
+                                            <span v-if="item.description" class="block truncate text-xs text-base-content/60">
+                                                {{ item.description }}
+                                            </span>
+                                        </span>
+                                        <span v-if="typeof item.count === 'number'" class="badge badge-sm badge-outline">
+                                            {{ item.count }}
+                                        </span>
+                                    </button>
+                                </li>
+                                <li v-if="collectionNavigationItems.length" class="work-section-menu-separator" aria-hidden="true"></li>
+                                <li v-for="item in collectionNavigationItems" :key="item.id">
+                                    <button
+                                        type="button"
+                                        class="work-section-menu-item"
+                                        :class="{ 'is-active': isNavigationItemActive(item) }"
+                                        :aria-current="isNavigationItemActive(item) ? 'location' : undefined"
+                                        @click="scrollToId(item.id)"
+                                    >
+                                        <span class="work-section-menu-marker" aria-hidden="true">
+                                            <Icon :name="item.icon" class="h-4 w-4" aria-hidden="true" />
+                                        </span>
+                                        <span class="min-w-0 flex-1">
+                                            <span class="block truncate">{{ item.label }}</span>
+                                            <span v-if="item.description" class="block truncate text-xs text-base-content/60">
+                                                {{ item.description }}
+                                            </span>
+                                        </span>
+                                        <span v-if="typeof item.count === 'number'" class="badge badge-sm badge-outline">
+                                            {{ item.count }}
+                                        </span>
+                                    </button>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </aside>
+            </transition>
 
-                <!-- ONLY THIS CONTENT COLLAPSES ON MOBILE -->
-                <div :id="mirPanelId" v-show="!isMobile || mirExpanded">
-                    <!-- ✅ REAL DOM ANCHOR (template slot cannot carry an id) -->
-                    <NuxtLayout name="partial-grid-2-1-no-heading">
-                        <template #left>
-                            <div class="w-full col-span-full">
+            <!-- Main content (right) -->
+            <div class="min-w-0 flex-1">
+                <section v-if="mir"
+                         :id="dataObject?.compound_record?._source?.handle || undefined"
+                         class="border-l-2 border-work pl-3 pr-1 lg:pl-4"
+                         :aria-labelledby="'work-details-heading'">
+                    <h2 id="work-details-heading" class="sr-only">
+                        {{ `${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}` }}
+                    </h2>
+                    <!-- MOBILE-ONLY TOGGLE (does not affect desktop) -->
+                    <div class="md:hidden mb-2">
+                        <button type="button" class="btn btn-lg btn-outline w-full justify-between"
+                                :aria-expanded="mirExpanded ? 'true' : 'false'" :aria-controls="mirPanelId"
+                                @click="mirExpanded = !mirExpanded">
+                            <span class="truncate text-sm">
+                                {{ $t('detailsFor') }} {{ mir?.has_primary_title?.has_name ?? '' }}
+                            </span>
+                            <span v-if="mirExpanded" :title="$t('collapse')">
+                                <Icon name="tabler-chevron-up" aria-hidden="true" />
+                            </span>
+                            <span v-else :title="$t('expand')">
+                                <Icon name="tabler-chevron-down" aria-hidden="true" />
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- ONLY THIS CONTENT COLLAPSES ON MOBILE -->
+                    <div :id="mirPanelId" v-show="!isMobile || mirExpanded">
+                        <!-- ✅ REAL DOM ANCHOR (template slot cannot carry an id) -->
+                        <div class="hidden lg:flex mb-3">
+                            <button
+                                type="button"
+                                class="work-navigation-toggle btn btn-sm btn-outline"
+                                :aria-label="$t('toggleNavigation')"
+                                :title="$t('toggleNavigation')"
+                                :aria-expanded="desktopDrawerOpen ? 'true' : 'false'"
+                                aria-controls="work-navigation-desktop-menu"
+                                @click="setWorkNavigationVisible(!desktopDrawerOpen)"
+                            >
+                                <Icon :name="desktopDrawerOpen ? 'tabler:layout-sidebar-left-collapse' : 'tabler:layout-sidebar-left-expand'" class="h-4 w-4" aria-hidden="true" />
+                                <span>{{ $t('workNavigation') }}</span>
+                            </button>
+                        </div>
+                        <div class="work-detail-content-grid">
+                            <div class="min-w-0">
                                 <!-- 01–04 + 06–09: handled inside TopLevelComp -->
                                 <DetailWorkVariantTopLevelComp v-model="mir"
                                                                :handle="dataObject?.compound_record?._source?.handle ?? ''"
@@ -174,358 +244,362 @@
                                                     v-model="mir.has_event"
                                                     root-id="work-events"
                                                     :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
-                                
 
                             </div>
-                        </template>
 
-                        <template #right>
-                            <!-- 03/04 References & Work Relations (GND, Filmportal, etc. / same_as, is_part_of) -->
-                            <div
-                                v-if="hasReferencesAndWorkRelations"
-                                class="col-span-full mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                role="region"
-                                :aria-label="$t('referencesAndWorkRelations')"
-                            >
-                                <header class="flex flex-col gap-1">
-                                    <h3 id="references-work-relations" class="text-base font-semibold leading-6 truncate dark:text-white">
-                                        {{ $t('referencesAndWorkRelations') }}
-                                    </h3>
-                                </header>
-
+                            <div class="work-detail-side-rail min-w-0">
+                                <!-- 03/04 References & Work Relations (GND, Filmportal, etc. / same_as, is_part_of) -->
                                 <div
-                                    v-if="workSameAs.length"
-                                    class="rounded-md p-2"
+                                    v-if="hasReferencesAndWorkRelations"
+                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
                                     role="region"
-                                    :aria-label="`${$t('same_as')}`"
+                                    :aria-label="$t('referencesAndWorkRelations')"
                                 >
+                                    <header class="flex flex-col gap-1">
+                                        <h3 id="references-work-relations" class="text-base font-semibold leading-6 truncate dark:text-white">
+                                            {{ $t('referencesAndWorkRelations') }}
+                                        </h3>
+                                    </header>
+
                                     <div
-                                        v-for="sas in workSameAs"
-                                        :key="sas?.id"
-                                        role="group"
-                                        :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
+                                        v-if="workSameAs.length"
+                                        class="rounded-md p-2"
+                                        role="region"
+                                        :aria-label="`${$t('same_as')}`"
                                     >
-                                        <DetailKeyValueComp
-                                            :keytxt="sas?.category"
-                                            :valtxt="sas?.id"
-                                            :same-as="true"
-                                            :show-same-as-link="true"
-                                            :clip="false"
-                                            font-size="text-sm"
-                                            :translate-key="true"
-                                            :truncate="true"
-                                        />
-                                    </div>
-                                </div>
-
-                                <!-- (Optional) Episode/Teil-Indikator? -> is_part_of -->
-                                <div
-                                    v-if="workIsPartOf.length"
-                                    role="region"
-                                    :aria-label="$t('isPartOf')"
-                                >
-                                    <MicroLabelComp label-text="isPartOf" />
-                                    <ul>
-                                        <li v-for="ipo in workIsPartOf" :key="ipo?.id" class="min-w-0">
-                                            <router-link
-                                                target="_blank"
-                                                rel="noopener"
-                                                :to="`/res/${(ipo?.id || '')}`"
-                                                class="link link-primary block truncate"
-                                                :title="`${ipo?.id} (${ $t(ipo?.category) })`"
-                                                :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
-                                            >
-                                                {{ ipo?.id }}&nbsp;({{ $t(ipo?.category) }})
-                                            </router-link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- 05 Alternative Titel -->
-                            <DetailKeyActionRowsComp
-                                v-if="Array.isArray(mir?.has_alternative_title) && mir.has_alternative_title.length"
-                                id="alternative-titles"
-                                class="col-span-full mb-2"
-                                :key-label="$t('AlternativeTitles')"
-                                :values="mir.has_alternative_title"
-                                same-as-type="work"
-                                :show-count="true"
-                                :initial-visible="6"
-                            />
-
-                            <!-- 10 Genre -->
-                            <div
-                                v-if="hasGenre"
-                                id="genre"
-                                class="col-span-full mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                role="region"
-                                :aria-label="$t('avefi:Genre')"
-                            >
-                                <DetailKeyActionRowsComp
-                                    :key-label="$t('avefi:Genre')" :values="mir.has_genre"
-                                    same-as-type="genre" facet-attribute="has_genre_has_name"
-                                    :show-count="true" :initial-visible="6" />
-                            </div>
-
-                            <!-- 11 Schlagwort -->
-                            <div
-                                v-if="hasSubjects"
-                                id="subjects"
-                                class="col-span-full mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                role="region"
-                                :aria-label="$t('avefi:Subject')"
-                            >
-                                <DetailKeyActionRowsComp
-                                    :key-label="$t('avefi:Subject')" :values="workSubjects"
-                                    same-as-type="subject" facet-attribute="subjects"
-                                    :show-count="true" :initial-visible="8" />
-                            </div>
-                        </template>
-                    </NuxtLayout>
-                </div>
-            </section>
-
-            <div v-else>
-                <pre>{{ mir }}</pre>
-            </div>
-
-            <!-- Manifestations and film-related materials block -->
-            <section v-if="hasCollectionTabs" id="manifestations" aria-labelledby="collection-tabs-heading">
-                <div class="mt-4 ml-2">
-                    <hr class="my-2 col-span-full" />
-                    <h3 id="collection-tabs-heading" class="sr-only">
-                        {{ $t('manifestationsAndFilmRelatedMaterials') }}
-                    </h3>
-
-                    <div
-                        class="tabs tabs-lift"
-                        role="tablist"
-                        :aria-label="$t('manifestationsAndFilmRelatedMaterials')"
-                    >
-                        <input
-                            v-if="manifestations.length > 0"
-                            id="manifestations-tab"
-                            v-model="activeDetailTab"
-                            type="radio"
-                            name="work-detail-tabs"
-                            value="manifestations"
-                            role="tab"
-                            class="tab"
-                            :aria-label="`${$t('manifestations')} (${manifestations.length})`"
-                            aria-controls="manifestations-panel"
-                            @click="setDetailTab('manifestations')"
-                            @change="setDetailTab('manifestations')"
-                        />
-
-                        <div
-                            v-if="manifestations.length > 0"
-                            id="manifestations-panel"
-                            class="tab-content border-base-300 bg-base-100 p-4"
-                            role="tabpanel"
-                            aria-labelledby="manifestations-tab"
-                        >
-                            <header class="flex flex-wrap items-start justify-between gap-3">
-                                <div>
-                                    <h3 id="manifestations-heading" class="text-base font-semibold leading-6 dark:text-white">
-                                        {{ $t("manifestations") }}
-                                    </h3>
-                                    <p class="mt-1 text-sm text-base-content/70">
-                                        {{ $t('tooltip.manifestation') }}
-                                    </p>
-                                </div>
-                            </header>
-
-                            <div class="mt-4 flex flex-col gap-3">
-                                <div class="form-control min-w-0">
-                                    <span class="label pb-1">
-                                        <span class="label-text text-xs">{{ $t('viewType') }}</span>
-                                    </span>
-                                    <div class="join w-full">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm join-item flex-1"
-                                            :class="filterDropdownViewMode === 'list' ? 'btn-primary' : 'btn-outline'"
-                                            :aria-pressed="filterDropdownViewMode === 'list' ? 'true' : 'false'"
-                                            @click="setFilterDropdownViewMode('list')"
-                                        >
-                                            {{ $t('filterViewList') }}
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm join-item flex-1"
-                                            :class="filterDropdownViewMode === 'badges' ? 'btn-primary' : 'btn-outline'"
-                                            :aria-pressed="filterDropdownViewMode === 'badges' ? 'true' : 'false'"
-                                            @click="setFilterDropdownViewMode('badges')"
-                                        >
-                                            {{ $t('filterViewBadges') }}
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="form-control min-w-0">
-                                    <span class="label pb-1">
-                                        <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
-                                    </span>
-
-                                    <!-- Dropdown mode -->
-                                    <div v-if="filterDropdownViewMode === 'list'" class="relative min-w-0" ref="filterDropdownRef">
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline w-full justify-between"
-                                            :aria-label="$t('filterItemsAndManifestations')"
-                                            :aria-expanded="filterDropdownOpen ? 'true' : 'false'"
-                                            aria-haspopup="listbox"
-                                            @click="filterDropdownOpen = !filterDropdownOpen"
-                                        >
-                                            <span class="truncate">
-                                                {{
-                                                    searchQuery.length > 0
-                                                        ? `${$t('filterItemsAndManifestations')} (${searchQuery.length})`
-                                                        : $t('filterItemsAndManifestations')
-                                                }}
-                                            </span>
-                                            <Icon
-                                                :name="filterDropdownOpen ? 'tabler-chevron-up' : 'tabler-chevron-down'"
-                                                aria-hidden="true"
-                                            />
-                                        </button>
-
                                         <div
-                                            v-if="filterDropdownOpen"
-                                            class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
+                                            v-for="sas in workSameAs"
+                                            :key="sas?.id"
+                                            role="group"
+                                            :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
                                         >
-                                            <div class="max-h-72 flex flex-col overflow-auto p-2">
-                                                <label
-                                                    v-for="suggestion in suggestionsForManifestations"
-                                                    :key="suggestion"
-                                                    class="label cursor-pointer justify-start gap-3 py-2"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        class="checkbox checkbox-sm"
-                                                        :checked="searchQuery.includes(suggestion)"
-                                                        @change="toggleSuggestion(suggestion)"
-                                                    />
-                                                    <Icon :name="suggestionIconName(suggestion)" class="icon-inline text-primary" aria-hidden="true" />
-                                                    <span class="label-text">
-                                                        {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
-                                                    </span>
-                                                </label>
-                                            </div>
+                                            <DetailKeyValueComp
+                                                :keytxt="sas?.category"
+                                                :valtxt="sas?.id"
+                                                :same-as="true"
+                                                :show-same-as-link="true"
+                                                :clip="false"
+                                                font-size="text-sm"
+                                                :translate-key="true"
+                                                :truncate="true"
+                                            />
                                         </div>
                                     </div>
 
-                                    <!-- Badge mode (standalone, not inside dropdown) -->
-                                    <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative">
-                                        <div class="overflow-x-auto overflow-y-hidden py-2 pr-14">
-                                            <div class="flex flex-nowrap items-center gap-1 min-w-max">
-                                                <button
-                                                    v-for="suggestion in suggestionsForManifestations"
-                                                    :key="suggestion"
-                                                    type="button"
-                                                    class="badge badge-outline h-7 min-h-0 gap-1 px-1.5 text-xs cursor-pointer shrink-0"
-                                                    :class="searchQuery.includes(suggestion) ? 'badge-primary' : ''"
-                                                    :aria-pressed="searchQuery.includes(suggestion) ? 'true' : 'false'"
-                                                    :title="$t(suggestion) !== suggestion ? $t(suggestion) : suggestion"
-                                                    @click="toggleSuggestion(suggestion)"
+                                    <!-- (Optional) Episode/Teil-Indikator? -> is_part_of -->
+                                    <div
+                                        v-if="workIsPartOf.length"
+                                        role="region"
+                                        :aria-label="$t('isPartOf')"
+                                    >
+                                        <MicroLabelComp label-text="isPartOf" />
+                                        <ul>
+                                            <li v-for="ipo in workIsPartOf" :key="ipo?.id" class="min-w-0">
+                                                <router-link
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                    :to="`/res/${(ipo?.id || '')}`"
+                                                    class="link link-primary block truncate"
+                                                    :title="`${ipo?.id} (${ $t(ipo?.category) })`"
+                                                    :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
                                                 >
-                                                    <Icon :name="suggestionIconName(suggestion)" class="w-3 h-3" aria-hidden="true" />
-                                                    <span class="truncate max-w-32 leading-tight">
-                                                        {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
-                                        <div class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-base-content/60">
-                                            {{ $t('filterScrollForMore') }}
-                                        </div>
+                                                    {{ ipo?.id }}&nbsp;({{ $t(ipo?.category) }})
+                                                </router-link>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
-                                <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1" :aria-label="$t('selectedFilters')">
-                                    <span v-for="selected in searchQuery" :key="selected" class="badge badge-outline gap-1">
-                                        <Icon :name="suggestionIconName(selected)" class="w-3.5 h-3.5" aria-hidden="true" />
-                                        {{ $t(selected) !== selected ? $t(selected) : selected }}
-                                        <button
-                                            type="button"
-                                            class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
-                                            :aria-label="`${$t('remove')}: ${selected}`"
-                                            @click="removeSuggestion(selected)"
-                                        >
-                                            &times;
-                                        </button>
-                                    </span>
-                                </div>
-                                <p class="ml-auto text-sm text-base-content/70" role="status">
-                                    {{ filteredManifestations.length }} {{ $t('results') }}
-                                </p>
-                            </div>
-
-                            <ClientOnly>
-                                <div v-if="loading" class="flex justify-center items-center min-h-30">
-                                    <span class="loading loading-spinner loading-lg text-primary" />
-                                </div>
+                                <!-- 05 Alternative Titel -->
                                 <div
-                                    v-else-if="filteredManifestations.length === 0"
-                                    class="alert alert-info mt-3"
-                                    role="status"
-                                    :aria-label="$t('noResults')"
+                                    v-if="Array.isArray(mir?.has_alternative_title) && mir.has_alternative_title.length"
+                                    id="alternative-titles"
+                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                    role="region"
+                                    :aria-label="$t('AlternativeTitles')"
                                 >
-                                    <div>
-                                        <p class="font-semibold">{{ $t('noResults') }}</p>
-                                        <p class="text-sm">{{ $t('tryClearingFiltersOrQuery') }}</p>
-                                    </div>
+                                    <DetailKeyActionRowsComp
+                                        :key-label="$t('AlternativeTitles')"
+                                        :values="mir.has_alternative_title"
+                                        same-as-type="work"
+                                        :show-count="true"
+                                        :initial-visible="6"
+                                    />
                                 </div>
-                                <DetailManifestationListComp v-else v-model="filteredManifestations" />
-                            </ClientOnly>
-                        </div>
 
-                        <input
-                            v-if="hasFilmRelatedMaterials"
-                            id="film-related-materials-tab"
-                            v-model="activeDetailTab"
-                            type="radio"
-                            name="work-detail-tabs"
-                            value="filmRelatedMaterials"
-                            role="tab"
-                            class="tab"
-                            :aria-label="`${$t('filmRelatedMaterials')} (${filmRelatedMaterialCount})`"
-                            aria-controls="film-related-materials-panel"
-                            @click="setDetailTab('filmRelatedMaterials')"
-                            @change="setDetailTab('filmRelatedMaterials')"
-                        />
+                                <!-- 10 Genre -->
+                                <div
+                                    v-if="hasGenre"
+                                    id="genre"
+                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                    role="region"
+                                    :aria-label="$t('avefi:Genre')"
+                                >
+                                    <DetailKeyActionRowsComp
+                                        :key-label="$t('avefi:Genre')" :values="mir.has_genre"
+                                        same-as-type="genre" facet-attribute="has_genre_has_name"
+                                        :show-count="true" :initial-visible="6" />
+                                </div>
 
-                        <div
-                            v-if="hasFilmRelatedMaterials"
-                            id="film-related-materials-panel"
-                            class="tab-content border-base-300 bg-base-100 p-4"
-                            role="tabpanel"
-                            aria-labelledby="film-related-materials-tab"
-                        >
-                            <DetailFilmRelatedMaterialsComp :work-variant-id="workVariantHandle" />
+                                <!-- 11 Schlagwort -->
+                                <div
+                                    v-if="hasSubjects"
+                                    id="subjects"
+                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                    role="region"
+                                    :aria-label="$t('avefi:Subject')"
+                                >
+                                    <DetailKeyActionRowsComp
+                                        :key-label="$t('avefi:Subject')" :values="workSubjects"
+                                        same-as-type="subject" facet-attribute="subjects"
+                                        :show-count="true" :initial-visible="8" />
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </section>
+
+                <div v-else>
+                    <pre>{{ mir }}</pre>
                 </div>
-            </section>
 
-            <div v-else-if="parts">
-                <ViewsWorkViewCompParts class="mt-4" :parts="parts"
-                                        :handle="dataObject?.compound_record?._source?.handle" />
-            </div>
+                <!-- Manifestations and film-related materials block -->
+                <section v-if="hasCollectionTabs" id="manifestations" aria-labelledby="collection-tabs-heading">
+                    <div class="mt-4 ml-2">
+                        <hr class="my-2 col-span-full" />
+                        <h3 id="collection-tabs-heading" class="sr-only">
+                            {{ $t('manifestationsAndFilmRelatedMaterials') }}
+                        </h3>
 
-            <div v-else class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4" role="alert"
-                 :aria-label="$t('noManifestations')">
-                <MicroIconTextComp icon-name="tabler:mood-empty" text="noManifestations" />
-            </div>
+                        <div
+                            class="tabs tabs-lift"
+                            role="tablist"
+                            :aria-label="$t('manifestationsAndFilmRelatedMaterials')"
+                        >
+                            <input
+                                v-if="manifestations.length > 0"
+                                id="manifestations-tab"
+                                v-model="activeDetailTab"
+                                type="radio"
+                                name="work-detail-tabs"
+                                value="manifestations"
+                                role="tab"
+                                class="tab"
+                                :aria-label="`${$t('manifestations')} (${manifestations.length})`"
+                                aria-controls="manifestations-panel"
+                                @click="setDetailTab('manifestations')"
+                                @change="setDetailTab('manifestations')"
+                            />
 
-            <!-- 12 Letzte Bearbeitung -->
-            <div v-if="dataObject?.compound_record?._source?.['@timestamp']" id="last-edit" class="w-full mt-4 justify-center items-center">
-                <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
-                                    :valtxt="formatTimestamp(dataObject.compound_record._source['@timestamp'])" />
+                            <div
+                                v-if="manifestations.length > 0"
+                                id="manifestations-panel"
+                                class="tab-content border-base-300 bg-base-100 p-4"
+                                role="tabpanel"
+                                aria-labelledby="manifestations-tab"
+                            >
+                                <header class="flex flex-wrap items-start justify-between gap-3">
+                                    <div>
+                                        <h3 id="manifestations-heading" class="text-base font-semibold leading-6 dark:text-white">
+                                            {{ $t("manifestations") }}
+                                        </h3>
+                                        <p class="mt-1 text-sm text-base-content/70">
+                                            {{ $t('tooltip.manifestation') }}
+                                        </p>
+                                    </div>
+                                </header>
+
+                                <div class="mt-4 flex flex-col gap-3">
+                                    <div class="form-control min-w-0">
+                                        <span class="label pb-1">
+                                            <span class="label-text text-xs">{{ $t('viewType') }}</span>
+                                        </span>
+                                        <div class="join w-full">
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm join-item flex-1"
+                                                :class="filterDropdownViewMode === 'list' ? 'btn-primary' : 'btn-outline'"
+                                                :aria-pressed="filterDropdownViewMode === 'list' ? 'true' : 'false'"
+                                                @click="setFilterDropdownViewMode('list')"
+                                            >
+                                                {{ $t('filterViewList') }}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm join-item flex-1"
+                                                :class="filterDropdownViewMode === 'badges' ? 'btn-primary' : 'btn-outline'"
+                                                :aria-pressed="filterDropdownViewMode === 'badges' ? 'true' : 'false'"
+                                                @click="setFilterDropdownViewMode('badges')"
+                                            >
+                                                {{ $t('filterViewBadges') }}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-control min-w-0">
+                                        <span class="label pb-1">
+                                            <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
+                                        </span>
+
+                                        <!-- Dropdown mode -->
+                                        <div v-if="filterDropdownViewMode === 'list'" class="relative min-w-0" ref="filterDropdownRef">
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline w-full justify-between"
+                                                :aria-label="$t('filterItemsAndManifestations')"
+                                                :aria-expanded="filterDropdownOpen ? 'true' : 'false'"
+                                                aria-haspopup="listbox"
+                                                @click="filterDropdownOpen = !filterDropdownOpen"
+                                            >
+                                                <span class="truncate">
+                                                    {{
+                                                        searchQuery.length > 0
+                                                            ? `${$t('filterItemsAndManifestations')} (${searchQuery.length})`
+                                                            : $t('filterItemsAndManifestations')
+                                                    }}
+                                                </span>
+                                                <Icon
+                                                    :name="filterDropdownOpen ? 'tabler-chevron-up' : 'tabler-chevron-down'"
+                                                    aria-hidden="true"
+                                                />
+                                            </button>
+
+                                            <div
+                                                v-if="filterDropdownOpen"
+                                                class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
+                                            >
+                                                <div class="max-h-72 flex flex-col overflow-auto p-2">
+                                                    <label
+                                                        v-for="suggestion in suggestionsForManifestations"
+                                                        :key="suggestion"
+                                                        class="label cursor-pointer justify-start gap-3 py-2"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            class="checkbox checkbox-sm"
+                                                            :checked="searchQuery.includes(suggestion)"
+                                                            @change="toggleSuggestion(suggestion)"
+                                                        />
+                                                        <Icon :name="suggestionIconName(suggestion)" class="icon-inline text-primary" aria-hidden="true" />
+                                                        <span class="label-text">
+                                                            {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Badge mode (standalone, not inside dropdown) -->
+                                        <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative">
+                                            <div class="overflow-x-auto overflow-y-hidden py-2 pr-14">
+                                                <div class="flex flex-nowrap items-center gap-1 min-w-max">
+                                                    <button
+                                                        v-for="suggestion in suggestionsForManifestations"
+                                                        :key="suggestion"
+                                                        type="button"
+                                                        class="badge badge-outline h-7 min-h-0 gap-1 px-1.5 text-xs cursor-pointer shrink-0"
+                                                        :class="searchQuery.includes(suggestion) ? 'badge-primary' : ''"
+                                                        :aria-pressed="searchQuery.includes(suggestion) ? 'true' : 'false'"
+                                                        :title="$t(suggestion) !== suggestion ? $t(suggestion) : suggestion"
+                                                        @click="toggleSuggestion(suggestion)"
+                                                    >
+                                                        <Icon :name="suggestionIconName(suggestion)" class="w-3 h-3" aria-hidden="true" />
+                                                        <span class="truncate max-w-32 leading-tight">
+                                                            {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
+                                            <div class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-base-content/60">
+                                                {{ $t('filterScrollForMore') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+                                    <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1" :aria-label="$t('selectedFilters')">
+                                        <span v-for="selected in searchQuery" :key="selected" class="badge badge-outline gap-1">
+                                            <Icon :name="suggestionIconName(selected)" class="w-3.5 h-3.5" aria-hidden="true" />
+                                            {{ $t(selected) !== selected ? $t(selected) : selected }}
+                                            <button
+                                                type="button"
+                                                class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
+                                                :aria-label="`${$t('remove')}: ${selected}`"
+                                                @click="removeSuggestion(selected)"
+                                            >
+                                                &times;
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <p class="ml-auto text-sm text-base-content/70" role="status">
+                                        {{ filteredManifestations.length }} {{ $t('results') }}
+                                    </p>
+                                </div>
+
+                                <ClientOnly>
+                                    <div v-if="loading" class="flex justify-center items-center min-h-30">
+                                        <span class="loading loading-spinner loading-lg text-primary" />
+                                    </div>
+                                    <div
+                                        v-else-if="filteredManifestations.length === 0"
+                                        class="alert alert-info mt-3"
+                                        role="status"
+                                        :aria-label="$t('noResults')"
+                                    >
+                                        <div>
+                                            <p class="font-semibold">{{ $t('noResults') }}</p>
+                                            <p class="text-sm">{{ $t('tryClearingFiltersOrQuery') }}</p>
+                                        </div>
+                                    </div>
+                                    <DetailManifestationListComp v-else v-model="filteredManifestations" />
+                                </ClientOnly>
+                            </div>
+
+                            <input
+                                v-if="hasFilmRelatedMaterials"
+                                id="film-related-materials-tab"
+                                v-model="activeDetailTab"
+                                type="radio"
+                                name="work-detail-tabs"
+                                value="filmRelatedMaterials"
+                                role="tab"
+                                class="tab"
+                                :aria-label="`${$t('filmRelatedMaterials')} (${filmRelatedMaterialCount})`"
+                                aria-controls="film-related-materials-panel"
+                                @click="setDetailTab('filmRelatedMaterials')"
+                                @change="setDetailTab('filmRelatedMaterials')"
+                            />
+
+                            <div
+                                v-if="hasFilmRelatedMaterials"
+                                id="film-related-materials-panel"
+                                class="tab-content border-base-300 bg-base-100 p-4"
+                                role="tabpanel"
+                                aria-labelledby="film-related-materials-tab"
+                            >
+                                <DetailFilmRelatedMaterialsComp :work-variant-id="workVariantHandle" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div v-else-if="parts">
+                    <ViewsWorkViewCompParts class="mt-4" :parts="parts"
+                                            :handle="dataObject?.compound_record?._source?.handle" />
+                </div>
+
+                <div v-else class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4" role="alert"
+                     :aria-label="$t('noManifestations')">
+                    <MicroIconTextComp icon-name="tabler:mood-empty" text="noManifestations" />
+                </div>
+
+                <!-- 12 Letzte Bearbeitung -->
+                <div v-if="dataObject?.compound_record?._source?.['@timestamp']" id="last-edit" class="w-full mt-4 justify-center items-center">
+                    <DetailKeyValueComp class="col-span-full mx-auto" keytxt="lastedit" :clip="false"
+                                        :valtxt="formatTimestamp(dataObject.compound_record._source['@timestamp'])" />
+                </div>
             </div>
         </div>
     </div>
@@ -682,6 +756,15 @@ const loading = ref(false);
 let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY = 'avefi.work.filterDropdownViewMode';
+const WORK_NAVIGATION_VISIBLE_STORAGE_KEY = 'avefi.work.navigationVisible';
+
+function setWorkNavigationVisible(visible: boolean) {
+    desktopDrawerOpen.value = visible;
+
+    if (typeof window !== 'undefined') {
+        window.localStorage.setItem(WORK_NAVIGATION_VISIBLE_STORAGE_KEY, String(visible));
+    }
+}
 
 function setFilterDropdownViewMode(mode: 'list' | 'badges') {
     filterDropdownViewMode.value = mode;
@@ -1026,6 +1109,9 @@ const hasReferencesAndWorkRelations = computed(() =>
     workSameAs.value.length > 0 || workIsPartOf.value.length > 0
 );
 
+const hasAlternativeTitles = computed(() =>
+    Array.isArray(mir?.has_alternative_title) && mir.has_alternative_title.length > 0
+);
 const hasGenre = computed(() => Array.isArray(mir?.has_genre) && mir.has_genre.length > 0);
 const hasSubjects = computed(() => Array.isArray(mir?.has_subject) && mir.has_subject.length > 0);
 // WorkVariant.has_subject is generated as CategorizedThing[] (just { category }), but real
@@ -1038,6 +1124,7 @@ const sectionIds = computed<string[]>(() => {
 
     if (hasReferencesAndWorkRelations.value) ids.push("references-work-relations");
     if (hasWorkEvents.value) ids.push("work-events");
+    if (hasAlternativeTitles.value) ids.push("alternative-titles");
     if (hasGenre.value) ids.push("genre");
     if (hasSubjects.value) ids.push("subjects");
     if (manifestations.value.length > 0) ids.push("manifestations");
@@ -1274,7 +1361,7 @@ const showNavbarProductionSummary = computed(() => {
     if (!workContextRows.value.length) return false;
     if (!activeSection.value) return false;
     if (activeSection.value === 'references-work-relations') return false;
-    if (activeSection.value === 'genre' || activeSection.value === 'subjects') return false;
+    if (activeSection.value === 'alternative-titles' || activeSection.value === 'genre' || activeSection.value === 'subjects') return false;
     if (activeSection.value === 'work-events' || activeSection.value.startsWith('event-')) return false;
     return true;
 });
@@ -1301,12 +1388,12 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
         });
     }
 
-    if (hasWorkEvents.value) {
+    if (hasAlternativeTitles.value) {
         items.push({
-            id: 'work-events',
-            label: productionNavigationLabel.value,
-            icon: 'tabler:building-factory',
-            count: normalizedEvents.value.length || undefined,
+            id: 'alternative-titles',
+            label: t('AlternativeTitles'),
+            icon: 'tabler:language',
+            count: mir?.has_alternative_title?.length || undefined,
             kind: 'work',
         });
     }
@@ -1325,6 +1412,16 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
             id: 'subjects',
             label: t('avefi:Subject'),
             icon: 'tabler:tags',
+            kind: 'work',
+        });
+    }
+
+    if (hasWorkEvents.value) {
+        items.push({
+            id: 'work-events',
+            label: productionNavigationLabel.value,
+            icon: 'tabler:building-factory',
+            count: normalizedEvents.value.length || undefined,
             kind: 'work',
         });
     }
@@ -1352,6 +1449,14 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
 
     return items;
 });
+
+const workVariantNavigationItems = computed(() =>
+    workNavigationItems.value.filter((item) => item.kind === 'work')
+);
+
+const collectionNavigationItems = computed(() =>
+    workNavigationItems.value.filter((item) => item.kind === 'collection')
+);
 
 function isManifestationAnchor(id: string): boolean {
     if (id === 'manifestations') return true;
@@ -1471,7 +1576,12 @@ async function initObserver() {
 }
 
 onMounted(() => {
-    if (process.client) {
+    if (typeof window !== 'undefined') {
+        const storedWorkNavigationVisible = window.localStorage.getItem(WORK_NAVIGATION_VISIBLE_STORAGE_KEY);
+        if (storedWorkNavigationVisible === 'true' || storedWorkNavigationVisible === 'false') {
+            desktopDrawerOpen.value = storedWorkNavigationVisible === 'true';
+        }
+
         const storedFilterMode = window.localStorage.getItem(FILTER_DROPDOWN_VIEW_MODE_STORAGE_KEY);
         if (storedFilterMode === 'list' || storedFilterMode === 'badges') {
             filterDropdownViewMode.value = storedFilterMode;
@@ -1505,6 +1615,14 @@ onMounted(() => {
         });
     }
 });
+
+watch(
+    desktopDrawerOpen,
+    (visible) => {
+        if (typeof window === 'undefined') return;
+        window.localStorage.setItem(WORK_NAVIGATION_VISIBLE_STORAGE_KEY, String(visible));
+    }
+);
 
 watch(
     () => sectionIds.value.join("|"),
@@ -1563,21 +1681,62 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.work-detail-content-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.work-detail-side-rail {
+    align-self: start;
+}
+
+@media (min-width: 1280px) {
+    .work-detail-content-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(12rem, 16rem);
+    }
+}
+
+@media (min-width: 1536px) {
+    .work-detail-content-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+    }
+}
+
 .work-section-menu {
     position: relative;
     display: grid;
     gap: 0.25rem;
-    padding-left: 0.75rem;
+    padding-left: 0.25rem;
 }
 
 .work-section-menu::before {
     position: absolute;
     bottom: 0.75rem;
-    left: 1.5rem;
+    left: 1.25rem;
     top: 0.75rem;
     width: 1px;
     background: color-mix(in oklab, var(--color-base-content) 18%, transparent);
     content: "";
+}
+
+.work-section-menu-group-label {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 0.25rem 0.25rem;
+    padding: 0.25rem 0.5rem 0.25rem 2.75rem;
+    color: color-mix(in oklab, var(--color-work) 82%, var(--color-base-content));
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.work-section-menu-separator {
+    position: relative;
+    z-index: 1;
+    margin: 0.25rem 0 0.25rem 2.75rem;
+    height: 1px;
+    background: color-mix(in oklab, var(--color-base-content) 14%, transparent);
 }
 
 .work-section-menu-item {
@@ -1591,7 +1750,19 @@ onUnmounted(() => {
     border-radius: 0.5rem;
     padding: 0.4rem 0.5rem;
     text-align: left;
+    text-decoration: none;
     transition: background-color 120ms ease, color 120ms ease;
+}
+
+.work-section-menu-item.is-active::before {
+    position: absolute;
+    bottom: 0.45rem;
+    left: 0.15rem;
+    top: 0.45rem;
+    width: 3px;
+    border-radius: 999px;
+    background: var(--color-primary);
+    content: "";
 }
 
 .work-section-menu-item:hover,
@@ -1643,26 +1814,26 @@ onUnmounted(() => {
     opacity: 1;
     transform: translateY(0);
 }
-</style>
 
-<style scoped>
+.collapse-plus>.collapse-title:after {
+    top: 25%;
+}
+
 .slide-sidebar-enter-active,
 .slide-sidebar-leave-active {
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transition: width 180ms ease, opacity 180ms ease;
 }
 
 .slide-sidebar-enter-from,
 .slide-sidebar-leave-to {
     width: 0;
+    opacity: 0;
 }
 
 .slide-sidebar-enter-to,
 .slide-sidebar-leave-from {
     width: 18rem;
-    /* 72 Tailwind units */
-}
-
-.collapse-plus>.collapse-title:after {
-    top: 25%;
+    opacity: 1;
 }
 </style>
