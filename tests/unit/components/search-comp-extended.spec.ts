@@ -246,7 +246,7 @@ describe('SearchCompExtended interaction contracts', () => {
   });
 
   test('submits production year as numeric refinement without fetching facet suggestions', async () => {
-    const fetchMock = vi.mocked(globalThis.$fetch as unknown as Mock);
+    const fetchMock = vi.mocked((globalThis as unknown as { $fetch: Mock }).$fetch);
     const wrapper = mountComponent();
     await flushPromises();
 

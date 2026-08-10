@@ -370,7 +370,7 @@ if (runtimeConfig.public.matomoUrl) {
 }
 
 useHead({
-    link: criticalLinks,
+    link: criticalLinks as never,
 });
 
 const HomeTimelineSection = defineAsyncComponent(() => import('~/components/home/HomeTimelineSection.vue'));
@@ -439,7 +439,7 @@ function createResponsiveCardMedia(baseName: string, width: number, height: numb
 // ─────────────────────────────────────────────
 // SEO META (multi-language via i18n)
 // ─────────────────────────────────────────────
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     title: t('home.seo.title'),
     description: t('home.seo.description'),
     ogTitle: t('home.seo.ogTitle'),
@@ -473,7 +473,7 @@ useSeoMeta({
 // ─────────────────────────────────────────────
 // Schema.org: page-level WebPage merged into global WebSite from app.vue
 // ─────────────────────────────────────────────
-useSchemaOrg(() => {
+useSchemaOrg(computed(() => {
     const baseUrl = siteUrl.value;
     const url = baseUrl + route.path;
     return [
@@ -486,7 +486,7 @@ useSchemaOrg(() => {
             isPartOf: { '@id': `${baseUrl}/#website` },
         }),
     ];
-});
+}));
 
 const showAdvancedSearch = ref(false);
 const searchCompRef = ref<ComponentPublicInstance | HTMLElement | null>(null);

@@ -91,7 +91,7 @@ const canonical = computed(() => {
     return `${baseUrl}/compare`;
 });
 
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     title: pageTitle,
     description: pageDescription,
     ogTitle: pageTitle,

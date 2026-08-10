@@ -193,7 +193,7 @@ import { useSchemaOrg, defineWebPage, defineBreadcrumb } from '#imports';
 
 const schemaLanguage = computed(() => (locale.value === 'en' ? 'en-US' : 'de-DE'));
 
-useSchemaOrg(() => [
+useSchemaOrg(computed(() => [
     defineWebPage({
         '@type': ['WebPage', 'SearchResultsPage'],
         '@id': `${canonicalUrl.value}#webpage`,
@@ -212,7 +212,7 @@ useSchemaOrg(() => [
             { name: t('filmresearch'), item: baseSearchUrl.value, position: 2 },
         ],
     }),
-]);
+]));
 
 </script>
 

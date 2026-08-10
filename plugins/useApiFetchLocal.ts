@@ -29,13 +29,13 @@ export default defineNuxtPlugin((): { provide: { apiFetchLocal: PluginApiFetch }
       console.log("apiFetch onResponseError");
 
       if (response.status === 401) {
-        return navigateTo('/login');
+        void navigateTo('/login');
+        return;
       }
       //strapi returns 500 if not authenticated ??
       if (response.status === 500) {
         console.warn("Are you authenticated?");
       }
-      return null;
     }
   }) as PluginApiFetch;
     // Expose to useNuxtApp().$apiFetch

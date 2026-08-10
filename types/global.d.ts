@@ -57,6 +57,7 @@ type ApiFetch = {
 declare module '#app' {
   interface NuxtApp extends I18nGlobalProperties {
     $loadFormKit: () => Promise<void> | undefined;
+    $loadInstantSearch: () => Promise<void> | undefined;
     $formKitState: Ref<FormKitLoaderState>;
     $toast: ToastLike;
     $loadToast: () => Promise<ToastLike>;
@@ -71,6 +72,7 @@ declare module '#app' {
 declare module 'vue' {
   interface ComponentCustomProperties extends I18nGlobalProperties {
     $loadFormKit: () => Promise<void> | undefined;
+    $loadInstantSearch: () => Promise<void> | undefined;
     $formKitState: Ref<FormKitLoaderState>;
     $toast: ToastLike;
     $loadToast: () => Promise<ToastLike>;
@@ -85,6 +87,7 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties extends I18nGlobalProperties {
     $loadFormKit: () => Promise<void> | undefined;
+    $loadInstantSearch: () => Promise<void> | undefined;
     $formKitState: Ref<FormKitLoaderState>;
     $toast: ToastLike;
     $loadToast: () => Promise<ToastLike>;

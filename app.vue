@@ -194,7 +194,7 @@ useSchemaOrg([
     },
 ]);
 
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     titleTemplate: '%s | AVefi',
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
     ogUrl: siteUrl.value,

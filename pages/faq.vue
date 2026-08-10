@@ -151,7 +151,7 @@ if (import.meta.client) {
     });
 }
 
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     title: t('seo.faq.title'),
     description: t('seo.faq.description'),
     ogTitle: t('seo.faq.ogTitle'),

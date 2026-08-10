@@ -412,7 +412,7 @@ export default defineNuxtConfig({
     identity: defineOrganization({
       '@id': 'https://www.av-efi.net/#organization',
       name: 'AVefi',
-      alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'],
+      alternateName: ['AV efi', 'AV-efi', 'AVEFI', 'av efi'] as unknown as string,
       url: 'https://www.av-efi.net',
       logo: publicSiteLogoImage,
       description:
@@ -658,6 +658,7 @@ export default defineNuxtConfig({
         scss: {
           // Optimize SCSS compilation
           additionalData: `@use "sass:math";`,
+          loadPaths: ['node_modules'],
         },
       },
     },
@@ -691,5 +692,5 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-});
+} as unknown as Parameters<typeof defineNuxtConfig>[0]);
 

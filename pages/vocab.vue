@@ -25,7 +25,7 @@ definePageMeta({ auth: false });
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     title: t('seo.vocab.title'),
     description: t('seo.vocab.description'),
     ogTitle: t('seo.vocab.title'),

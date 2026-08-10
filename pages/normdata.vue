@@ -353,7 +353,7 @@ const pageDescription = computed(() => {
 const canonical = (runtimeConfig.public.siteUrl || 'https://www.av-efi.net') + '/normdata';
 
 // Meta tags
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     title: pageTitle,
     description: pageDescription,
     ogTitle: pageTitle,

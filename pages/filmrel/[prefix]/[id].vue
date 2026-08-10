@@ -164,6 +164,36 @@ type FetchErrorLike = {
     };
 };
 
+type DetailRecord = Record<string, unknown> & {
+    handle?: string;
+    url?: unknown;
+    creators?: unknown[];
+    directors_or_editors?: unknown[];
+    subjects?: unknown[];
+    work_variants?: unknown[];
+    manifestations?: unknown[];
+    items?: unknown[];
+    parts?: unknown;
+    has_record?: Record<string, unknown> & {
+        abstract?: unknown;
+        category?: string;
+        type?: string;
+        has_note?: unknown;
+        is_manifestation_of?: unknown[];
+        has_primary_title?: { has_name?: string };
+        has_subject?: unknown;
+        has_genre?: unknown;
+    };
+};
+
+type DetailResourceData = {
+    handle?: string;
+    compound_record?: {
+        _source?: DetailRecord;
+        resource_type?: string;
+    };
+};
+
 function fetchErrorStatus(error: unknown): number | undefined {
     const fetchError = error as FetchErrorLike;
     const status = fetchError?.statusCode ?? fetchError?.status ?? fetchError?.response?.status;
@@ -205,7 +235,7 @@ const { data: result, error, pending } = await useAsyncData(
         const resourceData = await $fetch(url).catch((fetchError: unknown) => {
             logDetailFetchError(fetchError, { fullId, url });
             throw fetchError;
-        });
+        }) as DetailResourceData;
 
         // Determine resource type (your existing logic)
         let resourceType = 'workVariant';
@@ -219,15 +249,15 @@ const { data: result, error, pending } = await useAsyncData(
                     resourceType = "compilationManifestation";
                 }
             } else if (
-                resourceData?.compound_record?._source?.manifestations?.length > 0 ||
-                resourceData?.compound_record?._source?.items?.length > 0
+                (resourceData?.compound_record?._source?.manifestations?.length ?? 0) > 0 ||
+                (resourceData?.compound_record?._source?.items?.length ?? 0) > 0
             ) {
                 resourceType = 'manifestationOrItem';
             }
         } else {
             if (resourceData?.compound_record?._source?.parts && resourceData?.compound_record?._source?.has_record?.type === 'Serial') {
                 resourceType = 'compilation';
-            } else if (resourceData?.compound_record?._source?.has_record?.is_manifestation_of?.length > 1) {
+            } else if ((resourceData?.compound_record?._source?.has_record?.is_manifestation_of?.length ?? 0) > 1) {
                 resourceType = 'compilationManifestation';
             }
         }
@@ -318,7 +348,7 @@ const schemaSameAs = computed(() => {
 /** ---------------------------
  * SEO meta + canonical link
  * -------------------------- */
-useSeoMeta({
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
     title,
     description,
     ogTitle: title,
@@ -362,8 +392,8 @@ const webpageId = computed(() => `${canonical.value}#webpage`);
 const datasetName = computed(() => t('home.seo.datasetTitle'));
 const datasetDescription = computed(() => t('home.seo.datasetDescription'));
 
-useSchemaOrg(() => {
-    if (!exposeSchemaOrg) return [];
+useSchemaOrg(computed(() => {
+    if (!exposeSchemaOrg) return [] as never;
 
     const graph: Record<string, unknown>[] = [];
 
@@ -491,8 +521,8 @@ useSchemaOrg(() => {
         })
     );
 
-    return graph;
-});
+    return graph as never;
+}));
 
 /** ---------------------------
  * Breadcrumbs for template
