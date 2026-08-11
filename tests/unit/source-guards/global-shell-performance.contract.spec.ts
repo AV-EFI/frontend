@@ -30,4 +30,13 @@ describe('Global shell performance contract guards', () => {
     expect(mainScssSource).toContain("src: url('/fonts/Inter.ttf') format('truetype');");
     expect(mainScssSource).toContain('font-family: system-ui, -apple-system');
   });
+
+  test('keeps level stripes clipped inside rounded section borders', () => {
+    expect(mainScssSource).toContain('.level-stripe {');
+    expect(mainScssSource).toContain('overflow: hidden;');
+    expect(mainScssSource).toContain('bottom: 1px;');
+    expect(mainScssSource).toContain('left: 1px;');
+    expect(mainScssSource).toContain('top: 1px;');
+    expect(mainScssSource).toContain('border-radius: 0;');
+  });
 });

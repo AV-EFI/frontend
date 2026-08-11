@@ -372,13 +372,14 @@ textarea::selection {
     border-color: var(--color-film-related-materials)!important;
   }
   .level-stripe {
+    overflow: hidden;
     position: relative;
   }
   .level-stripe::before {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    top: 0;
+    bottom: 1px;
+    left: 1px;
+    top: 1px;
     width: 0.125rem;
     border-radius: 0;
     content: "";
