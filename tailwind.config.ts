@@ -2,7 +2,7 @@
 
 module.exports = {
   safelist: [
-    { pattern: /^(hover:)?bg-(work|item|manifestation|work-variant|favourites-list|favourites-list-hover|compare-list|compare-list-hover)$/ },
+    { pattern: /^(hover:)?bg-(work|item|manifestation|film-related-materials|work-variant|favourites-list|favourites-list-hover|compare-list|compare-list-hover)$/ },
     { pattern: /^text-(favourites-list-content|favourites-list-hover-content|compare-list-content)$/ },
   ],
   content: [
@@ -84,6 +84,8 @@ module.exports = {
         work: '#F3E2B8',
         manifestation: '#E8D39E',
         item: '#DDC48B',
+        'film-related-materials': '#4F7F78',
+        'film-related-materials-content': '#ffffff',
       },
     },
   },

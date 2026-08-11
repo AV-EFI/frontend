@@ -64,6 +64,8 @@ textarea::selection {
   --color-work: #8ea1a1;          /* slightly warmer parchment, still neutral */
   --color-manifestation: #7c949e; /* balanced greige with gentle beige depth */
   --color-item: #748599;          /* richer sand-grey with mild olive warmth */  
+  --color-film-related-materials: #4F7F78;
+  --color-film-related-materials-content: #ffffff;
 
   --color-userinfo: #3a4246;
   --color-userinfo-content: oklch(89.925% 0.016 262.749);
@@ -117,6 +119,8 @@ textarea::selection {
   --color-work: #809595;          /* slightly warmer parchment, still neutral */
   --color-manifestation: #728a8a; /* balanced greige with gentle beige depth */
   --color-item: #677c7c;          /* richer sand-grey with mild olive warmth */  
+  --color-film-related-materials: #4F7F78;
+  --color-film-related-materials-content: #ffffff;
 
   --color-userinfo: #3a4246;
   --color-userinfo-content: oklch(89.925% 0.016 262.749);
@@ -266,6 +270,11 @@ textarea::selection {
     --badge-content: var(--color-base-100)!important; /* or a custom contrast */
     color: var(--color-white)!important;
   }
+  .badge-film-related-materials {
+    --badge-bg: var(--color-film-related-materials)!important;
+    --badge-content: var(--color-film-related-materials-content)!important;
+    color: var(--color-film-related-materials-content)!important;
+  }
   .badge-work-part {
     --badge-bg: var(--color-secondary) !important;
     --badge-content: var(--color-secondary-content) !important;
@@ -359,6 +368,9 @@ textarea::selection {
   .border-item {
     border-color: var(--color-item)!important;
   }
+  .border-film-related-materials {
+    border-color: var(--color-film-related-materials)!important;
+  }
   .bg-base-50 {
     background-color: var(--color-base-50)!important;
   }
@@ -373,6 +385,9 @@ textarea::selection {
   }
   .bg-item {
     background-color: var(--color-item)!important;
+  }
+  .bg-film-related-materials {
+    background-color: var(--color-film-related-materials)!important;
   }
   .bg-highlight {
     background-color: var(--color-highlight)!important;

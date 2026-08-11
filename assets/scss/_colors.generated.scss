@@ -26,6 +26,8 @@ $compare-list-content: #ffffff;
 $work: #8ea1a1;
 $manifestation: #7c949e;
 $item: #748599;
+$film-related-materials: #4F7F78;
+$film-related-materials-content: #ffffff;
 $userinfo: #3a4246;
 $userinfo-content: oklch(89.925% 0.016 262.749);
 
@@ -58,6 +60,8 @@ $userinfo-content: oklch(89.925% 0.016 262.749);
   --work: #8ea1a1;
   --manifestation: #7c949e;
   --item: #748599;
+  --film-related-materials: #4F7F78;
+  --film-related-materials-content: #ffffff;
   --userinfo: #3a4246;
   --userinfo-content: oklch(89.925% 0.016 262.749);
 }
@@ -91,6 +95,8 @@ html[data-theme="avefi_dark"] {
   --work: #809595;
   --manifestation: #728a8a;
   --item: #677c7c;
+  --film-related-materials: #4F7F78;
+  --film-related-materials-content: #ffffff;
   --userinfo: #3a4246;
   --userinfo-content: oklch(89.925% 0.016 262.749);
 }

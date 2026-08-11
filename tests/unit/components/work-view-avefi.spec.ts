@@ -290,6 +290,10 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(summary.text()).toContain('USA');
     expect(summary.text()).toContain('1934');
     expect(summary.text()).toContain('Director A');
+    const placeSummaryRow = summary.get('.work-production-summary__row--wide');
+    expect(placeSummaryRow.text()).toContain('USA');
+    expect(placeSummaryRow.get('dd').classes()).toContain('work-production-summary__value');
+    expect(placeSummaryRow.get('dd').classes()).not.toContain('truncate');
     expect(wrapper.find('.work-navigation-sidebar .work-production-summary').exists()).toBe(false);
     expect(wrapper.find('.drawer-side .work-production-summary').exists()).toBe(false);
     expect(wrapper.find('#manifestations > div > aside').exists()).toBe(false);
@@ -307,6 +311,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(wrapper.get('#manifestations-panel').classes()).toContain('border-manifestation');
     expect(wrapper.get('#film-related-materials-tab').attributes('type')).toBe('radio');
     expect(wrapper.get('#film-related-materials-tab').attributes('aria-label')).toBe('filmRelatedMaterials (4)');
+    expect(wrapper.get('#film-related-materials-panel').classes()).toContain('border-film-related-materials');
     expect(getFilmRelatedMaterialCountForWork('21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA')).toBe(4);
   });
 

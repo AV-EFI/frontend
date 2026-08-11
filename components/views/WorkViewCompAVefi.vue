@@ -7,21 +7,22 @@
                 :style="navbarSummaryStyle"
                 :aria-label="$t('workEvents')"
             >
-                <div class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2 text-sm 2xl:px-6">
-                    <p class="min-w-0 max-w-md truncate text-sm font-semibold text-base-content">
+                <div class="work-production-summary__inner mx-auto w-full max-w-7xl px-4 py-2 text-sm 2xl:px-6">
+                    <p class="work-production-summary__title text-sm font-semibold text-base-content">
                         {{ workSummaryTitle }}
                     </p>
-                    <dl class="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-1">
+                    <dl class="work-production-summary__context">
                         <div
                             v-for="row in workContextRows"
                             :key="row.key"
-                            class="flex min-w-0 max-w-full items-center gap-1"
+                            class="work-production-summary__row"
+                            :class="{ 'work-production-summary__row--wide': row.key === 'place' }"
                         >
-                            <dt class="flex shrink-0 items-center gap-1 text-xs font-medium text-base-content/60">
+                            <dt class="work-production-summary__label text-xs font-medium text-base-content/60">
                                 <Icon :name="row.icon" class="icon-inline" aria-hidden="true" />
                                 <span>{{ row.label }}</span>
                             </dt>
-                            <dd class="min-w-0 truncate text-sm text-base-content" :title="row.value">
+                            <dd class="work-production-summary__value text-sm text-base-content" :title="row.value">
                                 {{ row.value }}
                             </dd>
                         </div>
@@ -571,7 +572,7 @@
                             <div
                                 v-if="hasFilmRelatedMaterials"
                                 id="film-related-materials-panel"
-                                class="tab-content border-base-300 bg-base-100 p-4"
+                                class="tab-content border-base-300 border-l-2 border-film-related-materials bg-base-100 p-4"
                                 role="tabpanel"
                                 aria-labelledby="film-related-materials-tab"
                             >
@@ -1655,6 +1656,68 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.work-production-summary__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.25rem 1rem;
+}
+
+.work-production-summary__title {
+    min-width: 0;
+    max-width: 28rem;
+    flex: 1 1 18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.work-production-summary__context {
+    display: flex;
+    min-width: 0;
+    flex: 999 1 32rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.25rem 1rem;
+    margin: 0;
+}
+
+.work-production-summary__row {
+    display: flex;
+    min-width: 0;
+    max-width: 100%;
+    flex: 1 1 12rem;
+    align-items: flex-start;
+    gap: 0.25rem;
+}
+
+.work-production-summary__row--wide {
+    flex: 999 1 24rem;
+}
+
+.work-production-summary__label {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.25rem;
+    line-height: 1.25rem;
+}
+
+.work-production-summary__value {
+    min-width: 0;
+    flex: 1 1 auto;
+    margin: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.25rem;
+}
+
+@media (max-width: 48rem) {
+    .work-production-summary__title,
+    .work-production-summary__context {
+        flex-basis: 100%;
+    }
+}
+
 .work-detail-content-grid {
     display: grid;
     gap: 1rem;

@@ -75,7 +75,8 @@ processTheme(darkColors, nestedDarkColors, cssDark);
 const requiredTokens = [
   'favourites-list', 'favourites-list-hover', 'favourites-list-content',
   'compare-list', 'compare-list-hover', 'compare-list-content',
-  'work', 'manifestation', 'item', 'work-variant'
+  'work', 'manifestation', 'item', 'film-related-materials',
+  'film-related-materials-content', 'work-variant'
 ];
 
 requiredTokens.forEach(token => {
@@ -98,9 +99,9 @@ fs.writeFileSync(
 const tailwindColorsOut = path.resolve(__dirname, '../tailwind.colors.generated.ts');
 fs.writeFileSync(
   tailwindColorsOut,
-  `// Auto-generated Tailwind color config
-  export const lightThemeColors = ${JSON.stringify(nestedLightColors, null, 2)};
-  export const darkThemeColors = ${JSON.stringify(nestedDarkColors, null, 2)};
+`// Auto-generated Tailwind color config
+export const lightThemeColors = ${JSON.stringify(nestedLightColors, null, 2)};
+export const darkThemeColors = ${JSON.stringify(nestedDarkColors, null, 2)};
 `
 );
 
