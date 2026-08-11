@@ -23,6 +23,14 @@ describe('FilmRelatedMaterialsComp accessibility contract guards', () => {
     expect(source).toContain(':aria-label="$t(\'nextPage\')"');
   });
 
+  test('keeps material controls responsive to the detail column width', () => {
+    expect(source).toContain('class="film-related-materials rounded-lg bg-base-100 p-4 dark:border-gray-700"');
+    expect(source).toContain('class="film-material-controls mt-4"');
+    expect(source).toContain('container-type: inline-size');
+    expect(source).toContain('grid-template-columns: repeat(2, minmax(0, 1fr))');
+    expect(source).toContain('grid-template-columns: repeat(4, minmax(0, 1fr))');
+  });
+
   test('keeps preview placeholders centered and facts visibly labelled', () => {
     expect(source).toContain('class="material-thumbnail__placeholder"');
     expect(source).toContain('.material-thumbnail__placeholder');

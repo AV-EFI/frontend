@@ -1,7 +1,7 @@
 <template>
     <section
         id="film-related-materials"
-        class="rounded-lg bg-base-100 p-4 dark:border-gray-700"
+        class="film-related-materials rounded-lg bg-base-100 p-4 dark:border-gray-700"
         aria-labelledby="film-related-materials-heading"
     >
         <header class="flex flex-wrap items-start justify-between gap-3">
@@ -16,7 +16,7 @@
             <span class="badge badge-outline">{{ totalMaterials }}</span>
         </header>
 
-        <div class="mt-4 grid gap-3 lg:grid-cols-[minmax(16rem,1fr)_12rem_12rem_12rem]">
+        <div class="film-material-controls mt-4">
             <label class="form-control min-w-0">
                 <span class="label pb-1">
                     <span class="label-text text-xs">{{ $t('search') }}</span>
@@ -551,6 +551,28 @@ watch(
 </script>
 
 <style scoped>
+.film-related-materials {
+    container-type: inline-size;
+}
+
+.film-material-controls {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+@container (min-width: 36rem) {
+    .film-material-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@container (min-width: 64rem) {
+    .film-material-controls {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
 .material-thumbnail {
     display: flex;
     width: 6rem;

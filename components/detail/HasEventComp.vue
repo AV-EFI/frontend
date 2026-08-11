@@ -18,14 +18,14 @@
                                             facet-attribute="manifestation_event_type"
                                             :aria-label="$t('eventCategory') + ': ' + $t(entry.raw.category)" :clip="false" />
 
-                        <div class="flex flex-row flex-wrap gap-2">
+                        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
                             <DetailKeyValueListComp v-if="entry.raw?.located_in" keytxt="place"
-                                                    class="w-full md:w-[calc(50%-0.25rem)] lg:w-[calc(33.333%-0.34rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.located_in"
+                                                    class="rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.located_in"
                                                     :aria-label="$t('place') + ': ' + entry.raw.located_in" :clip="false" :ul="true" :same-as="true"
                                                     :narrow="true" facet-attribute="located_in_has_name" />
 
                             <DetailKeyValueComp v-if="entry.raw?.has_date" keytxt="productionyear"
-                                                class="w-full md:w-[calc(50%-0.25rem)] lg:w-[calc(33.333%-0.34rem)] rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.has_date"
+                                                class="rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.has_date"
                                                 facet-attribute="productionyear"
                                                 :aria-label="$t('productionyear') + ': ' + entry.raw.has_date" :clip="false" />
                         </div>

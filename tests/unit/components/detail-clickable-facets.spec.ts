@@ -100,10 +100,11 @@ describe('detail clickable facets', () => {
     expect(facetValues).toContainEqual({ attribute: 'creators', value: 'Reiniger, Lotte' });
     expect(facetValues).toContainEqual({ attribute: 'castmembers', value: 'Actor Name' });
 
-    const placeCard = wrapper.getComponent(KeyValueListComp).classes();
+    const placeCard = wrapper.getComponent(KeyValueListComp);
+    const metaGridClasses = Array.from((placeCard.element.parentElement as HTMLElement).classList);
     const crewCard = wrapper.get('[aria-label="crewMember: Director"]').classes();
-    expect(placeCard).toContain('md:w-[calc(50%-0.25rem)]');
-    expect(placeCard).toContain('lg:w-[calc(33.333%-0.34rem)]');
+    expect(metaGridClasses).toEqual(expect.arrayContaining(['grid', 'grid-cols-1', 'gap-3', 'md:grid-cols-2']));
+    expect(placeCard.classes()).not.toContain('lg:w-[calc(33.333%-0.34rem)]');
     expect(crewCard).toContain('md:w-[calc(50%-0.25rem)]');
     expect(crewCard).toContain('lg:w-[calc(33.333%-0.34rem)]');
   });
