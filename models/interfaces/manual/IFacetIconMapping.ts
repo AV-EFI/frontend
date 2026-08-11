@@ -19,6 +19,17 @@ export interface IFacetLevelMapping {
  * Maps Elasticsearch attribute names to Tabler icon names
  */
 export const FACET_ICON_MAP: IFacetIconMapping = {
+  // AVefi data levels
+  'work': 'tabler:stack',
+  'workVariant': 'tabler:stack',
+  'avefi:WorkVariant': 'tabler:stack',
+  'manifestation': 'tabler:stack-2',
+  'manifestations': 'tabler:stack-2',
+  'avefi:Manifestation': 'tabler:stack-2',
+  'item': 'tabler:stack-3',
+  'items': 'tabler:stack-3',
+  'avefi:Item': 'tabler:stack-3',
+
   // Language fields
   'lang': 'tabler-language',
   'in_language': 'tabler-language',

@@ -123,7 +123,7 @@
             <!-- center -->
             <div>
                 <div class="grid-container">
-                    <div class="grid grid-cols-12 gap-2 border-l-2 border-manifestation">
+                    <div class="level-stripe level-stripe--manifestation grid grid-cols-12 gap-2 pl-3 md:pl-4">
                         <!-- has_event -->
                         <div class="col-span-12 md:col-span-7 mb-2">
                             <div

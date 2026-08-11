@@ -200,7 +200,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
-    expect(wrapper.get('.work-level-area').classes()).toContain('border-work');
+    expect(wrapper.get('.work-level-area').classes()).toContain('level-stripe--work');
+    expect(wrapper.get('.work-level-area').classes()).not.toContain('border-work');
     expect(wrapper.find('#manifestations').exists()).toBe(true);
     expect(wrapper.get('[data-testid="manifestation-list"]').text()).toBe('2');
   });
@@ -308,10 +309,12 @@ describe('WorkViewCompAVefi interaction contracts', () => {
 
     expect(wrapper.find('.tabs.tabs-lift').exists()).toBe(true);
     expect(wrapper.get('#manifestations-tab').attributes('type')).toBe('radio');
-    expect(wrapper.get('#manifestations-panel').classes()).toContain('border-manifestation');
+    expect(wrapper.get('#manifestations-panel').classes()).toContain('level-stripe--manifestation');
+    expect(wrapper.get('#manifestations-panel').classes()).not.toContain('border-manifestation');
     expect(wrapper.get('#film-related-materials-tab').attributes('type')).toBe('radio');
     expect(wrapper.get('#film-related-materials-tab').attributes('aria-label')).toBe('filmRelatedMaterials (4)');
-    expect(wrapper.get('#film-related-materials-panel').classes()).toContain('border-film-related-materials');
+    expect(wrapper.get('#film-related-materials-panel').classes()).toContain('level-stripe--film-related-materials');
+    expect(wrapper.get('#film-related-materials-panel').classes()).not.toContain('border-film-related-materials');
     expect(getFilmRelatedMaterialCountForWork('21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA')).toBe(4);
   });
 
@@ -420,8 +423,9 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(wrapper.get('section').classes()).not.toContain('manifestation-card');
 
     await wrapper.get('section > div[role="button"]').trigger('click');
-    expect(wrapper.get('.item-area').classes()).toContain('border-l-2');
-    expect(wrapper.get('.item-area').classes()).toContain('border-item');
+    expect(wrapper.get('.item-area').classes()).toContain('level-stripe--item');
+    expect(wrapper.get('.item-area').classes()).not.toContain('border-l-2');
+    expect(wrapper.get('.item-area').classes()).not.toContain('border-item');
   });
 
   test('renders item anchors from raw handles', () => {

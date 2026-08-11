@@ -178,7 +178,7 @@
             </transition>
 
             <!-- Main content (right) -->
-            <div class="work-level-area min-w-0 flex-1 border-l-2 border-work pl-3 pr-1 lg:pl-4">
+            <div class="work-level-area level-stripe level-stripe--work min-w-0 flex-1 pl-3 pr-1 lg:pl-4">
                 <section v-if="mir"
                          :id="dataObject?.compound_record?._source?.handle || undefined"
                          :aria-labelledby="'work-details-heading'">
@@ -391,7 +391,7 @@
                             <div
                                 v-if="manifestations.length > 0"
                                 id="manifestations-panel"
-                                class="tab-content border-base-300 border-l-2 border-manifestation bg-base-100 p-4"
+                                class="level-stripe level-stripe--manifestation tab-content border-base-300 bg-base-100 p-4"
                                 role="tabpanel"
                                 aria-labelledby="manifestations-tab"
                             >
@@ -572,7 +572,7 @@
                             <div
                                 v-if="hasFilmRelatedMaterials"
                                 id="film-related-materials-panel"
-                                class="tab-content border-base-300 border-l-2 border-film-related-materials bg-base-100 p-4"
+                                class="level-stripe level-stripe--film-related-materials tab-content border-base-300 bg-base-100 p-4"
                                 role="tabpanel"
                                 aria-labelledby="film-related-materials-tab"
                             >

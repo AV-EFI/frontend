@@ -26,7 +26,7 @@
                                 </div>
                                 <span class="text-sm ml-auto font-mono" :aria-label="$t('itemsCount')"
                                       :title="$t('itemsCount')">
-                                    <Icon class="text-xs" name="tabler:hierarchy" aria-hidden="true" /> {{ getFilteredItems(m).length }}
+                                    <Icon class="text-xs" :name="itemLevelIcon" aria-hidden="true" /> {{ getFilteredItems(m).length }}
                                 </span>
                             </div>
                             <GlobalClipboardComp :display-text="m.handle" class="text-xs dark:hover:text-gray-400"
@@ -57,7 +57,7 @@
                         <div v-if="selectedIndex === i + currentPage * itemsPerPage"
                              class="block md:hidden mt-2 p-3 bg-base-100 dark:bg-base-200 rounded-b-md">
                             <h5 class="text-sm font-bold text-primary mb-1 flex items-center gap-1">
-                                <Icon name="tabler:binary-tree" class="text-base" />
+                                <Icon :name="itemLevelIcon" class="text-base" />
                                 {{ $t('items') }}
                                 <GlobalTooltipInfo :text="$t('tooltip.item')" />
                             </h5>
@@ -66,7 +66,7 @@
                                     class="bg-base-100 dark:bg-base-300 rounded-md p-2" tabindex="0"
                                     :aria-label="`${$t('item')}: ${item?.handle}`">
                                     <div class="flex gap-2 items-start mb-1">
-                                        <Icon name="tabler:tree" class="icon-inline text-primary" aria-hidden="true" />
+                                        <Icon :name="itemLevelIcon" class="icon-inline text-primary" aria-hidden="true" />
                                         <span class="text-sm">{{ item?.handle }}</span>
                                     </div>
                                     <SearchGenericIconList :data="item" level="item" density="compact" />
@@ -106,7 +106,7 @@
                  class="hidden md:block z-10 md:w-[calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative" role="region"
                  :aria-label="`manifestation-${selectedManifestation.handle}`">
                 <h5 class="relative text-sm font-bold mb-2 flex items-center gap-1">
-                    <Icon name="tabler:binary-tree" class="text-base" />
+                    <Icon :name="itemLevelIcon" class="text-base" />
                     {{ $t('items') }}
                     <GlobalTooltipInfo :text="$t('tooltip.item')" />
                 </h5>
@@ -116,7 +116,7 @@
                             :aria-labelledby="`item-${item.handle}`" role="group"
                             :aria-label="$t('itemDetails', { handle: item.handle })">
                             <div class="flex items-start gap-2">
-                                <Icon name="tabler:hierarchy" class="icon-inline text-primary" aria-hidden="true" />
+                                <Icon :name="itemLevelIcon" class="icon-inline text-primary" aria-hidden="true" />
                                 <MicroBadgeCategoryComp category="avefi:Item" :dense="false" />
                             </div>
                             <div tabindex="0" class="flex items-start" :aria-label="`${$t('item')}: ${item.handle}`">
@@ -180,7 +180,10 @@
 import { ref, computed, watch, nextTick, type PropType } from 'vue';
 import { allItemsEmpty, isItemEmpty } from '@/composables/useItemEmpty';
 import type { SearchManifestation, SearchItem } from '@/models/interfaces/manual/ISearchWorkHit';
+import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
 const route = useRoute();
+
+const itemLevelIcon = getFacetIcon('item');
 
 const props = defineProps({
     manifestations: { type: Array as PropType<SearchManifestation[]>, required: true },

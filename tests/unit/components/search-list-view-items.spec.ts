@@ -160,6 +160,20 @@ describe('SearchListViewComp server payload usage', () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
+  test('left-aligns the expanded Manifestations heading', async () => {
+    const wrapper = mountComponent({
+      handle: '21.11155/manifestation-1',
+      items: [makeItem('item-1', 'Colour')],
+    });
+
+    await wrapper.get('button[title="toggleDetails"]').trigger('click');
+    await nextTick();
+
+    const heading = wrapper.get('h3[aria-label="tooltip.manifestation"]');
+    expect(heading.classes()).toContain('text-left');
+    expect(heading.classes()).toContain('justify-start');
+  });
+
   test('does not run any client-side mismatch logging while using server payload as-is', () => {
     const firstManifestation = {
       handle: '21.11155/manifestation-1',

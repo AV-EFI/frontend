@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="mir" class="border-l-2 border-work px-2" role="region" :aria-label="`${$t('detailsFor')} ${
+        <div v-if="mir" class="level-stripe level-stripe--work px-2" role="region" :aria-label="`${$t('detailsFor')} ${
             mir?.has_primary_title?.has_name ?? ''
         }`">
         </div>

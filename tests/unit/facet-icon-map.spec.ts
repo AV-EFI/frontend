@@ -36,6 +36,15 @@ describe('shared facet icon map', () => {
     });
   });
 
+  test('contains canonical icons for AVefi data levels', () => {
+    expect(getFacetIcon('manifestation')).toBe('tabler:stack-2');
+    expect(getFacetIcon('manifestations')).toBe('tabler:stack-2');
+    expect(getFacetIcon('avefi:Manifestation')).toBe('tabler:stack-2');
+    expect(getFacetIcon('item')).toBe('tabler:stack-3');
+    expect(getFacetIcon('items')).toBe('tabler:stack-3');
+    expect(getFacetIcon('avefi:Item')).toBe('tabler:stack-3');
+  });
+
   test('maps ambiguous search fields to their display level color classes', () => {
     expect(getFacetLevel('manifestation_event_type')).toBe('manifestation');
     expect(getFacetLevelClass('manifestation_event_type', 'bg')).toBe('bg-manifestation');

@@ -42,7 +42,7 @@
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
                 <!-- 16 Exemplare -->
-                <div class="item-area border-l-2 border-item pl-3 md:pl-4">
+                <div class="item-area level-stripe level-stripe--item pl-3 md:pl-4">
                     <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 mb-4">
                         {{ safeT('items') }}
                         <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />

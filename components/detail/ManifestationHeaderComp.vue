@@ -83,7 +83,7 @@
                     ]"
                 >
                     <Icon
-                        name="tabler:hierarchy"
+                        :name="itemLevelIcon"
                         class="w-3.5 h-3.5 shrink-0 text-(--color-manifestation)"
                         aria-hidden="true"
                     />
@@ -171,6 +171,7 @@ function levelChipClasses(attributeName: string): string {
 }
 
 const manifestationInfoLevelClasses = levelChipClasses('manifestation_event_type');
+const itemLevelIcon = getFacetIcon('item');
 
 function hasNonEmptyString(value: unknown): boolean {
     return typeof value === 'string' && value.trim().length > 0;

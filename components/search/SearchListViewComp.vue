@@ -107,12 +107,10 @@
             <!-- Manifestations -->
             <hr class="my-2">
             <div class="flex flex-col">
-                <h3 class="relative font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
+                <h3 class="flex w-full items-center justify-start gap-2 text-left font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
                     :aria-label="$t('tooltip.manifestation')">
                     {{ $t('manifestations') }}
-
-                    <!-- Info icon positioned inside <h3> -->
-                    <GlobalTooltipInfo :text="$t('tooltip.manifestation')" class="absolute ml-2" />
+                    <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                 </h3>
                 <SearchManifestationListSplitView :key="`${work?.handle ?? 'work'}:${refinementSignature}:${searchUpdateTick}`"
                                                   :manifestations="getFilteredManifestations(work)"
