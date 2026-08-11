@@ -54,6 +54,7 @@ const deBase = {
   'missingDataset1': 'Datensatz 1-Identifikator fehlt. Bitte geben Sie den \'prev\' Query-Parameter an.',
   'missingDataset2': 'Datensatz 2-Identifikator fehlt. Bitte geben Sie den \'next\' Query-Parameter an.',
   'comparisonUrlHelp': 'Beispiel: /compare?prev=21.11155/work-123&next=21.11155/work-456',
+  'reportComparisonToAVefi': 'Diesen Vergleich an AVefi melden',
   "hero": {
     "pill": "Filmwissenschaft • Linked Data • Forschung",
     "badgeLine": "PID-ready • Normdaten • FDO-kompatibel"
@@ -766,7 +767,8 @@ const deBase = {
   'suggestSearchToAVefi': 'Suche/Anfrage mit dem AVefi-Team teilen',
   'share': {
     'shareTemplate': 'Ich möchte diese Suche teilen:\n\nSuchanfrage: {query}\nURL: {url}',
-    'suggestTemplate': 'Ich möchte diese Suche/Anfrage an AVefi vorschlagen:\n\nSuchanfrage: {query}\nURL: {url}'
+    'suggestTemplate': 'Ich möchte diese Suche/Anfrage an AVefi vorschlagen:\n\nSuchanfrage: {query}\nURL: {url}',
+    'compareReportTemplate': 'Schauen Sie sich an, was ich hier gefunden habe:\n\nURL: {url}'
   },
   'clearalllist': 'Liste leeren',
   'notLoggedIn' : 'Sie sind nicht eingeloggt',

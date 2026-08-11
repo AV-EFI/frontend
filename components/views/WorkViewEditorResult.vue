@@ -3,21 +3,24 @@
         <FormKit
             id="work-view-editor-result"
             v-model="dataJson"
-            :classes="{ form: 'merge-editor-result bg-base-100 dark:bg-gray-900 border-base-300 border-2 p-2 rounded-xl' }"
+            :classes="{ form: 'merge-editor-result bg-base-100 dark:bg-gray-900 border-base-300 border-2 p-2 rounded-lg' }"
             type="form"
             :actions="false"
             @submit="customSubmitHandler"
         >
-            <div class="col-span-full flex flex-row justify-between items-center">
+            <div class="col-span-full flex flex-row flex-wrap justify-between items-center gap-2">
                 <h2 class="merge-editor-title">
                     {{ $t('result') }}
                 </h2>
-            </div>
-
-            <div class="col-span-full">
-                <button type="button" class="btn btn-error btn-sm mb-2" @click="customReset">
-                    {{ $t('resetFormData') }}
+                <button
+                    type="button"
+                    class="btn btn-error btn-outline btn-xs h-8 min-h-0 px-2"
+                    :aria-label="$t('resetFormData')"
+                    :title="$t('resetFormData')"
+                    @click="customReset"
+                >
                     <Icon class="icon-inline" name="tabler:x" aria-hidden="true" />
+                    <span class="sr-only">{{ $t('resetFormData') }}</span>
                 </button>
             </div>
 
@@ -113,8 +116,8 @@
 
             <div class="col-span-full">
                 <FormKit type="submit" label="Merge" :disabled="false" suffix-icon="group" :classes="{
-                    outer: '!w-full max-w-[600px]',
-                    input: 'w-full text-center justify-center'
+                    outer: '!w-auto max-w-none mt-3 flex justify-end',
+                    input: '!w-auto min-h-0 h-8 px-4 text-sm text-center justify-center'
                 }" />
             </div>
             <div class="hidden">
@@ -182,7 +185,7 @@ function customSubmitHandler() {
 
 <style scoped>
 .merge-editor-title {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     max-width: 100%;
     overflow: hidden;
     overflow-wrap: anywhere;
@@ -203,5 +206,49 @@ function customSubmitHandler() {
 
 .merge-editor-result :deep(.formkit-input) {
     font-size: 0.875rem;
+}
+
+.merge-editor-result :deep(.formkit-outer),
+.merge-editor-result :deep(.formkit-wrapper),
+.merge-editor-result :deep(.formkit-inner) {
+    min-width: 0;
+}
+
+.merge-editor-result :deep([data-type='repeater'] > .formkit-fieldset) {
+    min-width: 0;
+    padding: 0.5rem;
+}
+
+.merge-editor-result :deep([data-type='repeater'] .formkit-item) {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.merge-editor-result :deep([data-type='repeater'] .formkit-content) {
+    min-width: 0;
+    padding: 0.5rem;
+}
+
+.merge-editor-result :deep([data-type='repeater'] .formkit-controls) {
+    flex: 0 0 1.75rem;
+    padding: 0.25rem;
+}
+
+.merge-editor-result :deep([data-type='repeater'] .formkit-controls > li) {
+    width: 1.25rem;
+    flex-basis: 1.25rem;
+    margin: 0.125rem 0;
+}
+
+.merge-editor-result :deep([data-type='repeater'] .formkit-controls > li > button) {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.merge-editor-result :deep([data-type='repeater'] .formkit-controls .formkit-icon svg) {
+    max-width: 1rem;
+    max-height: 1rem;
 }
 </style>

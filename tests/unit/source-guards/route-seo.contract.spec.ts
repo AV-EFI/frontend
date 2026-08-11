@@ -4,6 +4,7 @@ import { describe, expect, test } from 'vitest';
 
 const appSource = readFileSync(resolve(process.cwd(), 'app.vue'), 'utf8');
 const searchSource = readFileSync(resolve(process.cwd(), 'pages/search/index.vue'), 'utf8');
+const compareSource = readFileSync(resolve(process.cwd(), 'pages/compare.vue'), 'utf8');
 const detailSource = readFileSync(
   resolve(process.cwd(), 'pages/res/[prefix]/[id].vue'),
   'utf8'
@@ -22,6 +23,8 @@ const itemListSource = readFileSync(
   resolve(process.cwd(), 'components/detail/ItemListNewComp.vue'),
   'utf8'
 );
+const enSource = readFileSync(resolve(process.cwd(), 'i18n/locales/en.ts'), 'utf8');
+const deSource = readFileSync(resolve(process.cwd(), 'i18n/locales/de.ts'), 'utf8');
 
 describe('Route and SEO contract guards', () => {
   test('BB-APP-001 keeps global canonical and schema graph mount points', () => {
@@ -38,6 +41,18 @@ describe('Route and SEO contract guards', () => {
     expect(searchSource).toContain('normalizeQueryToParams');
     expect(searchSource).toContain("return hasIndexableParams.value ? 'index,follow' : 'noindex,follow'");
     expect(searchSource).toContain("{ rel: 'canonical', href: canonicalUrl.value }");
+  });
+
+  test('BB-COMPARE-001 keeps comparison report contact drawer behavior', () => {
+    expect(compareSource).toContain('reportComparisonToAVefi');
+    expect(compareSource).toContain("new CustomEvent('open-contact-drawer'");
+    expect(compareSource).toContain("t('share.compareReportTemplate'");
+    expect(compareSource).toContain('window.location.href');
+    expect(compareSource).toContain('tabler:message-report');
+    expect(enSource).toContain("'reportComparisonToAVefi': 'Report this comparison to AVefi'");
+    expect(enSource).toContain("'compareReportTemplate': 'Look what I found here:\\n\\nURL: {url}'");
+    expect(deSource).toContain("'reportComparisonToAVefi': 'Diesen Vergleich an AVefi melden'");
+    expect(deSource).toContain("'compareReportTemplate': 'Schauen Sie sich an, was ich hier gefunden habe:\\n\\nURL: {url}'");
   });
 
   test('BB-DETAIL-001 keeps route-based canonical for /res/:prefix/:id', () => {

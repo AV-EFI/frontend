@@ -91,6 +91,29 @@ const canonical = computed(() => {
     return `${baseUrl}/compare`;
 });
 
+function currentComparisonUrl(): string {
+    if (typeof window !== 'undefined') {
+        return window.location.href;
+    }
+
+    const baseUrl = siteUrl.value || 'https://www.av-efi.net';
+    return `${baseUrl}${route.fullPath || `/compare?prev=${items[0]}&next=${items[1]}`}`;
+}
+
+function reportComparisonToAVefi() {
+    if (typeof window === 'undefined') return;
+
+    const initialMessage = t('share.compareReportTemplate', {
+        url: currentComparisonUrl(),
+    }) as string;
+
+    window.dispatchEvent(
+        new CustomEvent('open-contact-drawer', {
+            detail: { initialMessage },
+        })
+    );
+}
+
 (useSeoMeta as (meta: Record<string, unknown>) => void)({
     title: pageTitle,
     description: pageDescription,
@@ -143,21 +166,35 @@ useSchemaOrg([
                 </div>
             </div>
 
-            <div v-else role="tablist" class="tabs tabs-bordered">
-                <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48" :aria-label="$t('compareRegular')"
-                       checked="true">
-                <div role="tabpanel"
-                     class="tab-content bg-base-100 border-base-300 rounded-box p-2 md:p-6 snap-always snap-start">
-                    <ClientOnly fallback-tag="span" :fallback="$t('loadingDatasets')">
-                        <LazyGlobalCompareViewProps :items="items" />
-                    </ClientOnly>
+            <div v-else class="space-y-3">
+                <div class="flex justify-end">
+                    <button
+                        type="button"
+                        class="btn btn-outline btn-sm gap-2"
+                        :aria-label="$t('reportComparisonToAVefi')"
+                        @click="reportComparisonToAVefi"
+                    >
+                        <Icon name="tabler:message-report" class="h-4 w-4" aria-hidden="true" />
+                        <span>{{ $t('reportComparisonToAVefi') }}</span>
+                    </button>
                 </div>
-                <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48 hidden" :aria-label="$t('compareRaw')">
-                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 snap-always snap-start">
-                    <div>
+
+                <div role="tablist" class="tabs tabs-bordered">
+                    <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48" :aria-label="$t('compareRegular')"
+                           checked="true">
+                    <div role="tabpanel"
+                         class="tab-content bg-base-100 border-base-300 rounded-box p-2 md:p-6 snap-always snap-start">
                         <ClientOnly fallback-tag="span" :fallback="$t('loadingDatasets')">
-                            <LazyGlobalCompareViewRaw :items="items" />
+                            <LazyGlobalCompareViewProps :items="items" />
                         </ClientOnly>
+                    </div>
+                    <input type="radio" name="compare_tabs" role="tab" class="tab min-w-48 hidden" :aria-label="$t('compareRaw')">
+                    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 p-6 snap-always snap-start">
+                        <div>
+                            <ClientOnly fallback-tag="span" :fallback="$t('loadingDatasets')">
+                                <LazyGlobalCompareViewRaw :items="items" />
+                            </ClientOnly>
+                        </div>
                     </div>
                 </div>
             </div>

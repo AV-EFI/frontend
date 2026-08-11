@@ -20,7 +20,7 @@
                 </p>
             </div>
             <div class="flex flex-col lg:flex-row min-h-[80vh]">
-                <div class="w-full lg:w-2/3 overflow-auto min-h-screen flex flex-col lg:grid gap-1 lg:grid-cols-8 lg:grid-rows-[48px__48px_minmax(64px,max-content)_minmax(64px,max-content)_64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr lg:pr-1">
+                <div class="w-full lg:w-2/3 min-w-0 overflow-auto min-h-screen flex flex-col lg:grid gap-1 lg:grid-cols-8 lg:grid-rows-[48px__48px_minmax(64px,max-content)_minmax(64px,max-content)_64px_minmax(64px,max-content)_64px_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_minmax(64px,max-content)_auto_auto_auto_auto] auto-rows-fr lg:pr-1">
                     <ViewsWorkViewEditor
                         v-model="prev"
                         :title="$t('dataset1')"
@@ -32,7 +32,7 @@
                         @update-target-model-g-p="onUpdateTargetModelGP"
                     />
                 </div>
-                <div class="w-full lg:w-1/3 overflow-scroll">
+                <div class="w-full lg:w-1/3 min-w-0 overflow-y-auto overflow-x-hidden lg:pl-1">
                     <ViewsWorkViewEditorResult
                         v-model="mergedDataset"
                     />

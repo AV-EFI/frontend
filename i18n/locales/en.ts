@@ -54,6 +54,7 @@ const avefiBase = {
   'missingDataset1': 'Dataset 1 identifier is missing. Please provide the \'prev\' query parameter.',
   'missingDataset2': 'Dataset 2 identifier is missing. Please provide the \'next\' query parameter.',
   'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
+  'reportComparisonToAVefi': 'Report this comparison to AVefi',
   "hero": {
     "pill": "Film Studies • Linked Data • Research",
     "badgeLine": "PID-ready • Authority Data • FDO-compatible"
@@ -783,7 +784,8 @@ const avefiBase = {
   'copyLinkPrompt': 'Copy this link',
   'share': {
     'shareTemplate': 'I want to share this search:\n\nQuery: {query}\nURL: {url}',
-    'suggestTemplate': 'I would like to suggest this search/query for AVefi:\n\nQuery: {query}\nURL: {url}'
+    'suggestTemplate': 'I would like to suggest this search/query for AVefi:\n\nQuery: {query}\nURL: {url}',
+    'compareReportTemplate': 'Look what I found here:\n\nURL: {url}'
   },
   "faq": {
     "title": "FAQ",
