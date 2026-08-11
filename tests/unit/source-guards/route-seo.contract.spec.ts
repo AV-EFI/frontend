@@ -70,6 +70,13 @@ describe('Route and SEO contract guards', () => {
     expect(itemListSource).not.toContain('useRuntimeConfig().public.AVEFI_COPY_PID_URL');
   });
 
+  test('BB-DETAIL-005 keeps raw data disclosure prominent and shared across detail routes', () => {
+    expect(detailSource).toContain('<GlobalRawDataViewer');
+    expect(detailSource).not.toContain('class="card collapse lg:max-w-4/5 mx-auto mt-4"');
+    expect(filmrelSource).toContain('<GlobalRawDataViewer');
+    expect(filmrelSource).not.toContain('class="card collapse lg:max-w-4/5 mx-auto mt-4"');
+  });
+
   test('BB-FILMREL-SEO-001 keeps /filmrel pages out of indexing and schema output', () => {
     expect(nuxtConfigSource).toContain("'/filmrel/**': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, follow, noarchive' } }");
     expect(nuxtConfigSource).toContain("'/filmrel/**'");

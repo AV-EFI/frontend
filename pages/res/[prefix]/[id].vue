@@ -105,23 +105,17 @@
             </template>
         </NuxtLayout>
 
-        <details v-if="dataJson" class="card collapse lg:max-w-4/5 mx-auto mt-4">
-            <summary class="collapse-title cursor-pointer font-medium text-sm">
-                {{ $t('rawData') }}
-            </summary>
-            <div class="collapse-content px-3 pb-3">
-                <GlobalJsonTreeViewer
-                    :value="dataJson"
-                    :title="$t('rawData')"
-                    :expand-label="$t('expandAll')"
-                    :collapse-label="$t('collapseAll')"
-                    :copy-label="$t('copyToClipboard')"
-                    :copied-label="$t('copiedToClipboard')"
-                    :copy-failed-label="$t('copyFailed')"
-                    :source-label="$t('formattedSource')"
-                />
-            </div>
-        </details>
+        <GlobalRawDataViewer
+            v-if="dataJson"
+            :value="dataJson"
+            :title="$t('rawData')"
+            :expand-label="$t('expandAll')"
+            :collapse-label="$t('collapseAll')"
+            :copy-label="$t('copyToClipboard')"
+            :copied-label="$t('copiedToClipboard')"
+            :copy-failed-label="$t('copyFailed')"
+            :source-label="$t('formattedSource')"
+        />
     </div>
 </template>
 
