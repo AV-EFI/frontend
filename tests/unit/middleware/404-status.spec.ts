@@ -26,6 +26,14 @@ describe('404 status middleware', () => {
     expect(setResponseStatusMock).not.toHaveBeenCalled();
   });
 
+  test('does not mark the public schema explorer route as 404', async () => {
+    const middleware = await importMiddleware();
+
+    middleware({ url: '/schema-explorer' });
+
+    expect(setResponseStatusMock).not.toHaveBeenCalled();
+  });
+
   test('still marks unknown app routes as 404', async () => {
     const middleware = await importMiddleware();
 

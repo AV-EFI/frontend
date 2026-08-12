@@ -402,6 +402,7 @@ export default defineNuxtConfig({
     '/': { ssr: true },
     '/search': { ssr: true },
     '/faq': { ssr: false },
+    '/schema-explorer': { ssr: true },
     '/login': { ssr: true },
     '/film/**': { ssr: true },
     '/res/**': { ssr: true, prerender: false },
@@ -515,6 +516,7 @@ export default defineNuxtConfig({
       '/accessibility',
       '/press',
       '/faq',
+      '/schema-explorer',
       // concrete “testable” URLs
       { loc: '/search/?has_form=Short&manifestation_event_type=RestorationEvent' },
       { loc: '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik' },
