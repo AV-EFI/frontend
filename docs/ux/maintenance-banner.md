@@ -20,6 +20,7 @@ The state controls the fallback title, icon, ARIA live behavior, and status colo
 The banner is controlled through public Nuxt runtime config backed by environment variables:
 
 - `NUXT_PUBLIC_MAINTENANCE_BANNER_ENABLED=true`
+- `NUXT_PUBLIC_MAINTENANCE_BANNER_PREVIEW_ENABLED=true|false`
 - `NUXT_PUBLIC_MAINTENANCE_BANNER_STATE=planned|active`
 - `NUXT_PUBLIC_MAINTENANCE_BANNER_STARTS_AT=<ISO date/time>`
 - `NUXT_PUBLIC_MAINTENANCE_BANNER_ENDS_AT=<ISO date/time>`
@@ -49,7 +50,7 @@ Then open one of these URLs:
 - `/?maintenanceBannerPreview=planned`
 - `/?maintenanceBannerPreview=active`
 
-Preview mode ignores the real `ENABLED`, `STATE`, `STARTS_AT`, and `ENDS_AT` activation rules and displays a visible `Preview`/`Vorschau` label in the banner. If `PREVIEW_ENABLED` is false or unset, these query parameters have no effect.
+Preview mode ignores the real `ENABLED`, `STATE`, `STARTS_AT`, and `ENDS_AT` activation rules and displays a visible `Preview`/`Vorschau` label in the banner. In production, `PREVIEW_ENABLED` must be `true`; outside production, preview is enabled by default unless `NUXT_PUBLIC_MAINTENANCE_BANNER_PREVIEW_ENABLED=false` is set.
 
 ## Copy
 

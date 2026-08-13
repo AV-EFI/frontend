@@ -1,7 +1,7 @@
 # AVefi Frontend
 
 > **This repository is part of the AVefi project.**  
-> It includes the Nuxt 4 (v4.1+) frontend with full Docker support for local development and production deployment.
+> It includes the Nuxt 4 frontend (currently pinned to Nuxt 4.5.2) with full Docker support for local development and production deployment.
 
 ---
 
@@ -219,7 +219,7 @@ This repository has three test families:
 ### Quick commands
 
 ```bash
-yarn test:ci:fast          # lint + unit — required CI gate
+yarn test:ci:fast          # zero-warning lint + unit — required CI gate
 yarn test:ci:api           # backend API contract + edge-case lanes
 yarn test:data-quality:report
 ```
@@ -235,7 +235,7 @@ $env:E2E_BACKEND_BASE="https://www.av-efi.net/rest/v1"
 npx playwright test tests/e2e/api/ --reporter=list
 ```
 
-Expected baseline: **40 passed, 5 skipped** (the 5 skipped are `test.fixme()` — known Python backend bug: `has_issuer_name` combined with item-level facets triggers an Elasticsearch nested `inner_hits` conflict → 500. Will be unfixed once the backend is patched).
+Use `yarn test:e2e:api --list` and `yarn test:e2e:api:edge --list` to inspect the current live-backend contract count before relying on older pass/skip baselines. As of 2026-08-13, `test:e2e:api` lists 39 tests and `test:e2e:api:edge` lists 6 tests.
 
 #### Facet alias note
 

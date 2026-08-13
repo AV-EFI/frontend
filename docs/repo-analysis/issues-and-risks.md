@@ -50,10 +50,9 @@ Impact:
 Symptoms:
 
 - `/protected/*` tools still ship with the public app
-- backup files such as `WorkViewReduced_backup.vue` and `CarouselCardCompBackup.vue`
 - old FormKit schema JSON still present
 - Vuex-era `stores/index.ts` remains
-- duplicate CI files: `.gitlab-ci.yml` and `gitlab-ci.yml`
+- one orphan Cypress component spec remains: `components/global/ThemeSwitch.cy.ts`
 
 Impact:
 
@@ -99,24 +98,24 @@ Impact:
 
 ## Medium
 
-### 7. There are concrete stale or broken files
+### 7. There are concrete stale or placeholder files
 
-- `pages/vocab.vue` has a stray `x` in the template
-- `composables/useVocab.ts` points to `/api/glossary`, but the current server route is `/api/cms/vocab`
 - `composables/useMail.ts` is empty
 - `types/AVefiUser.ts` is empty
 - `config/metaIconConfig.json` is empty
 - `pages/nuxt.config.ts` is effectively a no-op
 
-### 8. Test setup is almost absent and fragmented
+### 8. Test coverage exists but is still uneven
 
 Current state:
 
-- minimal `vitest.config.ts`
-- no visible component-test or e2e runner setup
+- Vitest unit/source-guard coverage exists for components, composables, stores, middleware, and API handlers
+- Playwright smoke, SEO, contact, and live backend API contract suites exist
+- data-quality reporting suites exist and are intentionally report-first
+- CI runs zero-warning lint + unit contracts and backend API contracts as required gates
+- typecheck is present but currently `allow_failure` in GitLab CI
 - one orphan Cypress component spec: `components/global/ThemeSwitch.cy.ts`
-- only one package test script: `test:normdata`
-- the existing script tests are more like network/data smoke tests than unit tests
+- coverage remains thinner for protected/internal tooling, POC explorer surfaces, and broad visual regressions
 
 ### 9. Generation scripts still carry surprising side effects
 
@@ -162,4 +161,4 @@ Impact:
 3. Split active app code from legacy/protected/internal tooling.
 4. Replace the interim frontend auth guard with the final backend/Keycloak-backed authorization model.
 5. Replace the hardcoded image generator with a shared image manifest plus a cleanup mode.
-6. Add real tests before large structural refactors.
+6. Expand targeted tests before large structural refactors, especially for protected/internal tooling and POC surfaces.

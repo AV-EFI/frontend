@@ -45,8 +45,8 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:e2e:api:search-matrix`: sitemap-derived search URL matrix checks
 - `yarn test:e2e:api:negative`: invalid request/path negative checks
 - `yarn test:e2e:api:health`: health endpoint checks
-- `yarn test:ci:fast`: required lint + unit lane used in CI
-- `yarn test:ci:lint`: lint-only helper command
+- `yarn test:ci:fast`: required zero-warning lint + unit lane used in CI
+- `yarn test:ci:lint`: zero-warning lint-only helper command
 - `yarn test:ci:api`: backend API contract lane used in CI
 - `yarn knip:unresolved`: CI-safe unresolved import check
 - `yarn knip:audit`: blocking full Knip audit for unused files, exports, and dependencies
@@ -94,6 +94,11 @@ Security-specific expectation:
 - `PLAYWRIGHT_NO_WEBSERVER=true`: skip auto-starting `yarn dev:local`
 - `GITHUB_TOKEN`: token with repo security-alert read permission for weekly Dependabot prep
 - `GITHUB_DEPENDABOT_REPO`: GitHub mirror repo slug for alert query (default `AV-EFI/frontend`)
+- `NUXT_PUBLIC_MAINTENANCE_BANNER_ENABLED`: enables the global maintenance banner when set to `true`
+- `NUXT_PUBLIC_MAINTENANCE_BANNER_PREVIEW_ENABLED`: enables `maintenanceBannerPreview` query-param previews; defaults to enabled outside production unless explicitly set to `false`
+- `NUXT_PUBLIC_MAINTENANCE_BANNER_STATE`: `planned` or `active`
+- `NUXT_PUBLIC_MAINTENANCE_BANNER_STARTS_AT` / `NUXT_PUBLIC_MAINTENANCE_BANNER_ENDS_AT`: optional ISO timestamps for the visible maintenance window
+- `NUXT_PUBLIC_MAINTENANCE_BANNER_MESSAGE_DE` / `NUXT_PUBLIC_MAINTENANCE_BANNER_MESSAGE_EN`: optional localized override messages
 - `MAIL_ASSERT_API_BASE`: optional inbox assertion API base for contact delivery e2e (for Mailpit typically `http://127.0.0.1:8025`)
 - `MAIL_DELIVERY_MODE`: `log` or `smtp`; local/testbed defaults to `log`, so delivery e2e must set `MAIL_DELIVERY_MODE=smtp`
 - `MAIL_TEST_TOKEN`: secret bearer token required by `/api/mail/test`; when unset the route returns `404`
@@ -149,7 +154,7 @@ Goal: pull open security alerts from GitHub mirror, apply preferred package vers
 
 1. Fetch alerts + apply package.json version targets:
   - `yarn security:weekly:prepare`
-2. Re-resolve lockfile + test + audit:
+2. Re-resolve lockfile + zero-warning lint + unit tests + audit:
   - `yarn security:weekly:test`
 3. Prepare commit (staging only, no commit/push):
   - `yarn security:weekly:stage`

@@ -1,6 +1,6 @@
 # Component And Class Handover Audit
 
-This audit is a handover map for developers working on AVefi UI components and shared classes. It is based on the repository state inspected and refreshed on 2026-07-27.
+This audit is a handover map for developers working on AVefi UI components and shared classes. It is based on the repository state inspected on 2026-08-13, with generated component-doc freshness last fully refreshed on 2026-07-27.
 
 Do not treat generated component docs as the source of truth. For behavior and implementation, check the source component and its tests first.
 
@@ -8,12 +8,12 @@ Do not treat generated component docs as the source of truth. For behavior and i
 
 Current inventory:
 
-- Source Vue components under `components/`: 99
+- Source Vue components under `components/`: 100
 - Markdown component docs for current source components under `docs/components/`: 99, excluding this audit and `index.md`
-- Source components without matching component docs: 0
+- Source components without matching component docs: 1 (`components/global/MaintenanceBanner.vue`)
 - Component docs without a matching current source component: 0
 
-The component pages are generated static source summaries. They are current as a map of files, props, emits, local imports, shared classes, and test anchors, but they are still supporting material. Source files and tests remain authoritative for behavior.
+The component pages are generated static source summaries. They are supporting material, not behavioral source of truth. Source files and tests remain authoritative for behavior, and `MaintenanceBanner.vue` should get a generated component page during the next maintained docs refresh rather than by hand-editing generated output.
 
 ## Handover Reading Order
 
@@ -37,7 +37,7 @@ For component work, read in this order:
 | Detail view shell | `components/views/WorkViewCompAVefi.vue`, `components/views/ManifestationViewCompAVefi.vue`, `components/views/CompilationViewCompAVefi.vue`, `components/detail/ManifestationListComp.vue`, `components/detail/ItemListNewComp.vue` | generated docs for each source component | `tests/unit/components/work-view-avefi.spec.ts`, `tests/unit/components/detail-clickable-facets.spec.ts`, `tests/e2e/smoke/home-search-detail.spec.ts` |
 | Detail metadata rows | `components/detail/KeyValueComp.vue`, `components/detail/KeyValueListComp.vue`, `components/detail/KeyActionRowsComp.vue`, `components/detail/HasEventComp.vue`, `components/detail/SameAsComp.vue` | generated docs for each source component | `tests/unit/components/key-value-comp.spec.ts`, `tests/unit/components/key-value-list-comp.spec.ts`, `tests/unit/components/same-as-comp.spec.ts`, `tests/unit/components/detail-clickable-facets.spec.ts` |
 | Related materials | `components/detail/FilmRelatedMaterialsComp.vue` | `docs/components/FilmRelatedMaterialsComp.md` | `tests/unit/source-guards/film-related-materials-a11y.contract.spec.ts` |
-| Navigation and app chrome | `components/global/NavBar.vue`, `components/global/BreadcrumbsComp.vue`, `components/global/Footer.vue`, `components/global/LanguageSwitch.vue`, `components/global/ThemeSwitch.vue` | generated docs for each source component | `tests/e2e/smoke/public-routes-auth.spec.ts`, `components/global/ThemeSwitch.cy.ts` |
+| Navigation and app chrome | `components/global/NavBar.vue`, `components/global/BreadcrumbsComp.vue`, `components/global/Footer.vue`, `components/global/LanguageSwitch.vue`, `components/global/ThemeSwitch.vue`, `components/global/MaintenanceBanner.vue` | generated docs for each source component except `MaintenanceBanner.vue` | `tests/e2e/smoke/public-routes-auth.spec.ts`, `tests/unit/components/maintenance-banner.spec.ts`, `tests/unit/composables/use-maintenance-banner.spec.ts`, `tests/unit/i18n/maintenance-banner-locale.spec.ts`, `components/global/ThemeSwitch.cy.ts` |
 | Drawers and dialogs | `components/global/ComparisonDrawer.vue`, `components/global/ContactDrawer.vue`, `components/global/FacetDrawer.vue` | generated docs for each source component | `tests/unit/components/comparison-drawer.spec.ts`, `tests/unit/components/contact-drawer.spec.ts`, `tests/unit/source-guards/drawers.contract.spec.ts` |
 | Comparison and favourites | `components/cart/AddToComparisonComp.vue`, `components/cart/AddToFavouritesComp.vue`, `components/detail/FavouritesListComp.vue`, `components/micro/CompareIcon.vue`, `components/micro/FavouritesIcon.vue` | generated docs for each source component | `tests/unit/stores/compare-list.spec.ts`, `tests/unit/stores/favourites.spec.ts` |
 | Homepage sections and carousels | `components/home/**`, `components/global/IssuerCarouselComp.vue`, `components/global/PartnersCarouselComp.vue`, `components/global/CarouselCardComp.vue` | generated docs for each source component | `tests/unit/source-guards/home-carousels-a11y.contract.spec.ts`, `tests/unit/source-guards/carousel-card-contract.spec.ts` |
@@ -84,7 +84,7 @@ Older or supporting style files exist at `assets/scss/_colors.scss`, `assets/scs
 
 ## Missing Current Component Docs
 
-None after the 2026-07-27 refresh.
+- `components/global/MaintenanceBanner.vue` has source and tests but no matching generated `docs/components/MaintenanceBanner.md` page.
 
 Handover priority for deeper human-authored notes remains: `SearchCompExtended`, `QueryAutocompleteCore`, `ContactDrawer`, `ClickableFacetValue`, `FilmRelatedMaterialsComp`, `SearchListCompactComp`, `SearchListFlatComp`, `KeyActionRowsComp`, homepage section components, and carousel components.
 

@@ -37,6 +37,20 @@ AVefi is open scientific infrastructure, not a marketing platform. Platform rule
 - `has_access_status` stays blacklisted from advanced-search facet selection but may render when backend data includes it.
 - Comparison navigation requires exactly two records.
 
+## Definition of Done
+
+- Start every change by checking `git status --short`, naming the intended scope, and inspecting the current implementation and nearest tests before editing.
+- Keep the patch surgical: no opportunistic refactors, copy rewrites, formatting churn, dependency upgrades, generated output, or config changes outside the stated scope.
+- Make the smallest complete fix, but do not stop at the first green path. Check edge cases, failure states, empty/loading states, accessibility, localization, SEO, API contracts, and route behavior when the touched surface can affect them.
+- Treat every change as reviewable production work: readable names, no dead code, no hidden assumptions, no unexplained magic values, and no comments that merely narrate obvious code.
+- For dependency and security work, use the dedicated repo scripts when available, inspect `yarn why` paths, compare `package.json` and `yarn.lock` diffs, avoid unrelated major upgrades, run `corepack yarn install`, and require `corepack yarn npm audit --recursive --json` to exit cleanly unless a remaining advisory is explicitly documented with a reason.
+- For UI work, verify responsive behavior, keyboard/focus behavior, contrast-sensitive states, text overflow, loading/error/empty states, and consistency with `DESIGN.md`, `UX.md`, and existing components.
+- For search, detail, comparison, SEO, robots, sitemap, schema.org, auth, or API behavior, run the closest unit/contract/e2e coverage and inspect the relevant invariant files listed above.
+- Treat warnings as findings: fix them when they are in scope; otherwise confirm they predate the change and call them out in the handoff.
+- Do not hand-edit generated files or reports unless explicitly intentional; prefer regenerating from the known script and note the command used.
+- Do not claim success until verification has run. If a required check cannot run, state the blocker, the risk, and the best substitute check.
+- Before final handoff, summarize changed files, verification commands with results, skipped checks, warnings, and residual risk.
+
 ## Testing
 
-Use targeted tests for code changes: `yarn test:unit`, `yarn test:e2e:smoke`, `yarn test:e2e:api`. For documentation-only changes, inspect changed markdown; skip production builds unless requested.
+Use targeted tests for code changes: `corepack yarn lint`, `corepack yarn test:unit`, `corepack yarn test:e2e:smoke`, `corepack yarn test:e2e:api`. For documentation-only changes, inspect changed markdown; skip production builds unless requested. For dependency or security changes, also run `corepack yarn install` and `corepack yarn npm audit --recursive --json`.

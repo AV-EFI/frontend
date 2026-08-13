@@ -7,7 +7,7 @@ This directory contains implementation, architecture, UX, design, and generated 
 - `../UX.md`: product purpose, domain model, terminology, source order, UX rules, and open UX questions.
 - `../DESIGN.md`: implemented visual tokens, theme files, shared design classes, handbook alignment, and unresolved design conflicts.
 - `../AGENTS.md`: repository guidance for AI coding agents and contributors who need a fast context map.
-- `ux/`: focused UX notes for accessibility, interaction patterns, research evidence, handbook alignment, and decision records.
+- `ux/`: focused UX notes for accessibility, interaction patterns, maintenance banner behavior, research evidence, handbook alignment, and decision records.
 - `repo-analysis/`: architecture, behavior contracts, testing strategy, schema/generation notes, and implementation risks.
 - `visual-ui-audit.md`: current visual UI audit and implementation notes.
 - `components/`: refreshed static source summaries for current Vue components; start with `components/handover-audit.md` and verify behavior against source and tests.
@@ -17,6 +17,7 @@ This directory contains implementation, architecture, UX, design, and generated 
 
 - `ux/accessibility.md`: current accessibility claim, tested coverage, implementation rules, and gaps.
 - `ux/interaction-patterns.md`: documented behavior for search, filters, detail pages, navigation, drawers, comparison, favourites, and vocabulary.
+- `ux/maintenance-banner.md`: global maintenance-notice placement, activation, preview, and copy behavior.
 - `ux/research-findings.md`: evidence inventory and explicit statement of missing user research.
 - `ux/handbook-alignment.md`: extracted implementation-relevant rules from the AVefi Gestaltungshandbuch export and unresolved alignment questions.
 - `ux/decisions/`: place accepted UX/design/domain decision records here.

@@ -1,25 +1,25 @@
 # Repo Analysis
 
-This directory documents the current state of the AVefi frontend repository as of 2026-04-16.
+This directory documents the current state of the AVefi frontend repository. The high-level inventory below was refreshed against the local source tree on 2026-08-13.
 
 The repository contains refreshed static component summaries in `docs/components/` and generated or semi-generated composable docs in `docs/composables/`. The files in `docs/repo-analysis/` are intended to be architecture and maintenance notes for humans.
 
-Update 2026-07-27: for current UX/design handover, start with `../README.md`, `../../UX.md`, `../../DESIGN.md`, and `../components/handover-audit.md`. Some usage inventories below are older snapshots and should be checked against current source before deletion or refactoring decisions.
+Update 2026-08-13: for current UX/design handover, start with `../README.md`, `../../UX.md`, `../../DESIGN.md`, and `../components/handover-audit.md`. Some usage inventories below are older snapshots and should be checked against current source before deletion or refactoring decisions.
 
 ## Quick facts
 
 - Framework: Nuxt 4, Vue 3, Nitro, Pinia, Nuxt i18n, Tailwind 4, DaisyUI, FormKit
 - Source size snapshot:
-  - `components/`: 117 files
-  - `pages/`: 33 files
+  - `components/`: 101 files (100 Vue components plus `ThemeSwitch.cy.ts`)
+  - `pages/`: 35 files
   - `layouts/`: 13 files
-  - `plugins/`: 14 files
-  - `composables/`: 22 files
+  - `plugins/`: 13 files
+  - `composables/`: 28 files
   - `stores/`: 6 files
-  - `server/api/`: 30 files
-  - `scripts/`: 14 files
+  - `server/api/`: 34 files
+  - `scripts/`: 27 files including `scripts/tests/`
 - Existing docs snapshot:
-  - `docs/components/`: 101 markdown files after the 2026-07-27 refresh, including `index.md` and `handover-audit.md`
+  - `docs/components/`: 101 markdown files, including `index.md` and `handover-audit.md`; one current source component (`MaintenanceBanner.vue`) has no matching generated component page
   - `docs/composables/`: 36 files
 
 ## Files in this folder

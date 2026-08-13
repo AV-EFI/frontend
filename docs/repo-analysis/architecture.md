@@ -41,12 +41,13 @@ Public routes:
 - search pages in `pages/search/index.vue` and `pages/search/[...slug].vue`
 - resource detail routes in `pages/res/[prefix]/[id].vue`
 - legacy redirects from `pages/film/*` to `/res/*`
-- content pages such as `press.vue`, `vocab.vue`, `faq.vue`, `imprint.vue`, `dataprotection.vue`
+- comparison, norm-data, accessibility, and content pages such as `compare.vue`, `normdata.vue`, `accessibility.vue`, `press.vue`, `vocab.vue`, `faq.vue`, `imprint.vue`, `dataprotection.vue`
+- poster routes under `pages/poster/*` with layout disabled
 
 Internal or legacy routes:
 
 - `/protected/*` pages for compare, vocab, merge tool, user page, dashboards, edit flows
-- `/admin/user_tooltips` and `/admin/generate_pattern`
+- `/admin/user_tooltips`
 - `/explorer-poc`
 
 Route protection is inconsistent:
@@ -125,9 +126,10 @@ Nitro server concerns are split into these groups:
 
 - `server/api/elastic/*`: search, suggest, detail lookup, vocab/normdata helpers
 - `server/api/cms/*`: model tree, hints, tooltip CRUD, decoration helpers
-- `server/api/mail/*`: contact form
+- `server/api/mail/*`: contact form and SMTP smoke/check helpers
 - `server/api/log/*`: client error ingestion
 - `server/api/poc/*`: graph explorer and chat support
+- `server/api/film-related-materials/*`, `server/api/press-kit.zip.get.ts`, and `server/api/top-issuers.get.ts`: public helper endpoints for detail, press, and homepage data
 - `server/middleware/*`: bot/indexing/rate-limit policy and 404 shaping
 - `server/utils/*`: ES wrapper, schema field metadata, path mapping, file-backed stores
 

@@ -4,27 +4,28 @@
 
 ### Source counts
 
-- `components/`: 117 files
-- `pages/`: 33 files
+- `components/`: 101 files (100 Vue components plus `components/global/ThemeSwitch.cy.ts`)
+- `pages/`: 35 files
 - `layouts/`: 13 files
-- `plugins/`: 14 files
-- `composables/`: 22 files
+- `plugins/`: 13 files
+- `composables/`: 28 files
 - `stores/`: 6 files
-- `server/api/`: 30 files
-- `server/utils/`: 7 files
-- `scripts/`: 14 files
+- `server/api/`: 34 files
+- `server/utils/`: 11 files
+- `scripts/`: 27 files including `scripts/tests/`
 
 ### Component families
 
-- `global/`: 38
-- `detail/`: 20
+- `global/`: 30 Vue components
+- `detail/`: 14
 - `search/`: 18
-- `views/`: 12
+- `views/`: 7
 - `micro/`: 11
-- `home/`: 7
+- `home/`: 8
 - `poc/`: 6
 - `cart/`: 2
 - `disambiguation/`: 2
+- `poster/`: 1
 - `input/`: 1
 
 ## Route surfaces
@@ -36,13 +37,13 @@
 - `/res/[prefix]/[id]` -> public resource detail
 - `/film/*` -> legacy redirects to `/res/*`
 - `/compare` -> compare view based on query-string params
-- `/press`, `/vocab`, `/faq`, `/imprint`, `/dataprotection`, `/signout`
+- `/compare`, `/press`, `/vocab`, `/faq`, `/imprint`, `/dataprotection`, `/accessibility`, `/normdata`, `/signout`
+- `/poster/avefi` and `/poster/greynet-avefi` -> poster routes with layout disabled
 
 ### Internal / legacy / admin
 
 - `/protected/*` -> older compare, dashboard, merge, edit, vocab, user pages
 - `/admin/user_tooltips` -> schema-tooltip editor
-- `/admin/generate_pattern` -> pattern playground
 - `/explorer-poc` -> graph explorer/chat proof of concept
 
 ## Generated and duplicated artifacts
@@ -68,7 +69,7 @@ These appear to duplicate schema-derived content in two runtime locations.
 
 ### Existing generated-style docs
 
-- `docs/components/` was refreshed on 2026-07-27 and now has one static markdown summary per current Vue component. See `../components/handover-audit.md`.
+- `docs/components/` has static markdown summaries for most current Vue components. As of the 2026-08-13 inventory, `MaintenanceBanner.vue` is the one current component without a matching generated component page. See `../components/handover-audit.md`.
 - `docs/composables/` with 36 files
 
 These should not be treated as architecture source-of-truth without checking current source and tests. The component docs now have a current file map, but the regeneration path is still not exposed as a package script.
@@ -86,23 +87,9 @@ This list is based on static search for component-name and file-name references 
 
 ### Higher-confidence dead-code candidates
 
-- `components/detail/AVefiRefinementListComp.vue`
-- `components/detail/GenericKVView.vue`
-- `components/detail/NdFieldCard.vue`
-- `components/detail/WorksMultiView.vue`
-- `components/global/BaseCarousel.vue`
-- `components/global/BenefitCardComp.vue`
-- `components/global/CardList.vue`
-- `components/global/CarouselCardCompBackup.vue`
-- `components/global/CompareViewEditorStretched.vue`
-- `components/global/ReusableCarousel.vue`
-- `components/global/SwitchGenericComp.vue`
-- `components/micro/ShoppingCartIcon.vue`
-- `components/search/SearchResultManifestation.vue`
-- `components/views/ItemViewCompAVefi.vue`
-- `components/views/ManifestationViewCompAVefi.vue`
-- `components/views/NormDataSearchOverview.vue`
-- `components/views/WorkViewReduced_backup.vue`
+Most candidates from the older April inventory have since been removed. The currently notable remaining candidate is:
+
+- `components/views/ManifestationViewCompAVefi.vue` exists and is still mentioned by docs/source-guard tests, but current `/res/:prefix/:id` rendering uses `WorkViewCompAVefi` and `CompilationViewCompAVefi`.
 
 ### Legacy but still reachable
 
@@ -115,10 +102,8 @@ These are still referenced, but they look like older internal tooling rather tha
 
 ## Small but concrete correctness issues found during inventory
 
-- `pages/vocab.vue` has a stray `x` after `</NuxtLayout>`
-- `composables/useVocab.ts` points to `/api/glossary`, while the actual route is `/api/cms/vocab`
 - `components/global/ThemeSwitch.cy.ts` exists, but there is no visible Cypress setup in the repo
-- there are two CI files: `.gitlab-ci.yml` and `gitlab-ci.yml`
+- `components/global/MaintenanceBanner.vue` has source and tests but no matching generated `docs/components/MaintenanceBanner.md`
 
 ## Existing route and feature split
 
@@ -134,4 +119,4 @@ These are still referenced, but they look like older internal tooling rather tha
 - POC explorer
 - direct external API integrations
 
-That is a wide surface area for a repo that currently has almost no meaningful automated test coverage.
+That is a wide surface area. The repo now has meaningful unit, source-guard, API-contract, smoke, and data-quality coverage, but the coverage is still uneven across legacy/protected tooling and POC surfaces.

@@ -127,7 +127,6 @@ Current pattern repeats in:
 - `components/global/CarouselCardComp.vue`
 - `components/global/IssuerCarouselComp.vue`
 - `components/global/PartnersCarouselComp.vue`
-- `components/global/ReusableCarousel.vue`
 
 Typical local class shape:
 
@@ -302,7 +301,7 @@ Accessibility rule:
   - Status: shared classes are now active in `assets/scss/main.scss`, with `tailwind.config.ts` kept as fallback/legacy config. This fixes the v4 loading issue where config-only custom classes were not reliably visible in the app.
 
 2. **Low-risk repeated controls**
-  - Carousel controls. Status: standardized `btn-carousel-control` usage is in `CarouselCardComp.vue`, `IssuerCarouselComp.vue`, `PartnersCarouselComp.vue`, and `ReusableCarousel.vue` with desktop/mobile visibility classes preserved.
+  - Carousel controls. Status: standardized `btn-carousel-control` usage is in `CarouselCardComp.vue`, `IssuerCarouselComp.vue`, and `PartnersCarouselComp.vue` with desktop/mobile visibility classes preserved.
    - Dots/options buttons.
    - Close buttons.
    - Remove/trash buttons.
@@ -333,7 +332,7 @@ Accessibility rule:
 
 These are small enough to streamline without changing behavior:
 
-- Carousel arrow buttons across `CarouselCardComp`, `IssuerCarouselComp`, `PartnersCarouselComp`, and `ReusableCarousel`.
+- Carousel arrow buttons across `CarouselCardComp`, `IssuerCarouselComp`, and `PartnersCarouselComp`.
 - `tabler:trash` vs `formkit:trash` in search refinements and comparison drawer, deciding by context rather than banning FormKit icons.
 - `formkit:close` vs `tabler:x` in drawers/modals, while keeping FormKit icons for form/merge-specific interfaces.
 - `badge badge-xs bg-highlight text-white` in `GenericIconList` and `HighlightListComp`.

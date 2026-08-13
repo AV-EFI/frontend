@@ -36,6 +36,8 @@ What exists now:
 
 Current scripts:
 
+- `yarn lint` (fails on any ESLint warning via `--max-warnings=0`)
+- `yarn typecheck`
 - `yarn test`
 - `yarn test:unit`
 - `yarn test:unit:watch`
@@ -57,6 +59,8 @@ Current scripts:
 - `yarn test:data-quality:report`
 - `yarn test:data-quality:watch`
 - `npm run test:normdata`
+- `yarn security:weekly:prepare`
+- `yarn security:weekly:test`
 
 ## Recommended scheme
 
@@ -168,14 +172,21 @@ Interpretation note for new contributors:
 Configured in `.gitlab-ci.yml`:
 
 - `test_unit_contracts`:
-  - `yarn lint`
+  - `yarn lint` (zero warnings)
   - `yarn test:unit`
+- `test_typecheck`:
+  - `yarn typecheck`
+  - currently `allow_failure: true`
 - `test_backend_api_contracts`:
   - `yarn test:e2e:api --workers=1 --reporter=list`
   - `yarn test:e2e:api:edge --workers=1 --reporter=list`
 - `test_browser_smoke` (scheduled + optional manual on `testbed`):
   - installs Chromium
   - runs `yarn test:e2e:smoke --workers=1 --reporter=list`
+- `test_contact_submit` (post-deploy on `testbed`):
+  - runs `yarn test:e2e:contact --workers=1 --reporter=list`
+- `weekly_security_prep` (scheduled/manual with `RUN_WEEKLY_SECURITY_PREP=true`):
+  - runs the GitHub Dependabot prep script, re-resolves dependencies, runs `yarn test:ci:fast`, and stores audit/diff artifacts
 
 Required gates (`test_unit_contracts`, `test_backend_api_contracts`) run for:
 
@@ -195,6 +206,7 @@ Recommended local sequence before pushing:
 - `yarn test:ci:fast`
 - `yarn test:ci:api`
 - optional standalone lint-only run: `yarn test:ci:lint`
+- for dependency/security work: `yarn security:weekly:test` or the equivalent `corepack yarn install`, `corepack yarn lint`, `corepack yarn test:unit`, and `corepack yarn npm audit --recursive --json`
 
 ## Rollout order
 
