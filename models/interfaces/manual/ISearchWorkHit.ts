@@ -15,8 +15,8 @@ export type SearchManifestation = IAVefiManifestation & { items?: SearchItem[] }
 
 // Algolia highlight-result node shape, scoped to the fields actually read
 // across the search list views (title + alternative titles).
-export type HighlightValue = { value?: string; matchLevel?: string; matchedWords?: string[] };
-export type WorkHighlightResult = {
+type HighlightValue = { value?: string; matchLevel?: string; matchedWords?: string[] };
+type WorkHighlightResult = {
     has_record?: {
         has_primary_title?: { has_name?: HighlightValue };
         has_alternative_title?: { has_name?: HighlightValue[] };

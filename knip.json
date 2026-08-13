@@ -1,6 +1,53 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "ignoreUnresolved": [
-    "^/$"
-  ]
+  "entry": [
+    "formkit.config.ts",
+    "tailwind.colors.ts",
+    "playwright*.config.ts",
+    "components/disambiguation/*.vue",
+    "components/views/ManifestationViewCompAVefi.vue",
+    "pages/**/*.vue",
+    "layouts/**/*.vue",
+    "server/**/*.{ts,js,mjs}",
+    "plugins/**/*.{ts,js}",
+    "middleware/**/*.{ts,js}",
+    "stores/locale.ts",
+    "scripts/**/*.{ts,js,mjs}",
+    "tests/**/*.{ts,js,mjs}"
+  ],
+  "project": [
+    "**/*.{ts,js,mjs,vue,css,scss,sass}",
+    "!docs/composables/**"
+  ],
+  "ignore": [
+    "docs/composables/**"
+  ],
+  "ignoreFiles": [
+    "assets/scss/monokai.css",
+    "assets/scss/tailwind.css",
+    "assets/scss/vs.css",
+    "models/interfaces/generated/**",
+    "models/interfaces/schema/**",
+    "server/assets/vocab/avefi_schema*.ts",
+    "shims/**"
+  ],
+  "ignoreDependencies": [
+    "@iconify-json/formkit",
+    "@iconify-json/tabler",
+    "@tailwindcss/postcss"
+  ],
+  "ignoreIssues": {
+    "models/interfaces/generated/**": [
+      "exports",
+      "types"
+    ],
+    "models/interfaces/schema/**": [
+      "exports",
+      "types"
+    ],
+    "server/assets/vocab/**": [
+      "exports",
+      "types"
+    ]
+  }
 }

@@ -10,7 +10,7 @@ export interface IFacetIconMapping {
 
 export type FacetLevel = 'work' | 'manifestation' | 'item';
 
-export interface IFacetLevelMapping {
+interface IFacetLevelMapping {
   [attributeName: string]: FacetLevel;
 }
 
@@ -152,7 +152,7 @@ export const FACET_ICON_MAP: IFacetIconMapping = {
  * Attribute level mapping for fields whose UI should signal where the data lives.
  * Keep ambiguous display aliases explicit here instead of inferring from icon keys.
  */
-export const FACET_LEVEL_MAP: IFacetLevelMapping = {
+const FACET_LEVEL_MAP: IFacetLevelMapping = {
   // Work-level fields
   'located_in': 'work',
   'located_in_has_name': 'work',
@@ -241,12 +241,6 @@ const FACET_LEVEL_CLASS_MAP: Record<FacetLevel, Record<'badge' | 'border' | 'bg'
   },
 };
 
-const FACET_LEVEL_TOKEN_MAP: Record<FacetLevel, string> = {
-  work: 'var(--color-work)',
-  manifestation: 'var(--color-manifestation)',
-  item: 'var(--color-item)',
-};
-
 /**
  * Get the appropriate icon for a given attribute name
  * @param attributeName - The Elasticsearch attribute name
@@ -261,16 +255,6 @@ export function getFacetIcon(attributeName: string, fallback: string = 'tabler-a
  * Check if an attribute has a specific icon mapping
  * @param attributeName - The Elasticsearch attribute name
  * @returns boolean indicating if a specific icon exists
- */
-export function hasFacetIcon(attributeName: string): boolean {
-  return attributeName in FACET_ICON_MAP;
-}
-
-/**
- * Get the data level for a given attribute name.
- * @param attributeName - The Elasticsearch attribute or display alias
- * @param fallback - Fallback level if no specific mapping exists
- * @returns level where the field belongs
  */
 export function getFacetLevel(attributeName: string, fallback?: FacetLevel): FacetLevel | undefined {
   return FACET_LEVEL_MAP[attributeName] || fallback;
@@ -298,7 +282,3 @@ export function getFacetLevelClass(
  * @param fallback - Fallback CSS color if no specific mapping exists
  * @returns CSS color token for the field level
  */
-export function getFacetLevelColor(attributeName: string, fallback: string = ''): string {
-  const level = getFacetLevel(attributeName);
-  return level ? FACET_LEVEL_TOKEN_MAP[level] : fallback;
-}

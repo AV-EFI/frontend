@@ -48,6 +48,8 @@ This folder is the first regression safety-net scaffold mapped to:
 - `yarn test:ci:fast`: required lint + unit lane used in CI
 - `yarn test:ci:lint`: lint-only helper command
 - `yarn test:ci:api`: backend API contract lane used in CI
+- `yarn knip:unresolved`: CI-safe unresolved import check
+- `yarn knip:audit`: blocking full Knip audit for unused files, exports, and dependencies
 
 ## Human-readable suite guide
 

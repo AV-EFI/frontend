@@ -1,4 +1,4 @@
-export type GraphNodeType = 'work' | 'agent' | 'subject' | 'manifestation' | 'item';
+type GraphNodeType = 'work' | 'agent' | 'subject' | 'manifestation' | 'item';
 
 export interface GraphNode {
     id: string;
@@ -14,7 +14,7 @@ export interface GraphEdge {
     predicate: string;
 }
 
-export interface GraphStats {
+interface GraphStats {
     nodes: number;
     edges: number;
     agents: number;

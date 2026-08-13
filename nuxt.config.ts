@@ -280,7 +280,7 @@ export default defineNuxtConfig({
       : []),
   ],
 
-  extends: './pages',
+  extends: ['./pages'],
 
   imports: {
     dirs: ['~/stores'],
