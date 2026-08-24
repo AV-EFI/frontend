@@ -37,17 +37,17 @@ describe('shared facet icon map', () => {
   });
 
   test('contains canonical icons for AVefi data levels', () => {
-    expect(getFacetIcon('work')).toBe('tabler:stack-1');
-    expect(getFacetIcon('works')).toBe('tabler:stack-1');
-    expect(getFacetIcon('workVariant')).toBe('tabler:stack-1');
-    expect(getFacetIcon('workvariants')).toBe('tabler:stack-1');
-    expect(getFacetIcon('avefi:WorkVariant')).toBe('tabler:stack-1');
-    expect(getFacetIcon('manifestation')).toBe('tabler:stack-2');
-    expect(getFacetIcon('manifestations')).toBe('tabler:stack-2');
-    expect(getFacetIcon('avefi:Manifestation')).toBe('tabler:stack-2');
-    expect(getFacetIcon('item')).toBe('tabler:stack-3');
-    expect(getFacetIcon('items')).toBe('tabler:stack-3');
-    expect(getFacetIcon('avefi:Item')).toBe('tabler:stack-3');
+    expect(getFacetIcon('work')).toBe('tabler:stack-front');
+    expect(getFacetIcon('works')).toBe('tabler:stack-front');
+    expect(getFacetIcon('workVariant')).toBe('tabler:stack-front');
+    expect(getFacetIcon('workvariants')).toBe('tabler:stack-front');
+    expect(getFacetIcon('avefi:WorkVariant')).toBe('tabler:stack-front');
+    expect(getFacetIcon('manifestation')).toBe('tabler:stack-middle');
+    expect(getFacetIcon('manifestations')).toBe('tabler:stack-middle');
+    expect(getFacetIcon('avefi:Manifestation')).toBe('tabler:stack-middle');
+    expect(getFacetIcon('item')).toBe('tabler:stack-back');
+    expect(getFacetIcon('items')).toBe('tabler:stack-back');
+    expect(getFacetIcon('avefi:Item')).toBe('tabler:stack-back');
   });
 
   test('maps ambiguous search fields to their display level color classes', () => {

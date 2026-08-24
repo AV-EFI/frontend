@@ -40,13 +40,13 @@ const props = defineProps({
 
 const levelIcon = computed(() => {
     if (props.category === 'avefi:WorkVariant' || props.category === 'avefi:WorkVariantPart') {
-        return 'tabler:stack-1';
+        return 'tabler:stack-front';
     }
     if (props.category === 'avefi:Manifestation') {
-        return 'tabler:stack-2';
+        return 'tabler:stack-middle';
     }
     if (props.category === 'avefi:Item') {
-        return 'tabler:stack-3';
+        return 'tabler:stack-back';
     }
     return '';
 });

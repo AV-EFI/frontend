@@ -20,19 +20,19 @@ interface IFacetLevelMapping {
  */
 export const FACET_ICON_MAP: IFacetIconMapping = {
   // AVefi data levels
-  'work': 'tabler:stack-1',
-  'works': 'tabler:stack-1',
-  'workVariant': 'tabler:stack-1',
-  'workVariants': 'tabler:stack-1',
-  'workvariants': 'tabler:stack-1',
-  'avefi:WorkVariant': 'tabler:stack-1',
-  'avefi_WorkVariant': 'tabler:stack-1',
-  'manifestation': 'tabler:stack-2',
-  'manifestations': 'tabler:stack-2',
-  'avefi:Manifestation': 'tabler:stack-2',
-  'item': 'tabler:stack-3',
-  'items': 'tabler:stack-3',
-  'avefi:Item': 'tabler:stack-3',
+  'work': 'tabler:stack-front',
+  'works': 'tabler:stack-front',
+  'workVariant': 'tabler:stack-front',
+  'workVariants': 'tabler:stack-front',
+  'workvariants': 'tabler:stack-front',
+  'avefi:WorkVariant': 'tabler:stack-front',
+  'avefi_WorkVariant': 'tabler:stack-front',
+  'manifestation': 'tabler:stack-middle',
+  'manifestations': 'tabler:stack-middle',
+  'avefi:Manifestation': 'tabler:stack-middle',
+  'item': 'tabler:stack-back',
+  'items': 'tabler:stack-back',
+  'avefi:Item': 'tabler:stack-back',
 
   // Language fields
   'lang': 'tabler-language',

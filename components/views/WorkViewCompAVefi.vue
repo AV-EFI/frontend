@@ -1428,7 +1428,7 @@ const workNavigationItems = computed<WorkNavigationItem[]>(() => {
         items.push({
             id: 'manifestations',
             label: t('manifestations'),
-            icon: 'tabler:stack-2',
+            icon: 'tabler:stack-middle',
             count: manifestations.value.length,
             description: totalItemCount.value ? `${totalItemCount.value} ${t('items')}` : undefined,
             kind: 'collection',
