@@ -54,3 +54,5 @@ AVefi is open scientific infrastructure, not a marketing platform. Platform rule
 ## Testing
 
 Use targeted tests for code changes: `corepack yarn lint`, `corepack yarn test:unit`, `corepack yarn test:e2e:smoke`, `corepack yarn test:e2e:api`. For documentation-only changes, inspect changed markdown; skip production builds unless requested. For dependency or security changes, also run `corepack yarn install` and `corepack yarn npm audit --recursive --json`.
+
+Backend-dependent e2e/API checks may fail locally when the backend Docker stack is not running or when the required VPN/network access is missing. If local backend requests to `localhost:8080` fail with `<no response> fetch failed`, verify Docker/VPN first or use the deployed target with `PLAYWRIGHT_NO_WEBSERVER=true` and an explicit `PLAYWRIGHT_BASE_URL` when that matches the task.
