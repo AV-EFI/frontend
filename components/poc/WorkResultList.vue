@@ -28,6 +28,7 @@
                                 backgroundColor: result.meta.badgeBg,
                                 color: result.meta.badgeFg,
                             }">
+                                <Icon :name="result.meta.icon" class="icon-inline" aria-hidden="true" />
                                 {{ result.meta.label }}
                             </span>
                         </span>
@@ -45,6 +46,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { WorkSearchHit } from '~/composables/poc/usePocApi';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 
 const props = defineProps<{
     results: WorkSearchHit[];
@@ -66,6 +68,7 @@ interface LevelMeta {
     badgeFg: string;
     barColor: string;
     barWidth: string;
+    icon: string;
     titleClass: string;
     buttonModifier: string;
     priority: number;
@@ -79,6 +82,7 @@ interface DisplayResult extends WorkSearchHit {
 const LEVEL_STYLES = {
     workvariant: {
         labelKey: 'avefi_WorkVariant',
+        iconKey: 'work',
         colorVar: '--work',
         textVar: '--neutral',
         buttonModifier: 'result-button--workvariant',
@@ -87,6 +91,7 @@ const LEVEL_STYLES = {
     },
     manifestation: {
         labelKey: 'avefi_Manifestation',
+        iconKey: 'manifestation',
         colorVar: '--manifestation',
         textVar: '--neutral',
         buttonModifier: 'result-button--manifestation',
@@ -95,6 +100,7 @@ const LEVEL_STYLES = {
     },
     item: {
         labelKey: 'avefi_Item',
+        iconKey: 'item',
         colorVar: '--item',
         textVar: '--neutral',
         buttonModifier: 'result-button--item',
@@ -103,6 +109,7 @@ const LEVEL_STYLES = {
     },
     unknown: {
         defaultLabel: t('unknownLevel'),
+        iconKey: 'tabler:help-circle',
         colorVar: '--neutral',
         textVar: '--neutral-content',
         buttonModifier: 'result-button--unknown',
@@ -145,6 +152,7 @@ const buildMeta = (level?: string | null): LevelMeta => {
         badgeFg: `var(${style.textVar})`,
         barColor: `var(${style.colorVar})`,
         barWidth: style.barWidth,
+        icon: getFacetIcon(style.iconKey, style.iconKey),
         titleClass: key === 'workvariant' ? 'font-semibold text-base-content' : 'font-medium text-base-content',
         buttonModifier: style.buttonModifier,
         priority: style.priority,

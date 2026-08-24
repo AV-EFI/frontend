@@ -8,8 +8,13 @@
             <div v-if="selectedWorkLevelLabel" class="selected-level-callout" role="status">
                 <span class="selected-level-heading">{{ t('selectedLevel') }}</span>
                 <span class="selected-level-value">
-                    <span class="selected-level-indicator" :style="{ backgroundColor: selectedWorkLevelColor }"
-                          aria-hidden="true" />
+                    <Icon
+                        v-if="selectedWorkLevelIcon"
+                        :name="selectedWorkLevelIcon"
+                        class="icon-inline selected-level-icon"
+                        :style="{ color: selectedWorkLevelColor }"
+                        aria-hidden="true"
+                    />
                     <span>{{ selectedWorkLevelLabel }}</span>
                 </span>
             </div>
@@ -53,6 +58,7 @@ import ContextTray from '~/components/poc/ContextTray.vue';
 import ChatPanel from '~/components/poc/ChatPanel.vue';
 import { usePocApi } from '~/composables/poc/usePocApi';
 import { usePocExplorerStore } from '~/stores/pocExplorerStore';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 import type { GraphNode } from '~/utils/poc/graphSlice';
 
 const { searchWorks, fetchWorkByHandle, sendChatMessage, fetchAgentFacets } = usePocApi();
@@ -133,6 +139,21 @@ const selectedWorkLevelColor = computed(() => {
             return 'var(--neutral)';
         default:
             return 'transparent';
+    }
+});
+
+const selectedWorkLevelIcon = computed(() => {
+    switch (determineLevelKey.value) {
+        case 'manifestation':
+            return getFacetIcon('manifestation');
+        case 'item':
+            return getFacetIcon('item');
+        case 'workvariant':
+            return getFacetIcon('work');
+        case 'unknown':
+            return 'tabler:help-circle';
+        default:
+            return '';
     }
 });
 
@@ -281,10 +302,7 @@ main {
     font-weight: 500;
 }
 
-.selected-level-indicator {
-    width: 0.75rem;
-    height: 0.75rem;
-    border-radius: 9999px;
-    border: 1px solid color-mix(in srgb, var(--neutral) 30%, transparent);
+.selected-level-icon {
+    font-size: 1rem;
 }
 </style>

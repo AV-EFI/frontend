@@ -43,7 +43,8 @@
             >
                 <!-- 16 Exemplare -->
                 <div class="item-area level-stripe level-stripe--item pl-3 md:pl-4">
-                    <h4 class="relative font-bold text-sm text-primary-700 dark:text-primary-200 mb-4">
+                    <h4 class="relative mb-4 inline-flex items-center gap-2 text-sm font-bold text-primary-700 dark:text-primary-200">
+                        <Icon :name="itemLevelIcon" class="icon-inline" aria-hidden="true" />
                         {{ safeT('items') }}
                         <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
                     </h4>
@@ -65,7 +66,9 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { MovingImageRecord } from '~/models/interfaces/schema/avefi_schema.js';
 import type { IAVefiItem } from '~/models/interfaces/generated/IAVefiItem';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 const { t } = useI18n();
+const itemLevelIcon = getFacetIcon('item');
 
 const manifestationList = defineModel({
     type: Array as PropType<ManifestationListItem[]>,

@@ -15,7 +15,10 @@
                     <div class="stats shadow mt-4">
                         <div v-for="stat in dashboardStatsItems" :key="stat.key" class="stat">
                             <div class="stat-title">
-                                {{ stat.label }}
+                                <span class="inline-flex items-center gap-1.5">
+                                    <Icon :name="stat.icon" class="icon-inline" aria-hidden="true" />
+                                    <span>{{ stat.label }}</span>
+                                </span>
                             </div>
                             <div class="stat-value">
                                 <span v-if="dashboardStatsPending" class="loading loading-spinner text-primary" />
@@ -54,6 +57,8 @@
 </template>
 
 <script setup lang="ts">
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
+
 type DashboardStatsResponse = {
     success: boolean;
     counts: {
@@ -79,16 +84,19 @@ const dashboardStatsItems = computed(() => [
     {
         key: 'works',
         label: t('workvariants'),
+        icon: getFacetIcon('work'),
         value: dashboardStats.value?.counts?.works ?? 0,
     },
     {
         key: 'manifestations',
         label: t('manifestations'),
+        icon: getFacetIcon('manifestation'),
         value: dashboardStats.value?.counts?.manifestations ?? 0,
     },
     {
         key: 'items',
         label: t('items'),
+        icon: getFacetIcon('item'),
         value: dashboardStats.value?.counts?.items ?? 0,
     },
 ]);

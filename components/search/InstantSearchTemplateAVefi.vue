@@ -100,17 +100,26 @@
                                                       class="loading loading-spinner loading-md text-primary" />
                                                 <div v-else class="stats stats-vertical w-full lg:stats-horizontal shadow">
                                                     <div class="stat p-2 px-4">
-                                                        <div class="stat-title">{{ $t('works') }}</div>
+                                                        <div class="stat-title inline-flex items-center gap-1.5">
+                                                            <Icon :name="workLevelIcon" class="icon-inline" aria-hidden="true" />
+                                                            {{ $t('works') }}
+                                                        </div>
                                                         <div class="stat-value">{{ getDisplayedWorksCount(results?._rawResults[0], nbHits) }}</div>
                                                     </div>
 
                                                     <div class="stat p-2 px-4">
-                                                        <div class="stat-title">{{ $t('manifestations') }}</div>
+                                                        <div class="stat-title inline-flex items-center gap-1.5">
+                                                            <Icon :name="manifestationLevelIcon" class="icon-inline" aria-hidden="true" />
+                                                            {{ $t('manifestations') }}
+                                                        </div>
                                                         <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
                                                     </div>
 
                                                     <div class="stat p-2 px-4">
-                                                        <div class="stat-title">{{ $t('items') }}</div>
+                                                        <div class="stat-title inline-flex items-center gap-1.5">
+                                                            <Icon :name="itemLevelIcon" class="icon-inline" aria-hidden="true" />
+                                                            {{ $t('items') }}
+                                                        </div>
                                                         <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>
                                                     </div>
                                                 </div>
@@ -270,9 +279,14 @@
 import { SEARCH_REFINEMENT_COORDINATOR_KEY, type SearchRefinementAction } from '~/composables/searchRefinementCoordinator';
 import { useMatomoTracking } from '~/composables/useMatomoTracking';
 import { getDisplayedWorksCount } from '~/utils/searchResultCounts';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
+
+const workLevelIcon = getFacetIcon('work');
+const manifestationLevelIcon = getFacetIcon('manifestation');
+const itemLevelIcon = getFacetIcon('item');
 
 const {
     trackSearchSubmitted,

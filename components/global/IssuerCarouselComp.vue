@@ -49,28 +49,19 @@
                                 {{ item.name }}
                             </h2>
                             <div class="flex flex-col w-full h-21 rounded-box bg-base-200/60 mb-3 overflow-hidden divide-y divide-base-300/60">
-                                <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
+                                <div
+                                    v-for="summary in categorySummaryRows(item)"
+                                    :key="summary.category"
+                                    class="flex h-7 items-center justify-between gap-3 min-w-0 px-4"
+                                >
                                     <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
-                                        {{ $t('works') }}
+                                        <span class="inline-flex items-center gap-1">
+                                            <Icon :name="summary.icon" class="icon-inline" aria-hidden="true" />
+                                            <span>{{ summary.label }}</span>
+                                        </span>
                                     </div>
                                     <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
-                                        {{ getIssuerCategoryCount(item, 'avefi:WorkVariant').toLocaleString() }}
-                                    </div>
-                                </div>
-                                <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
-                                    <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
-                                        {{ $t('manifestations') }}
-                                    </div>
-                                    <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
-                                        {{ getIssuerCategoryCount(item, 'avefi:Manifestation').toLocaleString() }}
-                                    </div>
-                                </div>
-                                <div class="flex h-7 items-center justify-between gap-3 min-w-0 px-4">
-                                    <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
-                                        {{ $t('items') }}
-                                    </div>
-                                    <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
-                                        {{ getIssuerCategoryCount(item, 'avefi:Item').toLocaleString() }}
+                                        {{ summary.count.toLocaleString() }}
                                     </div>
                                 </div>
                             </div>
@@ -117,6 +108,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
 import rawIssuerImagesData from '~/data/issuer-images.json';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 
 interface Issuer {
     name: string;
@@ -145,6 +137,29 @@ function getIssuerCategoryCount(
     }
 
     return typeof issuer.doc_count === 'number' ? issuer.doc_count : 0;
+}
+
+function categorySummaryRows(issuer: Issuer) {
+    return [
+        {
+            category: 'avefi:WorkVariant' as const,
+            label: t('works'),
+            icon: getFacetIcon('work'),
+            count: getIssuerCategoryCount(issuer, 'avefi:WorkVariant'),
+        },
+        {
+            category: 'avefi:Manifestation' as const,
+            label: t('manifestations'),
+            icon: getFacetIcon('manifestation'),
+            count: getIssuerCategoryCount(issuer, 'avefi:Manifestation'),
+        },
+        {
+            category: 'avefi:Item' as const,
+            label: t('items'),
+            icon: getFacetIcon('item'),
+            count: getIssuerCategoryCount(issuer, 'avefi:Item'),
+        },
+    ];
 }
 
 interface IssuerItem extends Issuer {

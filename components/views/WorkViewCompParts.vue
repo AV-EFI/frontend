@@ -6,7 +6,8 @@
         :aria-label="$t('parts')"
     >
         <div class="my-2">
-            <h2 class="font-bold text-xl">
+            <h2 class="inline-flex items-center gap-2 text-xl font-bold">
+                <Icon :name="workLevelIcon" class="icon-inline" aria-hidden="true" />
                 {{ type == 'parts' ? $t('parts') : $t('workVariants') }}
             </h2>
         </div>
@@ -123,9 +124,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 
 const { t: $t } = useI18n();
 const runtime = useRuntimeConfig();
+const workLevelIcon = getFacetIcon('work');
 
 type NameObj = { has_name?: string };
 type AltTitle = NameObj & { id?: string | number; type?: string };

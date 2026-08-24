@@ -5,11 +5,10 @@
               category === 'avefi:Manifestation' ? 'badge-manifestation' :
               category === 'avefi:Item' ? 'badge-item' : 'badge-primary',
               category === 'avefi:WorkVariantPart' ? 'badge-work-part mx-auto' : '',
-              'badge badge-xs font-semibold h-4',
+              'badge badge-xs inline-flex items-center align-middle font-semibold h-4 leading-none',
           ]">
-        <span class="mx-auto my-auto inline-flex items-center gap-0.5">
-            <Icon v-if="category === 'avefi:Manifestation'" name="tabler:stack-2" class="w-2.5 h-2.5" aria-hidden="true" />
-            <Icon v-else-if="category === 'avefi:Item'" name="tabler:stack-3" class="w-2.5 h-2.5" aria-hidden="true" />
+        <span class="mx-auto my-auto inline-flex items-center gap-1 leading-none">
+            <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline text-current" aria-hidden="true" />
             {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
         </span>
     </span>
@@ -22,7 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
     category: {
         type: String,
         default: 'avefi:WorkVariant'
@@ -35,5 +36,18 @@ defineProps({
         type: Boolean,
         default: false
     }
+});
+
+const levelIcon = computed(() => {
+    if (props.category === 'avefi:WorkVariant' || props.category === 'avefi:WorkVariantPart') {
+        return 'tabler:stack-1';
+    }
+    if (props.category === 'avefi:Manifestation') {
+        return 'tabler:stack-2';
+    }
+    if (props.category === 'avefi:Item') {
+        return 'tabler:stack-3';
+    }
+    return '';
 });
 </script>

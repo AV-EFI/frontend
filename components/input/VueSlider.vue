@@ -11,7 +11,7 @@
             <div class="flex items-center gap-2">
                 <Icon
                     :name="facetIcon"
-                    class="w-4 h-4"
+                    class="icon-inline"
                     :class="hasActiveRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
                     aria-hidden="true"
                 />

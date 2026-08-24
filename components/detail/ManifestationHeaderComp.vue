@@ -84,7 +84,7 @@
                 >
                     <Icon
                         :name="itemLevelIcon"
-                        class="w-3.5 h-3.5 shrink-0 text-(--color-manifestation)"
+                        class="icon-inline text-(--color-manifestation)"
                         aria-hidden="true"
                     />
                     <span class="inline-flex items-center whitespace-nowrap leading-4">

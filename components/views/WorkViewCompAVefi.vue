@@ -1015,9 +1015,9 @@ function suggestionIconName(suggestion: string) {
     }
 
     const scope = queryScope(suggestion);
-    if (scope.item && !scope.manifestation) return 'tabler-stack-3';
-    if (scope.manifestation && !scope.item) return 'tabler-stack-2';
-    return 'tabler-filter';
+    if (scope.item && !scope.manifestation) return getFacetIcon('item', 'tabler:filter');
+    if (scope.manifestation && !scope.item) return getFacetIcon('manifestation', 'tabler:filter');
+    return 'tabler:filter';
 }
 
 const filteredManifestations = computed<Manifestation[]>(() => {

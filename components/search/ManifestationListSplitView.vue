@@ -26,7 +26,7 @@
                                 </div>
                                 <span class="text-sm ml-auto font-mono" :aria-label="$t('itemsCount')"
                                       :title="$t('itemsCount')">
-                                    <Icon class="text-xs" :name="itemLevelIcon" aria-hidden="true" /> {{ getFilteredItems(m).length }}
+                                    <Icon class="icon-inline" :name="itemLevelIcon" aria-hidden="true" /> {{ getFilteredItems(m).length }}
                                 </span>
                             </div>
                             <GlobalClipboardComp :display-text="m.handle" class="text-xs dark:hover:text-gray-400"
@@ -57,7 +57,7 @@
                         <div v-if="selectedIndex === i + currentPage * itemsPerPage"
                              class="block md:hidden mt-2 p-3 bg-base-100 dark:bg-base-200 rounded-b-md">
                             <h5 class="text-sm font-bold text-primary mb-1 flex items-center gap-1">
-                                <Icon :name="itemLevelIcon" class="text-base" />
+                                <Icon :name="itemLevelIcon" class="icon-inline" aria-hidden="true" />
                                 {{ $t('items') }}
                                 <GlobalTooltipInfo :text="$t('tooltip.item')" />
                             </h5>
@@ -106,7 +106,7 @@
                  class="hidden md:block z-10 md:w-[calc(60%-50px)] bg-base-200 dark:bg-base-100 p-4 relative" role="region"
                  :aria-label="`manifestation-${selectedManifestation.handle}`">
                 <h5 class="relative text-sm font-bold mb-2 flex items-center gap-1">
-                    <Icon :name="itemLevelIcon" class="text-base" />
+                    <Icon :name="itemLevelIcon" class="icon-inline" aria-hidden="true" />
                     {{ $t('items') }}
                     <GlobalTooltipInfo :text="$t('tooltip.item')" />
                 </h5>

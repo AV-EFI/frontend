@@ -109,6 +109,7 @@
             <div class="flex flex-col">
                 <h3 class="flex w-full items-center justify-start gap-2 text-left font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
                     :aria-label="$t('tooltip.manifestation')">
+                    <Icon :name="manifestationLevelIcon" class="icon-inline" aria-hidden="true" />
                     {{ $t('manifestations') }}
                     <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                 </h3>
@@ -124,6 +125,7 @@
 
 <script lang="ts" setup>
 import { allItemsEmpty, get } from '@/composables/useItemEmpty';
+import { getFacetIcon } from '@/models/interfaces/manual/IFacetIconMapping';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { SearchWorkHit, SearchManifestation, SearchItem } from '@/models/interfaces/manual/ISearchWorkHit';
@@ -134,6 +136,7 @@ type ManifestationHit = SearchManifestation & { inner_hits?: InnerHits<SearchIte
 type HighlightValue = { value?: string; matchLevel?: string; matchedWords?: string[] };
 
 const route = useRoute();
+const manifestationLevelIcon = getFacetIcon('manifestation');
 
 const activeGenres = ref<string[]>([]);
 const activeSubjects = ref<string[]>([]);
