@@ -6,6 +6,7 @@
               category === 'avefi:Item' ? 'badge-item' : 'badge-primary',
               category === 'avefi:WorkVariantPart' ? 'badge-work-part mx-auto' : '',
               'badge badge-xs inline-flex items-center align-middle font-semibold h-4 leading-none',
+              dense ? 'w-9 justify-center px-1' : '',
           ]">
         <span class="mx-auto my-auto inline-flex items-center gap-1 leading-none">
             <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline text-current" aria-hidden="true" />
