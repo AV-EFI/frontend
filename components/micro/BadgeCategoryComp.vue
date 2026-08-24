@@ -8,9 +8,11 @@
               'badge badge-xs inline-flex items-center align-middle font-semibold h-4 leading-none',
               dense ? 'w-9 justify-center px-1' : '',
           ]">
-        <span class="mx-auto my-auto inline-flex items-center gap-1 leading-none">
-            <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline text-current" aria-hidden="true" />
-            {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+        <span class="mx-auto inline-flex h-full items-center justify-center gap-1 leading-none">
+            <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline block text-current" aria-hidden="true" />
+            <span class="block leading-none">
+                {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+            </span>
         </span>
     </span>
     <span v-else-if="category.indexOf('Serial') > -1 || category.indexOf('AnthologyFilm') > -1"
