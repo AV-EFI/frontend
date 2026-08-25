@@ -187,6 +187,36 @@
                 </div>
             </div>
 
+            <div
+                v-if="sameAsRefsFrom(exemplar).length"
+                class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3"
+            >
+                <div class="flex flex-col mb-1">
+                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                        <MicroLabelComp label-text="same_as" />
+                    </span>
+                    <ul class="mt-1 space-y-1">
+                        <li
+                            v-for="sameAs in sameAsRefsFrom(exemplar)"
+                            :key="sameAsKey(sameAs)"
+                            class="flex min-h-8 items-start gap-2"
+                        >
+                            <span
+                                class="min-w-0 grow truncate text-sm font-normal"
+                                :title="sameAsDisplayLabel(sameAs)"
+                            >
+                                {{ sameAsDisplayLabel(sameAs) }}
+                            </span>
+                            <DetailSameAsComp
+                                :same-as-data="[sameAs]"
+                                type="item"
+                                class="shrink-0 text-sm"
+                            />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3 flex flex-col justify-end">
                 <span class="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-200">
                     <MicroLabelComp label-text="webresource" />
@@ -244,7 +274,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue';
 import type { IAVefiItem } from '~/models/interfaces/generated/IAVefiItem';
-import type { Format } from '~/models/interfaces/schema/avefi_schema_type_utils';
+import type { AuthorityResource, Format } from '~/models/interfaces/schema/avefi_schema_type_utils';
 
 const { t } = useI18n();
 const config = useRuntimeConfig();
@@ -306,6 +336,29 @@ function formatItemLanguageCodes(languages: unknown) {
     return languages
         .map((language) => (typeof language?.code === 'string' ? language.code : ''))
         .filter(Boolean);
+}
+
+function sameAsRefsFrom(exemplar: ItemHeadingExemplar | undefined): AuthorityResource[] {
+    if (!Array.isArray(exemplar?.has_record?.same_as)) return [];
+
+    const seen = new Set<string>();
+    return exemplar.has_record.same_as.filter((sameAs): sameAs is AuthorityResource => {
+        if (!sameAs?.category || !sameAs?.id) return false;
+
+        const key = sameAsKey(sameAs);
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+    });
+}
+
+function sameAsKey(sameAs: Pick<AuthorityResource, 'category' | 'id'>) {
+    return `${sameAs.category}:${sameAs.id}`;
+}
+
+function sameAsDisplayLabel(sameAs: Pick<AuthorityResource, 'category' | 'id'>): string {
+    return `${translateKey(sameAs.category)}: ${sameAs.id}`;
 }
 
 function getItemAnchorId(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {

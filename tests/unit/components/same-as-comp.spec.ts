@@ -10,8 +10,9 @@ vi.stubGlobal('useI18n', () => ({
   t: (key: string) => ({
     'avefi:FilmportalResource': 'Filmportal',
     'avefi:GNDResource': 'GND',
+    'avefi:DOIResource': 'DOI',
   }[key] ?? key),
-  te: (key: string) => ['avefi:FilmportalResource', 'avefi:GNDResource'].includes(key),
+  te: (key: string) => ['avefi:FilmportalResource', 'avefi:GNDResource', 'avefi:DOIResource'].includes(key),
 }));
 
 vi.mock('~/utils/clipboard', () => ({
@@ -93,6 +94,28 @@ describe('SameAsComp positioning contract', () => {
 
     const link = document.body.querySelector('a[role="menuitem"]');
     expect(link?.textContent?.trim()).toBe('Filmportal');
+    wrapper.unmount();
+  });
+
+  test('renders DOI references with the translated DOI label and resolved URL', () => {
+    const wrapper = mount(SameAsComp, {
+      attachTo: document.body,
+      props: {
+        sameAsData: [{ category: 'avefi:DOIResource', id: '10.1234/item-doi-1' }],
+      },
+      global: {
+        stubs: {
+          Icon: { template: '<span />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    const link = document.body.querySelector('a[role="menuitem"]');
+    expect(link?.textContent?.trim()).toBe('DOI');
+    expect(link?.getAttribute('href')).toBe('https://example.test/avefi:DOIResource/10.1234/item-doi-1');
     wrapper.unmount();
   });
 });

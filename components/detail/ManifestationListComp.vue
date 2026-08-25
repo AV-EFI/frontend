@@ -41,6 +41,36 @@
                 role="region"
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
+                <div
+                    v-if="sameAsRefsFrom(manifestation?.has_record).length"
+                    class="manifestation-reference-area mb-4 grid grid-cols-1 gap-2 rounded-lg border border-base-200 bg-base-100 p-3 dark:border-gray-800 dark:bg-gray-900"
+                    role="region"
+                    :aria-label="$t('same_as')"
+                >
+                    <div
+                        v-for="sameAs in sameAsRefsFrom(manifestation?.has_record)"
+                        :key="sameAsKey(sameAs)"
+                        class="flex min-h-8 items-start gap-2"
+                    >
+                        <div class="min-w-0 grow">
+                            <MicroLabelComp
+                                label-text="same_as"
+                            />
+                            <p
+                                class="mt-1 truncate text-sm leading-5 text-base-content"
+                                :title="sameAsDisplayLabel(sameAs)"
+                            >
+                                {{ sameAsDisplayLabel(sameAs) }}
+                            </p>
+                        </div>
+                        <DetailSameAsComp
+                            :same-as-data="[sameAs]"
+                            type="manifestation"
+                            class="shrink-0 text-sm"
+                        />
+                    </div>
+                </div>
+
                 <!-- 16 Exemplare -->
                 <div class="item-area level-stripe level-stripe--item pl-3 md:pl-4">
                     <h4 class="relative mb-4 inline-flex items-center gap-2 text-sm font-bold text-primary-700 dark:text-primary-200">
@@ -82,6 +112,11 @@ interface ManifestationListItem {
     items?: IAVefiItem[];
 }
 
+type SameAsRef = {
+    category?: string;
+    id?: string;
+};
+
 onMounted(() => {
     window.addEventListener('keydown', handleEscKey);
     window.addEventListener('detail:openManifestation', handleOpenManifestation as EventListener);
@@ -122,6 +157,30 @@ function handleOpenManifestation(event: Event) {
 
 function getManifestationAnchorId(manifestation: ManifestationListItem, index: number) {
     return manifestation?.handle?.trim() || `manifestation-${index}`;
+}
+
+function sameAsRefsFrom(record: MovingImageRecord | undefined): Array<Required<SameAsRef>> {
+    if (!Array.isArray(record?.same_as)) return [];
+
+    const seen = new Set<string>();
+    return record.same_as.filter((sameAs): sameAs is Required<SameAsRef> => {
+        if (!sameAs?.category || !sameAs?.id) return false;
+
+        const key = sameAsKey(sameAs);
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+    });
+}
+
+function sameAsKey(sameAs: SameAsRef) {
+    return `${sameAs?.category || ''}:${sameAs?.id || ''}`;
+}
+
+function sameAsDisplayLabel(sameAs: SameAsRef): string {
+    const authority = safeT(sameAs?.category);
+    return sameAs?.id ? `${authority}: ${sameAs.id}` : authority;
 }
 
 function safeT(input: unknown): string {

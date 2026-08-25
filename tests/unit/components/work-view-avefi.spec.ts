@@ -65,11 +65,19 @@ function buildModelWithManifestations() {
             handle: '21.11155/MF-1',
             has_record: {
               category: 'avefi:Manifestation',
+              same_as: [{ id: 'mf-gnd-1', category: 'avefi:GNDResource' }],
               has_event: [{ type: 'PremiereEvent' }],
               described_by: { has_issuer_name: 'Issuer A' },
             },
             items: [
-              { handle: '21.11155/IT-1', has_name: 'Item 1', has_record: { has_access_status: 'Public' } },
+              {
+                handle: '21.11155/IT-1',
+                has_name: 'Item 1',
+                has_record: {
+                  has_access_status: 'Public',
+                  same_as: [{ id: '10.1234/item-doi-1', category: 'avefi:DOIResource' }],
+                },
+              },
               { handle: '21.11155/IT-2', has_name: 'Item 2', has_record: { has_access_status: 'Restricted' } },
             ],
           },
@@ -410,6 +418,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
           GlobalTooltipInfo: { template: '<span />' },
           DetailManifestationHeaderComp: { template: '<h4 />' },
           DetailItemListNewComp: { template: '<div />' },
+          DetailSameAsComp: {
+            props: ['sameAsData', 'type'],
+            template: '<button data-testid="manifestation-same-as" :data-type="type" :data-category="sameAsData[0]?.category" :data-id="sameAsData[0]?.id" />',
+          },
+          MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText }}</span>' },
         },
         mocks: {
           $t: (key: string) => key,
@@ -426,6 +439,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(wrapper.get('.item-area').classes()).toContain('level-stripe--item');
     expect(wrapper.get('.item-area').classes()).not.toContain('border-l-2');
     expect(wrapper.get('.item-area').classes()).not.toContain('border-item');
+    expect(wrapper.text()).toContain('avefi:GNDResource: mf-gnd-1');
+    const sameAs = wrapper.get('[data-testid="manifestation-same-as"]');
+    expect(sameAs.attributes('data-type')).toBe('manifestation');
+    expect(sameAs.attributes('data-category')).toBe('avefi:GNDResource');
+    expect(sameAs.attributes('data-id')).toBe('mf-gnd-1');
   });
 
   test('renders item anchors from raw handles', () => {
@@ -446,6 +464,10 @@ describe('WorkViewCompAVefi interaction contracts', () => {
           GlobalTooltipInfo: { template: '<span />' },
           SearchHighlightSingleComp: { template: '<span />' },
           SearchHighlightListComp: { template: '<span />' },
+          DetailSameAsComp: {
+            props: ['sameAsData', 'type'],
+            template: '<button data-testid="item-same-as" :data-type="type" :data-category="sameAsData[0]?.category" :data-id="sameAsData[0]?.id" />',
+          },
         },
         mocks: {
           $t: (key: string) => key,
@@ -457,6 +479,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       .map(anchor => anchor.attributes('id'));
     expect(itemAnchorIds).toContain('21.11155/IT-1');
     expect(itemAnchorIds).not.toContain('item-0-0-21-11155-IT-1');
+    expect(wrapper.text()).toContain('avefi:DOIResource: 10.1234/item-doi-1');
+    const sameAs = wrapper.get('[data-testid="item-same-as"]');
+    expect(sameAs.attributes('data-type')).toBe('item');
+    expect(sameAs.attributes('data-category')).toBe('avefi:DOIResource');
+    expect(sameAs.attributes('data-id')).toBe('10.1234/item-doi-1');
     expect(wrapper.get('article').classes()).not.toContain('border-l-4');
     expect(wrapper.get('article').classes()).not.toContain('border-item');
   });
