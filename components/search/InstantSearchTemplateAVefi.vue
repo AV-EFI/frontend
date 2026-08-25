@@ -101,7 +101,7 @@
                                                 <div v-else class="stats stats-vertical w-full lg:stats-horizontal shadow">
                                                     <div class="stat p-2 px-4">
                                                         <div class="stat-title inline-flex items-center gap-1.5">
-                                                            <Icon :name="workLevelIcon" class="icon-inline" aria-hidden="true" />
+                                                            <Icon :name="workLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                                                             {{ $t('works') }}
                                                         </div>
                                                         <div class="stat-value">{{ getDisplayedWorksCount(results?._rawResults[0], nbHits) }}</div>
@@ -109,7 +109,7 @@
 
                                                     <div class="stat p-2 px-4">
                                                         <div class="stat-title inline-flex items-center gap-1.5">
-                                                            <Icon :name="manifestationLevelIcon" class="icon-inline" aria-hidden="true" />
+                                                            <Icon :name="manifestationLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                                                             {{ $t('manifestations') }}
                                                         </div>
                                                         <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
@@ -117,7 +117,7 @@
 
                                                     <div class="stat p-2 px-4">
                                                         <div class="stat-title inline-flex items-center gap-1.5">
-                                                            <Icon :name="itemLevelIcon" class="icon-inline" aria-hidden="true" />
+                                                            <Icon :name="itemLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                                                             {{ $t('items') }}
                                                         </div>
                                                         <div class="stat-value">{{ results?._rawResults[0]?.nbItems }}</div>

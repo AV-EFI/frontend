@@ -78,13 +78,13 @@
                 <span
                     v-if="manifestation.items?.length > 0"
                     :class="[
-                        'inline-grid grid-cols-[0.875rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4',
+                        'inline-grid grid-cols-[1rem_minmax(0,1fr)] items-center gap-x-1.5 min-w-0 rounded-md bg-base-100/70 px-2 py-1 shadow-sm shadow-base-300/10 whitespace-nowrap leading-4',
                         manifestationInfoLevelClasses,
                     ]"
                 >
                     <Icon
                         :name="itemLevelIcon"
-                        class="icon-inline text-(--color-manifestation)"
+                        class="icon-inline icon-level text-(--color-manifestation)"
                         aria-hidden="true"
                     />
                     <span class="inline-flex items-center whitespace-nowrap leading-4">

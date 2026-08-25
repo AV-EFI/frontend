@@ -5,11 +5,11 @@
               category === 'avefi:Manifestation' ? 'badge-manifestation' :
               category === 'avefi:Item' ? 'badge-item' : 'badge-primary',
               category === 'avefi:WorkVariantPart' ? 'badge-work-part mx-auto' : '',
-              'badge badge-xs inline-flex items-center align-middle font-semibold h-4 leading-none',
-              dense ? 'w-9 justify-center px-1' : '',
+              'badge badge-sm inline-flex h-5 items-center align-middle text-xs font-semibold leading-none',
+              dense ? 'w-10 justify-center px-1' : 'gap-1.5 px-2',
           ]">
-        <span class="mx-auto inline-flex h-full items-center justify-center gap-1 leading-none">
-            <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline block text-current" aria-hidden="true" />
+        <span class="mx-auto inline-flex h-full items-center justify-center gap-1.5 leading-none">
+            <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline icon-level block text-current" aria-hidden="true" />
             <span class="block leading-none">
                 {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
             </span>

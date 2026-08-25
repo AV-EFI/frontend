@@ -422,7 +422,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
             props: ['sameAsData', 'type'],
             template: '<button data-testid="manifestation-same-as" :data-type="type" :data-category="sameAsData[0]?.category" :data-id="sameAsData[0]?.id" />',
           },
-          MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText }}</span>' },
+          MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText === "referencesAndWorkRelations" ? "References" : labelText }}</span>' },
         },
         mocks: {
           $t: (key: string) => key,
@@ -439,6 +439,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(wrapper.get('.item-area').classes()).toContain('level-stripe--item');
     expect(wrapper.get('.item-area').classes()).not.toContain('border-l-2');
     expect(wrapper.get('.item-area').classes()).not.toContain('border-item');
+    expect(wrapper.text()).toContain('References');
+    expect(wrapper.text()).not.toContain('same_as');
     expect(wrapper.text()).toContain('avefi:GNDResource: mf-gnd-1');
     const sameAs = wrapper.get('[data-testid="manifestation-same-as"]');
     expect(sameAs.attributes('data-type')).toBe('manifestation');
@@ -460,7 +462,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
           Icon: { template: '<i />' },
           MicroDividerComp: { template: '<div />' },
           DetailKeyValueComp: { template: '<div />' },
-          MicroLabelComp: { template: '<span />' },
+          MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText === "referencesAndWorkRelations" ? "References" : labelText }}</span>' },
           GlobalTooltipInfo: { template: '<span />' },
           SearchHighlightSingleComp: { template: '<span />' },
           SearchHighlightListComp: { template: '<span />' },
@@ -479,6 +481,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       .map(anchor => anchor.attributes('id'));
     expect(itemAnchorIds).toContain('21.11155/IT-1');
     expect(itemAnchorIds).not.toContain('item-0-0-21-11155-IT-1');
+    expect(wrapper.text()).toContain('References');
+    expect(wrapper.text()).not.toContain('same_as');
     expect(wrapper.text()).toContain('avefi:DOIResource: 10.1234/item-doi-1');
     const sameAs = wrapper.get('[data-testid="item-same-as"]');
     expect(sameAs.attributes('data-type')).toBe('item');

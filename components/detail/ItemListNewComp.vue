@@ -193,7 +193,7 @@
             >
                 <div class="flex flex-col mb-1">
                     <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                        <MicroLabelComp label-text="same_as" />
+                        <MicroLabelComp label-text="referencesAndWorkRelations" />
                     </span>
                     <ul class="mt-1 space-y-1">
                         <li

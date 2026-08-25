@@ -45,24 +45,22 @@
                     v-if="sameAsRefsFrom(manifestation?.has_record).length"
                     class="manifestation-reference-area mb-4 grid grid-cols-1 gap-2 rounded-lg border border-base-200 bg-base-100 p-3 dark:border-gray-800 dark:bg-gray-900"
                     role="region"
-                    :aria-label="$t('same_as')"
+                    :aria-label="$t('referencesAndWorkRelations')"
                 >
+                    <MicroLabelComp
+                        label-text="referencesAndWorkRelations"
+                    />
                     <div
                         v-for="sameAs in sameAsRefsFrom(manifestation?.has_record)"
                         :key="sameAsKey(sameAs)"
                         class="flex min-h-8 items-start gap-2"
                     >
-                        <div class="min-w-0 grow">
-                            <MicroLabelComp
-                                label-text="same_as"
-                            />
-                            <p
-                                class="mt-1 truncate text-sm leading-5 text-base-content"
-                                :title="sameAsDisplayLabel(sameAs)"
-                            >
-                                {{ sameAsDisplayLabel(sameAs) }}
-                            </p>
-                        </div>
+                        <p
+                            class="min-w-0 grow truncate text-sm leading-5 text-base-content"
+                            :title="sameAsDisplayLabel(sameAs)"
+                        >
+                            {{ sameAsDisplayLabel(sameAs) }}
+                        </p>
                         <DetailSameAsComp
                             :same-as-data="[sameAs]"
                             type="manifestation"
@@ -74,7 +72,7 @@
                 <!-- 16 Exemplare -->
                 <div class="item-area level-stripe level-stripe--item pl-3 md:pl-4">
                     <h4 class="relative mb-4 inline-flex items-center gap-2 text-sm font-bold text-primary-700 dark:text-primary-200">
-                        <Icon :name="itemLevelIcon" class="icon-inline" aria-hidden="true" />
+                        <Icon :name="itemLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                         {{ safeT('items') }}
                         <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
                     </h4>
