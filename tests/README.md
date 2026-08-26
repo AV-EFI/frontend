@@ -8,6 +8,7 @@ This folder is the first regression safety-net scaffold mapped to:
 ## Structure
 
 - `tests/e2e/`: Playwright smoke + SEO behavior checks
+- `tests/e2e/accessibility/`: Playwright public-route accessibility smoke
 - `tests/e2e/api/`: live backend contract suites (OpenAPI/search/detail/negative/edge)
 - `tests/e2e/seo/`: SEO + sitemap runtime route/API checks
 - `tests/e2e/utils/`: strict runtime payload validators used by e2e suites
@@ -30,6 +31,7 @@ This folder is the first regression safety-net scaffold mapped to:
 - data-quality also writes stakeholder-specific report views under `logs/data-quality/stakeholders/` for frontend-ux, backend, data-engineer, project-manager, and data-delivering-institutions
 - data-quality checks are report-only and non-blocking by design, and they are not part of CI deploy lanes
 - `yarn test:e2e:list`: list Playwright tests
+- `yarn audit:accessibility`: run public-route accessibility smoke
 - `yarn test:e2e`: run Playwright tests
 - `yarn test:e2e:smoke`: browser smoke + SEO canonical tests
 - `yarn test:e2e:contact`: contact submit e2e test; inbox assertion is enabled only when `MAIL_ASSERT_API_BASE` is set

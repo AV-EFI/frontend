@@ -9,9 +9,13 @@ export default [
   {
     ignores: [
       'node_modules/**',
+      '**/node_modules/**',
       '.output/**',
+      '**/.output/**',
       '.nuxt/**',
+      '**/.nuxt/**',
       'dist/**',
+      '**/dist/**',
       'coverage/**',
       'public/**',
       'scripts/**',

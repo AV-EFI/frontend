@@ -7,6 +7,20 @@ test.describe('Compare, Press Assets, and Autocomplete Smoke', () => {
     await expect(page.locator('.alert.alert-error')).toBeVisible();
   });
 
+  test('BB-COMPARE-003 /compare with one missing param shows invalid-state alert', async ({ page }) => {
+    await page.goto('/compare?prev=demo-prev');
+    await expect(page).toHaveURL(/\/compare\?prev=demo-prev/);
+    await expect(page.locator('.alert.alert-error')).toBeVisible();
+    await expect(page.locator('[role="tablist"]')).toBeHidden();
+  });
+
+  test('BB-COMPARE-004 /compare with duplicate params stays invalid', async ({ page }) => {
+    await page.goto('/compare?prev=demo-id&next=demo-id');
+    await expect(page).toHaveURL(/\/compare\?prev=demo-id&next=demo-id/);
+    await expect(page.locator('.alert.alert-error')).toBeVisible();
+    await expect(page.locator('[role="tablist"]')).toBeHidden();
+  });
+
   test('BB-COMPARE-002 /compare with prev/next params renders tablist', async ({ page }) => {
     await page.goto('/compare?prev=demo-prev&next=demo-next');
     await expect(page).toHaveURL(/\/compare\?prev=demo-prev&next=demo-next/);

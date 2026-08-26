@@ -53,6 +53,7 @@ const deBase = {
   'missingBothDatasets': 'Beide Datensatz-Identifikatoren fehlen. Bitte geben Sie \'prev\' und \'next\' als Query-Parameter an.',
   'missingDataset1': 'Datensatz 1-Identifikator fehlt. Bitte geben Sie den \'prev\' Query-Parameter an.',
   'missingDataset2': 'Datensatz 2-Identifikator fehlt. Bitte geben Sie den \'next\' Query-Parameter an.',
+  'duplicateComparisonDatasets': 'Die beiden Datensatz-Identifikatoren müssen unterschiedlich sein.',
   'comparisonUrlHelp': 'Beispiel: /compare?prev=21.11155/work-123&next=21.11155/work-456',
   'reportComparisonToAVefi': 'Diesen Vergleich an AVefi melden',
   "hero": {

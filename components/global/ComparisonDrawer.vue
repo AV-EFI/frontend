@@ -79,7 +79,7 @@
                             <button
                                 :title="$t('gotocomp')"
                                 class="btn btn-compare-list h-12 join-item w-1/3"
-                                :class="objectListStore.objects.length !== 2 && 'btn-disabled'"
+                                :class="!canCompare && 'btn-disabled'"
                                 @click="navigateToComparison"
                             >
                                 <Icon class="icon-inline" name="tabler:arrows-exchange" aria-hidden="true" />
@@ -229,6 +229,10 @@ const activeTab = ref<'comparison' | 'favourites'>('comparison');
 
 const comparisonHasItems = computed(() => objectListStore.objects.length > 0);
 const favouritesHasItems = computed(() => favourites.objects.length > 0);
+const canCompare = computed(() => {
+    const objectIds: string[] = objectListStore.getObjectIds;
+    return objectIds.length === 2 && objectIds[0] !== objectIds[1];
+});
 
 watch([comparisonHasItems, favouritesHasItems], () => {
     if (activeTab.value === 'comparison' && !comparisonHasItems.value && favouritesHasItems.value) {
@@ -277,7 +281,7 @@ const removeAllObjects = (type: string) => {
 const navigateToComparison = () => {
     try {
         const objectIds: string[] = objectListStore.getObjectIds;
-        if (objectIds.length === 2) {
+        if (canCompare.value) {
             navigateTo(`/compare?prev=${objectIds[0]}&next=${objectIds[1]}`);
         }
     } catch (e) {

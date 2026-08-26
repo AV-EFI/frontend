@@ -9,6 +9,8 @@ This directory contains implementation, architecture, UX, design, and generated 
 - `../AGENTS.md`: repository guidance for AI coding agents and contributors who need a fast context map.
 - `ux/`: focused UX notes for accessibility, interaction patterns, maintenance banner behavior, research evidence, handbook alignment, and decision records.
 - `repo-analysis/`: architecture, behavior contracts, testing strategy, schema/generation notes, and implementation risks.
+- `repo-analysis/software-quality-map.md`: practical quality map linking critical surfaces, current checks, gaps, and next upgrades.
+- `repo-analysis/release-quality-checklist.md`: release and merge verification lanes by change type.
 - `visual-ui-audit.md`: current visual UI audit and implementation notes.
 - `components/`: refreshed static source summaries for current Vue components; start with `components/handover-audit.md` and verify behavior against source and tests.
 - `composables/`: generated or semi-generated API-style documentation; verify against source before relying on freshness.
@@ -32,7 +34,9 @@ Recommended first pass for new developers:
 4. `repo-analysis/architecture.md` for runtime architecture and data flow.
 5. `repo-analysis/behavior-baseline.md` for current app behavior before refactoring.
 6. `components/handover-audit.md` for handover-critical components, shared classes, generated docs, and test anchors.
-7. `repo-analysis/test-contract-mapping.md` and `../tests/README.md` for coverage and test lanes.
+7. `repo-analysis/software-quality-map.md` for the quality operating model and priority roadmap.
+8. `repo-analysis/release-quality-checklist.md` for change-type verification commands.
+9. `repo-analysis/test-contract-mapping.md` and `../tests/README.md` for coverage and test lanes.
 
 ## Source Discipline
 

@@ -22,6 +22,10 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/e2e/smoke/compare-press-assets-autocomplete.spec.ts`
 - `BB-COMPARE-002`: `/compare?prev=...&next=...` renders comparison tablist shell.
   - `tests/e2e/smoke/compare-press-assets-autocomplete.spec.ts`
+- `BB-COMPARE-003`: `/compare?prev=...` without `next` shows invalid-state alert and no tablist.
+  - `tests/e2e/smoke/compare-press-assets-autocomplete.spec.ts`
+- `BB-COMPARE-004`: `/compare?prev=...&next=...` with duplicate IDs shows invalid-state alert and no tablist.
+  - `tests/e2e/smoke/compare-press-assets-autocomplete.spec.ts`
 - `BB-PRESS-ASSET-001`: `/press/manifest.json` and `/api/press-kit.zip` are reachable.
   - `tests/e2e/smoke/compare-press-assets-autocomplete.spec.ts`
 - `BB-HOME-AUTOCOMPLETE-001`: keyboard autocomplete flow selects then submits to `/search`.
@@ -73,6 +77,8 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/e2e/smoke/search-refinement-request-flow.spec.ts`
 - `SRR-002`: panel toggle, active-refinement delete, and clear-all dispatch centralized refinement action events with query.
   - `tests/e2e/smoke/search-refinement-request-flow.spec.ts`
+- `A11Y-SMOKE-001`: public routes have basic semantic structure, named visible controls/links, visible image alt attributes, no horizontal overflow, and no serious console/page errors.
+  - `tests/e2e/accessibility/public-routes-a11y.spec.ts`
 
 ## Unit contract guards (Vitest)
 
@@ -140,6 +146,8 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/unit/components/comparison-drawer.spec.ts`
 - `CBC-COMPARISON-005`: tab auto-switches to favourites when comparison list is empty.
   - `tests/unit/components/comparison-drawer.spec.ts`
+- `CBC-COMPARISON-006`: duplicate persisted comparison IDs do not navigate.
+  - `tests/unit/components/comparison-drawer.spec.ts`
 
 - `BB-APP-001`: global schema and canonical mount points remain.
   - `tests/unit/source-guards/route-seo.contract.spec.ts`
@@ -154,6 +162,10 @@ This file maps behavior contracts to the first automated test skeleton.
 - `BB-DETAIL-UX-002`: manifestation/item filter narrows result set.
   - `tests/unit/components/work-view-avefi.spec.ts`
 - `BB-DETAIL-UX-003`: parts fallback renders when manifestations are absent.
+  - `tests/unit/components/work-view-avefi.spec.ts`
+- `BB-DETAIL-UX-004`: no-results filter state renders an explicit status alert.
+  - `tests/unit/components/work-view-avefi.spec.ts`
+- `BB-DETAIL-UX-005`: no manifestations and no parts renders an explicit empty-state alert.
   - `tests/unit/components/work-view-avefi.spec.ts`
 - `CBC-WORK-LABELS-001`: work top-level properties (`same_as`, alternative titles, `is_part_of`) render with labeled sections.
   - `tests/unit/components/work-variant-top-level.spec.ts`

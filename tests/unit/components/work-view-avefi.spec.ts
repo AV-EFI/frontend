@@ -29,7 +29,7 @@ type WorkViewVm = {
   workNavigationItems: WorkNavigationItem[];
   activeSection: string;
   activeDetailTab: string;
-  searchQuery: string;
+  searchQuery: string[];
   filteredManifestations: Array<{ handle: string; items: Array<{ handle: string }> }>;
   suggestionsForManifestations: string[];
   toggleSuggestion: (value: string) => void;
@@ -111,6 +111,18 @@ function buildModelWithPartsOnly() {
         handle: 'work-parts',
         has_record: { has_primary_title: { has_name: 'Parts work' } },
         parts: [{ handle: 'part-1' }],
+        manifestations: [],
+      },
+    },
+  };
+}
+
+function buildModelWithoutCollections() {
+  return {
+    compound_record: {
+      _source: {
+        handle: 'work-empty',
+        has_record: { has_primary_title: { has_name: 'Empty work' } },
         manifestations: [],
       },
     },
@@ -340,6 +352,29 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(vm.filteredManifestations[0]!.items[0]!.handle).toBe('21.11155/IT-2');
   });
 
+  test('renders no-results state when selected filters remove all manifestations', async () => {
+    vi.useFakeTimers();
+    try {
+      const wrapper = mountComponent(buildModelWithManifestations());
+      await flushPromises();
+
+      const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
+      vm.toggleSuggestion('Issuer A');
+      vm.toggleSuggestion('RestorationEvent');
+      vi.advanceTimersByTime(700);
+      await flushPromises();
+
+      expect(vm.searchQuery).toEqual(['Issuer A', 'RestorationEvent']);
+      expect(vm.filteredManifestations).toEqual([]);
+      const status = wrapper.get('.alert.alert-info[role="status"]');
+      expect(status.attributes('aria-label')).toBe('noResults');
+      expect(status.text()).toContain('tryClearingFiltersOrQuery');
+      expect(wrapper.text()).toContain('0 results');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   test('exposes manifestation events as filter suggestions', async () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
@@ -382,6 +417,16 @@ describe('WorkViewCompAVefi interaction contracts', () => {
 
     expect(wrapper.find('#manifestations').exists()).toBe(false);
     expect(wrapper.find('[data-testid="parts-view"]').exists()).toBe(true);
+  });
+
+  test('renders explicit empty state when no manifestations or parts exist', async () => {
+    const wrapper = mountComponent(buildModelWithoutCollections());
+    await flushPromises();
+
+    const alert = wrapper.get('.alert.alert-warning[role="alert"]');
+    expect(alert.attributes('aria-label')).toBe('noManifestations');
+    expect(wrapper.find('#manifestations').exists()).toBe(false);
+    expect(wrapper.find('[data-testid="parts-view"]').exists()).toBe(false);
   });
 
   test('uses raw manifestation handles for navigation anchors', async () => {

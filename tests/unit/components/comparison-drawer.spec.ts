@@ -98,6 +98,20 @@ describe('ComparisonDrawer interaction contracts', () => {
     expect(navigateToMock).toHaveBeenCalledWith('/compare?prev=id-1&next=id-2');
   });
 
+  test('does not navigate with duplicate persisted IDs even when two entries exist', async () => {
+    comparisonStore.objects.push(
+      { filmId: 'id-1', filmTitle: 'First' },
+      { filmId: 'id-1', filmTitle: 'Duplicate' }
+    );
+
+    const wrapper = mountComponent();
+    const compareButton = wrapper.find('button.btn-compare-list');
+    expect(compareButton.classes()).toContain('btn-disabled');
+    await compareButton.trigger('click');
+
+    expect(navigateToMock).not.toHaveBeenCalled();
+  });
+
   test('switches to favourites tab when comparison is empty and favourites has items', async () => {
     favouritesStore.objects.push({ filmId: 'fav-1', filmTitle: 'Fav' });
     const wrapper = mountComponent();

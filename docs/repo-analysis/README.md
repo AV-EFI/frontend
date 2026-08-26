@@ -32,6 +32,8 @@ Update 2026-08-13: for current UX/design handover, start with `../README.md`, `.
 - `../components/handover-audit.md`: current handover map for high-value components, shared classes, generated component docs, and test anchors
 - `generation-and-schema.md`: schema sources, generation scripts, and generated outputs
 - `issues-and-risks.md`: prioritized technical and architectural concerns
+- `release-quality-checklist.md`: command lanes and handoff expectations by change type
+- `software-quality-map.md`: practical quality map for critical surfaces, current checks, quality gaps, and next upgrades
 - `testing-strategy.md`: recommended test pyramid and rollout plan
 - `behavior-baseline.md`: app-level behavior contract before refactoring
 - `component-behavior-contracts.md`: high-risk component contracts and regression checks
@@ -45,7 +47,9 @@ Update 2026-08-13: for current UX/design handover, start with `../README.md`, `.
 4. Read `inventory.md` for the repo map and likely dead-code candidates.
 5. Read `../components/handover-audit.md` before component or shared-class work.
 6. Read `issues-and-risks.md` before making larger refactors.
-7. Use `testing-strategy.md` to turn the findings into a safer migration plan.
-8. Use `behavior-baseline.md` as functional contract during refactors.
-9. Use `component-behavior-contracts.md` to derive regression tests.
-10. Use `test-contract-mapping.md` to locate implemented test coverage and open gaps.
+7. Use `software-quality-map.md` to plan quality improvements across critical surfaces, checks, and gaps.
+8. Use `release-quality-checklist.md` to choose verification commands before merging or deploying.
+9. Use `testing-strategy.md` to turn the findings into a safer migration plan.
+10. Use `behavior-baseline.md` as functional contract during refactors.
+11. Use `component-behavior-contracts.md` to derive regression tests.
+12. Use `test-contract-mapping.md` to locate implemented test coverage and open gaps.

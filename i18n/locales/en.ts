@@ -53,6 +53,7 @@ const avefiBase = {
   'missingBothDatasets': 'Both dataset identifiers are missing. Please provide the \'prev\' and \'next\' query parameters.',
   'missingDataset1': 'Dataset 1 identifier is missing. Please provide the \'prev\' query parameter.',
   'missingDataset2': 'Dataset 2 identifier is missing. Please provide the \'next\' query parameter.',
+  'duplicateComparisonDatasets': 'The two dataset identifiers must be different.',
   'comparisonUrlHelp': 'Example: /compare?prev=21.11155/work-123&next=21.11155/work-456',
   'reportComparisonToAVefi': 'Report this comparison to AVefi',
   "hero": {

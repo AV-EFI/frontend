@@ -13,7 +13,7 @@ const items: string[] = [
 ];
 
 const hasValidParams = computed(() => {
-    return items[0] && items[1];
+    return Boolean(items[0] && items[1] && items[0] !== items[1]);
 });
 
 const errorMessage = computed(() => {
@@ -23,6 +23,8 @@ const errorMessage = computed(() => {
         return t('missingDataset1');
     } else if (!items[1]) {
         return t('missingDataset2');
+    } else if (items[0] === items[1]) {
+        return t('duplicateComparisonDatasets');
     }
     return null;
 });
@@ -157,6 +159,10 @@ useSchemaOrg([
             [$t('comparison'), ''],
         ]" />
         <div class="container mt-4 snap-y snap-mandatory md:px-4 mx-auto">
+            <h1 class="mb-4 text-lg font-bold xl:text-xl dark:text-white">
+                {{ $t('comparison') }}
+            </h1>
+
             <div v-if="!hasValidParams" class="alert alert-error mb-4 w-96">
                 <Icon name="tabler:alert-circle" class="w-6 h-6" />
                 <div>

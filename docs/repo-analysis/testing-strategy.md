@@ -58,6 +58,7 @@ Current scripts:
 - `yarn test:data-quality`
 - `yarn test:data-quality:report`
 - `yarn test:data-quality:watch`
+- `yarn audit:accessibility`
 - `npm run test:normdata`
 - `yarn security:weekly:prepare`
 - `yarn security:weekly:test`
@@ -167,6 +168,21 @@ Interpretation note for new contributors:
 - `[FAIL]` = strong regression signal, prioritize investigation
 - heuristic sections are intentionally probabilistic and should be validated using sampled identifiers
 
+## Accessibility smoke
+
+`yarn audit:accessibility` runs `tests/e2e/accessibility/public-routes-a11y.spec.ts`.
+
+The current smoke checks public routes for:
+
+- a `main` landmark
+- visible headings
+- accessible names on visible buttons and links
+- `alt` attributes on visible images
+- horizontal overflow
+- serious console and page errors
+
+This is an automated baseline, not a complete WCAG audit. Continue to use manual keyboard, focus, contrast, screen-reader, reduced-motion, and responsive checks for changed UI.
+
 ## CI pipeline (implemented)
 
 Configured in `.gitlab-ci.yml`:
@@ -215,4 +231,5 @@ Recommended local sequence before pushing:
 3. Add targeted fixture-based tests for domain discoverability rules (direct-ID/API lookup vs generic discoverability).
 4. Add locale-focused UI tests for translated labels/property rendering (detail/search in `de` + `en`).
 5. Add CI job split for unit/api/e2e smoke lanes to keep feedback fast.
-6. Continue refactors only behind this safety net, extending tests before risky rewrites.
+6. Move typecheck from release-readiness signal to required gate once local and CI runs stay clean.
+7. Continue refactors only behind this safety net, extending tests before risky rewrites.

@@ -61,7 +61,7 @@
     "generate:images:clean": "node scripts/optimize-images.mjs --clean",
     "check:images": "node scripts/optimize-images.mjs --check",
     "check:contrast": "tsx utils/contrastCheck.ts",
-    "audit:accessibility": "echo 'Run your accessibility audit utility here'",
+    "audit:accessibility": "playwright test tests/e2e/accessibility/public-routes-a11y.spec.ts",
     "report:images": "node scripts/report-image-metadata.mjs",
     "test:normdata": "node --test scripts/tests/normdata-identifiers.test.mjs"
   },
