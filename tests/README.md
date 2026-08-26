@@ -18,6 +18,10 @@ This folder is the first regression safety-net scaffold mapped to:
 - `tests/unit/api/outbound/`: API wrapper tests for calls that fan out to external services (Python backend / ES)
 - `tests/unit/source-guards/`: Vitest contract guards against critical source-level regressions
 
+Quality-gate source guards:
+
+- `tests/unit/source-guards/quality-gates.contract.spec.ts`: protects CI accessibility smoke, required typecheck, and merge-request quality-lane checklist wiring.
+
 ## Commands
 
 - `yarn test`: run all Vitest tests from `tests/unit`

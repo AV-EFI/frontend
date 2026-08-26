@@ -192,7 +192,9 @@ Configured in `.gitlab-ci.yml`:
   - `yarn test:unit`
 - `test_typecheck`:
   - `yarn typecheck`
-  - currently `allow_failure: true`
+- `test_accessibility_smoke`:
+  - installs Chromium
+  - runs `yarn audit:accessibility --workers=1 --reporter=list,junit`
 - `test_backend_api_contracts`:
   - `yarn test:e2e:api --workers=1 --reporter=list`
   - `yarn test:e2e:api:edge --workers=1 --reporter=list`
@@ -212,6 +214,8 @@ Required gates (`test_unit_contracts`, `test_backend_api_contracts`) run for:
 - `deploy-prod` tag pipelines
 
 Build and deploy jobs are therefore test-gated by stage order.
+
+Typecheck and accessibility smoke are also required test-stage jobs for the same `.test_rules` branch and merge-request set.
 
 ## Local dev and pre-push practice
 

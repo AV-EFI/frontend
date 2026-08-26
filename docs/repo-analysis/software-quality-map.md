@@ -37,6 +37,7 @@ CI gates:
 - merge requests, `testbed`, `production`, and deploy tags run lint plus unit contracts
 - backend API contracts run as required pipeline checks
 - typecheck and unresolved/unused-code checks are present in CI; local triage on 2026-08-26 returned `0 error(s)` after filtering 127 known false-positive/generated-file blocks
+- accessibility smoke runs as a required CI test-stage job for the same branch and merge-request set
 - browser smoke and contact tests run after testbed deploys
 - production SMTP and mail smoke tests run after production deploys
 - data-quality reports are currently separate and intentionally non-blocking

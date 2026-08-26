@@ -112,10 +112,9 @@ Current state:
 - Vitest unit/source-guard coverage exists for components, composables, stores, middleware, and API handlers
 - Playwright smoke, SEO, contact, and live backend API contract suites exist
 - data-quality reporting suites exist and are intentionally report-first
-- CI runs zero-warning lint + unit contracts and backend API contracts as required gates
-- typecheck is present but currently `allow_failure` in GitLab CI
+- CI runs zero-warning lint + unit contracts, typecheck, accessibility smoke, and backend API contracts as required gates
 - one orphan Cypress component spec: `components/global/ThemeSwitch.cy.ts`
-- coverage remains thinner for protected/internal tooling, POC explorer surfaces, and broad visual regressions
+- coverage remains thinner for protected/internal tooling, POC explorer surfaces, and broad visual regressions beyond the basic accessibility smoke
 
 ### 9. Generation scripts still carry surprising side effects
 

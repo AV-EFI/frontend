@@ -72,6 +72,24 @@ test_typecheck:
   script:
     - yarn typecheck
 
+test_accessibility_smoke:
+  extends:
+    - .node_job
+    - .test_rules
+  script:
+    - mkdir -p test-reports
+    - npx playwright install --with-deps chromium
+    - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-accessibility-junit.xml yarn audit:accessibility --workers=1 --reporter=list,junit
+  artifacts:
+    when: always
+    paths:
+      - test-reports/e2e-accessibility-junit.xml
+      - test-results/
+      - playwright-report/
+    reports:
+      junit:
+        - test-reports/e2e-accessibility-junit.xml
+
 test_unresolved_imports:
   extends:
     - .node_job

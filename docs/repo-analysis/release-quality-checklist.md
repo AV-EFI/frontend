@@ -2,6 +2,8 @@
 
 Use this checklist before merging or deploying changes. Pick the lane that matches the touched surface, then report the commands, skipped checks, warnings, and residual risk in the handoff.
 
+Merge requests should use `.gitlab/merge_request_templates/Default.md`, select the matching quality lane, and link any changed behavior to `test-contract-mapping.md`.
+
 ## Always
 
 - Check `git status --short` before editing and before handoff.

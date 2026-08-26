@@ -82,6 +82,13 @@ This file maps behavior contracts to the first automated test skeleton.
 
 ## Unit contract guards (Vitest)
 
+- `QUALITY-GATE-001`: accessibility smoke remains available as both package script and CI gate.
+  - `tests/unit/source-guards/quality-gates.contract.spec.ts`
+- `QUALITY-GATE-002`: typecheck remains a required CI job.
+  - `tests/unit/source-guards/quality-gates.contract.spec.ts`
+- `QUALITY-GATE-003`: merge requests require a quality lane, test-contract mapping decision, and warning/risk handoff.
+  - `tests/unit/source-guards/quality-gates.contract.spec.ts`
+
 - `CBC-SEARCH-EXT-001`: `has_access_status` remains blacklisted in advanced facet UI.
   - `tests/unit/source-guards/search-comp-extended.contract.spec.ts`
 - `CBC-SEARCH-EXT-002`: suggestions API uses debounce and abort semantics.
