@@ -22,7 +22,7 @@ export function buildManifestationEntries(data: unknown, deps: ManifestationBuil
       key: 'eventType',
       icon: iconFor('eventType'),
       text: evTypes.map(tp => segment(t(tp), tp)),
-      aria: `Manifestationstyp: ${evTypes.map(e => t(e)).join(', ')}`,
+      aria: `${t('manifestation_event_type')}: ${evTypes.map(e => t(e)).join(', ')}`,
     });
   }
 
@@ -35,7 +35,7 @@ export function buildManifestationEntries(data: unknown, deps: ManifestationBuil
       key: 'mfYear',
       icon: iconFor('mfYear'),
       text: evYears.map(y => segment(String(y))),
-      aria: `Jahresangabe (Manifestationstyp): ${evYears.join(', ')}`,
+      aria: `${t('productionyear')}: ${evYears.join(', ')}`,
     });
   }
 
@@ -49,7 +49,7 @@ export function buildManifestationEntries(data: unknown, deps: ManifestationBuil
       key: 'mfPlace',
       icon: iconFor('mfPlace'),
       text: evPlaces.map(p => segment(p)),
-      aria: `Ortsangabe (Manifestationsereignis): ${evPlaces.join(', ')}`,
+      aria: `${t('located_in_has_name')}: ${evPlaces.join(', ')}`,
     });
   }
 

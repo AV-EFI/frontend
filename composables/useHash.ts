@@ -1,28 +1,210 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
+const HASH_WORKFLOW_DELAYS = {
+  openTarget: 900,
+  openedTarget: 900,
+  closedTarget: 220,
+  highlight: 1400,
+} as const;
+
+type HashWorkflowTimer = 'openTarget' | 'targetActivation' | 'targetScroll' | 'highlight';
+
+// Model: the durable facts the workflow needs in order to decide what happens next.
+// Runtime details such as DOM nodes and timer IDs stay outside this pure state.
+export type HashWorkflowModel = {
+  hash: string;
+  scroll: boolean;
+  isInitialLoad: boolean;
+};
+
+// Message: every external event, timer callback, or effect result is translated into
+// a named input. That keeps the workflow timeline explicit and testable.
+export type HashWorkflowMessage =
+  | { type: 'hashChanged'; hash: string }
+  | { type: 'openDelayElapsed'; hash: string }
+  | { type: 'manifestationOpenResolved'; hash: string; opened: boolean }
+  | { type: 'targetDelayElapsed'; hash: string }
+  | { type: 'targetHighlightResolved'; hash: string; highlighted: boolean }
+  | { type: 'scrollDelayElapsed'; hash: string }
+  | { type: 'clearHighlightElapsed'; hash: string };
+
+// Effect: a description of work the impure runtime must perform after the pure
+// update step has decided it is needed.
+export type HashWorkflowEffect =
+  | { type: 'clearTimer'; timer: HashWorkflowTimer }
+  | { type: 'schedule'; timer: HashWorkflowTimer; delayMs: number; message: HashWorkflowMessage }
+  | { type: 'scrollToTop' }
+  | { type: 'openManifestation'; hash: string }
+  | { type: 'highlightTarget'; hash: string }
+  | { type: 'scrollToTarget'; hash: string }
+  | { type: 'clearHighlight' };
+
+// Update result: reducers return the next model plus effect descriptions, not
+// direct calls to browser APIs.
+export type HashWorkflowUpdate = {
+  model: HashWorkflowModel;
+  effects: HashWorkflowEffect[];
+};
+
+export const normalizeHashValue = (value: string) => {
+  if (!value) return '';
+
+  const raw = value.startsWith('#') ? value.slice(1) : value;
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    return raw;
+  }
+};
+
+export function createHashWorkflowModel(scroll = true): HashWorkflowModel {
+  return {
+    hash: '',
+    scroll,
+    isInitialLoad: true,
+  };
+}
+
+function clearWorkflowEffects(): HashWorkflowEffect[] {
+  return [
+    { type: 'clearTimer', timer: 'openTarget' },
+    { type: 'clearTimer', timer: 'targetActivation' },
+    { type: 'clearTimer', timer: 'targetScroll' },
+    { type: 'clearTimer', timer: 'highlight' },
+    { type: 'clearHighlight' },
+  ];
+}
+
+function isCurrentHash(model: HashWorkflowModel, hash: string) {
+  return Boolean(model.scroll && model.hash && model.hash === hash);
+}
+
+// The reducer is the workflow's pure decision point. Given only the current model
+// and one message, it returns the next model and the effects the runtime should run.
+export function updateHashWorkflow(
+  model: HashWorkflowModel,
+  message: HashWorkflowMessage
+): HashWorkflowUpdate {
+  switch (message.type) {
+  case 'hashChanged': {
+    const hash = normalizeHashValue(message.hash);
+    const nextModel = { ...model, hash };
+    // A new hash supersedes every pending step from the previous hash workflow.
+    const effects = clearWorkflowEffects();
+
+    if (!model.scroll || !hash) {
+      return {
+        model: { ...nextModel, isInitialLoad: false },
+        effects,
+      };
+    }
+
+    return {
+      model: nextModel,
+      effects: [
+        ...effects,
+        {
+          type: 'schedule',
+          timer: 'openTarget',
+          delayMs: HASH_WORKFLOW_DELAYS.openTarget,
+          message: { type: 'openDelayElapsed', hash },
+        },
+      ],
+    };
+  }
+
+  case 'openDelayElapsed': {
+    // Timer messages carry the hash they were scheduled for. If the user has moved
+    // on to another hash, the stale message becomes a no-op.
+    if (!isCurrentHash(model, message.hash)) return { model, effects: [] };
+
+    return {
+      model: { ...model, isInitialLoad: false },
+      effects: [
+        ...(model.isInitialLoad ? [{ type: 'scrollToTop' } as const] : []),
+        { type: 'openManifestation', hash: message.hash },
+      ],
+    };
+  }
+
+  case 'manifestationOpenResolved': {
+    if (!isCurrentHash(model, message.hash)) return { model, effects: [] };
+
+    return {
+      model,
+      effects: [{
+        type: 'schedule',
+        timer: 'targetActivation',
+        // Opening a manifestation can reveal nested content, so successful opens
+        // get the longer delay before the target is highlighted and scrolled.
+        delayMs: message.opened ? HASH_WORKFLOW_DELAYS.openedTarget : HASH_WORKFLOW_DELAYS.closedTarget,
+        message: { type: 'targetDelayElapsed', hash: message.hash },
+      }],
+    };
+  }
+
+  case 'targetDelayElapsed': {
+    if (!isCurrentHash(model, message.hash)) return { model, effects: [] };
+
+    return {
+      model,
+      effects: [{ type: 'highlightTarget', hash: message.hash }],
+    };
+  }
+
+  case 'targetHighlightResolved': {
+    if (!isCurrentHash(model, message.hash) || !message.highlighted) return { model, effects: [] };
+
+    return {
+      model,
+      effects: [
+        { type: 'clearTimer', timer: 'targetScroll' },
+        { type: 'clearTimer', timer: 'highlight' },
+        {
+          type: 'schedule',
+          timer: 'targetScroll',
+          delayMs: HASH_WORKFLOW_DELAYS.openedTarget,
+          message: { type: 'scrollDelayElapsed', hash: message.hash },
+        },
+        {
+          type: 'schedule',
+          timer: 'highlight',
+          delayMs: HASH_WORKFLOW_DELAYS.highlight,
+          message: { type: 'clearHighlightElapsed', hash: message.hash },
+        },
+      ],
+    };
+  }
+
+  case 'scrollDelayElapsed': {
+    if (!isCurrentHash(model, message.hash)) return { model, effects: [] };
+
+    return {
+      model,
+      effects: [{ type: 'scrollToTarget', hash: message.hash }],
+    };
+  }
+
+  case 'clearHighlightElapsed': {
+    if (!isCurrentHash(model, message.hash)) return { model, effects: [] };
+
+    return {
+      model,
+      effects: [{ type: 'clearHighlight' }],
+    };
+  }
+  }
+
+  return { model, effects: [] };
+}
+
 export function useHash(scroll = true) {
   const hash = ref('');
-  // Typed as `number` (not ReturnType<typeof setTimeout>) because @types/node's global
-  // augmentation turns window.setTimeout into an overloaded/intersected callable, and
-  // TS's ReturnType<> picks the *last* call signature (NodeJS.Timeout) rather than the
-  // one window.setTimeout actually returns at runtime — this composable is browser-only.
-  let highlightTimer: number | null = null;
-  let retryTimer: number | null = null;
-  let scrollTimer: number | null = null;
-  let isInitialLoad = true;
-  const actionDelayMs = 900;
-  const postOpenDelayMs = 900;
-
-  const normalizeHashValue = (value: string) => {
-    if (!value) return '';
-
-    const raw = value.startsWith('#') ? value.slice(1) : value;
-    try {
-      return decodeURIComponent(raw);
-    } catch {
-      return raw;
-    }
-  };
+  const timers: Partial<Record<HashWorkflowTimer, number>> = {};
+  let model = createHashWorkflowModel(scroll);
+  // Runtime-owned state can be mutated freely because it is not part of the
+  // workflow model we test through updateHashWorkflow.
+  let activeHighlight: { highlightElement: HTMLElement; focusElement: HTMLElement; removeTabIndex: boolean } | null = null;
 
   const findTargetElement = (hashValue: string) => document.getElementById(normalizeHashValue(hashValue));
 
@@ -52,6 +234,26 @@ export function useHash(scroll = true) {
     return el;
   };
 
+  // Same adjacency search as findHighlightElement, but without the visibility
+  // filter: a sr-only heading is exactly how items/manifestations expose their
+  // full "Item 1.1, ..." identity to assistive tech (see ItemListNewComp), and
+  // is the right thing to move focus to even though it can't carry the visible
+  // highlight color.
+  const findAccessibleHeading = (el: HTMLElement) => {
+    if (/^H[1-6]$/i.test(el.tagName)) return el;
+
+    const innerHeading = el.querySelector('h1, h2, h3, h4, h5, h6');
+    if (innerHeading instanceof HTMLElement) return innerHeading;
+
+    const previousHeading = el.previousElementSibling;
+    if (previousHeading instanceof HTMLElement && previousHeading.matches('h1, h2, h3, h4, h5, h6')) return previousHeading;
+
+    const nextHeading = el.nextElementSibling;
+    if (nextHeading instanceof HTMLElement && nextHeading.matches('h1, h2, h3, h4, h5, h6')) return nextHeading;
+
+    return null;
+  };
+
   const openTargetManifestation = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
     const manifestationMatch = normalized.match(/^manifestation-(\d+)$/);
@@ -69,79 +271,144 @@ export function useHash(scroll = true) {
     return true;
   };
 
-  const highlightAndScroll = (hashValue: string) => {
+  const clearActiveHighlight = () => {
+    if (!activeHighlight) return;
+
+    activeHighlight.highlightElement.classList.remove(
+      'bg-highlight',
+      'transition-colors',
+      'duration-300'
+    );
+    if (activeHighlight.removeTabIndex) {
+      activeHighlight.focusElement.removeAttribute('tabindex');
+    }
+    activeHighlight = null;
+  };
+
+  const highlightTarget = (hashValue: string) => {
     const normalized = normalizeHashValue(hashValue);
     const el = findTargetElement(normalized);
     if (!(el instanceof HTMLElement)) return false;
 
-    const highlightEl = findHighlightElement(el);
-    const hadTabIndex = highlightEl.hasAttribute('tabindex');
-    if (!hadTabIndex) {
-      highlightEl.setAttribute('tabindex', '-1');
-    }
+    clearActiveHighlight();
 
+    // The visible color flash and the assistive-tech focus target can be two
+    // different elements: a sr-only summary heading carries the richer
+    // accessible name but can't visibly flash, so it only wins the focus, not
+    // the highlight.
+    const highlightEl = findHighlightElement(el);
     highlightEl.classList.add(
       'bg-highlight',
       'transition-colors',
       'duration-300'
     );
 
-    highlightEl.focus({ preventScroll: true });
+    const focusEl = findAccessibleHeading(el) ?? highlightEl;
+    const hadTabIndex = focusEl.hasAttribute('tabindex');
+    if (!hadTabIndex) {
+      focusEl.setAttribute('tabindex', '-1');
+    }
 
-    if (scrollTimer) clearTimeout(scrollTimer);
+    focusEl.focus({ preventScroll: true });
 
-    scrollTimer = window.setTimeout(() => {
-      const scrollRoot = document.scrollingElement;
-      const absoluteTop = window.scrollY + el.getBoundingClientRect().top;
-      const targetTop = Math.max(absoluteTop - window.innerHeight * 0.35, 0);
-
-      if (scrollRoot?.scrollTo) {
-        scrollRoot.scrollTo({
-          top: targetTop,
-          behavior: 'smooth',
-        });
-      } else {
-        window.scrollTo({
-          top: targetTop,
-          behavior: 'smooth',
-        });
-      }
-    }, postOpenDelayMs);
-
-    if (highlightTimer) clearTimeout(highlightTimer);
-    highlightTimer = window.setTimeout(() => {
-      highlightEl.classList.remove(
-        'bg-highlight',
-        'transition-colors',
-        'duration-300'
-      );
-      if (!hadTabIndex) {
-        highlightEl.removeAttribute('tabindex');
-      }
-    }, 1400);
+    activeHighlight = {
+      highlightElement: highlightEl,
+      focusElement: focusEl,
+      removeTabIndex: !hadTabIndex,
+    };
 
     return true;
   };
 
-  const applyHash = () => {
-    hash.value = normalizeHashValue(window.location.hash);
-    if (!scroll || !hash.value) {
-      isInitialLoad = false;
-      return;
+  const scrollTargetIntoView = (hashValue: string) => {
+    const normalized = normalizeHashValue(hashValue);
+    const el = findTargetElement(normalized);
+    if (!(el instanceof HTMLElement)) return;
+
+    const scrollRoot = document.scrollingElement;
+    const absoluteTop = window.scrollY + el.getBoundingClientRect().top;
+    const targetTop = Math.max(absoluteTop - window.innerHeight * 0.35, 0);
+
+    if (scrollRoot?.scrollTo) {
+      scrollRoot.scrollTo({
+        top: targetTop,
+        behavior: 'smooth',
+      });
+    } else {
+      window.scrollTo({
+        top: targetTop,
+        behavior: 'smooth',
+      });
     }
+  };
 
-    if (retryTimer) clearTimeout(retryTimer);
-    retryTimer = window.setTimeout(() => {
-      if (isInitialLoad) {
+  const clearTimer = (timer: HashWorkflowTimer) => {
+    const timerId = timers[timer];
+    if (typeof timerId !== 'number') return;
+
+    window.clearTimeout(timerId);
+    delete timers[timer];
+  };
+
+  const runEffects = (effects: HashWorkflowEffect[]) => {
+    for (const effect of effects) {
+      switch (effect.type) {
+      case 'clearTimer':
+        clearTimer(effect.timer);
+        break;
+
+      case 'schedule':
+        clearTimer(effect.timer);
+        timers[effect.timer] = window.setTimeout(() => {
+          delete timers[effect.timer];
+          dispatch(effect.message);
+        }, effect.delayMs);
+        break;
+
+      case 'scrollToTop':
         window.scrollTo(0, 0);
-        isInitialLoad = false;
-      }
+        break;
 
-      const openedManifestation = openTargetManifestation(hash.value);
-      retryTimer = window.setTimeout(() => {
-        highlightAndScroll(hash.value);
-      }, openedManifestation ? postOpenDelayMs : 220);
-    }, actionDelayMs);
+      case 'openManifestation':
+        // Effects that can succeed or fail report back by dispatching another
+        // message, keeping branching decisions inside the reducer.
+        dispatch({
+          type: 'manifestationOpenResolved',
+          hash: effect.hash,
+          opened: openTargetManifestation(effect.hash),
+        });
+        break;
+
+      case 'highlightTarget':
+        dispatch({
+          type: 'targetHighlightResolved',
+          hash: effect.hash,
+          highlighted: highlightTarget(effect.hash),
+        });
+        break;
+
+      case 'scrollToTarget':
+        scrollTargetIntoView(effect.hash);
+        break;
+
+      case 'clearHighlight':
+        clearActiveHighlight();
+        break;
+      }
+    }
+  };
+
+  const dispatch = (message: HashWorkflowMessage) => {
+    const update = updateHashWorkflow(model, message);
+    model = update.model;
+    hash.value = model.hash;
+    // This is the Elm-like loop: message in, model/effects out, effects may
+    // dispatch more messages when browser work completes.
+    runEffects(update.effects);
+  };
+
+  const applyHash = () => {
+    dispatch({ type: 'hashChanged', hash: window.location.hash });
   };
 
   onMounted(() => {
@@ -151,9 +418,11 @@ export function useHash(scroll = true) {
 
   onBeforeUnmount(() => {
     window.removeEventListener('hashchange', applyHash);
-    if (retryTimer) clearTimeout(retryTimer);
-    if (highlightTimer) clearTimeout(highlightTimer);
-    if (scrollTimer) clearTimeout(scrollTimer);
+    clearTimer('openTarget');
+    clearTimer('targetActivation');
+    clearTimer('targetScroll');
+    clearTimer('highlight');
+    clearActiveHighlight();
   });
 
   return { hash };

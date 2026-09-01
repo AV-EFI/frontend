@@ -5,7 +5,7 @@
         :href="href"
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex max-w-full rounded-sm text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+        class="relative z-20 inline-flex max-w-full rounded-sm pointer-events-auto text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
         :class="{ 'font-semibold decoration-current': active }"
         :aria-label="ariaLabel"
         :title="ariaLabel"
@@ -14,7 +14,7 @@
     </a>
 
     <!-- Search-page mode: button + context menu -->
-    <span v-else-if="canToggle" ref="triggerRef" class="relative inline-flex">
+    <span v-else-if="canToggle" ref="triggerRef" class="relative z-20 inline-flex pointer-events-auto">
         <button
             type="button"
             class="inline-flex max-w-full rounded-sm px-0.5 text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
@@ -107,6 +107,13 @@ const attributeLabel = computed(() => {
     return key && te(key) ? t(key) : props.attribute;
 });
 const ariaLabel = computed(() => {
+    if (opensInNewTab.value && canToggle.value) {
+        return t('openSearchWithFacetInNewTab', {
+            attribute: attributeLabel.value,
+            value: normalizedLabel.value,
+        });
+    }
+
     const action = active.value ? t('remove') : t('addFilter');
     return `${action}: ${attributeLabel.value} = ${normalizedLabel.value}`;
 });

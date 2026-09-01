@@ -65,6 +65,7 @@ function buildModelWithManifestations() {
             handle: '21.11155/MF-1',
             has_record: {
               category: 'avefi:Manifestation',
+              has_primary_title: { has_name: 'Manifestation title A' },
               same_as: [{ id: 'mf-gnd-1', category: 'avefi:GNDResource' }],
               has_event: [{ type: 'PremiereEvent' }],
               described_by: { has_issuer_name: 'Issuer A' },
@@ -85,6 +86,7 @@ function buildModelWithManifestations() {
             handle: '21.11155/MF-2',
             has_record: {
               category: 'avefi:Manifestation',
+              has_primary_title: { has_name: 'Manifestation title B' },
               has_event: [{ type: 'RestorationEvent' }],
               described_by: { has_issuer_name: 'Issuer B' },
             },
@@ -141,6 +143,7 @@ const Host = defineComponent({
 });
 
 beforeEach(() => {
+  document.body.innerHTML = '';
   vi.stubGlobal('useI18n', () => ({
     t: (key: string, params?: Record<string, string>) => {
       if (key === 'avefi:FilmportalResource') return 'Filmportal';
@@ -179,6 +182,7 @@ beforeEach(() => {
 // forcing every fixture below to satisfy) the full generated AVefi schema.
 function mountComponent(modelValue: Record<string, unknown>, requestedHandle = '', enableFilmrelated = false) {
   return mount(Host, {
+    attachTo: document.body,
     props: {
       modelValue,
       requestedHandle,
@@ -207,6 +211,7 @@ function mountComponent(modelValue: Record<string, unknown>, requestedHandle = '
         MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText }}</span>' },
         DetailSameAsComp: { template: '<button data-testid="same-as-menu" />' },
         DetailKeyValueComp: { template: '<div />' },
+        RouterLink: { template: '<a><slot /></a>' },
       },
       mocks: {
         $t: (key: string) => key,
@@ -392,6 +397,38 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(vm.filteredManifestations[0]!.handle).toBe('21.11155/MF-1');
   });
 
+  test('renders the manifestation filter as an accessible checkbox disclosure', async () => {
+    const wrapper = mountComponent(buildModelWithManifestations());
+    await flushPromises();
+
+    const filterButton = wrapper.get('button[aria-controls="manifestation-filter-options"]');
+    expect(filterButton.attributes('aria-haspopup')).toBeUndefined();
+    expect(filterButton.attributes('aria-describedby')).toBe('manifestation-filter-help');
+
+    await filterButton.trigger('keydown', { key: 'ArrowDown' });
+    await flushPromises();
+
+    const panel = wrapper.get('#manifestation-filter-options');
+    const options = wrapper.findAll<HTMLInputElement>('#manifestation-filter-options input[type="checkbox"]');
+    expect(options.length).toBeGreaterThan(1);
+    expect(document.activeElement).toBe(options[0]!.element);
+    expect(panel.find('[role="listbox"]').exists()).toBe(false);
+
+    const restrictedOption = options.find((option) =>
+      option.attributes('aria-label') === 'filter: itemLevel, has_access_status: Restricted'
+    );
+    expect(restrictedOption).toBeTruthy();
+
+    await options[0]!.trigger('keydown', { key: 'ArrowDown' });
+    await flushPromises();
+    expect(document.activeElement).toBe(options[1]!.element);
+
+    await options[1]!.trigger('keydown', { key: 'Escape' });
+    await flushPromises();
+    expect(wrapper.find('#manifestation-filter-options').exists()).toBe(false);
+    expect(document.activeElement).toBe(filterButton.element);
+  });
+
   test('does not render scroll-driven active state in the work navigation menu', async () => {
     const model = buildModelWithManifestations();
     model.compound_record._source.handle = '21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA';
@@ -462,6 +499,7 @@ describe('WorkViewCompAVefi interaction contracts', () => {
           Icon: { template: '<i />' },
           GlobalTooltipInfo: { template: '<span />' },
           DetailManifestationHeaderComp: { template: '<h4 />' },
+          DetailKeyValueComp: { template: '<div />' },
           DetailItemListNewComp: { template: '<div />' },
           DetailSameAsComp: {
             props: ['sameAsData', 'type'],
@@ -480,7 +518,11 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(sectionIds).not.toContain('manifestation-0-21-11155-MF-1');
     expect(wrapper.get('section').classes()).not.toContain('manifestation-card');
 
-    await wrapper.get('section > div[role="button"]').trigger('click');
+    const toggleButton = wrapper.get('section button[aria-controls="manifestation-panel-0"]');
+    expect(toggleButton.attributes('aria-label')).toBe('manifestation 1., Manifestation title A, Issuer A, 2 items, PremiereEvent, expand');
+
+    await toggleButton.trigger('click');
+    expect(toggleButton.attributes('aria-label')).toBe('manifestation 1., Manifestation title A, Issuer A, 2 items, PremiereEvent, collapse');
     expect(wrapper.get('.item-area').classes()).toContain('level-stripe--item');
     expect(wrapper.get('.item-area').classes()).not.toContain('border-l-2');
     expect(wrapper.get('.item-area').classes()).not.toContain('border-item');
@@ -505,7 +547,10 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       global: {
         stubs: {
           Icon: { template: '<i />' },
-          MicroDividerComp: { template: '<div />' },
+          MicroDividerComp: {
+            props: ['labelText', 'labelSuffix'],
+            template: '<div data-testid="item-divider" :data-label-text="labelText" :data-label-suffix="labelSuffix">{{ labelText }} {{ labelSuffix }}</div>',
+          },
           DetailKeyValueComp: { template: '<div />' },
           MicroLabelComp: { props: ['labelText'], template: '<span>{{ labelText === "referencesAndWorkRelations" ? "References" : labelText }}</span>' },
           GlobalTooltipInfo: { template: '<span />' },
@@ -526,6 +571,10 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       .map(anchor => anchor.attributes('id'));
     expect(itemAnchorIds).toContain('21.11155/IT-1');
     expect(itemAnchorIds).not.toContain('item-0-0-21-11155-IT-1');
+    expect(wrapper.get('[data-testid="item-divider"]').attributes('data-label-text')).toBe('avefi:Item');
+    expect(wrapper.get('[data-testid="item-divider"]').attributes('data-label-suffix')).toBe('1.1');
+    expect(wrapper.get('article').attributes('aria-labelledby')).toBe('21.11155/IT-1-heading');
+    expect(wrapper.get('h5.sr-only').text()).toContain('item 1.1, has_access_status: Public');
     expect(wrapper.text()).toContain('References');
     expect(wrapper.text()).not.toContain('same_as');
     expect(wrapper.text()).toContain('avefi:DOIResource: 10.1234/item-doi-1');

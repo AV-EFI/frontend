@@ -437,16 +437,24 @@
                                         <span class="label w-full pb-1">
                                             <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
                                         </span>
+                                        <p id="manifestation-filter-help" class="sr-only">
+                                            {{ $t('filterItemsAndManifestationsHelp') }}
+                                        </p>
 
                                         <!-- Dropdown mode -->
                                         <div v-if="filterDropdownViewMode === 'list'" class="relative min-w-0" ref="filterDropdownRef">
                                             <button
+                                                ref="filterDropdownButtonRef"
                                                 type="button"
                                                 class="btn btn-outline w-full justify-between"
                                                 :aria-label="$t('filterItemsAndManifestations')"
                                                 :aria-expanded="filterDropdownOpen ? 'true' : 'false'"
-                                                aria-haspopup="listbox"
-                                                @click="filterDropdownOpen = !filterDropdownOpen"
+                                                aria-controls="manifestation-filter-options"
+                                                aria-describedby="manifestation-filter-help"
+                                                @click="toggleFilterDropdown"
+                                                @keydown.down.prevent="openFilterDropdownAndFocus(0)"
+                                                @keydown.up.prevent="openFilterDropdownAndFocus(-1)"
+                                                @keydown.escape.stop="closeFilterDropdown(false)"
                                             >
                                                 <span class="truncate">
                                                     {{
@@ -463,26 +471,37 @@
 
                                             <div
                                                 v-if="filterDropdownOpen"
+                                                id="manifestation-filter-options"
                                                 class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
+                                                @keydown="onFilterDropdownKeydown"
                                             >
-                                                <div class="max-h-72 flex flex-col overflow-auto p-2">
+                                                <fieldset class="max-h-72 flex flex-col overflow-auto p-2">
+                                                    <legend class="sr-only">{{ $t('filterItemsAndManifestations') }}</legend>
                                                     <label
-                                                        v-for="suggestion in suggestionsForManifestations"
+                                                        v-for="(suggestion, suggestionIndex) in suggestionsForManifestations"
                                                         :key="suggestion"
                                                         class="label cursor-pointer justify-start gap-3 py-2"
+                                                        :title="suggestionFilterLabel(suggestion)"
                                                     >
                                                         <input
+                                                            :ref="(el) => setFilterOptionRef(el, suggestionIndex)"
                                                             type="checkbox"
                                                             class="checkbox checkbox-sm"
                                                             :checked="searchQuery.includes(suggestion)"
+                                                            :aria-label="`${$t('filter')}: ${suggestionFilterLabel(suggestion)}`"
                                                             @change="toggleSuggestion(suggestion)"
                                                         />
                                                         <Icon :name="suggestionIconName(suggestion)" class="icon-inline text-primary" aria-hidden="true" />
-                                                        <span class="label-text">
-                                                            {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                                                        <span class="label-text min-w-0">
+                                                            <span class="block truncate">
+                                                                {{ translatedFacetLabel(suggestion) }}
+                                                            </span>
+                                                            <span class="block text-xs font-normal text-base-content/60">
+                                                                {{ suggestionFilterContextLabel(suggestion) }}
+                                                            </span>
                                                         </span>
                                                     </label>
-                                                </div>
+                                                </fieldset>
                                             </div>
                                         </div>
 
@@ -749,6 +768,8 @@ function setDetailTab(tab: DetailTab) {
 const searchQuery = ref<string[]>([]);
 const filterDropdownOpen = ref(false);
 const filterDropdownRef = ref<HTMLElement | null>(null);
+const filterDropdownButtonRef = ref<HTMLButtonElement | null>(null);
+const filterOptionRefs = ref<HTMLInputElement[]>([]);
 const filterDropdownViewMode = ref<'list' | 'badges'>('list');
 const loading = ref(false);
 let loadingTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -761,10 +782,76 @@ function setWorkNavigationVisible(visible: boolean) {
 function setFilterDropdownViewMode(mode: 'list' | 'badges') {
     filterDropdownViewMode.value = mode;
     if (mode === 'badges') {
-        filterDropdownOpen.value = false;
+        closeFilterDropdown(false);
     }
 
     patchUserPreferences({ workDetail: { filterDropdownViewMode: mode } });
+}
+
+function setFilterOptionRef(el: unknown, index: number) {
+    if (el instanceof HTMLInputElement) {
+        filterOptionRefs.value[index] = el;
+    }
+}
+
+function toggleFilterDropdown() {
+    filterDropdownOpen.value = !filterDropdownOpen.value;
+}
+
+function closeFilterDropdown(returnFocus = true) {
+    filterDropdownOpen.value = false;
+    filterOptionRefs.value = [];
+
+    if (returnFocus) {
+        nextTick(() => filterDropdownButtonRef.value?.focus());
+    }
+}
+
+async function openFilterDropdownAndFocus(index = 0) {
+    filterDropdownOpen.value = true;
+    await nextTick();
+
+    const options = filterOptionRefs.value.filter(Boolean);
+    if (!options.length) return;
+
+    const targetIndex = index < 0 ? options.length - 1 : Math.min(index, options.length - 1);
+    options[targetIndex]?.focus();
+}
+
+function focusFilterOption(index: number) {
+    const options = filterOptionRefs.value.filter(Boolean);
+    if (!options.length) return;
+
+    const normalizedIndex = (index + options.length) % options.length;
+    options[normalizedIndex]?.focus();
+}
+
+function onFilterDropdownKeydown(event: KeyboardEvent) {
+    const options = filterOptionRefs.value.filter(Boolean);
+    const currentIndex = options.findIndex((option) => option === document.activeElement);
+
+    if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        closeFilterDropdown();
+        return;
+    }
+
+    if (!options.length || currentIndex < 0) return;
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        focusFilterOption(currentIndex + 1);
+    } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        focusFilterOption(currentIndex - 1);
+    } else if (event.key === 'Home') {
+        event.preventDefault();
+        focusFilterOption(0);
+    } else if (event.key === 'End') {
+        event.preventDefault();
+        focusFilterOption(options.length - 1);
+    }
 }
 
 function triggerLoading() {
@@ -803,7 +890,7 @@ function handleClickOutside(event: MouseEvent) {
     if (!filterDropdownRef.value || !target) return;
 
     if (!filterDropdownRef.value.contains(target)) {
-        filterDropdownOpen.value = false;
+        closeFilterDropdown(false);
     }
 }
 
@@ -839,6 +926,18 @@ const FIELD_ICON_KEY: Record<string, string> = {
     'has_record.has_sound_type': 'has_sound_type',
     'has_record.in_language.code': 'in_language_code',
     'has_record.element_type': 'item_element_type',
+};
+
+const FILTER_LABEL_KEY_BY_ICON_KEY: Record<string, string> = {
+    has_issuer_name: 'has_issuer_name',
+    episode: 'Episode/Part',
+    manifestation_event_type: 'manifestation_event_type',
+    has_access_status: 'has_access_status',
+    has_format_type: 'has_format_type',
+    has_colour_type: 'has_colour_type',
+    has_sound_type: 'has_sound_type',
+    in_language_code: 'in_language_code',
+    item_element_type: 'item_element_type',
 };
 
 // Recursive shape for values pulled out of the dotted-path walk below.
@@ -952,6 +1051,43 @@ function queryScope(q: string) {
 
 function translatedFacetLabel(value: string) {
     return t(value) !== value ? t(value) : value;
+}
+
+function joinLabels(labels: string[]) {
+    return dedupeValues(labels.filter(Boolean)).join(', ');
+}
+
+function suggestionLevelLabels(suggestion: string) {
+    const scope = queryScope(suggestion);
+    const levels: string[] = [];
+    if (scope.manifestation) levels.push(t('manifestationLevel'));
+    if (scope.item) levels.push(t('itemLevel'));
+    return levels;
+}
+
+function suggestionFacetLabels(suggestion: string) {
+    const iconKeys = suggestionIconMap.value.get(suggestion);
+    if (!iconKeys) return [];
+
+    return Array.from(iconKeys).map((iconKey) => {
+        const labelKey = FILTER_LABEL_KEY_BY_ICON_KEY[iconKey] || iconKey;
+        return translatedFacetLabel(labelKey);
+    });
+}
+
+function suggestionFilterContextLabel(suggestion: string) {
+    const labels = [
+        ...suggestionLevelLabels(suggestion),
+        ...suggestionFacetLabels(suggestion),
+    ];
+
+    return joinLabels(labels);
+}
+
+function suggestionFilterLabel(suggestion: string) {
+    const context = suggestionFilterContextLabel(suggestion);
+    const value = translatedFacetLabel(suggestion);
+    return context ? `${context}: ${value}` : value;
 }
 
 const suggestionsForManifestations = computed(() => {

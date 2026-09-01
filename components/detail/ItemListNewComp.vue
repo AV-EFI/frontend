@@ -5,14 +5,18 @@
             :key="exemplar?.id || exemplar?.handle"
             class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 dark:text-white text-neutral-700"
             role="listitem"
-            :aria-labelledby="getItemAnchorId(exemplar, itemIndex)"
+            :aria-labelledby="getItemHeadingId(exemplar, itemIndex)"
         >
             <div class="col-span-full md:col-span-12 mb-1">
                 <MicroDividerComp
                     class="mx-auto lg:mt-1.25 mb-4"
                     label-text="avefi:Item"
+                    :label-suffix="itemNumber(itemIndex)"
                     in-class="item"
                 />
+                <h5 :id="getItemHeadingId(exemplar, itemIndex)" class="sr-only">
+                    {{ itemSummaryLabel(exemplar, itemIndex) }}
+                </h5>
                 <div :id="getItemAnchorId(exemplar, itemIndex)">
                     <DetailKeyValueComp
                         keytxt="efi"
@@ -363,5 +367,26 @@ function sameAsDisplayLabel(sameAs: Pick<AuthorityResource, 'category' | 'id'>):
 
 function getItemAnchorId(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {
     return exemplar?.handle?.trim() || `item-${props.manifestationIndex}-${itemIndex}`;
+}
+
+function getItemHeadingId(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {
+    return `${getItemAnchorId(exemplar, itemIndex)}-heading`;
+}
+
+function itemNumber(itemIndex: number) {
+    return `${props.manifestationIndex + 1}.${itemIndex + 1}`;
+}
+
+function itemSummaryLabel(exemplar: ItemHeadingExemplar | undefined, itemIndex: number) {
+    const record = exemplar?.has_record;
+    const values = [
+        `${t('item')} ${itemNumber(itemIndex)}`,
+        record?.has_access_status ? `${t('has_access_status')}: ${translateKey(record.has_access_status)}` : '',
+        formatItemFormatTypes(record?.has_format).length ? `${t('has_format_type')}: ${formatItemFormatTypes(record?.has_format).map(translateKey).join(', ')}` : '',
+        record?.element_type ? `${t('item_element_type')}: ${translateKey(record.element_type)}` : '',
+        formatItemLanguages(record?.in_language).length ? `${t('in_language_code')}: ${formatItemLanguages(record?.in_language).join(', ')}` : '',
+    ].filter(Boolean);
+
+    return values.join(', ');
 }
 </script>

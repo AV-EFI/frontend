@@ -24,9 +24,10 @@ describe('Drawer contract guards', () => {
     expect(contactSource).toContain("document.body.style.overflow = value ? 'hidden' : ''");
   });
 
-  test('CBC-COMPARISON-001 keeps compare action guard for exactly 2 items', () => {
-    expect(comparisonSource).toContain('objectListStore.objects.length !== 2');
-    expect(comparisonSource).toContain('if (objectIds.length === 2)');
+  test('CBC-COMPARISON-001 keeps compare action guard for exactly 2 distinct items', () => {
+    expect(comparisonSource).toContain('objectIds.length === 2 && objectIds[0] !== objectIds[1]');
+    expect(comparisonSource).toContain('if (canCompare.value)');
+    expect(comparisonSource).toContain("!canCompare && 'btn-disabled'");
   });
 
   test('CBC-COMPARISON-002 keeps tab semantics and aria bindings', () => {

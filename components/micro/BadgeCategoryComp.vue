@@ -1,5 +1,5 @@
 <template>
-    <span v-if="category.indexOf('avefi:') > -1" :title="$t(category ?? '')" :aria-label="$t(category ?? '')"
+    <span v-if="category.indexOf('avefi:') > -1" :title="badgeLabel" :aria-label="badgeLabel"
           role="status" :class="[
               category === 'avefi:WorkVariant' ? 'badge-work' :
               category === 'avefi:Manifestation' ? 'badge-manifestation' :
@@ -11,20 +11,21 @@
         <span class="mx-auto inline-flex h-full items-center justify-center gap-1.5 leading-none">
             <Icon v-if="levelIcon" :name="levelIcon" class="icon-inline icon-level block text-current" aria-hidden="true" />
             <span class="block leading-none">
-                {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+                {{ dense ? baseLabel.charAt(0) : badgeLabel }}
             </span>
         </span>
     </span>
     <span v-else-if="category.indexOf('Serial') > -1 || category.indexOf('AnthologyFilm') > -1"
-          class="badge bg-base mx-auto font-semibold h-4" :title="$t(category ?? '')" :aria-label="$t(category ?? '')"
+          class="badge bg-base mx-auto font-semibold h-4" :title="badgeLabel" :aria-label="badgeLabel"
           role="status">
-        {{ dense ? $t(category ?? '').charAt(0) : $t(category ?? '') }}
+        {{ dense ? baseLabel.charAt(0) : badgeLabel }}
         <Icon v-if="icon" name="fa:caret-down" class="icon-inline ml-1" aria-hidden="true" />
     </span>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+const { t } = useI18n();
 
 const props = defineProps({
     category: {
@@ -38,7 +39,17 @@ const props = defineProps({
     icon: {
         type: Boolean,
         default: false
+    },
+    suffix: {
+        type: String,
+        default: ''
     }
+});
+
+const baseLabel = computed(() => t(props.category ?? ''));
+const badgeLabel = computed(() => {
+    const suffix = props.suffix.trim();
+    return suffix ? `${baseLabel.value} ${suffix}` : baseLabel.value;
 });
 
 const levelIcon = computed(() => {

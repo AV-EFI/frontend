@@ -20,6 +20,7 @@
                     :display-text="valtxt"
                     :copy-text="clipText ? clipText : valtxt"
                     :key-text="keytxt"
+                    :collapsible="keytxt === 'efi'"
                 />
 
                 <!-- TEXT MODE -->

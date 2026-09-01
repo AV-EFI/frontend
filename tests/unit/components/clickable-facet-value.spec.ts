@@ -17,6 +17,7 @@ const translations: Record<string, string> = {
   ['manifestation_event_type']: 'Manifestationstyp',
   ['facetMenu.addToSearch']: 'Zur Suche hinzufügen',
   ['facetMenu.newSearch']: 'Neue Suche',
+  openSearchWithFacetInNewTab: 'Neue Suchseite in neuem Tab öffnen mit aktivem Filter: {attribute} = {value}',
 };
 
 async function mountClickableFacetValue(props: { attribute: string; value: string; label?: string }) {
@@ -29,7 +30,12 @@ async function mountClickableFacetValue(props: { attribute: string; value: strin
     resolve: vi.fn(() => ({ href: '' })),
   }));
   vi.stubGlobal('useI18n', () => ({
-    t: (key: string) => translations[key] ?? key,
+    t: (key: string, params?: Record<string, string>) => {
+      const translation = translations[key] ?? key;
+      return translation
+        .replace('{attribute}', params?.attribute ?? '')
+        .replace('{value}', params?.value ?? '');
+    },
     te: (key: string) => key in translations,
   }));
   vi.stubGlobal('useSearchFacetToggle', () => ({
@@ -115,5 +121,25 @@ describe('ClickableFacetValue', () => {
     expect(link.attributes('href')).toBe('/search?creators=Reiniger%2C%20Lotte');
     expect(link.attributes('target')).toBe('_blank');
     expect(link.attributes('rel')).toBe('noopener noreferrer');
+    expect(link.attributes('aria-label')).toBe('Neue Suchseite in neuem Tab öffnen mit aktivem Filter: Filmschaffende = Reiniger, Lotte');
+    expect(link.attributes('title')).toBe('Neue Suchseite in neuem Tab öffnen mit aktivem Filter: Filmschaffende = Reiniger, Lotte');
+  });
+
+  // ManifestationHeaderComp's collapsed row sits under an absolutely-positioned,
+  // higher-stacked toggle button (see ManifestationListComp) so its own facet
+  // chips (event type, place, ...) are only clickable if they opt back in to
+  // pointer events with a stacking context above that overlay.
+  test('stays clickable above an ancestor toggle overlay via its own stacking context', async () => {
+    routePath = '/res/21.11155/work-1';
+
+    const wrapper = await mountClickableFacetValue({
+      attribute: 'creators',
+      value: 'Reiniger, Lotte',
+    });
+
+    const link = wrapper.get('a');
+    expect(link.classes()).toContain('pointer-events-auto');
+    expect(link.classes()).toContain('relative');
+    expect(link.classes()).toContain('z-20');
   });
 });

@@ -76,6 +76,34 @@ describe('KeyValueComp translation and label rendering', () => {
     expect(wrapper.get('[data-testid="same-as"]').text()).toBe('avefi:FilmportalResource=film/test-id');
   });
 
+  test.each([
+    { keytxt: 'efi', expectedCollapsible: 'true' },
+    { keytxt: 'has_access_status', expectedCollapsible: 'false' },
+  ])('marks the clipboard value collapsible only for the efi handle ($keytxt)', ({ keytxt, expectedCollapsible }) => {
+    const wrapper = mount(KeyValueComp, {
+      props: {
+        keytxt,
+        valtxt: '21.11155/ABCD-1234',
+        clip: true,
+      },
+      global: {
+        stubs: {
+          MicroLabelComp: { template: '<span />' },
+          GlobalClipboardComp: {
+            props: ['collapsible'],
+            template: '<div data-testid="clipboard" :data-collapsible="collapsible ? \'true\' : \'false\'" />',
+          },
+          DetailSameAsComp: { template: '<div />' },
+        },
+        mocks: {
+          $t: (key: string) => key,
+        },
+      },
+    });
+
+    expect(wrapper.get('[data-testid="clipboard"]').attributes('data-collapsible')).toBe(expectedCollapsible);
+  });
+
   test('aligns text mode and same_as action at the top of the same row', () => {
     const wrapper = mount(KeyValueComp, {
       props: {

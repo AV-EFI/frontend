@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row lg:flex-row justify-between lg:items-center">
         <div v-if="type === 'searchresult'" :class="['flex justify-center flex-col w-4/5']">
-            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300">
+            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300" aria-hidden="true">
                 {{ manifestation?.handle }}
             </h4>
             <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1">
@@ -43,12 +43,13 @@
         </div>
 
         <div v-else class="flex flex-col justify-center w-full">
-            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300">
+            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300" aria-hidden="true">
                 {{ manifestation?.handle }}
                 <MicroBadgeCategoryComp :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
                                         class="ml-2 inline-block" />
             </h4>
             <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
+                <span class="sr-only">{{ manifestationPositionText }}</span>
                 <span class="wrap-break-word" v-if="manifestation?.has_record?.has_primary_title?.has_name">
                     <p>
                         {{ manifestation?.has_record?.has_primary_title?.has_name }}
@@ -138,9 +139,10 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { computed } from 'vue';
 import { getFacetIcon, getFacetLevelClass } from '~/models/interfaces/manual/IFacetIconMapping';
 
-defineProps({
+const props = defineProps({
     manifestation: Object as PropType<any>,
     type: String as PropType<string>,
     compSize: {
@@ -159,10 +161,18 @@ defineProps({
         type: String as PropType<string>,
         default: '',
     },
+    manifestationIndex: {
+        type: Number,
+        default: 0,
+    },
 });
 
 import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
+
+const manifestationPositionText = computed(() =>
+    `${$t('manifestation')} ${props.manifestationIndex + 1}.`
+);
 
 function levelChipClasses(attributeName: string): string {
     return [
@@ -214,10 +224,10 @@ function itemPreviewIconEntries(manifestation: any) {
     }
 
     const ordered = [
-        { key: 'has_access_status', iconKey: 'has_access_status', label: $t('tooltip.accessStatus') },
-        { key: 'has_format_type', iconKey: 'has_format_type', label: $t('tooltip.format') },
-        { key: 'item_element_type', iconKey: 'item_element_type', label: $t('tooltip.elementType') },
-        { key: 'in_language_code', iconKey: 'in_language_code', label: $t('in_language') },
+        { key: 'has_access_status', iconKey: 'has_access_status', label: $t('has_access_status') },
+        { key: 'has_format_type', iconKey: 'has_format_type', label: $t('has_format_type') },
+        { key: 'item_element_type', iconKey: 'item_element_type', label: $t('item_element_type') },
+        { key: 'in_language_code', iconKey: 'in_language_code', label: $t('in_language_code') },
         { key: 'has_sound_type', iconKey: 'has_sound_type', label: $t('has_sound_type') },
         { key: 'has_colour_type', iconKey: 'has_colour_type', label: $t('has_colour_type') },
         { key: 'has_duration_has_value', iconKey: 'has_duration_has_value', label: $t('has_duration') },

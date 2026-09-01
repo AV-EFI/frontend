@@ -9,21 +9,23 @@
             :data-manifestation-index="i"
             :aria-labelledby="`manifestation-heading-${i}`"
         >
-            <div
-                class="w-full text-left px-4 py-3 dark:bg-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                role="button"
-                tabindex="0"
-                :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
-                :aria-controls="`manifestation-panel-${i}`"
-                :title="$t('toggleManifestation', { manifestationId: manifestation.handle })"
-                @click="toggleManifestation(i)"
-                @keydown.enter.prevent="toggleManifestation(i)"
-                @keydown.space.prevent="toggleManifestation(i)"
-            >
-                <div class="flex items-start justify-between gap-3">
+            <div class="relative w-full px-4 py-3 dark:bg-gray-900 dark:text-white">
+                <button
+                    type="button"
+                    class="absolute inset-0 z-10 w-full cursor-pointer rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
+                    :aria-controls="`manifestation-panel-${i}`"
+                    :aria-label="manifestationToggleLabel(manifestation, i)"
+                    :title="manifestationToggleLabel(manifestation, i)"
+                    @click="toggleManifestation(i)"
+                >
+                    <span class="sr-only">{{ manifestationToggleLabel(manifestation, i) }}</span>
+                </button>
+                <div class="pointer-events-none flex items-start justify-between gap-3">
                     <DetailManifestationHeaderComp
                         :manifestation="manifestation"
                         :heading-id="`manifestation-heading-${i}`"
+                        :manifestation-index="i"
                     />
                     <Icon
                         name="tabler:chevron-down"
@@ -41,6 +43,16 @@
                 role="region"
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
+                <div class="mb-3 pt-3">
+                    <DetailKeyValueComp
+                        keytxt="efi"
+                        :translate-key="false"
+                        :valtxt="manifestation?.handle"
+                        class="w-full text-sm"
+                        :clip="true"
+                    />
+                </div>
+
                 <div
                     v-if="sameAsRefsFrom(manifestation?.has_record).length"
                     class="manifestation-reference-area mb-4 grid grid-cols-1 gap-2 rounded-lg border border-base-200 bg-base-100 p-3 dark:border-gray-800 dark:bg-gray-900"
@@ -155,6 +167,60 @@ function handleOpenManifestation(event: Event) {
 
 function getManifestationAnchorId(manifestation: ManifestationListItem, index: number) {
     return manifestation?.handle?.trim() || `manifestation-${index}`;
+}
+
+function manifestationToggleLabel(manifestation: ManifestationListItem, index: number) {
+    const state = isManifestationOpen(index) ? safeT('collapse') : safeT('expand');
+    const identity = [
+        manifestationTitle(manifestation),
+        manifestationIssuer(manifestation),
+        itemCountLabel(manifestation),
+        manifestationTypeLabel(manifestation),
+    ].filter(Boolean);
+
+    const position = `${safeT('manifestation')} ${index + 1}.`;
+    return [position, ...identity, state].join(', ');
+}
+
+function manifestationTitle(manifestation: ManifestationListItem) {
+    return stringValue(manifestation?.has_record?.has_primary_title?.has_name);
+}
+
+function manifestationIssuer(manifestation: ManifestationListItem) {
+    return stringValue(manifestation?.has_record?.described_by?.has_issuer_name);
+}
+
+function itemCountLabel(manifestation: ManifestationListItem) {
+    const count = Array.isArray(manifestation?.items) ? manifestation.items.length : 0;
+    return `${count} ${count === 1 ? safeT('item') : safeT('items')}`;
+}
+
+function manifestationTypeLabel(manifestation: ManifestationListItem) {
+    const events = Array.isArray(manifestation?.has_record?.has_event)
+        ? manifestation.has_record.has_event
+        : [];
+    const values = events
+        .map((event) => stringValue((event as { type?: unknown; category?: unknown })?.type || (event as { category?: unknown })?.category))
+        .filter(Boolean)
+        .map((value) => safeT(value));
+
+    return dedupeLabels(values).join(', ');
+}
+
+function stringValue(value: unknown) {
+    return typeof value === 'string' ? value.trim() : '';
+}
+
+function dedupeLabels(values: string[]) {
+    const seen = new Set<string>();
+    const result: string[] = [];
+    for (const value of values) {
+        const key = value.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        result.push(value);
+    }
+    return result;
 }
 
 function sameAsRefsFrom(record: MovingImageRecord | undefined): Array<Required<SameAsRef>> {

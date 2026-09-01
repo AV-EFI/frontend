@@ -16,6 +16,7 @@
                                 :display-text="dataJson?.compound_record?._source?.handle"
                                 :copy-text="`${copyPidUrl}${dataJson?.compound_record?._source?.handle}`"
                                 class="mb-2 text-xs lg:text-sm text-base-content/90"
+                                collapsible
                             />
                             <div class="flex flex-row">
                                 <h1
@@ -35,6 +36,7 @@
                                 :display-text="dataJson?.handle"
                                 :copy-text="`${copyPidUrl}${dataJson?.handle}`"
                                 class="mb-2 text-xs lg:text-sm text-base-content/90"
+                                collapsible
                             />
                             <div class="flex flex-row">
                                 <h1

@@ -28,6 +28,7 @@
                             class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
                             :display-text="`${part.handle}`"
                             :copy-text="`${runtime.public.AVEFI_COPY_PID_URL}${part.handle}`"
+                            collapsible
                         />
 
                         <!-- Title + category -->
