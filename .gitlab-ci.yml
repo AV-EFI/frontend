@@ -76,7 +76,16 @@ test_accessibility_smoke:
   extends:
     - .node_job
     - .test_rules
+  # This job checks freshly-built local pages, unlike the post-deploy smoke jobs
+  # further down that hit the live testbed site — pin these explicitly so an
+  # inherited project/group CI variable meant for those jobs can't silently
+  # disable this one's local dev-server boot (see PLAYWRIGHT_NO_WEBSERVER /
+  # PLAYWRIGHT_BASE_URL usage in playwright.config.ts).
+  variables:
+    PLAYWRIGHT_NO_WEBSERVER: "false"
+    PLAYWRIGHT_BASE_URL: "http://127.0.0.1:3000"
   script:
+    - echo "PLAYWRIGHT_NO_WEBSERVER=$PLAYWRIGHT_NO_WEBSERVER PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL"
     - mkdir -p test-reports
     - npx playwright install --with-deps chromium
     - PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-accessibility-junit.xml yarn audit:accessibility --workers=1 --reporter=list,junit
