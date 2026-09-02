@@ -629,6 +629,31 @@ const avefiBase = {
       }
     }
   },
+  "pressLockupPoc": {
+    "title": "Logo + Claim Lockup Generator (PoC)",
+    "versionBadge": "v0.1 · PoC",
+    "description": "Combines logo and claim from the existing press-kit assets into a lockup and exports it as SVG.",
+    "language": "Language",
+    "theme": "Theme",
+    "themeLabels": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "layout": "Layout",
+    "layoutLabels": {
+      "horizontal": "Side by side",
+      "vertical": "Stacked"
+    },
+    "spacing": "Spacing",
+    "spacingLabels": {
+      "compact": "Compact",
+      "standard": "Standard",
+      "spacious": "Spacious"
+    },
+    "download": "Download as SVG",
+    "loading": "Composing lockup…",
+    "loadError": "Failed to compose the lockup."
+  },
   'create.addImagePlaceholder': 'Image URL (optional)',
   'create.titlePlaceholder': 'Title',
   'create.descriptionPlaceholder': 'Description',

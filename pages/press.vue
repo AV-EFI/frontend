@@ -103,6 +103,24 @@
                     </article>
                 </div>
             </section>
+
+            <section :aria-label="t('pressLockupPoc.title')" class="space-y-4">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <h2 class="text-2xl bree font-semibold">{{ t('pressLockupPoc.title') }}</h2>
+                    <span class="badge badge-warning">{{ t('pressLockupPoc.versionBadge') }}</span>
+                </div>
+                <p class="text-sm text-base-content/70">{{ t('pressLockupPoc.description') }}</p>
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body px-2 lg:px-4">
+                        <ClientOnly>
+                            <PocLockupBuilder />
+                            <template #fallback>
+                                <MicroLoadingSpinner :label="t('pressLockupPoc.loading')" size="md" :show-label="true" />
+                            </template>
+                        </ClientOnly>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div v-else class="container mx-auto max-w-4xl px-6">

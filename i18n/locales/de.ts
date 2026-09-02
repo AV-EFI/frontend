@@ -594,6 +594,31 @@ const deBase = {
       }
     }
   },
+  "pressLockupPoc": {
+    "title": "Logo + Claim Lockup-Generator (PoC)",
+    "versionBadge": "v0.1 · PoC",
+    "description": "Kombiniert Logo und Claim aus den bestehenden Presse-Kit-Assets zu einem Lockup und exportiert es als SVG.",
+    "language": "Sprache",
+    "theme": "Theme",
+    "themeLabels": {
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "layout": "Layout",
+    "layoutLabels": {
+      "horizontal": "Nebeneinander",
+      "vertical": "Untereinander"
+    },
+    "spacing": "Abstand",
+    "spacingLabels": {
+      "compact": "Kompakt",
+      "standard": "Standard",
+      "spacious": "Großzügig"
+    },
+    "download": "Als SVG herunterladen",
+    "loading": "Lockup wird zusammengesetzt …",
+    "loadError": "Lockup konnte nicht zusammengesetzt werden."
+  },
   'create.addImagePlaceholder': 'Bild-URL (optional)',
   'create.titlePlaceholder': 'Titel',
   'create.descriptionPlaceholder': 'Beschreibung',
