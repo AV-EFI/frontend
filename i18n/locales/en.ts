@@ -605,6 +605,14 @@ const avefiBase = {
             },
             "claimEn": {
               "title": "Claim (EN)"
+            },
+            "claimDeDark": {
+              "title": "Claim (DE, Dark)",
+              "notes": "Use on dark backgrounds for optimal contrast."
+            },
+            "claimEnDark": {
+              "title": "Claim (EN, Dark)",
+              "notes": "Use on dark backgrounds for optimal contrast."
             }
           }
         },

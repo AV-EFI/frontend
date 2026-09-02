@@ -1,5 +1,5 @@
 {
-    "lastUpdated": "2026-02-17",
+    "lastUpdated": "2026-09-02",
     "contact": {
         "email": "contact@av-efi.net",
         "label": "AVefi Communications"
@@ -86,6 +86,32 @@
                         {
                             "label": "SVG",
                             "path": "/img/avefi_claim_en.svg"
+                        }
+                    ]
+                },
+                {
+                    "id": "claim-de-dark",
+                    "titleKey": "press.manifest.sections.claims.items.claimDeDark.title",
+                    "type": "logo",
+                    "preview": "/img/avefi_claim_de_dark.svg",
+                    "notesKey": "press.manifest.sections.claims.items.claimDeDark.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi_claim_de_dark.svg"
+                        }
+                    ]
+                },
+                {
+                    "id": "claim-en-dark",
+                    "titleKey": "press.manifest.sections.claims.items.claimEnDark.title",
+                    "type": "logo",
+                    "preview": "/img/avefi_claim_en_dark.svg",
+                    "notesKey": "press.manifest.sections.claims.items.claimEnDark.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi_claim_en_dark.svg"
                         }
                     ]
                 }

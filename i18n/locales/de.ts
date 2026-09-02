@@ -570,6 +570,14 @@ const deBase = {
             },
             "claimEn": {
               "title": "Claim (EN)"
+            },
+            "claimDeDark": {
+              "title": "Claim (DE, dunkel)",
+              "notes": "Für dunkle Hintergründe mit optimalem Kontrast."
+            },
+            "claimEnDark": {
+              "title": "Claim (EN, dunkel)",
+              "notes": "Für dunkle Hintergründe mit optimalem Kontrast."
             }
           }
         },
