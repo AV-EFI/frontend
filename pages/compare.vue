@@ -159,9 +159,9 @@ useSchemaOrg([
             [$t('comparison'), ''],
         ]" />
         <div class="container mt-4 snap-y snap-mandatory md:px-4 mx-auto">
-            <h1 class="mb-4 text-lg font-bold xl:text-xl dark:text-white">
+            <GlobalPageTitleComp variant="panel" class="mb-4 dark:text-white">
                 {{ $t('comparison') }}
-            </h1>
+            </GlobalPageTitleComp>
 
             <div v-if="!hasValidParams" class="alert alert-error mb-4 w-96">
                 <Icon name="tabler:alert-circle" class="w-6 h-6" />

@@ -2,9 +2,9 @@
     <div class="container mx-auto p-4 max-w-4xl">
         <div class="imprint card bg-base-100 shadow-xl">
             <div class="card-body">
-                <h1 class="card-title text-2xl font-bold">
+                <GlobalPageTitleComp variant="card" class="card-title">
                     {{ t('imprintPage.title') }}
-                </h1>
+                </GlobalPageTitleComp>
 
                 <p>
                     {{ t('imprintPage.introText') }}

@@ -5,9 +5,9 @@
                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <p class="badge badge-primary mb-2 w-fit">
-                            {{ t('press.badgeLastUpdated', { date: new Date(manifestData.lastUpdated).toLocaleDateString() }) }}
+                            {{ t('press.badgeLastUpdated', { date: lastUpdatedLabel }) }}
                         </p>
-                        <h1 class="text-4xl font-bold bree mb-2">{{ t('press.title') }}</h1>
+                        <GlobalPageTitleComp variant="hero" class="text-4xl mb-2">{{ t('press.title') }}</GlobalPageTitleComp>
                         <p class="text-lg text-base-content/80">{{ t('press.subtitle') }}</p>
                     </div>
                     <div class="flex flex-col gap-2 text-right">
@@ -186,7 +186,20 @@ if (error.value) {
     console.error('[press-page] Unable to load manifest', error.value);
 }
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+
+const dateFormatter = computed(() => new Intl.DateTimeFormat(
+    locale.value === 'de' ? 'de-DE' : 'en-US',
+    { dateStyle: 'medium', timeZone: 'UTC' },
+));
+const lastUpdatedLabel = computed(() => {
+    const data = manifest.value;
+    if (!data) {
+        return '';
+    }
+    const parsed = new Date(data.lastUpdated);
+    return isNaN(parsed.getTime()) ? '' : dateFormatter.value.format(parsed);
+});
 
 const translateKey = (key?: string | null, params?: Record<string, unknown>) =>
     (key ? (params ? t(key, params) : t(key)) : '');

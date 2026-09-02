@@ -9,9 +9,9 @@
         <div class="mt-4">
             <NuxtLayout name="partial-layout-1-center">
                 <template #title>
-                    <h1 class="text-2xl font-bold my-2 pl-2">
+                    <GlobalPageTitleComp variant="card" class="my-2 pl-2">
                         {{ $t('vocab.title') }}
-                    </h1>
+                    </GlobalPageTitleComp>
                 </template>
                 <template #cardBody>
                     <GlobalVocabViewer />

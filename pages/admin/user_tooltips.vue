@@ -13,7 +13,7 @@
                         {{ $t('ut.editingDisabled') }}
                     </div>
 
-                    <h1 class="text-2xl font-bold mb-2">{{ $t('ut.sectionTitle') }}</h1>
+                    <GlobalPageTitleComp variant="card" class="mb-2">{{ $t('ut.sectionTitle') }}</GlobalPageTitleComp>
                     <div class="text-sm opacity-70 mb-3" v-if="updatedAt">
                         {{ $t('ut.lastSaved') }}: {{ formatDate(updatedAt) }}
                     </div>

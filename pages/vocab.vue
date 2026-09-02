@@ -7,9 +7,9 @@
             ]" />
         </template>
         <template #title>
-            <h1 class="text-lg font-bold xl:text-xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4">
+            <GlobalPageTitleComp variant="panel" class="dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4">
                 {{ $t('vocab.title') }}
-            </h1>
+            </GlobalPageTitleComp>
         </template>
         <template #cardBody>
             <div class="container" role="region" :aria-label="$t('vocab.title')">

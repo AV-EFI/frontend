@@ -5,9 +5,9 @@
                                 :routing="extendedRouting" :insights="false" :future="{preserveSharedStateOnUnmount: true }">
                 <ais-configure :hits-per-page.camel="20" />
                 <ais-clear-refinements ref="clearRefinementsRef" style="display:none" />
-                <h1 class="text-lg font-bold xl:text-xl dark:text-white max-w-32 text-left ml-2" tabindex="0">
+                <GlobalPageTitleComp variant="panel" class="dark:text-white max-w-32 text-left ml-2" tabindex="0">
                     {{ $t('filmresearch') }}
-                </h1>
+                </GlobalPageTitleComp>
                 <div class="divider" />
                 <div class="search-panel" role="region" :aria-label="$t('searchpanel')">
                     <ClientOnly>

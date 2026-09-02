@@ -2,9 +2,9 @@
 <template>
     <div class="p-6 mx-auto max-w-6xl space-y-6">
         <header class="space-y-2">
-            <h1 class="text-2xl font-semibold">
+            <GlobalPageTitleComp variant="card">
                 {{ $t('normdata.pageTitle') }}
-            </h1>
+            </GlobalPageTitleComp>
             <p class="text-sm text-base-content/90">
             </p>
         </header>

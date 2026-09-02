@@ -12,9 +12,9 @@
                 <article class="card bg-base-100 shadow-xl">
                     <div class="card-body gap-6">
                         <header class="space-y-3">
-                            <h1 class="card-title text-3xl font-bold">
+                            <GlobalPageTitleComp variant="card" class="card-title">
                                 {{ $t('accessibilityPage.title') }}
-                            </h1>
+                            </GlobalPageTitleComp>
                             <p class="text-base-content/80">
                                 {{ $t('accessibilityPage.intro') }}
                             </p>

@@ -44,12 +44,12 @@
                   'shadow-inner dark:shadow-none',
                         ]">
                             <div class="text-center">
-                                <h1 class="hero-title mt-2 bree text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[0.95] tracking-tight
+                                <GlobalPageTitleComp variant="hero" class="hero-title mt-2 text-4xl sm:text-5xl md:text-7xl leading-[0.95] tracking-tight
                   [text-shadow:0_1px_0_rgba(255,255,255,0.75)]
                   dark:[text-shadow:0_1px_0_rgba(0,0,0,0.55)]">
                                     <span v-for="(line, idx) in heroClaimLines" :key="`hero-claim-${idx}`"
                                           class="hero-title__line">{{ line }}</span>
-                                </h1>
+                                </GlobalPageTitleComp>
                                 <p class="
                     mt-4 md:text-lg opacity-85 max-w-2xl mx-auto
                     [text-shadow:0_1px_0_rgba(255,255,255,0.55)]
