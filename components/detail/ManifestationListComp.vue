@@ -9,7 +9,7 @@
             :data-manifestation-index="i"
             :aria-labelledby="`manifestation-heading-${i}`"
         >
-            <div class="relative w-full px-4 py-3 dark:bg-gray-900 dark:text-white">
+            <div class="relative w-full px-4 py-3">
                 <div class="pointer-events-none flex items-start justify-between gap-3">
                     <DetailManifestationHeaderComp
                         :manifestation="manifestation"
@@ -25,7 +25,7 @@
                 </div>
                 <button
                     type="button"
-                    class="absolute inset-0 z-10 w-full cursor-pointer rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    class="absolute inset-0 z-10 w-full cursor-pointer rounded-lg bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                     :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
                     :aria-controls="`manifestation-panel-${i}`"
                     :aria-label="manifestationToggleLabel(manifestation, i)"
@@ -36,7 +36,7 @@
                 </button>
             </div>
 
-            <div class="px-4 pb-3 dark:bg-gray-900 dark:text-white">
+            <div class="px-4 pb-3">
                 <DetailKeyValueComp
                     keytxt="efi"
                     :translate-key="false"
@@ -49,13 +49,13 @@
             <div
                 v-show="isManifestationOpen(i)"
                 :id="`manifestation-panel-${i}`"
-                class="bg-gray-50 dark:bg-gray-900 dark:text-white px-4 pb-4"
+                class="bg-base-200 px-4 py-4"
                 role="region"
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
                 <div
                     v-if="sameAsRefsFrom(manifestation?.has_record).length"
-                    class="manifestation-reference-area mb-4 grid grid-cols-1 gap-2 rounded-lg border border-base-200 bg-base-100 p-3 dark:border-gray-800 dark:bg-gray-900"
+                    class="manifestation-reference-area mb-4 grid grid-cols-1 gap-2 rounded-lg border border-base-300 bg-base-100 p-3"
                     role="region"
                     :aria-label="$t('referencesAndWorkRelations')"
                 >
@@ -88,7 +88,7 @@
                         {{ safeT('items') }}
                         <GlobalTooltipInfo :text="$t('tooltip.item')" class="ml-2" />
                     </h4>
-                    <div class="bg-white dark:bg-gray-900 rounded-xl">
+                    <div class="bg-base-100 rounded-xl">
                         <DetailItemListNewComp
                             v-if="(manifestation?.items?.length ?? 0) > 0"
                             :items="manifestation?.items ?? []"

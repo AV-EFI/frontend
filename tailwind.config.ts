@@ -182,13 +182,16 @@ module.exports = {
         '.badge-compare-list': { '@apply badge bg-compare-list text-compare-list-content': {} },
         '.btn-highlight': { '@apply bg-highlight text-highlight-content hover:bg-highlight hover:text-highlight-content': {} },
         '.panel-surface': {
-          '@apply w-full bg-white text-base-content border-2 border-base-200 rounded-lg dark:bg-gray-900': {},
+          '@apply w-full bg-base-100 text-base-content border border-base-200 shadow-sm dark:shadow-none': {},
+          'border-radius': 'var(--radius-box)',
         },
         '.panel-surface-muted': {
           '@apply bg-base-200 text-base-content border border-base-300 dark:bg-base-300': {},
+          'border-radius': 'var(--radius-box)',
         },
         '.filter-chip': {
-          '@apply border border-base-200 text-base-content rounded-lg': {},
+          '@apply border border-base-200 text-base-content': {},
+          'border-radius': 'var(--radius-field)',
         },
       });
     },

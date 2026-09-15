@@ -3,7 +3,7 @@
         <article
             v-for="(exemplar, itemIndex) in items"
             :key="exemplar?.id || exemplar?.handle"
-            class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 dark:text-white text-neutral-700"
+            class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 text-base-content"
             role="listitem"
             :aria-labelledby="getItemHeadingId(exemplar, itemIndex)"
         >
@@ -34,7 +34,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="flex items-center gap-1 text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_access_status" />
                         <GlobalTooltipInfo
                             :text="$t('tooltip.accessStatus')"
@@ -52,7 +52,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="flex items-center gap-1 text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_format" />
                         <GlobalTooltipInfo
                             :text="$t('tooltip.format')"
@@ -70,7 +70,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="flex items-center gap-1 text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="item_element_type" />
                         <GlobalTooltipInfo
                             :text="$t('tooltip.elementType')"
@@ -88,7 +88,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="in_language" />
                     </span>
                     <SearchHighlightListComp
@@ -103,7 +103,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_sound_type" />
                     </span>
                     <SearchClickableFacetValue
@@ -121,7 +121,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_colour_type" />
                     </span>
                     <SearchClickableFacetValue
@@ -139,7 +139,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_duration" />
                     </span>
                     <p class="text-sm font-normal">
@@ -156,7 +156,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="avefi:Extent" />
                     </span>
                     <p class="text-sm font-normal">
@@ -171,7 +171,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_frame_rate" />
                     </span>
                     <p class="text-sm font-normal">
@@ -182,7 +182,7 @@
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3">
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="has_note" />
                     </span>
                     <p class="text-sm font-normal">
@@ -196,7 +196,7 @@
                 class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3"
             >
                 <div class="flex flex-col mb-1">
-                    <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    <span class="text-xs font-semibold text-base-content/60">
                         <MicroLabelComp label-text="referencesAndWorkRelations" />
                     </span>
                     <ul class="mt-1 space-y-1">
@@ -222,7 +222,7 @@
             </div>
 
             <div class="col-span-full md:col-span-6 xl:col-span-4 2xl:col-span-3 flex flex-col justify-end">
-                <span class="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-200">
+                <span class="flex items-center gap-1 text-sm font-medium text-base-content/70">
                     <MicroLabelComp label-text="webresource" />
                     <GlobalTooltipInfo
                         :text="$t('tooltip.webresource')"

@@ -1,14 +1,14 @@
 <template>
     <div class="flex flex-row lg:flex-row justify-between lg:items-center">
         <div v-if="type === 'searchresult'" :class="['flex justify-center flex-col w-4/5']">
-            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300" aria-hidden="true">
+            <h4 class="col-span-full text-xs text-base-content/70" aria-hidden="true">
                 {{ manifestation?.handle }}
             </h4>
-            <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1">
+            <h4 :id="headingId || undefined" class="col-span-full font-semibold text-base-content my-1">
                 {{ manifestation?.has_record?.described_by?.has_issuer_name }}
             </h4>
 
-            <div class="col-span-full text-sm 2xl:text-md text-gray-700 dark:text-neutral-200 flex flex-row">
+            <div class="col-span-full text-sm 2xl:text-md text-base-content/70 flex flex-row">
                 <span v-if="manifestation?.has_record?.has_event?.has_date" class="flex flex-row justify-start items-center"
                       :aria-label="$t('productionyear') + ': ' + manifestation.has_record?.has_event?.map((event: { has_date?: string; type?: string }) => `${event?.has_date} (${$t(event?.type ?? '')})`).join(', ')">
                     {{ manifestation.has_record?.has_event?.map((event: { has_date?: string; type?: string }) => `${event?.has_date} (${$t(event?.type ?? '')})`).join(', ') }}
@@ -43,12 +43,12 @@
         </div>
 
         <div v-else class="flex flex-col justify-center w-full">
-            <h4 class="col-span-full text-xs text-gray-700 dark:text-gray-300" aria-hidden="true">
+            <h4 class="col-span-full text-xs text-base-content/70" aria-hidden="true">
                 {{ manifestation?.handle }}
                 <MicroBadgeCategoryComp :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
                                         class="ml-2 inline-block" />
             </h4>
-            <h4 :id="headingId || undefined" class="col-span-full font-semibold text-gray-900 dark:text-white my-1 xl:text-sm">
+            <h4 :id="headingId || undefined" class="col-span-full font-semibold text-base-content my-1 xl:text-sm">
                 <span class="sr-only">{{ manifestationPositionText }}</span>
                 <span class="wrap-break-word" v-if="manifestation?.has_record?.has_primary_title?.has_name">
                     <p>
@@ -65,7 +65,7 @@
 
             <!-- NORMALIZED ROW: SearchGenericIconList + item count share SAME baseline -->
             <div
-                class="col-span-full flex flex-row items-center flex-wrap gap-x-4 gap-y-1 text-[0.8rem] leading-4 text-gray-700 dark:text-neutral-200">
+                class="col-span-full flex flex-row items-center flex-wrap gap-x-4 gap-y-1 text-[0.8rem] leading-4 text-base-content/70"
                 <!-- Search icons -->
                 <SearchGenericIconList
                     :data="manifestation"
@@ -101,7 +101,7 @@
                 class="col-span-full mt-1 flex flex-row flex-wrap items-center gap-2"
             >
                 <span
-                    class="text-xs text-gray-600 dark:text-gray-300 mr-1"
+                    class="text-xs text-base-content/60 mr-1"
                     :title="$t('itemLevelInfoAvailableHelp')"
                 >
                     {{ $t('itemLevelInfoShort') }}

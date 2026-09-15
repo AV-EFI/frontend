@@ -7,7 +7,7 @@
                 :style="navbarSummaryStyle"
                 :aria-label="$t('workEvents')"
             >
-                <div class="work-production-summary__inner mx-auto w-full max-w-7xl px-4 py-2 text-sm 2xl:px-6">
+                <div class="work-production-summary__inner mx-auto w-full max-w-5xl px-4 py-2 text-sm 2xl:px-6">
                     <p class="work-production-summary__title text-sm font-semibold text-base-content">
                         {{ workSummaryTitle }}
                     </p>
@@ -219,396 +219,402 @@
                                 <span>{{ $t('workNavigation') }}</span>
                             </button>
                         </div>
-                        <div class="work-detail-content-grid">
-                            <div class="min-w-0">
-                                <!-- 01–04 + 06–09: handled inside TopLevelComp -->
-                                <DetailWorkVariantTopLevelComp v-model="mir"
-                                                               :handle="dataObject?.compound_record?._source?.handle ?? ''"
-                                                               :es-timestamp="String(dataObject?.compound_record?._source?.['@timestamp'] ?? '')"
-                                                               :order-key="'08-06-2025'" :hide-second-handle="true"
-                                                               :swap-years-and-places="true" />
-                                <!-- 05 Produktions-Events -->
-                                <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
-                                                    v-model="mir.has_event"
-                                                    root-id="work-events"
-                                                    :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
+                    </div>
+                    <!-- Production + side-rail collapse individually on mobile (same condition as
+                         above); Manifestations is a third grid item that never collapses, and is
+                         placed in its own grid-template-area so its row starts right after Production's
+                         actual content height, instead of waiting for the (often much taller) side-rail. -->
+                    <div class="work-detail-content-grid">
+                        <div v-show="!isMobile || mirExpanded" class="work-detail-main-col min-w-0">
+                            <!-- 01–04 + 06–09: handled inside TopLevelComp -->
+                            <DetailWorkVariantTopLevelComp v-model="mir"
+                                                           :handle="dataObject?.compound_record?._source?.handle ?? ''"
+                                                           :es-timestamp="String(dataObject?.compound_record?._source?.['@timestamp'] ?? '')"
+                                                           :order-key="'08-06-2025'" :hide-second-handle="true"
+                                                           :swap-years-and-places="true" />
+                            <!-- 05 Produktions-Events -->
+                            <DetailHasEventComp v-if="Array.isArray(mir?.has_event) && mir.has_event.length > 0"
+                                                v-model="mir.has_event"
+                                                root-id="work-events"
+                                                :event-ids="mir.has_event.map((_, idx) => `event-${idx}`)" />
 
+                        </div>
+
+                        <div v-show="!isMobile || mirExpanded" class="work-detail-side-rail min-w-0">
+                            <!-- 03/04 References & Work Relations (GND, Filmportal, etc. / same_as, is_part_of) -->
+                            <div
+                                v-if="hasReferencesAndWorkRelations"
+                                class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                role="region"
+                                :aria-label="$t('referencesAndWorkRelations')"
+                            >
+                                <header class="flex flex-col gap-1">
+                                    <h3 id="references-work-relations" class="text-base font-semibold leading-6 truncate dark:text-white">
+                                        {{ $t('referencesAndWorkRelations') }}
+                                    </h3>
+                                </header>
+
+                                <div
+                                    v-if="workSameAs.length"
+                                    class="rounded-md"
+                                    role="region"
+                                    :aria-label="`${$t('same_as')}`"
+                                >
+                                    <div
+                                        v-for="sas in workSameAs"
+                                        :key="sas?.id"
+                                        role="group"
+                                        :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
+                                        class="flex min-h-8 items-start gap-2"
+                                    >
+                                        <div class="min-w-0 grow">
+                                            <MicroLabelComp
+                                                :label-text="sas?.category"
+                                                :translate-key="true"
+                                            />
+                                            <p
+                                                data-testid="work-reference-label"
+                                                class="mt-1 truncate text-sm leading-5 text-base-content"
+                                                :title="sameAsDisplayLabel(sas)"
+                                            >
+                                                {{ sameAsDisplayLabel(sas) }}
+                                            </p>
+                                        </div>
+                                        <DetailSameAsComp
+                                            :same-as-data="[sas]"
+                                            type="work"
+                                            class="shrink-0 text-sm"
+                                        />
+                                    </div>
+                                </div>
+
+                                <!-- (Optional) Episode/Teil-Indikator? -> is_part_of -->
+                                <div
+                                    v-if="workIsPartOf.length"
+                                    role="region"
+                                    :aria-label="$t('isPartOf')"
+                                >
+                                    <MicroLabelComp label-text="isPartOf" />
+                                    <ul>
+                                        <li v-for="ipo in workIsPartOf" :key="ipo?.id" class="min-w-0">
+                                            <router-link
+                                                target="_blank"
+                                                rel="noopener"
+                                                :to="`/res/${(ipo?.id || '')}`"
+                                                class="link link-primary block truncate"
+                                                :title="`${ipo?.id} (${ $t(ipo?.category) })`"
+                                                :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
+                                            >
+                                                {{ ipo?.id }}&nbsp;({{ $t(ipo?.category) }})
+                                            </router-link>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
-                            <div class="work-detail-side-rail min-w-0">
-                                <!-- 03/04 References & Work Relations (GND, Filmportal, etc. / same_as, is_part_of) -->
+                            <!-- 05 Alternative Titel -->
+                            <div
+                                v-if="Array.isArray(mir?.has_alternative_title) && mir.has_alternative_title.length"
+                                id="alternative-titles"
+                                class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                role="region"
+                                :aria-label="$t('AlternativeTitles')"
+                            >
+                                <DetailKeyActionRowsComp
+                                    :key-label="$t('AlternativeTitles')"
+                                    :values="mir.has_alternative_title"
+                                    same-as-type="work"
+                                    :show-count="true"
+                                    :initial-visible="6"
+                                />
+                            </div>
+
+                            <!-- 10 Genre -->
+                            <div
+                                v-if="hasGenre"
+                                id="genre"
+                                class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                role="region"
+                                :aria-label="$t('avefi:Genre')"
+                            >
+                                <DetailKeyActionRowsComp
+                                    :key-label="$t('avefi:Genre')" :values="mir.has_genre"
+                                    same-as-type="genre" facet-attribute="has_genre_has_name"
+                                    :show-count="true" :initial-visible="6" />
+                            </div>
+
+                            <!-- 11 Schlagwort -->
+                            <div
+                                v-if="hasSubjects"
+                                id="subjects"
+                                class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
+                                role="region"
+                                :aria-label="$t('avefi:Subject')"
+                            >
+                                <DetailKeyActionRowsComp
+                                    :key-label="$t('avefi:Subject')" :values="workSubjects"
+                                    same-as-type="subject" facet-attribute="subjects"
+                                    :show-count="true" :initial-visible="8" />
+                            </div>
+                        </div>
+
+                        <!-- Manifestations and film-related materials block: a third grid item
+                                 (never mobile-collapsed) so its row starts right after the main
+                                 column's own content, not after the side-rail's. -->
+                        <section v-if="hasCollectionTabs" id="manifestations" class="work-detail-manifestations-col" aria-labelledby="collection-tabs-heading">
+                            <div class="mt-4 ml-2">
+                                <hr class="my-2 col-span-full" />
+                                <h3 id="collection-tabs-heading" class="sr-only">
+                                    {{ $t('manifestationsAndFilmRelatedMaterials') }}
+                                </h3>
+
                                 <div
-                                    v-if="hasReferencesAndWorkRelations"
-                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                    role="region"
-                                    :aria-label="$t('referencesAndWorkRelations')"
+                                    class="tabs tabs-lift"
+                                    role="tablist"
+                                    :aria-label="$t('manifestationsAndFilmRelatedMaterials')"
                                 >
-                                    <header class="flex flex-col gap-1">
-                                        <h3 id="references-work-relations" class="text-base font-semibold leading-6 truncate dark:text-white">
-                                            {{ $t('referencesAndWorkRelations') }}
-                                        </h3>
-                                    </header>
+                                    <input
+                                        v-if="manifestations.length > 0"
+                                        id="manifestations-tab"
+                                        v-model="activeDetailTab"
+                                        type="radio"
+                                        name="work-detail-tabs"
+                                        value="manifestations"
+                                        role="tab"
+                                        class="tab"
+                                        :aria-label="`${$t('manifestations')} (${manifestations.length})`"
+                                        aria-controls="manifestations-panel"
+                                        @click="setDetailTab('manifestations')"
+                                        @change="setDetailTab('manifestations')"
+                                    />
 
                                     <div
-                                        v-if="workSameAs.length"
-                                        class="rounded-md"
-                                        role="region"
-                                        :aria-label="`${$t('same_as')}`"
+                                        v-if="manifestations.length > 0"
+                                        id="manifestations-panel"
+                                        class="level-stripe level-stripe--manifestation tab-content border-base-300 bg-base-100 p-4"
+                                        role="tabpanel"
+                                        aria-labelledby="manifestations-tab"
                                     >
-                                        <div
-                                            v-for="sas in workSameAs"
-                                            :key="sas?.id"
-                                            role="group"
-                                            :aria-label="`${$t('same_as')} ${$t(sas?.category)}`"
-                                            class="flex min-h-8 items-start gap-2"
-                                        >
-                                            <div class="min-w-0 grow">
-                                                <MicroLabelComp
-                                                    :label-text="sas?.category"
-                                                    :translate-key="true"
-                                                />
-                                                <p
-                                                    data-testid="work-reference-label"
-                                                    class="mt-1 truncate text-sm leading-5 text-base-content"
-                                                    :title="sameAsDisplayLabel(sas)"
-                                                >
-                                                    {{ sameAsDisplayLabel(sas) }}
+                                        <header class="flex flex-wrap items-start justify-between gap-3">
+                                            <div>
+                                                <h3 id="manifestations-heading" class="text-base font-semibold leading-6 dark:text-white">
+                                                    {{ $t("manifestations") }}
+                                                </h3>
+                                                <p class="mt-1 text-sm text-base-content/70">
+                                                    {{ $t('tooltip.manifestation') }}
                                                 </p>
                                             </div>
-                                            <DetailSameAsComp
-                                                :same-as-data="[sas]"
-                                                type="work"
-                                                class="shrink-0 text-sm"
-                                            />
+                                        </header>
+
+                                        <div class="mt-4 flex flex-col gap-3">
+                                            <div class="form-control flex flex-col items-start min-w-0 md:w-80">
+                                                <span class="label w-full pb-1">
+                                                    <span class="label-text text-xs">{{ $t('viewType') }}</span>
+                                                </span>
+                                                <div class="join w-full md:w-auto">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm join-item flex-1 md:flex-none md:min-w-32"
+                                                        :class="filterDropdownViewMode === 'list' ? 'btn-primary' : 'btn-outline'"
+                                                        :aria-pressed="filterDropdownViewMode === 'list' ? 'true' : 'false'"
+                                                        @click="setFilterDropdownViewMode('list')"
+                                                    >
+                                                        {{ $t('filterViewList') }}
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm join-item flex-1 md:flex-none md:min-w-32"
+                                                        :class="filterDropdownViewMode === 'badges' ? 'btn-primary' : 'btn-outline'"
+                                                        :aria-pressed="filterDropdownViewMode === 'badges' ? 'true' : 'false'"
+                                                        @click="setFilterDropdownViewMode('badges')"
+                                                    >
+                                                        {{ $t('filterViewBadges') }}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-control flex flex-col items-start min-w-0 md:w-96">
+                                                <span class="label w-full pb-1">
+                                                    <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
+                                                </span>
+                                                <p id="manifestation-filter-help" class="sr-only">
+                                                    {{ $t('filterItemsAndManifestationsHelp') }}
+                                                </p>
+
+                                                <!-- Dropdown mode -->
+                                                <div v-if="filterDropdownViewMode === 'list'" class="relative min-w-0" ref="filterDropdownRef">
+                                                    <button
+                                                        ref="filterDropdownButtonRef"
+                                                        type="button"
+                                                        class="btn btn-outline w-full justify-between"
+                                                        :aria-label="$t('filterItemsAndManifestations')"
+                                                        :aria-expanded="filterDropdownOpen ? 'true' : 'false'"
+                                                        aria-controls="manifestation-filter-options"
+                                                        aria-describedby="manifestation-filter-help"
+                                                        @click="toggleFilterDropdown"
+                                                        @keydown.down.prevent="openFilterDropdownAndFocus(0)"
+                                                        @keydown.up.prevent="openFilterDropdownAndFocus(-1)"
+                                                        @keydown.escape.stop="closeFilterDropdown(false)"
+                                                    >
+                                                        <span class="truncate">
+                                                            {{
+                                                                searchQuery.length > 0
+                                                                    ? `${$t('filterItemsAndManifestations')} (${searchQuery.length})`
+                                                                    : $t('filterItemsAndManifestations')
+                                                            }}
+                                                        </span>
+                                                        <Icon
+                                                            :name="filterDropdownOpen ? 'tabler-chevron-up' : 'tabler-chevron-down'"
+                                                            aria-hidden="true"
+                                                        />
+                                                    </button>
+
+                                                    <div
+                                                        v-if="filterDropdownOpen"
+                                                        id="manifestation-filter-options"
+                                                        class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
+                                                        @keydown="onFilterDropdownKeydown"
+                                                    >
+                                                        <fieldset class="max-h-72 flex flex-col overflow-auto p-2">
+                                                            <legend class="sr-only">{{ $t('filterItemsAndManifestations') }}</legend>
+                                                            <label
+                                                                v-for="(suggestion, suggestionIndex) in suggestionsForManifestations"
+                                                                :key="suggestion"
+                                                                class="label cursor-pointer justify-start gap-3 py-2"
+                                                                :title="suggestionFilterLabel(suggestion)"
+                                                            >
+                                                                <input
+                                                                    :ref="(el) => setFilterOptionRef(el, suggestionIndex)"
+                                                                    type="checkbox"
+                                                                    class="checkbox checkbox-sm"
+                                                                    :checked="searchQuery.includes(suggestion)"
+                                                                    :aria-label="`${$t('filter')}: ${suggestionFilterLabel(suggestion)}`"
+                                                                    @change="toggleSuggestion(suggestion)"
+                                                                />
+                                                                <Icon :name="suggestionIconName(suggestion)" class="icon-inline text-primary" aria-hidden="true" />
+                                                                <span class="label-text min-w-0">
+                                                                    <span class="block truncate">
+                                                                        {{ translatedFacetLabel(suggestion) }}
+                                                                    </span>
+                                                                    <span class="block text-xs font-normal text-base-content/60">
+                                                                        {{ suggestionFilterContextLabel(suggestion) }}
+                                                                    </span>
+                                                                </span>
+                                                            </label>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Badge mode (standalone, not inside dropdown) -->
+                                                <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative">
+                                                    <div class="overflow-x-auto overflow-y-hidden py-2 pr-14">
+                                                        <div class="flex flex-nowrap items-center gap-1 min-w-max">
+                                                            <button
+                                                                v-for="suggestion in suggestionsForManifestations"
+                                                                :key="suggestion"
+                                                                type="button"
+                                                                class="badge badge-outline h-7 min-h-0 gap-1 px-1.5 text-xs cursor-pointer shrink-0"
+                                                                :class="searchQuery.includes(suggestion) ? 'badge-primary' : ''"
+                                                                :aria-pressed="searchQuery.includes(suggestion) ? 'true' : 'false'"
+                                                                :title="$t(suggestion) !== suggestion ? $t(suggestion) : suggestion"
+                                                                @click="toggleSuggestion(suggestion)"
+                                                            >
+                                                                <Icon :name="suggestionIconName(suggestion)" class="w-3 h-3" aria-hidden="true" />
+                                                                <span class="truncate max-w-32 leading-tight">
+                                                                    {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
+                                                    <div class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-base-content/60">
+                                                        {{ $t('filterScrollForMore') }}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+                                            <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1" :aria-label="$t('selectedFilters')">
+                                                <span v-for="selected in searchQuery" :key="selected" class="badge badge-outline gap-1">
+                                                    <Icon :name="suggestionIconName(selected)" class="w-3.5 h-3.5" aria-hidden="true" />
+                                                    {{ $t(selected) !== selected ? $t(selected) : selected }}
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
+                                                        :aria-label="`${$t('remove')}: ${selected}`"
+                                                        @click="removeSuggestion(selected)"
+                                                    >
+                                                        &times;
+                                                    </button>
+                                                </span>
+                                            </div>
+                                            <p class="ml-auto text-sm text-base-content/70" role="status">
+                                                {{ filteredManifestations.length }} {{ $t('results') }}
+                                            </p>
+                                        </div>
+
+                                        <ClientOnly>
+                                            <div v-if="loading" class="flex justify-center items-center min-h-30">
+                                                <span class="loading loading-spinner loading-lg text-primary" />
+                                            </div>
+                                            <div
+                                                v-else-if="filteredManifestations.length === 0"
+                                                class="alert alert-info mt-3"
+                                                role="status"
+                                                :aria-label="$t('noResults')"
+                                            >
+                                                <div>
+                                                    <p class="font-semibold">{{ $t('noResults') }}</p>
+                                                    <p class="text-sm">{{ $t('tryClearingFiltersOrQuery') }}</p>
+                                                </div>
+                                            </div>
+                                            <DetailManifestationListComp v-else v-model="filteredManifestations" />
+                                        </ClientOnly>
                                     </div>
 
-                                    <!-- (Optional) Episode/Teil-Indikator? -> is_part_of -->
-                                    <div
-                                        v-if="workIsPartOf.length"
-                                        role="region"
-                                        :aria-label="$t('isPartOf')"
-                                    >
-                                        <MicroLabelComp label-text="isPartOf" />
-                                        <ul>
-                                            <li v-for="ipo in workIsPartOf" :key="ipo?.id" class="min-w-0">
-                                                <router-link
-                                                    target="_blank"
-                                                    rel="noopener"
-                                                    :to="`/res/${(ipo?.id || '')}`"
-                                                    class="link link-primary block truncate"
-                                                    :title="`${ipo?.id} (${ $t(ipo?.category) })`"
-                                                    :aria-label="`${ipo?.id} (${ $t(ipo?.category) })`"
-                                                >
-                                                    {{ ipo?.id }}&nbsp;({{ $t(ipo?.category) }})
-                                                </router-link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <!-- 05 Alternative Titel -->
-                                <div
-                                    v-if="Array.isArray(mir?.has_alternative_title) && mir.has_alternative_title.length"
-                                    id="alternative-titles"
-                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                    role="region"
-                                    :aria-label="$t('AlternativeTitles')"
-                                >
-                                    <DetailKeyActionRowsComp
-                                        :key-label="$t('AlternativeTitles')"
-                                        :values="mir.has_alternative_title"
-                                        same-as-type="work"
-                                        :show-count="true"
-                                        :initial-visible="6"
+                                    <input
+                                        v-if="hasFilmRelatedMaterials"
+                                        id="film-related-materials-tab"
+                                        v-model="activeDetailTab"
+                                        type="radio"
+                                        name="work-detail-tabs"
+                                        value="filmRelatedMaterials"
+                                        role="tab"
+                                        class="tab"
+                                        :aria-label="`${$t('filmRelatedMaterials')} (${filmRelatedMaterialCount})`"
+                                        aria-controls="film-related-materials-panel"
+                                        @click="setDetailTab('filmRelatedMaterials')"
+                                        @change="setDetailTab('filmRelatedMaterials')"
                                     />
-                                </div>
 
-                                <!-- 10 Genre -->
-                                <div
-                                    v-if="hasGenre"
-                                    id="genre"
-                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                    role="region"
-                                    :aria-label="$t('avefi:Genre')"
-                                >
-                                    <DetailKeyActionRowsComp
-                                        :key-label="$t('avefi:Genre')" :values="mir.has_genre"
-                                        same-as-type="genre" facet-attribute="has_genre_has_name"
-                                        :show-count="true" :initial-visible="6" />
-                                </div>
-
-                                <!-- 11 Schlagwort -->
-                                <div
-                                    v-if="hasSubjects"
-                                    id="subjects"
-                                    class="mb-2 grid grid-cols-1 gap-3 rounded-lg border border-base-300 p-4"
-                                    role="region"
-                                    :aria-label="$t('avefi:Subject')"
-                                >
-                                    <DetailKeyActionRowsComp
-                                        :key-label="$t('avefi:Subject')" :values="workSubjects"
-                                        same-as-type="subject" facet-attribute="subjects"
-                                        :show-count="true" :initial-visible="8" />
+                                    <div
+                                        v-if="hasFilmRelatedMaterials"
+                                        id="film-related-materials-panel"
+                                        class="level-stripe level-stripe--film-related-materials tab-content border-base-300 bg-base-100 p-4"
+                                        role="tabpanel"
+                                        aria-labelledby="film-related-materials-tab"
+                                    >
+                                        <DetailFilmRelatedMaterialsComp :work-variant-id="workVariantHandle" />
+                                    </div>
                                 </div>
                             </div>
+                        </section>
+
+                        <div v-else-if="parts" class="work-detail-manifestations-col">
+                            <ViewsWorkViewCompParts class="mt-4" :parts="parts"
+                                                    :handle="dataObject?.compound_record?._source?.handle" />
+                        </div>
+
+                        <div v-else class="work-detail-manifestations-col ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4" role="alert"
+                             :aria-label="$t('noManifestations')">
+                            <MicroIconTextComp icon-name="tabler:mood-empty" text="noManifestations" />
                         </div>
                     </div>
                 </section>
 
                 <div v-else>
                     <pre>{{ mir }}</pre>
-                </div>
-
-                <!-- Manifestations and film-related materials block -->
-                <section v-if="hasCollectionTabs" id="manifestations" aria-labelledby="collection-tabs-heading">
-                    <div class="mt-4 ml-2">
-                        <hr class="my-2 col-span-full" />
-                        <h3 id="collection-tabs-heading" class="sr-only">
-                            {{ $t('manifestationsAndFilmRelatedMaterials') }}
-                        </h3>
-
-                        <div
-                            class="tabs tabs-lift"
-                            role="tablist"
-                            :aria-label="$t('manifestationsAndFilmRelatedMaterials')"
-                        >
-                            <input
-                                v-if="manifestations.length > 0"
-                                id="manifestations-tab"
-                                v-model="activeDetailTab"
-                                type="radio"
-                                name="work-detail-tabs"
-                                value="manifestations"
-                                role="tab"
-                                class="tab"
-                                :aria-label="`${$t('manifestations')} (${manifestations.length})`"
-                                aria-controls="manifestations-panel"
-                                @click="setDetailTab('manifestations')"
-                                @change="setDetailTab('manifestations')"
-                            />
-
-                            <div
-                                v-if="manifestations.length > 0"
-                                id="manifestations-panel"
-                                class="level-stripe level-stripe--manifestation tab-content border-base-300 bg-base-100 p-4"
-                                role="tabpanel"
-                                aria-labelledby="manifestations-tab"
-                            >
-                                <header class="flex flex-wrap items-start justify-between gap-3">
-                                    <div>
-                                        <h3 id="manifestations-heading" class="text-base font-semibold leading-6 dark:text-white">
-                                            {{ $t("manifestations") }}
-                                        </h3>
-                                        <p class="mt-1 text-sm text-base-content/70">
-                                            {{ $t('tooltip.manifestation') }}
-                                        </p>
-                                    </div>
-                                </header>
-
-                                <div class="mt-4 flex flex-col gap-3">
-                                    <div class="form-control flex flex-col items-start min-w-0 md:w-80">
-                                        <span class="label w-full pb-1">
-                                            <span class="label-text text-xs">{{ $t('viewType') }}</span>
-                                        </span>
-                                        <div class="join w-full md:w-auto">
-                                            <button
-                                                type="button"
-                                                class="btn btn-sm join-item flex-1 md:flex-none md:min-w-32"
-                                                :class="filterDropdownViewMode === 'list' ? 'btn-primary' : 'btn-outline'"
-                                                :aria-pressed="filterDropdownViewMode === 'list' ? 'true' : 'false'"
-                                                @click="setFilterDropdownViewMode('list')"
-                                            >
-                                                {{ $t('filterViewList') }}
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-sm join-item flex-1 md:flex-none md:min-w-32"
-                                                :class="filterDropdownViewMode === 'badges' ? 'btn-primary' : 'btn-outline'"
-                                                :aria-pressed="filterDropdownViewMode === 'badges' ? 'true' : 'false'"
-                                                @click="setFilterDropdownViewMode('badges')"
-                                            >
-                                                {{ $t('filterViewBadges') }}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-control flex flex-col items-start min-w-0 md:w-96">
-                                        <span class="label w-full pb-1">
-                                            <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
-                                        </span>
-                                        <p id="manifestation-filter-help" class="sr-only">
-                                            {{ $t('filterItemsAndManifestationsHelp') }}
-                                        </p>
-
-                                        <!-- Dropdown mode -->
-                                        <div v-if="filterDropdownViewMode === 'list'" class="relative min-w-0" ref="filterDropdownRef">
-                                            <button
-                                                ref="filterDropdownButtonRef"
-                                                type="button"
-                                                class="btn btn-outline w-full justify-between"
-                                                :aria-label="$t('filterItemsAndManifestations')"
-                                                :aria-expanded="filterDropdownOpen ? 'true' : 'false'"
-                                                aria-controls="manifestation-filter-options"
-                                                aria-describedby="manifestation-filter-help"
-                                                @click="toggleFilterDropdown"
-                                                @keydown.down.prevent="openFilterDropdownAndFocus(0)"
-                                                @keydown.up.prevent="openFilterDropdownAndFocus(-1)"
-                                                @keydown.escape.stop="closeFilterDropdown(false)"
-                                            >
-                                                <span class="truncate">
-                                                    {{
-                                                        searchQuery.length > 0
-                                                            ? `${$t('filterItemsAndManifestations')} (${searchQuery.length})`
-                                                            : $t('filterItemsAndManifestations')
-                                                    }}
-                                                </span>
-                                                <Icon
-                                                    :name="filterDropdownOpen ? 'tabler-chevron-up' : 'tabler-chevron-down'"
-                                                    aria-hidden="true"
-                                                />
-                                            </button>
-
-                                            <div
-                                                v-if="filterDropdownOpen"
-                                                id="manifestation-filter-options"
-                                                class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
-                                                @keydown="onFilterDropdownKeydown"
-                                            >
-                                                <fieldset class="max-h-72 flex flex-col overflow-auto p-2">
-                                                    <legend class="sr-only">{{ $t('filterItemsAndManifestations') }}</legend>
-                                                    <label
-                                                        v-for="(suggestion, suggestionIndex) in suggestionsForManifestations"
-                                                        :key="suggestion"
-                                                        class="label cursor-pointer justify-start gap-3 py-2"
-                                                        :title="suggestionFilterLabel(suggestion)"
-                                                    >
-                                                        <input
-                                                            :ref="(el) => setFilterOptionRef(el, suggestionIndex)"
-                                                            type="checkbox"
-                                                            class="checkbox checkbox-sm"
-                                                            :checked="searchQuery.includes(suggestion)"
-                                                            :aria-label="`${$t('filter')}: ${suggestionFilterLabel(suggestion)}`"
-                                                            @change="toggleSuggestion(suggestion)"
-                                                        />
-                                                        <Icon :name="suggestionIconName(suggestion)" class="icon-inline text-primary" aria-hidden="true" />
-                                                        <span class="label-text min-w-0">
-                                                            <span class="block truncate">
-                                                                {{ translatedFacetLabel(suggestion) }}
-                                                            </span>
-                                                            <span class="block text-xs font-normal text-base-content/60">
-                                                                {{ suggestionFilterContextLabel(suggestion) }}
-                                                            </span>
-                                                        </span>
-                                                    </label>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-
-                                        <!-- Badge mode (standalone, not inside dropdown) -->
-                                        <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative">
-                                            <div class="overflow-x-auto overflow-y-hidden py-2 pr-14">
-                                                <div class="flex flex-nowrap items-center gap-1 min-w-max">
-                                                    <button
-                                                        v-for="suggestion in suggestionsForManifestations"
-                                                        :key="suggestion"
-                                                        type="button"
-                                                        class="badge badge-outline h-7 min-h-0 gap-1 px-1.5 text-xs cursor-pointer shrink-0"
-                                                        :class="searchQuery.includes(suggestion) ? 'badge-primary' : ''"
-                                                        :aria-pressed="searchQuery.includes(suggestion) ? 'true' : 'false'"
-                                                        :title="$t(suggestion) !== suggestion ? $t(suggestion) : suggestion"
-                                                        @click="toggleSuggestion(suggestion)"
-                                                    >
-                                                        <Icon :name="suggestionIconName(suggestion)" class="w-3 h-3" aria-hidden="true" />
-                                                        <span class="truncate max-w-32 leading-tight">
-                                                            {{ $t(suggestion) !== suggestion ? $t(suggestion) : suggestion }}
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
-                                            <div class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-base-content/60">
-                                                {{ $t('filterScrollForMore') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
-                                    <div v-if="searchQuery.length > 0" class="flex flex-wrap gap-1" :aria-label="$t('selectedFilters')">
-                                        <span v-for="selected in searchQuery" :key="selected" class="badge badge-outline gap-1">
-                                            <Icon :name="suggestionIconName(selected)" class="w-3.5 h-3.5" aria-hidden="true" />
-                                            {{ $t(selected) !== selected ? $t(selected) : selected }}
-                                            <button
-                                                type="button"
-                                                class="btn btn-ghost btn-xs px-1 min-h-0 h-auto"
-                                                :aria-label="`${$t('remove')}: ${selected}`"
-                                                @click="removeSuggestion(selected)"
-                                            >
-                                                &times;
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <p class="ml-auto text-sm text-base-content/70" role="status">
-                                        {{ filteredManifestations.length }} {{ $t('results') }}
-                                    </p>
-                                </div>
-
-                                <ClientOnly>
-                                    <div v-if="loading" class="flex justify-center items-center min-h-30">
-                                        <span class="loading loading-spinner loading-lg text-primary" />
-                                    </div>
-                                    <div
-                                        v-else-if="filteredManifestations.length === 0"
-                                        class="alert alert-info mt-3"
-                                        role="status"
-                                        :aria-label="$t('noResults')"
-                                    >
-                                        <div>
-                                            <p class="font-semibold">{{ $t('noResults') }}</p>
-                                            <p class="text-sm">{{ $t('tryClearingFiltersOrQuery') }}</p>
-                                        </div>
-                                    </div>
-                                    <DetailManifestationListComp v-else v-model="filteredManifestations" />
-                                </ClientOnly>
-                            </div>
-
-                            <input
-                                v-if="hasFilmRelatedMaterials"
-                                id="film-related-materials-tab"
-                                v-model="activeDetailTab"
-                                type="radio"
-                                name="work-detail-tabs"
-                                value="filmRelatedMaterials"
-                                role="tab"
-                                class="tab"
-                                :aria-label="`${$t('filmRelatedMaterials')} (${filmRelatedMaterialCount})`"
-                                aria-controls="film-related-materials-panel"
-                                @click="setDetailTab('filmRelatedMaterials')"
-                                @change="setDetailTab('filmRelatedMaterials')"
-                            />
-
-                            <div
-                                v-if="hasFilmRelatedMaterials"
-                                id="film-related-materials-panel"
-                                class="level-stripe level-stripe--film-related-materials tab-content border-base-300 bg-base-100 p-4"
-                                role="tabpanel"
-                                aria-labelledby="film-related-materials-tab"
-                            >
-                                <DetailFilmRelatedMaterialsComp :work-variant-id="workVariantHandle" />
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <div v-else-if="parts">
-                    <ViewsWorkViewCompParts class="mt-4" :parts="parts"
-                                            :handle="dataObject?.compound_record?._source?.handle" />
-                </div>
-
-                <div v-else class="ml-2 alert alert-warning alert-outline text-white max-w-96 mt-4" role="alert"
-                     :aria-label="$t('noManifestations')">
-                    <MicroIconTextComp icon-name="tabler:mood-empty" text="noManifestations" />
                 </div>
 
                 <!-- 12 Letzte Bearbeitung -->
@@ -1822,10 +1828,10 @@ onUnmounted(() => {
 .work-production-summary__context {
     display: flex;
     min-width: 0;
-    flex: 999 1 32rem;
+    flex: 0 1 auto;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 0.25rem 1rem;
+    gap: 0.25rem 1.5rem;
     margin: 0;
 }
 
@@ -1833,13 +1839,13 @@ onUnmounted(() => {
     display: flex;
     min-width: 0;
     max-width: 100%;
-    flex: 1 1 12rem;
+    flex: 0 1 auto;
     align-items: flex-start;
     gap: 0.25rem;
 }
 
 .work-production-summary__row--wide {
-    flex: 999 1 24rem;
+    flex: 0 1 auto;
 }
 
 .work-production-summary__label {
@@ -1868,15 +1874,36 @@ onUnmounted(() => {
 .work-detail-content-grid {
     display: grid;
     gap: 1rem;
+    align-items: start;
 }
 
 .work-detail-side-rail {
     align-self: start;
 }
 
+/* Below 1280px there's no grid-template-areas, so the three items just stack
+   in DOM order (main, sidebar, manifestations) in a single implicit column. */
 @media (min-width: 1280px) {
     .work-detail-content-grid {
         grid-template-columns: minmax(0, 1fr) minmax(12rem, 16rem);
+        /* The side-rail spans both rows so its own height never forces the
+           main column's row to grow, which used to push the manifestations
+           row far below the (often much shorter) production/crew content. */
+        grid-template-areas:
+            "main sidebar"
+            "manifestations sidebar";
+    }
+
+    .work-detail-main-col {
+        grid-area: main;
+    }
+
+    .work-detail-side-rail {
+        grid-area: sidebar;
+    }
+
+    .work-detail-manifestations-col {
+        grid-area: manifestations;
     }
 }
 
