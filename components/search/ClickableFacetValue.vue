@@ -108,10 +108,10 @@ const attributeLabel = computed(() => {
 });
 const ariaLabel = computed(() => {
     if (opensInNewTab.value && canToggle.value) {
-        return t('openSearchWithFacetInNewTab', {
-            attribute: attributeLabel.value,
-            value: normalizedLabel.value,
-        });
+        // No override here: the link's own text content is the accessible name.
+        // Screen readers already announce "link" / "opens in new tab" on their own,
+        // so repeating a full sentence per facet value is unnecessarily verbose.
+        return undefined;
     }
 
     const action = active.value ? t('remove') : t('addFilter');

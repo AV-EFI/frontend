@@ -45,7 +45,7 @@ const tooltipStyle = ref<Record<string, string>>({
     left: '0px',
 });
 
-const accessibleLabel = computed(() => `${t('info')}: ${props.text}`);
+const accessibleLabel = computed(() => t('info'));
 const tooltipId = computed(() => {
     const normalized = (props.text || '')
         .toLowerCase()

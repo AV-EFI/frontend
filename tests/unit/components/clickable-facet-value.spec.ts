@@ -121,8 +121,12 @@ describe('ClickableFacetValue', () => {
     expect(link.attributes('href')).toBe('/search?creators=Reiniger%2C%20Lotte');
     expect(link.attributes('target')).toBe('_blank');
     expect(link.attributes('rel')).toBe('noopener noreferrer');
-    expect(link.attributes('aria-label')).toBe('Neue Suchseite in neuem Tab öffnen mit aktivem Filter: Filmschaffende = Reiniger, Lotte');
-    expect(link.attributes('title')).toBe('Neue Suchseite in neuem Tab öffnen mit aktivem Filter: Filmschaffende = Reiniger, Lotte');
+    // Detail-page links intentionally carry no aria-label/title override: repeating a
+    // full "opens a new search page..." sentence on every facet value was reported as
+    // too verbose by screen-reader users. The link's own visible text is the accessible
+    // name; the browser/screen-reader combo announces "link" / "opens in new tab" itself.
+    expect(link.attributes('aria-label')).toBeUndefined();
+    expect(link.attributes('title')).toBeUndefined();
   });
 
   // ManifestationHeaderComp's collapsed row sits under an absolutely-positioned,

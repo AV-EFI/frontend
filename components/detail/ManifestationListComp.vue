@@ -10,17 +10,6 @@
             :aria-labelledby="`manifestation-heading-${i}`"
         >
             <div class="relative w-full px-4 py-3 dark:bg-gray-900 dark:text-white">
-                <button
-                    type="button"
-                    class="absolute inset-0 z-10 w-full cursor-pointer rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
-                    :aria-controls="`manifestation-panel-${i}`"
-                    :aria-label="manifestationToggleLabel(manifestation, i)"
-                    :title="manifestationToggleLabel(manifestation, i)"
-                    @click="toggleManifestation(i)"
-                >
-                    <span class="sr-only">{{ manifestationToggleLabel(manifestation, i) }}</span>
-                </button>
                 <div class="pointer-events-none flex items-start justify-between gap-3">
                     <DetailManifestationHeaderComp
                         :manifestation="manifestation"
@@ -34,6 +23,27 @@
                         aria-hidden="true"
                     />
                 </div>
+                <button
+                    type="button"
+                    class="absolute inset-0 z-10 w-full cursor-pointer rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    :aria-expanded="isManifestationOpen(i) ? 'true' : 'false'"
+                    :aria-controls="`manifestation-panel-${i}`"
+                    :aria-label="manifestationToggleLabel(manifestation, i)"
+                    :title="manifestationToggleLabel(manifestation, i)"
+                    @click="toggleManifestation(i)"
+                >
+                    <span class="sr-only">{{ manifestationToggleLabel(manifestation, i) }}</span>
+                </button>
+            </div>
+
+            <div class="px-4 pb-3 dark:bg-gray-900 dark:text-white">
+                <DetailKeyValueComp
+                    keytxt="efi"
+                    :translate-key="false"
+                    :valtxt="manifestation?.handle"
+                    class="w-full text-sm"
+                    :clip="true"
+                />
             </div>
 
             <div
@@ -43,16 +53,6 @@
                 role="region"
                 :aria-labelledby="`manifestation-heading-${i}`"
             >
-                <div class="mb-3 pt-3">
-                    <DetailKeyValueComp
-                        keytxt="efi"
-                        :translate-key="false"
-                        :valtxt="manifestation?.handle"
-                        class="w-full text-sm"
-                        :clip="true"
-                    />
-                </div>
-
                 <div
                     v-if="sameAsRefsFrom(manifestation?.has_record).length"
                     class="manifestation-reference-area mb-4 grid grid-cols-1 gap-2 rounded-lg border border-base-200 bg-base-100 p-3 dark:border-gray-800 dark:bg-gray-900"

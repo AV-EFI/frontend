@@ -1104,13 +1104,24 @@ const suggestionsForManifestations = computed(() => {
     }
 
     return Array.from(set)
-        .sort((a, b) =>
-            translatedFacetLabel(a).localeCompare(
+        .sort((a, b) => {
+            // Group by facet context first (e.g. all "Format" values together, then all
+            // "Materialart" values together) so screen-reader users navigating the
+            // dropdown with arrow keys don't hit filters of different kinds interleaved
+            // in arbitrary order; only within a group do we fall back to alphabetical.
+            const contextCompare = suggestionFilterContextLabel(a).localeCompare(
+                suggestionFilterContextLabel(b),
+                undefined,
+                { sensitivity: "base" }
+            );
+            if (contextCompare !== 0) return contextCompare;
+
+            return translatedFacetLabel(a).localeCompare(
                 translatedFacetLabel(b),
                 undefined,
                 { sensitivity: "base" }
-            )
-        )
+            );
+        })
         .slice(0, 100);
 });
 

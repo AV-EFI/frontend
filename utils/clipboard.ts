@@ -17,7 +17,6 @@ export function useClipboardUtil() {
         copyText = String(copyText);
       }
       copy(copyText);
-      $toast?.info?.(t('clipboardCopySuccess'));
     } catch (e) {
       $toast?.error?.(t('clipboardCopyError'));
       console.error('Copy to clipboard error:', e);
