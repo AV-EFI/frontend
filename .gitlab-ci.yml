@@ -34,7 +34,7 @@ variables:
 
 .node_job:
   stage: test
-  image: node:20-bookworm
+  image: node:24-bookworm
   services: []
   tags:
     - docker
@@ -301,7 +301,7 @@ deploy-production:
 
 production_smtp_connection:
   stage: post-deploy
-  image: node:20-bookworm
+  image: node:24-bookworm
   services: []
   tags:
     - docker
@@ -330,7 +330,7 @@ production_smtp_connection:
 
 production_mail_smoke:
   stage: post-deploy
-  image: node:20-bookworm
+  image: node:24-bookworm
   services: []
   tags:
     - docker

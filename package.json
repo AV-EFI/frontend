@@ -3,6 +3,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": "^24.0.0"
+  },
   "scripts": {
     "prepare:generated": "npm run generate:colours && npm run generate:issuers",
     "prepare:generated:full": "npm run generate:colours && npm run generate:interfaces && npm run generate:suggestions && npm run generate:issuers",
@@ -125,7 +128,7 @@
     "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4.1.14",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^20.17.10",
+    "@types/node": "^24.13.4",
     "@types/nodemailer": "^7",
     "@types/tinycolor2": "^1",
     "@typescript-eslint/eslint-plugin": "^8.48.1",
