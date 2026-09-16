@@ -206,7 +206,7 @@
                             class="flex min-h-8 items-start gap-2"
                         >
                             <span
-                                class="min-w-0 grow truncate text-sm font-normal"
+                                class="min-w-0 truncate text-sm font-normal"
                                 :title="sameAsDisplayLabel(sameAs)"
                             >
                                 {{ sameAsDisplayLabel(sameAs) }}
