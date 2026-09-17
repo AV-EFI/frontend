@@ -203,7 +203,7 @@
                         <li
                             v-for="sameAs in sameAsRefsFrom(exemplar)"
                             :key="sameAsKey(sameAs)"
-                            class="flex min-h-8 items-start gap-2"
+                            class="flex min-h-8 items-center gap-2"
                         >
                             <span
                                 class="min-w-0 truncate text-sm font-normal"
