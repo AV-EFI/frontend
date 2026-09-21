@@ -28,7 +28,8 @@ describe('FilmRelatedMaterialsComp accessibility contract guards', () => {
     expect(source).toContain('class="film-material-controls mt-4"');
     expect(source).toContain('container-type: inline-size');
     expect(source).toContain('grid-template-columns: repeat(2, minmax(0, 1fr))');
-    expect(source).toContain('grid-template-columns: repeat(4, minmax(0, 1fr))');
+    expect(source).toContain('grid-template-columns: repeat(3, minmax(0, 1fr))');
+    expect(source).toContain('grid-template-columns: repeat(5, minmax(0, 1fr))');
   });
 
   test('keeps preview placeholders centered and facts visibly labelled', () => {

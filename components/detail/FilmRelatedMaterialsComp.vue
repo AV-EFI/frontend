@@ -55,6 +55,18 @@
 
             <label class="form-control min-w-0">
                 <span class="label pb-1">
+                    <span class="label-text text-xs">{{ $t('institution') }}</span>
+                </span>
+                <select v-model="issuerFilter" class="select select-bordered select-sm w-full">
+                    <option value="">{{ $t('allInstitutions') }}</option>
+                    <option v-for="issuer in issuerOptions" :key="issuer" :value="issuer">
+                        {{ issuer }}
+                    </option>
+                </select>
+            </label>
+
+            <label class="form-control min-w-0">
+                <span class="label pb-1">
                     <span class="label-text text-xs">{{ $t('sortBy') }}</span>
                 </span>
                 <select v-model="sortMode" class="select select-bordered select-sm w-full">
@@ -279,7 +291,7 @@ type MaterialListEntry = {
     representationCount: number;
 };
 
-type FilterChipKey = 'search' | 'category' | 'type';
+type FilterChipKey = 'search' | 'category' | 'type' | 'issuer';
 type RepresentationResource = NonNullable<DisplayFilmRelatedMaterial['has_resource_representation']>[number];
 
 const REPRESENTATION_PLACEHOLDER_SRC = '/img/img_placeholder_150.webp';
@@ -297,6 +309,7 @@ const collator = new Intl.Collator(undefined, { sensitivity: 'base', numeric: tr
 const searchText = ref('');
 const categoryFilter = ref('');
 const typeFilter = ref('');
+const issuerFilter = ref('');
 const sortMode = ref<'title-asc' | 'title-desc' | 'newest' | 'oldest'>('title-asc');
 const pageSize = ref(10);
 const currentPage = ref(1);
@@ -331,6 +344,10 @@ const typeOptions = computed(() =>
     uniqueSorted(materialEntries.value.map((entry) => entry.material.type || '').filter(Boolean))
 );
 
+const issuerOptions = computed(() =>
+    uniqueSorted(materialEntries.value.map((entry) => entry.material.described_by?.has_issuer_name || '').filter(Boolean))
+);
+
 const filteredMaterials = computed<MaterialListEntry[]>(() => {
     const query = searchText.value.trim().toLowerCase();
 
@@ -343,6 +360,10 @@ const filteredMaterials = computed<MaterialListEntry[]>(() => {
             }
 
             if (typeFilter.value && material.type !== typeFilter.value) {
+                return false;
+            }
+
+            if (issuerFilter.value && material.described_by?.has_issuer_name !== issuerFilter.value) {
                 return false;
             }
 
@@ -393,6 +414,7 @@ const activeFilterChips = computed(() => {
     if (searchText.value) chips.push({ key: 'search', label: searchText.value });
     if (categoryFilter.value) chips.push({ key: 'category', label: translateValue(categoryFilter.value) });
     if (typeFilter.value) chips.push({ key: 'type', label: translateValue(typeFilter.value) });
+    if (issuerFilter.value) chips.push({ key: 'issuer', label: issuerFilter.value });
     return chips;
 });
 
@@ -525,16 +547,18 @@ function removeMaterialFilter(key: FilterChipKey) {
     if (key === 'search') searchText.value = '';
     if (key === 'category') categoryFilter.value = '';
     if (key === 'type') typeFilter.value = '';
+    if (key === 'issuer') issuerFilter.value = '';
 }
 
 function clearMaterialFilters() {
     searchText.value = '';
     categoryFilter.value = '';
     typeFilter.value = '';
+    issuerFilter.value = '';
 }
 
 watch(
-    [searchText, categoryFilter, typeFilter, sortMode, pageSize],
+    [searchText, categoryFilter, typeFilter, issuerFilter, sortMode, pageSize],
     () => {
         currentPage.value = 1;
     }
@@ -567,9 +591,15 @@ watch(
     }
 }
 
-@container (min-width: 64rem) {
+@container (min-width: 56rem) {
     .film-material-controls {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@container (min-width: 80rem) {
+    .film-material-controls {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 }
 
