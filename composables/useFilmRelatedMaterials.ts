@@ -1,4 +1,4 @@
-import metropolisFilmRelatedMaterialsMockup from '~/assets/data/metropolis-mockup.json';
+import metropolisFilmRelatedMaterialsMockup from '~/assets/data/metropolis-mockup-expanded.json';
 import legacyFilmRelatedMaterialsMockup from '~/assets/data/filmrelated_materials_mockup_06052026.json';
 
 export type FilmRelatedNamedResource = {
