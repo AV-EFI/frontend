@@ -91,11 +91,16 @@ const deBase = {
   "materialPreviewUnavailable": "Keine Vorschau",
   "openRecord": "Datensatz öffnen",
   "issuer": "Herausgeber",
+  "issuerId": "ISIL",
+  "sourceKey": "Quell-ID",
   "inventoryNumber": "Inventarnummer",
   "dimensions": "Maße",
   "material": "Material",
   "technique": "Technik",
   "notes": "Hinweise",
+  "contributors": "Beteiligte",
+  "relatedWork": "Verknüpftes Werk",
+  "pidType": "PID-Typ",
   "build": {
     "linked": {
       "title": "efis für alle – Filme eindeutig identifiziert ",

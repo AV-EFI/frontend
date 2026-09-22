@@ -2,7 +2,9 @@ import metropolisFilmRelatedMaterialsMockup from '~/assets/data/metropolis-mocku
 import legacyFilmRelatedMaterialsMockup from '~/assets/data/filmrelated_materials_mockup_06052026.json';
 
 export type FilmRelatedNamedResource = {
+    category?: string;
     has_name?: string;
+    same_as?: FilmRelatedAuthorityResource[];
 };
 
 export type FilmRelatedAuthorityResource = {
@@ -16,16 +18,30 @@ export type FilmRelatedLocation = {
     same_as?: FilmRelatedAuthorityResource[];
 };
 
+export type FilmRelatedAgent = {
+    category?: string;
+    has_name?: string;
+    type?: string;
+};
+
+export type FilmRelatedActivity = {
+    category?: string;
+    type?: string;
+    has_agent?: FilmRelatedAgent[];
+};
+
 export type FilmRelatedEvent = {
     category?: string;
     has_date?: string;
     located_in?: FilmRelatedLocation[];
+    has_activity?: FilmRelatedActivity[];
 };
 
 export type FilmRelatedDimension = {
     has_type?: string;
     has_unit?: string;
     has_value?: string;
+    has_precision?: string;
     has_note?: string;
 };
 
@@ -39,6 +55,7 @@ export type FilmRelatedMaterialRecord = {
     };
     has_primary_title?: {
         has_name?: string;
+        type?: string;
     };
     has_inventory_number?: FilmRelatedAuthorityResource[];
     is_part_of?: FilmRelatedAuthorityResource[];
@@ -57,6 +74,7 @@ export type FilmRelatedMaterialWrapper = {
     '@timestamp'?: string;
     handle: string;
     url?: string;
+    kip?: string;
     has_record?: FilmRelatedMaterialRecord;
 };
 
@@ -71,6 +89,7 @@ export type DisplayFilmRelatedMaterial = FilmRelatedMaterialRecord & {
     '@timestamp'?: string;
     handle: string;
     url?: string;
+    kip?: string;
 };
 
 const filmRelatedWorks = [
@@ -101,7 +120,8 @@ export function getFilmRelatedMaterialsForWork(workVariantId: string): DisplayFi
         ...material.has_record,
         '@timestamp': material['@timestamp'],
         handle: material.handle,
-        url: material.url
+        url: material.url,
+        kip: material.kip
       });
     }
   }

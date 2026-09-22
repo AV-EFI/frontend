@@ -36,7 +36,7 @@
                 <select v-model="categoryFilter" class="select select-bordered select-sm w-full">
                     <option value="">{{ $t('allMaterialTypes') }}</option>
                     <option v-for="category in categoryOptions" :key="category" :value="category">
-                        {{ translateValue(category) }}
+                        {{ category }}
                     </option>
                 </select>
             </label>
@@ -48,7 +48,7 @@
                 <select v-model="typeFilter" class="select select-bordered select-sm w-full">
                     <option value="">{{ $t('allRecordTypes') }}</option>
                     <option v-for="type in typeOptions" :key="type" :value="type">
-                        {{ translateValue(type) }}
+                        {{ type }}
                     </option>
                 </select>
             </label>
@@ -149,14 +149,14 @@
                 <div class="min-w-0">
                     <div class="mb-1 flex flex-wrap items-center gap-1">
                         <span v-if="entry.material.type" class="badge badge-sm badge-ghost">
-                            {{ translateValue(entry.material.type) }}
+                            {{ entry.material.type }}
                         </span>
                         <span
                             v-for="category in entry.material.has_object_category || []"
                             :key="category"
                             class="badge badge-sm badge-ghost"
                         >
-                            {{ translateValue(category) }}
+                            {{ category }}
                         </span>
                         <span v-if="entry.parentTitle" class="text-xs text-base-content/60">
                             {{ $t('isPartOf') }}: {{ entry.parentTitle }}
@@ -168,6 +168,12 @@
                         class="text-sm font-semibold leading-5 dark:text-white mt-2"
                     >
                         {{ getPrimaryTitle(entry.material) }}
+                        <span
+                            v-if="entry.material.has_primary_title?.type"
+                            class="ml-1 align-middle text-[11px] font-normal text-base-content/50"
+                        >
+                            ({{ entry.material.has_primary_title.type }})
+                        </span>
                     </h4>
 
                     <dl v-if="getListFacts(entry.material).length" class="mt-3 grid gap-2 text-sm md:grid-cols-2">
@@ -277,6 +283,7 @@ import { useI18n } from 'vue-i18n';
 import {
     getFilmRelatedMaterialsForWork,
     type DisplayFilmRelatedMaterial,
+    type FilmRelatedAuthorityResource,
 } from '~/composables/useFilmRelatedMaterials';
 
 type DisplayRow = {
@@ -412,8 +419,8 @@ const pageRangeLabel = computed(() => {
 const activeFilterChips = computed(() => {
     const chips: { key: FilterChipKey; label: string }[] = [];
     if (searchText.value) chips.push({ key: 'search', label: searchText.value });
-    if (categoryFilter.value) chips.push({ key: 'category', label: translateValue(categoryFilter.value) });
-    if (typeFilter.value) chips.push({ key: 'type', label: translateValue(typeFilter.value) });
+    if (categoryFilter.value) chips.push({ key: 'category', label: categoryFilter.value });
+    if (typeFilter.value) chips.push({ key: 'type', label: typeFilter.value });
     if (issuerFilter.value) chips.push({ key: 'issuer', label: issuerFilter.value });
     return chips;
 });
@@ -442,8 +449,9 @@ function getRepresentationPreviewSrc(representation: RepresentationResource): st
 
 function getRepresentationLabel(representation: RepresentationResource, index: number): string {
     const id = representation?.id?.trim();
-    if (!id) return `${t('previewLabel')} ${index + 1}`;
-    return id.replace(/^placeholderpath\//, '');
+    const label = id ? id.replace(/^placeholderpath\//, '') : `${t('previewLabel')} ${index + 1}`;
+    const category = representation?.category;
+    return category ? `${category}: ${label}` : label;
 }
 
 function getRepresentationPreviewAlt(representation: RepresentationResource, index: number): string {
@@ -458,47 +466,100 @@ function compactJoin(values: Array<string | undefined>): string {
 
 function uniqueSorted(values: string[]): string[] {
     return Array.from(new Set(values.filter(Boolean))).sort((a, b) =>
-        collator.compare(translateValue(a), translateValue(b))
+        collator.compare(a, b)
     );
 }
 
-function translateValue(value: string): string {
-    const translated = t(value);
-    return translated !== value ? translated : value;
+function getInventoryNumbers(material: DisplayFilmRelatedMaterial): string {
+    return compactJoin((material.has_inventory_number || []).map((inventoryNumber) =>
+        inventoryNumber.category && inventoryNumber.id
+            ? `${inventoryNumber.category}: ${inventoryNumber.id}`
+            : inventoryNumber.id
+    ));
 }
 
-function getInventoryNumbers(material: DisplayFilmRelatedMaterial): string {
-    return compactJoin((material.has_inventory_number || []).map((inventoryNumber) => inventoryNumber.id));
+function getAuthorityIds(resources: FilmRelatedAuthorityResource[] | undefined): string {
+    return compactJoin((resources || []).map((resource) =>
+        resource.category && resource.id
+            ? `${resource.category}: ${resource.id}`
+            : resource.id
+    ));
 }
 
 function getEventSummary(material: DisplayFilmRelatedMaterial): string {
     const events = material.has_event || [];
     const values = events.flatMap((event) => [
+        event.category,
         event.has_date,
-        ...(event.located_in || []).map((location) => location.has_name),
+        ...(event.located_in || []).map((location) => {
+            const authorityIds = getAuthorityIds(location.same_as);
+            return authorityIds && location.has_name
+                ? `${location.has_name} (${authorityIds})`
+                : location.has_name;
+        }),
     ]);
     return compactJoin(values);
+}
+
+function getActivitySummary(material: DisplayFilmRelatedMaterial): string {
+    const activities = (material.has_event || []).flatMap((event) => event.has_activity || []);
+    const values = activities.map((activity) => {
+        const role = activity.type;
+        const agents = compactJoin((activity.has_agent || []).map((agent) => agent.has_name));
+        if (role && agents) return `${role}: ${agents}`;
+        return role || agents || undefined;
+    });
+    return compactJoin(values);
+}
+
+function getDimensionsSummary(material: DisplayFilmRelatedMaterial): string {
+    const values = (material.has_dimensions || []).map((dimension) => {
+        const type = dimension.has_type;
+        const value = compactJoin([dimension.has_value, dimension.has_unit]);
+        const precision = dimension.has_precision ? `~${dimension.has_precision}` : undefined;
+        const valueWithPrecision = compactJoin([value, precision]);
+        if (type && valueWithPrecision) return `${type}: ${valueWithPrecision}`;
+        return type || valueWithPrecision || undefined;
+    });
+    return compactJoin(values);
+}
+
+function getRelatedWorkIds(material: DisplayFilmRelatedMaterial): string {
+    return compactJoin((material.is_related_to_work || []).map((work) => work.id));
 }
 
 function getListFacts(material: DisplayFilmRelatedMaterial): DisplayRow[] {
     return [
         { label: t('issuer'), value: material.described_by?.has_issuer_name || '', icon: 'tabler:building-bank' },
+        { label: t('issuerId'), value: material.described_by?.has_issuer_id || '', icon: 'tabler:fingerprint' },
+        { label: t('sourceKey'), value: compactJoin(material.described_by?.has_source_key || []), icon: 'tabler:key' },
         { label: t('inventoryNumber'), value: getInventoryNumbers(material), icon: 'tabler:barcode' },
         { label: t('event'), value: getEventSummary(material), icon: 'tabler:calendar-event' },
+        { label: t('contributors'), value: getActivitySummary(material), icon: 'tabler:users-group' },
         { label: t('material'), value: compactJoin(material.has_material || []), icon: 'tabler:box' },
         { label: t('technique'), value: compactJoin(material.has_technique || []), icon: 'tabler:tools' },
+        { label: t('dimensions'), value: getDimensionsSummary(material), icon: 'tabler:ruler-2' },
+        { label: t('notes'), value: compactJoin(material.has_note || []), icon: 'tabler:notes' },
+        { label: t('relatedWork'), value: getRelatedWorkIds(material), icon: 'tabler:link' },
+        { label: t('pidType'), value: material.kip || '', icon: 'tabler:certificate' },
     ].filter((row) => row.value);
 }
 
 function getSubjectNames(material: DisplayFilmRelatedMaterial): string {
-    return compactJoin((material.has_subject || []).map((subject) => subject.has_name));
+    return compactJoin((material.has_subject || []).map((subject) => {
+        const authorityIds = getAuthorityIds(subject.same_as);
+        if (subject.has_name && authorityIds) return `${subject.has_name} (${authorityIds})`;
+        return subject.has_name;
+    }));
 }
 
 function getSearchHaystack(material: DisplayFilmRelatedMaterial): string {
     return [
         material.handle,
         material.url,
+        material.kip,
         getPrimaryTitle(material),
+        material.has_primary_title?.type,
         material.type,
         material.described_by?.has_issuer_name,
         material.described_by?.has_issuer_id,
@@ -508,11 +569,28 @@ function getSearchHaystack(material: DisplayFilmRelatedMaterial): string {
         ...(material.has_technique || []),
         ...(material.has_note || []),
         ...((material.has_inventory_number || []).map((inventoryNumber) => inventoryNumber.id)),
-        ...((material.has_subject || []).map((subject) => subject.has_name)),
+        ...((material.is_related_to_work || []).map((work) => work.id)),
+        ...((material.has_subject || []).flatMap((subject) => [
+            subject.has_name,
+            ...(subject.same_as || []).map((resource) => resource.id),
+        ])),
+        ...((material.has_dimensions || []).flatMap((dimension) => [
+            dimension.has_type,
+            dimension.has_value,
+            dimension.has_unit,
+        ])),
         ...((material.has_event || []).flatMap((event) => [
             event.category,
             event.has_date,
-            ...((event.located_in || []).map((location) => location.has_name)),
+            ...((event.located_in || []).flatMap((location) => [
+                location.has_name,
+                ...(location.same_as || []).map((resource) => resource.id),
+            ])),
+            ...((event.has_activity || []).flatMap((activity) => [
+                activity.category,
+                activity.type,
+                ...(activity.has_agent || []).map((agent) => agent.has_name),
+            ])),
         ])),
     ].filter(Boolean).join(' ').toLowerCase();
 }

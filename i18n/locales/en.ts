@@ -91,11 +91,16 @@ const avefiBase = {
   "materialPreviewUnavailable": "No preview",
   "openRecord": "Open record",
   "issuer": "Issuer",
+  "issuerId": "ISIL",
+  "sourceKey": "Source ID",
   "inventoryNumber": "Inventory Number",
   "dimensions": "Dimensions",
   "material": "Material",
   "technique": "Technique",
   "notes": "Notes",
+  "contributors": "Contributors",
+  "relatedWork": "Related Work",
+  "pidType": "PID Type",
   "build": {
     "linked": {
       "title": "efis for all – uniquely identifying films",
