@@ -3,6 +3,7 @@
         <transition name="work-summary-bar">
             <aside
                 v-if="showNavbarProductionSummary"
+                ref="navbarSummaryEl"
                 class="work-production-summary fixed inset-x-0 z-20 border-b border-work/50 bg-base-100/95 shadow-sm backdrop-blur"
                 :style="navbarSummaryStyle"
                 :aria-label="$t('workEvents')"
@@ -178,7 +179,8 @@
             </transition>
 
             <!-- Main content (right) -->
-            <div class="work-level-area level-stripe level-stripe--work min-w-0 flex-1 pl-3 pr-1 lg:pl-4">
+            <div class="work-level-area level-stripe level-stripe--work min-w-0 flex-1 pl-3 pr-1 lg:pl-4"
+                 :style="workContentOffsetStyle">
                 <section v-if="mir"
                          :id="dataObject?.compound_record?._source?.handle || undefined"
                          :aria-labelledby="'work-details-heading'">
@@ -1240,6 +1242,9 @@ let mediaQuery: MediaQueryList | null = null;
 let mediaListener: ((e: MediaQueryListEvent) => void) | null = null;
 const navbarSummaryTop = ref('var(--header-height)');
 let navbarResizeObserver: ResizeObserver | null = null;
+const navbarSummaryEl = ref<HTMLElement | null>(null);
+const navbarSummaryHeight = ref(0);
+let navbarSummaryHeightObserver: ResizeObserver | null = null;
 
 // Drawer + active section
 const drawerOpen = ref(false);
@@ -1383,6 +1388,31 @@ function pinActiveSection(durationMs = 1200) {
     activeSectionPinnedUntil = Date.now() + durationMs;
 }
 
+function attachNavbarSummaryHeightObserver() {
+    if (!import.meta.client) return;
+
+    if (navbarSummaryHeightObserver) {
+        navbarSummaryHeightObserver.disconnect();
+        navbarSummaryHeightObserver = null;
+    }
+
+    const el = navbarSummaryEl.value;
+    if (!el) {
+        navbarSummaryHeight.value = 0;
+        return;
+    }
+
+    navbarSummaryHeight.value = el.getBoundingClientRect().height;
+
+    if ('ResizeObserver' in window) {
+        navbarSummaryHeightObserver = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            if (entry) navbarSummaryHeight.value = entry.contentRect.height;
+        });
+        navbarSummaryHeightObserver.observe(el);
+    }
+}
+
 function updateNavbarSummaryTop() {
     if (!import.meta.client) return;
 
@@ -1520,6 +1550,12 @@ const showNavbarProductionSummary = computed(() => {
 const navbarSummaryStyle = computed(() => ({
     top: navbarSummaryTop.value,
 }));
+
+const workContentOffsetStyle = computed(() => (
+    showNavbarProductionSummary.value && navbarSummaryHeight.value > 0
+        ? { paddingTop: `${navbarSummaryHeight.value}px` }
+        : {}
+));
 
 const productionNavigationLabel = computed(() => {
     const firstEventCategory = normalizedEvents.value[0]?.raw?.category;
@@ -1746,6 +1782,23 @@ onMounted(() => {
 });
 
 watch(
+    showNavbarProductionSummary,
+    async (visible) => {
+        if (!visible) {
+            navbarSummaryHeight.value = 0;
+            if (navbarSummaryHeightObserver) {
+                navbarSummaryHeightObserver.disconnect();
+                navbarSummaryHeightObserver = null;
+            }
+            return;
+        }
+        await nextTick();
+        attachNavbarSummaryHeightObserver();
+    },
+    { immediate: true }
+);
+
+watch(
     desktopDrawerOpen,
     (visible) => {
         patchUserPreferences({ workDetail: { navigationVisible: visible } });
@@ -1798,6 +1851,10 @@ onUnmounted(() => {
     if (navbarResizeObserver) {
         navbarResizeObserver.disconnect();
         navbarResizeObserver = null;
+    }
+    if (navbarSummaryHeightObserver) {
+        navbarSummaryHeightObserver.disconnect();
+        navbarSummaryHeightObserver = null;
     }
     window.removeEventListener('resize', updateNavbarSummaryTop);
 
