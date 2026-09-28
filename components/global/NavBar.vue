@@ -28,6 +28,9 @@
                             <li class="h-12 flex justify-center">
                                 <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
                             </li>
+                            <li v-if="isNewsEnabled(runtime.public.newsEnabled)" class="h-12 flex justify-center">
+                                <a href="/news">{{ $t("news.title") }}</a>
+                            </li>
                             <li class="h-12 flex justify-center">
                                 <a href="/faq">{{ $t("faq.title") }}</a>
                             </li>
@@ -124,6 +127,9 @@
                         <li class="h-12 flex justify-center">
                             <a :href="`/${runtime.public.SEARCH_URL}/${currentUrlState}`">{{ $t("filmresearch") }}</a>
                         </li>
+                        <li v-if="isNewsEnabled(runtime.public.newsEnabled)" class="h-12 flex justify-center">
+                            <a href="/news">{{ $t("news.title") }}</a>
+                        </li>
                         <li class="h-12 flex justify-center">
                             <a href="/faq">{{ $t("faq.title") }}</a>
                         </li>
@@ -207,6 +213,7 @@
 </template>
 
 <script lang="ts" setup>
+import { isNewsEnabled } from '~/utils/newsEnabled';
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useObjectListStore } from '../../stores/compareList.js';
 import { useFavourites } from '../../stores/favourites.js';

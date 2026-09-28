@@ -4,11 +4,11 @@
             <slot name="navigation" />
         </div>
     </section>
-    <section>
-        <div 
+    <section :class="marginBottomClass">
+        <div
             :class="[
                 'w-full mx-auto card card-side rounded-xl bg-white/95 dark:bg-gray-900 text-base-content border border-base-200 shadow-md',
-                isFullWidth ? 'lg:!w-full' : 'lg:!w-4/5',
+                narrow ? 'lg:max-w-4xl!' : (isFullWidth ? 'lg:w-full!' : 'lg:w-4/5!'),
             ]"
         >
             <div
@@ -52,6 +52,14 @@ defineProps({
     paddingClass: {
         type: String,
         default: 'p-4'
+    },
+    narrow: {
+        type: Boolean,
+        default: false
+    },
+    marginBottomClass: {
+        type: String,
+        default: ''
     }
 });
 

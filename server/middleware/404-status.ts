@@ -10,6 +10,8 @@ export default defineEventHandler((event) => {
   // Exclude known valid routes
   const validExactPaths = [
     '/normdata',
+    '/news',
+    '/news/',
   ];
 
   const validPrefixes = [

@@ -10,6 +10,22 @@ type LocaleMessagesModule = {
 const avefiDe: LocaleTree = (locales as LocaleMessagesModule).de ?? (locales as LocaleMessagesModule).default?.de ?? {};
 
 const deBase = {
+  news: {
+    title: 'Aktuelles',
+    projectWebsite: 'Zur Projektwebsite',
+    loading: 'Nachrichten werden geladen.',
+    error: 'Die Nachrichten konnten nicht geladen werden. Bitte versuchen Sie es erneut oder besuchen Sie die Projektwebsite.',
+    retry: 'Erneut versuchen',
+    empty: 'Zurzeit sind keine Nachrichten verfügbar.',
+    fullText: 'Vollständigen Text anzeigen',
+    original: 'Nachricht auf der Projektwebsite',
+    pagination: {
+      label: 'Seiten',
+      previous: 'Vorherige Seite',
+      next: 'Nächste Seite',
+      page: 'Seite {page} von {total}',
+    },
+  },
   'showSuggestions': 'Vorschläge anzeigen',
   'noSuggestionsFound': 'Keine Vorschläge gefunden',
   'errorLoadingDatasets': 'Fehler beim Laden der Datensätze',

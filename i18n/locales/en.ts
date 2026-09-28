@@ -10,6 +10,22 @@ type LocaleMessagesModule = {
 const avefiEn: LocaleTree = (avefiLocalesRaw as LocaleMessagesModule).en ?? (avefiLocalesRaw as LocaleMessagesModule).default?.en ?? {};
 
 const avefiBase = {
+  news: {
+    title: 'News',
+    projectWebsite: 'Visit the project website',
+    loading: 'Loading news.',
+    error: 'The news could not be loaded. Please try again or visit the project website.',
+    retry: 'Try again',
+    empty: 'No news is currently available.',
+    fullText: 'Read full text',
+    original: 'Read on the project website',
+    pagination: {
+      label: 'Pages',
+      previous: 'Previous page',
+      next: 'Next page',
+      page: 'Page {page} of {total}',
+    },
+  },
   'showSuggestions': 'Show suggestions',
   'noSuggestionsFound': 'No suggestions found',
   'errorLoadingDatasets': 'Error loading datasets',
