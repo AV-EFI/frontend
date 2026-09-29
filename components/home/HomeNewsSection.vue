@@ -104,7 +104,6 @@ const { t, locale } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
 const { data: articles } = await useNews({ limit: computed(() => Number(runtimeConfig.public.newsHomeCount) || 3) });
-const latestArticle = computed(() => articles.value?.[0]);
 
 const expandedId = ref<string | null>(null);
 const expandedArticle = computed(() => articles.value?.find((article) => article.id === expandedId.value) ?? null);

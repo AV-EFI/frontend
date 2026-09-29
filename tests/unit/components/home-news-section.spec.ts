@@ -38,12 +38,17 @@ describe('HomeNewsSection', () => {
     expect(wrapper.text()).toContain('home.sections.news.allNews');
   });
 
-  it('links the latest article to its original source at the top right', async () => {
+  it('links the expanded article to its original source once expanded', async () => {
     const wrapper = mountSection([article('1', 'First'), article('2', 'Second')]);
     await flushPromises();
+    expect(wrapper.find('a[href="https://projects.tib.eu/av-efi/1"]').exists()).toBe(false);
+
+    await wrapper.findAll('button')[0]?.trigger('click');
+    await flushPromises();
+
     const sourceLink = wrapper.find('a[href="https://projects.tib.eu/av-efi/1"]');
     expect(sourceLink.exists()).toBe(true);
-    expect(sourceLink.text()).toBe('news.original: First');
+    expect(sourceLink.text()).toBe('news.original');
   });
 
   it('switches to a split layout showing the full text when a card is expanded', async () => {
