@@ -1,7 +1,6 @@
 import { XMLParser, XMLValidator } from 'fast-xml-parser';
 import sanitizeHtml from 'sanitize-html';
 
-export const NEWS_FEED_URL = 'https://projects.tib.eu/av-efi/rss.xml';
 const PROJECT_URL = 'https://projects.tib.eu/av-efi/';
 
 function webUrl(value: string): string {

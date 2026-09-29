@@ -206,6 +206,11 @@ const avefiBase = {
           "The platform bundles film-related metadata and distinguishes between Work, Manifestation, and Item. This structure enables precise identification and comparison of archival holdings. The data sources with additional information are linked directly."
         ],
       },
+      'news': {
+        'title': 'News',
+        'aria': 'Latest news from the AVefi project',
+        'allNews': 'All news'
+      },
       'build': {
         'linked': {
           'title': 'efis for all – uniquely identifying films',

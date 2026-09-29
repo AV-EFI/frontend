@@ -18,11 +18,24 @@ to verify the enabled view; run without the flag against a disabled instance to
 verify 404 responses. With an existing server set `PLAYWRIGHT_NO_WEBSERVER=true`
 and `PLAYWRIGHT_BASE_URL` explicitly.
 
-The server fetches `https://projects.tib.eu/av-efi/rss.xml` with a ten-second
-timeout and caches successful results for five minutes. XML is parsed with
-`fast-xml-parser`; DTDs are rejected. `sanitize-html` allows basic text formatting
-and HTTP(S) links only. Source images, scripts, styles and event attributes are
-not rendered. Feed failures display a retry action and the project website link.
+The server fetches the feed URL from `runtimeConfig.newsFeedUrl` (default
+`https://projects.tib.eu/av-efi/rss.xml`, overridable via `NEWS_FEED_URL`) with a
+ten-second timeout and caches successful results for five minutes, keyed by feed
+URL. XML is parsed with `fast-xml-parser`; DTDs are rejected. `sanitize-html`
+allows basic text formatting and HTTP(S) links only. Source images, scripts,
+styles and event attributes are not rendered. Feed failures display a retry
+action and the project website link. `GET /api/news` accepts an optional
+`?limit=` query parameter to return only the newest N entries.
+
+## Homepage news row
+
+The homepage (`pages/index.vue`) shows a row of the newest entries between the
+"Explore" and "From dataset to knowledge" sections, using the same
+`useNews()` composable and `/api/news` endpoint as `/news` (no second feed
+query). It is gated by the same `newsEnabled` flag as the `/news` route, so it
+only appears in the testbed environment. The number of entries defaults to 3
+and is configurable via `NUXT_PUBLIC_NEWS_HOME_COUNT`. If the feed is empty or
+fails to load, the row renders nothing rather than breaking the page.
 
 Dependency audit during implementation (2026-09-28): the existing resolution
 `devalue@5.8.1`, used by `@nuxtjs/i18n`, is affected by

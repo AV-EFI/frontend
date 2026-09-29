@@ -170,6 +170,9 @@
             </div>
         </section>
 
+        <!-- ======= NEWS (testbed only) ======= -->
+        <HomeNewsSection v-if="isNewsEnabled(runtimeConfig.public.newsEnabled)" />
+
         <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
         <HomeSectionShell wash="a">
             <HomeLazySectionLoader root-margin="200px 0px">
@@ -321,6 +324,8 @@ import { useRoute } from 'vue-router';
 import { unrefElement } from '@vueuse/core';
 import SearchCompReduced from '~/components/global/SearchCompReduced.vue';
 import HomeSectionTextBlock from '~/components/home/HomeSectionTextBlock.vue';
+import HomeNewsSection from '~/components/home/HomeNewsSection.vue';
+import { isNewsEnabled } from '~/utils/newsEnabled';
 
 const isClientMounted = ref(false);
 const route = useRoute();

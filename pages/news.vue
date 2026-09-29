@@ -60,11 +60,12 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useNews } from '~/composables/useNews';
 
 definePageMeta({ auth: false, middleware: ['news'] });
 const { t, locale } = useI18n();
 useSeoMeta({ title: () => `${t('news.title')} | AVefi`, robots: 'noindex, nofollow' });
-const { data: articles, status, error, refresh } = await useFetch('/api/news');
+const { data: articles, status, error, refresh } = await useNews();
 const formatDate = (value: string) => new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long', timeZone: 'UTC',
 }).format(new Date(value));

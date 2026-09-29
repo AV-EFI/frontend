@@ -6,12 +6,24 @@ test('news is unavailable unless enabled for the deployment', async ({ page, req
     : process.env.CI_ENVIRONMENT_NAME === 'testbed';
   const api = await request.get('/api/news');
   const response = await page.goto('/news');
+  const home = await page.goto('/');
+  const homeNewsSection = page.getByRole('region', { name: /news|nachrichten/i });
   if (!enabled) {
     expect(api.status()).toBe(404);
     expect(response?.status()).toBe(404);
     await expect(page.locator('nav a[href="/news"]')).toHaveCount(0);
+    await expect(homeNewsSection).toHaveCount(0);
     return;
   }
+
+  expect(home?.status()).toBe(200);
+  await expect(homeNewsSection).toBeVisible();
+  const homeCards = page.locator('main a[href="/news"] h3');
+  const homeCardCount = await homeCards.count();
+  expect(homeCardCount).toBeGreaterThan(0);
+  expect(homeCardCount).toBeLessThanOrEqual(3);
+  await expect(homeCards.first()).not.toBeEmpty();
+  await expect(page.locator('main a[href^="https://projects.tib.eu/av-efi/"]').first()).toBeVisible();
 
   expect(api.status()).toBe(200);
   expect(response?.status()).toBe(200);

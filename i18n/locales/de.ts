@@ -198,6 +198,11 @@ const deBase = {
           "Die Plattform bündelt filmbezogene Metadaten und unterscheidet dabei zwischen Filmwerk, Manifestation und Exemplar. Dadurch lassen sich Archivbestände präzise zuordnen und vergleichen. Die Quellen mit ergänzenden Informationen sind direkt verlinkt."
         ],
       },
+      'news': {
+        'title': 'Aktuelles',
+        'aria': 'Aktuelle Nachrichten aus dem AVefi-Projekt',
+        'allNews': 'Alle News'
+      },
       'build': {
         'linked': {
           'title': 'efis für alle – Filme eindeutig identifiziert ',

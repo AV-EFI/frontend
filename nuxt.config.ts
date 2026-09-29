@@ -325,6 +325,7 @@ export default defineNuxtConfig({
       ENV_LABEL: process.env.NUXT_PUBLIC_ENV_LABEL,
       loginEnabled: process.env.NUXT_PUBLIC_LOGIN_ENABLED === 'true',
       newsEnabled: process.env.NUXT_PUBLIC_NEWS_ENABLED === 'true',
+      newsHomeCount: Number(process.env.NUXT_PUBLIC_NEWS_HOME_COUNT ?? 3),
       origin: publicSiteUrl,
       frontendUrl: publicSiteUrl,
       siteUrl: publicSiteUrl,
@@ -397,6 +398,7 @@ export default defineNuxtConfig({
       ELASTIC_HOST_INTERNAL: process.env.ELASTIC_HOST_INTERNAL,
       CMS_MUTATIONS_ENABLED: process.env.CMS_MUTATIONS_ENABLED || 'false',
       CMS_MUTATION_ORIGIN_ALLOWLIST: process.env.CMS_MUTATION_ORIGIN_ALLOWLIST || '',
+      newsFeedUrl: process.env.NEWS_FEED_URL || 'https://projects.tib.eu/av-efi/rss.xml',
     },
   },
   routeRules: {
