@@ -8,16 +8,10 @@
         <template #title>
             <header class="news-header">
                 <GlobalPageTitleComp variant="hero" class="text-3xl sm:text-4xl">{{ $t('news.title') }}</GlobalPageTitleComp>
-                <div class="news-header-links">
-                    <a v-if="latestArticle" :href="latestArticle.link" class="link news-source">
-                        <span>{{ $t('news.original') }}<span lang="de" class="sr-only">: {{ latestArticle.title }}</span></span>
-                        <Icon name="tabler:external-link" aria-hidden="true" />
-                    </a>
-                    <a href="https://projects.tib.eu/av-efi/" class="link news-source">
-                        {{ $t('news.projectWebsite') }}
-                        <Icon name="tabler:external-link" aria-hidden="true" />
-                    </a>
-                </div>
+                <a href="https://projects.tib.eu/av-efi/" class="link news-source">
+                    {{ $t('news.projectWebsite') }}
+                    <Icon name="tabler:external-link" aria-hidden="true" />
+                </a>
             </header>
         </template>
         <template #cardBody>
@@ -32,7 +26,13 @@
                     <li v-for="article in pagedArticles" :key="article.id">
                         <article class="news-article">
                             <time v-if="article.publishedAt" :datetime="article.publishedAt" class="news-date">{{ formatDate(article.publishedAt) }}</time>
-                            <h2 lang="de" class="bree text-2xl sm:text-3xl leading-tight">{{ article.title }}</h2>
+                            <div class="news-article-heading">
+                                <h2 lang="de" class="bree text-2xl sm:text-3xl leading-tight">{{ article.title }}</h2>
+                                <a :href="article.link" class="link news-source">
+                                    <span>{{ $t('news.original') }}<span lang="de" class="sr-only">: {{ article.title }}</span></span>
+                                    <Icon name="tabler:external-link" aria-hidden="true" />
+                                </a>
+                            </div>
                             <div v-if="article.preview" lang="de" class="news-content" v-html="article.preview" />
                             <details v-if="article.content" class="news-details">
                                 <summary class="news-toggle">
@@ -41,10 +41,6 @@
                                 </summary>
                                 <div lang="de" class="news-content" v-html="article.content" />
                             </details>
-                            <a :href="article.link" class="link news-source">
-                                <span>{{ $t('news.original') }}<span lang="de" class="sr-only">: {{ article.title }}</span></span>
-                                <Icon name="tabler:external-link" aria-hidden="true" />
-                            </a>
                         </article>
                     </li>
                 </ul>
@@ -72,7 +68,6 @@ definePageMeta({ auth: false, middleware: ['news'] });
 const { t, locale } = useI18n();
 useSeoMeta({ title: () => `${t('news.title')} | AVefi`, robots: 'noindex, nofollow' });
 const { data: articles, status, error, refresh } = await useNews();
-const latestArticle = computed(() => articles.value?.[0]);
 const formatDate = (value: string) => new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long', timeZone: 'UTC',
 }).format(new Date(value));
@@ -109,12 +104,14 @@ const goToPage = (target: number) => {
     gap: 1rem;
     padding: 1rem 0 1.5rem;
 }
-.news-header-links { display: flex; flex-direction: column; align-items: flex-end; gap: 0.375rem; }
 .news-source { display: inline-flex; align-items: center; gap: 0.5rem; text-underline-offset: 0.25em; }
 .news-source :deep(.iconify) { flex-shrink: 0; }
 .news-list { padding: 0; list-style: none; }
 .news-list > li + li { border-top: 1px solid var(--color-base-300); }
 .news-article { display: grid; gap: 0.625rem; padding: 3rem 0; }
+.news-article-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; }
+.news-article-heading > .news-source { font-size: 0.8125rem; opacity: 0.75; flex-shrink: 0; margin-bottom: 0.375rem; }
+.news-article-heading > .news-source:hover { opacity: 1; }
 .news-date { display: block; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.03em; }
 .news-date::before { content: ''; display: inline-block; width: 1.5rem; height: 2px; margin-right: 0.75rem; vertical-align: middle; background: var(--color-primary); }
 .news-details { border-top: 1px solid var(--color-base-300); }
@@ -130,8 +127,6 @@ const goToPage = (target: number) => {
 .news-content :deep(a) { text-decoration: underline; overflow-wrap: anywhere; }
 .news-content :deep(ul) { list-style: disc; padding-left: 1.5rem; }
 .news-content :deep(ol) { list-style: decimal; padding-left: 1.5rem; }
-.news-article > .news-source { margin-top: 0.5rem; font-size: 0.8125rem; opacity: 0.75; }
-.news-article > .news-source:hover { opacity: 1; }
 .news-pagination { display: flex; align-items: center; justify-content: center; gap: 1rem; padding-top: 2rem; }
 .news-pagination-status { font-size: 0.875rem; }
 </style>

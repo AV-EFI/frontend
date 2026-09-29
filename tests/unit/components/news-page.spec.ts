@@ -48,13 +48,14 @@ describe('news page states', () => {
     wrapper.unmount();
   });
 
-  it('links the newest article next to the heading once articles are loaded', async () => {
+  it('links each article to its original source next to that article\'s own heading', async () => {
     const { wrapper } = await render('success', null, [
       { id: '1', title: 'Newest', link: 'https://projects.tib.eu/av-efi/news/newest', preview: '', content: '', publishedAt: null },
     ]);
-    const sourceLink = wrapper.find('a[href="https://projects.tib.eu/av-efi/news/newest"]');
-    expect(sourceLink.exists()).toBe(true);
-    expect(sourceLink.text()).toContain('news.original');
+    const heading = wrapper.get('h2');
+    const sourceLink = heading.element.parentElement?.querySelector('a[href="https://projects.tib.eu/av-efi/news/newest"]');
+    expect(sourceLink).toBeTruthy();
+    expect(sourceLink?.textContent).toContain('news.original');
     wrapper.unmount();
   });
 });
