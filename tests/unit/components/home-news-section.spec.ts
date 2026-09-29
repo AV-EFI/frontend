@@ -22,7 +22,7 @@ function mountSection(data: unknown) {
   const wrapper = mount(defineComponent({ render: () => h(Suspense, null, { default: () => h(HomeNewsSection) }) }), {
     global: {
       mocks: { $t: (key: string) => key },
-      stubs: { NuxtLink: { template: '<a><slot /></a>' } },
+      stubs: { NuxtLink: { template: '<a><slot /></a>' }, Icon: { template: '<i />' } },
     },
   });
   return wrapper;
@@ -46,11 +46,33 @@ describe('HomeNewsSection', () => {
     expect(sourceLink.text()).toBe('news.original: First');
   });
 
-  it('strips HTML from the teaser text', async () => {
-    const wrapper = mountSection([article('1', 'First', '<p>Hello <strong>world</strong></p>')]);
+  it('switches to a split layout showing the full text when a card is expanded', async () => {
+    const wrapper = mountSection([article('1', 'First', '<p>Preview one.</p>'), article('2', 'Second', '<p>Preview two.</p>'), article('3', 'Third', '<p>Preview three.</p>')]);
     await flushPromises();
-    expect(wrapper.html()).not.toContain('<strong>');
-    expect(wrapper.text()).toContain('Hello world');
+    expect(wrapper.findAll('ul[role="list"] > li')).toHaveLength(3);
+
+    await wrapper.findAll('button')[0]?.trigger('click');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('First');
+    expect(wrapper.text()).toContain('Preview one.');
+    expect(wrapper.findAll('article')).toHaveLength(3);
+    expect(wrapper.text()).toContain('Second');
+    expect(wrapper.text()).toContain('Third');
+  });
+
+  it('collapses back to the three-card grid', async () => {
+    const wrapper = mountSection([article('1', 'First'), article('2', 'Second')]);
+    await flushPromises();
+    await wrapper.findAll('button')[0]?.trigger('click');
+    await flushPromises();
+
+    const collapseButton = wrapper.find('button[aria-label="home.sections.news.collapse"]');
+    expect(collapseButton.exists()).toBe(true);
+    await collapseButton.trigger('click');
+    await flushPromises();
+
+    expect(wrapper.findAll('ul[role="list"] > li')).toHaveLength(2);
   });
 
   it('renders nothing when the feed is empty', async () => {

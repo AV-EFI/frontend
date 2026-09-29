@@ -174,7 +174,7 @@
         <HomeNewsSection v-if="isNewsEnabled(runtimeConfig.public.newsEnabled)" />
 
         <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->
-        <HomeSectionShell wash="a">
+        <HomeSectionShell wash="none">
             <HomeLazySectionLoader root-margin="200px 0px">
                 <template #content>
                     <HomeTimelineSection />
@@ -198,7 +198,7 @@
         </HomeSectionShell>
 
         <!-- ======= ISSUER CAROUSEL ======= -->
-        <HomeSectionShell wash="none">
+        <HomeSectionShell wash="a">
             <HomeLazySectionLoader root-margin="320px 0px">
                 <template #content>
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -239,7 +239,7 @@
         </HomeSectionShell>
 
         <!-- ======= CORE FUNC & VIDEO BAND ======= -->
-        <HomeSectionShell wash="a">
+        <HomeSectionShell wash="none">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
                 <HomeLazySectionLoader root-margin="420px 0px" anchor-class="lazy-section-anchor w-full">
                     <template #content>
@@ -274,7 +274,7 @@
         </HomeSectionShell>
 
         <!-- ======= PARTNERS ======= -->
-        <HomeSectionShell wash="none" content-class="min-h-[400px] flex items-center justify-between">
+        <HomeSectionShell wash="a" content-class="min-h-[400px] flex items-center justify-between">
             <HomeLazySectionLoader root-margin="520px 0px" anchor-class="lazy-section-anchor w-full">
                 <template #content>
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full" role="region" :aria-label="t('home.sections.partners.title')">

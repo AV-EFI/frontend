@@ -209,7 +209,8 @@ const avefiBase = {
       'news': {
         'title': 'News',
         'aria': 'Latest news from the AVefi project',
-        'allNews': 'All news'
+        'allNews': 'All news',
+        'collapse': 'Collapse text'
       },
       'build': {
         'linked': {

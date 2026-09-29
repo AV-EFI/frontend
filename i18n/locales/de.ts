@@ -18,7 +18,7 @@ const deBase = {
     retry: 'Erneut versuchen',
     empty: 'Zurzeit sind keine Nachrichten verfügbar.',
     fullText: 'Vollständigen Text anzeigen',
-    original: 'Nachricht auf der Projektwebsite',
+    original: 'Nachricht auf der Projektwebsite ansehen',
     pagination: {
       label: 'Seiten',
       previous: 'Vorherige Seite',
@@ -201,7 +201,8 @@ const deBase = {
       'news': {
         'title': 'Aktuelles',
         'aria': 'Aktuelle Nachrichten aus dem AVefi-Projekt',
-        'allNews': 'Alle News'
+        'allNews': 'Alle News',
+        'collapse': 'Text einklappen'
       },
       'build': {
         'linked': {
