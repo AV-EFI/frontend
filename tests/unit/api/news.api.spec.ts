@@ -7,7 +7,7 @@ vi.mock('h3', async (importOriginal) => ({ ...await importOriginal<typeof import
 afterEach(() => { vi.unstubAllGlobals(); vi.resetModules(); fetchMock.mockReset(); });
 
 async function handler(enabled: unknown, feedUrl = 'https://projects.tib.eu/av-efi/rss.xml') {
-  vi.stubGlobal('useRuntimeConfig', () => ({ public: { newsEnabled: enabled }, newsFeedUrl: feedUrl }));
+  vi.stubGlobal('useRuntimeConfig', () => ({ public: { newsEnabled: enabled }, private: { newsFeedUrl: feedUrl } }));
   vi.stubGlobal('defineCachedFunction', (fn: unknown) => fn);
   return (await import('~/server/api/news.get')).default;
 }
@@ -48,5 +48,14 @@ describe('news API', () => {
     const run = await handler(true);
     const result = await run(makeEvent({ limit: '0' })) as unknown[];
     expect(result).toHaveLength(1);
+  });
+
+  it('falls back to the default feed URL when runtime config omits it, never passing "undefined" as the URL', async () => {
+    vi.stubGlobal('useRuntimeConfig', () => ({ public: { newsEnabled: true } }));
+    vi.stubGlobal('defineCachedFunction', (fn: unknown) => fn);
+    const run = (await import('~/server/api/news.get')).default;
+    fetchMock.mockResolvedValue('<rss><channel /></rss>');
+    await run(makeEvent());
+    expect(fetchMock).toHaveBeenCalledWith('https://projects.tib.eu/av-efi/rss.xml', expect.objectContaining({ timeout: 10000, retry: 0 }));
   });
 });
