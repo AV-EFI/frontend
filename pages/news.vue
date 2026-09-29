@@ -8,10 +8,16 @@
         <template #title>
             <header class="news-header">
                 <GlobalPageTitleComp variant="hero" class="text-3xl sm:text-4xl">{{ $t('news.title') }}</GlobalPageTitleComp>
-                <a href="https://projects.tib.eu/av-efi/" class="link news-source">
-                    {{ $t('news.projectWebsite') }}
-                    <Icon name="tabler:arrow-up-right" aria-hidden="true" />
-                </a>
+                <div class="news-header-links">
+                    <a v-if="latestArticle" :href="latestArticle.link" class="link news-source">
+                        <span>{{ $t('news.original') }}<span lang="de" class="sr-only">: {{ latestArticle.title }}</span></span>
+                        <Icon name="tabler:external-link" aria-hidden="true" />
+                    </a>
+                    <a href="https://projects.tib.eu/av-efi/" class="link news-source">
+                        {{ $t('news.projectWebsite') }}
+                        <Icon name="tabler:external-link" aria-hidden="true" />
+                    </a>
+                </div>
             </header>
         </template>
         <template #cardBody>
@@ -37,7 +43,7 @@
                             </details>
                             <a :href="article.link" class="link news-source">
                                 <span>{{ $t('news.original') }}<span lang="de" class="sr-only">: {{ article.title }}</span></span>
-                                <Icon name="tabler:arrow-up-right" aria-hidden="true" />
+                                <Icon name="tabler:external-link" aria-hidden="true" />
                             </a>
                         </article>
                     </li>
@@ -66,6 +72,7 @@ definePageMeta({ auth: false, middleware: ['news'] });
 const { t, locale } = useI18n();
 useSeoMeta({ title: () => `${t('news.title')} | AVefi`, robots: 'noindex, nofollow' });
 const { data: articles, status, error, refresh } = await useNews();
+const latestArticle = computed(() => articles.value?.[0]);
 const formatDate = (value: string) => new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long', timeZone: 'UTC',
 }).format(new Date(value));
@@ -102,6 +109,7 @@ const goToPage = (target: number) => {
     gap: 1rem;
     padding: 1rem 0 1.5rem;
 }
+.news-header-links { display: flex; flex-direction: column; align-items: flex-end; gap: 0.375rem; }
 .news-source { display: inline-flex; align-items: center; gap: 0.5rem; text-underline-offset: 0.25em; }
 .news-source :deep(.iconify) { flex-shrink: 0; }
 .news-list { padding: 0; list-style: none; }

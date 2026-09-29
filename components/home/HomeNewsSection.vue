@@ -62,8 +62,9 @@
                         </div>
                         <h3 lang="de" class="text-lg font-bold leading-snug wrap-break-word">{{ expandedArticle.title }}</h3>
                         <div lang="de" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="expandedArticle.content" />
-                        <a href="expandedArticle.link" class="sr-only" :aria-label="t('news.fullText')" />
-                        <a class="link link-primary text-sm ml-auto" target="_blank" :href="expandedArticle.link" :aria-label="t('news.original')" >{{ t('news.original') }}</a>
+                        <a class="link link-primary text-sm ml-auto" target="_blank" :href="expandedArticle.link" :aria-label="t('news.original')">
+                            {{ t('news.original') }}<Icon name="tabler:external-link" aria-hidden="true" />
+                        </a>
                     </article>
 
                     <ul v-if="otherArticles.length" class="flex flex-col gap-4" role="list">
