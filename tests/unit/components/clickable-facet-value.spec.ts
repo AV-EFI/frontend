@@ -114,8 +114,8 @@ describe('ClickableFacetValue', () => {
     await wrapper.get('button').trigger('click');
 
     const items = wrapper.findAll('[role="menuitem"]');
-    expect(items[0].text()).toBe(expectedLabel);
-    expect(items[1].text()).toBe('Neue Suche');
+    expect(items[0]?.text()).toBe(expectedLabel);
+    expect(items[1]?.text()).toBe('Neue Suche');
   });
 
   test('falls back to the technical attribute name when no translation exists', async () => {
