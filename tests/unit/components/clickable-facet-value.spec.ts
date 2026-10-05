@@ -118,6 +118,23 @@ describe('ClickableFacetValue', () => {
     expect(items[1]?.text()).toBe('Neue Suche');
   });
 
+  test('drops the highlight once the live URL no longer holds the value', async () => {
+    active = true;
+
+    const wrapper = await mountClickableFacetValue({
+      attribute: 'creators',
+      value: 'Reiniger, Lotte',
+    });
+    expect(wrapper.get('button').classes()).toContain('font-semibold');
+
+    active = false;
+    window.dispatchEvent(new CustomEvent('avefi:search-updated'));
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.get('button').classes()).not.toContain('font-semibold');
+    expect(wrapper.get('button').classes()).not.toContain('decoration-current');
+  });
+
   test('falls back to the technical attribute name when no translation exists', async () => {
     const wrapper = await mountClickableFacetValue({
       attribute: 'unknown_facet',

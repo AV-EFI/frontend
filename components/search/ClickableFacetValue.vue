@@ -99,7 +99,14 @@ const normalizedLabel = computed(() => String(props.label || normalizedValue.val
 const canToggle = computed(() =>
     Boolean(props.attribute && normalizedValue.value && props.attribute in clickableFacetConfig),
 );
-const active = computed(() => canToggle.value && isFacetValueActive(props.attribute, normalizedValue.value));
+// InstantSearch writes the URL via history.pushState, which Vue's reactivity cannot observe,
+// so the active state is re-read from the live URL whenever the search state changes.
+const urlVersion = ref(0);
+const refreshActive = () => { urlVersion.value += 1; };
+const active = computed(() => {
+    void urlVersion.value;
+    return canToggle.value && isFacetValueActive(props.attribute, normalizedValue.value);
+});
 const opensInNewTab = computed(() => props.openInNewTab || /^\/res(?:\/|$)/.test(String(route.path || '')));
 const href = computed(() => (canToggle.value ? getFacetToggleHref(props.attribute, normalizedValue.value) : ''));
 const attributeLabel = computed(() => {
@@ -172,6 +179,15 @@ function startNewSearch() {
     }
 }
 
-onMounted(() => document.addEventListener('click', onOutsideClick, { capture: true }));
-onBeforeUnmount(() => document.removeEventListener('click', onOutsideClick, { capture: true }));
+onMounted(() => {
+    document.addEventListener('click', onOutsideClick, { capture: true });
+    window.addEventListener('avefi:search-updated', refreshActive);
+    window.addEventListener('popstate', refreshActive);
+    refreshActive();
+});
+onBeforeUnmount(() => {
+    document.removeEventListener('click', onOutsideClick, { capture: true });
+    window.removeEventListener('avefi:search-updated', refreshActive);
+    window.removeEventListener('popstate', refreshActive);
+});
 </script>
