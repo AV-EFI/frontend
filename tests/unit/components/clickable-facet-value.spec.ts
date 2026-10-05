@@ -17,6 +17,7 @@ const translations: Record<string, string> = {
   ['manifestation_event_type']: 'Manifestationstyp',
   ['facetMenu.addToSearch']: 'Zur Suche hinzufügen',
   ['facetMenu.newSearch']: 'Neue Suche',
+  ['facetMenu.removeFromSearch']: 'Aus Suche entfernen',
   openSearchWithFacetInNewTab: 'Neue Suchseite in neuem Tab öffnen mit aktivem Filter: {attribute} = {value}',
 };
 
@@ -53,10 +54,11 @@ async function mountClickableFacetValue(props: { attribute: string; value: strin
       default: props.label || props.value,
     },
     global: {
+      mocks: { $t: (key: string) => translations[key] ?? key },
       stubs: {
         Icon: { template: '<span />' },
         ClientOnly: { template: '<slot />' },
-        Teleport: { template: '<div />' },
+        Teleport: { template: '<div><slot /></div>' },
       },
     },
   });
@@ -97,6 +99,23 @@ describe('ClickableFacetValue', () => {
 
     const btn = wrapper.find('button');
     expect(btn.attributes('aria-label')).toBe('Entfernen: Manifestationstyp = Release');
+  });
+
+  test.each([
+    [false, 'Zur Suche hinzufügen'],
+    [true, 'Aus Suche entfernen'],
+  ])('labels the toggle menu item for active=%s', async (isActive, expectedLabel) => {
+    active = isActive;
+
+    const wrapper = await mountClickableFacetValue({
+      attribute: 'creators',
+      value: 'Reiniger, Lotte',
+    });
+    await wrapper.get('button').trigger('click');
+
+    const items = wrapper.findAll('[role="menuitem"]');
+    expect(items[0].text()).toBe(expectedLabel);
+    expect(items[1].text()).toBe('Neue Suche');
   });
 
   test('falls back to the technical attribute name when no translation exists', async () => {

@@ -1069,6 +1069,7 @@ const avefiBase = {
   'addFilter': 'add filter',
   'facetMenu.addToSearch': 'Add to search',
   'facetMenu.newSearch': 'New search',
+  'facetMenu.removeFromSearch': 'Remove from search',
   'openSearchWithFacetInNewTab': 'Open a new search page in a new tab with this filter active: {attribute} = {value}',
   'remove': 'remove',
   'results': 'results',

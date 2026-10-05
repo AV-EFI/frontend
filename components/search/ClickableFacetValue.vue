@@ -43,8 +43,8 @@
                                 class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-base-content hover:bg-base-200"
                                 @click.stop="addToSearch"
                         >
-                            <Icon name="tabler:filter-plus" size="1em" aria-hidden="true" />
-                            {{ $t('facetMenu.addToSearch') }}
+                            <Icon :name="active ? 'tabler:filter-minus' : 'tabler:filter-plus'" size="1em" aria-hidden="true" />
+                            {{ active ? $t('facetMenu.removeFromSearch') : $t('facetMenu.addToSearch') }}
                         </button>
                     </li>
                     <li role="none">

@@ -1034,6 +1034,7 @@ const deBase = {
   'addFilter': 'Filtern nach',
   'facetMenu.addToSearch': 'Zur Suche hinzufügen',
   'facetMenu.newSearch': 'Neue Suche',
+  'facetMenu.removeFromSearch': 'Aus Suche entfernen',
   'openSearchWithFacetInNewTab': 'Neue Suchseite in neuem Tab öffnen mit aktivem Filter: {attribute} = {value}',
   'remove': 'entfernen',
   'result': 'Ergebnis',
