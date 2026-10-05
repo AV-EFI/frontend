@@ -128,7 +128,7 @@ describe('ClickableFacetValue', () => {
     expect(wrapper.get('button').classes()).toContain('font-semibold');
 
     active = false;
-    window.dispatchEvent(new CustomEvent('avefi:search-updated'));
+    window.dispatchEvent(new CustomEvent('avefi:history-change'));
     await wrapper.vm.$nextTick();
 
     expect(wrapper.get('button').classes()).not.toContain('font-semibold');

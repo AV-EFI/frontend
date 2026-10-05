@@ -100,7 +100,8 @@ const canToggle = computed(() =>
     Boolean(props.attribute && normalizedValue.value && props.attribute in clickableFacetConfig),
 );
 // InstantSearch writes the URL via history.pushState, which Vue's reactivity cannot observe,
-// so the active state is re-read from the live URL whenever the search state changes.
+// so the active state is re-read from the live URL after every history change
+// (the plugin searchQuerySync announces them; search-updated fires before the URL is written).
 const urlVersion = ref(0);
 const refreshActive = () => { urlVersion.value += 1; };
 const active = computed(() => {
@@ -181,13 +182,13 @@ function startNewSearch() {
 
 onMounted(() => {
     document.addEventListener('click', onOutsideClick, { capture: true });
-    window.addEventListener('avefi:search-updated', refreshActive);
+    window.addEventListener('avefi:history-change', refreshActive);
     window.addEventListener('popstate', refreshActive);
     refreshActive();
 });
 onBeforeUnmount(() => {
     document.removeEventListener('click', onOutsideClick, { capture: true });
-    window.removeEventListener('avefi:search-updated', refreshActive);
+    window.removeEventListener('avefi:history-change', refreshActive);
     window.removeEventListener('popstate', refreshActive);
 });
 </script>

@@ -1,3 +1,4 @@
+const HISTORY_CHANGE_EVENT = 'avefi:history-change';
 const STORAGE_KEY = 'latest-search-query';
 
 declare global {
@@ -32,7 +33,10 @@ export default defineNuxtPlugin(() => {
 
       window.history[method] = function (...args: Parameters<HistoryMethod>) {
         const result = original.apply(window.history, args);
-        queueMicrotask(writeToStorage);
+        queueMicrotask(() => {
+          writeToStorage();
+          window.dispatchEvent(new Event(HISTORY_CHANGE_EVENT));
+        });
         return result;
       } as HistoryMethod;
     };
