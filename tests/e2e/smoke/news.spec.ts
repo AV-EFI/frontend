@@ -18,16 +18,20 @@ test('news is unavailable unless enabled for the deployment', async ({ page, req
 
   expect(home?.status()).toBe(200);
   await expect(homeNewsSection).toBeVisible();
-  const homeCards = page.locator('main a[href="/news"] h3');
+  await expect(homeNewsSection.locator('a[href="/news"]')).toBeVisible();
+  const homeCards = homeNewsSection.locator('article h3');
   const homeCardCount = await homeCards.count();
   expect(homeCardCount).toBeGreaterThan(0);
   expect(homeCardCount).toBeLessThanOrEqual(3);
   await expect(homeCards.first()).not.toBeEmpty();
-  await expect(page.locator('main a[href^="https://projects.tib.eu/av-efi/"]').first()).toBeVisible();
+  // The source link only appears once an article is expanded on the home page.
+  await homeNewsSection.locator('button[aria-controls^="home-news-panel-"]').first().click();
+  await expect(homeNewsSection.locator('a[href^="https://projects.tib.eu/av-efi/"]').first()).toBeVisible();
 
   expect(api.status()).toBe(200);
   expect(response?.status()).toBe(200);
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
+  await page.goto('/news');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /^noindex, nofollow/);
   const article = page.locator('article').first();
   await expect(article.locator('h2')).not.toBeEmpty();
   const summary = article.locator('summary');
