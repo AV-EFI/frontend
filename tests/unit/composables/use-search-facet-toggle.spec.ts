@@ -259,6 +259,21 @@ describe('useSearchFacetToggle', () => {
     expect(href).toBe('/search?creators%5B0%5D=Reiniger%2C+Lotte');
   });
 
+  test('reports facet values as active from the live URL when route.query is stale', () => {
+    routePath = '/search';
+    routeQuery = {};
+    Object.defineProperty(window, 'location', {
+      value: { assign: locationAssign, href: 'http://localhost/search', pathname: '/search', search: '?subjects%5B0%5D=Psychology' },
+      writable: true,
+      configurable: true,
+    });
+
+    const { isFacetValueActive } = (mount(Host).vm as unknown as ReturnType<typeof useSearchFacetToggle>);
+
+    expect(isFacetValueActive('subjects', 'Psychology')).toBe(true);
+    expect(isFacetValueActive('subjects', 'History')).toBe(false);
+  });
+
   test('navigates production year clicks via full navigation', async () => {
     const wrapper = mount(Host);
 

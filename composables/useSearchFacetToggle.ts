@@ -143,13 +143,13 @@ export function useSearchFacetToggle() {
     return `numericRefinement[${attribute}][${operator}]`;
   }
 
-  function isNumericRangeActive(attribute: string, value: unknown): boolean {
+  function isNumericRangeActive(attribute: string, value: unknown, query: Record<string, unknown> = route.query): boolean {
     const config = clickableFacetConfig[attribute];
     if (config?.type !== 'numericRange') return false;
     const range = numericRangeFromValue(value);
     if (!range) return false;
-    const currentMin = normalizedValue(route.query?.[numericQueryKey(config.attribute, config.minOperator)]);
-    const currentMax = normalizedValue(route.query?.[numericQueryKey(config.attribute, config.maxOperator)]);
+    const currentMin = normalizedValue(query?.[numericQueryKey(config.attribute, config.minOperator)]);
+    const currentMax = normalizedValue(query?.[numericQueryKey(config.attribute, config.maxOperator)]);
     return currentMin === String(range.min) && currentMax === String(range.max);
   }
 
@@ -195,13 +195,18 @@ export function useSearchFacetToggle() {
     return router.resolve(facetToggleLocation(attribute, value)).href;
   }
 
+  /**
+   * Reads the live URL on the client: InstantSearch updates it via history.pushState,
+   * so route.query can lag behind and would make toggle labels disagree with the state.
+   */
   function isFacetValueActive(attribute: string, value: unknown): boolean {
+    const query = typeof window === 'undefined' ? (route.query as Record<string, unknown>) : liveQuery();
     if (clickableFacetConfig[attribute]?.type === 'numericRange') {
-      return isNumericRangeActive(attribute, value);
+      return isNumericRangeActive(attribute, value, query);
     }
     const normalized = normalizedValue(value);
     if (!attribute || !normalized) return false;
-    return readIndexedValues(route.query as Record<string, unknown>, attribute).includes(normalized);
+    return readIndexedValues(query, attribute).includes(normalized);
   }
 
   async function toggleFacetValue(attribute: string, value: unknown) {

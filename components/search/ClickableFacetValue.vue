@@ -43,8 +43,8 @@
                                 class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-base-content hover:bg-base-200"
                                 @click.stop="addToSearch"
                         >
-                            <Icon :name="active ? 'tabler:filter-minus' : 'tabler:filter-plus'" size="1em" aria-hidden="true" />
-                            {{ active ? $t('facetMenu.removeFromSearch') : $t('facetMenu.addToSearch') }}
+                            <Icon :name="menuItemActive ? 'tabler:filter-minus' : 'tabler:filter-plus'" size="1em" aria-hidden="true" />
+                            {{ menuItemActive ? $t('facetMenu.removeFromSearch') : $t('facetMenu.addToSearch') }}
                         </button>
                     </li>
                     <li role="none">
@@ -120,6 +120,8 @@ const ariaLabel = computed(() => {
 
 // --- context menu ---
 const menuOpen = ref(false);
+// Evaluated when the menu opens: the toggle acts on the live URL, so the label must too.
+const menuItemActive = ref(false);
 const triggerRef = ref<HTMLElement | null>(null);
 const menuRef = ref<HTMLElement | null>(null);
 const menuPos = ref({ top: 0, left: 0 });
@@ -140,6 +142,7 @@ function computeMenuPosition() {
 function toggleMenu() {
     menuOpen.value = !menuOpen.value;
     if (menuOpen.value) {
+        menuItemActive.value = isFacetValueActive(props.attribute, normalizedValue.value);
         nextTick(() => {
             computeMenuPosition();
             (menuRef.value?.querySelector('[role="menuitem"]') as HTMLElement | null)?.focus();
