@@ -73,7 +73,7 @@ export function buildItemEntries(data: unknown, deps: ItemBuilderDeps): IconEntr
   if (sound) {
     entries.push({
       key: 'sound',
-      icon: sound.toLowerCase().includes('silent') ? 'tabler-volume-off' : iconFor('sound'),
+      icon: sound.toLowerCase().includes('silent') ? 'tabler:volume-off' : iconFor('sound'),
       text: [segment(t(sound), sound)],
       aria: `${t('has_sound_type')}: ${t(sound)}`,
     });

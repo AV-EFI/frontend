@@ -42,7 +42,7 @@ describe('buildItemEntries', () => {
   test('uses tabler-volume-off icon for silent sound type', () => {
     const entries = buildItemEntries({ has_record: { has_sound_type: 'Silent' } }, deps);
     const e = entries.find(e => e.key === 'sound');
-    expect(e?.icon).toBe('tabler-volume-off');
+    expect(e?.icon).toBe('tabler:volume-off');
   });
 
   test('uses standard icon for non-silent sound type', () => {

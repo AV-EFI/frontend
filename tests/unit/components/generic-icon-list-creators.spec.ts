@@ -83,7 +83,7 @@ describe('GenericIconList creators migration', () => {
       },
     });
 
-    expect(wrapper.find('[data-testid="icon"]').text()).toBe('tabler-lock-open');
+    expect(wrapper.find('[data-testid="icon"]').text()).toBe('tabler:lock-open');
   });
 
   test('shows data-quality warning for whitespace-comma-only creators', () => {

@@ -8,7 +8,7 @@ import {
 
 describe('shared facet icon map', () => {
   test('uses the same icon for status in facets and film metadata', () => {
-    expect(FACET_ICON_MAP.has_access_status).toBe('tabler-lock-open');
+    expect(FACET_ICON_MAP.has_access_status).toBe('tabler:lock-open');
     expect(getFacetIcon('accessStatus')).toBe(FACET_ICON_MAP.has_access_status);
   });
 
@@ -32,7 +32,7 @@ describe('shared facet icon map', () => {
       'extent',
       'fps',
     ].forEach((key) => {
-      expect(getFacetIcon(key)).not.toBe('tabler-adjustments-horizontal');
+      expect(getFacetIcon(key)).not.toBe('tabler:adjustments-horizontal');
     });
   });
 
