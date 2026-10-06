@@ -9,10 +9,8 @@
         <template #header="h">
             <div class="flex items-center gap-2">
                 <Icon :name="facetIcon" class="icon-inline"
-                      :class="h?.hasRefinements ? 'text-primary' : 'text-base-content/70'"
                       aria-hidden="true" />
-                <h3 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold"
-                    :class="!h?.hasRefinements ? 'text-base-content/70' : 'text-primary'">
+                <h3 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold">
                     {{ $t(props.headerText as string) }}
                 </h3>
             </div>

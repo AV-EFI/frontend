@@ -93,8 +93,8 @@
                                 <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
                                      role="region" :aria-label="$t('filteringsection')">
                                     <div
-                                        class="panel-surface w-full flex flex-row justify-center col-span-2 rounded-lg p-2">
-                                        <ais-stats class="flex flex-row w-full">
+                                        class="panel-surface w-full flex flex-row items-center justify-center col-span-2 rounded-lg p-2">
+                                        <ais-stats class="flex flex-row items-center w-full">
                                             <template #default="{ nbHits = 0, results }">
                                                 <span v-if="isSearchLoading" id="custom-spinner"
                                                       class="loading loading-spinner loading-md text-primary" />

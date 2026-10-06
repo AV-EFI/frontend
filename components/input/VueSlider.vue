@@ -12,13 +12,11 @@
                 <Icon
                     :name="facetIcon"
                     class="icon-inline"
-                    :class="hasActiveRefinements ? 'text-primary' : 'text-base-content/70'"
                     aria-hidden="true"
                 />
                 <h3
                     :id="`facet-title-${props.attributeName}`"
                     class="my-auto font-bold"
-                    :class="hasActiveRefinements ? 'text-primary' : 'text-base-content/70'"
                 >
                     {{ $t(headerText as string) }}
                 </h3>
@@ -181,14 +179,6 @@ const appliedProdYearOnly = ref(initialState.prodYearOnly);
 
 // Guard initial hidden configure render until state is seeded from URL
 const sliderReady = ref(true);
-
-const hasActiveRefinements = computed(() => {
-    return (
-        appliedSliderValue.value[0] !== props.min ||
-        appliedSliderValue.value[1] !== props.max ||
-        appliedProdYearOnly.value
-    );
-});
 
 const hasUnsavedChanges = computed(() => {
     const [from, to] = clampRange(sliderValue.value);
