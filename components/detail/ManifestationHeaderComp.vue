@@ -34,7 +34,7 @@
             </div>
 
             <div class="flex flex-row mt-1">
-                <div v-if="allItemsEmpty" class="badge bg-warning-300 dark:text-black z-10" role="note"
+                <div v-if="allItemsEmpty" class="badge dark:text-black z-10" role="note"
                      :aria-label="$t('emptyItemsLong')">
                     <Icon class="text-lg" name="mi:document-empty" aria-hidden="true" />
                     &nbsp;{{ $t('emptyItemsShort') }}
@@ -121,7 +121,7 @@
             </div>
 
             <div class="flex flex-row mt-1">
-                <div v-if="allItemsEmpty" class="badge bg-warning-300 dark:text-black z-10" role="note"
+                <div v-if="allItemsEmpty" class="badge dark:text-black z-10" role="note"
                      :aria-label="$t('emptyItemsLong')">
                     <Icon class="text-lg" name="mi:document-empty" aria-hidden="true" />
                     &nbsp;{{ $t('emptyItemsShort') }}

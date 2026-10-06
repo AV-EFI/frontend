@@ -12,13 +12,13 @@
                 <Icon
                     :name="facetIcon"
                     class="icon-inline"
-                    :class="hasActiveRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
+                    :class="hasActiveRefinements ? 'text-primary' : 'text-base-content/70'"
                     aria-hidden="true"
                 />
                 <h3
                     :id="`facet-title-${props.attributeName}`"
                     class="my-auto font-bold"
-                    :class="hasActiveRefinements ? 'text-primary-600 dark:text-primary-100' : 'text-primary-200 dark:text-primary-600'"
+                    :class="hasActiveRefinements ? 'text-primary' : 'text-base-content/70'"
                 >
                     {{ $t(headerText as string) }}
                 </h3>

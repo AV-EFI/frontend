@@ -199,7 +199,7 @@
 
                             <button
                                 type="button"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-primary dark:text-white border border-primary-600 dark:border-primary-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                class="flex items-center gap-2 px-4 py-2 text-sm text-primary dark:text-white border rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
                                 @click="addFacetFilter"
                             >
                                 <Icon name="tabler:plus" size="16" />

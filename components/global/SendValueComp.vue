@@ -6,7 +6,7 @@
     </button>
     <!--
     <Icon
-      class="text-primary-600 dark:text-primary-300 !align-baseline cursor-pointer"
+      class="!align-baseline cursor-pointer"
       name="tabler:clipboard"
       :alt="`Copy ${displayText || targetPropertyValue}`"
       :title="`Copy ${displayText || targetPropertyValue}`"

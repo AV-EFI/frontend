@@ -35,6 +35,7 @@ textarea::selection {
   --color-base-300: oklch(83% 0.022 252.894);
   --color-base-content: #141b1f;
   --color-primary: #4d768d;
+  --color-primary-text: #4d768d;
   --color-primary-content: oklch(98% 0.002 247.839);
   --color-secondary: #000000;
   --color-secondary-content: oklch(98% 0.002 247.839);
@@ -51,7 +52,7 @@ textarea::selection {
   --color-error: oklch(60.61% 0.12 15.341);
   --color-error-content: #ffffff;
 
-  --color-highlight: #e4acba;
+  --color-highlight: #ffc0cb;
   --color-highlight-content: #3a1f26;
   --color-favourites-list: #b85a5e;            /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
@@ -71,8 +72,8 @@ textarea::selection {
   --color-userinfo-content: oklch(89.925% 0.016 262.749);
 
   --radius-selector: 0.375rem;
-  --radius-field: 0.375rem;
-  --radius-box: 0.625rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
   --size-selector: 0.2rem;
   --size-field: 0.2rem;
   --border: 1px;
@@ -90,7 +91,8 @@ textarea::selection {
   --color-base-200: oklch(16% 0.037 265.754);
   --color-base-300: oklch(12% 0.034 265.754);
   --color-base-content: #dfe9ee;
-  --color-primary: #80a3b5;
+  --color-primary: #4d768d;
+  --color-primary-text: #80a3b5;
   --color-primary-content: oklch(98% 0.002 247.839);
   --color-secondary: #000000;
   --color-secondary-content: oklch(98% 0.002 247.839);
@@ -106,7 +108,7 @@ textarea::selection {
   --color-warning-content: oklch(16.648% 0.027 82.95);
   --color-error: oklch(71.785% 0.17 13.118);
   --color-error-content: #ffffff;
-  --color-highlight: #e4acba;
+  --color-highlight: #ffc0cb;
   --color-highlight-content: #3a1f26;
   --color-favourites-list: #b85a5e;              /* muted rose-crimson */
   --color-favourites-list-content: #ffffff;
@@ -116,9 +118,9 @@ textarea::selection {
   --color-compare-list-hover: #2B343B;
   --color-compare-list-content: #ffffff;
 
-  --color-work: #809595;          /* slightly warmer parchment, still neutral */
-  --color-manifestation: #728a8a; /* balanced greige with gentle beige depth */
-  --color-item: #677c7c;          /* richer sand-grey with mild olive warmth */
+  --color-work: #8ea1a1;          /* slightly warmer parchment, still neutral */
+  --color-manifestation: #7c949e; /* balanced greige with gentle beige depth */
+  --color-item: #748599;          /* richer sand-grey with mild olive warmth */
   --color-film-related-materials: #4F7F78;
   --color-film-related-materials-content: #ffffff;
 
@@ -126,8 +128,8 @@ textarea::selection {
   --color-userinfo-content: oklch(89.925% 0.016 262.749);
 
   --radius-selector: 0.375rem;
-  --radius-field: 0.375rem;
-  --radius-box: 0.625rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
   --size-selector: 0.2rem;
   --size-field: 0.2rem;
   --border: 1px;
@@ -347,6 +349,36 @@ textarea::selection {
     border-color: var(--color-base-300);
   }
 
+  /* DaisyUI menus drop the outline and only tint the background on keyboard focus
+     (handbook 10.1: clear focus indicators). */
+  .menu :where(a, button, summary, [role="menuitem"]):focus-visible {
+    outline: 2px solid var(--color-base-content);
+    outline-offset: -2px;
+  }
+
+  /* Header disclosure triggers (settings, user menu) look like the neighbouring menu items. */
+  .header-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-field);
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .header-menu-trigger:hover {
+    background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+  }
+
+  /* Current page in the header navigation: not only colour, also weight and underline. */
+  .menu a[aria-current="page"] {
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
   .btn-carousel-control {
     align-items: center !important;
     justify-content: center !important;
@@ -436,34 +468,29 @@ textarea::selection {
   }  
 }
 
+/* Bree Serif and Inter on all viewports (handbook 5.1). Latin woff2 subsets
+   (Basic Latin to Latin Extended, combining marks, common punctuation); other
+   scripts fall back to system fonts. Inter is the variable font limited to
+   wght 400-800. No preload: files load only when text uses them. */
+@font-face {
+  font-family: 'BreeSerif';
+  src: url('/fonts/BreeSerif-Regular-latin.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: swap;
+}
+
 html, body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .bree {
-  font-family: Georgia, "Times New Roman", serif;
-}
-
-@media (min-width: 768px) {
-  @font-face {
-    font-family: 'BreeSerif';
-    src: url('/fonts/BreeSerif-Regular.ttf') format('truetype');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Inter';
-    src: url('/fonts/Inter.ttf') format('truetype');
-    font-display: swap;
-  }
-
-  html, body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  }
-
-  .bree {
-    font-family: 'BreeSerif', Georgia, "Times New Roman", serif;
-  }
+  font-family: 'BreeSerif', Georgia, "Times New Roman", serif;
 }
 
 @layer utilities {
@@ -475,6 +502,22 @@ html, body {
 
   [data-theme="avefi_dark"] .muted {
     color: #a8b0b8;
+  }
+
+  /* Primary stays #4d768d in both themes (handbook 4.3). On dark surfaces it only
+     reaches 3.65:1 as text, so text and outline uses read --color-primary-text. */
+  .text-primary,
+  .link-primary {
+    color: var(--color-primary-text);
+  }
+
+  .btn-outline.btn-primary:not(:hover, :active, :focus-visible, .btn-active) {
+    --btn-fg: var(--color-primary-text);
+  }
+
+  /* Maximum layout width 1280px (handbook 6.1); Tailwind's default grows to 1536px. */
+  .container {
+    max-width: 80rem;
   }
 
   .text-rainbow-stripe {
@@ -535,16 +578,6 @@ header {
 
 .bungee {
   font-family: 'Bungee', sans-serif;
-}
-
-.bree {
-  font-family: Georgia, "Times New Roman", serif;
-}
-
-@media (min-width: 768px) {
-  .bree {
-    font-family: 'BreeSerif', Georgia, "Times New Roman", serif;
-  }
 }
 
 /* collapse-plus */
@@ -663,7 +696,7 @@ mark {
 .cookieControl__Bar {
   position: fixed;
   background-color: rgba(var(--cookie-control-barBackground), 0.8); /* Assuming --cookie-control-barBackground is an RGB value */
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: inherit;
   border-top: 1px solid var(--secondary);
 }
 .cookieControl__Bar h2,
@@ -915,7 +948,7 @@ mark {
 }
 .cookieControl__BlockedIframe p,
 .cookieControl__BlockedIframe a {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: inherit;
 }
 @media screen and (max-width: 768px) {
   .cookieControl__Bar {

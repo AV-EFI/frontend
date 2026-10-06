@@ -70,8 +70,10 @@ There is a repository conflict between token files:
 - `tailwind.config.ts` defines older fallback theme values and plugin classes.
 - `assets/scss/_variables.scss` has older semantic colors, including different `compare-list`, `work`, `manifestation`, and `item` values.
 - `docs/visual-ui-audit.md` states that because Tailwind v4 is loaded through `assets/scss/main.scss`, shared classes that must render in the current app also need definitions in `main.scss`.
-- The handbook export lists highlight as `#ffc0cb`, while current implementation uses `#e4acba`.
-- The handbook export says primary and accent remain identical in light and dark themes, while current implementation uses dark primary `#80a3b5`.
+- Aligned with the 2026-10-06 export (audit of the same date): highlight `#ffc0cb`, primary `#4d768d` in both themes, dark work/manifestation/item `#8ea1a1`/`#7c949e`/`#748599`, `--radius-field` 0.25rem, `--radius-box` 0.5rem.
+- `--color-primary-text` is the text/outline role of primary: `#4d768d` in light, `#80a3b5` in dark, because `#4d768d` only reaches 3.65:1 as text on the dark base. `.text-primary`, `.link-primary` and `.btn-outline.btn-primary` read it.
+- The dark theme tokens are duplicated in the inline pre-paint style in `nuxt.config.ts`, which overrides `main.scss`; change both together.
+- Still open: `--radius-selector` stays 0.375rem (toggles/checkboxes), cards using `rounded-xl` (handbook 6.2 vs 6.3), `--size-field`/`--size-selector` 0.2rem vs handbook 4px, domain colours as badge text below 4.5:1 in the light theme.
 
 Normally, current implemented theme and token configuration are authoritative for visual implementation. Mark this conflict unresolved before changing token values.
 

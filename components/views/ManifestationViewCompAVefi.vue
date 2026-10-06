@@ -6,7 +6,7 @@
             <div class="mb-2">
                 <h2
                     :id="mir.handle"
-                    class="text-lg mb-2 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full"
+                    class="text-lg mb-2 text-ellipsis text-wrap overflow-hidden max-w-full"
                     :alt="mir.has_primary_title?.has_name"
                 >
                     {{ mir.has_primary_title?.has_name ?? '' }}
@@ -76,7 +76,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <h2 class="dark:text-primary-100">
+                            <h2>
                                 efi:
                             </h2>
                             <GlobalClipboardComp 
@@ -88,7 +88,7 @@
                                 v-if="mir.has_alternative_title"
                                 class="col-span-12"
                             >
-                                <h2 class="dark:text-primary-100">
+                                <h2>
                                     {{ $t('AlternativeTitle') }}:
                                 </h2>
                                 <div 
@@ -108,7 +108,7 @@
                             <div class="grid grid-cols-12 gap-2">
                                 <!-- Genre -->
                                 <div class="col-span-12 md:col-span-6">
-                                    <h2 class="md:float-right dark:text-primary-100" />
+                                    <h2 class="md:float-right" />
                                 </div>
                                 <div class="col-span-12 md:col-span-6">
                                     <ul />
@@ -132,13 +132,13 @@
                                 class="grid grid-cols-12 gap-2 event mb-4"
                             >
                                 <div class="col-span-full">
-                                    <h2 class="text-primary-800 dark:text-primary-100">
+                                    <h2>
                                         {{ $t(has_event_item.category) }}
                                     </h2>
                                 </div>
 
                                 <div class="col-span-full md:col-span-2">
-                                    <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right capitalize">
+                                    <span class="text-md font-bold md:float-right capitalize">
                                         {{ $t('productionyear') }}:
                                     </span>
                                 </div>
@@ -152,7 +152,7 @@
                                     v-if="has_event_item.located_in"
                                     class="col-span-full md:col-span-4"
                                 >
-                                    <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right capitalize">
+                                    <span class="text-md font-bold md:float-right capitalize">
                                         {{ $t('place') }}:
                                     </span>
                                 </div>
@@ -177,12 +177,12 @@
                                     class="grid col-span-full grid-cols-12 gap-2 activity"
                                 >
                                     <div class="col-span-full md:col-span-6 md:col-start-2">
-                                        <h2 class="text-primary-800 dark:text-primary-100">
+                                        <h2>
                                             {{ $t(has_activity_item.category) }}
                                         </h2>
                                     </div>
                                     <div class="col-span-3 md:col-span-4 md:col-start-2">
-                                        <span class="text-sm font-bold text-primary-900 dark:text-primary-100 md:float-right md:text-right">
+                                        <span class="text-sm font-bold md:float-right md:text-right">
                                             {{ $t(has_activity_item.type) }}:
                                         </span>
                                     </div>
@@ -234,7 +234,7 @@
                                     v-if="mir.has_duration"
                                     class="col-span-full md:col-span-7"
                                 >
-                                    <h2 class=" dark:text-primary-100">
+                                    <h2>
                                         {{ $t('avefi:Duration') }}:
                                     </h2>
                                     {{ mir.has_duration?.has_value }}
@@ -247,7 +247,7 @@
                                 >
                                     <div class="grid grid-cols-7 gap-2">
                                         <div class="col-span-full md:col-span-3">
-                                            <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right">
+                                            <span class="text-md font-bold md:float-right">
                                                 in_language:
                                             </span>
                                         </div>
@@ -268,7 +268,7 @@
                                 >
                                     <div class="grid grid-cols-7 gap-1">
                                         <div class="col-span-full md:col-span-3">
-                                            <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right">
+                                            <span class="text-md font-bold md:float-right">
                                                 has_colour_type:
                                             </span>
                                         </div>
@@ -284,7 +284,7 @@
                                 >
                                     <div class="grid grid-cols-7 gap-1">
                                         <div class="col-span-full md:col-span-3">
-                                            <span class="text-md font-bold text-primary-900 dark:text-primary-100 md:float-right">
+                                            <span class="text-md font-bold md:float-right">
                                                 has_sound_type:
                                             </span>
                                         </div>
@@ -305,7 +305,7 @@
                             v-if="mir.described_by"
                             class="col-span-full md:col-span-2"
                         >
-                            <span class="text-md font-bold text-primary-900  dark:text-primary-100 md:float-right">{{ $t('describedBy') }}:</span>
+                            <span class="text-md font-bold md:float-right">{{ $t('describedBy') }}:</span>
                         </div>
                         <div class="col-span-full md:col-span-8">
                             <p>{{ mir.described_by?.has_issuer_name }}</p>

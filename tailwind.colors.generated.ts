@@ -2,6 +2,7 @@
 export const lightThemeColors = {
   "primary": {
     "DEFAULT": "#4d768d",
+    "text": "#4d768d",
     "content": "oklch(98% 0.002 247.839)"
   },
   "secondary": {
@@ -32,7 +33,7 @@ export const lightThemeColors = {
     "DEFAULT": "oklch(60.61% 0.12 15.341)",
     "content": "#ffffff"
   },
-  "highlight": "#e4acba",
+  "highlight": "#ffc0cb",
   "highlight-content": "#3a1f26",
   "favourites-list": "#b85a5e",
   "favourites-list-content": "#ffffff",
@@ -51,7 +52,8 @@ export const lightThemeColors = {
 };
 export const darkThemeColors = {
   "primary": {
-    "DEFAULT": "#80a3b5",
+    "DEFAULT": "#4d768d",
+    "text": "#80a3b5",
     "content": "oklch(98% 0.002 247.839)"
   },
   "secondary": {
@@ -82,7 +84,7 @@ export const darkThemeColors = {
     "DEFAULT": "oklch(71.785% 0.17 13.118)",
     "content": "#ffffff"
   },
-  "highlight": "#e4acba",
+  "highlight": "#ffc0cb",
   "highlight-content": "#3a1f26",
   "favourites-list": "#b85a5e",
   "favourites-list-content": "#ffffff",
@@ -91,9 +93,9 @@ export const darkThemeColors = {
   "compare-list": "#3A434A",
   "compare-list-hover": "#2B343B",
   "compare-list-content": "#ffffff",
-  "work": "#809595",
-  "manifestation": "#728a8a",
-  "item": "#677c7c",
+  "work": "#8ea1a1",
+  "manifestation": "#7c949e",
+  "item": "#748599",
   "film-related-materials": "#4F7F78",
   "film-related-materials-content": "#ffffff",
   "userinfo": "#3a4246",

@@ -7,8 +7,8 @@
         <span :aria-hidden="collapsible ? 'true' : undefined">{{ displayText }}</span>
         <button
             type="button"
-            class="inline-flex items-center text-primary-600 dark:hover:text-primary-100 dark:text-primary-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 rounded"
-            :class="[darkBg ? 'text-primary-200 hover:text-primary-300' : '']"
+            class="inline-flex items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 rounded"
+            :class="[darkBg ? ' ' : '']"
             :aria-label="`${$t('copyToClipboard')}: ${displayText}`"
             :title="`${$t('copyToClipboard')}: ${displayText}`"
             @click="useClipboardUtil()?.copyExtended(copyValue)"

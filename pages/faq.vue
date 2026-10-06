@@ -37,7 +37,7 @@
                                     <h2>{{ $t(`${section.key}.heading`) }}</h2>
                                 </div>
 
-                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white">
+                                <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white text-base leading-relaxed">
                                     <p
                                         v-for="(paragraph, index) in getContent(section.key)"
                                         :key="index"

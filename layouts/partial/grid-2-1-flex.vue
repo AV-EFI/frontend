@@ -5,7 +5,7 @@
         :class="leftClass"
     >
         <div class="col-span-full">
-            <h5 class="text-sm font-bold text-primary-800 tracking-wide dark:text-primary-100">
+            <h5 class="text-sm font-bold tracking-wide">
                 <slot name="heading" />
             </h5>
         </div>

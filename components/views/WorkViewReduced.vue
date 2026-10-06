@@ -6,10 +6,10 @@
             <div class="space-y-4">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1">
-                        <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
+                        <p class="text-sm font-semibold">
                             {{ title }}
                         </p>
-                        <h2 class="text-lg font-normal dark:text-primary-100">
+                        <h2 class="text-lg font-normal">
                             <a
                                 class="link link-hover"
                                 :href="`/res/${data.handle}`"
@@ -127,10 +127,10 @@
             <div class="space-y-4">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1">
-                        <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
+                        <p class="text-sm font-semibold">
                             {{ compareTitle }}
                         </p>
-                        <h2 class="text-lg font-normal dark:text-primary-100">
+                        <h2 class="text-lg font-normal">
                             <a
                                 class="link link-hover"
                                 :href="`/res/${compareWith.handle}`"
@@ -250,10 +250,10 @@
             <!-- Header with toggle -->
             <div class="flex items-center justify-between gap-4">
                 <div class="flex-1">
-                    <p class="text-sm font-semibold text-primary-900 dark:text-primary-100">
+                    <p class="text-sm font-semibold">
                         {{ title }}
                     </p>
-                    <h2 class="text-lg font-normal dark:text-primary-100">
+                    <h2 class="text-lg font-normal">
                         <a
                             class="link link-hover"
                             :href="`/res/${data.handle}`"

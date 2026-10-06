@@ -9,7 +9,7 @@
             </template>
 
             <template #title>
-                <NuxtLayout name="partial-grid-2-1" left-class="dark:bg-primary-600 rounded-t-xl py-4">
+                <NuxtLayout name="partial-grid-2-1" left-class="rounded-t-xl py-4">
                     <template #left>                        
                         <div v-if="resourceType != 'compilationItem'" class="detail-record-title col-span-full px-4">
                             <GlobalClipboardComp

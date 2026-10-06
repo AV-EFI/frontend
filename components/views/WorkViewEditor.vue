@@ -22,9 +22,9 @@
             </button>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">efi:</label>
+            <label class="col-span-full text-sm font-bold">efi:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
-                <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-white dark:bg-gray-700">
+                <li class="text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-white dark:bg-gray-700">
                     <span class="col-span-6 my-auto">
                         {{ data?.handle }}
                     </span>
@@ -39,9 +39,9 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('title') }}:</label>
+            <label class="col-span-full text-sm font-bold bg-secondary-200 dark:bg-secondary-600">{{ $t('title') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
-                <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-900">
+                <li class="text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-900">
                     <span class="col-span-6 my-auto">
                         {{ data?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
                     </span>
@@ -56,12 +56,12 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('AlternativeTitle') }}:</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('AlternativeTitle') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(altTitle, index) in data?.compound_record?._source?.has_record?.has_alternative_title"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-6 my-auto">
                         {{ altTitle.has_name }}
@@ -79,12 +79,12 @@
     
 
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('location') }}:</label>
+            <label class="col-span-full text-sm font-bold bg-secondary-200 dark:bg-secondary-600">{{ $t('location') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(country, index) in data?.compound_record?._source?.has_record?.has_event?.[0]?.located_in"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
                         {{ getLocalizedPlaceLabel(country) }}
@@ -112,12 +112,12 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('productionyear') }}:</label>
+            <label class="col-span-full text-sm font-bold bg-secondary-200 dark:bg-secondary-600">{{ $t('productionyear') }}:</label>
             <ul 
                 v-if="data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date"
                 class="grid grid-cols-7 subgrid gap-1 col-span-full"
             >
-                <li class="text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-900">
+                <li class="text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1 bg-gray-100 dark:bg-gray-900">
                     <span class="col-span-6">
                         {{ data?.compound_record?._source?.has_record?.has_event?.find(ev => ev.category === 'avefi:ProductionEvent')?.has_date }}
                     </span>
@@ -132,7 +132,7 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100 bg-secondary-200 dark:bg-secondary-600">{{ $t('Director') }}:</label>
+            <label class="col-span-full text-sm font-bold bg-secondary-200 dark:bg-secondary-600">{{ $t('Director') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(director, index) in data?.compound_record?._source?.has_record?.has_event
@@ -140,7 +140,7 @@
                         ?.has_activity?.find(act => act.type === 'Director')
                         ?.has_agent || []"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
                         {{ director?.has_name }}
@@ -168,7 +168,7 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('production') }}:</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('production') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(producer, index) in data?.compound_record?._source?.has_record?.has_event
@@ -176,7 +176,7 @@
                         ?.has_activity?.find(act => act.type === 'Producer')
                         ?.has_agent || []"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
                         {{ producer.has_name }}
@@ -204,7 +204,7 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('castmembers') }}</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('castmembers') }}</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(castMember, index) in data?.compound_record?._source?.has_record?.has_event
@@ -212,7 +212,7 @@
                         ?.has_activity?.find(act => act.type === 'CastMember')
                         ?.has_agent || []"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
                         {{ castMember.has_name }}
@@ -248,7 +248,7 @@
                 <li
                     v-for="(genre, index) in data?.compound_record?._source?.has_record?.has_genre"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
                         {{ genre.has_name }}
@@ -276,12 +276,12 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('subject') }}:</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('subject') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(subject, index) in data?.compound_record?._source?.has_record?.has_subject"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3">
                         {{ subject.has_name }}
@@ -309,12 +309,12 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('other_ids') }}:</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('other_ids') }}:</label>
             <ul class="grid grid-cols-7 subgrid gap-1 col-span-full">
                 <li
                     v-for="(otherId, index) in data?.compound_record?._source?.has_record?.same_as"
                     :key="index"
-                    :class="['text-sm mb-1 dark:text-primary-100 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
+                    :class="['text-sm mb-1 text-ellipsis text-wrap overflow-hidden max-w-full col-span-full grid subgrid grid-cols-7 gap-1', index % 2 === 0 ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-700']"
                 >
                     <span class="col-span-3 break-all">
                         {{ otherId.id }}
@@ -334,7 +334,7 @@
             </ul>
         </div>
         <div class="col-span-full grid grid-cols-7 grid-rows-[20px_auto] text-sm gap-1 mt-2">
-            <label class="col-span-full text-sm font-bold text-primary-900 dark:text-primary-100">{{ $t('lastedit') }}:</label>
+            <label class="col-span-full text-sm font-bold">{{ $t('lastedit') }}:</label>
             <span class="col-span-6 my-auto">
                 {{ data?.compound_record?._source?.has_record?.described_by?.has_issuer_name }}
             </span>

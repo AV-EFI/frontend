@@ -21,14 +21,16 @@ describe('Global shell performance contract guards', () => {
     expect(appSource).not.toContain('<LazyGlobalAuthProvider />');
   });
 
-  test('keeps large custom fonts out of the mobile critical path', () => {
+  test('serves Bree Serif and Inter on all viewports without preloading the large font files', () => {
     expect(appSource).not.toContain("rel: 'preload', href: '/fonts/Inter.ttf'");
     expect(appSource).not.toContain("rel: 'preload', href: '/fonts/BreeSerif-Regular.ttf'");
     expect(nuxtConfigSource).not.toContain("href: '/fonts/Inter.ttf'");
     expect(nuxtConfigSource).not.toContain("href: '/fonts/BreeSerif-Regular.ttf'");
-    expect(mainScssSource).toContain('@media (min-width: 768px)');
-    expect(mainScssSource).toContain("src: url('/fonts/Inter.ttf') format('truetype');");
-    expect(mainScssSource).toContain('font-family: system-ui, -apple-system');
+    expect(mainScssSource).toContain("src: url('/fonts/Inter-latin.woff2') format('woff2');");
+    expect(mainScssSource).toContain("src: url('/fonts/BreeSerif-Regular-latin.woff2') format('woff2');");
+    expect(mainScssSource).toContain("font-family: 'Inter', system-ui, -apple-system");
+    expect(mainScssSource).toContain("font-family: 'BreeSerif', Georgia");
+    expect(mainScssSource).not.toContain('font-family: Georgia, "Times New Roman", serif;');
   });
 
   test('keeps level stripes clipped inside rounded section borders', () => {

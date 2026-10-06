@@ -56,7 +56,7 @@
                                     <li v-for="(agent, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
                                         :aria-label="$t('agent') + ': ' + (agent?.has_name ?? '')" class="group">
                                         <div class="flex items-center justify-between gap-2 rounded-lg px-2 py-2
-                     hover:bg-primary-50 focus-within:bg-primary-50
+                      
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
                                             <SearchClickableFacetValue
                                                 class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300"
@@ -108,7 +108,7 @@
                                     <li v-for="(agent, agentIndex) in normalizeAgents(activity?.has_agent)" :key="agentIndex"
                                         :aria-label="$t('agent') + ': ' + (agent?.has_name ?? '')" class="group">
                                         <div class="flex items-center justify-between gap-2 rounded-lg px-2 py-2
-                     hover:bg-primary-50 focus-within:bg-primary-50
+                      
                      dark:hover:bg-gray-800/40 dark:focus-within:bg-gray-800/40">
                                             <SearchClickableFacetValue
                                                 class="min-w-0 flex-1 wrap-break-word text-sm leading-5 dark:text-gray-300"
