@@ -3,7 +3,8 @@ import { resolve } from 'node:path';
 import { describe, expect, test } from 'vitest';
 
 const root = process.cwd();
-const ciSource = readFileSync(resolve(root, '.gitlab-ci.yml'), 'utf8');
+// Windows checkouts convert line endings (core.autocrlf), the job regex below expects LF.
+const ciSource = readFileSync(resolve(root, '.gitlab-ci.yml'), 'utf8').replace(/\r\n/g, '\n');
 const packageSource = readFileSync(resolve(root, 'package.json'), 'utf8');
 const mrTemplateSource = readFileSync(resolve(root, '.gitlab/merge_request_templates/Default.md'), 'utf8');
 
