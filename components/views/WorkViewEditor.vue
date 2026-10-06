@@ -17,7 +17,8 @@
                 {{ $t('updateallproperties') }}
                 <Icon
                     name="tabler:arrow-right"
-                    class="text-white"
+                    class="icon-action"
+                    aria-hidden="true"
                 />
             </button>
         </div>

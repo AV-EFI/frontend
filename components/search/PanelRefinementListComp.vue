@@ -41,7 +41,7 @@
                                :max="boundMax(s?.range ?? {})" :value="(pending?.[0] ?? boundMin(s?.range ?? {}))"
                                :disabled="!(s?.canRefine ?? false)" @change="onMinChangeLocal($event, s?.range ?? {})">
                         <div class="w-1/3 flex flex-col justify-center mb-3.5 max-w-16">
-                            <Icon class="mx-auto dark:text-white" name="tabler:arrow-right" />
+                            <Icon class="mx-auto" name="tabler:arrow-right" />
                         </div>
                         <input :id="`${inputId}-max`" type="number" inputmode="numeric"
                                class="input input-bordered input-xs w-24 bg-white dark:bg-gray-900 text-neutral-700 dark:text-neutral-300"
@@ -89,7 +89,7 @@
                         <div class="relative">
                             <Icon
                                 name="tabler:search"
-                                class="facet-search-icon pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base-content/50 dark:text-zinc-300/60"
+                                class="facet-search-icon pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base-content/70"
                                 aria-hidden="true"
                             />
 

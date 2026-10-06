@@ -11,7 +11,7 @@
                     <Icon
                         v-if="selectedWorkLevelIcon"
                         :name="selectedWorkLevelIcon"
-                        class="icon-inline selected-level-icon"
+                        class="icon-inline icon-level selected-level-icon"
                         :style="{ color: selectedWorkLevelColor }"
                         aria-hidden="true"
                     />

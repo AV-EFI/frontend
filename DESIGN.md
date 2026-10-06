@@ -81,7 +81,9 @@ Normally, current implemented theme and token configuration are authoritative fo
 
 Prefer existing shared classes and components before adding local styling:
 
-- Icon utilities: `.icon-inline`, `.icon-action`, `.icon-status`, `.icon-empty-state`
+- Icon utilities: `.icon-inline`, `.icon-action`, `.icon-level`, `.icon-status`, `.icon-empty-state`
+- Icon sizes: inline 1em (bound to the text), action 1.25em, level (work/manifestation/item) 1.25rem and 1rem inside badges, status 1.5rem, empty state 2rem. These classes are unlayered because @nuxt/icon sets 1em outside any cascade layer.
+- Icon colour: icons inherit the text colour. Allowed deviations are the domain colours of level icons, status colours, `text-primary` for active or interactive state and `text-base-content/70` for muted. No hard-coded white or gray.
 - Icon buttons: `.btn-icon`, `.btn-icon-xs`, `.btn-icon-sm`, `.btn-icon-danger`
 - Destructive buttons: `.btn-danger`, `.btn-danger-outline`
 - Semantic badges: `.badge-highlight`, `.badge-highlight-xs`, `.badge-work`, `.badge-manifestation`, `.badge-item`, `.badge-favourites-list`, `.badge-compare-list`, `.badge-userinfo`

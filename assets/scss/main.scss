@@ -190,38 +190,46 @@ textarea::selection {
   }
 }
 
+/* Icon size tiers. Unlayered on purpose: @nuxt/icon sets width/height: 1em outside any
+   cascade layer, which would otherwise override these utilities. */
+.icon-inline,
+.icon-inline-muted {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.icon-action {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+}
+
+/* Work / manifestation / item icons differ only in small details; they need room to be told apart. */
+.icon-level {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.badge .icon-level {
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon-status {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.icon-empty-state {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+}
+
 @layer components {
-  .icon-inline,
-  .icon-inline-muted {
-    width: 1em;
-    height: 1em;
-    flex-shrink: 0;
-  }
-
-  .icon-action {
-    width: 1.25em;
-    height: 1.25em;
-    flex-shrink: 0;
-  }
-
-  .icon-level {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
-  .icon-status {
-    width: 1.5rem;
-    height: 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .icon-empty-state {
-    width: 2rem;
-    height: 2rem;
-    flex-shrink: 0;
-  }
-
   .btn-icon {
     @apply btn btn-circle;
   }

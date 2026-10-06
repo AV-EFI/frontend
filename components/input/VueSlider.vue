@@ -57,7 +57,7 @@
                     :aria-label="$t('minimumProductionYear')"
                 />
                 <div class="w-1/3 flex flex-col justify-center mb-3.5">
-                    <Icon class="mx-auto dark:text-white" name="tabler:arrow-right" />
+                    <Icon class="mx-auto" name="tabler:arrow-right" />
                 </div>
                 <FormKit
                     v-model="sliderValue[1]"

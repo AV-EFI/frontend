@@ -47,7 +47,7 @@
                                             :title="`${$t('detailedViewLinkFor', { name: work.has_record.has_primary_title?.has_name || work.handle })}`"
                                             :aria-label="`${$t('detailedViewLinkFor', { name: work.has_record.has_primary_title?.has_name || work.handle })}`"
                                         >
-                                            <Icon class="text-xs dark:text-white" name="tabler:arrow-right" />
+                                            <Icon class="text-xs" name="tabler:arrow-right" />
                                         </NuxtLink>
                                     </div>
                                     <GlobalActionContextComp comp-size="xs" :item="work" />

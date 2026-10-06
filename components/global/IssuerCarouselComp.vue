@@ -57,7 +57,7 @@
                                 >
                                     <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
                                         <span class="inline-flex items-center gap-1">
-                                            <Icon :name="summary.icon" class="icon-inline" aria-hidden="true" />
+                                            <Icon :name="summary.icon" class="icon-inline icon-level" aria-hidden="true" />
                                             <span>{{ summary.label }}</span>
                                         </span>
                                     </div>

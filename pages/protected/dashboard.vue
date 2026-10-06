@@ -16,7 +16,7 @@
                         <div v-for="stat in dashboardStatsItems" :key="stat.key" class="stat">
                             <div class="stat-title">
                                 <span class="inline-flex items-center gap-1.5">
-                                    <Icon :name="stat.icon" class="icon-inline" aria-hidden="true" />
+                                    <Icon :name="stat.icon" class="icon-inline icon-level" aria-hidden="true" />
                                     <span>{{ stat.label }}</span>
                                 </span>
                             </div>

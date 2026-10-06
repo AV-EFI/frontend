@@ -7,7 +7,7 @@
     >
         <div class="my-2">
             <h2 class="inline-flex items-center gap-2 text-xl font-bold">
-                <Icon :name="workLevelIcon" class="icon-inline" aria-hidden="true" />
+                <Icon :name="workLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                 {{ type == 'parts' ? $t('parts') : $t('workVariants') }}
             </h2>
         </div>

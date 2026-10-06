@@ -109,7 +109,7 @@
             <div class="flex flex-col">
                 <h3 class="flex w-full items-center justify-start gap-2 text-left font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
                     :aria-label="$t('tooltip.manifestation')">
-                    <Icon :name="manifestationLevelIcon" class="icon-inline" aria-hidden="true" />
+                    <Icon :name="manifestationLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                     {{ $t('manifestations') }}
                     <GlobalTooltipInfo :text="$t('tooltip.manifestation')" />
                 </h3>

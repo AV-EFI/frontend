@@ -99,7 +99,7 @@
                                                 <span v-if="isSearchLoading" id="custom-spinner"
                                                       class="loading loading-spinner loading-md text-primary" />
                                                 <div v-else class="stats stats-vertical w-full lg:stats-horizontal shadow">
-                                                    <div class="stat p-2 px-4">
+                                                    <div class="stat p-2 px-2">
                                                         <div class="stat-title inline-flex items-center gap-1.5">
                                                             <Icon :name="workLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                                                             {{ $t('works') }}
@@ -107,7 +107,7 @@
                                                         <div class="stat-value">{{ getDisplayedWorksCount(results?._rawResults[0], nbHits) }}</div>
                                                     </div>
 
-                                                    <div class="stat p-2 px-4">
+                                                    <div class="stat p-2 px-2">
                                                         <div class="stat-title inline-flex items-center gap-1.5">
                                                             <Icon :name="manifestationLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                                                             {{ $t('manifestations') }}
@@ -115,7 +115,7 @@
                                                         <div class="stat-value">{{ results?._rawResults[0]?.nbManifestations }}</div>
                                                     </div>
 
-                                                    <div class="stat p-2 px-4">
+                                                    <div class="stat p-2 px-2">
                                                         <div class="stat-title inline-flex items-center gap-1.5">
                                                             <Icon :name="itemLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
                                                             {{ $t('items') }}

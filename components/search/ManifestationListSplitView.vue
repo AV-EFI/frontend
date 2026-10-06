@@ -46,7 +46,7 @@
                         </div>
                         <div class="flex items-center px-1 self-start sm:self-center">
                             <Icon name="tabler:chevron-up"
-                                  class="text-xl text-neutral shrink-0 transition-transform duration-200 ease-in-out dark:text-neutral-400"
+                                  class="text-xl text-base-content/70 shrink-0 transition-transform duration-200 ease-in-out"
                                   :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
                                   aria-hidden="true" />
                         </div>
@@ -148,7 +148,7 @@
                                         class="btn btn-primary btn-sm btn-block btn-outline my-auto focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                         :aria-label="`${$t('viewItemDetails')}: ${item.handle}`" :title="$t('viewItemDetails')"
                                         @click="navigateToItem(item)">
-                                    <Icon name="tabler:arrow-right" class="icon-inline mr-1 dark:text-gray-200" aria-hidden="true" />
+                                    <Icon name="tabler:arrow-right" class="icon-inline mr-1" aria-hidden="true" />
                                 </button>
                             </div>
                         </li>
