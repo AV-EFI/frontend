@@ -110,7 +110,7 @@ const goToPage = (target: number) => {
 .news-list > li + li { border-top: 1px solid var(--color-base-300); }
 .news-article { display: grid; gap: 0.625rem; padding: 3rem 0; }
 .news-article-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; }
-.news-article-heading > .news-source { font-size: 0.8125rem; opacity: 0.75; flex-shrink: 0; margin-bottom: 0.375rem; }
+.news-article-heading > .news-source { font-size: 0.8125rem; opacity: 0.75; flex-shrink: 0; margin-bottom: 0.375rem; margin-left: auto; }
 .news-article-heading > .news-source:hover { opacity: 1; }
 .news-date { display: block; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.03em; }
 .news-date::before { content: ''; display: inline-block; width: 1.5rem; height: 2px; margin-right: 0.75rem; vertical-align: middle; background: var(--color-primary); }
