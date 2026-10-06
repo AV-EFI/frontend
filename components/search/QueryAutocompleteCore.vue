@@ -128,6 +128,7 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount, onMounted, nextTick, useId, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { canAutoFocus } from '~/utils/autoFocusGuard';
 import defaultQuerySuggestions from '~/assets/data/default-query-suggestions.json';
 
 const suppressNextInput = ref(false);
@@ -279,7 +280,7 @@ onMounted(async () => {
     if (!props.autofocus) return;
     await nextTick();
     setTimeout(() => {
-        focusInput();
+        if (canAutoFocus()) focusInput();
     }, 80);
 });
 

@@ -1,32 +1,9 @@
 <template>
-    <div class="lg:mx-auto">
-        <label class="swap swap-flip">
-            <!-- this hidden checkbox controls the state -->
-            <input v-model="localeModel" type="checkbox" true-value="de" false-value="en" :value="currentLocale"
-                   :aria-label="currentLocale === 'de' ? t('switchToEnglishLanguage') : t('switchToGermanLanguage')"
-                   class="checkbox theme-controller hidden">
-            <div class="swap-off animated" :title="t('switchToGermanLanguage')">
-                <div class="avatar placeholder">
-                    <div
-                        class="bg-base-100 dark:bg-gray-600 dark:text-white text-neutral w-8 h-8 rounded-full flex items-center justify-center">
-                        <span class="flex text-xs flex-row items-center justify-center w-full h-full">
-                            <Icon class="text-md" name="tabler:language" />De
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="swap-on animated circle" :title="t('switchToEnglishLanguage')">
-                <div class="avatar placeholder">
-                    <div
-                        class="bg-base-100 dark:bg-gray-600 dark:text-white text-neutral w-8 h-8 rounded-full flex items-center justify-center">
-                        <span class="flex text-xs flex-row items-center justify-center w-full h-full">
-                            <Icon class="text-md" name="tabler:language" />En
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </label>
-    </div>
+    <!-- The visible text names the action, so the accessible name matches what is shown. -->
+    <button type="button" @click="toggleLocale">
+        <Icon class="icon-action" name="tabler:language" aria-hidden="true" />
+        <span>{{ currentLocale === 'de' ? t('switchToEnglishLanguage') : t('switchToGermanLanguage') }}</span>
+    </button>
 </template>
 
 <script lang="ts" setup>
@@ -40,10 +17,7 @@ watch(() => i18n.locale.value, (newLocale) => {
     i18n.setLocaleCookie(newLocale);
 });
 const currentLocale = computed(() => i18n.locale.value);
-const localeModel = computed({
-    get: () => currentLocale.value,
-    set: (value: string) => {
-        i18n.locale.value = value;
-    },
-});
+const toggleLocale = () => {
+    i18n.locale.value = currentLocale.value === 'de' ? 'en' : 'de';
+};
 </script>

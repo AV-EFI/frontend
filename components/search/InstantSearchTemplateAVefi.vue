@@ -155,14 +155,14 @@
                                                 'ais-ClearRefinements-button': 'btn-danger',
                                             }">
                                                 <template v-slot="{ items }">
-                                                    <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-gray-500 text-sm dark">
+                                                    <div v-if="items.length === 0 && !hasProductionYearRefinement" class="text-base-content/70 text-sm">
                                                         {{ $t('nofacetsselected') }}
                                                     </div>
                                                 </template>
                                                 <template #item="{ item, refine, createURL }">
                                                     <div role="listitem" class="flex flex-col gap-1">
                                                         <span class="text-left w-full">
-                                                            <strong class="font-bold text-sm dark:text-primary-100">
+                                                            <strong class="font-bold text-sm">
                                                                 {{ $t(item.label.split(".").at(-1)) }}:
                                                             </strong>
                                                         </span>
@@ -190,7 +190,7 @@
                                             <!-- Custom chip for production year slider -->
                                             <div v-if="hasProductionYearRefinement && productionYearLabel" class="flex flex-row flex-wrap gap-2 mt-2">
                                                 <div class="filter-chip flex flex-col items-start p-1 md:w-auto md:max-w-xs">
-                                                    <strong class="font-bold text-sm mb-2 dark:text-primary-100 mr-2">
+                                                    <strong class="font-bold text-sm mb-2 mr-2">
                                                         {{ $t('productionyear') }}:
                                                     </strong>
                                                     <button type="button" class="flex flex-row items-start cursor-pointer text-left"

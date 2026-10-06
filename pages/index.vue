@@ -318,6 +318,7 @@
 <script lang="ts" setup>
 import { useRuntimeConfig, useSeoMeta, useHead } from 'nuxt/app';
 import { ref, onMounted, nextTick, watch, defineAsyncComponent, computed } from 'vue';
+import { canAutoFocus } from '~/utils/autoFocusGuard';
 import type { ComponentPublicInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -508,7 +509,7 @@ onMounted(() => {
     isClientMounted.value = true;
     nextTick(() => {
         setTimeout(() => {
-            focusFirstInput();
+            if (canAutoFocus()) focusFirstInput();
         }, 120);
     });
 });
