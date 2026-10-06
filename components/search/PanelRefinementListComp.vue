@@ -6,14 +6,14 @@
     }"
     >
         <!-- Header -->
-        <template #header="h">
+        <template #header>
             <div class="flex items-center gap-2">
                 <Icon :name="facetIcon" class="icon-inline"
                       aria-hidden="true" />
                 <h3 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold">
                     {{ $t(props.headerText as string) }}
                 </h3>
-                <span v-if="h?.hasRefinements" class="inline-block size-2.5 shrink-0 rounded-full bg-highlight ring-1 ring-base-content/40"><span class="sr-only">{{ $t('activeFacets') }}</span></span>
+                <span v-if="isRefined" class="inline-block size-2.5 shrink-0 rounded-full bg-highlight ring-1 ring-base-content/40"><span class="sr-only">{{ $t('activeFacets') }}</span></span>
             </div>
 
             <MicroBadgeCategoryComp v-if="props.category" :category="props.category" :dense="true" class="my-auto" />
@@ -152,6 +152,7 @@ import { computed, inject, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Slider from '@vueform/slider';
 import { SEARCH_REFINEMENT_COORDINATOR_KEY } from '~/composables/searchRefinementCoordinator';
+import { useIsFacetRefined } from '~/composables/useIsFacetRefined';
 
 const props = withDefaults(defineProps<{
     headerText?: string
@@ -188,6 +189,7 @@ const pending = ref<[number, number] | null>(null);
 const lastApplied = ref<[number, number] | null>(null);
 
 const refinementCoordinator = inject(SEARCH_REFINEMENT_COORDINATOR_KEY, null);
+const isRefined = useIsFacetRefined(() => props.attributeName ?? '');
 
 // helpers
 const isFiniteNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
