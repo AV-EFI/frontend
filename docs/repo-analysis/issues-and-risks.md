@@ -146,6 +146,36 @@ Impact:
 - difficult to know which files are source assets vs generated outputs
 - future image changes are likely to keep producing more dead files unless generation becomes manifest-driven
 
+### 11. Facet state has no single owner
+
+Snapshot date: 2026-10-06. Proposed, not decided; needs a product/engineering decision before work starts.
+
+Where applied-facet state is read or written today:
+
+- `components/search/InstantSearchTemplateAVefi.vue` (about 1700 lines): reads the production-year range from the URL, derives `currentRefinements`, and builds the router state mapping (`stateToRoute`).
+- `components/input/VueSlider.vue`: keeps its own applied range and "production year only" state.
+- `components/search/PanelRefinementListComp.vue` and `composables/useSearchFacetToggle.ts`: set list refinements.
+- `composables/searchRefinementCoordinator.ts`: coordinates refinement actions.
+- `composables/useIsFacetRefined.ts`: reads "is this facet filtered" from the URL query for the active-facet dot in the panel header.
+
+Symptoms and evidence:
+
+- `ais-panel`'s `hasRefinements` only means that the facet offers values, so it cannot mark active facets. It is true for almost every panel.
+- `inject('$_ais_state')` in `InstantSearchTemplateAVefi.vue` resolves to nothing with the installed `vue-instantsearch`, so `currentRefinements` and the `aisState` branches there are effectively dead code.
+- "Is a filter applied" therefore has to be rebuilt per consumer from the URL or from component-local state. These sources can disagree, for example while the router update is pending.
+
+Proposed direction:
+
+1. Inventory first (no code change): who reads and writes facet state, and which unit, contract and e2e tests cover it.
+2. Read side: one shared composable or store exposes the applied filters, `isRefined(attribute)` and the active-facet list. The URL stays the persisted form.
+3. Write side: move setting and clearing filters behind the same module once tests cover it.
+
+Risks and constraints:
+
+- InstantSearch keeps its own state. A second source of truth is worse than the current spread, so the store must be driven through `stateMapping` or `onStateChange`.
+- Search and routing are sensitive surfaces (see `AGENTS.md`). Run the closest unit, contract and e2e coverage; the e2e checks need the backend.
+- Do this as its own ticket and branch, not alongside UI changes.
+
 ## Lower-priority but worth tracking
 
 - public and protected UX live in the same deployment artifact
@@ -161,3 +191,4 @@ Impact:
 4. Replace the interim frontend auth guard with the final backend/Keycloak-backed authorization model.
 5. Replace the hardcoded image generator with a shared image manifest plus a cleanup mode.
 6. Expand targeted tests before large structural refactors, especially for protected/internal tooling and POC surfaces.
+7. Give facet state a single owner (see item 11), starting with an inventory.
