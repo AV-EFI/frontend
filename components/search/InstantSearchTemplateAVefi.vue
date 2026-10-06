@@ -35,7 +35,7 @@
                                             <button type="button" class="btn btn-primary lg:btn-lg h-12 rounded-xl rounded-l-none"
                                                     :title="$t('search')" :aria-label="$t('submitSearch')"
                                                     @click="handleSearchSubmit(localSearchValue, refine)">
-                                                <Icon class="icon-inline" name="formkit:search" aria-hidden="true" />
+                                                <Icon class="icon-inline" name="tabler:search" aria-hidden="true" />
                                                 <span class="hidden md:inline ml-2">{{ $t('Search') }}</span>
                                             </button>
                                             <!-- Context menu button -->

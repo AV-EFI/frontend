@@ -88,7 +88,7 @@
                     <div v-if="props.isSearchable" class="px-2 pt-2">
                         <div class="relative">
                             <Icon
-                                name="formkit:search"
+                                name="tabler:search"
                                 class="facet-search-icon pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base-content/50 dark:text-zinc-300/60"
                                 aria-hidden="true"
                             />

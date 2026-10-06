@@ -638,7 +638,7 @@ function iconClassFor(type: string) {
     const tt = type.toLowerCase();
 
     if (im[type]) return im[type];
-    if (tt === 'recent') return 'formkit:history';
+    if (tt === 'recent') return 'tabler:history';
     if (tt.includes('title')) return im.title || 'tabler:letter-t';
     if (tt.includes('subject')) return im.subjects || 'tabler:tags';
     if (tt.includes('language')) return im.in_language_code || 'tabler:language';

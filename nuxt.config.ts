@@ -289,7 +289,7 @@ export default defineNuxtConfig({
 
   icon: {
     // See: https://github.com/nuxt-modules/icon#configuration
-    collections: ['tabler', 'formkit'], // Uncomment if you want to use specific icon collections
+    collections: ['tabler'],
   },
 
   components: {
