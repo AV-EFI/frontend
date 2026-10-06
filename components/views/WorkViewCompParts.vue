@@ -76,7 +76,7 @@
                             :title="$t('detailviewlink')"
                             target="_blank"
                         >
-                            <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
+                            <Icon name="tabler:arrow-right" class="text-2xl" aria-hidden="true" />
                         </NuxtLink>
 
                         <a

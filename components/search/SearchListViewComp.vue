@@ -61,7 +61,7 @@
                               class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                               :aria-label="`${$t('detailviewlink')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
                               :title="$t('detailviewlink')" target="_blank">
-                        <Icon name="tabler:eye" class="text-2xl" aria-hidden="true" />
+                        <Icon name="tabler:arrow-right" class="text-2xl" aria-hidden="true" />
                     </NuxtLink>
                     <GlobalActionContextComp v-if="work" :item="work" />
                 </div>

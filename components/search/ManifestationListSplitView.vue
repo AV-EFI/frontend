@@ -40,7 +40,7 @@
                                     class="btn btn-primary btn-outline btn-sm mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                     :aria-label="`${$t('viewManifestationDetails')}: ${m.handle}`" :title="$t('viewManifestationDetails')"
                                     @click.stop="navigateToItem(m)">
-                                <Icon name="tabler:eye" class="icon-inline mr-1" aria-hidden="true" />
+                                <Icon name="tabler:arrow-right" class="icon-inline mr-1" aria-hidden="true" />
                                 <span class="sr-only">{{ $t('viewManifestationDetails') }}</span>
                             </button>
                         </div>
@@ -148,7 +148,7 @@
                                         class="btn btn-primary btn-sm btn-block btn-outline my-auto focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                         :aria-label="`${$t('viewItemDetails')}: ${item.handle}`" :title="$t('viewItemDetails')"
                                         @click="navigateToItem(item)">
-                                    <Icon name="tabler:eye" class="icon-inline mr-1 dark:text-gray-200" aria-hidden="true" />
+                                    <Icon name="tabler:arrow-right" class="icon-inline mr-1 dark:text-gray-200" aria-hidden="true" />
                                 </button>
                             </div>
                         </li>

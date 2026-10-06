@@ -42,7 +42,7 @@
                     :title="$t('detailviewlink')"
                     target="_blank"
                 >
-                    <Icon name="tabler:eye" class="text-base" aria-hidden="true" />
+                    <Icon name="tabler:arrow-right" class="text-base" aria-hidden="true" />
                 </NuxtLink>
             </div>
 
