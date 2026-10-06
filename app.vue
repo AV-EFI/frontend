@@ -245,12 +245,6 @@ useHead({
     style: [],
 });
 
-const auth = useAuth();
-
-onBeforeUnmount(() => {
-    auth.stopSessionPolling();
-});
-
 const {
     cookiesEnabledIds
 } = useCookieControl();
@@ -300,7 +294,6 @@ watch(
 );
 
 onMounted(() => {
-    auth.startSessionPolling();
     scheduleCookieControlMount();
 });
 

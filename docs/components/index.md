@@ -25,7 +25,6 @@ Generated from current Vue component files on 2026-07-27. Each component page is
 - [DisambiguationIcon](DisambiguationIcon.md) - `components/disambiguation/DisambiguationIcon.vue`
 - [ShowDisambiguationComp](ShowDisambiguationComp.md) - `components/disambiguation/ShowDisambiguationComp.vue`
 - [ActionContextComp](ActionContextComp.md) - `components/global/ActionContextComp.vue`
-- [AuthProvider](AuthProvider.md) - `components/global/AuthProvider.vue`
 - [BreadcrumbsComp](BreadcrumbsComp.md) - `components/global/BreadcrumbsComp.vue`
 - [CarouselCardComp](CarouselCardComp.md) - `components/global/CarouselCardComp.vue`
 - [ClipboardComp](ClipboardComp.md) - `components/global/ClipboardComp.vue`

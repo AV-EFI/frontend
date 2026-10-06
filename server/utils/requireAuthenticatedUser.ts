@@ -1,10 +1,10 @@
 import { createError, getRequestHeader, getRequestURL } from 'h3';
 import type { H3Event } from 'h3';
 import { $fetch } from 'ofetch';
+import { isAuthenticatedSession } from '../../utils/auth/session';
+import type { SessionInfo } from '../../utils/auth/types';
 
-type AuthSession = {
-  user?: Record<string, unknown> | null;
-};
+type AuthSession = Partial<SessionInfo>;
 
 function resolveSessionUrl(event: H3Event, endpoint: string): string {
   if (/^https?:\/\//i.test(endpoint)) {
@@ -37,7 +37,7 @@ export async function requireAuthenticatedUser(event: H3Event): Promise<AuthSess
   }
 
   const session = await getAuthSession(event);
-  if (session?.user) {
+  if (isAuthenticatedSession(session)) {
     return session;
   }
 

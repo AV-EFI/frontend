@@ -17,7 +17,7 @@ Use it as a regression checklist for manual and automated tests.
 
 1. Global SEO and schema graph are always mounted in `app.vue`.
 2. Canonical link at app level points to `siteUrl` and page-level routes can override with their own canonical.
-3. Session polling starts on mount and stops on unmount (`useAuth()` lifecycle).
+3. Session handling is provided by `plugins/auth.ts`: after mount it checks the session read-only (`GET /auth/session`) and re-checks shortly after the computed expiry; throttled user activity (at most once per minute) calls `POST /auth/refresh`. `app.vue` does not start or stop it.
 4. Cookie-control UI mounts lazily (idle callback/timeout), not blocking first render.
 5. Theme is controlled by cookie `avefi-color-mode` and mapped to `data-theme` + `dark` class.
 6. `default` layout keeps navbar fixed, reserves header spacer, and renders comparison/contact drawers only after hydration.

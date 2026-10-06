@@ -376,10 +376,11 @@ export default defineNuxtConfig({
       // AUTH endpoints
       AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
       AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
-      AUTH_SIGNIN_ENDPOINT: process.env.AUTH_SIGNIN_ENDPOINT || '/auth/signin/keycloak',
+      AUTH_SIGNIN_ENDPOINT: process.env.AUTH_SIGNIN_ENDPOINT || '/auth/signin/academiccloud',
+      AUTH_REFRESH_ENDPOINT: process.env.AUTH_REFRESH_ENDPOINT || '/auth/refresh',
       AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
       AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
-      AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/academiccloud/auth',
+      AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/callback/academiccloud',
 
       // Matomo Analytics
       matomoUrl: process.env.MATOMO_URL || 'http://localhost:8888',

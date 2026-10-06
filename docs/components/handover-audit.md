@@ -8,8 +8,8 @@ Do not treat generated component docs as the source of truth. For behavior and i
 
 Current inventory:
 
-- Source Vue components under `components/`: 100
-- Markdown component docs for current source components under `docs/components/`: 99, excluding this audit and `index.md`
+- Source Vue components under `components/`: 99
+- Markdown component docs for current source components under `docs/components/`: 98, excluding this audit and `index.md`
 - Source components without matching component docs: 1 (`components/global/MaintenanceBanner.vue`)
 - Component docs without a matching current source component: 0
 

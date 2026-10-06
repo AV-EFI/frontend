@@ -1,3 +1,6 @@
+import { isAuthenticatedSession } from '~/utils/auth/session';
+import type { SessionInfo } from '~/utils/auth/types';
+
 export default defineNuxtRouteMiddleware(async (to) => {
   const runtimeConfig = useRuntimeConfig();
   const isAdminRoute = to.path.startsWith('/admin');
@@ -19,9 +22,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
         {
           headers: useRequestHeaders(['cookie']),
         },
-      ) as { user?: Record<string, unknown> | null };
+      ) as SessionInfo;
 
-      if (session?.user) {
+      if (isAuthenticatedSession(session)) {
         return;
       }
     } catch {

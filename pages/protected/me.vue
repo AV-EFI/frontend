@@ -91,8 +91,8 @@ const profile = computed(() => {
         };
     }
 
-    const expiresAt = session.timestamp && session.timeout
-        ? new Date((session.timestamp + session.timeout) * 1000).toLocaleString()
+    const expiresAt = session.expiresAtLocal
+        ? new Date(session.expiresAtLocal * 1000).toLocaleString()
         : '';
 
     return {

@@ -8,6 +8,7 @@ This list is prioritized for later cleanup. It is intentionally biased toward ar
 - `/admin/*` is now covered by `middleware/auth.global.ts`
 - CMS mutation routes now enforce an interim server-side auth session check
 - public runtime config now has canonical keys for major URL concepts: `siteUrl`, `apiUrl`, `elasticApiBase`, `searchApiPath`, `searchRouteBase`
+- auth integration follows the new backend contract (read-only `GET /auth/session`, `POST /auth/refresh`, `POST /auth/signout`, CSRF double-submit) and lives in `utils/auth/*` behind `plugins/auth.ts`; `AuthProvider.vue` was removed
 - local-vs-CI build modes now exist so normal frontend work does not always trigger full generation, prerender, and link checking
 
 ## Critical
@@ -73,19 +74,27 @@ Impact:
 - hard to trust documentation freshness
 - PR diffs become noisy
 
-### 5. Auth state management is fragile
+### 5. Auth integration: known gaps
 
-Observed in `composables/useAuth.ts`:
+State, keepalive, CSRF handling and cross-tab sync are separated into `utils/auth/*` (unit-tested without Nuxt) and wired by `plugins/auth.ts`; `composables/useAuth.ts` is a thin accessor. The previous module-level singleton state and per-call storage listeners are gone. Remaining gaps, checked against the backend repository (`app/routers/auth.py`, `app/helpers/auth.py`):
 
-- module-level refs create shared singleton state
-- browser storage listeners are attached inside the composable
-- route protection middleware runs only on client
+Backend behavior (owner: backend)
 
-Impact:
+- `POST /auth/refresh` only exchanges tokens when the access token has already expired (`classify() == "refreshable"`). For an active token it returns the unchanged session. The effective lifetime is therefore the fixed refresh-token expiry; activity does not slide it, and inactivity does not shorten it. This contradicts the intended behavior "inactivity expires the session, activity extends it". A sliding inactivity limit would need its own backend field.
+- `expires_at` is `refresh_expires_at`, or `access_expires_at` when no refresh expiry is known. In the second case a session counts as `refreshable` after the access token expired, so `GET /auth/session` reports `authenticated: true` with an `expires_at` in the past. The frontend mitigates this (re-check at most once per minute, renewal only through activity), but the contract should state whether such a session is valid.
+- `GET /auth/csrf` is declared `-> CsrfToken` but returns a `JSONResponse`; the body matches the schema, the declaration does not.
 
-- stale auth state is easier to create
-- SSR and client behavior can diverge
-- the auth model is difficult to test
+Frontend
+
+- Not verified end to end: only unit tests and an SSR start were run. Login, refresh, sign-out, multi-tab behavior and the 403 retry have not been exercised in a browser against the testbed backend, whose rollout was reported as not yet error-free.
+- The keepalive throttle is a fixed 60 seconds. The real session lifetime is not documented; a lifetime close to or below one minute would not be covered.
+- Other tabs learn about a renewed session only at their next expiry check, not immediately.
+- Sign-out clears local state even when `POST /auth/signout` fails, so a still-valid server session can reappear on the next load.
+- The CSRF token is cached in memory; the backend cookie expires after one hour, which is covered by the single retry on 403.
+- `useAuth()` casts `useNuxtApp().$auth` because vue-tsc does not resolve plugin-provided `$` properties in this project (see `scripts/typecheck.mjs`).
+- Default endpoints changed to the backend names (`/auth/signin/academiccloud`, `/auth/callback/academiccloud`). Deployments that set `AUTH_SIGNIN_ENDPOINT` or `AUTH_CALLBACK_ENDPOINT` explicitly keep their override and need to be checked.
+- `stores/index.ts` still contains an unused Vuex-style `isAuthenticated` getter (`state.auth.loggedIn`).
+- `me.vue` shows the locally anchored expiry (`expiresAtLocal`), which can be in the past for a refreshable session (see above).
 
 ### 6. Encoding problems are already visible in source strings
 
