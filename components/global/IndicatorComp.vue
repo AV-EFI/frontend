@@ -15,7 +15,7 @@
                 {{ $t('showcomparison') }}
             </span>
             <Icon
-                name="tabler:caret-left"
+                name="tabler:chevron-left"
                 aria-hidden="true"
             />
         </button>

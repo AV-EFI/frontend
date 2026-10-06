@@ -16,7 +16,7 @@
             >
                 {{ $t('updateallproperties') }}
                 <Icon
-                    name="fa-solid:arrow-circle-right"
+                    name="tabler:arrow-right"
                     class="text-white"
                 />
             </button>

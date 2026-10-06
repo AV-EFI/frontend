@@ -19,7 +19,7 @@
           class="badge bg-base mx-auto font-semibold h-4" :title="badgeLabel" :aria-label="badgeLabel"
           role="status">
         {{ dense ? baseLabel.charAt(0) : badgeLabel }}
-        <Icon v-if="icon" name="fa:caret-down" class="icon-inline ml-1" aria-hidden="true" />
+        <Icon v-if="icon" name="tabler:chevron-down" class="icon-inline ml-1" aria-hidden="true" />
     </span>
 </template>
 

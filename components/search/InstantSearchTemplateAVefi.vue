@@ -77,7 +77,7 @@
                             <div class="mt-2 mb-2 w-full">
                                 <button class="btn btn-block btn-lg btn-primary lg:hidden" :title="$t('showFacetItems')"
                                         @click="$toggleFacetDrawerState">
-                                    <Icon name="formkit:caretright" />&nbsp;{{ $t('showFacetItems') }}
+                                    <Icon name="tabler:chevron-right" />&nbsp;{{ $t('showFacetItems') }}
                                 </button>
                             </div>
                             <div
