@@ -12,7 +12,7 @@
                 :show-expand-toggle="false"
             >
                 <template #title>
-                    <h2>{{ t('favouritesListOf', { name: authData?.user?.name || '' }) }}</h2>
+                    <GlobalPageTitleComp variant="card">{{ t('favouritesListOf', { name: authData?.user?.name || '' }) }}</GlobalPageTitleComp>
                 </template>
                 <template
                     #cardBody

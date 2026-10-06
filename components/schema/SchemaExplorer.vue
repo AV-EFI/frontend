@@ -3,7 +3,7 @@
         <header class="schema-explorer__header">
             <div class="schema-explorer__heading-block">
                 <p class="schema-explorer__eyebrow">AVefi metadata schema</p>
-                <h1 id="schema-explorer-heading" class="schema-explorer__title">Schema Explorer</h1>
+                <GlobalPageTitleComp id="schema-explorer-heading" variant="card">Schema Explorer</GlobalPageTitleComp>
                 <p class="schema-explorer__lead">
                     Explore classes, slots, relationships, ranges, identifiers, and controlled vocabularies in the AVefi
                     metadata model. The focus is the schema itself, not individual film records.
@@ -530,12 +530,6 @@ function slotCardinality(slot: SchemaSlot) {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-primary, #4d768d);
-}
-
-.schema-explorer__title {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1;
 }
 
 .schema-explorer__lead {

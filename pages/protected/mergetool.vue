@@ -12,9 +12,9 @@
                 :show-expand-toggle="true"
             >
                 <template #title>
-                    <h2 class="font-semibold">
+                    <GlobalPageTitleComp variant="card">
                         {{ $t('mergeTool') }} {{ authData?.user?.name }} | {{ authData?.user?.institution }}
-                    </h2>
+                    </GlobalPageTitleComp>
                 </template>
                 <template #cardBody>
                     <DetailMergeToolListComp />

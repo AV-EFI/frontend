@@ -7,7 +7,7 @@
         </template>
         <template #title>
             <header class="news-header">
-                <GlobalPageTitleComp variant="hero" class="text-3xl sm:text-4xl">{{ $t('news.title') }}</GlobalPageTitleComp>
+                <GlobalPageTitleComp variant="card">{{ $t('news.title') }}</GlobalPageTitleComp>
                 <a href="https://projects.tib.eu/av-efi/" class="link news-source">
                     {{ $t('news.projectWebsite') }}
                     <Icon name="tabler:external-link" aria-hidden="true" />

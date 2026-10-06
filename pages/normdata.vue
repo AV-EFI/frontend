@@ -1,6 +1,12 @@
 <!-- pages/normdata.vue -->
 <template>
     <div class="p-6 mx-auto max-w-6xl space-y-6">
+        <GlobalBreadcrumbsComp
+            :breadcrumbs="[
+                [$t('home.breadcrumbs'), '/'],
+                [$t('normdata.pageTitle'), '/normdata'],
+            ]"
+        />
         <header class="space-y-2">
             <GlobalPageTitleComp variant="card">
                 {{ $t('normdata.pageTitle') }}

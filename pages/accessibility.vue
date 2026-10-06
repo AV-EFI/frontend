@@ -21,7 +21,7 @@
                         </header>
 
                         <section class="space-y-3">
-                            <h2 class="text-xl font-semibold">
+                            <h2 class="text-base font-semibold">
                                 {{ $t('accessibilityPage.commitment.title') }}
                             </h2>
                             <p>{{ $t('accessibilityPage.commitment.body') }}</p>
@@ -31,7 +31,7 @@
                         </section>
 
                         <section class="space-y-3">
-                            <h2 class="text-xl font-semibold">
+                            <h2 class="text-base font-semibold">
                                 {{ $t('accessibilityPage.principles.title') }}
                             </h2>
                             <div class="grid gap-4 md:grid-cols-2">
@@ -47,7 +47,7 @@
                         </section>
 
                         <section class="space-y-4">
-                            <h2 class="text-xl font-semibold">
+                            <h2 class="text-base font-semibold">
                                 {{ $t('accessibilityPage.status.title') }}
                             </h2>
                             <p>{{ $t('accessibilityPage.status.body') }}</p>
@@ -79,7 +79,7 @@
                         </section>
 
                         <section class="space-y-3">
-                            <h2 class="text-xl font-semibold">
+                            <h2 class="text-base font-semibold">
                                 {{ $t('accessibilityPage.feedback.title') }}
                             </h2>
                             <p>{{ $t('accessibilityPage.feedback.body') }}</p>
@@ -109,7 +109,7 @@
                         </section>
 
                         <section class="space-y-3">
-                            <h2 class="text-xl font-semibold">
+                            <h2 class="text-base font-semibold">
                                 {{ $t('accessibilityPage.arbitration.title') }}
                             </h2>
                             <p>{{ $t('accessibilityPage.arbitration.body') }}</p>
@@ -152,7 +152,7 @@
                         </section>
 
                         <section class="space-y-3">
-                            <h2 class="text-xl font-semibold">
+                            <h2 class="text-base font-semibold">
                                 {{ $t('accessibilityPage.improvement.title') }}
                             </h2>
                             <p>{{ $t('accessibilityPage.improvement.body') }}</p>

@@ -9,7 +9,7 @@
         <div>
             <NuxtLayout name="partial-layout-1-center">
                 <template #title>
-                    <h2>{{ $t('institutionLabel') }} {{ authData?.user?.institution }}</h2>
+                    <GlobalPageTitleComp variant="card">{{ $t('institutionLabel') }} {{ authData?.user?.institution }}</GlobalPageTitleComp>
                     <h2>{{ $t('userLabel') }} {{ authData?.user?.name }}</h2>
                 </template>
                 <template #cardBody>

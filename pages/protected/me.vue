@@ -10,9 +10,9 @@
 
         <NuxtLayout name="partial-layout-1-center">
             <template #title>
-                <h2 class="font-semibold">
+                <GlobalPageTitleComp variant="card">
                     {{ $t('profile') }}
-                </h2>
+                </GlobalPageTitleComp>
             </template>
 
             <template #cardBody>

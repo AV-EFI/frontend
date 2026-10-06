@@ -22,9 +22,9 @@ definePageMeta({
                 >
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title font-">
+                            <GlobalPageTitleComp variant="card" class="card-title">
                                 {{ $t('dataprotection') }}
-                            </h2>
+                            </GlobalPageTitleComp>
                             <iframe
                                 src="https://datenschutz.gwdg.de/services/av-efi"
                                 width="100%"

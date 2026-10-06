@@ -1,5 +1,11 @@
 <template>
     <div class="container mx-auto p-4 max-w-4xl">
+        <GlobalBreadcrumbsComp
+            :breadcrumbs="[
+                [t('home.breadcrumbs'), '/'],
+                [t('imprintPage.title'), '/imprint'],
+            ]"
+        />
         <div class="imprint card bg-base-100 shadow-xl">
             <div class="card-body">
                 <GlobalPageTitleComp variant="card" class="card-title">
@@ -16,7 +22,7 @@
                     :key="section.titleKey"
                     class="mt-4"
                 >
-                    <h2 class="text-xl font-semibold mt-4">
+                    <h2 class="text-base font-semibold mt-4">
                         {{ t(section.titleKey) }}
                     </h2>
                     <p
@@ -27,7 +33,7 @@
                 </section>
 
                 <section class="mt-4">
-                    <h2 class="text-xl font-semibold mt-4">
+                    <h2 class="text-base font-semibold mt-4">
                         {{ t('imprintPage.contact.title') }}
                     </h2>
                     <p>

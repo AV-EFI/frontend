@@ -9,9 +9,9 @@
         <div class="mt-4">
             <NuxtLayout name="partial-layout-1-center">
                 <template #title>
-                    <h2 class="font-semibold">
+                    <GlobalPageTitleComp variant="card">
                         {{ authData?.user?.name }} | {{ authData?.user?.institution }}
-                    </h2>
+                    </GlobalPageTitleComp>
                     <div class="stats shadow mt-4">
                         <div v-for="stat in dashboardStatsItems" :key="stat.key" class="stat">
                             <div class="stat-title">

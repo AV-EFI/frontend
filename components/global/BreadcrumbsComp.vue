@@ -1,23 +1,25 @@
 <template>
     <div
-        class="w-full md:w-fit center-content justify-center mx-auto my-2 text-slate-600 dark:text-slate-200"
+        class="w-full md:w-fit center-content justify-center mx-auto my-2 text-base-content/70"
     >
         <nav
-            class="breadcrumbs ml-2 md:ml-auto text-sm dark:text-slate-400"
+            class="breadcrumbs ml-2 md:ml-auto text-sm"
             role="navigation"
             :aria-label="$t('breadcrumb')"
         >
             <ul class="flex flex-wrap gap-2">
                 <li
                     v-for="(el, index) in resolvedBreadcrumbs"
-                    :key="el[1]"
-                    class="dark:hover:text-slate2300"
+                    :key="index"
                 >
-                    <a
-                        :href="el[1]"
-                        class="hover:underline"
-                        :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
+                    <span
+                        v-if="index === resolvedBreadcrumbs.length - 1 && resolvedBreadcrumbs.length > 1"
+                        class="font-semibold text-base-content"
+                        aria-current="page"
                     >
+                        {{ el[0] }}
+                    </span>
+                    <a v-else :href="el[1]" class="hover:underline">
                         {{ el[0] }}
                     </a>
                 </li>

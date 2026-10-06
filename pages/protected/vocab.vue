@@ -3,7 +3,7 @@
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
                 [$t('home.breadcrumbs'), '/'],
-                [$t('helpAndGlossary'), `/protected/glossary`],
+                [$t('helpAndGlossary'), `/protected/vocab`],
             ]"
         />
         <div class="mt-4">

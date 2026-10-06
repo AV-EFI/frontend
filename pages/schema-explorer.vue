@@ -1,7 +1,7 @@
 <template>
     <main class="schema-explorer-page">
         <GlobalBreadcrumbsComp :breadcrumbs="[
-            ['Home', '/'],
+            [$t('home.breadcrumbs'), '/'],
             ['Schema Explorer', '/schema-explorer'],
         ]" />
         <SchemaExplorer />

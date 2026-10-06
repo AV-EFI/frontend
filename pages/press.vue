@@ -1,13 +1,19 @@
 <template>
     <div class="bg-base-200 py-12">
         <div v-if="manifestData" class="container mx-auto max-w-6xl px-6 space-y-10">
+            <GlobalBreadcrumbsComp
+                :breadcrumbs="[
+                    [t('home.breadcrumbs'), '/'],
+                    [t('press.title'), '/press'],
+                ]"
+            />
             <header class="space-y-4">
                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <p class="badge badge-primary mb-2 w-fit">
                             {{ t('press.badgeLastUpdated', { date: lastUpdatedLabel }) }}
                         </p>
-                        <GlobalPageTitleComp variant="hero" class="text-4xl mb-2">{{ t('press.title') }}</GlobalPageTitleComp>
+                        <GlobalPageTitleComp variant="card" class="mb-2">{{ t('press.title') }}</GlobalPageTitleComp>
                         <p class="text-lg text-base-content/80">{{ t('press.subtitle') }}</p>
                     </div>
                     <div class="flex flex-col gap-2 text-right">
