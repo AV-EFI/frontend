@@ -22,7 +22,7 @@ describe('Home carousel accessibility contract guards', () => {
     ['PartnersCarouselComp', partnersCarouselSource],
   ])('%s keeps carousel semantics and live slide status', (_name, source) => {
     expect(source).toContain('aria-roledescription="carousel"');
-    expect(source).toContain('aria-live="polite"');
+    expect(source).toMatch(/aria-live="polite"|:aria-live="canAutoplay && !isAutoplayPaused \? 'off' : 'polite'"/);
     expect(source).toContain('aria-roledescription="slide"');
     expect(source).toContain(':aria-label="getSlideAriaLabel');
   });
@@ -45,5 +45,16 @@ describe('Home carousel accessibility contract guards', () => {
     expect(source).toContain('toggleAutoplay');
     expect(source).toContain('autoplayPlugin.value?.stop?.()');
     expect(source).toContain('autoplayPlugin.value?.play?.()');
+  });
+
+  test.each([
+    ['IssuerCarouselComp', issuerCarouselSource],
+    ['PartnersCarouselComp', partnersCarouselSource],
+  ])('%s silences slide announcements while rotating and respects reduced motion', (_name, source) => {
+    expect(source).toContain(":aria-live=\"canAutoplay && !isAutoplayPaused ? 'off' : 'polite'\"");
+    expect(source).toContain('stopOnFocusIn: true');
+    expect(source).toContain("matchMedia('(prefers-reduced-motion: reduce)')");
+    expect(source).toContain('playOnInit: !prefersReducedMotion');
+    expect(source).toContain("'autoplay:stop'");
   });
 });

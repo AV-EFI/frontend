@@ -13,7 +13,8 @@
             aria-roledescription="carousel"
             :aria-label="$t('topIssuers')"
         >
-            <p class="sr-only" aria-live="polite">{{ carouselStatus }}</p>
+            <!-- Slide changes are only announced when no automatic rotation is running (WCAG 2.2.2, 4.1.3). -->
+            <p class="sr-only" :aria-live="canAutoplay && !isAutoplayPaused ? 'off' : 'polite'">{{ carouselStatus }}</p>
             <button
                 v-if="canAutoplay"
                 type="button"
@@ -172,8 +173,8 @@ type EmblaApi = {
     scrollNext: () => void;
     selectedScrollSnap: () => number;
     slidesInView: () => number[];
-    on: (event: 'select' | 'reInit', cb: () => void) => void;
-    off: (event: 'select' | 'reInit', cb: () => void) => void;
+    on: (event: 'select' | 'reInit' | 'autoplay:play' | 'autoplay:stop', cb: () => void) => void;
+    off: (event: 'select' | 'reInit' | 'autoplay:play' | 'autoplay:stop', cb: () => void) => void;
     destroy: () => void;
 };
 
@@ -259,12 +260,17 @@ const initEmbla = async () => {
         import('embla-carousel-autoplay')
     ]);
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    isAutoplayPaused.value = prefersReducedMotion && canAutoplay.value;
+
     const plugins: NonNullable<Parameters<typeof EmblaCarousel>[2]> = [];
     if (props.autoSlideInterval > 0 && issuerItems.value.length > 1) {
         const autoplay = Autoplay({
             delay: props.autoSlideInterval,
             stopOnInteraction: true,
-            stopOnMouseEnter: true
+            stopOnMouseEnter: true,
+            stopOnFocusIn: true,
+            playOnInit: !prefersReducedMotion
         });
         autoplayPlugin.value = autoplay;
         plugins.push(autoplay);
@@ -283,6 +289,8 @@ const initEmbla = async () => {
     }, plugins);
 
     emblaApi.value.on('select', updateVisibleSlides);
+    emblaApi.value.on('autoplay:play', onAutoplayPlay);
+    emblaApi.value.on('autoplay:stop', onAutoplayStop);
     emblaApi.value.on('reInit', updateVisibleSlides);
     updateVisibleSlides();
 };
@@ -307,6 +315,14 @@ function getSlideAriaLabel(item: IssuerItem, index: number): string {
 
 function isSlideHidden(index: number): boolean {
     return isReady.value && !visibleSlideIndexes.value.has(index);
+}
+
+function onAutoplayPlay() {
+    isAutoplayPaused.value = false;
+}
+
+function onAutoplayStop() {
+    isAutoplayPaused.value = true;
 }
 
 function toggleAutoplay() {

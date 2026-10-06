@@ -5,9 +5,10 @@
         class="relative w-full"
         role="region"
         aria-roledescription="carousel"
-        :aria-label="$t('home.partners.title')"
+        :aria-label="$t('partnersSection')"
     >
-        <p class="sr-only" aria-live="polite">{{ carouselStatus }}</p>
+        <!-- Slide changes are only announced when no automatic rotation is running (WCAG 2.2.2, 4.1.3). -->
+        <p class="sr-only" :aria-live="canAutoplay && !isAutoplayPaused ? 'off' : 'polite'">{{ carouselStatus }}</p>
         <button
             v-if="canAutoplay"
             type="button"
@@ -217,12 +218,17 @@ const initEmbla = async () => {
         import('embla-carousel-autoplay')
     ]);
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    isAutoplayPaused.value = prefersReducedMotion && canAutoplay.value;
+
     const plugins: EmblaPluginType[] = [];
     if (props.autoSlideInterval > 0) {
         const autoplay = Autoplay({
             delay: props.autoSlideInterval,
             stopOnInteraction: true,
-            stopOnMouseEnter: true
+            stopOnMouseEnter: true,
+            stopOnFocusIn: true,
+            playOnInit: !prefersReducedMotion
         });
         autoplayPlugin.value = autoplay;
         plugins.push(autoplay);
@@ -241,6 +247,8 @@ const initEmbla = async () => {
     }, plugins);
 
     emblaApi.value.on('select', updateNavState);
+    emblaApi.value.on('autoplay:play', onAutoplayPlay);
+    emblaApi.value.on('autoplay:stop', onAutoplayStop);
     emblaApi.value.on('reInit', updateNavState);
     updateNavState();
 };
@@ -251,6 +259,14 @@ const prevSlide = () => {
 
 const nextSlide = () => {
     emblaApi.value?.scrollNext();
+};
+
+const onAutoplayPlay = () => {
+    isAutoplayPaused.value = false;
+};
+
+const onAutoplayStop = () => {
+    isAutoplayPaused.value = true;
 };
 
 const toggleAutoplay = () => {
