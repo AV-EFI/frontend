@@ -16,7 +16,7 @@ test.describe('Detail action context menu', () => {
     });
     await page.reload({ waitUntil: 'networkidle' });
 
-    const actionMenuButton = page.locator('.dropdown-end > button:visible').first();
+    const actionMenuButton = page.locator('.dropdown-end:has(.action-list) > button:visible').first();
     await expect(actionMenuButton).toBeVisible();
 
     await actionMenuButton.click();
