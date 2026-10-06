@@ -515,11 +515,6 @@ html, body {
     --btn-fg: var(--color-primary-text);
   }
 
-  /* Maximum layout width 1280px (handbook 6.1); Tailwind's default grows to 1536px. */
-  .container {
-    max-width: 80rem;
-  }
-
   .text-rainbow-stripe {
     --stripe-colors: red, orange, yellow, green, blue, indigo, violet;
     --stripe-height: 6px;

@@ -55,7 +55,7 @@ Handbook typography rules:
 
 Handbook layout rules:
 
-- Maximum layout width: 1280px.
+- Maximum layout width: 1280px in the handbook. The frontend deliberately keeps the Tailwind container (up to 1536px) because search results, facets and the header menu need the width; the handbook should be adapted.
 - Grid: 12 columns.
 - Inputs and small controls: 4px radius.
 - Cards and containers: 8px radius.
