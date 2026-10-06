@@ -544,13 +544,14 @@ a.external-link {
 }
 
 a.external-link:before {
-  font-family: "Font Awesome 5 Free";
-  content: url('https://api.iconify.design/fa-regular:share-square.svg');
+  content: "";
   display: inline-block;
-  padding-right: 3px;
-  vertical-align: middle;
-  font-weight: 400;
-  color: var(--primary-400) !important;
+  width: 1em;
+  height: 1em;
+  margin-right: 3px;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6M11 13l9-9M15 4h5v5'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .dark legend,
@@ -559,10 +560,6 @@ a.external-link:before {
 }
 
 .dark a.external-link {
-  color: var(--primary-200) !important;
-}
-
-.dark a.external-link:before {
   color: var(--primary-200) !important;
 }
 

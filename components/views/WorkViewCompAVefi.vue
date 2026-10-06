@@ -196,10 +196,10 @@
                                 {{ $t('detailsFor') }} {{ mir?.has_primary_title?.has_name ?? '' }}
                             </span>
                             <span v-if="mirExpanded" :title="$t('collapse')">
-                                <Icon name="tabler-chevron-up" aria-hidden="true" />
+                                <Icon name="tabler:chevron-up" aria-hidden="true" />
                             </span>
                             <span v-else :title="$t('expand')">
-                                <Icon name="tabler-chevron-down" aria-hidden="true" />
+                                <Icon name="tabler:chevron-down" aria-hidden="true" />
                             </span>
                         </button>
                     </div>
@@ -466,7 +466,7 @@
                                                             }}
                                                         </span>
                                                         <Icon
-                                                            :name="filterDropdownOpen ? 'tabler-chevron-up' : 'tabler-chevron-down'"
+                                                            :name="filterDropdownOpen ? 'tabler:chevron-up' : 'tabler:chevron-down'"
                                                             aria-hidden="true"
                                                         />
                                                     </button>
