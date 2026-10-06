@@ -1356,6 +1356,14 @@ const routerInstance = process.client
     ? defaultRouter({
         cleanUrlOnDispose: false,
 
+        // Central sync point: defaultRouter's own pushState bypasses Vue Router and leaves
+        // route.query stale. push() runs exactly when InstantSearch writes the URL (facet click,
+        // clear all, pagination, …), so Vue Router follows without per-callsite workarounds.
+        push(url) {
+            window.history.pushState(null, '', url);
+            router.replace(url).catch(() => { /* ignore same-location errors */ });
+        },
+
         createURL({ qsModule, location, routeState }) {
             const mergedRouteState = {
                 ...routeState,
@@ -1379,24 +1387,6 @@ const routerInstance = process.client
     })
     : null;
 
-// Central sync point: InstantSearch's defaultRouter calls window.history.pushState/
-// replaceState directly, which bypasses Vue Router and leaves route.query stale.
-// Patching write() here ensures every IS-driven URL change (facet click, clear all,
-// pagination, …) automatically keeps Vue Router in sync — no per-callsite workarounds.
-// write() is debounced by writeDelay, so the URL only changes when that timer fires; the
-// sync timer is created after it with the same delay and therefore runs after the pushState.
-if (routerInstance) {
-    const _origWrite = routerInstance.write.bind(routerInstance);
-    let syncTimer: ReturnType<typeof setTimeout> | undefined;
-    routerInstance.write = (routeState: any) => {
-        _origWrite(routeState);
-        clearTimeout(syncTimer);
-        syncTimer = setTimeout(() => {
-            const href = window.location.href.replace(window.location.origin, '');
-            router.replace(href).catch(() => { /* ignore same-location errors */ });
-        }, routerInstance.writeDelay);
-    };
-}
 
 const stateMapping = {
     stateToRoute(uiState: any) {
