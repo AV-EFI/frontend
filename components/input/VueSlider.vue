@@ -20,6 +20,7 @@
                 >
                     {{ $t(headerText as string) }}
                 </h3>
+                <span v-if="hasActiveRefinements" class="inline-block size-2.5 shrink-0 rounded-full bg-highlight ring-1 ring-base-content/40"><span class="sr-only">{{ $t('activeFacets') }}</span></span>
             </div>
             <MicroBadgeCategoryComp v-if="category" :category="category" :dense="true" class="my-auto" />
         </div>
@@ -179,6 +180,14 @@ const appliedProdYearOnly = ref(initialState.prodYearOnly);
 
 // Guard initial hidden configure render until state is seeded from URL
 const sliderReady = ref(true);
+
+const hasActiveRefinements = computed(() => {
+    return (
+        appliedSliderValue.value[0] !== props.min ||
+        appliedSliderValue.value[1] !== props.max ||
+        appliedProdYearOnly.value
+    );
+});
 
 const hasUnsavedChanges = computed(() => {
     const [from, to] = clampRange(sliderValue.value);

@@ -13,6 +13,7 @@
                 <h3 :id="`facet-title-${props.attributeName}`" class="my-auto font-bold">
                     {{ $t(props.headerText as string) }}
                 </h3>
+                <span v-if="h?.hasRefinements" class="inline-block size-2.5 shrink-0 rounded-full bg-highlight ring-1 ring-base-content/40"><span class="sr-only">{{ $t('activeFacets') }}</span></span>
             </div>
 
             <MicroBadgeCategoryComp v-if="props.category" :category="props.category" :dense="true" class="my-auto" />
