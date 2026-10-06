@@ -101,7 +101,6 @@ import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
-import { useIsFacetRefined } from '~/composables/useIsFacetRefined';
 
 const { ensureFormKitReady } = useFormKitLoader();
 await ensureFormKitReady();
@@ -182,7 +181,12 @@ const appliedProdYearOnly = ref(initialState.prodYearOnly);
 // Guard initial hidden configure render until state is seeded from URL
 const sliderReady = ref(true);
 
-const isRefined = useIsFacetRefined(() => props.attributeName);
+// The year range is applied state of its own, not a refinement list entry.
+const isRefined = computed(() => (
+    appliedSliderValue.value[0] !== props.min
+    || appliedSliderValue.value[1] !== props.max
+    || appliedProdYearOnly.value
+));
 
 const hasUnsavedChanges = computed(() => {
     const [from, to] = clampRange(sliderValue.value);
