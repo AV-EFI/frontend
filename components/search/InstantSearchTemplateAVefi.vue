@@ -1383,12 +1383,18 @@ const routerInstance = process.client
 // replaceState directly, which bypasses Vue Router and leaves route.query stale.
 // Patching write() here ensures every IS-driven URL change (facet click, clear all,
 // pagination, …) automatically keeps Vue Router in sync — no per-callsite workarounds.
+// write() is debounced by writeDelay, so the URL only changes when that timer fires; the
+// sync timer is created after it with the same delay and therefore runs after the pushState.
 if (routerInstance) {
     const _origWrite = routerInstance.write.bind(routerInstance);
+    let syncTimer: ReturnType<typeof setTimeout> | undefined;
     routerInstance.write = (routeState: any) => {
         _origWrite(routeState);
-        const href = window.location.href.replace(window.location.origin, '');
-        router.replace(href).catch(() => { /* ignore same-location errors */ });
+        clearTimeout(syncTimer);
+        syncTimer = setTimeout(() => {
+            const href = window.location.href.replace(window.location.origin, '');
+            router.replace(href).catch(() => { /* ignore same-location errors */ });
+        }, routerInstance.writeDelay);
     };
 }
 
