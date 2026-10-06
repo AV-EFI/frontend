@@ -1,6 +1,6 @@
 <!-- pages/normdata.vue -->
 <template>
-    <div class="p-6 mx-auto max-w-6xl space-y-6">
+    <div class="px-6 pb-6 mx-auto max-w-6xl space-y-6">
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
                 [$t('home.breadcrumbs'), '/'],

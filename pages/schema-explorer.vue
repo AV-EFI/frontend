@@ -26,6 +26,6 @@ definePageMeta({ auth: false });
 .schema-explorer-page {
   width: min(100% - 1.5rem, 1280px);
   margin: 0 auto;
-  padding: 0.75rem 0 2rem;
+  padding: 0 0 2rem;
 }
 </style>

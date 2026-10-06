@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-base-200 py-12">
+    <div class="bg-base-200 pb-12">
         <div v-if="manifestData" class="container mx-auto max-w-6xl px-6 space-y-10">
             <GlobalBreadcrumbsComp
                 :breadcrumbs="[

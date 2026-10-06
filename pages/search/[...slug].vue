@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto p-2">
+    <div class="container mx-auto px-2 pb-2">
         <GlobalBreadcrumbsComp :breadcrumbs="[
             [$t('home.breadcrumbs'), '/'],
             [$t('filmresearch'), `/${useRuntimeConfig().public.SEARCH_URL}${currentUrlState}`],

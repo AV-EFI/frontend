@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="flex mx-auto my-2">
+        <div class="mx-auto">
             <slot name="navigation" />
         </div>
     </section>

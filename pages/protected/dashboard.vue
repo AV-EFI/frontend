@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto px-4 pb-4">
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
                 [$t('home.breadcrumbs'), '/'],
