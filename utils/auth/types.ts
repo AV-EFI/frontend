@@ -1,5 +1,5 @@
 /** Authenticated user as reported by the backend; unknown extra claims are passed through. */
-export interface AuthUser {
+interface AuthUser {
   name?: string;
   email?: string;
   orgid?: string;

@@ -74,5 +74,3 @@ export function createSessionSync(options: SessionSyncOptions) {
 
   return { persist, restore, broadcastLogout, listen };
 }
-
-export type SessionSync = ReturnType<typeof createSessionSync>;

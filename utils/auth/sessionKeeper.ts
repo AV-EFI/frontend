@@ -1,8 +1,8 @@
-export const KEEPALIVE_THROTTLE_MS = 60_000;
-export const EXPIRY_CHECK_GRACE_MS = 2_000;
+const KEEPALIVE_THROTTLE_MS = 60_000;
+const EXPIRY_CHECK_GRACE_MS = 2_000;
 export const RETRY_AFTER_ERROR_MS = 60_000;
 /** Re-check interval while the server still reports a session whose deadline has already passed. */
-export const PASSED_DEADLINE_RECHECK_MS = 60_000;
+const PASSED_DEADLINE_RECHECK_MS = 60_000;
 const MIN_TIMER_MS = 1_000;
 const MAX_TIMER_MS = 2_147_483_647;
 const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'scroll'] as const;
@@ -82,5 +82,3 @@ export function createSessionKeeper(options: SessionKeeperOptions) {
 
   return { start, stop, scheduleCheck };
 }
-
-export type SessionKeeper = ReturnType<typeof createSessionKeeper>;
