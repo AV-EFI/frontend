@@ -6,7 +6,7 @@
         <!-- Blending background layer -->
         <div v-if="isScrolled" class="absolute inset-0 w-full h-full md:mix-blend-multiply pointer-events-none z-0"></div>
         <div class="container w-full flex flex-wrap justify-between mx-auto p-0 relative z-20">
-            <div class="navbar-start w-full xl:w-2/5 flex justify-start">
+            <div class="navbar-start w-full xl:w-auto xl:shrink-0 flex justify-start">
                 <!-- Mobile menu toggle -->
                 <div ref="mobileMenuRef" class="dropdown xl:hidden" :class="{ 'dropdown-open': mobileMenuOpen }">
                     <button type="button" class="btn btn-ghost h-12" :aria-expanded="mobileMenuOpen"
@@ -78,7 +78,7 @@
             </div>
 
             <!-- Desktop menu (xl and up): every entry has an icon and a visible text -->
-            <div class="navbar-end w-3/5 grow hidden xl:flex">
+            <div class="navbar-end xl:w-auto min-w-0 grow hidden xl:flex">
                 <ul
                     class="menu w-full justify-end menu-horizontal items-center justify-self-end px-1 z-20 menu-items overflow-visible">
                     <ClientOnly>
@@ -208,5 +208,18 @@ const ariaLabelMainMenu = computed(() => t('mainMenu'));
 .menu-items li > a,
 .menu-items li > button {
   width: 100%;
+}
+
+/* Desktop header: labels stay on one line and entries sit close together, so the row has room and wraps only as a last resort. */
+.navbar-end .menu-items > li {
+  flex: none;
+}
+
+.navbar-end .menu-items > li > a,
+.navbar-end .menu-items > li > button,
+.navbar-end .menu-items :deep(.header-menu-trigger) {
+  padding-inline: 0.5rem;
+  gap: 0.375rem;
+  white-space: nowrap;
 }
 </style>
