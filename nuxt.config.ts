@@ -366,21 +366,16 @@ export default defineNuxtConfig({
       AVEFI_GET_MANIFEST_BY_WORK: process.env.AVEFI_GET_MANIFEST_BY_WORK,
       AVEFI_GET_ITEM_BY_MANIFEST: process.env.AVEFI_GET_ITEM_BY_MANIFEST,
       SEARCH_INIT_URL_PARAMS: process.env.SEARCH_INIT_URL_PARAMS,
-      KEYCLOAK_URL: process.env.KEYCLOAK_URL,
-      KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
-      KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
       WMI_CACHE_KEY: 'WMI_CACHE_KEY',
       KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
       AVEFI_COPY_PID_URL: process.env.AVEFI_COPY_PID_URL,
 
       // AUTH endpoints
-      AUTH_BASE_URL: process.env.AUTH_BASE_URL || '/auth',
       AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
       AUTH_SIGNIN_ENDPOINT: process.env.AUTH_SIGNIN_ENDPOINT || '/auth/signin/academiccloud',
       AUTH_REFRESH_ENDPOINT: process.env.AUTH_REFRESH_ENDPOINT || '/auth/refresh',
       AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
       AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
-      AUTH_CALLBACK_ENDPOINT: process.env.AUTH_CALLBACK_ENDPOINT || '/auth/callback/academiccloud',
 
       // Matomo Analytics
       matomoUrl: process.env.MATOMO_URL || 'http://localhost:8888',
