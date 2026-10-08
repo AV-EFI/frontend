@@ -3,7 +3,7 @@
         <transition name="work-summary-bar">
             <aside
                 v-if="showNavbarProductionSummary"
-                class="work-production-summary fixed inset-x-0 z-20 border-b border-work/50 bg-base-100/95 shadow-sm backdrop-blur"
+                class="work-production-summary fixed inset-x-0 z-25 border-b border-work/50 bg-base-100/95 shadow-sm backdrop-blur"
                 :style="navbarSummaryStyle"
                 :aria-label="$t('workEvents')"
             >
@@ -507,8 +507,13 @@
 
                                                 <!-- Badge mode (standalone, not inside dropdown) -->
                                                 <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative">
-                                                    <div class="overflow-x-auto overflow-y-hidden py-2 pr-14">
-                                                        <div class="flex flex-nowrap items-center gap-1 min-w-max">
+                                                    <div
+                                                        ref="badgeScrollerEl"
+                                                        class="overflow-x-auto overflow-y-hidden py-2"
+                                                        :class="{ 'pr-14': badgesCanScrollMore }"
+                                                        @scroll.passive="updateBadgesScrollState"
+                                                    >
+                                                        <div ref="badgeScrollerContentEl" class="flex flex-nowrap items-center gap-1 min-w-max">
                                                             <button
                                                                 v-for="suggestion in suggestionsForManifestations"
                                                                 :key="suggestion"
@@ -526,10 +531,16 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
-                                                    <div class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-base-content/60">
-                                                        {{ $t('filterScrollForMore') }}
-                                                    </div>
+                                                    <template v-if="badgesCanScrollMore">
+                                                        <div class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-linear-to-l from-base-100 to-transparent"></div>
+                                                        <button
+                                                            type="button"
+                                                            class="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm px-1 text-[10px] uppercase tracking-wide text-base-content/60 hover:text-base-content focus-visible:outline-2 focus-visible:outline-primary"
+                                                            @click="scrollBadgesForward"
+                                                        >
+                                                            {{ $t('filterScrollForMore') }}
+                                                        </button>
+                                                    </template>
                                                 </div>
                                             </div>
                                         </div>
@@ -629,6 +640,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
+import { useResizeObserver } from '@vueuse/core';
 import type { IAVefiManifestation } from "~/models/interfaces/generated/IAVefiManifestation";
 import type { IAVefiItem } from "~/models/interfaces/generated/IAVefiItem";
 import type {
@@ -1240,6 +1252,24 @@ let mediaQuery: MediaQueryList | null = null;
 let mediaListener: ((e: MediaQueryListEvent) => void) | null = null;
 const navbarSummaryTop = ref('var(--header-height)');
 let navbarResizeObserver: ResizeObserver | null = null;
+const badgeScrollerEl = ref<HTMLElement | null>(null);
+const badgeScrollerContentEl = ref<HTMLElement | null>(null);
+const badgesCanScrollMore = ref(false);
+
+function updateBadgesScrollState() {
+    const el = badgeScrollerEl.value;
+    badgesCanScrollMore.value = Boolean(el) && el!.scrollWidth - el!.clientWidth - el!.scrollLeft > 1;
+}
+
+function scrollBadgesForward() {
+    const el = badgeScrollerEl.value;
+    el?.scrollBy({ left: el.clientWidth * 0.8, behavior: 'smooth' });
+}
+
+useResizeObserver([badgeScrollerEl, badgeScrollerContentEl], updateBadgesScrollState);
+
+const productionInfoOutOfSight = ref(false);
+let productionInfoObserver: IntersectionObserver | null = null;
 
 // Drawer + active section
 const drawerOpen = ref(false);
@@ -1383,6 +1413,34 @@ function pinActiveSection(durationMs = 1200) {
     activeSectionPinnedUntil = Date.now() + durationMs;
 }
 
+/** The summary bar replaces the production block once it has scrolled behind the header. */
+function observeProductionInfo() {
+    if (!import.meta.client || !('IntersectionObserver' in window)) return;
+
+    productionInfoObserver?.disconnect();
+    productionInfoObserver = null;
+
+    const target = document.getElementById('work-events');
+    if (!target) {
+        productionInfoOutOfSight.value = false;
+        return;
+    }
+
+    const headerBottom = Math.max(Math.round(
+        document.querySelector('header.fixed.top-0')?.getBoundingClientRect().bottom ?? 0
+    ), 0);
+
+    productionInfoObserver = new IntersectionObserver(
+        ([entry]) => {
+            if (!entry) return;
+            productionInfoOutOfSight.value = !entry.isIntersecting
+                && entry.boundingClientRect.bottom <= (entry.rootBounds?.top ?? headerBottom);
+        },
+        { root: null, rootMargin: `-${headerBottom}px 0px 0px 0px`, threshold: 0 }
+    );
+    productionInfoObserver.observe(target);
+}
+
 function updateNavbarSummaryTop() {
     if (!import.meta.client) return;
 
@@ -1391,6 +1449,7 @@ function updateNavbarSummaryTop() {
     navbarSummaryTop.value = typeof headerBottom === 'number' && headerBottom > 0
         ? `${Math.round(headerBottom)}px`
         : 'var(--header-height)';
+    observeProductionInfo();
 }
 
 function splitActivities(evt: Event) {
@@ -1508,14 +1567,9 @@ function sameAsDisplayLabel(sameAs: AuthorityResource | null | undefined): strin
     return t('workReferenceAtAuthority', { title, authority });
 }
 
-const showNavbarProductionSummary = computed(() => {
-    if (!workContextRows.value.length) return false;
-    if (!activeSection.value) return false;
-    if (activeSection.value === 'references-work-relations') return false;
-    if (activeSection.value === 'alternative-titles' || activeSection.value === 'genre' || activeSection.value === 'subjects') return false;
-    if (activeSection.value === 'work-events' || activeSection.value.startsWith('event-')) return false;
-    return true;
-});
+const showNavbarProductionSummary = computed(() =>
+    workContextRows.value.length > 0 && productionInfoOutOfSight.value
+);
 
 const navbarSummaryStyle = computed(() => ({
     top: navbarSummaryTop.value,
@@ -1675,6 +1729,7 @@ async function initObserver() {
     visibleMap.clear();
 
     await nextTick();
+    observeProductionInfo();
 
     observer = new IntersectionObserver(
         (entries) => {
@@ -1786,6 +1841,8 @@ watch(
 onUnmounted(() => {
     if (observer) observer.disconnect();
     observer = null;
+    productionInfoObserver?.disconnect();
+    productionInfoObserver = null;
 
     document.removeEventListener("click", handleClickOutside);
     window.removeEventListener("hashchange", syncDetailTabToHash);

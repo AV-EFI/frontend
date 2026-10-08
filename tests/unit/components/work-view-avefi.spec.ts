@@ -28,6 +28,7 @@ type WorkNavigationItem = {
 type WorkViewVm = {
   workNavigationItems: WorkNavigationItem[];
   activeSection: string;
+  productionInfoOutOfSight: boolean;
   activeDetailTab: string;
   searchQuery: string[];
   filteredManifestations: Array<{ handle: string; items: Array<{ handle: string }> }>;
@@ -295,22 +296,23 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(hiddenByPreference.find('.work-navigation-sidebar').exists()).toBe(false);
   });
 
-  test('attaches compact production context below the navbar after production', async () => {
+  test('attaches compact production context below the navbar once production info is out of sight', async () => {
     const wrapper = mountComponent(buildModelWithManifestations());
     await flushPromises();
 
     const vm = wrapper.getComponent(WorkViewCompAVefi).vm as unknown as WorkViewVm;
 
-    vm.activeSection = 'work-events';
+    vm.productionInfoOutOfSight = false;
     await flushPromises();
     expect(wrapper.find('.work-production-summary').exists()).toBe(false);
 
-    vm.activeSection = 'manifestations';
+    vm.productionInfoOutOfSight = true;
     await flushPromises();
 
     const summary = wrapper.get('.work-production-summary');
     expect(summary.classes()).toContain('fixed');
     expect(summary.classes()).toContain('inset-x-0');
+    expect(summary.classes()).toContain('z-25');
     expect(summary.text()).toContain('Work title');
     expect(summary.text()).not.toContain('ProductionEvent');
     expect(summary.text()).toContain('USA');
