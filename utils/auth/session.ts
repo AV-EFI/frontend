@@ -5,6 +5,17 @@ export function isAuthenticatedSession(session: Partial<SessionInfo> | null | un
   return session?.authenticated ?? !!session?.user;
 }
 
+/** Route-guard decision for SSR: an unreachable or failing session endpoint counts as logged out. */
+export async function isSessionAuthenticatedForGuard(
+  fetchSession: () => Promise<Partial<SessionInfo> | null | undefined>,
+): Promise<boolean> {
+  try {
+    return isAuthenticatedSession(await fetchSession());
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Maps a backend response (or a locally persisted session) to local state; `null` means logged out.
  *
