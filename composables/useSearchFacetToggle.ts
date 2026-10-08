@@ -83,6 +83,10 @@ function isSearchControlParam(key: string): boolean {
   );
 }
 
+function hasActiveNumericRefinement(query: Record<string, unknown>): boolean {
+  return Object.keys(query).some(key => key.startsWith('numericRefinement[') || key.startsWith('range_'));
+}
+
 function addRefinementValue(target: Record<string, string[]>, attribute: string, value: unknown): void {
   const values = Array.isArray(value) ? value : value !== undefined && value !== null ? [value] : [];
 
@@ -299,6 +303,10 @@ export function useSearchFacetToggle() {
     // numericRange (production year) is driven by VueSlider + route.query, not setUiState.
     // Return false so the caller uses window.location.assign for a clean full-page reload.
     if (config?.type === 'numericRange') return false;
+
+    // The slider's range is re-injected into the URL by the router's createURL, so setUiState
+    // alone cannot drop it. A full reload on the bare facet location clears it.
+    if (hasActiveNumericRefinement(liveQuery())) return false;
 
     if (!instantSearchInstance?.setUiState) return false;
 

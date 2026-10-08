@@ -251,6 +251,35 @@ describe('useSearchFacetToggle', () => {
     }
   });
 
+  test('new facetted search falls back to a clean reload while a production year is active', () => {
+    routePath = '/search';
+    Object.defineProperty(window, 'location', {
+      value: {
+        assign: locationAssign,
+        href: 'http://localhost/search?subjects%5B0%5D=Psychology&numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1986&numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=1987',
+        pathname: '/search',
+        search: '?subjects%5B0%5D=Psychology&numericRefinement%5Bproduction_in_year%5D%5B%3E%3D%5D=1986&numericRefinement%5Bproduction_in_year%5D%5B%3C%3D%5D=1987',
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    const setUiState = vi.fn();
+    const wrapper = mount(Host, {
+      global: {
+        provide: {
+          '$_ais_instantSearchInstance': { setUiState },
+        },
+      },
+    });
+
+    const handledByInstantSearch = (wrapper.vm as unknown as ReturnType<typeof useSearchFacetToggle>)
+      .startNewSearchViaIS('creators', 'Praunheim, Rosa von');
+
+    expect(handledByInstantSearch).toBe(false);
+    expect(setUiState).not.toHaveBeenCalled();
+  });
+
   test('returns a shareable search href for detail-page facet toggles', () => {
     const wrapper = mount(Host);
 
