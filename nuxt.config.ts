@@ -370,13 +370,6 @@ export default defineNuxtConfig({
       KIBANA_DATA_VIEW_ID: process.env.KIBANA_DATA_VIEW_ID,
       AVEFI_COPY_PID_URL: process.env.AVEFI_COPY_PID_URL,
 
-      // AUTH endpoints
-      AUTH_SESSION_ENDPOINT: process.env.AUTH_SESSION_ENDPOINT || '/auth/session',
-      AUTH_SIGNIN_ENDPOINT: process.env.AUTH_SIGNIN_ENDPOINT || '/auth/signin/academiccloud',
-      AUTH_REFRESH_ENDPOINT: process.env.AUTH_REFRESH_ENDPOINT || '/auth/refresh',
-      AUTH_SIGNOUT_ENDPOINT: process.env.AUTH_SIGNOUT_ENDPOINT || '/auth/signout',
-      AUTH_CSRF_ENDPOINT: process.env.AUTH_CSRF_ENDPOINT || '/auth/csrf',
-
       // Matomo Analytics
       matomoUrl: process.env.MATOMO_URL || 'http://localhost:8888',
       matomoSiteId: process.env.MATOMO_SITE_ID || 'AVefi',
@@ -387,7 +380,6 @@ export default defineNuxtConfig({
           process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' || process.env.NODE_ENV === 'production',
       },
     },
-
     private: {
       NUXT_SECRET: process.env.NUXT_SECRET,
       ELASTIC_APIKEY: process.env.ELASTIC_APIKEY,

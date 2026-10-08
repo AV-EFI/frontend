@@ -216,8 +216,6 @@ weekly_security_prep:
 # Build a docker image.
 .build_docker:
   stage: build
-  variables:
-    AUTH_ORIGIN: https://${DEPLOY_SERVER}
   script:
     - if [ "$CI_ENVIRONMENT_NAME" = "testbed" ]; then export NUXT_PUBLIC_LOGIN_ENABLED=true; else export NUXT_PUBLIC_LOGIN_ENABLED=false; fi
     - if [ "$CI_ENVIRONMENT_NAME" = "testbed" ]; then export NUXT_PUBLIC_NEWS_ENABLED=true; else export NUXT_PUBLIC_NEWS_ENABLED=false; fi
@@ -246,8 +244,6 @@ build_docker-production:
 
 .deploy:
   stage: deploy
-  variables:
-    AUTH_ORIGIN: https://${DEPLOY_SERVER}
   before_script:
     # Install required packages
     - apk add --no-cache openssh-client gettext-envsubst

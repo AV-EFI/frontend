@@ -1,3 +1,4 @@
+import { AUTH_ENDPOINTS } from '~/utils/auth/endpoints';
 import { isSessionAuthenticatedForGuard } from '~/utils/auth/session';
 import type { SessionInfo } from '~/utils/auth/types';
 
@@ -12,12 +13,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (import.meta.server) {
-    const sessionEndpoint = runtimeConfig.public.AUTH_SESSION_ENDPOINT;
-    const sessionUrl = sessionEndpoint.startsWith('http')
-      ? sessionEndpoint
-      : new URL(sessionEndpoint, useRequestURL().origin).toString();
+    const sessionUrl = new URL(AUTH_ENDPOINTS.session, useRequestURL().origin).toString();
     const isAuthenticated = await isSessionAuthenticatedForGuard(
-      () => $fetch<SessionInfo>(sessionUrl, { headers: useRequestHeaders(['cookie']) }),
+      async () => await $fetch(sessionUrl, { headers: useRequestHeaders(['cookie']) }) as SessionInfo,
     );
 
     if (isAuthenticated) {

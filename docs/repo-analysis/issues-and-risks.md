@@ -92,7 +92,7 @@ Frontend
 - Sign-out clears local state even when `POST /auth/signout` fails, so a still-valid server session can reappear on the next load.
 - The CSRF token is cached in memory; the backend cookie expires after one hour, which is covered by the single retry on 403.
 - `useAuth()` casts `useNuxtApp().$auth` because vue-tsc does not resolve plugin-provided `$` properties in this project (see `scripts/typecheck.mjs`).
-- Default endpoints changed to the backend names (`/auth/signin/academiccloud`, `/auth/callback/academiccloud`). Deployments that set `AUTH_SIGNIN_ENDPOINT` or `AUTH_CALLBACK_ENDPOINT` explicitly keep their override and need to be checked.
+- The auth endpoints are fixed constants in `utils/auth/endpoints.ts` (backend names such as `/auth/signin/academiccloud`). The former `AUTH_*_ENDPOINT` environment overrides no longer exist, so the paths must change together with the backend and the reverse-proxy `/auth/` rule.
 - `stores/index.ts` still contains an unused Vuex-style `isAuthenticated` getter (`state.auth.loggedIn`).
 - `me.vue` shows the locally anchored expiry (`expiresAtLocal`), which can be in the past for a refreshable session (see above).
 

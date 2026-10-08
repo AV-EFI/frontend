@@ -22,7 +22,6 @@ function setupGlobals(options?: {
   vi.stubGlobal('useRuntimeConfig', () => ({
     public: {
       authGuardBypassInDev: options?.authGuardBypassInDev ?? true,
-      AUTH_SESSION_ENDPOINT: '/auth/session',
     },
   }));
   vi.stubGlobal('navigateTo', navigateToMock);

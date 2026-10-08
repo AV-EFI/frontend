@@ -1,23 +1,14 @@
 import { createError, getRequestHeader, getRequestURL } from 'h3';
 import type { H3Event } from 'h3';
 import { $fetch } from 'ofetch';
+import { AUTH_ENDPOINTS } from '../../utils/auth/endpoints';
 import { isAuthenticatedSession } from '../../utils/auth/session';
 import type { SessionInfo } from '../../utils/auth/types';
 
 type AuthSession = Partial<SessionInfo>;
 
-function resolveSessionUrl(event: H3Event, endpoint: string): string {
-  if (/^https?:\/\//i.test(endpoint)) {
-    return endpoint;
-  }
-
-  return new URL(endpoint, getRequestURL(event).origin).toString();
-}
-
 export async function getAuthSession(event: H3Event): Promise<AuthSession | null> {
-  const runtimeConfig = useRuntimeConfig();
-  const endpoint = runtimeConfig.public.AUTH_SESSION_ENDPOINT || '/auth/session';
-  const url = resolveSessionUrl(event, endpoint);
+  const url = new URL(AUTH_ENDPOINTS.session, getRequestURL(event).origin).toString();
   const cookie = getRequestHeader(event, 'cookie');
 
   try {
