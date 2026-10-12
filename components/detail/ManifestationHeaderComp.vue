@@ -44,9 +44,8 @@
 
         <div v-else class="flex flex-col justify-center w-full">
             <h4 class="col-span-full text-xs text-base-content/70" aria-hidden="true">
-                {{ manifestation?.handle }}
                 <MicroBadgeCategoryComp :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
-                                        class="ml-2 inline-block" />
+                                        class="inline-block" />
             </h4>
             <h4 :id="headingId || undefined" class="col-span-full font-semibold text-base-content my-1 xl:text-sm">
                 <span class="sr-only">{{ manifestationPositionText }}</span>
@@ -65,7 +64,7 @@
 
             <!-- NORMALIZED ROW: SearchGenericIconList + item count share SAME baseline -->
             <div
-                class="col-span-full flex flex-row items-center flex-wrap gap-x-4 gap-y-1 text-[0.8rem] leading-4 text-base-content/70"
+                class="col-span-full flex flex-row items-center flex-wrap gap-x-4 gap-y-1 text-[0.8rem] leading-4 text-base-content/70">
                 <!-- Search icons -->
                 <SearchGenericIconList
                     :data="manifestation"
