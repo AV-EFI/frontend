@@ -36,7 +36,9 @@
                 </button>
             </div>
 
-            <div class="px-4 pb-3">
+            <!-- The collapsed header already shows the efi visually (aria-hidden); this row is the accessible
+                 version for screen readers. It only becomes visible when keyboard focus reaches its copy button. -->
+            <div class="sr-only px-4 pb-3 focus-within:not-sr-only">
                 <DetailKeyValueComp
                     keytxt="efi"
                     :translate-key="false"

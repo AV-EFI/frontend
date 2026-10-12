@@ -44,8 +44,9 @@
 
         <div v-else class="flex flex-col justify-center w-full">
             <h4 class="col-span-full text-xs text-base-content/70" aria-hidden="true">
+                {{ manifestation?.handle }}
                 <MicroBadgeCategoryComp :category="manifestation?.has_record?.category || 'avefi:Manifestation'"
-                                        class="inline-block" />
+                                        class="ml-2 inline-block" />
             </h4>
             <h4 :id="headingId || undefined" class="col-span-full font-semibold text-base-content my-1 xl:text-sm">
                 <span class="sr-only">{{ manifestationPositionText }}</span>

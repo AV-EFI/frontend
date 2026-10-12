@@ -36,10 +36,10 @@ function mountHeader() {
 }
 
 describe('ManifestationHeaderComp collapsed row', () => {
-  test('does not repeat the efi, which the manifestation panel shows with a copy button', () => {
+  test('shows the efi once, next to the category badge', () => {
     const visibleText = mountHeader().find('div.flex-col').text();
 
-    expect(visibleText).not.toContain(HANDLE);
+    expect(visibleText.split(HANDLE)).toHaveLength(2);
   });
 
   test('keeps the category badge, the title and the issuer', () => {
