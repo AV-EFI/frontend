@@ -4,6 +4,8 @@ definePageMeta({
     auth: false
 });
 
+const DATA_PROTECTION_URL = 'https://datenschutz.gwdg.de/services/av-efi';
+
 </script>
 <template>
     <div>
@@ -25,13 +27,16 @@ definePageMeta({
                             <GlobalPageTitleComp variant="card" class="card-title">
                                 {{ $t('dataprotection') }}
                             </GlobalPageTitleComp>
-                            <iframe
-                                src="https://datenschutz.gwdg.de/services/av-efi"
-                                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                                width="100%"
-                                height="800"
-                                style="border:none;"
-                            />
+                            <!-- datenschutz.gwdg.de forbids embedding (CSP frame-ancestors 'self'), so the page links to it. -->
+                            <a
+                                :href="DATA_PROTECTION_URL"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-primary self-start"
+                            >
+                                <Icon name="tabler:external-link" aria-hidden="true" />
+                                {{ $t('vocab.openInNewTab') }}
+                            </a>
                         </div>
                     </div>          
                 </div>
