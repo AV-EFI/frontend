@@ -27,6 +27,7 @@ definePageMeta({
                             </GlobalPageTitleComp>
                             <iframe
                                 src="https://datenschutz.gwdg.de/services/av-efi"
+                                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
                                 width="100%"
                                 height="800"
                                 style="border:none;"

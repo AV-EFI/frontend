@@ -199,9 +199,9 @@
                 </div>
 
                 <a
-                    v-if="entry.material.url"
+                    v-if="safeHref(entry.material.url)"
                     class="btn btn-ghost btn-sm self-start"
-                    :href="entry.material.url"
+                    :href="safeHref(entry.material.url)"
                     target="_blank"
                     rel="noopener noreferrer"
                     :title="$t('openRecord')"
@@ -278,6 +278,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {

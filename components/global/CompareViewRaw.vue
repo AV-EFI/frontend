@@ -13,7 +13,7 @@
                         <textarea
                             v-if="prev"
                             class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-900 dark:text-white"
-                            v-html="JSON.stringify(prev, null, 2)"
+                            :value="JSON.stringify(prev, null, 2)"
                         />
                     </div>
                     <div class="w-full md:w-1/2 p-1">
@@ -22,7 +22,7 @@
                         </h3>
                         <textarea
                             class="p-4 w-[80vw] md:w-full h-[75vh] rounded-lg border-2 border-gray-500 dark:border-gray-300 dark:bg-gray-900 dark:text-white"
-                            v-html="JSON.stringify(current, null, 2)"
+                            :value="JSON.stringify(current, null, 2)"
                         />
                     </div>
                 </section>    

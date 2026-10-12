@@ -62,7 +62,7 @@
                         </div>
                         <h3 lang="de" class="text-lg font-bold leading-snug wrap-break-word">{{ expandedArticle.title }}</h3>
                         <div lang="de" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="expandedArticle.content" />
-                        <a class="link link-primary text-sm ml-auto" target="_blank" :href="expandedArticle.link" :aria-label="t('news.original')">
+                        <a class="link link-primary text-sm ml-auto" target="_blank" rel="noopener noreferrer" :href="expandedArticle.link" :aria-label="t('news.original')">
                             {{ t('news.original') }}<Icon name="tabler:external-link" aria-hidden="true" />
                         </a>
                     </article>

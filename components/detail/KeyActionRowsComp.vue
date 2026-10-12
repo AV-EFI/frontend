@@ -29,7 +29,7 @@
                  focus-within:outline-2 focus-within:outline-primary/40">
                     <!-- value -->
                     <div class="min-w-0 flex-1">
-                        <a v-if="row.href" :href="row.href" class="link link-hover text-sm wrap-break-word"
+                        <a v-if="safeHref(row.href)" :href="safeHref(row.href)" class="link link-hover text-sm wrap-break-word"
                            :title="row.title ?? row.text">
                             {{ row.text }}
                         </a>
@@ -79,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import { computed, ref } from "vue";
 const { t: $t } = useI18n();
 

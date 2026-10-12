@@ -25,7 +25,7 @@
                         :to="`/res/${work.handle}`"
                         class="link link-hover dark:link-white text-left inline-block"
                         :aria-label="titleFor(work) || work?.handle || $t('title')"
-                        target="_blank"
+                        target="_blank" rel="noopener"
                     >
                         {{ titleFor(work) || work?.handle || $t('title') }}
                     </NuxtLink>
@@ -40,7 +40,7 @@
                     class="btn btn-circle btn-outline btn-xs shrink-0"
                     :aria-label="`${$t('detailviewlink')}: ${titleFor(work) || work?.handle}`"
                     :title="$t('detailviewlink')"
-                    target="_blank"
+                    target="_blank" rel="noopener"
                 >
                     <Icon name="tabler:arrow-right" class="text-base" aria-hidden="true" />
                 </NuxtLink>

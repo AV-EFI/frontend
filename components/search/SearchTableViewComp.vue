@@ -41,7 +41,7 @@
                                 <div class="min-w-12">
                                     <div class="mr-1 btn btn-xs btn-outline btn-primary btn-circle">
                                         <NuxtLink
-                                            target="_blank"
+                                            target="_blank" rel="noopener"
                                             :to="`/res/${work.handle}`"
                                             class="link link-light flex"
                                             :title="`${$t('detailedViewLinkFor', { name: work.has_record.has_primary_title?.has_name || work.handle })}`"
@@ -175,14 +175,14 @@
                                                 <td>{{ $t(item.has_record?.has_frame_rate || '—') }}</td>
                                                 <td>
                                                     <div v-for="has_web in item.has_record?.has_webresource || []" :key="has_web">
-                                                        <a class="link link-primary" :href="has_web || '#'">
+                                                        <a class="link link-primary" :href="safeHref(has_web) ?? '#'">
                                                             {{ $t('webresource') }}
                                                         </a>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <NuxtLink
-                                                        target="_blank"
+                                                        target="_blank" rel="noopener"
                                                         :to="`/res/${item.handle}`"
                                                         class="link link-primary"
                                                     >
@@ -204,6 +204,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import { ref } from 'vue';
 import type { IAVefiWorkVariant } from '@/models/interfaces/generated/IAVefiWorkVariant';
 import type { SearchWorkHit } from '@/models/interfaces/manual/ISearchWorkHit';

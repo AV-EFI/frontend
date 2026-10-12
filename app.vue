@@ -334,7 +334,7 @@ useHead(() => ({
                                 <h2 class="text-base font-semibold">Cookies</h2>
                                 <p class="text-sm leading-snug">{{ $t('cookieBanner.shortDescription') }}</p>
                                 <LazyGlobalLanguageSwitch />
-                                <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" class="dark:text-white link">
+                                <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" rel="noopener" class="dark:text-white link">
                                     {{ $t('dataprotection') }}
                                 </NuxtLink>
                                 |

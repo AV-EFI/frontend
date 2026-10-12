@@ -311,6 +311,7 @@
 </template>
 
 <script setup lang="ts">
+import { markMatches } from '~/utils/safeHtml';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, ref, watch } from 'vue';
 
@@ -862,10 +863,6 @@ function downloadBlob(content: string, filename: string, type: string) {
 }
 
 function highlightText(text: string): string {
-    const q = filter.value.trim();
-    if (!q || !text) return text;
-  
-    const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    return text.replace(regex, '<span class="bg-highlight">$1</span>');
+    return markMatches(text, filter.value);
 }
 </script>

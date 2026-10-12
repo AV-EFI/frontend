@@ -237,7 +237,7 @@
                             :key="i"
                         >
                             <a
-                                :href="url"
+                                :href="safeHref(url)"
                                 target="_blank"
                                 rel="noopener"
                                 class="link link-primary text-sm font-semibold inline-flex items-center"
@@ -253,7 +253,7 @@
                 </template>
                 <a
                     v-else-if="typeof exemplar?.has_record?.has_webresource === 'string'"
-                    :href="exemplar.has_record.has_webresource"
+                    :href="safeHref(exemplar.has_record.has_webresource)"
                     target="_blank"
                     rel="noopener"
                     class="link link-primary my-auto text-base font-semibold inline-flex items-center"
@@ -276,6 +276,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import type { PropType } from 'vue';
 import type { IAVefiItem } from '~/models/interfaces/generated/IAVefiItem';
 import type { AuthorityResource, Format } from '~/models/interfaces/schema/avefi_schema_type_utils';

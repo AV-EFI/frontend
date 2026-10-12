@@ -42,7 +42,7 @@
                                 class="link dark:link-white no-underline hover:underline"
                                 :aria-label="$t('detailviewlink')"
                                 :title="$t('detailviewlink')"
-                                target="_blank"
+                                target="_blank" rel="noopener"
                             >
                                 {{ get(part,'has_record.has_primary_title.has_name') || part?.handle || $t('title') }}
                             </NuxtLink>
@@ -74,14 +74,14 @@
                             class="btn btn-circle btn-outline btn-md mr-2"
                             :aria-label="$t('detailviewlink')"
                             :title="$t('detailviewlink')"
-                            target="_blank"
+                            target="_blank" rel="noopener"
                         >
                             <Icon name="tabler:arrow-right" class="text-2xl" aria-hidden="true" />
                         </NuxtLink>
 
                         <a
-                            v-else-if="part?.url"
-                            :href="part.url"
+                            v-else-if="safeHref(part?.url)"
+                            :href="safeHref(part?.url)"
                             class="btn btn-circle btn-outline btn-md mr-2"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -123,6 +123,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';

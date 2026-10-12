@@ -1,3 +1,5 @@
+import { safeHref } from '~/utils/safeUrl';
+
 export function useNormdataUrl() {
   function getNormdataUrl(category: string, id: string): string {
 
@@ -24,8 +26,8 @@ export function useNormdataUrl() {
       return `https://www.av-efi.net/res/21.11155/${id}`;
     }
     
-    // Fallback: return the ID as-is (might be a full URL already)
-    return id;
+    // Fallback: the ID may already be a full URL; anything with an unsafe scheme is dropped
+    return safeHref(id) ?? '';
   }
 
   return {

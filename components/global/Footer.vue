@@ -15,7 +15,7 @@
                             <li class="min-h-16">
                                 <a
                                     href="https://creativecommons.org/licenses/by/4.0/"
-                                    target="_blank"
+                                    target="_blank" rel="noopener noreferrer"
                                     class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                                     :aria-label="$t('footerLicenseContent')"
                                 >
@@ -28,7 +28,7 @@
                             <li class="min-h-16">
                                 <a
                                     href="https://creativecommons.org/publicdomain/zero/1.0/"
-                                    target="_blank"
+                                    target="_blank" rel="noopener noreferrer"
                                     class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                                     :aria-label="$t('footerLicenseData')"
                                 >
@@ -49,7 +49,7 @@
                             <li class="min-h-16">
                                 <a
                                     href="https://datenschutz.gwdg.de/services/av-efi"
-                                    target="_blank"
+                                    target="_blank" rel="noopener noreferrer"
                                     class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                                     :aria-label="$t('dataprotection')"
                                 >
@@ -77,7 +77,7 @@
                             <li class="min-h-16">
                                 <a
                                     href="https://listserv.gwdg.de/mailman/listinfo/av-efi-community"
-                                    target="_blank"
+                                    target="_blank" rel="noopener noreferrer"
                                     class="link transition inline-flex items-start p-3 rounded-md min-h-16 leading-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-100"
                                     :aria-label="$t('home.sections.becomePartner.cta')"
                                 >
@@ -103,7 +103,7 @@
                         <div class="bg-transparent">
                             <a
                                 href="https://gepris.dfg.de/gepris/projekt/517778207?context=projekt&task=showDetail&id=517778207&"
-                                target="_blank"
+                                target="_blank" rel="noopener noreferrer"
                                 :aria-label="$t('footerFundingAria')"
                             >
                                 <img

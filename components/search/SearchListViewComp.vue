@@ -37,7 +37,7 @@
                         <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
                                   class="link link-hover dark:link-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded text-left leading-5 my-1"
                                   :aria-label="`${get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title')}`"
-                                  target="_blank">
+                                  target="_blank" rel="noopener">
                             {{ get(work, 'has_record.has_primary_title.has_name') || work?.handle || $t('title') }}
                         </NuxtLink>
                         <span v-else>
@@ -60,7 +60,7 @@
                     <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
                               class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                               :aria-label="`${$t('detailviewlink')}: ${get(work, 'has_record.has_primary_title.has_name') || work?.handle}`"
-                              :title="$t('detailviewlink')" target="_blank">
+                              :title="$t('detailviewlink')" target="_blank" rel="noopener">
                         <Icon name="tabler:arrow-right" class="text-2xl" aria-hidden="true" />
                     </NuxtLink>
                     <GlobalActionContextComp v-if="work" :item="work" />

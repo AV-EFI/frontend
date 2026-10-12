@@ -10,9 +10,9 @@
         <div v-if="(mir?.is_manifestation_of?.length ?? 0) > 0 && (dataObject?.compound_record?._source?.work_variants?.length ?? 0) > 0"
              class="mt-4">
             <div class="alert">
-                <p v-if="resourceType == 'compilationManifestation'" v-html="$t('multihelptextManifestation', {'name': dataObject?.handle})"></p>
-                <p v-else-if="resourceType == 'compilationItem'" v-html="$t('multihelptextItem', {'name': dataObject?.handle, 'manifestation': dataObject.compound_record?._source?.handle ?? ''})"></p>
-                <p v-else v-html="$t('multihelptext', {'name': dataObject?.handle})"></p>
+                <p v-if="resourceType == 'compilationManifestation'" v-html="$t('multihelptextManifestation', {'name': escapeHtml(dataObject?.handle ?? '')})"></p>
+                <p v-else-if="resourceType == 'compilationItem'" v-html="$t('multihelptextItem', {'name': escapeHtml(dataObject?.handle ?? ''), 'manifestation': escapeHtml(dataObject.compound_record?._source?.handle ?? '')})"></p>
+                <p v-else v-html="$t('multihelptext', {'name': escapeHtml(dataObject?.handle ?? '')})"></p>
             </div>
             <ViewsWorkViewCompParts :type="resourceType"
                                     :parts="dataObject?.compound_record?._source?.work_variants ?? []"
@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { escapeHtml } from '~/utils/safeHtml';
 import type { WorkVariant, Manifestation } from "~/models/interfaces/schema/avefi_schema_type_utils";
 import type { Part } from "./WorkViewCompParts.vue";
 

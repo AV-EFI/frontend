@@ -76,7 +76,7 @@
                                     <h3>{{ currentHint?.label }}</h3>
                                     <p v-if="currentHint?.description" class="text-sm opacity-70 mt-1">
                                         {{ currentHint.description }}
-                                        <a v-if="currentHint?.docsUrl" :href="currentHint.docsUrl" target="_blank" class="link ml-2">{{
+                                        <a v-if="safeHref(currentHint?.docsUrl)" :href="safeHref(currentHint?.docsUrl)" target="_blank" rel="noopener noreferrer" class="link ml-2">{{
                                             $t('ut.docs') }} ↗</a>
                                     </p>
                                     <code class="text-xs opacity-70" v-if="currentPath">{{ currentPath }}</code>
@@ -155,6 +155,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import { ref, computed, onMounted, defineComponent, h } from 'vue';
 import { useFormKitLoader } from '~/composables/useFormKitLoader';
 

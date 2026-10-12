@@ -103,8 +103,11 @@
                             <!-- Body -->
                             <div ref="previewScrollEl" class="lg:h-[60vh] overflow-auto">
                                 <iframe v-if="previewUrl && !forceInline" :key="previewUrl" :src="previewUrl"
+                                        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
                                         class="w-full h-[60vh] border-0" @load="onIframeLoad" />
-                                <div v-else-if="inlineHtml" class="p-4 prose prose-sm max-w-none" v-html="inlineHtml" />
+                                <iframe v-else-if="inlineHtml" :srcdoc="inlineHtml"
+                                        sandbox="allow-popups allow-popups-to-escape-sandbox"
+                                        class="w-full h-[60vh] border-0" />
                                 <div v-else class="p-4 text-sm opacity-70">
                                     {{ $t('vocab.loading') }}
                                 </div>
@@ -118,6 +121,7 @@
 </template>
 
 <script setup lang="ts">
+import { markMatches } from '~/utils/safeHtml';
 import { ref, computed, watch, nextTick, onMounted } from 'vue';
 
 /**
@@ -294,10 +298,7 @@ function groupByCategory(list: VocabEntry[]) {
 }
 
 function highlight(text: string): string {
-    if (!query.value || !text) return text;
-    const escaped = query.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escaped})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
+    return markMatches(text, query.value);
 }
 
 /* ---------- docs url ---------- */
@@ -311,7 +312,7 @@ function docUrl(entry: VocabEntry): string | '' {
 /* ---------- inline preview per row ---------- */
 const openKey = ref<string>('');               // which row is open
 const previewUrl = ref<string>('');            // url for iframe / inline
-const inlineHtml = ref<string>('');            // sanitized html fallback
+const inlineHtml = ref<string>('');            // remote docs html, rendered in a script-free sandboxed iframe
 const forceInline = ref(false);
 const previewScrollEl = ref<HTMLElement | null>(null);
 let iframeTimer: ReturnType<typeof setTimeout> | null = null;

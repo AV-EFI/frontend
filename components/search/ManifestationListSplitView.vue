@@ -135,7 +135,7 @@
                             <div class="divider divide-neutral-50 my-0"></div>
                             <div class="text-sm text-left flex justify-items-start text-gray-500 dark:text-gray-300 my-2 relative"
                                  v-if="item?.has_record?.has_webresource">
-                                <a :href="item.has_record.has_webresource[0]" target="_blank"
+                                <a :href="safeHref(item.has_record.has_webresource[0])" target="_blank" rel="noopener noreferrer"
                                    class="link link-primary dark:link-accent inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
                                    :aria-label="`${$t('webresource')}: ${item.has_record.has_webresource[0]}`">
                                     <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
@@ -177,6 +177,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import { ref, computed, watch, nextTick, type PropType } from 'vue';
 import { allItemsEmpty, isItemEmpty } from '@/composables/useItemEmpty';
 import type { SearchManifestation, SearchItem } from '@/models/interfaces/manual/ISearchWorkHit';
@@ -250,7 +251,7 @@ function prevItemPage() {
 
 const navigateToItem = (item: { handle?: string } | null | undefined) => {
     const itemPath = `/res/${props.workVariantHandle}#${item?.handle}`;
-    window.open(itemPath, '_blank');
+    window.open(itemPath, '_blank', 'noopener,noreferrer');
 };
 
 watch(selectedManifestation, () => {

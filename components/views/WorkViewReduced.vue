@@ -13,7 +13,7 @@
                             <a
                                 class="link link-hover"
                                 :href="`/res/${data.handle}`"
-                                target="_blank"
+                                target="_blank" rel="noopener noreferrer"
                             >
                                 {{ primaryTitle || '—' }}
                             </a>
@@ -134,7 +134,7 @@
                             <a
                                 class="link link-hover"
                                 :href="`/res/${compareWith.handle}`"
-                                target="_blank"
+                                target="_blank" rel="noopener noreferrer"
                             >
                                 {{ comparePrimaryTitle || '—' }}
                             </a>
@@ -257,7 +257,7 @@
                         <a
                             class="link link-hover"
                             :href="`/res/${data.handle}`"
-                            target="_blank"
+                            target="_blank" rel="noopener noreferrer"
                         >
                             {{ primaryTitle || '—' }}
                         </a>

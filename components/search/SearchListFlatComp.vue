@@ -14,7 +14,7 @@
                     <h2 :id="`flat-work-title-${work?.handle ?? ''}`" class="font-bold text-lg my-1 text-left">
                         <a :href="`/film/${work.objectID}`"
                            :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
-                           :title="$t('detailviewlink')" target="_blank"
+                           :title="$t('detailviewlink')" target="_blank" rel="noopener noreferrer"
                            class="link dark:link-white no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">
                             <span v-if="work._highlightResult?.has_record?.has_primary_title?.has_name">
                                 <ais-highlight attribute="has_record.has_primary_title.has_name" :hit="work" />
@@ -30,7 +30,7 @@
                             <li v-for="(alt, idx) in work._highlightResult?.has_record?.has_alternative_title?.has_name" :key="idx"
                                 class="block" tabindex="0"
                                 :aria-label="`${$t('alternativeTitle')}: ${work.has_record?.has_alternative_title?.[idx]?.has_name || ''} ${work.has_record?.has_alternative_title?.[idx]?.type ? '(' + $t(work.has_record.has_alternative_title[idx].type) + ')' : ''}`">
-                                <span v-html="alt.value" />
+                                <span v-html="sanitizeHighlightHtml(alt.value ?? '')" />
                                 <span v-if="work.has_record?.has_alternative_title?.[idx]?.type">
                                     ({{ $t(work.has_record.has_alternative_title[idx].type) }})
                                 </span>
@@ -49,7 +49,7 @@
                     <NuxtLink v-if="work?.handle" :to="`/res/${work.handle}`"
                               class="btn btn-circle btn-outline btn-md mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                               :aria-label="`${$t('detailviewlink')}: ${work?.has_record?.has_primary_title?.has_name || work?.handle}`"
-                              :title="$t('detailviewlink')" target="_blank">
+                              :title="$t('detailviewlink')" target="_blank" rel="noopener">
                         <Icon name="tabler:arrow-right" class="text-2xl" aria-hidden="true" />
                     </NuxtLink>
                     <GlobalActionContextComp v-if="work" :item="work" />
@@ -174,7 +174,7 @@
                                     </div>
                                     <div v-if="row.item?.has_record?.has_webresource" class="flex items-start">
                                         <GlobalTooltipInfo :text="$t('tooltip.webresource')" />
-                                        <a v-if="row.item?.has_record?.has_webresource" :href="row.item?.has_record?.has_webresource?.[0]"
+                                        <a v-if="row.item?.has_record?.has_webresource" :href="safeHref(row.item?.has_record?.has_webresource?.[0])"
                                            class="text-sm link link-primary">
                                             <Icon name="tabler:external-link" /> {{ $t('webresource') }}
                                         </a>
@@ -236,6 +236,8 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
+import { sanitizeHighlightHtml } from '~/utils/safeHtml';
 import { allItemsEmpty, isItemEmpty, has, get, buildRows } from '@/composables/useItemEmpty';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { PropType } from 'vue';
@@ -537,7 +539,7 @@ function trackStyle(work: SearchWorkHit) {
 
 const navigateToItem = (item: SearchItem | undefined, workHandle: string) => {
     const itemPath = `/film/${workHandle}#${item?.handle}`;
-    window.open(itemPath, '_blank');
+    window.open(itemPath, '_blank', 'noopener,noreferrer');
 };
 
 </script>

@@ -5,12 +5,13 @@
         </span>
         <span
             class="px-1 rounded-sm"
-            v-html="value"
+            v-html="sanitizeHighlightHtml(value)"
         />
     </li>
 </template>
   
 <script lang="ts" setup>
+import { sanitizeHighlightHtml } from '~/utils/safeHtml';
 defineProps({
     value: {
         type: String,

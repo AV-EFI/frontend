@@ -110,7 +110,7 @@
                         <ul v-if="objectListStore.objects.length > 0" class="mt-2 w-full">
                             <li v-for="(object, index) in objectListStore.objects" :key="index" class="text-sm">
                                 <div class="flex justify-between w-full">
-                                    <a class="link w-3/4" :href="`/res/${object.filmId}`" target="_blank">
+                                    <a class="link w-3/4" :href="`/res/${object.filmId}`" target="_blank" rel="noopener noreferrer">
                                         {{ object.filmTitle }}
                                     </a>
                                     <div class="w-1/4 flex flex-row">
@@ -170,7 +170,7 @@
                         <ul v-if="favourites.objects.length > 0" class="mt-2 w-full">
                             <li v-for="(favouritesItem, index) in favourites.objects" :key="index" class="mt-2">
                                 <div class="flex justify-between w-full">
-                                    <a class="link w-3/4" :href="`/res/${favouritesItem.filmId}`" target="_blank">
+                                    <a class="link w-3/4" :href="`/res/${favouritesItem.filmId}`" target="_blank" rel="noopener noreferrer">
                                         {{ favouritesItem.filmTitle }}
                                     </a>
                                     <div class="w-1/4 flex flex-row">

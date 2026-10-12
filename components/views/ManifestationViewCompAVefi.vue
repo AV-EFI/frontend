@@ -63,7 +63,7 @@
                                         class="link link-primary dark:link-accent link-hover"
                                         alt="Referenz bei  Filmportal"
                                         title="Referenz bei Filmportal"
-                                        target="_blank"
+                                        target="_blank" rel="noopener noreferrer"
                                     >
                                         {{ $t('filmportalref') }}&nbsp;
                                         <Icon
@@ -210,7 +210,7 @@
                                                             :href="`https://explore.gnd.network/gnd/${same_as_item.id}`"
                                                             alt="Referenz bei GND"
                                                             title="Referenz bei GND"
-                                                            target="_blank"
+                                                            target="_blank" rel="noopener noreferrer"
                                                         >
                                                             <Icon
                                                                 name="tabler:id"
@@ -310,11 +310,11 @@
                         <div class="col-span-full md:col-span-8">
                             <p>{{ mir.described_by?.has_issuer_name }}</p>
                             <a 
-                                :href="mir.described_by?.has_issuer_id"
+                                :href="safeHref(mir.described_by?.has_issuer_id)"
                                 class="link link-primary dark:link-accent link-hover"
                                 alt="Referenz bei ISIL"
                                 title="Referenz bei ISIL"
-                                target="_blank"
+                                target="_blank" rel="noopener noreferrer"
                             >
                                 {{ mir.described_by?.has_issuer_id }}
                             </a>
@@ -371,6 +371,7 @@
 </template>
 
 <script setup lang="ts">
+import { safeHref } from '~/utils/safeUrl';
 import type { Duration, Language, Manifestation } from '~/models/interfaces/schema/avefi_schema';
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
 const config = useRuntimeConfig();
