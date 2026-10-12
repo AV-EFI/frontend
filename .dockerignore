@@ -1,3 +1,6 @@
+# Repository history is not needed to build the image
+.git
+
 # Build outputs (don’t send these to Docker context)
 .output
 .data

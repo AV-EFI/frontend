@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-RUN yarn set version berry
 
 # Set the working directory inside the container
 WORKDIR /app
