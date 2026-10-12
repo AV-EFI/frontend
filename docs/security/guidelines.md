@@ -52,6 +52,7 @@ Weitere Regeln:
 - Gepatchte Versionen über direkte Abhängigkeit oder `resolutions` in `package.json` festlegen. Keine ungeprüften Major-Sprünge nebenbei.
 - Danach `corepack yarn install` und `corepack yarn npm audit --recursive --json`. Verbleibende Advisories sind in `scripts/security/baseline.json` mit Grund und Prüfdatum festgehalten.
 - Vue-Pakete (`vue`, `@vue/*`) werden über `resolutions` auf eine Version gezogen, damit nicht mehrere Versionen im Baum liegen.
+- Nach Updates den Docker-Install prüfen: `docker build --target build .` bzw. mindestens `yarn install` im `node`-Image mit `package.json`, `yarn.lock` und `.yarnrc.yml`. Das `postinstall` (`nuxt prepare`) läuft dort ohne `nuxt.config.ts`, deshalb lädt es Module, die lokal deaktiviert sind (Beispiel: `@nuxt/devtools` mit `simple-git`; ein Major-Update brach den CI-Build am 2026-10-12).
 - Neue Abhängigkeit nur mit Begründung: Pflege, Herkunft, Größe, Install-Skripte.
 
 ## 6. Container und CI (A02, A08)

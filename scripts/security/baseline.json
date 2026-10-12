@@ -60,6 +60,12 @@
       "reviewBy": "2027-01-12"
     },
     {
+      "id": "dependencies:simple-git",
+      "status": "accepted",
+      "reason": "Nur über @nuxt/devtools 3.4.1, das in nuxt.config.ts deaktiviert ist und im Laufzeit-Image nicht liegt (es enthält nur .output). simple-git 4.0.2 ist gepatcht, entfernt aber den Default-Export, den @nuxt/devtools importiert, und bricht damit `nuxt prepare` im Docker-Install (CI-Build vom 2026-10-12). @simple-git/argv-parser ist per resolutions auf 2.0.1 gehoben. Erneut prüfen, sobald @nuxt/devtools simple-git 4 unterstützt.",
+      "reviewBy": "2027-01-12"
+    },
+    {
       "id": "links:dynamic-href:components/detail/SameAsComp.vue:*",
       "status": "accepted",
       "reason": "Wert kommt aus useNormdataUrl, das unsichere Schemas verwirft (Test: tests/unit/composables/normdata-url.spec.ts).",
