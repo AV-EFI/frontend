@@ -1,0 +1,285 @@
+{
+  "lastReview": "2026-10-12",
+  "config": {
+    "liveUrls": [
+      "https://www.av-efi.net/",
+      "https://testbed.av-efi.net/"
+    ],
+    "reviewedRoutesNote": "Initialer Snapshot vom 2026-10-12: alle damals vorhandenen Routen gelten als bekannt, einzeln geprüft wurden nur die im Issue 250 genannten. Ab jetzt meldet das Modul jede neue Route.",
+    "reviewedRoutes": [
+      "ANY /press/manifest.json",
+      "ANY /robots.txt",
+      "GET /api/cms/getcmscontent",
+      "GET /api/cms/modelhints",
+      "GET /api/cms/modeltree",
+      "GET /api/cms/usertooltips",
+      "GET /api/cms/vocab",
+      "GET /api/elastic/fallbacks",
+      "GET /api/elastic/get_work_by_id/[id]",
+      "GET /api/elastic/issuers",
+      "GET /api/elastic/normdata/[field]",
+      "GET /api/elastic/normdata/count",
+      "GET /api/elastic/vocab/[field]",
+      "GET /api/film-related-materials/[prefix]/[id]",
+      "GET /api/news",
+      "GET /api/poc/works/by-handle",
+      "GET /api/press-kit.zip",
+      "GET /api/top-issuers",
+      "POST /api/cms/decorate",
+      "POST /api/cms/usertooltips_seed",
+      "POST /api/elastic/cache_top_values",
+      "POST /api/elastic/dashboard-stats",
+      "POST /api/elastic/get_work_by_id",
+      "POST /api/elastic/get_work_by_is_part_of",
+      "POST /api/elastic/msearch",
+      "POST /api/elastic/msearch_inst",
+      "POST /api/elastic/query_suggest",
+      "POST /api/elastic/statscount",
+      "POST /api/elastic/suggestions",
+      "POST /api/log/client",
+      "POST /api/mail/contact",
+      "POST /api/mail/smtp-check",
+      "POST /api/mail/test",
+      "POST /api/poc/chat",
+      "POST /api/poc/facets/agents",
+      "POST /api/poc/works/search",
+      "PUT /api/cms/usertooltips"
+    ]
+  },
+  "entries": [
+    {
+      "id": "dependencies:braces",
+      "status": "accepted",
+      "reason": "Kein Fix auf npm (3.0.3 ist die neueste Version). Nur über micromatch und fast-glob zur Build-Zeit, keine Laufzeit-Eingaben von außen.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "dependencies:node-forge",
+      "status": "accepted",
+      "reason": "Kein Fix auf npm (1.4.0 ist die neueste Version). Nur über listhen, also den Dev-Server.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/detail/SameAsComp.vue:*",
+      "status": "accepted",
+      "reason": "Wert kommt aus useNormdataUrl, das unsichere Schemas verwirft (Test: tests/unit/composables/normdata-url.spec.ts).",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:pages/normdata.vue:getExternalUrl*",
+      "status": "accepted",
+      "reason": "Wert kommt aus useNormdataUrl, das unsichere Schemas verwirft.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:pages/normdata.vue:getFacetSearchUrl*",
+      "status": "accepted",
+      "reason": "Interner Suchpfad, wird in der Komponente aus Konstanten gebaut.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/global/BreadcrumbsComp.vue:*",
+      "status": "accepted",
+      "reason": "Interne Routen aus der Seitenstruktur.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/global/NavItem.vue:*",
+      "status": "accepted",
+      "reason": "Interne Routen aus der Navigationskonfiguration.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/global/CarouselCardComp.vue:*",
+      "status": "accepted",
+      "reason": "Feste Karteneinträge in der Komponente, keine Backend-Daten.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/global/VocabViewer.vue:*",
+      "status": "accepted",
+      "reason": "URLs entstehen aus der Konstante DOCS_BASE und dem Enum-Namen.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/home/HomeNewsSection.vue:*",
+      "status": "accepted",
+      "reason": "Link wird serverseitig in server/utils/newsFeed.ts (webUrl) auf http/https beschränkt.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:pages/news.vue:*",
+      "status": "accepted",
+      "reason": "Link wird serverseitig in server/utils/newsFeed.ts (webUrl) auf http/https beschränkt.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/search/ClickableFacetValue.vue:*",
+      "status": "accepted",
+      "reason": "Vom Router und von den Facet-Helfern erzeugter interner Link.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:components/search/InstantSearchTemplateAVefi.vue:*",
+      "status": "accepted",
+      "reason": "Von InstantSearch (createURL) erzeugter interner Link.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:pages/*:randomQuote.wikiquoteUrl",
+      "status": "accepted",
+      "reason": "Statische Daten aus data/film-quotes.json.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:pages/accessibility.vue:*",
+      "status": "accepted",
+      "reason": "Übersetzungstext aus i18n, keine Fremddaten.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "links:dynamic-href:pages/press.vue:*",
+      "status": "accepted",
+      "reason": "Feste Dateiliste der Presseseite.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:app.vue:cookieText*",
+      "status": "accepted",
+      "reason": "Cookie-Texte stammen aus der Konfiguration in nuxt.config.ts.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:components/home/HomeNewsSection.vue:*",
+      "status": "accepted",
+      "reason": "News-HTML wird serverseitig mit sanitize-html bereinigt (server/utils/newsFeed.ts, Test: tests/unit/utils/news-feed.spec.ts).",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:pages/news.vue:*",
+      "status": "accepted",
+      "reason": "News-HTML wird serverseitig mit sanitize-html bereinigt (server/utils/newsFeed.ts).",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:pages/[...slug].vue:randomQuote.text",
+      "status": "accepted",
+      "reason": "Statische Daten aus data/film-quotes.json.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:pages/error-500.vue:randomQuote.text",
+      "status": "accepted",
+      "reason": "Statische Daten aus data/film-quotes.json.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:pages/faq.vue:paragraph",
+      "status": "accepted",
+      "reason": "Texte aus i18n (festes HTML mit Links), keine Fremddaten.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:v-html:components/poc/LockupBuilder.vue:composedSvg",
+      "status": "accepted",
+      "reason": "PoC-Seite, setzt SVG aus festen Assets der eigenen Origin (/img/*.svg) zusammen.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "xss-sinks:innerHTML:components/poc/LockupBuilder.vue",
+      "status": "accepted",
+      "reason": "PoC-Seite, misst feste SVG-Assets der eigenen Origin in einem unsichtbaren Element.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "server-routes:unvalidated-body:POST /api/elastic/msearch",
+      "status": "accepted",
+      "reason": "In Produktionsbuilds nicht erreichbar (404), nur lokaler Testhelfer.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "server-routes:unvalidated-body:POST /api/elastic/get_work_by_id",
+      "status": "tracked",
+      "reason": "Body wird an Searchkit weitergereicht, Schema-Validierung steht aus.",
+      "ref": "Issue 250, Folgearbeit Nitro-Routen"
+    },
+    {
+      "id": "server-routes:unvalidated-body:POST /api/elastic/get_work_by_is_part_of",
+      "status": "tracked",
+      "reason": "Body wird an Searchkit weitergereicht, Schema-Validierung steht aus.",
+      "ref": "Issue 250, Folgearbeit Nitro-Routen"
+    },
+    {
+      "id": "server-routes:unvalidated-body:POST /api/elastic/msearch_inst",
+      "status": "tracked",
+      "reason": "Body wird an Searchkit weitergereicht (angemeldete Institutionen), Schema-Validierung steht aus.",
+      "ref": "Issue 250, Folgearbeit Nitro-Routen"
+    },
+    {
+      "id": "server-routes:unvalidated-body:POST /api/elastic/statscount",
+      "status": "tracked",
+      "reason": "Body wird weitergereicht, Schema-Validierung steht aus.",
+      "ref": "Issue 250, Folgearbeit Nitro-Routen"
+    },
+    {
+      "id": "container-ci:ci-cat-compose",
+      "status": "accepted",
+      "reason": "Die docker-compose.tmpl enthält nur Image-Name und Tag (CI_REGISTRY_IMAGE, CI_COMMIT_REF_NAME), keine Secrets.",
+      "reviewBy": "2027-01-12"
+    },
+    {
+      "id": "container-ci:dockerfile-user",
+      "status": "tracked",
+      "reason": "USER node scheint möglich, aber ./logs ist vom Host gemountet und die App schreibt nach server/data. Rechte auf dem Host müssen vorher geklärt werden.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "container-ci:compose-no-new-privileges",
+      "status": "tracked",
+      "reason": "Optionale Härtung im Compose-File, Infra.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "container-ci:compose-cap-drop",
+      "status": "tracked",
+      "reason": "Optionale Härtung im Compose-File, Infra.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "live-headers:*:strict-transport-security",
+      "status": "tracked",
+      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "live-headers:*:content-security-policy",
+      "status": "tracked",
+      "reason": "Hängt an der Header-Entscheidung; zuerst Report-Only.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "live-headers:*:x-content-type-options",
+      "status": "tracked",
+      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "live-headers:*:referrer-policy",
+      "status": "tracked",
+      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "live-headers:*:permissions-policy",
+      "status": "tracked",
+      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "live-headers:*:frame-protection",
+      "status": "tracked",
+      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
+      "ref": "logs/security/issue-backend-infra-security.md"
+    }
+  ]
+}

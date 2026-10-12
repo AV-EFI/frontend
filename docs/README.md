@@ -11,6 +11,7 @@ This directory contains implementation, architecture, UX, design, and generated 
 - `repo-analysis/`: architecture, behavior contracts, testing strategy, schema/generation notes, and implementation risks.
 - `repo-analysis/software-quality-map.md`: practical quality map linking critical surfaces, current checks, gaps, and next upgrades.
 - `repo-analysis/release-quality-checklist.md`: release and merge verification lanes by change type.
+- `security/guidelines.md` and `security/monthly-check.md` (German): security rules for contributors and the monthly security check with its OWASP Top 10:2025 mapping; automatic checks live in `../scripts/security/`.
 - `visual-ui-audit.md`: current visual UI audit and implementation notes.
 - `components/`: refreshed static source summaries for current Vue components; start with `components/handover-audit.md` and verify behavior against source and tests.
 - `composables/`: generated or semi-generated API-style documentation; verify against source before relying on freshness.

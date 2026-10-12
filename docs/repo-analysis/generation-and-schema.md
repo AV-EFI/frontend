@@ -72,6 +72,16 @@ Output:
 
 - `data/top-issuers.json`
 
+How the issuer numbers are updated:
+
+- The issuer carousel (`IssuerCarouselComp`) calls `/api/top-issuers`, which queries the search backend live and caches the result for 24 hours (`TOP_ISSUERS_CACHE_MAX_AGE_SECONDS`, default `86400`). It needs no manual step.
+- `data/top-issuers.json` is only the placeholder shown by `HomeIssuerSection` until the carousel loads, and the fallback of `/api/top-issuers` when the backend does not answer. It is updated by hand:
+  1. `TOP_ISSUERS_BACKEND_BASE="https://<backend>/rest/v1" corepack yarn generate:issuers`
+  2. Review the diff of `data/top-issuers.json` and commit it.
+- The script keeps the existing file when the backend request fails (set `TOP_ISSUERS_FALLBACK_TO_EXISTING=false` to make that an error). `TOP_ISSUERS_LIMIT` sets the number of issuers (default 20).
+- `yarn build` runs the script too (`prepare:generated`). In CI the backend is usually not reachable, so the committed file stays in place.
+- `/api/elastic/cache_top_values` is unrelated: it writes `server/data/autocomplete_fallbacks.json` for search suggestions and is protected with `Authorization: Bearer <NUXT_SECRET>`.
+
 ### Image-related scripts
 
 - `scripts/optimize-images.mjs`
