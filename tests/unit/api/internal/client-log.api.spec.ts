@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 type TestEvent = {
   node: {
-    req: { socket: { remoteAddress: string } };
+    req: { headers?: Record<string, string>; socket: { remoteAddress: string } };
     res: { statusCode: number };
   };
 };
@@ -37,7 +37,6 @@ describe('Internal API: /api/log/client', () => {
   test('logs validated payload and returns success=true', async () => {
     const loggerErrorMock = vi.fn();
     const loggerWarnMock = vi.fn();
-    const getHeaderMock = vi.fn().mockReturnValue('203.0.113.42');
 
     vi.doMock('h3', () => ({
       defineEventHandler: <T>(fn: T) => fn,
@@ -46,7 +45,6 @@ describe('Internal API: /api/log/client', () => {
         type: 'TypeError',
         url: '/search',
       }),
-      getRequestHeader: getHeaderMock,
     }));
     vi.doMock('#imports', () => ({
       useNitroApp: () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }),
@@ -54,11 +52,15 @@ describe('Internal API: /api/log/client', () => {
     vi.stubGlobal('useNitroApp', () => ({ logger: { error: loggerErrorMock, warn: loggerWarnMock } }));
 
     const handler = (await import('~/server/api/log/client.post')).default as (event: TestEvent) => Promise<LogClientResponse>;
-    const event: TestEvent = { node: { req: { socket: { remoteAddress: '127.0.0.1' } }, res: { statusCode: 200 } } };
+    const event: TestEvent = {
+      node: {
+        req: { headers: { 'x-forwarded-for': '198.51.100.7, 203.0.113.42' }, socket: { remoteAddress: '127.0.0.1' } },
+        res: { statusCode: 200 },
+      },
+    };
     const result = await handler(event);
 
     expect(result).toEqual({ success: true });
-    expect(getHeaderMock).toHaveBeenCalledWith(event, 'x-forwarded-for');
     expect(loggerErrorMock).toHaveBeenCalledTimes(1);
     expect(loggerErrorMock.mock.calls[0]?.[0]).toMatchObject({
       message: 'Unhandled error',

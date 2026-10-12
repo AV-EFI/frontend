@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   //        return { status: 'unauthenticated!' };
   //    }
   const session = await getAuthSession(event);
-  const apiClient = Client(config, {debug: true});
+  const apiClient = Client(config);
   const body = await readBody(event);
   const institution = typeof session?.user?.institution === 'string' ? session.user.institution : '';
   const institutionid:string = `https://w3id.org/isil/${institution}`;

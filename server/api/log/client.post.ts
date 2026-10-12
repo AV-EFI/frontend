@@ -1,5 +1,6 @@
-import { defineEventHandler, readBody, getRequestHeader } from 'h3';
+import { defineEventHandler, readBody } from 'h3';
 import { z } from 'zod';
+import { getClientIp } from '~/server/utils/clientIp';
 
 // `useNitroApp` is a Nitro auto-import (see .nuxt/types/nitro-imports.d.ts); it is
 // not exported by '#imports' under this project's app-level tsconfig, so it's used
@@ -28,12 +29,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const payload = parsed.data;
-  const ip =
-        getRequestHeader(event, 'x-forwarded-for') ||
-        event.node.req.socket.remoteAddress ||
-        'unknown';
-
-  const entry = { ...payload, ip };
+  const entry = { ...payload, ip: getClientIp(event) };
 
   try {
     const nitro = useNitroApp();

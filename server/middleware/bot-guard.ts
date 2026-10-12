@@ -2,10 +2,10 @@
 import {
   defineEventHandler,
   getRequestHeader,
-  getRequestIP,
   setResponseHeader,
   createError,
 } from 'h3';
+import { getClientIp } from '~/server/utils/clientIp';
 
 type Bucket = { tokens: number; lastRefill: number };
 const buckets = new Map<string, Bucket>();
@@ -151,7 +151,7 @@ export default defineEventHandler((event) => {
       'PerplexityBot',
     ];
   const ua = String(getRequestHeader(event, 'user-agent') ?? '');
-  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
+  const ip = getClientIp(event);
   const path = event.path || '/';
   const isAllowedBotUa = uaMatchesAllowlist(ua, allowlist);
   const isBotRequest = isBotUa(ua);

@@ -5,6 +5,7 @@ import { promises as fs } from 'fs';
 import { resolve } from 'pathe';
 import { config as searchkitConfig } from '~/searchConfig_avefi';
 import { getElasticsearchNode } from '../../utils/elasticsearchRuntime';
+import { requireSecretToken } from '../../utils/requireSecretToken';
 
 type FacetCfg = { attribute: string; field: string; type: 'string'|'numeric'; nestedPath?: string }
 type SearchAttr = { field: string; weight?: number }
@@ -28,7 +29,8 @@ function toTypeKey(field: string): string {
   return leaf;
 }
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  requireSecretToken(event);
   const cfg = useRuntimeConfig();
   const host = getElasticsearchNode();
   const index = cfg.public.ELASTIC_INDEX;

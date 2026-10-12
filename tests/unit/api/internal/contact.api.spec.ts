@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 type TestEvent = {
   node: {
+    req?: { headers: Record<string, string>; socket: { remoteAddress: string } };
     res: { statusCode: number };
   };
 };
@@ -41,6 +42,33 @@ describe('Internal API: /api/mail/contact', () => {
     expect(result.success).toBe(false);
     expect(result.error).toBe('Invalid payload');
     expect(result.fieldErrors).toBeTypeOf('object');
+  });
+
+  test('answers 429 with Retry-After once a client exceeds the contact limit', async () => {
+    vi.doMock('h3', () => ({
+      defineEventHandler: <T>(fn: T) => fn,
+      readBody: vi.fn().mockResolvedValue({ email: 'not-an-email', message: 'x' }),
+    }));
+    vi.doMock('nodemailer', () => ({
+      default: { createTransport: vi.fn() },
+    }));
+
+    const handler = (await import('~/server/api/mail/contact.post')).default as (event: TestEvent) => Promise<ContactResponse>;
+    const createEvent = (): TestEvent & { node: { res: { setHeader: ReturnType<typeof vi.fn> } } } => ({
+      node: { req: { headers: {}, socket: { remoteAddress: '203.0.113.9' } }, res: { statusCode: 200, setHeader: vi.fn() } },
+    });
+
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const event = createEvent();
+      await handler(event);
+      expect(event.node.res.statusCode).toBe(400);
+    }
+
+    const blocked = createEvent();
+    const result = await handler(blocked);
+    expect(blocked.node.res.statusCode).toBe(429);
+    expect(blocked.node.res.setHeader).toHaveBeenCalledWith('Retry-After', expect.any(Number));
+    expect(result).toEqual({ success: false, error: 'Too many requests' });
   });
 
   test('returns success in log mode for local/testbed profiles', async () => {

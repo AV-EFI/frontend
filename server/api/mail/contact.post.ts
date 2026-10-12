@@ -1,7 +1,12 @@
 import { defineEventHandler, readBody } from 'h3';
 import nodemailer from 'nodemailer';
 import { z } from 'zod';
+import { getClientIp } from '~/server/utils/clientIp';
+import { consumeRateLimit } from '~/server/utils/rateLimit';
 import { createMailTransportOptions, getMailRuntimeDiagnostics, resolveMailRuntimeConfig } from '~/server/utils/mailRuntime';
+
+const CONTACT_LIMIT = 5;
+const CONTACT_WINDOW_MS = 10 * 60 * 1000;
 
 const BodySchema = z.object({
   email: z.string().trim().email().max(254),
@@ -9,6 +14,13 @@ const BodySchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
+  const retryAfterSeconds = consumeRateLimit(`contact:${getClientIp(event)}`, CONTACT_LIMIT, CONTACT_WINDOW_MS);
+  if (retryAfterSeconds > 0) {
+    event.node.res.statusCode = 429;
+    event.node.res.setHeader?.('Retry-After', retryAfterSeconds);
+    return { success: false, error: 'Too many requests' };
+  }
+
   const body = await readBody(event).catch(() => null);
   const parsed = BodySchema.safeParse(body);
   if (!parsed.success) {

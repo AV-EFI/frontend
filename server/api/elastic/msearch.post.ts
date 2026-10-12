@@ -1,13 +1,19 @@
 import Client from '@searchkit/api';
+import { createError } from 'h3';
 import { config } from '../../../searchConfig_avefi';
 
 /**
  * This file is only a temporary helper for testing requests
  * It does not implement the full Searchkit API and should not be used as a reference for future API routes
  * For real search, faceting, detail view requests /api/frontend/search and /api/frontend/view/{prefix}/{id_} are to be used
+ * The route is unauthenticated and therefore not served in production builds.
  */
 export default defineEventHandler(async (event) => {
-  const apiClient = Client(config, { debug: true });
+  if (process.env.NODE_ENV === 'production') {
+    throw createError({ statusCode: 404, statusMessage: 'Not Found' });
+  }
+
+  const apiClient = Client(config);
   const body = await readBody(event);
 
   try {
