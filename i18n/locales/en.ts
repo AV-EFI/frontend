@@ -678,7 +678,10 @@ const avefiBase = {
     "theme": "Theme",
     "themeLabels": {
       "light": "Light",
-      "dark": "Dark"
+      "dark": "Dark",
+      "blackOnWhite": "Black on White",
+      "grayscale": "Grayscale",
+      "whiteOnDark": "White on Dark"
     },
     "layout": "Layout",
     "layoutLabels": {

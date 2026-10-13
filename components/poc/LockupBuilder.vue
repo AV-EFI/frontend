@@ -15,9 +15,9 @@
 
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">{{ t('pressLockupPoc.theme') }}</legend>
-                <div class="join">
+                <div class="flex flex-wrap gap-2">
                     <button v-for="opt in themeOptions" :key="opt" type="button"
-                            class="btn btn-sm join-item" :class="theme === opt ? 'btn-primary' : 'btn-outline'"
+                            class="btn btn-sm" :class="theme === opt ? 'btn-primary' : 'btn-outline'"
                             @click="theme = opt">
                         {{ t(`pressLockupPoc.themeLabels.${opt}`) }}
                     </button>
@@ -64,14 +64,14 @@ import { computed, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 type Language = 'de' | 'en';
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | 'blackOnWhite' | 'grayscale' | 'whiteOnDark';
 type Layout = 'horizontal' | 'vertical';
 type Spacing = 'compact' | 'standard' | 'spacious';
 
 const { t } = useI18n();
 
 const languageOptions: Language[] = ['de', 'en'];
-const themeOptions: Theme[] = ['light', 'dark'];
+const themeOptions: Theme[] = ['light', 'dark', 'blackOnWhite', 'grayscale', 'whiteOnDark'];
 const layoutOptions: Layout[] = ['horizontal', 'vertical'];
 const spacingOptions: Spacing[] = ['compact', 'standard', 'spacious'];
 
@@ -94,11 +94,18 @@ const TARGET_HEIGHT = 96;
 const CLAIM_SCALE_HORIZONTAL = 0.8;
 const CLAIM_SCALE_VERTICAL = 0.7;
 
-const logoSrc = computed(() => theme.value === 'dark' ? '/img/AV-EFI-Logo-dark.svg' : '/img/AV-EFI-Logo.svg');
-const claimSrc = computed(() =>
-    `/img/avefi_claim_${language.value}${theme.value === 'dark' ? '_dark' : ''}.svg`
-);
-const backgroundColor = computed(() => theme.value === 'dark' ? '#1d232a' : '#ffffff');
+/** The claim only exists as a light and a dark artwork, so the monochrome themes reuse the closer one. */
+const THEME_ASSETS: Record<Theme, { logo: string; claimSuffix: '' | '_dark'; background: string }> = {
+    light: { logo: '/img/AV-EFI-Logo.svg', claimSuffix: '', background: '#ffffff' },
+    dark: { logo: '/img/AV-EFI-Logo-dark.svg', claimSuffix: '_dark', background: '#1d232a' },
+    blackOnWhite: { logo: '/img/avefi-schwarz-auf-weiss.svg', claimSuffix: '', background: '#ffffff' },
+    grayscale: { logo: '/img/avefi-graustufen.svg', claimSuffix: '', background: '#ffffff' },
+    whiteOnDark: { logo: '/img/avefi-weiss-auf-dunkel.svg', claimSuffix: '_dark', background: '#141b1f' },
+};
+
+const logoSrc = computed(() => THEME_ASSETS[theme.value].logo);
+const claimSrc = computed(() => `/img/avefi_claim_${language.value}${THEME_ASSETS[theme.value].claimSuffix}.svg`);
+const backgroundColor = computed(() => THEME_ASSETS[theme.value].background);
 
 interface BBox { x: number; y: number; width: number; height: number }
 
@@ -130,6 +137,15 @@ const extractSvgInner = (markup: string): string => {
     // this rect is both redundant here and — being opaque and canvas-sized — would swamp getBBox()
     // into reporting the full padded canvas instead of the actual ink extents.
     root.querySelectorAll('#claim-background').forEach((el) => el.remove());
+    // The monochrome logo variants ship a full-canvas background rect for the same reason.
+    const viewBox = root.getAttribute('viewBox')?.split(/\s+/).map(Number);
+    if (viewBox?.length === 4) {
+        root.querySelectorAll(':scope > rect').forEach((el) => {
+            if (Number(el.getAttribute('width')) === viewBox[2] && Number(el.getAttribute('height')) === viewBox[3]) {
+                el.remove();
+            }
+        });
+    }
     return root.innerHTML;
 };
 

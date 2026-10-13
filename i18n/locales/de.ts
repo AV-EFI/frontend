@@ -643,7 +643,10 @@ const deBase = {
     "theme": "Theme",
     "themeLabels": {
       "light": "Hell",
-      "dark": "Dunkel"
+      "dark": "Dunkel",
+      "blackOnWhite": "Schwarz auf Weiß",
+      "grayscale": "Graustufen",
+      "whiteOnDark": "Weiß auf Dunkel"
     },
     "layout": "Layout",
     "layoutLabels": {
