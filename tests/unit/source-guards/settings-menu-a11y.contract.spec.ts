@@ -53,6 +53,14 @@ describe('Settings menu and header keyboard accessibility contract guards', () =
     expect(navBar).toContain('<ClientOnly>');
   });
 
+  test('the skip link is the first element of the default layout, before the header, and targets <main>', () => {
+    const layout = read('layouts/default.vue');
+    expect(layout.indexOf('href="#main-content"')).toBeGreaterThan(-1);
+    expect(layout.indexOf('href="#main-content"')).toBeLessThan(layout.indexOf('<header'));
+    expect(layout).toContain('<main id="main-content" tabindex="-1"');
+    expect(indexPage).not.toContain('href="#main"');
+  });
+
   test('autofocus stays but never steals focus from a user who already moved it', () => {
     expect(indexPage).toContain('if (canAutoFocus()) focusFirstInput()');
     expect(read('components/search/QueryAutocompleteCore.vue')).toContain('if (canAutoFocus()) focusInput()');

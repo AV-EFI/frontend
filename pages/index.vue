@@ -1,11 +1,5 @@
 <template>
     <div class="min-h-screen bg-base-100 text-base-content flow">
-        <!-- Skip link -->
-        <a href="#main"
-           class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary">
-            {{ $t('home.accessibility.skipToContent') }}
-        </a>
-
         <!-- ======= HERO / SEARCH-FIRST ======= -->
         <section id="hero" :aria-label="$t('home.hero.bannerSection')" class="relative z-20">
             <div class="hero max-sm:min-h-[48vh] sm:min-h-[32vh] lg:min-h-[58vh]">

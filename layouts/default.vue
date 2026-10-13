@@ -1,5 +1,13 @@
 <template>
     <div class="flex flex-col min-h-screen">
+        <a
+            :id="skipLinkId"
+            href="#main-content"
+            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-40 btn btn-sm btn-primary"
+        >
+            {{ $t('skipToContent') }}
+        </a>
+
         <header
             :class="{ scrolled: isScrolled }"
             class="fixed top-0 left-0 z-30 border-0 w-full lg:w-90vw"
@@ -12,7 +20,7 @@
 
         <div class="shrink-0" :style="headerSpacerStyle" aria-hidden="true"></div>
 
-        <main class="main grow 2xl:px-6">
+        <main id="main-content" tabindex="-1" class="main grow 2xl:px-6 focus:outline-none">
             <slot />
             <component :is="GlobalComparisonDrawerAsync" v-if="hydrated && comparisonDrawerReady" />
             <component :is="GlobalContactDrawerAsync" v-if="hydrated && contactDrawerReady" />
@@ -39,6 +47,7 @@ import GlobalFooter from '~/components/global/Footer.vue';
 import GlobalMaintenanceBanner from '~/components/global/MaintenanceBanner.vue';
 import { useMaintenanceBanner } from '~/composables/useMaintenanceBanner';
 import { useObjectListStore } from '~/stores/compareList';
+import { SKIP_LINK_ID } from '~/utils/autoFocusGuard';
 
 const GlobalComparisonDrawerAsync = defineAsyncComponent(() => import('~/components/global/ComparisonDrawer.vue'));
 const GlobalContactDrawerAsync = defineAsyncComponent(() => import('~/components/global/ContactDrawer.vue'));
@@ -63,6 +72,7 @@ export default {
             GlobalContactDrawerAsync,
             headerSpacerStyle,
             objectListStore,
+            skipLinkId: SKIP_LINK_ID,
         };
     },
     data() {
