@@ -622,6 +622,18 @@ const avefiBase = {
             "logoDark": {
               "title": "AVefi Logo (Dark)",
               "notes": "Use on dark backgrounds for optimal contrast."
+            },
+            "logoBlackOnWhite": {
+              "title": "AVefi Logo (Black on White)",
+              "notes": "For black-and-white printing and single-colour uses on a white background."
+            },
+            "logoGrayscale": {
+              "title": "AVefi Logo (Grayscale)",
+              "notes": "For uses where colour cannot be applied."
+            },
+            "logoWhiteOnDark": {
+              "title": "AVefi Logo (White on Dark)",
+              "notes": "For dark backgrounds when the logo should appear in plain white."
             }
           }
         },

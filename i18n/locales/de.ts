@@ -587,6 +587,18 @@ const deBase = {
             "logoDark": {
               "title": "AVefi-Logo (dunkel)",
               "notes": "Für dunkle Hintergründe mit optimalem Kontrast."
+            },
+            "logoBlackOnWhite": {
+              "title": "AVefi-Logo (Schwarz auf Weiß)",
+              "notes": "Für Schwarz-Weiß-Druck und einfarbige Anwendungen auf weißem Hintergrund."
+            },
+            "logoGrayscale": {
+              "title": "AVefi-Logo (Graustufen)",
+              "notes": "Für Anwendungen, in denen keine Farbe verwendet werden kann."
+            },
+            "logoWhiteOnDark": {
+              "title": "AVefi-Logo (Weiß auf Dunkel)",
+              "notes": "Für dunkle Hintergründe, wenn das Logo einfarbig weiß dargestellt werden soll."
             }
           }
         },

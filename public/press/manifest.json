@@ -1,5 +1,5 @@
 {
-    "lastUpdated": "2026-09-02",
+    "lastUpdated": "2026-10-13",
     "contact": {
         "email": "contact@av-efi.net",
         "label": "AVefi Communications"
@@ -55,6 +55,57 @@
                         {
                             "label": "PNG",
                             "path": "/img/AV-EFI-Logo-dark.png"
+                        }
+                    ]
+                },
+                {
+                    "id": "logo-black-on-white",
+                    "titleKey": "press.manifest.sections.logos.items.logoBlackOnWhite.title",
+                    "type": "logo",
+                    "preview": "/img/avefi-schwarz-auf-weiss.svg",
+                    "notesKey": "press.manifest.sections.logos.items.logoBlackOnWhite.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi-schwarz-auf-weiss.svg"
+                        },
+                        {
+                            "label": "PNG",
+                            "path": "/img/avefi-schwarz-auf-weiss.png"
+                        }
+                    ]
+                },
+                {
+                    "id": "logo-grayscale",
+                    "titleKey": "press.manifest.sections.logos.items.logoGrayscale.title",
+                    "type": "logo",
+                    "preview": "/img/avefi-graustufen.svg",
+                    "notesKey": "press.manifest.sections.logos.items.logoGrayscale.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi-graustufen.svg"
+                        },
+                        {
+                            "label": "PNG",
+                            "path": "/img/avefi-graustufen.png"
+                        }
+                    ]
+                },
+                {
+                    "id": "logo-white-on-dark",
+                    "titleKey": "press.manifest.sections.logos.items.logoWhiteOnDark.title",
+                    "type": "logo",
+                    "preview": "/img/avefi-weiss-auf-dunkel.svg",
+                    "notesKey": "press.manifest.sections.logos.items.logoWhiteOnDark.notes",
+                    "files": [
+                        {
+                            "label": "SVG",
+                            "path": "/img/avefi-weiss-auf-dunkel.svg"
+                        },
+                        {
+                            "label": "PNG",
+                            "path": "/img/avefi-weiss-auf-dunkel.png"
                         }
                     ]
                 }
