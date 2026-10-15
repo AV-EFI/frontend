@@ -1,8 +1,14 @@
 <template>
     <aside v-if="selection" class="explorer-drawer" :style="{ top: topOffset }" aria-labelledby="explorer-drawer-title">
         <header class="explorer-drawer-head">
-            <button type="button" class="explorer-drawer-close" @click="store.closeDrawer()">
-                {{ text.drawer.close }}
+            <button
+                type="button"
+                class="btn btn-sm btn-circle btn-ghost explorer-drawer-close"
+                :aria-label="text.drawer.close"
+                :title="text.drawer.close"
+                @click="store.closeDrawer()"
+            >
+                <Icon name="tabler:x" size="18" aria-hidden="true" />
             </button>
             <span class="explorer-drawer-kicker">
                 <Icon v-if="kickerIcon" :name="kickerIcon" size="18" aria-hidden="true" />
@@ -34,7 +40,7 @@
             <section class="explorer-drawer-section">
                 <h3>{{ text.drawer.adjacent }}</h3>
                 <div class="explorer-golist">
-                    <button v-for="other in neighbours" :key="other.id" type="button" @click="store.goToLevel(other.id)">
+                    <button class="btn btn-sm btn-outline" v-for="other in neighbours" :key="other.id" type="button" @click="store.goToLevel(other.id)">
                         <Icon :name="other.icon" size="18" aria-hidden="true" />
                         {{ text.levels[other.id].word }}
                     </button>
@@ -47,11 +53,11 @@
             <section class="explorer-drawer-section">
                 <h3>{{ text.drawer.levelFields }}</h3>
                 <div class="explorer-golist">
-                    <button
-                        v-for="group in levelGroups"
-                        :key="group.id"
-                        type="button"
-                        @click="store.select({ kind: 'group', id: group.id })"
+                    <button class="btn btn-sm btn-outline"
+                            v-for="group in levelGroups"
+                            :key="group.id"
+                            type="button"
+                            @click="store.select({ kind: 'group', id: group.id })"
                     >
                         {{ text.groups[group.id].title }}
                     </button>
@@ -60,7 +66,7 @@
             <section v-if="levelUpRule" class="explorer-drawer-section">
                 <h3>{{ text.drawer.levelRule }}</h3>
                 <div class="explorer-golist">
-                    <button type="button" @click="store.select({ kind: 'rule', id: levelUpRule })">
+                    <button class="btn btn-sm btn-outline" type="button" @click="store.select({ kind: 'rule', id: levelUpRule })">
                         {{ text.rules[levelUpRule].title }}
                     </button>
                 </div>
@@ -85,7 +91,7 @@
             <section class="explorer-drawer-section">
                 <h3>{{ text.drawer.connects }}</h3>
                 <div class="explorer-golist">
-                    <button v-for="id in ruleLevels" :key="id" type="button" @click="store.goToLevel(id)">
+                    <button class="btn btn-sm btn-outline" v-for="id in ruleLevels" :key="id" type="button" @click="store.goToLevel(id)">
                         <Icon :name="getLevel(id).icon" size="18" aria-hidden="true" />
                         {{ text.levels[id].word }}
                     </button>
@@ -109,7 +115,7 @@
             <section class="explorer-drawer-section">
                 <h3>{{ text.drawer.showInOverview }}</h3>
                 <div class="explorer-golist">
-                    <button v-for="id in groupLevels" :key="id" type="button" @click="store.showGroupAt(group.id, id)">
+                    <button class="btn btn-sm btn-outline" v-for="id in groupLevels" :key="id" type="button" @click="store.showGroupAt(group.id, id)">
                         <Icon :name="getLevel(id).icon" size="18" aria-hidden="true" />
                         {{ fill(text.drawer.showAt, { word: text.levels[id].word }) }}
                     </button>
@@ -165,7 +171,7 @@
                     <li v-for="rule in IMPORT_RULES" :key="rule.id" class="explorer-field">
                         <div class="explorer-field-head">
                             <b>{{ text.imports.items[rule.id].title }}</b>
-                            <span class="explorer-tag">{{ text.imports.kind[rule.kind] }}</span>
+                            <span class="badge badge-neutral badge-sm ml-2">{{ text.imports.kind[rule.kind] }}</span>
                         </div>
                         <p class="explorer-field-text">{{ text.imports.items[rule.id].text }}</p>
                         <span class="explorer-field-meta">{{ fill(text.cases.table.source, { source: text.imports.items[rule.id].source }) }}</span>
@@ -405,14 +411,9 @@ onBeforeUnmount(() => {
 
 .explorer-drawer-close {
     position: absolute;
-    top: 1rem;
+    top: 0.85rem;
     right: 0.7rem;
-    padding: 0.2rem 0.65rem;
-    font-size: 0.8rem;
     color: var(--ex-ink);
-    background: transparent;
-    border: 1px solid var(--ex-paper-line);
-    cursor: pointer;
 }
 
 .explorer-drawer-section {
@@ -467,21 +468,6 @@ onBeforeUnmount(() => {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
-}
-
-.explorer-golist button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.3rem 0.7rem;
-    font-size: 0.8rem;
-    background: transparent;
-    border: 1px solid var(--ex-line);
-    cursor: pointer;
-}
-
-.explorer-golist button:hover {
-    border-color: var(--ex-muted);
 }
 
 .explorer-classtag {
@@ -541,12 +527,4 @@ onBeforeUnmount(() => {
     color: var(--ex-muted);
 }
 
-.explorer-tag {
-    margin-left: 0.4rem;
-    padding: 0.05rem 0.4rem;
-    font-size: 0.78rem;
-    font-weight: 800;
-    background: var(--color-base-content);
-    color: var(--color-base-100);
-}
 </style>

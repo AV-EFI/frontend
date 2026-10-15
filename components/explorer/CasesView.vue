@@ -7,7 +7,8 @@
             </div>
             <button
                 type="button"
-                class="explorer-ghost"
+                class="btn btn-sm btn-outline explorer-rules-button"
+                :class="{ 'btn-active': store.selection?.kind === 'caseRules' }"
                 :aria-pressed="store.selection?.kind === 'caseRules'"
                 @click="toggleRules"
             >
@@ -30,7 +31,10 @@
                     <span class="explorer-card-label">
                         <span class="explorer-card-name">{{ text.cases[item.id].name }}</span>
                         <span class="explorer-card-year">{{ item.year }}</span>
-                        <span class="explorer-card-flag">{{ solved(item.id) ? text.cases.solved : text.cases.open }}</span>
+                        <span class="badge explorer-card-flag" :class="solved(item.id) ? 'badge-outline' : 'badge-primary'">
+                            <Icon v-if="solved(item.id)" name="tabler:circle-check" size="14" aria-hidden="true" />
+                            {{ solved(item.id) ? text.cases.solved : text.cases.open }}
+                        </span>
                         <span class="explorer-card-why">{{ text.cases[item.id].sub }}</span>
                     </span>
                 </button>
@@ -147,19 +151,23 @@ function toggleRules() {
 }
 
 .explorer-card-flag {
-    display: block;
+    display: flex;
     width: fit-content;
     margin-top: 0.35rem;
-    padding: 0.1rem 0.45rem;
-    font-size: 0.78rem;
-    font-weight: 800;
-    color: var(--ex-paper);
-    background: var(--ex-ink);
 }
 
-.explorer-card.is-solved .explorer-card-flag {
-    color: var(--color-secondary);
-    background: var(--color-success);
+/* The outline button sits on the primary colour of the cases stage, so it takes that stage's text colour. */
+.explorer-rules-button {
+    --btn-color: var(--color-primary-content);
+    --btn-fg: var(--color-primary-content);
+    --btn-border: var(--color-primary-content);
+    --btn-bg: transparent;
+}
+
+.explorer-rules-button:hover,
+.explorer-rules-button.btn-active {
+    --btn-fg: var(--color-primary);
+    --btn-bg: var(--color-primary-content);
 }
 
 .explorer-card-why {

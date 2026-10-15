@@ -17,11 +17,12 @@
                     <span :id="`level-title-${level.id}`" class="explorer-band-word">{{ levelText.word }}</span>
                     <span class="explorer-band-gloss">{{ levelText.gloss }}</span>
                 </span>
-                <span class="explorer-band-action">{{ open ? text.model.hideFields : text.model.showFields }}</span>
+                <span class="btn btn-sm btn-outline explorer-band-action">{{ open ? text.model.hideFields : text.model.showFields }}</span>
             </button>
             <button
                 type="button"
-                class="explorer-band-action explorer-band-info"
+                class="btn btn-sm btn-outline explorer-band-info"
+                :class="{ 'btn-active': detailsShown }"
                 :aria-pressed="detailsShown"
                 :aria-label="fill(text.model.detailsOf, { word: levelText.word })"
                 @click="store.toggleLevelDetails(level.id)"
@@ -200,34 +201,30 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     font-size: 0.9rem;
 }
 
+/* The site's outline button in the dark ink of the level colours, so it keeps its contrast in both themes. */
+.explorer-band .btn-outline {
+    --btn-color: var(--ex-level-ink);
+    --btn-fg: var(--ex-level-ink);
+    --btn-border: var(--ex-level-ink);
+    --btn-bg: transparent;
+}
+
+.explorer-band .btn-outline:hover,
+.explorer-band .btn-outline.btn-active {
+    --btn-fg: var(--ex-level-ink);
+    --btn-bg: color-mix(in oklch, var(--color-secondary-content) 35%, transparent);
+}
+
+/* The label next to the details button only tells what a click on the header does. */
 .explorer-band-action {
-    padding: 0.25rem 0.7rem;
-    font-size: 0.8rem;
-    font-weight: 600;
+    pointer-events: none;
     white-space: nowrap;
-    border: 1px solid currentColor;
 }
 
 .explorer-band-info {
     position: relative;
     z-index: 2;
     align-self: center;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: inherit;
-    background: transparent;
-    cursor: pointer;
-    transition: background-color 0.15s;
-}
-
-.explorer-band-info:hover,
-.explorer-band-info[aria-pressed='true'] {
-    background-color: color-mix(in oklch, var(--color-secondary-content) 35%, transparent);
-}
-
-.explorer-band-info[aria-pressed='true'] {
-    box-shadow: inset 0 -3px 0 currentColor;
 }
 
 .explorer-band-body {

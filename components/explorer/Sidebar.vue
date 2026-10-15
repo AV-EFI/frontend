@@ -1,16 +1,24 @@
 <template>
     <aside class="explorer-side" :aria-label="text.nav.label">
         <section v-if="store.view === 'model'" aria-labelledby="explorer-highlight-heading">
-            <h2 id="explorer-highlight-heading" class="explorer-side-heading">{{ text.nav.highlight.heading }}</h2>
+            <h2 id="explorer-highlight-heading" class="explorer-side-heading px-2">{{ text.nav.highlight.heading }}</h2>
 
             <div class="explorer-filter">
-                <button type="button" :aria-pressed="store.highlight === 'required'" @click="store.toggleHighlight('required')">
-                    <span class="explorer-filter-name">{{ text.nav.highlight.required.name }}</span>
-                    <span class="explorer-filter-hint">{{ fill(text.nav.highlight.required.hint, { n: required.length }) }}</span>
+                <button
+                    type="button"
+                    class="btn btn-ghost btn-block justify-start h-auto px-2 py-2 text-left"
+                    :class="{ 'btn-active': store.highlight === 'required' }"
+                    :aria-pressed="store.highlight === 'required'"
+                    @click="store.toggleHighlight('required')"
+                >
+                    <span class="flex flex-col items-start whitespace-normal">
+                        <span class="explorer-filter-name">{{ text.nav.highlight.required.name }}</span>
+                        <span class="explorer-filter-hint">{{ fill(text.nav.highlight.required.hint, { n: required.length }) }}</span>
+                    </span>
                 </button>
                 <ul class="explorer-fieldlist">
                     <li v-for="field in required" :key="`${field.level}.${field.slot}`">
-                        <button type="button" @click="store.showField(field.level, field.group, field.slot)">
+                        <button type="button" class="btn btn-ghost btn-sm justify-start px-2 font-normal" @click="store.showField(field.level, field.group, field.slot)">
                             {{ requiredLabel(field) }}
                             <span class="explorer-fieldlist-level">{{ text.levels[field.level].word }}</span>
                         </button>
@@ -19,13 +27,21 @@
             </div>
 
             <div class="explorer-filter">
-                <button type="button" :aria-pressed="store.highlight === 'match'" @click="store.toggleHighlight('match')">
-                    <span class="explorer-filter-name">{{ text.nav.highlight.match.name }}</span>
-                    <span class="explorer-filter-hint">{{ fill(text.nav.highlight.match.hint, { n: compared.length }) }}</span>
+                <button
+                    type="button"
+                    class="btn btn-ghost btn-block justify-start h-auto px-2 py-2 text-left"
+                    :class="{ 'btn-active': store.highlight === 'match' }"
+                    :aria-pressed="store.highlight === 'match'"
+                    @click="store.toggleHighlight('match')"
+                >
+                    <span class="flex flex-col items-start whitespace-normal">
+                        <span class="explorer-filter-name">{{ text.nav.highlight.match.name }}</span>
+                        <span class="explorer-filter-hint">{{ fill(text.nav.highlight.match.hint, { n: compared.length }) }}</span>
+                    </span>
                 </button>
                 <ul class="explorer-fieldlist">
                     <li v-for="field in compared" :key="field.ref">
-                        <button type="button" @click="store.showField('work', field.group, splitFieldRef(field.ref).slotName)">
+                        <button type="button" class="btn btn-ghost btn-sm justify-start px-2 font-normal" @click="store.showField('work', field.group, splitFieldRef(field.ref).slotName)">
                             {{ text.match[field.kind] }}
                         </button>
                     </li>
@@ -80,16 +96,6 @@ function requiredLabel(field: LevelField): string {
     padding: 0.35rem 0 0.7rem;
 }
 
-.explorer-filter > button {
-    display: block;
-    width: 100%;
-    padding: 0.3rem 0 0.35rem;
-    text-align: left;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-}
-
 .explorer-filter-name {
     display: block;
     font-size: 0.95rem;
@@ -102,40 +108,10 @@ function requiredLabel(field: LevelField): string {
     color: var(--ex-muted);
 }
 
-.explorer-filter > button[aria-pressed='true'] .explorer-filter-name {
-    color: var(--color-primary-text);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
-}
-
-.explorer-filter > button:hover .explorer-filter-name {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
 .explorer-fieldlist {
     margin: 0.2rem 0 0;
     padding: 0;
     list-style: none;
-}
-
-.explorer-fieldlist button {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 0.4rem;
-    width: 100%;
-    padding: 0.15rem 0;
-    font-size: 0.85rem;
-    text-align: left;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-}
-
-.explorer-fieldlist button:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
 }
 
 .explorer-fieldlist-level {

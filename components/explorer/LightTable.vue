@@ -7,7 +7,15 @@
         @click="closeOnBackdrop"
     >
         <div v-if="current" class="explorer-table">
-            <button type="button" class="explorer-table-close" @click="store.closeCase()">{{ ct.close }}</button>
+            <button
+                type="button"
+                class="btn btn-sm btn-circle btn-ghost explorer-table-close"
+                :aria-label="ct.close"
+                :title="ct.close"
+                @click="store.closeCase()"
+            >
+                <Icon name="tabler:x" size="18" aria-hidden="true" />
+            </button>
             <h2 id="explorer-table-title" ref="heading" tabindex="-1">{{ caseText.tableTitle }}</h2>
             <p class="explorer-table-sub">{{ caseText.sub }}</p>
 
@@ -46,8 +54,8 @@
                             <label
                                 v-for="mode in MODES"
                                 :key="mode.id"
-                                class="explorer-judge-option"
-                                :class="[`is-${mode.id}`, { 'is-on': judgements[index]?.mode === mode.id }]"
+                                class="btn btn-sm flex-1 flex-col h-auto gap-0 py-1 leading-tight explorer-judge-option"
+                                :class="judgeClass(mode.id, judgements[index]?.mode === mode.id)"
                             >
                                 <input
                                     type="radio"
@@ -65,7 +73,7 @@
                             <label class="sr-only" :for="`own-${index}`">{{ fill(ct.ownLabel, { field: rowLabel(row) }) }}</label>
                             <input
                                 :id="`own-${index}`"
-                                class="explorer-own"
+                                class="input input-bordered input-sm w-full explorer-own"
                                 :value="judgements[index]?.value"
                                 :placeholder="ct.ownPlaceholder"
                                 :disabled="decided !== null"
@@ -156,6 +164,14 @@ const ready = computed(() => (current.value ? allJudged(current.value, judgement
 const stepNow = computed(() => (decided.value ? 3 : ready.value ? 2 : 1));
 const decidedCorrect = computed(() => (current.value && decided.value ? isCorrectChoice(current.value, decided.value) : false));
 const misjudged = computed(() => (current.value ? hasMisjudgedRow(current.value, judgements.value) : false));
+
+/** The site's buttons: an outline button until chosen, then primary for "same", neutral for "different". */
+function judgeClass(mode: JudgementMode, on: boolean): string {
+    if (!on) return 'btn-outline';
+    if (mode === 'same') return 'btn-primary';
+    if (mode === 'diff') return 'btn-neutral';
+    return 'btn-outline btn-active';
+}
 
 function stepClass(index: number): string {
     if (index < stepNow.value) return 'is-done';
@@ -263,15 +279,11 @@ watch(
     padding: 1.4rem 1.5rem 1.25rem;
 }
 
+/* position only; the look is the site's ghost circle button */
 .explorer-table-close {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.85rem;
-    background: transparent;
-    border: 1px solid var(--ex-line);
-    cursor: pointer;
 }
 
 .explorer-table h2 {
@@ -410,57 +422,9 @@ watch(
     gap: 0.4rem;
 }
 
-.explorer-judge-option {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.1rem;
-    padding: 0.4rem 0.2rem 0.35rem;
-    font-size: 0.78rem;
-    font-weight: 700;
-    line-height: 1.15;
-    text-align: center;
-    background: var(--color-base-100);
-    border: 1px solid var(--ex-line);
-    cursor: pointer;
-}
-
-.explorer-judge-option:hover {
-    border-color: var(--ex-muted);
-}
-
-.explorer-judge-option.is-on {
-    color: var(--color-primary-content);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.explorer-judge-option.is-diff.is-on {
-    color: var(--color-base-100);
-    background: var(--color-base-content);
-    border-color: var(--color-base-content);
-}
-
-.explorer-judge-option.is-own.is-on {
-    color: var(--color-base-content);
-    background: var(--color-base-300);
-    border-color: var(--color-base-content);
-}
-
 .explorer-judge-option:has(input:focus-visible) {
     outline: 3px solid var(--color-base-content);
     outline-offset: 2px;
-}
-
-.explorer-own {
-    width: 100%;
-    padding: 0.4rem 0.55rem;
-    font: inherit;
-    font-size: 0.85rem;
-    color: var(--color-base-content);
-    background: var(--color-base-100);
-    border: 1px solid var(--ex-muted);
 }
 
 .explorer-review {

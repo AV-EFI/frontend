@@ -2,8 +2,8 @@
     <li class="explorer-field" :class="{ 'is-match': matchKind !== null, 'is-selected': selected }">
         <div class="explorer-field-head">
             <b>{{ term ?? slotInfo.name }}</b>
-            <span v-if="slotInfo.required" class="explorer-tag">{{ text.drawer.required }}</span>
-            <span v-if="matchKind" class="explorer-tag is-match">{{ text.match.prefix }}: {{ text.match[matchKind] }}</span>
+            <span v-if="slotInfo.required" class="badge badge-neutral badge-sm ml-2">{{ text.drawer.required }}</span>
+            <span v-if="matchKind" class="badge badge-highlight badge-sm ml-2">{{ text.match.prefix }}: {{ text.match[matchKind] }}</span>
         </div>
         <span class="explorer-field-meta">
             <code lang="en">{{ slotInfo.name }}</code>
@@ -94,19 +94,6 @@ watch(
     font-weight: 700;
 }
 
-.explorer-tag {
-    margin-left: 0.4rem;
-    padding: 0.05rem 0.4rem;
-    font-size: 0.78rem;
-    font-weight: 800;
-    background: var(--color-base-content);
-    color: var(--color-base-100);
-}
-
-.explorer-tag.is-match {
-    background: var(--color-accent);
-    color: var(--color-accent-content);
-}
 
 .explorer-field-meta {
     display: block;

@@ -1,16 +1,16 @@
 <template>
     <button
         type="button"
-        class="explorer-badge"
-        :class="{ 'is-required': slotInfo.required, 'is-hit': hit, 'has-match': matchKind !== null }"
+        class="btn btn-sm explorer-badge"
+        :class="{ 'is-required': slotInfo.required, 'btn-highlight': hit, 'btn-active': selected }"
         :aria-pressed="selected"
         :title="slotInfo.name"
         @click="store.selectField(groupId, slotInfo.name)"
     >
-        <span v-if="term" class="explorer-badge-label">{{ term }}</span>
-        <code v-else class="explorer-badge-code" lang="en">{{ slotInfo.name }}</code>
+        <span v-if="term">{{ term }}</span>
+        <code v-else lang="en">{{ slotInfo.name }}</code>
         <span v-if="slotInfo.required" class="sr-only"> ({{ text.model.required }})</span>
-        <span v-if="matchKind && highlight === 'match'" class="explorer-badge-match">{{ text.model.matchBadge }}</span>
+        <span v-if="matchKind && highlight === 'match'" class="badge badge-neutral badge-xs">{{ text.model.matchBadge }}</span>
     </button>
 </template>
 
@@ -46,23 +46,21 @@ const hit = computed(() => {
 
 <style scoped>
 .explorer-badge {
-    position: relative;
-    padding: 0.25rem 0.65rem;
-    font-size: 0.8125rem;
     font-weight: 600;
-    line-height: 1.3;
-    color: var(--ex-ink);
-    background: var(--ex-paper);
-    box-shadow: var(--ex-shadow);
-    border: 0;
-    cursor: pointer;
-    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+    transition: transform 0.12s ease;
 }
 
 .explorer-badge:hover {
-    background: var(--color-highlight);
-    color: var(--color-highlight-content);
     transform: translateY(-2px);
+}
+
+/* A required field carries a dot in front of its name, so it is not marked by weight or colour alone. */
+.explorer-badge.is-required::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -73,41 +71,5 @@ const hit = computed(() => {
     .explorer-badge:hover {
         transform: none;
     }
-}
-
-.explorer-badge-code {
-    font-size: 0.75rem;
-}
-
-.explorer-badge.is-required {
-    padding-left: 1.1rem;
-    font-weight: 800;
-}
-
-.explorer-badge.is-required::before {
-    content: '';
-    position: absolute;
-    left: 0.45rem;
-    top: 50%;
-    width: 0.4rem;
-    height: 0.4rem;
-    margin-top: -0.2rem;
-    border-radius: 50%;
-    background: currentColor;
-}
-
-.explorer-badge[aria-pressed='true'],
-.explorer-badge.is-hit {
-    outline: 3px solid var(--ex-ink);
-    outline-offset: 2px;
-}
-
-.explorer-badge-match {
-    margin-left: 0.4rem;
-    padding: 0.05rem 0.35rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: var(--color-accent-content);
-    color: var(--color-highlight);
 }
 </style>

@@ -7,7 +7,8 @@
             </div>
             <button
                 type="button"
-                class="explorer-ghost"
+                class="btn btn-sm btn-outline"
+                :class="{ 'btn-active': store.selection?.kind === 'overview' }"
                 data-focus="overview"
                 :aria-pressed="store.selection?.kind === 'overview'"
                 @click="toggleOverview"
@@ -22,14 +23,18 @@
                     <div class="explorer-link-line" aria-hidden="true" />
                     <button
                         type="button"
+                        class="btn btn-outline justify-start h-auto py-2 text-left"
+                        :class="{ 'btn-active': store.selection?.kind === 'rule' && store.selection.id === level.upRule }"
                         :data-focus="`rule-${level.upRule}`"
                         :aria-pressed="store.selection?.kind === 'rule' && store.selection.id === level.upRule"
                         :aria-label="`${text.model.ruleRegion}: ${text.rules[level.upRule].title}`"
                         @click="store.select({ kind: 'rule', id: level.upRule })"
                     >
-                        <span class="explorer-link-rule">{{ text.rules[level.upRule].title }}</span>
-                        <span class="explorer-link-meta">
-                            <b>{{ text.rules.required }}</b><code lang="en">{{ text.rules[level.upRule].code }}</code>
+                        <span class="flex min-w-0 flex-col items-start whitespace-normal">
+                            <span class="explorer-link-rule">{{ text.rules[level.upRule].title }}</span>
+                            <span class="explorer-link-meta">
+                                <b>{{ text.rules.required }}</b><code lang="en">{{ text.rules[level.upRule].code }}</code>
+                            </span>
                         </span>
                     </button>
                 </div>
@@ -45,21 +50,22 @@
                 v-for="group in shared"
                 :key="group.id"
                 type="button"
-                class="explorer-chip"
-                :class="{ 'is-hit': isChipHit(group) }"
+                class="btn btn-sm btn-outline"
+                :class="{ 'btn-highlight': isChipHit(group), 'btn-active': store.selection?.kind === 'group' && store.selection.id === group.id }"
                 :data-focus="`group-${group.id}`"
                 :aria-pressed="store.selection?.kind === 'group' && store.selection.id === group.id"
                 @click="store.select({ kind: 'group', id: group.id })"
             >
                 {{ text.groups[group.id].title }}
-                <span v-if="groupHasMatch(group) && store.highlight === 'match'" class="explorer-chip-match">
+                <span v-if="groupHasMatch(group) && store.highlight === 'match'" class="badge badge-neutral badge-xs">
                     {{ text.model.matchBadge }}
                 </span>
             </button>
             <span class="explorer-vsep" aria-hidden="true" />
             <button
                 type="button"
-                class="explorer-chip is-dashed"
+                class="btn btn-sm btn-outline"
+                :class="{ 'btn-active': store.selection?.kind === 'imports' }"
                 data-focus="imports"
                 :aria-pressed="store.selection?.kind === 'imports'"
                 @click="store.select({ kind: 'imports' })"
@@ -163,25 +169,6 @@ function toggleOverview() {
     border-bottom: 0.9rem solid var(--color-base-content);
 }
 
-.explorer-link button {
-    align-self: center;
-    margin: 0.25rem 0;
-    padding: 0.4rem 0.75rem;
-    text-align: left;
-    background: transparent;
-    border: 1px solid var(--ex-line);
-    cursor: pointer;
-}
-
-.explorer-link button:hover {
-    border-color: var(--ex-muted);
-}
-
-.explorer-link button[aria-pressed='true'] {
-    border-color: var(--color-primary);
-    box-shadow: inset 4px 0 0 var(--color-primary);
-}
-
 .explorer-link-rule {
     display: block;
     font-size: 0.95rem;
@@ -221,39 +208,6 @@ function toggleOverview() {
     font-size: 0.78rem;
     font-weight: 700;
     color: var(--ex-muted);
-}
-
-.explorer-chip {
-    position: relative;
-    padding: 0.3rem 0.7rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    background: transparent;
-    border: 1px solid var(--ex-line);
-    cursor: pointer;
-}
-
-.explorer-chip:hover {
-    border-color: var(--ex-muted);
-}
-
-.explorer-chip[aria-pressed='true'],
-.explorer-chip.is-hit {
-    border-color: var(--color-primary);
-    box-shadow: inset 0 -3px 0 var(--color-primary);
-}
-
-.explorer-chip.is-dashed {
-    border-style: dashed;
-}
-
-.explorer-chip-match {
-    margin-left: 0.4rem;
-    padding: 0.05rem 0.35rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: var(--color-accent-content);
-    color: var(--color-highlight);
 }
 
 .explorer-vsep {
