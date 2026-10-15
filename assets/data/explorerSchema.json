@@ -1,6 +1,6 @@
 {
   "source": "AV-EFI/av-efi-schema, src/avefi_schema/model.yaml",
-  "modelDigest": "7e887d138112",
+  "modelDigest": "78ec69f49d24",
   "classes": {
     "CategorizedThing": {
       "id": "CategorizedThing",

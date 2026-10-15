@@ -29,7 +29,8 @@ function rangeOf(def) {
 /** @param {string | undefined} text */
 const clean = (text) => (text ?? "").replace(/\s+/g, " ").trim();
 
-const model = /** @type {any} */ (yaml.load(fs.readFileSync(MODEL_YAML, "utf-8")));
+const modelSource = fs.readFileSync(MODEL_YAML, "utf-8");
+const model = /** @type {any} */ (yaml.load(modelSource));
 const classes = /** @type {Record<string, any>} */ (model.classes);
 const slotDefs = /** @type {Record<string, any>} */ (model.slots);
 
@@ -95,7 +96,8 @@ function resolveClass(/** @type {string} */ id) {
 
 const out = {
   source: "AV-EFI/av-efi-schema, src/avefi_schema/model.yaml",
-  modelDigest: crypto.createHash("sha256").update(fs.readFileSync(MODEL_YAML)).digest("hex").slice(0, 12),
+  // Line endings are normalised so the digest is the same for a Windows (CRLF) and a Linux (LF) checkout.
+  modelDigest: crypto.createHash("sha256").update(modelSource.replace(/\r\n/g, "\n")).digest("hex").slice(0, 12),
   classes: Object.fromEntries(Object.keys(classes).map((id) => [id, resolveClass(id)])),
 };
 

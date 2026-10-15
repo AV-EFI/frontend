@@ -25,8 +25,9 @@ const LEVEL_IDS = LEVELS.map((level) => level.id);
 
 describe('explorer schema data', () => {
   test('matches the schema snapshot it was generated from', () => {
+    // Line endings are normalised: the file is CRLF in a Windows checkout and LF in CI.
     const digest = createHash('sha256')
-      .update(readFileSync('models/interfaces/schema/model.yaml'))
+      .update(readFileSync('models/interfaces/schema/model.yaml', 'utf-8').replace(/\r\n/g, '\n'))
       .digest('hex')
       .slice(0, 12);
 
