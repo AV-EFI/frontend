@@ -208,7 +208,7 @@ export const explorerDe = {
   },
   cases: {
     lead: 'Zwei Lieferungen, ein Werk?',
-    sub: 'Wenn ein Archiv Daten liefert, vergleicht AVefi das Werk mit schon vorhandenen. Manchmal braucht das System Hilfe. Prüfen Sie die drei Fälle.',
+    sub: 'Wenn ein Archiv Daten liefert, vergleicht AVefi das Werk mit schon vorhandenen. Manchmal braucht das System Hilfe. Prüfen Sie die Fälle.',
     rules: 'Regeln',
     open: 'Fall offen',
     solved: 'Geklärt',
@@ -249,6 +249,7 @@ export const explorerDe = {
       germany: 'Deutschland',
       sweden: 'Schweden',
       amateurFilm: 'Amateurfilm',
+      featureFilm: 'Spielfilm',
     },
     rowLabels: {
       title: 'Titel',
@@ -319,6 +320,48 @@ export const explorerDe = {
           label: 'Zusammenführen',
           head: 'Vorsicht: falsche Zusammenführung',
           text: 'Zwei verschiedene Werke würden zu einem. Das lässt sich nur über das datenhaltende Archiv wieder trennen, es bleibt ein gelöschter Datensatz als Hinweis zurück, und die neue Kennung muss von Hand ins Lokalsystem übertragen werden.',
+        },
+      },
+    },
+    harbour: {
+      name: 'Hafenlichter',
+      tableTitle: 'Das System hat zusammengeführt',
+      sub: 'Das System hat die beiden Lieferungen automatisch zusammengeführt. War das richtig?',
+      docs: ['Lieferung Beispielarchiv Ost', 'Bereits im System (Beispielarchiv Süd)'],
+      ruleNote: 'Kleine Abweichungen sind erlaubt, auch in der Schreibweise des Titels. Ort, Jahr und Regie stimmen hier überein.',
+      source: 'AVefi-Manual 2.2, Abschnitt 5.8 (kleine Abweichungen), erfundenes Beispiel',
+      choices: {
+        confirm: {
+          label: 'Zusammenführung bestätigen',
+          head: 'Richtig erkannt',
+          text: 'Der Titel ist nur etwas anders geschrieben, einmal mit und einmal ohne Artikel. Ort, Jahr und Regie stimmen überein. Solche kleinen Abweichungen in der Schreibweise des Titels sind beim Abgleich erlaubt.',
+          log: 'Abgleich Hafenlichter (1954) · Ost + Süd · automatisch',
+        },
+        unmerge: {
+          label: 'Wieder trennen',
+          head: 'Nicht nötig',
+          text: 'Alle übrigen Felder stimmen überein, nur die Schreibweise des Titels weicht ab. Das ist kein Grund zur Trennung.',
+        },
+      },
+    },
+    nightTrain: {
+      name: 'Nachtzug',
+      tableTitle: 'Das System hat zusammengeführt',
+      sub: 'Das System hat die beiden Lieferungen automatisch zusammengeführt. War das richtig?',
+      docs: ['Lieferung Beispielarchiv West', 'Bereits im System (Beispielarchiv Nord)'],
+      ruleNote: 'Bei Spielfilmen wird ein Jahr Abweichung beim Produktionsjahr toleriert. Bei Amateurfilmen nicht.',
+      source: 'AVefi-Manual 2.2, Abschnitt 5.8 (ein Jahr Abweichung), erfundenes Beispiel',
+      choices: {
+        confirm: {
+          label: 'Zusammenführung bestätigen',
+          head: 'Richtig erkannt',
+          text: 'Das Jahr weicht um eins ab. Bei einem Spielfilm wird das toleriert. Titel, Ort und Regie stimmen überein, deshalb ist die Zusammenführung richtig.',
+          log: 'Abgleich Nachtzug (1962 / 1963) · West + Nord · automatisch',
+        },
+        unmerge: {
+          label: 'Wieder trennen',
+          head: 'Nicht nötig',
+          text: 'Ein Jahr Unterschied reicht bei einem Spielfilm nicht für eine Trennung. Anders ist es nur bei Amateurfilmen.',
         },
       },
     },
@@ -549,7 +592,7 @@ export const explorerEn: ExplorerTexts = {
   },
   cases: {
     lead: 'Two deliveries, one work?',
-    sub: 'When an archive delivers data, AVefi compares the work with existing ones. Sometimes the system needs help. Check the three cases.',
+    sub: 'When an archive delivers data, AVefi compares the work with existing ones. Sometimes the system needs help. Check the cases.',
     rules: 'Rules',
     open: 'Open case',
     solved: 'Resolved',
@@ -590,6 +633,7 @@ export const explorerEn: ExplorerTexts = {
       germany: 'Germany',
       sweden: 'Sweden',
       amateurFilm: 'Amateur film',
+      featureFilm: 'Feature film',
     },
     rowLabels: {
       title: 'Title',
@@ -660,6 +704,48 @@ export const explorerEn: ExplorerTexts = {
           label: 'Merge',
           head: 'Careful: wrong merge',
           text: 'Two different works would become one. This can only be undone through the archive that holds the data, a deleted record remains as a pointer, and the new identifier has to be transferred to the local system by hand.',
+        },
+      },
+    },
+    harbour: {
+      name: 'Harbour Lights',
+      tableTitle: 'The system has merged',
+      sub: 'The system merged the two deliveries automatically. Was that correct?',
+      docs: ['Delivery from Example Archive East', 'Already in the system (Example Archive South)'],
+      ruleNote: 'Small differences are allowed, also in the spelling of the title. Place, year and director agree here.',
+      source: 'AVefi Manual 2.2, section 5.8 (small differences), invented example',
+      choices: {
+        confirm: {
+          label: 'Confirm the merge',
+          head: 'Correctly recognised',
+          text: 'The title is only spelled slightly differently, once with and once without the article. Place, year and director agree. Such small differences in the spelling of the title are allowed in the matching.',
+          log: 'Match Harbour Lights (1954) · East + South · automatic',
+        },
+        unmerge: {
+          label: 'Separate again',
+          head: 'Not necessary',
+          text: 'All other fields agree, only the spelling of the title differs. That is no reason to separate.',
+        },
+      },
+    },
+    nightTrain: {
+      name: 'Night Train',
+      tableTitle: 'The system has merged',
+      sub: 'The system merged the two deliveries automatically. Was that correct?',
+      docs: ['Delivery from Example Archive West', 'Already in the system (Example Archive North)'],
+      ruleNote: 'For feature films a difference of one year in the year of production is tolerated. For amateur films it is not.',
+      source: 'AVefi Manual 2.2, section 5.8 (one year apart), invented example',
+      choices: {
+        confirm: {
+          label: 'Confirm the merge',
+          head: 'Correctly recognised',
+          text: 'The year differs by one. For a feature film this is tolerated. Title, place and director agree, so the merge is correct.',
+          log: 'Match Night Train (1962 / 1963) · West + North · automatic',
+        },
+        unmerge: {
+          label: 'Separate again',
+          head: 'Not necessary',
+          text: 'One year of difference is no reason to separate a feature film. It is different only for amateur films.',
         },
       },
     },

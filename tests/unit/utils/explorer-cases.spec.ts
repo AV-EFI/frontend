@@ -9,6 +9,15 @@ describe('explorer cases', () => {
     }
   });
 
+  test('differ in different fields, so the visitor cannot rely on one pattern', () => {
+    const differing = CASES.map((item) => item.rows.filter((row) => !row.same).map((row) => row.label).join(','));
+
+    expect(new Set(differing).size).toBeGreaterThanOrEqual(3);
+    expect(differing).toEqual(expect.arrayContaining(['director', 'title', 'year']));
+    expect(isCorrectChoice(getCase('harbour')!, 'confirm')).toBe(true);
+    expect(isCorrectChoice(getCase('nightTrain')!, 'confirm')).toBe(true);
+  });
+
   test('follow the examples of the work match', () => {
     const undine = getCase('undine');
     expect(undine?.rows.find((row) => row.label === 'director')).toMatchObject({ same: false });

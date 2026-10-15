@@ -17,8 +17,8 @@
         </div>
 
         <div class="explorer-stack">
-            <template v-for="level in LEVELS" :key="level.id">
-                <div v-if="level.upRule" class="explorer-link">
+            <template v-for="(level, index) in LEVELS" :key="level.id">
+                <div v-if="level.upRule" class="explorer-link explorer-rise" :style="{ '--i': index * 2 - 1 }">
                     <div class="explorer-link-line" aria-hidden="true" />
                     <button
                         type="button"
@@ -33,7 +33,7 @@
                         </span>
                     </button>
                 </div>
-                <ExplorerLevelBand :level="level" :open="isOpen(level)" />
+                <ExplorerLevelBand class="explorer-rise" :style="{ '--i': index * 2 }" :level="level" :open="isOpen(level)" />
             </template>
         </div>
 
@@ -120,7 +120,6 @@ function toggleOverview() {
 .explorer-stack {
     display: flex;
     flex-direction: column;
-    max-width: 70rem;
     margin-top: 1.4rem;
 }
 
@@ -136,8 +135,21 @@ function toggleOverview() {
     position: relative;
     justify-self: center;
     width: 0.4rem;
-    background: var(--color-base-content);
+    /* Dashes run down the line, from the work to the item. */
+    background: repeating-linear-gradient(180deg, var(--color-base-content) 0 0.6rem, transparent 0.6rem 1rem);
+    background-size: 100% 1rem;
     opacity: 0.55;
+    animation: explorer-flow 1.1s linear infinite;
+}
+
+@keyframes explorer-flow {
+    to { background-position: 0 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explorer-link-line {
+        animation: none;
+    }
 }
 
 .explorer-link-line::after {
@@ -199,7 +211,6 @@ function toggleOverview() {
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem 0.65rem;
-    max-width: 70rem;
     margin-top: 1.5rem;
     padding-top: 1.3rem;
     border-top: 1px dashed var(--ex-line);

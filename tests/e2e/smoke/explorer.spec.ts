@@ -24,7 +24,7 @@ test.describe('Explorer', () => {
     await expect(page.locator('.explorer-badge')).toHaveCount(0);
     await expect(page.locator('h1')).toContainText('AVefi Explorer');
     await expect(page.locator('header')).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Datenmodell' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: 'Datenmodell' })).toBeChecked();
   });
 
   test('BB-ROUTE-EXPLORER-007 switches the views with tabs and lists the fields of each filter', async ({ page }) => {
@@ -43,12 +43,15 @@ test.describe('Explorer', () => {
     await expect(page.locator('#explorer-drawer-title')).toHaveText('Titel');
     await page.keyboard.press('Escape');
 
-    await page.getByRole('tab', { name: /Fälle/ }).focus();
+    // The tabs are the daisyUI radio tabs of the rest of the site: arrow keys move between them.
+    await page.getByRole('tab', { name: /Fälle/ }).click();
+    await expect(page.getByRole('tab', { name: /Fälle/ })).toBeChecked();
     await page.keyboard.press('ArrowLeft');
-    await expect(page.getByRole('tab', { name: 'Datenmodell' })).toBeFocused();
+    await expect(page.getByRole('tab', { name: 'Datenmodell' })).toBeChecked();
     await page.keyboard.press('ArrowRight');
-    await expect(page.getByRole('tab', { name: /Fälle/ })).toHaveAttribute('aria-selected', 'true');
-    await expect(page.getByRole('tabpanel')).toContainText('Zwei Lieferungen, ein Werk?');
+    await expect(page.getByRole('tab', { name: /Fälle/ })).toBeChecked();
+    await expect(page.getByRole('tabpanel', { name: /Fälle/ }).or(page.locator('#explorer-panel-cases')))
+      .toContainText('Zwei Lieferungen, ein Werk?');
     await expect(sidebar.getByRole('button', { name: /Pflichtfelder/ })).toHaveCount(0);
   });
 

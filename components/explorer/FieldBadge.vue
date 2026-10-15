@@ -56,11 +56,23 @@ const hit = computed(() => {
     box-shadow: var(--ex-shadow);
     border: 0;
     cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
 }
 
 .explorer-badge:hover {
     background: var(--color-highlight);
     color: var(--color-highlight-content);
+    transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explorer-badge {
+        transition: none;
+    }
+
+    .explorer-badge:hover {
+        transform: none;
+    }
 }
 
 .explorer-badge-code {

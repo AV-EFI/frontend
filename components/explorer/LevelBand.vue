@@ -1,6 +1,8 @@
 <template>
     <section :id="`level-${level.id}`" class="explorer-band" :class="`band-${level.id}`" :aria-labelledby="`level-title-${level.id}`">
+        <!-- The toggle button stretches over the whole header; the details button lies above it. -->
         <div class="explorer-band-head">
+            <Icon :name="level.icon" class="explorer-band-mark" aria-hidden="true" />
             <button
                 type="button"
                 class="explorer-band-toggle"
@@ -29,29 +31,10 @@
             </button>
         </div>
 
-        <div v-if="open" :id="`level-body-${level.id}`" class="explorer-band-body">
-            <div
-                v-for="group in groups"
-                :id="`group-${level.id}-${group.id}`"
-                :key="group.id"
-                class="explorer-group"
-            >
-                <span class="explorer-group-caption">{{ text.groups[group.id].title }}</span>
-                <div class="explorer-badges">
-                    <ExplorerFieldBadge
-                        v-for="name in group.slots"
-                        :key="name"
-                        :class-id="classId"
-                        :slot-name="name"
-                        :group-id="group.id"
-                    />
-                </div>
-            </div>
-
-            <div class="explorer-shared-box">
-                <span class="explorer-group-caption is-strong">{{ text.model.sharedBox }}</span>
+        <Transition name="explorer-expand">
+            <div v-if="open" :id="`level-body-${level.id}`" class="explorer-band-body">
                 <div
-                    v-for="group in shared"
+                    v-for="group in groups"
                     :id="`group-${level.id}-${group.id}`"
                     :key="group.id"
                     class="explorer-group"
@@ -67,12 +50,33 @@
                         />
                     </div>
                 </div>
-            </div>
 
-            <p class="explorer-coverage">
-                {{ fill(text.model.coverage, { shown: coverage.shown, total: coverage.total }) }}
-            </p>
-        </div>
+                <div class="explorer-shared-box">
+                    <span class="explorer-group-caption is-strong">{{ text.model.sharedBox }}</span>
+                    <div
+                        v-for="group in shared"
+                        :id="`group-${level.id}-${group.id}`"
+                        :key="group.id"
+                        class="explorer-group"
+                    >
+                        <span class="explorer-group-caption">{{ text.groups[group.id].title }}</span>
+                        <div class="explorer-badges">
+                            <ExplorerFieldBadge
+                                v-for="name in group.slots"
+                                :key="name"
+                                :class-id="classId"
+                                :slot-name="name"
+                                :group-id="group.id"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <p class="explorer-coverage">
+                    {{ fill(text.model.coverage, { shown: coverage.shown, total: coverage.total }) }}
+                </p>
+            </div>
+        </Transition>
     </section>
 </template>
 
@@ -97,41 +101,54 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 <style scoped>
 .explorer-band {
     position: relative;
+    overflow: hidden;
     color: var(--ex-level-ink);
-    background: var(--band-color);
+    background-color: var(--band-color);
+    /* The grain is a transparent layer of dark specks (4 % at most), so the text contrast on the colour holds. */
+    background-image: var(--ex-grain);
+    box-shadow: var(--ex-shadow);
 }
 
 .band-work { --band-color: var(--color-work); }
 .band-manifestation { --band-color: var(--color-manifestation); }
 .band-item { --band-color: var(--color-item); }
 
-/* Grain keeps the flat colour field from looking like a plain box. It is decoration only. */
-.explorer-band::after {
-    content: '';
+/* A large pale copy of the level icon, as high as the header. It only lightens the colour, so it cannot lower the contrast. */
+.explorer-band-mark {
     position: absolute;
-    inset: 0;
+    top: 0.4rem;
+    right: 1rem;
+    display: block;
+    width: auto;
+    height: calc(100% - 0.8rem);
+    aspect-ratio: 1;
+    color: var(--color-secondary-content);
+    opacity: 0.16;
     pointer-events: none;
-    background-image: var(--ex-grain);
-    mix-blend-mode: multiply;
-    opacity: 0.28;
 }
 
-.explorer-band > * {
-    position: relative;
-    z-index: 1;
-}
-
-/* The details button sits next to the title, so it is not hidden when the drawer opens on the right. */
 .explorer-band-head {
+    position: relative;
     display: flex;
     align-items: stretch;
     gap: 0.75rem;
     padding-right: 1rem;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.explorer-band-head:hover {
+    background-color: color-mix(in oklch, var(--color-secondary-content) 15%, transparent);
+}
+
+/* On the level colours the focus ring is dark, so it keeps 3:1 against the colour field in both themes. */
+.explorer-band :focus-visible {
+    outline-color: var(--ex-level-ink);
+    box-shadow: none;
 }
 
 .explorer-band-toggle {
     display: grid;
-    flex: 0 1 auto;
     grid-template-columns: 3.25rem 2.75rem minmax(0, 1fr) auto;
     gap: 0.25rem 1rem;
     align-items: center;
@@ -144,14 +161,20 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     cursor: pointer;
 }
 
-/* On the level colours the focus ring is dark, so it keeps 3:1 against the colour field in both themes. */
-.explorer-band :focus-visible {
-    outline-color: var(--ex-level-ink);
-    box-shadow: none;
+/* The invisible stretch over the whole header makes all of it a click area. */
+.explorer-band-toggle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
 }
 
-.explorer-band-toggle:hover {
-    background: color-mix(in oklch, var(--color-secondary-content) 15%, transparent);
+.explorer-band .explorer-band-toggle:focus-visible {
+    outline: none;
+}
+
+.explorer-band-head:has(.explorer-band-toggle:focus-visible) {
+    outline: 3px solid var(--ex-level-ink);
+    outline-offset: -4px;
 }
 
 .explorer-band-number {
@@ -186,6 +209,8 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 }
 
 .explorer-band-info {
+    position: relative;
+    z-index: 2;
     align-self: center;
     display: inline-flex;
     align-items: center;
@@ -193,11 +218,12 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     color: inherit;
     background: transparent;
     cursor: pointer;
+    transition: background-color 0.15s;
 }
 
 .explorer-band-info:hover,
 .explorer-band-info[aria-pressed='true'] {
-    background: color-mix(in oklch, var(--color-secondary-content) 35%, transparent);
+    background-color: color-mix(in oklch, var(--color-secondary-content) 35%, transparent);
 }
 
 .explorer-band-info[aria-pressed='true'] {
@@ -205,6 +231,7 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 }
 
 .explorer-band-body {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
@@ -242,6 +269,21 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     font-size: 0.78rem;
 }
 
+.explorer-expand-enter-active {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.explorer-expand-enter-from {
+    opacity: 0;
+    transform: translateY(-0.6rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explorer-expand-enter-active {
+        transition: none;
+    }
+}
+
 @media (max-width: 760px) {
     .explorer-band-head {
         flex-wrap: wrap;
@@ -265,6 +307,10 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     .explorer-band-body {
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+
+    .explorer-band-mark {
+        display: none;
     }
 }
 </style>

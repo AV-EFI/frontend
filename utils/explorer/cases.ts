@@ -1,12 +1,13 @@
 /**
- * The three cases of the light table. They follow the examples of the AVefi Manual 2.2,
- * section 5.8 (work match). All films, archives and names are invented or illustrative;
+ * The cases of the light table. The first three follow the examples of the AVefi Manual 2.2,
+ * section 5.8 (work match); the last two are invented illustrations of the same rules at other
+ * fields (a spelling of the title, a year apart). All films, archives and names are invented or illustrative;
  * the German and English wording is in i18n/locales/explorer.ts under cases.<textKey>.
  */
 
-type CaseTextKey = 'undine' | 'smultron' | 'christmas';
+type CaseTextKey = 'undine' | 'smultron' | 'christmas' | 'harbour' | 'nightTrain';
 type CaseRowLabel = 'title' | 'place' | 'year' | 'director' | 'directorFilmmaker' | 'gnd' | 'genre';
-type CaseValueKey = 'none' | 'germany' | 'sweden' | 'amateurFilm';
+type CaseValueKey = 'none' | 'germany' | 'sweden' | 'amateurFilm' | 'featureFilm';
 
 /** A value is either a literal (names, years, identifiers) or a word that has to be translated. */
 export type CaseValue = string | { key: CaseValueKey };
@@ -78,6 +79,36 @@ export const CASES: readonly ExplorerCase[] = [
     choices: [
       { id: 'split', correct: true },
       { id: 'merge', correct: false },
+    ],
+  },
+  {
+    id: 'harbour',
+    year: 1954,
+    rows: [
+      { label: 'title', incoming: 'Die Hafenlichter', existing: 'Hafenlichter', same: false },
+      { label: 'place', incoming: { key: 'germany' }, existing: { key: 'germany' }, same: true },
+      { label: 'year', incoming: '1954', existing: '1954', same: true },
+      { label: 'director', incoming: 'Brandt, Elisabeth', existing: 'Brandt, Elisabeth', same: true },
+      { label: 'gnd', incoming: { key: 'none' }, existing: { key: 'none' }, same: true },
+    ],
+    choices: [
+      { id: 'confirm', correct: true },
+      { id: 'unmerge', correct: false },
+    ],
+  },
+  {
+    id: 'nightTrain',
+    year: 1962,
+    rows: [
+      { label: 'title', incoming: 'Nachtzug', existing: 'Nachtzug', same: true },
+      { label: 'genre', incoming: { key: 'featureFilm' }, existing: { key: 'featureFilm' }, same: true },
+      { label: 'place', incoming: { key: 'germany' }, existing: { key: 'germany' }, same: true },
+      { label: 'year', incoming: '1962', existing: '1963', same: false },
+      { label: 'director', incoming: 'Weber, Karl', existing: 'Weber, Karl', same: true },
+    ],
+    choices: [
+      { id: 'confirm', correct: true },
+      { id: 'unmerge', correct: false },
     ],
   },
 ];

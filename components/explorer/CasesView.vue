@@ -16,7 +16,7 @@
         </div>
 
         <ul class="explorer-cards">
-            <li v-for="item in CASES" :key="item.id">
+            <li v-for="(item, index) in CASES" :key="item.id" class="explorer-rise" :style="{ '--i': index }">
                 <button
                     type="button"
                     class="explorer-card"
@@ -115,6 +115,22 @@ function toggleRules() {
     color: var(--ex-ink);
     background: var(--ex-paper);
     box-shadow: var(--ex-shadow);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.explorer-card:hover .explorer-card-label {
+    box-shadow: 0 0.7rem 1.4rem color-mix(in oklch, var(--color-neutral) 35%, transparent);
+    transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explorer-card-label {
+        transition: none;
+    }
+
+    .explorer-card:hover .explorer-card-label {
+        transform: none;
+    }
 }
 
 .explorer-card-name {
