@@ -1,3 +1,4 @@
+import { explorerDe } from './explorer';
 import locales from '~/models/interfaces/schema/locale_messages.json';
 // Recursive tree (not just Record<string, unknown>) so nested branches like
 // avefiDe.seo.home remain spreadable objects rather than `unknown`. Leaves are
@@ -1572,6 +1573,7 @@ const mergedSeo = {
   normdata: { ...deBase.seo?.normdata, ...branch(avefiDeSeo.normdata) },
 };
 export default {
+  explorer: explorerDe,
   ...deBase, 
   ...avefiDe,
   accessibilityStatement: "Erklärung zur Barrierefreiheit",

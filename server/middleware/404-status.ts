@@ -25,6 +25,7 @@ export default defineEventHandler((event) => {
     '/press',
     '/faq',
     '/schema-explorer',
+    '/explorer-poc',
     '/glossary',
     '/vocab',
     '/imprint',

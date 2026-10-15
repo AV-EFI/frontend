@@ -1,3 +1,4 @@
+import { explorerEn } from './explorer';
 import avefiLocalesRaw from '~/models/interfaces/schema/locale_messages.json';
 // Recursive tree (not just Record<string, unknown>) so nested branches like
 // avefiEn.seo.home remain spreadable objects rather than `unknown`. Leaves are
@@ -1600,6 +1601,7 @@ const mergedSeo = {
 };
 
 export default {
+  explorer: explorerEn,
   ...avefiBase,
   ...avefiEn,
   accessibilityStatement: "Accessibility Statement",

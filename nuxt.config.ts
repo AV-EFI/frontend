@@ -297,7 +297,7 @@ export default defineNuxtConfig({
       {
         path: '~/components',
         global: true,
-        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'detail/**', 'input/**'],
+        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'explorer/**', 'detail/**', 'input/**'],
       },
       {
         path: '~/components',
@@ -395,6 +395,7 @@ export default defineNuxtConfig({
     '/faq': { ssr: false },
     '/news': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
     '/schema-explorer': { ssr: true },
+    '/explorer-poc': { ssr: false },
     '/login': { ssr: true },
     '/film/**': { ssr: true },
     '/res/**': { ssr: true, prerender: false },

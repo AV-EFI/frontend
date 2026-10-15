@@ -1,0 +1,2746 @@
+{
+  "source": "AV-EFI/av-efi-schema, src/avefi_schema/model.yaml",
+  "modelDigest": "7e887d138112",
+  "classes": {
+    "CategorizedThing": {
+      "id": "CategorizedThing",
+      "isA": null,
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Root for all classes with subclasses in this schema",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        }
+      ]
+    },
+    "MovingImageRecord": {
+      "id": "MovingImageRecord",
+      "isA": "CategorizedThing",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Base class defining slots that are common to all levels of the WVMI metadata model",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_primary_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Titel",
+          "labelEn": "Title",
+          "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead."
+        },
+        {
+          "name": "has_alternative_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Additional title(s) associated with the work / variant, manifestation, or item."
+        },
+        {
+          "name": "has_identifier",
+          "from": "MovingImageRecord",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs"
+        },
+        {
+          "name": "same_as",
+          "from": "MovingImageRecord",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "has_event",
+          "from": "MovingImageRecord",
+          "range": "Event",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate event(s) with a moving image record"
+        },
+        {
+          "name": "described_by",
+          "from": "MovingImageRecord",
+          "range": "DescriptionResource",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Verantwortlich",
+          "labelEn": "Responsible",
+          "description": "Also record some metadata about the PID itself rather than the identified object"
+        }
+      ]
+    },
+    "DescriptionResource": {
+      "id": "DescriptionResource",
+      "isA": null,
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Metadata about the PID rather than the identified object, i.e. who modified the PID metadata record when, making what changes",
+      "slots": [
+        {
+          "name": "has_source_key",
+          "from": "DescriptionResource",
+          "range": "IDString",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Indicate a dataset this record has been generated or derived from. For example, a converter generating AVefi moving image records from data in some other schema may record the original identifier here."
+        },
+        {
+          "name": "has_history",
+          "from": "DescriptionResource",
+          "range": "HttpUri",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Link to revision history of this PID"
+        },
+        {
+          "name": "has_issuer_id",
+          "from": "DescriptionResource",
+          "range": "HttpUri",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Identifier for the responsible party as an URI suitable for linked data"
+        },
+        {
+          "name": "has_issuer_name",
+          "from": "DescriptionResource",
+          "range": "TextLine",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Name of the responsible party"
+        },
+        {
+          "name": "last_modified",
+          "from": "DescriptionResource",
+          "range": "ISODateTimeUTC",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Timestamp (in UTC) for the latest modification to any field in the PID metadata record"
+        }
+      ]
+    },
+    "WorkVariant": {
+      "id": "WorkVariant",
+      "isA": "MovingImageRecord",
+      "abstract": false,
+      "labelDe": "Werk",
+      "labelEn": "Work",
+      "description": "FIAF Moving Image Cataloguing Manual 1.0",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_primary_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": true,
+          "multivalued": false,
+          "labelDe": "Titel",
+          "labelEn": "Title",
+          "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead."
+        },
+        {
+          "name": "has_alternative_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Additional title(s) associated with the work / variant, manifestation, or item."
+        },
+        {
+          "name": "has_identifier",
+          "from": "MovingImageRecord",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs"
+        },
+        {
+          "name": "same_as",
+          "from": "MovingImageRecord",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "type",
+          "from": "WorkVariant",
+          "range": "WorkVariantTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_event",
+          "from": "MovingImageRecord",
+          "range": "Event",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate event(s) with a moving image record"
+        },
+        {
+          "name": "has_form",
+          "from": "WorkVariant",
+          "range": "WorkFormEnum",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Gattung",
+          "labelEn": "Form",
+          "description": "Form describes the format and/or purpose of a Work, e.g., “non-fiction”, “short” and “animation”. See also: FIAF Moving Image Cataloguing Manual 1.4.3 and FIAF Glossary of Filmographic Terms D.1"
+        },
+        {
+          "name": "has_subject",
+          "from": "WorkVariant",
+          "range": "CategorizedThing",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Schlagwort",
+          "labelEn": "Subject",
+          "description": "Subject descriptor terms for the content of a film specifying its period, themes, locations, etc. Not to be confused with Genre. See also: FIAF Moving Image Cataloguing Manual 1.4.3 and FIAF Glossary of Filmographic Terms D.2.3"
+        },
+        {
+          "name": "has_genre",
+          "from": "WorkVariant",
+          "range": "Genre",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Genre describes categories of Works, characterized by similar plots, themes, settings, situations, and characters. Examples of genres are “westerns” and “thrillers”. See also: FIAF Moving Image Cataloguing Manual 1.4.3 and FIAF Glossary of Filmographic Terms D.2.1"
+        },
+        {
+          "name": "is_part_of",
+          "from": "WorkVariant",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Relate, for instance, episodes to a series / serial. See also: FIAF Moving Image Cataloguing Manual D.17"
+        },
+        {
+          "name": "is_variant_of",
+          "from": "WorkVariant",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Variante von",
+          "labelEn": "Is variant of",
+          "description": "Link to the reference WorkVariant for the currently described variant. See also: FIAF Moving Image Cataloguing Manual 1.0.2, 1.1.2, 1.4.5"
+        },
+        {
+          "name": "variant_type",
+          "from": "WorkVariant",
+          "range": "VariantTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Variantentyp",
+          "labelEn": "Variant type",
+          "description": "FIAF Moving Image Cataloguing Manual D.2"
+        },
+        {
+          "name": "described_by",
+          "from": "MovingImageRecord",
+          "range": "DescriptionResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Verantwortlich",
+          "labelEn": "Responsible",
+          "description": "Also record some metadata about the PID itself rather than the identified object"
+        }
+      ]
+    },
+    "GeographicName": {
+      "id": "GeographicName",
+      "isA": "CategorizedThing",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Name of country, region or other location. Names should be taken from appropriate authorities (e.g. GND) and recorded as a human readable string in the name attribute and as linked data in the same_as attribute. See also: FIAF Moving Image Cataloguing Manual 1.3.3, D.4",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_name",
+          "from": "GeographicName",
+          "range": "TextLine",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Human-readable name for a thing. This is to be treated as the preferred display label in a UI context, whereas has_alternate_name can provide additional terms, e.g. for matching in search operations"
+        },
+        {
+          "name": "same_as",
+          "from": "GeographicName",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "has_alternate_name",
+          "from": "GeographicName",
+          "range": "TextLine",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Alternative human-readable name(s) for a thing. Whereas has_name provides the preferred display name for the described entity, alternatives can be recorded here in order to be indexed in search engines, for instance"
+        }
+      ]
+    },
+    "Genre": {
+      "id": "Genre",
+      "isA": null,
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Genre describes categories of Works, characterized by similar plots, themes, settings, situations, and characters. Examples of genres are “westerns” and “thrillers”. See also: FIAF Moving Image Cataloguing Manual 1.4.3 and FIAF Glossary of Filmographic Terms D.2.1",
+      "slots": [
+        {
+          "name": "has_name",
+          "from": "Genre",
+          "range": "TextLine",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Human-readable name for a thing. This is to be treated as the preferred display label in a UI context, whereas has_alternate_name can provide additional terms, e.g. for matching in search operations"
+        },
+        {
+          "name": "same_as",
+          "from": "Genre",
+          "range": "GNDResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "has_alternate_name",
+          "from": "Genre",
+          "range": "TextLine",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Alternative human-readable name(s) for a thing. Whereas has_name provides the preferred display name for the described entity, alternatives can be recorded here in order to be indexed in search engines, for instance"
+        }
+      ]
+    },
+    "Subject": {
+      "id": "Subject",
+      "isA": "CategorizedThing",
+      "abstract": false,
+      "labelDe": "Schlagwort",
+      "labelEn": "Subject",
+      "description": "Subject descriptor terms for the content of a film specifying its period, themes, locations, etc. Not to be confused with Genre. Provide name and if at all possible identifier(s) from supported authorities in the same_as slot. See also: FIAF Moving Image Cataloguing Manual 1.4.3 and FIAF Glossary of Filmographic Terms D.2.3",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_name",
+          "from": "Subject",
+          "range": "TextLine",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Human-readable name for a thing. This is to be treated as the preferred display label in a UI context, whereas has_alternate_name can provide additional terms, e.g. for matching in search operations"
+        },
+        {
+          "name": "same_as",
+          "from": "Subject",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "has_alternate_name",
+          "from": "Subject",
+          "range": "TextLine",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Alternative human-readable name(s) for a thing. Whereas has_name provides the preferred display name for the described entity, alternatives can be recorded here in order to be indexed in search engines, for instance"
+        }
+      ]
+    },
+    "Activity": {
+      "id": "Activity",
+      "isA": "CategorizedThing",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "FIAF Moving Image Cataloguing Manual 1.4.1.1",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "IDString",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "AnimationActivity": {
+      "id": "AnimationActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.13",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "AnimationActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "CastActivity": {
+      "id": "CastActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.7",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "CastActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "CensorshipActivity": {
+      "id": "CensorshipActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.1",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "CensorshipActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "CinematographyActivity": {
+      "id": "CinematographyActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.5",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "CinematographyActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "CopyrightAndDistributionActivity": {
+      "id": "CopyrightAndDistributionActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms C.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "CopyrightAndDistributionActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "DirectingActivity": {
+      "id": "DirectingActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.3",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "DirectingActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "EditingActivity": {
+      "id": "EditingActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.10",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "EditingActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "LaboratoryActivity": {
+      "id": "LaboratoryActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.12",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "LaboratoryActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "MusicActivity": {
+      "id": "MusicActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.11",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "MusicActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "ProducingActivity": {
+      "id": "ProducingActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "ProducingActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "ProductionDesignActivity": {
+      "id": "ProductionDesignActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.6",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "ProductionDesignActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "PuppetActivity": {
+      "id": "PuppetActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.14",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "PuppetActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "SoundActivity": {
+      "id": "SoundActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.9",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "SoundActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "SpecialEffectsActivity": {
+      "id": "SpecialEffectsActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.8",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "SpecialEffectsActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "WritingActivity": {
+      "id": "WritingActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Glossary of Filmographic Terms B.4",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "WritingActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "ManifestationActivity": {
+      "id": "ManifestationActivity",
+      "isA": "Activity",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Activity types / roles. See also: FIAF Moving Image Cataloguing Manual 2.4.1.1, D.8",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Activity",
+          "range": "ManifestationActivityTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_agent",
+          "from": "Activity",
+          "range": "Agent",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Agent involved in some activity related to the moving image resource"
+        }
+      ]
+    },
+    "Agent": {
+      "id": "Agent",
+      "isA": "CategorizedThing",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Agent involved in some activity related to the moving image resource. For agents of type \"Person\" specify name according to the convention \"family name, given name\"",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_name",
+          "from": "Agent",
+          "range": "TextLine",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "For natural persons, always use the convention \"family name, given name\""
+        },
+        {
+          "name": "same_as",
+          "from": "Agent",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "type",
+          "from": "Agent",
+          "range": "AgentTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_alternate_name",
+          "from": "Agent",
+          "range": "TextLine",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Alternative human-readable name(s) for a thing. Whereas has_name provides the preferred display name for the described entity, alternatives can be recorded here in order to be indexed in search engines, for instance"
+        }
+      ]
+    },
+    "Event": {
+      "id": "Event",
+      "isA": "CategorizedThing",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Significant event in the lifecycle of moving image work / variant, manifestation or item. Always specify the type of event and if possible a date or a period of time via has_date. Specify located_in as appropriate, e.g. the country where the principal offices or production facilities of the production company are located for a production event. Involved parties in various roles can be linked via has_activity. See also: FIAF Moving Image Cataloguing Manual 1.4.2, 2.4.2, 3.3.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_date",
+          "from": "Event",
+          "range": "ISODate",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details"
+        },
+        {
+          "name": "located_in",
+          "from": "Event",
+          "range": "GeographicName",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event"
+        },
+        {
+          "name": "has_activity",
+          "from": "Event",
+          "range": "Activity",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate activity (and subsequently agents) with event"
+        }
+      ]
+    },
+    "ProductionEvent": {
+      "id": "ProductionEvent",
+      "isA": "Event",
+      "abstract": false,
+      "labelDe": "Produktion",
+      "labelEn": "Production",
+      "description": "Production event of a work/variant (or manifestation produced as a restoration). Provide a date or a period of time via has_date and specify located_in as appropriate, e.g. the country where the principal offices or production facilities of the production company are located. Involved parties in various roles can be linked via has_activity. See also: FIAF Moving Image Cataloguing Manual D.4.3",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "ProductionEvent",
+          "range": "ProductionEventTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_date",
+          "from": "Event",
+          "range": "ISODate",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details"
+        },
+        {
+          "name": "located_in",
+          "from": "Event",
+          "range": "GeographicName",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event"
+        },
+        {
+          "name": "has_activity",
+          "from": "Event",
+          "range": "Activity",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate activity (and subsequently agents) with event"
+        }
+      ]
+    },
+    "PreservationEvent": {
+      "id": "PreservationEvent",
+      "isA": "Event",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Preservation event originating a manifestation or possibly a vaniant. Always specify the type of event and if possible a date or a period of time via has_date. Specify located_in as appropriate. Involved parties in various roles can be linked via has_activity. See also: FIAF Moving Image Cataloguing Manual D.4.5",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "PreservationEvent",
+          "range": "PreservationEventTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_date",
+          "from": "Event",
+          "range": "ISODate",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details"
+        },
+        {
+          "name": "located_in",
+          "from": "Event",
+          "range": "GeographicName",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event"
+        },
+        {
+          "name": "has_activity",
+          "from": "Event",
+          "range": "ManifestationActivity",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate activity (and subsequently agents) with event"
+        }
+      ]
+    },
+    "PublicationEvent": {
+      "id": "PublicationEvent",
+      "isA": "Event",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Publication event of a manifestation or possibly the first known publication of a work. Always specify the type of event and if possible a date or a period of time via has_date. Specify located_in as appropriate, e.g. the country where the manifestation was published. Involved parties in various roles can be linked via has_activity. See also: FIAF Moving Image Cataloguing Manual D.4.1",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "PublicationEvent",
+          "range": "PublicationEventTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_date",
+          "from": "Event",
+          "range": "ISODate",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details"
+        },
+        {
+          "name": "located_in",
+          "from": "Event",
+          "range": "GeographicName",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event"
+        },
+        {
+          "name": "has_activity",
+          "from": "Event",
+          "range": "Activity",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate activity (and subsequently agents) with event"
+        }
+      ]
+    },
+    "ManufactureEvent": {
+      "id": "ManufactureEvent",
+      "isA": "Event",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Manufacture event of a manifestation. Always specify the type of event and if possible a date or a period of time via has_date. Specify located_in as appropriate, e.g. the country where the labratory is located. Involved parties in various roles can be linked via has_activity. See also: FIAF Moving Image Cataloguing Manual D.4.7",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "ManufactureEvent",
+          "range": "ManufactureEventTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        },
+        {
+          "name": "has_date",
+          "from": "Event",
+          "range": "ISODate",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details"
+        },
+        {
+          "name": "located_in",
+          "from": "Event",
+          "range": "GeographicName",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event"
+        },
+        {
+          "name": "has_activity",
+          "from": "Event",
+          "range": "Activity",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate activity (and subsequently agents) with event"
+        }
+      ]
+    },
+    "RightsCopyrightRegistrationEvent": {
+      "id": "RightsCopyrightRegistrationEvent",
+      "isA": "Event",
+      "abstract": false,
+      "labelDe": "Rechte",
+      "labelEn": "Rights",
+      "description": "Copyright and related rights registration event of a manifestation or possibly of a work/variant. Always specify date via has_date. Specify located_in as appropriate, e.g. the country where the copyright was registered. Involved parties in various roles can be linked via has_activity. See also: FIAF Moving Image Cataloguing Manual D.4.4",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_date",
+          "from": "Event",
+          "range": "ISODate",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Date (or interval/period) when an event has taken place. A subset of ISO 8601 is supported, more specifically, EDTF conformance level 0 as well as qualifiers ? (uncertain date) and ~ (approximate date). See type ISODate definition for details"
+        },
+        {
+          "name": "located_in",
+          "from": "Event",
+          "range": "GeographicName",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Location associated with an event, e.g. the country where the principal offices or production facilities of the production company are located should be associated with the production event"
+        },
+        {
+          "name": "has_activity",
+          "from": "Event",
+          "range": "CopyrightAndDistributionActivity",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate activity (and subsequently agents) with event"
+        }
+      ]
+    },
+    "Title": {
+      "id": "Title",
+      "isA": null,
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "FIAF Moving Image Cataloguing Manual 1.3.2, 2.3.2, 3.1.2",
+      "slots": [
+        {
+          "name": "has_name",
+          "from": "Title",
+          "range": "TextLine",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Human-readable name for a thing. This is to be treated as the preferred display label in a UI context, whereas has_alternate_name can provide additional terms, e.g. for matching in search operations"
+        },
+        {
+          "name": "has_ordering_name",
+          "from": "Title",
+          "range": "TextLine",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Provide normalised form, e.g. for sorting by title. Only use this slot if value actually if different from has_name"
+        },
+        {
+          "name": "type",
+          "from": "Title",
+          "range": "TitleTypeEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "FIAF Moving Image Cataloguing Manual A.2"
+        }
+      ]
+    },
+    "ManifestationOrItem": {
+      "id": "ManifestationOrItem",
+      "isA": "MovingImageRecord",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Base class defining common slots for manifestations and items",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_primary_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Titel",
+          "labelEn": "Title",
+          "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead."
+        },
+        {
+          "name": "has_alternative_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Additional title(s) associated with the work / variant, manifestation, or item."
+        },
+        {
+          "name": "has_identifier",
+          "from": "MovingImageRecord",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs"
+        },
+        {
+          "name": "same_as",
+          "from": "MovingImageRecord",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See [AuthorityResource doucmentation](AuthorityResource.md) for accepted identifiers"
+        },
+        {
+          "name": "has_event",
+          "from": "MovingImageRecord",
+          "range": "Event",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate event(s) with a moving image record"
+        },
+        {
+          "name": "has_webresource",
+          "from": "ManifestationOrItem",
+          "range": "HttpUri",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Externer Link",
+          "labelEn": "External link",
+          "description": "Link to data provider's own presentation of manifestation or item on the web"
+        },
+        {
+          "name": "has_note",
+          "from": "ManifestationOrItem",
+          "range": "TextArea",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "FIAF Moving Image Cataloguing Manual Appendix B"
+        },
+        {
+          "name": "described_by",
+          "from": "MovingImageRecord",
+          "range": "DescriptionResource",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Verantwortlich",
+          "labelEn": "Responsible",
+          "description": "Also record some metadata about the PID itself rather than the identified object"
+        }
+      ]
+    },
+    "Duration": {
+      "id": "Duration",
+      "isA": null,
+      "abstract": false,
+      "labelDe": "Abspieldauer",
+      "labelEn": "Running Time",
+      "description": "Total running time of the described object in ISO 8601 duration format. Check has_value slot range documentation for examples of permissible values. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11",
+      "slots": [
+        {
+          "name": "has_value",
+          "from": "Duration",
+          "range": "ISODurationInHours",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Value of some quantity"
+        },
+        {
+          "name": "has_precision",
+          "from": "Duration",
+          "range": "PrecisionEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Qualifier indicating the precision of an extent value or duration"
+        }
+      ]
+    },
+    "Extent": {
+      "id": "Extent",
+      "isA": null,
+      "abstract": false,
+      "labelDe": "Länge / Größe",
+      "labelEn": "Extent",
+      "description": "Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8",
+      "slots": [
+        {
+          "name": "has_value",
+          "from": "Extent",
+          "range": "Decimal",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Value of some quantity"
+        },
+        {
+          "name": "has_precision",
+          "from": "Extent",
+          "range": "PrecisionEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Qualifier indicating the precision of an extent value or duration"
+        },
+        {
+          "name": "has_unit",
+          "from": "Extent",
+          "range": "UnitEnum",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Unit of some quantity"
+        }
+      ]
+    },
+    "Format": {
+      "id": "Format",
+      "isA": "CategorizedThing",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "IDString",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "Audio": {
+      "id": "Audio",
+      "isA": "Format",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "FIAF Moving Image Cataloguing Manual D.7.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "FormatAudioTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "DigitalFile": {
+      "id": "DigitalFile",
+      "isA": "Format",
+      "abstract": false,
+      "labelDe": "Datei",
+      "labelEn": "Digital File",
+      "description": "FIAF Moving Image Cataloguing Manual D.7.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "FormatDigitalFileTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "DigitalFileEncoding": {
+      "id": "DigitalFileEncoding",
+      "isA": "Format",
+      "abstract": false,
+      "labelDe": "Encoding",
+      "labelEn": "File Encoding",
+      "description": "FIAF Moving Image Cataloguing Manual D.7.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "FormatDigitalFileEncodingTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "Film": {
+      "id": "Film",
+      "isA": "Format",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "FIAF Moving Image Cataloguing Manual D.7.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "FormatFilmTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "Optical": {
+      "id": "Optical",
+      "isA": "Format",
+      "abstract": false,
+      "labelDe": "Optisch",
+      "labelEn": "Optical",
+      "description": "FIAF Moving Image Cataloguing Manual D.7.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "FormatOpticalTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "Video": {
+      "id": "Video",
+      "isA": "Format",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "FIAF Moving Image Cataloguing Manual D.7.2",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "type",
+          "from": "Format",
+          "range": "FormatVideoTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "See specific class documentation for controlled vocabulary applicable to the type slot, respectively"
+        }
+      ]
+    },
+    "Manifestation": {
+      "id": "Manifestation",
+      "isA": "ManifestationOrItem",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Manifestation as defined in FIAF Moving Image Cataloguing Manual 2.0. Note that manifestation type is recorded as publication event type",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_primary_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Titel",
+          "labelEn": "Title",
+          "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead."
+        },
+        {
+          "name": "has_alternative_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Additional title(s) associated with the work / variant, manifestation, or item."
+        },
+        {
+          "name": "has_identifier",
+          "from": "MovingImageRecord",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs"
+        },
+        {
+          "name": "same_as",
+          "from": "MovingImageRecord",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Link to AVefi resource registered by another data provider indicating that the two manifestations are known to be the same. Use this, for instance, when you have cooperated in making a digital restoration of some film work"
+        },
+        {
+          "name": "has_event",
+          "from": "MovingImageRecord",
+          "range": "Event",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate event(s) with a moving image record"
+        },
+        {
+          "name": "is_manifestation_of",
+          "from": "Manifestation",
+          "range": "MovingImageResource",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Indicate AVefi WorkVariant (possibly more but no less than one) that is subject of the manifestation"
+        },
+        {
+          "name": "has_item",
+          "from": "Manifestation",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Indicate AVefi Items the institution has registered as part of the manifestation"
+        },
+        {
+          "name": "has_webresource",
+          "from": "ManifestationOrItem",
+          "range": "HttpUri",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Externer Link",
+          "labelEn": "External link",
+          "description": "Link to data provider's own presentation of manifestation or item on the web"
+        },
+        {
+          "name": "has_note",
+          "from": "ManifestationOrItem",
+          "range": "TextArea",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "FIAF Moving Image Cataloguing Manual Appendix B"
+        },
+        {
+          "name": "described_by",
+          "from": "MovingImageRecord",
+          "range": "DescriptionResource",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Verantwortlich",
+          "labelEn": "Responsible",
+          "description": "Also record some metadata about the PID itself rather than the identified object"
+        }
+      ]
+    },
+    "Language": {
+      "id": "Language",
+      "isA": null,
+      "abstract": false,
+      "labelDe": "Sprache",
+      "labelEn": "Language",
+      "description": "Provide language code from ISO 639-2 (Part 2: Alpha-3) and a list of language usage terms from our controlled vocabulary. See also: FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3",
+      "slots": [
+        {
+          "name": "code",
+          "from": "Language",
+          "range": "LanguageCodeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "[ISO 639-2 code](https://id.loc.gov/vocabulary/iso639-2.html) for the Representation of Names of Languages (Part 2: Alpha-3)"
+        },
+        {
+          "name": "usage",
+          "from": "Language",
+          "range": "LanguageUsageEnum",
+          "required": true,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "FIAF Moving Image Cataloguing Manual 2.3.3.2"
+        }
+      ]
+    },
+    "Item": {
+      "id": "Item",
+      "isA": "ManifestationOrItem",
+      "abstract": false,
+      "labelDe": "Exemplar",
+      "labelEn": "Item",
+      "description": "FIAF Moving Image Cataloguing Manual 3.0",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "has_primary_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Titel",
+          "labelEn": "Title",
+          "description": "Primary title to be displayed in search results etc. The type should be PreferredTitle for works / variants and TitleProper for manifestations / items. If not available, type must be SuppliedDevisedTitle, instead."
+        },
+        {
+          "name": "has_alternative_title",
+          "from": "MovingImageRecord",
+          "range": "Title",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Additional title(s) associated with the work / variant, manifestation, or item."
+        },
+        {
+          "name": "has_identifier",
+          "from": "MovingImageRecord",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Record PID in this slot when exporting data from the PID system. Use local identifiers instead when PIDs have not been registered yet. The latter is suitable for transferring data to the agent responsible for registering PIDs"
+        },
+        {
+          "name": "same_as",
+          "from": "MovingImageRecord",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Another identifier for the same item, e.g. a DOI. Can also be used to link to another AVefi record describing the same item, e.g. when it has changed hands and the new custodian registers its own record for the item"
+        },
+        {
+          "name": "has_event",
+          "from": "MovingImageRecord",
+          "range": "Event",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Associate event(s) with a moving image record"
+        },
+        {
+          "name": "in_language",
+          "from": "Item",
+          "range": "Language",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Sprache",
+          "labelEn": "Language",
+          "description": "FIAF Moving Image Cataloguing Manual 1.3.5, 2.3.3"
+        },
+        {
+          "name": "has_format",
+          "from": "Item",
+          "range": "Format",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "FIAF Moving Image Cataloguing Manual 2.3.4.1, 3.1.5.1"
+        },
+        {
+          "name": "has_duration",
+          "from": "Item",
+          "range": "Duration",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Abspieldauer",
+          "labelEn": "Running time",
+          "description": "Total running time of the described object in ISO 8601 duration format. See also: FIAF Moving Image Cataloguing Manual 2.3.5.3, 3.1.5.11"
+        },
+        {
+          "name": "has_extent",
+          "from": "Item",
+          "range": "Extent",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Länge / Größe",
+          "labelEn": "Extent",
+          "description": "Physical length or size of the described object. See also: FIAF Moving Image Cataloguing Manual 2.3.5.2, 3.1.5.8"
+        },
+        {
+          "name": "has_colour_type",
+          "from": "Item",
+          "range": "ColourTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Farbtyp",
+          "labelEn": "Colour type",
+          "description": "FIAF Moving Image Cataloguing Manual 2.3.4.4, 3.1.5.6, D.7.11"
+        },
+        {
+          "name": "has_sound_type",
+          "from": "Item",
+          "range": "SoundTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Ton",
+          "labelEn": "Sound type",
+          "description": "FIAF Moving Image Cataloguing Manual 2.3.4.3, 3.1.5.3, D.7.4"
+        },
+        {
+          "name": "has_webresource",
+          "from": "ManifestationOrItem",
+          "range": "HttpUri",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Externer Link",
+          "labelEn": "External link",
+          "description": "Link to data provider's own presentation of manifestation or item on the web"
+        },
+        {
+          "name": "has_note",
+          "from": "ManifestationOrItem",
+          "range": "TextArea",
+          "required": false,
+          "multivalued": true,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "FIAF Moving Image Cataloguing Manual Appendix B"
+        },
+        {
+          "name": "is_item_of",
+          "from": "Item",
+          "range": "MovingImageResource",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Indicate AVefi Manifestation the item belongs to. Every item must be associated with a manifestation from the same data provider"
+        },
+        {
+          "name": "element_type",
+          "from": "Item",
+          "range": "ItemElementTypeEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Materialart",
+          "labelEn": "Element type",
+          "description": "FIAF Moving Image Cataloguing Manual D.7.8"
+        },
+        {
+          "name": "has_access_status",
+          "from": "Item",
+          "range": "ItemAccessStatusEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Status of item determining access conditions. See also FIAF Moving Image Cataloguing Manual D.7.1"
+        },
+        {
+          "name": "has_frame_rate",
+          "from": "Item",
+          "range": "FrameRateEnum",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "BPS",
+          "labelEn": "Frame rate",
+          "description": "Frame Rate describes the number of frames per second of an item. See also: FIAF Moving Image Cataloguing Manual 3.1.5.12."
+        },
+        {
+          "name": "is_copy_of",
+          "from": "Item",
+          "range": "AuthorityResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Kopie von",
+          "labelEn": "Copy of",
+          "description": "Link to AVefi item registered by another institution indicating that the two are known to be copies of each other"
+        },
+        {
+          "name": "is_derivative_of",
+          "from": "Item",
+          "range": "MovingImageResource",
+          "required": false,
+          "multivalued": true,
+          "labelDe": "Abgeleitet von",
+          "labelEn": "Derived from",
+          "description": "Link to AVefi item from which this one has been derived in whole or in part, e.g. as a result of a restoration or digitasation project"
+        },
+        {
+          "name": "described_by",
+          "from": "MovingImageRecord",
+          "range": "DescriptionResource",
+          "required": false,
+          "multivalued": false,
+          "labelDe": "Verantwortlich",
+          "labelEn": "Responsible",
+          "description": "Also record some metadata about the PID itself rather than the identified object"
+        }
+      ]
+    },
+    "MovingImageRecordContainer": {
+      "id": "MovingImageRecordContainer",
+      "isA": null,
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "A holder for MovingImageRecord objects",
+      "slots": [
+        {
+          "name": "has_record",
+          "from": "MovingImageRecordContainer",
+          "range": "MovingImageRecord",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Root slot holding the moving image metadata record, i.e. metadata describing a work/variant, manifestation or item. See also the Introduction of the FIAF Moving Image Cataloguing Manual"
+        },
+        {
+          "name": "URL",
+          "from": "MovingImageRecordContainer",
+          "range": "HttpUri",
+          "required": false,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "URL specifying the destination where clients should be redirected to when resolving the PID of a moving image record"
+        }
+      ]
+    },
+    "AuthorityResource": {
+      "id": "AuthorityResource",
+      "isA": "CategorizedThing",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Root class for all identifiers from some kind of authority or public register widely accepted in the community",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "IDString",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "MovingImageResource": {
+      "id": "MovingImageResource",
+      "isA": "AuthorityResource",
+      "abstract": true,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Either a persistent or local identifier for AVefi compliant moving image records. See subclasses for details",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "IDString",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "AATResource": {
+      "id": "AATResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Getty Thesaurus of Geographic Names ID. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "AATID",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "AVefiResource": {
+      "id": "AVefiResource",
+      "isA": "MovingImageResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Handle with the prefix allocated for AVefi (eventually). Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "AVefi",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "DOIResource": {
+      "id": "DOIResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Digital Object Identifier maintained by the DOI Foundation and commonly used for scientific publications including films. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "DOI",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "EIDRResource": {
+      "id": "EIDRResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Entertainment Identifier Registry ID. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "EIDR",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "FilmportalResource": {
+      "id": "FilmportalResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Identifier of the German Filmportal.de. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "FilmportalID",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "GNDResource": {
+      "id": "GNDResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Gemeinsame Normdatei (GND) identifier maintained by Deutsche Nationalbibliothek (German National Library)",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "GNDID",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "ISILResource": {
+      "id": "ISILResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "International Standard Identifier for Libraries and Related Organizations including (film) archives. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "ISIL",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "LocalResource": {
+      "id": "LocalResource",
+      "isA": "MovingImageResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Some identifier used by data provider to represent relations between work/variant, manifestation and item when PIDs have not been assigned yet. On ingest into AVefi, these identifiers will be replaced by the generated PIDs",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "IDString",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "TGNResource": {
+      "id": "TGNResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Getty Thesaurus of Geographic Names ID. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "TGNID",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "VIAFResource": {
+      "id": "VIAFResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Virtual International Authority File identifier hosted by OCLC. The data is accumulated from various well established authority files from different parts of the world. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "VIAFID",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    },
+    "WikidataResource": {
+      "id": "WikidataResource",
+      "isA": "AuthorityResource",
+      "abstract": false,
+      "labelDe": null,
+      "labelEn": null,
+      "description": "Identifier for Wikidata entities. Check id slot range documentation for examples",
+      "slots": [
+        {
+          "name": "category",
+          "from": "CategorizedThing",
+          "range": "AVefiCurie",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "Designates type, e.g. to distinguish different identifiers (GNDResource vs. VIAFResource)"
+        },
+        {
+          "name": "id",
+          "from": "AuthorityResource",
+          "range": "WikidataID",
+          "required": true,
+          "multivalued": false,
+          "labelDe": null,
+          "labelEn": null,
+          "description": "A unique identifier for a thing"
+        }
+      ]
+    }
+  }
+}

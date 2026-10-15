@@ -5,6 +5,7 @@ const publicRoutes = [
   '/faq',
   '/press',
   '/vocab',
+  '/explorer-poc',
   '/compare',
   '/compare?prev=demo-prev&next=demo-next',
 ];

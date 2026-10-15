@@ -1,308 +1,235 @@
 <template>
-    <main class="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:flex-row">
-        <section class="flex w-full flex-col gap-4 md:w-1/4">
-            <ExplorerSearchBox v-model="searchQueryRef" :loading="isSearching" @search="handleSearch" />
-            <p v-if="searchError" class="alert alert-error text-sm">{{ searchError }}</p>
-            <WorkResultList :results="searchResultsRef" :selected-handle="selectedWorkHandleRef"
-                            :loading="isSearching || isLoadingWork" @select="handleSelectWork" />
-            <div v-if="selectedWorkLevelLabel" class="selected-level-callout" role="status">
-                <span class="selected-level-heading">{{ t('selectedLevel') }}</span>
-                <span class="selected-level-value">
-                    <Icon
-                        v-if="selectedWorkLevelIcon"
-                        :name="selectedWorkLevelIcon"
-                        class="icon-inline icon-level selected-level-icon"
-                        :style="{ color: selectedWorkLevelColor }"
-                        aria-hidden="true"
-                    />
-                    <span>{{ selectedWorkLevelLabel }}</span>
-                </span>
-            </div>
-            <p v-if="workError" class="alert alert-error text-sm">{{ workError }}</p>
-        </section>
+    <div class="explorer" :style="{ '--ex-grain': grain }">
+        <ExplorerSidebar />
 
-        <section class="w-full md:w-1/2">
-            <ClientOnly>
-                <GraphView v-if="graphNodes.length" :nodes="graphNodes" :edges="graphEdges"
-                           :selected-node-id="selectedNodeIdRef" :ariaLabel="graphAriaLabel"
-                           @node-selected="onNodeSelected" />
-                <template #fallback>
-                    <div class="flex h-96 items-center justify-center rounded-box bg-base-200">
-                        <p class="text-sm text-base-content/70">{{ t('graphLoading') }}</p>
-                    </div>
-                </template>
-            </ClientOnly>
-            <p v-if="!graphNodes.length" class="mt-4 text-sm text-base-content/70">
-                {{ t('noWorkSelected') }}
-            </p>
-        </section>
+        <main id="main-content" tabindex="-1" class="explorer-center">
+            <section class="explorer-stage" :class="{ 'is-cases': store.view === 'cases' }" :aria-label="text.region">
+                <ExplorerModelView v-if="store.view === 'model'" />
+                <ExplorerCasesView v-else />
+            </section>
+        </main>
 
-        <section class="flex w-full flex-col gap-4 md:w-1/4">
-            <SidebarPanel :selected-node="selectedNodeRef" :node-list="nodeListRef" :stats="graphStats"
-                          :agent-facets="agentFacetsRef" @select-node="onNodeSelected" @add-context="addNodeToContext" />
-            <ContextTray :chips="contextChipsRef" @remove="removeContextChip" @clear="clearContextChips" />
-            <ChatPanel :messages="chatMessagesRef" :sending="isSendingMessageRef" @send="handleChatMessage" />
-        </section>
-    </main>
+        <ExplorerDrawer />
+        <ExplorerLightTable />
+    </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useI18n } from 'vue-i18n';
-import ExplorerSearchBox from '~/components/poc/ExplorerSearchBox.vue';
-import WorkResultList from '~/components/poc/WorkResultList.vue';
-import GraphView from '~/components/poc/GraphView.vue';
-import SidebarPanel from '~/components/poc/SidebarPanel.vue';
-import ContextTray from '~/components/poc/ContextTray.vue';
-import ChatPanel from '~/components/poc/ChatPanel.vue';
-import { usePocApi } from '~/composables/poc/usePocApi';
-import { usePocExplorerStore } from '~/stores/pocExplorerStore';
-import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
-import type { GraphNode } from '~/utils/poc/graphSlice';
+import { useExplorerStore } from '~/stores/explorerStore';
 
-const { searchWorks, fetchWorkByHandle, sendChatMessage, fetchAgentFacets } = usePocApi();
-const explorerStore = usePocExplorerStore();
+definePageMeta({ layout: 'explorer' });
+
 const { t } = useI18n();
+const store = useExplorerStore();
+const { text } = useExplorerTexts();
 
-const {
-    searchQuery: searchQueryRef,
-    searchResults: searchResultsRef,
-    selectedWorkHandle: selectedWorkHandleRef,
-    selectedWorkDoc: selectedWorkDocRef,
-    graphSlice,
-    nodeList: nodeListRef,
-    selectedNode: selectedNodeRef,
-    selectedNodeId: selectedNodeIdRef,
-    contextChips: contextChipsRef,
-    chatMessages: chatMessagesRef,
-    agentFacets: agentFacetsRef,
-    isSearching,
-    isLoadingWork,
-    isSendingMessage: isSendingMessageRef,
-} = storeToRefs(explorerStore);
-
-const searchError = ref<string>('');
-const workError = ref<string>('');
-
-const graphNodes = computed(() => graphSlice.value?.nodes ?? []);
-const graphEdges = computed(() => graphSlice.value?.edges ?? []);
-const graphStats = computed(() => graphSlice.value?.stats ?? null);
-
-const determineLevelKey = computed(() => {
-    const selectedRecord = selectedWorkDocRef.value?.has_record as { category?: string | null } | undefined;
-    const level = selectedRecord?.category
-        ?? (selectedWorkDocRef.value as { category?: string | null } | null)?.category
-        ?? null;
-
-    if (!level) {
-        return null;
-    }
-
-    const value = level.toLowerCase();
-    if (value.includes('manifestation')) {
-        return 'manifestation';
-    }
-    if (value.includes('item')) {
-        return 'item';
-    }
-    if (value.includes('work')) {
-        return 'workvariant';
-    }
-    return 'unknown';
+(useSeoMeta as (meta: Record<string, unknown>) => void)({
+    title: t('explorer.title'),
+    robots: 'noindex, nofollow',
 });
 
-const selectedWorkLevelLabel = computed(() => {
-    switch (determineLevelKey.value) {
-        case 'manifestation':
-            return t('avefi_Manifestation');
-        case 'item':
-            return t('avefi_Item');
-        case 'workvariant':
-            return t('avefi_WorkVariant');
-        case 'unknown':
-            return t('unknownLevel');
-        default:
-            return null;
+/* Film grain on the colour fields. Drawn once on the client; without it the fields stay flat, which is fine. */
+const grain = ref('none');
+
+function createGrain(): string {
+    const size = 180;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+    if (!context) return 'none';
+    const image = context.createImageData(size, size);
+    for (let index = 0; index < image.data.length; index += 4) {
+        const value = 200 + Math.random() * 55;
+        image.data[index] = value;
+        image.data[index + 1] = value;
+        image.data[index + 2] = value;
+        image.data[index + 3] = 255;
     }
+    context.putImageData(image, 0, 0);
+    return `url(${canvas.toDataURL()})`;
+}
+
+onMounted(() => {
+    grain.value = createGrain();
 });
 
-const selectedWorkLevelColor = computed(() => {
-    switch (determineLevelKey.value) {
-        case 'manifestation':
-            return 'var(--manifestation)';
-        case 'item':
-            return 'var(--item)';
-        case 'workvariant':
-            return 'var(--work)';
-        case 'unknown':
-            return 'var(--neutral)';
-        default:
-            return 'transparent';
-    }
-});
-
-const selectedWorkLevelIcon = computed(() => {
-    switch (determineLevelKey.value) {
-        case 'manifestation':
-            return getFacetIcon('manifestation');
-        case 'item':
-            return getFacetIcon('item');
-        case 'workvariant':
-            return getFacetIcon('work');
-        case 'unknown':
-            return 'tabler:help-circle';
-        default:
-            return '';
-    }
-});
-
-const graphAriaLabel = computed(() => {
-    const selectedLabel = selectedNodeRef.value?.label ?? t('noSelection');
-    return t('workExplorerAria', { count: graphNodes.value.length, selectedLabel });
-});
-
-const handleSearch = async (query: string) => {
-    explorerStore.setSearchQuery(query);
-    explorerStore.beginSearch();
-    searchError.value = '';
-
-    try {
-        const response = await searchWorks(query, 10);
-        explorerStore.setSearchResults(response.hits ?? []);
-        if (response.error) {
-            searchError.value = response.error;
+/* A link inside the drawer brings the matching part of the overview into view. */
+watch(
+    () => store.scrollTarget,
+    async (id) => {
+        if (!id) return;
+        await nextTick();
+        const target = document.getElementById(id);
+        if (target) {
+            const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            target.scrollIntoView({ block: 'center', behavior: calm ? 'auto' : 'smooth' });
+            target.classList.add('explorer-flash');
+            window.setTimeout(() => target.classList.remove('explorer-flash'), 1400);
         }
-
-        const facets = await fetchAgentFacets(query);
-        explorerStore.setAgentFacets(facets.buckets ?? []);
-    } catch (error) {
-        console.error('[explorer-poc] search failed', error);
-        searchError.value = t('searchFailed');
-    } finally {
-        explorerStore.finishSearch();
-    }
-};
-
-const handleSelectWork = async (handle: string) => {
-    if (!handle) {
-        return;
-    }
-
-    explorerStore.beginLoadWork();
-    workError.value = '';
-
-    try {
-        const response = await fetchWorkByHandle(handle);
-        if (response?.workDoc && response?.graphSlice) {
-            explorerStore.setSelectedWork({
-                handle,
-                workDoc: response.workDoc,
-                graphSlice: response.graphSlice,
-            });
-        } else {
-            workError.value = response?.error ?? t('workCouldNotBeLoaded');
-        }
-    } catch (error) {
-        console.error('[explorer-poc] load work failed', error);
-        workError.value = t('workCouldNotBeLoaded');
-    } finally {
-        explorerStore.finishLoadWork();
-    }
-};
-
-const onNodeSelected = (nodeId: string | null) => {
-    if (nodeId) {
-        explorerStore.selectNode(nodeId);
-    }
-};
-
-const addNodeToContext = (node: GraphNode) => {
-    explorerStore.addContextChip({
-        id: node.id,
-        type: node.type,
-        label: node.label,
-    });
-};
-
-const removeContextChip = (chipId: string) => {
-    explorerStore.removeContextChip(chipId);
-};
-
-const clearContextChips = () => {
-    explorerStore.clearContextChips();
-};
-
-const handleChatMessage = async (message: string) => {
-    if (!message) {
-        return;
-    }
-
-    const userMessageId = crypto.randomUUID();
-    explorerStore.pushChatMessage({
-        id: userMessageId,
-        author: 'user',
-        text: message,
-        timestamp: Date.now(),
-    });
-
-    explorerStore.setIsSendingMessage(true);
-
-    try {
-        const response = await sendChatMessage(message, contextChipsRef.value);
-        explorerStore.pushChatMessage({
-            id: crypto.randomUUID(),
-            author: 'assistant',
-            text: response.answer,
-            timestamp: Date.now(),
-            sources: response.sources,
-        });
-    } catch (error) {
-        console.error('[explorer-poc] chat failed', error);
-        explorerStore.pushChatMessage({
-            id: crypto.randomUUID(),
-            author: 'assistant',
-            text: t('answerCouldNotBeLoaded'),
-            timestamp: Date.now(),
-        });
-    } finally {
-        explorerStore.setIsSendingMessage(false);
-    }
-};
+        store.clearScrollTarget();
+    },
+    { flush: 'post' },
+);
 </script>
 
-<style scoped>
-main {
-    min-height: calc(100vh - 6rem);
+<style>
+/*
+ * Colours come from the AVefi theme tokens, so light and dark follow the site. "Paper" is the white card
+ * surface of the design; it stays light in the dark theme, with dark ink on it.
+ */
+.explorer {
+    --ex-ink: var(--color-neutral);
+    --ex-level-ink: var(--color-secondary);
+    --ex-paper: var(--color-base-100);
+    --ex-paper-muted: color-mix(in oklch, var(--ex-ink) 72%, var(--ex-paper));
+    --ex-paper-line: color-mix(in oklch, var(--ex-ink) 18%, var(--ex-paper));
+    --ex-muted: color-mix(in oklch, var(--color-base-content) 68%, var(--color-base-100));
+    --ex-line: color-mix(in oklch, var(--color-base-content) 22%, var(--color-base-100));
+    --ex-shadow: 0 0.3rem 0.9rem color-mix(in oklch, var(--color-neutral) 22%, transparent);
+
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    color: var(--color-base-content);
+    background: var(--color-base-300);
 }
 
-.selected-level-callout {
+[data-theme='avefi_dark'] .explorer {
+    --ex-ink: var(--color-base-300);
+    --ex-level-ink: var(--color-secondary);
+    --ex-paper: var(--color-neutral-content);
+}
+
+.explorer :focus-visible {
+    outline: 3px solid var(--color-base-content);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--color-base-100);
+}
+
+.explorer-center {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    border-radius: 0.75rem;
-    border: 1px solid var(--base-300, #d1d5db);
-    background-color: var(--base-200, #f3f4f6);
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-    color: var(--base-content, #1e293b);
+    min-width: 0;
+    min-height: 0;
+    padding: 0.75rem;
 }
 
-.selected-level-heading {
-    font-weight: 600;
+.explorer-center:focus {
+    outline: none;
+}
+
+.explorer-stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    padding: 1.4rem 1.6rem 1.6rem;
+    overflow: auto;
+    background: var(--color-base-200);
+    border: 1px solid var(--ex-line);
+}
+
+.explorer-stage.is-cases {
+    color: var(--color-primary-content);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.explorer-stage.is-cases::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--ex-grain);
+    mix-blend-mode: multiply;
+    opacity: 0.28;
+}
+
+.explorer-stage.is-cases > * {
+    position: relative;
+    z-index: 1;
+}
+
+.explorer-lead {
+    margin: 0;
+    font-family: 'BreeSerif', Georgia, 'Times New Roman', serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    line-height: 1.05;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
-.selected-level-value {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
+.explorer-sub {
+    max-width: 66ch;
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: var(--ex-muted);
 }
 
-.selected-level-icon {
-    font-size: 1rem;
+.explorer-stage.is-cases .explorer-sub {
+    color: inherit;
+}
+
+.explorer-ghost {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: inherit;
+    background: transparent;
+    border: 1px solid var(--ex-line);
+    cursor: pointer;
+}
+
+.explorer-stage.is-cases .explorer-ghost {
+    border-color: currentColor;
+}
+
+.explorer-ghost:hover {
+    border-color: var(--ex-muted);
+}
+
+.explorer-ghost[aria-pressed='true'] {
+    border-color: var(--color-primary);
+    box-shadow: inset 0 -3px 0 var(--color-primary);
+}
+
+.explorer-stage.is-cases .explorer-ghost[aria-pressed='true'] {
+    border-color: currentColor;
+    box-shadow: inset 0 -3px 0 currentColor;
+}
+
+.explorer-flash {
+    animation: explorer-flash 1.4s ease-out;
+}
+
+@keyframes explorer-flash {
+    0% { box-shadow: 0 0 0 0.4rem var(--color-highlight); }
+    100% { box-shadow: 0 0 0 0.4rem transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explorer-flash {
+        animation: none;
+        outline: 3px solid var(--color-highlight);
+    }
+}
+
+@media (max-width: 1100px) {
+    .explorer {
+        grid-template-columns: 14.5rem minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 760px) {
+    .explorer {
+        display: block;
+        height: auto;
+    }
+
+    .explorer-stage {
+        overflow: visible;
+    }
 }
 </style>
