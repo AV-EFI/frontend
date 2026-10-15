@@ -7,6 +7,10 @@
     "level": "WorkVariant",
     "path": "WorkVariant.creators"
   },
+  "directors_or_editors": {
+    "level": "WorkVariant",
+    "path": "WorkVariant.directors_or_editors"
+  },
   "castmembers": {
     "level": "WorkVariant",
     "path": "WorkVariant.castmembers"

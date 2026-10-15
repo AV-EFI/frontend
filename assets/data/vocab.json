@@ -3550,9 +3550,9 @@
   },
   {
     "term": "CopperTonedPositive",
-    "label": "Copper Toned Positive",
+    "label": "Kupfergetontes Positiv",
     "labels": {
-      "de": "Copper Toned Positive",
+      "de": "Kupfergetontes Positiv",
       "en": "Copper Toned Positive"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -3563,9 +3563,9 @@
   },
   {
     "term": "CyanMatrix",
-    "label": "Cyan Matrix",
+    "label": "Cyan-Matrix",
     "labels": {
-      "de": "Cyan Matrix",
+      "de": "Cyan-Matrix",
       "en": "Cyan Matrix"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -3602,9 +3602,9 @@
   },
   {
     "term": "DirectBWPositive",
-    "label": "Direct BW Positive",
+    "label": "Direktes SW Positiv",
     "labels": {
-      "de": "Direct BW Positive",
+      "de": "Direktes SW Positiv",
       "en": "Direct BW Positive"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -3667,9 +3667,9 @@
   },
   {
     "term": "Lavender",
-    "label": "Lavender",
+    "label": "Lavendel",
     "labels": {
-      "de": "Lavender",
+      "de": "Lavendel",
       "en": "Lavender"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -3693,9 +3693,9 @@
   },
   {
     "term": "OriginalPositiveReversalFilm",
-    "label": "Originalpositiv (Dia)",
+    "label": "Originalpositiv (Umkehrfilm)",
     "labels": {
-      "de": "Originalpositiv (Dia)",
+      "de": "Originalpositiv (Umkehrfilm)",
       "en": "Original Positive (reversal film)"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -3719,9 +3719,9 @@
   },
   {
     "term": "SoundNegative",
-    "label": "Soundpositiv",
+    "label": "Tonnegativ",
     "labels": {
-      "de": "Soundpositiv",
+      "de": "Tonnegativ",
       "en": "Sound Negative"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -10219,9 +10219,9 @@
   },
   {
     "term": "VoiceOver",
-    "label": "Voiceover",
+    "label": "Voice-over",
     "labels": {
-      "de": "Voiceover",
+      "de": "Voice-over",
       "en": "Voice-over"
     },
     "description": "",
@@ -10375,9 +10375,9 @@
   },
   {
     "term": "AcquisitionTitle",
-    "label": "Erwerbstitel",
+    "label": "Übernahmetitel",
     "labels": {
-      "de": "Erwerbstitel",
+      "de": "Übernahmetitel",
       "en": "Acquisition Title"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.4.1",
@@ -10466,9 +10466,9 @@
   },
   {
     "term": "SuppliedDevisedTitle",
-    "label": "Gelieferter/Entworfener Titel",
+    "label": "Archivtitel",
     "labels": {
-      "de": "Gelieferter/Entworfener Titel",
+      "de": "Archivtitel",
       "en": "Supplied/Devised Title"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.5",
@@ -10479,9 +10479,9 @@
   },
   {
     "term": "TitleProper",
-    "label": "Haupttitel",
+    "label": "Title Proper",
     "labels": {
-      "de": "Haupttitel",
+      "de": "Title Proper",
       "en": "Title Proper"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.2",
@@ -10505,9 +10505,9 @@
   },
   {
     "term": "TransliteratedTitle",
-    "label": "Transkribierter Titel",
+    "label": "Transliterierter Titel",
     "labels": {
-      "de": "Transkribierter Titel",
+      "de": "Transliterierter Titel",
       "en": "Transliterated Title"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.4.1",
@@ -10544,10 +10544,10 @@
   },
   {
     "term": "GigaByte",
-    "label": "GigaByte",
+    "label": "Gigabyte",
     "labels": {
-      "de": "GigaByte",
-      "en": "GigaByte"
+      "de": "Gigabyte",
+      "en": "Gigabyte"
     },
     "description": "Unit for digital information equivalent to 1000 megabytes",
     "definition": "",
@@ -10557,10 +10557,10 @@
   },
   {
     "term": "KiloByte",
-    "label": "GigaByte",
+    "label": "Kilobyte",
     "labels": {
-      "de": "GigaByte",
-      "en": "GigaByte"
+      "de": "Kilobyte",
+      "en": "Kilobyte"
     },
     "description": "Unit for digital information equivalent to 1000 bytes",
     "definition": "",
@@ -10583,10 +10583,10 @@
   },
   {
     "term": "MegaByte",
-    "label": "MegaByte",
+    "label": "Megabyte",
     "labels": {
-      "de": "MegaByte",
-      "en": "MegaByte"
+      "de": "Megabyte",
+      "en": "Megabyte"
     },
     "description": "Unit for digital information equivalent to 1000 kilobytes",
     "definition": "",
@@ -10596,10 +10596,10 @@
   },
   {
     "term": "TeraByte",
-    "label": "TeraByte",
+    "label": "Terabyte",
     "labels": {
-      "de": "TeraByte",
-      "en": "TeraByte"
+      "de": "Terabyte",
+      "en": "Terabyte"
     },
     "description": "Unit for digital information equivalent to 1000 gigabytes",
     "definition": "",
@@ -10609,9 +10609,9 @@
   },
   {
     "term": "AbridgedCondensed",
-    "label": "Gekürzt/Zusammengefasst",
+    "label": "Gekürzt",
     "labels": {
-      "de": "Gekürzt/Zusammengefasst",
+      "de": "Gekürzt",
       "en": "Abridged/Condensed"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -10635,9 +10635,9 @@
   },
   {
     "term": "BlackAndWhiteCopyOfWorkOriginallyIssuedInColour",
-    "label": "Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben wurde",
+    "label": "Schwarz-Weiß-Kopie eines ursprünglich in Farbe erschienenen Werks",
     "labels": {
-      "de": "Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben wurde",
+      "de": "Schwarz-Weiß-Kopie eines ursprünglich in Farbe erschienenen Werks",
       "en": "Black and white copy of work originally issued in colour"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -10674,9 +10674,9 @@
   },
   {
     "term": "DifferentSoundTrack",
-    "label": "Anderer Soundtrack",
+    "label": "Andere Tonspur",
     "labels": {
-      "de": "Anderer Soundtrack",
+      "de": "Andere Tonspur",
       "en": "Different sound track"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -10700,9 +10700,9 @@
   },
   {
     "term": "PreservationRestoration",
-    "label": "Präservierung/Restaurierung",
+    "label": "Sicherung/Restaurierung",
     "labels": {
-      "de": "Präservierung/Restaurierung",
+      "de": "Sicherung/Restaurierung",
       "en": "Preservation/Restoration"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -10713,9 +10713,9 @@
   },
   {
     "term": "Sonorized",
-    "label": "Sonorisierung",
+    "label": "Vertont",
     "labels": {
-      "de": "Sonorisierung",
+      "de": "Vertont",
       "en": "Sonorized"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -10856,9 +10856,9 @@
   },
   {
     "term": "Featurette",
-    "label": "Kurzfilm über Filmherstellung",
+    "label": "Featurette",
     "labels": {
-      "de": "Kurzfilm über Filmherstellung",
+      "de": "Featurette",
       "en": "Featurette"
     },
     "description": "FIAF Glossary of Filmographic Terms D.1.8",
@@ -10882,9 +10882,9 @@
   },
   {
     "term": "HomeMovie",
-    "label": "Home Movie",
+    "label": "Heimvideo",
     "labels": {
-      "de": "Home Movie",
+      "de": "Heimvideo",
       "en": "Home Movie"
     },
     "description": "FIAF Glossary of Filmographic Terms D.1.10",
@@ -10999,9 +10999,9 @@
   },
   {
     "term": "Commercial",
-    "label": "Werbung",
+    "label": "Werbespot",
     "labels": {
-      "de": "Werbung",
+      "de": "Werbespot",
       "en": "Commercial"
     },
     "description": "FIAF Moving Image Cataloguing Manual E.2.2",
@@ -14639,9 +14639,9 @@
   },
   {
     "term": "CopperTonedPositive",
-    "label": "Copper Toned Positive",
+    "label": "Kupfergetontes Positiv",
     "labels": {
-      "de": "Copper Toned Positive",
+      "de": "Kupfergetontes Positiv",
       "en": "Copper Toned Positive"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -14652,9 +14652,9 @@
   },
   {
     "term": "CyanMatrix",
-    "label": "Cyan Matrix",
+    "label": "Cyan-Matrix",
     "labels": {
-      "de": "Cyan Matrix",
+      "de": "Cyan-Matrix",
       "en": "Cyan Matrix"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -14691,9 +14691,9 @@
   },
   {
     "term": "DirectBWPositive",
-    "label": "Direct BW Positive",
+    "label": "Direktes SW Positiv",
     "labels": {
-      "de": "Direct BW Positive",
+      "de": "Direktes SW Positiv",
       "en": "Direct BW Positive"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -14756,9 +14756,9 @@
   },
   {
     "term": "Lavender",
-    "label": "Lavender",
+    "label": "Lavendel",
     "labels": {
-      "de": "Lavender",
+      "de": "Lavendel",
       "en": "Lavender"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -14782,9 +14782,9 @@
   },
   {
     "term": "OriginalPositiveReversalFilm",
-    "label": "Originalpositiv (Dia)",
+    "label": "Originalpositiv (Umkehrfilm)",
     "labels": {
-      "de": "Originalpositiv (Dia)",
+      "de": "Originalpositiv (Umkehrfilm)",
       "en": "Original Positive (reversal film)"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -14808,9 +14808,9 @@
   },
   {
     "term": "SoundNegative",
-    "label": "Soundpositiv",
+    "label": "Tonnegativ",
     "labels": {
-      "de": "Soundpositiv",
+      "de": "Tonnegativ",
       "en": "Sound Negative"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.7.8",
@@ -21308,9 +21308,9 @@
   },
   {
     "term": "VoiceOver",
-    "label": "Voiceover",
+    "label": "Voice-over",
     "labels": {
-      "de": "Voiceover",
+      "de": "Voice-over",
       "en": "Voice-over"
     },
     "description": "",
@@ -21464,9 +21464,9 @@
   },
   {
     "term": "AcquisitionTitle",
-    "label": "Erwerbstitel",
+    "label": "Übernahmetitel",
     "labels": {
-      "de": "Erwerbstitel",
+      "de": "Übernahmetitel",
       "en": "Acquisition Title"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.4.1",
@@ -21555,9 +21555,9 @@
   },
   {
     "term": "SuppliedDevisedTitle",
-    "label": "Gelieferter/Entworfener Titel",
+    "label": "Archivtitel",
     "labels": {
-      "de": "Gelieferter/Entworfener Titel",
+      "de": "Archivtitel",
       "en": "Supplied/Devised Title"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.5",
@@ -21568,9 +21568,9 @@
   },
   {
     "term": "TitleProper",
-    "label": "Haupttitel",
+    "label": "Title Proper",
     "labels": {
-      "de": "Haupttitel",
+      "de": "Title Proper",
       "en": "Title Proper"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.2",
@@ -21594,9 +21594,9 @@
   },
   {
     "term": "TransliteratedTitle",
-    "label": "Transkribierter Titel",
+    "label": "Transliterierter Titel",
     "labels": {
-      "de": "Transkribierter Titel",
+      "de": "Transliterierter Titel",
       "en": "Transliterated Title"
     },
     "description": "FIAF Moving Image Cataloguing Manual A.2.4.1",
@@ -21633,10 +21633,10 @@
   },
   {
     "term": "GigaByte",
-    "label": "GigaByte",
+    "label": "Gigabyte",
     "labels": {
-      "de": "GigaByte",
-      "en": "GigaByte"
+      "de": "Gigabyte",
+      "en": "Gigabyte"
     },
     "description": "Unit for digital information equivalent to 1000 megabytes",
     "definition": "",
@@ -21646,10 +21646,10 @@
   },
   {
     "term": "KiloByte",
-    "label": "GigaByte",
+    "label": "Kilobyte",
     "labels": {
-      "de": "GigaByte",
-      "en": "GigaByte"
+      "de": "Kilobyte",
+      "en": "Kilobyte"
     },
     "description": "Unit for digital information equivalent to 1000 bytes",
     "definition": "",
@@ -21672,10 +21672,10 @@
   },
   {
     "term": "MegaByte",
-    "label": "MegaByte",
+    "label": "Megabyte",
     "labels": {
-      "de": "MegaByte",
-      "en": "MegaByte"
+      "de": "Megabyte",
+      "en": "Megabyte"
     },
     "description": "Unit for digital information equivalent to 1000 kilobytes",
     "definition": "",
@@ -21685,10 +21685,10 @@
   },
   {
     "term": "TeraByte",
-    "label": "TeraByte",
+    "label": "Terabyte",
     "labels": {
-      "de": "TeraByte",
-      "en": "TeraByte"
+      "de": "Terabyte",
+      "en": "Terabyte"
     },
     "description": "Unit for digital information equivalent to 1000 gigabytes",
     "definition": "",
@@ -21698,9 +21698,9 @@
   },
   {
     "term": "AbridgedCondensed",
-    "label": "Gekürzt/Zusammengefasst",
+    "label": "Gekürzt",
     "labels": {
-      "de": "Gekürzt/Zusammengefasst",
+      "de": "Gekürzt",
       "en": "Abridged/Condensed"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -21724,9 +21724,9 @@
   },
   {
     "term": "BlackAndWhiteCopyOfWorkOriginallyIssuedInColour",
-    "label": "Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben wurde",
+    "label": "Schwarz-Weiß-Kopie eines ursprünglich in Farbe erschienenen Werks",
     "labels": {
-      "de": "Schwarzweißkopie eines Werks, das im Original in Farbe ausgegeben wurde",
+      "de": "Schwarz-Weiß-Kopie eines ursprünglich in Farbe erschienenen Werks",
       "en": "Black and white copy of work originally issued in colour"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -21763,9 +21763,9 @@
   },
   {
     "term": "DifferentSoundTrack",
-    "label": "Anderer Soundtrack",
+    "label": "Andere Tonspur",
     "labels": {
-      "de": "Anderer Soundtrack",
+      "de": "Andere Tonspur",
       "en": "Different sound track"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -21789,9 +21789,9 @@
   },
   {
     "term": "PreservationRestoration",
-    "label": "Präservierung/Restaurierung",
+    "label": "Sicherung/Restaurierung",
     "labels": {
-      "de": "Präservierung/Restaurierung",
+      "de": "Sicherung/Restaurierung",
       "en": "Preservation/Restoration"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -21802,9 +21802,9 @@
   },
   {
     "term": "Sonorized",
-    "label": "Sonorisierung",
+    "label": "Vertont",
     "labels": {
-      "de": "Sonorisierung",
+      "de": "Vertont",
       "en": "Sonorized"
     },
     "description": "FIAF Moving Image Cataloguing Manual D.2",
@@ -21945,9 +21945,9 @@
   },
   {
     "term": "Featurette",
-    "label": "Kurzfilm über Filmherstellung",
+    "label": "Featurette",
     "labels": {
-      "de": "Kurzfilm über Filmherstellung",
+      "de": "Featurette",
       "en": "Featurette"
     },
     "description": "FIAF Glossary of Filmographic Terms D.1.8",
@@ -21971,9 +21971,9 @@
   },
   {
     "term": "HomeMovie",
-    "label": "Home Movie",
+    "label": "Heimvideo",
     "labels": {
-      "de": "Home Movie",
+      "de": "Heimvideo",
       "en": "Home Movie"
     },
     "description": "FIAF Glossary of Filmographic Terms D.1.10",
@@ -22088,9 +22088,9 @@
   },
   {
     "term": "Commercial",
-    "label": "Werbung",
+    "label": "Werbespot",
     "labels": {
-      "de": "Werbung",
+      "de": "Werbespot",
       "en": "Commercial"
     },
     "description": "FIAF Moving Image Cataloguing Manual E.2.2",
@@ -22183,6 +22183,15 @@
     "description": "",
     "definition": "",
     "enumSource": "WorkVariant.handle",
+    "category": "WorkVariant",
+    "isTranslated": false
+  },
+  {
+    "term": "creators",
+    "label": "creators",
+    "description": "",
+    "definition": "",
+    "enumSource": "WorkVariant.creators",
     "category": "WorkVariant",
     "isTranslated": false
   },
