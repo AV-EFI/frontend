@@ -2,7 +2,7 @@
     <button
         type="button"
         class="explorer-badge"
-        :class="{ 'is-required': slotInfo.required, 'is-shared': shared, 'is-hit': hit, 'has-match': matchKind !== null }"
+        :class="{ 'is-required': slotInfo.required, 'is-hit': hit, 'has-match': matchKind !== null }"
         :aria-pressed="selected"
         :title="slotInfo.name"
         @click="store.selectField(groupId, slotInfo.name)"
@@ -25,8 +25,6 @@ const props = defineProps<{
     classId: string;
     slotName: string;
     groupId: GroupId;
-    /** Fields every record has are drawn as outlines, so they read as secondary on each level. */
-    shared?: boolean;
 }>();
 
 const store = useExplorerStore();
@@ -86,18 +84,6 @@ const hit = computed(() => {
     background: currentColor;
 }
 
-.explorer-badge.is-shared {
-    background: transparent;
-    color: inherit;
-    border: 1px solid currentColor;
-    box-shadow: none;
-}
-
-.explorer-badge.is-shared:hover {
-    background: color-mix(in oklch, var(--ex-paper) 30%, transparent);
-    color: inherit;
-}
-
 .explorer-badge[aria-pressed='true'],
 .explorer-badge.is-hit {
     outline: 3px solid var(--ex-ink);
@@ -105,12 +91,10 @@ const hit = computed(() => {
 }
 
 .explorer-badge-match {
-    position: absolute;
-    left: 0.4rem;
-    top: -0.62rem;
+    margin-left: 0.4rem;
     padding: 0.05rem 0.35rem;
-    font-size: 0.78rem;
-    font-weight: 800;
+    font-size: 0.75rem;
+    font-weight: 700;
     background: var(--color-accent-content);
     color: var(--color-highlight);
 }

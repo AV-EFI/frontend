@@ -2,7 +2,7 @@
     <dialog
         ref="dialog"
         class="explorer-dialog"
-        aria-labelledby="explorer-table-title"
+        :aria-labelledby="current ? 'explorer-table-title' : undefined"
         @close="store.closeCase()"
         @click="closeOnBackdrop"
     >

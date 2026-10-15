@@ -15,8 +15,8 @@ import {
   groupDetailFields,
   groupsOfLevel,
   levelCoverage,
-  matchFieldCount,
-  requiredFieldCount,
+  matchFields,
+  requiredFields,
   sharedGroups,
 } from '~/utils/explorer/model';
 import { LEVEL_CLASS, getSchemaClass, getSlot, getSlotByRef, levelSlots, type LevelId } from '~/utils/explorer/schemaModel';
@@ -53,7 +53,8 @@ describe('explorer schema data', () => {
     expect(required('work')).toEqual(expect.arrayContaining(['category', 'has_primary_title', 'type']));
     expect(required('manifestation')).toEqual(expect.arrayContaining(['category', 'is_manifestation_of']));
     expect(required('item')).toEqual(expect.arrayContaining(['category', 'is_item_of']));
-    expect(requiredFieldCount()).toBe(LEVEL_IDS.flatMap(required).length);
+    expect(requiredFields().map((field) => `${field.level}.${field.slot}`).sort())
+      .toEqual(LEVEL_IDS.flatMap((level) => required(level).map((slot) => `${level}.${slot}`)).sort());
   });
 
   test('names the levels as the schema does', () => {
@@ -82,7 +83,9 @@ describe('explorer field groups', () => {
   });
 
   test('counts the match fields of the work match', () => {
-    expect(matchFieldCount()).toBe(5);
+    expect(matchFields()).toHaveLength(5);
+    expect(matchFields().map((field) => field.kind).sort())
+      .toEqual(['director', 'identifier', 'place', 'title', 'year']);
     expect(getGroup('s_title').matchFields).toEqual(['Title.has_name']);
   });
 

@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="partial-layout-1-center">
+    <NuxtLayout name="partial-layout-1-center" full-width>
         <template #navigation>
             <GlobalBreadcrumbsComp :breadcrumbs="[
                 [$t('home.breadcrumbs'), '/'],
@@ -14,10 +14,17 @@
         </template>
 
         <template #cardBody>
+            <ExplorerTabs />
             <div class="explorer" :style="{ '--ex-grain': grain }">
                 <ExplorerSidebar />
 
-                <section class="explorer-stage" :class="{ 'is-cases': store.view === 'cases' }" :aria-label="text.region">
+                <section
+                    id="explorer-panel"
+                    role="tabpanel"
+                    class="explorer-stage"
+                    :class="{ 'is-cases': store.view === 'cases' }"
+                    :aria-labelledby="`explorer-tab-${store.view}`"
+                >
                     <ExplorerModelView v-if="store.view === 'model'" />
                     <ExplorerCasesView v-else />
                 </section>

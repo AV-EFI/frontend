@@ -93,15 +93,17 @@ function toggleRules() {
     height: 5.25rem;
     margin-bottom: -1.1rem;
     margin-left: 1rem;
-    color: var(--ex-paper);
+    color: var(--color-neutral-content);
     background: var(--color-neutral);
-    border: 3px solid var(--ex-paper);
+    border: 3px solid var(--color-neutral-content);
     border-radius: 50%;
     box-shadow: var(--ex-shadow);
 }
 
-.explorer-card:hover .explorer-card-thumb {
-    border-color: var(--ex-ink);
+/* Hovering adds a ring around the icon; the border of the icon stays. */
+.explorer-card:hover .explorer-card-thumb,
+.explorer-card:focus-visible .explorer-card-thumb {
+    box-shadow: 0 0 0 0.3rem var(--color-highlight), var(--ex-shadow);
 }
 
 .explorer-card.is-solved .explorer-card-thumb {

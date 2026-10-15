@@ -44,7 +44,7 @@
     </section>
 </template>
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     showExpandToggle: {
         type: Boolean,
         default: false
@@ -60,8 +60,13 @@ defineProps({
     marginBottomClass: {
         type: String,
         default: ''
+    },
+    /** Starts at the full width of the page instead of the regular four fifths. */
+    fullWidth: {
+        type: Boolean,
+        default: false
     }
 });
 
-const isFullWidth = ref(false);
+const isFullWidth = ref(props.fullWidth);
 </script>

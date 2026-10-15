@@ -146,6 +146,7 @@ watch(
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
+    min-height: 1.5rem;
     margin-top: 0.25rem;
     margin-right: 0.8rem;
     font-size: 0.75rem;

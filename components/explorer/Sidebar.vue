@@ -1,36 +1,37 @@
 <template>
     <aside class="explorer-side" :aria-label="text.nav.label">
-        <nav :aria-label="text.nav.view">
-            <p class="explorer-nav-caption">{{ text.nav.view }}</p>
-            <ul class="explorer-nav-list">
-                <li>
-                    <button type="button" :aria-current="store.view === 'model'" @click="store.setView('model')">
-                        <span class="explorer-nav-name">{{ text.nav.model.name }}</span>
-                        <span class="explorer-nav-hint">{{ text.nav.model.hint }}</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" :aria-current="store.view === 'cases'" @click="store.setView('cases')">
-                        <span class="explorer-nav-name" :class="{ 'has-dot': store.openCaseCount > 0 }">{{ text.nav.cases.name }}</span>
-                        <span class="explorer-nav-hint">
-                            {{ store.openCaseCount > 0 ? fill(text.nav.cases.open, { n: store.openCaseCount }) : text.nav.cases.done }}
-                        </span>
-                    </button>
-                </li>
-            </ul>
-        </nav>
+        <section v-if="store.view === 'model'" aria-labelledby="explorer-highlight-heading">
+            <h2 id="explorer-highlight-heading" class="explorer-side-heading">{{ text.nav.highlight.heading }}</h2>
 
-        <details v-if="store.view === 'model'" class="explorer-more" :open="store.highlight !== null">
-            <summary>{{ text.nav.highlight.summary }}</summary>
-            <ul class="explorer-nav-list">
-                <li v-for="entry in highlights" :key="entry.id ?? 'all'">
-                    <button type="button" :aria-pressed="store.highlight === entry.id" @click="chooseHighlight(entry.id)">
-                        <span class="explorer-nav-name">{{ entry.name }}</span>
-                        <span class="explorer-nav-hint">{{ entry.hint }}</span>
-                    </button>
-                </li>
-            </ul>
-        </details>
+            <div class="explorer-filter">
+                <button type="button" :aria-pressed="store.highlight === 'required'" @click="store.toggleHighlight('required')">
+                    <span class="explorer-filter-name">{{ text.nav.highlight.required.name }}</span>
+                    <span class="explorer-filter-hint">{{ fill(text.nav.highlight.required.hint, { n: required.length }) }}</span>
+                </button>
+                <ul class="explorer-fieldlist">
+                    <li v-for="field in required" :key="`${field.level}.${field.slot}`">
+                        <button type="button" @click="store.showField(field.level, field.group, field.slot)">
+                            {{ requiredLabel(field) }}
+                            <span class="explorer-fieldlist-level">{{ text.levels[field.level].word }}</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="explorer-filter">
+                <button type="button" :aria-pressed="store.highlight === 'match'" @click="store.toggleHighlight('match')">
+                    <span class="explorer-filter-name">{{ text.nav.highlight.match.name }}</span>
+                    <span class="explorer-filter-hint">{{ fill(text.nav.highlight.match.hint, { n: compared.length }) }}</span>
+                </button>
+                <ul class="explorer-fieldlist">
+                    <li v-for="field in compared" :key="field.ref">
+                        <button type="button" @click="store.showField('work', field.group, splitFieldRef(field.ref).slotName)">
+                            {{ text.match[field.kind] }}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
         <details class="explorer-more">
             <summary>{{ text.links.heading }}</summary>
@@ -42,29 +43,20 @@
 </template>
 
 <script setup lang="ts">
-import { useExplorerStore, type ExplorerHighlight } from '~/stores/explorerStore';
-import { matchFieldCount, requiredFieldCount } from '~/utils/explorer/model';
+import { useExplorerStore } from '~/stores/explorerStore';
+import { fieldTerm } from '~/utils/explorer/fieldTerms';
+import { matchFields, requiredFields, type LevelField } from '~/utils/explorer/model';
+import { LEVEL_CLASS, getSlot, splitFieldRef } from '~/utils/explorer/schemaModel';
 
 const store = useExplorerStore();
-const { text, fill } = useExplorerTexts();
+const { text, language, fill } = useExplorerTexts();
 
-const highlights = computed(() => [
-    { id: null as ExplorerHighlight, name: text.value.nav.highlight.all.name, hint: text.value.nav.highlight.all.hint },
-    {
-        id: 'required' as ExplorerHighlight,
-        name: text.value.nav.highlight.required.name,
-        hint: fill(text.value.nav.highlight.required.hint, { n: requiredFieldCount() }),
-    },
-    {
-        id: 'match' as ExplorerHighlight,
-        name: text.value.nav.highlight.match.name,
-        hint: fill(text.value.nav.highlight.match.hint, { n: matchFieldCount() }),
-    },
-]);
+const required = requiredFields();
+const compared = matchFields();
 
-function chooseHighlight(id: ExplorerHighlight) {
-    if (id === null) store.highlight = null;
-    else store.toggleHighlight(id);
+function requiredLabel(field: LevelField): string {
+    const classId = LEVEL_CLASS[field.level];
+    return fieldTerm(classId, getSlot(classId, field.slot), language.value) ?? field.slot;
 }
 </script>
 
@@ -72,67 +64,82 @@ function chooseHighlight(id: ExplorerHighlight) {
 .explorer-side {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.9rem;
     padding: 0.25rem 0.5rem 0.5rem 0;
 }
 
-.explorer-nav-caption {
-    margin: 0 0 0.15rem;
-    font-size: 0.8rem;
+.explorer-side-heading {
+    margin: 0 0 0.3rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--ex-muted);
 }
 
-.explorer-nav-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.explorer-nav-list li {
+.explorer-filter {
     border-top: 1px solid var(--ex-line);
+    padding: 0.35rem 0 0.7rem;
 }
 
-.explorer-nav-list button {
+.explorer-filter > button {
     display: block;
     width: 100%;
-    padding: 0.55rem 0 0.5rem;
+    padding: 0.3rem 0 0.35rem;
     text-align: left;
     background: transparent;
     border: 0;
     cursor: pointer;
 }
 
-.explorer-nav-name {
+.explorer-filter-name {
     display: block;
     font-size: 0.95rem;
     font-weight: 700;
 }
 
-.explorer-nav-hint {
+.explorer-filter-hint {
     display: block;
     font-size: 0.8rem;
     color: var(--ex-muted);
 }
 
-.explorer-nav-list button[aria-current='true'] .explorer-nav-name,
-.explorer-nav-list button[aria-pressed='true'] .explorer-nav-name {
+.explorer-filter > button[aria-pressed='true'] .explorer-filter-name {
     color: var(--color-primary-text);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
 }
 
-.explorer-nav-list button:hover .explorer-nav-name {
+.explorer-filter > button:hover .explorer-filter-name {
     text-decoration: underline;
     text-underline-offset: 3px;
 }
 
-.explorer-nav-name.has-dot::after {
-    content: '';
-    display: inline-block;
-    width: 0.5rem;
-    height: 0.5rem;
-    margin-left: 0.5rem;
-    border-radius: 50%;
-    background: var(--color-primary);
+.explorer-fieldlist {
+    margin: 0.2rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.explorer-fieldlist button {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.4rem;
+    width: 100%;
+    padding: 0.15rem 0;
+    font-size: 0.85rem;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.explorer-fieldlist button:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.explorer-fieldlist-level {
+    color: var(--ex-muted);
 }
 
 .explorer-more {

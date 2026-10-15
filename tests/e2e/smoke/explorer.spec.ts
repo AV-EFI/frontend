@@ -24,6 +24,32 @@ test.describe('Explorer', () => {
     await expect(page.locator('.explorer-badge')).toHaveCount(0);
     await expect(page.locator('h1')).toContainText('AVefi Explorer');
     await expect(page.locator('header')).toBeVisible();
+    await expect(page.getByRole('tab', { name: 'Datenmodell' })).toHaveAttribute('aria-selected', 'true');
+  });
+
+  test('BB-ROUTE-EXPLORER-007 switches the views with tabs and lists the fields of each filter', async ({ page }) => {
+    await openExplorer(page);
+
+    const sidebar = page.getByRole('complementary', { name: /Navigation und Filter/ });
+    await expect(sidebar.getByRole('button', { name: /Pflichtfelder/ })).toHaveAttribute('aria-pressed', 'false');
+    await expect(sidebar.getByRole('button', { name: 'Haupttitel Werk' })).toBeVisible();
+    await expect(sidebar.getByRole('button', { name: 'Produktionsort' })).toBeVisible();
+    await expect(sidebar.getByText('nichts hervorgehoben')).toHaveCount(0);
+
+    await sidebar.getByRole('button', { name: /Pflichtfelder/ }).click();
+    await expect(sidebar.getByRole('button', { name: /Pflichtfelder/ })).toHaveAttribute('aria-pressed', 'true');
+
+    await sidebar.getByRole('button', { name: 'Haupttitel Werk' }).click();
+    await expect(page.locator('#explorer-drawer-title')).toHaveText('Titel');
+    await page.keyboard.press('Escape');
+
+    await page.getByRole('tab', { name: /Fälle/ }).focus();
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.getByRole('tab', { name: 'Datenmodell' })).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('tab', { name: /Fälle/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tabpanel')).toContainText('Zwei Lieferungen, ein Werk?');
+    await expect(sidebar.getByRole('button', { name: /Pflichtfelder/ })).toHaveCount(0);
   });
 
   test('BB-ROUTE-EXPLORER-006 the details button opens the information of a level', async ({ page }) => {
@@ -72,7 +98,7 @@ test.describe('Explorer', () => {
   test('BB-ROUTE-EXPLORER-004 the visitor judges every field before the decision, and the result follows', async ({ page }) => {
     await openExplorer(page);
 
-    await page.getByRole('button', { name: /^Fälle/ }).click();
+    await page.getByRole('tab', { name: /Fälle/ }).click();
     await page.getByRole('button', { name: /Fall Undine/ }).click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
@@ -95,7 +121,7 @@ test.describe('Explorer', () => {
   test('BB-ROUTE-EXPLORER-005 a wrong decision explains the rule and allows another try', async ({ page }) => {
     await openExplorer(page);
 
-    await page.getByRole('button', { name: /^Fälle/ }).click();
+    await page.getByRole('tab', { name: /Fälle/ }).click();
     await page.getByRole('button', { name: /Fall Weihnachten/ }).click();
     const dialog = page.getByRole('dialog');
     for (const index of [0, 1, 2, 4]) await dialog.locator(`input[name="judge-${index}"][value="same"]`).check({ force: true });

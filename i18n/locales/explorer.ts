@@ -13,15 +13,13 @@
  */
 export const explorerDe = {
   title: 'AVefi Explorer',
-  region: 'Interaktive Ansicht',
   nav: {
     label: 'Navigation und Filter',
     view: 'Ansicht',
-    model: { name: 'Datenmodell', hint: 'drei Ebenen' },
+    model: { name: 'Datenmodell' },
     cases: { name: 'Fälle', open: '{n} offen', done: 'alle geklärt' },
     highlight: {
-      summary: 'Hervorheben',
-      all: { name: 'Alles', hint: 'nichts hervorgehoben' },
+      heading: 'Im Datenmodell hervorheben',
       required: { name: 'Pflichtfelder', hint: '{n} Pflichtangaben auf den drei Ebenen' },
       match: { name: 'Wird beim Import verglichen', hint: '{n} Felder entscheiden, ob zwei Lieferungen dasselbe Werk sind' },
     },
@@ -356,15 +354,13 @@ export type ExplorerTexts = Widen<typeof explorerDe>;
 
 export const explorerEn: ExplorerTexts = {
   title: 'AVefi Explorer',
-  region: 'Interactive view',
   nav: {
     label: 'Navigation and filters',
     view: 'View',
-    model: { name: 'Data model', hint: 'three levels' },
+    model: { name: 'Data model' },
     cases: { name: 'Cases', open: '{n} open', done: 'all resolved' },
     highlight: {
-      summary: 'Highlight',
-      all: { name: 'Everything', hint: 'nothing highlighted' },
+      heading: 'Highlight in the data model',
       required: { name: 'Required fields', hint: '{n} required entries across the three levels' },
       match: { name: 'Compared on import', hint: '{n} fields decide whether two deliveries are the same work' },
     },

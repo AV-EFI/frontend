@@ -237,12 +237,10 @@ function toggleOverview() {
 }
 
 .explorer-chip-match {
-    position: absolute;
-    left: 0.5rem;
-    top: -0.55rem;
+    margin-left: 0.4rem;
     padding: 0.05rem 0.35rem;
-    font-size: 0.78rem;
-    font-weight: 800;
+    font-size: 0.75rem;
+    font-weight: 700;
     background: var(--color-accent-content);
     color: var(--color-highlight);
 }

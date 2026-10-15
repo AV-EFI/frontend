@@ -6,7 +6,7 @@
                 class="explorer-band-toggle"
                 :data-focus="`level-${level.id}`"
                 :aria-expanded="open"
-                :aria-controls="`level-body-${level.id}`"
+                :aria-controls="open ? `level-body-${level.id}` : undefined"
                 @click="store.toggleLevel(level.id)"
             >
                 <span class="explorer-band-number" aria-hidden="true">{{ level.number }}</span>
@@ -64,7 +64,6 @@
                             :class-id="classId"
                             :slot-name="name"
                             :group-id="group.id"
-                            shared
                         />
                     </div>
                 </div>
@@ -122,16 +121,17 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     z-index: 1;
 }
 
+/* The details button sits next to the title, so it is not hidden when the drawer opens on the right. */
 .explorer-band-head {
     display: flex;
     align-items: stretch;
-    gap: 0.5rem;
+    gap: 0.75rem;
     padding-right: 1rem;
 }
 
 .explorer-band-toggle {
     display: grid;
-    flex: 1;
+    flex: 0 1 auto;
     grid-template-columns: 3.25rem 2.75rem minmax(0, 1fr) auto;
     gap: 0.25rem 1rem;
     align-items: center;
@@ -144,8 +144,14 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     cursor: pointer;
 }
 
+/* On the level colours the focus ring is dark, so it keeps 3:1 against the colour field in both themes. */
+.explorer-band :focus-visible {
+    outline-color: var(--ex-level-ink);
+    box-shadow: none;
+}
+
 .explorer-band-toggle:hover {
-    background: color-mix(in oklch, var(--ex-paper) 12%, transparent);
+    background: color-mix(in oklch, var(--color-secondary-content) 15%, transparent);
 }
 
 .explorer-band-number {
@@ -191,7 +197,7 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 
 .explorer-band-info:hover,
 .explorer-band-info[aria-pressed='true'] {
-    background: color-mix(in oklch, var(--ex-paper) 35%, transparent);
+    background: color-mix(in oklch, var(--color-secondary-content) 35%, transparent);
 }
 
 .explorer-band-info[aria-pressed='true'] {

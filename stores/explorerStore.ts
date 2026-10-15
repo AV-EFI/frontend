@@ -72,6 +72,12 @@ export const useExplorerStore = defineStore('explorer', {
       this.selection = { kind: 'level', id: level };
       this.scrollTarget = `level-${level}`;
     },
+    /** From the filter lists: open a level, show the group of a field and describe that field in the drawer. */
+    showField(level: LevelId, group: GroupId, field: string) {
+      if (!this.isLevelOpen(level)) this.openLevels = [...this.openLevels, level];
+      this.selection = { kind: 'group', id: group, field };
+      this.scrollTarget = `group-${level}-${group}`;
+    },
     /** From the drawer: show a group of fields inside a level. */
     showGroupAt(group: GroupId, level: LevelId) {
       if (!this.isLevelOpen(level)) this.openLevels = [...this.openLevels, level];

@@ -175,11 +175,43 @@ export function levelCoverage(level: LevelId): { shown: number; total: number } 
   return { shown: shown.size, total: levelSlots(level).length };
 }
 
-/** Required fields summed over the three levels, as the schema defines them per level. */
-export function requiredFieldCount(): number {
-  return LEVELS.reduce((sum, level) => sum + levelSlots(level.id).filter((slot) => slot.required).length, 0);
+/** A field of one level, with the group it is shown in. */
+export interface LevelField {
+  level: LevelId;
+  slot: string;
+  group: GroupId;
 }
 
-export function matchFieldCount(): number {
-  return Object.keys(MATCH_FIELD_KIND).length;
+/** The group that shows a field of a level, whether it belongs to the level or to every record. */
+function groupOfSlot(level: LevelId, slot: string): GroupId {
+  const group = [...groupsOfLevel(level), ...sharedGroups()].find((candidate) => candidate.slots.includes(slot));
+  if (!group) throw new Error(`No field group shows ${level}.${slot}`);
+  return group.id;
 }
+
+/** Every required field of the three levels, in the order of the levels. */
+export function requiredFields(): LevelField[] {
+  return LEVELS.flatMap((level) =>
+    levelSlots(level.id)
+      .filter((slot) => slot.required)
+      .map((slot) => ({ level: level.id, slot: slot.name, group: groupOfSlot(level.id, slot.name) })),
+  );
+}
+
+export interface MatchField {
+  /** "Class.field" as the schema names it. */
+  ref: string;
+  kind: MatchKind;
+  group: GroupId;
+}
+
+/** The fields the work match compares, with the group that explains them. */
+export function matchFields(): MatchField[] {
+  const groups = [...sharedGroups()];
+  return Object.entries(MATCH_FIELD_KIND).map(([ref, kind]) => {
+    const group = groups.find((candidate) => groupDetailFields(candidate).includes(ref));
+    if (!group) throw new Error(`No field group explains the match field ${ref}`);
+    return { ref, kind, group: group.id };
+  });
+}
+
