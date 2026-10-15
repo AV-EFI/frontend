@@ -97,7 +97,6 @@
     "@vueuse/nuxt": "^10.11.1",
     "algoliasearch": "^4",
     "axios": "^1.20.0",
-    "cytoscape": "^3.29.2",
     "daisyui": "5.5.18",
     "dotenv": "17.3.1",
     "embla-carousel": "^8.6.0",
