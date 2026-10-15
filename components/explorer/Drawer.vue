@@ -1,5 +1,5 @@
 <template>
-    <aside v-if="selection" class="explorer-drawer" aria-labelledby="explorer-drawer-title">
+    <aside v-if="selection" class="explorer-drawer" :style="{ top: topOffset }" aria-labelledby="explorer-drawer-title">
         <header class="explorer-drawer-head">
             <button type="button" class="explorer-drawer-close" @click="store.closeDrawer()">
                 {{ text.drawer.close }}
@@ -197,6 +197,13 @@ const store = useExplorerStore();
 const { t } = useI18n();
 const { text, language, fill } = useExplorerTexts();
 
+const { visible: maintenanceBannerVisible } = useMaintenanceBanner();
+
+/** The drawer starts below the site header, and below the maintenance banner while that is shown. */
+const topOffset = computed(() => (maintenanceBannerVisible.value
+    ? 'calc(var(--header-height) + var(--maintenance-banner-height))'
+    : 'var(--header-height)'));
+
 const selection = computed(() => store.selection);
 const title = ref<HTMLElement | null>(null);
 
@@ -323,10 +330,10 @@ onBeforeUnmount(() => {
 <style scoped>
 .explorer-drawer {
     position: fixed;
-    top: 0;
+    top: var(--header-height);
     right: 0;
     bottom: 0;
-    z-index: 30;
+    z-index: 25;
     width: min(26.5rem, 92vw);
     padding-bottom: 1rem;
     overflow: auto;
@@ -372,10 +379,8 @@ onBeforeUnmount(() => {
     align-items: center;
     gap: 0.4rem;
     margin-top: 0.4rem;
-    font-size: 0.66rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
     color: var(--ex-paper-muted);
 }
 
@@ -416,10 +421,8 @@ onBeforeUnmount(() => {
 
 .explorer-drawer-section h3 {
     margin: 0 0 0.4rem;
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
     color: var(--ex-muted);
 }
 
@@ -458,7 +461,6 @@ onBeforeUnmount(() => {
     font-family: 'BreeSerif', Georgia, 'Times New Roman', serif;
     font-size: 1.05rem;
     font-weight: 400;
-    text-transform: uppercase;
 }
 
 .explorer-golist {
@@ -485,10 +487,8 @@ onBeforeUnmount(() => {
 .explorer-classtag {
     display: inline-block;
     margin: 0.5rem 0 0.1rem;
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
     color: var(--color-primary-text);
 }
 
@@ -544,10 +544,8 @@ onBeforeUnmount(() => {
 .explorer-tag {
     margin-left: 0.4rem;
     padding: 0.05rem 0.4rem;
-    font-size: 0.6rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
     background: var(--color-base-content);
     color: var(--color-base-100);
 }

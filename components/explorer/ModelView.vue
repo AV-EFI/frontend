@@ -184,9 +184,7 @@ function toggleOverview() {
 
 .explorer-link-meta b {
     margin-right: 0.5rem;
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 0.78rem;
     color: var(--color-base-content);
 }
 
@@ -209,10 +207,8 @@ function toggleOverview() {
 
 .explorer-shared-caption {
     margin-right: 0.25rem;
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ex-muted);
 }
 
@@ -245,10 +241,8 @@ function toggleOverview() {
     left: 0.5rem;
     top: -0.55rem;
     padding: 0.05rem 0.35rem;
-    font-size: 0.6rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     background: var(--color-accent-content);
     color: var(--color-highlight);
 }

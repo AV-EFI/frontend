@@ -18,7 +18,7 @@ export interface FurtherLink {
   external: boolean;
 }
 
-/** FAQ sections are anchored by faq.vue as the section key with every non-alphanumeric run turned into "-". */
+/** Manual, how-to and project site are the same addresses the FAQ page uses. FAQ sections are anchored by faq.vue as the section key with every non-alphanumeric run turned into "-". */
 export const FURTHER_LINKS: readonly FurtherLink[] = [
   { id: 'faqDefinitions', href: '/faq#faq-sections-definitions', external: false },
   { id: 'faqEfis', href: '/faq#faq-sections-efis', external: false },
@@ -26,7 +26,7 @@ export const FURTHER_LINKS: readonly FurtherLink[] = [
   { id: 'vocab', href: '/vocab', external: false },
   { id: 'schemaDocs', href: schemaDocsUrl(), external: true },
   { id: 'schemaExplorer', href: '/schema-explorer', external: false },
-  { id: 'manual', href: '/doc/AVefi-Manual.pdf', external: true },
-  { id: 'howto', href: '/doc/AVefi-HowTo.pdf', external: true },
+  { id: 'manual', href: 'https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_Manual_aktuell.pdf', external: true },
+  { id: 'howto', href: 'https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_how-to_aktuell.pdf', external: true },
   { id: 'project', href: 'https://projects.tib.eu/av-efi/', external: true },
 ];

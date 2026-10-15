@@ -109,10 +109,8 @@ const hit = computed(() => {
     left: 0.4rem;
     top: -0.62rem;
     padding: 0.05rem 0.35rem;
-    font-size: 0.6rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     background: var(--color-accent-content);
     color: var(--color-highlight);
 }

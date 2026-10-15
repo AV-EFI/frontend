@@ -97,10 +97,8 @@ watch(
 .explorer-tag {
     margin-left: 0.4rem;
     padding: 0.05rem 0.4rem;
-    font-size: 0.6rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
     background: var(--color-base-content);
     color: var(--color-base-100);
 }
@@ -126,10 +124,8 @@ watch(
 
 .explorer-values-caption {
     margin: 0;
-    font-size: 0.66rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ex-muted);
 }
 

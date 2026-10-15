@@ -89,24 +89,15 @@
                 <p class="explorer-instruction">{{ ready ? ct.instructionReady : ct.instructionOpen }}</p>
                 <div class="explorer-decide">
                     <button
-                        v-for="choice in current.choices"
+                        v-for="choice in choices"
                         :key="choice.id"
                         type="button"
-                        class="btn"
-                        :class="choice.correct ? 'btn-primary' : 'btn-outline'"
+                        class="btn btn-outline"
                         :disabled="!ready"
                         @click="decide(choice.id)"
                     >
                         {{ choiceText(choice.id).label }}
                     </button>
-                    <button type="button" class="btn btn-outline" :aria-expanded="showRule" aria-controls="explorer-rulebox" @click="showRule = !showRule">
-                        {{ ct.readRule }}
-                    </button>
-                </div>
-                <div v-if="showRule" id="explorer-rulebox" class="explorer-verdict is-warn">
-                    <h3>{{ ct.rule }}</h3>
-                    <p>{{ caseText.ruleNote }}</p>
-                    <p class="explorer-verdict-source">{{ fill(ct.source, { source: ct.manualSource }) }}</p>
                 </div>
             </template>
 
@@ -130,7 +121,7 @@
 <script setup lang="ts">
 import { useExplorerStore } from '~/stores/explorerStore';
 import { allJudged, hasMisjudgedRow, isCorrectChoice, reviewRow, type JudgementMode, type Judgements } from '~/utils/explorer/caseEngine';
-import { getCase, type CaseRow, type CaseValue } from '~/utils/explorer/cases';
+import { getCase, type CaseRow, type CaseValue, type ExplorerCase } from '~/utils/explorer/cases';
 
 interface ChoiceText {
     label: string;
@@ -154,7 +145,8 @@ const verdictHeading = ref<HTMLElement | null>(null);
 
 const judgements = ref<Judgements>({});
 const decided = ref<string | null>(null);
-const showRule = ref(false);
+/** The decisions are shown in a random order and look alike, so neither position nor style gives the answer away. */
+const choices = ref<ExplorerCase['choices'][number][]>([]);
 
 const ct = computed(() => text.value.cases.table);
 const current = computed(() => (store.activeCaseId ? getCase(store.activeCaseId) ?? null : null));
@@ -193,6 +185,15 @@ function reviewText(row: CaseRow, index: number): string {
     return row.same ? ct.value.reallySame : ct.value.reallyDiffer;
 }
 
+function shuffled<T>(items: readonly T[]): T[] {
+    const copy = [...items];
+    for (let index = copy.length - 1; index > 0; index--) {
+        const other = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[other]] = [copy[other]!, copy[index]!];
+    }
+    return copy;
+}
+
 async function judge(index: number, mode: JudgementMode) {
     const previous = judgements.value[index];
     judgements.value = { ...judgements.value, [index]: { mode, value: previous?.mode === 'own' ? previous.value : '' } };
@@ -228,7 +229,7 @@ watch(
         if (id) {
             judgements.value = {};
             decided.value = null;
-            showRule.value = false;
+            choices.value = shuffled(getCase(id)?.choices ?? []);
             if (!element.open) element.showModal();
             await nextTick();
             heading.value?.focus();
@@ -279,7 +280,6 @@ watch(
     font-family: 'BreeSerif', Georgia, 'Times New Roman', serif;
     font-size: 1.75rem;
     font-weight: 400;
-    text-transform: uppercase;
 }
 
 .explorer-table h2:focus,
@@ -304,10 +304,8 @@ watch(
 
 .explorer-steps li {
     padding: 0.2rem 0.65rem;
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ex-muted);
     border: 1px solid var(--ex-line);
 }
@@ -346,10 +344,8 @@ watch(
 
 .explorer-cmp-head h3 {
     margin: 0.25rem 0 0.1rem;
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
     color: var(--ex-paper-muted);
 }
 
@@ -388,10 +384,8 @@ watch(
 
 .explorer-cell small {
     display: block;
-    font-size: 0.62rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ex-paper-muted);
 }
 
@@ -423,7 +417,7 @@ watch(
     align-items: center;
     gap: 0.1rem;
     padding: 0.4rem 0.2rem 0.35rem;
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     font-weight: 700;
     line-height: 1.15;
     text-align: center;
@@ -443,14 +437,14 @@ watch(
 }
 
 .explorer-judge-option.is-diff.is-on {
-    color: var(--color-accent-content);
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    color: var(--color-base-100);
+    background: var(--color-base-content);
+    border-color: var(--color-base-content);
 }
 
 .explorer-judge-option.is-own.is-on {
-    color: var(--color-base-100);
-    background: var(--color-base-content);
+    color: var(--color-base-content);
+    background: var(--color-base-300);
     border-color: var(--color-base-content);
 }
 
@@ -506,14 +500,12 @@ watch(
 }
 
 .explorer-verdict.is-warn {
-    border-left-color: var(--color-accent);
+    border-left-color: var(--color-base-content);
 }
 
 .explorer-verdict h3 {
     margin: 0 0 0.25rem;
     font-size: 0.78rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
 }
 
 .explorer-verdict p {

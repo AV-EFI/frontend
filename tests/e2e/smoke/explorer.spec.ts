@@ -22,12 +22,25 @@ test.describe('Explorer', () => {
     }
     await expect(page.locator('.explorer-drawer')).toHaveCount(0);
     await expect(page.locator('.explorer-badge')).toHaveCount(0);
+    await expect(page.locator('h1')).toContainText('AVefi Explorer');
+    await expect(page.locator('header')).toBeVisible();
+  });
+
+  test('BB-ROUTE-EXPLORER-006 the details button opens the information of a level', async ({ page }) => {
+    await openExplorer(page);
+
+    await page.getByRole('button', { name: 'Details zu Werk' }).click();
+    await expect(page.locator('#explorer-drawer-title')).toHaveText('Werk');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.explorer-drawer')).toHaveCount(0);
   });
 
   test('BB-ROUTE-EXPLORER-002 opens a level and a field, and Escape returns focus to the field', async ({ page }) => {
     await openExplorer(page);
 
-    await page.locator('.explorer-band-head', { hasText: 'Exemplar' }).click();
+    await page.locator('.explorer-band-toggle', { hasText: 'Exemplar' }).click();
+    // Showing the fields does not open the information; the details button does.
+    await expect(page.locator('.explorer-drawer')).toHaveCount(0);
     const colour = page.getByRole('button', { name: 'Farbe' }).first();
     await colour.click();
 
@@ -50,10 +63,10 @@ test.describe('Explorer', () => {
     await expect(drawer.getByRole('link', { name: /Glossar und Vokabular/ })).toHaveAttribute('href', '/vocab');
     await expect(drawer.getByRole('link', { name: /FAQ: Werk, Manifestation, Exemplar/ }))
       .toHaveAttribute('href', '/faq#faq-sections-definitions');
-    await expect(drawer.getByRole('link', { name: /AVefi-Manual/ })).toHaveAttribute('href', '/doc/AVefi-Manual.pdf');
-
-    const manual = await page.request.get('/doc/AVefi-Manual.pdf');
-    expect(manual.status()).toBe(200);
+    await expect(drawer.getByRole('link', { name: /AVefi-Manual/ }))
+      .toHaveAttribute('href', 'https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_Manual_aktuell.pdf');
+    await expect(drawer.getByRole('link', { name: /AVefi-How-to/ }))
+      .toHaveAttribute('href', 'https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_how-to_aktuell.pdf');
   });
 
   test('BB-ROUTE-EXPLORER-004 the visitor judges every field before the decision, and the result follows', async ({ page }) => {

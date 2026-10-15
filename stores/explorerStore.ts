@@ -46,15 +46,15 @@ export const useExplorerStore = defineStore('explorer', {
     isLevelOpen(level: LevelId): boolean {
       return this.openLevels.includes(level);
     },
-    /** Opening a level also shows its information, unless the screen is too small to show both. */
-    toggleLevel(level: LevelId, showInformation = true) {
-      if (this.isLevelOpen(level)) {
-        this.openLevels = this.openLevels.filter((open) => open !== level);
-        if (this.selection?.kind === 'level' && this.selection.id === level) this.selection = null;
-      } else {
-        this.openLevels = [...this.openLevels, level];
-        if (showInformation) this.selection = { kind: 'level', id: level };
-      }
+    /** Showing or hiding the fields of a level never opens the information drawer; the details button does. */
+    toggleLevel(level: LevelId) {
+      this.openLevels = this.isLevelOpen(level)
+        ? this.openLevels.filter((open) => open !== level)
+        : [...this.openLevels, level];
+    },
+    toggleLevelDetails(level: LevelId) {
+      const shown = this.selection?.kind === 'level' && this.selection.id === level;
+      this.selection = shown ? null : { kind: 'level', id: level };
     },
     select(selection: Exclude<ExplorerSelection, null>) {
       this.selection = selection;

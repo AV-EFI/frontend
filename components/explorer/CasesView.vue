@@ -93,7 +93,7 @@ function toggleRules() {
     height: 5.25rem;
     margin-bottom: -1.1rem;
     margin-left: 1rem;
-    color: var(--color-highlight);
+    color: var(--ex-paper);
     background: var(--color-neutral);
     border: 3px solid var(--ex-paper);
     border-radius: 50%;
@@ -101,7 +101,7 @@ function toggleRules() {
 }
 
 .explorer-card:hover .explorer-card-thumb {
-    border-color: var(--color-highlight);
+    border-color: var(--ex-ink);
 }
 
 .explorer-card.is-solved .explorer-card-thumb {
@@ -119,9 +119,7 @@ function toggleRules() {
     display: block;
     font-size: 0.95rem;
     font-weight: 800;
-    letter-spacing: 0.02em;
     line-height: 1.2;
-    text-transform: uppercase;
 }
 
 .explorer-card-year {
@@ -135,16 +133,14 @@ function toggleRules() {
     width: fit-content;
     margin-top: 0.35rem;
     padding: 0.1rem 0.45rem;
-    font-size: 0.62rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-highlight);
-    background: var(--color-accent-content);
+    color: var(--ex-paper);
+    background: var(--ex-ink);
 }
 
 .explorer-card.is-solved .explorer-card-flag {
-    color: var(--ex-ink);
+    color: var(--color-secondary);
     background: var(--color-success);
 }
 

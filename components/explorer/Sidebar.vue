@@ -1,13 +1,5 @@
 <template>
     <aside class="explorer-side" :aria-label="text.nav.label">
-        <a class="explorer-brand" href="/" :aria-label="$t('home.breadcrumbs')" :title="$t('home.breadcrumbs')">
-            <img src="/img/AV-EFI-Logo.svg" alt="AVefi Logo" class="dark:hidden" width="78" height="30">
-            <img src="/img/AV-EFI-Logo-dark.svg" alt="AVefi Logo" class="hidden dark:block" width="78" height="30">
-            <span class="bree explorer-claim" v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
-        </a>
-
-        <h1 class="explorer-title">AVefi <em>Explorer</em></h1>
-
         <nav :aria-label="text.nav.view">
             <p class="explorer-nav-caption">{{ text.nav.view }}</p>
             <ul class="explorer-nav-list">
@@ -45,13 +37,7 @@
             <ExplorerFurtherLinks compact />
         </details>
 
-        <div class="explorer-foot">
-            <div class="explorer-switches" role="group" :aria-label="text.theme">
-                <GlobalThemeSwitch />
-                <GlobalLanguageSwitch />
-            </div>
-            <p>{{ text.nav.note }}</p>
-        </div>
+        <p class="explorer-note">{{ text.nav.note }}</p>
     </aside>
 </template>
 
@@ -86,47 +72,14 @@ function chooseHighlight(id: ExplorerHighlight) {
 .explorer-side {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1.25rem 1.25rem 0.9rem;
-    overflow: auto;
-    background: var(--color-base-100);
-    border-right: 1px solid var(--ex-line);
-}
-
-.explorer-brand {
-    display: flex;
-    align-items: center;
     gap: 0.75rem;
-    color: inherit;
-    text-decoration: none;
-}
-
-.explorer-claim {
-    font-size: 0.8rem;
-    line-height: 1.15;
-}
-
-.explorer-title {
-    margin: 0;
-    font-family: 'BreeSerif', Georgia, 'Times New Roman', serif;
-    font-size: 2.1rem;
-    font-weight: 400;
-    line-height: 0.95;
-    text-transform: uppercase;
-}
-
-.explorer-title em {
-    display: block;
-    font-style: normal;
-    color: var(--color-primary-text);
+    padding: 0.25rem 0.5rem 0.5rem 0;
 }
 
 .explorer-nav-caption {
-    margin: 0.4rem 0 0.15rem;
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    margin: 0 0 0.15rem;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: var(--ex-muted);
 }
 
@@ -143,7 +96,7 @@ function chooseHighlight(id: ExplorerHighlight) {
 .explorer-nav-list button {
     display: block;
     width: 100%;
-    padding: 0.6rem 0 0.55rem;
+    padding: 0.55rem 0 0.5rem;
     text-align: left;
     background: transparent;
     border: 0;
@@ -152,10 +105,8 @@ function chooseHighlight(id: ExplorerHighlight) {
 
 .explorer-nav-name {
     display: block;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
+    font-weight: 700;
 }
 
 .explorer-nav-hint {
@@ -181,7 +132,7 @@ function chooseHighlight(id: ExplorerHighlight) {
     height: 0.5rem;
     margin-left: 0.5rem;
     border-radius: 50%;
-    background: var(--color-accent);
+    background: var(--color-primary);
 }
 
 .explorer-more {
@@ -191,11 +142,9 @@ function chooseHighlight(id: ExplorerHighlight) {
 .explorer-more summary {
     display: flex;
     justify-content: space-between;
-    padding: 0.6rem 0 0.55rem;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    padding: 0.55rem 0 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
     cursor: pointer;
     list-style: none;
 }
@@ -214,39 +163,9 @@ function chooseHighlight(id: ExplorerHighlight) {
     content: '\2212';
 }
 
-.explorer-foot {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-top: auto;
-    font-size: 0.72rem;
+.explorer-note {
+    margin: 0.5rem 0 0;
+    font-size: 0.75rem;
     color: var(--ex-muted);
-}
-
-.explorer-foot p {
-    margin: 0;
-}
-
-.explorer-switches {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-}
-
-.explorer-switches :deep(button) {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.25rem 0;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-base-content);
-    cursor: pointer;
-}
-
-.explorer-switches :deep(button:hover) {
-    text-decoration: underline;
-    text-underline-offset: 3px;
 }
 </style>

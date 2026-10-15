@@ -1,23 +1,36 @@
 <template>
-    <div class="explorer" :style="{ '--ex-grain': grain }">
-        <ExplorerSidebar />
+    <NuxtLayout name="partial-layout-1-center">
+        <template #navigation>
+            <GlobalBreadcrumbsComp :breadcrumbs="[
+                [$t('home.breadcrumbs'), '/'],
+                [text.title, '/explorer-poc'],
+            ]" />
+        </template>
 
-        <main id="main-content" tabindex="-1" class="explorer-center">
-            <section class="explorer-stage" :class="{ 'is-cases': store.view === 'cases' }" :aria-label="text.region">
-                <ExplorerModelView v-if="store.view === 'model'" />
-                <ExplorerCasesView v-else />
-            </section>
-        </main>
+        <template #title>
+            <GlobalPageTitleComp variant="panel" class="dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden content-center lg:ml-4">
+                {{ text.title }}
+            </GlobalPageTitleComp>
+        </template>
 
-        <ExplorerDrawer />
-        <ExplorerLightTable />
-    </div>
+        <template #cardBody>
+            <div class="explorer" :style="{ '--ex-grain': grain }">
+                <ExplorerSidebar />
+
+                <section class="explorer-stage" :class="{ 'is-cases': store.view === 'cases' }" :aria-label="text.region">
+                    <ExplorerModelView v-if="store.view === 'model'" />
+                    <ExplorerCasesView v-else />
+                </section>
+
+                <ExplorerDrawer />
+                <ExplorerLightTable />
+            </div>
+        </template>
+    </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { useExplorerStore } from '~/stores/explorerStore';
-
-definePageMeta({ layout: 'explorer' });
 
 const { t } = useI18n();
 const store = useExplorerStore();
@@ -74,12 +87,9 @@ watch(
 </script>
 
 <style>
-/*
- * Colours come from the AVefi theme tokens, so light and dark follow the site. "Paper" is the white card
- * surface of the design; it stays light in the dark theme, with dark ink on it.
- */
+/* Colours come from the AVefi theme tokens, so light and dark follow the site. "Paper" is the card surface. */
 .explorer {
-    --ex-ink: var(--color-neutral);
+    --ex-ink: var(--color-base-content);
     --ex-level-ink: var(--color-secondary);
     --ex-paper: var(--color-base-100);
     --ex-paper-muted: color-mix(in oklch, var(--ex-ink) 72%, var(--ex-paper));
@@ -89,17 +99,10 @@ watch(
     --ex-shadow: 0 0.3rem 0.9rem color-mix(in oklch, var(--color-neutral) 22%, transparent);
 
     display: grid;
-    grid-template-columns: 17rem minmax(0, 1fr);
-    height: 100%;
-    min-height: 0;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
     color: var(--color-base-content);
-    background: var(--color-base-300);
-}
-
-[data-theme='avefi_dark'] .explorer {
-    --ex-ink: var(--color-base-300);
-    --ex-level-ink: var(--color-secondary);
-    --ex-paper: var(--color-neutral-content);
 }
 
 .explorer :focus-visible {
@@ -108,23 +111,11 @@ watch(
     box-shadow: 0 0 0 5px var(--color-base-100);
 }
 
-.explorer-center {
-    display: flex;
-    min-width: 0;
-    min-height: 0;
-    padding: 0.75rem;
-}
-
-.explorer-center:focus {
-    outline: none;
-}
-
 .explorer-stage {
     position: relative;
-    flex: 1;
-    min-height: 0;
-    padding: 1.4rem 1.6rem 1.6rem;
-    overflow: auto;
+    min-width: 0;
+    min-height: 32rem;
+    padding: 1.25rem 1.4rem 1.5rem;
     background: var(--color-base-200);
     border: 1px solid var(--ex-line);
 }
@@ -153,10 +144,9 @@ watch(
 .explorer-lead {
     margin: 0;
     font-family: 'BreeSerif', Georgia, 'Times New Roman', serif;
-    font-size: 1.65rem;
-    font-weight: 400;
-    line-height: 1.05;
-    text-transform: uppercase;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.15;
 }
 
 .explorer-sub {
@@ -172,10 +162,8 @@ watch(
 
 .explorer-ghost {
     padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: inherit;
     background: transparent;
     border: 1px solid var(--ex-line);
@@ -216,20 +204,9 @@ watch(
     }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1023px) {
     .explorer {
-        grid-template-columns: 14.5rem minmax(0, 1fr);
-    }
-}
-
-@media (max-width: 760px) {
-    .explorer {
-        display: block;
-        height: auto;
-    }
-
-    .explorer-stage {
-        overflow: visible;
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 </style>
