@@ -133,7 +133,7 @@ describe('auth service', () => {
     service.stopSessionPolling();
   });
 
-  test('does not poll faster than once a minute while the server reports a refreshable session past its deadline', async () => {
+  test('stops polling while the server reports a refreshable session past its deadline', async () => {
     const { service, client } = setup();
     client.getSession.mockResolvedValue(sessionInfo({ server_time: 1_000_000, expires_at: 999_990 }) as never);
 
@@ -141,7 +141,7 @@ describe('auth service', () => {
     await vi.advanceTimersByTimeAsync(300_000);
     service.stopSessionPolling();
 
-    expect(client.getSession.mock.calls.length).toBeLessThanOrEqual(6);
+    expect(client.getSession).toHaveBeenCalledTimes(1);
     expect(service.isAuthenticated.value).toBe(true);
   });
 
@@ -181,19 +181,33 @@ describe('auth service', () => {
     service.stopSessionPolling();
   });
 
-  test('throttles activity refreshes to one per minute', async () => {
+  test('activity before the reported deadline does not refresh', async () => {
     const { service, client, events } = setup();
     await service.startSessionPolling();
+
+    events.dispatchEvent(new Event('mousemove'));
+    await vi.advanceTimersByTimeAsync(250_000);
+    events.dispatchEvent(new Event('click'));
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(client.refresh).not.toHaveBeenCalled();
+    service.stopSessionPolling();
+  });
+
+  test('first activity after the deadline refreshes once and renews the deadline', async () => {
+    const { service, client, events } = setup();
+    client.getSession.mockResolvedValue(sessionInfo({ server_time: 1_000_000, expires_at: 1_000_300 }) as never);
+    await service.startSessionPolling();
+    await vi.advanceTimersByTimeAsync(301_000);
 
     events.dispatchEvent(new Event('mousemove'));
     events.dispatchEvent(new Event('keydown'));
     await vi.advanceTimersByTimeAsync(0);
     expect(client.refresh).toHaveBeenCalledTimes(1);
 
-    await vi.advanceTimersByTimeAsync(61_000);
     events.dispatchEvent(new Event('click'));
     await vi.advanceTimersByTimeAsync(0);
-    expect(client.refresh).toHaveBeenCalledTimes(2);
+    expect(client.refresh).toHaveBeenCalledTimes(1);
     service.stopSessionPolling();
   });
 
@@ -216,6 +230,8 @@ describe('auth service', () => {
   test('a rejected refresh clears local state, stops polling and leaves protected routes', async () => {
     const { service, client, events, goHome, storage } = setup();
     await service.startSessionPolling();
+    client.getSession.mockResolvedValue(sessionInfo({ server_time: 1_000_000, expires_at: 999_990 }) as never);
+    await service.getSession();
     client.refresh.mockRejectedValueOnce(httpError(401));
 
     events.dispatchEvent(new Event('click'));
@@ -226,7 +242,7 @@ describe('auth service', () => {
     expect(client.forgetCsrfToken).toHaveBeenCalled();
     expect(goHome).toHaveBeenCalledTimes(1);
     await vi.advanceTimersByTimeAsync(1_000_000);
-    expect(client.getSession).toHaveBeenCalledTimes(1);
+    expect(client.getSession).toHaveBeenCalledTimes(2);
   });
 
   test('a transient refresh failure keeps the session', async () => {
