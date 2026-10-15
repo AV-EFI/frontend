@@ -370,16 +370,6 @@ onBeforeUnmount(() => {
     border-bottom: 1px solid var(--ex-paper-line);
 }
 
-/* Perforation strip as on the film-strip paper of the design. Decoration only. */
-.explorer-drawer-head::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    height: 0.5rem;
-    background: repeating-linear-gradient(90deg, var(--ex-ink) 0 0.5rem, transparent 0.5rem 1.1rem);
-    opacity: 0.85;
-}
-
 .explorer-drawer-kicker {
     display: flex;
     align-items: center;

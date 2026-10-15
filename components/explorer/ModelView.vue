@@ -133,8 +133,23 @@ function toggleOverview() {
     display: grid;
     grid-template-columns: 4rem minmax(0, 1fr);
     gap: 1rem;
+    align-items: stretch;
     min-height: 3.75rem;
+    margin: 1.1rem 0;
     padding: 0 1.6rem;
+}
+
+/* Rule box and line belong together: pointing at one lights up both. */
+.explorer-link:hover .explorer-link-line,
+.explorer-link:focus-within .explorer-link-line {
+    width: 0.55rem;
+    opacity: 1;
+}
+
+.explorer-link:hover .btn,
+.explorer-link:focus-within .btn {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary);
 }
 
 .explorer-link-line {
@@ -145,6 +160,7 @@ function toggleOverview() {
     background: repeating-linear-gradient(180deg, var(--color-base-content) 0 0.6rem, transparent 0.6rem 1rem);
     background-size: 100% 1rem;
     opacity: 0.55;
+    transition: opacity 0.15s, width 0.15s;
     animation: explorer-flow 1.1s linear infinite;
 }
 
@@ -220,6 +236,8 @@ function toggleOverview() {
 @media (max-width: 760px) {
     .explorer-link {
         grid-template-columns: 1fr;
+        min-height: 0;
+        margin: 1rem 0;
         padding: 0 1rem;
     }
 

@@ -17,11 +17,14 @@
                     <span :id="`level-title-${level.id}`" class="explorer-band-word">{{ levelText.word }}</span>
                     <span class="explorer-band-gloss">{{ levelText.gloss }}</span>
                 </span>
-                <span class="btn btn-sm btn-outline explorer-band-action">{{ open ? text.model.hideFields : text.model.showFields }}</span>
+                <span class="btn btn-sm btn-primary explorer-band-action">
+                    {{ open ? text.model.hideFields : text.model.showFields }}
+                    <Icon :name="open ? 'tabler:caret-up' : 'tabler:caret-down'" size="16" aria-hidden="true" />
+                </span>
             </button>
             <button
                 type="button"
-                class="btn btn-sm btn-outline explorer-band-info"
+                class="btn btn-sm btn-primary explorer-band-info"
                 :class="{ 'btn-active': detailsShown }"
                 :aria-pressed="detailsShown"
                 :aria-label="fill(text.model.detailsOf, { word: levelText.word })"
@@ -149,6 +152,7 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 }
 
 .explorer-band-toggle {
+    flex: 1;
     display: grid;
     grid-template-columns: 3.25rem 2.75rem minmax(0, 1fr) auto;
     gap: 0.25rem 1rem;
@@ -217,12 +221,15 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 
 /* The label next to the details button only tells what a click on the header does. */
 .explorer-band-action {
+    justify-content: center;
+    min-width: 12rem;
     pointer-events: none;
     white-space: nowrap;
 }
 
 .explorer-band-info {
     position: relative;
+    min-width: 7.5rem;
     z-index: 2;
     align-self: center;
 }

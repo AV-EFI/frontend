@@ -57,7 +57,7 @@ const DRAFT_TERMS: Record<string, Term> = {
   has_issuer_id: { de: 'Kennung des Datengebers', en: 'Data provider ID' },
   has_issuer_name: { de: 'Datengeber', en: 'Data provider' },
   last_modified: { de: 'Zuletzt geändert', en: 'Last modified' },
-  id: { de: 'Kennung', en: 'Identifier' },
+  id: { de: 'EFI-Kennung', en: 'EFI identifier' },
 };
 
 /**

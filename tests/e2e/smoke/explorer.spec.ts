@@ -105,7 +105,8 @@ test.describe('Explorer', () => {
     await page.getByRole('button', { name: /Fall Undine/ }).click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole('button', { name: 'Von Hand zusammenführen' })).toBeDisabled();
+    // The decision buttons appear only once every field is judged.
+    await expect(dialog.getByRole('button', { name: 'Von Hand zusammenführen' })).toHaveCount(0);
 
     for (const index of [0, 1, 2, 4]) await dialog.locator(`input[name="judge-${index}"][value="same"]`).check({ force: true });
     await dialog.locator('input[name="judge-3"][value="diff"]').check({ force: true });

@@ -19,13 +19,6 @@
             <h2 id="explorer-table-title" ref="heading" tabindex="-1">{{ caseText.tableTitle }}</h2>
             <p class="explorer-table-sub">{{ caseText.sub }}</p>
 
-            <ol class="explorer-steps" :aria-label="ct.progress">
-                <li v-for="(step, index) in ct.steps" :key="step" :class="stepClass(index)">
-                    {{ step }}<span v-if="index < stepNow" class="sr-only"> ({{ ct.stepDone }})</span>
-                    <span v-else-if="index === stepNow" class="sr-only"> ({{ ct.stepCurrent }})</span>
-                </li>
-            </ol>
-
             <div class="explorer-cmp">
                 <div class="explorer-cmp-head">
                     <h3>{{ ct.newDelivery }}</h3>
@@ -95,13 +88,12 @@
 
             <template v-if="decided === null">
                 <p class="explorer-instruction">{{ ready ? ct.instructionReady : ct.instructionOpen }}</p>
-                <div class="explorer-decide">
+                <div v-if="ready" class="explorer-decide">
                     <button
                         v-for="choice in choices"
                         :key="choice.id"
                         type="button"
                         class="btn btn-outline"
-                        :disabled="!ready"
                         @click="decide(choice.id)"
                     >
                         {{ choiceText(choice.id).label }}
@@ -161,7 +153,6 @@ const current = computed(() => (store.activeCaseId ? getCase(store.activeCaseId)
 const caseText = computed(() => text.value.cases[current.value?.id ?? 'undine']);
 
 const ready = computed(() => (current.value ? allJudged(current.value, judgements.value) : false));
-const stepNow = computed(() => (decided.value ? 3 : ready.value ? 2 : 1));
 const decidedCorrect = computed(() => (current.value && decided.value ? isCorrectChoice(current.value, decided.value) : false));
 const misjudged = computed(() => (current.value ? hasMisjudgedRow(current.value, judgements.value) : false));
 
@@ -171,11 +162,6 @@ function judgeClass(mode: JudgementMode, on: boolean): string {
     if (mode === 'same') return 'btn-primary';
     if (mode === 'diff') return 'btn-neutral';
     return 'btn-outline btn-active';
-}
-
-function stepClass(index: number): string {
-    if (index < stepNow.value) return 'is-done';
-    return index === stepNow.value ? 'is-on' : '';
 }
 
 const rowLabel = (row: CaseRow): string => text.value.cases.rowLabels[row.label];
@@ -303,34 +289,6 @@ watch(
     margin: 0 0 1rem;
     font-size: 0.85rem;
     color: var(--ex-muted);
-}
-
-.explorer-steps {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0 0 0.9rem;
-    padding: 0;
-    list-style: none;
-}
-
-.explorer-steps li {
-    padding: 0.2rem 0.65rem;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--ex-muted);
-    border: 1px solid var(--ex-line);
-}
-
-.explorer-steps li.is-on {
-    color: var(--color-primary-content);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.explorer-steps li.is-done {
-    color: var(--color-base-content);
-    border-color: var(--color-success);
 }
 
 .explorer-cmp {
