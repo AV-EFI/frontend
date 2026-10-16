@@ -263,7 +263,8 @@ watch(
 /* Side by side on a large screen: the filters and the stage scroll on their own. */
 @media (min-width: 1024px) {
     .explorer {
-        height: max(30rem, calc(100dvh - var(--header-height) - 20rem));
+        /* Tall enough to show the closed overview in full; it scrolls only when levels are opened. */
+        height: max(46rem, calc(100dvh - var(--header-height) - 20rem));
     }
 
     .explorer-side,
@@ -271,6 +272,13 @@ watch(
         min-height: 0;
         overflow-y: auto;
         overscroll-behavior: contain;
+    }
+}
+
+/* Narrower stage: the texts wrap onto more lines. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .explorer {
+        height: max(60rem, calc(100dvh - var(--header-height) - 20rem));
     }
 }
 
