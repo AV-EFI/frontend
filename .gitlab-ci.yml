@@ -113,6 +113,13 @@ test_backend_api_contracts:
     - .node_job
     - .test_rules
   script:
+    # The specs default to the production backend; only production-bound pipelines may test it.
+    - |
+      case "$CI_COMMIT_BRANCH:$CI_COMMIT_TAG" in
+        production:*|*:deploy-prod-*) export E2E_BACKEND_BASE="https://www.av-efi.net/rest/v1" ;;
+        *) export E2E_BACKEND_BASE="https://testbed.av-efi.net/rest/v1" ;;
+      esac
+      echo "E2E_BACKEND_BASE=$E2E_BACKEND_BASE"
     - mkdir -p test-reports
     - PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-junit.xml yarn test:e2e:api --workers=1 --reporter=list,junit
     - PLAYWRIGHT_NO_WEBSERVER=true PLAYWRIGHT_JUNIT_OUTPUT_FILE=test-reports/e2e-api-edge-junit.xml yarn test:e2e:api:edge --workers=1 --reporter=list,junit
