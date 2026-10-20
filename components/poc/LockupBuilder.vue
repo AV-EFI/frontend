@@ -264,7 +264,7 @@ const downloadSvg = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `avefi-lockup-${language.value}-${theme.value}-${layout.value}.svg`;
+    link.download = `avefi-lockup-${language.value}-${theme.value}-${layout.value}-${spacing.value}.svg`;
     link.click();
     URL.revokeObjectURL(url);
 };
