@@ -47,6 +47,7 @@ This file maps behavior contracts to the first automated test skeleton.
   - `tests/e2e/seo/sitemap-search-routes.spec.ts`
   - `tests/e2e/utils/elastic-contracts.ts`
 - `API-BACKEND-SWAGGER-001`: backend OpenAPI document (`/rest/v1/openapi.json`) exposes expected frontend paths and schemas.
+  - Temporarily skipped since 2026-10-21: backend `GET /rest/v1/openapi.json` returns HTTP 500 on testbed and production. Remove `test.skip` in the spec once the backend serves the spec again.
   - `tests/e2e/api/backend-openapi-contract.spec.ts`
 - `API-BACKEND-SWAGGER-002`: backend `/rest/v1/frontend/view/{prefix}/{id_}` responses satisfy documented contract and strict mapped `_source` field validation.
   - `tests/e2e/api/backend-openapi-contract.spec.ts`
