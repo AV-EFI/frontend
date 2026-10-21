@@ -240,7 +240,7 @@
                         <HomeOpenAndExtendableSection />
                     </template>
                     <template #fallback>
-                        <div class="w-full min-h-100 flex items-center justify-between">
+                        <div class="w-full min-h-100 flex flex-col items-start justify-between gap-4">
                             <HomeSectionTextBlock
                                 :title="$t('home.sections.openAndExtendable.title')"
                                 :paragraphs="[$t('home.sections.openAndExtendable.content[0]'), $t('home.sections.openAndExtendable.content[1]')]"

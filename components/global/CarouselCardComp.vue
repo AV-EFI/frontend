@@ -14,129 +14,130 @@
                 :aria-controls="carouselViewportId">
             <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
-        <div :id="carouselViewportId" ref="viewportRef"
-             class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4 overflow-hidden">
-            <div ref="containerRef" class="flex touch-pan-y">
-                <div v-for="(item, index) in items" :key="index"
-                     :data-carousel-slide-index="index"
-                     role="group"
-                     aria-roledescription="slide"
-                     :aria-label="getSlideAriaLabel(item, index)"
-                     :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
-                     :inert="isSlideHidden(index)"
-                     class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2"
-                     :class="isSlideHidden(index) ? 'pointer-events-none' : 'pointer-events-auto relative z-10'">
-                    <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
-                        <div v-if="item.imgSrc"
-                             class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
-                            <img :src="item.imgBlurSrc || item.imgSrc"
-                                 :srcset="item.imgBlurSrc ? undefined : item.imgSrcSet || undefined" :sizes="item.imgSizes || undefined"
-                                 alt="" loading="lazy" fetchpriority="low" decoding="async"
-                                 :width="item.imgBlurWidth || item.imgWidth || undefined"
-                                 :height="item.imgBlurHeight || item.imgHeight || undefined"
-                                 class="absolute inset-0 w-full h-full object-cover opacity-20 hidden md:block md:blur md:scale-110 md:opacity-30"
-                                 aria-hidden="true">
-                            <div class="relative z-10 flex items-center justify-center w-full h-full">
-                                <img :src="item.imgSrc" :srcset="item.imgSrcSet || undefined" :sizes="item.imgSizes || undefined"
-                                     :alt="item.imgAlt" :width="item.imgWidth || undefined" :height="item.imgHeight || undefined"
-                                     :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'auto'"
-                                     decoding="async" class="h-full w-auto max-w-full z-10"
-                                     :class="item.imgCoverType ? item.imgCoverType : 'object-cover'" />
+        <div class="w-full mx-auto rounded-box px-6 sm:px-4 lg:px-6 py-0 sm:py-4">
+            <div :id="carouselViewportId" ref="viewportRef" class="overflow-hidden">
+                <div ref="containerRef" class="flex touch-pan-y">
+                    <div v-for="(item, index) in items" :key="index"
+                         :data-carousel-slide-index="index"
+                         role="group"
+                         aria-roledescription="slide"
+                         :aria-label="getSlideAriaLabel(item, index)"
+                         :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
+                         :inert="isSlideHidden(index)"
+                         class="carousel-item align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2"
+                         :class="isSlideHidden(index) ? 'pointer-events-none' : 'pointer-events-auto relative z-10'">
+                        <figure class="w-full flex-col bg-base-200 md:p-2 rounded-lg">
+                            <div v-if="item.imgSrc"
+                                 class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-white dark:bg-base-200">
+                                <img :src="item.imgBlurSrc || item.imgSrc"
+                                     :srcset="item.imgBlurSrc ? undefined : item.imgSrcSet || undefined" :sizes="item.imgSizes || undefined"
+                                     alt="" loading="lazy" fetchpriority="low" decoding="async"
+                                     :width="item.imgBlurWidth || item.imgWidth || undefined"
+                                     :height="item.imgBlurHeight || item.imgHeight || undefined"
+                                     class="absolute inset-0 w-full h-full object-cover opacity-20 hidden md:block md:blur md:scale-110 md:opacity-30"
+                                     aria-hidden="true">
+                                <div class="relative z-10 flex items-center justify-center w-full h-full">
+                                    <img :src="item.imgSrc" :srcset="item.imgSrcSet || undefined" :sizes="item.imgSizes || undefined"
+                                         :alt="item.imgAlt" :width="item.imgWidth || undefined" :height="item.imgHeight || undefined"
+                                         :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'auto'"
+                                         decoding="async" class="h-full w-auto max-w-full z-10"
+                                         :class="item.imgCoverType ? item.imgCoverType : 'object-cover'" />
+                                </div>
                             </div>
-                        </div>
-                        <div v-else
-                             class="w-full h-48 md:h-56 lg:h-64 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded overflow-hidden">
-                            <img src="/img/avefi_placeholder.webp" alt="AVefi" class="object-cover w-full h-full" loading="lazy"
-                                 decoding="async" />
-                        </div>
-                        <figcaption v-if="item.imgSourceText"
-                                    class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 dark:text-gray-400">
-                            {{ t('home.carousel.labels.imageSource') }}: <a :href="item.imgSourceLink" target="_blank" rel="noopener noreferrer" class="underline">{{
-                                item.imgSourceText }}</a>, {{ t('home.carousel.labels.author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{
-                                item.imgLicenseLink }})
-                        </figcaption>
-                        <figcaption v-else class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 dark:text-gray-400">
-                        </figcaption>
-                    </figure>
-                    <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
-                        <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
-                            {{ t(item.title) }}
-                        </h2>
-                        <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none!">
-                            {{ t(item.description) }}
-                        </p>
-                        <div class="mt-auto">
-                            <a :href="item.link" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">
-                                <span class="text-xs md:text-regular">
-                                    {{ t(item.linkText) }}
-                                </span>
-                                <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" aria-hidden="true" />
-                            </a>
+                            <div v-else
+                                 class="w-full h-48 md:h-56 lg:h-64 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded overflow-hidden">
+                                <img src="/img/avefi_placeholder.webp" alt="AVefi" class="object-cover w-full h-full" loading="lazy"
+                                     decoding="async" />
+                            </div>
+                            <figcaption v-if="item.imgSourceText"
+                                        class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 dark:text-gray-400">
+                                {{ t('home.carousel.labels.imageSource') }}: <a :href="item.imgSourceLink" target="_blank" rel="noopener noreferrer" class="underline">{{
+                                    item.imgSourceText }}</a>, {{ t('home.carousel.labels.author') }}: {{ item.imgAuthor }} / {{ item.imgLicense }} ({{
+                                    item.imgLicenseLink }})
+                            </figcaption>
+                            <figcaption v-else class="h-auto min-h-12 wrap-break-word text-xs text-gray-700 mt-2 px-4 dark:text-gray-400">
+                            </figcaption>
+                        </figure>
+                        <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
+                            <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
+                                {{ t(item.title) }}
+                            </h2>
+                            <p class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none!">
+                                {{ t(item.description) }}
+                            </p>
+                            <div class="mt-auto">
+                                <a :href="item.link" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">
+                                    <span class="text-xs md:text-regular">
+                                        {{ t(item.linkText) }}
+                                    </span>
+                                    <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" aria-hidden="true" />
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
-                <div
-                    :data-carousel-slide-index="createSlideIndex"
-                    role="group"
-                    aria-roledescription="slide"
-                    :aria-label="`${t('home.carousel.create.title')} (${createSlideIndex + 1} / ${totalSlides})`"
-                    :aria-hidden="isSlideHidden(createSlideIndex) ? 'true' : undefined"
-                    :inert="isSlideHidden(createSlideIndex)"
-                    class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2"
-                    :class="isSlideHidden(createSlideIndex) ? 'pointer-events-none' : 'pointer-events-auto z-10'">
-                    <div class="w-full h-full">
-                        <!-- swap-off: show only slogan -->
-                        <div v-if="!createOpen" class="w-full h-full flex items-center justify-center p-6">
-                            <div class="flex flex-col items-center">
-                                <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
-                                    {{ t('home.carousel.create.title') }}
-                                </h2>
-                                <p class="w-64 mx-auto">{{ t('home.carousel.create.description') }}
-                                </p>
-                                <button type="button" class="btn btn-primary btn-circle mt-2" :aria-label="$t('toggleCreateForm')" @click="createOpen = true">
-                                    <Icon class="" name="tabler:plus" aria-hidden="true" />
-                                </button>
+                    <!-- Create your own card (appended after items) - now a daisyUI swap: slogan -> form -->
+                    <div
+                        :data-carousel-slide-index="createSlideIndex"
+                        role="group"
+                        aria-roledescription="slide"
+                        :aria-label="`${t('home.carousel.create.title')} (${createSlideIndex + 1} / ${totalSlides})`"
+                        :aria-hidden="isSlideHidden(createSlideIndex) ? 'true' : undefined"
+                        :inert="isSlideHidden(createSlideIndex)"
+                        class="carousel-item relative align-top flex flex-col items-center bg-white dark:bg-gray-900 min-w-0 w-full shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-24px)] mr-4 lg:p-2"
+                        :class="isSlideHidden(createSlideIndex) ? 'pointer-events-none' : 'pointer-events-auto z-10'">
+                        <div class="w-full h-full">
+                            <!-- swap-off: show only slogan -->
+                            <div v-if="!createOpen" class="w-full h-full flex items-center justify-center p-6">
+                                <div class="flex flex-col items-center">
+                                    <h2 class="card-title text-base font-semibold text-gray-900 dark:text-gray-200">
+                                        {{ t('home.carousel.create.title') }}
+                                    </h2>
+                                    <p class="w-64 mx-auto">{{ t('home.carousel.create.description') }}
+                                    </p>
+                                    <button type="button" class="btn btn-primary btn-circle mt-2" :aria-label="$t('toggleCreateForm')" @click="createOpen = true">
+                                        <Icon class="" name="tabler:plus" aria-hidden="true" />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- swap-on: the full form (same fields as before) -->
-                        <div v-else class="w-full h-full">
-                            <figure class="w-full">
-                                <div
-                                    class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-gray-100 dark:bg-base-200 flex items-center justify-center">
-                                    <div class="relative z-10 flex items-center justify-center w-full h-full px-3">
-                                        <div class="w-full">
-                                            <label class="sr-only" for="carousel-create-image-url">{{ t('home.carousel.create.imageUrlPlaceholder') }}</label>
-                                            <input id="carousel-create-image-url" v-model="createForm.imgUrl" type="text" :placeholder="t('home.carousel.create.imageUrlPlaceholder')"
-                                                   class="input input-bordered input-sm w-full" />
+                            <!-- swap-on: the full form (same fields as before) -->
+                            <div v-else class="w-full h-full">
+                                <figure class="w-full">
+                                    <div
+                                        class="relative w-full h-48 md:h-56 lg:h-64 rounded overflow-hidden bg-gray-100 dark:bg-base-200 flex items-center justify-center">
+                                        <div class="relative z-10 flex items-center justify-center w-full h-full px-3">
+                                            <div class="w-full">
+                                                <label class="sr-only" for="carousel-create-image-url">{{ t('home.carousel.create.imageUrlPlaceholder') }}</label>
+                                                <input id="carousel-create-image-url" v-model="createForm.imgUrl" type="text" :placeholder="t('home.carousel.create.imageUrlPlaceholder')"
+                                                       class="input input-bordered input-sm w-full" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </figure>
-                            <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
-                                <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">{{
-                                    t('home.carousel.create.yourOwn') }}</h2>
-                                <label class="sr-only" for="carousel-create-title">{{ t('home.carousel.create.titlePlaceholder') }}</label>
-                                <input id="carousel-create-title" v-model="createForm.title" type="text" :placeholder="t('home.carousel.create.titlePlaceholder')"
-                                       class="input input-bordered input-sm mb-2 w-full" />
-                                <label class="sr-only" for="carousel-create-description">{{ t('home.carousel.create.descriptionPlaceholder') }}</label>
-                                <textarea id="carousel-create-description" v-model="createForm.description" rows="3" :placeholder="t('home.carousel.create.descriptionPlaceholder')"
-                                          class="textarea textarea-bordered textarea-sm mb-2 w-full"></textarea>
-                                <label class="sr-only" for="carousel-create-link">{{ t('home.carousel.create.linkPlaceholder') }}</label>
-                                <input id="carousel-create-link" v-model="createForm.link" type="text" :placeholder="t('home.carousel.create.linkPlaceholder')"
-                                       class="input input-bordered input-sm mb-2 w-full" />
-                                <div class="mt-auto">
-                                    <button type="button" @click="handleCreate" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">{{$t('home.carousel.actions.send')}}</button>
+                                </figure>
+                                <div class="lg:h-72 p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-200">
+                                    <h2 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">{{
+                                        t('home.carousel.create.yourOwn') }}</h2>
+                                    <label class="sr-only" for="carousel-create-title">{{ t('home.carousel.create.titlePlaceholder') }}</label>
+                                    <input id="carousel-create-title" v-model="createForm.title" type="text" :placeholder="t('home.carousel.create.titlePlaceholder')"
+                                           class="input input-bordered input-sm mb-2 w-full" />
+                                    <label class="sr-only" for="carousel-create-description">{{ t('home.carousel.create.descriptionPlaceholder') }}</label>
+                                    <textarea id="carousel-create-description" v-model="createForm.description" rows="3" :placeholder="t('home.carousel.create.descriptionPlaceholder')"
+                                              class="textarea textarea-bordered textarea-sm mb-2 w-full"></textarea>
+                                    <label class="sr-only" for="carousel-create-link">{{ t('home.carousel.create.linkPlaceholder') }}</label>
+                                    <input id="carousel-create-link" v-model="createForm.link" type="text" :placeholder="t('home.carousel.create.linkPlaceholder')"
+                                           class="input input-bordered input-sm mb-2 w-full" />
+                                    <div class="mt-auto">
+                                        <button type="button" @click="handleCreate" class="btn btn-md lg:btn-sm w-full md:w-auto btn-primary">{{$t('home.carousel.actions.send')}}</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Contact form overlay (opens after Create) -->
-                    <div v-if="contactFormOpen" class="absolute inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
-                        <div class="w-full max-w-lg bg-base-100">
-                            <MicroContactForm :initialMessage="contactInitialMessage" @ContactFormClose="contactFormOpen = false" />
+                        <!-- Contact form overlay (opens after Create) -->
+                        <div v-if="contactFormOpen" class="absolute inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+                            <div class="w-full max-w-lg bg-base-100">
+                                <MicroContactForm :initialMessage="contactInitialMessage" @ContactFormClose="contactFormOpen = false" />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -30,50 +30,52 @@
                     :aria-controls="carouselViewportId">
                 <Icon name="tabler:chevron-left" aria-hidden="true" />
             </button>
-            <div :id="carouselViewportId" ref="viewportRef" class="w-full mx-auto rounded-box px-4 py-0 sm:px-4 lg:px-6 sm:py-4 bg-base-200 overflow-hidden">
-                <div ref="containerRef" class="flex items-stretch touch-pan-y">
-                    <div v-for="(item, index) in issuerItems" :key="index"
-                         role="group"
-                         aria-roledescription="slide"
-                         :aria-label="getSlideAriaLabel(item, index)"
-                         :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
-                         :inert="isSlideHidden(index)"
-                         class="min-w-0 shrink-0 self-stretch basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg flex flex-col items-stretch lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
-                        <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
-                            <div class="relative w-full h-20 py-2 overflow-hidden bg-white flex items-center justify-center rounded-lg">
-                                <img :src="item.image" :alt="item.imageAlt" :title="item.name" loading="lazy" decoding="async"
-                                     class="h-full w-auto max-w-full object-contain" />
-                            </div>
-                        </figure>
-                        <div class="p-4 flex flex-col flex-1 w-full min-h-72 bg-white dark:bg-base-100 rounded-lg">
-                            <h2 class="card-title min-h-23 items-start wrap-break-word hyphens-auto text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
-                                {{ item.name }}
-                            </h2>
-                            <div class="flex flex-col w-full h-21 rounded-box bg-base-200/60 mb-3 overflow-hidden divide-y divide-base-300/60">
-                                <div
-                                    v-for="summary in categorySummaryRows(item)"
-                                    :key="summary.category"
-                                    class="flex h-7 items-center justify-between gap-3 min-w-0 px-4"
-                                >
-                                    <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
-                                        <span class="inline-flex items-center gap-1">
-                                            <Icon :name="summary.icon" class="icon-inline icon-level" aria-hidden="true" />
-                                            <span>{{ summary.label }}</span>
-                                        </span>
-                                    </div>
-                                    <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
-                                        {{ summary.count.toLocaleString() }}
+            <div class="w-full mx-auto rounded-box px-4 py-4 lg:px-6 bg-base-200">
+                <div :id="carouselViewportId" ref="viewportRef" class="overflow-hidden">
+                    <div ref="containerRef" class="flex items-stretch touch-pan-y">
+                        <div v-for="(item, index) in issuerItems" :key="index"
+                             role="group"
+                             aria-roledescription="slide"
+                             :aria-label="getSlideAriaLabel(item, index)"
+                             :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
+                             :inert="isSlideHidden(index)"
+                             class="min-w-0 shrink-0 self-stretch basis-full sm:basis-72 md:basis-96 mr-4 rounded-lg flex flex-col items-stretch lg:basis-[calc(50%-24px)] lg:p-2 bg-white dark:bg-base-200">
+                            <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
+                                <div class="relative w-full h-20 py-2 overflow-hidden bg-white flex items-center justify-center rounded-lg">
+                                    <img :src="item.image" :alt="item.imageAlt" :title="item.name" loading="lazy" decoding="async"
+                                         class="h-full w-auto max-w-full object-contain" />
+                                </div>
+                            </figure>
+                            <div class="p-4 flex flex-col flex-1 w-full min-h-72 bg-white dark:bg-base-100 rounded-lg">
+                                <h2 class="card-title min-h-23 items-start wrap-break-word hyphens-auto text-base leading-snug font-semibold mb-2 dark:bg-base-200 text-gray-900 dark:text-gray-100 px-2">
+                                    {{ item.name }}
+                                </h2>
+                                <div class="flex flex-col w-full h-21 rounded-box bg-base-200/60 mb-3 overflow-hidden divide-y divide-base-300/60">
+                                    <div
+                                        v-for="summary in categorySummaryRows(item)"
+                                        :key="summary.category"
+                                        class="flex h-7 items-center justify-between gap-3 min-w-0 px-4"
+                                    >
+                                        <div class="min-w-0 text-[10px] leading-tight text-base-content/60">
+                                            <span class="inline-flex items-center gap-1">
+                                                <Icon :name="summary.icon" class="icon-inline icon-level" aria-hidden="true" />
+                                                <span>{{ summary.label }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="shrink-0 text-sm leading-tight font-semibold text-base-content tabular-nums">
+                                            {{ summary.count.toLocaleString() }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mt-auto">
-                                <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
-                                          class="btn btn-sm w-full md:w-auto btn-primary">
-                                    <span class="text-xs md:text-regular">
-                                        {{ $t('home.carousel.actions.viewDatasets') }}
-                                    </span>
-                                    <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" aria-hidden="true" />
-                                </NuxtLink>
+                                <div class="mt-auto">
+                                    <NuxtLink :to="`/search/?has_issuer_name%5B0%5D=${encodeURIComponent(item.name)}`"
+                                              class="btn btn-sm w-full md:w-auto btn-primary">
+                                        <span class="text-xs md:text-regular">
+                                            {{ $t('home.carousel.actions.viewDatasets') }}
+                                        </span>
+                                        <Icon class="hidden md:inline-block ml-1" name="tabler:arrow-right" aria-hidden="true" />
+                                    </NuxtLink>
+                                </div>
                             </div>
                         </div>
                     </div>

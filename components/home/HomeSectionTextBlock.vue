@@ -53,7 +53,7 @@ const normalizedParagraphs = computed(() => {
     return Array.isArray(props.paragraphs) ? props.paragraphs : [props.paragraphs];
 });
 
-const baseWrapperClasses = 'w-full flex items-center justify-between px-4 lg:px-0 lg:items-start';
+const baseWrapperClasses = 'w-full flex items-center justify-between lg:items-start';
 const baseInnerClasses = 'w-full max-w-2xl text-left flex flex-col gap-4';
 
 const variantClasses: Record<string, string> = {

@@ -24,58 +24,60 @@
                 :aria-controls="carouselViewportId">
             <Icon name="tabler:chevron-left" aria-hidden="true" />
         </button>
-        <div :id="carouselViewportId" ref="viewportRef" class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 sm:py-4 bg-base-200 overflow-hidden">
-            <div ref="containerRef" class="flex touch-pan-y">
-                <div
-                    v-for="(item, index) in partnersItems"
-                    :key="index"
-                    role="group"
-                    aria-roledescription="slide"
-                    :aria-label="getSlideAriaLabel(item, index)"
-                    :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
-                    :inert="isSlideHidden(index)"
-                    class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-0.5rem)] mr-4 rounded-lg align-top flex flex-col items-center bg-white dark:bg-base-200 lg:p-2"
-                >
-                    <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
-                        <div
-                            v-if="item.src"
-                            class="relative w-full h-20 py-2 rounded-lg overflow-hidden bg-white flex items-center justify-center"
-                        >
-                            <img
-                                :src="item.src"
-                                :alt="item.alt || item.title || ''"
-                                :width="item.width || DEFAULT_LOGO_WIDTH"
-                                :height="item.height || DEFAULT_LOGO_HEIGHT"
-                                class="h-full w-auto max-w-full object-contain"
-                                loading="lazy"
-                                decoding="async"
+        <div class="w-full mx-auto rounded-box px-6 py-4 sm:px-4 lg:px-4 bg-base-200">
+            <div :id="carouselViewportId" ref="viewportRef" class="overflow-hidden">
+                <div ref="containerRef" class="flex touch-pan-y">
+                    <div
+                        v-for="(item, index) in partnersItems"
+                        :key="index"
+                        role="group"
+                        aria-roledescription="slide"
+                        :aria-label="getSlideAriaLabel(item, index)"
+                        :aria-hidden="isSlideHidden(index) ? 'true' : undefined"
+                        :inert="isSlideHidden(index)"
+                        class="min-w-0 shrink-0 basis-full sm:basis-72 md:basis-96 lg:basis-[calc(50%-0.5rem)] mr-4 rounded-lg align-top flex flex-col items-center bg-white dark:bg-base-200 lg:p-2"
+                    >
+                        <figure class="w-full flex-col p-1 md:p-2 rounded-lg">
+                            <div
+                                v-if="item.src"
+                                class="relative w-full h-20 py-2 rounded-lg overflow-hidden bg-white flex items-center justify-center"
                             >
-                        </div>
-                        <div
-                            v-else
-                            class="w-full h-20 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded-lg overflow-hidden"
-                        >
-                            <img src="/img/avefi_placeholder.webp" alt="AVefi" class="object-cover w-full h-full" loading="lazy" decoding="async">
-                        </div>
-                    </figure>
+                                <img
+                                    :src="item.src"
+                                    :alt="item.alt || item.title || ''"
+                                    :width="item.width || DEFAULT_LOGO_WIDTH"
+                                    :height="item.height || DEFAULT_LOGO_HEIGHT"
+                                    class="h-full w-auto max-w-full object-contain"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </div>
+                            <div
+                                v-else
+                                class="w-full h-20 flex items-center justify-center bg-gray-100 dark:bg-base-200 rounded-lg overflow-hidden"
+                            >
+                                <img src="/img/avefi_placeholder.webp" alt="AVefi" class="object-cover w-full h-full" loading="lazy" decoding="async">
+                            </div>
+                        </figure>
 
-                    <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-100 rounded-lg">
-                        <h3 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
-                            {{ item.alt || item.title || '' }}
-                        </h3>
-                        <p v-if="item.description" class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none">
-                            {{ item.description }}
-                        </p>
-                        <div class="mt-auto">
-                            <NuxtLink
-                                v-if="item.link"
-                                :to="item.link"
-                                target="_blank"
-                                rel="noopener"
-                                class="link w-full md:w-auto"
-                            >
-                                {{ item.linkText || $t('home.carousel.actions.viewHomepage') }}
-                            </NuxtLink>
+                        <div class="p-4 flex flex-col flex-1 w-full bg-white dark:bg-base-100 rounded-lg">
+                            <h3 class="card-title text-base font-semibold mb-2 text-gray-900 dark:text-gray-200">
+                                {{ item.alt || item.title || '' }}
+                            </h3>
+                            <p v-if="item.description" class="text-gray-700 text-sm mb-2 dark:text-gray-300 md:line-clamp-none">
+                                {{ item.description }}
+                            </p>
+                            <div class="mt-auto">
+                                <NuxtLink
+                                    v-if="item.link"
+                                    :to="item.link"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="link w-full md:w-auto"
+                                >
+                                    {{ item.linkText || $t('home.carousel.actions.viewHomepage') }}
+                                </NuxtLink>
+                            </div>
                         </div>
                     </div>
                 </div>
