@@ -94,7 +94,9 @@ export function createAuthService(options: AuthServiceOptions) {
     try {
       const next = normalizeSession(await client.getSession(), now() / 1000);
       if (!next && wasAuthenticated) {
-        endSession();
+        // An expired access token is reported as logged out although the refresh token may still
+        // be valid, so renewal is attempted before the session is given up.
+        await refreshSession();
       } else {
         setSession(next);
         keeper?.scheduleCheck();
@@ -106,7 +108,7 @@ export function createAuthService(options: AuthServiceOptions) {
         // Transient failure (network, 5xx): keep local state and check again later.
         keeper?.scheduleCheck(RETRY_AFTER_ERROR_MS);
       } else if (wasAuthenticated) {
-        endSession();
+        await refreshSession();
       } else {
         setSession(null);
       }
@@ -115,7 +117,7 @@ export function createAuthService(options: AuthServiceOptions) {
     }
   }
 
-  /** Extends the session; reserved for genuine user activity (see session keeper). */
+  /** Extends the session; run on user activity after the deadline and when a status check finds the session gone. */
   async function refreshSession() {
     if (!session.value || refreshInFlight) {
       return;
@@ -133,8 +135,10 @@ export function createAuthService(options: AuthServiceOptions) {
       log('Error refreshing session', e);
       if (isSessionRejected(e)) {
         endSession();
+      } else {
+        // Transient failure: keep local state and check again later.
+        keeper?.scheduleCheck(RETRY_AFTER_ERROR_MS);
       }
-      // Other failures are transient; the next activity after the throttle window retries.
     } finally {
       refreshInFlight = false;
     }

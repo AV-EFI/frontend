@@ -6,7 +6,7 @@ const MAX_TIMER_MS = 2_147_483_647;
 const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'scroll'] as const;
 
 export interface SessionKeeperOptions {
-  /** Read-only status check, run shortly after the deadline. */
+  /** Status check, run shortly after the deadline; the caller may renew a session it finds gone. */
   check: () => void | Promise<void>;
   /** Extends the session; run on throttled user activity. */
   refresh: () => void | Promise<void>;
@@ -63,9 +63,9 @@ export function createSessionKeeper(options: SessionKeeperOptions) {
       if (!deadline) {
         return;
       }
-      // The backend keeps reporting a session as authenticated past `expires_at` while it is
-      // still refreshable (access token expired). Only user activity can renew such a session,
-      // so no further status check is scheduled once the deadline has passed.
+      // A backend that keeps reporting a session as authenticated past `expires_at` while it is
+      // still refreshable is renewed by user activity, so no further status check is scheduled
+      // once the deadline has passed.
       if (deadline * 1000 <= now()) {
         return;
       }

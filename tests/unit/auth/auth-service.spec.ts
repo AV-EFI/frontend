@@ -104,6 +104,7 @@ describe('auth service', () => {
     expect(storage.items.has('auth_session')).toBe(true);
 
     client.getSession.mockResolvedValueOnce({ authenticated: false, server_time: 1 } as never);
+    client.refresh.mockRejectedValueOnce(httpError(401));
     await service.getSession();
     expect(service.isAuthenticated.value).toBe(false);
     expect(storage.items.has('auth_session')).toBe(false);
@@ -149,6 +150,7 @@ describe('auth service', () => {
     const { service, client, goHome } = setup();
     await service.startSessionPolling();
     client.getSession.mockResolvedValue({ authenticated: false, server_time: 1 } as never);
+    client.refresh.mockRejectedValue(httpError(401));
 
     await vi.advanceTimersByTimeAsync(303_000);
 
@@ -162,11 +164,49 @@ describe('auth service', () => {
     const { service, client, goHome } = setup({ onProtectedRoute: false });
     await service.getSession();
     client.getSession.mockRejectedValueOnce(httpError(401));
+    client.refresh.mockRejectedValueOnce(httpError(401));
 
     await service.getSession();
 
     expect(service.data.value).toBeNull();
     expect(goHome).not.toHaveBeenCalled();
+  });
+
+  test('renews the session when the deadline check reports logged out but refresh still works', async () => {
+    const { service, client, goHome } = setup();
+    await service.startSessionPolling();
+    client.getSession.mockResolvedValueOnce({ authenticated: false, server_time: 1 } as never);
+
+    await vi.advanceTimersByTimeAsync(303_000);
+
+    expect(client.refresh).toHaveBeenCalledTimes(1);
+    expect(service.isAuthenticated.value).toBe(true);
+    expect(goHome).not.toHaveBeenCalled();
+    service.stopSessionPolling();
+  });
+
+  test('renews the session when the status check is rejected but refresh still works', async () => {
+    const { service, client } = setup();
+    await service.getSession();
+    client.getSession.mockRejectedValueOnce(httpError(401));
+
+    await service.getSession();
+
+    expect(client.refresh).toHaveBeenCalledTimes(1);
+    expect(service.isAuthenticated.value).toBe(true);
+  });
+
+  test('keeps the session and retries when refresh after a logged-out status check fails transiently', async () => {
+    const { service, client } = setup();
+    await service.startSessionPolling();
+    client.getSession.mockResolvedValueOnce({ authenticated: false, server_time: 1 } as never);
+    client.refresh.mockRejectedValueOnce(httpError(503));
+    await vi.advanceTimersByTimeAsync(303_000);
+
+    expect(service.isAuthenticated.value).toBe(true);
+    await vi.advanceTimersByTimeAsync(61_000);
+    expect(client.getSession).toHaveBeenCalledTimes(3);
+    service.stopSessionPolling();
   });
 
   test('keeps the session on transient status check failures and retries', async () => {
