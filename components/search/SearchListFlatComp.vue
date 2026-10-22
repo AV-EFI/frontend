@@ -157,8 +157,8 @@
                                         <div class="flex gap-2 mx-auto mb-2">
                                             <MicroBadgeCategoryComp category="avefi:Item" :dense="false" />
                                         </div>
-                                        <h4>
-                                            <GlobalClipboardComp class="text-xs text-base-content/90 text-left"
+                                        <h4 class="max-w-full">
+                                            <GlobalClipboardComp class="text-xs text-base-content/90 text-left break-all"
                                                                  :title="row.item?.handle || ''" :display-text="row.item?.handle || ''" />
                                         </h4>
                                         <div class="divider my-0" />

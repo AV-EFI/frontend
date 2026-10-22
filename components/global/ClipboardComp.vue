@@ -4,7 +4,7 @@
         class="flex flex-row items-center whitespace-break-spaces gap-1"
     >
         <span v-if="collapsible" class="sr-only">{{ $t('efiIdentifierLabel') }}</span>
-        <span :aria-hidden="collapsible ? 'true' : undefined">{{ displayText }}</span>
+        <span class="min-w-0" :aria-hidden="collapsible ? 'true' : undefined">{{ displayText }}</span>
         <button
             type="button"
             class="inline-flex items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 rounded"
