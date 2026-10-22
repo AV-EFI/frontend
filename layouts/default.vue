@@ -80,6 +80,7 @@ export default {
             hydrated: false,
             comparisonDrawerReady: false,
             contactDrawerReady: false,
+            pendingContactEvent: null,
             isScrolled: false,
             showScrollToTop: false,
             pageTallEnough: false,
@@ -95,6 +96,7 @@ export default {
         window.addEventListener('toggle-contact-drawer', this.prepareContactDrawer, true);
         window.addEventListener('open-contact-drawer', this.prepareContactDrawer, true);
         window.addEventListener('open-contact-form', this.prepareContactDrawer, true);
+        window.addEventListener('contact-drawer-mounted', this.replayPendingContactEvent);
         this.observePageSize();
         this.updatePageTallEnough();
         this.applyScrollState();
@@ -115,6 +117,7 @@ export default {
         window.removeEventListener('toggle-contact-drawer', this.prepareContactDrawer, true);
         window.removeEventListener('open-contact-drawer', this.prepareContactDrawer, true);
         window.removeEventListener('open-contact-form', this.prepareContactDrawer, true);
+        window.removeEventListener('contact-drawer-mounted', this.replayPendingContactEvent);
     },
     watch: {
         'objectListStore.comparisonDrawerOpen'(isOpen) {
@@ -128,16 +131,21 @@ export default {
             if (this.contactDrawerReady || event.__avefiReplayedContactEvent) return;
 
             event.stopImmediatePropagation();
+            this.pendingContactEvent = event;
             this.contactDrawerReady = true;
+        },
+        /** The drawer is an async component: replay the click that requested it once its listeners exist. */
+        replayPendingContactEvent() {
+            const event = this.pendingContactEvent;
+            if (!event) return;
+            this.pendingContactEvent = null;
 
             const replayedEvent = event instanceof CustomEvent
                 ? new CustomEvent(event.type, { detail: event.detail })
                 : new Event(event.type);
 
             Object.defineProperty(replayedEvent, '__avefiReplayedContactEvent', { value: true });
-            this.$nextTick(() => {
-                window.dispatchEvent(replayedEvent);
-            });
+            window.dispatchEvent(replayedEvent);
         },
         scheduleScrollUpdate() {
             if (this.scrollRafId !== null) return;

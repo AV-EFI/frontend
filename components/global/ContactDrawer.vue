@@ -160,7 +160,8 @@ watch(isOpen, async (value) => {
     if (value) {
         previouslyFocused.value = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         await nextTick();
-        closeButtonRef.value?.focus();
+        const emailInput = dialogRef.value?.querySelector<HTMLInputElement>('input[type="email"]');
+        (emailInput ?? closeButtonRef.value)?.focus();
     } else {
         initialMessage.value = '';
         previouslyFocused.value?.focus?.();
@@ -174,6 +175,7 @@ onMounted(() => {
     window.addEventListener('close-contact-drawer', onCloseContactDrawer);
     window.addEventListener('open-contact-form', onOpenLegacyContactForm);
     document.addEventListener('keydown', onKeydown);
+    window.dispatchEvent(new Event('contact-drawer-mounted'));
 });
 
 onBeforeUnmount(() => {
