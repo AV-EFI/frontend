@@ -17,7 +17,6 @@ watch(() => i18n.locale.value, (newLocale) => {
     i18n.setLocaleCookie(newLocale);
 });
 const currentLocale = computed(() => i18n.locale.value);
-const toggleLocale = () => {
-    i18n.locale.value = currentLocale.value === 'de' ? 'en' : 'de';
-};
+// setLocale loads the target messages before switching, so no text renders in the fallback language.
+const toggleLocale = () => i18n.setLocale(currentLocale.value === 'de' ? 'en' : 'de');
 </script>
