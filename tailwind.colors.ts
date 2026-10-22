@@ -70,7 +70,7 @@ export const darkThemeColors = {
     content: '#fefefe',
   },
   neutral: {
-    DEFAULT: 'oklch(27.949% 0.036 260.03)',
+    DEFAULT: 'oklch(27.949% 0.036 244)',
     content: '#ffffff',
   },
   info: {

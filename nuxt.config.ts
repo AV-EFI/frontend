@@ -70,9 +70,9 @@ export default defineNuxtConfig({
       style: [
         {
           innerHTML: `html[data-theme="avefi_dark"], [data-theme="avefi_dark"] {
-            background:oklch(13% 0.028 261.692) !important;
+            background:oklch(13% 0.028 244) !important;
             color: #dfe9ee !important;
-            --color-base-100: oklch(20.768% 0.039 265.754);
+            --color-base-100: oklch(20.768% 0.039 244);
             --color-base-content: #dfe9ee;
             --color-primary: #4d768d;
             --color-primary-text: #80a3b5;
@@ -81,7 +81,7 @@ export default defineNuxtConfig({
             --color-secondary-content: oklch(98% 0.002 247.839);
             --color-accent: #d8899c;
             --color-accent-content: #3a1f26;
-            --color-neutral: oklch(27.949% 0.036 260.03);
+            --color-neutral: oklch(27.949% 0.036 244);
             --color-neutral-content: #ffffff;
           }
           `,

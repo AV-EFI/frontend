@@ -86,10 +86,10 @@ textarea::selection {
   default: false;
   prefersdark: true;
   color-scheme: "dark";
-  --color-base-50: oklch(22.768% 0.039 265.754);
-  --color-base-100: oklch(21% 0.039 265.754);
-  --color-base-200: oklch(16% 0.037 265.754);
-  --color-base-300: oklch(12% 0.034 265.754);
+  --color-base-50: oklch(22.768% 0.039 244);
+  --color-base-100: oklch(21% 0.039 244);
+  --color-base-200: oklch(16% 0.037 244);
+  --color-base-300: oklch(12% 0.034 244);
   --color-base-content: #dfe9ee;
   --color-primary: #4d768d;
   --color-primary-text: #80a3b5;
@@ -98,7 +98,7 @@ textarea::selection {
   --color-secondary-content: oklch(98% 0.002 247.839);
   --color-accent: #d8899c;
   --color-accent-content: #3a1f26;
-  --color-neutral: oklch(27.949% 0.036 260.03);
+  --color-neutral: oklch(27.949% 0.036 244);
   --color-neutral-content: #ffffff;
   --color-info: oklch(68.455% 0.148 237.251);
   --color-info-content: oklch(0% 0 0);
@@ -140,6 +140,58 @@ textarea::selection {
 :root {
   --header-height: 5rem;
   --maintenance-banner-height: 5rem;
+}
+
+/* One blue-grey scale (hue 232-244, matching the primary blue) for every Tailwind grey family,
+   so gray-*, slate-*, zinc-* and neutral-* no longer mix violet-blue and pure grey tones. */
+@theme static {
+  --color-gray-50: oklch(98.5% 0.002 232);
+  --color-gray-100: oklch(96.7% 0.003 232);
+  --color-gray-200: oklch(92.8% 0.006 232);
+  --color-gray-300: oklch(87.2% 0.01 232);
+  --color-gray-400: oklch(70.7% 0.022 238);
+  --color-gray-500: oklch(55.1% 0.027 238);
+  --color-gray-600: oklch(44.6% 0.03 238);
+  --color-gray-700: oklch(37.3% 0.034 244);
+  --color-gray-800: oklch(27.8% 0.033 244);
+  --color-gray-900: oklch(21% 0.034 244);
+  --color-gray-950: oklch(13% 0.028 244);
+
+  --color-slate-50: var(--color-gray-50);
+  --color-slate-100: var(--color-gray-100);
+  --color-slate-200: var(--color-gray-200);
+  --color-slate-300: var(--color-gray-300);
+  --color-slate-400: var(--color-gray-400);
+  --color-slate-500: var(--color-gray-500);
+  --color-slate-600: var(--color-gray-600);
+  --color-slate-700: var(--color-gray-700);
+  --color-slate-800: var(--color-gray-800);
+  --color-slate-900: var(--color-gray-900);
+  --color-slate-950: var(--color-gray-950);
+
+  --color-zinc-50: var(--color-gray-50);
+  --color-zinc-100: var(--color-gray-100);
+  --color-zinc-200: var(--color-gray-200);
+  --color-zinc-300: var(--color-gray-300);
+  --color-zinc-400: var(--color-gray-400);
+  --color-zinc-500: var(--color-gray-500);
+  --color-zinc-600: var(--color-gray-600);
+  --color-zinc-700: var(--color-gray-700);
+  --color-zinc-800: var(--color-gray-800);
+  --color-zinc-900: var(--color-gray-900);
+  --color-zinc-950: var(--color-gray-950);
+
+  --color-neutral-50: var(--color-gray-50);
+  --color-neutral-100: var(--color-gray-100);
+  --color-neutral-200: var(--color-gray-200);
+  --color-neutral-300: var(--color-gray-300);
+  --color-neutral-400: var(--color-gray-400);
+  --color-neutral-500: var(--color-gray-500);
+  --color-neutral-600: var(--color-gray-600);
+  --color-neutral-700: var(--color-gray-700);
+  --color-neutral-800: var(--color-gray-800);
+  --color-neutral-900: var(--color-gray-900);
+  --color-neutral-950: var(--color-gray-950);
 }
 
 @media (min-width: 768px) {
@@ -409,6 +461,11 @@ textarea::selection {
   [data-theme="avefi_dark"] .btn-carousel-control:hover {
     background-color: var(--color-base-100) !important;
   }
+  @media (max-width: 639px) {
+    .btn-carousel-control {
+      border: 1px solid color-mix(in oklab, var(--color-base-content) 20%, transparent);
+    }
+  }
   .btn-carousel-control svg {
     width: 1.125rem !important;
     height: 1.125rem !important;
@@ -435,10 +492,15 @@ textarea::selection {
     bottom: 1px;
     left: 1px;
     top: 1px;
-    width: 0.125rem;
+    width: 0.25rem;
     border-radius: 0;
     content: "";
     pointer-events: none;
+  }
+  @media (min-width: 768px) {
+    .level-stripe::before {
+      width: 0.125rem;
+    }
   }
   .level-stripe--work::before {
     background-color: var(--color-work);

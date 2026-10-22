@@ -43,10 +43,10 @@
     --cookie-control-barBackground: var(--color-base-100);
     --cookie-control-barTextColor: var(--color-base-content);
 
-    --cookie-control-barButtonBackground: #444;
-    --cookie-control-barButtonColor: #ffffff;
-    --cookie-control-barButtonHoverBackground: #666;
-    --cookie-control-barButtonHoverColor: #ffffff;
+    --cookie-control-barButtonBackground: var(--color-compare-list);
+    --cookie-control-barButtonColor: var(--color-neutral-content);
+    --cookie-control-barButtonHoverBackground: var(--color-primary);
+    --cookie-control-barButtonHoverColor: var(--color-neutral-content);
 
     --cookie-control-modalOverlay: var(--black);
     --cookie-control-modalOverlayOpacity: .9;
@@ -54,8 +54,8 @@
     --cookie-control-modalBackground: var(--black);
     --cookie-control-modalTextColor: white;
 
-    --cookie-control-controlButtonIconColor: #eeeeee;
-    --cookie-control-controlButtonIconHoverColor: #ffffff;
+    --cookie-control-controlButtonIconColor: var(--color-base-content);
+    --cookie-control-controlButtonIconHoverColor: var(--color-neutral-content);
   }
 
 
