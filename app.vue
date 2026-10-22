@@ -333,14 +333,18 @@ useHead(() => ({
                             <template #bar>
                                 <h2 class="text-base font-semibold">Cookies</h2>
                                 <p class="text-sm leading-snug">{{ $t('cookieBanner.shortDescription') }}</p>
-                                <LazyGlobalLanguageSwitch />
-                                <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" rel="noopener" class="dark:text-white link">
-                                    {{ $t('dataprotection') }}
-                                </NuxtLink>
-                                |
-                                <NuxtLink to="/imprint" class="dark:text-white link">
-                                    {{ $t('imprint') }}
-                                </NuxtLink>
+                                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2">
+                                    <LazyGlobalLanguageSwitch />
+                                    <div class="flex flex-wrap items-center gap-x-2">
+                                        <NuxtLink to="https://datenschutz.gwdg.de/services/av-efi" target="_blank" rel="noopener" class="dark:text-white link">
+                                            {{ $t('dataprotection') }}
+                                        </NuxtLink>
+                                        <span aria-hidden="true">|</span>
+                                        <NuxtLink to="/imprint" class="dark:text-white link">
+                                            {{ $t('imprint') }}
+                                        </NuxtLink>
+                                    </div>
+                                </div>
                             </template>
                             <template #modal>
                                 <h3>{{ $t('dataprotection') }}</h3>

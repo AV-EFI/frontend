@@ -11,6 +11,7 @@
             ref="buttonRef"
             type="button"
             class="header-menu-trigger w-full"
+            :class="{ 'p-0! [font-size:inherit]': inline }"
             :aria-expanded="open"
             :aria-controls="panelId"
             @click.stop="open = !open"

@@ -24,7 +24,7 @@
                                     </span>
                                     <GlobalTooltipInfo class="text-xs" :text="$t('allItemsEmptyTooltip')" />
                                 </div>
-                                <span class="text-sm ml-auto font-mono" :aria-label="$t('itemsCount')"
+                                <span class="text-sm ml-auto font-mono inline-flex items-center gap-1" :aria-label="$t('itemsCount')"
                                       :title="$t('itemsCount')">
                                     <Icon class="icon-inline icon-level" :name="itemLevelIcon" aria-hidden="true" /> {{ getFilteredItems(m).length }}
                                 </span>
@@ -44,7 +44,7 @@
                                 <span class="sr-only">{{ $t('viewManifestationDetails') }}</span>
                             </button>
                         </div>
-                        <div class="flex items-center px-1 self-start sm:self-center">
+                        <div class="flex items-center pl-2 pr-1 self-start sm:self-center">
                             <Icon name="tabler:chevron-up"
                                   class="text-xl text-base-content/70 shrink-0 transition-transform duration-200 ease-in-out"
                                   :class="selectedIndex === i + currentPage * itemsPerPage ? 'rotate-90' : 'rotate-0'"
@@ -63,7 +63,7 @@
                             </h5>
                             <ul class="space-y-2 pl-1">
                                 <li v-for="(item, j) in getFilteredItems(m).slice(0, 3)" :key="j"
-                                    class="bg-base-100 dark:bg-base-300 rounded-md p-2" tabindex="0"
+                                    class="bg-base-100 dark:bg-base-300 rounded-md p-2 text-left" tabindex="0"
                                     :aria-label="`${$t('item')}: ${item?.handle}`">
                                     <div class="flex gap-2 items-start mb-1">
                                         <Icon :name="itemLevelIcon" class="icon-inline icon-level text-primary" aria-hidden="true" />

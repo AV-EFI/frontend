@@ -9,7 +9,7 @@
             <div class="navbar-start w-full xl:w-auto xl:shrink-0 flex justify-start">
                 <!-- Mobile menu toggle -->
                 <div ref="mobileMenuRef" class="dropdown xl:hidden" :class="{ 'dropdown-open': mobileMenuOpen }">
-                    <button type="button" class="btn btn-ghost h-12" :aria-expanded="mobileMenuOpen"
+                    <button type="button" class="btn btn-ghost h-12 whitespace-nowrap" :aria-expanded="mobileMenuOpen"
                             :aria-controls="mobileMenuId" @click="toggleMobileMenu">
                         <Icon name="tabler:menu-2" class="icon-action" aria-hidden="true" />
                         <span>{{ ariaLabelMainMenu }}</span>
@@ -52,7 +52,7 @@
                             <li><GlobalNavItem to="/protected/me" icon="tabler:user" :label="$t('profile')" /></li>
                             <li><GlobalNavItem icon="tabler:logout" :label="$t('logout')" @click="signOut()" /></li>
                         </template>
-                        <li class="h-auto!">
+                        <li class="h-auto! min-h-12">
                             <GlobalSettingsMenu v-model:open="mobileSettingsMenuOpen" inline />
                         </li>
                     </ul>
@@ -71,7 +71,7 @@
                     <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
                         <span class="bree my-auto" v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
                     </div>
-                    <div v-if="envLabel !== 'Production'" class="badge badge-neutral mr-auto ml-3 my-auto text-left h-6 w-24">
+                    <div v-if="envLabel !== 'Production'" class="badge badge-neutral mr-auto ml-3 my-auto text-left h-6 w-24 min-w-0 shrink truncate">
                         {{ envLabel }}
                     </div>                        
                 </div>
