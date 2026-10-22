@@ -15,7 +15,7 @@
                 <!-- CLIPBOARD MODE -->
                 <GlobalClipboardComp
                     v-if="clip && !(sameAs && showSameAsLink)"
-                    class="flex items-start h-8 leading-5 max-sm:break-all"
+                    class="flex items-start min-h-8 leading-5 max-sm:[overflow-wrap:anywhere]"
                     :class="fontSize"
                     :display-text="valtxt"
                     :copy-text="clipText ? clipText : valtxt"

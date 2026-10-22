@@ -186,7 +186,7 @@
                         {{ `${$t('detailsFor')} ${mir?.has_primary_title?.has_name ?? ''}` }}
                     </h2>
                     <!-- MOBILE-ONLY TOGGLE (does not affect desktop) -->
-                    <div class="md:hidden mb-2">
+                    <div id="work-details-toggle" class="md:hidden mb-2">
                         <button type="button" class="btn btn-lg btn-outline w-full justify-between"
                                 :aria-expanded="mirExpanded ? 'true' : 'false'" :aria-controls="mirPanelId"
                                 @click="mirExpanded = !mirExpanded">
@@ -362,7 +362,7 @@
                                  (never mobile-collapsed) so its row starts right after the main
                                  column's own content, not after the side-rail's. -->
                         <section v-if="hasCollectionTabs" id="manifestations" class="work-detail-manifestations-col" aria-labelledby="collection-tabs-heading">
-                            <div class="mt-4 ml-2">
+                            <div class="mt-4 md:ml-2">
                                 <hr class="my-2 col-span-full" />
                                 <h3 id="collection-tabs-heading" class="sr-only">
                                     {{ $t('manifestationsAndFilmRelatedMaterials') }}
@@ -391,7 +391,7 @@
                                     <div
                                         v-if="manifestations.length > 0"
                                         id="manifestations-panel"
-                                        class="level-stripe level-stripe--manifestation tab-content border-base-300 bg-base-100 p-4"
+                                        class="level-stripe level-stripe--manifestation tab-content border-base-300 bg-base-100 p-3 md:p-4"
                                         role="tabpanel"
                                         aria-labelledby="manifestations-tab"
                                     >
@@ -442,7 +442,7 @@
                                                 </p>
 
                                                 <!-- Dropdown mode -->
-                                                <div v-if="filterDropdownViewMode === 'list'" class="relative min-w-0" ref="filterDropdownRef">
+                                                <div v-if="filterDropdownViewMode === 'list'" class="relative w-full min-w-0" ref="filterDropdownRef">
                                                     <button
                                                         ref="filterDropdownButtonRef"
                                                         type="button"
@@ -506,7 +506,7 @@
                                                 </div>
 
                                                 <!-- Badge mode (standalone, not inside dropdown) -->
-                                                <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative">
+                                                <div v-else class="rounded-md border border-base-300 bg-base-100 p-1.5 relative w-full min-w-0">
                                                     <div
                                                         ref="badgeScrollerEl"
                                                         class="overflow-x-auto overflow-y-hidden py-2"
@@ -602,7 +602,7 @@
                                     <div
                                         v-if="hasFilmRelatedMaterials"
                                         id="film-related-materials-panel"
-                                        class="level-stripe level-stripe--film-related-materials tab-content border-base-300 bg-base-100 p-4"
+                                        class="level-stripe level-stripe--film-related-materials tab-content border-base-300 bg-base-100 p-3 md:p-4"
                                         role="tabpanel"
                                         aria-labelledby="film-related-materials-tab"
                                     >
@@ -1413,15 +1413,21 @@ function pinActiveSection(durationMs = 1200) {
     activeSectionPinnedUntil = Date.now() + durationMs;
 }
 
-/** The summary bar replaces the production block once it has scrolled behind the header. */
+/**
+ * The summary bar replaces the work-level details once they have scrolled behind the header.
+ * While the details are collapsed on mobile, their toggle marks the end of the work level.
+ */
 function observeProductionInfo() {
     if (!import.meta.client || !('IntersectionObserver' in window)) return;
 
     productionInfoObserver?.disconnect();
     productionInfoObserver = null;
 
-    const target = document.getElementById('work-events');
-    if (!target) {
+    const events = document.getElementById('work-events');
+    const target = events && events.getClientRects().length > 0
+        ? events
+        : document.getElementById('work-details-toggle');
+    if (!target || target.getClientRects().length === 0) {
         productionInfoOutOfSight.value = false;
         return;
     }
@@ -1440,6 +1446,8 @@ function observeProductionInfo() {
     );
     productionInfoObserver.observe(target);
 }
+
+watch([mirExpanded, isMobile], () => nextTick(observeProductionInfo));
 
 function updateNavbarSummaryTop() {
     if (!import.meta.client) return;
@@ -1930,6 +1938,7 @@ onUnmounted(() => {
 
 .work-detail-content-grid {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     align-items: start;
 }

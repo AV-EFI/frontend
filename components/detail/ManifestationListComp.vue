@@ -51,7 +51,7 @@
             <div
                 v-show="isManifestationOpen(i)"
                 :id="`manifestation-panel-${i}`"
-                class="bg-base-200 px-4 py-4"
+                class="bg-base-200 px-2 py-3 md:px-4 md:py-4"
                 role="region"
                 :aria-labelledby="`manifestation-heading-${i}`"
             >

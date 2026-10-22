@@ -9,61 +9,32 @@
             </template>
 
             <template #title>
-                <NuxtLayout name="partial-grid-2-1" left-class="rounded-t-xl py-4">
-                    <template #left>                        
-                        <div v-if="resourceType != 'compilationItem'" class="detail-record-title col-span-full px-4">
-                            <GlobalClipboardComp
-                                :display-text="dataJson?.compound_record?._source?.handle"
-                                :copy-text="`${copyPidUrl}${dataJson?.compound_record?._source?.handle}`"
-                                class="mb-2 text-xs lg:text-sm text-base-content/90"
-                                collapsible
-                            />
-                            <div class="flex flex-row">
-                                <h1
-                                    class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
-                                >
-                                    {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
-                                </h1>
-                                <MicroBadgeCategoryComp
-                                    :category="dataJson?.compound_record?._source?.has_record?.category"
-                                    :dense="false"
-                                    class="ml-4 my-auto"
-                                />
-                            </div>
-                        </div>
-                        <div v-else class="detail-record-title col-span-full px-4">
-                            <GlobalClipboardComp
-                                :display-text="dataJson?.handle"
-                                :copy-text="`${copyPidUrl}${dataJson?.handle}`"
-                                class="mb-2 text-xs lg:text-sm text-base-content/90"
-                                collapsible
-                            />
-                            <div class="flex flex-row">
-                                <h1
-                                    class="text-lg font-bold xl:text-2xl dark:text-white col-span-full text-ellipsis text-wrap overflow-hidden max-w-full content-center"
-                                >
-                                    {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
-                                </h1>
-                                <MicroBadgeCategoryComp
-                                    category="avefi:Item"
-                                    :dense="false"
-                                    class="ml-4 my-auto"
-                                />
-                            </div>
-                        </div>
-                    </template>
-
-                    <template #right>
-                        <ClientOnly>
-                            <GlobalActionContextComp
-                                class="col-start-11 row-start-1 justify-self-end"
-                                :id="dataJson?.compound_record?._source?.handle"
-                                :item="dataJson?.compound_record?._source"
-                                comp-size="xl"
-                            />
-                        </ClientOnly>
-                    </template>
-                </NuxtLayout>
+                <div class="detail-record-header detail-record-title px-2 py-4 md:px-4 rounded-t-xl">
+                    <MicroBadgeCategoryComp
+                        :category="recordCategory"
+                        :dense="false"
+                        class="detail-record-header__badge"
+                    />
+                    <ClientOnly>
+                        <GlobalActionContextComp
+                            class="detail-record-header__actions"
+                            :id="dataJson?.compound_record?._source?.handle"
+                            :item="dataJson?.compound_record?._source"
+                            comp-size="xl"
+                        />
+                    </ClientOnly>
+                    <h1
+                        class="detail-record-header__title text-2xl font-bold leading-tight md:text-lg xl:text-2xl dark:text-white wrap-break-word"
+                    >
+                        {{ dataJson?.compound_record?._source?.has_record?.has_primary_title?.has_name }}
+                    </h1>
+                    <GlobalClipboardComp
+                        :display-text="recordHandle"
+                        :copy-text="`${copyPidUrl}${recordHandle}`"
+                        class="detail-record-header__handle text-xs lg:text-sm text-base-content/90"
+                        collapsible
+                    />
+                </div>
             </template>
 
             <template #actions>
@@ -75,7 +46,7 @@
             </template>
 
             <template #cardBody>
-                <div class="px-4 pb-4">
+                <div class="px-2 pb-4 md:px-4">
                     <div v-if="pending" class="text-center py-4">
                         <span class="loading loading-spinner loading-lg text-primary" />
                     </div>
@@ -269,6 +240,12 @@ const { data: result, error, pending } = await useAsyncData(
  * -------------------------- */
 const dataJson = computed(() => result.value?.data);
 const resourceType = computed(() => result.value?.resourceType ?? 'workVariant');
+const recordHandle = computed(() => resourceType.value === 'compilationItem'
+    ? dataJson.value?.handle
+    : dataJson.value?.compound_record?._source?.handle);
+const recordCategory = computed(() => resourceType.value === 'compilationItem'
+    ? 'avefi:Item'
+    : dataJson.value?.compound_record?._source?.has_record?.category);
 const requestedHandle = computed(() => result.value?.requestedHandle ?? '');
 
 /** ---------------------------
@@ -583,4 +560,50 @@ a.external-link:before {
   }
 }
 
+/* Mobile: level badge and actions share the first row, then title and identifier.
+   From md: identifier above title with the badge beside it, actions on the right. */
+.detail-record-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "badge actions"
+        "title title"
+        "handle handle";
+    align-items: center;
+    gap: 1rem 0.75rem;
+}
+
+.detail-record-header__badge {
+    grid-area: badge;
+    justify-self: start;
+}
+
+.detail-record-header__actions {
+    grid-area: actions;
+    justify-self: end;
+}
+
+.detail-record-header__title {
+    grid-area: title;
+    min-width: 0;
+}
+
+.detail-record-header__handle {
+    grid-area: handle;
+    min-width: 0;
+}
+
+@media (min-width: 768px) {
+    .detail-record-header {
+        grid-template-columns: minmax(0, max-content) auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "handle handle handle actions"
+            "title badge . actions";
+        column-gap: 1rem;
+    }
+
+    .detail-record-header__actions {
+        align-self: start;
+    }
+}
 </style>
