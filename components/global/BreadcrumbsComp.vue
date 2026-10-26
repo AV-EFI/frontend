@@ -1,6 +1,6 @@
 <template>
     <div
-        class="w-full md:w-fit center-content justify-center mx-auto my-2 text-base-content/70"
+        class="w-full md:w-fit center-content justify-center mx-auto mt-4 mb-2 text-base-content/70"
     >
         <nav
             class="breadcrumbs ml-2 md:ml-auto text-sm"

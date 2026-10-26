@@ -1687,6 +1687,7 @@ const extendedRouting = process.client ? {
 </script>
 <style scoped lang="scss">
 .stat-value {
+  text-align: right;
   font-size: 1.5rem;
   font-weight: 700;
 }
