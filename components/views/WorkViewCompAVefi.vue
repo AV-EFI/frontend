@@ -433,7 +433,10 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-control flex flex-col items-start min-w-0 md:w-96">
+                                            <div
+                                                class="form-control flex flex-col items-start min-w-0"
+                                                :class="filterDropdownViewMode === 'list' ? 'md:w-96' : 'w-full'"
+                                            >
                                                 <span class="label w-full pb-1">
                                                     <span class="label-text text-xs">{{ $t('filterItemsAndManifestations') }}</span>
                                                 </span>
@@ -472,7 +475,7 @@
                                                     <div
                                                         v-if="filterDropdownOpen"
                                                         id="manifestation-filter-options"
-                                                        class="absolute z-20 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
+                                                        class="absolute z-30 mt-1 w-full rounded-md border border-base-300 bg-base-100 shadow-lg"
                                                         @keydown="onFilterDropdownKeydown"
                                                     >
                                                         <fieldset class="max-h-72 flex flex-col overflow-auto p-2">
