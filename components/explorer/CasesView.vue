@@ -12,6 +12,7 @@
                 :aria-pressed="store.selection?.kind === 'caseRules'"
                 @click="toggleRules"
             >
+                <Icon name="tabler:info-circle" size="18" aria-hidden="true" />
                 {{ text.cases.rules }}
             </button>
         </div>

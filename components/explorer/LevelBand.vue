@@ -2,7 +2,6 @@
     <section :id="`level-${level.id}`" class="explorer-band" :class="`band-${level.id}`" :aria-labelledby="`level-title-${level.id}`">
         <!-- The toggle button stretches over the whole header; the details button lies above it. -->
         <div class="explorer-band-head">
-            <Icon :name="level.icon" class="explorer-band-mark" aria-hidden="true" />
             <button
                 type="button"
                 class="explorer-band-toggle"
@@ -11,8 +10,7 @@
                 :aria-controls="open ? `level-body-${level.id}` : undefined"
                 @click="store.toggleLevel(level.id)"
             >
-                <span class="explorer-band-number" aria-hidden="true">{{ level.number }}</span>
-                <Icon :name="level.icon" size="34" class="explorer-band-icon" aria-hidden="true" />
+                <Icon :name="level.icon" size="40" class="explorer-band-icon" aria-hidden="true" />
                 <span class="explorer-band-title">
                     <span :id="`level-title-${level.id}`" class="explorer-band-word">{{ levelText.word }}</span>
                     <span class="explorer-band-gloss">{{ levelText.gloss }}</span>
@@ -37,28 +35,9 @@
 
         <Transition name="explorer-expand">
             <div v-if="open" :id="`level-body-${level.id}`" class="explorer-band-body">
-                <div
-                    v-for="group in groups"
-                    :id="`group-${level.id}-${group.id}`"
-                    :key="group.id"
-                    class="explorer-group"
-                >
-                    <span class="explorer-group-caption">{{ text.groups[group.id].title }}</span>
-                    <div class="explorer-badges">
-                        <ExplorerFieldBadge
-                            v-for="name in group.slots"
-                            :key="name"
-                            :class-id="classId"
-                            :slot-name="name"
-                            :group-id="group.id"
-                        />
-                    </div>
-                </div>
-
-                <div class="explorer-shared-box">
-                    <span class="explorer-group-caption is-strong">{{ text.model.sharedBox }}</span>
+                <div class="explorer-groups">
                     <div
-                        v-for="group in shared"
+                        v-for="group in groups"
                         :id="`group-${level.id}-${group.id}`"
                         :key="group.id"
                         class="explorer-group"
@@ -72,6 +51,29 @@
                                 :slot-name="name"
                                 :group-id="group.id"
                             />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explorer-shared-box">
+                    <span class="explorer-group-caption is-strong">{{ text.model.sharedBox }}</span>
+                    <div class="explorer-groups">
+                        <div
+                            v-for="group in shared"
+                            :id="`group-${level.id}-${group.id}`"
+                            :key="group.id"
+                            class="explorer-group"
+                        >
+                            <span class="explorer-group-caption">{{ text.groups[group.id].title }}</span>
+                            <div class="explorer-badges">
+                                <ExplorerFieldBadge
+                                    v-for="name in group.slots"
+                                    :key="name"
+                                    :class-id="classId"
+                                    :slot-name="name"
+                                    :group-id="group.id"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,20 +119,6 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 .band-manifestation { --band-color: var(--color-manifestation); }
 .band-item { --band-color: var(--color-item); }
 
-/* A large pale copy of the level icon, as high as the header. It only lightens the colour, so it cannot lower the contrast. */
-.explorer-band-mark {
-    position: absolute;
-    top: 0.4rem;
-    right: 1rem;
-    display: block;
-    width: auto;
-    height: calc(100% - 0.8rem);
-    aspect-ratio: 1;
-    color: var(--color-secondary-content);
-    opacity: 0.16;
-    pointer-events: none;
-}
-
 .explorer-band-head {
     position: relative;
     display: flex;
@@ -154,7 +142,7 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 .explorer-band-toggle {
     flex: 1;
     display: grid;
-    grid-template-columns: 3.25rem 2.75rem minmax(0, 1fr) auto;
+    grid-template-columns: 3.25rem minmax(0, 1fr) auto;
     gap: 0.25rem 1rem;
     align-items: center;
     min-width: 0;
@@ -180,12 +168,6 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
 .explorer-band-head:has(.explorer-band-toggle:focus-visible) {
     outline: 3px solid var(--ex-level-ink);
     outline-offset: -4px;
-}
-
-.explorer-band-number {
-    font-family: 'BreeSerif', Georgia, 'Times New Roman', serif;
-    font-size: 2.8rem;
-    line-height: 0.9;
 }
 
 .explorer-band-icon {
@@ -242,6 +224,14 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     padding: 0 1.4rem 1.3rem 6.3rem;
 }
 
+/* The groups of a level sit side by side while there is room, and stack on a narrow screen. */
+.explorer-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    align-items: start;
+    gap: 0.9rem 1.5rem;
+}
+
 .explorer-group {
     display: flex;
     flex-direction: column;
@@ -295,12 +285,8 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     }
 
     .explorer-band-toggle {
-        grid-template-columns: 2.5rem minmax(0, 1fr);
+        grid-template-columns: 2.75rem minmax(0, 1fr);
         padding: 0.9rem 0.25rem 0.25rem;
-    }
-
-    .explorer-band-icon {
-        display: none;
     }
 
     .explorer-band-toggle .explorer-band-action {
@@ -311,10 +297,6 @@ const detailsShown = computed(() => store.selection?.kind === 'level' && store.s
     .explorer-band-body {
         padding-left: 1rem;
         padding-right: 1rem;
-    }
-
-    .explorer-band-mark {
-        display: none;
     }
 }
 </style>

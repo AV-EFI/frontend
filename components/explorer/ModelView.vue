@@ -13,6 +13,7 @@
                 :aria-pressed="store.selection?.kind === 'overview'"
                 @click="toggleOverview"
             >
+                <Icon name="tabler:info-circle" size="18" aria-hidden="true" />
                 {{ text.model.overview }}
             </button>
         </div>
@@ -33,6 +34,7 @@
                         :aria-label="`${text.model.ruleRegion}: ${text.rules[level.upRule].title}`"
                         @click="store.select({ kind: 'rule', id: level.upRule })"
                     >
+                        <Icon name="tabler:info-circle" size="18" aria-hidden="true" />
                         <span class="flex min-w-0 flex-col items-start whitespace-normal">
                             <span class="explorer-link-rule">{{ text.rules[level.upRule].title }}</span>
                             <span class="explorer-link-meta">
@@ -59,6 +61,7 @@
                 :aria-pressed="store.selection?.kind === 'group' && store.selection.id === group.id"
                 @click="store.select({ kind: 'group', id: group.id })"
             >
+                <Icon name="tabler:info-circle" size="16" aria-hidden="true" />
                 {{ text.groups[group.id].title }}
                 <span v-if="groupHasMatch(group) && store.highlight === 'match'" class="badge badge-neutral badge-xs">
                     {{ text.model.matchBadge }}
@@ -73,6 +76,7 @@
                 :aria-pressed="store.selection?.kind === 'imports'"
                 @click="store.select({ kind: 'imports' })"
             >
+                <Icon name="tabler:info-circle" size="16" aria-hidden="true" />
                 {{ text.model.importRules }}
             </button>
         </div>

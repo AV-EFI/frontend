@@ -7,6 +7,7 @@
         :title="slotInfo.name"
         @click="store.selectField(groupId, slotInfo.name)"
     >
+        <Icon name="tabler:info-circle" size="14" aria-hidden="true" />
         <span v-if="term">{{ term }}</span>
         <code v-else lang="en">{{ slotInfo.name }}</code>
         <span v-if="slotInfo.required" class="sr-only"> ({{ text.model.required }})</span>

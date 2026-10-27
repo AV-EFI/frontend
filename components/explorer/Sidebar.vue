@@ -19,6 +19,7 @@
                 <ul class="explorer-fieldlist">
                     <li v-for="field in required" :key="`${field.level}.${field.slot}`">
                         <button type="button" class="btn btn-ghost btn-sm justify-start px-2 font-normal" @click="store.showField(field.level, field.group, field.slot)">
+                            <Icon name="tabler:info-circle" size="14" aria-hidden="true" />
                             {{ requiredLabel(field) }}
                             <span class="explorer-fieldlist-level">{{ text.levels[field.level].word }}</span>
                         </button>
@@ -42,6 +43,7 @@
                 <ul class="explorer-fieldlist">
                     <li v-for="field in compared" :key="field.ref">
                         <button type="button" class="btn btn-ghost btn-sm justify-start px-2 font-normal" @click="store.showField('work', field.group, splitFieldRef(field.ref).slotName)">
+                            <Icon name="tabler:info-circle" size="14" aria-hidden="true" />
                             {{ text.match[field.kind] }}
                         </button>
                     </li>
