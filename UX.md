@@ -31,7 +31,7 @@ For technical and domain facts:
 1. Current AVefi schema: `models/interfaces/schema/*`
 2. Current API contracts and implementation: `server/api/**`, `tests/e2e/api/**`, `tests/e2e/utils/elastic-contracts.ts`
 3. Accepted architecture/domain decisions: `docs/repo-analysis/**`
-4. Current glossary and vocabulary files: `data/glossary.ts`, `assets/data/vocab.json`, `server/assets/vocab/*`
+4. Current glossary and vocabulary files: `data/glossary.ts`, `assets/data/vocab.json`, `models/interfaces/schema/locale_messages.json`
 5. AVefi Gestaltungshandbuch
 6. Issues and discussions
 
@@ -90,7 +90,7 @@ Use schema terms, not invented replacements.
 - The inspected handbook export confirms the same German and English claim strings.
 - Prefer `platform` or, in German contexts, `Plattform`/`Verbundsystem` over `portal`/`Portal`; explain `Verbundsystem` when used.
 - Public navigation terms include film research/search, FAQ, vocabulary, accessibility, press, comparison, favourites, and contact.
-- Current glossary entries live in `data/glossary.ts`; schema-derived vocabulary lives in `assets/data/vocab.json` and `server/assets/vocab/*`.
+- Current glossary entries live in `data/glossary.ts`; schema-derived vocabulary lives in `assets/data/vocab.json` and `models/interfaces/schema/*`.
 - Several German strings in source show encoding damage. Do not treat mojibake as editorial guidance; verify copy against the handbook or accepted editorial sources before editing user-facing language.
 
 ## Handbook Rules For Platform UX

@@ -124,7 +124,6 @@ Used by:
 The same schema family exists in multiple places:
 
 - `models/interfaces/schema/*`
-- `server/assets/vocab/*`
 - `assets/data/*` derived JSON
 
 This is workable, but there is no single obvious place a maintainer should edit or regenerate first.
@@ -147,4 +146,4 @@ Several scripts require live Elasticsearch or GitHub access. That means fresh se
 - mark generated directories clearly in README and file headers
 - separate generated docs from handwritten docs
 - avoid mutating non-generated files from generation scripts
-- decide whether `server/assets/vocab/*` is required, or whether one schema copy is enough
+- keep `models/interfaces/schema/*` as the only schema copy (the server vocab assets now read it directly)

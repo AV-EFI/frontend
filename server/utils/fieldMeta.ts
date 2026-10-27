@@ -23,7 +23,7 @@ export type UserTooltipStore = {
 
 const ASSETS = join(process.cwd(), 'assets', 'data');
 const ENTITIES_JSON = join(ASSETS, 'entities.json');       // from your generator
-const LOCALE_MESSAGES = join(ASSETS, 'schema', 'locale_messages.json'); // copied by your generator
+const LOCALE_MESSAGES = join(process.cwd(), 'models', 'interfaces', 'schema', 'locale_messages.json');
 const USER_TOOLTIPS = join(process.cwd(), 'var', 'cms', 'user-tooltips.json'); // pick a writable place
 
 async function readJSON<T>(file: string, fallback: T): Promise<T> {

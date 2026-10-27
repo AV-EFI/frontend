@@ -1,4 +1,6 @@
 // nuxt.config.ts
+import { fileURLToPath } from 'node:url';
+
 const releaseMode = process.env.NUXT_PUBLIC_RELEASE_MODE ?? 'pre'; // pre | release
 const indexSearch = process.env.NUXT_PUBLIC_INDEX_SEARCH === 'true';
 const disableIndexing = process.env.NUXT_PUBLIC_DISABLE_INDEXING === 'true';
@@ -183,7 +185,12 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
-    serverAssets: [{ baseName: 'vocab', dir: 'assets/vocab' }],
+    // Single schema source: the vocab page reads the generated files in models/interfaces/schema, not a second copy.
+    serverAssets: [{
+      baseName: 'vocab',
+      dir: fileURLToPath(new URL('./models/interfaces/schema', import.meta.url)),
+      ignore: ['**/*.yaml'],
+    }],
     debug: !isProduction && process.env.NUXT_DEBUG === 'true',
     externals: {
       inline: [

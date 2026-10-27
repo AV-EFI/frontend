@@ -63,7 +63,6 @@
 ### Schema copies / duplicate sources of truth
 
 - `models/interfaces/schema/*`
-- `server/assets/vocab/*`
 
 These appear to duplicate schema-derived content in two runtime locations.
 

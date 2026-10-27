@@ -20,7 +20,10 @@
         <div class="explorer-stack">
             <template v-for="(level, index) in LEVELS" :key="level.id">
                 <div v-if="level.upRule" class="explorer-link explorer-rise" :style="{ '--i': index * 2 - 1 }">
-                    <div class="explorer-link-line" aria-hidden="true" />
+                    <div class="explorer-link-line" aria-hidden="true">
+                        <span class="explorer-link-stroke" />
+                        <span class="explorer-link-ratio">{{ RULE_RATIO[level.upRule] }}</span>
+                    </div>
                     <button
                         type="button"
                         class="btn btn-outline justify-start h-auto py-2 text-left"
@@ -86,7 +89,14 @@ import {
     sharedGroups,
     type FieldGroup,
     type LevelDef,
+    type RuleId,
 } from '~/utils/explorer/model';
+
+/** Work to manifestation is n:m (is_manifestation_of, 1 bis n); manifestation to item is 1:n (is_item_of, genau 1). */
+const RULE_RATIO: Record<RuleId, string> = {
+    r_manifestation: 'n : m',
+    r_item: '1 : n',
+};
 
 const store = useExplorerStore();
 const { text } = useExplorerTexts();
@@ -140,9 +150,9 @@ function toggleOverview() {
 }
 
 /* Rule box and line belong together: pointing at one lights up both. */
-.explorer-link:hover .explorer-link-line,
-.explorer-link:focus-within .explorer-link-line {
-    width: 0.55rem;
+.explorer-link:hover .explorer-link-stroke,
+.explorer-link:focus-within .explorer-link-stroke {
+    width: 0.3rem;
     opacity: 1;
 }
 
@@ -154,35 +164,52 @@ function toggleOverview() {
 
 .explorer-link-line {
     position: relative;
-    justify-self: center;
-    width: 0.4rem;
-    /* Dashes run down the line, from the work to the item. */
-    background: repeating-linear-gradient(180deg, var(--color-base-content) 0 0.6rem, transparent 0.6rem 1rem);
-    background-size: 100% 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* A static line with an arrowhead at each end: the relation reads in both directions. */
+.explorer-link-stroke {
+    position: relative;
+    width: 0.2rem;
+    height: 100%;
+    background: var(--color-base-content);
     opacity: 0.55;
     transition: opacity 0.15s, width 0.15s;
-    animation: explorer-flow 1.1s linear infinite;
 }
 
-@keyframes explorer-flow {
-    to { background-position: 0 1rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .explorer-link-line {
-        animation: none;
-    }
-}
-
-.explorer-link-line::after {
+.explorer-link-stroke::before,
+.explorer-link-stroke::after {
     content: '';
     position: absolute;
     left: 50%;
-    bottom: -1px;
     transform: translateX(-50%);
-    border: 0.7rem solid transparent;
+    border: 0.6rem solid transparent;
+}
+
+.explorer-link-stroke::before {
+    bottom: 100%;
     border-top: 0;
-    border-bottom: 0.9rem solid var(--color-base-content);
+    border-bottom: 0.8rem solid var(--color-base-content);
+}
+
+.explorer-link-stroke::after {
+    top: 100%;
+    border-bottom: 0;
+    border-top: 0.8rem solid var(--color-base-content);
+}
+
+/* Ratio of the two levels, set on the line. */
+.explorer-link-ratio {
+    position: absolute;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--color-base-content);
+    background-color: var(--color-base-200);
+    border: 1px solid var(--ex-line);
 }
 
 .explorer-link-rule {

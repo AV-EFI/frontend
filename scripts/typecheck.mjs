@@ -25,7 +25,6 @@ const KNOWN_FALSE_POSITIVE_MESSAGES = [
 // generator (scripts/generate-interfaces.mjs) or the upstream schema instead of
 // chasing type errors in generated output here.
 const EXCLUDED_FILES = [
-    'server/assets/vocab/avefi_schema_type_utils.ts',
     'models/interfaces/schema/avefi_schema_type_utils.ts',
     // components/detail/FavouritesListComp.vue: confirmed dead code (its data ref
     // is never populated anywhere and its field access has never matched the real

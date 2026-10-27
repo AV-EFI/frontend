@@ -13,7 +13,7 @@ For UX, design, domain, or search work, read the relevant subset:
 - Architecture/behavior: `docs/repo-analysis/architecture.md`, `docs/repo-analysis/behavior-baseline.md`, `docs/repo-analysis/component-behavior-contracts.md`
 - Component handover/audit: `docs/components/handover-audit.md`, then the specific `docs/components/*.md`
 - Domain/schema: `models/interfaces/schema/*`, current API implementation and tests, then `docs/repo-analysis/**`
-- Copy/terms: Gestaltungshandbuch export when available, then `i18n/**`, `data/glossary.ts`, `assets/data/vocab.json`, `server/assets/vocab/*`
+- Copy/terms: Gestaltungshandbuch export when available, then `i18n/**`, `data/glossary.ts`, `assets/data/vocab.json`, `models/interfaces/schema/locale_messages.json`
 
 ## Guardrails
 

@@ -28,7 +28,6 @@
     "assets/scss/vs.css",
     "models/interfaces/generated/**",
     "models/interfaces/schema/**",
-    "server/assets/vocab/avefi_schema*.ts",
     "shims/**"
   ],
   "ignoreDependencies": [
@@ -42,10 +41,6 @@
       "types"
     ],
     "models/interfaces/schema/**": [
-      "exports",
-      "types"
-    ],
-    "server/assets/vocab/**": [
       "exports",
       "types"
     ]

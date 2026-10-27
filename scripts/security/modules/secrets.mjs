@@ -14,7 +14,7 @@ const PATTERNS = [
 ];
 
 const PLACEHOLDER_VALUE = /^(?:\$\{?[A-Z0-9_]+\}?|your[-_\w]*|change[-_\w]*|example[-_\w]*|<[^>]*>|x{3,})$/i;
-const SKIP_PREFIXES = ['yarn.lock', 'public/', 'models/interfaces/', 'server/assets/vocab/', 'assets/data/', 'data/', 'logs/'];
+const SKIP_PREFIXES = ['yarn.lock', 'public/', 'models/interfaces/', 'assets/data/', 'data/', 'logs/'];
 const TEXT_EXTENSIONS = ['.ts', '.mjs', '.js', '.vue', '.json', '.yml', '.yaml', '.tmpl', '.md', '.sh', '.env', '.example', 'Dockerfile'];
 
 export default {
