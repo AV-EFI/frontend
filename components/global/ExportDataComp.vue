@@ -29,6 +29,8 @@ import { mkConfig, generateCsv, download as downloadCsv } from 'export-to-csv';
 import { useI18n } from 'vue-i18n';
 import type { ElasticGetByIdResponse } from '~/models/interfaces/generated/IElasticResponses';
 
+type ExportFormat = 'csv' | 'json' | 'xml';
+
 // Nuxt's template-context typing doesn't pick up plugin-provided $-properties
 // reliably in this project's Volar setup (same gap as $t), so this is typed
 // locally against just the methods this component actually calls.
@@ -73,18 +75,15 @@ const props = defineProps({
     }
 });
   
-const exportOptions: { format: 'csv' | 'json' | 'xml'; label: string }[] = [
+const exportOptions: { format: ExportFormat; label: string }[] = [
     { format: 'csv', label: $t('exportAsCSV') },
     { format: 'json', label: $t('exportAsJSON') },
     { format: 'xml', label: $t('exportAsXML') }
 ];
-  
-const csvConfig = mkConfig({
-    filename: `avefi_export_${new Date().toISOString().slice(0, 10)}`,
-    useKeysAsHeaders: true
-});
-  
-async function exportData(format: 'csv' | 'json' | 'xml') {
+
+const exportFilename = () => `avefi_export_${new Date().toISOString().slice(0, 10)}`;
+
+async function exportData(format: ExportFormat) {
     menuOpen.value = false;
     let rawData: string | ElasticGetByIdResponse[] | null;
     if (props.dataSetJson?.length) {
@@ -97,31 +96,24 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
     if (typeof rawData === 'string') {
         rawData = JSON.parse(rawData);
     }
-  
-    if (!rawData || rawData.length === 0) {
+
+    const records = (Array.isArray(rawData) ? rawData : [rawData]).filter(Boolean).map(unwrapRecord);
+    if (records.length === 0) {
         $toast?.error?.($t('noDataToExport'), { timeout: 2000 });
         return;
     }
-  
-    const flattened = Array.isArray(rawData) && rawData.length > 0 && typeof rawData[0] === 'object'
-        ? rawData.flatMap((item) => deepFlattenToObjectStructured(item))
-        : [rawData].flatMap((item) => deepFlattenToObjectStructured(item));
-  
-    const filename = `avefi_export_${new Date().toISOString().slice(0, 10)}`;
-  
+
     try {
         if (format === 'csv') {
-            const csv = await generateCsv(csvConfig)(flattened);
-            if (csv) {
-                downloadCsv(csvConfig)(csv);
-                $toast?.success?.($t('exportSuccess', { format: 'CSV' }), { timeout: 2000 });
-            }
+            const { headers, rows } = recordsToCsvRows(records);
+            const csvConfig = mkConfig({ filename: exportFilename(), columnHeaders: headers });
+            downloadCsv(csvConfig)(generateCsv(csvConfig)(rows));
+            $toast?.success?.($t('exportSuccess', { format: 'CSV' }), { timeout: 2000 });
         } else if (format === 'json') {
-            downloadBlob(JSON.stringify(flattened, null, 2), `${filename}.json`, 'application/json');
+            downloadBlob(JSON.stringify(records.length === 1 ? records[0] : records, null, 2), `${exportFilename()}.json`, 'application/json');
             $toast?.success?.($t('exportSuccess', { format: 'JSON' }), { timeout: 2000 });
         } else if (format === 'xml') {
-            const xml = jsonToXml(flattened);
-            downloadBlob(xml, `${filename}.xml`, 'application/xml');
+            downloadBlob(recordsToXml(records), `${exportFilename()}.xml`, 'application/xml');
             $toast?.success?.($t('exportSuccess', { format: 'XML' }), { timeout: 2000 });
         }
     } catch (err) {
@@ -129,7 +121,7 @@ async function exportData(format: 'csv' | 'json' | 'xml') {
         $toast?.error?.($t('exportFailed'), { timeout: 3000 });
     }
 }
-  
+
 function downloadBlob(content: string, filename: string, type: string) {
     const blob = new Blob([content], { type });
     const link = document.createElement('a');
@@ -137,172 +129,5 @@ function downloadBlob(content: string, filename: string, type: string) {
     link.download = filename;
     link.click();
     URL.revokeObjectURL(link.href);
-}
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function jsonToXml(jsonArray: any[]): string {
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<records>\n`;
-    for (const obj of jsonArray) {
-        xml += `  <record>\n`;
-        for (const key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                const safeValue = String(obj[key] ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                xml += `    <${key}>${safeValue}</${key}>\n`;
-            }
-        }
-        xml += `  </record>\n`;
-    }
-    xml += `</records>`;
-    return xml;
-}
-  
-function deepFlattenToObjectStructured(entry: any) {
-    const rows: any[] = [];
-    const source = entry._source || entry;
-    const workVariant = source.has_record || {};
-    const manifestations = source.manifestations || [];
-  
-    const creators = new Set<string>();
-    const castmembers = new Set<string>();
-    const production = new Set<string>();
-    const locations = new Set<string>();
-    const agents = new Set<string>();
-  
-    if (source.creators?.length || source.directors_or_editors?.length) {
-        for (const name of source.creators?.length ? source.creators : source.directors_or_editors) {
-            creators.add(sanitizeCsvValue(name));
-        }
-    } else {
-        for (const event of workVariant.has_event || []) {
-            for (const activity of event.has_activity || []) {
-                if (activity.category === "avefi:DirectingActivity" && ["Director", "Creator"].includes(activity.type)) {
-                    for (const agent of activity.has_agent || []) {
-                        if (agent.has_name) {
-                            creators.add(sanitizeCsvValue(agent.has_name));
-                        }
-                    }
-                }
-            }
-        }
-    }
-  
-    if (source.castmembers) {
-        for (const name of source.castmembers) {
-            castmembers.add(sanitizeCsvValue(name));
-        }
-    } else {
-        for (const event of workVariant.has_event || []) {
-            for (const activity of event.has_activity || []) {
-                if (activity.category === "avefi:CastActivity") {
-                    for (const agent of activity.has_agent || []) {
-                        if (agent.has_name) {
-                            castmembers.add(sanitizeCsvValue(agent.has_name));
-                        }
-                    }
-                }
-            }
-        }
-    }
-  
-    if (source.production) {
-        for (const name of source.production) {
-            production.add(sanitizeCsvValue(name));
-        }
-    } else {
-        for (const event of workVariant.has_event || []) {
-            for (const activity of event.has_activity || []) {
-                if (activity.category === "avefi:ProducingActivity") {
-                    for (const agent of activity.has_agent || []) {
-                        if (agent.has_name) {
-                            production.add(sanitizeCsvValue(agent.has_name));
-                        }
-                    }
-                }
-            }
-        }
-    }
-  
-    if (source.located_in) {
-        for (const name of source.located_in) {
-            locations.add(sanitizeCsvValue(name));
-        }
-    } else {
-        for (const event of workVariant.has_event || []) {
-            for (const loc of event.located_in || []) {
-                if (loc.has_name) {
-                    locations.add(sanitizeCsvValue(loc.has_name));
-                }
-            }
-        }
-    }
-  
-    for (const event of workVariant.has_event || []) {
-        for (const activity of event.has_activity || []) {
-            if (
-                activity.category !== "avefi:ProducingActivity" &&
-                activity.category !== "avefi:DirectingActivity" &&
-                activity.category !== "avefi:CastActivity" &&
-                activity.category !== "avefi:EditingActivity"
-            ) {
-                for (const agent of activity.has_agent || []) {
-                    if (agent.has_name) {
-                        const agentWithType = `${sanitizeCsvValue(agent.has_name)} (${sanitizeCsvValue(activity.type || '')})`;
-                        agents.add(agentWithType);
-                    }
-                }
-            }
-        }
-    }
-  
-    const baseRow = {
-        workVariant_id: source.handle,
-        primary_title: sanitizeCsvValue(workVariant.has_primary_title?.has_name || '').replace(/"/g, '""'),
-        alternative_title: sanitizeCsvValue(workVariant.has_alternative_title?.[0]?.has_name || '').replace(/"/g, '""'),
-        production_year: source.years?.[0] || '',
-        creators: Array.from(creators).join('; '),
-        castmembers: Array.from(castmembers).join('; '),
-        production: Array.from(production).join('; '),
-        located_in: Array.from(locations).join('; '),
-        agents: Array.from(agents).join('; ')
-    };
-  
-    if (manifestations.length === 0) {
-        rows.push({ ...baseRow });
-        return rows;
-    }
-  
-    for (const man of manifestations) {
-        const manRecord = man.has_record || {};
-        const manRow = {
-            ...baseRow,
-            manifestation_id: man.handle,
-            has_issuer_name: manRecord.described_by?.has_issuer_name,
-            has_colour_type: manRecord.has_colour_type || '',
-            has_sound_type: manRecord.has_sound_type || '',
-            has_duration: ''
-        };
-  
-        const items = man.items || [];
-        if (items.length === 0) {
-            rows.push({ ...manRow });
-            continue;
-        }
-  
-        for (const item of items) {
-            const itemRecord = item.has_record || {};
-            const format = itemRecord.has_format?.map((f: any) => f.type).join('; ') || '';
-            rows.push({
-                ...manRow,
-                item_id: item.handle,
-                has_format: format
-            });
-        }
-    }
-  
-    return rows;
-}
-  
-function sanitizeCsvValue(value: string): string {
-    return value.replace(/\r?\n|\r/g, ' ').replace(/"/g, "'").trim();
 }
 </script>
