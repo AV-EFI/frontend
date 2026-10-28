@@ -48,7 +48,7 @@ export const explorerDe = {
       word: 'Werk',
       gloss: 'das Filmwerk als abstrakte Entität',
       definition: 'Das Filmwerk als abstrakte Entität, von dem mehrere Manifestationen in verschiedenen Sammlungen existieren können.',
-      hint: 'Dazu gehören zum Beispiel der Titel des Films, das Entstehungsjahr oder die Regie.',
+      hint: 'Zum Beispiel wie der Film heißt, wann er gedreht wurde oder wer ihn gedreht hat.',
     },
     manifestation: {
       word: 'Manifestation',
@@ -427,7 +427,7 @@ export const explorerEn: ExplorerTexts = {
     work: {
       word: 'Work',
       gloss: 'an abstract entity',
-      definition: 'An abstract entity from which several manifestations may exist in different collections.',
+      definition: 'An abstract entity, from which several manifestations may exist in different collections.',
       hint: 'This includes core information such as the film’s title, when it was made, or who directed it.',
     },
     manifestation: {
