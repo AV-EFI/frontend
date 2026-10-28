@@ -8,14 +8,12 @@ const stamp = new Date().toISOString().slice(0, 10);
 const branchName = `chore/security-weekly-${stamp}`;
 const commitMessage = `chore(security): weekly dependabot prep ${stamp}`;
 
-run('git', ['checkout', '-B', branchName]);
+if (runCapture('git', ['branch', '--show-current']).trim() !== branchName) {
+  run('git', ['checkout', '-b', branchName]);
+}
 
-const candidateFiles = [
-  'package.json',
-  'yarn.lock',
-  'logs/security/dependabot-weekly-report.md',
-  'logs/security/dependabot-alerts-open.json',
-];
+// logs/ is gitignored; the reports stay local and CI publishes them as artifacts.
+const candidateFiles = ['package.json', 'yarn.lock'];
 
 const filesToAdd = candidateFiles.filter((file) => fs.existsSync(file));
 if (filesToAdd.length > 0) {
