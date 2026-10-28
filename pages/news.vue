@@ -16,6 +16,7 @@
         </template>
         <template #cardBody>
             <div class="mx-auto w-full max-w-3xl space-y-6 break-words text-base">
+                <p v-if="locale !== 'de'" class="news-language-note" role="note">{{ $t('news.germanOnly') }}</p>
                 <p v-if="status === 'pending'" role="status">{{ $t('news.loading') }}</p>
                 <div v-else-if="error" role="alert" class="space-y-3">
                     <p>{{ $t('news.error') }}</p>
@@ -104,6 +105,7 @@ const goToPage = (target: number) => {
     gap: 1rem;
     padding: 1rem 0 1.5rem;
 }
+.news-language-note { font-weight: 600; }
 .news-source { display: inline-flex; align-items: center; gap: 0.5rem; text-underline-offset: 0.25em; }
 .news-source :deep(.iconify) { flex-shrink: 0; }
 .news-list { padding: 0; list-style: none; }

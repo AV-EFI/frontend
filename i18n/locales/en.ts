@@ -20,6 +20,7 @@ const avefiBase = {
     empty: 'No news is currently available.',
     fullText: 'Read full text',
     original: 'Read on the project website',
+    germanOnly: 'The news is currently only available in German.',
     pagination: {
       label: 'Pages',
       previous: 'Previous page',

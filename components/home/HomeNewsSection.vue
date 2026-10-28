@@ -16,6 +16,7 @@
                     {{ t('home.sections.news.allNews') }}
                 </NuxtLink>
             </div>
+            <p v-if="locale !== 'de'" class="text-sm font-semibold" role="note">{{ t('news.germanOnly') }}</p>
             <Transition name="news-layout" mode="out-in">
                 <ul v-if="!expandedArticle" key="grid" class="grid grid-cols-1 sm:grid-cols-3 gap-6" role="list">
                     <li v-for="article in articles" :key="article.id" class="min-w-0">

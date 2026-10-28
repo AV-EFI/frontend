@@ -20,6 +20,7 @@ const deBase = {
     empty: 'Zurzeit sind keine Nachrichten verfügbar.',
     fullText: 'Vollständigen Text anzeigen',
     original: 'Nachricht auf der Projektwebsite ansehen',
+    germanOnly: 'Die Nachrichten sind derzeit nur auf Deutsch verfügbar.',
     pagination: {
       label: 'Seiten',
       previous: 'Vorherige Seite',
