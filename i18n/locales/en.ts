@@ -894,11 +894,11 @@ const avefiBase = {
         "heading": "What is the difference between work, manifestation, and item?",
         "content": [
           "Following the <a class=\"link\" href=\"https://www.fiafnet.org/pages/e-resources/cataloguing-manual.html\" target=\"_blank\" rel=\"noopener noreferrer\">FIAF Moving Image Cataloguing Manual</a>, AVefi distinguishes between <strong>film works</strong>, <strong>manifestations</strong>, and <strong>items</strong>.",
-          "<strong>Work:</strong> an abstract entity from which several manifestations may exist in different collections.",
+          "<strong>Work:</strong> an abstract entity, from which several manifestations may exist in different collections.",
           "A work is an entity that encompasses the intellectual or artistic content and the process of its realization in a cinematographic medium. This includes core information such as the film’s title, when it was made, or who directed it. These core elements generally remain unchanged across different manifestations.",
           "<strong>Manifestation:</strong> a specific version of a film work represented by items in a collection.",
-          "A manifestation is the embodiment of a film work. Manifestations include all analog, digital, and online media. Information at the manifestation level may describe what the manifestation ideally contains. For example, the original running time of a film may be 1:30:00, but the copy held in an archive may be shorter because some footage is missing.",
-          "<strong>Item:</strong> a specific object within a film collection.",
+          "A manifestation is the embodiment of a film work. Manifestations include all analog, digital, and online media. Information at the manifestation level may describe what the manifestation ideally contains. For example: the original running time of a film may be 1:30:00, but the copy held in an archive may be shorter because some footage is missing.",
+          "<strong>Item:</strong> a specific physical or digital object within a film collection.",
           "An item is the physical product of a manifestation of a work. An item may consist of one or several components, for example a single reel or five spools. If necessary, an item record can contain fields describing each component of the item. An item may be complete, incomplete, or a fragment. For purely digital media, an item is defined as the availability of the file itself, regardless of how many backup copies may exist.",
           "For technical reasons, and because manifestations are documented differently in practice, information such as language, running time, or format in AVefi is attached not to the manifestation but to the item.",
           "The AVefi data model is designed to assign collection data uniquely to a specific institution while also representing relationships between the holdings of different institutions. For this purpose, the system generates <strong>persistent identifiers (PIDs)</strong>. The identifiers, called “efi,” are assigned at the levels mentioned above, each according to its specific requirements."
@@ -957,7 +957,7 @@ const avefiBase = {
         "heading": "Help for data providers",
         "content": [
           "Become a data provider for AVefi. Information on the necessary steps can be found in the following resources:",
-          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_how-to_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to Dokument</a>",
+          "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_how-to_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi How-to document</a>",
           "<a class=\"link\" href=\"https://projects.tib.eu/fileadmin/data/av-efi/docs/AVefi_Manual_aktuell.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" download>AVefi Manual</a>",
           "Contact:",
           "Email: <a class=\"link\" href=\"mailto:contact@av-efi.net\">contact@av-efi.net</a>"

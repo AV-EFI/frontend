@@ -46,8 +46,8 @@ export const explorerDe = {
   levels: {
     work: {
       word: 'Werk',
-      gloss: 'das Filmwerk als abstrakte Einheit',
-      definition: 'Das Filmwerk als abstrakte Einheit, von dem mehrere Manifestationen in verschiedenen Sammlungen existieren können.',
+      gloss: 'das Filmwerk als abstrakte Entität',
+      definition: 'Das Filmwerk als abstrakte Entität, von dem mehrere Manifestationen in verschiedenen Sammlungen existieren können.',
       hint: 'Dazu gehören zum Beispiel der Titel des Films, das Entstehungsjahr oder die Regie.',
     },
     manifestation: {
@@ -58,7 +58,7 @@ export const explorerDe = {
     },
     item: {
       word: 'Exemplar',
-      gloss: 'ein konkretes Objekt in einer Filmsammlung',
+      gloss: 'ein konkreter Bewegtbildträger in einer Filmsammlung',
       definition: 'Ein Exemplar ist das physische Produkt einer Manifestation eines Werks.',
       hint: 'Das Exemplar kann vollständig, unvollständig oder ein Fragment sein.',
     },
@@ -438,7 +438,7 @@ export const explorerEn: ExplorerTexts = {
     },
     item: {
       word: 'Item',
-      gloss: 'a specific object within a film collection',
+      gloss: 'a specific physical or digital object within a film collection',
       definition: 'An item is the physical product of a manifestation of a work.',
       hint: 'An item may be complete, incomplete, or a fragment.',
     },
