@@ -1,6 +1,6 @@
 <template>
     <ais-panel role="region" :aria-labelledby="`facet-title-${props.attributeName}`" :class-names="{
-        'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-base-200 dark:border-gray-600 rounded-lg mb-2 max-md:!w-[90vw]',
+        'ais-Panel': 'collapse collapse-arrow bg-white border-2 border-base-200 dark:border-gray-700 rounded-lg mb-2 max-md:!w-[90vw]',
         'ais-Panel-body': 'collapse-content !pl-0 !pr-0 bg-gray-50 dark:bg-gray-900 dark:text-white text-xs ',
         'ais-Panel-header': 'collapse-title bg-white dark:bg-gray-900 dark:text-white !min-h-5 !mb-0 flex flex-row items-center justify-between gap-2 text-left'
     }"

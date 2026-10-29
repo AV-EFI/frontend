@@ -242,7 +242,7 @@
                                     </div>
 
                                     <LazyDetailPaginationComp
-                                        class="col-span-full md:col-span-3 border-base-200 border-2 rounded-lg"
+                                        class="col-span-full md:col-span-3 rounded-lg"
                                         :is-search-loading="isSearchLoading"
                                     />
                                 </div>
