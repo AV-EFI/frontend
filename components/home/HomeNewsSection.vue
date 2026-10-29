@@ -16,7 +16,7 @@
                     {{ t('home.sections.news.allNews') }}
                 </NuxtLink>
             </div>
-            <p v-if="locale !== 'de'" class="text-sm font-semibold" role="note">{{ t('news.germanOnly') }}</p>
+            <p v-if="hasGermanOnly" class="text-sm font-semibold" role="note">{{ t('news.germanOnly') }}</p>
             <Transition name="news-layout" mode="out-in">
                 <ul v-if="!expandedArticle" key="grid" class="grid grid-cols-1 sm:grid-cols-3 gap-6" role="list">
                     <li v-for="article in articles" :key="article.id" class="min-w-0">
@@ -24,8 +24,8 @@
                             <time v-if="article.publishedAt" :datetime="article.publishedAt" class="text-sm font-semibold opacity-70">
                                 {{ formatDate(article.publishedAt) }}
                             </time>
-                            <h3 lang="de" class="text-lg font-bold leading-snug wrap-break-word">{{ article.title }}</h3>
-                            <p v-if="article.preview" lang="de" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="article.preview" />
+                            <h3 :lang="article.language" class="text-lg font-bold leading-snug wrap-break-word">{{ article.title }}</h3>
+                            <p v-if="article.preview" :lang="article.language" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="article.preview" />
                             <button
                                 v-if="article.content"
                                 type="button"
@@ -61,8 +61,8 @@
                                 <Icon name="tabler:x" aria-hidden="true" />
                             </button>
                         </div>
-                        <h3 lang="de" class="text-lg font-bold leading-snug wrap-break-word">{{ expandedArticle.title }}</h3>
-                        <div lang="de" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="expandedArticle.content" />
+                        <h3 :lang="expandedArticle.language" class="text-lg font-bold leading-snug wrap-break-word">{{ expandedArticle.title }}</h3>
+                        <div :lang="expandedArticle.language" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="expandedArticle.content" />
                         <a class="link link-primary text-sm ml-auto" target="_blank" rel="noopener noreferrer" :href="expandedArticle.link" :aria-label="t('news.original')">
                             {{ t('news.original') }}<Icon name="tabler:external-link" aria-hidden="true" />
                         </a>
@@ -74,8 +74,8 @@
                                 <time v-if="article.publishedAt" :datetime="article.publishedAt" class="text-sm font-semibold opacity-70">
                                     {{ formatDate(article.publishedAt) }}
                                 </time>
-                                <h3 lang="de" class="text-base font-bold leading-snug wrap-break-word">{{ article.title }}</h3>
-                                <p v-if="article.preview" lang="de" class="home-news-content text-sm opacity-80 wrap-break-word line-clamp-2" v-html="article.preview" />
+                                <h3 :lang="article.language" class="text-base font-bold leading-snug wrap-break-word">{{ article.title }}</h3>
+                                <p v-if="article.preview" :lang="article.language" class="home-news-content text-sm opacity-80 wrap-break-word line-clamp-2" v-html="article.preview" />
                                 <button
                                     v-if="article.content"
                                     type="button"
@@ -105,7 +105,9 @@ import { useNews } from '~/composables/useNews';
 const { t, locale } = useI18n();
 const runtimeConfig = useRuntimeConfig();
 
-const { data: articles } = await useNews({ limit: computed(() => Number(runtimeConfig.public.newsHomeCount) || 3) });
+const { data: articles } = await useNews({ locale, limit: computed(() => Number(runtimeConfig.public.newsHomeCount) || 3) });
+
+const hasGermanOnly = computed(() => locale.value !== 'de' && !!articles.value?.some((article) => article.language === 'de'));
 
 const expandedId = ref<string | null>(null);
 const expandedArticle = computed(() => articles.value?.find((article) => article.id === expandedId.value) ?? null);

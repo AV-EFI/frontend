@@ -16,7 +16,7 @@
         </template>
         <template #cardBody>
             <div class="mx-auto w-full max-w-3xl space-y-6 break-words text-base">
-                <p v-if="locale !== 'de'" class="news-language-note" role="note">{{ $t('news.germanOnly') }}</p>
+                <p v-if="hasGermanOnly" class="news-language-note" role="note">{{ $t('news.germanOnly') }}</p>
                 <p v-if="status === 'pending'" role="status">{{ $t('news.loading') }}</p>
                 <div v-else-if="error" role="alert" class="space-y-3">
                     <p>{{ $t('news.error') }}</p>
@@ -28,19 +28,19 @@
                         <article class="news-article">
                             <time v-if="article.publishedAt" :datetime="article.publishedAt" class="news-date">{{ formatDate(article.publishedAt) }}</time>
                             <div class="news-article-heading">
-                                <h2 lang="de" class="bree text-2xl sm:text-3xl leading-tight">{{ article.title }}</h2>
+                                <h2 :lang="article.language" class="bree text-2xl sm:text-3xl leading-tight">{{ article.title }}</h2>
                                 <a :href="article.link" class="link news-source">
-                                    <span>{{ $t('news.original') }}<span lang="de" class="sr-only">: {{ article.title }}</span></span>
+                                    <span>{{ $t('news.original') }}<span :lang="article.language" class="sr-only">: {{ article.title }}</span></span>
                                     <Icon name="tabler:external-link" aria-hidden="true" />
                                 </a>
                             </div>
-                            <div v-if="article.preview" lang="de" class="news-content" v-html="article.preview" />
+                            <div v-if="article.preview" :lang="article.language" class="news-content" v-html="article.preview" />
                             <details v-if="article.content" class="news-details">
                                 <summary class="news-toggle">
-                                    <span>{{ $t('news.fullText') }}<span lang="de" class="sr-only">: {{ article.title }}</span></span>
+                                    <span>{{ $t('news.fullText') }}<span :lang="article.language" class="sr-only">: {{ article.title }}</span></span>
                                     <Icon name="tabler:chevron-down" class="news-chevron" aria-hidden="true" />
                                 </summary>
-                                <div lang="de" class="news-content" v-html="article.content" />
+                                <div :lang="article.language" class="news-content" v-html="article.content" />
                             </details>
                         </article>
                     </li>
@@ -68,10 +68,12 @@ import { useNews } from '~/composables/useNews';
 definePageMeta({ auth: false, middleware: ['news'] });
 const { t, locale } = useI18n();
 useSeoMeta({ title: () => `${t('news.title')} | AVefi`, robots: 'noindex, nofollow' });
-const { data: articles, status, error, refresh } = await useNews();
+const { data: articles, status, error, refresh } = await useNews({ locale });
 const formatDate = (value: string) => new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long', timeZone: 'UTC',
 }).format(new Date(value));
+
+const hasGermanOnly = computed(() => locale.value !== 'de' && !!articles.value?.some((article) => article.language === 'de'));
 
 const PAGE_SIZE = 10;
 const route = useRoute();

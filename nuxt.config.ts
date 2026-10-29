@@ -394,6 +394,7 @@ export default defineNuxtConfig({
       CMS_MUTATIONS_ENABLED: process.env.CMS_MUTATIONS_ENABLED || 'false',
       CMS_MUTATION_ORIGIN_ALLOWLIST: process.env.CMS_MUTATION_ORIGIN_ALLOWLIST || '',
       newsFeedUrl: process.env.NEWS_FEED_URL || 'https://projects.tib.eu/av-efi/rss.xml',
+      newsFeedUrlEn: process.env.NEWS_FEED_URL_EN || 'https://projects.tib.eu/av-efi/en/rss.xml',
     },
   },
   routeRules: {

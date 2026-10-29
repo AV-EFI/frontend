@@ -24,7 +24,12 @@ ten-second timeout and caches successful results for five minutes, keyed by feed
 URL. XML is parsed with `fast-xml-parser`; DTDs are rejected. `sanitize-html`
 allows basic text formatting and HTTP(S) links only. Source images, scripts,
 styles and event attributes are not rendered. Feed failures display a retry
-action and the project website link. `GET /api/news` accepts an optional
+action and the project website link. With `?locale=en` the server also fetches the English
+feed (`runtimeConfig.newsFeedUrlEn`, default `https://projects.tib.eu/av-efi/en/rss.xml`,
+overridable via `NEWS_FEED_URL_EN`). That feed only lists translated articles, so they are
+merged with the German feed by `guid`; untranslated articles stay German. Every article
+carries a `language` (`de`/`en`), and the UI shows a note while German-only articles are
+visible in a non-German locale. If the English feed fails, the German list is returned. `GET /api/news` accepts an optional
 `?limit=` query parameter to return only the newest N entries.
 
 ## Homepage news row

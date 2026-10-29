@@ -7,7 +7,7 @@ vi.mock('h3', async (importOriginal) => ({ ...await importOriginal<typeof import
 afterEach(() => { vi.unstubAllGlobals(); vi.resetModules(); fetchMock.mockReset(); });
 
 async function handler(enabled: unknown, feedUrl = 'https://projects.tib.eu/av-efi/rss.xml') {
-  vi.stubGlobal('useRuntimeConfig', () => ({ public: { newsEnabled: enabled }, private: { newsFeedUrl: feedUrl } }));
+  vi.stubGlobal('useRuntimeConfig', () => ({ public: { newsEnabled: enabled }, private: { newsFeedUrl: feedUrl, newsFeedUrlEn: 'https://projects.tib.eu/av-efi/en/rss.xml' } }));
   vi.stubGlobal('defineCachedFunction', (fn: unknown) => fn);
   return (await import('~/server/api/news.get')).default;
 }
@@ -57,5 +57,40 @@ describe('news API', () => {
     fetchMock.mockResolvedValue('<rss><channel /></rss>');
     await run(makeEvent());
     expect(fetchMock).toHaveBeenCalledWith('https://projects.tib.eu/av-efi/rss.xml', expect.objectContaining({ timeout: 10000, retry: 0 }));
+  });
+
+  describe('English locale', () => {
+    const item = (guid: string, title: string, date: string) => `<item><guid>${guid}</guid><title>${title}</title><link>https://projects.tib.eu/av-efi/${guid}</link><pubDate>${date}</pubDate></item>`;
+    const feed = (...items: string[]) => `<rss><channel>${items.join('')}</channel></rss>`;
+    const german = feed(
+      item('news-2', 'Zwei', 'Wed, 07 Oct 2026 01:00:00 +0000'),
+      item('news-1', 'Eins', 'Tue, 06 Oct 2026 01:00:00 +0000'),
+    );
+    const english = feed(item('news-2', 'Two', 'Wed, 07 Oct 2026 01:00:00 +0000'));
+
+    it('prefers translations and keeps untranslated articles in German', async () => {
+      fetchMock.mockImplementation(async (url: string) => (url.includes('/en/') ? english : german));
+      const run = await handler(true);
+      const result = await run(makeEvent({ locale: 'en' })) as { title: string; language: string }[];
+      expect(result.map(({ title, language }) => [title, language])).toEqual([['Two', 'en'], ['Eins', 'de']]);
+    });
+
+    it('returns German articles only for other locales', async () => {
+      fetchMock.mockResolvedValue(german);
+      const run = await handler(true);
+      const result = await run(makeEvent({ locale: 'de' })) as { language: string }[];
+      expect(result.map(({ language }) => language)).toEqual(['de', 'de']);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('falls back to the German list when the English feed fails', async () => {
+      fetchMock.mockImplementation(async (url: string) => {
+        if (url.includes('/en/')) throw new Error('timeout');
+        return german;
+      });
+      const run = await handler(true);
+      const result = await run(makeEvent({ locale: 'en' })) as { language: string }[];
+      expect(result.map(({ language }) => language)).toEqual(['de', 'de']);
+    });
   });
 });
