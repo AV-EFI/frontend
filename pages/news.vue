@@ -1,7 +1,7 @@
 <!-- Feed HTML is sanitized on the server using an explicit allowlist. -->
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <NuxtLayout name="partial-layout-1-center" narrow padding-class="p-4 sm:px-8 lg:px-12" margin-bottom-class="mb-12 lg:mb-16">
+    <NuxtLayout name="partial-layout-1-center" narrow padding-class="p-4 sm:px-8 lg:px-12">
         <template #navigation>
             <GlobalBreadcrumbsComp :breadcrumbs="[[$t('home.breadcrumbs'), '/'], [$t('news.title'), '/news']]" />
         </template>

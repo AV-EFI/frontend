@@ -543,6 +543,7 @@ watch(showAdvancedSearch, async (isAdvanced) => {
 definePageMeta({
     auth: false,
     layout: 'default',
+    flushFooter: true,
 });
 
 const cardItems = ref<CardItem[]>([

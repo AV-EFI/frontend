@@ -20,7 +20,7 @@
 
         <div class="shrink-0" :style="headerSpacerStyle" aria-hidden="true"></div>
 
-        <main id="main-content" tabindex="-1" class="main grow 2xl:px-6 focus:outline-none">
+        <main id="main-content" tabindex="-1" class="main grow 2xl:px-6 focus:outline-none dark:border-gray-700 xl:border-base-200 xl:border-l-2 xl:border-r-2 xl:border-b-2" :class="{ 'pb-12 lg:pb-16': !flushWithFooter }">
             <slot />
             <component :is="GlobalComparisonDrawerAsync" v-if="hydrated && comparisonDrawerReady" />
             <component :is="GlobalContactDrawerAsync" v-if="hydrated && contactDrawerReady" />
@@ -43,6 +43,7 @@
 
 <script>
 import { computed, defineAsyncComponent } from 'vue';
+import { useRoute } from 'vue-router';
 import GlobalFooter from '~/components/global/Footer.vue';
 import GlobalMaintenanceBanner from '~/components/global/MaintenanceBanner.vue';
 import { useMaintenanceBanner } from '~/composables/useMaintenanceBanner';
@@ -60,6 +61,9 @@ export default {
     setup() {
         const { visible: maintenanceBannerVisible } = useMaintenanceBanner();
         const objectListStore = useObjectListStore();
+        const route = useRoute();
+        /** Pages that end in a full-width background (home) set `flushFooter` so no gap opens above the footer. */
+        const flushWithFooter = computed(() => route.meta.flushFooter === true);
 
         const headerSpacerStyle = computed(() => ({
             height: maintenanceBannerVisible.value
@@ -70,6 +74,7 @@ export default {
         return {
             GlobalComparisonDrawerAsync,
             GlobalContactDrawerAsync,
+            flushWithFooter,
             headerSpacerStyle,
             objectListStore,
             skipLinkId: SKIP_LINK_ID,

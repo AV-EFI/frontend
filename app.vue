@@ -323,7 +323,7 @@ useHead(() => ({
         <NuxtLoadingIndicator />
         <NuxtLayout class="layouts">
             <div
-                class="mt-2 max-lg:w-screen grow mx-auto dark:text-white dark:border-gray-700 xl:border-base-200 xl:border-l-2 xl:border-r-2 px-0 lg:px-2 xl:px-4">
+                class="mt-2 max-lg:w-screen grow mx-auto dark:text-white px-0 lg:px-2 xl:px-4">
                 <NuxtPage />
             </div>
             <ClientOnly>

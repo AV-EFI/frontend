@@ -147,6 +147,8 @@ import deMessages from '~/i18n/locales/de';
 import enMessages from '~/i18n/locales/en';
 import { useI18n } from 'vue-i18n';
 
+definePageMeta({ flushFooter: true });
+
 interface PressManifestFile {
     label: string;
     path: string;
