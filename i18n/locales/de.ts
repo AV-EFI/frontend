@@ -1044,6 +1044,7 @@ const deBase = {
   'profileEmail': 'E-Mail',
   'profileInstitution': 'Institution',
   'profileExpires': 'Angemeldet bis',
+  'profileSessionExpired': 'Sitzung abgelaufen',
   'collapse': 'Einklappen',
   'workEvents': 'Ereignisse',
   'untitledPart': 'Unbenannter Teil',

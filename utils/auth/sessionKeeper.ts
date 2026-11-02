@@ -6,7 +6,7 @@ const MAX_TIMER_MS = 2_147_483_647;
 const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'scroll'] as const;
 
 export interface SessionKeeperOptions {
-  /** Status check, run shortly after the deadline; the caller may renew a session it finds gone. */
+  /** Status check, run shortly after the deadline; it must not renew the session. */
   check: () => void | Promise<void>;
   /** Extends the session; run on throttled user activity. */
   refresh: () => void | Promise<void>;

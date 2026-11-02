@@ -1,4 +1,4 @@
-import { isSessionExpired, normalizeSession } from './session';
+import { normalizeSession } from './session';
 import type { AuthSession } from './types';
 
 const SESSION_KEY = 'auth_session';
@@ -30,12 +30,11 @@ export function createSessionSync(options: SessionSyncOptions) {
     }
   }
 
-  /** Persisted session, or `null` when absent, unreadable or already expired. */
+  /** Persisted session, or `null` when absent or unreadable; it may be past its deadline. */
   function restore(): AuthSession | null {
     try {
       const saved = storage.getItem(SESSION_KEY);
-      const session = saved ? normalizeSession(JSON.parse(saved), options.now() / 1000) : null;
-      return isSessionExpired(session, options.now() / 1000) ? null : session;
+      return saved ? normalizeSession(JSON.parse(saved), options.now() / 1000) : null;
     } catch {
       return null;
     }

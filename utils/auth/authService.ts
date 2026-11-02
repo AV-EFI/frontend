@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { AuthClient } from './authClient';
-import { isSessionRejected, normalizeSession } from './session';
+import { isSessionExpired, isSessionRejected, normalizeSession } from './session';
 import { createSessionKeeper, RETRY_AFTER_ERROR_MS } from './sessionKeeper';
 import { createSessionSync } from './sessionSync';
 import type { SessionSyncOptions } from './sessionSync';
@@ -39,6 +39,8 @@ export function createAuthService(options: AuthServiceOptions) {
   const loading = ref(false);
   const error = ref<unknown>(null);
   const isAuthenticated = computed(() => !!session.value);
+  /** The reported session duration has run out; only the next user activity can renew it. */
+  const sessionExpired = ref(false);
   let refreshInFlight = false;
 
   const sync = options.browser
@@ -48,6 +50,7 @@ export function createAuthService(options: AuthServiceOptions) {
       now,
       onSession: (next) => {
         session.value = next;
+        sessionExpired.value = isSessionExpired(next, now() / 1000);
         keeper?.scheduleCheck();
       },
       onLogout: () => {
@@ -71,6 +74,7 @@ export function createAuthService(options: AuthServiceOptions) {
 
   function setSession(next: AuthSession | null) {
     session.value = next;
+    sessionExpired.value = isSessionExpired(next, now() / 1000);
     sync?.persist(next);
     if (!next) {
       client.forgetCsrfToken();
@@ -86,6 +90,14 @@ export function createAuthService(options: AuthServiceOptions) {
     }
   }
 
+  /**
+   * The backend no longer reports the access token as valid. The refresh token may still be, but
+   * renewing it is reserved for user activity: a timer must never keep an idle session alive.
+   */
+  function markExpired() {
+    sessionExpired.value = true;
+  }
+
   async function getSession() {
     log('getSession called');
     loading.value = true;
@@ -95,8 +107,8 @@ export function createAuthService(options: AuthServiceOptions) {
       const next = normalizeSession(await client.getSession(), now() / 1000);
       if (!next && wasAuthenticated) {
         // An expired access token is reported as logged out although the refresh token may still
-        // be valid, so renewal is attempted before the session is given up.
-        await refreshSession();
+        // be valid; the next user activity decides whether the session can be renewed.
+        markExpired();
       } else {
         setSession(next);
         keeper?.scheduleCheck();
@@ -108,7 +120,7 @@ export function createAuthService(options: AuthServiceOptions) {
         // Transient failure (network, 5xx): keep local state and check again later.
         keeper?.scheduleCheck(RETRY_AFTER_ERROR_MS);
       } else if (wasAuthenticated) {
-        await refreshSession();
+        markExpired();
       } else {
         setSession(null);
       }
@@ -117,7 +129,7 @@ export function createAuthService(options: AuthServiceOptions) {
     }
   }
 
-  /** Extends the session; run on user activity after the deadline and when a status check finds the session gone. */
+  /** Extends the session; run on user activity after the deadline. */
   async function refreshSession() {
     if (!session.value || refreshInFlight) {
       return;
@@ -144,6 +156,26 @@ export function createAuthService(options: AuthServiceOptions) {
     }
   }
 
+  /**
+   * Route-guard entry: a visitor whose access token has expired is not logged out while the refresh
+   * token is still valid, so a status check that finds no session is followed by one refresh.
+   */
+  async function recoverSession() {
+    await getSession();
+    if (session.value) {
+      return;
+    }
+    try {
+      const next = normalizeSession(await client.refresh(), now() / 1000);
+      if (next) {
+        setSession(next);
+        keeper?.scheduleCheck();
+      }
+    } catch (e) {
+      log('No session to recover', e);
+    }
+  }
+
   async function signOut() {
     log('Sign-out called');
     try {
@@ -162,18 +194,20 @@ export function createAuthService(options: AuthServiceOptions) {
     options.redirect(options.signInUrl);
   }
 
-  /** Restores the persisted session and follows changes made in other tabs. */
+  /** Restores the persisted session, even past its deadline, and follows changes made in other tabs. */
   function init() {
     const restored = sync?.restore();
     if (restored) {
       session.value = restored;
+      sessionExpired.value = isSessionExpired(restored, now() / 1000);
     }
     sync?.listen();
   }
 
+  /** A reload counts as user activity: a persisted session past its deadline is renewed right away. */
   function startSessionPolling() {
     keeper?.start();
-    return getSession();
+    return sessionExpired.value ? refreshSession() : getSession();
   }
 
   function stopSessionPolling() {
@@ -185,8 +219,10 @@ export function createAuthService(options: AuthServiceOptions) {
     loading,
     error,
     isAuthenticated,
+    sessionExpired,
     init,
     getSession,
+    recoverSession,
     refreshSession,
     startSessionPolling,
     stopSessionPolling,

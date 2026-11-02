@@ -103,9 +103,8 @@ describe('auth service', () => {
     expect(service.isAuthenticated.value).toBe(true);
     expect(storage.items.has('auth_session')).toBe(true);
 
-    client.getSession.mockResolvedValueOnce({ authenticated: false, server_time: 1 } as never);
-    client.refresh.mockRejectedValueOnce(httpError(401));
-    await service.getSession();
+    client.signOut.mockResolvedValueOnce(undefined);
+    await service.signOut();
     expect(service.isAuthenticated.value).toBe(false);
     expect(storage.items.has('auth_session')).toBe(false);
   });
@@ -146,67 +145,62 @@ describe('auth service', () => {
     expect(service.isAuthenticated.value).toBe(true);
   });
 
-  test('ends the session and leaves protected routes when the deadline check reports logged out', async () => {
+  test('the deadline check never refreshes: an idle session is only marked expired', async () => {
     const { service, client, goHome } = setup();
     await service.startSessionPolling();
     client.getSession.mockResolvedValue({ authenticated: false, server_time: 1 } as never);
-    client.refresh.mockRejectedValue(httpError(401));
 
     await vi.advanceTimersByTimeAsync(303_000);
+    await vi.advanceTimersByTimeAsync(3_600_000);
 
-    expect(service.data.value).toBeNull();
-    expect(goHome).toHaveBeenCalledTimes(1);
-    await vi.advanceTimersByTimeAsync(1_000_000);
+    expect(client.refresh).not.toHaveBeenCalled();
     expect(client.getSession).toHaveBeenCalledTimes(2);
+    expect(service.sessionExpired.value).toBe(true);
+    expect(service.isAuthenticated.value).toBe(true);
+    expect(goHome).not.toHaveBeenCalled();
+    service.stopSessionPolling();
   });
 
-  test('stays on public pages when the session ends', async () => {
-    const { service, client, goHome } = setup({ onProtectedRoute: false });
+  test('a rejected status check marks the session expired without refreshing', async () => {
+    const { service, client } = setup();
     await service.getSession();
     client.getSession.mockRejectedValueOnce(httpError(401));
+
+    await service.getSession();
+
+    expect(client.refresh).not.toHaveBeenCalled();
+    expect(service.sessionExpired.value).toBe(true);
+  });
+
+  test('activity renews a session that was marked expired', async () => {
+    const { service, client, events } = setup();
+    await service.startSessionPolling();
+    client.getSession.mockResolvedValue({ authenticated: false, server_time: 1 } as never);
+    await vi.advanceTimersByTimeAsync(303_000);
+    expect(service.sessionExpired.value).toBe(true);
+
+    events.dispatchEvent(new Event('click'));
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(client.refresh).toHaveBeenCalledTimes(1);
+    expect(service.sessionExpired.value).toBe(false);
+    expect(service.isAuthenticated.value).toBe(true);
+    service.stopSessionPolling();
+  });
+
+  test('activity after expiry ends the session when the refresh is rejected', async () => {
+    const { service, client, events, goHome } = setup();
+    await service.startSessionPolling();
+    client.getSession.mockResolvedValue({ authenticated: false, server_time: 1 } as never);
+    await vi.advanceTimersByTimeAsync(303_000);
     client.refresh.mockRejectedValueOnce(httpError(401));
 
-    await service.getSession();
+    events.dispatchEvent(new Event('click'));
+    await vi.advanceTimersByTimeAsync(0);
 
     expect(service.data.value).toBeNull();
-    expect(goHome).not.toHaveBeenCalled();
-  });
-
-  test('renews the session when the deadline check reports logged out but refresh still works', async () => {
-    const { service, client, goHome } = setup();
-    await service.startSessionPolling();
-    client.getSession.mockResolvedValueOnce({ authenticated: false, server_time: 1 } as never);
-
-    await vi.advanceTimersByTimeAsync(303_000);
-
-    expect(client.refresh).toHaveBeenCalledTimes(1);
-    expect(service.isAuthenticated.value).toBe(true);
-    expect(goHome).not.toHaveBeenCalled();
-    service.stopSessionPolling();
-  });
-
-  test('renews the session when the status check is rejected but refresh still works', async () => {
-    const { service, client } = setup();
-    await service.getSession();
-    client.getSession.mockRejectedValueOnce(httpError(401));
-
-    await service.getSession();
-
-    expect(client.refresh).toHaveBeenCalledTimes(1);
-    expect(service.isAuthenticated.value).toBe(true);
-  });
-
-  test('keeps the session and retries when refresh after a logged-out status check fails transiently', async () => {
-    const { service, client } = setup();
-    await service.startSessionPolling();
-    client.getSession.mockResolvedValueOnce({ authenticated: false, server_time: 1 } as never);
-    client.refresh.mockRejectedValueOnce(httpError(503));
-    await vi.advanceTimersByTimeAsync(303_000);
-
-    expect(service.isAuthenticated.value).toBe(true);
-    await vi.advanceTimersByTimeAsync(61_000);
-    expect(client.getSession).toHaveBeenCalledTimes(3);
-    service.stopSessionPolling();
+    expect(service.sessionExpired.value).toBe(false);
+    expect(goHome).toHaveBeenCalledTimes(1);
   });
 
   test('keeps the session on transient status check failures and retries', async () => {
@@ -295,6 +289,38 @@ describe('auth service', () => {
     expect(service.isAuthenticated.value).toBe(true);
   });
 
+  test('recovering a session refreshes once when the status check finds no session', async () => {
+    const { service, client } = setup();
+    client.getSession.mockResolvedValue({ authenticated: false, server_time: 1 } as never);
+
+    await service.recoverSession();
+
+    expect(client.refresh).toHaveBeenCalledTimes(1);
+    expect(service.isAuthenticated.value).toBe(true);
+    service.stopSessionPolling();
+  });
+
+  test('recovering a session does not refresh when the status check is valid', async () => {
+    const { service, client } = setup();
+
+    await service.recoverSession();
+
+    expect(client.refresh).not.toHaveBeenCalled();
+    expect(service.isAuthenticated.value).toBe(true);
+    service.stopSessionPolling();
+  });
+
+  test('recovering a session stays logged out when the refresh is rejected', async () => {
+    const { service, client, goHome } = setup();
+    client.getSession.mockResolvedValue({ authenticated: false, server_time: 1 } as never);
+    client.refresh.mockRejectedValueOnce(httpError(401));
+
+    await service.recoverSession();
+
+    expect(service.data.value).toBeNull();
+    expect(goHome).not.toHaveBeenCalled();
+  });
+
   test('sign-out clears state, notifies other tabs and navigates even if the request fails', async () => {
     const { service, client, goHome, storage } = setup();
     await service.getSession();
@@ -318,15 +344,43 @@ describe('auth service', () => {
     expect(service.data.value?.expiresAtLocal).toBe(deadline);
   });
 
-  test('drops an already expired persisted session', () => {
-    const storage = fakeStorage({
+  function expiredStorage() {
+    return fakeStorage({
       auth_session: JSON.stringify({ ...sessionInfo(), expiresAtLocal: START.getTime() / 1000 - 5 }),
     });
-    const { service } = setup({ storage });
+  }
+
+  test('keeps an expired persisted session marked as expired', () => {
+    const { service } = setup({ storage: expiredStorage() });
 
     service.init();
 
+    expect(service.isAuthenticated.value).toBe(true);
+    expect(service.sessionExpired.value).toBe(true);
+  });
+
+  test('a reload renews an expired persisted session without asking the status endpoint', async () => {
+    const { service, client, storage } = setup({ storage: expiredStorage() });
+    service.init();
+
+    await service.startSessionPolling();
+
+    expect(client.refresh).toHaveBeenCalledTimes(1);
+    expect(client.getSession).not.toHaveBeenCalled();
+    expect(service.sessionExpired.value).toBe(false);
+    expect(JSON.parse(storage.items.get('auth_session') as string).expiresAtLocal).toBeGreaterThan(START.getTime() / 1000);
+    service.stopSessionPolling();
+  });
+
+  test('a reload ends an expired persisted session when the refresh is rejected', async () => {
+    const { service, client, storage } = setup({ storage: expiredStorage(), onProtectedRoute: false });
+    client.refresh.mockRejectedValueOnce(httpError(401));
+    service.init();
+
+    await service.startSessionPolling();
+
     expect(service.data.value).toBeNull();
+    expect(storage.items.has('auth_session')).toBe(false);
   });
 
   test('follows session and logout changes made in other tabs', () => {

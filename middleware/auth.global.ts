@@ -1,7 +1,3 @@
-import { AUTH_ENDPOINTS } from '~/utils/auth/endpoints';
-import { isSessionAuthenticatedForGuard } from '~/utils/auth/session';
-import type { SessionInfo } from '~/utils/auth/types';
-
 export default defineNuxtRouteMiddleware(async (to) => {
   const runtimeConfig = useRuntimeConfig();
   const isAdminRoute = to.path.startsWith('/admin');
@@ -12,18 +8,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return;
   }
 
+  // The server cannot tell an expired access token from a missing login, and renewing it needs the
+  // browser's refresh token flow; so the check happens on the client, before the page is shown.
   if (import.meta.server) {
-    const sessionUrl = new URL(AUTH_ENDPOINTS.session, useRequestURL().origin).toString();
-    const isAuthenticated = await isSessionAuthenticatedForGuard(
-      async () => await $fetch(sessionUrl, { headers: useRequestHeaders(['cookie']) }) as SessionInfo,
-    );
-
-    if (isAuthenticated) {
-      return;
-    }
-
-    // eslint-disable-next-line consistent-return
-    return navigateTo('/');
+    return;
   }
 
   const auth = useAuth();
@@ -31,7 +19,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return;
   }
 
-  await auth.getSession();
+  await auth.recoverSession();
   if (!auth.data.value?.user) {
     // eslint-disable-next-line consistent-return
     return navigateTo('/');

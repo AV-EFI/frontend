@@ -47,7 +47,7 @@
                             <dt class="font-semibold">
                                 {{ $t('profileExpires') }}
                             </dt>
-                            <dd>{{ profile.expires }}</dd>
+                            <dd>{{ auth.sessionExpired.value ? $t('profileSessionExpired') : profile.expires }}</dd>
                         </dl>
 
                         <div class="pt-2">

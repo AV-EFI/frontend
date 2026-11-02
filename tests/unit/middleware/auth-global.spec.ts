@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 const navigateToMock = vi.fn((path: string) => path);
-const getSessionMock = vi.fn();
+const recoverSessionMock = vi.fn();
 
 // Mirrors Nuxt's `RouteMiddleware` signature, narrowed to the `{ path }` shape
 // this test suite actually supplies when invoking the middleware.
@@ -14,7 +14,7 @@ function setupGlobals(options?: {
 }) {
   const authState = {
     data: { value: { user: options?.user ?? null } },
-    getSession: getSessionMock.mockImplementation(async () => {
+    recoverSession: recoverSessionMock.mockImplementation(async () => {
       authState.data.value.user = options?.userAfterSession ?? null;
     }),
   };
@@ -37,7 +37,7 @@ async function importMiddleware() {
 describe('auth.global middleware', () => {
   beforeEach(() => {
     navigateToMock.mockReset();
-    getSessionMock.mockReset();
+    recoverSessionMock.mockReset();
   });
 
   test('allows protected routes when dev bypass is enabled', async () => {
@@ -54,7 +54,7 @@ describe('auth.global middleware', () => {
     const middleware = await importMiddleware();
 
     const result = await middleware({ path: '/admin/user_tooltips' });
-    expect(getSessionMock).toHaveBeenCalledTimes(1);
+    expect(recoverSessionMock).toHaveBeenCalledTimes(1);
     expect(result).toBe('/');
     expect(navigateToMock).toHaveBeenCalledWith('/');
   });
@@ -68,7 +68,7 @@ describe('auth.global middleware', () => {
     const middleware = await importMiddleware();
 
     const result = await middleware({ path: '/admin/user_tooltips' });
-    expect(getSessionMock).toHaveBeenCalledTimes(1);
+    expect(recoverSessionMock).toHaveBeenCalledTimes(1);
     expect(result).toBeUndefined();
     expect(navigateToMock).not.toHaveBeenCalled();
   });
