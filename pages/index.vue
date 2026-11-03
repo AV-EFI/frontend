@@ -164,7 +164,7 @@
             </div>
         </section>
 
-        <!-- ======= NEWS (testbed only) ======= -->
+        <!-- ======= NEWS (when enabled) ======= -->
         <HomeNewsSection v-if="isNewsEnabled(runtimeConfig.public.newsEnabled)" />
 
         <!-- ======= FROM RECORD TO KNOWLEDGE (timeline) ======= -->

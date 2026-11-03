@@ -1,4 +1,4 @@
-# Testbed news
+# News
 
 `/news` displays the TIB project RSS feed, with a preview, expandable full text,
 publication date and links to the original article and project website.
@@ -6,9 +6,12 @@ News articles are available only in German and their content is marked with
 `lang="de"` for assistive technology. Interface labels remain available in
 German and English.
 
-Both CI build and deployment jobs set `NUXT_PUBLIC_NEWS_ENABLED=true` only when
-`CI_ENVIRONMENT_NAME=testbed`, and set it to `false` otherwise. The variable is
-passed through `.env.tmpl`. By default the feature is disabled. The route and
+Both CI build and deployment jobs set `NUXT_PUBLIC_NEWS_ENABLED=true` when
+`CI_ENVIRONMENT_NAME` is `testbed` or `production`, and `false` otherwise. To hide
+the news on an environment without a code change, define the GitLab CI/CD variable
+`NUXT_PUBLIC_NEWS_ENABLED=false`, scoped to that environment, and redeploy. The
+variable is passed through `.env.tmpl`. Without the variable the feature is
+disabled. The route and
 API return 404 when disabled and navigation omits the link. The page is not
 prerendered or included in the sitemap, and carries `noindex, nofollow`.
 
@@ -38,7 +41,7 @@ The homepage (`pages/index.vue`) shows a row of the newest entries between the
 "Explore" and "From dataset to knowledge" sections, using the same
 `useNews()` composable and `/api/news` endpoint as `/news` (no second feed
 query). It is gated by the same `newsEnabled` flag as the `/news` route, so it
-only appears in the testbed environment. The number of entries defaults to 3
+only appears where news is enabled. The number of entries defaults to 3
 and is configurable via `NUXT_PUBLIC_NEWS_HOME_COUNT`. If the feed is empty or
 fails to load, the row renders nothing rather than breaking the page.
 
