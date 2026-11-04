@@ -30,8 +30,8 @@ const alerts = await fetchAllAlerts(repo);
 await fs.mkdir(logsDir, { recursive: true });
 await fs.writeFile(alertsJsonPath, JSON.stringify(alerts, null, 2), 'utf8');
 
-const unpatchedAlerts = collectUnpatchedAlerts(alerts);
 const preferredVersions = collectPreferredVersions(alerts);
+const unpatchedAlerts = collectUnpatchedAlerts(alerts, preferredVersions);
 const auditTargets = resolveAuditTargets(collectAuditFindings(), preferredVersions);
 Object.assign(preferredVersions, auditTargets.targets);
 applyCoupledPackages(preferredVersions);
@@ -41,7 +41,7 @@ const updates = [];
 applyUpdates(packageJson.dependencies, preferredVersions, 'dependencies', updates);
 applyUpdates(packageJson.devDependencies, preferredVersions, 'devDependencies', updates);
 applyResolutions(packageJson.resolutions, preferredVersions, updates);
-addMissingResolutions(packageJson, auditTargets.targets, updates);
+addMissingResolutions(packageJson, preferredVersions, updates);
 
 if (updates.length > 0) {
   await fs.writeFile(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`, 'utf8');
@@ -126,9 +126,12 @@ function collectPreferredVersions(alertsList) {
   return targets;
 }
 
-function collectUnpatchedAlerts(alertsList) {
+// An alert without a patched version for an old copy (e.g. vue-i18n 10.0.8) is covered when another
+// alert names a fixed version of the same package: the resolution then pulls every copy onto it.
+function collectUnpatchedAlerts(alertsList, preferred) {
   return alertsList
     .filter((alert) => !alert?.security_vulnerability?.first_patched_version?.identifier)
+    .filter((alert) => !preferred[alert?.security_vulnerability?.package?.name])
     .map((alert) => ({
       number: alert.number,
       package: alert.security_vulnerability?.package?.name,
@@ -241,11 +244,8 @@ function applyCoupledPackages(targets) {
 }
 
 function addMissingResolutions(manifest, auditTargetMap, updates) {
-  const known = new Set([
-    ...Object.keys(manifest.dependencies ?? {}),
-    ...Object.keys(manifest.devDependencies ?? {}),
-    ...Object.keys(manifest.resolutions ?? {}),
-  ]);
+  // Direct dependencies need a resolution too, otherwise transitive copies keep the old version.
+  const known = new Set(Object.keys(manifest.resolutions ?? {}));
 
   for (const [pkg, target] of Object.entries(auditTargetMap)) {
     if (known.has(pkg)) {
