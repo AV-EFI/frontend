@@ -22,7 +22,6 @@
       "GET /api/elastic/vocab/[field]",
       "GET /api/film-related-materials/[prefix]/[id]",
       "GET /api/news",
-      "GET /api/poc/works/by-handle",
       "GET /api/press-kit.zip",
       "GET /api/top-issuers",
       "POST /api/cms/decorate",
@@ -40,29 +39,14 @@
       "POST /api/mail/contact",
       "POST /api/mail/smtp-check",
       "POST /api/mail/test",
-      "POST /api/poc/chat",
-      "POST /api/poc/facets/agents",
-      "POST /api/poc/works/search",
       "PUT /api/cms/usertooltips"
     ]
   },
   "entries": [
     {
-      "id": "dependencies:braces",
-      "status": "accepted",
-      "reason": "Kein Fix auf npm (3.0.3 ist die neueste Version). Nur über micromatch und fast-glob zur Build-Zeit, keine Laufzeit-Eingaben von außen.",
-      "reviewBy": "2027-01-12"
-    },
-    {
       "id": "dependencies:node-forge",
       "status": "accepted",
       "reason": "Kein Fix auf npm (1.4.0 ist die neueste Version). Nur über listhen, also den Dev-Server.",
-      "reviewBy": "2027-01-12"
-    },
-    {
-      "id": "dependencies:simple-git",
-      "status": "accepted",
-      "reason": "Nur über @nuxt/devtools 3.4.1, das in nuxt.config.ts deaktiviert ist und im Laufzeit-Image nicht liegt (es enthält nur .output). simple-git 4.0.2 ist gepatcht, entfernt aber den Default-Export, den @nuxt/devtools importiert, und bricht damit `nuxt prepare` im Docker-Install (CI-Build vom 2026-10-12). @simple-git/argv-parser ist per resolutions auf 2.0.1 gehoben. Erneut prüfen, sobald @nuxt/devtools simple-git 4 unterstützt.",
       "reviewBy": "2027-01-12"
     },
     {
@@ -286,6 +270,36 @@
       "status": "tracked",
       "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
       "ref": "logs/security/issue-backend-infra-security.md"
+    },
+    {
+      "id": "dependencies:deepmerge",
+      "status": "accepted",
+      "reason": "Kein Fix auf npm (4.3.1 ist die neueste Version). Nur über searchkit und @rollup/plugin-node-resolve; mergeObject() verarbeitet dort keine Eingaben von außen.",
+      "reviewBy": "2027-02-11"
+    },
+    {
+      "id": "links:dynamic-href:components/explorer/Drawer.vue:*",
+      "status": "accepted",
+      "reason": "Wert entsteht aus der festen Basis-URL https://av-efi.github.io/av-efi-schema/ (utils/explorer/links.ts) und Feldnamen aus dem Schema, keine Fremddaten (Test: tests/unit/utils/explorer-model.spec.ts).",
+      "reviewBy": "2027-02-11"
+    },
+    {
+      "id": "links:dynamic-href:components/explorer/FieldItem.vue:*",
+      "status": "accepted",
+      "reason": "Wert entsteht aus der festen Basis-URL https://av-efi.github.io/av-efi-schema/ (utils/explorer/links.ts) und Feldnamen aus dem Schema, keine Fremddaten (Test: tests/unit/utils/explorer-model.spec.ts).",
+      "reviewBy": "2027-02-11"
+    },
+    {
+      "id": "links:dynamic-href:components/explorer/FurtherLinks.vue:*",
+      "status": "accepted",
+      "reason": "Feste Linkliste FURTHER_LINKS in utils/explorer/links.ts, keine Fremddaten.",
+      "reviewBy": "2027-02-11"
+    },
+    {
+      "id": "links:dynamic-href:pages/dataprotection.vue:*",
+      "status": "accepted",
+      "reason": "Konstante DATA_PROTECTION_URL in der Seite, keine Fremddaten.",
+      "reviewBy": "2027-02-11"
     }
   ]
 }
