@@ -382,8 +382,7 @@ export default defineNuxtConfig({
 
       cms: {
         // mirror the flag to the client to toggle UI affordances
-        allowUserTooltipEdits:
-          process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true' || process.env.NODE_ENV === 'production',
+        allowUserTooltipEdits: process.env.CMS_ALLOW_USERTOOLTIP_EDITS === 'true',
       },
     },
     private: {
