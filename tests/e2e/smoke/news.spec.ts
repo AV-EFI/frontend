@@ -24,6 +24,11 @@ test('news is unavailable unless enabled for the deployment', async ({ page, req
   expect(homeCardCount).toBeGreaterThan(0);
   expect(homeCardCount).toBeLessThanOrEqual(3);
   await expect(homeCards.first()).not.toBeEmpty();
+  // The server renders the expand buttons before Vue attaches their handlers; an earlier click is lost.
+  await page.waitForFunction(() => {
+    const nuxtWindow = window as unknown as { useNuxtApp?: () => { isHydrating: boolean } };
+    return nuxtWindow.useNuxtApp?.().isHydrating === false;
+  });
   // The source link only appears once an article is expanded on the home page.
   await homeNewsSection.locator('button[aria-controls^="home-news-panel-"]').first().click();
   await expect(homeNewsSection.locator('a[href^="https://projects.tib.eu/av-efi/"]').first()).toBeVisible();
