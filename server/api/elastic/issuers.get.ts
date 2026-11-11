@@ -109,7 +109,7 @@ export default defineEventHandler(async () => {
     console.error('Error fetching issuer aggregations:', error);
     throw createError({
       statusCode: 500,
-      statusMessage: error instanceof Error ? error.message : 'Failed to fetch issuer data',
+      statusMessage: 'Failed to fetch issuer data',
     });
   }
 });

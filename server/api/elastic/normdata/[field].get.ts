@@ -210,7 +210,7 @@ export default defineEventHandler(async (event) => {
     console.error('Elasticsearch query failed:', error);
     throw createError({
       statusCode: 502,
-      statusMessage: `Elasticsearch connection failed: ${error instanceof Error ? error.message : String(error)}`,
+      statusMessage: 'Elasticsearch connection failed',
     });
   }
 
