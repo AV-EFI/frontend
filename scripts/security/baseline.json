@@ -1,5 +1,5 @@
 {
-  "lastReview": "2026-10-12",
+  "lastReview": "2026-11-12",
   "config": {
     "liveUrls": [
       "https://www.av-efi.net/",
@@ -245,24 +245,6 @@
       "id": "live-headers:*:content-security-policy",
       "status": "tracked",
       "reason": "Hängt an der Header-Entscheidung; zuerst Report-Only.",
-      "ref": "logs/security/issue-backend-infra-security.md"
-    },
-    {
-      "id": "live-headers:*:x-content-type-options",
-      "status": "tracked",
-      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
-      "ref": "logs/security/issue-backend-infra-security.md"
-    },
-    {
-      "id": "live-headers:*:referrer-policy",
-      "status": "tracked",
-      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
-      "ref": "logs/security/issue-backend-infra-security.md"
-    },
-    {
-      "id": "live-headers:*:permissions-policy",
-      "status": "tracked",
-      "reason": "Entscheidung offen, ob Traefik oder routeRules die Header setzt.",
       "ref": "logs/security/issue-backend-infra-security.md"
     },
     {
