@@ -188,30 +188,6 @@
       "reviewBy": "2027-01-12"
     },
     {
-      "id": "server-routes:unvalidated-body:POST /api/elastic/get_work_by_id",
-      "status": "tracked",
-      "reason": "Body wird an Searchkit weitergereicht, Schema-Validierung steht aus.",
-      "ref": "Issue 250, Folgearbeit Nitro-Routen"
-    },
-    {
-      "id": "server-routes:unvalidated-body:POST /api/elastic/get_work_by_is_part_of",
-      "status": "tracked",
-      "reason": "Body wird an Searchkit weitergereicht, Schema-Validierung steht aus.",
-      "ref": "Issue 250, Folgearbeit Nitro-Routen"
-    },
-    {
-      "id": "server-routes:unvalidated-body:POST /api/elastic/msearch_inst",
-      "status": "tracked",
-      "reason": "Body wird an Searchkit weitergereicht (angemeldete Institutionen), Schema-Validierung steht aus.",
-      "ref": "Issue 250, Folgearbeit Nitro-Routen"
-    },
-    {
-      "id": "server-routes:unvalidated-body:POST /api/elastic/statscount",
-      "status": "tracked",
-      "reason": "Body wird weitergereicht, Schema-Validierung steht aus.",
-      "ref": "Issue 250, Folgearbeit Nitro-Routen"
-    },
-    {
       "id": "container-ci:ci-cat-compose",
       "status": "accepted",
       "reason": "Die docker-compose.tmpl enthält nur Image-Name und Tag (CI_REGISTRY_IMAGE, CI_COMMIT_REF_NAME), keine Secrets.",

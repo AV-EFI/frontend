@@ -1,7 +1,7 @@
 import { finding, readText, trackedFiles } from '../lib/context.mjs';
 
 const AUTH = /requireAuthenticatedUser|getAuthSession|requireCmsMutationsEnabled|requireAdmin|requireSecretToken|MAIL_TEST_TOKEN/;
-const VALIDATION = /safeParse|\.parse\(|readValidatedBody|getValidatedQuery|z\.object/;
+const VALIDATION = /safeParse|\.parse\(|parseRequestBody\(|readValidatedBody|getValidatedQuery|z\.object/;
 const SIDE_EFFECT = /writeFile|appendFile|sendMail|createTransport|\.rm\(|unlink|\.bulk\(|\.index\(|\.delete\(/;
 const RATE_LIMIT = /consumeRateLimit/;
 
