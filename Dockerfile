@@ -1,5 +1,5 @@
 # see cms project for docker containers
-ARG NODE_VERSION=24.21.0
+ARG NODE_VERSION=24.22.2
 
 # Create build stage
 FROM node:${NODE_VERSION}-slim AS build
