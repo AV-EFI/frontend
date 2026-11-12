@@ -1,14 +1,21 @@
 import Client from '@searchkit/api';
+import { z } from 'zod';
 import {config} from '@/searchConfig_avefi';
+import { parseRequestBody } from '../../utils/requestBody';
+
+// Searchkit expects the InstantSearch multi-search format: a list of { indexName, params } requests.
+const bodySchema = z.array(
+  z.looseObject({ indexName: z.string().min(1).max(200), params: z.record(z.string(), z.unknown()).optional() }),
+).min(1).max(20);
 
 export default defineEventHandler(async (event) => {
 
   //    if (!session) {
   //        return { status: 'unauthenticated!' };
   //    }
+  const body = parseRequestBody(bodySchema, await readBody(event));
   const session = await getAuthSession(event);
   const apiClient = Client(config);
-  const body = await readBody(event);
   const institution = typeof session?.user?.institution === 'string' ? session.user.institution : '';
   const institutionid:string = `https://w3id.org/isil/${institution}`;
   try {

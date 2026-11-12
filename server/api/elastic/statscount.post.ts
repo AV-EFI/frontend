@@ -1,19 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineEventHandler, readBody } from 'h3';
+import { z } from 'zod';
 import { createElasticsearchClient } from '../../utils/elasticsearchRuntime';
+import { parseRequestBody } from '../../utils/requestBody';
+
+const bodySchema = z.object({
+  query: z.object({
+    term: z.string().regex(/^[A-Za-z0-9._:/-]{1,100}$/),
+    cat: z.string().regex(/^[A-Za-z0-9_]{1,50}$/),
+  }),
+});
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig();
   const index = runtimeConfig.public.ELASTIC_INDEX_DETAIL;
   const client = createElasticsearchClient();
+  const { query } = parseRequestBody(bodySchema, await readBody(event));
 
   try {
-    const body = await readBody(event);
-    if (!body) {
-      throw new Error('Invalid request: "index" and "query" fields are required.');
-    }
-
-    const { query } = body;
     const institutionid: string = `https://w3id.org/isil/${query.term}`;
 
     const integratedQuery = {
@@ -34,10 +37,11 @@ export default defineEventHandler(async (event) => {
       success: true,
       data: response.count,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    console.error('statscount failed:', error);
     return {
       success: false,
-      message: error.message || 'An error occurred while processing the request.',
+      message: 'An error occurred while processing the request.',
     };
   }
 });
