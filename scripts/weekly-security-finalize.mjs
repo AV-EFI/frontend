@@ -49,7 +49,6 @@ if (shouldCommit) {
 function run(command, commandArgs) {
   const result = spawnSync(command, commandArgs, {
     stdio: 'inherit',
-    shell: true,
   });
 
   if (result.status !== 0) {
@@ -61,7 +60,6 @@ function runCapture(command, commandArgs) {
   const result = spawnSync(command, commandArgs, {
     stdio: ['ignore', 'pipe', 'pipe'],
     encoding: 'utf8',
-    shell: true,
   });
 
   if (result.status !== 0) {
