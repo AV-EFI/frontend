@@ -37,9 +37,9 @@ export default defineEventHandler(async (event) => {
     }
     return { error: 'Document not found' };
   } catch (error) {
-    const errorMessage = typeof error === 'object' && error !== null && 'message' in error
-      ? (error as { message: string }).message
-      : String(error);
-    return { error: errorMessage };
+    // The raw message names the internal Elasticsearch host, so only a fixed text leaves the server.
+    console.error('Elasticsearch request failed:', error);
+    const status = typeof error === 'object' && error !== null ? (error as { statusCode?: number }).statusCode : undefined;
+    return { error: status === 404 ? 'Document not found' : 'Elasticsearch request failed' };
   }
 });

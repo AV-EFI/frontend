@@ -58,6 +58,29 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id/[id]', () => {
     expect(result).toEqual({ error: 'Missing ID parameter' });
   });
 
+  test('maps a 404 from Elasticsearch to a fixed not-found error without the host', async () => {
+    vi.doMock('h3', () => ({
+      defineEventHandler: <T>(fn: T) => fn,
+      getRouterParam: vi.fn().mockReturnValue('doc-1'),
+    }));
+    vi.doMock('ofetch', () => ({
+      $fetch: vi.fn().mockRejectedValue(Object.assign(
+        new Error('[GET] "http://10.254.1.11:9200/works/_doc/doc-1": 404 Not Found'),
+        { statusCode: 404 },
+      )),
+    }));
+    vi.doMock('~/server/utils/elasticsearchRuntime', () => ({
+      getElasticsearchNode: () => 'http://elastic.local',
+      getElasticsearchApiKey: () => '',
+    }));
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const handler = (await import('~/server/api/elastic/get_work_by_id/[id].get')).default as ElasticRouteHandler;
+    const result = await handler({});
+
+    expect(result).toEqual({ error: 'Document not found' });
+  });
+
   test('returns error object when external call throws', async () => {
     vi.doMock('h3', () => ({
       defineEventHandler: <T>(fn: T) => fn,
@@ -71,9 +94,11 @@ describe('Outbound API wrapper: /api/elastic/get_work_by_id/[id]', () => {
       getElasticsearchApiKey: () => '',
     }));
 
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
     const handler = (await import('~/server/api/elastic/get_work_by_id/[id].get')).default as ElasticRouteHandler;
     const result = await handler({});
 
-    expect(result).toEqual({ error: 'upstream fail' });
+    expect(result).toEqual({ error: 'Elasticsearch request failed' });
   });
 });
