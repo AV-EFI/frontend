@@ -44,12 +44,6 @@
   },
   "entries": [
     {
-      "id": "dependencies:node-forge",
-      "status": "accepted",
-      "reason": "Kein Fix auf npm (1.4.0 ist die neueste Version). Nur über listhen, also den Dev-Server.",
-      "reviewBy": "2027-01-12"
-    },
-    {
       "id": "links:dynamic-href:components/detail/SameAsComp.vue:*",
       "status": "accepted",
       "reason": "Wert kommt aus useNormdataUrl, das unsichere Schemas verwirft (Test: tests/unit/composables/normdata-url.spec.ts).",
