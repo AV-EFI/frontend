@@ -25,7 +25,6 @@
 - `poc/`: 6
 - `cart/`: 2
 - `disambiguation/`: 2
-- `poster/`: 1
 - `input/`: 1
 
 ## Route surfaces
@@ -38,7 +37,6 @@
 - `/film/*` -> legacy redirects to `/res/*`
 - `/compare` -> compare view based on query-string params
 - `/compare`, `/press`, `/vocab`, `/faq`, `/imprint`, `/dataprotection`, `/accessibility`, `/normdata`, `/signout`
-- `/poster/greynet-avefi` -> poster route with layout disabled
 
 ### Internal / legacy / admin
 

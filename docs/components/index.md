@@ -78,7 +78,6 @@ Generated from current Vue component files on 2026-07-27. Each component page is
 - [GraphView](GraphView.md) - `components/poc/GraphView.vue`
 - [SidebarPanel](SidebarPanel.md) - `components/poc/SidebarPanel.vue`
 - [WorkResultList](WorkResultList.md) - `components/poc/WorkResultList.vue`
-- [AvefiPosterComp](AvefiPosterComp.md) - `components/poster/AvefiPosterComp.vue`
 - [ClickableFacetValue](ClickableFacetValue.md) - `components/search/ClickableFacetValue.vue`
 - [GenericIconList](GenericIconList.md) - `components/search/GenericIconList.vue`
 - [HighlightListComp](HighlightListComp.md) - `components/search/HighlightListComp.vue`

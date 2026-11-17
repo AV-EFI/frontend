@@ -305,7 +305,7 @@ export default defineNuxtConfig({
       {
         path: '~/components',
         global: true,
-        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'explorer/**', 'detail/**', 'input/**'],
+        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poc/**', 'explorer/**', 'detail/**', 'input/**'],
       },
       {
         path: '~/components',
