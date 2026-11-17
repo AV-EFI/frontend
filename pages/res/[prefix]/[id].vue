@@ -95,7 +95,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
-import { useAsyncData, useRuntimeConfig, navigateTo } from 'nuxt/app';
+import { useAsyncData, useRuntimeConfig, useRequestEvent, navigateTo } from 'nuxt/app';
+import { setResponseStatus } from 'h3';
 
 definePageMeta({ auth: false });
 
@@ -244,6 +245,12 @@ const { data: result, error, pending } = await useAsyncData(
         };
     }
 );
+
+// An unknown record is answered with 404, so search engines do not index the error message as a page.
+if (import.meta.server && fetchErrorStatus(error.value) === 404) {
+    const requestEvent = useRequestEvent();
+    if (requestEvent) setResponseStatus(requestEvent, 404);
+}
 
 /** ---------------------------
  * Computed accessors
