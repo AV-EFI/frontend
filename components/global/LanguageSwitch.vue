@@ -11,7 +11,6 @@
 import { computed } from 'vue';
 const { t } = useI18n();
 const i18n:any = useNuxtApp().$i18n;
-i18n.setLocale(i18n.getLocaleCookie() || i18n.getBrowserLocale());
 watch(() => i18n.locale.value, (newLocale) => {
     i18n.setLocale(newLocale);
     i18n.setLocaleCookie(newLocale);
