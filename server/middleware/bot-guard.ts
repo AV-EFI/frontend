@@ -69,6 +69,7 @@ function isInternalFrameworkPath(path: string): boolean {
     path.startsWith('/_nuxt/') ||
     path.startsWith('/_i18n/') ||
     path.startsWith('/__sitemap__/') ||
+    path.startsWith('/api/__sitemap__/') ||
     path.startsWith('/api/_nuxt_icon/') ||
     path.startsWith('/matomo/') ||
     path.endsWith('/_payload.json') ||

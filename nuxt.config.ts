@@ -506,13 +506,13 @@ export default defineNuxtConfig({
     : {}),
   // Sitemap
   sitemap: {
-    zeroRuntime: true,
+    zeroRuntime: false,
     excludeAppSources: true, // Exclude app sources to avoid conflicts with dynamic routes
+    // One URL per work. Building the list takes about a minute when its cache is cold.
+    sources: [['/api/__sitemap__/works', { timeout: 120_000 }]],
     urls: [
       '/',
       '/search',
-      '/contact',
-      '/res',
       '/imprint',
       '/accessibility',
       '/press',
