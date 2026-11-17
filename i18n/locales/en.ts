@@ -1612,6 +1612,7 @@ export default {
     resource: {
       title: "{title} – Film Work | AVefi",
       description: "Film work with metadata from film archives. AVefi displays manifestations, items, and linked film metadata from multiple institutions.",
+      shortDescription: "Film work with metadata from several film archives.",
       directedBy: "Directed by {names}."
     },
     faq: {
