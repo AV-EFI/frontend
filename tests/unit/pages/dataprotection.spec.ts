@@ -3,7 +3,10 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import DataProtectionPage from '~/pages/dataprotection.vue';
 
+const useSeoMeta = vi.fn();
 vi.stubGlobal('definePageMeta', vi.fn());
+vi.stubGlobal('useI18n', () => ({ t: (key: string) => key }));
+vi.stubGlobal('useSeoMeta', useSeoMeta);
 
 describe('data protection page', () => {
   const wrapper = mount(DataProtectionPage, {
@@ -24,5 +27,10 @@ describe('data protection page', () => {
     expect(link.attributes('target')).toBe('_blank');
     expect(link.attributes('rel')).toBe('noopener noreferrer');
     expect(link.text()).toBe('vocab.openInNewTab');
+  });
+
+  test('uses the page heading as document title', () => {
+    const [{ title }] = useSeoMeta.mock.calls[0] as [{ title: () => string }];
+    expect(title()).toBe('dataprotection');
   });
 });
