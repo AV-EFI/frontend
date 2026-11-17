@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 withDefaults(defineProps<{
     value: unknown;
     title?: string;
@@ -17,10 +19,18 @@ withDefaults(defineProps<{
     copyFailedLabel: 'Copy failed',
     sourceLabel: 'Formatted source',
 });
+
+// The tree is rendered only after the first opening: collapsed content is still part of the
+// server HTML, and search engines otherwise index raw JSON paths as page text.
+const hasBeenOpened = ref(false);
+
+function handleToggle(event: Event) {
+    if ((event.currentTarget as HTMLDetailsElement).open) hasBeenOpened.value = true;
+}
 </script>
 
 <template>
-    <details class="detail-raw-data">
+    <details class="detail-raw-data" @toggle="handleToggle">
         <summary class="detail-raw-data__summary" :aria-label="title">
             <span class="detail-raw-data__label">
                 <span class="detail-raw-data__icon" aria-hidden="true">
@@ -33,7 +43,7 @@ withDefaults(defineProps<{
             </span>
         </summary>
 
-        <div class="detail-raw-data__content">
+        <div v-if="hasBeenOpened" class="detail-raw-data__content">
             <GlobalJsonTreeViewer
                 :value="value"
                 :title="title"
