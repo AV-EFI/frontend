@@ -68,6 +68,7 @@ export default defineNuxtConfig({
         { rel: 'shortcut icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
         { rel: 'manifest', href: '/img/site.webmanifest', fetchpriority: 'low' },
+        { rel: 'search', type: 'application/opensearchdescription+xml', title: 'AVefi', href: '/opensearch.xml' },
       ],
       style: [
         {
