@@ -46,29 +46,27 @@
             </div>
 
             <div class="flex flex-row justify-around mt-2 p-2 dark:bg-gray-900 rounded-lg">
-                <FormKit
-                    v-model="sliderValue[0]"
-                    type="number"
-                    outer-class="!w-8"
-                    :min="min"
-                    :max="max"
-                    :placeholder="String(min)"
-                    number="integer"
-                    :aria-label="$t('minimumProductionYear')"
-                />
+                <div class="w-20">
+                    <IntegerField
+                        v-model="sliderValue[0]"
+                        :min="min"
+                        :max="max"
+                        :placeholder="String(min)"
+                        :aria-label="$t('minimumProductionYear')"
+                    />
+                </div>
                 <div class="w-1/3 flex flex-col justify-center mb-3.5">
                     <Icon class="mx-auto" name="tabler:arrow-right" />
                 </div>
-                <FormKit
-                    v-model="sliderValue[1]"
-                    type="number"
-                    outer-class="!w-8"
-                    :min="min"
-                    :max="max"
-                    :placeholder="String(max)"
-                    number="integer"
-                    :aria-label="$t('maximumProductionYear')"
-                />
+                <div class="w-20">
+                    <IntegerField
+                        v-model="sliderValue[1]"
+                        :min="min"
+                        :max="max"
+                        :placeholder="String(max)"
+                        :aria-label="$t('maximumProductionYear')"
+                    />
+                </div>
             </div>
 
             <div
@@ -100,10 +98,7 @@ import { FACET_ICON_MAP as ICON_MAP } from '@/models/interfaces/manual/IFacetIco
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Slider from '@vueform/slider';
-import { useFormKitLoader } from '~/composables/useFormKitLoader';
-
-const { ensureFormKitReady } = useFormKitLoader();
-await ensureFormKitReady();
+import IntegerField from '~/components/input/IntegerField.vue';
 
 const props = defineProps({
     headerText: { type: String, default: 'Production Year' },
