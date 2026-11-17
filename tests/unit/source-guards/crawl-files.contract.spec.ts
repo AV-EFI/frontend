@@ -4,7 +4,8 @@ import { describe, expect, test } from 'vitest';
 
 const nuxtConfigSource = readFileSync(resolve(process.cwd(), 'nuxt.config.ts'), 'utf8');
 const robotsRouteSource = readFileSync(resolve(process.cwd(), 'server/routes/robots.txt.ts'), 'utf8');
-const sitemapSource = readFileSync(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8');
+const openSearchRouteSource = readFileSync(resolve(process.cwd(), 'server/routes/opensearch.xml.ts'), 'utf8');
+const sitemapSource =readFileSync(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8');
 
 describe('Public crawl files', () => {
   test('exposes the sitemap through Nuxt robots config', () => {
@@ -20,6 +21,12 @@ describe('Public crawl files', () => {
     expect(robotsConfig).not.toContain("'/_nuxt/**'");
     expect(robotsRouteSource).toContain('Sitemap: ${siteUrl}/sitemap.xml');
     expect(robotsRouteSource).not.toContain('Disallow: /_nuxt');
+  });
+
+  test('advertises an OpenSearch description that targets the public search page', () => {
+    expect(nuxtConfigSource).toContain("{ rel: 'search', type: 'application/opensearchdescription+xml', title: 'AVefi', href: '/opensearch.xml' }");
+    expect(openSearchRouteSource).toContain('template="${siteUrl}/search?query={searchTerms}"');
+    expect(openSearchRouteSource).toContain("'Content-Type', 'application/opensearchdescription+xml; charset=utf-8'");
   });
 
   test('keeps the sitemap focused on indexable public URLs', () => {

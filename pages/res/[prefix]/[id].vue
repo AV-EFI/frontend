@@ -129,6 +129,15 @@ type FetchErrorLike = {
     };
 };
 
+type NamedEntity = { has_name?: unknown; type?: string };
+
+type RecordEvent = {
+    category?: string;
+    has_date?: unknown;
+    located_in?: NamedEntity[];
+    has_activity?: { type?: string; has_agent?: NamedEntity[] }[];
+};
+
 type DetailRecord = Record<string, unknown> & {
     handle?: string;
     url?: unknown;
@@ -148,6 +157,7 @@ type DetailRecord = Record<string, unknown> & {
         has_primary_title?: { has_name?: string };
         has_subject?: unknown;
         has_genre?: unknown;
+        has_event?: RecordEvent[];
     };
 };
 
@@ -297,6 +307,8 @@ function uniqStrings(values: (string | undefined | null)[]) {
     return Array.from(new Set(values.map((v) => (typeof v === 'string' ? v : null)).filter(Boolean))) as string[];
 }
 
+const ISO_DATE_PATTERN = /^\d{4}(-\d{2}){0,2}$/;
+
 function isHttpUrl(v: unknown): v is string {
     return typeof v === 'string' && /^https?:\/\//i.test(v);
 }
@@ -309,11 +321,42 @@ const title = computed(() =>
         : t('seo.resource.title', { title: 'Filmwerk' })
 );
 
-const description = computed(() =>
+// Production facts lead the description so search snippets show year, place and director.
+const productionEvent = computed(() =>
+    asArray<RecordEvent>(record.value?.has_record?.has_event).find((event) => event?.category === 'avefi:ProductionEvent')
+);
+const productionDate = computed(() =>
+    normalizeText(productionEvent.value?.has_date) || normalizeText(asArray<unknown>(record.value?.years)[0]) || ''
+);
+const productionPlaces = computed(() =>
+    uniqStrings(asArray<NamedEntity>(productionEvent.value?.located_in).map((place) => normalizeText(place?.has_name)))
+);
+const directors = computed(() =>
+    asArray<{ type?: string; has_agent?: NamedEntity[] }>(productionEvent.value?.has_activity)
+        .filter((activity) => activity?.type === 'Director')
+        .flatMap((activity) => asArray<NamedEntity>(activity.has_agent))
+        .map((agent) => ({ name: normalizeText(agent?.has_name), type: agent?.type }))
+        .filter((agent): agent is { name: string; type: string | undefined } => Boolean(agent.name))
+);
+
+// Names are stored as "Surname, Given name", so lists are joined with semicolons.
+const productionFacts = computed(() => {
+    const origin = [productionPlaces.value.join('; '), productionDate.value].filter(Boolean).join(', ');
+    const directorNames = uniqStrings(directors.value.map((director) => director.name));
+    return [
+        origin ? `${origin}.` : '',
+        directorNames.length ? t('seo.resource.directedBy', { names: directorNames.join('; ') }) : '',
+    ].filter(Boolean).join(' ');
+});
+
+const summary = computed(() =>
     normalizeText(record.value?.has_record?.abstract) ||
     normalizeText(asArray<unknown>(record.value?.has_record?.has_note)?.[0]) ||
-    t('seo.resource.description')
+    // Search snippets are cut at about 155 characters, so the production facts get a shorter fallback.
+    t(productionFacts.value ? 'seo.resource.shortDescription' : 'seo.resource.description')
 );
+
+const description = computed(() => [productionFacts.value, summary.value].filter(Boolean).join(' '));
 
 // Keywords (keep short)
 const schemaKeywords = computed(() => {
@@ -497,6 +540,17 @@ useSchemaOrg(computed(() => {
         provider: orgRef,
         keywords: schemaKeywords.value.length ? schemaKeywords.value : undefined,
         sameAs: schemaSameAs.value.length ? schemaSameAs.value : undefined,
+        director: directors.value.length
+            ? directors.value.map((director) => ({
+                '@type': director.type === 'Person' ? 'Person' : 'Organization',
+                name: director.name,
+            }))
+            : undefined,
+        locationCreated: productionPlaces.value.length
+            ? productionPlaces.value.map((place) => ({ '@type': 'Place', name: place }))
+            : undefined,
+        // schema.org dateCreated takes a single date; year ranges such as "1925/1926" stay in the description only.
+        dateCreated: ISO_DATE_PATTERN.test(productionDate.value) ? productionDate.value : undefined,
     });
 
     // --- Breadcrumbs ---

@@ -1583,7 +1583,9 @@ export default {
     ...mergedSeo,
     resource: {
       title: "{title} – Filmwerk | AVefi",
-      description: "Filmwerk mit Metadaten aus Filmarchiven. AVefi zeigt Manifestationen, Exemplare und verknüpfte Filmdaten aus mehreren Institutionen."
+      description: "Filmwerk mit Metadaten aus Filmarchiven. AVefi zeigt Manifestationen, Exemplare und verknüpfte Filmdaten aus mehreren Institutionen.",
+      shortDescription: "Filmwerk mit Metadaten aus mehreren Filmarchiven.",
+      directedBy: "Regie: {names}."
     },
     faq: {
       title: "FAQ - AVefi Filmdatenbank",
