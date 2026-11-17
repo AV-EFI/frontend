@@ -186,6 +186,9 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
+    experimental: { tasks: true },
+    // Rebuild the list of work URLs for the sitemap at night (server time), not during the day.
+    scheduledTasks: { '0 3 * * *': ['sitemap:works'] },
     // Single schema source: the vocab page reads the generated files in models/interfaces/schema, not a second copy.
     serverAssets: [{
       baseName: 'vocab',
@@ -508,7 +511,7 @@ export default defineNuxtConfig({
   sitemap: {
     zeroRuntime: false,
     excludeAppSources: true, // Exclude app sources to avoid conflicts with dynamic routes
-    // One URL per work. Building the list takes about a minute when its cache is cold.
+    // One URL per work. Building the list takes about a minute right after the server starts.
     sources: [['/api/__sitemap__/works', { timeout: 120_000 }]],
     urls: [
       '/',
