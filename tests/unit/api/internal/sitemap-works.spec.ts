@@ -30,11 +30,15 @@ function respond(nbWorks: number) {
 
 async function loadCollector() {
   vi.resetModules();
+  const stored = new Map<string, unknown>();
   vi.stubGlobal('useRuntimeConfig', () => ({
     public: { elasticApiBase: '/rest/v1', searchApiPath: 'frontend/search', siteUrl: 'https://www.av-efi.net' },
   }));
-  vi.stubGlobal('defineCachedFunction', (collect: () => Promise<unknown>) => collect);
-  return (await import('~/server/utils/sitemapWorks')).getSitemapWorkUrls as unknown as () => Promise<unknown>;
+  vi.stubGlobal('useStorage', () => ({
+    getItem: async (key: string) => stored.get(key) ?? null,
+    setItem: async (key: string, value: unknown) => { stored.set(key, value); },
+  }));
+  return import('~/server/utils/sitemapWorks');
 }
 
 describe('sitemap work URLs', () => {
@@ -49,7 +53,7 @@ describe('sitemap work URLs', () => {
 
   test('pages through every institution and lists each work once with its latest change', async () => {
     respond(2);
-    const getSitemapWorkUrls = await loadCollector();
+    const { getSitemapWorkUrls } = await loadCollector();
 
     expect(await getSitemapWorkUrls()).toEqual([
       { loc: '/res/21.11155/AAA', lastmod: '2026-01-01T00:00:00.000Z' },
@@ -63,10 +67,24 @@ describe('sitemap work URLs', () => {
   test('warns when fewer works were collected than the search API counts', async () => {
     respond(3);
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const getSitemapWorkUrls = await loadCollector();
+    const { getSitemapWorkUrls } = await loadCollector();
 
     await getSitemapWorkUrls();
 
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('collected 2 of 3 works'));
+  });
+
+  test('serves the stored list until the next rebuild and keeps it when a rebuild fails', async () => {
+    respond(2);
+    const { getSitemapWorkUrls, rebuildSitemapWorkUrls } = await loadCollector();
+    const firstList = await getSitemapWorkUrls();
+    const requestsForFirstList = fetchMock.mock.calls.length;
+
+    expect(await getSitemapWorkUrls()).toEqual(firstList);
+    expect(fetchMock).toHaveBeenCalledTimes(requestsForFirstList);
+
+    fetchMock.mockRejectedValue(new Error('search API unavailable'));
+    await expect(rebuildSitemapWorkUrls()).rejects.toThrow('search API unavailable');
+    expect(await getSitemapWorkUrls()).toEqual(firstList);
   });
 });

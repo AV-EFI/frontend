@@ -5,8 +5,8 @@ import { $fetch } from 'ofetch';
  *
  * The search API returns at most 10,000 hits per query and 100 hits per page, so the works are
  * collected per institution (each one stays below 10,000) and deduplicated, because a work can be
- * held by several institutions. Collecting all works takes about a minute, so the result is cached
- * for a day and refreshed in the background while the previous list is still served.
+ * held by several institutions. Collecting all works takes about a minute, so the list is stored and
+ * rebuilt at server start and by the nightly task `sitemap:works`. A failed rebuild keeps the stored list.
  */
 
 type SearchHit = { handle?: string; '@timestamp'?: number };
@@ -24,7 +24,7 @@ const DEFAULT_SEARCH_PATH = 'frontend/search';
 const DEFAULT_INDEX = '21.11155-denormalised-work';
 const MAX_HITS_PER_PAGE = 100;
 const MAX_INSTITUTIONS = 100;
-const CACHE_MAX_AGE_SECONDS = 24 * 60 * 60;
+const STORAGE_KEY = 'sitemap:work-urls';
 
 function joinUrl(base: string, pathPart: string) {
   return `${base.replace(/\/+$/, '')}/${pathPart.replace(/^\/+/, '')}`;
@@ -88,9 +88,21 @@ async function collectWorkUrls(): Promise<SitemapWorkUrl[]> {
   }));
 }
 
-export const getSitemapWorkUrls = defineCachedFunction(collectWorkUrls, {
-  name: 'sitemap-work-urls',
-  getKey: () => 'all',
-  maxAge: CACHE_MAX_AGE_SECONDS,
-  swr: true,
-});
+// Shared between callers so the server start, the nightly task and a sitemap request never collect twice at once.
+let runningRebuild: Promise<SitemapWorkUrl[]> | undefined;
+
+export function rebuildSitemapWorkUrls(): Promise<SitemapWorkUrl[]> {
+  runningRebuild ??= collectWorkUrls()
+    .then(async (urls) => {
+      await useStorage('cache').setItem(STORAGE_KEY, urls);
+      return urls;
+    })
+    .finally(() => {
+      runningRebuild = undefined;
+    });
+  return runningRebuild;
+}
+
+export async function getSitemapWorkUrls(): Promise<SitemapWorkUrl[]> {
+  return (await useStorage('cache').getItem<SitemapWorkUrl[]>(STORAGE_KEY)) ?? rebuildSitemapWorkUrls();
+}
