@@ -400,7 +400,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { ssr: true },
     '/search': { ssr: true },
-    '/faq': { ssr: false },
+    '/faq': { ssr: true },
     '/news': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
     '/schema-explorer': { ssr: true },
     '/explorer-poc': { ssr: false },

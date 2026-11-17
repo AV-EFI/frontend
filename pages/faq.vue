@@ -38,7 +38,8 @@
                                 </div>
 
                                 <div class="collapse-content bg-gray-50 dark:bg-gray-900 dark:text-white text-base leading-relaxed">
-                                    <p
+                                    <!-- div, not p: some answers contain lists, which a p cannot hold in server-rendered HTML. -->
+                                    <div
                                         v-for="(paragraph, index) in getContent(section.key)"
                                         :key="index"
                                         class="my-2"

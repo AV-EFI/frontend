@@ -39,6 +39,10 @@ describe('Route and SEO contract guards', () => {
     expect(appSource).toContain('title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`');
   });
 
+  test('BB-FAQ-001 renders the FAQ on the server so crawlers see the answers', () => {
+    expect(nuxtConfigSource).toContain("'/faq': { ssr: true },");
+  });
+
   test('BB-APP-002 keeps the document language synchronized with i18n locale', () => {
     expect(appSource).toContain('htmlAttrs:');
     expect(appSource).toContain("lang: locale.value === 'en' ? 'en' : 'de'");
