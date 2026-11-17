@@ -656,17 +656,13 @@ import type {
     Subject,
 } from "~/models/interfaces/schema/avefi_schema_type_utils";
 import type { Part } from './WorkViewCompParts.vue';
-import { useFormKitLoader } from '~/composables/useFormKitLoader';
 import { useLocalizedPlaceLabel } from '~/composables/useLocalizedPlaceLabel';
 import { getFacetIcon } from '~/models/interfaces/manual/IFacetIconMapping';
 import { getFilmRelatedMaterialCountForWork } from '~/composables/useFilmRelatedMaterials';
 import { patchUserPreferences, readUserPreferences } from '~/utils/userPreferences';
 
-const { ensureFormKitReady } = useFormKitLoader();
 const { t } = useI18n();
 const { getLocalizedPlaceLabel } = useLocalizedPlaceLabel();
-
-await ensureFormKitReady();
 
 // Enable hash navigation for manifestations and items
 useHash();

@@ -305,7 +305,7 @@ export default defineNuxtConfig({
       {
         path: '~/components',
         global: true,
-        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poster/**', 'poc/**', 'explorer/**', 'detail/**', 'input/**'],
+        pattern: ['global/**', 'micro/**', 'views/**', 'home/**', 'search/**', 'poc/**', 'explorer/**', 'detail/**', 'input/**'],
       },
       {
         path: '~/components',
@@ -400,7 +400,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { ssr: true },
     '/search': { ssr: true },
-    '/faq': { ssr: false },
+    '/faq': { ssr: true },
     '/news': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
     '/schema-explorer': { ssr: true },
     '/explorer-poc': { ssr: false },

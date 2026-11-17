@@ -7,12 +7,6 @@ import ManifestationListComp from '~/components/detail/ManifestationListComp.vue
 import ItemListNewComp from '~/components/detail/ItemListNewComp.vue';
 import { getFilmRelatedMaterialCountForWork } from '~/composables/useFilmRelatedMaterials';
 
-vi.mock('~/composables/useFormKitLoader', () => ({
-  useFormKitLoader: () => ({
-    ensureFormKitReady: vi.fn().mockResolvedValue(undefined),
-  }),
-}));
-
 // Mirrors WorkViewCompAVefi's own local `WorkNavigationItem` type (not
 // exported from the component) and the subset of its script-setup state
 // these tests reach into via wrapper.vm — script-setup bindings aren't part

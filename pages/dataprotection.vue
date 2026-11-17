@@ -4,6 +4,9 @@ definePageMeta({
     auth: false
 });
 
+const { t } = useI18n();
+useSeoMeta({ title: () => t('dataprotection') });
+
 const DATA_PROTECTION_URL = 'https://datenschutz.gwdg.de/services/av-efi';
 
 </script>

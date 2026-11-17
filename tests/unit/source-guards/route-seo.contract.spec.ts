@@ -29,7 +29,18 @@ const deSource = readFileSync(resolve(process.cwd(), 'i18n/locales/de.ts'), 'utf
 describe('Route and SEO contract guards', () => {
   test('BB-APP-001 keeps global canonical and schema graph mount points', () => {
     expect(appSource).toContain('useSchemaOrg([');
-    expect(appSource).toContain("{ rel: 'canonical', href: siteUrl.value }");
+    expect(appSource).toContain("{ key: 'canonical', rel: 'canonical', href: pageCanonical.value }");
+    expect(appSource).toContain("route.path.replace(/\\/+$/, '')");
+    expect(appSource).toContain('ogUrl: pageCanonical,');
+  });
+
+  test('BB-APP-003 adds the site name only to titles that do not name AVefi yet', () => {
+    expect(appSource).toContain('titleTemplate: withSiteName,');
+    expect(appSource).toContain('title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`');
+  });
+
+  test('BB-FAQ-001 renders the FAQ on the server so crawlers see the answers', () => {
+    expect(nuxtConfigSource).toContain("'/faq': { ssr: true },");
   });
 
   test('BB-APP-002 keeps the document language synchronized with i18n locale', () => {
@@ -62,6 +73,11 @@ describe('Route and SEO contract guards', () => {
     expect(detailSource.indexOf('href: routeCanonical.value')).toBeLessThan(
       detailSource.indexOf('await useAsyncData')
     );
+  });
+
+  test('BB-DETAIL-006 answers unknown records with HTTP 404 instead of a soft 404', () => {
+    expect(detailSource).toContain('if (import.meta.server && fetchErrorStatus(error.value) === 404)');
+    expect(detailSource).toContain('setResponseStatus(requestEvent, 404)');
   });
 
   test('BB-DETAIL-002 keeps resource-type branching for detail rendering', () => {
