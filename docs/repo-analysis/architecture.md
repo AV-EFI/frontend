@@ -42,7 +42,6 @@ Public routes:
 - resource detail routes in `pages/res/[prefix]/[id].vue`
 - legacy redirects from `pages/film/*` to `/res/*`
 - comparison, norm-data, accessibility, and content pages such as `compare.vue`, `normdata.vue`, `accessibility.vue`, `press.vue`, `vocab.vue`, `faq.vue`, `imprint.vue`, `dataprotection.vue`
-- poster routes under `pages/poster/*` with layout disabled
 
 Internal or legacy routes:
 
