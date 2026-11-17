@@ -38,7 +38,7 @@
 - `/film/*` -> legacy redirects to `/res/*`
 - `/compare` -> compare view based on query-string params
 - `/compare`, `/press`, `/vocab`, `/faq`, `/imprint`, `/dataprotection`, `/accessibility`, `/normdata`, `/signout`
-- `/poster/avefi` and `/poster/greynet-avefi` -> poster routes with layout disabled
+- `/poster/greynet-avefi` -> poster route with layout disabled
 
 ### Internal / legacy / admin
 
