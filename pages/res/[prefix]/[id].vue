@@ -352,7 +352,8 @@ const productionFacts = computed(() => {
 const summary = computed(() =>
     normalizeText(record.value?.has_record?.abstract) ||
     normalizeText(asArray<unknown>(record.value?.has_record?.has_note)?.[0]) ||
-    t('seo.resource.description')
+    // Search snippets are cut at about 155 characters, so the production facts get a shorter fallback.
+    t(productionFacts.value ? 'seo.resource.shortDescription' : 'seo.resource.description')
 );
 
 const description = computed(() => [productionFacts.value, summary.value].filter(Boolean).join(' '));
