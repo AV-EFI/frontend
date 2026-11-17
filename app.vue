@@ -194,10 +194,25 @@ useSchemaOrg([
     },
 ]);
 
+// Pages without a canonical of their own point to their own path, never to the home page.
+// Query parameters are left out; pages that index some of them (search) set their own canonical.
+const route = useRoute();
+const pageCanonical = computed(() => {
+    const path = route.path.replace(/\/+$/, '');
+    return path ? `${siteUrl.value}${path}` : siteUrl.value;
+});
+
+// Many page titles already name AVefi, so the suffix is added only to the others.
+const SITE_NAME = 'AVefi';
+const withSiteName = (title?: string) => {
+    if (!title) return SITE_NAME;
+    return title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+};
+
 (useSeoMeta as (meta: Record<string, unknown>) => void)({
-    titleTemplate: '%s | AVefi',
+    titleTemplate: withSiteName,
     ogSiteName: `AVefi - ${$t('avefiClaim')}`,
-    ogUrl: siteUrl.value,
+    ogUrl: pageCanonical,
     twitterCard: 'summary_large_image',
     publisher: schemaIdentityId.value,
     keywords: [
@@ -238,12 +253,12 @@ useSchemaOrg([
     ].join(', '),
 });
 
-useHead({
+useHead(() => ({
     link: [
-        { rel: 'canonical', href: siteUrl.value },
+        { key: 'canonical', rel: 'canonical', href: pageCanonical.value },
     ],
     style: [],
-});
+}));
 
 const {
     cookiesEnabledIds
