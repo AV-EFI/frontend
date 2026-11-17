@@ -71,6 +71,11 @@ describe('Route and SEO contract guards', () => {
     );
   });
 
+  test('BB-DETAIL-006 answers unknown records with HTTP 404 instead of a soft 404', () => {
+    expect(detailSource).toContain('if (import.meta.server && fetchErrorStatus(error.value) === 404)');
+    expect(detailSource).toContain('setResponseStatus(requestEvent, 404)');
+  });
+
   test('BB-DETAIL-002 keeps resource-type branching for detail rendering', () => {
     expect(detailSource).toContain('resourceType');
     expect(detailSource).toContain("resourceType = 'manifestationOrItem'");
