@@ -13,7 +13,7 @@ export const LOGO_VIEWBOX = { width: 400, height: 155 } as const;
 export const LOGO_CAP_TOP = 40.3;
 export const LOGO_BASELINE = 151.9;
 /** Right edge of the dot. */
-export const LOGO_INK_RIGHT = 398.2;
+const LOGO_INK_RIGHT = 398.2;
 
 export const CLAIM_VIEWBOX = { width: 230, height: 105 } as const;
 export const CLAIM_CAP_HEIGHT = 15.96;
