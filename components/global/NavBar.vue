@@ -58,18 +58,18 @@
                     </ul>
                 </div>
 
-                <!-- Logo and claim -->
+                <!-- Logo and claim as set on projects.tib.eu: last claim baseline on the logo baseline (utils/brandLockup) -->
                 <div class="mb-2 ml-2 flex items-center justify-center h-12">
-                    <a class="rounded-lg p-2 text-xl h-12 my-auto flex items-center justify-center" href="/"
-                       :aria-label="$t('home.breadcrumbs')" :title="$t('home.breadcrumbs')">
-                        <img src="/img/AV-EFI-Logo.svg" alt="AVefi Logo" class="my-auto dark:hidden" width="70" height="27">
-                        <img src="/img/AV-EFI-Logo-dark.svg" alt="AVefi Logo dark" class="my-auto hidden dark:block" width="70"
-                             height="27">
-                    </a>
-                    <img :src="locale === 'en' ? '/img/avefi_claim_en.svg' : '/img/avefi_claim_de.svg'" :alt="t('avefiClaim')"
-                         :title="t('avefiClaim')" class="hidden h-12 w-auto ml-2 rounded-lg dark:invert" width="230" height="105">
-                    <div class="hidden lg:flex text-sm leading-none text-left dark:text-gray-200 max-w-32 lg:h-12 ml-2">
-                        <span class="bree my-auto" v-html="$t('avefiClaimHtml').replace('. ', '<br/>')" />
+                    <div class="brand-lockup whitespace-nowrap">
+                        <a class="brand-lockup__logo rounded-lg p-2" href="/"
+                           :aria-label="$t('home.breadcrumbs')" :title="$t('home.breadcrumbs')">
+                            <img src="/img/AV-EFI-Logo.svg" alt="AVefi Logo" class="inline dark:hidden" width="70" height="27">
+                            <img src="/img/AV-EFI-Logo-dark.svg" alt="AVefi Logo dark" class="hidden dark:inline" width="70"
+                                 height="27">
+                        </a>
+                        <span class="brand-lockup__claim bree hidden lg:inline-block dark:text-gray-200">
+                            <span v-for="line in claimLines" :key="line" class="block">{{ line }}</span>
+                        </span>
                     </div>
                     <div v-if="envLabel !== 'Production'" class="badge badge-neutral mr-auto ml-3 my-auto text-left h-6 w-24 min-w-0 shrink truncate">
                         {{ envLabel }}
@@ -117,6 +117,13 @@
 
 <script lang="ts" setup>
 import { isNewsEnabled } from '~/utils/newsEnabled';
+import {
+    CLAIM_GAP_PER_CLAIM_EM,
+    CLAIM_LINE_HEIGHT_EM,
+    LOGO_DESCENT_PER_WIDTH,
+    LOGO_WIDTH_PER_CLAIM_EM,
+    splitClaimLines,
+} from '~/utils/brandLockup';
 import { computed, ref, nextTick, onMounted, onBeforeUnmount, useId, watch } from 'vue';
 import { useObjectListStore } from '../../stores/compareList.js';
 import { useFavourites } from '../../stores/favourites.js';
@@ -126,7 +133,7 @@ const runtime = useRuntimeConfig();
 
 const { currentUrlState } = useCurrentUrlState();
 const { data, signOut, signIn } = useAuth();
-const { locale, t } = useI18n();
+const { t } = useI18n();
 
 const objectListStore = useObjectListStore();
 const favourites = useFavourites();
@@ -142,6 +149,16 @@ const authItemRef = ref<HTMLElement | null>(null);
 const envLabel = runtime.public.ENV_LABEL;
 const loginEnabled = computed(() => runtime.public.loginEnabled === true);
 const searchHref = computed(() => `/${runtime.public.SEARCH_URL}/${currentUrlState.value}`);
+
+const claimLines = computed(() => splitClaimLines(t('avefiClaim')));
+
+/** The logo is sized from the claim whenever the claim is shown. At 0.9rem the claim line pitch is a whole 13px, so browsers do not snap it. */
+const CLAIM_FONT_SIZE_REM = 0.9;
+const lockupLogoWidth = `${(CLAIM_FONT_SIZE_REM * LOGO_WIDTH_PER_CLAIM_EM).toFixed(4)}rem`;
+const lockupLogoDescent = `${(-LOGO_DESCENT_PER_WIDTH * CLAIM_FONT_SIZE_REM * LOGO_WIDTH_PER_CLAIM_EM).toFixed(4)}rem`;
+const lockupClaimSize = `${CLAIM_FONT_SIZE_REM}rem`;
+const lockupClaimLineHeight = CLAIM_LINE_HEIGHT_EM.toFixed(4);
+const lockupClaimGap = `${CLAIM_GAP_PER_CLAIM_EM.toFixed(4)}em`;
 
 const openContactForm = () => {
     window.dispatchEvent(new Event('toggle-contact-drawer'));
@@ -198,6 +215,35 @@ const ariaLabelMainMenu = computed(() => t('mainMenu'));
 </script>
 
 <style scoped>
+/* Inline formatting puts the logo baseline and the claim's last baseline on one line box baseline. */
+.brand-lockup {
+  font-size: v-bind(lockupClaimSize);
+  line-height: v-bind(lockupClaimLineHeight);
+}
+
+.brand-lockup__logo {
+  display: inline-block;
+}
+
+.brand-lockup__logo img {
+  width: 70px;
+  height: auto;
+  vertical-align: baseline;
+}
+
+.brand-lockup__claim {
+  /* The logo link's p-2 right padding is part of the gap. */
+  margin-left: calc(v-bind(lockupClaimGap) - 0.5rem);
+  text-align: left;
+}
+
+@media (min-width: 64rem) {
+  .brand-lockup__logo img {
+    width: v-bind(lockupLogoWidth);
+    margin-bottom: v-bind(lockupLogoDescent);
+  }
+}
+
 .menu-items li {
   height: 3rem;
   display: flex;

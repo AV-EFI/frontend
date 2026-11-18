@@ -701,7 +701,6 @@ const deBase = {
   'addNewSubject': 'Neues Schlagwort hinzufügen',
   'addNewOtherId': 'Neue weitere ID hinzufügen',
   'avefiClaim': 'Filme finden. Daten verbinden.',
-  'avefiClaimHtml': 'Filme finden. Daten verbinden.',
   'avefi_Item': 'Exemplar',
   'avefi_Manifestation': 'Manifestation',
   'avefi_WorkVariant': 'Werk',

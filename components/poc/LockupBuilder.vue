@@ -62,6 +62,17 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
+import {
+    CLAIM_CAP_HEIGHT,
+    CLAIM_LINE_BASELINES,
+    CLAIM_VIEWBOX,
+    LOCKUP_CLAIM_CAP_HEIGHT,
+    LOCKUP_CLAIM_GAP,
+    LOCKUP_CLAIM_LINE_PITCH,
+    LOGO_BASELINE,
+    LOGO_CAP_TOP,
+    LOGO_VIEWBOX,
+} from '~/utils/brandLockup';
 
 type Language = 'de' | 'en';
 type Theme = 'light' | 'dark' | 'blackOnWhite' | 'grayscale' | 'whiteOnDark';
@@ -80,18 +91,16 @@ const theme = ref<Theme>('light');
 const layout = ref<Layout>('horizontal');
 const spacing = ref<Spacing>('standard');
 
-/** Tailwind rem scale (1rem = 16px), not linear steps — matches the app's own spacing scale. */
+/** Tailwind rem scale (1rem = 16px), not linear steps — matches the app's own spacing scale.
+ * `gap` applies to the stacked layout; the side-by-side gap follows from the lockup rule. */
 const SPACING_PRESETS: Record<Spacing, { padding: number; gap: number }> = {
     compact: { padding: 16, gap: 12 }, // p-4 / gap-3
     standard: { padding: 32, gap: 24 }, // p-8 / gap-6
     spacious: { padding: 64, gap: 48 }, // p-16 / gap-12
 };
 
-const LOGO_ASPECT = { width: 400, height: 155 };
-const CLAIM_ASPECT = { width: 230, height: 105 };
 const TARGET_HEIGHT = 96;
-/** Relative to the logo's ink height, matched to how the two read side by side / stacked. */
-const CLAIM_SCALE_HORIZONTAL = 0.8;
+/** Stacked layout only, relative to the logo's ink height; the side-by-side size follows from the lockup rule. */
 const CLAIM_SCALE_VERTICAL = 0.7;
 
 /** The claim only exists as a light and a dark artwork, so the monochrome themes reuse the closer one. */
@@ -194,12 +203,26 @@ const placeByTop = (asset: SvgAsset, viewBox: { width: number; height: number },
     return { inkWidth: asset.bbox.width * scale, markup: svgMarkup(asset, viewBox, x, y, scale) };
 };
 
-/** Positions a nested <svg> so the asset's ink bbox vertical center lands at `centerY`, ink left edge at `left`. */
-const placeByCenter = (asset: SvgAsset, viewBox: { width: number; height: number }, left: number, centerY: number, inkHeight: number) => {
-    const scale = inkHeight / asset.bbox.height;
+/** Positions a nested <svg> at `scale` so the asset's ink left edge lands at `left` and its viewBox y `anchor` at `anchorY`. */
+const placeByAnchor = (asset: SvgAsset, viewBox: { width: number; height: number }, left: number, anchor: number, anchorY: number, scale: number) => {
     const x = left - asset.bbox.x * scale;
-    const y = centerY - (asset.bbox.y + asset.bbox.height / 2) * scale;
-    return { inkWidth: asset.bbox.width * scale, markup: svgMarkup(asset, viewBox, x, y, scale) };
+    const y = anchorY - anchor * scale;
+    return {
+        inkWidth: asset.bbox.width * scale,
+        inkBottom: y + (asset.bbox.y + asset.bbox.height) * scale,
+        markup: svgMarkup(asset, viewBox, x, y, scale),
+    };
+};
+
+/** One line of the claim artwork, keeping the whole claim's ink bbox so both lines share the left edge. */
+const claimLineAsset = (claim: SvgAsset, lineIndex: number): SvgAsset => {
+    const doc = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg">${claim.inner}</svg>`, 'image/svg+xml');
+    CLAIM_LINE_BASELINES.forEach((_, index) => {
+        if (index !== lineIndex) {
+            doc.getElementById(`path${index + 1}`)?.remove();
+        }
+    });
+    return { inner: doc.documentElement.innerHTML, bbox: claim.bbox };
 };
 
 const composedSvg = ref('');
@@ -214,32 +237,41 @@ watchEffect(async () => {
 
     try {
         const [logoAsset, claimAsset] = await Promise.all([
-            loadSvgAsset(currentLogoSrc, LOGO_ASPECT),
-            loadSvgAsset(currentClaimSrc, CLAIM_ASPECT),
+            loadSvgAsset(currentLogoSrc, LOGO_VIEWBOX),
+            loadSvgAsset(currentClaimSrc, CLAIM_VIEWBOX),
         ]);
 
         let totalWidth: number;
         let totalHeight: number;
-        let logoPart: ReturnType<typeof placeByTop>;
-        let claimPart: ReturnType<typeof placeByTop>;
+        let logoPart: { inkWidth: number; markup: string };
+        let claimPart: { inkWidth: number; markup: string };
 
         if (currentLayout === 'horizontal') {
-            // Whole-block vertical centering — matches how the navbar aligns logo + claim (flex
-            // `my-auto`), i.e. both elements' full ink bbox centered on the same line.
-            const claimHeight = TARGET_HEIGHT * CLAIM_SCALE_HORIZONTAL;
-            const rowHeight = Math.max(TARGET_HEIGHT, claimHeight);
-            const centerY = PADDING + rowHeight / 2;
+            // Lockup as on projects.tib.eu (see utils/brandLockup): sizes and gap scale with the
+            // logo cap height, and each claim line sits on its own baseline, the last on the logo's.
+            const logoScale = TARGET_HEIGHT / logoAsset.bbox.height;
+            const logoCapHeight = (LOGO_BASELINE - LOGO_CAP_TOP) * logoScale;
+            const baselineY = PADDING + (LOGO_BASELINE - logoAsset.bbox.y) * logoScale;
+            const claimScale = LOCKUP_CLAIM_CAP_HEIGHT * logoCapHeight / CLAIM_CAP_HEIGHT;
+            const lineCount = CLAIM_LINE_BASELINES.length;
 
-            logoPart = placeByCenter(logoAsset, LOGO_ASPECT, PADDING, centerY, TARGET_HEIGHT);
-            claimPart = placeByCenter(claimAsset, CLAIM_ASPECT, PADDING + logoPart.inkWidth + GAP, centerY, claimHeight);
-            totalWidth = PADDING * 2 + logoPart.inkWidth + GAP + claimPart.inkWidth;
-            totalHeight = PADDING * 2 + rowHeight;
+            const logo = placeByAnchor(logoAsset, LOGO_VIEWBOX, PADDING, LOGO_BASELINE, baselineY, logoScale);
+            const claimLeft = PADDING + logo.inkWidth + LOCKUP_CLAIM_GAP * logoCapHeight;
+            const lines = CLAIM_LINE_BASELINES.map((lineBaseline, index) => placeByAnchor(
+                claimLineAsset(claimAsset, index), CLAIM_VIEWBOX, claimLeft, lineBaseline,
+                baselineY - (lineCount - 1 - index) * LOCKUP_CLAIM_LINE_PITCH * logoCapHeight, claimScale,
+            ));
+            const claimInkWidth = claimAsset.bbox.width * claimScale;
+            logoPart = logo;
+            claimPart = { inkWidth: claimInkWidth, markup: lines.map((line) => line.markup).join('') };
+            totalWidth = claimLeft + claimInkWidth + PADDING;
+            totalHeight = Math.max(logo.inkBottom, ...lines.map((line) => line.inkBottom)) + PADDING;
         } else {
             // Stacked: logo and claim share the same left edge (ink-aligned, not centered); claim
             // scaled down slightly relative to the logo so it doesn't visually dominate.
             const claimHeight = TARGET_HEIGHT * CLAIM_SCALE_VERTICAL;
-            logoPart = placeByTop(logoAsset, LOGO_ASPECT, PADDING, PADDING, TARGET_HEIGHT);
-            claimPart = placeByTop(claimAsset, CLAIM_ASPECT, PADDING, PADDING + TARGET_HEIGHT + GAP, claimHeight);
+            logoPart = placeByTop(logoAsset, LOGO_VIEWBOX, PADDING, PADDING, TARGET_HEIGHT);
+            claimPart = placeByTop(claimAsset, CLAIM_VIEWBOX, PADDING, PADDING + TARGET_HEIGHT + GAP, claimHeight);
             totalWidth = PADDING * 2 + Math.max(logoPart.inkWidth, claimPart.inkWidth);
             totalHeight = PADDING * 2 + TARGET_HEIGHT + GAP + claimHeight;
         }
