@@ -1,5 +1,6 @@
 <template>
-    <div class="container mx-auto px-2 pb-2">
+    <!-- The search renders only in the browser; min-h-screen keeps the footer below the fold until it has loaded. -->
+    <div class="container mx-auto px-2 pb-2 min-h-screen">
         <GlobalBreadcrumbsComp
             :breadcrumbs="[
                 [$t('home.breadcrumbs'), '/'],

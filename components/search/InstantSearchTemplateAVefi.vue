@@ -16,9 +16,10 @@
                     <!-- Center -->
                     <div class="drawer-content w-full flex flex-col items-center justify-center max-md:w-screen" role="region"
                          :aria-label="$t('searchcontent')">
+                        <!-- min-h-14 reserves the search field (mt-2 + h-12), which renders only once InstantSearch has its first state. -->
                         <div class="search-panel__results w-full p-2"
                              role="region" :aria-label="$t('searchresults')">
-                            <div class="searchbox relative" role="search" :aria-label="$t('searchbox')">
+                            <div class="searchbox relative min-h-14" role="search" :aria-label="$t('searchbox')">
                                 <ais-search-box>
                                     <template #default="{ currentRefinement, refine, isSearchStalled }">
                                         <div class="flex flex-row mt-2">
