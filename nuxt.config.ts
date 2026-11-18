@@ -186,6 +186,9 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
+    experimental: { tasks: true },
+    // Rebuild the list of work URLs for the sitemap at night (server time), not during the day.
+    scheduledTasks: { '0 3 * * *': ['sitemap:works'] },
     // Single schema source: the vocab page reads the generated files in models/interfaces/schema, not a second copy.
     serverAssets: [{
       baseName: 'vocab',
@@ -504,64 +507,8 @@ export default defineNuxtConfig({
       },
     }
     : {}),
-  // Sitemap
-  sitemap: {
-    zeroRuntime: true,
-    excludeAppSources: true, // Exclude app sources to avoid conflicts with dynamic routes
-    urls: [
-      '/',
-      '/search',
-      '/contact',
-      '/res',
-      '/imprint',
-      '/accessibility',
-      '/press',
-      '/faq',
-      '/schema-explorer',
-      // concrete “testable” URLs
-      { loc: '/search/?has_form=Short&manifestation_event_type=RestorationEvent' },
-      { loc: '/search/?has_form=Documentary&subjects=Protest&subjects=Aufstand&subjects=Widerstand&subjects=Streik' },
-      { loc: '/search/?creators=Troller%2C%20Georg%20Stefan' },
-      { loc: '/search/?production=Schlenker%2C%20Hermann&production=Hermann%20Schlenker%20Filmproduktion' },
-      { loc: '/search/?query=Metropolis' },
-      { loc: '/search/?query=Berlin' },
-      { loc: '/search/?query=Cabinet%20des%20Dr%20Caligari' },
-      { loc: '/search/?query=Berlin%20Alexanderplatz' },
-      { loc: '/search/?query=Solo%20Sunny' },
-      { loc: '/search/?has_form%5B0%5D=HomeMovie' },
-      { loc: '/search/?has_form%5B0%5D=Short' },
-      {
-        loc: '/search/?production%5B0%5D=Schlenker%2C%20Hermann&production%5B1%5D=Hermann%20Schlenker%20Filmproduktion&production%5B2%5D=Hermann%20Schlenker',
-      },
-      { loc: '/search/?subjects=Krieg' },
-      { loc: '/search/?subjects=Berlin' },
-      { loc: '/search/?subjects=Amateurfilm' },
-      { loc: '/search/?subjects=Familie' },
-      { loc: '/search/?subjects=Arbeit' },
-      { loc: '/search/?manifestation_event_type%5B0%5D=RestorationEvent' },
-      { loc: '/search/?manifestation_event_type%5B0%5D=TheatricalDistributionEvent' },
-      { loc: '/search/?creators%5B0%5D=Nekes%2C%20Werner' },
-      { loc: '/search/?creators%5B0%5D=Wildenhahn%2C%20Klaus' },
-      { loc: '/search/?creators%5B0%5D=Nestler%2C%20Peter' },
-      { loc: '/search/?creators%5B0%5D=Nickel%2C%20Gitta' },
-      { loc: '/res/21.11155/A37FAC2F-2527-4DFE-94FB-5C18D2569406' },
-      { loc: '/res/21.11155/D8231D2F-3F17-4917-A242-02844AA83C88' },
-    ],
-    // keep exclude if you want (won’t matter much if app sources are disabled)
-    exclude: [
-      '/protected/**',
-      '/admin/**',
-      '/login',
-      '/logout',
-      '/signout',
-      '/filmrel/**',
-      '/normdata',
-      '/error-500',
-      '/vocab',
-      '/_**',
-      '/_nuxt/**',
-    ],
-  },
+  // /sitemap.xml is served by server/routes/sitemap.xml.ts, also in builds without this module.
+  sitemap: { enabled: false },
 
   nuxt3WinstonLog: {
     maxSize: '2048m',

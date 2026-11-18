@@ -1,11 +1,11 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, test } from 'vitest';
 
 const nuxtConfigSource = readFileSync(resolve(process.cwd(), 'nuxt.config.ts'), 'utf8');
 const robotsRouteSource = readFileSync(resolve(process.cwd(), 'server/routes/robots.txt.ts'), 'utf8');
+const sitemapRouteSource = readFileSync(resolve(process.cwd(), 'server/routes/sitemap.xml.ts'), 'utf8');
 const openSearchRouteSource = readFileSync(resolve(process.cwd(), 'server/routes/opensearch.xml.ts'), 'utf8');
-const sitemapSource =readFileSync(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8');
 
 describe('Public crawl files', () => {
   test('exposes the sitemap through Nuxt robots config', () => {
@@ -29,13 +29,12 @@ describe('Public crawl files', () => {
     expect(openSearchRouteSource).toContain("'Content-Type', 'application/opensearchdescription+xml; charset=utf-8'");
   });
 
-  test('keeps the sitemap focused on indexable public URLs', () => {
-    expect(sitemapSource).toContain('<loc>https://www.av-efi.net/</loc>');
-    expect(sitemapSource).toContain('<loc>https://www.av-efi.net/search</loc>');
-    expect(sitemapSource).toContain('<loc>https://www.av-efi.net/press</loc>');
-    expect(sitemapSource).not.toContain('/protected/');
-    expect(sitemapSource).not.toContain('/admin/');
-    expect(sitemapSource).not.toContain('/filmrel/');
-    expect(sitemapSource).not.toContain('/normdata');
+  test('serves the sitemap from its own route, also in builds without the sitemap module', () => {
+    expect(existsSync(resolve(process.cwd(), 'public/sitemap.xml'))).toBe(false);
+    expect(nuxtConfigSource).toContain('sitemap: { enabled: false },');
+    expect(sitemapRouteSource).toContain('...await getSitemapWorkUrls()');
+    for (const privatePath of ['/protected', '/admin', '/filmrel', '/normdata']) {
+      expect(sitemapRouteSource).not.toContain(`'${privatePath}`);
+    }
   });
 });
