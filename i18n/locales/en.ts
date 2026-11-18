@@ -723,7 +723,6 @@ const avefiBase = {
   'addNewSubject': 'Add new subject',
   'addNewOtherId': 'Add new other ID',
   'avefiClaim': 'Find films. Link data.',
-  'avefiClaimHtml': 'Find films. Link data.',
   'avefi_Item': 'Item',
   'avefi_Manifestation': 'Manifestation',
   'avefi_WorkVariant': 'Work',
