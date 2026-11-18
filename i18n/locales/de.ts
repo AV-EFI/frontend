@@ -639,7 +639,7 @@ const deBase = {
   },
   "pressLockupPoc": {
     "title": "Logo + Claim Lockup-Generator (PoC)",
-    "versionBadge": "v0.1 · PoC",
+    "versionBadge": "v0.2 · PoC",
     "description": "Kombiniert Logo und Claim aus den bestehenden Presse-Kit-Assets zu einem Lockup und exportiert es als SVG.",
     "language": "Sprache",
     "theme": "Theme",
@@ -654,12 +654,6 @@ const deBase = {
     "layoutLabels": {
       "horizontal": "Nebeneinander",
       "vertical": "Untereinander"
-    },
-    "spacing": "Abstand",
-    "spacingLabels": {
-      "compact": "Kompakt",
-      "standard": "Standard",
-      "spacious": "Großzügig"
     },
     "download": "Als SVG herunterladen",
     "loading": "Lockup wird zusammengesetzt …",
