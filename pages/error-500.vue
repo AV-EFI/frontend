@@ -59,10 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useNuxtApp } from 'nuxt/app';
 import { setResponseStatus } from 'h3';
-import filmQuotesData from '~/data/film-quotes.json';
 
 definePageMeta({
     name: 'error-500'
@@ -81,24 +79,5 @@ const reloadPage = () => {
     window.location.reload();
 };
 
-// Get random quote for error type 500
-const randomQuote = computed(() => {
-    const allQuotes = filmQuotesData.films.flatMap(film => 
-        film.quotes
-            .filter(q => q.errorType === '500')
-            .map(q => ({
-                text: q.text,
-                film: film.film,
-                year: film.year,
-                avefiUrl: film.avefiUrl,
-                wikiquoteUrl: film.wikiquoteUrl,
-                license: film.license
-            }))
-    );
-  
-    if (allQuotes.length === 0) return null;
-  
-    const randomIndex = Math.floor(Math.random() * allQuotes.length);
-    return allQuotes[randomIndex];
-});
+const randomQuote = useRandomFilmQuote('500');
 </script>
