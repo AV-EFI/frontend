@@ -13,6 +13,8 @@ const shouldRunBuildQa = !isFastBuildProfile;
 const shouldEnableReleaseModules = !isFastBuildProfile;
 
 const isProduction = process.env.NODE_ENV === 'production';
+/** `/img` and `/fonts` are served under fixed names, so browsers must revalidate to pick up replaced files. */
+const STATIC_ASSET_CACHE_CONTROL = 'public, max-age=86400, must-revalidate';
 const publicSiteUrl =
   process.env.NUXT_PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
@@ -246,9 +248,8 @@ export default defineNuxtConfig({
               'Content-Type': 'text/plain; charset=utf-8',
             },
           },
-          // ✅ Caching unverändert
-          '/img/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
-          '/fonts/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+          '/img/**': { headers: { 'Cache-Control': STATIC_ASSET_CACHE_CONTROL } },
+          '/fonts/**': { headers: { 'Cache-Control': STATIC_ASSET_CACHE_CONTROL } },
 
           // ✅ Search nur indexieren wenn explizit gewünscht UND release
           ...(isRelease && !indexSearch
