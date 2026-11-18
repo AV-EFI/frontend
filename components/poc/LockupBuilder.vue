@@ -35,17 +35,6 @@
                 </div>
             </fieldset>
 
-            <fieldset class="fieldset">
-                <legend class="fieldset-legend">{{ t('pressLockupPoc.spacing') }}</legend>
-                <div class="join">
-                    <button v-for="opt in spacingOptions" :key="opt" type="button"
-                            class="btn btn-sm join-item" :class="spacing === opt ? 'btn-primary' : 'btn-outline'"
-                            @click="spacing = opt">
-                        {{ t(`pressLockupPoc.spacingLabels.${opt}`) }}
-                    </button>
-                </div>
-            </fieldset>
-
             <button type="button" class="btn btn-primary" :disabled="!composedSvg" @click="downloadSvg">
                 {{ t('pressLockupPoc.download') }}
             </button>
@@ -77,27 +66,21 @@ import {
 type Language = 'de' | 'en';
 type Theme = 'light' | 'dark' | 'blackOnWhite' | 'grayscale' | 'whiteOnDark';
 type Layout = 'horizontal' | 'vertical';
-type Spacing = 'compact' | 'standard' | 'spacious';
 
 const { t } = useI18n();
 
 const languageOptions: Language[] = ['de', 'en'];
 const themeOptions: Theme[] = ['light', 'dark', 'blackOnWhite', 'grayscale', 'whiteOnDark'];
 const layoutOptions: Layout[] = ['horizontal', 'vertical'];
-const spacingOptions: Spacing[] = ['compact', 'standard', 'spacious'];
 
 const language = ref<Language>('de');
 const theme = ref<Theme>('light');
 const layout = ref<Layout>('horizontal');
-const spacing = ref<Spacing>('standard');
 
-/** Tailwind rem scale (1rem = 16px), not linear steps — matches the app's own spacing scale.
- * `gap` applies to the stacked layout; the side-by-side gap follows from the lockup rule. */
-const SPACING_PRESETS: Record<Spacing, { padding: number; gap: number }> = {
-    compact: { padding: 16, gap: 12 }, // p-4 / gap-3
-    standard: { padding: 32, gap: 24 }, // p-8 / gap-6
-    spacious: { padding: 64, gap: 48 }, // p-16 / gap-12
-};
+/** Clear space around the lockup in px (Tailwind p-8). */
+const PADDING = 32;
+/** Space between logo and claim in the stacked layout in px (Tailwind gap-6); side by side it follows from the lockup rule. */
+const STACKED_CLAIM_GAP = 24;
 
 const TARGET_HEIGHT = 96;
 /** Stacked layout only, relative to the logo's ink height; the side-by-side size follows from the lockup rule. */
@@ -233,7 +216,6 @@ watchEffect(async () => {
     const currentClaimSrc = claimSrc.value;
     const currentLayout = layout.value;
     const currentBackground = backgroundColor.value;
-    const { padding: PADDING, gap: GAP } = SPACING_PRESETS[spacing.value];
 
     try {
         const [logoAsset, claimAsset] = await Promise.all([
@@ -271,9 +253,9 @@ watchEffect(async () => {
             // scaled down slightly relative to the logo so it doesn't visually dominate.
             const claimHeight = TARGET_HEIGHT * CLAIM_SCALE_VERTICAL;
             logoPart = placeByTop(logoAsset, LOGO_VIEWBOX, PADDING, PADDING, TARGET_HEIGHT);
-            claimPart = placeByTop(claimAsset, CLAIM_VIEWBOX, PADDING, PADDING + TARGET_HEIGHT + GAP, claimHeight);
+            claimPart = placeByTop(claimAsset, CLAIM_VIEWBOX, PADDING, PADDING + TARGET_HEIGHT + STACKED_CLAIM_GAP, claimHeight);
             totalWidth = PADDING * 2 + Math.max(logoPart.inkWidth, claimPart.inkWidth);
-            totalHeight = PADDING * 2 + TARGET_HEIGHT + GAP + claimHeight;
+            totalHeight = PADDING * 2 + TARGET_HEIGHT + STACKED_CLAIM_GAP + claimHeight;
         }
 
         composedSvg.value = `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="${totalHeight}" viewBox="0 0 ${totalWidth} ${totalHeight}">`
@@ -296,7 +278,7 @@ const downloadSvg = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `avefi-lockup-${language.value}-${theme.value}-${layout.value}-${spacing.value}.svg`;
+    link.download = `avefi-lockup-${language.value}-${theme.value}-${layout.value}.svg`;
     link.click();
     URL.revokeObjectURL(url);
 };

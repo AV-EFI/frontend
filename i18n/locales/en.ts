@@ -674,7 +674,7 @@ const avefiBase = {
   },
   "pressLockupPoc": {
     "title": "Logo + Claim Lockup Generator (PoC)",
-    "versionBadge": "v0.1 · PoC",
+    "versionBadge": "v0.2 · PoC",
     "description": "Combines logo and claim from the existing press-kit assets into a lockup and exports it as SVG.",
     "language": "Language",
     "theme": "Theme",
@@ -689,12 +689,6 @@ const avefiBase = {
     "layoutLabels": {
       "horizontal": "Side by side",
       "vertical": "Stacked"
-    },
-    "spacing": "Spacing",
-    "spacingLabels": {
-      "compact": "Compact",
-      "standard": "Standard",
-      "spacious": "Spacious"
     },
     "download": "Download as SVG",
     "loading": "Composing lockup…",
