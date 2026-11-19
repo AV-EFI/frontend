@@ -16,10 +16,11 @@
                     <!-- Center -->
                     <div class="drawer-content w-full flex flex-col items-center justify-center max-md:w-screen" role="region"
                          :aria-label="$t('searchcontent')">
-                        <!-- min-h-14 reserves the search field (mt-2 + h-12), which renders only once InstantSearch has its first state. -->
+                        <!-- min-h-14 reserves the search field (mt-2 + h-12), which renders only once InstantSearch has its first state.
+                             flow-root keeps the field's top margin inside the reserved box instead of moving the box down. -->
                         <div class="search-panel__results w-full p-2"
                              role="region" :aria-label="$t('searchresults')">
-                            <div class="searchbox relative min-h-14" role="search" :aria-label="$t('searchbox')">
+                            <div class="searchbox relative flow-root min-h-14" role="search" :aria-label="$t('searchbox')">
                                 <ais-search-box>
                                     <template #default="{ currentRefinement, refine, isSearchStalled }">
                                         <div class="flex flex-row mt-2">
@@ -93,8 +94,10 @@
                             <div class="w-full">
                                 <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-1 flex-col md:flex-row justify-between"
                                      role="region" :aria-label="$t('filteringsection')">
+                                    <!-- The minimum heights match the loaded counts (three stacked stats below lg, one row from lg),
+                                         so the panels below do not move when the first results arrive. -->
                                     <div
-                                        class="panel-surface w-full flex flex-row items-center justify-center col-span-2 rounded-lg p-2">
+                                        class="panel-surface w-full flex flex-row items-center justify-center col-span-2 rounded-lg p-2 min-h-59 lg:min-h-22.5">
                                         <ais-stats class="flex flex-row items-center w-full">
                                             <template #default="{ nbHits = 0, results }">
                                                 <span v-if="isSearchLoading" id="custom-spinner"
@@ -147,7 +150,8 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="w-full rounded-t-none rounded-b-lg p-2" role="list"
+                                        <!-- min-h-9 reserves one text line (p-2 + h-5) for the filters, which render with the first results. -->
+                                        <div class="w-full rounded-t-none rounded-b-lg p-2 min-h-9" role="list"
                                              aria-labelledby="active-facets-heading">
                                             <ais-current-refinements :class-names="{
                                                 'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
@@ -242,8 +246,9 @@
                                         </label>
                                     </div>
 
+                                    <!-- min-h-9 reserves the page buttons, which render with the first results. -->
                                     <LazyDetailPaginationComp
-                                        class="col-span-full md:col-span-3 rounded-lg"
+                                        class="col-span-full md:col-span-3 rounded-lg min-h-9"
                                         :is-search-loading="isSearchLoading"
                                     />
                                 </div>
