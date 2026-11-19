@@ -110,7 +110,7 @@
             role="list"
             :aria-label="$t('filmRelatedMaterials')"
         >
-            <article
+            <div
                 v-for="entry in paginatedMaterials"
                 :key="entry.material.handle"
                 class="grid gap-3 rounded-md border border-base-300 bg-base-100 p-4 sm:grid-cols-[6rem_minmax(0,1fr)_auto]"
@@ -210,7 +210,7 @@
                     <Icon name="tabler:external-link" aria-hidden="true" />
                     <span class="sr-only">{{ $t('openRecord') }}</span>
                 </a>
-            </article>
+            </div>
         </div>
 
         <div v-else class="alert alert-info mt-4" role="status" :aria-label="$t('noResults')">

@@ -1,6 +1,6 @@
 <template>
     <div role="list" :aria-label="$t('items')">
-        <article
+        <div
             v-for="(exemplar, itemIndex) in items"
             :key="exemplar?.id || exemplar?.handle"
             class="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-4 mb-2 px-2 md:px-4 py-2 text-base-content"
@@ -271,7 +271,7 @@
                     -
                 </p>
             </div>
-        </article>
+        </div>
     </div>
 </template>
 

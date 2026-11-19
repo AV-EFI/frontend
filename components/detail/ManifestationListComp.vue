@@ -1,6 +1,6 @@
 <template>
     <div role="list" :aria-label="$t('manifestations')">
-        <section
+        <div
             v-for="(manifestation, i) in manifestationList"
             :id="getManifestationAnchorId(manifestation, i)"
             :key="manifestation.handle || i"
@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 </template>
 

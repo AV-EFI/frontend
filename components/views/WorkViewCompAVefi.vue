@@ -209,7 +209,6 @@
                             <button
                                 type="button"
                                 class="work-navigation-toggle btn btn-sm btn-outline"
-                                :aria-label="$t('toggleNavigation')"
                                 :title="$t('toggleNavigation')"
                                 :aria-expanded="desktopDrawerOpen ? 'true' : 'false'"
                                 aria-controls="work-navigation-desktop-menu"
@@ -1231,7 +1230,7 @@ const filteredManifestations = computed<Manifestation[]>(() => {
 function formatTimestamp(ts: string | number): string {
     try {
         const d = new Date(ts);
-        return isNaN(d.getTime()) ? "" : d.toLocaleString("de-DE");
+        return isNaN(d.getTime()) ? "" : d.toLocaleString("de-DE", { timeZone: "Europe/Berlin" });
     } catch {
         return "";
     }

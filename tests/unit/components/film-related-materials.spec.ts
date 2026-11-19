@@ -29,15 +29,15 @@ describe('FilmRelatedMaterialsComp', () => {
     const wrapper = mountComponent('21.11155/67A5228A-7C57-4EEA-A75B-2FD499D642FA');
 
     await flushPromises();
-    expect(wrapper.findAll('article')).toHaveLength(4);
+    expect(wrapper.findAll('[role="listitem"]')).toHaveLength(4);
 
     await wrapper.get('input[type="search"]').setValue('Pelz');
     await flushPromises();
 
-    const articles = wrapper.findAll('article');
-    expect(articles).toHaveLength(1);
-    expect(articles[0]?.text()).toContain('Leopardenpelz');
-    expect(articles[0]?.text()).not.toContain('Leopardentop');
+    const materials = wrapper.findAll('[role="listitem"]');
+    expect(materials).toHaveLength(1);
+    expect(materials[0]?.text()).toContain('Leopardenpelz');
+    expect(materials[0]?.text()).not.toContain('Leopardentop');
   });
 
   test('renders one placeholder thumbnail image for every representation', async () => {
@@ -47,7 +47,7 @@ describe('FilmRelatedMaterialsComp', () => {
     await wrapper.get('input[type="search"]').setValue('Mechau Mod III');
     await flushPromises();
 
-    expect(wrapper.findAll('article')).toHaveLength(1);
+    expect(wrapper.findAll('[role="listitem"]')).toHaveLength(1);
     expect(wrapper.findAll('.material-representation-thumbnail')).toHaveLength(5);
     expect(wrapper.findAll('img[src="/img/img_placeholder_150.webp"]')).toHaveLength(5);
     expect(wrapper.find('.material-thumbnail__placeholder').exists()).toBe(false);
