@@ -40,9 +40,9 @@
             </button>
         </div>
 
-        <div class="flex flex-1 items-center justify-center rounded-lg border border-base-300 p-6">
+        <div class="flex min-w-0 flex-1 items-center justify-center rounded-lg border border-base-300 p-6">
             <p v-if="loadError" class="text-sm text-error">{{ loadError }}</p>
-            <div v-else-if="composedSvg" class="max-w-full" v-html="composedSvg" />
+            <div v-else-if="composedSvg" class="max-w-full [&>svg]:h-auto [&>svg]:max-w-full" v-html="composedSvg" />
             <MicroLoadingSpinner v-else :label="t('pressLockupPoc.loading')" size="md" :show-label="true" />
         </div>
     </div>
