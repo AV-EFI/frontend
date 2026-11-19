@@ -247,7 +247,7 @@
                                     </div>
 
                                     <!-- min-h-9 reserves the page buttons, which render with the first results. -->
-                                    <DetailPaginationComp
+                                    <LazyDetailPaginationComp
                                         class="col-span-full md:col-span-3 rounded-lg min-h-9"
                                         :is-search-loading="isSearchLoading"
                                     />
@@ -270,7 +270,7 @@
                                         </template>
                                     </ais-hits>
                                 </div>
-                                <DetailPaginationComp :is-search-loading="isSearchLoading" />
+                                <LazyDetailPaginationComp :is-search-loading="isSearchLoading" />
                             </div>
                         </div>
                     </div>
