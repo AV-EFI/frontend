@@ -18,8 +18,7 @@
                         <GlobalClipboardComp
                             class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs! dark:text-gray-300 text-left muted"
                             :display-text="`${work?.handle ?? ''}`"
-                            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
-                            role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
+                            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" />
                         <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false"
                                                 class="ml-2 hidden lg:inline-block" />
                         <!-- Badge for all items empty -->

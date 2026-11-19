@@ -151,7 +151,7 @@
                                             </div>
                                         </div>
                                         <!-- min-h-9 reserves one text line (p-2 + h-5) for the filters, which render with the first results. -->
-                                        <div class="w-full rounded-t-none rounded-b-lg p-2 min-h-9" role="list"
+                                        <div class="w-full rounded-t-none rounded-b-lg p-2 min-h-9" role="group"
                                              aria-labelledby="active-facets-heading">
                                             <ais-current-refinements :class-names="{
                                                 'ais-CurrentRefinements-list': 'flex flex-row flex-wrap gap-2',
@@ -165,7 +165,7 @@
                                                     </div>
                                                 </template>
                                                 <template #item="{ item, refine, createURL }">
-                                                    <div role="listitem" class="flex flex-col gap-1">
+                                                    <div class="flex flex-col gap-1">
                                                         <span class="text-left w-full">
                                                             <strong class="font-bold text-sm">
                                                                 {{ $t(item.label.split(".").at(-1)) }}:

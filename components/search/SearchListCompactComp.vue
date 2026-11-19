@@ -12,9 +12,6 @@
                     class="text-[11px] text-base-content/75 min-w-0"
                     :display-text="work?.handle ?? ''"
                     :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`"
-                    tabindex="0"
-                    role="button"
-                    :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`"
                 />
             </div>
 
