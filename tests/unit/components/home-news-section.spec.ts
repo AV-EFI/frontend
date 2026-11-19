@@ -38,6 +38,13 @@ describe('HomeNewsSection', () => {
     expect(wrapper.text()).toContain('home.sections.news.allNews');
   });
 
+  it('puts feed previews, which may hold paragraphs, in a div so the server HTML hydrates unchanged', async () => {
+    const wrapper = mountSection([article('1', 'First', '<p>Preview one.</p>')]);
+    await flushPromises();
+    expect(wrapper.find('.home-news-content').element.tagName).toBe('DIV');
+    expect(wrapper.find('p > p').exists()).toBe(false);
+  });
+
   it('links the expanded article to its original source once expanded', async () => {
     const wrapper = mountSection([article('1', 'First'), article('2', 'Second')]);
     await flushPromises();

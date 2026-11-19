@@ -14,6 +14,7 @@ const filmrelSource = readFileSync(
   'utf8'
 );
 const nuxtConfigSource = readFileSync(resolve(process.cwd(), 'nuxt.config.ts'), 'utf8');
+const newsSource = readFileSync(resolve(process.cwd(), 'pages/news.vue'), 'utf8');
 const botGuardSource = readFileSync(resolve(process.cwd(), 'server/middleware/bot-guard.ts'), 'utf8');
 const manifestationViewSource = readFileSync(
   resolve(process.cwd(), 'components/views/ManifestationViewCompAVefi.vue'),
@@ -41,6 +42,12 @@ describe('Route and SEO contract guards', () => {
 
   test('BB-FAQ-001 renders the FAQ on the server so crawlers see the answers', () => {
     expect(nuxtConfigSource).toContain("'/faq': { ssr: true },");
+  });
+
+  // Checked here, not in the smoke suite: testbed marks every page noindex, so only the source shows the page's own rule.
+  test('BB-NEWS-001 keeps the news page indexable', () => {
+    expect(nuxtConfigSource).toContain("'/news': { ssr: true, prerender: false },");
+    expect(newsSource).not.toContain('noindex');
   });
 
   test('BB-APP-002 keeps the document language synchronized with i18n locale', () => {

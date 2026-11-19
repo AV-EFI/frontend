@@ -25,7 +25,7 @@
                                 {{ formatDate(article.publishedAt) }}
                             </time>
                             <h3 :lang="article.language" class="text-lg font-bold leading-snug wrap-break-word">{{ article.title }}</h3>
-                            <p v-if="article.preview" :lang="article.language" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="article.preview" />
+                            <div v-if="article.preview" :lang="article.language" class="home-news-content text-sm opacity-80 wrap-break-word" v-html="article.preview" />
                             <button
                                 v-if="article.content"
                                 type="button"
@@ -75,7 +75,7 @@
                                     {{ formatDate(article.publishedAt) }}
                                 </time>
                                 <h3 :lang="article.language" class="text-base font-bold leading-snug wrap-break-word">{{ article.title }}</h3>
-                                <p v-if="article.preview" :lang="article.language" class="home-news-content text-sm opacity-80 wrap-break-word line-clamp-2" v-html="article.preview" />
+                                <div v-if="article.preview" :lang="article.language" class="home-news-content text-sm opacity-80 wrap-break-word line-clamp-2" v-html="article.preview" />
                                 <button
                                     v-if="article.content"
                                     type="button"
