@@ -5,7 +5,10 @@ definePageMeta({
 });
 
 const { t } = useI18n();
-useSeoMeta({ title: () => t('dataprotection') });
+useSeoMeta({
+    title: () => t('dataprotection'),
+    description: () => t('seo.dataprotection.description'),
+});
 
 const DATA_PROTECTION_URL = 'https://datenschutz.gwdg.de/services/av-efi';
 

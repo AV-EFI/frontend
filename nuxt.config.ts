@@ -405,7 +405,7 @@ export default defineNuxtConfig({
     '/': { ssr: true },
     '/search': { ssr: true },
     '/faq': { ssr: true },
-    '/news': { ssr: true, prerender: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+    '/news': { ssr: true, prerender: false },
     '/schema-explorer': { ssr: true },
     '/explorer-poc': { ssr: false },
     '/login': { ssr: true },

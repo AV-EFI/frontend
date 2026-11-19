@@ -1591,6 +1591,12 @@ export default {
       description: "Diese Seite beschreibt Standards, aktuellen Stand und Kontaktwege zur digitalen Barrierefreiheit bei AVefi.",
       ogTitle: "Erklärung zur Barrierefreiheit - AVefi",
       ogDescription: "Informationen zur digitalen Barrierefreiheit bei AVefi sowie offizielle Referenzen und Kontaktmöglichkeiten."
+    },
+    dataprotection: {
+      description: "Datenschutzerklärung für AVefi: Verweis auf die Datenschutzinformationen des Betreibers GWDG."
+    },
+    news: {
+      description: "Aktuelle Meldungen aus dem Projekt AVefi, übernommen von der Projektwebsite."
     }
   }
 };

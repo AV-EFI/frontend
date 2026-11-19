@@ -2,11 +2,11 @@ import { afterEach, describe, expect, test, vi } from 'vitest';
 
 type SitemapHandler = (event: object) => Promise<string>;
 
-async function renderSitemap(workUrls: Array<{ loc: string; lastmod?: string }>) {
+async function renderSitemap(workUrls: Array<{ loc: string; lastmod?: string }>, newsEnabled = false) {
   vi.resetModules();
   const setResponseHeader = vi.fn();
   vi.stubGlobal('defineEventHandler', (handler: SitemapHandler) => handler);
-  vi.stubGlobal('useRuntimeConfig', () => ({ public: { siteUrl: 'https://www.av-efi.net/' } }));
+  vi.stubGlobal('useRuntimeConfig', () => ({ public: { siteUrl: 'https://www.av-efi.net/', newsEnabled } }));
   vi.stubGlobal('getSitemapWorkUrls', async () => workUrls);
   vi.stubGlobal('setResponseHeader', setResponseHeader);
   const { default: handler } = await import('~/server/routes/sitemap.xml');
@@ -35,7 +35,21 @@ describe('sitemap.xml route', () => {
   test('escapes query strings so the document stays valid XML', async () => {
     const { xml } = await renderSitemap([]);
 
-    expect(xml).toContain('/search/?has_form=Short&amp;manifestation_event_type=RestorationEvent');
+    expect(xml).toContain('/search?has_form=Short&amp;manifestation_event_type=RestorationEvent');
     expect(xml).not.toMatch(/&(?!amp;|lt;|gt;|quot;|apos;)/);
+  });
+
+  test('lists search pages in their canonical form, without the slash before the query', async () => {
+    const { xml } = await renderSitemap([]);
+
+    expect(xml).toContain('<url><loc>https://www.av-efi.net/search?query=Metropolis</loc></url>');
+    expect(xml).not.toContain('/search/?');
+  });
+
+  test('lists the news page only while news is enabled', async () => {
+    const newsLoc = '<url><loc>https://www.av-efi.net/news</loc></url>';
+
+    expect((await renderSitemap([])).xml).not.toContain(newsLoc);
+    expect((await renderSitemap([], true)).xml).toContain(newsLoc);
   });
 });
