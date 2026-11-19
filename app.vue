@@ -196,10 +196,11 @@ useSchemaOrg([
 
 // Pages without a canonical of their own point to their own path, never to the home page.
 // Query parameters are left out; pages that index some of them (search) set their own canonical.
+// The home page keeps its slash, as in og:url and the sitemap.
 const route = useRoute();
 const pageCanonical = computed(() => {
     const path = route.path.replace(/\/+$/, '');
-    return path ? `${siteUrl.value}${path}` : siteUrl.value;
+    return `${siteUrl.value}${path || '/'}`;
 });
 
 // Many page titles already name AVefi, so the suffix is added only to the others.

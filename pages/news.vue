@@ -67,7 +67,10 @@ import { useNews } from '~/composables/useNews';
 
 definePageMeta({ auth: false, middleware: ['news'] });
 const { t, locale } = useI18n();
-useSeoMeta({ title: () => `${t('news.title')} | AVefi`, robots: 'noindex, nofollow' });
+useSeoMeta({
+    title: () => `${t('news.title')} | AVefi`,
+    description: () => t('seo.news.description'),
+});
 const { data: articles, status, error, refresh } = await useNews({ locale });
 const formatDate = (value: string) => new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long', timeZone: 'UTC',

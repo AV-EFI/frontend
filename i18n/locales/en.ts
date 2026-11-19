@@ -1619,6 +1619,12 @@ export default {
       description: "This page outlines standards, current status, and contact routes for digital accessibility at AVefi.",
       ogTitle: "Accessibility Statement - AVefi",
       ogDescription: "Information about digital accessibility at AVefi, including official references and contact options."
+    },
+    dataprotection: {
+      description: "Privacy policy for AVefi: link to the data protection information of the operator GWDG."
+    },
+    news: {
+      description: "Current news from the AVefi project, taken from the project website."
     }
   }
 };

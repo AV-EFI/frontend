@@ -36,7 +36,7 @@ test('news is unavailable unless enabled for the deployment', async ({ page, req
   expect(api.status()).toBe(200);
   expect(response?.status()).toBe(200);
   await page.goto('/news');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /^noindex, nofollow/);
+  await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
   const article = page.locator('article').first();
   await expect(article.locator('h2')).not.toBeEmpty();
   const summary = article.locator('summary');
