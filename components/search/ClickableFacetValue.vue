@@ -5,19 +5,19 @@
         :href="href"
         target="_blank"
         rel="noopener noreferrer"
-        class="relative z-20 inline-flex max-w-full rounded-sm pointer-events-auto text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+        class="relative z-20 inline rounded-sm pointer-events-auto text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
         :class="{ 'font-semibold decoration-current': active }"
         :aria-label="ariaLabel"
         :title="ariaLabel"
     >
-        <span class="min-w-0 wrap-break-word"><slot>{{ label }}</slot></span>
+        <span class="wrap-break-word"><slot>{{ label }}</slot></span>
     </a>
 
     <!-- Search-page mode: button + context menu -->
-    <span v-else-if="canToggle" ref="triggerRef" class="relative z-20 inline-flex pointer-events-auto">
+    <span v-else-if="canToggle" ref="triggerRef" class="relative z-20 inline pointer-events-auto">
         <button
             type="button"
-            class="inline-flex max-w-full rounded-sm px-0.5 text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+            class="inline rounded-sm px-0.5 text-left text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
             :class="{ 'font-semibold decoration-current': active }"
             :aria-label="ariaLabel"
             :title="ariaLabel"
@@ -25,7 +25,7 @@
             :aria-expanded="menuOpen"
             @click.stop="toggleMenu"
         >
-            <span class="min-w-0 wrap-break-word"><slot>{{ label }}</slot></span>
+            <span class="wrap-break-word"><slot>{{ label }}</slot></span>
         </button>
 
         <ClientOnly>
