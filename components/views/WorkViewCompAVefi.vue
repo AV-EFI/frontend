@@ -368,11 +368,9 @@
                                     {{ $t('manifestationsAndFilmRelatedMaterials') }}
                                 </h3>
 
-                                <div
-                                    class="tabs tabs-lift"
-                                    role="tablist"
-                                    :aria-label="$t('manifestationsAndFilmRelatedMaterials')"
-                                >
+                                <!-- daisyUI radio tabs: the panels sit between the inputs, so the container cannot be a
+                                     role="tablist". The inputs stay a native radio group, the panels labelled regions. -->
+                                <div class="tabs tabs-lift">
                                     <input
                                         v-if="manifestations.length > 0"
                                         id="manifestations-tab"
@@ -380,7 +378,6 @@
                                         type="radio"
                                         name="work-detail-tabs"
                                         value="manifestations"
-                                        role="tab"
                                         class="tab"
                                         :aria-label="`${$t('manifestations')} (${manifestations.length})`"
                                         aria-controls="manifestations-panel"
@@ -392,7 +389,7 @@
                                         v-if="manifestations.length > 0"
                                         id="manifestations-panel"
                                         class="level-stripe level-stripe--manifestation tab-content border-base-300 bg-base-100 p-3 md:p-4"
-                                        role="tabpanel"
+                                        role="region"
                                         aria-labelledby="manifestations-tab"
                                     >
                                         <header class="flex flex-wrap items-start justify-between gap-3">
@@ -594,7 +591,6 @@
                                         type="radio"
                                         name="work-detail-tabs"
                                         value="filmRelatedMaterials"
-                                        role="tab"
                                         class="tab"
                                         :aria-label="`${$t('filmRelatedMaterials')} (${filmRelatedMaterialCount})`"
                                         aria-controls="film-related-materials-panel"
@@ -606,7 +602,7 @@
                                         v-if="hasFilmRelatedMaterials"
                                         id="film-related-materials-panel"
                                         class="level-stripe level-stripe--film-related-materials tab-content border-base-300 bg-base-100 p-3 md:p-4"
-                                        role="tabpanel"
+                                        role="region"
                                         aria-labelledby="film-related-materials-tab"
                                     >
                                         <DetailFilmRelatedMaterialsComp :work-variant-id="workVariantHandle" />

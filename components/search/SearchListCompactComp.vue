@@ -81,6 +81,7 @@
                                 : 'border-base-300/70 bg-base-100/70',
                         ]"
                         :title="entry.label"
+                        role="img"
                         :aria-label="entry.label"
                     >
                         <Icon
