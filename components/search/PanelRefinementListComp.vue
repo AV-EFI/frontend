@@ -70,7 +70,7 @@
 
             <!-- ===== STRING: refinement list ===== -->
             <ais-refinement-list v-else :attribute="props.attributeName" :operator="props.operatorType"
-                                 :sort-by="['isRefined', 'count', 'name:asc']" :searchable="props.isSearchable" :limit="5" :show-more="true"
+                                 :sort-by="refinementSortBy" :searchable="props.isSearchable" :limit="5" :show-more="true"
                                  :show-more-limit="10" :class-names="{
                                      'ais-RefinementList-labelText': 'text-xs',
                                      'ais-RefinementList-checkbox': 'checkbox !w-4 !h-4 mr-2',
@@ -153,6 +153,10 @@ import { useI18n } from 'vue-i18n';
 import Slider from '@vueform/slider';
 import { SEARCH_REFINEMENT_COORDINATOR_KEY } from '~/composables/searchRefinementCoordinator';
 import { useIsFacetRefined } from '~/composables/useIsFacetRefined';
+
+// Kept outside the template: an inline array is a new value on every render, which makes
+// vue-instantsearch rebuild the widget and send another search request.
+const refinementSortBy = ['isRefined', 'count', 'name:asc'];
 
 const props = withDefaults(defineProps<{
     headerText?: string

@@ -211,7 +211,7 @@ function mountComponent(
           template: '<div><slot :items="[]" /></div>',
         },
         GlobalFacetDrawer: { template: '<div />' },
-        LazyDetailPaginationComp: { template: '<div />' },
+        DetailPaginationComp: { template: '<div />' },
         SearchQueryAutocomplete: {
           props: ['modelValue'],
           emits: ['update:modelValue'],

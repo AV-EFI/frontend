@@ -1,6 +1,6 @@
 # Filmbegleitende Materialien (FBM): Anpassungen am Bestand
 
-Stand: 2026-11-16. Arbeitsgrundlage für Issue #243 (FBM-01) und #244 (IMG-01). Die bestehende Darstellung (Liste, Filter, Karten, Reiter am Werk) ist mit den Fachexperten abgestimmt und bleibt die Grundlage. Dieses Dokument listet nur, was sich aus den neuen Beschlüssen, dem erweiterten Schema und dem neuen Mockup ergibt. Es trifft keine Produkt- oder Gestaltungsentscheidungen. Offene Punkte sind als **Offen** markiert.
+Stand: 2026-11-19. Arbeitsgrundlage für Issue #243 (FBM-01) und #244 (IMG-01). Die bestehende Darstellung (Liste, Filter, Karten, Reiter am Werk) ist mit den Fachexperten abgestimmt und bleibt die Grundlage. Dieses Dokument listet nur, was sich aus den neuen Beschlüssen, dem erweiterten Schema und dem neuen Mockup ergibt. Es trifft keine Produkt- oder Gestaltungsentscheidungen. Offene Punkte sind als **Offen** markiert.
 
 ## 1. Quellen
 
@@ -10,6 +10,7 @@ Stand: 2026-11-16. Arbeitsgrundlage für Issue #243 (FBM-01) und #244 (IMG-01). 
 | Protokollauszug "Suche und Darstellung filmbegleitender Materialien" | Beschluss / offen |
 | Mail der Deutschen Kinemathek: neues Mockup, Schema-Branch `film-related-materials-extension` | Mockup liegt dem Repo noch nicht vor |
 | Issue #244 (Bildcaching), Kommentar vom 2026-11-10 | Konzept |
+| Metadatenfachgruppe 2026-11-12 | Beschluss |
 
 Der Schema-Branch wurde über den Diff gegen `main` gelesen (`model.yaml`, `vocab.yaml`). Das neue Mockup wurde nicht geprüft.
 
@@ -29,8 +30,10 @@ Der Schema-Branch wurde über den Diff gegen `main` gelesen (`model.yaml`, `voca
 | Vorschaubild optional, Fallback nötig | Erfüllt | Keine. |
 | Link nur auf die Landingpage des Datengebers | Erfüllt | **Offen:** Beschriftung "Datensatz öffnen" (Copy, Handbuch). |
 | Sammlung und Provenienz getrennt, Collection mit Notiz | Keine Darstellung | Ergänzen, sobald das Mockup vorliegt. |
+| Einfaches Provenance Event, verknüpft mit Provenance Activities (2026-11-12) | Keine Darstellung, nicht in den Mockups | Mit der Provenienz-Darstellung umsetzen. **Offen:** welche Angaben das Event trägt. |
+| Applicant und Patron ersetzen Commissioner; Sender und Addressee gehören zur Correspondence Activity (2026-11-12) | Keine Rollen in Darstellung und Mockups | Rollen erst darstellen, wenn Schema und Mockup sie enthalten. **Offen:** deutsche Rollenbezeichnungen. |
 | Physical Characteristics als wiederholbare Gruppen | Material, Technik, Maße als getrennte Zeilen | Auf Gruppen umstellen. **Offen:** Zusammenfassung mehrerer Gruppen auf der Karte. |
-| Zugangsstatus berücksichtigen | Nicht vorhanden | Darstellung analog Exemplar (`has_access_status`). **Offen:** Feld im FBM-Schema. |
+| Zugangsstatus als Feld auch für FBM; ein eigenes, differenziertes Vokabular wird zurückgestellt (2026-11-12) | Nicht vorhanden, nicht in den Mockups | Darstellung analog Exemplar (`has_access_status`). **Offen:** Feldname im FBM-Schema und welche Werte bis zum eigenen Vokabular gelten. |
 | Kein Filter "Nur Materialien mit Bild", kein Ranking-Bonus | Nicht vorhanden | Nichts zu tun. |
 | FBM sind eigene Datensätze auf Exemplarebene | Reiter auf Werkebene | **Offen:** ob die Reiter-Position der Ebene entspricht. |
 
@@ -48,6 +51,8 @@ Aus dem Diff gelesen:
 - Neu: `has_identifier`, `has_record_type`, `has_object_type`, `is_part_of_collection`, `has_webresource`, `has_mediaresource` (mit Rechteereignis), `is_part_of`, `has_subject`, `has_note`.
 - `PhysicalCharacteristics` mit `has_name`, `has_extent` (mehrfach), `has_material`, `has_technique`. Das Mockup enthält laut Mail 272 benannte Gruppen.
 - Neue Ereignisse `ProvenanceEvent` und `ProvenanceActivity`.
+
+Der Beschluss vom 2026-11-12 (Rollen Applicant, Patron, Sender, Addressee; einfaches Provenance Event; Zugangsstatus) ist in diesem Diff noch nicht geprüft.
 
 Folgen:
 
@@ -78,7 +83,8 @@ Die Suche bleibt bis zum Konzepttermin (Dezember/Januar) unverändert: keine Än
 
 ## 6. Fragen an Fachgruppe und Team
 
-1. Welches Feld trägt den Zugangsstatus bei FBM, und gibt es Werte im Mockup?
+1. Welches Feld trägt den Zugangsstatus bei FBM, und welche Werte gelten, solange das eigene Vokabular zurückgestellt ist?
 2. Gelten `has_mediaresource` als Vorschau und `has_webresource` als Webressource?
 3. Welche deutschen Bezeichnungen gelten für die sieben Objektkategorien und für Konvolut/Set/Einzelobjekt?
 4. Gibt es Testdaten mit echten Bildlinks (Picsum reicht für Layout, nicht für Fehlerfälle)?
+5. Welche deutschen Bezeichnungen gelten für Applicant, Patron, Sender und Addressee, und welche Angaben trägt das Provenance Event?
