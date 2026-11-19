@@ -8,20 +8,17 @@
             ]"
         />
 
-        <div v-if="isClient">
-            <client-only>
-                <SearchSection
-                    v-if="searchClient"
-                    :search-client="searchClient"
-                />
-                <div v-else class="text-center py-4">
+        <ClientOnly>
+            <SearchSection
+                v-if="searchClient"
+                :search-client="searchClient"
+            />
+            <template #fallback>
+                <div class="text-center py-4">
                     <MicroLoadingSpinner :label="$t('loadingSearch')" size="lg" :show-label="true" />
                 </div>
-            </client-only>
-        </div>
-        <div v-else class="text-center py-4">
-            <MicroLoadingSpinner :label="$t('loadingSearch')" size="lg" :show-label="true" />
-        </div>
+            </template>
+        </ClientOnly>
     </div>
 </template>
 
@@ -41,8 +38,7 @@ const { currentUrlState } = useCurrentUrlState();
 /**
  * Search client (client-only) — keep SSR stable but avoid running client instantiation on server.
  */
-const isClient = typeof window !== 'undefined';
-const searchClient = isClient
+const searchClient = import.meta.client
     ? Client({
         config: searchkitConfig,
         url: `${runtime.public.elasticApiBase}/${runtime.public.searchApiPath}`,
