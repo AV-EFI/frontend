@@ -318,7 +318,7 @@
                             >
                                 {{ mir.described_by?.has_issuer_id }}
                             </a>
-                            <p>{{ new Date(data?._source?.['@timestamp']??'').toLocaleString('de-DE') }}</p>
+                            <p>{{ new Date(data?._source?.['@timestamp']??'').toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }) }}</p>
                         </div>
                     </div>
                 </div>
