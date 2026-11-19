@@ -30,7 +30,6 @@
                 v-if="sliderReady"
                 :key="configureKey"
                 :numeric-refinements="configureNumericRefinements"
-                class="hidden"
             />
 
             <div class="p-4 m-4 dark:bg-gray-900 rounded-lg">
