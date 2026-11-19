@@ -21,7 +21,7 @@
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
                             <DetailKeyValueListComp v-if="entry.raw?.located_in" keytxt="place"
                                                     class="rounded-md border border-gray-100 p-2 dark:border-gray-800" :valtxt="entry.raw.located_in"
-                                                    :aria-label="$t('place') + ': ' + entry.raw.located_in" :clip="false" :ul="true" :same-as="true"
+                                                    :clip="false" :ul="true" :same-as="true"
                                                     :narrow="true" facet-attribute="located_in_has_name" />
 
                             <DetailKeyValueComp v-if="entry.raw?.has_date" keytxt="productionyear"
