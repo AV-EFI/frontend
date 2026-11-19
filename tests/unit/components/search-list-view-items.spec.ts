@@ -120,6 +120,13 @@ function mountComponent(manifestation: MockManifestation) {
   });
 }
 
+async function mountExpanded(manifestation: MockManifestation) {
+  const wrapper = mountComponent(manifestation);
+  await wrapper.get('button[title="toggleDetails"]').trigger('click');
+  await nextTick();
+  return wrapper;
+}
+
 describe('SearchListViewComp server payload usage', () => {
   beforeEach(() => {
     vi.stubGlobal('computed', computed);
@@ -135,7 +142,7 @@ describe('SearchListViewComp server payload usage', () => {
     window.history.pushState({}, '', '/search/?has_colour_type%5B0%5D=ColourBlackAndWhite');
   });
 
-  test('uses manifestation.items exactly as provided when item inner_hits are missing', () => {
+  test('uses manifestation.items exactly as provided when item inner_hits are missing', async () => {
     const manifestation = {
       handle: '21.11155/manifestation-1',
       items: [
@@ -145,7 +152,7 @@ describe('SearchListViewComp server payload usage', () => {
       ],
     };
 
-    const wrapper = mountComponent(manifestation);
+    const wrapper = await mountExpanded(manifestation);
     const splitView = wrapper.getComponent(manifestationListStub);
     const getFilteredItems = splitView.props('getFilteredItems') as GetFilteredItems;
     const filtered = getFilteredItems(manifestation);
@@ -158,6 +165,24 @@ describe('SearchListViewComp server payload usage', () => {
     ]);
 
     expect(fetch).not.toHaveBeenCalled();
+  });
+
+  test('builds the manifestation list only once the details are expanded, and keeps it after collapsing', async () => {
+    const wrapper = mountComponent({
+      handle: '21.11155/manifestation-1',
+      items: [makeItem('item-1', 'Colour')],
+    });
+    const toggle = wrapper.get('button[title="toggleDetails"]');
+
+    expect(wrapper.findComponent(manifestationListStub).exists()).toBe(false);
+
+    await toggle.trigger('click');
+    await nextTick();
+    expect(wrapper.findComponent(manifestationListStub).exists()).toBe(true);
+
+    await toggle.trigger('click');
+    await nextTick();
+    expect(wrapper.findComponent(manifestationListStub).exists()).toBe(true);
   });
 
   test('left-aligns the expanded Manifestations heading', async () => {
@@ -174,7 +199,7 @@ describe('SearchListViewComp server payload usage', () => {
     expect(heading.classes()).toContain('justify-start');
   });
 
-  test('does not run any client-side mismatch logging while using server payload as-is', () => {
+  test('does not run any client-side mismatch logging while using server payload as-is', async () => {
     const firstManifestation = {
       handle: '21.11155/manifestation-1',
       items: [
@@ -190,16 +215,16 @@ describe('SearchListViewComp server payload usage', () => {
       ],
     };
 
-    const firstWrapper = mountComponent(firstManifestation);
+    const firstWrapper = await mountExpanded(firstManifestation);
     firstWrapper.getComponent(manifestationListStub).props('getFilteredItems')(firstManifestation);
 
-    const secondWrapper = mountComponent(secondManifestation);
+    const secondWrapper = await mountExpanded(secondManifestation);
     secondWrapper.getComponent(manifestationListStub).props('getFilteredItems')(secondManifestation);
 
     expect(fetch).not.toHaveBeenCalled();
   });
 
-  test('prefers item inner_hits over manifestation.items when inner_hits are present', () => {
+  test('prefers item inner_hits over manifestation.items when inner_hits are present', async () => {
     const innerHitItem = makeItem('inner-hit-bw', 'ColourBlackAndWhite');
     const manifestation = {
       handle: '21.11155/manifestation-1',
@@ -218,7 +243,7 @@ describe('SearchListViewComp server payload usage', () => {
       },
     };
 
-    const wrapper = mountComponent(manifestation);
+    const wrapper = await mountExpanded(manifestation);
     const splitView = wrapper.getComponent(manifestationListStub);
     const filtered = splitView.props('getFilteredItems')(manifestation);
 
@@ -226,7 +251,7 @@ describe('SearchListViewComp server payload usage', () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
-  test('falls back to manifestation.items when item inner_hits key exists but has no hits', () => {
+  test('falls back to manifestation.items when item inner_hits key exists but has no hits', async () => {
     const manifestation = {
       handle: '21.11155/manifestation-1',
       items: [
@@ -242,7 +267,7 @@ describe('SearchListViewComp server payload usage', () => {
       },
     };
 
-    const wrapper = mountComponent(manifestation);
+    const wrapper = await mountExpanded(manifestation);
     const splitView = wrapper.getComponent(manifestationListStub);
     const getFilteredItems = splitView.props('getFilteredItems') as GetFilteredItems;
     const filtered = getFilteredItems(manifestation);
