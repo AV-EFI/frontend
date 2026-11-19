@@ -68,7 +68,7 @@ const mir = (dataObject?.compound_record?._source?.has_record ?? null) as (WorkV
 function formatTimestamp(ts: string | number): string {
     try {
         const d = new Date(ts);
-        return isNaN(d.getTime()) ? "" : d.toLocaleString("de-DE");
+        return isNaN(d.getTime()) ? "" : d.toLocaleString("de-DE", { timeZone: "Europe/Berlin" });
     } catch {
         return "";
     }
