@@ -5,7 +5,7 @@
         :alt="$t('showFacetsFor', { headerText: $t(headerText), category: $t(category) })"
         tabindex="0"
     >
-        <input type="checkbox" class="collapse-checkbox" :aria-label="$t('togglePanel')">
+        <input v-model="isPanelOpen" type="checkbox" class="collapse-checkbox" :aria-label="$t('togglePanel')">
 
         <div class="collapse-title dark:bg-gray-900 dark:text-white !min-h-5 !mb-0 flex flex-row justify-between">
             <div class="flex items-center gap-2">
@@ -30,11 +30,12 @@
                 v-if="sliderReady"
                 :key="configureKey"
                 :numeric-refinements="configureNumericRefinements"
-                class="hidden"
             />
 
+            <!-- The slider measures its layout when it is created; building it on first open keeps that off the page load. -->
             <div class="p-4 m-4 dark:bg-gray-900 rounded-lg">
                 <Slider
+                    v-if="wasPanelOpened"
                     v-model="sliderValue"
                     :min="props.min"
                     :max="props.max"
@@ -172,6 +173,12 @@ const prodYearOnly = ref(initialState.prodYearOnly);
 
 const appliedSliderValue = ref<[number, number]>([...initialState.range] as [number, number]);
 const appliedProdYearOnly = ref(initialState.prodYearOnly);
+
+const isPanelOpen = ref(false);
+const wasPanelOpened = ref(false);
+watch(isPanelOpen, (open) => {
+    if (open) wasPanelOpened.value = true;
+});
 
 // Guard initial hidden configure render until state is seeded from URL
 const sliderReady = ref(true);

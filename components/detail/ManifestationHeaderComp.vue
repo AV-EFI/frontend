@@ -114,6 +114,7 @@
                         entry.levelClasses,
                     ]"
                     :title="entry.label"
+                    role="img"
                     :aria-label="entry.label"
                 >
                     <Icon :name="entry.icon" class="w-3.5 h-3.5 text-(--color-item)" aria-hidden="true" />

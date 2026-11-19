@@ -15,8 +15,9 @@
                     :aria-label="$t('facetLanguageNote')"
                 />
             </h2>
+            <!-- Click-outside area only; the close button in the drawer is the accessible way to close it. -->
             <label
-                :aria-label="$t('closeDrawer')"
+                aria-hidden="true"
                 class="drawer-overlay z-30"
                 @click="toggleDrawer"
             />

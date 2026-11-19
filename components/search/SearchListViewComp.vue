@@ -18,8 +18,7 @@
                         <GlobalClipboardComp
                             class="text-regular hidden lg:flex flex-row items-center whitespace-break-spaces text-xs! dark:text-gray-300 text-left muted"
                             :display-text="`${work?.handle ?? ''}`"
-                            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
-                            role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
+                            :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" />
                         <MicroBadgeCategoryComp :category="work?.category || 'avefi:WorkVariant'" :dense="false"
                                                 class="ml-2 hidden lg:inline-block" />
                         <!-- Badge for all items empty -->
@@ -104,9 +103,9 @@
         <div v-show="work && work.handle && isExpanded[work.handle]" :id="`details-${work.handle}`"
              class="card-body p-2 pt-0" role="region" :aria-labelledby="`work-title-${work?.handle ?? ''}`">
             <!-- EO WorkVariant -->
-            <!-- Manifestations -->
+            <!-- Manifestations, built on first expansion: rendering them for every hit up front blocked the page load. -->
             <hr class="my-2">
-            <div class="flex flex-col">
+            <div v-if="detailsRendered[work.handle]" class="flex flex-col">
                 <h3 class="flex w-full items-center justify-start gap-2 text-left font-bold text-md mb-2 pl-1 pr-4 text-gray-800 dark:text-base-content"
                     :aria-label="$t('tooltip.manifestation')">
                     <Icon :name="manifestationLevelIcon" class="icon-inline icon-level" aria-hidden="true" />
@@ -251,6 +250,14 @@ const searchUpdateTick = ref(0);
 const componentInfoReady = ref(false);
 const isExpanded = reactive<Record<string, boolean>>({});
 const showHighlight = ref<Record<string, boolean>>({});
+// Stays true after collapsing, so the details keep their state when they are opened again.
+const detailsRendered = reactive<Record<string, boolean>>({});
+
+watch(isExpanded, (expanded) => {
+    for (const [handle, open] of Object.entries(expanded)) {
+        if (open) detailsRendered[handle] = true;
+    }
+}, { deep: true });
 
 onMounted(() => {
     componentInfoReady.value = true;
