@@ -9,8 +9,7 @@
                     <GlobalClipboardComp
                         class="text-regular flex flex-row items-center whitespace-break-spaces text-xs dark:text-gray-300"
                         :display-text="work?.handle ?? ''"
-                        :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" tabindex="0"
-                        role="button" :aria-label="`${$t('copyToClipboard')}: ${work?.handle ?? ''}`" />
+                        :copy-text="`${useRuntimeConfig().public.AVEFI_COPY_PID_URL}${work?.handle ?? ''}`" />
                     <h2 :id="`flat-work-title-${work?.handle ?? ''}`" class="font-bold text-lg my-1 text-left">
                         <a :href="`/film/${work.objectID}`"
                            :aria-label="`${work?.has_record?.has_primary_title?.has_name || work?.handle || $t('title')}`"
