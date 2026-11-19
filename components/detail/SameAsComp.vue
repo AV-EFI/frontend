@@ -4,7 +4,7 @@
         <button
             ref="triggerRef"
             type="button"
-            class="btn btn-circle btn-outline btn-xs"
+            class="btn btn-circle btn-outline btn-xs size-6"
             aria-haspopup="true"
             :aria-expanded="open"
             aria-controls="sameas-dropdown-menu"

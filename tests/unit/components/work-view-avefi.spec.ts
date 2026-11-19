@@ -509,12 +509,12 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       },
     });
 
-    const sectionIds = wrapper.findAll('section').map(section => section.attributes('id'));
-    expect(sectionIds).toContain('21.11155/MF-1');
-    expect(sectionIds).not.toContain('manifestation-0-21-11155-MF-1');
-    expect(wrapper.get('section').classes()).not.toContain('manifestation-card');
+    const manifestationIds = wrapper.findAll('[role="listitem"]').map(listItem => listItem.attributes('id'));
+    expect(manifestationIds).toContain('21.11155/MF-1');
+    expect(manifestationIds).not.toContain('manifestation-0-21-11155-MF-1');
+    expect(wrapper.get('[role="listitem"]').classes()).not.toContain('manifestation-card');
 
-    const toggleButton = wrapper.get('section button[aria-controls="manifestation-panel-0"]');
+    const toggleButton = wrapper.get('[role="listitem"] button[aria-controls="manifestation-panel-0"]');
     expect(toggleButton.attributes('aria-label')).toBe('manifestation 1., Manifestation title A, Issuer A, 2 items, PremiereEvent, expand');
 
     await toggleButton.trigger('click');
@@ -563,13 +563,13 @@ describe('WorkViewCompAVefi interaction contracts', () => {
       },
     });
 
-    const itemAnchorIds = wrapper.findAll('article > div:first-child > div:last-child')
+    const itemAnchorIds = wrapper.findAll('[role="listitem"] > div:first-child > div:last-child')
       .map(anchor => anchor.attributes('id'));
     expect(itemAnchorIds).toContain('21.11155/IT-1');
     expect(itemAnchorIds).not.toContain('item-0-0-21-11155-IT-1');
     expect(wrapper.get('[data-testid="item-divider"]').attributes('data-label-text')).toBe('avefi:Item');
     expect(wrapper.get('[data-testid="item-divider"]').attributes('data-label-suffix')).toBe('1.1');
-    expect(wrapper.get('article').attributes('aria-labelledby')).toBe('21.11155/IT-1-heading');
+    expect(wrapper.get('[role="listitem"]').attributes('aria-labelledby')).toBe('21.11155/IT-1-heading');
     expect(wrapper.get('h5.sr-only').text()).toContain('item 1.1, has_access_status: Public');
     expect(wrapper.text()).toContain('References');
     expect(wrapper.text()).not.toContain('same_as');
@@ -578,8 +578,8 @@ describe('WorkViewCompAVefi interaction contracts', () => {
     expect(sameAs.attributes('data-type')).toBe('item');
     expect(sameAs.attributes('data-category')).toBe('avefi:DOIResource');
     expect(sameAs.attributes('data-id')).toBe('10.1234/item-doi-1');
-    expect(wrapper.get('article').classes()).not.toContain('border-l-4');
-    expect(wrapper.get('article').classes()).not.toContain('border-item');
+    expect(wrapper.get('[role="listitem"]').classes()).not.toContain('border-l-4');
+    expect(wrapper.get('[role="listitem"]').classes()).not.toContain('border-item');
   });
 
 });

@@ -124,8 +124,11 @@ const isManifestationLevel = computed(() => props.level === 'manifestation');
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
+// Grows a 16px-high target to the 24px minimum (WCAG 2.5.8) without changing the line height.
+const TARGET_SIZE_PAD = 'py-1 -my-1';
+
 const TOGGLE_BUTTON_CLASS =
-    'text-xs text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 rounded-sm';
+    `text-xs ${TARGET_SIZE_PAD} text-primary underline underline-offset-2 decoration-transparent hover:decoration-current focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 rounded-sm`;
 
 // ─── Class computeds ─────────────────────────────────────────────────────────
 
@@ -206,15 +209,17 @@ const volatileValueBlockClass = computed(() =>
         : 'min-w-0 max-w-full inline-flex flex-wrap items-start gap-x-0.5 overflow-hidden leading-[16px]',
 );
 
-const singleValueClass = computed(() =>
-    isManifestationLevel.value || isCompact.value ? 'whitespace-nowrap' : 'break-words',
-);
+const singleValueClass = computed(() => {
+    if (isManifestationLevel.value) return `whitespace-nowrap ${TARGET_SIZE_PAD}`;
+    return isCompact.value ? 'whitespace-nowrap' : 'break-words';
+});
 
 function segClass(entry: IconEntry): Record<string, boolean> {
     const segs = Array.isArray(entry.text) ? entry.text : [];
     return {
         'line-clamp-1': segs.length < 2,
         'whitespace-nowrap': isManifestationLevel.value || isCompact.value,
+        [TARGET_SIZE_PAD]: isManifestationLevel.value,
     };
 }
 

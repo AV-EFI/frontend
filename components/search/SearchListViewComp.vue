@@ -5,7 +5,7 @@
         <div v-if="showAdminStats"
              class="w-full rounded-t-xl p-4 flex flex-row justify-between items-center h-8 bg-primary/10 text-primary dark:bg-gray-900 dark:text-white text-sm">
             <span>{{ $t('statusLabel') }}: <span class="badge badge-success text-white">{{ $t('publicStatus') }}</span></span>
-            <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE') }}</span>
+            <span>{{ $t('lastedit') }}: {{ new Date(work?.['@timestamp']??'').toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }) }}</span>
             <span>{{ work?.has_record?.described_by?.has_issuer_name }}</span>
             <button class="btn btn-xs btn-primary">
                 {{ $t('showHistory') }}
